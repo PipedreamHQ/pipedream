@@ -10,11 +10,17 @@ A directory of high quality real-time event sources.
 
 <a name="free"></a>
 # Free
+- [3taps](http://3taps.com/developers-overview.php) - Searches real-time for postings of items offered for exchange across Twitter, Craigslist and other sites.
 - [511 Open Data](https://511.org/open-data) - Access to the San Francisco Bay Area's data for traffic and transit.
+- [Ably](https://www.ably.io/hub) - Ably's hub provides some free live data feeds of information regarding trading, social media, transportation, etc.
 - [Alpaca](https://alpaca.markets/) - Alpaca API lets you build and trade with real-time market data for free.
 - [Alpha Vantage](https://www.alphavantage.co/) - A leading provider of free APIs for realtime and historical data on stocks, forex (FX), and digital/crypto currencies.
 - [Blockchain](https://www.blockchain.com/api/blockchain_api) - Get information about blockchain transactions.
 - [Citi Bike](https://www.citibikenyc.com/system-data) - Real-time system data about bikeshare use in New York City.
+- [CEX.IO](https://cex.io/cex-api) - Bitcoin exchange offering live trading data.
+- [Coinbase](https://docs.pro.coinbase.com/#websocket-feed) - Provides real-time market data updates for orders and trades.
+- [CoinCap](https://docs.coincap.io/) - Provides real-time pricing and market activity for over 1,000 cryptocurrencies.
+- [Coincheck](https://coincheck.com/documents/exchange/api#websocket) - A cryptocurrency API that has a WebSocket interface (in beta).
 - [Coinograph](https://coinograph.io/) - A free cryptocurrency data API built across major crypto exchanges.
 - [DC Departement of For-Hire Vehicles](https://dctcdata.portal.azure-api.net/) -  Get the locations of taxis in the District of Columbia.
 - [Facebook Real-time Updates API](https://developers.facebook.com/docs/graph-api/webhooks) - Receive real-time HTTP notifications of changes to specific objects in the Facebook Social Graph.
@@ -23,6 +29,8 @@ A directory of high quality real-time event sources.
 - [Metropolitan Transportation Authority](http://web.mta.info/developers/index.html) - Real-time New York City transportation data.
 - [National Weather Service](https://www.weather.gov/documentation/services-web-api) - Allows developers access to critrical forecasts, alerts, and observations, along with other weather data.
 - [Pusher Realtime Reddit API](https://blog.pusher.com/pusher-realtime-reddit-api/) - Free streaming of Reddit stories as they're posted.
+- [Saxo Bank](https://www.developer.saxo/) - Access to streaming trading data.
+- [Trafiklab](https://www.trafiklab.se/api) - Access data and APIs for public transport in Sweden.
 - [Twitter Streaming API](https://developer.twitter.com/en/docs/tweets/filter-realtime/overview) - Offers both free and paid streaming options for accessing real-time tweets.
 - [UniBit](https://unibit.ai/product) - A.I. driven data publishing engine for you to access the financial market. Has free and paid packages.
 - [Webhose.io](https://webhose.io/) - API feeds for news, blogs, discussions, reviews, & darkweb. Offers a free plan and paid plans.
@@ -34,7 +42,7 @@ A directory of high quality real-time event sources.
 - [CryptoCompare](https://min-api.cryptocompare.com/) - Offers a wide range of cryptocurrency market data sourced from an aggregated feed of over 150 crypto exchanges.
 - [FXMarketAPI](https://fxmarketapi.com/) - Access to real-time currency data sourced from a collection of Tier 1 banks.
 - [IEX Cloud](https://iexcloud.io/) - Get live financial data about stocks, cryptocurrencies, sector performance, etc.
-- [Intrino](https://intrinio.com/) - Real-time financial data.
+- [Intrinio](https://intrinio.com/) - Real-time financial data.
 - [iSports API](https://www.isportsapi.com/) - Live football and basketball data through API endpoints.
 - [Keyhole](https://keyhole.co/social-mention/) - Social mention tracking in real time.
 - [Mention](https://mention.com/en/) - Enables brands and agencies to monitor the web, listen to their audience and manage social media. Only the Enterprise plan includes API access.
