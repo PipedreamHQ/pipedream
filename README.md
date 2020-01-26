@@ -26,6 +26,7 @@ A directory of high quality real-time event sources.
 - [Facebook Real-time Updates API](https://developers.facebook.com/docs/graph-api/webhooks) - Receive real-time HTTP notifications of changes to specific objects in the Facebook Social Graph.
 - [Foursquare Places API](https://developer.foursquare.com/docs/api) - Offers real-time access to Foursquare’s global database of rich venue data and user content
 - [Google Analytics](https://developers.google.com/analytics/devguides/reporting/realtime/v3/) - Allows you to request real-time Google Analytics data.
+- [Medium](https://medium.superfeedr.com/) - Subscribe to medium's realtime feed of updates via pubsubhubbub
 - [Metropolitan Transportation Authority](http://web.mta.info/developers/index.html) - Real-time New York City transportation data.
 - [National Weather Service](https://www.weather.gov/documentation/services-web-api) - Allows developers access to critrical forecasts, alerts, and observations, along with other weather data.
 - [Pusher Realtime Reddit API](https://blog.pusher.com/pusher-realtime-reddit-api/) - Free streaming of Reddit stories as they're posted.
