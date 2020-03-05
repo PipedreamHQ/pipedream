@@ -28,18 +28,6 @@ This creates an endpoint you can send any HTTP requests to:
 
 The CLI will automatically listen for new HTTP requests, displaying them in your shell as soon as they arrive. Send an HTTP request to your endpoint URL and you'll see the request appear here.
 
-You can retrieve the last event sent to this endpoint by running:
-
-```bash
-pd events -n 1 http
-```
-
-Or, stream new HTTP requests as they hit your endpoint:
-
-```bash
-pd events -f http
-```
-
 ## What are event sources?
 
 **Event sources turn any API into an event stream, and turn any event stream into an API**.
