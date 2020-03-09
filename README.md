@@ -11,13 +11,7 @@ To install the Pipedream CLI, run:
 curl https://cli.pipedream.com/install | sh
 ```
 
-You can use the CLI to subscribe to public event streams:
-
-```bash
-pd events -f @pd/random
-```
-
-or create an event stream of your own:
+Then create an event stream:
 
 ```bash
 pd deploy   # prompts you to select a source and pass required options
