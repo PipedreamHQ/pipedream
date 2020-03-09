@@ -23,14 +23,13 @@ pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/apps/http/http.js
 
 This creates an endpoint you can send any HTTP requests to:
 
-```json
-{
-  "name": "http",
-  "url": "https://myendpoint.m.pipedream.net"
-}
+```text
+  id: dc_abc123
+  name: http
+  endpoint: https://myendpoint.m.pipedream.net
 ```
 
-The CLI will automatically listen for new HTTP requests, displaying them in your shell as soon as they arrive. Send an HTTP request to your endpoint URL and you'll see the request appear here.
+The CLI will automatically listen for new HTTP requests to this URL, displaying them in your shell as soon as they arrive. Send an HTTP request and you'll see the request appear here.
 
 ## What are event sources?
 
