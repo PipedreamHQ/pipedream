@@ -61,10 +61,9 @@ But HTTP sources provide more advanced functionality. You can:
 
 See our docs on event sources to learn more:
 
-- Consuming data from streams
-- CLI reference
-- API reference
-- Limits, Troubleshooting, and Support
+- [Consuming events from sources](https://docs.pipedream.com/event-sources/consuming-events/)
+- [CLI reference](https://docs.pipedream.com/cli/reference/)
+- [REST API reference](https://docs.pipedream.com/api/reference/)
 
 ## Example HTTP sources
 
