@@ -14,11 +14,6 @@ module.exports = {
       });
       // Emit the whole event, which contains
       // the HTTP payload, headers, and more
-      try {
-        event.body = JSON.parse(event.body)
-      } catch (err) {
-        // no op
-      }
       this.$emit(event)
     },
   },
