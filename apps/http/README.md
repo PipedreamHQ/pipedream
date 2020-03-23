@@ -33,7 +33,7 @@ The CLI will automatically listen for new requests to this URL, displaying them 
 
 You can retrieve requests to this endpoint programmatically, using Pipedream's [REST API](https://docs.pipedream.com/api/rest/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#command-reference) or a [private SSE stream](https://docs.pipedream.com/api/sse/) specific to your event source.
 
-You can also run any Node.js code on HTTP requests to filter or transform it, issue a custom HTTP response, and more — [see the example components below](#example-http-sources).
+You can also run any Node.js code on HTTP requests to filter or transform them, issue a custom HTTP response, and more — [see the example components below](#example-http-sources).
 
 ## What are Event Sources?
 
@@ -58,7 +58,6 @@ But HTTP sources provide more advanced functionality. You can:
 - [Return custom HTTP responses](#issue-a-completely-custom-http-response-status-body-headers)
 - [Emit a subset of the HTTP request](#emit-only-the-http-payload-instead-of-the-whole-event)
 - Filter specific requests (for example, you can [require an secret be present on requests](#authorize-inbound-requests-with-a-secret))
-- Create a public stream of HTTP requests to share with consumers
 - Run any Node.js code on HTTP requests to implement more custom logic
 
 ## What are components?
@@ -67,7 +66,7 @@ But HTTP sources provide more advanced functionality. You can:
 
 Components are [**free to run**](#pricing) and [simple to learn](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md). They come with a [built-in key-value store](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#servicedb), a way to pass input [via props](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#props), and more.
 
-Components can **emit** events. These components are called **event sources**. **This `README` refers to components and sources interchangeably, since all the HTTP example components emit events, and are therefore also sources**.
+Components can **emit** events. Components that emit events are called **event sources**. **This `README` refers to components and sources interchangeably, since all the HTTP example components emit events, and are therefore also sources**.
 
 Any emitted events can be retrieved using the [Pipedream CLI](https://docs.pipedream.com/cli/reference/), [REST API](https://docs.pipedream.com/api/rest/), or [SSE stream](https://docs.pipedream.com/api/sse/) tied to your source.
 
@@ -76,9 +75,9 @@ Any emitted events can be retrieved using the [Pipedream CLI](https://docs.piped
 - [What are Event Sources?](https://docs.pipedream.com/event-sources/)
 - [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/apps/http)
 - [REST API Reference](https://docs.pipedream.com/api/rest/)
-- [SSE](https://docs.pipedream.com/api/sse/)
+- [SSE Reference](https://docs.pipedream.com/api/sse/)
 - [CLI Reference](https://docs.pipedream.com/cli/reference/)
-- [Get Support](https://docs.pipedream.com/support/)
+- [Support](https://docs.pipedream.com/support/)
 
 ## Example HTTP sources
 
@@ -188,7 +187,7 @@ All of the [example components above](#example-http-sources) **emit** events. Em
 
 ### How to emit events
 
-Within your `run` function, pass the data you'd like to emit to the `this.$emit` function:
+Within your component's [`run` method](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#run), pass the data you'd like to emit to the `this.$emit` function:
 
 ```javascript
 this.$emit({
