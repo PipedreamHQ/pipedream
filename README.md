@@ -19,7 +19,7 @@ Then deploy a component:
 pd deploy   # prompts you to select a component and pass required options
 ```
 
-Check out our quickstart for [HTTP Event Sources](/apps/http/) or review [the docs](#docs) to learn more.
+Check out our quickstart for [HTTP Event Sources](/components/http/) or review [the docs](#docs) to learn more.
 
 ## What are components?
 
@@ -40,7 +40,7 @@ Event sources run on Pipedream's infrastructure, but you can retrieve emitted ev
 ## Docs
 
 - [What are Event Sources?](https://docs.pipedream.com/event-sources/)
-- [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/apps/http)
+- [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/components/http)
 - [REST API Reference](https://docs.pipedream.com/api/rest/)
 - [SSE Reference](https://docs.pipedream.com/api/sse/)
 - [CLI Reference](https://docs.pipedream.com/cli/reference/)
