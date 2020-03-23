@@ -7,22 +7,20 @@ module.exports = {
     http: "$.interface.http",
     secret: "string"
   },
-  events: {
-    async default(event) {
-      const { headers } = event;
-      const secret = get(headers, "secret");
-      if (secret !== this.secret) {
-        this.http.respond({
-          status: 400
-        });
-      }
+  async run(event) {
+    const { headers } = event;
+    const secret = get(headers, "secret");
+    if (secret !== this.secret) {
       this.http.respond({
-        status: 200,
-        body: event
+        status: 400
       });
-      // Emit the whole event, which contains
-      // the HTTP payload, headers, and more
-      this.$emit(event);
     }
+    this.http.respond({
+      status: 200,
+      body: event
+    });
+    // Emit the whole event, which contains
+    // the HTTP payload, headers, and more
+    this.$emit(event);
   }
 };
