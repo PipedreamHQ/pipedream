@@ -215,7 +215,7 @@ Each time you run `this.$emit()`, you emit the data as an **event**.
 
 ### Retrieving events programmatically
 
-Events can be retrieved using the [REST API](https://docs.pipedream.com/api/reference/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#pd-events), [or SSE stream tied to your cron job](https://docs.pipedream.com/event-sources/consuming-events/#sse). For example, you can use the CLI to retrieve the last 10 events:
+Events can be retrieved using the [REST API](https://docs.pipedream.com/api/rest/), [CLI](https://docs.pipedream.com/cli/reference/#pd-events), [or SSE stream tied to your component](https://docs.pipedream.com/api/sse/). For example, you can use the CLI to retrieve the last 10 events:
 
 ```bash
 λ pd events -n 10 <source-name>
@@ -224,7 +224,7 @@ Events can be retrieved using the [REST API](https://docs.pipedream.com/api/refe
 { name: "Han Solo" }
 ```
 
-This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/reference/#get-source-events) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/event-sources/consuming-events/#sse) to process them in real time.
+This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/rest/) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/api/sse/) to process them in real time.
 
 ## `$.service.db`
 

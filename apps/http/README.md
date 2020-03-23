@@ -31,7 +31,7 @@ This deploys an [HTTP event source](#what-are-http-event-sources) and creates an
 
 The CLI will automatically listen for new requests to this URL, displaying them in your shell as soon as they arrive. **Send a test request to give it a try**.
 
-You can retrieve requests to this endpoint programmatically, using Pipedream's [REST API](https://docs.pipedream.com/api/reference/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#command-reference) or a [private SSE stream](https://docs.pipedream.com/event-sources/consuming-events/#sse) specific to your event source.
+You can retrieve requests to this endpoint programmatically, using Pipedream's [REST API](https://docs.pipedream.com/api/rest/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#command-reference) or a [private SSE stream](https://docs.pipedream.com/api/sse/) specific to your event source.
 
 You can run any Node.js code on HTTP requests to filter or transform data in the request, issue a custom HTTP response, and more — [see the example components below](#example-http-sources).
 
@@ -39,9 +39,9 @@ You can run any Node.js code on HTTP requests to filter or transform data in the
 
 **Event sources turn any API into an event stream, and turn any event stream into an API**.
 
-Sources collect data from services like Github, Stripe, the bitcoin blockchain, RSS feeds, and more. They emit new events produced by the service, which can be consumed by any application via [REST API](https://docs.pipedream.com/api/reference/) or SSE.
+Sources collect data from services like Github, Stripe, the bitcoin blockchain, RSS feeds, and more. They emit new events produced by the service, which can be consumed by any application via [REST API](https://docs.pipedream.com/api/rest/) or SSE.
 
-Event sources run on Pipedream's infrastructure, but you can retrieve emitted events in your own app using the [Pipedream CLI](https://docs.pipedream.com/cli/reference/), [REST API](https://docs.pipedream.com/api/reference/), or [SSE stream](https://docs.pipedream.com/event-sources/consuming-events/#sse) tied to your source.
+Event sources run on Pipedream's infrastructure, but you can retrieve emitted events in your own app using the [Pipedream CLI](https://docs.pipedream.com/cli/reference/), [REST API](https://docs.pipedream.com/api/rest/), or [SSE stream](https://docs.pipedream.com/api/sse/) tied to your source.
 
 ## What are HTTP event sources?
 
@@ -63,20 +63,20 @@ But HTTP sources provide more advanced functionality. You can:
 
 ## What are components?
 
-[Pipedream components](COMPONENT-API.md) are Node.js modules that run code on specific events: HTTP requests, timers, and more. Components are meant to be small, self-contained, and reusable. Components run on Pipedream's infrastructure.
+[Pipedream components](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md) are Node.js modules that run code on specific events: HTTP requests, timers, and more. Components are meant to be small, self-contained, and reusable. Components run on Pipedream's infrastructure.
 
-Components are [**free to run**](#pricing) and [simple to learn](COMPONENT-API.md). They come with a built-in key-value store, a way to pass input via props, [and more](COMPONENT-API.md).
+Components are [**free to run**](#pricing) and [simple to learn](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md). They come with a [built-in key-value store](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#servicedb), a way to pass input [via props](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#props), and more.
 
-Components can **emit** events. These components are called **event sources**. **This `README` refers to components and sources interchangeably, since all the example components emit events, and are therefore also sources**.
+Components can **emit** events. These components are called **event sources**. **This `README` refers to components and sources interchangeably, since all the HTTP example components emit events, and are therefore also sources**.
 
-Any emitted events can be retrieved using the [Pipedream CLI](https://docs.pipedream.com/cli/reference/), [REST API](https://docs.pipedream.com/api/reference/), or [SSE stream](https://docs.pipedream.com/event-sources/consuming-events/#sse) tied to your source.
+Any emitted events can be retrieved using the [Pipedream CLI](https://docs.pipedream.com/cli/reference/), [REST API](https://docs.pipedream.com/api/rest/), or [SSE stream](https://docs.pipedream.com/api/sse/) tied to your source.
 
 ## Docs
 
 - [What are Event Sources?](https://docs.pipedream.com/event-sources/)
 - [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/apps/http)
-- [REST API Reference](https://docs.pipedream.com/api/reference/)
-- [SSE](https://docs.pipedream.com/event-sources/consuming-events/#sse)
+- [REST API Reference](https://docs.pipedream.com/api/rest/)
+- [SSE](https://docs.pipedream.com/api/sse/)
 - [CLI Reference](https://docs.pipedream.com/cli/reference/)
 - [Get Support](https://docs.pipedream.com/support/)
 
@@ -84,9 +84,9 @@ Any emitted events can be retrieved using the [Pipedream CLI](https://docs.piped
 
 Below, you'll find instructions for deploying HTTP sources to solve specific use cases.
 
-**The interface for authoring components is in preview, and is subject to change at any time**. We encourage you to extend these components or tinker on your own, and we'd love to hear feedback on how [the API](COMPONENT-API.md) can be improved.
+**The interface for authoring components is in preview, and is subject to change at any time**. We encourage you to extend these components or tinker on your own, and we'd love to hear feedback on how [the component API](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md) can be improved.
 
-If you've built a component you think others would find valuable, please submit a pull request to this repo. If you have questions about the [component API](COMPONENT-API.md) or any part of the Pipedream platform, you can raise an issue in this repo or [chat us on Slack](https://pipedream.com/community).
+If you've built a component you think others would find valuable, please submit a pull request to this repo. If you have questions about the [component API](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md) or any part of the Pipedream platform, you can raise an issue in this repo or [chat us on Slack](https://pipedream.com/community).
 
 ### Emit only the HTTP payload instead of the whole event
 
@@ -200,7 +200,7 @@ Each time you run `this.$emit()`, you emit the data as an **event**.
 
 ### Retrieving events programmatically
 
-Events can be retrieved using the [REST API](https://docs.pipedream.com/api/reference/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#pd-events), [or SSE stream tied to your cron job](https://docs.pipedream.com/event-sources/consuming-events/#sse). For example, you can use the CLI to retrieve the last 10 events:
+Events can be retrieved using the [REST API](https://docs.pipedream.com/api/rest/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#pd-events), [or SSE stream tied to your source](https://docs.pipedream.com/api/sse/). For example, you can use the CLI to retrieve the last 10 events:
 
 ```bash
 λ pd events -n 10 <source-name>
@@ -209,7 +209,7 @@ Events can be retrieved using the [REST API](https://docs.pipedream.com/api/refe
 { name: "Han Solo" }
 ```
 
-This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/reference/#get-source-events) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/event-sources/consuming-events/#sse) to process them in real time.
+This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/rest/#get-source-events) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/api/sse/) to process them in real time.
 
 ## Logs
 
