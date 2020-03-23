@@ -33,7 +33,7 @@ Components can **emit** events, which can be retrieved programmatically using th
 
 **Event sources turn any API into an event stream, and turn any event stream into an API**.
 
-Sources collect data from services like Github, Stripe, the bitcoin blockchain, RSS feeds, and more. They emit new events produced by the service, which can be consumed by any application via [REST API](https://docs.pipedream.com/api/rest/) or SSE.
+Sources collect data from services like Github, Stripe, the bitcoin blockchain, RSS feeds, and more. They emit new events produced by the service, which can be consumed by any application via [REST API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/).
 
 Event sources run on Pipedream's infrastructure, but you can retrieve emitted events in your own app using the [Pipedream CLI](https://docs.pipedream.com/cli/reference/), [REST API](https://docs.pipedream.com/api/rest/), or [SSE stream](https://docs.pipedream.com/api/sse/) tied to your source.
 
@@ -42,12 +42,31 @@ Event sources run on Pipedream's infrastructure, but you can retrieve emitted ev
 - [What are Event Sources?](https://docs.pipedream.com/event-sources/)
 - [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/apps/http)
 - [REST API Reference](https://docs.pipedream.com/api/rest/)
-- [SSE](https://docs.pipedream.com/api/sse/)
+- [SSE Reference](https://docs.pipedream.com/api/sse/)
 - [CLI Reference](https://docs.pipedream.com/cli/reference/)
 
 ## Component API
 
 See [the component API docs](COMPONENT-API.md).
+
+## Pricing
+
+Pipedream is currently free (paid tiers are coming soon), subject to the [limits noted below](#limits).
+
+If you exceed any of these limits, please [reach out](https://docs.pipedream.com/support/).
+
+## Limits
+
+Components are subject to the [limits of the Pipedream platform](https://docs.pipedream.com/limits/) in all cases but one: workflows are limited to 60 seconds per invocation, but **components can run for up to 300 seconds per invocation**.
+
+Other key limits include:
+
+- [30 minutes of component runtime per UTC day](https://docs.pipedream.com/limits/#execution-time-per-day)
+- [192MB of available memory](https://docs.pipedream.com/limits/#memory) and [512 MB of disk on `/tmp`](https://docs.pipedream.com/limits/#disk) during the execution of your code.
+
+## Getting Support
+
+You can get help [on our public Slack](https://pipedream.com/community) or [reach out to our team directly](https://docs.pipedream.com/support/) with any questions or feedback. We'd love to hear from you!
 
 ## Found a Bug? Have a Feature to suggest?
 

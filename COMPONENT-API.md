@@ -18,7 +18,18 @@ module.exports = {
 
 The component API borrows concepts and structure from frontend components, like those in [Vue.js](https://vuejs.org/) or [React](https://reactjs.org/).
 
-Components accept input via [props](#props), and can define [methods](#methods).
+Components [run on Pipedream infrastructure](#how-components-run).
+
+## Features
+
+Component can:
+
+- Accept input via [props](#props)
+- Define [methods](#methods).
+- [`require` any npm package](#using-npm-packages)
+- Spin up Pipedream infrastructure, like HTTP servers and scheduled jobs, by declaring the correct [interfaces](#interfaces)
+- Store and retrieve state using the [built-in key-value store](#servicedb)
+- [Emit data](#thisemit) you process within the component, allowing you to access it outside of Pipedream via API.
 
 ## `name`
 
@@ -260,7 +271,21 @@ this.db.get("key");
 
 Gets the value of a key. Returns `undefined` if the key doesn't exist.
 
+## Using npm packages
+
+To use an npm package in a component, just `require` it:
+
+```javascript
+const _ = require("lodash");
+```
+
+When you deploy a component, Pipedream downloads these packages and bundles them with your deployment. There's no need to include a `package.json` file with your component.
+
+Some packages — for example, packages like [Puppeteer](https://pptr.dev/), which includes large dependencies like Chromium — may not work on Pipedream. Please [reach out](https://docs.pipedream.com/support/) if you encounter a specific issue.
+
 ## How components run
+
+Components run on Pipedream infrastructure. You deploy components to Pipedream using the [Pipedream CLI](https://docs.pipedream.com/cli/reference/#pd-deploy), [API](https://docs.pipedream.com/api/rest/#overview), or [UI](https://pipedream.com/sources).
 
 A component is triggered, or invoked, by events sent its [interface](#interfaces).
 

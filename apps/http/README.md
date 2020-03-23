@@ -33,7 +33,7 @@ The CLI will automatically listen for new requests to this URL, displaying them 
 
 You can retrieve requests to this endpoint programmatically, using Pipedream's [REST API](https://docs.pipedream.com/api/rest/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#command-reference) or a [private SSE stream](https://docs.pipedream.com/api/sse/) specific to your event source.
 
-You can run any Node.js code on HTTP requests to filter or transform data in the request, issue a custom HTTP response, and more — [see the example components below](#example-http-sources).
+You can also run any Node.js code on HTTP requests to filter or transform it, issue a custom HTTP response, and more — [see the example components below](#example-http-sources).
 
 ## What are Event Sources?
 
@@ -223,7 +223,7 @@ pd logs <source-name>
 
 ## Using npm packages
 
-To use an npm package in a code step, just `require` it:
+To use an npm package in a component, just `require` it:
 
 ```javascript
 const _ = require("lodash");
