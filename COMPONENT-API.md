@@ -31,6 +31,32 @@ Component can:
 - Store and retrieve state using the [built-in key-value store](#servicedb)
 - [Emit data](#thisemit) you process within the component, allowing you to access it outside of Pipedream via API.
 
+<!--ts-->
+
+- [name](#name)
+  - [Name slugs](#name-slugs)
+- [version](#version)
+- [run method](#run-method)
+- [Referencing this](#referencing-this)
+  - [Referencing props](#referencing-props)
+  - [Referencing methods](#referencing-methods)
+- [Interfaces](#interfaces)
+  - [`$.interface.http`](#interfacehttp)
+    - [Methods on the HTTP interface](#methods-on-the-http-interface)
+- [props](#props)
+  - [Example](#example)
+- [methods](#methods)
+- [`this.$emit`](#thisemit)
+  - [How to emit events](#how-to-emit-events)
+  - [Retrieving events programmatically](#retrieving-events-programmatically)
+- [`$.service.db`](#servicedb)
+  - [set method](#set-method)
+  - [get method](#get-method)
+- [Using npm packages](#using-npm-packages)
+- [How components run](#how-components-run)
+
+<!--te-->
+
 ## `name`
 
 The name of the component, a **string** which identifies components deployed to users' accounts.

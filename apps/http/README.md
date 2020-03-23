@@ -35,6 +35,28 @@ You can retrieve requests to this endpoint programmatically, using Pipedream's [
 
 You can also run any Node.js code on HTTP requests to filter or transform them, issue a custom HTTP response, and more — [see the example components below](#example-http-sources).
 
+<!--ts-->
+
+- [What are Event Sources?](#what-are-event-sources)
+- [What are HTTP event sources?](#what-are-http-event-sources)
+- [What are components?](#what-are-components)
+- [Docs](#docs)
+- [Example HTTP sources](#example-http-sources)
+  - [Emit only the HTTP payload instead of the whole event](#emit-only-the-http-payload-instead-of-the-whole-event)
+  - [Return a custom HTTP status code](#return-a-custom-http-status-code)
+  - [Issue a completely custom HTTP response (status, body, headers)](#issue-a-completely-custom-http-response-status-body-headers)
+  - [Authorize inbound requests with a secret](#authorize-inbound-requests-with-a-secret)
+- [Consuming event data from your own app, outside Pipedream](#consuming-event-data-from-your-own-app-outside-pipedream)
+  - [How to emit events](#how-to-emit-events)
+  - [Retrieving events programmatically](#retrieving-events-programmatically)
+- [Logs](#logs)
+- [Using npm packages](#using-npm-packages)
+- [Pricing](#pricing)
+- [Limits](#limits)
+- [Getting Support](#getting-support)
+
+<!--te-->
+
 ## What are Event Sources?
 
 **Event sources turn any API into an event stream, and turn any event stream into an API**.
