@@ -2,13 +2,11 @@
 
 **This API is in preview and subject to change without notice. We make a best effort to update this doc as we make changes to the API, but please raise an issue or PR in this repo if you notice something out-of-date.**
 
-The component API borrows concepts and structure from frontend components, like those in [Vue.js](https://vuejs.org/) or [React](https://reactjs.org/).
-
-Components are Node.js modules that export an object with the following properties:
+Pipedream components are Node.js modules that export an object with the following properties:
 
 ```javascript
 module.exports = {
-  name: "cronjob", // required
+  name: "name", // required
   version: "0.0.1", // required
   props,
   methods,
@@ -18,11 +16,13 @@ module.exports = {
 };
 ```
 
+The component API borrows concepts and structure from frontend components, like those in [Vue.js](https://vuejs.org/) or [React](https://reactjs.org/).
+
 Components accept input via [props](#props), and can define [methods](#methods).
 
 ## `name`
 
-The name of the component, a **string** which identifies components deployed to user's accounts.
+The name of the component, a **string** which identifies components deployed to users' accounts.
 
 This name will show up in the Pipedream UI, in CLI output (for example, from `pd list` commands), etc.
 
@@ -32,9 +32,9 @@ Each time a user deploys a component to their account, a **name slug** is also g
 
 For example, a name of `Hello, World!` will generate a name slug of `hello-world`.
 
-The name, as provided in the `name` property of the component, still appears in the Pipedream UI for the component. This lets you provide a human-readable name with any special characters you'd like. The name slug is displayed beside the name, which you can use to interact with the component programmatically.
+The name, as provided in the `name` property of the component, still appears in the Pipedream UI for the component. This lets you declare a human-readable name with any special characters you'd like. The name slug is displayed beside the name, and you use the name slug to interact with the component programmatically.
 
-If the user deploys a component to their account, but a component with that name slug already exists, the component will be named using an incrementing integer suffix. For example, if you deploy a component with the name `my-component` twice, the second deployed component will be named `my-component-1`.
+If the user deploys a component to their account, but a component with that name slug already exists, the component will be named using an incrementing integer suffix. For example, if you deploy a component with the name `my-component` twice, the first deployed component will be named `my-component`, and the second deployed component will be named `my-component-1`.
 
 ## `version`
 
@@ -54,7 +54,7 @@ async run(event) {
 }
 ```
 
-You can reference `this` within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and Pipedream-provided functions like `this.$emit`.
+You can reference [`this`](#referencing-this) within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and Pipedream-provided functions like [`this.$emit`](#thisemit).
 
 You can view logs produced by the `run` method in the **LOGS** section of the Pipedream UI for the component, or using the `pd logs` CLI command:
 
@@ -70,7 +70,7 @@ pd events <deployed-component-name>
 
 ## Referencing `this`
 
-`this` refers to the component, and provides access to [props](#props), [methods](#methods), and Pipedream-provided functions like `this.$emit`.
+`this` refers to the component, and provides access to [props](#props), [methods](#methods), and Pipedream-provided functions like [`this.$emit`](#thisemit).
 
 ### Referencing props
 
@@ -106,9 +106,9 @@ const randomNum = this.random();
 
 Interfaces are infrastructure abstractions provided by the Pipedream platform. They declare how a component is invoked — via HTTP request, run on a schedule, etc. — and therefore define the shape of the events it processes.
 
-Interfaces make it possible to work with HTTP servers or scheduled tasks using nothing more than props. Once you declare the interface for your component, Pipedream creates the infrastructure for that component when it's deployed. For example, if you deploy a component that uses the HTTP interface, Pipedream creates a unique HTTP endpoint URL for that component. HTTP requests to that endpoint invoke the component, executing its `run` method.
+Interfaces make it possible to work with HTTP servers or scheduled tasks using nothing more than props. Once you declare the interface for your component, Pipedream creates the infrastructure for that component when it's deployed. For example, if you deploy a component that uses the HTTP interface, Pipedream creates a unique HTTP endpoint URL for that component. HTTP requests to that endpoint invoke the component, executing its [`run` method](#run).
 
-Interfaces also provide methods. For example, the HTTP interface exposes a `respond` method that lets your component issue HTTP responses:
+Interfaces can also provide methods. For example, the HTTP interface exposes a `respond` method that lets your component issue HTTP responses:
 
 ```javascript
 // this.http references the HTTP interface for the component, as you'll see below
@@ -121,11 +121,9 @@ this.http.respond({
 });
 ```
 
-You'll see how to declare the props for each interface, and how to use their methods, below.
-
 ### `$.interface.http`
 
-Interfaces are **attached** to components via [props](#props). To use the HTTP interface, declare a prop whose value is the string `$.interface.http`:
+Interfaces are attached to components via [props](#props). To use the HTTP interface, declare a prop whose value is the string `$.interface.http`:
 
 ```javascript
 props: {
@@ -163,7 +161,7 @@ this.http.respond({
 
 Props allow components to accept input at deploy time. When deploying a component, users will be prompted to enter values for these props, setting the behavior of the component accordingly. **Props make components reusable**.
 
-Props can be accessed within the `run` method, or within any [methods](#methods) defined by the component.
+Props can be accessed within the [`run` method](#run), or within any [methods](#methods) defined by the component.
 
 Props can be accessed using `this.<prop-name>`. For example, a `secret` prop:
 
@@ -181,7 +179,7 @@ See the [`http-require-secret`](https://github.com/PipedreamHQ/pipedream/blob/ma
 
 ## `methods`
 
-You can define helper functions within the `methods` property of your component. You have access to these functions within the `run` method, or within other methods.
+You can define helper functions within the `methods` property of your component. You have access to these functions within the [`run` method](#run), or within other methods.
 
 Methods can be accessed using `this.<method-name>`. For example, a `random` method:
 
@@ -205,7 +203,7 @@ const randomNum = this.random();
 
 ### How to emit events
 
-Within your `run` function, pass the data you'd like to emit to the `this.$emit` function:
+Within your [`run` method](#run), pass the data you'd like to emit to the `this.$emit` function:
 
 ```javascript
 this.$emit({
@@ -230,9 +228,9 @@ This makes it easy to retrieve data processed by your component from another app
 
 ## `$.service.db`
 
-`$.service.db` provides access to a simple, workflow-specific key-value store.
+`$.service.db` provides access to a simple, component-specific key-value store. It implements two methods: `set` and `get`.
 
-Like with [interfaces](#interfaces), you attach `$.service.db` via props:
+Like with [interfaces](#interfaces), you attach `$.service.db` via [props](#props):
 
 ```javascript
 props: {
@@ -240,9 +238,11 @@ props: {
 }
 ```
 
-Then, within the `run` handler and `methods`, you have access to the `db` prop using `this.db`.
+Then, within the [`run` handler](#run) and [`methods`](#methods), you have access to the `db` prop using `this.db`.
 
 Since you control the name of props in your component, you can name the prop anything you'd like. The example here and below use the name `db` for clarity.
+
+**The data you store in this DB is specific to your deployed component**.
 
 ### `set` method
 
@@ -262,19 +262,17 @@ Gets the value of a key. Returns `undefined` if the key doesn't exist.
 
 ## How components run
 
-A component is triggered, or invoked, by events sent its interface.
+A component is triggered, or invoked, by events sent its [interface](#interfaces).
 
-For example, a component configured to accept HTTP requests using `$.interface.http` runs on each HTTP request sent to its endpoint URL.
+For example, a component configured to accept HTTP requests using [`$.interface.http`](#interfacehttp) runs on each HTTP request sent to its endpoint URL.
 
-A component using `$.interface.timer` runs according to its schedule.
-
-Each time a component is invoked, its `run` method is called. You can view logs produced by this method in the **LOGS** section of the Pipedream UI for the component, or using the `pd logs` CLI command:
+Each time a component is invoked, its [`run` method](#run) is called. You can view logs produced by this method in the **LOGS** section of the Pipedream UI for the component, or using the `pd logs` CLI command:
 
 ```bash
 pd logs <deployed-component-name>
 ```
 
-If the `run` method emits events using `this.$emit`, you can access the events in the **EVENTS** section of the Pipedream UI for the component, or using the `pd events` CLI command:
+If the `run` method emits events using [`this.$emit`](#thisemit), you can access the events in the **EVENTS** section of the Pipedream UI for the component, or using the `pd events` CLI command:
 
 ```bash
 pd events <deployed-component-name>
