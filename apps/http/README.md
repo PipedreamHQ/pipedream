@@ -65,7 +65,7 @@ But HTTP sources provide more advanced functionality. You can:
 
 [Pipedream components](COMPONENT-API.md) are Node.js modules that run code on specific events: HTTP requests, timers, and more. Components are meant to be small, self-contained, and reusable. Components run on Pipedream's infrastructure.
 
-Components are [**free to run**](#pricing) and [simple to learn](COMPONENT-API.md). They come with a built-in key-value store, a props interface, [and more](COMPONENT-API.md).
+Components are [**free to run**](#pricing) and [simple to learn](COMPONENT-API.md). They come with a built-in key-value store, a way to pass input via props, [and more](COMPONENT-API.md).
 
 Components can **emit** events. These components are called **event sources**. **This `README` refers to components and sources interchangeably, since all the example components emit events, and are therefore also sources**.
 
@@ -209,7 +209,7 @@ Events can be retrieved using the [REST API](https://docs.pipedream.com/api/refe
 { name: "Han Solo" }
 ```
 
-This makes it easy to retrieve data processed by your cron job from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/reference/#get-source-events) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/event-sources/consuming-events/#sse) to process them in real time.
+This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/reference/#get-source-events) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/event-sources/consuming-events/#sse) to process them in real time.
 
 ## Logs
 

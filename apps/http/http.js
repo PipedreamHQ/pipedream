@@ -4,17 +4,15 @@ module.exports = {
   props: {
     http: '$.interface.http',
   },
-  events: {
-    async default(event) {
-      this.http.respond({
-        status: 200,
-        body: {
-          success: true,
-        },
-      });
-      // Emit the whole event, which contains
-      // the HTTP payload, headers, and more
-      this.$emit(event);
-    },
+  async run(event) {
+    this.http.respond({
+      status: 200,
+      body: {
+        success: true,
+      },
+    });
+    // Emit the whole event, which contains
+    // the HTTP payload, headers, and more
+    this.$emit(event);
   },
 };
