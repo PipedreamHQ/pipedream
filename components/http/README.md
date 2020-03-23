@@ -18,7 +18,7 @@ curl https://cli.pipedream.com/install | sh
 Then run
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/apps/http/http.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
 ```
 
 This deploys an [HTTP event source](#what-are-http-event-sources) and creates an endpoint you can send any HTTP requests to:
@@ -97,7 +97,6 @@ Any emitted events can be retrieved using the [Pipedream CLI](https://docs.piped
 ## Docs
 
 - [What are Event Sources?](https://docs.pipedream.com/event-sources/)
-- [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/apps/http)
 - [REST API Reference](https://docs.pipedream.com/api/rest/)
 - [SSE Reference](https://docs.pipedream.com/api/sse/)
 - [CLI Reference](https://docs.pipedream.com/cli/reference/)
@@ -145,7 +144,7 @@ Sometimes, you might not care about the HTTP metadata, and just want to retrieve
 To deploy this source, run:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/apps/http/http-payload-only.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http-payload-only.js
 ```
 
 ### Return a custom HTTP status code
@@ -153,7 +152,7 @@ pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/apps/http/http-pa
 You can create an endpoint that responds with any HTTP status code. Run:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/apps/http/http-custom-status-code.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http-custom-status-code.js
 ```
 
 This will prompt you to enter the **status** you'd like to return. For example, I can enter `204`, deploy my source, and my endpoint will return a `204` status code on all requests:
@@ -192,7 +191,7 @@ You can run any Node.js code within a source. This lets you implement complex lo
 The [`http-require-secret` source](http-require-secret.js) provides an example of this. Run
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/apps/http/http-require-secret.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http-require-secret.js
 ```
 
 This will prompt you to enter a **secret**, which you must pass in the `secret` HTTP header for the request to succeed, and for your source to emit an event. Requests without the correct value in this header will fail with a `400 Bad Request` error:
