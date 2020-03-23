@@ -35,6 +35,8 @@ You can retrieve requests to this endpoint programmatically, using Pipedream's [
 
 You can also run any Node.js code on HTTP requests to filter or transform them, issue a custom HTTP response, and more — [see the example components below](#example-http-sources).
 
+## Reference
+
 <!--ts-->
 
 - [What are Event Sources?](#what-are-event-sources)

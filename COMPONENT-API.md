@@ -31,6 +31,8 @@ Component can:
 - Store and retrieve state using the [built-in key-value store](#servicedb)
 - [Emit data](#thisemit) you process within the component, allowing you to access it outside of Pipedream via API.
 
+## Reference
+
 <!--ts-->
 
 - [name](#name)
