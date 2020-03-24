@@ -5,6 +5,12 @@
   <img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social">
 </p>
 
+Pipedream is an integration platform built for developers. Pipedream hosts and runs your code [for free](#pricing), and provides integration primitives that make it simple to connect to APIs, manage state, and more.
+
+- [Components](#what-are-components) let you author reusable Node.js code that runs on specific events: HTTP requests, timers, and more. Components run on Pipedream infrastructure, and you can manage them using the REST API or CLI.
+- [Workflows](https://docs.pipedream.com/workflows/) also allow you to run any Node.js code on events, but provide a friendly UI for authoring and running that code. Pipedream provides integrations to hundreds of APIs, and includes pre-built code for common operations.
+- [Event Sources](#what-are-event-sources) turn any API into an event stream, and turn any event stream into an API. You can retrieve events produced by a source using Pipedream's APIs, or use event sources to create a custom workflow trigger.
+
 ## Usage
 
 Install the Pipedream CLI:
@@ -39,7 +45,8 @@ Event sources run on Pipedream's infrastructure, but you can retrieve emitted ev
 
 ## Docs
 
-- [What are Event Sources?](https://docs.pipedream.com/event-sources/)
+- [Workflows](https://docs.pipedream.com/workflows/)
+- [Event Sources](https://docs.pipedream.com/event-sources/)
 - [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/components/http)
 - [REST API Reference](https://docs.pipedream.com/api/rest/)
 - [SSE Reference](https://docs.pipedream.com/api/sse/)
