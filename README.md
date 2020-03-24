@@ -5,11 +5,11 @@
   <img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social">
 </p>
 
-Pipedream is an integration platform built for developers. Pipedream hosts and runs your code [for free](#pricing), and provides integration primitives that make it simple to connect to APIs, manage state, and more.
+Pipedream is a [free](#pricing) platform for running hosted code.
 
-- [Components](#what-are-components) let you author reusable Node.js code that runs on specific events: HTTP requests, timers, and more. Components run on Pipedream infrastructure, and you can manage them using the REST API or CLI.
-- [Workflows](https://docs.pipedream.com/workflows/) also allow you to run any Node.js code on events, but provide a friendly UI for authoring and running that code. Pipedream provides integrations to hundreds of APIs, and includes pre-built code for common operations.
-- [Event Sources](#what-are-event-sources) turn any API into an event stream, and turn any event stream into an API. You can retrieve events produced by a source using Pipedream's APIs, or use event sources to create a custom workflow trigger.
+You run **components** on Pipedream. [Components](#what-are-components) are reusable Node.js modules that run code on specific events: HTTP requests, timers, and more. Components are [**free to run**](#pricing) and [simple to learn](COMPONENT-API.md). They come with a [built-in key-value store](COMPONENT-API.md#servicedb), an interface for passing input via [props](COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's REST API or CLI.
+
+Components can be used to create **event sources**. [Event Sources](#what-are-event-sources) run code that collects data from services and makes it available via Pipedream's REST or SSE APIs: **they can turn any API into an event stream, or turn any event stream into an API**. For example, you can use event sources to create a REST API from an RSS feed. You can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on these events.
 
 ## Usage
 
