@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social">
 </p>
 
-Pipedream is a [free](#pricing) platform for running hosted components.
+Pipedream is a [free](#pricing) platform for running hosted, backend components.
 
 Components are reusable Node.js modules that run on specific events: HTTP requests, timers, and more. Components are [**free to run**](#pricing) and [simple to learn](COMPONENT-API.md). They come with a [built-in key-value store](COMPONENT-API.md#servicedb), an interface for passing input via [props](COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's REST API or CLI.
 
