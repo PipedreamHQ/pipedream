@@ -7,6 +7,8 @@
 
 # HTTP Event Sources
 
+HTTP Event Sources are hosted [request bins](https://requestbin.com) that can be managed via API.
+
 ## Quickstart
 
 To install the Pipedream CLI, run:
@@ -152,7 +154,7 @@ pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/h
 You can create an endpoint that responds with any HTTP status code. Run:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http-custom-status-code.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/examples/http-custom-status-code.js
 ```
 
 This will prompt you to enter the **status** you'd like to return. For example, I can enter `204`, deploy my source, and my endpoint will return a `204` status code on all requests:
@@ -164,7 +166,7 @@ This will prompt you to enter the **status** you'd like to return. For example, 
 
 ### Issue a completely custom HTTP response (status, body, headers)
 
-A source can issue a custom HTTP status code, payload, and headers. [The `http-custom-response` source](http-custom-response.js) provides an example.
+A source can issue a custom HTTP status code, payload, and headers. [The `http-custom-response` source](examples/http-custom-response.js) provides an example.
 
 The `this.http.respond()` method accepts an object with the following properties:
 
@@ -176,9 +178,9 @@ this.http.respond({
 });
 ```
 
-To modify this source, download the file from Github or clone the repo locally. Edit the source, and in the directory where the file lives.
+To modify this source, **first download the file from Github or clone the repo locally**. Edit the source to return any custom response you'd like.
 
-Sources can be deployed via URL, like in the examples above, or by referencing a local file. Run this command to deploy your source:
+Sources can be deployed via URL, like in the examples above, or by referencing a local file. Run this command in the directory where your file lives to deploy your source:
 
 ```bash
 pd deploy http-custom-response.js
@@ -188,10 +190,10 @@ pd deploy http-custom-response.js
 
 You can run any Node.js code within a source. This lets you implement complex logic to validate the inbound request and issue a custom response.
 
-The [`http-require-secret` source](http-require-secret.js) provides an example of this. Run
+The [`http-require-secret` source](examples/http-require-secret.js) provides an example of this. Run
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http-require-secret.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/examples/http-require-secret.js
 ```
 
 This will prompt you to enter a **secret**, which you must pass in the `secret` HTTP header for the request to succeed, and for your source to emit an event. Requests without the correct value in this header will fail with a `400 Bad Request` error:
