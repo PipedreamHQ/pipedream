@@ -1,3 +1,4 @@
+// Example component that uses a prop (secret)
 const get = require("lodash.get");
 
 module.exports = {

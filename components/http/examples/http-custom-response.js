@@ -1,3 +1,4 @@
+// Example component showing how to return a custom HTTP response
 module.exports = {
   name: "http-custom-response",
   version: "0.0.1",

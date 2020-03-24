@@ -1,3 +1,5 @@
+// Core HTTP component
+// Returns a 200 OK response, emits the whole HTTP request as an event
 module.exports = {
   name: "http",
   version: "0.0.1",

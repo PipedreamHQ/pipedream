@@ -1,3 +1,4 @@
+// Example component showing how to return a custom status code
 module.exports = {
   name: "http-custom-status-code",
   version: "0.0.1",
