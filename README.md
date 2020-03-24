@@ -9,7 +9,7 @@ Pipedream is a [free](#pricing) platform for running hosted, backend components.
 
 **Components are reusable Node.js modules that run on specific events**: HTTP requests, timers, and more. Components are [free to run](#pricing) and [simple to learn](COMPONENT-API.md). They come with a [built-in key-value store](COMPONENT-API.md#servicedb), an interface for passing input via [props](COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/) or [CLI](https://docs.pipedream.com/cli/reference/).
 
-Components can **emit** events, which can be retrieved programmatically via CLI, API or [SSE](https://docs.pipedream.com/api/sse/). Components that emit events can be used as **event sources**. Event Sources collect data from any service and make it available via Pipedream's REST or SSE APIs: **they can turn any API into an event stream, or turn any event stream into an API**. For example, you can use event sources to create a REST API from an RSS feed. You can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on these events.
+Components can emit events, which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). Components that emit events can be used as **event sources**. Event Sources collect data from any service and make it available via Pipedream's REST or SSE APIs: **they can turn any API into an event stream, or turn any event stream into an API**. For example, you can use event sources to create a REST API from an RSS feed. You can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on these events.
 
 ## Usage
 
@@ -19,7 +19,7 @@ Install the Pipedream CLI:
 curl https://cli.pipedream.com/install | sh
 ```
 
-Then deploy a component:
+Then deploy a component from the registry:
 
 ```bash
 pd deploy   # prompts you to select a component and pass required options
@@ -29,16 +29,13 @@ Check out our quickstart for [HTTP Event Sources](/components/http/) or review [
 
 ## Docs
 
+- [Component API](COMPONENT-API.md)
 - [Event Sources](https://docs.pipedream.com/event-sources/)
 - [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/components/http)
 - [REST API Reference](https://docs.pipedream.com/api/rest/)
 - [SSE Reference](https://docs.pipedream.com/api/sse/)
 - [CLI Reference](https://docs.pipedream.com/cli/reference/)
 - [Workflows](https://docs.pipedream.com/workflows/)
-
-## Component API
-
-See [the component API docs](COMPONENT-API.md).
 
 ## Pricing
 
