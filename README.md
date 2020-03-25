@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social">
 </p>
 
-Pipedream is a platform for running hosted, backend components. Free for developers.
+Pipedream is a platform for running hosted, backend components.
 
 **Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests, timers, and more. Components are [free to run](#pricing) and [simple to learn](COMPONENT-API.md). They come with a [built-in key-value store](COMPONENT-API.md#servicedb), an interface for passing input via [props](COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/) or [CLI](https://docs.pipedream.com/cli/reference/).
 
@@ -25,7 +25,7 @@ Then deploy a component from the registry:
 pd deploy   # prompts you to select a component and pass required options
 ```
 
-Check out our quickstart for [HTTP Event Sources](/components/http/) or review [the docs](#docs) to learn more.
+The simplest event source is an [HTTP Source](components/http#quickstart). Start there or review [the docs](#docs) to learn more.
 
 ## Docs
 

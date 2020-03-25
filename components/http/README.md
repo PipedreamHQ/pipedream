@@ -5,9 +5,17 @@
   <img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social">
 </p>
 
-# HTTP Event Sources
+# HTTP Event Sources — free, hosted, HTTP-triggered serverless functions
 
-HTTP Event Sources are hosted [request bins](https://requestbin.com) that can be managed via API.
+Pipedream is a platform for running hosted, backend components.
+
+**Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests, timers, and more. Components are [free to run](#pricing) and [simple to learn](COMPONENT-API.md). They come with a [built-in key-value store](COMPONENT-API.md#servicedb), an interface for passing input via [props](COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/) or [CLI](https://docs.pipedream.com/cli/reference/).
+
+[Components can emit events](COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). Components that emit events can be used as **event sources**. Event Sources collect data from any service and make it available via Pipedream's REST or SSE APIs: **they can turn any API into an event stream, or turn any event stream into an API**. For example, you can use event sources to create a REST API from an RSS feed. You can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on these events.
+
+This `README` covers HTTP event sources, the simples type of source. **They're essentially free, hosted HTTP applications that you can program with Node.js.** [Read more here](#what-are-http-event-sources).
+
+Run through the [quickstart](#quickstart) to create your first source.
 
 ## Quickstart
 
@@ -23,7 +31,7 @@ Then run
 pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
 ```
 
-This deploys an [HTTP event source](#what-are-http-event-sources) and creates an endpoint you can send any HTTP requests to:
+This deploys an [HTTP event source](#what-are-http-event-sources) and creates a unique endpoint URL you can send any HTTP requests to:
 
 ```text
   id: dc_abc123
@@ -31,9 +39,9 @@ This deploys an [HTTP event source](#what-are-http-event-sources) and creates an
   endpoint: https://myendpoint.m.pipedream.net
 ```
 
-The CLI will automatically listen for new requests to this URL, displaying them in your shell as soon as they arrive. **Send a test request to give it a try**.
+The CLI will automatically listen for new requests to this URL, displaying them in your shell as soon as they arrive. **Send a test request using the example cURL command to give it a try**.
 
-You can retrieve requests to this endpoint programmatically, using Pipedream's [REST API](https://docs.pipedream.com/api/rest/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#command-reference) or a [private SSE stream](https://docs.pipedream.com/api/sse/) specific to your event source.
+You can retrieve requests to this endpoint programmatically, using Pipedream's [REST API](https://docs.pipedream.com/api/rest/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#command-reference) or a [private SSE stream](https://docs.pipedream.com/api/sse/) tied to your event source.
 
 You can also run any Node.js code on HTTP requests to filter or transform them, issue a custom HTTP response, and more — [see the example components below](#example-http-sources).
 
@@ -41,9 +49,9 @@ You can also run any Node.js code on HTTP requests to filter or transform them, 
 
 <!--ts-->
 
-- [What are Event Sources?](#what-are-event-sources)
+- [Quickstart](#quickstart)
+- [Reference](#reference)
 - [What are HTTP event sources?](#what-are-http-event-sources)
-- [What are components?](#what-are-components)
 - [Docs](#docs)
 - [Example HTTP sources](#example-http-sources)
   - [Emit only the HTTP payload instead of the whole event](#emit-only-the-http-payload-instead-of-the-whole-event)
@@ -59,21 +67,15 @@ You can also run any Node.js code on HTTP requests to filter or transform them, 
 - [Limits](#limits)
 - [Getting Support](#getting-support)
 
+<!-- Added by: dylansather, at: Tue Mar 24 18:10:04 PDT 2020 -->
+
 <!--te-->
-
-## What are Event Sources?
-
-**Event sources turn any API into an event stream, and turn any event stream into an API**.
-
-Sources collect data from services like Github, Stripe, the bitcoin blockchain, RSS feeds, and more. They emit new events produced by the service, which can be consumed by any application via [REST API](https://docs.pipedream.com/api/rest/) or SSE.
-
-Event sources run on Pipedream's infrastructure, but you can retrieve emitted events in your own app using the [Pipedream CLI](https://docs.pipedream.com/cli/reference/), [REST API](https://docs.pipedream.com/api/rest/), or [SSE stream](https://docs.pipedream.com/api/sse/) tied to your source.
 
 ## What are HTTP event sources?
 
-HTTP sources are the simplest possible event source. When you create an HTTP source,
+HTTP sources are the simplest type of event source. When you create an HTTP source,
 
-- You get a unique HTTP endpoint that you can send any HTTP request to.
+- Pipedream generates a unique HTTP endpoint that you can send any HTTP request to.
 - You can view the details of any HTTP request sent to your endpoint: its payload, headers, and more.
 - You can delete the source and its associated events once you're done.
 
@@ -86,19 +88,12 @@ But HTTP sources provide more advanced functionality. You can:
 - Filter specific requests (for example, you can [require an secret be present on requests](#authorize-inbound-requests-with-a-secret))
 - Run any Node.js code on HTTP requests to implement more custom logic
 
-## What are components?
-
-[Pipedream components](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md) are Node.js modules that run code on specific events: HTTP requests, timers, and more. Components are meant to be small, self-contained, and reusable. Components run on Pipedream's infrastructure.
-
-Components are [**free to run**](#pricing) and [simple to learn](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md). They come with a [built-in key-value store](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#servicedb), a way to pass input [via props](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#props), and more.
-
-Components can **emit** events. Components that emit events are called **event sources**. **This `README` refers to components and sources interchangeably, since all the HTTP example components emit events, and are therefore also sources**.
-
-Any emitted events can be retrieved using the [Pipedream CLI](https://docs.pipedream.com/cli/reference/), [REST API](https://docs.pipedream.com/api/rest/), or [SSE stream](https://docs.pipedream.com/api/sse/) tied to your source.
+**You can think of HTTP sources as free, hosted HTTP applications that you can program with Node.js.**
 
 ## Docs
 
-- [What are Event Sources?](https://docs.pipedream.com/event-sources/)
+- [Component API](COMPONENT-API.md)
+- [Event Sources](https://docs.pipedream.com/event-sources/)
 - [REST API Reference](https://docs.pipedream.com/api/rest/)
 - [SSE Reference](https://docs.pipedream.com/api/sse/)
 - [CLI Reference](https://docs.pipedream.com/cli/reference/)
