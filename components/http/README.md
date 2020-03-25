@@ -5,8 +5,6 @@
   <img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social">
 </p>
 
-# HTTP Event Sources — free, hosted, HTTP-triggered serverless functions
-
 Pipedream is a platform for running hosted, backend components.
 
 **Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests, timers, and more. Components are [free to run](#pricing) and [simple to learn](COMPONENT-API.md). Here's a component that spins up a hosted HTTP server on deploy and logs inbound HTTP requests:
