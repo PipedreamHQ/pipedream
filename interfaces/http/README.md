@@ -28,7 +28,7 @@ Components come with a [built-in key-value store](/COMPONENT-API.md#servicedb), 
 
 [Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow.
 
-**Components that emit events are called event sources**. This `README` covers HTTP event sources, the simplest type of source. They're essentially free, hosted HTTP applications that you can program with Node.js. Since all of the components referenced in this `README` are also event sources, we use the terms interchangeably below. [Read more here](#what-are-http-event-sources).
+**Components that emit events are called event sources**. This `README` covers [HTTP event sources](#what-are-http-event-sources), the simplest type of source. They're essentially free, hosted HTTP applications that you can program with Node.js. Since all of the components referenced in this `README` are also event sources, we use the terms interchangeably below.
 
 Run through the [quickstart](#quickstart) to create your first source.
 
@@ -54,7 +54,7 @@ This deploys an [HTTP event source](#what-are-http-event-sources) and creates a 
   endpoint: https://myendpoint.m.pipedream.net
 ```
 
-The CLI will automatically listen for new requests to this URL, displaying them in your shell as soon as they arrive. **Send a test request using the example cURL command to give it a try**.
+The CLI will automatically listen for new requests to this URL, displaying them in your shell as soon as they arrive. **Send a test request using the provided cURL command to give it a try**.
 
 You can retrieve requests to this endpoint programmatically, using Pipedream's [REST API](https://docs.pipedream.com/api/rest/#get-source-events), [CLI](https://docs.pipedream.com/cli/reference/#command-reference) or a [private SSE stream](https://docs.pipedream.com/api/sse/) tied to your event source.
 
