@@ -5,9 +5,11 @@
   <img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social">
 </p>
 
+# HTTP Event Sources — hosted, backend components for processing HTTP requests
+
 Pipedream is a platform for running hosted, backend components.
 
-**Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests, timers, and more. Components are [free to run](#pricing) and [simple to learn](/COMPONENT-API.md). Here's a component that spins up a hosted HTTP server on deploy and logs inbound HTTP requests:
+**Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests and timers. Components are [free to run](#pricing) and [simple to learn](/COMPONENT-API.md). Here's a component that spins up a hosted HTTP server on deploy and logs inbound HTTP requests:
 
 ```javascript
 module.exports = {
@@ -22,11 +24,11 @@ module.exports = {
 };
 ```
 
-Components come with a [built-in key-value store](/COMPONENT-API.md#servicedb), an interface for passing input via [props](/COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/) or [CLI](https://docs.pipedream.com/cli/reference/).
+Components come with a [built-in key-value store](/COMPONENT-API.md#servicedb), an interface for passing input via [props](/COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/), [CLI](https://docs.pipedream.com/cli/reference/), or [UI](https://pipedream.com/sources).
 
-[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). Components that emit events can be used as **event sources**. Event Sources collect data from any service and make it available via Pipedream's REST or SSE APIs: **they can turn any API into an event stream, or turn any event stream into an API**. For example, you can use event sources to create a REST API from an RSS feed. You can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on these events.
+[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow.
 
-This `README` covers HTTP event sources, the simples type of source. **They're essentially free, hosted HTTP applications that you can program with Node.js.** [Read more here](#what-are-http-event-sources).
+**Components that emit events are called event sources**. This `README` covers HTTP event sources, the simplest type of source. They're essentially free, hosted HTTP applications that you can program with Node.js. Since all of the components referenced in this `README` are also event sources, we use the terms interchangeably below. [Read more here](#what-are-http-event-sources).
 
 Run through the [quickstart](#quickstart) to create your first source.
 
@@ -41,7 +43,7 @@ curl https://cli.pipedream.com/install | sh
 Then run
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/interfaces/http/http.js
 ```
 
 This deploys an [HTTP event source](#what-are-http-event-sources) and creates a unique endpoint URL you can send any HTTP requests to:
@@ -62,8 +64,7 @@ You can also run any Node.js code on HTTP requests to filter or transform them, 
 
 <!--ts-->
 
-- [Quickstart](#quickstart)
-- [Reference](#reference)
+- [Why use components?](#why-use-components)
 - [What are HTTP event sources?](#what-are-http-event-sources)
 - [Docs](#docs)
 - [Example HTTP sources](#example-http-sources)
@@ -80,9 +81,19 @@ You can also run any Node.js code on HTTP requests to filter or transform them, 
 - [Limits](#limits)
 - [Getting Support](#getting-support)
 
-<!-- Added by: dylansather, at: Tue Mar 24 18:10:04 PDT 2020 -->
-
 <!--te-->
+
+## Why use components?
+
+Components are similar to serverless functions, like those offered by AWS Lambda. You don't have to manage the server that runs the code — components are hosted on Pipedream infrastructure — and they run on specific events like HTTP requests and timers.
+
+But we believe components are simpler to learn, write, and maintain for many use cases. They let you focus more on the code, and less on the configuration of the function and its associated services:
+
+- You can configure an HTTP server [via props](/COMPONENT-API.md#interfacehttp), and can use a [built-in key-value store](/COMPONENT-API.md#servicedb) to manage state. Components creates the HTTP interface for you on deploy, and the key-value store comes for free: there's no need to create these resources manually.
+- Components are built to be reusable. They can accept input via [props](/COMPONENT-API.md#props), which a user sets on deploy.
+- Components are self-contained. Their name, version, props, and code are all defined in one file. This makes components easy to understand at a glance, and easy to fork and modify.
+
+This is also an early release. [The component API](/COMPONENT-API.md) will improve over time. **Right now, we're looking for any and all [feedback](https://pipedream.com/community)**. Tell us what you're building, what works and what doesn't, and anything you think would improve the product.
 
 ## What are HTTP event sources?
 
@@ -154,7 +165,7 @@ Sometimes, you might not care about the HTTP metadata, and just want to retrieve
 To deploy this source, run:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http-payload-only.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/interfaces/http/http-payload-only.js
 ```
 
 ### Return a custom HTTP status code
@@ -162,7 +173,7 @@ pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/h
 You can create an endpoint that responds with any HTTP status code. Run:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/examples/http-custom-status-code.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/interfaces/http/examples/http-custom-status-code.js
 ```
 
 This will prompt you to enter the **status** you'd like to return. For example, I can enter `204`, deploy my source, and my endpoint will return a `204` status code on all requests:
@@ -201,7 +212,7 @@ You can run any Node.js code within a source. This lets you implement complex lo
 The [`http-require-secret` source](examples/http-require-secret.js) provides an example of this. Run
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/examples/http-require-secret.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/interfaces/http/examples/http-require-secret.js
 ```
 
 This will prompt you to enter a **secret**, which you must pass in the `secret` HTTP header for the request to succeed, and for your source to emit an event. Requests without the correct value in this header will fail with a `400 Bad Request` error:
@@ -273,12 +284,7 @@ If you exceed any of these limits, please [reach out](https://docs.pipedream.com
 
 ## Limits
 
-Components are subject to the [limits of the Pipedream platform](https://docs.pipedream.com/limits/) in all cases but one: workflows are limited to 60 seconds per invocation, but **components can run for up to 300 seconds per invocation**.
-
-Other key limits include:
-
-- [30 minutes of component runtime per UTC day](https://docs.pipedream.com/limits/#execution-time-per-day)
-- [192MB of available memory](https://docs.pipedream.com/limits/#memory) and [512 MB of disk on `/tmp`](https://docs.pipedream.com/limits/#disk) during the execution of your code.
+Components are subject to the [limits of the Pipedream platform](https://docs.pipedream.com/limits/).
 
 ## Getting Support
 

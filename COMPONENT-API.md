@@ -214,7 +214,7 @@ can be referenced using `this.secret`.
 
 ### Example
 
-See the [`http-require-secret`](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/examples/http-require-secret.js) component for an example of how to reference props. That component accepts a `secret` prop, which it uses in the `run` method to validate that HTTP requests contain that secret.
+See the [`http-require-secret`](https://github.com/PipedreamHQ/pipedream/blob/master/interfaces/http/examples/http-require-secret.js) component for an example of how to reference props. That component accepts a `secret` prop, which it uses in the `run` method to validate that HTTP requests contain that secret.
 
 ## `methods`
 
