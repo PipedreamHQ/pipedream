@@ -67,7 +67,7 @@ This is also an early release. [The component API](/COMPONENT-API.md) will impro
 
 ## Pricing
 
-Pipedream is currently free (paid tiers are coming soon), subject to the [limits noted below](#limits).
+Pipedream is currently free, subject to the [limits noted below](#limits). Paid tiers for higher volumes are coming soon.
 
 If you exceed any of these limits, please [reach out](https://docs.pipedream.com/support/).
 
