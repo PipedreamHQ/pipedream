@@ -7,7 +7,7 @@
 
 Pipedream is a platform for running hosted, backend components.
 
-**Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests, timers, and more. Components are [free to run](#pricing) and [simple to learn](COMPONENT-API.md). Here's a component that spins up a hosted HTTP server on deploy and logs inbound HTTP requests:
+**Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests, timers, and more. Components are [free to run](#pricing) and [simple to learn](/COMPONENT-API.md). Here's a component that spins up a hosted HTTP server on deploy and logs inbound HTTP requests:
 
 ```javascript
 module.exports = {
