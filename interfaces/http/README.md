@@ -5,7 +5,9 @@
   <img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social">
 </p>
 
-# HTTP Event Sources — hosted, backend components for processing HTTP requests
+# HTTP Event Sources
+
+## Hosted, backend components for processing HTTP requests
 
 Pipedream is a platform for running hosted, backend components.
 
