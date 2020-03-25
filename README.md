@@ -54,7 +54,7 @@ The simplest event source is an [HTTP Source](components/http#quickstart). Start
 
 ## Pricing
 
-Pipedream is currently free (paid tiers are coming soon), subject to the [limits noted below](#limits).
+Pipedream is currently free, subject to the [limits noted below](#limits). Paid tiers for higher volumes are coming soon.
 
 If you exceed any of these limits, please [reach out](https://docs.pipedream.com/support/).
 
