@@ -5,7 +5,7 @@
   <a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F%3FbuttonType%3DFollowButton%26query%3Dhttps%253A%252F%252Ftwitter.com%252Fpipedream%26widget%3DButton&ref_src=twsrc%5Etfw&region=follow_link&screen_name=pipedream&tw_p=followbutton"><img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social"></a>
 </p>
 
-## HTTP Event Sources: hosted, backend components for processing HTTP requests
+## HTTP Event Sources
 
 Pipedream is a platform for running hosted, backend components.
 
