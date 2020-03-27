@@ -7,7 +7,7 @@
 
 ## HTTP Event Sources
 
-Pipedream is a platform for running hosted, backend components.
+Pipedream is a platform for running hosted, backend components. HTTP event sources are essentially request bins that can be managed via API.
 
 **Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests and timers. Components are [free to run](#pricing) and [simple to learn](/COMPONENT-API.md). Here's a component that spins up a hosted HTTP server on deploy and logs inbound HTTP requests:
 
