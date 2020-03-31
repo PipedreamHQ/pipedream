@@ -212,7 +212,7 @@ Since you control the name of props in your component, you can name the prop any
 
 On component deploy, you'll be prompted to select one of two schedule types, and asked to provide a value:
 
-- `cronSchedule`, which accepts a [cron expression](https://crontab.guru/) (a string)
+- `cron`, which accepts a [cron expression](https://crontab.guru/) (a string)
 - `intervalSeconds`, which accepts the frequency of the job in seconds (an integer)
 
 You can also specify the schedule type, and value, by explicitly including one of these params in the prop declaration:
@@ -221,7 +221,7 @@ You can also specify the schedule type, and value, by explicitly including one o
 props: {
   timer: {
     type: "$.interface.timer"
-    cronSchedule: "0 0 * * *" // Run job once a day
+    cron: "0 0 * * *" // Run job once a day
   }
 },
 ```
