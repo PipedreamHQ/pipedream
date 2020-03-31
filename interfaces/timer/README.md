@@ -84,7 +84,7 @@ module.exports = {
   props: {
     timer: {
       type: "$.interface.timer",
-      cron: "* * * * * "
+      cron: "* * * * *"
     }
   },
   async run() {
