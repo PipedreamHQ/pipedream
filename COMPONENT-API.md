@@ -45,6 +45,7 @@ Component can:
 - [Interfaces](#interfaces)
   - [`$.interface.http`](#interfacehttp)
     - [Methods on the HTTP interface](#methods-on-the-http-interface)
+  - [`$.interface.timer`](#interfacetimer)
 - [props](#props)
   - [Example](#example)
 - [methods](#methods)
