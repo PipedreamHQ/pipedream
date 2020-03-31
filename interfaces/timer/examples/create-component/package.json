@@ -1,0 +1,15 @@
+{
+  "name": "cron-rest-api-example-node",
+  "version": "1.0.0",
+  "description": "Example of how to use the Pipedream REST API using Node.js",
+  "main": "cron.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pipedream, Inc.",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0"
+  }
+}
