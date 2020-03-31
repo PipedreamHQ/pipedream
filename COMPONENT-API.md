@@ -196,6 +196,45 @@ this.http.respond({
 });
 ```
 
+### `$.interface.timer`
+
+Interfaces are attached to components via [props](#props). To use the timer interface, declare a prop whose value is the string `$.interface.timer`:
+
+```javascript
+props: {
+  timer: {
+    type: "$.interface.timer"
+  }
+},
+```
+
+Since you control the name of props in your component, you can name the prop anything you'd like. The example just uses the name `timer` for clarity.
+
+On component deploy, you'll be prompted to select one of two schedule types, and asked to provide a value:
+
+- `cronSchedule`, which accepts a [cron expression](https://crontab.guru/) (a string)
+- `intervalSeconds`, which accepts the frequency of the job in seconds (an integer)
+
+You can also specify the schedule type, and value, by explicitly including one of these params in the prop declaration:
+
+```javascript
+props: {
+  timer: {
+    type: "$.interface.timer"
+    cronSchedule: "0 0 * * *" // Run job once a day
+  }
+},
+```
+
+```javascript
+props: {
+  timer: {
+    type: "$.interface.timer"
+    intervalSeconds: 60 // Run job once a minute
+  }
+},
+```
+
 ## `props`
 
 Props allow components to accept input at deploy time. When deploying a component, users will be prompted to enter values for these props, setting the behavior of the component accordingly. **Props make components reusable**.
