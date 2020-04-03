@@ -9,9 +9,7 @@ In this `README`, you'll learn how to [run any Node.js code on a schedule](#runn
 
 ## Quickstart
 
-Watch this short video or walk through the commands below:
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PwjVR0dj-Hk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+**Watch [this short video](https://www.youtube.com/watch?v=PwjVR0dj-Hk&amp=) or step through the commands below**.
 
 Install the Pipedream CLI:
 
