@@ -1,4 +1,4 @@
-const twitter = require('twitter')
+const twitter = require('https://github.com/PipedreamHQ/pipedream/blob/add-twitter/components/twitter/twitter.js')
 const _ = require('lodash')
 
 module.exports = {
@@ -10,12 +10,10 @@ module.exports = {
       type: "$.interface.timer",
       intervalSeconds: 60,
     },
-    twitter: {
-      type: "app",
-      app: "twitter",
-    },
+    twitter,
     searchTerm: "string",
   },
+  //methods: this.twitter.methods,
   events: {
     async default(event) {
       const since_id = this.db.get("since_id") || 0
