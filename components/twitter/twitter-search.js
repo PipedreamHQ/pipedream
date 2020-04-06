@@ -13,15 +13,14 @@ module.exports = {
     twitter,
     searchTerm: "string",
   },
-  //methods: this.twitter.methods,
   events: {
     async default(event) {
       const since_id = this.db.get("since_id") || 0
-      const oauthSignerUri = this.twitter.$auth.oauth_signer_uri
+      //const oauthSignerUri = this.twitter.$auth.oauth_signer_uri
       const tweet_mode = 'extended'
       const count = '100'
 
-      const response = this.twitter.search(this.searchTerm, since_id, tweet_mode, count)
+      const response = this.twitter.methods.search(this.searchTerm, since_id, tweet_mode, count)
 
       let maxId = since_id
 
