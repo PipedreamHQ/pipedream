@@ -2,8 +2,8 @@ const Parser = require("rss-parser")
 const parser = new Parser()
 
 module.exports = {
-  name: "hacker-news-newstories",
-  version: "0.0.2",
+  name: "hacker-news-new-comments",
+  version: "0.0.3",
   props: {
     // XXX have auto: true prop in case there is something to configure (unless pass --no-auto)
     timer: "$.interface.timer",
