@@ -9,7 +9,7 @@ module.exports = {
     timer: "$.interface.timer",
     db: "$.service.db",
     // If you want a single search feed but multiple keywords, separate the keywords with " OR ":
-    keyword:"string",
+    keyword: "string",
   },
     methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
