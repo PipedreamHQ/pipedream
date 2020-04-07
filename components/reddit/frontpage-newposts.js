@@ -2,7 +2,7 @@ const Parser = require("rss-parser")
 const parser = new Parser()
 
 module.exports = {
-  name: "reddit-frontpage",
+  name: "reddit-frontpage-new-posts",
   version: "0.0.1",
   props: {
     timer: {
