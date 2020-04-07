@@ -13,7 +13,7 @@ module.exports = {
     twitter,
     searchTerm: "string",
   },
-  async run(events) {
+  async run(event) {
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'
     const count = '100'
