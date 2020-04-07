@@ -14,7 +14,7 @@ module.exports = {
     searchTerm: "string",
   },
   events: {
-    async default(event) {
+    async run(event) {
       const since_id = this.db.get("since_id") || 0
       const tweet_mode = 'extended'
       const count = '100'
