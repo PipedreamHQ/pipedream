@@ -13,28 +13,26 @@ module.exports = {
     twitter,
     searchTerm: "string",
   },
-  events: {
-    async run(event) {
-      const since_id = this.db.get("since_id") || 0
-      const tweet_mode = 'extended'
-      const count = '100'
+  async run(events) {
+    const since_id = this.db.get("since_id") || 0
+    const tweet_mode = 'extended'
+    const count = '100'
 
-      const response = this.twitter.search(this.searchTerm, since_id, tweet_mode, count)
+    const response = this.twitter.search(this.searchTerm, since_id, tweet_mode, count)
 
-      let maxId = since_id
+    let maxId = since_id
 
-      response.statuses.forEach(tweet => {
-        if (tweet.in_reply_to_status_id === null && tweet.retweet_count === 0) {
-          if (_.get(tweet,'retweeted_status','') === '') {
-            this.$emit(tweet)
-          }
-          if (tweet.id > maxId) {
-            maxId = tweet.id
-          }
+    response.statuses.forEach(tweet => {
+      if (tweet.in_reply_to_status_id === null && tweet.retweet_count === 0) {
+        if (_.get(tweet,'retweeted_status','') === '') {
+          this.$emit(tweet)
         }
-      })
+        if (tweet.id > maxId) {
+          maxId = tweet.id
+        }
+      }
+    })
 
-      this.db.set("since_id", maxId)
-    },
+    this.db.set("since_id", maxId)
   },
 }
