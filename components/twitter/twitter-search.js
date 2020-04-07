@@ -22,6 +22,8 @@ module.exports = {
 
     let maxId = since_id
 
+    console.log(response.statuses)
+
     response.statuses.forEach(tweet => {
       if (tweet.in_reply_to_status_id === null && tweet.retweet_count === 0) {
         if (_.get(tweet,'retweeted_status','') === '') {
