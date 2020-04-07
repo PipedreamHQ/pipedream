@@ -2,7 +2,7 @@ const Parser = require("rss-parser")
 const parser = new Parser()
 
 module.exports = {
-  name: "hacker-news-newstories",
+  name: "hacker-news-new-stories",
   version: "0.0.2",
   props: {
     // XXX have auto: true prop in case there is something to configure (unless pass --no-auto)
