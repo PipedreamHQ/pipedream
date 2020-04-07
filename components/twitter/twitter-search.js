@@ -18,7 +18,7 @@ module.exports = {
     const tweet_mode = 'extended'
     const count = '100'
 
-    const response = this.twitter.search(this.searchTerm, since_id, tweet_mode, count)
+    const response = await this.twitter.search(this.searchTerm, since_id, tweet_mode, count)
 
     let maxId = since_id
 
