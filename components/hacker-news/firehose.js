@@ -25,7 +25,7 @@ module.exports = {
       }, {})
       // All elements of an item are optional, however at least one of title or description must be present.
       // should be listed from most recent to least recent
-      const feed = await parser.parseURL(this.url)
+      const feed = await parser.parseURL(`https://hnrss.org/newest`)
       for (let idx = feed.items.length - 1; idx >= 0; idx--) {
         const item = feed.items[idx]
         const key = this.itemKey(item)
