@@ -1,4 +1,4 @@
-const twitter = require('https://github.com/PipedreamHQ/pipedream/blob/add-twitter/components/twitter/twitter.js')
+const twitter = require('https://github.com/PipedreamHQ/pipedream/blob/add-twitter/apps/twitter.app.js')
 const _ = require('lodash')
 
 module.exports = {
@@ -13,15 +13,13 @@ module.exports = {
     twitter,
     searchTerm: "string",
   },
-  methods: this.twitter.methods,
   events: {
     async default(event) {
       const since_id = this.db.get("since_id") || 0
-      //const oauthSignerUri = this.twitter.$auth.oauth_signer_uri
       const tweet_mode = 'extended'
       const count = '100'
 
-      const response = this.search(this.searchTerm, since_id, tweet_mode, count)
+      const response = this.twitter.search(this.searchTerm, since_id, tweet_mode, count)
 
       let maxId = since_id
 
