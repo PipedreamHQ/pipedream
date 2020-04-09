@@ -1,5 +1,8 @@
 const _ = require('lodash')
 const axios = require('axios')
+const pdsdk = require("@pipedreamhq/sdk")
+
+const snooze = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 module.exports = {
   name: "github-search",
@@ -8,7 +11,7 @@ module.exports = {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
-      intervalSeconds: 60,
+      intervalSeconds: 60 * 60 * 24 * 365,
     },
     github: {
       type: "app",
@@ -32,17 +35,13 @@ module.exports = {
     const response = await require("@pipedreamhq/platform").axios(this, config)
     console.log(response)
 
-    /*
-    response.statuses.forEach(tweet => {
-      if (tweet.in_reply_to_status_id === null && tweet.retweet_count === 0) {
-        if (_.get(tweet,'retweeted_status','') === '') {
-          this.$emit(tweet)
-        }
-        if (tweet.id > maxId) {
-          maxId = tweet.id
-        }
+    for(let i=0; i<response.items.length; i++) {
+      //this.$emit(response.items[i])
+      pdsdk.sendEvent("enysoeoj1prwkkd", response.items[i])
+      console.log(response.items[i])
+      if(i < response.items.length-1){
+        await snooze(1000)
       }
-    })
-    */
+    }
   },
 }
