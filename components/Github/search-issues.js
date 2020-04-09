@@ -1,9 +1,9 @@
-const _ = require('lodash')
-const axios = require('axios')
-const pdsdk = require("@pipedreamhq/sdk")
+const _ = require('./node_modules/lodash')
+const axios = require('./node_modules/axios')
+const pdsdk = require("./node_modules/@pipedreamhq/sdk")
 
 const snooze = ms => new Promise(resolve => setTimeout(resolve, ms))
-
+  
 module.exports = {
   name: "github-search",
   version: "0.0.1",
@@ -32,7 +32,7 @@ module.exports = {
         Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
       },
     }
-    const response = await require("@pipedreamhq/platform").axios(this, config)
+    const response = await require("./node_modules/@pipedreamhq/platform").axios(this, config)
     console.log(response)
 
     for(let i=0; i<response.items.length; i++) {
