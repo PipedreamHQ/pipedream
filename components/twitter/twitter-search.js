@@ -1,4 +1,4 @@
-const twitter = require('https://github.com/PipedreamHQ/pipedream/apps/twitter.app.js')
+const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twitter/twitter.app.js')
 const _ = require('lodash')
 
 module.exports = {
