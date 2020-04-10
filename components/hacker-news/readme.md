@@ -7,7 +7,11 @@
 
 ## "Google Alerts" for Hacker News
 
-[Google Alerts](https://www.google.com/alerts) let you "monitor the web for interesting new content" and many of our users like to do the same for [Hacker News](https://news.ycombinator.com/). **These event sources turn the Hacker News API into an event stream based on your given keyword(s).
+[Google Alerts](https://www.google.com/alerts) let you "monitor the web for interesting new content" and many of our users like to do the same for [Hacker News](https://news.ycombinator.com/). 
+
+The Hacker News components turn the Hacker News API into an event stream based on your given keyword(s).  
+
+[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow. Components that emit events are called **event sources**.
 
 ## Usage
 
@@ -30,8 +34,6 @@ pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/hacker
 ```
 
 Submit your keyword and deploy your component.  You have turned Hacker News into an event stream!
-
-[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow. Components that emit events are called **event sources**.
 
 ## Docs
 
