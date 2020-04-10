@@ -37,6 +37,8 @@ Submit your keyword and deploy your component.
 
 **You have turned the Hacker News API into a real time event stream!**
 
+<img src="https://i.ibb.co/cbTZ0T4/Screen-Shot-2020-04-10-at-1-11-31-PM.png">
+
 ## Docs
 
 - [Why use components?](#why-use-components)
