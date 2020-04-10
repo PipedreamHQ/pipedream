@@ -15,7 +15,7 @@ The Hacker News components turn the Hacker News API into an event stream based o
 
 ## Usage
 
-Install the Pipedream CLI:
+Install the Pipedream CLI [(or deploy via the UI)](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhacker-news%2Fnew-stories-by-keyword.js):
 
 ```bash
 curl https://cli.pipedream.com/install | sh
