@@ -11,7 +11,7 @@
 
 The Hacker News components turn the Hacker News API into an event stream based on your given keyword(s).  
 
-[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow. Components that emit events are called **event sources**.
+[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow.
 
 ## Usage
 
@@ -33,7 +33,9 @@ Or:
 pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/hacker-news/new-comments-by-keyword.js
 ```
 
-Submit your keyword and deploy your component.  You have turned Hacker News into an event stream!
+Submit your keyword and deploy your component.  
+
+**You have turned the Hacker News API into a real time event stream!**
 
 ## Docs
 
