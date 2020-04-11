@@ -41,7 +41,7 @@ module.exports = {
 
       let emitEvent = true
       if(this.includeRetweets === false) {
-        if (tweet.retweet_count !== 0 && _.get(tweet,'retweeted_status','') !== '') {
+        if (_.get(tweet,'retweeted_status','') !== '') {
           emitEvent = false
         }
       }
