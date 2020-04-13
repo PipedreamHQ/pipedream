@@ -11,7 +11,7 @@ module.exports = {
       intervalSeconds: 60,
     },
     twitter,
-    searchTerm: "string",
+    q: "string",
     result_type: {
       type: "string", 
       options: ['recent', 'popular', 'mixed'],
@@ -32,20 +32,25 @@ module.exports = {
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'
     const count = '100'
+    let query = this.q
 
-    const response = await this.twitter.search(this.searchTerm, since_id, tweet_mode, count)
+
+    if(this.includeReplies === 'false') {
+      query = `${query} -filter:replies`
+    }
+
+    const response = await this.twitter.search(query, since_id, tweet_mode, count)
 
     let maxId = since_id
 
     response.statuses.forEach(tweet => {
-
       let emitEvent = true
-      if(this.includeRetweets === false) {
-        if (_.get(tweet,'retweeted_status','') !== '') {
+      if(this.includeRetweets === 'false') {
+        if (_.get(tweet,'retweeted_status.id','') !== '') {
           emitEvent = false
         }
       }
-      if(this.includeReplies === false) {
+      if(this.includeReplies === 'false') {
         if (tweet.in_reply_to_status_id !== null) {
           emitEvent = false
         }
