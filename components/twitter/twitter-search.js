@@ -8,9 +8,7 @@ module.exports = {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
+      intervalSeconds: 60,
     },
     twitter,
     q: {
