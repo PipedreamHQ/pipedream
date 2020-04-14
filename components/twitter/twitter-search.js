@@ -8,7 +8,9 @@ module.exports = {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
-      intervalSeconds: 60,
+      default: {
+        intervalSeconds: 60,
+      },
     },
     twitter,
     q: {
@@ -19,26 +21,31 @@ module.exports = {
     result_type: {
       type: "string", 
       label: "Result Type",
-      description: `Specifies what type of search results you would prefer to receive. The current default is "mixed." Valid values include:
-
-      * mixed : Include both popular and real time results in the response.
-      
-      * recent : return only the most recent results in the response
-      
-      * popular : return only the most popular results in the response.`,
+      description: `Specifies what type of search results you would prefer to receive.`,
       optional: true,
       options: ['recent', 'popular', 'mixed'],
       default: 'recent',
     },
     includeRetweets: {
       type: "boolean", 
+      label: "Include Retweets",
+      description: "If true, retweets will be filtered out of the search results returned by Twitter",
       optional: true,
       default: false,
     },
     includeReplies: {
       type: "boolean", 
+      label: "Include Replies",
+      description: "If false, reeplies will be filtered out before search results are returned by Twitter."
       optional: true,
       default: true,
+    },
+    count: {
+      type: "string",
+      label: "Count",
+      description: "The maximum number of tweets to return (up to 100)",
+      optional: true,
+      default: "100",
     },
   },
   async run(event) {
