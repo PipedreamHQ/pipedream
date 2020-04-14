@@ -34,7 +34,7 @@ module.exports = {
     includeReplies: {
       type: "boolean", 
       label: "Include Replies",
-      description: "If false, reeplies will be filtered out before search results are returned by Twitter."
+      description: "If false, reeplies will be filtered out before search results are returned by Twitter.",
       optional: true,
       default: true,
     },
