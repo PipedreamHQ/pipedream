@@ -22,6 +22,7 @@ module.exports = {
       type: "string", 
       label: "Result Type",
       description: `Specifies what type of search results you would prefer to receive.`,
+      optional: true,
       options: ['recent', 'popular', 'mixed'],
       default: 'recent',
     },
