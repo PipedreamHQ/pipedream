@@ -13,6 +13,7 @@ module.exports = {
       },
     },
     twitter,
+    /*
     q: {
       type: "string",
       label: 'Search Term',
@@ -47,6 +48,7 @@ module.exports = {
       optional: true,
       default: "100",
     },
+    */
   },
   async run(event) {
     /*
