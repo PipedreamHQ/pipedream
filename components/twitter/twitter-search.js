@@ -13,7 +13,6 @@ module.exports = {
       },
     },
     twitter,
-    /*
     q: {
       type: "string",
       label: 'Search Term',
@@ -48,10 +47,8 @@ module.exports = {
       optional: true,
       default: "100",
     },
-    */
   },
   async run(event) {
-    /*
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'
     const count = '100'
@@ -87,7 +84,5 @@ module.exports = {
     })
 
     this.db.set("since_id", maxId)
-    */
-   console.log('hello')
   },
 }
