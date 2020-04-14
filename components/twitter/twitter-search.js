@@ -8,16 +8,47 @@ module.exports = {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
-      intervalSeconds: 60,
+      default: {
+        intervalSeconds: 60,
+      },
     },
     twitter,
     q: {
       type: "string",
       label: 'Search Term',
-      description: "A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity."
+      description: "A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity.",
+    },
+    result_type: {
+      type: "string", 
+      label: "Result Type",
+      description: `Specifies what type of search results you would prefer to receive.`,
+      options: ['recent', 'popular', 'mixed'],
+      default: 'recent',
+    },
+    includeRetweets: {
+      type: "boolean", 
+      label: "Include Retweets",
+      description: "If true, retweets will be filtered out of the search results returned by Twitter",
+      optional: true,
+      default: false,
+    },
+    includeReplies: {
+      type: "boolean", 
+      label: "Include Replies",
+      description: "If false, reeplies will be filtered out before search results are returned by Twitter.",
+      optional: true,
+      default: true,
+    },
+    count: {
+      type: "string",
+      label: "Count",
+      description: "The maximum number of tweets to return (up to 100)",
+      optional: true,
+      default: "100",
     },
   },
   async run(event) {
+    /*
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'
     const count = '100'
@@ -53,5 +84,7 @@ module.exports = {
     })
 
     this.db.set("since_id", maxId)
+    */
+   console.log('hello')
   },
 }
