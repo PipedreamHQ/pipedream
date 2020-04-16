@@ -13,7 +13,7 @@ module.exports = {
     db: "$.service.db",
     url:{
       type: "string",
-      label: 'RSS Feed (URL)',
+      label: 'Feed URL',
       description: "Enter the URL for any public RSS feed.",
     },
   },
