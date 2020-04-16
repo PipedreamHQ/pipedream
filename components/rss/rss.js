@@ -11,7 +11,11 @@ module.exports = {
       intervalSeconds: 60,
     },
     db: "$.service.db",
-    url:"string",
+    url:{
+      type: "string",
+      label: 'RSS Feed URL',
+      description: "Enter the URL for any public RSS feed.",
+    },
   },
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
