@@ -12,7 +12,7 @@ module.exports = {
     keyword: {
       type: "string", 
       label: "Keyword",
-      description: "Keyword to watch. Matches story titles. Leave blank to get all stories",
+      description: "Keyword to watch. Matches story titles. Leave blank to get all stories.",
       optional: true,
       default: '',
     },
