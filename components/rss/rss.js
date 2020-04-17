@@ -41,7 +41,7 @@ module.exports = {
       seenKeysMap[key] = true // just in case of dupes
       this.$emit(item, {
         summary: item.title, 
-        ts: (item.pubDate ? new Date(item.pubDate).getTime() : undefined), 
+        ts: item.pubDate ? +new Date(item.pubDate).getTime() : undefined, 
         id: key,
       })
     }
