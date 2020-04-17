@@ -15,19 +15,23 @@ The Hacker News components turn the Hacker News API into an event stream based o
 
 ## Usage
 
-Install the Pipedream CLI or <a href="https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhacker-news%2Fnew-stories-by-keyword.js"><img src="https://i.ibb.co/znzNqNL/deploy-small.png" height="30"></a>
+<a href="https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhacker-news%2Fnew-stories-by-keyword.js"><img src="https://i.ibb.co/znzNqNL/deploy-small.png" height="30"></a>
+
+Or:
+
+Install the Pipedream CLI:
 
 ```bash
 curl https://cli.pipedream.com/install | sh
 ```
 
-Then deploy the Hacker News "new stories by keyword" or "new comments by keyword" component from the registry:
+Then deploy the Hacker News "new stories by keyword" component from the registry:
 
 ```bash
 pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/hacker-news/new-stories-by-keyword.js
 ```
 
-Or:
+Or, deploy the "new comments by keyword" component from the registry:
 
 ```bash
 pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/hacker-news/new-comments-by-keyword.js
