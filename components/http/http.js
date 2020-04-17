@@ -4,24 +4,30 @@ module.exports = {
   version: "0.0.1",
   props: {
     http: "$.interface.http",
-    eventShape: {
-      type: "string", 
-      label: "Event Shape",
-      description: "Emit the full HTTP request (including header, body, and query) or just the HTTP body.",
+    bodyOnly: {
+      type: "boolean", 
+      label: "Body Only",
+      description: "This source emits an event representing the full HTTP request by default. Select TRUE to emit the body only.",
       optional: true,
-      options: ['Full HTTP Request', 'HTTP Body Only'],
-      default: 'Full HTTP Request',
+      default: false,
     },
-    httpStatusCode: {
+    resStatusCode: {
       type: "string", 
-      label: "HTTP Status Code",
+      label: "Response Status Code",
       description: "The status code to return in the HTTP response.",
       optional: true,
       default: '200',
     },
-    httpResponseBody: {
+    resContentType: {
       type: "string", 
-      label: "HTTP Response Body",
+      label: "Response Content-Type",
+      description: "The content-type of the body returned in the HTTP response.",
+      optional: true,
+      default: `text/plain`,
+    },
+    resBody: {
+      type: "string", 
+      label: "Response Body",
       description: "The body to return in the HTTP response.",
       optional: true,
       default: `{ success: true }`,
@@ -31,11 +37,14 @@ module.exports = {
     const summary = `${event.method} ${event.path}`
 
     this.http.respond({
-      status: this.httpStatusCode,
-      body: this.httpResponseBody,
+      status: this.resStatusCode,
+      body: this.resBody,
+      headers: {
+        "content-type": this.resContentType,
+      },
     });
 
-    if(this.eventShape === 'HTTP Body Only') {
+    if(this.bodyOnly === true) {
       this.$emit(event.body, { summary })
     } else {
       this.$emit(event, { summary })
