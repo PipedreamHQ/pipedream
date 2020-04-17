@@ -42,7 +42,7 @@ module.exports = {
       this.$emit(item, {
         summary: item.title, 
         ts: (item.pubDate ? new Date(item.pubDate).getTime() : undefined), 
-        id: item.id,
+        id: key,
       })
     }
     if (seenKeys.length) {
