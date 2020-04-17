@@ -4,7 +4,7 @@ module.exports = {
   version: "0.0.1",
   props: {
     http: "$.interface.http",
-    bodyOnly: {
+    emitBodyOnly: {
       type: "boolean", 
       label: "Body Only",
       description: "This source emits an event representing the full HTTP request by default. Select TRUE to emit the body only.",
@@ -44,7 +44,7 @@ module.exports = {
       },
     });
 
-    if(this.bodyOnly === true) {
+    if(this.emitBodyOnly) {
       this.$emit(event.body, { summary })
     } else {
       this.$emit(event, { summary })
