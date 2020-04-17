@@ -9,7 +9,13 @@ module.exports = {
     timer: "$.interface.timer",
     db: "$.service.db",
     // If you want a single search feed but multiple keywords, separate the keywords with " OR ":
-    keyword: "string",
+    keyword: {
+      type: "string", 
+      label: "Keyword",
+      description: "Keyword to watch. Matches comments. Leave blank to get all comments.",
+      optional: true,
+      default: '',
+    },
   },
     methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
