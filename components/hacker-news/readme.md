@@ -14,8 +14,8 @@ The Hacker News components turn the Hacker News API into an event stream based o
 [Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow.
 
 ## Usage
-
-<a href="https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhacker-news%2Fnew-stories-by-keyword.js"><img src="https://i.ibb.co/znzNqNL/deploy-small.png" height="35"></a>
+ 
+<a href="https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhacker-news%2Fnew-stories-by-keyword.js"><img src="https://i.ibb.co/CKdkx9q/deploy-new.png" height="35"></a>
 
 or:
 
