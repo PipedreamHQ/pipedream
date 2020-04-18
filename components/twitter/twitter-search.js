@@ -14,106 +14,40 @@ module.exports = {
         intervalSeconds: 60,
       },
     },
-    twitter: {
-      type: "app",
-      app: "twitter",
-      propDefinitions: {
-        q: {
-          type: "string",
-          label: 'Search Term',
-          description: "Search for keywords (star wars), screen names (@pipdream), or hashtags (#serverless). You can also use Twitter's standard search operators (https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators).",
-        },
-        result_type: {
-          type: "string", 
-          label: "Result Type",
-          description: `Specifies what type of search results you would prefer to receive.`,
-          optional: true,
-          options: ['recent', 'popular', 'mixed'],
-          default: 'recent',
-        },
-        includeRetweets: {
-          type: "boolean", 
-          label: "Include Retweets",
-          description: "If true, retweets will be filtered out of the search results returned by Twitter",
-          optional: true,
-          default: false,
-        },
-        includeReplies: {
-          type: "boolean", 
-          label: "Include Replies",
-          description: "If false, reeplies will be filtered out before search results are returned by Twitter.",
-          optional: true,
-          default: true,
-        },
-        count: {
-          type: "string",
-          label: "Count",
-          description: "The maximum number of tweets to return (up to 100)",
-          optional: true,
-          default: "100",
-        },
-        q: { propDefinition: [twitter, "q"] },
-      },
-      methods: {
-        async _getAuthorizationHeader({ data, method, url }) {
-          const requestData = {
-            data,
-            method,
-            url,
-          }
-          const token = {
-            key: this.$auth.oauth_access_token,
-            secret: this.$auth.oauth_refresh_token,
-          }
-          return (await axios({
-            method: 'POST',
-            url: this.$auth.oauth_signer_uri,
-            data: {
-              requestData,
-              token,
-            }
-          })).data
-        },
-        async _makeRequest(config) {
-          if (!config.headers) config.headers = {}
-          const authorization = await this._getAuthorizationHeader(config)
-          config.headers.authorization = authorization
-          try {
-            return await axios(config)
-          } catch (err) {
-            console.log(err) // TODO
-          }
-        },
-        async search(q, since_id, tweet_mode, count) {   
-          const query = querystring.stringify({
-            q,
-            since_id,
-            tweet_mode,
-            count,
-          })
-          console.log(query)
-          return (await this._makeRequest({
-            url: `https://api.twitter.com/1.1/search/tweets.json?${query}`,
-          })).data
-        },
-        webhooks: {
-          // TODO
-        },
-      },
+    twitter,
+    q: { propDefinition: [twitter, "q"] },
+    result_type: { propDefinition: [twitter, "result_type"] },
+    count: { propDefinition: [twitter, "count"] },
+    includeRetweets: {
+      type: "boolean", 
+      label: "Include Retweets",
+      description: "If true, retweets will be filtered out of the search results returned by Twitter",
+      optional: true,
+      default: false,
+    },
+    includeReplies: {
+      type: "boolean", 
+      label: "Include Replies",
+      description: "If false, reeplies will be filtered out before search results are returned by Twitter.",
+      optional: true,
+      default: true,
     },
   },
   async run(event) {
+    let query = this.q
+    
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'
+    const result_type = this.result_type
     const count = this.count
-    let query = this.q
-
 
     if(this.includeReplies === 'false') {
       query = `${query} -filter:replies`
     }
 
-    const response = await this.twitter.search(query, since_id, tweet_mode, count)
+    console.log("count: " + count)
+
+    const response = await this.twitter.search(query, since_id, tweet_mode, count, result_type)
 
     let maxId = since_id
 
