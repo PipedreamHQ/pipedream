@@ -8,7 +8,9 @@ module.exports = {
     // XXX have auto: true prop in case there is something to configure (unless pass --no-auto)
     timer: {
       type: "$.interface.timer",
-      intervalSeconds: 60 * 15,
+      default: {
+        intervalSeconds: 60 * 15,
+      },
     },
     db: "$.service.db",
     url:{
