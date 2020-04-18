@@ -5,28 +5,19 @@
   <a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F%3FbuttonType%3DFollowButton%26query%3Dhttps%253A%252F%252Ftwitter.com%252Fpipedream%26widget%3DButton&ref_src=twsrc%5Etfw&region=follow_link&screen_name=pipedream&tw_p=followbutton"><img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social"></a>
 </p>
 
-Pipedream is a platform for running hosted, backend components.
+## "Google Alerts" for Hacker News
 
-**Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests and timers. Components are [free to run](#pricing) and [simple to learn](COMPONENT-API.md). Here's a component that spins up a hosted HTTP server on deploy and logs inbound HTTP requests:
+[Google Alerts](https://www.google.com/alerts) let you "monitor the web for interesting new content" and many of our users like to do the same for [Hacker News](https://news.ycombinator.com/). 
 
-```javascript
-module.exports = {
-  name: "http",
-  version: "0.0.1",
-  props: {
-    http: "$.interface.http"
-  },
-  run(event) {
-    console.log(event); // event contains the method, payload, etc.
-  }
-};
-```
+The Hacker News components turn the Hacker News API into an event stream based on your given keyword(s).  
 
-Components come with a [built-in key-value store](COMPONENT-API.md#servicedb), an interface for passing input via [props](COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/), [CLI](https://docs.pipedream.com/cli/reference/), or [UI](https://pipedream.com/sources).
-
-[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow. Components that emit events are called **event sources**.
+[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow.
 
 ## Usage
+ 
+<a href="https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhacker-news%2Fnew-stories-by-keyword.js"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
+
+or:
 
 Install the Pipedream CLI:
 
@@ -34,13 +25,23 @@ Install the Pipedream CLI:
 curl https://cli.pipedream.com/install | sh
 ```
 
-Then deploy a component from the registry:
+Then deploy the Hacker News "new stories by keyword" component from the registry:
 
 ```bash
-pd deploy   # prompts you to select a component and pass required options
+pd deploy https://github.com/PipedreamHQ/pipedream/components/hacker-news/new-stories-by-keyword.js
 ```
 
-Get started by reviewing the quickstart on [HTTP Event Sources](components/http#quickstart), or review [the docs](#docs) to learn more.
+Or, deploy the "new comments by keyword" component from the registry:
+
+```bash
+pd deploy https://github.com/PipedreamHQ/pipedream/components/hacker-news/new-comments-by-keyword.js
+```
+
+Submit your keyword and deploy your component.  
+
+**You have turned the Hacker News API into a real time event stream!**
+
+<img src="https://i.ibb.co/cbTZ0T4/Screen-Shot-2020-04-10-at-1-11-31-PM.png">
 
 ## Docs
 
@@ -84,5 +85,5 @@ You can get help [on our public Slack](https://pipedream.com/community) or [reac
 Any bugs or feature requests for specific components can be raised in this repo as new Github issues or pull requests.
 
 Pipedream also operates [a roadmap](https://github.com/PipedreamHQ/roadmap) to solicit feature requests for the Pipedream platform at large (the [pipedream.com UI](https://pipedream.com), [workflows](https://docs.pipedream.com/workflows/), the CLI, etc).
-
+ 
 You can always [reach out to our team](https://docs.pipedream.com/support/) - we're happy to discuss feedback or help fix a bug.

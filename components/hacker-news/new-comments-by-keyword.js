@@ -2,21 +2,19 @@ const Parser = require("rss-parser")
 const parser = new Parser()
 
 module.exports = {
-  name: "rss",
-  version: "0.0.1",
+  name: "hacker-news-new-comments-by-keyword",
+  version: "0.0.2",
   props: {
     // XXX have auto: true prop in case there is something to configure (unless pass --no-auto)
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
+    timer: "$.interface.timer",
     db: "$.service.db",
-    url:{
-      type: "string",
-      label: 'Feed URL',
-      description: "Enter the URL for any public RSS feed.",
+    // If you want a single search feed but multiple keywords, separate the keywords with " OR ":
+    keyword: {
+      type: "string", 
+      label: "Keyword",
+      description: "Keyword to watch. Matches comments. Leave blank to get all comments.",
+      optional: true,
+      default: "",
     },
   },
   methods: {
@@ -33,7 +31,7 @@ module.exports = {
     }, {})
     // All elements of an item are optional, however at least one of title or description must be present.
     // should be listed from most recent to least recent
-    const feed = await parser.parseURL(this.url)
+    const feed = await parser.parseURL(`https://hnrss.org/newcomments?q=${encodeURIComponent(this.keyword)}`)
     for (let idx = feed.items.length - 1; idx >= 0; idx--) {
       const item = feed.items[idx]
       const key = this.itemKey(item)
@@ -41,11 +39,7 @@ module.exports = {
       if (seenKeysMap[key]) continue
       seenKeys.unshift(key)
       seenKeysMap[key] = true // just in case of dupes
-      this.$emit(item, {
-        summary: item.title, 
-        ts: item.pubDate && +new Date(item.pubDate), 
-        id: key,
-      })
+      this.$emit(item)
     }
     if (seenKeys.length) {
       // XXX restrict by byte size instead of el size
