@@ -23,14 +23,14 @@ module.exports = {
       label: "Response Content-Type",
       description: "The content-type of the body returned in the HTTP response.",
       optional: true,
-      default: `text/plain`,
+      default: `application/json`,
     },
     resBody: {
       type: "string", 
       label: "Response Body",
       description: "The body to return in the HTTP response.",
       optional: true,
-      default: `{ success: true }`,
+      default: `{ "success": true }`,
     },
   },
   async run(event) {
