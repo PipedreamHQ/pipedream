@@ -854,12 +854,53 @@ module.exports = {
       },
     },
     twitter,
-    q: { propDefinition: [twitter, "q"] },
-    onlyNew: {
-      type: "boolean",
-      label: "Only Emit New Tweets",
-      description: "This source only emits new tweets by default. Select false to emit all search result (note: duplicate tweets may be emitted).",
-      default: true,
+    all: { 
+      type: "string",
+      label: "All of these words",
+      description: "Example: `what's happening` - contains both `what's` and `happening`.",
+      optional: true, 
+    },
+    exact: { 
+      type: "string",
+      label: "This exact phrase",
+      description: "Example: `happy hour` - contains the exact phrase `happy hour`.",
+      optional: true, 
+    },
+    any: { 
+      type: "string",
+      label: "Any of these words",
+      description: "Example: `cats dogs` - contains either cats or dogs (or both).",
+      optional: true, 
+    },
+    none: { 
+      type: "string",
+      label: "None of these words",
+      description: "Example: `cats dogs` - does not contain cats and does not contain dogs.",
+      optional: true, 
+    },
+    hashtags: { 
+      type: "string",
+      label: "These hashtags",
+      description: "Example: `#ThrowbackThursday` - contains the hashtag #ThrowbackThursday.",
+      optional: true, 
+    },
+    from: { 
+      type: "string",
+      label: "From these accounts",
+      description: "Example: `@pipedream` - sent from `@pipedream`.",
+      optional: true, 
+    },
+    to: { 
+      type: "string",
+      label: "To these accounts",
+      description: "Example: `@pipedream` - sent in reply to @pipedream.",
+      optional: true, 
+    },
+    mentions: { 
+      type: "string",
+      label: "Mentioning these accounts",
+      description: "Example: `@SFBART @Caltrain` - mentions @SFBART or mentions @Caltrain.",
+      optional: true, 
     },
     result_type: { propDefinition: [twitter, "result_type"] },
     count: { propDefinition: [twitter, "count"] },
@@ -877,6 +918,57 @@ module.exports = {
       optional: true,
       default: true,
     },
+    includeOriginalTweets: {
+      type: "boolean", 
+      label: "Include Original Tweets",
+      description: "If false, original tweets will be excluded.",
+      optional: true,
+      default: true,
+    },
+    includeTweetsWithLinks: {
+      type: "boolean", 
+      label: "Include Tweets with Links",
+      description: "If false, tweets with links will be excluded.",
+      optional: true,
+      default: true,
+    },
+    includeTweetsWithoutLinks: {
+      type: "boolean", 
+      label: "Include Tweets without Links",
+      description: "If false, tweets without links will be excluded.",
+      optional: true,
+      default: true,
+    },
+    minimumReplies: {
+      type: "boolean", 
+      label: "Minimum Replies",
+      description: "Example: `280` - Tweets with at least 280 replies.",
+      optional: true,
+    },
+    minimumLikes: {
+      type: "boolean", 
+      label: "Minimum Likes",
+      description: "Example: `280` - Tweets with at least 280 Likes.",
+      optional: true,
+    },
+    minimumRetweets: {
+      type: "boolean", 
+      label: "Minimum Retweets",
+      description: "Example: `280` - Tweets with at least 280 Retweets.",
+      optional: true,
+    },
+    dateFrom: {
+      type: "boolean", 
+      label: "Date (From)",
+      description: "TBC.",
+      optional: true,
+    },
+    dateTo: {
+      type: "boolean", 
+      label: "Date (To)",
+      description: "TBC.",
+      optional: true,
+    },
     enrichTweets: {
       type: "boolean", 
       label: "Enrich Tweets",
@@ -888,9 +980,7 @@ module.exports = {
     locale: { propDefinition: [twitter, "locale"] },
     geocode: { propDefinition: [twitter, "geocode"] },
   },
-  async run(event) {
-    let q = this.q
-    
+  async run(event) {    
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'
     const result_type = this.result_type
@@ -898,15 +988,26 @@ module.exports = {
     const lang = this.lang
     const locale = this.locale
     const geocode = this.geocode
-    const onlyNew = this.onlyNew
+    const q = ''
+
+    // construct q
+    if (this.all) { q += `${this.all} ` }
+    if (this.exact) { q += `"${this.exact}" ` }
+    if (this.any) { q += `(${this.any}) ` } // TODO -- add OR between each word
+    if (this.none) { q += `-${this.none} ` }  // TODO -- add - before each word
+    if (this.hashtags) { q += `(${this.hashtags}) ` } // TODO -- add OR between each word
+    if (this.from) { q += `(${this.from}) ` } // TODO -- prefix each word with from: and add OR between each
+    if (this.to) { q += `(${this.to}) ` } // TODO -- prefix each word with to: and add OR between each
+    if (this.to) { q += `(${this.to}) ` } // TODO -- prefix each word with to: and add OR between each
+    
 
     if(this.includeReplies === 'false') {
-      q = `${q} -filter:replies`
+      query = `${query} -filter:replies`
     }
 
     console.log("count: " + count)
 
-    const response = await this.twitter.search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode)
+    const response = await this.twitter.search(query, since_id, tweet_mode, count, result_type, lang, locale, geocode)
 
     let maxId = since_id
 
@@ -939,14 +1040,8 @@ module.exports = {
           summary: tweet.full_text || tweet.text,
           id: tweet.created_at_timestamp,
         })
-        if (tweet.id > maxId && onlyNew) {
+        if (tweet.id > maxId) {
           maxId = tweet.id
-        }
-        
-        // set maxId to 0 if onlyNew is false to handle
-        // a change in the value of this prop from true
-        if(!onlyNew) {
-          maxId = 0
         }
       }
     })
