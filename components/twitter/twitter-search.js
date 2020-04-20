@@ -868,7 +868,7 @@ module.exports = {
       label: "Include Retweets",
       description: "If true, retweets will be filtered out of the search results returned by Twitter",
       optional: true,
-      default: false,
+      default: true,
     },
     includeReplies: {
       type: "boolean", 
