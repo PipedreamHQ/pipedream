@@ -60,7 +60,7 @@ const zoom = {
 // See https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingslist
 // for the full API docs on retrieving recordings for a given user account
 module.exports = {
-  name: "zoom-recordings",
+  name: "my-zoom-recordings",
   version: "0.0.1",
   dedupe: "unique", // This dedupes recordings based on the recording UUID Zoom returns
   props: {
@@ -68,7 +68,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        cron: "* * * * *",
       },
     },
     zoom,
