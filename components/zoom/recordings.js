@@ -1,5 +1,4 @@
 const axios = require("axios");
-const includes = require("lodash.includes");
 
 const BASE_URL = "https://api.zoom.us/v2";
 
@@ -15,6 +14,7 @@ const zoom = {
         return (await axios(config)).data;
       } catch (err) {
         console.log(`Error making request to the Zoom API: ${err}`);
+        throw err;
       }
     },
     // https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingslist
@@ -22,14 +22,20 @@ const zoom = {
       let next_page_token;
       const files = [];
       do {
-        const recordingData = await this._makeRequest("/users/me/recordings");
+        const recordingData = await this._makeRequest("/users/me/recordings", {
+          params: {
+            next_page_token,
+          },
+        });
         next_page_token = recordingData.next_page_token;
         const { meetings } = recordingData;
         if (!meetings || !meetings.length) {
           return [];
         }
         for (const meeting of meetings) {
-          if (meeting.recording_count === 0) continue;
+          if (meeting.recording_count === 0) {
+            continue;
+          }
           const { recording_files } = meeting;
           if (!recording_files) continue;
           for (const file of recording_files) {
@@ -56,6 +62,7 @@ const zoom = {
 module.exports = {
   name: "zoom-recordings",
   version: "0.0.1",
+  dedupe: "unique", // This dedupes recordings based on the recording UUID Zoom returns
   props: {
     db: "$.service.db",
     timer: {
@@ -65,17 +72,21 @@ module.exports = {
       },
     },
     zoom,
+    includeAudioRecordings: {
+      type: "boolean",
+      label: "Include Audio Recordings",
+      description:
+        "This source emits video (MP4) recordings only by default. Set this prop to true to include audio recordings",
+      optional: true,
+      default: false,
+    },
   },
-  async run(event) {
-    // Zoom attaches a UUID to every recording. We keep track of recordings that
-    // have finished processing so we don't emit duplicate recordings to listeners
-    const recordingIDs = this.db.get("recordingIDs") || [];
-    const recordings = await this.zoom.getMyRecordings();
+  async run() {
+    const recordings = await this.zoom.getMyRecordings(
+      this.includeAudioRecordings
+    );
     console.log(recordings);
     for (const recording of recordings) {
-      if (includes(recordingIDs, recording.id)) {
-        continue;
-      }
       const { id, meeting_topic, file_type, recording_end } = recording;
       this.$emit(recording, {
         summary: `${meeting_topic} — ${file_type}`,
@@ -83,6 +94,5 @@ module.exports = {
         ts: +new Date(recording_end),
       });
     }
-    this.db.set("recordingIDs", recordingIDs);
   },
 };
