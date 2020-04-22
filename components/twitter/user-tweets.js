@@ -4,7 +4,7 @@ const axios = require('axios')
 const moment = require('moment')
 
 module.exports = {
-  name: "twitter-search",
+  name: "user-tweets",
   version: "0.0.1",
   props: {
     db: "$.service.db",
@@ -15,6 +15,11 @@ module.exports = {
       },
     },
     twitter,
+    user: {
+      type: "string",
+      label: "Screen Name",
+      description: "Generate events when this user tweets (e.g., `HamillHimself`)",
+    },
     q: { propDefinition: [twitter, "q"] },
     result_type: { propDefinition: [twitter, "result_type"] },
     count: { propDefinition: [twitter, "count"] },
@@ -36,6 +41,7 @@ module.exports = {
     const locale = this.locale
     const geocode = this.geocode
 
+    q = `from:${this.user.replace('@','')} ${q}`
     if(this.includeReplies === 'false') {
       q = `${q} -filter:replies`
     }

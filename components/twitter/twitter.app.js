@@ -5,19 +5,6 @@ module.exports = {
   type: "app",
   app: "twitter",
   propDefinitions: {
-    q: {
-      type: "string",
-      label: 'Search Term',
-      description: "Search for keywords `star wars`, screen names `@hamillhimself`, or hashtags `#jedi`. You can also use Twitter's standard search operators (https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators).",
-    },
-    result_type: {
-      type: "string", 
-      label: "Result Type",
-      description: `Specifies the type of results you want to retrieve.`,
-      optional: true,
-      options: ['recent', 'popular', 'mixed'],
-      default: 'recent',
-    },
     count: {
       type: "string",
       label: "Count",
@@ -25,11 +12,32 @@ module.exports = {
       optional: true,
       default: "100",
     },
+    enrichTweets: {
+      type: "boolean", 
+      label: "Enrich Tweets",
+      description: "Enrich each tweet with epoch (milliseconds) and ISO8601 conversions of Twitter's `created_at` timestamp.",
+      optional: true,
+      default: true,
+    },
     geocode: {
       type: "string",
       label: "Geocode",
-      description: `Returns tweets by users located within a given radius of the given latitude/longitude. The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile. The parameter value is specified by " latitude,longitude,radius ", where radius units must be specified as either " mi " (miles) or " km " (kilometers). Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.`,
+      description: `Returns tweets by users located within a given radius of the given latitude/longitude. The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile. The parameter value is specified by "latitude,longitude,radius", where radius units must be specified as either "mi" (miles) or "km" (kilometers). Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.`,
       optional: true,
+    },
+    includeRetweets: {
+      type: "boolean", 
+      label: "Include Retweets",
+      description: "If true, retweets will be filtered out of the search results returned by Twitter",
+      optional: true,
+      default: true,
+    },
+    includeReplies: {
+      type: "boolean", 
+      label: "Include Replies",
+      description: "If false, reeplies will be filtered out before search results are returned by Twitter.",
+      optional: true,
+      default: true,
     },
     locale: {
       type: "string",
@@ -785,6 +793,19 @@ module.exports = {
         return isoLanguages.map(isoLanguage => {
           return { label: `${isoLanguage.English} (${isoLanguage.alpha2})`, value: isoLanguage.alpha2 }
         })     
+      },
+      q: {
+        type: "string",
+        label: 'Search Term',
+        description: "Search for keywords `star wars`, screen names `@hamillhimself`, or hashtags `#jedi`. You can also use Twitter's standard search operators (https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators).",
+      },
+      result_type: {
+        type: "string", 
+        label: "Result Type",
+        description: `Specifies the type of results you want to retrieve.`,
+        optional: true,
+        options: ['recent', 'popular', 'mixed'],
+        default: 'recent',
       }
     }
   },
