@@ -14,6 +14,9 @@ module.exports = {
   },
   methods: {
     async ls(path) {
+      if ("/" == path) {
+        path = ""
+      }
       console.log("ls", path)
       let dbx = new Dropbox({ accessToken: this.$auth.oauth_access_token })
       try {
