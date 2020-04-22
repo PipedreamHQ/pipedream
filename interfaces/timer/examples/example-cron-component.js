@@ -6,7 +6,7 @@ module.exports = {
   props: {
     timer: {
       type: "$.interface.timer",
-      cron: "* * * * * "
+      default: {intervalSeconds: 60}
     }
   },
   async run() {
