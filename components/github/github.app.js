@@ -31,7 +31,7 @@ module.exports = {
     async getRepos({ page }) {
       return (await this._makeRequest({
         path: "/user/repos",
-        query: {
+        params: {
           per_page: 100,
           page,
         },
