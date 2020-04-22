@@ -12,6 +12,11 @@ const aws = {
       const AWS = require("aws-sdk")
       AWS.config.update({ region })
       return AWS
+    },
+    async sesIdentities(region) {
+      const AWS = this.sdk(region)
+      const ses = new AWS.SES()
+      return (await ses.listIdentities().promise()).Identities
     }
   }
 }
@@ -28,7 +33,12 @@ module.exports = {
     aws,
     http: "$.interface.http",
     db: "$.service.db",
-    domain: "string",
+    domain: {
+      type: "string",
+      async options() {
+        return this.aws.sesIdentities(this.region)
+      }
+    }
   },
   hooks: {
     async activate() {
