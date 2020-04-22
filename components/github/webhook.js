@@ -1,4 +1,4 @@
-const github = require("https://github.com/PipedreamHQ/pipedream/components/github.js")
+const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js")
 
 module.exports = {
   name: "github-webhook",
