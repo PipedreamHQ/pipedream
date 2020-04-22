@@ -16,13 +16,12 @@ module.exports = {
     async ls(path) {
       console.log("ls", path)
       let dbx = new Dropbox({ accessToken: this.$auth.oauth_access_token })
-      dbx.filesListFolder({ path })
-        .then(function(response) {
-          console.log("SUCCESS", response)
-        })
-        .catch(function(error) {
-          console.log("ERROR", error)
-        });
+      try {
+        let files = await dbx.filesListFolder({ path })
+        console.log("SUCCESS", files)
+      } catch (err) {
+      console.log("ERROR", err)
+      }
     }
   },
 }
