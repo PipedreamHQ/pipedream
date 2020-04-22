@@ -9,7 +9,9 @@ module.exports = {
     repoFullName: {
       type: "string",
       async options({ page }) {
-        const repos = await this.getRepos({ page: page + 1 })
+        const repos = await this.getRepos({
+          page: page + 1, // pipedream page 0-indexed, github is 1
+        })
         return repos.map(repo => repo.full_name)
       },
     },
