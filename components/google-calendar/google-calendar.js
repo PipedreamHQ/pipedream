@@ -1,3 +1,5 @@
+const { google } = require("googleapis")
+const _ = require("lodash")
 const googleCalendar = {
   type: "app",
   app: "google_calendar",
@@ -94,15 +96,11 @@ const googleCalendar = {
         "refresh_token": this.$auth.oauth_refresh_token,
       }
     },
-    sdk() {
-      const { google } = require("googleapis")
-      return google
-    },
     // returns a calendar object you can do whatever you want with
     calendar() {
-      const auth = new this.sdk().auth.OAuth2()
+      const auth = new google.auth.OAuth2()
       auth.setCredentials(this._tokens())
-      const calendar = this.sdk().calendar({version: "v3", auth})
+      const calendar = google.calendar({version: "v3", auth})
       return calendar
     },
     async calendarList() {
@@ -131,7 +129,10 @@ let component = {
     calendarId2: {
       type: "string",
       async options() {
-        return await this.googleCalendar.calendarList()
+    const calListResp = await this.googleCalendar.calendarList()
+    const calendars = _.get(calListResp, "data.items")
+    const calendarIds = calendars.map(item => item.id)
+        return calendarIds
       }
     },
     timer: {
@@ -154,6 +155,11 @@ let component = {
       singleEvents: true,
       orderBy: 'startTime',
     }
+    const calListResp = await this.googleCalendar.calendarList()
+    const calendars = _.get(calListResp, "data.items")
+    const calendarIds = calendars.map(item => item.id)
+    console.log(calendarIds)
+      
     const resp = await this.googleCalendar.getEvents(config)
 
     const events = _.get(resp.data, "items")
