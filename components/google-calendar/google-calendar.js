@@ -125,7 +125,7 @@ let component = {
   props: {
     googleCalendar,
     orderBy: {
-      propDefinition: [googleCalendar, "ordereBy"]
+      propDefinition: [googleCalendar, "orderBy"]
     },
     calendarId: {
       type: "string",
