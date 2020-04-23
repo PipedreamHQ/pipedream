@@ -134,7 +134,7 @@ let component = {
         const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
         return calendarIds
       }
-    }
+    },
     orderBy: {
       type: "string",
       options: ["startTime", "updated"]
