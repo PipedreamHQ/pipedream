@@ -1,5 +1,6 @@
 const { google } = require("googleapis")
 const _ = require("lodash")
+
 const googleCalendar = {
   type: "app",
   app: "google_calendar",
@@ -27,7 +28,11 @@ const googleCalendar = {
       description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order.",
       optional: true,
       type: "string",
-      options: ["startTime", "updated"]
+      options() {
+        return [{label: "startTime", value: "startTime"}, {label: "updated", value: "updated"}]
+      },
+//      async options: ["startTime", "updated"],
+      default: "startTime"
     },
     pageToken: {
       description: "Token specifying which result page to return. Optional.",
@@ -119,8 +124,8 @@ const googleCalendar = {
   }
 }
 
-let component = {
-  name: 'calendar2',
+module.exports = {
+  name: 'calendar',
   version: '0.0.1',
   props: {
     googleCalendar,
@@ -132,8 +137,11 @@ let component = {
       async options() {
         const calListResp = await this.googleCalendar.calendarList()
         const calendars = _.get(calListResp, "data.items")
-        const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
-        return calendarIds
+        if (calendars) {
+          const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
+          return calendarIds
+        }
+        return []
       }
     },
     timer: {
@@ -147,36 +155,24 @@ let component = {
     const now = new Date()
 
     const timeMin = new Date(now.getTime()).toISOString()
-    const timeMax = new Date(now.getTime()+  (1000 * 1)).toISOString()
+    const timeMax = new Date(now.getTime()+  (1000 * 60 * 5)).toISOString()
 
     const config = {
       calendarId: this.calendarId,
+      timeMax,
       timeMin,
-      maxResults: 1,
       singleEvents: true,
-      orderBy: 'startTime',
+      orderBy: this.orderBy,
     }
-    const calListResp = await this.googleCalendar.calendarList()
-    const calendars = _.get(calListResp, "data.items")
-    const calendarIds = calendars.map(item => item.id)
-    console.log(calendarIds)
-      
     const resp = await this.googleCalendar.getEvents(config)
 
     const events = _.get(resp.data, "items")
-    if (Array.isArray(events) && events.length) {
-      const event = events[0]
-      const eventStart = new Date(event.start.dateTime)
-      if (eventStart.getTime() - now.getTime() < (1000 * 60 * 10)) {
-        console.log("emitting data")
+    if (Array.isArray(events)) {
+      for (const event of events) {
         this.$emit(event)
-      } else {
-        console.log("not emitting since event start time is > than 10 mins from now")
       }
     } else {
-//      console.log(resp)
       console.log("nothing to emit")
     }
   },
-};
-module.exports = component
+}
