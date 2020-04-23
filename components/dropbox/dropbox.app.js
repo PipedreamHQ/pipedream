@@ -13,14 +13,14 @@ module.exports = {
     },
   },
   methods: {
-    async ls(path) {
+    async ls(path = "", recursive = false) {
       if ("/" == path) {
         path = ""
       }
       console.log("ls", path)
       let dbx = new Dropbox({ accessToken: this.$auth.oauth_access_token })
       try {
-        let files = await dbx.filesListFolder({ path, recursive: true })
+        let files = await dbx.filesListFolder({ path, recursive })
         console.log("SUCCESS", files)
         return files
       } catch (err) {
