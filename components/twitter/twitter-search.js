@@ -4,7 +4,7 @@ const axios = require('axios')
 const moment = require('moment')
 
 module.exports = {
-  name: "twitter-search",
+  name: "search-tweets",
   version: "0.0.1",
   props: {
     db: "$.service.db",
@@ -18,9 +18,27 @@ module.exports = {
     q: { propDefinition: [twitter, "q"] },
     result_type: { propDefinition: [twitter, "result_type"] },
     count: { propDefinition: [twitter, "count"] },
-    includeRetweets: { propDefinition: [twitter, "includeRetweets"] },
-    includeReplies: { propDefinition: [twitter, "includeReplies"] },
-    enrichTweets: { propDefinition: [twitter, "enrichTweets"] },
+    includeRetweets: {
+      type: "boolean", 
+      label: "Include Retweets",
+      description: "If true, retweets will be filtered out of the search results returned by Twitter",
+      optional: true,
+      default: true,
+    },
+    includeReplies: {
+      type: "boolean", 
+      label: "Include Replies",
+      description: "If false, reeplies will be filtered out before search results are returned by Twitter.",
+      optional: true,
+      default: true,
+    },
+    enrichTweets: {
+      type: "boolean", 
+      label: "Enrich Tweets",
+      description: "Enrich each tweet with epoch (milliseconds) and ISO8601 conversions of Twitter's `created_at` timestamp.",
+      optional: true,
+      default: true,
+    },
     lang: { propDefinition: [twitter, "lang"] },
     locale: { propDefinition: [twitter, "locale"] },
     geocode: { propDefinition: [twitter, "geocode"] },
@@ -64,7 +82,7 @@ module.exports = {
         }
       }
 
-      if (emitEvent === true) {
+      if (emitEvent === true && tweet.id !== since_id) {
         if (this.enrichTweets) {
           tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
           tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
