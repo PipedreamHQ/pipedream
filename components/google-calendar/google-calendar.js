@@ -26,7 +26,8 @@ const googleCalendar = {
     orderBy: {
       description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order.",
       optional: true,
-      type: "string"
+      type: "string",
+      options: ["startTime", "updated"]
     },
     pageToken: {
       description: "Token specifying which result page to return. Optional.",
@@ -123,10 +124,10 @@ let component = {
   version: '0.0.1',
   props: {
     googleCalendar,
-    calendarId: {
-      propDefinition: [googleCalendar, "calendarId"]
+    orderBy: {
+      propDefinition: [googleCalendar, "ordereBy"]
     },
-    calendarId2: {
+    calendarId: {
       type: "string",
       async options() {
         const calListResp = await this.googleCalendar.calendarList()
