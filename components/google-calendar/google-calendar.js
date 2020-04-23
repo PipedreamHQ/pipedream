@@ -125,15 +125,18 @@ let component = {
     googleCalendar,
     calendarId: {
       propDefinition: [googleCalendar, "calendarId"],
+    },
+    calendarId2: {
+      type: "string",
       async options() {
         const calListResp = await this.googleCalendar.calendarList()
         const calendars = _.get(calListResp, "data.items")
         const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
         return calendarIds
       }
-    },
+    }
     orderBy: {
-      propDefinition: [googleCalendar, "orderBy"],
+      type: "string",
       options: ["startTime", "updated"]
     },
     timer: {
