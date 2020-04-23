@@ -131,7 +131,7 @@ let component = {
       async options() {
     const calListResp = await this.googleCalendar.calendarList()
     const calendars = _.get(calListResp, "data.items")
-    const calendarIds = calendars.map(item => item.id)
+        const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
         return calendarIds
       }
     },
