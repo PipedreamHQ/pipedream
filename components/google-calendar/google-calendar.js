@@ -7,12 +7,6 @@ const googleCalendar = {
     calendarId: {
       description: "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the \"primary\" keyword.",
       type: "string",
-      async options() {
-        const calListResp = await this.googleCalendar.calendarList()
-        const calendars = _.get(calListResp, "data.items")
-        const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
-        return calendarIds
-      }
     },
     iCalUID : {
       description: "Specifies event ID in the iCalendar format to be included in the response. Optional.",
@@ -33,7 +27,6 @@ const googleCalendar = {
       description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order.",
       optional: true,
       type: "string",
-      options: ["startTime", "updated"]
     },
     pageToken: {
       description: "Token specifying which result page to return. Optional.",
@@ -131,10 +124,17 @@ let component = {
   props: {
     googleCalendar,
     calendarId: {
-      propDefinition: [googleCalendar, "calendarId"]
+      propDefinition: [googleCalendar, "calendarId"],
+      async options() {
+        const calListResp = await this.googleCalendar.calendarList()
+        const calendars = _.get(calListResp, "data.items")
+        const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
+        return calendarIds
+      }
     },
     orderBy: {
-      propDefinition: [googleCalendar, "orderBy"]
+      propDefinition: [googleCalendar, "orderBy"],
+      options: ["startTime", "updated"]
     },
     timer: {
       type: "$.interface.timer",
