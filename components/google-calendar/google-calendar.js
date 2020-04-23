@@ -6,7 +6,13 @@ const googleCalendar = {
   propDefinitions: {
     calendarId: {
       description: "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the \"primary\" keyword.",
-      type: "string"
+      type: "string",
+      async options() {
+        const calListResp = await this.googleCalendar.calendarList()
+        const calendars = _.get(calListResp, "data.items")
+        const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
+        return calendarIds
+      }
     },
     iCalUID : {
       description: "Specifies event ID in the iCalendar format to be included in the response. Optional.",
@@ -26,7 +32,8 @@ const googleCalendar = {
     orderBy: {
       description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order.",
       optional: true,
-      type: "string"
+      type: "string",
+      options: ["startTime", "updated"]
     },
     pageToken: {
       description: "Token specifying which result page to return. Optional.",
@@ -126,14 +133,8 @@ let component = {
     calendarId: {
       propDefinition: [googleCalendar, "calendarId"]
     },
-    calendarId2: {
-      type: "string",
-      async options() {
-    const calListResp = await this.googleCalendar.calendarList()
-    const calendars = _.get(calListResp, "data.items")
-        const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
-        return calendarIds
-      }
+    orderBy: {
+      propDefinition: [googleCalendar, "orderBy"]
     },
     timer: {
       type: "$.interface.timer",
@@ -153,7 +154,7 @@ let component = {
       timeMin,
       maxResults: 1,
       singleEvents: true,
-      orderBy: 'startTime',
+      orderBy: this.orderBy,
     }
     const calListResp = await this.googleCalendar.calendarList()
     const calendars = _.get(calListResp, "data.items")
@@ -178,28 +179,4 @@ let component = {
     }
   },
 };
-
-if (process.env.RUNTIME === "local") {
-  const fs = require('fs')
-  const raw = fs.readFileSync("tokens.json")
-
-  // $ stuff
-  component.$emit = (ev) => {
-    console.log("$EMIT START")
-    console.log(ev)
-    console.log("$EMIT END")
-  }
-
-  // app methods
-  googleCalendar = { ...googleCalendar, ...googleCalendar.methods }
-
-
-  // component props TODO expand props
-  component.googleCalendar = component.props.googleCalendar
-  tokens = JSON.parse(raw)
-  console.log("before run")
-  component.run(null).then( a => console.log(a))
-  console.log("after run")
-}
-
 module.exports = component
