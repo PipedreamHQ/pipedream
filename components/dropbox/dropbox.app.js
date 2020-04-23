@@ -20,10 +20,21 @@ module.exports = {
       console.log("ls", path)
       let dbx = new Dropbox({ accessToken: this.$auth.oauth_access_token })
       try {
-        let files = await dbx.filesListFolder({ path })
+        let files = await dbx.filesListFolder({ path, rescursive: true })
         console.log("SUCCESS", files)
+        return files
       } catch (err) {
-      console.log("ERROR", err)
+        console.log("ERROR", err)
+      }
+    },
+    async ls_continue(cursor) {
+      let dbx = new Dropbox({ accessToken: this.$auth.oauth_access_token })
+      try {
+        let files = await dbx.filesListFolderContinue({ cursor })
+        console.log("SUCCESS", files)
+        return files
+      } catch (err) {
+        console.log("ERROR", err)
       }
     }
   },
