@@ -131,7 +131,7 @@ let component = {
     calendarId2: {
       type: "string",
       async options() {
-        return this.googleCalendar.calendarList()
+        return await this.googleCalendar.calendarList()
       }
     },
     timer: {
