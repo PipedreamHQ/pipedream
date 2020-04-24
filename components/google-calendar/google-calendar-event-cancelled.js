@@ -125,7 +125,7 @@ const googleCalendar = {
 }
 
 module.exports = {
-  name: 'google-calendar-event-canclled',
+  name: 'google-calendar-event-cancelled',
   version: '0.0.1',
   props: {
     googleCalendar,
