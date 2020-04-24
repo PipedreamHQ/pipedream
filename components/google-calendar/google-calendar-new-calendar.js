@@ -138,15 +138,18 @@ module.exports = {
     },
   },
   // TODO FIX THIS
-/*  hooks: {
-    activate() {
+  hooks: {
+    async activate() {
       // TODO get current calendars so we don't emit everything?
       const calListResp = await this.googleCalendar.calendarList()
       const calendars = _.get(calListResp, "data.items")
       const calendarIds = calendars.map( item => item.id )
       this.db.set("calendarIds", calendarIds)
+    },
+    deactivate() {
+      this.db.set("calendarIds", [])
     }
-  },*/
+  },
   async run(event) {
     const previousCalendarIds = this.db.get('calendarIds') || []
 
