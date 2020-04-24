@@ -8,7 +8,7 @@ module.exports = {
     q: {
       type: "string",
       label: 'Search Term',
-      description: "Search for keywords `star wars`, screen names `@hamillhimself`, or hashtags `#jedi`. You can also use Twitter's standard search operators (https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators).",
+      description: "Search for keywords `star wars`, screen names `@starwars`, or hashtags `#starwars`. You can also use Twitter's standard search operators (https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators).",
     },
     result_type: {
       type: "string", 
