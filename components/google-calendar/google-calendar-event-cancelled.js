@@ -165,8 +165,10 @@ module.exports = {
     const events = _.get(resp.data, "items")
     if (Array.isArray(events)) {
       for (const event of events) {
-        // TODO only emit if status is cancelled
-        this.$emit(event)
+        // only emit if status is cancelled
+        if (event.status === "cancelled") {
+          this.$emit(event)
+        }
       }
     } else {
       console.log("nothing to emit")

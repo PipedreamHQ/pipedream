@@ -153,8 +153,9 @@ module.exports = {
   },
   async run(event) {
     const now = new Date()
+    const past = new Date(now.getTime() - (1000 * 60 * 5))
 
-    const updatedMin = new Date(now.getTime() - (1000 * 60 * 5)).toISOString()
+    const updatedMin = past.toISOString()
 
     const config = {
       calendarId: this.calendarId,
@@ -168,7 +169,11 @@ module.exports = {
     const events = _.get(resp.data, "items")
     if (Array.isArray(events)) {
       for (const event of events) {
-        this.$emit(event)
+        const created = new Date(event.created)
+        // created in last 5 mins and not cancelled
+        if (created > past && event.status !== "cancelled") {
+          this.$emit(event)
+        }
       }
     } else {
       console.log("nothing to emit")
