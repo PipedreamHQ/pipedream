@@ -124,8 +124,8 @@ const googleCalendar = {
   }
 }
 
-module.exports = {
-  name: 'calendar',
+const eventStart = {
+  name: 'google-calendar-event-start',
   version: '0.0.1',
   props: {
     googleCalendar,
@@ -176,3 +176,198 @@ module.exports = {
     }
   },
 }
+
+const eventEnd = {
+  name: 'google-calendar-event-end',
+  version: '0.0.1',
+  props: {
+    googleCalendar,
+    orderBy: {
+      propDefinition: [googleCalendar, "orderBy"]
+    },
+    calendarId: {
+      type: "string",
+      async options() {
+        const calListResp = await this.googleCalendar.calendarList()
+        const calendars = _.get(calListResp, "data.items")
+        if (calendars) {
+          const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
+          return calendarIds
+        }
+        return []
+      }
+    },
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        cron: "0/5 * * * *",
+      },
+    },
+  },
+  async run(event) {
+    const now = new Date()
+
+    const timeMin = new Date(now.getTime() - (1000 * 60 * 5)).toISOString()
+    const timeMax = new Date(now.getTime()).toISOString()
+
+    const config = {
+      calendarId: this.calendarId,
+      timeMax,
+      timeMin,
+      singleEvents: true,
+      orderBy: this.orderBy,
+    }
+    const resp = await this.googleCalendar.getEvents(config)
+
+    const events = _.get(resp.data, "items")
+    if (Array.isArray(events)) {
+      for (const event of events) {
+        this.$emit(event)
+      }
+    } else {
+      console.log("nothing to emit")
+    }
+  },
+}
+
+const newEventSearch = {
+  name: 'google-calendar-new-event-search',
+  version: '0.0.1',
+  props: {
+    googleCalendar,
+    q: {
+      propDefinition: [googleCalendar, "q"]
+    },
+    calendarId: {
+      type: "string",
+      async options() {
+        const calListResp = await this.googleCalendar.calendarList()
+        const calendars = _.get(calListResp, "data.items")
+        if (calendars) {
+          const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
+          return calendarIds
+        }
+        return []
+      }
+    },
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        cron: "0/5 * * * *",
+      },
+    },
+  },
+  async run(event) {
+    const now = new Date()
+
+    const updatedMin = new Date(now.getTime() - (1000 * 60 * 5)).toISOString()
+
+    const config = {
+      calendarId: this.calendarId,
+      updatedMin,
+      q: this.q,
+      singleEvents: true,
+      orderBy: "startTime",
+    }
+    const resp = await this.googleCalendar.getEvents(config)
+
+    const events = _.get(resp.data, "items")
+    if (Array.isArray(events)) {
+      for (const event of events) {
+        this.$emit(event)
+      }
+    } else {
+      console.log("nothing to emit")
+    }
+  },
+}
+const eventCancelled = {
+  name: 'google-calendar-event-canclled',
+  version: '0.0.1',
+  props: {
+    googleCalendar,
+    calendarId: {
+      type: "string",
+      async options() {
+        const calListResp = await this.googleCalendar.calendarList()
+        const calendars = _.get(calListResp, "data.items")
+        if (calendars) {
+          const calendarIds = calendars.map(item => { return {value: item.id, label: item.summary} })
+          return calendarIds
+        }
+        return []
+      }
+    },
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        cron: "0/5 * * * *",
+      },
+    },
+  },
+  async run(event) {
+    const now = new Date()
+
+    const updatedMin = new Date(now.getTime() - (1000 * 60 * 5)).toISOString()
+
+    const config = {
+      calendarId: this.calendarId,
+      updatedMin,
+      showDeleted: true,
+      singleEvents: true,
+      orderBy: "startTime",
+    }
+    const resp = await this.googleCalendar.getEvents(config)
+
+    const events = _.get(resp.data, "items")
+    if (Array.isArray(events)) {
+      for (const event of events) {
+        // TODO only emit if status is cancelled
+        this.$emit(event)
+      }
+    } else {
+      console.log("nothing to emit")
+    }
+  },
+}
+const newCalendar = {
+  name: 'google-calendar-event-canclled',
+  version: '0.0.1',
+  props: {
+    db: '$.service.db',
+    googleCalendar,
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        cron: "0/5 * * * *",
+      },
+    },
+  },
+  hooks: {
+    activate() {
+      // TODO get current calendars so we don't emit everything?
+      const calListResp = await this.googleCalendar.calendarList()
+      const calendars = _.get(calListResp, "data.items")
+      const calendarIds = calendars.map( item => item.id )
+      this.db.set("calendarIds", calendarIds)
+    }
+  },
+  async run(event) {
+    const previousCalendarIds = this.db.get('calendarIds') || []
+
+    const calListResp = await this.googleCalendar.calendarList()
+    const calendars = _.get(calListResp, "data.items")
+    let currentCalendarIds = []
+
+    for (const calendar of calendars) {
+      currentCalendarIds.push(calendar.id)
+      if (!previousCalendarIds.includes(calendar.id)) {
+        this.$emit(calendar)
+      }
+    }
+    this.db.set('calendarIds', currentCalendarIds)
+
+  },
+}
+
+module.exports = eventStart
