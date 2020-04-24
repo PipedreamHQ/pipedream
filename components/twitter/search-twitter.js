@@ -28,7 +28,7 @@ module.exports = {
     includeReplies: {
       type: "boolean", 
       label: "Include Replies",
-      description: "If false, reeplies will be filtered out before search results are returned by Twitter.",
+      description: "If false, replies will be filtered out before search results are returned by Twitter.",
       optional: true,
       default: true,
     },
@@ -49,16 +49,11 @@ module.exports = {
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'
     const result_type = this.result_type
-    const count = this.count
-    const lang = this.lang
-    const locale = this.locale
-    const geocode = this.geocode
+    const { count, lang, locale, geocode } = this
 
-    if(this.includeReplies === 'false') {
+    if(this.includeReplies === false) {
       q = `${q} -filter:replies`
     }
-
-    console.log("count: " + count)
 
     const response = await this.twitter.search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode)
 
@@ -66,23 +61,26 @@ module.exports = {
 
     response.statuses.sort(function(a, b){return moment(a.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()-moment(b.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()});
 
-    response.statuses.forEach(tweet => {
+    let filteredRetweets = 0
+    let filteredReplies = 0
 
-      let emitEvent = true
+    for (let tweet of response.statuses) {
       
       if(this.includeRetweets === false) {
         if (_.get(tweet,'retweeted_status.id','') !== '') {
-          emitEvent = false
+          filteredRetweets++
+          continue
         }
       }
 
       if(this.includeReplies === false) {
         if (tweet.in_reply_to_status_id !== null) {
-          emitEvent = false
+          filteredReplies++
+          continue
         }
       }
 
-      if (emitEvent === true && tweet.id !== since_id) {
+      if (tweet.id !== since_id) {
         if (this.enrichTweets) {
           tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
           tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
@@ -97,8 +95,10 @@ module.exports = {
           maxId = tweet.id
         }
       }
-    })
+    }
 
+    if (filteredRetweets > 0) { console.log(`Filtered out ${filteredRetweets} retweets from search results.`) }
+    if (filteredReplies > 0) { console.log(`Filtered out ${filteredReplies} replies from search results.`) }
     this.db.set("since_id", maxId)
   },
 }

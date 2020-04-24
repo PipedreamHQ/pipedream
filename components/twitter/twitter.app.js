@@ -829,7 +829,6 @@ module.exports = {
         locale,
         geocode,
       })
-      console.log(query)
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/search/tweets.json?${query}`,
       })).data
