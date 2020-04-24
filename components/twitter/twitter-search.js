@@ -1,4 +1,4 @@
-const twitter = require('https://github.com/PipedreamHQ/pipedream/blob/add-twitter/components/twitter/twitter.app.js')
+const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twitter/twitter.app.js')
 const _ = require('lodash')
 const axios = require('axios')
 const moment = require('moment')
