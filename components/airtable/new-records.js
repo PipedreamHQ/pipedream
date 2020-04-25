@@ -1,4 +1,4 @@
-//const airtable = 
+const airtable = require('https://github.com/PipedreamHQ/pipedream/components/airtable/airtable.app.js')
 const moment = require('moment')
 const axios = require('axios')
 const _ = require('lodash')
