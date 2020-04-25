@@ -4,7 +4,7 @@ const axios = require('axios')
 const _ = require('lodash')
 
 module.exports = {
-  name: "new-records",
+  name: "new-records-in-view",
   version: "0.0.1",
   props: {
     db: "$.service.db",
