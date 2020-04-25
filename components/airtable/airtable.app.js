@@ -7,6 +7,7 @@ module.exports = {
     baseId: {
       // after should be array + assume after apps
       type: "string",
+      label: "Base",
       // options needs to support standardized opts for pagination
       async options(opts) {
         const bases = await this.getBases(this.$auth.api_key)
@@ -20,6 +21,7 @@ module.exports = {
     tableId: {
       // after should be array + assume after apps
       type: "string",
+      label: "Table",
       // options needs to support standardized opts for pagination
       async options(opts) {
         const tables = await this.getTables(this.$auth.api_key, opts.baseId)
@@ -33,6 +35,7 @@ module.exports = {
     viewId: {
       // after should be array + assume after apps
       type: "string",
+      label: "View",
       // options needs to support standardized opts for pagination
       async options(opts) {
         const views = await this.getViews(this.$auth.api_key, opts.baseId, opts.tableId)
