@@ -2,7 +2,7 @@ const airtable = require('https://github.com/PipedreamHQ/pipedream/components/ai
 const moment = require('moment')
 const axios = require('axios')
 const _ = require('lodash')
-
+ 
 module.exports = {
   name: "new-records-in-view",
   version: "0.0.1",
