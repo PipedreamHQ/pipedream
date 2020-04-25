@@ -35,6 +35,9 @@ module.exports = {
 
       const response = (await axios(config)).data
       
+      response.records.sort(function(a, b) {
+        return moment(a.createdTime).valueOf() - moment(b.createdTime).valueOf();
+      });
       if (response.records.length > 0) {
         let recordCount = 0
         for (let record of response.records) {
