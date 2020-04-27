@@ -195,6 +195,9 @@ module.exports = {
         endpoint: this.http.endpoint,
       })
       this.db.set("hookId", id)
+      this.db.set("eventTypes", this.eventTypes)
+      this.db.set("listIds", this.listIds)
+      this.db.set("cardIds", this.cardIds)
       //this.db.set("secret", secret)
     },
     async deactivate() {
@@ -208,11 +211,32 @@ module.exports = {
     this.http.respond({
       status: 200,
     })
+
     const body = _.get(event, 'body')
     if (body) {
-      this.$emit(body, {
-        summary: _.get(body, 'action.type', ''),
-      })
+      const eventTypes = this.db.get("eventTypes")
+      const listIds = this.db.get("listIds")
+      const cardIds = this.db.get("cardIds")
+
+      const eventType = _.get(body, 'action.type', '')
+      const listId = _.get(body, 'action.data.list.id')
+      const cardId = _.get(body, 'action.data.card.id')
+
+      let emitEvent
+      if (eventTypes || listIds || cardIds) {
+        emitEvent = false
+      }  else {
+        emitEvent = true
+      }
+      if ((eventType && eventTypes.includes(eventType)) || (listId && listIds.includes(listId)) || (cardId && cardIds.includes(cardId))) { 
+        emitEvent = true 
+      }
+
+      if (emitEvent) {
+        this.$emit(body, {
+          summary: _.get(body, 'action.type', ''),
+        })
+      }
     }
   },
 }
