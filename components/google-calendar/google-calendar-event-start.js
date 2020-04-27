@@ -129,9 +129,6 @@ module.exports = {
   version: '0.0.1',
   props: {
     googleCalendar,
-    orderBy: {
-      propDefinition: [googleCalendar, "orderBy"]
-    },
     calendarId: {
       type: "string",
       async options() {
@@ -147,29 +144,35 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        cron: "0/5 * * * *",
+        intervalSeconds: 5 * 60, // five minutes
       },
     },
   },
   async run(event) {
+    const intervalMs = 1000 * (event.interval_seconds || 300) // fall through to default for manual testing
     const now = new Date()
 
-    const timeMin = new Date(now.getTime()).toISOString()
-    const timeMax = new Date(now.getTime()+  (1000 * 60 * 5)).toISOString()
+    const timeMin = now.toISOString()
+    const timeMax = new Date(now.getTime() + intervalMs).toISOString()
 
     const config = {
       calendarId: this.calendarId,
       timeMax,
       timeMin,
       singleEvents: true,
-      orderBy: this.orderBy,
+      orderBy: "startTime",
     }
     const resp = await this.googleCalendar.getEvents(config)
 
     const events = _.get(resp.data, "items")
     if (Array.isArray(events)) {
       for (const event of events) {
-        this.$emit(event)
+        const eventStart = _.get(event, "start.dateTime")
+        start = new Date(eventStart)
+        const msFromStart = start.getTime() - now.getTime()
+        if (eventStart && msFromStart > 0 && msFromStart < intervalMs) {
+          this.$emit(event)
+        }
       }
     } else {
       console.log("nothing to emit")

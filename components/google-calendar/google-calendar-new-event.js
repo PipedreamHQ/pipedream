@@ -141,7 +141,6 @@ module.exports = {
         return []
       }
     },
-    db: '$.service.db',
     timer: {
       type: "$.interface.timer",
       default: {
@@ -150,9 +149,11 @@ module.exports = {
     },
   },
   async run(event) {
+    const intervalMs = 1000 * (event.interval_seconds || 300) // fall through to default for manual testing
     const now = new Date()
-    const lastRun = new Date(this.db.get("lastRun") || now.getTime() - (event.interval_seconds * 1000)) // first run?
-    const updatedMin = lastRun.toISOString()
+    const past = new Date(now.getTime() - intervalMs)
+
+    const updatedMin = past.toISOString()
 
     const config = {
       calendarId: this.calendarId,
@@ -166,13 +167,12 @@ module.exports = {
     if (Array.isArray(events)) {
       for (const event of events) {
         const created = new Date(event.created)
-        if (created > lastRun && event.status !== "cancelled") {
+        if (created > past && event.status !== "cancelled") {
           this.$emit(event)
         }
       }
     } else {
       console.log("nothing to emit")
     }
-    this.db.set("lastRun", now.getTime())
   },
 }

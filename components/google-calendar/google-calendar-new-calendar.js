@@ -133,14 +133,13 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        cron: "0/5 * * * *",
+        intervalSeconds: 5 * 60,
       },
     },
   },
-  // TODO FIX THIS
   hooks: {
     async activate() {
-      // TODO get current calendars so we don't emit everything?
+      // get list of calendars
       const calListResp = await this.googleCalendar.calendarList()
       const calendars = _.get(calListResp, "data.items")
       const calendarIds = calendars.map( item => item.id )
@@ -155,7 +154,7 @@ module.exports = {
 
     const calListResp = await this.googleCalendar.calendarList()
     const calendars = _.get(calListResp, "data.items")
-    let currentCalendarIds = []
+    const currentCalendarIds = []
 
     for (const calendar of calendars) {
       currentCalendarIds.push(calendar.id)

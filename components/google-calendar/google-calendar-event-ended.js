@@ -147,14 +147,15 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        cron: "0/5 * * * *",
+        intervalSeconds: 5 * 60,
       },
     },
   },
   async run(event) {
+    const intervalMs = 1000 * (event.interval_seconds || 300) // fall through to default for manual testing
     const now = new Date()
 
-    const timeMin = new Date(now.getTime() - (1000 * 60 * 5)).toISOString()
+    const timeMin = new Date(now.getTime() - intervalMs).toISOString()
     const timeMax = new Date(now.getTime()).toISOString()
 
     const config = {
@@ -169,7 +170,12 @@ module.exports = {
     const events = _.get(resp.data, "items")
     if (Array.isArray(events)) {
       for (const event of events) {
-        this.$emit(event)
+        const eventEnd = _.get(event, "end.dateTime")
+        const end = new Date(eventEnd)
+        const msFromEnd = now.getTime() - end.getTime()
+        if (eventStart && msFromEnd > 0 && msFromEnd < intervalMs) {
+          this.$emit(event)
+        }
       }
     } else {
       console.log("nothing to emit")

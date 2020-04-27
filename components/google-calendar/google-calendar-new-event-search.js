@@ -147,13 +147,14 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        cron: "0/5 * * * *",
+        intervalSeconds: 5 * 60, // five minutes
       },
     },
   },
   async run(event) {
+    const intervalMs = 1000 * (event.interval_seconds || 300) // fall through to default for manual testing
     const now = new Date()
-    const past = new Date(now.getTime() - (1000 * 60 * 5))
+    const past = new Date(now.getTime() - intervalMs)
 
     const updatedMin = past.toISOString()
 
