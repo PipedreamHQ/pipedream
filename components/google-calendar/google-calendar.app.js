@@ -112,7 +112,6 @@ module.exports = {
     async calendarList() {
       const calendar = this.calendar()
       const resp = await calendar.calendarList.list()
-      console.log(resp)
       return resp
     },
     // for config key value pairs - https://developers.google.com/calendar/v3/reference/events/list
