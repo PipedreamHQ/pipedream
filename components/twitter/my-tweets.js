@@ -4,7 +4,7 @@ const axios = require('axios')
 const moment = require('moment')
 
 module.exports = { 
-  name: "search-twitter", 
+  name: "my-tweets", 
   version: "0.0.1",
   props: {
     db: "$.service.db",
