@@ -1,5 +1,5 @@
 const _ = require("lodash")
-const googleCalendar = require("https://raw.githubusercontent.com/PipedreamHQ/pipedream/google-calendar/components/google-calendar/google-calendar.app.js")
+const googleCalendar = require('https://github.com/PipedreamHQ/pipedream/components/google-calendar/google-calendar.app.js')
 
 module.exports = {
   name: 'google-calendar-event-ended',
