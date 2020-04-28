@@ -9,7 +9,7 @@ module.exports = {
   props: { 
     db: "$.service.db",
     twitter,
-    from: { propDefinition: [twitter, "from"] },
+    from: { propDefinition: [twitter, "from"] }, 
     q: { propDefinition: [twitter, "q"] },
     result_type: { propDefinition: [twitter, "result_type"] },
     count: { propDefinition: [twitter, "count"] },
