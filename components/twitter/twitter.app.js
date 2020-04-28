@@ -25,6 +25,11 @@ module.exports = {
       optional: true,
       default: "100",
     },
+    from: {
+      type: "string",
+      label: "From",
+      description: "The screen name of the user (e.g., `pipedream`)",
+    },
     geocode: {
       type: "string",
       label: "Geocode",
