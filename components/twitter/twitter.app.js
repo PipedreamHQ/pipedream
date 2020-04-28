@@ -31,6 +31,27 @@ module.exports = {
       description: `Returns tweets by users located within a given radius of the given latitude/longitude. The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile. The parameter value is specified by " latitude,longitude,radius ", where radius units must be specified as either " mi " (miles) or " km " (kilometers). Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.`,
       optional: true,
     },
+    includeRetweets: {
+      type: "boolean", 
+      label: "Include Retweets",
+      description: "If `false`, retweets will be filtered out of the search results returned by Twitter",
+      optional: true,
+      default: true,
+    },
+    includeReplies: {
+      type: "boolean", 
+      label: "Include Replies",
+      description: "If `false`, replies will be filtered out before search results are returned by Twitter.",
+      optional: true,
+      default: true,
+    },
+    enrichTweets: {
+      type: "boolean", 
+      label: "Enrich Tweets",
+      description: "Enrich each tweet with epoch (milliseconds) and ISO8601 conversions of Twitter's `created_at` timestamp.",
+      optional: true,
+      default: true,
+    },
     locale: {
       type: "string",
       label: "Locale",
