@@ -15,14 +15,14 @@ module.exports = {
     includeRetweets: {
       type: "boolean", 
       label: "Include Retweets",
-      description: "If false, retweets will be filtered out of the search results returned by Twitter",
+      description: "If `false`, retweets will be filtered out of the search results returned by Twitter",
       optional: true,
       default: true,
     },
     includeReplies: {
       type: "boolean", 
       label: "Include Replies",
-      description: "If false, replies will be filtered out before search results are returned by Twitter.",
+      description: "If `false`, replies will be filtered out before search results are returned by Twitter.",
       optional: true,
       default: true,
     },
