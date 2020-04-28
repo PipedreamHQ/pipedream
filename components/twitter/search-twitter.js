@@ -8,12 +8,6 @@ module.exports = {
   version: "0.0.1",
   props: {
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
     twitter,
     q: { propDefinition: [twitter, "q"] },
     result_type: { propDefinition: [twitter, "result_type"] },
@@ -21,7 +15,7 @@ module.exports = {
     includeRetweets: {
       type: "boolean", 
       label: "Include Retweets",
-      description: "If true, retweets will be filtered out of the search results returned by Twitter",
+      description: "If false, retweets will be filtered out of the search results returned by Twitter",
       optional: true,
       default: true,
     },
@@ -42,6 +36,12 @@ module.exports = {
     lang: { propDefinition: [twitter, "lang"] },
     locale: { propDefinition: [twitter, "locale"] },
     geocode: { propDefinition: [twitter, "geocode"] },
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
   },
   async run(event) {
     let q = this.q
