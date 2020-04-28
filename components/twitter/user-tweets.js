@@ -6,7 +6,7 @@ const moment = require('moment')
 module.exports = {
   name: "search-twitter", 
   version: "0.0.1",
-  props: {
+  props: { 
     db: "$.service.db",
     twitter,
     from: { propDefinition: [twitter, "from"] },

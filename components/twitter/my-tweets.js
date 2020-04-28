@@ -3,7 +3,7 @@ const _ = require('lodash')
 const axios = require('axios')
 const moment = require('moment')
 
-module.exports = {
+module.exports = { 
   name: "search-twitter", 
   version: "0.0.1",
   props: {

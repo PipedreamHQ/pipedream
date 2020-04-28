@@ -60,7 +60,7 @@ module.exports = {
           filteredReplies++
           continue
         }
-      }
+      } 
 
       if (tweet.id !== since_id) {
         if (this.enrichTweets) {
