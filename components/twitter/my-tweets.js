@@ -26,7 +26,7 @@ module.exports = {
     },
   },
   async run(event) {
-    const account = await this.twitter.verifyCredentials(q, since_id, tweet_mode, count, result_type, lang, locale, geocode)
+    const account = await this.twitter.verifyCredentials()
     const from = account.screen_name
     
     let q = this.q
