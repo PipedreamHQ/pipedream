@@ -833,6 +833,11 @@ module.exports = {
         url: `https://api.twitter.com/1.1/search/tweets.json?${query}`,
       })).data
     },
+    async verifyCredentials() {   
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/account/verify_credentials.json`,
+      })).data
+    },
     webhooks: {
       // TODO
     },

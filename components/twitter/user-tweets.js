@@ -9,6 +9,7 @@ module.exports = {
   props: {
     db: "$.service.db",
     twitter,
+    from: { propDefinition: [twitter, "from"] },
     q: { propDefinition: [twitter, "q"] },
     result_type: { propDefinition: [twitter, "result_type"] },
     count: { propDefinition: [twitter, "count"] },
@@ -26,6 +27,8 @@ module.exports = {
     },
   },
   async run(event) {
+    const from = `from:${this.from.replace('@','')}`
+    
     let q = this.q
     
     const since_id = this.db.get("since_id") || 0
@@ -36,6 +39,9 @@ module.exports = {
     if(this.includeReplies === false) {
       q = `${q} -filter:replies`
     }
+
+    // join "from" filter and search keywords
+    q = `${from} ${q}`
 
     const response = await this.twitter.search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode)
 
