@@ -5,7 +5,7 @@ module.exports = {
   name: "new-submission", 
   version: "0.0.1",
   props: {
-    db: "$.service.db", 
+    db: "$.service.db",  
     http: "$.interface.http",
     jotform,
     formId: { propDefinition: [jotform, "formId"] },
