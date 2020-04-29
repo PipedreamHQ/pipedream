@@ -6,7 +6,9 @@ Most of these components are [event sources](https://docs.pipedream.com/event-so
 
 ### Pipedream workflows
 
-You can trigger a [Pipedream workflow](https://docs.pipedream.com/workflows/) — hosted Node.js code — on every new event from any Zoom source. You can find a few example workflows below. Just **Copy** them, connect your Zoom account, and you'll be able to trigger. You can modify or extend these workflows in any way you'd like.
+You can trigger a [Pipedream workflow](https://docs.pipedream.com/workflows/) — hosted Node.js code — on every new event from any Zoom source. You can find a few example workflows below.
+
+To use a workflow, just **Copy** it and follow the instructions in the workflow's `README`. You can modify or extend these workflows in any way you'd like.
 
 - [Save Zoom Recordings to Amazon S3](https://pipedream.com/@dylburger/save-zoom-recordings-to-amazon-s3-p_PACKJG/readme)
 
