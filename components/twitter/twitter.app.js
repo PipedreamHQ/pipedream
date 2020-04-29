@@ -10,6 +10,12 @@ module.exports = {
       label: 'Search Term',
       description: "Search for keywords `star wars`, screen names `@starwars`, or hashtags `#starwars`. You can also use Twitter's [standard search operators](https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators).",
     },
+    keyword_filter: {
+      type: "string",
+      label: 'Keywords',
+      description: "Filter tweets based on keywords `star wars`, user mentions `@starwars`, or hashtags `#starwars`. You can also use Twitter's [standard search operators](https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators).",
+      optional: true,
+    },
     result_type: { 
       type: "string", 
       label: "Result Type",
