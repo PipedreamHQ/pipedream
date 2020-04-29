@@ -3,6 +3,7 @@ const parser = new Parser()
 
 module.exports = {
   name: "hacker-news-new-comments-by-keyword",
+  app: "hacker_news",
   version: "0.0.2",
   props: {
     // XXX have auto: true prop in case there is something to configure (unless pass --no-auto)
