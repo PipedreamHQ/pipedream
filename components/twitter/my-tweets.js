@@ -9,7 +9,12 @@ module.exports = {
   props: {
     db: "$.service.db",
     twitter,
-    q: { propDefinition: [twitter, "q"] },
+    q: {
+      type: "string",
+      label: 'Keywords',
+      description: "Filter tweets based on keywords `star wars`, user mentions `@starwars`, or hashtags `#starwars`. You can also use Twitter's [standard search operators](https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators).",
+      optional: true,
+    },
     result_type: { propDefinition: [twitter, "result_type"] },
     count: { propDefinition: [twitter, "count"] },
     includeRetweets: { propDefinition: [twitter, "includeRetweets"] },
