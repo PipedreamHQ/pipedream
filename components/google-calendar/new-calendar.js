@@ -1,11 +1,11 @@
-const _ = require("lodash")
-const googleCalendar = require('https://github.com/PipedreamHQ/pipedream/components/google-calendar/google-calendar.app.js')
+const _ = require("lodash");
+const googleCalendar = require("https://github.com/PipedreamHQ/pipedream/components/google-calendar/google-calendar.app.js");
 
 module.exports = {
-  name: 'google-calendar-new-calendar',
-  version: '0.0.1',
+  name: "google-calendar-new-calendar",
+  version: "0.0.1",
   props: {
-    db: '$.service.db',
+    db: "$.service.db",
     googleCalendar,
     timer: {
       type: "$.interface.timer",
@@ -17,29 +17,32 @@ module.exports = {
   hooks: {
     async activate() {
       // get list of calendars
-      const calListResp = await this.googleCalendar.calendarList()
-      const calendars = _.get(calListResp, "data.items")
-      const calendarIds = calendars.map( item => item.id )
-      this.db.set("calendarIds", calendarIds)
+      const calListResp = await this.googleCalendar.calendarList();
+      const calendars = _.get(calListResp, "data.items");
+      const calendarIds = calendars.map((item) => item.id);
+      this.db.set("calendarIds", calendarIds);
     },
     deactivate() {
-      this.db.set("calendarIds", [])
-    }
+      this.db.set("calendarIds", []);
+    },
   },
   async run(event) {
-    const previousCalendarIds = this.db.get('calendarIds') || []
+    const previousCalendarIds = this.db.get("calendarIds") || [];
 
-    const calListResp = await this.googleCalendar.calendarList()
-    const calendars = _.get(calListResp, "data.items")
-    const currentCalendarIds = []
+    const calListResp = await this.googleCalendar.calendarList();
+    const calendars = _.get(calListResp, "data.items");
+    const currentCalendarIds = [];
 
     for (const calendar of calendars) {
-      currentCalendarIds.push(calendar.id)
+      currentCalendarIds.push(calendar.id);
       if (!previousCalendarIds.includes(calendar.id)) {
-        this.$emit(calendar)
+        const { summary, id } = calendar;
+        this.$emit(calendar, {
+          summary,
+          id,
+        });
       }
     }
-    this.db.set('calendarIds', currentCalendarIds)
-
+    this.db.set("calendarIds", currentCalendarIds);
   },
-}
+};
