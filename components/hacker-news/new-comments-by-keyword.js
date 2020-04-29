@@ -8,6 +8,9 @@ module.exports = {
   props: {
     // XXX have auto: true prop in case there is something to configure (unless pass --no-auto)
     timer: "$.interface.timer",
+          default: {
+        intervalSeconds: 60,
+      },
     db: "$.service.db",
     // If you want a single search feed but multiple keywords, separate the keywords with " OR ":
     keyword: {
