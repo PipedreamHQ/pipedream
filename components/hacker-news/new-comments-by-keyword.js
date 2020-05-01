@@ -16,7 +16,6 @@ module.exports = {
       type: "$.interface.timer",
       default: {
         intervalSeconds: 15,
-      },
     },
     db: "$.service.db",
     // If you want a single search feed but multiple keywords, separate the keywords with " OR ":
