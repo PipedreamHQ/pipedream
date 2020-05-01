@@ -850,17 +850,19 @@ const twitter = {
       }
     },
     async getFollowers() {   
-      console.log('foo')
+      const query = querystring.stringify({
+        stringify_ids: true,
+      })
       return (await this._makeRequest({
-        url: `https://api.twitter.com/1.1/followers/ids.json`,
+        url: `https://api.twitter.com/1.1/followers/ids.json?${query}`,
       })).data
     },
     async lookupUsers(userIdArray) {   
+      const query = querystring.stringify({
+        user_id: userIdArray.join(),
+      })
       return (await this._makeRequest({
-        url: `https://api.twitter.com/1.1/users/lookup.json`,
-        params: {
-          user_id: userIdArray.join(),
-        }
+        url: `https://api.twitter.com/1.1/users/lookup.json?${query}`,
       })).data
     },
     async search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode) {   
@@ -908,24 +910,18 @@ module.exports = {
     },
   },
   async run(event) {     
-    console.log('hello')
-    let newFollowers = []
-    const followers = await this.twitter.getFollowers()
-    console.log(followers)
-    /*
-    const latest = [...followers]
     const cached = this.db.get("followers") || []
-    console.log("cached")
-    console.log(cached)
+    const activation = this.db.get("activation") || true
+    let newFollowers = []
+    const followers = (await this.twitter.getFollowers()).ids
+    const latest = [...followers]
     if (JSON.stringify(latest) === JSON.stringify(cached)) {
-      console.log('no new followers')
+      console.log('No new followers')
     } else {
       let lastDeleted
       let lastGapIndex
       for (let i = 0; i < cached.length; i++) {
         if(latest.includes(cached[i])) {
-          console.log(`found ${cached[i]}`)
-          console.log(`deleting ${latest[latest.indexOf(cached[i])]}`)
           delete latest[latest.indexOf(cached[i])]
           if (i - 1 !== lastDeleted) {
             //new gap detected
@@ -934,15 +930,11 @@ module.exports = {
           lastDeleted = i
         }
       }
-      
-      console.log(latest)
 
-      console.log(`last gap index: ${lastGapIndex}`)
       if (lastGapIndex >= 0) {
-        console.log(lastGapIndex)
         latest.length = lastGapIndex + 1
       }
-      
+
       // filter out any deleted elements
       newFollowers = latest.filter(() => true)
 
@@ -951,18 +943,23 @@ module.exports = {
         newFollowers = newFollowers.slice(0, 100)
       }
 
-      console.log(newFollowers)
-
       if (newFollowers.length > 0) {
         const users = await this.twitter.lookupUsers(newFollowers)
-        console.log(users)
+        users.reverse()
+        users.forEach(user => {
+          this.$emit(user,{
+            summary: user.screen_name,
+            id: user.id_str,
+          })
+        })
       } else {
         console.log('No new followers')
       }
 
       // set the checkpoint to the full set of followers from the last step
       this.db.set("followers", followers)
+      this.db.set("activation", false)
       
-    } */ 
+    }
   },
 }
