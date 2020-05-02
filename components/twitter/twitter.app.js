@@ -824,6 +824,20 @@ module.exports = {
       label: "Screen Name",
       description: "The screen name of the user for whom to return results (e.g., `pipedream`)."
     },
+    trendLocation: {
+      // after should be array + assume after apps
+      type: "string",
+      label: "Location",
+      // options needs to support standardized opts for pagination
+      async options(opts) {
+        const trendLocations = await this.getTrendLocations()
+        // XXX short hand where value and label are same value
+        return trendLocations.map(location => {
+          return { label: `${location.name}, ${location.countryCode} (${location.placeType.name})`, value: location.woeid }
+        })
+      },
+      // XXX validate
+    },
   },
   methods: {
     async _getAuthorizationHeader({ data, method, url }) {
@@ -900,6 +914,22 @@ module.exports = {
       })
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/search/tweets.json?${query}`,
+      })).data
+    },
+    async getTrendLocations() {   
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/trends/available.json`,
+      })).data
+    },
+    async getTrends(opts = {}) {   
+      const {
+        id = 1,
+      } = opts
+      const query = querystring.stringify({
+        id,
+      })
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/trends/place.json?${query}`,
       })).data
     },
     async verifyCredentials() {   
