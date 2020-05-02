@@ -12,23 +12,19 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      const response = await this.jotform.createHook({
-        apiKey: this.jotform.$auth.api_key,
+      return (await this.jotform.createHook({
         endpoint: this.http.endpoint,
         formId: this.formId,
-      })
-      this.db.set("hookId", response.content.length - 1)
+      }))
     },
     async deactivate() {
-      await this.jotform.deleteHook({
-        apiKey: this.jotform.$auth.api_key,
-        hookId: this.http.endpoint,
+      return (await this.jotform.deleteHook({
+        endpoint: this.http.endpoint,
         formId: this.formId,
-      })
+      }))
     },
   },
   async run(event) {
-    console.log(event)
     const objArray = []
     const bb = new busboy({ headers: event.headers });
     let fileData = {}
@@ -36,7 +32,7 @@ module.exports = {
 
     await new Promise((resolve, reject) => {
       bb.on('file', function (fieldname, file, filename, encoding, mimetype) {
-        console.log('File [%s]: filename=%j; encoding=%j; mimetype=%j', fieldname, filename, encoding, mimetype);
+        //console.log('File [%s]: filename=%j; encoding=%j; mimetype=%j', fieldname, filename, encoding, mimetype);
         fileData.file = filename
         fileData.fileName = filename
         fileData.encoding = encoding

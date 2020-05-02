@@ -1,10 +1,10 @@
 const axios = require('axios')
-const fetch = require('node-fetch')
-
-module.exports = {
-  type: "app",
-  app: "jotform",
-  propDefinitions: { 
+const querystring = require('querystring')
+ 
+const jotform = { 
+  type: "app", 
+  app: "jotform", 
+  propDefinitions: {  
     formId: {
       // after should be array + assume after apps
       type: "string", 
@@ -15,62 +15,81 @@ module.exports = {
         // XXX short hand where value and label are same value
         return forms.content.map(form => { 
           return { label: form.title, value: form.id } 
-        })
+        }) 
       },
-      // XXX validate 
+      // XXX validate  
     }, 
-  },
+  }, 
   methods: {
     async _makeRequest(config) {
-      //if (!config.headers) config.headers = {}
-      //const authorization = await this._getAuthorizationHeader(config)
-      //config.headers.authorization = authorization
+      if (config.params) { 
+        const query = querystring.stringify(config.params)
+        delete config.params
+        const sep = config.url.indexOf('?') === -1 ? '?' : '&'
+        config.url += `${sep}${query}`
+        config.url = config.url.replace('?&','?')
+      }
       try {
         return await axios(config)
       } catch (err) {
         console.log(err) // TODO
       }
     },
-    async getForms(apiKey) {   
+    async getForms() {   
       return (await this._makeRequest({
         url: `https://api.jotform.com/user/forms`,
         method: `GET`,
         headers: {
-          "APIKEY": apiKey,
-        }
+          "APIKEY": this.$auth.api_key,
+        },
+      })).data
+    }, 
+    async getWebhooks(opts = {}) {
+      const { formId } = opts
+      return (await this._makeRequest({
+        url: `https://api.jotform.com/form/${formId}/webhooks`,
+        method: `GET`,
+        headers: {
+            "APIKEY": this.$auth.api_key,
+          },
       })).data
     },
-    async createHook({ apiKey, formId, endpoint }) {
+    async createHook(opts = {}) {
+      const { formId, endpoint } = opts
       const updatedEndpoint = `${endpoint}/`
-      const url = `https://api.jotform.com/form/${formId}/webhooks?apiKey=${apiKey}&webhookURL=${encodeURIComponent(updatedEndpoint)}`
-      console.log(url)
-      const method = "POST"
-      const data = await fetch(url, { 
-        method, 
-      })
-      const response = await data.json()
-      console.log(response)
-      return response
-    },
-    async deleteHook({ formId, hookId, apiKey }) {
-      const url = `https://api.jotform.com/form/${formId}/webhooks/0?apiKey=${apiKey}`
-      console.log(url)
-      const method = "DELETE" 
-      const data = await fetch(url, { 
-        method, 
-      })
-      const response = await data.json()
-      console.log(response)
-      return response
-      /*
-      console.log(url)
-      const response = (await this._makeRequest({
-        method: "DELETE",
-        url,
+      return (await this._makeRequest({ 
+        url: `https://api.jotform.com/form/${formId}/webhooks`,
+        method: `POST`, 
+        headers: {
+            "APIKEY": this.$auth.api_key,
+          },
+        params: {
+          webhookURL: encodeURI(updatedEndpoint),
+        },
       }))
-      console.log(response)
-      return response
-      */
+    },
+    async deleteHook(opts = {}) { 
+      const { formId, endpoint } = opts
+      const updatedEndpoint = `${endpoint}/`
+      const webhooks = (await this.getWebhooks({ formId })).content
+      let webhookId = -1
+      for (let id in webhooks) {
+        if (webhooks[id] === updatedEndpoint) {
+          webhookId = id
+        }
+      }
+      if(webhookId !== -1) {
+        console.log(`Deleting webhook ID ${webhookId}...`)
+        return (await this._makeRequest({ 
+          url: `https://api.jotform.com/form/${formId}/webhooks/${webhookId}`,
+          method: `DELETE`, 
+          headers: {
+            "APIKEY": this.$auth.api_key,
+          },
+        }))
+      } else {
+        console.log(`Could not detect webhook ID.`)
+      }
     },
   },
 }
