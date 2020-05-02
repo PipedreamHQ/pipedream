@@ -46,14 +46,12 @@ module.exports = {
       newFollowers = latest.filter(() => true)
 
       // emit up to the most recent 100 followers on the first execution to use for test events
-      if (activation && newFollowers.length > 5) {
-        newFollowers = newFollowers.slice(0, 5)
+      if (activation && newFollowers.length > 100) {
+        newFollowers = newFollowers.slice(0, 100)
       }
 
       if (newFollowers.length > 0) {
-        const users = await this.twitter.lookupUsers(newFollowers)
-        users.reverse()
-        users.forEach(user => {
+        (await this.twitter.lookupUsers(newFollowers)).reverse().forEach(user => {
           this.$emit(user,{
             summary: user.screen_name,
             id: user.id_str,
@@ -65,8 +63,7 @@ module.exports = {
 
       // set the checkpoint to the full set of followers from the last step
       this.db.set("followers", followers)
-      this.db.set("activation", false)
-      
+      this.db.set("activation", false) 
     }
   },
 }
