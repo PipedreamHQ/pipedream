@@ -876,7 +876,7 @@ module.exports = {
     },
     async getFollowers(screen_name) {   
       return (await this._makeRequest({
-        url: `https://api.twitter.com/1.1/followers/ids.json?${query}`,
+        url: `https://api.twitter.com/1.1/followers/ids.json`,
         params: {
           screen_name,
           stringify_ids: true,
@@ -900,7 +900,7 @@ module.exports = {
     },
     async lookupUsers(userIdArray) {   
       return (await this._makeRequest({
-        url: `https://api.twitter.com/1.1/users/lookup.json?${query}`,
+        url: `https://api.twitter.com/1.1/users/lookup.json`,
         params: {
           user_id: userIdArray.join(),
         }
@@ -908,7 +908,7 @@ module.exports = {
     },
     async search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode) {   
       return (await this._makeRequest({
-        url: `https://api.twitter.com/1.1/search/tweets.json?${query}`,
+        url: `https://api.twitter.com/1.1/search/tweets.json`,
         params: {
           q,
           since_id,
@@ -931,7 +931,7 @@ module.exports = {
         id = 1,
       } = opts
       return (await this._makeRequest({
-        url: `https://api.twitter.com/1.1/trends/place.json?${query}`,
+        url: `https://api.twitter.com/1.1/trends/place.json`,
         params: {
           id,
         }
