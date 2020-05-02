@@ -53,7 +53,7 @@ module.exports = {
     let filteredReplies = 0
 
     for (let tweet of response.statuses) {
-      
+    
       if(this.includeRetweets === false) {
         if (_.get(tweet,'retweeted_status.id','') !== '') {
           filteredRetweets++

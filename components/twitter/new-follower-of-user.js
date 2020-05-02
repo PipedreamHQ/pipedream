@@ -50,7 +50,7 @@ module.exports = {
       if (activation && newFollowers.length > 100) {
         newFollowers = newFollowers.slice(0, 100)
       }
- 
+
       if (newFollowers.length > 0) {
         (await this.twitter.lookupUsers(newFollowers)).reverse().forEach(user => {
           this.$emit(user,{
