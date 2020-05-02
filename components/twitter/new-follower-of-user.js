@@ -19,7 +19,6 @@ module.exports = {
   },
   async run(event) {     
     const cached = this.db.get("followers") || []
-    console.log(`cached followers: ${cached.length}`)
     const activation = this.db.get("activation") || true
     let newFollowers = []
     const followers = (await this.twitter.getFollowers(this.screen_name))
@@ -47,7 +46,6 @@ module.exports = {
       // filter out any deleted elements
       newFollowers = latest.filter(() => true)
 
-      console.log(`followers: ${newFollowers.length}`)
       // emit up to the most recent 100 followers on the first execution to use for test events
       if (activation && newFollowers.length > 5) {
         newFollowers = newFollowers.slice(0, 5)
