@@ -29,7 +29,11 @@ module.exports = {
     const account = await this.twitter.verifyCredentials()
     const from = account.screen_name
     
-    let q = this.q
+    let q = ''
+
+    if(this.q) {
+      q = this.q
+    }
     
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'

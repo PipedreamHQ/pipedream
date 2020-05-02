@@ -29,7 +29,11 @@ module.exports = {
   async run(event) {
     const from = `from:${this.from.replace('@','')}`
     
-    let q = this.q
+    let q = ''
+
+    if(this.q) {
+      q = this.q
+    }
     
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'
