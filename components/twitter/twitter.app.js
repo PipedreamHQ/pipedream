@@ -864,7 +864,7 @@ module.exports = {
       if (config.params) {
         const query = querystring.stringify(config.params)
         delete config.params
-        const sep = config.url.indexOf('?') ? ':' : '?'
+        const sep = config.url.indexOf('?') ? '&' : '?'
         config.url += `${sep}${query}`
       }
       const authorization = await this._getAuthorizationHeader(config)
