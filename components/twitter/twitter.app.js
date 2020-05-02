@@ -838,7 +838,7 @@ module.exports = {
       },
       // XXX validate
     },
-  }, 
+  },
   methods: {
     async _getAuthorizationHeader({ data, method, url }) {
       const requestData = {
