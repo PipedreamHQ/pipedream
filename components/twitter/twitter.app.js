@@ -864,8 +864,10 @@ module.exports = {
       if (config.params) {
         const query = querystring.stringify(config.params)
         delete config.params
-        const sep = config.url.indexOf('?') ? '&' : '?'
+        const sep = config.url.indexOf('?') === -1 ? '?' : '&'
         config.url += `${sep}${query}`
+        config.url = config.url.replace('?&','?')
+        console.log(config.url)
       }
       const authorization = await this._getAuthorizationHeader(config)
       config.headers.authorization = authorization
@@ -877,7 +879,7 @@ module.exports = {
     },
     async getFollowers(screen_name) {   
       return (await this._makeRequest({
-        url: `https://api.twitter.com/1.1/followers/ids.json`,
+        url: `https://api.twitter.com/1.1/followers/ids.json?`,
         params: {
           screen_name,
           stringify_ids: true,
