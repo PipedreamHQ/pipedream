@@ -47,7 +47,7 @@ module.exports = {
     // join "from" filter and search keywords
     q = `${from} ${q}`
 
-    const response = await this.twitter.search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode)
+    const response = await this.twitter.search(q.trim(), since_id, tweet_mode, count, result_type, lang, locale, geocode)
 
     let maxId = since_id
 
