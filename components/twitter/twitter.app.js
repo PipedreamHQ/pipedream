@@ -818,7 +818,12 @@ module.exports = {
           return { label: `${isoLanguage.English} (${isoLanguage.alpha2})`, value: isoLanguage.alpha2 }
         })     
       }
-    }
+    },
+    screen_name: {
+      type: "string",
+      label: "Screen Name",
+      description: "The screen name of the user for whom to return results (e.g., `pipedream`)."
+    },
   },
   methods: {
     async _getAuthorizationHeader({ data, method, url }) {
@@ -849,6 +854,23 @@ module.exports = {
       } catch (err) {
         console.log(err) // TODO
       }
+    },
+    async getFollowers(screen_name) {   
+      const query = querystring.stringify({
+        screen_name,
+        stringify_ids: true,
+      })
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/followers/ids.json?${query}`,
+      })).data
+    },
+    async lookupUsers(userIdArray) {   
+      const query = querystring.stringify({
+        user_id: userIdArray.join(),
+      })
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/users/lookup.json?${query}`,
+      })).data
     },
     async search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode) {   
       const query = querystring.stringify({

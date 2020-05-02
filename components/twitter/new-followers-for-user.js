@@ -9,6 +9,7 @@ module.exports = {
   props: {
     db: "$.service.db",
     twitter,
+    screen_name: { propDefinition: [twitter, "screen_name"] },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -21,7 +22,7 @@ module.exports = {
     console.log(`cached followers: ${cached.length}`)
     const activation = this.db.get("activation") || true
     let newFollowers = []
-    const followers = (await this.twitter.getFollowers()).ids
+    const followers = (await this.twitter.getFollowers(this.screen_name)).ids
     const latest = [...followers]
     if (JSON.stringify(latest) === JSON.stringify(cached)) {
       console.log('No new followers')
