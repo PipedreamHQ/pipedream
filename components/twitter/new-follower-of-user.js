@@ -4,11 +4,12 @@ const axios = require('axios')
 const moment = require('moment')
 
 module.exports = { 
-  name: "new-followers-of-me", 
+  name: "new-follower-of-user", 
   version: "0.0.1",
   props: {
     db: "$.service.db",
     twitter,
+    screen_name: { propDefinition: [twitter, "screen_name"] },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -21,7 +22,7 @@ module.exports = {
     console.log(`cached followers: ${cached.length}`)
     const activation = this.db.get("activation") || true
     let newFollowers = []
-    const followers = (await this.twitter.getFollowers()).ids
+    const followers = (await this.twitter.getFollowers(this.screen_name))
     const latest = [...followers]
     if (JSON.stringify(latest) === JSON.stringify(cached)) {
       console.log('No new followers')

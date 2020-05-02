@@ -862,6 +862,21 @@ module.exports = {
       })
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/followers/ids.json?${query}`,
+      })).data.ids
+    },
+    async getLikedTweets(opts = {}) {
+      const {
+        screen_name,
+        count = 200,
+        tweet_mode = 'extended',
+      } = opts
+      const query = querystring.stringify({
+        screen_name,
+        count,
+        tweet_mode,
+      })
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/favorites/list.json?${query}`,
       })).data
     },
     async lookupUsers(userIdArray) {   
