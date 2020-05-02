@@ -60,7 +60,7 @@ module.exports = {
           continue
         }
       } 
-
+ 
       if(this.includeReplies === false) {
         if (tweet.in_reply_to_status_id !== null) {
           filteredReplies++

@@ -1,5 +1,4 @@
 const axios = require('axios')
-const querystring = require("querystring")
 
 module.exports = {
   type: "app",
@@ -861,6 +860,12 @@ module.exports = {
     },
     async _makeRequest(config) {
       if (!config.headers) config.headers = {}
+      if (config.params) {
+        const query = querystring.stringify(config.params)
+        delete config.params
+        const sep = config.url.indexOf('?') ? ':' : '?'
+        config.url += `${sep}${query}`
+      }
       const authorization = await this._getAuthorizationHeader(config)
       config.headers.authorization = authorization
       try {
@@ -870,12 +875,12 @@ module.exports = {
       }
     },
     async getFollowers(screen_name) {   
-      const query = querystring.stringify({
-        screen_name,
-        stringify_ids: true,
-      })
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/followers/ids.json?${query}`,
+        params: {
+          screen_name,
+          stringify_ids: true,
+        }
       })).data.ids
     },
     async getLikedTweets(opts = {}) {
@@ -884,36 +889,36 @@ module.exports = {
         count = 200,
         tweet_mode = 'extended',
       } = opts
-      const query = querystring.stringify({
-        screen_name,
-        count,
-        tweet_mode,
-      })
       return (await this._makeRequest({
-        url: `https://api.twitter.com/1.1/favorites/list.json?${query}`,
+        url: `https://api.twitter.com/1.1/favorites/list.json`,
+        params: {
+          screen_name,
+          count,
+          tweet_mode,
+        }
       })).data
     },
     async lookupUsers(userIdArray) {   
-      const query = querystring.stringify({
-        user_id: userIdArray.join(),
-      })
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/users/lookup.json?${query}`,
+        params: {
+          user_id: userIdArray.join(),
+        }
       })).data
     },
     async search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode) {   
-      const query = querystring.stringify({
-        q,
-        since_id,
-        tweet_mode,
-        count,
-        result_type,
-        lang,
-        locale,
-        geocode,
-      })
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/search/tweets.json?${query}`,
+        params: {
+          q,
+          since_id,
+          tweet_mode,
+          count,
+          result_type,
+          lang,
+          locale,
+          geocode,
+        }
       })).data
     },
     async getTrendLocations() {   
@@ -925,11 +930,11 @@ module.exports = {
       const {
         id = 1,
       } = opts
-      const query = querystring.stringify({
-        id,
-      })
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/trends/place.json?${query}`,
+        params: {
+          id,
+        }
       })).data
     },
     async verifyCredentials() {   

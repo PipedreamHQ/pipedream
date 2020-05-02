@@ -13,7 +13,7 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
     },
-  },
+  }, 
   dedupe: "unique",
   async run(event) {     
     (await this.twitter.getLikedTweets({ screen_name: this.screen_name })).reverse().forEach(tweet => {

@@ -13,7 +13,7 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
     },
-  },
+  }, 
   dedupe: "unique",
   async run(event) {     
     const response = (await this.twitter.getTrends()).forEach(geo => {

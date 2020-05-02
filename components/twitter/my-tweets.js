@@ -30,7 +30,7 @@ module.exports = {
     const from = account.screen_name
     
     let q = this.q
-    
+     
     const since_id = this.db.get("since_id") || 0
     const tweet_mode = 'extended'
     const result_type = this.result_type

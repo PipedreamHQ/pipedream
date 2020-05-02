@@ -15,7 +15,7 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
     },
-  },
+  }, 
   async run(event) {     
     const cached = this.db.get("followers") || []
     const activation = this.db.get("activation") || true

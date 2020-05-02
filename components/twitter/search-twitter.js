@@ -24,7 +24,7 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
     },
-  },
+  }, 
   async run(event) {
     let q = this.q
     
