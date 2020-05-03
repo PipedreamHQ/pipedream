@@ -1014,7 +1014,7 @@ const twitter = {
     },
     async paginatedSearch(opts = {}) {
       const {
-        count = 100,
+        count = 5,
         q,
         since_id,
         lang, 
@@ -1036,7 +1036,10 @@ const twitter = {
         maxPages = maxRequests
       }
 
+      console.log(maxPages)
+
       for (let page = 0; page < maxPages; page++) {        
+        console.log(`page: ${page} max_id: ${max_id}`)
         const response = await this.searchHelper({
           count,
           q,
