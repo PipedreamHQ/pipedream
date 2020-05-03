@@ -4,7 +4,6 @@ module.exports = {
   name: "tweets-liked-by-user", 
   version: "0.0.1",
   props: {
-    db: "$.service.db",
     twitter,
     screen_name: { propDefinition: [twitter, "screen_name"] },
     timer: {

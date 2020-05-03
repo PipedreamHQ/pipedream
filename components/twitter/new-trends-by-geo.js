@@ -4,7 +4,6 @@ module.exports = {
   name: "new-trends-by-geo", 
   version: "0.0.1",
   props: {
-    db: "$.service.db",
     twitter,
     trendLocation: { propDefinition: [twitter, "trendLocation"] },
     timer: {
