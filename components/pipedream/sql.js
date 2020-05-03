@@ -1,4 +1,5 @@
-const pipedream = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components/pipedream/pipedream.app.js");
+const pd = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components/pipedream/pipedream.app.js");
+
 module.exports = {
   name: "pipedream-sql",
   version: "0.0.1",
@@ -23,12 +24,13 @@ module.exports = {
       optional: true,
       default: false,
     },
-    pipedream,
+    pd,
   },
   async run() {
-    const results = await this.pipedream.runSQLQuery(this.sqlQuery);
+    const results = await this.pd.runSQLQuery(this.sqlQuery);
     console.log(results);
     // TODO: Check to confirm results is an array.
     // TODO: handle emitEachRecordAsEvent
+    this.$emit({ results }, { summary: this.sqlQuery });
   },
 };
