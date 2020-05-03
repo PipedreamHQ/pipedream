@@ -1,8 +1,14 @@
-const sql = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components/pipedream/pipedream.app.js");
+const pipedream = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components/pipedream/pipedream.app.js");
 module.exports = {
   name: "pipedream-sql",
   version: "0.0.1",
   props: {
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        cron: "0 0 * * *",
+      },
+    },
     sqlQuery: {
       type: "string",
       label: "SQL Query",
