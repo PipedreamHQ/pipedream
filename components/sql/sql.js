@@ -1,4 +1,4 @@
-const sql = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components/pipedream-sql/pipedream.app.js");
+const sql = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components/sql/pipedream.app.js");
 module.exports = {
   name: "pipedream-sql",
   version: "0.0.1",
