@@ -909,12 +909,13 @@ module.exports = {
         }
       })).data
     },
-    async search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode) {   
+    async search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id) {   
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/search/tweets.json`,
         params: {
           q,
           since_id,
+          max_id,
           tweet_mode,
           count,
           result_type,
