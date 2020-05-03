@@ -1,12 +1,23 @@
 const Parser = require("rss-parser")
 const parser = new Parser()
 
+const hacker_news = {
+  type: "app",
+  app: "hacker_news",
+}
+
 module.exports = {
   name: "hacker-news-new-comments-by-keyword",
+  app: "hacker_news",
   version: "0.0.2",
   props: {
-    // XXX have auto: true prop in case there is something to configure (unless pass --no-auto)
-    timer: "$.interface.timer",
+    hacker_news,
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 15,
+      },
+    },
     db: "$.service.db",
     // If you want a single search feed but multiple keywords, separate the keywords with " OR ":
     keyword: {
