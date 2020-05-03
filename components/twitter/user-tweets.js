@@ -1,6 +1,3 @@
-// TODO: update to capture max count of tweets to return (uncluding 0 for unlimited)
-// TODO: handle non-200 response from Twitter (e.g., rate limit)
-
 const twitter = {
   type: "app",
   app: "twitter",
@@ -27,9 +24,16 @@ const twitter = {
     count: {
       type: "string",
       label: "Count",
-      description: "The maximum number of tweets to return (up to 100)",
+      description: "The maximum number of tweets to return per API request (up to `100`)",
       optional: true,
       default: "100",
+    },
+    maxRequests: {
+      type: "string",
+      label: "Max Search API Requests (Advanced)",
+      description: "The maximum number of API requests to make per execution. The maximum number of results Twitter returns per API request is `100`. If your search results match more than `100` results, additional API requests are required per execution. Note: if Twitter returns a response indicating your account is rate limited, addtional requests will not be made for the current execution.",
+      optional: true,
+      default: "3",
     },
     from: {
       type: "string",
@@ -39,7 +43,7 @@ const twitter = {
     geocode: {
       type: "string",
       label: "Geocode",
-      description: `Returns tweets by users located within a given radius of the given latitude/longitude. The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile. The parameter value is specified by " latitude,longitude,radius ", where radius units must be specified as either " mi " (miles) or " km " (kilometers). Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.`,
+      description: "Returns tweets by users located within a given radius of the given latitude/longitude. The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile. The parameter value is specified by `latitude,longitude,radius`, where radius units must be specified as either `mi` (miles) or `km` (kilometers). Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.",
       optional: true,
     },
     includeRetweets: {
@@ -867,7 +871,6 @@ const twitter = {
         const sep = config.url.indexOf('?') === -1 ? '?' : '&'
         config.url += `${sep}${query}`
         config.url = config.url.replace('?&','?')
-        console.log(config.url)
       }
       const authorization = await this._getAuthorizationHeader(config)
       config.headers.authorization = authorization
@@ -923,7 +926,7 @@ const twitter = {
           locale,
           geocode,
         }
-      })).data
+      }))
     },
     async getTrendLocations() {   
       return (await this._makeRequest({
@@ -940,6 +943,141 @@ const twitter = {
           id,
         }
       })).data
+    },
+    async searchHelper(opts = {}) {
+      const tweets = []
+
+      const {
+        tweet_mode = 'extended',
+        result_type,
+        count = 100,
+        lang,
+        locale,
+        geocode,
+        enrichTweets = true,
+        includeReplies = true,
+        includeRetweets = true,
+      } = opts
+
+      let { q, max_id, since_id = 0 } = opts
+      let min_id
+
+      if(includeReplies === false) {
+        q = `${q} -filter:replies`
+      }
+  
+      if(includeRetweets === false) {
+        q = `${q} -filter:nativeretweets`
+      }
+  
+      const response = await this.search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id)
+
+      if (response.status !== 200) {
+        console.log(`Last request was not successful. Result code was ${response.status}`)
+        console.log(response)
+        return {
+          statusCode: response.status, 
+        }
+      } else {
+        if (!max_id) {
+          max_id = since_id || 0
+        }
+    
+        for (let tweet of response.data.statuses) {
+          if (tweet.id_str !== since_id && tweet.id_str !== max_id) {
+            if (enrichTweets) {
+              tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
+              tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
+            }
+            tweets.push(tweet)
+            if (tweet.id_str > max_id) {
+              max_id = tweet.id_str
+              if(!min_id) {
+                min_id = max_id
+              }
+            }
+            if (tweet.id_str < max_id) {
+              min_id = tweet.id_str
+            }
+          }
+        }
+
+        return {
+          tweets,
+          max_id,
+          min_id,
+          count,
+          resultCount: response.data.statuses.length,
+          statusCode: response.status, 
+        }
+      }
+    },
+    async paginatedSearch(opts = {}) {
+      const {
+        count = 100,
+        q,
+        since_id,
+        lang, 
+        locale, 
+        geocode, 
+        result_type, 
+        enrichTweets,
+        includeReplies, 
+        includeRetweets,
+        maxRequests = 1,
+        limitFirstPage = true,
+      } = opts
+
+      let { max_id } = opts, maxPages = 1, totalRequests = 0
+
+      const tweets = []
+
+      if (!limitFirstPage) {
+        maxPages = maxRequests
+      }
+
+      for (let page = 0; page < maxPages; page++) {        
+        const response = await this.searchHelper({
+          count,
+          q,
+          since_id,
+          max_id,
+          lang, 
+          locale, 
+          geocode, 
+          result_type, 
+          enrichTweets,
+          includeReplies, 
+          includeRetweets,
+        })
+        
+        // increment the count of requests to report out after all requests are complete
+        totalRequests++
+        
+        if (response.statusCode !== 200) {
+          break
+        } else {
+          response.tweets.forEach(tweet => {
+            tweets.push(tweet)
+          })
+
+          //console.log(`total requests: ${totalRequests} max requests: ${maxRequests} results: ${response.resultCount} count: ${response.count}`)
+
+          if (totalRequests * 1 === maxRequests * 1 && response.resultCount === response.count) {
+            console.log(`The last API request returned the maximum number of results. There may be additional tweets matching your search criteria. To return more tweets, increase the maximum number of API requests per execution.`)
+          }
+
+          if (response.length === 0 || response.resultCount < response.count) {
+            break
+          } else {
+            max_id = response.min_id
+          }
+        }
+      }
+      
+      console.log(`Made ${totalRequests} requests to the Twitter API and returned ${tweets.length} tweets.`)
+
+      return tweets
     },
     async verifyCredentials() {   
       return (await this._makeRequest({
@@ -971,6 +1109,7 @@ module.exports = {
     lang: { propDefinition: [twitter, "lang"] },
     locale: { propDefinition: [twitter, "locale"] },
     geocode: { propDefinition: [twitter, "geocode"] },
+    maxRequests: { propDefinition: [twitter, "maxRequests"] },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -978,118 +1117,40 @@ module.exports = {
       },
     },
   },
-  methods: {
-    async search(opts = {}) {
-      const tweets = []
-
-      const {
-        tweet_mode = 'extended',
-        result_type,
-        count = 100,
-        lang,
-        locale,
-        geocode,
-        enrichTweets = true,
-        includeReplies = true,
-        includeRetweets = true,
-      } = opts
-
-      let { q, max_id, since_id = 0 } = opts
-      let min_id
-
-      if(includeReplies === false) {
-        q = `${q} -filter:replies`
-      }
-  
-      if(includeRetweets === false) {
-        q = `${q} -filter:nativeretweets`
-      }
-  
-      const response = await this.twitter.search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id)
-      console.log(response.statuses.length)
-
-      if (!max_id) {
-        max_id = since_id || 0
-      }
-  
-      for (let tweet of response.statuses) {
-        console.log(tweet)
-        if (tweet.id_str !== since_id && tweet.id_str !== max_id) {
-          if (enrichTweets) {
-            tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
-            tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
-          }
-          tweets.push(tweet)
-          if (tweet.id_str > max_id) {
-            max_id = tweet.id_str
-            if(!min_id) {
-              min_id = max_id
-            }
-          }
-          if (tweet.id_str < max_id) {
-            min_id = tweet.id_str
-          }
-        }
-      }
-
-      console.log(max_id)
-
-      return {
-        tweets,
-        max_id,
-        min_id,
-        count,
-        resultCount: response.statuses.length,
-      }
-    }
-  },
+  methods: {},
   async run(event) {
     const since_id = this.db.get("since_id") || 0
-    const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets } = this
+    const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests } = this
+    let max_id, limitFirstPage
     
     // join "from" filter and search keywords
     let q = `from:${this.from.replace('@','')}`
     if(this.q) { 
       q = `${q} ${this.q}` 
-    }    
+    }
     
-    const tweets = []
     if (since_id === 0) {
-      maxRequests = 1
+      limitFirstPage = true
     } else {
-      maxRequests = 3
+      limitFirstPage = false
     }
-    
-    let max_id
 
-    for (let i = 0; i < maxRequests; i++) {
-      console.log(`request # ${i}`)
-      const results = await this.search({
-        count: 3,
-        q,
-        since_id,
-        max_id,
-        lang, 
-        locale, 
-        geocode, 
-        result_type, 
-        enrichTweets,
-        includeReplies, 
-        includeRetweets,
-      })
-      results.tweets.forEach(tweet => {
-        tweets.push(tweet)
-      })
-      console.log(results)
-      if (results.length === 0 || results.resultCount < results.count) {
-        break
-      } else {
-        max_id = results.min_id
-      }
-    }
-  
-    console.log(tweets.length)
+    // run paginated search
+    const tweets = await this.twitter.paginatedSearch({ 
+      q, 
+      since_id, 
+      lang, 
+      locale, 
+      geocode, 
+      result_type, 
+      enrichTweets, 
+      includeReplies, 
+      includeRetweets, 
+      maxRequests,
+      limitFirstPage,
+    })
 
+    // emit array of tweet objects
     if(tweets.length > 0) {
       tweets.sort(function(a, b){return a.id - b.id})
 
@@ -1103,10 +1164,9 @@ module.exports = {
         if (tweet.id_str > max_id || !max_id) {
           max_id = tweet.id_str
         }
-        console.log(`tweetid: ${tweet.id_str}`)
-        console.log(`maxid: ${max_id}`)
       })
-      
+    }
+    if (max_id) {
       this.db.set("since_id", max_id)
     }
   },
