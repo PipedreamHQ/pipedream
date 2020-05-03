@@ -50,46 +50,43 @@ const jotform = {
         url: `https://api.jotform.com/form/${formId}/webhooks`,
         method: `GET`,
         headers: {
-            "APIKEY": this.$auth.api_key,
-          },
+          "APIKEY": this.$auth.api_key,
+        },
       })).data
     },
     async createHook(opts = {}) {
       const { formId, endpoint } = opts
-      const updatedEndpoint = `${endpoint}/`
       return (await this._makeRequest({ 
         url: `https://api.jotform.com/form/${formId}/webhooks`,
         method: `POST`, 
         headers: {
-            "APIKEY": this.$auth.api_key,
-          },
+          "APIKEY": this.$auth.api_key,
+        },
         params: {
-          webhookURL: encodeURI(updatedEndpoint),
+          webhookURL: await this.updateWebhookUrl(endpoint),
         },
       }))
     },
     async deleteHook(opts = {}) { 
       const { formId, endpoint } = opts
-      const updatedEndpoint = `${endpoint}/`
       const webhooks = (await this.getWebhooks({ formId })).content
-      let webhookId = -1
-      for (let id in webhooks) {
-        if (webhooks[id] === updatedEndpoint) {
-          webhookId = id
-        }
-      }
-      if(webhookId !== -1) {
-        console.log(`Deleting webhook ID ${webhookId}...`)
+      const webhookIdx = webhooks.findIndex(w => w === await this.updateWebhookUrl(endpoint))
+      if(webhookIdx !== -1) {
+        console.log(`Deleting webhook at index ${webhookIdx}...`)
         return (await this._makeRequest({ 
-          url: `https://api.jotform.com/form/${formId}/webhooks/${webhookId}`,
+          url: `https://api.jotform.com/form/${formId}/webhooks/${webhookIdx}`,
           method: `DELETE`, 
           headers: {
             "APIKEY": this.$auth.api_key,
           },
         }))
       } else {
-        console.log(`Could not detect webhook ID.`)
+        console.log(`Did not detect ${endpoint} as a webhook registered for form ID ${formId}.`)
       }
     },
+    async updateWebhookUrl(opts = {}) {
+      const {endpoint} = opts
+      return endpoint.endsWith('/') ? endpoint : `${endpoint}/`
+    }
   },
 }
