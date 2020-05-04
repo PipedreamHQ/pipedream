@@ -23,17 +23,17 @@ const twitter = {
     },
     count: {
       type: "string",
-      label: "Count",
+      label: "Count (advanced)",
       description: "The maximum number of tweets to return per API request (up to `100`)",
       optional: true,
       default: "100",
     },
     maxRequests: {
       type: "string",
-      label: "Max Search API Requests (Advanced)",
-      description: "The maximum number of API requests to make per execution. The maximum number of results Twitter returns per API request is `100`. If your search results match more than `100` results, additional API requests are required per execution. Note: if Twitter returns a response indicating your account is rate limited, addtional requests will not be made for the current execution.",
+      label: "Max API Requests per Execution (advanced)",
+      description: "The maximum number of API requests to make per execution (e.g., multiple requests are required to retrieve paginated results). **Note:** Twitter [rate limits API requests](https://developer.twitter.com/en/docs/basics/rate-limiting) per 15 minute interval.",
       optional: true,
-      default: "3",
+      default: "5",
     },
     from: {
       type: "string",
@@ -971,14 +971,9 @@ const twitter = {
       }
   
       const response = await this.search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id)
-
-      if (response.status !== 200) {
-        console.log(`Last request was not successful. Result code was ${response.status}`)
-        console.log(response)
-        return {
-          statusCode: response.status, 
-        }
-      } else {
+      
+      //console.log(response)
+      if (_.get(response, 'status', 'Error') === 200) {
         if (!max_id) {
           max_id = since_id || 0
         }
@@ -1010,11 +1005,17 @@ const twitter = {
           resultCount: response.data.statuses.length,
           statusCode: response.status, 
         }
+      } else {
+        console.log(`Last request was not successful.`)
+        console.log(`API Response: ${response}`)
+        return {
+          statusCode: "Error",
+        }
       }
     },
     async paginatedSearch(opts = {}) {
       const {
-        count = 5,
+        count = 100,
         q,
         since_id,
         lang, 
@@ -1036,10 +1037,10 @@ const twitter = {
         maxPages = maxRequests
       }
 
-      console.log(maxPages)
+      //console.log(maxPages)
 
       for (let page = 0; page < maxPages; page++) {        
-        console.log(`page: ${page} max_id: ${max_id}`)
+        //console.log(`page: ${page} max_id: ${max_id}`)
         const response = await this.searchHelper({
           count,
           q,
@@ -1112,6 +1113,7 @@ module.exports = {
     lang: { propDefinition: [twitter, "lang"] },
     locale: { propDefinition: [twitter, "locale"] },
     geocode: { propDefinition: [twitter, "geocode"] },
+    count: { propDefinition: [twitter, "count"] },
     maxRequests: { propDefinition: [twitter, "maxRequests"] },
     timer: {
       type: "$.interface.timer",
@@ -1123,7 +1125,7 @@ module.exports = {
   methods: {},
   async run(event) {
     const since_id = this.db.get("since_id") || 0
-    const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests } = this
+    const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
     let max_id, limitFirstPage
     
     // join "from" filter and search keywords
@@ -1150,6 +1152,7 @@ module.exports = {
       includeReplies, 
       includeRetweets, 
       maxRequests,
+      count,
       limitFirstPage,
     })
 
