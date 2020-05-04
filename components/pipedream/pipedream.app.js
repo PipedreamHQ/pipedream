@@ -11,19 +11,22 @@ module.exports = {
   methods: {
     async runSQLQuery(query, format) {
       try {
-        const { results } = (
-          await axios({
-            url: PIPEDREAM_SQL_BASE_URL,
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${this.$auth.api_key}`,
-            },
-            data: { query },
-          })
-        ).data;
+        const resp = await axios({
+          url: PIPEDREAM_SQL_BASE_URL,
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.$auth.api_key}`,
+          },
+          data: { query },
+        });
 
-        console.log(results);
-        const { error, queryExecutionId, resultSet, resultsFilename } = results;
+        console.log(data);
+        const {
+          error,
+          queryExecutionId,
+          resultSet,
+          resultsFilename,
+        } = data.results;
 
         if (error && error.toDisplay) {
           throw new Error(error.toDisplay);
