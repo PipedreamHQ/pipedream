@@ -41,13 +41,13 @@ Then, you can process items from your event source in 3 ways:
     <kbd><img  alt="RSS Source in Pipedream UI" width="672" src="https://rss.pipedream.com/img/rss-source-in-ui.2832e34f.png"></kbd>
 </p>
 
-You can also visit **https://pipedream.com/sourcesand** click theCreate Sourcebutton, then choose the rss/rss.js source from the modal that appears.
+You can also visit **https://pipedream.com/sources** and click the Create Source button, then choose the `rss/rss.js` source from the modal that appears.
 
 If you don't have a feed handy, you can use **https://rss.m.pipedream.net**. This generates a new, random item once every 15 minutes.
 
 You can also create an event source using the Pipedream CLI:
 
-```js
+```bash
   $ curl https://cli.pipedream.com/install | sh
 
   $ pd deploy # Select the rss source, enter your URL
@@ -55,10 +55,10 @@ You can also create an event source using the Pipedream CLI:
 
 Once deployed, you can retrieve items emitted by the source using the pd eventscommand:
 
-```js
-$ pd events -n 1 sample-feed# Retrieve the newest item
+```bash
+$ pd events -n 1 sample-feed  # Retrieve the newest item
 
-$ pd events -f sample-feed# Tail the feed in real time
+$ pd events -f sample-feed  # Tail the feed in real time
 ```
 
 Then, you can trigger a Pipedream workflow— a serverless Node.js script — on every event:
@@ -113,7 +113,7 @@ This way, you can run an event source in Pipedream but access its events in your
 
 ### SSE
 
-SSE —[**Server-sent events**](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)—defines a spec for how servers can send events directly to clients that subscribe to those events, similar to [**WebSockets**](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) and related server-to-client push technologies. If you listen for new items using SSE, **you can run any code in your own application, in real time, as soon as those items are added to the feed.**
+SSE — [**Server-sent events**](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) — defines a spec for how servers can send events directly to clients that subscribe to those events, similar to [**WebSockets**](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) and related server-to-client push technologies. If you listen for new items using SSE, **you can run any code in your own application, in real time, as soon as those items are added to the feed.**
 
 Streams are private by default. You authenticate by passing your Pipedream API key in the Authorization header:
 
@@ -135,13 +135,12 @@ $ curl -H "Authorization: Bearer API_KEY" \
 https://api.pipedream.com/v1/sources/SOURCE_ID/events?n=1
 ```
 
-Note the?n=1query string. You can vary the number of events returned (most recent first) by setting this param.
+Note the `?n=1` query string. You can vary the number of events returned (most recent first) by setting this param.
 
 ## Questions or Feedback?
 
 Please [**reach out**](https://docs.pipedream.com/support/) with any questions or feedback. We're happy to add other RSS-specific developer resources to this list, and we'd love to hear what can be improved about event sources or the example workflows.
-  
-  
+
 &nbsp;&nbsp;  
 &nbsp;&nbsp;
 
