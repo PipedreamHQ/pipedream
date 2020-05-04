@@ -11,7 +11,7 @@ module.exports = {
   methods: {
     async runSQLQuery(query, format) {
       try {
-        const resp = await axios({
+        const { data } = await axios({
           url: PIPEDREAM_SQL_BASE_URL,
           method: "POST",
           headers: {
@@ -20,13 +20,8 @@ module.exports = {
           data: { query },
         });
 
-        console.log(resp.data);
-        const {
-          error,
-          queryExecutionId,
-          resultSet,
-          resultsFilename,
-        } = resp.data.results;
+        console.log(data);
+        const { error, queryExecutionId, resultSet, resultsFilename } = data;
 
         if (error && error.toDisplay) {
           throw new Error(error.toDisplay);
