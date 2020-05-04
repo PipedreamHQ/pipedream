@@ -132,10 +132,10 @@ If you prefer to process items from an RSS feed in batch, you can fetch them usi
 ```js
 $ curl -H "Authorization: Bearer API_KEY" \
 
-https://api.pipedream.com/v1/sources/SOURCE_ID/events?n=1
+https://api.pipedream.com/v1/sources/SOURCE_ID/events?limit=1
 ```
 
-Note the `?n=1` query string. You can vary the number of events returned (most recent first) by setting this param.
+Note the `?limit=1` query string. You can vary the number of events returned (most recent first) by setting this param.
 
 ## Questions or Feedback?
 
