@@ -22,9 +22,10 @@ module.exports = {
           })
         ).data;
 
+        console.log(results);
         const { error, queryExecutionId, resultSet, resultsFilename } = results;
 
-        if (error.toDisplay) {
+        if (error && error.toDisplay) {
           throw new Error(error.toDisplay);
         }
 
