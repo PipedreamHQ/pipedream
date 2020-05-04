@@ -1,39 +1,41 @@
 <p align="center">
-    <img width="80" height="80" src="./RSS/Generic_Feed-icon.svg.png">    </p>
+    <img width="80" height="80" src="../../images/Generic_Feed-icon.svg.png">    </p>
 <h1 align="center"><strong>RSS for Hackers</strong></h1>
 
 <p align="center">Patterns for processing and producing RSS feeds</p>
 
 <p align="center">
-    <a alt="Getting Started" href="#getting-started"><img width="30%" src="./RSS/GettingStarted.png"></a>
-    <a alt="Example Worksflows" href="#example-workflows"><img width="30%" src="./RSS/Workflows.png"></a>
-    <a "SSE + REST API" href="#sse-and-rest-apis"><img width="30%" src="./RSS/RestApi.png"></a>
+    <a alt="Getting Started" href="#getting-started"><img width="30%" src="../../images/GettingStarted.png"></a>
+    <a alt="Example Worksflows" href="#example-workflows"><img width="30%" src="../../images/Workflows.png"></a>
+    <a "SSE + REST API" href="#sse-and-rest-apis"><img width="30%" src="../../images/RestApi.png"></a>
 </p>
 
 &nbsp;&nbsp;
+
 ## Getting Started
+
 If you want to process an RSS feed programmatically, you have to run code to poll the feed and keep track of items already processed. This isn't hard to write, but it's often not core to your app's logic. **You probably just want to run code on each new item in the feed.**
 
-``` js
-    // Don't care how I get feed
-    
-    for (const item of feed) {
-      // Just want to run code
-    }
+```js
+// Don't care how I get feed
+
+for (const item of feed) {
+  // Just want to run code
+}
 ```
 
 Pipedream lets you treat an RSS feed as an [**event source**](https://docs.pipedream.com/event-sources/). Pipedream runs the code to poll the feed, emitting new items as the feed produces them:
 
 <p align="center">
-    <img width="100%" src="./RSS/pipedream.png">
+    <img width="100%" src="../../images/pipedream.png">
 </p>
 
 Then, you can process items from your event source in 3 ways:
 
-+ Subscribe to a private SSE stream, which publishes items in real time
-+ Trigger a Pipedream workflow for each item, running hosted Node.js code (also real time)
-+ Access items in batch using Pipedream's REST API
-To get started, [**create a new RSS source in the Pipedream UI**](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Frss%2Frss.js&app=none). Name the source and add your feed URL:
+- Subscribe to a private SSE stream, which publishes items in real time
+- Trigger a Pipedream workflow for each item, running hosted Node.js code (also real time)
+- Access items in batch using Pipedream's REST API
+  To get started, [**create a new RSS source in the Pipedream UI**](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Frss%2Frss.js&app=none). Name the source and add your feed URL:
 
 <p align="center">
     <kbd><img  alt="RSS Source in Pipedream UI" width="672" src="https://rss.pipedream.com/img/rss-source-in-ui.2832e34f.png"></kbd>
@@ -47,7 +49,7 @@ You can also create an event source using the Pipedream CLI:
 
 ```js
   $ curl https://cli.pipedream.com/install | sh
-  
+
   $ pd deploy # Select the rss source, enter your URL
 ```
 
@@ -68,7 +70,9 @@ Then, you can trigger a Pipedream workflow— a serverless Node.js script — on
 or process items in your own app using [**the SSE stream or REST API**](https://rss.pipedream.com/#apis) tied to your source.
 
 &nbsp;&nbsp;
+
 ## Example Workflows
+
 Workflows are linear sequences of steps — just Node.js code —hosted and run by Pipedream.
 
 **You can copy the workflows below and run them in your Pipedream account [**for free**](https://docs.pipedream.com/pricing/)**. When you copy these workflows, you'll be asked to add the URL to your RSS feed, and to name the feed something memorable. This creates an [**RSS event source**](https://rss.pipedream.com/#getting-started) and runs your workflow every time an item is added to your feed.
@@ -82,27 +86,28 @@ If you already created RSS source, and want to run a workflow on that same feed,
 They should work as is, but you can modify them in any way. For example, you can add a step to [**run any Node.js code**](https://docs.pipedream.com/workflows/steps/code/) or use [**pre-built functions**](https://docs.pipedream.com/workflows/steps/actions/) to send data to other destinations.
 
 <p align="center">
-    <a alt="RSS to Email" href="https://pipedream.com/@dylburger/rss-to-email-p_NMCqyV/readme"><img width="40%" src="./RSS/1.png"></a>
-    <a alt="RSS to Twitter" href="https://pipedream.com/@dylan/rss-to-twitter-p_5VCkQ7/readme"><img width="40%" src="./RSS/2.png"></a>
-    <a alt="RSS to AWS SQS" href="https://pipedream.com/@dylburger/rss-aws-sqs-p_D1CDjB/readme"><img width="40%" src="./RSS/3.png"></a>
-    <a alt="RSS to AWS EventBridge" href="https://pipedream.com/@dylburger/rss-aws-eventbridge-event-bus-p_JZCk29/readme"><img width="40%" src="./RSS/4.png"></a>
-    <a alt="RSS to AWS lambda" href="https://pipedream.com/@dylburger/rss-aws-lambda-p_ZJC9BG/readme"><img width="40%" src="./RSS/5.png"></a>
-    <a alt="RSS to Webhook" href="https://pipedream.com/@dylburger/rss-http-request-p_MOCq8K/readme"><img width="40%" src="./RSS/6.png"></a>
-    <a alt="RSS to Slack" href="https://pipedream.com/@dylburger/rss-slack-p_YyCDyK/readme"><img width="40%" src="./RSS/7.png"></a>
-    <a alt="RSS to Discord" href="https://pipedream.com/@dylburger/rss-discord-p_7NCWrm/readme"><img width="40%" src="./RSS/8.png"></a>
-    <a alt="RSS to Telegram" href="https://pipedream.com/@dylburger/rss-telegram-p_PACwrm/readme"><img width="40%" src="./RSS/9.png"></a>
-    <a alt="RSS to Google Sheets" href="https://pipedream.com/@dylburger/rss-to-google-sheets-p_ezCqGG/readme"><img width="40%" src="./RSS/10.png"></a>
-    <a alt="HTTP to RSS" href="https://pipedream.com/@dylburger/generate-an-rss-feed-from-http-post-requests-retrieve-via-get-request-p_n1CrQG/readme"><img width="40%" src="./RSS/11.png"></a>
-    <a alt="RSS to Browserless to S3" href="https://pipedream.com/@dylburger/rss-to-browserless-to-s3-p_95Cv5z/readme"><img width="40%" src="./RSS/12.png"></a>
+    <a alt="RSS to Email" href="https://pipedream.com/@dylburger/rss-to-email-p_NMCqyV/readme"><img width="40%" src="../../images/1.png"></a>
+    <a alt="RSS to Twitter" href="https://pipedream.com/@dylan/rss-to-twitter-p_5VCkQ7/readme"><img width="40%" src="../../images/2.png"></a>
+    <a alt="RSS to AWS SQS" href="https://pipedream.com/@dylburger/rss-aws-sqs-p_D1CDjB/readme"><img width="40%" src="../../images/3.png"></a>
+    <a alt="RSS to AWS EventBridge" href="https://pipedream.com/@dylburger/rss-aws-eventbridge-event-bus-p_JZCk29/readme"><img width="40%" src="../../images/4.png"></a>
+    <a alt="RSS to AWS lambda" href="https://pipedream.com/@dylburger/rss-aws-lambda-p_ZJC9BG/readme"><img width="40%" src="../../images/5.png"></a>
+    <a alt="RSS to Webhook" href="https://pipedream.com/@dylburger/rss-http-request-p_MOCq8K/readme"><img width="40%" src="../../images/6.png"></a>
+    <a alt="RSS to Slack" href="https://pipedream.com/@dylburger/rss-slack-p_YyCDyK/readme"><img width="40%" src="../../images/7.png"></a>
+    <a alt="RSS to Discord" href="https://pipedream.com/@dylburger/rss-discord-p_7NCWrm/readme"><img width="40%" src="../../images/8.png"></a>
+    <a alt="RSS to Telegram" href="https://pipedream.com/@dylburger/rss-telegram-p_PACwrm/readme"><img width="40%" src="../../images/9.png"></a>
+    <a alt="RSS to Google Sheets" href="https://pipedream.com/@dylburger/rss-to-google-sheets-p_ezCqGG/readme"><img width="40%" src="../../images/10.png"></a>
+    <a alt="HTTP to RSS" href="https://pipedream.com/@dylburger/generate-an-rss-feed-from-http-post-requests-retrieve-via-get-request-p_n1CrQG/readme"><img width="40%" src="../../images/11.png"></a>
+    <a alt="RSS to Browserless to S3" href="https://pipedream.com/@dylburger/rss-to-browserless-to-s3-p_95Cv5z/readme"><img width="40%" src="../../images/12.png"></a>
 </p>
 
 &nbsp;&nbsp;
+
 ## SSE and REST APIs
 
 Pipedream provides two other interfaces for accessing events produced by sources:
 
-+ A private SSE stream specific to your source
-+ A REST API
+- A private SSE stream specific to your source
+- A REST API
 
 This way, you can run an event source in Pipedream but access its events in your own application.
 
@@ -135,11 +140,12 @@ Note the?n=1query string. You can vary the number of events returned (most recen
 ## Questions or Feedback?
 
 Please [**reach out**](https://docs.pipedream.com/support/) with any questions or feedback. We're happy to add other RSS-specific developer resources to this list, and we'd love to hear what can be improved about event sources or the example workflows.
-    
-    
-&nbsp;&nbsp;    
-&nbsp;&nbsp;    
-___
+  
+  
+&nbsp;&nbsp;  
+&nbsp;&nbsp;
+
+---
 
 <p align="center">
 Pipedream, Inc. — San Francisco, CA
@@ -149,5 +155,4 @@ Pipedream, Inc. — San Francisco, CA
     <a href="https://pipedream.com/privacy">Privacy</a>
 </p>
 
-___
-
+---
