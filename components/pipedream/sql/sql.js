@@ -16,6 +16,14 @@ module.exports = {
       description:
         "The Zoom event you'd like to subscribe to (leave blank to subscribe to all events)",
     },
+    resultType: {
+      type: "string",
+      label: "Result Type",
+      description: `Specifies how you want the query results formatted`,
+      optional: true,
+      options: ["array", "object", "csv"],
+      default: "array",
+    },
     emitEachRecordAsEvent: {
       type: "boolean",
       label: "Emit each record as its own event",
@@ -27,9 +35,8 @@ module.exports = {
     pd,
   },
   async run() {
-    const results = await this.pd.runSQLQuery(this.sqlQuery);
+    const results = await this.pd.runSQLQuery(this.sqlQuery, this.resultType);
     console.log(results);
-    // TODO: Check to confirm results is an array.
     // TODO: handle emitEachRecordAsEvent
     this.$emit({ results }, { summary: this.sqlQuery });
   },
