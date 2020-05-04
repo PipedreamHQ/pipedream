@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { convertArrayToCSV } = require("convert-array-to-csv");
 
 const PIPEDREAM_BASE_URL = "https://api.pipedream.com/v1";
 const PIPEDREAM_SQL_BASE_URL = "https://rt.pipedream.com/sql";
@@ -20,9 +21,9 @@ module.exports = {
             data: { query },
           })
         ).data;
-        // TODO: massage query results to get header / results cleanly
-        // TODO: return a link to the CSV in the emit body
+
         const { error, queryExecutionId, resultSet, resultsFilename } = results;
+
         if (error.toDisplay) {
           throw new Error(error.toDisplay);
         }
@@ -34,7 +35,7 @@ module.exports = {
           csvLocation: `https://rt.pipedream.com/sql/csv/${resultsFilename}`,
         };
 
-        let results = [];
+        let formattedResults = [];
 
         if (format === "object") {
           let headers = resultSet.Rows.shift();
@@ -43,19 +44,19 @@ module.exports = {
             for (let j = 0; j < row.Data.length; j++) {
               obj[headers.Data[j].VarCharValue] = row.Data[j].VarCharValue;
             }
-            results.push(obj);
+            formattedResults.push(obj);
           }
         } else {
           for (const row of resultSet.Rows) {
-            results.push(row.Data.map((data) => data.VarCharValue));
+            formattedResults.push(row.Data.map((data) => data.VarCharValue));
           }
         }
 
         if (format === "csv") {
-          results = convertArrayToCSV(results);
+          formattedResults = convertArrayToCSV(formattedResults);
         }
 
-        data.results = results;
+        data.results = formattedResults;
         this.$emit(data);
       } catch (err) {
         console.log(`Error in SQL query: ${err}`);
