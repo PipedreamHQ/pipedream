@@ -20,13 +20,13 @@ module.exports = {
           data: { query },
         });
 
-        console.log(data);
+        console.log(resp.data);
         const {
           error,
           queryExecutionId,
           resultSet,
           resultsFilename,
-        } = data.results;
+        } = resp.data.results;
 
         if (error && error.toDisplay) {
           throw new Error(error.toDisplay);
