@@ -21,7 +21,6 @@ module.exports = {
         data: { query },
       });
 
-      console.log(data);
       const { error, queryExecutionId, resultSet, resultsFilename } = data;
 
       if (error && error.toDisplay) {
