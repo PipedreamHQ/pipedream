@@ -28,9 +28,9 @@ module.exports = {
     },
   },
   async run(event) {
-    let q = this.q
     const since_id = this.db.get("since_id") || 0
     const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
+    let q = this.q, max_id, limitFirstPage
 
     if (since_id === 0) {
       limitFirstPage = true
