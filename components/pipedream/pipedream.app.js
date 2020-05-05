@@ -1,14 +1,16 @@
+// Pipedream API app file
 const axios = require("axios");
 const { convertArrayToCSV } = require("convert-array-to-csv");
 
 const PIPEDREAM_BASE_URL = "https://api.pipedream.com/v1";
 const PIPEDREAM_SQL_BASE_URL = "https://rt.pipedream.com/sql";
 
-// Pipedream app
 module.exports = {
   type: "app",
   app: "pipedream",
   methods: {
+    // Runs a query againt the Pipedream SQL service
+    // https://docs.pipedream.com/destinations/sql/
     async runSQLQuery(query, format) {
       try {
         const { data } = await axios({

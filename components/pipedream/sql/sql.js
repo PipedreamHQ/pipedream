@@ -37,7 +37,6 @@ module.exports = {
   },
   async run() {
     const results = await this.pd.runSQLQuery(this.sqlQuery, this.resultType);
-    console.log(results);
     if (this.resultType === "array" && this.emitEachRecordAsEvent) {
       // First, extract the properties to include in every event
       const { columnInfo, queryExecutionId, csvLocation } = results;
