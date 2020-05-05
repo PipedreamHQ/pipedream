@@ -9,7 +9,7 @@ module.exports = {
     googleCalendar,
     calendarId: {
       type: "string",
-      async options() {
+/*      async options() {
         const calListResp = await this.googleCalendar.calendarList();
         const calendars = _.get(calListResp, "data.items");
         if (calendars) {
@@ -19,7 +19,7 @@ module.exports = {
           return calendarIds;
         }
         return [];
-      },
+      },*/
     },
     timer: {
       type: "$.interface.timer",
