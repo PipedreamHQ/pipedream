@@ -232,4 +232,7 @@ Setting **Result Type** to `csv` allows you to output results directly as a CSV 
 
 ## Limits
 
-The Scheduled SQL Source is subject to the same [query limits](https://docs.pipedream.com/destinations/sql/#query-limits) as the Pipedream SQL Service.
+The Scheduled SQL Source is subject to stricter limits than the [query limits](https://docs.pipedream.com/destinations/sql/#query-limits) for the Pipedream SQL Service:
+
+- Query results should be limited to **less than 1MB**
+- Queries are currently limited to a runtime of 60 seconds.
