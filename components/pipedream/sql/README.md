@@ -4,7 +4,7 @@ This source runs a SQL query against the [Pipedream SQL Service](https://docs.pi
 
 You can use this source to:
 
-- Produce scheduled reports: aggregate the results of some table via SQL, and send them to Slack, for example.
+- Produce scheduled reports: [aggregate the results of some table via SQL, and send them to Slack](https://pipedream.com/@dylburger/run-a-sql-query-against-the-pipedream-sql-service-send-results-to-slack-p_MOCrOV/edit), for example.
 - Check for anomalies in a data set: run a query that compares the count of events seen in the last hour against the historical average, notifying you when you observe an anomaly.
 - Any place where you want to drive a workflow using a SQL query!
 
