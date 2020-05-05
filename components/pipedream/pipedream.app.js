@@ -38,7 +38,7 @@ module.exports = {
 
         if (format === "object") {
           let headers = resultSet.Rows.shift();
-          for (const row of resultSet.Rows.length) {
+          for (const row of resultSet.Rows) {
             let obj = {};
             for (let j = 0; j < row.Data.length; j++) {
               obj[headers.Data[j].VarCharValue] = row.Data[j].VarCharValue;

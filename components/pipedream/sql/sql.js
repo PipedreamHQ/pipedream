@@ -3,6 +3,7 @@ const pd = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components
 module.exports = {
   name: "pipedream-sql",
   version: "0.0.1",
+  dedupe: "unique", // Dedupes records based on the query execution ID
   props: {
     timer: {
       type: "$.interface.timer",
@@ -38,6 +39,9 @@ module.exports = {
     const results = await this.pd.runSQLQuery(this.sqlQuery, this.resultType);
     console.log(results);
     // TODO: handle emitEachRecordAsEvent
-    this.$emit({ results }, { summary: this.sqlQuery });
+    this.$emit(results, {
+      summary: this.sqlQuery,
+      id: results.queryExecutionId,
+    });
   },
 };
