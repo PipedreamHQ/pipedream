@@ -8,6 +8,8 @@ You can use this source to:
 - Check for anomalies in a data set: run a query that compares the count of events seen in the last hour against the historical average, notifying you when you observe an anomaly.
 - Any place where you want to drive a workflow using a SQL query!
 
+This source is meant to operate on relatively small (< 1MB) results. See the [limits](#limits) section or [reach out](https://docs.pipedream.com/support/) to the Pipedream team with any questions.
+
 ## Pre-requisites
 
 First, you must have sent some data to the Pipedream SQL Service. Visit [https://pipedream.com/sql](https://pipedream.com/sql) or [see the docs](https://docs.pipedream.com/destinations/sql/#adding-a-sql-destination) to learn how.
