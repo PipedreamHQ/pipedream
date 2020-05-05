@@ -28,7 +28,7 @@ module.exports = {
         }
 
         // Parse raw results
-        const data = {
+        const results = {
           columnInfo: resultSet.ResultSetMetadata.ColumnInfo,
           queryExecutionId,
           csvLocation: `https://rt.pipedream.com/sql/csv/${resultsFilename}`,
@@ -55,8 +55,8 @@ module.exports = {
           formattedResults = convertArrayToCSV(formattedResults);
         }
 
-        data.results = formattedResults;
-        this.$emit(data);
+        results.results = formattedResults;
+        this.$emit(results);
       } catch (err) {
         console.log(`Error in SQL query: ${err}`);
         throw err;
