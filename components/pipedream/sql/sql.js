@@ -66,7 +66,7 @@ module.exports = {
             },
           },
           {
-            summary: `${this.sqlQuery} — ${i}`,
+            summary: `${this.sqlQuery} - ${i}`,
             id: `${results.queryExecutionId}-${i}`,
           }
         );
