@@ -47,18 +47,21 @@ module.exports = {
         csvLocation,
       };
       const header = results.results.shift();
-      for (const [i, el] of a.entries()) {
+      for (const [i, row] of results.results.entries()) {
         let record = {};
         for (const [j, col] of header.entries()) {
-          record[col] = el[j];
+          record[col] = row[j];
         }
         // For each record, emit an event
         this.$emit(
           {
-            columnInfo,
-            queryExecutionId,
-            csvLocation,
-            record,
+            query: this.sqlQuery,
+            results: {
+              columnInfo,
+              queryExecutionId,
+              csvLocation,
+              record,
+            },
           },
           {
             summary: `${this.sqlQuery} — ${i}`,
