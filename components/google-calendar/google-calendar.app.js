@@ -100,10 +100,8 @@ module.exports = {
       const access_token = _.get(this, "$auth.oauth_access_token")
       const refresh_token = _.get(this, "$auth.oauth_refresh_token")
       return {
-//        access_token,
-//        refresh_token,
-        access_token: null,
-        refresh_token: null,
+        access_token,
+        refresh_token,
       }
     },
     // returns a calendar object you can do whatever you want with
