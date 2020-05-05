@@ -30,14 +30,14 @@ module.exports = {
   },
   methods: {},
   async run(event) {
+    const from = `from:${this.from.replace('@','')}`
     const since_id = this.db.get("since_id") || 0
     const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
-    let max_id, limitFirstPage
+    let q = from, max_id, limitFirstPage
     
     // join "from" filter and search keywords
-    let q = `from:${this.from.replace('@','')}`
-    if(this.q) { 
-      q = `${q} ${this.q}` 
+    if (this.q) {
+      q += ` ${q}`
     }
     
     if (since_id === 0) {

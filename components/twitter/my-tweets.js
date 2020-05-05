@@ -29,13 +29,15 @@ module.exports = {
   },
   async run(event) {
     const account = await this.twitter.verifyCredentials()
-    const from = account.screen_name
+    const from = `from:${account.screen_name}`
     const since_id = this.db.get("since_id") || 0
     const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
-    let q = this.q, max_id, limitFirstPage
+    let q = from, max_id, limitFirstPage
     
     // join "from" filter and search keywords
-    q = `${from} ${q}`
+    if (this.q) {
+      q += ` ${q}`
+    }
 
     if (since_id === 0) {
       limitFirstPage = true
