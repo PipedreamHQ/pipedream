@@ -1,4 +1,4 @@
-const pipedream = require("https://github.com/PipedreamHQ/pipedream/components/pipedream/pipedream.app.js");
+const pipedream = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components/pipedream/pipedream.app.js");
 
 module.exports = {
   name: "pipedream-sql",
@@ -36,7 +36,10 @@ module.exports = {
     pipedream,
   },
   async run() {
-    const results = await this.pd.runSQLQuery(this.sqlQuery, this.resultType);
+    const results = await this.pipedream.runSQLQuery(
+      this.sqlQuery,
+      this.resultType
+    );
     if (this.resultType === "array" && this.emitEachRecordAsEvent) {
       // First, extract the properties to include in every event
       const { columnInfo, queryExecutionId, csvLocation } = results;
