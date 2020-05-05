@@ -37,7 +37,7 @@ module.exports = {
     
     // join "from" filter and search keywords
     if (this.q) {
-      q += ` ${q}`
+      q += ` ${this.q}`
     }
     
     if (since_id === 0) {
