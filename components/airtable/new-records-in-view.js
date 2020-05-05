@@ -2,7 +2,7 @@ const airtable = require('https://github.com/PipedreamHQ/pipedream/components/ai
 const moment = require('moment')
 const axios = require('axios')
 const _ = require('lodash')
- 
+
 module.exports = {
   name: "new-records-in-view",
   version: "0.0.1",
@@ -15,9 +15,9 @@ module.exports = {
       },
     },
     airtable,
-    baseId: { propDefinition: [airtable, "baseId"] },
-    tableId: { propDefinition: [airtable, "tableId", c => ({ baseId: c.baseId })] },
-    viewId: { propDefinition: [airtable, "viewId", c => ({ baseId: c.baseId, tableId: c.tableId })] },
+    baseId: { type: "$.airtable.baseId", appProp: "airtable" },
+    tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
+    viewId: { type: "$.airtable.viewId", tableIdProp: "tableId" },
   },
   async run(event) {
       const config = {
@@ -38,7 +38,7 @@ module.exports = {
       }
 
       const response = (await axios(config)).data
-      
+
       if (response.records.length > 0) {
         let recordCount = 0
         for (let record of response.records) {
@@ -47,8 +47,8 @@ module.exports = {
             summary: JSON.stringify(record.fields),
             id: record.id,
           })
-          if (maxTimestamp === '') { 
-            maxTimestamp = record.createdTime 
+          if (maxTimestamp === '') {
+            maxTimestamp = record.createdTime
           } else if (moment(record.createdTime).valueOf() > moment(maxTimestamp).valueOf()) {
             maxTimestamp = record.createdTime
           }
@@ -59,5 +59,5 @@ module.exports = {
       } else {
         console.log(`No new records.`)
       }
-  }, 
+  },
 }
