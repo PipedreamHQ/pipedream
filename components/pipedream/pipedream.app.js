@@ -36,11 +36,14 @@ module.exports = {
 
         let formattedResults = [];
 
+        // We can return results as an object, CSV, or array (default)
         if (format === "object") {
+          // The SQL service returns headers as the first row of results
           let headers = resultSet.Rows.shift();
           for (const row of resultSet.Rows) {
             let obj = {};
             for (let j = 0; j < row.Data.length; j++) {
+              // Column name : row value
               obj[headers.Data[j].VarCharValue] = row.Data[j].VarCharValue;
             }
             formattedResults.push(obj);
