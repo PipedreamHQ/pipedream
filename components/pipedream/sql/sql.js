@@ -1,4 +1,4 @@
-const pd = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components/pipedream/pipedream.app.js");
+const pipedream = require("https://github.com/PipedreamHQ/pipedream/blob/sql/components/pipedream/pipedream.app.js");
 
 module.exports = {
   name: "pipedream-sql",
@@ -15,7 +15,7 @@ module.exports = {
       type: "string",
       label: "SQL Query",
       description:
-        "The Zoom event you'd like to subscribe to (leave blank to subscribe to all events)",
+        "Your SQL query (try running in [https://pipedream.com/sql](https://pipedream.com/sql) first)",
     },
     resultType: {
       type: "string",
@@ -33,7 +33,7 @@ module.exports = {
       optional: true,
       default: false,
     },
-    pd,
+    pipedream,
   },
   async run() {
     const results = await this.pd.runSQLQuery(this.sqlQuery, this.resultType);
