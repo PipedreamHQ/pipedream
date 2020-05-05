@@ -11,7 +11,6 @@ module.exports = {
     twitter,
     q: { propDefinition: [twitter, "q"] },
     result_type: { propDefinition: [twitter, "result_type"] },
-    count: { propDefinition: [twitter, "count"] },
     includeRetweets: { propDefinition: [twitter, "includeRetweets"] },
     includeReplies: { propDefinition: [twitter, "includeReplies"] },
     enrichTweets: { propDefinition: [twitter, "enrichTweets"] },
