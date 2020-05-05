@@ -56,7 +56,8 @@ module.exports = {
         }
 
         results.results = formattedResults;
-        this.$emit(results);
+
+        return results;
       } catch (err) {
         console.log(`Error in SQL query: ${err}`);
         throw err;
