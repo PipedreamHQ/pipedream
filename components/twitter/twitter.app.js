@@ -1,4 +1,5 @@
 const axios = require('axios')
+const _ = require('lodash')
 const querystring = require('querystring')
 
 module.exports = {
@@ -26,10 +27,17 @@ module.exports = {
     },
     count: {
       type: "string",
-      label: "Count",
-      description: "The maximum number of tweets to return (up to 100)",
+      label: "Count (advanced)",
+      description: "The maximum number of tweets to return per API request (up to `100`)",
       optional: true,
       default: "100",
+    },
+    maxRequests: {
+      type: "string",
+      label: "Max API Requests per Execution (advanced)",
+      description: "The maximum number of API requests to make per execution (e.g., multiple requests are required to retrieve paginated results). **Note:** Twitter [rate limits API requests](https://developer.twitter.com/en/docs/basics/rate-limiting) per 15 minute interval.",
+      optional: true,
+      default: "5",
     },
     from: {
       type: "string",
@@ -39,7 +47,7 @@ module.exports = {
     geocode: {
       type: "string",
       label: "Geocode",
-      description: `Returns tweets by users located within a given radius of the given latitude/longitude. The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile. The parameter value is specified by " latitude,longitude,radius ", where radius units must be specified as either " mi " (miles) or " km " (kilometers). Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.`,
+      description: "Returns tweets by users located within a given radius of the given latitude/longitude. The location is preferentially taking from the Geotagging API, but will fall back to their Twitter profile. The parameter value is specified by `latitude,longitude,radius`, where radius units must be specified as either `mi` (miles) or `km` (kilometers). Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.",
       optional: true,
     },
     includeRetweets: {
@@ -867,7 +875,6 @@ module.exports = {
         const sep = config.url.indexOf('?') === -1 ? '?' : '&'
         config.url += `${sep}${query}`
         config.url = config.url.replace('?&','?')
-        console.log(config.url)
       }
       const authorization = await this._getAuthorizationHeader(config)
       config.headers.authorization = authorization
@@ -923,7 +930,7 @@ module.exports = {
           locale,
           geocode,
         }
-      })).data
+      }))
     },
     async getTrendLocations() {   
       return (await this._makeRequest({
@@ -940,6 +947,145 @@ module.exports = {
           id,
         }
       })).data
+    },
+    async searchHelper(opts = {}) {
+      const tweets = []
+
+      const {
+        tweet_mode = 'extended',
+        result_type,
+        count = 100,
+        lang,
+        locale,
+        geocode,
+        enrichTweets = true,
+        includeReplies = true,
+        includeRetweets = true,
+      } = opts
+
+      let { q, max_id, since_id = 0 } = opts
+      let min_id
+
+      if(includeReplies === false) {
+        q = `${q} -filter:replies`
+      }
+  
+      if(includeRetweets === false) {
+        q = `${q} -filter:nativeretweets`
+      }
+  
+      const response = await this.search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id)
+      
+      //console.log(response)
+      if (_.get(response, 'status', 'Error') === 200) {
+        if (!max_id) {
+          max_id = since_id || 0
+        }
+    
+        for (let tweet of response.data.statuses) {
+          if (tweet.id_str !== since_id && tweet.id_str !== max_id) {
+            if (enrichTweets) {
+              tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
+              tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
+            }
+            tweets.push(tweet)
+            if (tweet.id_str > max_id) {
+              max_id = tweet.id_str
+              if(!min_id) {
+                min_id = max_id
+              }
+            }
+            if (tweet.id_str < max_id) {
+              min_id = tweet.id_str
+            }
+          }
+        }
+
+        return {
+          tweets,
+          max_id,
+          min_id,
+          count,
+          resultCount: response.data.statuses.length,
+          statusCode: response.status, 
+        }
+      } else {
+        console.log(`Last request was not successful.`)
+        console.log(`API Response: ${response}`)
+        return {
+          statusCode: "Error",
+        }
+      }
+    },
+    async paginatedSearch(opts = {}) {
+      const {
+        count = 100,
+        q,
+        since_id,
+        lang, 
+        locale, 
+        geocode, 
+        result_type, 
+        enrichTweets,
+        includeReplies, 
+        includeRetweets,
+        maxRequests = 1,
+        limitFirstPage = true,
+      } = opts
+
+      let { max_id } = opts, maxPages = 1, totalRequests = 0
+
+      const tweets = []
+
+      if (!limitFirstPage) {
+        maxPages = maxRequests
+      }
+
+      //console.log(maxPages)
+
+      for (let page = 0; page < maxPages; page++) {        
+        //console.log(`page: ${page} max_id: ${max_id}`)
+        const response = await this.searchHelper({
+          count,
+          q,
+          since_id,
+          max_id,
+          lang, 
+          locale, 
+          geocode, 
+          result_type, 
+          enrichTweets,
+          includeReplies, 
+          includeRetweets,
+        })
+        
+        // increment the count of requests to report out after all requests are complete
+        totalRequests++
+        
+        if (response.statusCode !== 200) {
+          break
+        } else {
+          response.tweets.forEach(tweet => {
+            tweets.push(tweet)
+          })
+
+          //console.log(`total requests: ${totalRequests} max requests: ${maxRequests} results: ${response.resultCount} count: ${response.count}`)
+
+          if (totalRequests * 1 === maxRequests * 1 && response.resultCount === response.count) {
+            console.log(`The last API request returned the maximum number of results. There may be additional tweets matching your search criteria. To return more tweets, increase the maximum number of API requests per execution.`)
+          }
+
+          if (response.length === 0 || response.resultCount < response.count) {
+            break
+          } else {
+            max_id = response.min_id
+          }
+        }
+      }
+      
+      console.log(`Made ${totalRequests} requests to the Twitter API and returned ${tweets.length} tweets.`)
+
+      return tweets
     },
     async verifyCredentials() {   
       return (await this._makeRequest({

@@ -18,6 +18,8 @@ module.exports = {
     lang: { propDefinition: [twitter, "lang"] },
     locale: { propDefinition: [twitter, "locale"] },
     geocode: { propDefinition: [twitter, "geocode"] },
+    count: { propDefinition: [twitter, "count"] },
+    maxRequests: { propDefinition: [twitter, "maxRequests"] },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -36,61 +38,51 @@ module.exports = {
     }
     
     const since_id = this.db.get("since_id") || 0
-    const tweet_mode = 'extended'
-    const result_type = this.result_type
-    const { count, lang, locale, geocode } = this
-
-    if(this.includeReplies === false) {
-      q = `${q} -filter:replies`
-    }
+    const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
 
     // join "from" filter and search keywords
     q = `${from} ${q}`
 
-    const response = await this.twitter.search(q.trim(), since_id, tweet_mode, count, result_type, lang, locale, geocode)
+    if (since_id === 0) {
+      limitFirstPage = true
+    } else {
+      limitFirstPage = false
+    }
 
-    let maxId = since_id
+    // run paginated search
+    const tweets = await this.twitter.paginatedSearch({ 
+      q, 
+      since_id, 
+      lang, 
+      locale, 
+      geocode, 
+      result_type, 
+      enrichTweets, 
+      includeReplies, 
+      includeRetweets, 
+      maxRequests,
+      count,
+      limitFirstPage,
+    })
 
-    response.statuses.sort(function(a, b){return moment(a.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()-moment(b.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()});
+    // emit array of tweet objects
+    if(tweets.length > 0) {
+      tweets.sort(function(a, b){return a.id - b.id})
 
-    let filteredRetweets = 0
-    let filteredReplies = 0
-
-    for (let tweet of response.statuses) {
-      
-      if(this.includeRetweets === false) {
-        if (_.get(tweet,'retweeted_status.id','') !== '') {
-          filteredRetweets++
-          continue
-        }
-      } 
-
-      if(this.includeReplies === false) {
-        if (tweet.in_reply_to_status_id !== null) {
-          filteredReplies++
-          continue
-        }
-      }
-
-      if (tweet.id !== since_id) {
-        if (this.enrichTweets) {
-          tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
-          tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
-        }
-
+      tweets.forEach(tweet => {
         this.$emit(tweet, {
           ts: moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf(),
           summary: tweet.full_text || tweet.text,
           id: tweet.created_at_timestamp,
         })
-        if (tweet.id > maxId) {
-          maxId = tweet.id
-        }
-      }
-    }
 
-    if (filteredRetweets > 0) { console.log(`Filtered out ${filteredRetweets} retweets from search results.`) }
-    if (filteredReplies > 0) { console.log(`Filtered out ${filteredReplies} replies from search results.`) }
-    this.db.set("since_id", maxId)
+        if (tweet.id_str > max_id || !max_id) {
+          max_id = tweet.id_str
+        }
+      })
+    }
+    if (max_id) {
+      this.db.set("since_id", max_id)
+    }
   },
 }
