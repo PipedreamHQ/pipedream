@@ -38,10 +38,42 @@ module.exports = {
   async run() {
     const results = await this.pd.runSQLQuery(this.sqlQuery, this.resultType);
     console.log(results);
-    // TODO: handle emitEachRecordAsEvent
-    this.$emit(results, {
-      summary: this.sqlQuery,
-      id: results.queryExecutionId,
-    });
+    if (this.resultType === "array" && this.emitEachRecordAsEvent) {
+      // First, extract the properties to include in every event
+      const { columnInfo, queryExecutionId, csvLocation } = results;
+      let event = {
+        columnInfo,
+        queryExecutionId,
+        csvLocation,
+      };
+      const header = results.results.shift();
+      for (const [i, el] of a.entries()) {
+        let record = {};
+        for (const [j, col] of header.entries()) {
+          record[col] = el[j];
+        }
+        // For each record, emit an event
+        this.$emit(
+          {
+            columnInfo,
+            queryExecutionId,
+            csvLocation,
+            record,
+          },
+          {
+            summary: `${this.sqlQuery} — ${i}`,
+            id: `${results.queryExecutionId}-${i}`,
+          }
+        );
+      }
+      return;
+    }
+    this.$emit(
+      { query: this.sqlQuery, results },
+      {
+        summary: this.sqlQuery,
+        id: results.queryExecutionId,
+      }
+    );
   },
 };
