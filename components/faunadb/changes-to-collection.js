@@ -43,8 +43,8 @@ module.exports = {
 
     for (const event of events) {
       this.$emit(event, {
-        summary: `${event.action.toUpperCase()} - ${event.document["@ref"].id}`,
-        id: `${event.action}-${event.document["@ref"].id}`, // dedupes events based on this ID
+        summary: `${event.action.toUpperCase()} - ${event.document.id}`,
+        id: `${event.action}-${event.document.id}`, // dedupes events based on this ID
       });
     }
 

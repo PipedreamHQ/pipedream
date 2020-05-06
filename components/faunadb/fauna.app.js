@@ -19,7 +19,7 @@ module.exports = {
 
         await collectionsPaginator.each((page) => {
           for (const collection of page) {
-            collections.push(collection);
+            collections.push(collection.id);
           }
         });
 
