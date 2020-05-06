@@ -1,4 +1,4 @@
-const faunadb = require("https://github.com/PipedreamHQ/pipedream/blog/fauna/components/faunadb/fauna.app.js");
+const faunadb = require("https://github.com/PipedreamHQ/pipedream/blob/fauna/components/faunadb/fauna.app.js");
 
 module.exports = {
   name: "changes-to-collection",
