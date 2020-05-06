@@ -11,7 +11,7 @@ module.exports = {
       label: "Collection",
       description: "The collection you'd like to watch for changes",
       optional: false,
-      async options() {
+      async options(opts) {
         const client = new faunadb.Client({ secret: this.$auth.secret });
 
         const collections = [];
