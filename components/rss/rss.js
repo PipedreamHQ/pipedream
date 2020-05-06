@@ -1,5 +1,10 @@
 const Parser = require("rss-parser")
-const parser = new Parser()
+const parser = new Parser({
+  customFields: {
+    feed: ['itunes:author','itunes:block','itunes:explicit','itunes:image','itunes:keywords','itunes:new-feed-url','itunes:owner','itunes:subtitle','itunes:summary'],
+    item: ['media:content','media:group','itunes:author','itunes:block','itunes:category','itunes:duration','itunes:explicit','itunes:image','itunes:keywords','itunes:pubDate','itunes:subtitle','itunes:summary'],
+  }
+})
 
 module.exports = {
   name: "rss",
