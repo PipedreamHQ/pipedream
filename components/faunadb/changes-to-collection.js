@@ -12,7 +12,7 @@ module.exports = {
         cron: "*/15 * * * *",
       },
     },
-    collection: { propDefinition: [twitter, "collection"] },
+    collection: { propDefinition: [faunadb, "collection"] },
     emitEventsInBatch: {
       type: "boolean",
       label: "Emit changes as a single event",
