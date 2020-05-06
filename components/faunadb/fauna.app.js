@@ -12,6 +12,8 @@ module.exports = {
       description: "The collection you'd like to watch for changes",
       optional: false,
       async options() {
+        const client = new faunadb.Client({ secret: this.$auth.secret });
+
         const collections = [];
         const collectionsPaginator = await client.paginate(q.Collections());
 
