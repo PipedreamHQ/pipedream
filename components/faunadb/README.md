@@ -20,6 +20,7 @@ The [`changes-to-collection.js`](changes-to-collection.js) source tracks [`add` 
 
 <details>
   <summary>Click to expand</summary>
+
 ```json
 {
   "ts": 1588738648630000,
@@ -48,12 +49,14 @@ The [`changes-to-collection.js`](changes-to-collection.js) source tracks [`add` 
   }
 }
 ```
+
 </details>
 
 If you set the **Emit changes as a single event** property to `true`, Pipedream will emit a single event with all the changes since the last time the source ran. That event has the following shape:
 
 <details>
   <summary>Click to expand</summary>
+
 ```json
 [
   {
@@ -110,6 +113,7 @@ If you set the **Emit changes as a single event** property to `true`, Pipedream 
   }
 ]
 ```
+
 </details>
 
 ## Workflows
