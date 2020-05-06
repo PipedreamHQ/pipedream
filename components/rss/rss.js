@@ -1,5 +1,5 @@
-const Parser = require("rss-parser")
-const parser = new Parser()
+const fetch = require('node-fetch')
+const FeedParser = require('feedparser')
 
 module.exports = {
   name: "rss",
@@ -31,19 +31,49 @@ module.exports = {
       acc[v] = true
       return acc
     }, {})
-    // All elements of an item are optional, however at least one of title or description must be present.
-    // should be listed from most recent to least recent
-    const feed = await parser.parseURL(this.url)
-    for (let idx = feed.items.length - 1; idx >= 0; idx--) {
-      const item = feed.items[idx]
+
+    const res = await fetch('https://flipboard.com/@DailyMailUS.rss', {
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
+      accept: 'text/html,application/xhtml+xml',
+    })
+    if (res.status != 200) throw new Error('Bad status code')
+    const feedparser = new FeedParser({
+      addmeta: false,
+    })
+    const items = []
+    await new Promise((resolve, reject) => {
+      feedparser.on('error', reject)
+      feedparser.on('end', resolve)
+      feedparser.on('readable', function() {
+        let item
+        while (item = this.read()) {
+          for (const k in item) {
+            if (item[`rss:${k}`]) {
+              delete item[`rss:${k}`]
+              continue
+            }
+            const o = item[k]
+            if (o == null || (typeof o === 'object' && !Object.keys(o).length) || Array.isArray(o) && !o.length) {
+              delete item[k]
+              continue
+            }
+          }
+          items.push(item)
+        }
+      })
+      res.body.pipe(feedparser)
+    })
+
+    for (let idx = items.length - 1; idx >= 0; idx--) {
+      const item = items[idx]
       const key = this.itemKey(item)
       // XXX throw if !key?
       if (seenKeysMap[key]) continue
       seenKeys.unshift(key)
       seenKeysMap[key] = true // just in case of dupes
       this.$emit(item, {
-        summary: item.title, 
-        ts: item.pubDate && +new Date(item.pubDate), 
+        summary: item.title,
+        ts: item.pubdate && +new Date(item.pubdate),
         id: key,
       })
     }
