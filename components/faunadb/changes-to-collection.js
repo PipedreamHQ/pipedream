@@ -1,4 +1,4 @@
-const faunadb = require("https://github.com/PipedreamHQ/pipedream/blob/fauna/components/faunadb/fauna.app.js");
+const faunadb = require("https://github.com/PipedreamHQ/pipedream/blob/2c3f5c5c0dc92dc3a03e8f20a50667cb5f66b983/components/faunadb/fauna.app.js");
 
 module.exports = {
   name: "changes-to-collection",
@@ -12,7 +12,15 @@ module.exports = {
         cron: "*/15 * * * *",
       },
     },
-    collection: { propDefinition: [faunadb, "collection"] },
+    collection: {
+      type: "string",
+      label: "Collection",
+      description: "The collection you'd like to watch for changes",
+      optional: false,
+      async options() {
+        return await this.faunadb.getCollections();
+      },
+    },
     emitEventsInBatch: {
       type: "boolean",
       label: "Emit changes as a single event",

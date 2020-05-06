@@ -5,17 +5,6 @@ const q = faunadb.query;
 module.exports = {
   type: "app",
   app: "faunadb",
-  propDefinitions: {
-    collection: {
-      type: "string",
-      label: "Collection",
-      description: "The collection you'd like to watch for changes",
-      optional: false,
-      async options() {
-        return await this.getCollections();
-      },
-    },
-  },
   methods: {
     // Fetches events (changes) for all documents in a collection
     // made after a specific epoch timestamp
