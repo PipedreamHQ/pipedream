@@ -1,4 +1,4 @@
-const fauna = require("https://github.com/PipedreamHQ/pipedream/blob/fauna/components/faunadb/faunadb.app.js");
+const fauna = require("https://github.com/PipedreamHQ/pipedream/components/faunadb/faunadb.app.js");
 const maxBy = require("lodash.maxby");
 
 module.exports = {
