@@ -2,7 +2,7 @@
 
 FaunaDB Event Sources collect data from FaunaDB (for example, changes to a collection) and emits them as individual events. These events can trigger [Pipedream workflows](https://docs.pipedream.com/workflows/), and are accessible as a [real-time, private SSE stream](https://docs.pipedream.com/api/sse/), and via [REST API](https://docs.pipedream.com/api/rest/).
 
-**Watch this video** to learn how to create an event source to track changes to documents in a Fauna collection and build a Pipedream workflow to run on every change.
+[**Watch this video**](https://youtu.be/rsjbXdOouHU) to learn how to create an event source to track changes to documents in a Fauna collection and build a Pipedream workflow to run on every change.
 
 <!--ts-->
 
