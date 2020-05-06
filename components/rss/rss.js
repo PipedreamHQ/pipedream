@@ -6,17 +6,17 @@ module.exports = {
   version: "0.0.1",
   props: {
     // XXX have auto: true prop in case there is something to configure (unless pass --no-auto)
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
     db: "$.service.db",
     url:{
       type: "string",
       label: 'Feed URL',
       description: "Enter the URL for any public RSS feed.",
+    },
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
     },
   },
   methods: {
