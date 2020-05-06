@@ -876,13 +876,19 @@ module.exports = {
         config.url += `${sep}${query}`
         config.url = config.url.replace('?&','?')
       }
-      try {
-        const authorization = await this._getAuthorizationHeader(config)
-      } catch (err) {
-        if (attempt < 3) {
-          _makeRequest(config, attempt++)
+      const authorization = await this._getAuthorizationHeader(config)
+      /*
+      let count = 0
+      const maxTries = 3
+      while(true) {
+        try {
+          
+        } catch (err) {
+          // handle exception
+          if (++count == maxTries) throw err
         }
       }
+      */
       config.headers.authorization = authorization
       try {
         return await axios(config)
@@ -982,10 +988,9 @@ module.exports = {
       }
   
       const response = await this.search({ q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id })
-      
+
       if(!response) {
         console.log(`Last request was not successful.`)
-        console.log(`API Response: ${response}`)
         return {
           statusCode: "Error",
         }
@@ -995,7 +1000,7 @@ module.exports = {
         //}
     
         for (let tweet of response.data.statuses) {
-          if ((since_id && tweet.id_str !== since_id) && (max_id && tweet.id_str !== max_id)) {
+          if ((!since_id || (since_id && tweet.id_str !== since_id)) && (!max_id || (max_id && tweet.id_str !== max_id))) {
             if (enrichTweets) {
               tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
               tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
@@ -1073,7 +1078,9 @@ module.exports = {
         } else {
           tweets.push(...response.tweets)
 
-          if (totalRequests * 1 === maxRequests * 1 && response.resultCount === response.count) {
+          //console.log(`resultCount: ${response.resultCount} count: ${response.count}`)
+
+          if (parseInt(totalRequests) === parseInt(maxRequests) && parseInt(response.resultCount) === parseInt(response.count)) {
             console.log(`The last API request returned the maximum number of results. There may be additional tweets matching your search criteria. To return more tweets, increase the maximum number of API requests per execution.`)
           }
 
