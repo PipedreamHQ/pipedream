@@ -20,7 +20,7 @@ module.exports = {
   },
   async run(event) {
     const config = {
-      url: `https://api.airtable.com/v0/${this.baseId}/${this.tableId}`,
+      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}`,
       params: {
         view: this.viewId,
       },
