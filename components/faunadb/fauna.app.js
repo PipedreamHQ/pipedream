@@ -11,27 +11,33 @@ module.exports = {
       label: "Collection",
       description: "The collection you'd like to watch for changes",
       optional: false,
-      async options(opts) {
-        const client = new faunadb.Client({ secret: this.$auth.secret });
-
-        const collections = [];
-        const collectionsPaginator = await client.paginate(q.Collections());
-
-        await collectionsPaginator.each((page) => {
-          for (const collection of page) {
-            collections.push(collection.id);
-          }
-        });
-
-        return collections;
+      async options() {
+        return await this.getCollections();
       },
     },
   },
   methods: {
     // Fetches events (changes) for all documents in a collection
     // made after a specific epoch timestamp
+    getClient() {
+      return new faunadb.Client({ secret: this.$auth.secret });
+    },
+    async getCollections() {
+      const client = this.getClient();
+
+      const collections = [];
+      const collectionsPaginator = await client.paginate(q.Collections());
+
+      await collectionsPaginator.each((page) => {
+        for (const collection of page) {
+          collections.push(collection.id);
+        }
+      });
+
+      return collections;
+    },
     async getEventsInCollectionAfterTs(collection, ts) {
-      const client = new faunadb.Client({ secret: this.$auth.secret });
+      const client = this.getClient();
 
       // Fetch pages of all changes (events) for a particular collection
       // since the given ts cursor. See docs on Events / Pagination
