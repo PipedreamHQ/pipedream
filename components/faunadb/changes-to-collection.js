@@ -58,9 +58,10 @@ module.exports = {
       }
     }
 
-    // Finally, set cursor for the next run to the max timestamp of the changed events,
-    // ensuring we get all events after that on the next run
-    const maxEventTs = maxBy(events, (event) => event.ts).ts;
+    // Finally, set cursor for the next run to the max timestamp of the changed events, ensuring we
+    // get all events after that on the next run. We need to add 1 since the timestamp filter in
+    // Fauna is inclusive: https://docs.fauna.com/fauna/current/api/fql/functions/paginate
+    const maxEventTs = maxBy(events, (event) => event.ts).ts + 1;
 
     this.db.set("cursor", maxEventTs);
   },
