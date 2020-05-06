@@ -10,7 +10,6 @@ module.exports = {
       type: "string",
       label: "Collection",
       description: "The collection you'd like to watch for changes",
-      optional: false,
       async options() {
         return await this.getCollections();
       },
@@ -30,7 +29,10 @@ module.exports = {
 
       await collectionsPaginator.each((page) => {
         for (const collection of page) {
-          collections.push(collection.id);
+          collections.push({
+            label: collection.id,
+            value: collection.id,
+          });
         }
       });
 

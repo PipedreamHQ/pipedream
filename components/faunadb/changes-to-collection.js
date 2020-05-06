@@ -1,4 +1,5 @@
 const fauna = require("https://github.com/PipedreamHQ/pipedream/components/faunadb/faunadb.app.js");
+const maxBy = require("lodash.maxby");
 
 module.exports = {
   name: "changes-to-collection",
@@ -8,7 +9,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        cron: "*/15 * * * *",
+        intervalSeconds: 5 * 60,
       },
     },
     db: "$.service.db",
@@ -57,7 +58,10 @@ module.exports = {
       }
     }
 
-    // Finally, set cursor for the next run
-    this.db.set("cursor", ts);
+    // Finally, set cursor for the next run to the max timestamp of the changed events,
+    // ensuring we get all events after that on the next run
+    const maxEventTs = maxBy(events, (event) => event.ts).ts;
+
+    this.db.set("cursor", maxEventTs);
   },
 };
