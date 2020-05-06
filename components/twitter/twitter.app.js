@@ -1,5 +1,4 @@
 const axios = require('axios')
-const _ = require('lodash')
 const querystring = require('querystring')
 const moment = require('moment')
 
@@ -868,7 +867,7 @@ module.exports = {
         }
       })).data
     },
-    async _makeRequest(config) {
+    async _makeRequest(config, attempt = 0) {
       if (!config.headers) config.headers = {}
       if (config.params) {
         const query = querystring.stringify(config.params)
@@ -877,7 +876,13 @@ module.exports = {
         config.url += `${sep}${query}`
         config.url = config.url.replace('?&','?')
       }
-      const authorization = await this._getAuthorizationHeader(config)
+      try {
+        const authorization = await this._getAuthorizationHeader(config)
+      } catch (err) {
+        if (attempt < 3) {
+          _makeRequest(config, attempt++)
+        }
+      }
       config.headers.authorization = authorization
       try {
         return await axios(config)
@@ -917,7 +922,8 @@ module.exports = {
         }
       })).data
     },
-    async search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id) {   
+    async search(opts = {}) {
+      const { q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id } = opts
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/search/tweets.json`,
         params: {
@@ -975,22 +981,27 @@ module.exports = {
         q = `${q} -filter:nativeretweets`
       }
   
-      const response = await this.search(q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id)
+      const response = await this.search({ q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id })
       
-      //console.log(response)
-      if (_.get(response, 'status', 'Error') === 200) {
-        if (!max_id) {
-          max_id = since_id || 0
+      if(!response) {
+        console.log(`Last request was not successful.`)
+        console.log(`API Response: ${response}`)
+        return {
+          statusCode: "Error",
         }
+      } else {
+        //if (!max_id) {
+        //  max_id = since_id || 0
+        //}
     
         for (let tweet of response.data.statuses) {
-          if (tweet.id_str !== since_id && tweet.id_str !== max_id) {
+          if ((since_id && tweet.id_str !== since_id) && (max_id && tweet.id_str !== max_id)) {
             if (enrichTweets) {
               tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
               tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
             }
             tweets.push(tweet)
-            if (tweet.id_str > max_id) {
+            if (!max_id || tweet.id_str > max_id) {
               max_id = tweet.id_str
               if(!min_id) {
                 min_id = max_id
@@ -1009,12 +1020,6 @@ module.exports = {
           count,
           resultCount: response.data.statuses.length,
           statusCode: response.status, 
-        }
-      } else {
-        console.log(`Last request was not successful.`)
-        console.log(`API Response: ${response}`)
-        return {
-          statusCode: "Error",
         }
       }
     },
@@ -1063,14 +1068,10 @@ module.exports = {
         // increment the count of requests to report out after all requests are complete
         totalRequests++
         
-        if (response.statusCode !== 200) {
+        if (!response) {
           break
         } else {
-          response.tweets.forEach(tweet => {
-            tweets.push(tweet)
-          })
-
-          //console.log(`total requests: ${totalRequests} max requests: ${maxRequests} results: ${response.resultCount} count: ${response.count}`)
+          tweets.push(...response.tweets)
 
           if (totalRequests * 1 === maxRequests * 1 && response.resultCount === response.count) {
             console.log(`The last API request returned the maximum number of results. There may be additional tweets matching your search criteria. To return more tweets, increase the maximum number of API requests per execution.`)
@@ -1078,9 +1079,8 @@ module.exports = {
 
           if (response.length === 0 || response.resultCount < response.count) {
             break
-          } else {
-            max_id = response.min_id
           }
+          max_id = response.min_id
         }
       }
       

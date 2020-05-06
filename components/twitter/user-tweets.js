@@ -31,7 +31,7 @@ module.exports = {
   methods: {},
   async run(event) {
     const from = `from:${this.from.replace('@','')}`
-    const since_id = this.db.get("since_id") || 0
+    const since_id = this.db.get("since_id")
     const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
     let q = from, max_id, limitFirstPage
     
@@ -40,7 +40,7 @@ module.exports = {
       q += ` ${this.q}`
     }
     
-    if (since_id === 0) {
+    if (!since_id) {
       limitFirstPage = true
     } else {
       limitFirstPage = false
@@ -70,10 +70,10 @@ module.exports = {
         this.$emit(tweet, {
           ts: moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf(),
           summary: tweet.full_text || tweet.text,
-          id: tweet.created_at_timestamp,
+          id: tweet.id_str,
         })
 
-        if (tweet.id_str > max_id || !max_id) {
+        if (!max_id || tweet.id_str > max_id) {
           max_id = tweet.id_str
         }
       })
