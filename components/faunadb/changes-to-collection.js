@@ -1,9 +1,8 @@
-const faunadb = require("https://github.com/PipedreamHQ/pipedream/blob/2c3f5c5c0dc92dc3a03e8f20a50667cb5f66b983/components/faunadb/fauna.app.js");
+const fauna = require("https://github.com/PipedreamHQ/pipedream/components/faunadb/faunadb.app.js");
 
 module.exports = {
   name: "changes-to-collection",
   version: "0.0.1",
-  db: "$.service.db",
   dedupe: "unique", // Dedupe events based on the concatenation of event + document ref id
   props: {
     timer: {
@@ -12,15 +11,9 @@ module.exports = {
         cron: "*/15 * * * *",
       },
     },
-    collection: {
-      type: "string",
-      label: "Collection",
-      description: "The collection you'd like to watch for changes",
-      optional: false,
-      async options() {
-        return await this.faunadb.getCollections();
-      },
-    },
+    db: "$.service.db",
+    fauna,
+    collection: { propDefinition: [fauna, "collection"] },
     emitEventsInBatch: {
       type: "boolean",
       label: "Emit changes as a single event",
@@ -29,31 +22,39 @@ module.exports = {
       optional: true,
       default: false,
     },
-    faunadb,
   },
   async run() {
     // As soon as the script runs, mark the start time so we can fetch changes
     // since this time on the next run. Fauna expects epoch ms as its cursor.
     const ts = +new Date() * 1000;
-
     const cursor = this.db.get("cursor") || ts;
 
-    const events = this.faunadb.getEventsInCollectionAfterTs(
+    const events = await this.fauna.getEventsInCollectionAfterTs(
       this.collection,
       cursor
     );
 
-    // Batched emits do not take advantage of the built-in deduper
-    if (this.emitEventsInBatch) {
-      this.$emit(events);
+    if (!events.length) {
+      console.log(`No new events in collection ${this.collection}`);
+      this.db.set("cursor", ts);
       return;
     }
 
-    for (const event of events) {
-      this.$emit(event, {
-        summary: `${event.action.toUpperCase()} - ${event.document.id}`,
-        id: `${event.action}-${event.document.id}`, // dedupes events based on this ID
+    console.log(`${events.length} new events in collection ${this.collection}`);
+
+    // Batched emits do not take advantage of the built-in deduper
+    if (this.emitEventsInBatch) {
+      this.$emit(events, {
+        summary: `${events.length} new event${events.length > 1 ? "s" : ""}`,
+        id: cursor,
       });
+    } else {
+      for (const event of events) {
+        this.$emit(event, {
+          summary: `${event.action.toUpperCase()} - ${event.instance.id}`,
+          id: `${event.action}-${event.instance.id}`, // dedupes events based on this ID
+        });
+      }
     }
 
     // Finally, set cursor for the next run
