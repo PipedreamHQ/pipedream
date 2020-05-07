@@ -26,12 +26,11 @@ module.exports = {
       },
     }
 
-    const timestamp = new Date().toISOString()
     const lastTimestamp = this.db.get("lastTimestamp")
     if (lastTimestamp) {
       config.params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`
     }
-
+    const timestamp = new Date().toISOString()
     const { data } = await axios(config)
 
     if (!data.records.length) {
