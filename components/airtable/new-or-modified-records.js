@@ -39,31 +39,21 @@ module.exports = {
       return
     }
 
-    let newRecords = 0, modifiedRecords = 0, historicalRecords = 0
+    let newRecords = 0, modifiedRecords = 0
     for (let record of data.records) {
-      if(moment(record.createdTime) > moment(lastTimestamp)) {
+      if(moment(record.createdTime) > moment(lastTimestamp) || !lastTimestamp) {
         record.type = "new_record"
         newRecords++
       } else {
-        if(lastTimestamp) {
-          record.type = "record_modified"
-          modifiedRecords++
-        } else {
-          // historical records are emitted on the first execution
-          record.type = "historical_record"
-          historicalRecords++
-        }
+        record.type = "record_modified"
+        modifiedRecords++
       }
       this.$emit(record, {
         summary: `${record.type}: ${JSON.stringify(record.fields)}`,
         id: record.id,
       })
     }
-    if (lastTimestamp) {
-      console.log(`Emitted ${newRecords} new records(s) and ${modifiedRecords} modified record(s).`)
-    } else {
-      console.log(`Emitted ${historicalRecords} historical record(s).`)
-    }
+    console.log(`Emitted ${newRecords} new records(s) and ${modifiedRecords} modified record(s).`)
     this.db.set("lastTimestamp", timestamp)
   },
 }

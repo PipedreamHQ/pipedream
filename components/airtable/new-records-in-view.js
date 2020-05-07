@@ -55,11 +55,7 @@ module.exports = {
       }
       recordCount++
     }
-    if (lastTimestamp) {
-      console.log(`Emitted ${recordCount} new records(s).`)
-    } else {
-      console.log(`Emitted ${recordCount} historical record(s).`)
-    }
+    console.log(`Emitted ${recordCount} new records(s).`)
     this.db.set("lastMaxTimestamp", maxTimestamp)
   },
 }
