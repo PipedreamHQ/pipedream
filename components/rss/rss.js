@@ -1,55 +1,70 @@
-const Parser = require("rss-parser")
-const parser = new Parser()
+const fetch = require('node-fetch')
+const FeedParser = require('feedparser')
+const hash = require('object-hash')
+
 
 module.exports = {
   name: "rss",
   version: "0.0.1",
   props: {
-    // XXX have auto: true prop in case there is something to configure (unless pass --no-auto)
+    url:{
+      type: "string",
+      label: 'Feed URL',
+      description: "Enter the URL for any public RSS feed.",
+    },
     timer: {
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
       },
     },
-    db: "$.service.db",
-    url:{
-      type: "string",
-      label: 'Feed URL',
-      description: "Enter the URL for any public RSS feed.",
-    },
   },
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
     itemKey(item) {
-      return item.guid || item.id || item.title || item.description
+      return item.guid || item.id || hash(item)
     },
   },
+  dedupe: "unique",
   async run() {
-    const seenKeys = this.db.get("seenKeys") || []
-    const seenKeysMap = seenKeys.reduce((acc, v) => {
-      acc[v] = true
-      return acc
-    }, {})
-    // All elements of an item are optional, however at least one of title or description must be present.
-    // should be listed from most recent to least recent
-    const feed = await parser.parseURL(this.url)
-    for (let idx = feed.items.length - 1; idx >= 0; idx--) {
-      const item = feed.items[idx]
-      const key = this.itemKey(item)
-      // XXX throw if !key?
-      if (seenKeysMap[key]) continue
-      seenKeys.unshift(key)
-      seenKeysMap[key] = true // just in case of dupes
-      this.$emit(item, {
-        summary: item.title, 
-        ts: item.pubDate && +new Date(item.pubDate), 
-        id: key,
+    const res = await fetch(this.url, {
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
+      accept: 'text/html,application/xhtml+xml',
+    })
+    if (res.status !== 200) throw new Error('Bad status code')
+    const feedparser = new FeedParser({
+      addmeta: false,
+    })
+    const items = []
+    await new Promise((resolve, reject) => {
+      feedparser.on('error', reject)
+      feedparser.on('end', resolve)
+      feedparser.on('readable', function() {
+        let item
+        while (item = this.read()) {
+          for (const k in item) {
+            if (item[`rss:${k}`]) {
+              delete item[`rss:${k}`]
+              continue
+            }
+            const o = item[k]
+            if (o == null || (typeof o === 'object' && !Object.keys(o).length) || Array.isArray(o) && !o.length) {
+              delete item[k]
+              continue
+            }
+          }
+          items.push(item)
+        }
       })
-    }
-    if (seenKeys.length) {
-      // XXX restrict by byte size instead of el size
-      this.db.set("seenKeys", seenKeys.slice(0, 1000))
-    }
+      res.body.pipe(feedparser)
+    })
+
+    items.forEach(item=>{
+      this.$emit(item, {
+        id: this.itemKey(item),
+        summary: item.title,
+        ts: item.pubdate && +new Date(item.pubdate), 
+      })
+    })
   },
 }
