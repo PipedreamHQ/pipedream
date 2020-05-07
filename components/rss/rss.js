@@ -1,5 +1,7 @@
 const fetch = require('node-fetch')
 const FeedParser = require('feedparser')
+const hash = require('object-hash')
+
 
 module.exports = {
   name: "rss",
@@ -20,7 +22,7 @@ module.exports = {
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
     itemKey(item) {
-      return item.guid || item.id || require('crypto').createHash('sha1').update(JSON.stringify(item)).digest('base64')
+      return item.guid || item.id || hash(item)
     },
   },
   dedupe: "unique",
