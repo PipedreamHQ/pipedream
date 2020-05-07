@@ -89,8 +89,7 @@ module.exports = {
       optional: true,
       type: "string"
     },
-    updatedMin: {
-      description: "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted. Optional. The default is not to filter by last modification time.",
+    updatedMin: { description: "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted. Optional. The default is not to filter by last modification time.",
       optional: true,
       type: "string"
     }
@@ -120,6 +119,11 @@ module.exports = {
     async getEvents(config) {
       const calendar = this.calendar()
       const resp = await calendar.events.list(config)
+      return resp
+    },
+    async watch(config) {
+      const calendar = this.calendar()
+      const resp = await calendar.event.watch(config)
       return resp
     }
   }
