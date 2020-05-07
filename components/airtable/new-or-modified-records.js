@@ -3,7 +3,7 @@ const moment = require('moment')
 const axios = require('axios')
 
 module.exports = {
-  name: "new-records",
+  name: "new-or-modified-records",
   version: "0.0.1",
   props: {
     db: "$.service.db",
@@ -39,21 +39,31 @@ module.exports = {
       return
     }
 
-    let newRecords = 0, modifiedRecords = 0
+    let newRecords = 0, modifiedRecords = 0, historicalRecords = 0
     for (let record of data.records) {
       if(moment(record.createdTime) > moment(lastTimestamp)) {
         record.type = "new_record"
         newRecords++
       } else {
-        record.type = "record_modified"
-        modifiedRecords++
+        if(lastTimestamp) {
+          record.type = "record_modified"
+          modifiedRecords++
+        } else {
+          // historical records are emitted on the first execution
+          record.type = "historical_record"
+          historicalRecords++
+        }
       }
       this.$emit(record, {
         summary: `${record.type}: ${JSON.stringify(record.fields)}`,
         id: record.id,
       })
     }
-    console.log(`Emitted ${newRecords} new records(s) and ${modifiedRecords} modified records.`)
+    if (lastTimestamp) {
+      console.log(`Emitted ${newRecords} new records(s) and ${modifiedRecords} modified record(s).`)
+    } else {
+      console.log(`Emitted ${historicalRecords} historical record(s).`)
+    }
     this.db.set("lastTimestamp", timestamp)
   },
 }
