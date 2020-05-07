@@ -1,6 +1,4 @@
 const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twitter/twitter.app.js')
-const _ = require('lodash')
-const axios = require('axios')
 const moment = require('moment')
  
 module.exports = {
@@ -36,7 +34,7 @@ module.exports = {
     } else {
       limitFirstPage = false
     }
-
+ 
     // run paginated search
     const tweets = await this.twitter.paginatedSearch({ 
       q, 

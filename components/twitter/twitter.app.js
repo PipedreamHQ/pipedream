@@ -26,18 +26,22 @@ module.exports = {
       default: 'recent',
     },
     count: {
-      type: "string",
+      type: "integer",
+      min: 1,
+      max: 100,
       label: "Count (advanced)",
       description: "The maximum number of tweets to return per API request (up to `100`)",
       optional: true,
-      default: "100",
+      default: 100,
     },
     maxRequests: {
-      type: "string",
+      type: "integer",
+      min: 1,
+      max: 180,
       label: "Max API Requests per Execution (advanced)",
       description: "The maximum number of API requests to make per execution (e.g., multiple requests are required to retrieve paginated results). **Note:** Twitter [rate limits API requests](https://developer.twitter.com/en/docs/basics/rate-limiting) per 15 minute interval.",
       optional: true,
-      default: "5",
+      default: 5,
     },
     from: {
       type: "string",
@@ -833,18 +837,14 @@ module.exports = {
       description: "The screen name of the user for whom to return results (e.g., `pipedream`)."
     },
     trendLocation: {
-      // after should be array + assume after apps
       type: "string",
       label: "Location",
-      // options needs to support standardized opts for pagination
       async options(opts) {
         const trendLocations = await this.getTrendLocations()
-        // XXX short hand where value and label are same value
         return trendLocations.map(location => {
           return { label: `${location.name}, ${location.countryCode} (${location.placeType.name})`, value: location.woeid }
         })
       },
-      // XXX validate
     },
   },
   methods: {
@@ -876,25 +876,23 @@ module.exports = {
         config.url += `${sep}${query}`
         config.url = config.url.replace('?&','?')
       }
-      const authorization = await this._getAuthorizationHeader(config)
-      /*
-      let count = 0
+      let authorization, count = 0
       const maxTries = 3
       while(true) {
         try {
-          
+          authorization = await this._getAuthorizationHeader(config)
+          break
         } catch (err) {
           // handle exception
-          if (++count == maxTries) throw err
+          if (++count == maxTries) {
+            throw err
+          } 
+          const milliseconds = 1000 * count
+          await new Promise(resolve => setTimeout(resolve, milliseconds)) 
         }
       }
-      */
       config.headers.authorization = authorization
-      try {
-        return await axios(config)
-      } catch (err) {
-        console.log(err) // TODO
-      }
+      return await axios(config)
     },
     async getFollowers(screen_name) {   
       return (await this._makeRequest({
@@ -976,7 +974,7 @@ module.exports = {
         includeRetweets = true,
       } = opts
 
-      let { q, max_id, since_id = 0 } = opts
+      let { q, max_id, since_id } = opts
       let min_id
 
       if(includeReplies === false) {
@@ -994,38 +992,34 @@ module.exports = {
         return {
           statusCode: "Error",
         }
-      } else {
-        //if (!max_id) {
-        //  max_id = since_id || 0
-        //}
-    
-        for (let tweet of response.data.statuses) {
-          if ((!since_id || (since_id && tweet.id_str !== since_id)) && (!max_id || (max_id && tweet.id_str !== max_id))) {
-            if (enrichTweets) {
-              tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
-              tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
-            }
-            tweets.push(tweet)
-            if (!max_id || tweet.id_str > max_id) {
-              max_id = tweet.id_str
-              if(!min_id) {
-                min_id = max_id
-              }
-            }
-            if (tweet.id_str < max_id) {
-              min_id = tweet.id_str
+      }
+         
+      for (let tweet of response.data.statuses) {
+        if ((!since_id || (since_id && tweet.id_str !== since_id)) && (!max_id || (max_id && tweet.id_str !== max_id))) {
+          if (enrichTweets) {
+            tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
+            tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
+          }
+          tweets.push(tweet)
+          if (!max_id || tweet.id_str > max_id) {
+            max_id = tweet.id_str
+            if(!min_id) {
+              min_id = max_id
             }
           }
+          if (tweet.id_str < max_id) {
+            min_id = tweet.id_str
+          }
         }
+      }
 
-        return {
-          tweets,
-          max_id,
-          min_id,
-          count,
-          resultCount: response.data.statuses.length,
-          statusCode: response.status, 
-        }
+      return {
+        tweets,
+        max_id,
+        min_id,
+        count,
+        resultCount: response.data.statuses.length,
+        statusCode: response.status, 
       }
     },
     async paginatedSearch(opts = {}) {
@@ -1040,22 +1034,20 @@ module.exports = {
         enrichTweets,
         includeReplies, 
         includeRetweets,
-        maxRequests = 1,
         limitFirstPage = true,
       } = opts
 
-      let { max_id } = opts, maxPages = 1, totalRequests = 0
+      let { max_id, maxRequests = 1 } = opts, totalRequests = 0
 
       const tweets = []
 
-      if (!limitFirstPage) {
-        maxPages = maxRequests
+      if (limitFirstPage) {
+        maxRequests = 1
       }
 
       //console.log(maxPages)
 
-      for (let page = 0; page < maxPages; page++) {        
-        //console.log(`page: ${page} max_id: ${max_id}`)
+      for (let request = 0; request < maxRequests; request++) {        
         const response = await this.searchHelper({
           count,
           q,
@@ -1075,20 +1067,20 @@ module.exports = {
         
         if (!response) {
           break
-        } else {
-          tweets.push(...response.tweets)
+        } 
 
-          //console.log(`resultCount: ${response.resultCount} count: ${response.count}`)
+        tweets.push(...response.tweets)
 
-          if (parseInt(totalRequests) === parseInt(maxRequests) && parseInt(response.resultCount) === parseInt(response.count)) {
-            console.log(`The last API request returned the maximum number of results. There may be additional tweets matching your search criteria. To return more tweets, increase the maximum number of API requests per execution.`)
-          }
+        //console.log(`resultCount: ${response.resultCount} count: ${response.count}`)
 
-          if (response.length === 0 || response.resultCount < response.count) {
-            break
-          }
-          max_id = response.min_id
+        if (since_id && totalRequests === maxRequests && response.resultCount === response.count) {
+          console.log(`The last API request returned the maximum number of results. There may be additional tweets matching your search criteria. To return more tweets, increase the maximum number of API requests per execution.`)
         }
+
+        if (response.length === 0 || response.resultCount < response.count) {
+          break
+        }
+        max_id = response.min_id
       }
       
       console.log(`Made ${totalRequests} requests to the Twitter API and returned ${tweets.length} tweets.`)
