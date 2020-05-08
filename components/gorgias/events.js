@@ -7,13 +7,13 @@ module.exports = {
   version: "0.0.1",
   props: {
     db: "$.service.db",
+    gorgias,
     timer: {
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60,
       },
     },
-    gorgias,
   },
   dedupe: "greatest",
   async run(event) {
