@@ -3,7 +3,7 @@ const moment = require('moment')
 
 const axios = require('axios')
 module.exports = {
-  name: "new-events",
+  name: "new events",
   version: "0.0.1",
   props: {
     db: "$.service.db",
