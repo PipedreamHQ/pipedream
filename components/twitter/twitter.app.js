@@ -57,21 +57,24 @@ module.exports = {
     includeRetweets: {
       type: "string", 
       label: "Retweets",
-      description: "If `false`, retweets will be filtered out of the search results returned by Twitter",
+      description: "Select whether to `include`, `exclude` or `only` include retweets in emitted events.",
       optional: true,
       options: [
-        { label: "Include retweets", value: "include" },
-        { label: "Exclude retweets", value: "exclude" }, 
-        { label: "Only return retweets", value: "only" },      
+        { label: "Include", value: "include" },
+        { label: "Exclude", value: "exclude" }, 
+        { label: "Only include retweets", value: "only" },      
       ],
-      default: true,
     },
     includeReplies: {
-      type: "boolean", 
-      label: "Include Replies",
-      description: "If `false`, replies will be filtered out before search results are returned by Twitter.",
+      type: "string", 
+      label: "Replies",
+      description: "Select whether to `include`, `exclude` or `only` include replies in emitted events.",
       optional: true,
-      default: true,
+      options: [
+        { label: "Include", value: "include" },
+        { label: "Exclude", value: "exclude" }, 
+        { label: "Only include replies", value: "only" },      
+      ],
     },
     enrichTweets: {
       type: "boolean", 
