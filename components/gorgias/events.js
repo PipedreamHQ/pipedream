@@ -26,12 +26,12 @@ module.exports = {
         password: `${this.gorgias.$auth.api_key}`,
       },
     })).data
-   data.data.forEach(gorgias_event=>{
-     this.$emit(gorgias_event,{
-       id: gorgias_event.id,
-       ts: moment(gorgias_event.created_datetime).valueOf(),     
-       summary: gorgias_event.type,
-     })
-   }) 
+    data.data.forEach(gorgias_event=>{
+      this.$emit(gorgias_event,{
+        id: gorgias_event.id,
+        ts: moment(gorgias_event.created_datetime).valueOf(),     
+        summary: gorgias_event.type,
+      })
+    }) 
   },
 }
