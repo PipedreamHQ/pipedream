@@ -1,6 +1,5 @@
 const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twitter/twitter.app.js')
 const moment = require('moment')
-const querystring = require('querystring')
  
 module.exports = {
   name: "user-tweets", 

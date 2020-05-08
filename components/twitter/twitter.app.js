@@ -55,10 +55,15 @@ module.exports = {
       optional: true,
     },
     includeRetweets: {
-      type: "boolean", 
-      label: "Include Retweets",
+      type: "string", 
+      label: "Retweets",
       description: "If `false`, retweets will be filtered out of the search results returned by Twitter",
       optional: true,
+      options: [
+        { label: "Include retweets", value: "include" },
+        { label: "Exclude retweets", value: "exclude" }, 
+        { label: "Only return retweets", value: "only" },      
+      ],
       default: true,
     },
     includeReplies: {
@@ -977,12 +982,16 @@ module.exports = {
       let { q, max_id, since_id } = opts
       let min_id
 
-      if(includeReplies === false) {
+      if(includeReplies === 'exclude') {
         q = `${q} -filter:replies`
+      } else if(includeReplies === 'only') {
+        q = `${q} filter:replies`
       }
   
-      if(includeRetweets === false) {
+      if(includeRetweets === 'exclude') {
         q = `${q} -filter:nativeretweets`
+      } else if(includeRetweets === 'only') {
+        q = `${q} filter:nativeretweets`
       }
   
       const response = await this.search({ q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id })

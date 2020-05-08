@@ -23,7 +23,7 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
     },
-  },
+  }, 
   async run(event) {
     const since_id = this.db.get("since_id")
     const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
