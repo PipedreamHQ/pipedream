@@ -68,7 +68,7 @@ module.exports = {
         { label: "Exclude", value: "exclude" }, 
         { label: "Only include retweets", value: "only" },      
       ],
-      default: "inlcude",
+      default: "include",
     },
     includeReplies: {
       type: "string", 
@@ -80,7 +80,7 @@ module.exports = {
         { label: "Exclude", value: "exclude" }, 
         { label: "Only include replies", value: "only" },      
       ],
-      default: "inlcude",
+      default: "include",
     },
     enrichTweets: {
       type: "boolean", 

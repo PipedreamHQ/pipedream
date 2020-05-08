@@ -24,7 +24,7 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
     },
-  },
+  }, 
   methods: {},
   async run(event) {
     const from = `from:${this.from.replace('@','')}`

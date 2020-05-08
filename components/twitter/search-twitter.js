@@ -22,7 +22,7 @@ module.exports = {
       default: {
         intervalSeconds: 60 * 15,
       },
-    },
+    }, 
   }, 
   async run(event) {
     const since_id = this.db.get("since_id")

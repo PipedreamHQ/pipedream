@@ -73,7 +73,7 @@ module.exports = {
           max_id = tweet.id_str
         }
       })
-    }
+    } 
     if (max_id) {
       this.db.set("since_id", max_id)
     }
