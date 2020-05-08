@@ -1,6 +1,10 @@
-const gorgias = require('https://github.com/PipedreamHQ/pipedream/components/gorgias/gorgias.app.js')
-const axios = require('axios')
+const moment = require('moment')
 
+const gorgias = {
+  type: "app",
+  app: "gorgias",
+}
+const axios = require('axios')
 module.exports = {
   name: "new-events",
   version: "0.0.1",
@@ -14,12 +18,23 @@ module.exports = {
     },
     gorgias,
   },
- 
+  dedupe: "greatest",
   async run(event) {
-    auth: {
-      username: `${auths.gorgias.email}`,
-      password: `${auths.gorgias.api_key}`,
-    const url = `https://pipedream.gorgias.com/api/events/`
-    const data = (await axios.get(url)).data
-    this.$emit(data)
+    const url = `https://${this.gorgias.$auth.domain}.gorgias.com/api/events/?per_page=100`
+    const data = (await axios({
+      method: "get",
+      url,
+      auth: {
+        username: `${this.gorgias.$auth.email}`,
+        password: `${this.gorgias.$auth.api_key}`,
+      },
+    })).data
+   data.data.forEach(gorgias_event=>{
+     this.$emit(gorgias_event,{
+       id: gorgias_event.id,
+       ts: moment(gorgias_event.created_datetime).valueOf(),     
+       summary: gorgias_event.type,
+     })
+   }) 
   },
+}
