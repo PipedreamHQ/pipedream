@@ -22,7 +22,11 @@ module.exports = {
       label: "Result Type",
       description: `Specifies the type of results you want to retrieve.`,
       optional: true,
-      options: ['recent', 'popular', 'mixed'],
+      options: [
+        { label: "Recent", value: "recent" }, 
+        { label: "Popular", value: "popular" },
+        { label: "Mixed", value: "mixed" },
+      ],
       default: 'recent',
     },
     count: {
@@ -64,6 +68,7 @@ module.exports = {
         { label: "Exclude", value: "exclude" }, 
         { label: "Only include retweets", value: "only" },      
       ],
+      default: "inlcude",
     },
     includeReplies: {
       type: "string", 
@@ -75,6 +80,7 @@ module.exports = {
         { label: "Exclude", value: "exclude" }, 
         { label: "Only include replies", value: "only" },      
       ],
+      default: "inlcude",
     },
     enrichTweets: {
       type: "boolean", 

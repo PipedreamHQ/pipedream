@@ -11,10 +11,10 @@ module.exports = {
     result_type: { propDefinition: [twitter, "result_type"] },
     includeRetweets: { propDefinition: [twitter, "includeRetweets"] },
     includeReplies: { propDefinition: [twitter, "includeReplies"] },
-    enrichTweets: { propDefinition: [twitter, "enrichTweets"] },
     lang: { propDefinition: [twitter, "lang"] },
     locale: { propDefinition: [twitter, "locale"] },
     geocode: { propDefinition: [twitter, "geocode"] },
+    enrichTweets: { propDefinition: [twitter, "enrichTweets"] },
     count: { propDefinition: [twitter, "count"] },
     maxRequests: { propDefinition: [twitter, "maxRequests"] },
     timer: {
