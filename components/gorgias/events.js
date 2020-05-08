@@ -1,9 +1,6 @@
+const gorgias = require('https://github.com/PipedreamHQ/pipedream/components/gorgias/gorgias.app.js')
 const moment = require('moment')
 
-const gorgias = {
-  type: "app",
-  app: "gorgias",
-}
 const axios = require('axios')
 module.exports = {
   name: "new-events",
