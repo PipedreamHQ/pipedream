@@ -1,7 +1,13 @@
 const axios = require('axios')
 const querystring = require('querystring')
  
-const jotform = { 
+function ensureTrailingSlash(str) {
+  if (str.endsWith('/')) return str
+  return `${str}/`
+}
+
+
+module.exports = { 
   type: "app", 
   app: "jotform", 
   propDefinitions: {  
@@ -29,11 +35,7 @@ const jotform = {
         config.url += `${sep}${query}`
         config.url = config.url.replace('?&','?')
       }
-      try {
-        return await axios(config)
-      } catch (err) {
-        console.log(err) // TODO
-      }
+      return await axios(config)
     },
     async getForms() {   
       return (await this._makeRequest({
@@ -47,7 +49,7 @@ const jotform = {
     async getWebhooks(opts = {}) {
       const { formId } = opts
       return (await this._makeRequest({
-        url: `https://api.jotform.com/form/${formId}/webhooks`,
+        url: `https://api.jotform.com/form/${encodeURIComponent(formId)}/webhooks`,
         method: `GET`,
         headers: {
           "APIKEY": this.$auth.api_key,
@@ -63,30 +65,26 @@ const jotform = {
           "APIKEY": this.$auth.api_key,
         },
         params: {
-          webhookURL: await this.updateWebhookUrl(endpoint),
+          webhookURL: ensureTrailingSlash(endpoint),
         },
       }))
     },
     async deleteHook(opts = {}) { 
       const { formId, endpoint } = opts
       const webhooks = (await this.getWebhooks({ formId })).content
-      const webhookIdx = webhooks.findIndex(w => w === await this.updateWebhookUrl(endpoint))
+      const webhookIdx = webhooks.findIndex(w => w === ensureTrailingSlash(endpoint))
       if(webhookIdx !== -1) {
-        console.log(`Deleting webhook at index ${webhookIdx}...`)
-        return (await this._makeRequest({ 
-          url: `https://api.jotform.com/form/${formId}/webhooks/${webhookIdx}`,
-          method: `DELETE`, 
-          headers: {
-            "APIKEY": this.$auth.api_key,
-          },
-        }))
-      } else {
         console.log(`Did not detect ${endpoint} as a webhook registered for form ID ${formId}.`)
+        return
       }
+      console.log(`Deleting webhook at index ${webhookIdx}...`)
+      return (await this._makeRequest({ 
+        url: `https://api.jotform.com/form/${formId}/webhooks/${webhookIdx}`,
+        method: `DELETE`, 
+        headers: {
+          "APIKEY": this.$auth.api_key,
+        },
+      }))
     },
-    async updateWebhookUrl(opts = {}) {
-      const {endpoint} = opts
-      return endpoint.endsWith('/') ? endpoint : `${endpoint}/`
-    }
   },
 }

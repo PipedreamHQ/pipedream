@@ -24,7 +24,6 @@ module.exports = {
     },
   },
   async run(event) {
-    const objArray = []
     const bb = new busboy({ headers: event.headers });
     let fileData = {}
     let formData = {}
@@ -50,14 +49,14 @@ module.exports = {
         }
       })
       .on("finish", resolve)
-      .on('error', err => { throw err })
+      .on('error', reject)
       bb.end(event.body)
     })
 
     // fileData
     // formData
     this.$emit(formData, {
-      summary: JSON.stringify(formData.rawRequest) || JSON.stringify(formData),
+      summary: JSON.stringify(formData.rawRequest || formData),
       id: formData.submissionID,
     })
   },
