@@ -2,12 +2,13 @@ const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twi
 const moment = require('moment')
  
 module.exports = {
-  name: "search-mentions", 
+  name: "user-tweets", 
   version: "0.0.1",
-  props: {
+  props: { 
     db: "$.service.db",
     twitter,
-    q: { propDefinition: [twitter, "q"] },
+    from: { propDefinition: [twitter, "from"] }, 
+    q: { propDefinition: [twitter, "keyword_filter"] },
     result_type: { propDefinition: [twitter, "result_type"] },
     includeRetweets: { propDefinition: [twitter, "includeRetweets"] },
     includeReplies: { propDefinition: [twitter, "includeReplies"] },
@@ -22,19 +23,26 @@ module.exports = {
       default: {
         intervalSeconds: 60 * 15,
       },
-    }, 
+    },
   }, 
+  methods: {},
   async run(event) {
+    const from = `from:${this.from.replace('@','')}`
     const since_id = this.db.get("since_id")
     const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
-    let q = this.q, max_id, limitFirstPage
-
+    let q = from, max_id, limitFirstPage
+    
+    // join "from" filter and search keywords
+    if (this.q) {
+      q += ` ${this.q}`
+    }
+    
     if (!since_id) {
       limitFirstPage = true
     } else {
       limitFirstPage = false
     }
- 
+
     // run paginated search
     const tweets = await this.twitter.paginatedSearch({ 
       q, 
@@ -62,7 +70,7 @@ module.exports = {
           id: tweet.id_str,
         })
 
-        if (tweet.id_str > max_id || !max_id) {
+        if (!max_id || tweet.id_str > max_id) {
           max_id = tweet.id_str
         }
       })
