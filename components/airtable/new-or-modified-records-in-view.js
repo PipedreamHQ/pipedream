@@ -44,7 +44,7 @@ module.exports = {
 
     let newRecords = 0, modifiedRecords = 0
     for (let record of data.records) {
-      if(moment(record.createdTime) > moment(lastTimestamp) || !lastTimestamp) {
+      if(!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
         record.type = "new_record"
         newRecords++
       } else {
