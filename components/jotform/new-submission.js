@@ -1,4 +1,4 @@
-const jotform = require('https://github.com/PipedreamHQ/pipedream/blob/jotform/components/jotform/jotform.app.js')
+const jotform = require('https://github.com/PipedreamHQ/pipedream/components/jotform/jotform.app.js')
 const busboy = require('busboy')
 
 module.exports = {
