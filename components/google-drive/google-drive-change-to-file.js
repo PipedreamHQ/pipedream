@@ -11,7 +11,9 @@ const googleDrive = {
       label: "Files",
       optional: true,
       // TODO: handle pagination
-      async options() {
+      async options({ page, prevContext }) {
+        console.log("page: ", page);
+        console.log("prev context", prevContext);
         return await this.listFiles();
       },
     },
@@ -36,9 +38,13 @@ const googleDrive = {
       const resp = await drive.files.list();
       console.log(`List files response: ${resp}`);
       const { files } = resp.data;
-      return files.map((file) => {
+      const options = files.map((file) => {
         return { label: file.name, value: file.id };
       });
+      return {
+        options,
+        context: resp.data,
+      };
     },
     async watch(id, address, fileId) {
       // TODO: handle absence of fileId
