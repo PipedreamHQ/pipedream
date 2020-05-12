@@ -47,28 +47,28 @@ const googleDrive = {
       };
     },
     async watch(id, address, fileId) {
-      // TODO: handle absence of fileId
+      const drive = this.drive();
+      const resource = {
+        id, // the component-specific channel ID, a UUID
+        type: "web_hook",
+        address, // the component-specific HTTP endpoint
+      };
+      let resp;
       if (!fileId) {
-        console.log("No fileId - subscribe to all changes");
-        return { expiration: +new Date() };
+        resp = await drive.changes.watch({
+          resource,
+        });
       } else {
-        // https://www.googleapis.com/drive/v3/files/fileId/watch
-        const drive = this.drive();
-        const { expiration, resourceId } = (
-          await drive.files.watch({
-            fileId,
-            resource: {
-              id,
-              type: "web_hook",
-              address,
-            },
-          })
-        ).data;
-        return {
-          expiration: parseInt(expiration),
-          resourceId,
-        };
+        resp = await drive.files.watch({
+          fileId,
+          resource,
+        });
       }
+      const { expiration, resourceId } = resp.data;
+      return {
+        expiration: parseInt(expiration),
+        resourceId,
+      };
     },
     async stopNotifications(channelID, fileID) {
       // TODO: if the file ID is missing, get all notifications
@@ -111,6 +111,8 @@ module.exports = {
   hooks: {
     async activate() {
       try {
+        const listFilesResp = await this.listFiles();
+        console.log("FILE LISTING RESP: ", listFilesResp);
         // Called when a componenent is created or updated. Handles all the logic
         // for starting and stopping watch notifications tied to the desired files.
 
@@ -121,18 +123,30 @@ module.exports = {
         // keep track of.
         const channelID = this.db.get("channelID") || uuid();
 
+        // Subscriptions are keyed on Google's resourceID, "an opaque value that
+        // identifies the watched resource". This header is included in request headers,
+        // allowing us to look up the watched resource (specific file or all files)
         let subscriptions = this.db.get("subscriptions") || {};
-        const currentlyWatchedFiles = subscriptions
-          ? Object.keys(subscriptions)
-          : [];
-
+        const currentlyWatchedFiles = [];
+        for (const metadata of Object.values(subscriptions)) {
+          const { fileID } = metadata;
+          if (fileID) {
+            currentlyWatchedFiles.push(fileID);
+          }
+        }
         // TODO: update subscriptions on prop changes. Get the diff from the previous
         // set of saved props, activating new ones and stopping old ones.
 
         if (!this.files || !this.files.length) {
-          // TODO: Handle the absence of a file ID (subscribe to all resources)
-          // How to store the channel ID in this case?
-          console.log("NO FILE SPECIFIED");
+          // TODO: make sure the absence of fileID watches for all resources
+          const { expiration } = await this.googleDrive.watch(
+            channelID,
+            this.http.endpoint
+          );
+          console.log(
+            `Finished watch request for all files, expiry: ${expiration}`
+          );
+          subscriptions[resourceId] = { expiration };
         } else {
           for (const fileID of this.files) {
             const { expiration, resourceId } = await this.googleDrive.watch(
@@ -143,7 +157,7 @@ module.exports = {
             console.log(
               `Finished watch request for file ${fileID}, expiry: ${expiration}`
             );
-            subscriptions[fileID] = { expiration, resourceId };
+            subscriptions[resourceId] = { expiration, fileID };
           }
         }
 
@@ -186,11 +200,16 @@ module.exports = {
         // Is the # of interval_seconds present in the cron event? Use it to check if we're expiring
         // before the next run, and resubscribe
         const subscriptions = this.db.get("subscriptions") || {};
-        for (const [fileID, expiration] of Object.entries(subscriptions)) {
+        for (const [resourceId, metadata] of Object.entries(subscriptions)) {
+          const { expiration } = metadata; // epoch seconds
         }
 
         return;
       }
+
+      this.http.respond({
+        status: 200,
+      });
 
       const { headers } = event;
 
@@ -207,21 +226,22 @@ module.exports = {
         );
       }
 
+      // What does headers["x-goog-resource-uri"] look like for ALL changes?
+
       if (
         !headers["x-goog-resource-state"] ||
         !headers["x-goog-resource-id"] ||
         !headers["x-goog-message-number"]
       ) {
-        console.log(`Missing necessary headers: ${headers}`);
+        console.log("Missing necessary headers: ", headers);
         return;
       }
 
-      // TODO: emit and set ID to the event ID from Google
+      // TODO: emit fileID with payload
       this.$emit(event, {
         summary: `${headers["x-goog-resource-state"]} - ${headers["x-goog-resource-id"]}`,
         id: headers["x-goog-message-number"],
       });
-      // TODO: emit fileID with payload
     } catch (err) {
       console.log(`Error in run: ${err}`);
     }
