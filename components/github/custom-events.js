@@ -3,7 +3,7 @@ const github = require("https://github.com/PipedreamHQ/pipedream/components/gith
 module.exports = {
   name: "Custom Events",
   version: "0.0.1",
-  props: {
+  props: { 
     db: "$.service.db", 
     http: "$.interface.http",
     github,
