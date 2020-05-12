@@ -7,15 +7,15 @@ module.exports = {
   version: "0.0.1",
   props: {
     db: "$.service.db",
+    airtable,
+    baseId: { type: "$.airtable.baseId", appProp: "airtable" },
+    tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
     timer: {
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 5,
       },
     },
-    airtable,
-    baseId: { type: "$.airtable.baseId", appProp: "airtable" },
-    tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
   },
   async run(event) {
     const config = {
