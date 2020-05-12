@@ -19,7 +19,6 @@ module.exports = {
     events: {
       type: "string[]",
       label: "Events",
-      description: "Select one or more events",
       options: listOfEvents,
     },
   },
