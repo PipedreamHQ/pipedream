@@ -7,9 +7,7 @@ module.exports = {
     db: "$.service.db",
     http: "$.interface.http",
     github,
-    repoFullName: {
-      propDefinition: [github, "repoFullName"],
-    },
+    repoFullName: { propDefinition: [github, "repoFullName"] },
     events: { propDefinition: [github, "events"] },
   },
   methods: {
@@ -37,7 +35,6 @@ module.exports = {
     },
   },
   async run(event) {
-    // have to be careful about where this event came from to respond
     this.http.respond({
       status: 200,
     })
@@ -51,6 +48,8 @@ module.exports = {
         throw new Error("signature mismatch")
       }
     }
-    this.$emit(body)
+    this.$emit(body, {
+      summary: JSON.stringify(body),
+    })
   },
 }
