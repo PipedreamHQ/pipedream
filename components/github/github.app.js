@@ -18,7 +18,7 @@ module.exports = {
     },
     events: {
       type: "string[]",
-      label: "Trigger Events",
+      label: "Events",
       options: listOfEvents,
     },
   },
