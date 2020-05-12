@@ -3,14 +3,13 @@ const moment = require('moment')
 const axios = require('axios')
 
 module.exports = {
-  name: "new-records-in-view",
+  name: "new-or-modified-records",
   version: "0.0.1",
   props: {
     db: "$.service.db",
     airtable,
     baseId: { type: "$.airtable.baseId", appProp: "airtable" },
     tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
-    viewId: { type: "$.airtable.viewId", tableIdProp: "tableId" },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -21,41 +20,39 @@ module.exports = {
   async run(event) {
     const config = {
       url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}`,
-      params: {
-        view: this.viewId,
-      },
+      params: {},
       headers: {
         Authorization: `Bearer ${this.airtable.$auth.api_key}`,
       },
     }
 
-    let maxTimestamp
-    const lastMaxTimestamp = this.db.get("lastMaxTimestamp")
-    if (!lastMaxTimestamp) {
-      config.params.filterByFormula = `CREATED_TIME() > "${lastMaxTimestamp}"`
-      maxTimestamp = lastMaxTimestamp
+    const lastTimestamp = this.db.get("lastTimestamp")
+    if (lastTimestamp) {
+      config.params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`
     }
-
+    const timestamp = new Date().toISOString()
     const { data } = await axios(config)
 
     if (!data.records.length) {
-      console.log(`No new records.`)
+      console.log(`No new or modified records.`)
       return
     }
 
-    let recordCount = 0
+    let newRecords = 0, modifiedRecords = 0
     for (let record of data.records) {
+      if(!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
+        record.type = "new_record"
+        newRecords++
+      } else {
+        record.type = "record_modified"
+        modifiedRecords++
+      }
       this.$emit(record, {
-        ts: moment(record.createdTime).valueOf(),
-        summary: JSON.stringify(record.fields),
+        summary: `${record.type}: ${JSON.stringify(record.fields)}`,
         id: record.id,
       })
-      if (!maxTimestamp || moment(record.createdTime).valueOf() > moment(maxTimestamp).valueOf()) {
-        maxTimestamp = record.createdTime
-      }
-      recordCount++
     }
-    console.log(`Emitted ${recordCount} new records(s).`)
-    this.db.set("lastMaxTimestamp", maxTimestamp)
+    console.log(`Emitted ${newRecords} new records(s) and ${modifiedRecords} modified record(s).`)
+    this.db.set("lastTimestamp", timestamp)
   },
 }
