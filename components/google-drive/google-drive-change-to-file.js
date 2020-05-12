@@ -12,9 +12,8 @@ const googleDrive = {
       optional: true,
       // TODO: handle pagination
       async options({ page, prevContext }) {
-        console.log("page: ", page);
-        console.log("prev context", prevContext);
-        return await this.listFiles();
+        const { nextPageToken } = prevContext;
+        return await this.listFiles(nextPageToken);
       },
     },
   },
@@ -32,18 +31,16 @@ const googleDrive = {
       const drive = google.drive({ version: "v3", auth });
       return drive;
     },
-    // TODO: handle pagination
-    async listFiles() {
+    async listFiles(pageToken) {
       const drive = this.drive();
-      const resp = await drive.files.list();
-      console.log(`List files response: ${resp}`);
-      const { files } = resp.data;
+      const resp = await drive.files.list({ pageToken });
+      const { files, nextPageToken } = resp.data;
       const options = files.map((file) => {
         return { label: file.name, value: file.id };
       });
       return {
         options,
-        context: resp.data,
+        context: { nextPageToken },
       };
     },
     async watch(id, address, fileId) {
@@ -111,8 +108,6 @@ module.exports = {
   hooks: {
     async activate() {
       try {
-        const listFilesResp = await this.listFiles();
-        console.log("FILE LISTING RESP: ", listFilesResp);
         // Called when a componenent is created or updated. Handles all the logic
         // for starting and stopping watch notifications tied to the desired files.
 
