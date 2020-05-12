@@ -6,8 +6,8 @@ module.exports = {
   props: {
     db: "$.service.db", 
     http: "$.interface.http",
-    github,
     events: { propDefinition: [github, "events"] },
+    github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
   },
   methods: {
