@@ -7,7 +7,8 @@ const googleDrive = {
   propDefinitions: {
     files: {
       type: "string[]",
-      description: "The files you want to watch for changes.",
+      description:
+        "The files you want to watch for changes. **Leave blank to watch for changes to all files**.",
       label: "Files",
       optional: true,
       async options({ page, prevContext }) {
@@ -158,22 +159,40 @@ module.exports = {
       const channelID = this.db.get("channelID") || uuid();
 
       // Subscriptions are keyed on Google's resourceID, "an opaque value that
-      // identifies the watched resource". This header is included in request
-      // headers, allowing us to look up the watched resource.
+      // identifies the watched resource". This header is included in request headers,
+      // allowing us to look up the watched resource (specific file or all files).
       let subscriptions = this.db.get("subscriptions") || {};
 
-      for (const fileID of this.files) {
-        const { expiration, resourceId } = await this.googleDrive.watchFile(
+      if (!this.files || !this.files.length) {
+        const { startPageToken } = (
+          await drive.changes.getStartPageToken({})
+        ).data;
+        const { expiration, resourceId } = await this.googleDrive.watchDrive(
           channelID,
           this.http.endpoint,
-          fileID
+          startPageToken
         );
+        // We use and increment as new changes arrive, in run()
+        this.db.set("pageToken", startPageToken);
         console.log(
-          `Finished watch request for file ${fileID}, expiry: ${expiration}`
+          `Finished watch request for all files, expiry: ${expiration}`
         );
-        // The fileID must be kept with the subscription metadata so we can
-        // renew the watch request for this specific file when it expires.
-        subscriptions[resourceId] = { expiration, fileID };
+        subscriptions[resourceId] = { expiration };
+      } else {
+        for (const fileID of this.files) {
+          const { expiration, resourceId } = await this.googleDrive.watch(
+            channelID,
+            this.http.endpoint,
+            fileID
+          );
+          console.log(
+            `Finished watch request for file ${fileID}, expiry: ${expiration}`
+          );
+          // The fileID must be kept with the subscription metadata so
+          // we can renew the watch request for this specific file
+          // when it expires.
+          subscriptions[resourceId] = { expiration, fileID };
+        }
       }
 
       // Save metadata on the subscription so we can stop / renew later
@@ -190,6 +209,7 @@ module.exports = {
       }
 
       const subscriptions = this.db.get("subscriptions") || {};
+      console.log("Subscriptions: ", subscriptions);
       for (const resourceId of Object.keys(subscriptions)) {
         await this.googleDrive.stopNotifications(channelID, resourceId);
       }
@@ -222,7 +242,7 @@ module.exports = {
             channelID,
             currentResourceId
           );
-          const { expiration, resourceId } = await this.googleDrive.watchFile(
+          const { expiration, resourceId } = await this.googleDrive.watch(
             channelID,
             this.http.endpoint,
             fileID
@@ -272,24 +292,32 @@ module.exports = {
       return;
     }
 
-    const file = await this.googleDrive.getFileMetadata(
-      headers["x-goog-resource-uri"]
-    );
+    const { fileID } = subscriptions[headers["x-goog-resource-id"]];
+    // When the user isn't watching a specific set of files, and watching for
+    // changes to ALL files in a drive, "x-goog-resource-uri" points to a changes URI
+    // that allows us to retrieve all changes since a given page token
+    // https://developers.google.com/drive/api/v3/manage-changes
+    if (!fileID) {
+      const {} = await this.googleDrive.getChanges(pageToken);
+    } else {
+      const file = await this.googleDrive.getFileMetadata(
+        headers["x-goog-resource-uri"]
+      );
+      const eventToEmit = {
+        file,
+        change: {
+          state: headers["x-goog-resource-state"],
+          resourceURI: headers["x-goog-resource-uri"],
+          changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
+        },
+      };
 
-    const eventToEmit = {
-      file,
-      change: {
-        state: headers["x-goog-resource-state"],
-        resourceURI: headers["x-goog-resource-uri"],
-        changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
-      },
-    };
-
-    this.$emit(eventToEmit, {
-      summary: `${headers["x-goog-resource-state"].toUpperCase()} - ${
-        file.name
-      }`,
-      id: headers["x-goog-message-number"],
-    });
+      this.$emit(eventToEmit, {
+        summary: `${headers["x-goog-resource-state"].toUpperCase()} - ${
+          file.name
+        }`,
+        id: headers["x-goog-message-number"],
+      });
+    }
   },
 };
