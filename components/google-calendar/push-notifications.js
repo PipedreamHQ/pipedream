@@ -136,6 +136,20 @@ const googleCalendar = {
       const calendar = this.calendar()
       const resp = await calendar.channels.stop(config)
       return resp
+    },
+    async fullSync(calendarId) {
+      let nextSyncToken = null
+      let nextPageToken = null
+      while(!nextSyncToken) {
+        const listConfig = {
+          calendarId,
+          pageToken: nextPageToken
+        }
+        const syncResp = await this.list(listConfig)
+        nextPageToken = get(syncResp, "data.nextPageToken")
+        nextSyncToken = get(syncResp, "data.nextSyncToken")
+      }
+      return nextSyncToken
     }
   }
 }
@@ -144,7 +158,6 @@ const googleCalendar = {
 module.exports = {
   name: "google-calendar-push-notifications",
   version: "0.0.1",
-//  dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
     googleCalendar,
     db: "$.service.db",
@@ -161,6 +174,12 @@ module.exports = {
         }
         return [];
       },
+    },
+    newOnly: {
+      type: "boolean",
+      label: "New Only",
+      description: "Will only emit new events",
+      default: false,
     },
     timer: {
       type: "$.interface.timer",
@@ -186,17 +205,7 @@ module.exports = {
       const watchResp = await this.googleCalendar.watch(config)
       const data = watchResp.data
       // initial full sync get next sync token
-      let nextSyncToken = null
-      let nextPageToken = null
-      while(!nextSyncToken) {
-        const listConfig = {
-          calendarId: this.calendarId,
-        }
-        listConfig.pageToken = nextPageToken
-        const syncResp = await this.googleCalendar.list(listConfig)
-        nextPageToken = get(syncResp, "data.nextPageToken")
-        nextSyncToken = get(syncResp, "data.nextSyncToken")
-      }
+      const nextSyncToken = await this.googleCalendar.fullSync(this.calendarId)
 
       this.db.set("nextSyncToken", nextSyncToken)
       this.db.set("channelId", data.id)
@@ -248,19 +257,8 @@ module.exports = {
         }
         const watchResp = await this.googleCalendar.watch(config)
         const data = watchResp.data
-        // initial full sync get next sync token
-        let nextSyncToken = null
-        let nextPageToken = null
-        while(!nextSyncToken) {
-          const listConfig = {
-            calendarId: this.calendarId,
-            pageToken: nextPageToken,
-          }
-          const syncResp = await this.googleCalendar.list(listConfig)
-          nextPageToken = get(syncResp, "data.nextPageToken")
-          nextSyncToken = get(syncResp, "data.nextSyncToken")
-        }
-
+        // full sync get next sync token
+        const nextSyncToken = await this.googleCalendar.fullSync(this.calendarId)
 
         // stop the previous watch
         const id = this.db.get("channelId")
@@ -279,7 +277,6 @@ module.exports = {
             console.log("there was a problem deactivating the webhook")
           }
         }
-
 
         this.db.set("nextSyncToken", nextSyncToken)
         this.db.set("channelId", data.id)
@@ -311,6 +308,11 @@ module.exports = {
         }
         listConfig.pageToken = nextPageToken
         const syncResp = await this.googleCalendar.list(listConfig)
+        if (syncResp.status == 410) {
+          nextSyncToken = await this.googleCalendar.fullSync(this.calendarId)
+          console.log("sync token is gone, resyncing")
+          break
+        }
         nextPageToken = get(syncResp, "data.nextPageToken")
         nextSyncToken = get(syncResp, "data.nextSyncToken")
 
@@ -318,7 +320,8 @@ module.exports = {
         const events = get(syncResp, "data.items")
         if (Array.isArray(events)) {
           for (const event of events) {
-            const { summary, id, updated} = event
+            const { summary, id, updated, sequence} = event
+            if (this.newOnly && sequence != 0) continue
             this.$emit(event, {
               summary,
               id,
@@ -329,7 +332,6 @@ module.exports = {
       }
 
       this.db.set("nextSyncToken", nextSyncToken)
-
     }
   },
 };
