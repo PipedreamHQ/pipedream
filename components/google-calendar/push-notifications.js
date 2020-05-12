@@ -142,7 +142,7 @@ const googleCalendar = {
 
 
 module.exports = {
-  name: "google-calendar-push",
+  name: "google-calendar-push-notifications",
   version: "0.0.1",
 //  dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
