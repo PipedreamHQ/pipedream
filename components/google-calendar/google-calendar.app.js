@@ -123,7 +123,7 @@ module.exports = {
     },
     async watch(config) {
       const calendar = this.calendar()
-      const resp = await calendar.event.watch(config)
+      const resp = await calendar.events.watch(config)
       return resp
     }
   }
