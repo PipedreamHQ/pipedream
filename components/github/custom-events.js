@@ -9,7 +9,7 @@ module.exports = {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
     events: { propDefinition: [github, "events"] },
-  },
+  }, 
   methods: { 
     generateSecret() {
       return ""+Math.random()
