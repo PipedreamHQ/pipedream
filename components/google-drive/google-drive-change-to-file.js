@@ -100,7 +100,7 @@ module.exports = {
     timer: {
       label: "Push notification renewal schedule",
       description:
-        "The Google Drive API requires occasionaly renewal of push notification subscriptions. This runs in the background.",
+        "The Google Drive API requires occasionaly renewal of push notification subscriptions. **This runs in the background, so you should not need to modify**.",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 60 * 6,
