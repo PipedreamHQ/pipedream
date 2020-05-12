@@ -6,9 +6,9 @@ module.exports = {
   props: {
     db: "$.service.db", 
     http: "$.interface.http",
-    events: { propDefinition: [github, "events"] },
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    events: { propDefinition: [github, "events"] },
   },
   methods: {
     generateSecret() {
