@@ -14,7 +14,6 @@ module.exports = {
       type: "string", 
       label: "Form", 
       async options(opts) { 
-        await axios.get('https://enx6b07hdu6cs.x.pipedream.net')
         const forms = await this.getForms(this.$auth.api_key)  
         return forms.content.map(form => { 
           return { label: form.title, value: form.id } 
@@ -34,7 +33,6 @@ module.exports = {
       return await axios(config)
     },
     async getForms() {   
-      await axios.get('https://enx6b07hdu6cs.x.pipedream.net')
       return (await this._makeRequest({
         url: `https://api.jotform.com/user/forms`,
         method: `GET`,

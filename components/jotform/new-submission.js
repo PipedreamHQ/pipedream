@@ -1,7 +1,7 @@
 const jotform = require('https://github.com/PipedreamHQ/pipedream/components/jotform/jotform.app.js')
 const busboy = require('busboy')
 
-module.exports = { 
+module.exports = {
   name: "new-submission", 
   version: "0.0.1",
   props: {
@@ -53,8 +53,6 @@ module.exports = {
       bb.end(event.body)
     })
 
-    // fileData
-    // formData
     this.$emit(formData, {
       summary: JSON.stringify(formData.rawRequest || formData),
       id: formData.submissionID,
