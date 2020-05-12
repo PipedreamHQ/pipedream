@@ -1,7 +1,7 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js")
 
 module.exports = {
-  name: "github-webhook",
+  name: "Webhook",
   version: "0.0.1",
   props: {
     db: "$.service.db",
