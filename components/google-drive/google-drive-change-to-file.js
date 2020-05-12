@@ -88,16 +88,19 @@ const googleDrive = {
 const { uuid } = require("uuidv4");
 
 module.exports = {
-  name: "google-drive-change-to-file",
+  name: "Google Drive - New, Modified, Removed Files",
   version: "0.0.1",
-  // Dedupe events based on the "x-goog-message-number" header, which always increments:
-  // https://developers.google.com/drive/api/v3/push#making-watch-requests
+  // Dedupe events based on the "x-goog-message-number" header, which always increments
+  // for the target channel: https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "greatest",
   props: {
     googleDrive,
     db: "$.service.db",
     http: "$.interface.http",
     timer: {
+      label: "Push notification renewal schedule",
+      description:
+        "The Google Drive API requires occasionaly renewal of push notification subscriptions. This runs in the background.",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 60 * 6,
