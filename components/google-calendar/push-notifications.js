@@ -24,9 +24,6 @@ module.exports = {
     },
     newOnly: {
       type: "boolean",
-      label: "New Only",
-      description: "Will only emit new events",
-      default: false,
     },
     timer: {
       type: "$.interface.timer",
@@ -38,6 +35,7 @@ module.exports = {
   },
   hooks: {
     async activate() {
+      // make watch request that will hit this http interface
       const config = {
         calendarId: this.calendarId,
         requestBody: {
@@ -48,6 +46,7 @@ module.exports = {
       }
       const watchResp = await this.googleCalendar.watch(config)
       const data = watchResp.data
+
       // initial full sync get next sync token
       const nextSyncToken = await this.googleCalendar.fullSync(this.calendarId)
 
