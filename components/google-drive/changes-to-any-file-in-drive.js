@@ -115,7 +115,8 @@ module.exports = {
         );
         const { expiration, resourceId } = await this.googleDrive.watchDrive(
           channelID,
-          this.http.endpoint
+          this.http.endpoint,
+          pageToken
         );
         this.db.set("subscription", { expiration, resourceId });
       }

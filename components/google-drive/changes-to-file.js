@@ -100,7 +100,7 @@ module.exports = {
         const { fileID } = metadata;
         // If the subscription for this resource will expire before the next run,
         // stop the existing subscription and renew
-        if (metadata.expiration < +new Date() + event.interval_seconds) {
+        if (metadata.expiration < +new Date() + event.interval_seconds * 1000) {
           console.log(
             `Notifications for resource ${currentResourceId} are expiring at ${metadata.expiration}. Renewing`
           );
