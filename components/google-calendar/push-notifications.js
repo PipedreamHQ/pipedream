@@ -31,7 +31,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 1 * 60,
+        intervalSeconds: 60 * 60,
       }
     },
     http: "$.interface.http",
@@ -44,9 +44,6 @@ module.exports = {
           id: uuidv4(),
           type: "web_hook",
           address: this.http.endpoint,
-          params: {
-            ttl: "90", // 60 interval?
-          },
         },
       }
       const watchResp = await this.googleCalendar.watch(config)
@@ -72,6 +69,11 @@ module.exports = {
         const stopResp = await this.googleCalendar.stop(config)
         if (stopResp.status === 204) {
           console.log("webhook deactivated")
+          this.db.set("nextSyncToken", null)
+          this.db.set("channelId", null)
+          this.db.set("resourceId", null)
+          this.db.set("expiration", null)
+
         } else {
           console.log("there was a problem deactivating the webhook")
         }
@@ -97,9 +99,6 @@ module.exports = {
             id: uuidv4(),
             type: "web_hook",
             address: this.http.endpoint,
-            params: {
-              ttl: "90", // 60 interval?
-            },
           },
         }
         const watchResp = await this.googleCalendar.watch(config)
