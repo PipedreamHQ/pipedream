@@ -183,6 +183,11 @@ module.exports = {
       headers["x-goog-resource-uri"]
     );
 
+    if (!file || !Object.keys(file).length) {
+      console.log("No file metadata returned, nothing to emit");
+      return;
+    }
+
     const eventToEmit = {
       file,
       change: {
@@ -194,7 +199,7 @@ module.exports = {
 
     this.$emit(eventToEmit, {
       summary: `${headers["x-goog-resource-state"].toUpperCase()} - ${
-        file.name
+        file.name || "Untitled"
       }`,
       id: headers["x-goog-message-number"],
     });

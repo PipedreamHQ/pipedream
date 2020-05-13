@@ -38,14 +38,10 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      // Called when a componenent is created or updated. Handles all the logic
+      // Called when a component is created or updated. Handles all the logic
       // for starting and stopping watch notifications tied to the desired files.
 
       const channelID = this.db.get("channelID") || uuid();
-
-      // Subscriptions are tied to Google's resourceID, "an opaque value that
-      // identifies the watched resource". This value is included in request headers
-      let subscription = this.db.get("subscription");
 
       const startPageToken = await this.googleDrive.getPageToken();
       const { expiration, resourceId } = await this.googleDrive.watchDrive(
@@ -57,11 +53,20 @@ module.exports = {
       this.db.set("pageToken", startPageToken);
 
       // Save metadata on the subscription so we can stop / renew later
+      // Subscriptions are tied to Google's resourceID, "an opaque value that
+      // identifies the watched resource". This value is included in request headers
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
+      const { resourceId } = this.db.get("subscription");
+
+      // Reset DB state before anything else
+      this.db.set("subscription", null);
+      this.db.set("channelID", null);
+      this.db.set("pageToken", null);
+
       if (!channelID) {
         console.log(
           "Channel not found, cannot stop notifications for non-existent channel"
@@ -69,7 +74,6 @@ module.exports = {
         return;
       }
 
-      const { resourceId } = this.db.get("subscription");
       if (!resourceId) {
         console.log(
           "No resource ID found, cannot stop notifications for non-existent resource"
@@ -78,10 +82,6 @@ module.exports = {
       }
 
       await this.googleDrive.stopNotifications(channelID, resourceId);
-
-      // Reset DB state
-      this.db.set("subscription", null);
-      this.db.set("channelID", null);
     },
   },
   async run(event) {
@@ -101,8 +101,11 @@ module.exports = {
         `Checking for resubscription on resource ${subscription.resourceId}`
       );
       // If the subscription for this resource will expire before the next run,
-      // stop the existing subscription and renew
-      if (subscription.expiration < +new Date() + event.interval_seconds) {
+      // stop the existing subscription and renew. Expiration is in ms.
+      if (
+        subscription.expiration <
+        +new Date() + event.interval_seconds * 1000
+      ) {
         console.log(
           `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Renewing`
         );
@@ -146,9 +149,10 @@ module.exports = {
       console.log(
         `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`
       );
+      return;
     }
 
-    if (!(headers["x-goog-resource-id"] === subscription.resourceId)) {
+    if (headers["x-goog-resource-id"] !== subscription.resourceId) {
       console.log(
         `Resource ID of ${resourceId} not currently being tracked. Exiting`
       );
