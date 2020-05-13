@@ -3,7 +3,7 @@ const trello = require('https://github.com/PipedreamHQ/pipedream/components/trel
 module.exports = {
   name: "New Activity",
   version: "0.0.1",
-  props: {
+  props: { 
     db: "$.service.db",
     http: "$.interface.http",
     trello,
