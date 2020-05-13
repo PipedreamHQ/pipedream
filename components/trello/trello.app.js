@@ -35,10 +35,24 @@ updateComment
 updateLabel
 updateList`.split('\n')
 
-const trello = {
+module.exports = {
   type: "app",
   app: "trello",
   propDefinitions: {
+    cardIds: {
+      // after should be array + assume after apps
+      type: "string[]",
+      label: "Cards",
+      optional: true,
+      // options needs to support standardized opts for pagination
+      async options(opts) {
+        const cards = await this.getCards(opts.boardId)
+        // XXX short hand where value and label are same value
+        return cards.map(card => {
+          return { label: `${card.name} (${card.id})`, value: card.id }
+        })
+      },
+    },
     boardId: {
       // after should be array + assume after apps
       type: "string",
@@ -47,8 +61,9 @@ const trello = {
       async options(opts) {
         const boards = await this.getBoards(this.$auth.oauth_uid)
         // XXX short hand where value and label are same value
-        return boards.map(board => {
-          return { label: board.name, value: board.id }
+        const activeBoards = boards.filter(board => board.closed === false)
+        return activeBoards.map(board => {
+          return { label: `${board.name} (${board.id})`, value: board.id }
         })
       },
       // XXX validate
@@ -57,9 +72,25 @@ const trello = {
       // after should be array + assume after apps
       type: "string[]",
       label: "Event Types",
+      optional: true,
       description: "Only emit events for the selected event types (e.g., `updateCard`).",
       // options needs to support standardized opts for pagination
       options: events,
+      // XXX validate
+    },
+    listIds: {
+      // after should be array + assume after apps
+      type: "string[]",
+      label: "Lists",
+      optional: true,
+      // options needs to support standardized opts for pagination
+      async options(opts) {
+        const lists = await this.getLists(opts.boardId)
+        // XXX short hand where value and label are same value
+        return lists.map(list => {
+          return { label: `${list.name} (${list.id})`, value: list.id }
+        })
+      },
       // XXX validate
     },
   },
@@ -96,6 +127,18 @@ const trello = {
     async getBoards(id) {   
       const config = {
         url: `https://api.trello.com/1/members/${id}/boards`,
+      }
+      return (await this._makeRequest(config)).data
+    },
+    async getCards(id) {   
+      const config = {
+        url: `https://api.trello.com/1/boards/${id}/cards`,
+      }
+      return (await this._makeRequest(config)).data
+    },
+    async getLists(id) {   
+      const config = {
+        url: `https://api.trello.com/1/boards/${id}/lists`,
       }
       return (await this._makeRequest(config)).data
     },
