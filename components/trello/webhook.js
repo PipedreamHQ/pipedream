@@ -1,4 +1,6 @@
-module.exports = module.exports = {
+const trello = require('https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js')
+
+module.exports = {
   name: "New Activity",
   version: "0.0.1",
   props: {
