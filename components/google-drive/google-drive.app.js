@@ -49,8 +49,7 @@ module.exports = {
     drive() {
       const auth = new google.auth.OAuth2();
       auth.setCredentials({ access_token: this.$auth.oauth_access_token });
-      const drive = google.drive({ version: "v3", auth });
-      return drive;
+      return google.drive({ version: "v3", auth });
     },
     // Google's push notifications provide a URL to the resource that changed,
     // which we can use to fetch the file's metadata. So we use axios here
