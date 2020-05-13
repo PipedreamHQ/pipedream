@@ -1,120 +1,3 @@
-const axios = require("axios");
-const { google } = require("googleapis");
-
-const googleDrive = {
-  type: "app",
-  app: "google_drive",
-  propDefinitions: {
-    files: {
-      type: "string[]",
-      description: "The files you want to watch for changes.",
-      label: "Files",
-      optional: true,
-      async options({ page, prevContext }) {
-        const { nextPageToken } = prevContext;
-        return await this.listFiles(nextPageToken);
-      },
-    },
-  },
-  methods: {
-    // Returns a drive object authenticated with the user's access token
-    drive() {
-      const auth = new google.auth.OAuth2();
-      auth.setCredentials({ access_token: this.$auth.oauth_access_token });
-      const drive = google.drive({ version: "v3", auth });
-      return drive;
-    },
-    // Google's push notifications provide a URL to the resource that changed,
-    // which we can use to fetch the file's metadata
-    async getFileMetadata(url) {
-      return (
-        await axios({
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          },
-          url,
-        })
-      ).data;
-    },
-    async getChanges(pageToken) {
-      const { changes, newStartPageToken } = (
-        await drive.changes.list({
-          pageToken,
-        })
-      ).data;
-      const changedFiles = changes.map((change) => change.file);
-      return {
-        changedFiles,
-        newStartPageToken,
-      };
-    },
-    async listFiles(pageToken) {
-      const drive = this.drive();
-      const resp = await drive.files.list({ pageToken });
-      const { files, nextPageToken } = resp.data;
-      const options = files.map((file) => {
-        return { label: file.name, value: file.id };
-      });
-      return {
-        options,
-        context: { nextPageToken },
-      };
-    },
-    _makeWatchRequestBody(id, address) {
-      return {
-        id, // the component-specific channel ID, a UUID
-        type: "web_hook",
-        address, // the component-specific HTTP endpoint
-      };
-    },
-    async watchDrive(id, address, pageToken) {
-      const drive = this.drive();
-      const requestBody = this._makeWatchRequestBody(id, address);
-      // When watching for changes to an entire account, we must pass a pageToken,
-      // which points to the moment in time we want to start watching for changes:
-      // https://developers.google.com/drive/api/v3/manage-changes
-      const { expiration, resourceId } = (
-        await drive.changes.watch({
-          pageToken,
-          requestBody,
-        })
-      ).data;
-      return {
-        expiration: parseInt(expiration),
-        resourceId,
-      };
-    },
-    async watchFile(id, address, fileId) {
-      const drive = this.drive();
-      const requestBody = this._makeWatchRequestBody(id, address);
-      let resp;
-      if (!fileId) {
-        resp = await drive.changes.watch({
-          pageToken: startPageToken,
-          requestBody,
-        });
-      } else {
-        resp = await drive.files.watch({
-          fileId,
-          requestBody,
-        });
-      }
-      const { expiration, resourceId } = resp.data;
-      return {
-        expiration: parseInt(expiration),
-        resourceId,
-      };
-    },
-    async stopNotifications(id, resourceId) {
-      // id = channelID
-      // See https://github.com/googleapis/google-api-nodejs-client/issues/627
-      const drive = this.drive();
-      const resp = drive.channels.stop({ resource: { id, resourceId } });
-    },
-  },
-};
-
 // This source processes changes to files in a user's Google Drive,
 // implementing strategy enumerated in the Push Notifications API docs:
 // https://developers.google.com/drive/api/v3/push .
@@ -125,9 +8,11 @@ const googleDrive = {
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
 const { uuid } = require("uuidv4");
+const includes = require("lodash.includes");
+const googleDrive = require("https://github.com/PipedreamHQ/pipedream/tree/google-drive-changes-to-file/components/google-drive/google-drive.app.js");
 
 module.exports = {
-  name: "Google Drive - New, Modified, Removed Files",
+  name: "Google Drive - Changes to Files",
   version: "0.0.1",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -137,6 +22,10 @@ module.exports = {
     db: "$.service.db",
     http: "$.interface.http",
     files: { propDefinition: [googleDrive, "files"] },
+    updateTypes: { propDefinition: [googleDrive, "updateTypes"] },
+    watchForPropertiesChanges: {
+      propDefinition: [googleDrive, "watchForPropertiesChanges"],
+    },
     timer: {
       label: "Push notification renewal schedule",
       description:
@@ -158,7 +47,7 @@ module.exports = {
       const channelID = this.db.get("channelID") || uuid();
 
       // Subscriptions are keyed on Google's resourceID, "an opaque value that
-      // identifies the watched resource". This header is included in request
+      // identifies the watched resource". This value is included in request
       // headers, allowing us to look up the watched resource.
       let subscriptions = this.db.get("subscriptions") || {};
 
@@ -167,9 +56,6 @@ module.exports = {
           channelID,
           this.http.endpoint,
           fileID
-        );
-        console.log(
-          `Finished watch request for file ${fileID}, expiry: ${expiration}`
         );
         // The fileID must be kept with the subscription metadata so we can
         // renew the watch request for this specific file when it expires.
@@ -200,23 +86,23 @@ module.exports = {
     },
   },
   async run(event) {
-    console.log(event);
-    // This method is polymorphic: it can be triggered as a cron job, to make sure we renew
+    // This function is polymorphic: it can be triggered as a cron job, to make sure we renew
     // watch requests for specific files, or via HTTP request (the change payloads from Google)
 
     let subscriptions = this.db.get("subscriptions") || {};
+    const channelID = this.db.get("channelID");
+
     // Component was invoked by timer
-    // TODO: set expiration to a low value, test this logic
-    if ("interval_seconds" in event) {
+    if (event.interval_seconds) {
       for (const [currentResourceId, metadata] of Object.entries(
         subscriptions
       )) {
-        const { expiration, fileID } = metadata; // expiration is in epoch seconds
+        const { fileID } = metadata;
         // If the subscription for this resource will expire before the next run,
         // stop the existing subscription and renew
-        if (expiration < +new Date() + event.interval_seconds) {
+        if (metadata.expiration < +new Date() + event.interval_seconds) {
           console.log(
-            `Notifications for resource ${currentResourceId} are expiring at ${expiration}. Renewing`
+            `Notifications for resource ${currentResourceId} are expiring at ${metadata.expiration}. Renewing`
           );
           await this.googleDrive.stopNotifications(
             channelID,
@@ -257,7 +143,6 @@ module.exports = {
       return;
     }
 
-    const channelID = this.db.get("channelID");
     const incomingChannelID = headers["x-goog-channel-id"];
     if (incomingChannelID !== channelID) {
       console.log(
@@ -268,6 +153,28 @@ module.exports = {
     if (!(headers["x-goog-resource-id"] in subscriptions)) {
       console.log(
         `Resource ID of ${resourceId} not currently being tracked. Exiting`
+      );
+      return;
+    }
+
+    if (!includes(this.updateTypes, headers["x-goog-resource-state"])) {
+      console.log(
+        `Update type ${headers["x-goog-resource-state"]} not in list of updates to watch: `,
+        this.updateTypes
+      );
+      return;
+    }
+
+    // We observed false positives where a single change to a document would trigger two changes:
+    // one to "properties" and another to "content,properties". But changes to properties
+    // alone are legitimate, most users just won't want this source to emit in those cases.
+    // If x-goog-changed is _only_ set to "properties", only move on if the user set the prop
+    if (
+      !this.watchForPropertiesChanges &&
+      headers["x-goog-changed"] === "properties"
+    ) {
+      console.log(
+        "Change to properties only, which this component is set to ignore. Exiting"
       );
       return;
     }
