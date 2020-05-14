@@ -1,7 +1,7 @@
 const axios = require("axios")
 const querystring = require('querystring')
 
-const typeform = { 
+module.exports = { 
   type: "app", 
   app: "typeform", 
   propDefinitions: {  
