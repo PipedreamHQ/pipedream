@@ -222,7 +222,9 @@ You can also specify the schedule type, and value, by explicitly including one o
 props: {
   timer: {
     type: "$.interface.timer"
-    cron: "0 0 * * *" // Run job once a day
+    default: {
+      cron: "0 0 * * *" // Run job once a day
+    }
   }
 },
 ```
@@ -231,7 +233,9 @@ props: {
 props: {
   timer: {
     type: "$.interface.timer"
-    intervalSeconds: 60 // Run job once a minute
+    default: {
+      intervalSeconds: 60 // Run job once a minute
+    }
   }
 },
 ```

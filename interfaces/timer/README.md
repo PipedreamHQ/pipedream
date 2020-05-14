@@ -86,12 +86,14 @@ module.exports = {
   props: {
     timer: {
       type: "$.interface.timer",
-      cron: "* * * * *"
-    }
+      default: {
+        cron: "* * * * *",
+      },
+    },
   },
   async run() {
     console.log("Run any Node.js code here");
-  }
+  },
 };
 ```
 
@@ -192,7 +194,7 @@ module.exports = {
   methods,
   run() {
     console.log("Run any Node.js code here");
-  }
+  },
 };
 ```
 
@@ -207,12 +209,14 @@ module.exports = {
   props: {
     timer: {
       type: "$.interface.timer",
-      cron: "0 0 * * *"
-    }
+      default: {
+        cron: "0 0 * * *",
+      },
+    },
   },
   run() {
     console.log("Run any Node.js code here");
-  }
+  },
 };
 ```
 
@@ -237,19 +241,21 @@ module.exports = {
   props: {
     timer: {
       type: "$.interface.timer",
-      cron: "0 0 * * *"
-    }
+      default: {
+        cron: "0 0 * * *",
+      },
+    },
   },
   async run() {
     const axios = require("axios");
 
     const resp = await axios({
       method: "GET",
-      url: `https://swapi.co/api/films/`
+      url: `https://swapi.co/api/films/`,
     });
 
     console.log(resp.data);
-  }
+  },
 };
 ```
 
@@ -294,12 +300,14 @@ module.exports = {
   props: {
     timer: {
       type: "$.interface.timer",
-      cron: "0 0 * * *"
-    }
+      default: {
+        cron: "0 0 * * *",
+      },
+    },
   },
   run() {
     console.log("Run any Node.js code here");
-  }
+  },
 };
 ```
 
@@ -314,12 +322,14 @@ module.exports = {
   props: {
     timer: {
       type: "$.interface.timer",
-      intervalSeconds: 60
-    }
+      default: {
+        intervalSeconds: 60,
+      },
+    },
   },
   run() {
     console.log("Run any Node.js code here");
-  }
+  },
 };
 ```
 
@@ -364,12 +374,12 @@ axios({
   method: "POST",
   url: "https://api.pipedream.com/v1/sources",
   headers: {
-    Authorization: `Bearer ${process.env.PIPEDREAM_API_KEY}`
+    Authorization: `Bearer ${process.env.PIPEDREAM_API_KEY}`,
   },
-  data
+  data,
 })
-  .then(res => console.log(res))
-  .catch(err => console.log(`Error: ${err}`));
+  .then((res) => console.log(res))
+  .catch((err) => console.log(`Error: ${err}`));
 ```
 
 ## Example cron jobs
@@ -394,7 +404,7 @@ Components can **emit** data that you can access from any application. Within yo
 
 ```javascript
 this.$emit({
-  name: "Luke Skywalker"
+  name: "Luke Skywalker",
 });
 ```
 
@@ -450,12 +460,14 @@ module.exports = {
   props: {
     timer: {
       type: "$.interface.timer",
-      cron: "0 0 * * *"
-    }
+      default: {
+        cron: "0 0 * * *",
+      },
+    },
   },
   run() {
     console.log("Run any Node.js code here");
-  }
+  },
 };
 ```
 
