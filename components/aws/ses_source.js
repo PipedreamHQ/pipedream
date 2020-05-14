@@ -3,10 +3,6 @@ const aws = {
   app: "aws",
   methods: {
     sdk(region) {
-      // TODO: this should not be necessary
-      delete process.env.AWS_ACCESS_KEY_ID
-      delete process.env.AWS_SECRET_ACCESS_KEY
-      delete process.env.AWS_SESSION_TOKEN
       process.env.AWS_ACCESS_KEY_ID = this.$auth.accessKeyId
       process.env.AWS_SECRET_ACCESS_KEY = this.$auth.secretAccessKey
       const AWS = require("aws-sdk")
@@ -24,7 +20,7 @@ const aws = {
 const got = require('got')
 module.exports = {
   name: "ses-source",
-  version: "0.1.0",
+  version: "0.2.0",
   props: {
     region: {
       type: "string",
