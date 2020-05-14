@@ -1,5 +1,4 @@
 const axios = require('axios')
-const _ = require('lodash') 
 const events = `addAttachmentToCard
 addChecklistToCard
 addLabelToCard
@@ -34,7 +33,7 @@ updateChecklist
 updateComment
 updateLabel
 updateList`.split('\n')
-
+ 
 module.exports = {
   type: "app",
   app: "trello",

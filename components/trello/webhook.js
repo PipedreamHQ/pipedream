@@ -1,7 +1,12 @@
 const trello = require('https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js')
+const _ = require('lodash') 
+
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
 
 module.exports = {
-  name: "New Activity",
+  name: "New Activity", 
   version: "0.0.1",
   props: { 
     db: "$.service.db",
@@ -19,6 +24,9 @@ module.exports = {
   },
   hooks: {
     async activate() {
+      console.log('pre-sleep')
+      await sleep(5000)
+      console.log('post-sleep')
       console.log(`board: ${this.boardId}`)
       const { id } = await this.trello.createHook({
         id: this.boardId,
@@ -48,23 +56,23 @@ module.exports = {
       const listIds = this.db.get("listIds")
       const cardIds = this.db.get("cardIds")
 
-      const eventType = _.get(body, 'action.type', '')
+      const eventType = _.get(body, 'action.type')
       const listId = _.get(body, 'action.data.list.id')
       const cardId = _.get(body, 'action.data.card.id')
 
-      let emitEvent
-      if (eventTypes || listIds || cardIds) {
-        emitEvent = false
-      }  else {
+      let emitEvent = false
+      
+      if (!eventTypes && !listIds && !cardIds) {
         emitEvent = true
-      }
-      if ((eventType && eventTypes.includes(eventType)) || (listId && listIds.includes(listId)) || (cardId && cardIds.includes(cardId))) { 
-        emitEvent = true 
+      } else {
+        if ((eventType && eventTypes.includes(eventType)) || (listId && listIds.includes(listId)) || (cardId && cardIds.includes(cardId))) { 
+          emitEvent = true 
+        }
       }
 
       if (emitEvent) {
         this.$emit(body, {
-          summary: _.get(body, 'action.type', ''), 
+          summary: eventType,
         })
       } 
     }
