@@ -56,7 +56,7 @@ module.exports = {
     }
 
     this.$emit(body, {
-      summary: body.event_type,
+      summary: JSON.stringify(body),
       id: body.event_id,
     })
   },
