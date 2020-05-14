@@ -5,6 +5,7 @@ module.exports = {
   name: "new-submission", 
   version: "0.0.1",
   props: {
+    db: "$.service.db",
     http: "$.interface.http",
     typeform,
     formId: { propDefinition: [typeform, "formId"] },
