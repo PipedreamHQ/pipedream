@@ -12,8 +12,11 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      const tag = uuid()
-      this.db.set('tag', tag)
+      let tag = this.db.get('tag')
+      if(!tag){
+        tag = uuid()
+        this.db.set('tag', tag)
+      }
       return (await this.jotform.createHook({
         endpoint: this.http.endpoint,
         formId: this.formId,
@@ -21,7 +24,7 @@ module.exports = {
       }))
     },
     async deactivate() {
-      return (await this.jotform.deleteHook({
+      return (await this.typeform.deleteHook({
         formId: this.formId,
         tag: this.db.get('tag'),
       }))
