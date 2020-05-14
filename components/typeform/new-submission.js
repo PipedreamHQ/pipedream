@@ -9,7 +9,7 @@ module.exports = {
     http: "$.interface.http",
     typeform,
     formId: { propDefinition: [typeform, "formId"] },
-  },
+  }, 
   hooks: {
     async activate() {
       let tag = this.db.get('tag')
