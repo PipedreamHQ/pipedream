@@ -41,10 +41,10 @@ module.exports = {
       })).data
     }, 
     async createHook(opts = {}) {
-      const { formId, endpoint, secret } = opts
+      const { formId, endpoint, tag, secret } = opts
       return (await this._makeRequest({
         method: "put",
-        url: `https://api.typeform.com/forms/${encodeURIComponent(formId)}/webhooks/dc_PnuVj0`,
+        url: `https://api.typeform.com/forms/${encodeURIComponent(formId)}/webhooks/${encodeURIComponent(tag)}`,
         data: {
           url: endpoint,
           enabled: true,
@@ -52,10 +52,11 @@ module.exports = {
         },
       })).data
     },
-    async deleteHook({ repoFullName, hookId }) {
+    async deleteHook(opts = {}) {
+      const { formId, tag } = opts
       return (await this._makeRequest({
         method: "delete",
-        url: `https://api.typeform.com/forms/${encodeURIComponent(formId)}/webhooks/dc_PnuVj0`,
+        url: `https://api.typeform.com/forms/${encodeURIComponent(formId)}/webhooks/${encodeURIComponent(tag)}`,
       })).data
     },
   },

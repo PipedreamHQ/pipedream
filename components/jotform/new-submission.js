@@ -1,5 +1,6 @@
 const jotform = require('https://github.com/PipedreamHQ/pipedream/components/jotform/jotform.app.js')
 const busboy = require('busboy')
+const { uuid } = require("uuidv4")
 
 module.exports = {
   name: "new-submission", 
@@ -11,15 +12,18 @@ module.exports = {
   },
   hooks: {
     async activate() {
+      const tag = uuid()
+      this.db.set('tag', tag)
       return (await this.jotform.createHook({
         endpoint: this.http.endpoint,
         formId: this.formId,
+        tag,
       }))
     },
     async deactivate() {
       return (await this.jotform.deleteHook({
-        endpoint: this.http.endpoint,
         formId: this.formId,
+        tag: this.db.get('tag'),
       }))
     },
   },
