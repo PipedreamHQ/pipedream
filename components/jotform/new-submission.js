@@ -24,6 +24,10 @@ module.exports = {
     },
   },
   async run(event) {
+    this.http.respond({
+      status: 200,
+    })
+    
     const bb = new busboy({ headers: event.headers });
     let fileData = {}
     let formData = {}
