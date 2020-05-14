@@ -1,8 +1,10 @@
+const axios = require("axios")
+const querystring = require('querystring')
 const typeform = require('https://github.com/PipedreamHQ/pipedream/components/typeform/typeform.app.js')
 const { uuid } = require("uuidv4")
 
 module.exports = {
-  name: "new-submission", 
+  name: "New Submission", 
   version: "0.0.1",
   props: {
     db: "$.service.db",
@@ -14,18 +16,6 @@ module.exports = {
     generateSecret() {
       return ""+Math.random()
     },
-    verifySignature(){
-      /*
-      def verify_signature(received_signature, payload_body)
-        hash = OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), ENV['SECRET_TOKEN'], payload_body)
-        actual_signature = 'sha256=' + Base64.strict_encode64(hash)
-        return halt 500, "Signatures don't match!" unless Rack::Utils.secure_compare(actual_signature, received_signature)
-      end
-
-      Copy
-      Show less
-      */
-    }
   },
   hooks: {
     async activate() {

@@ -33,7 +33,6 @@ module.exports = {
       return await axios(config)
     },
     async getForms(opts = {}) {   
-      //const { page, page_size } = opts
       return (await this._makeRequest({
         url: `https://api.typeform.com/forms`,
         method: `GET`,
