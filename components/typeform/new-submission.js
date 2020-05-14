@@ -10,8 +10,27 @@ module.exports = {
     typeform,
     formId: { propDefinition: [typeform, "formId"] },
   }, 
+  methods: { 
+    generateSecret() {
+      return ""+Math.random()
+    },
+    verifySignature(){
+      /*
+      def verify_signature(received_signature, payload_body)
+        hash = OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), ENV['SECRET_TOKEN'], payload_body)
+        actual_signature = 'sha256=' + Base64.strict_encode64(hash)
+        return halt 500, "Signatures don't match!" unless Rack::Utils.secure_compare(actual_signature, received_signature)
+      end
+
+      Copy
+      Show less
+      */
+    }
+  },
   hooks: {
     async activate() {
+      const secret = this.generateSecret()
+      this.db.set('secret', secret)
       let tag = this.db.get('tag')
       if(!tag){
         tag = uuid()
@@ -21,6 +40,7 @@ module.exports = {
         endpoint: this.http.endpoint,
         formId: this.formId,
         tag,
+        secret,
       }))
     },
     async deactivate() {
@@ -34,9 +54,22 @@ module.exports = {
     this.http.respond({
       status: 200,
     })
-    this.$emit(event.body, {
-      summary: event.body.event_type,
-      id: event.body.event_id,
+
+    const { body, headers } = event
+
+    if (headers["Typeform-Signature"]) {
+      const crypto = require("crypto")
+      const algo = "sha256"
+      const hmac = crypto.createHmac(algo, this.db.get("secret"))
+      hmac.update(body)
+      if (headers["Typeform-Signature"] !== `${algo}=${hmac.digest("base64")}`) {
+        throw new Error("signature mismatch")
+      }
+    }
+
+    this.$emit(body, {
+      summary: body.event_type,
+      id: body.event_id,
     })
   },
 }

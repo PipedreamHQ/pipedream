@@ -49,6 +49,7 @@ module.exports = {
           url: endpoint,
           enabled: true,
           verify_ssl: true,
+          secret,
         },
       })).data
     },
