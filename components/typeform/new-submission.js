@@ -1,5 +1,3 @@
-const axios = require("axios")
-const querystring = require('querystring')
 const typeform = require('https://github.com/PipedreamHQ/pipedream/components/typeform/typeform.app.js')
 const { uuid } = require("uuidv4")
 
