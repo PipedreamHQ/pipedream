@@ -134,13 +134,20 @@ module.exports = {
       const expectedChannelId = this.db.get("channelId")
       const channelId = get(event, "headers.x-goog-channel-id")
       if (expectedChannelId != channelId) {
-        console.log(`expected ${expectedChannelId} but got ${channelId}`)
+        console.log(`expected ${expectedChannelId} but got ${channelId}.  Most likely there are multiple webhooks active.`)
         return
       }
       // check that resource state is exists
-      if ("exists" != get(event, "headers.x-goog-resource-state")) {
-        console.log("resource state mismatch")
-        return
+      const state = get(event, "headers.x-goog-resource-state")
+      switch (state) {
+        case "exists":
+          // there's something to emit
+          break
+        case "not_exists":
+          // TODO handle this?
+        case "sync":
+          console.log("new channel created")
+          return
       }
       // do a listing and then emit everything?
       const syncToken = this.db.get("nextSyncToken")
