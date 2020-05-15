@@ -1,4 +1,3 @@
-// TODO: separate AWS and SES apps
 const aws = {
   type: "app",
   app: "aws",
@@ -10,7 +9,6 @@ const aws = {
       AWS.config.update({ region });
       return AWS;
     },
-    // TODO: add list regions API call
     async sesIdentities(region) {
       const AWS = this.sdk(region);
       const ses = new AWS.SES();
@@ -22,11 +20,12 @@ const aws = {
 const axios = require("axios");
 
 module.exports = {
-  name: "SES Inbound Catch-All",
+  name: "SES Inbound Catch-All Handler",
   version: "0.2.1",
-  // TODO: add labels to props
   props: {
     region: {
+      label: "AWS Region",
+      description: "The AWS region string where you configured your SES domain",
       type: "string",
       default: "us-east-1",
     },
@@ -34,6 +33,8 @@ module.exports = {
     http: "$.interface.http",
     db: "$.service.db",
     domain: {
+      label: "SES Domain",
+      description: "The domain you'd like to configure a catch-all handler for",
       type: "string",
       async options() {
         return this.aws.sesIdentities(this.region);
@@ -72,7 +73,6 @@ module.exports = {
           })
           .promise()
       );
-      // TODO: fix deactivate
       this.db.set("ses-rule", {
         RuleName: `${this.domain}-catchall-pipedream`,
         RuleSetName: ruleset.Metadata.Name,
@@ -89,7 +89,6 @@ module.exports = {
       );
     },
     async deactivate() {
-      // TODO: fix deactivate for receipt rule
       const AWS = this.aws.sdk(this.region);
       const sns = new AWS.SNS();
       const ses = new AWS.SES();
