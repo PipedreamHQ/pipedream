@@ -48,7 +48,7 @@ module.exports = {
       record.metadata = {}
       record.metadata.base_id = this.baseId
       record.metadata.table_id = this.tableId
-      record.metadata.view_id = this.viewId
+      record.metadata.view_id = this.viewId 
 
       this.$emit(record, {
         ts: moment(record.createdTime).valueOf(),
