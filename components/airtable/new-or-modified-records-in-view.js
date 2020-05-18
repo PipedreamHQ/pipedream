@@ -3,7 +3,7 @@ const moment = require('moment')
 const axios = require('axios')
 
 module.exports = {
-  name: "new-or-modified-records-in-view",
+  name: "New or modified records in view",
   version: "0.0.1",
   props: {
     db: "$.service.db",
@@ -51,6 +51,12 @@ module.exports = {
         record.type = "record_modified"
         modifiedRecords++
       }
+
+      record.metadata = {}
+      record.metadata.base_id = this.baseId
+      record.metadata.base_id = this.tableId
+      record.metadata.base_id = this.viewId
+
       this.$emit(record, {
         summary: `${record.type}: ${JSON.stringify(record.fields)}`,
         id: record.id,
