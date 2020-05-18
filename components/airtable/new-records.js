@@ -44,8 +44,8 @@ module.exports = {
     for (let record of data.records) {
       record.metadata = {}
       record.metadata.base_id = this.baseId
-      record.metadata.base_id = this.tableId
-      
+      record.metadata.table_id = this.tableId
+
       this.$emit(record, {
         ts: moment(record.createdTime).valueOf(),
         summary: JSON.stringify(record.fields),

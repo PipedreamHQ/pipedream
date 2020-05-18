@@ -50,7 +50,7 @@ module.exports = {
 
       record.metadata = {}
       record.metadata.base_id = this.baseId
-      record.metadata.base_id = this.tableId
+      record.metadata.table_id = this.tableId
 
       this.$emit(record, {
         summary: `${record.type}: ${JSON.stringify(record.fields)}`,
