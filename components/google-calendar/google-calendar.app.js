@@ -1,5 +1,5 @@
 const { google } = require("googleapis")
-const _ = require("lodash")
+const get = require("lodash.get")
 
 module.exports = {
   type: "app",
@@ -89,16 +89,15 @@ module.exports = {
       optional: true,
       type: "string"
     },
-    updatedMin: {
-      description: "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted. Optional. The default is not to filter by last modification time.",
+    updatedMin: { description: "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted. Optional. The default is not to filter by last modification time.",
       optional: true,
       type: "string"
     }
   },
   methods: {
     _tokens() {
-      const access_token = _.get(this, "$auth.oauth_access_token")
-      const refresh_token = _.get(this, "$auth.oauth_refresh_token")
+      const access_token = get(this, "$auth.oauth_access_token")
+      const refresh_token = get(this, "$auth.oauth_refresh_token")
       return {
         access_token,
         refresh_token,
@@ -116,11 +115,39 @@ module.exports = {
       const resp = await calendar.calendarList.list()
       return resp
     },
-    // for config key value pairs - https://developers.google.com/calendar/v3/reference/events/list
-    async getEvents(config) {
+    async list(config) {
       const calendar = this.calendar()
       const resp = await calendar.events.list(config)
       return resp
+    },
+    // for config key value pairs - https://developers.google.com/calendar/v3/reference/events/list
+    // deprecated
+    async getEvents(config) {
+      return await this.list(config)
+    },
+    async watch(config) {
+      const calendar = this.calendar()
+      const resp = await calendar.events.watch(config)
+      return resp
+    },
+    async stop(config) {
+      const calendar = this.calendar()
+      const resp = await calendar.channels.stop(config)
+      return resp
+    },
+    async fullSync(calendarId) {
+      let nextSyncToken = null
+      let nextPageToken = null
+      while(!nextSyncToken) {
+        const listConfig = {
+          calendarId,
+          pageToken: nextPageToken
+        }
+        const syncResp = await this.list(listConfig)
+        nextPageToken = get(syncResp, "data.nextPageToken")
+        nextSyncToken = get(syncResp, "data.nextSyncToken")
+      }
+      return nextSyncToken
     }
   }
 }
