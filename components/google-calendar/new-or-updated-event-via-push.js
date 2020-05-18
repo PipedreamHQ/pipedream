@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid")
 const googleCalendar = require("https://github.com/PipedreamHQ/pipedream/components/google-calendar/google-calendar.app.js");
 
 module.exports = {
-  name: "google-calendar-push-notifications",
+  name: "google-calendar-new-or-updated-event-via-push",
   version: "0.0.1",
   props: {
     googleCalendar,
