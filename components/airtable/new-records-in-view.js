@@ -31,7 +31,7 @@ module.exports = {
 
     let maxTimestamp
     const lastMaxTimestamp = this.db.get("lastMaxTimestamp")
-    if (!lastMaxTimestamp) {
+    if (lastMaxTimestamp) {
       config.params.filterByFormula = `CREATED_TIME() > "${lastMaxTimestamp}"`
       maxTimestamp = lastMaxTimestamp
     }
