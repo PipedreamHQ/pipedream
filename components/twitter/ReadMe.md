@@ -1,13 +1,13 @@
 <p align="center">
-    <img width="80" height="80" src="../../images/Generic_Feed-icon.svg.png">    </p>
+    <img width="80" height="80" src="/images/Generic_Feed-icon.svg.png">    </p>
 <h1 align="center"><strong>RSS for Hackers</strong></h1>
 
 <p align="center">Patterns for processing and producing RSS feeds</p>
 
 <p align="center">
-    <a alt="Getting Started" href="#getting-started"><img width="30%" src="../../images/GettingStarted.png"></a>
-    <a alt="Example Worksflows" href="#example-workflows"><img width="30%" src="../../images/Workflows.png"></a>
-    <a "SSE + REST API" href="#sse-and-rest-apis"><img width="30%" src="../../images/RestApi.png"></a>
+    <a alt="Getting Started" href="#getting-started"><img width="30%" src="/images/GettingStarted.png"></a>
+    <a alt="Example Worksflows" href="#example-workflows"><img width="30%" src="/images/Workflows.png"></a>
+    <a "SSE + REST API" href="#sse-and-rest-apis"><img width="30%" src="/images/RestApi.png"></a>
 </p>
 
 &nbsp;&nbsp;
@@ -27,7 +27,7 @@ for (const item of feed) {
 Pipedream lets you treat an RSS feed as an [**event source**](https://docs.pipedream.com/event-sources/). Pipedream runs the code to poll the feed, emitting new items as the feed produces them:
 
 <p align="center">
-    <img width="100%" src="../../images/pipedream.png">
+    <img width="100%" src="/images/pipedream.png">
 </p>
 
 Then, you can process items from your event source in 3 ways:
@@ -86,18 +86,18 @@ If you already created RSS source, and want to run a workflow on that same feed,
 They should work as is, but you can modify them in any way. For example, you can add a step to [**run any Node.js code**](https://docs.pipedream.com/workflows/steps/code/) or use [**pre-built functions**](https://docs.pipedream.com/workflows/steps/actions/) to send data to other destinations.
 
 <p align="center">
-    <a alt="RSS to Email" href="https://pipedream.com/@dylburger/rss-to-email-p_NMCqyV/readme"><img width="40%" src="../../images/1.png"></a>
-    <a alt="RSS to Twitter" href="https://pipedream.com/@dylan/rss-to-twitter-p_5VCkQ7/readme"><img width="40%" src="../../images/2.png"></a>
-    <a alt="RSS to AWS SQS" href="https://pipedream.com/@dylburger/rss-aws-sqs-p_D1CDjB/readme"><img width="40%" src="../../images/3.png"></a>
-    <a alt="RSS to AWS EventBridge" href="https://pipedream.com/@dylburger/rss-aws-eventbridge-event-bus-p_JZCk29/readme"><img width="40%" src="../../images/4.png"></a>
-    <a alt="RSS to AWS lambda" href="https://pipedream.com/@dylburger/rss-aws-lambda-p_ZJC9BG/readme"><img width="40%" src="../../images/5.png"></a>
-    <a alt="RSS to Webhook" href="https://pipedream.com/@dylburger/rss-http-request-p_MOCq8K/readme"><img width="40%" src="../../images/6.png"></a>
-    <a alt="RSS to Slack" href="https://pipedream.com/@dylburger/rss-slack-p_YyCDyK/readme"><img width="40%" src="../../images/7.png"></a>
-    <a alt="RSS to Discord" href="https://pipedream.com/@dylburger/rss-discord-p_7NCWrm/readme"><img width="40%" src="../../images/8.png"></a>
-    <a alt="RSS to Telegram" href="https://pipedream.com/@dylburger/rss-telegram-p_PACwrm/readme"><img width="40%" src="../../images/9.png"></a>
-    <a alt="RSS to Google Sheets" href="https://pipedream.com/@dylburger/rss-to-google-sheets-p_ezCqGG/readme"><img width="40%" src="../../images/10.png"></a>
-    <a alt="HTTP to RSS" href="https://pipedream.com/@dylburger/generate-an-rss-feed-from-http-post-requests-retrieve-via-get-request-p_n1CrQG/readme"><img width="40%" src="../../images/11.png"></a>
-    <a alt="RSS to Browserless to S3" href="https://pipedream.com/@dylburger/rss-to-browserless-to-s3-p_95Cv5z/readme"><img width="40%" src="../../images/12.png"></a>
+    <a alt="RSS to Email" href="https://pipedream.com/@dylburger/rss-to-email-p_NMCqyV/readme"><img width="40%" src="/images/1.png"></a>
+    <a alt="RSS to Twitter" href="https://pipedream.com/@dylan/rss-to-twitter-p_5VCkQ7/readme"><img width="40%" src="/images/2.png"></a>
+    <a alt="RSS to AWS SQS" href="https://pipedream.com/@dylburger/rss-aws-sqs-p_D1CDjB/readme"><img width="40%" src="/images/3.png"></a>
+    <a alt="RSS to AWS EventBridge" href="https://pipedream.com/@dylburger/rss-aws-eventbridge-event-bus-p_JZCk29/readme"><img width="40%" src="/images/4.png"></a>
+    <a alt="RSS to AWS lambda" href="https://pipedream.com/@dylburger/rss-aws-lambda-p_ZJC9BG/readme"><img width="40%" src="/images/5.png"></a>
+    <a alt="RSS to Webhook" href="https://pipedream.com/@dylburger/rss-http-request-p_MOCq8K/readme"><img width="40%" src="/images/6.png"></a>
+    <a alt="RSS to Slack" href="https://pipedream.com/@dylburger/rss-slack-p_YyCDyK/readme"><img width="40%" src="/images/7.png"></a>
+    <a alt="RSS to Discord" href="https://pipedream.com/@dylburger/rss-discord-p_7NCWrm/readme"><img width="40%" src="/images/8.png"></a>
+    <a alt="RSS to Telegram" href="https://pipedream.com/@dylburger/rss-telegram-p_PACwrm/readme"><img width="40%" src="/images/9.png"></a>
+    <a alt="RSS to Google Sheets" href="https://pipedream.com/@dylburger/rss-to-google-sheets-p_ezCqGG/readme"><img width="40%" src="/images/10.png"></a>
+    <a alt="HTTP to RSS" href="https://pipedream.com/@dylburger/generate-an-rss-feed-from-http-post-requests-retrieve-via-get-request-p_n1CrQG/readme"><img width="40%" src="/images/11.png"></a>
+    <a alt="RSS to Browserless to S3" href="https://pipedream.com/@dylburger/rss-to-browserless-to-s3-p_95Cv5z/readme"><img width="40%" src="/images/12.png"></a>
 </p>
 
 &nbsp;&nbsp;
