@@ -1,4 +1,4 @@
-const twitter-labs = {
+const twitterlabs = {
   type: "app",
   app: "twitter_developer_app",
 }
@@ -13,29 +13,35 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: 120,
       },
     },
-    keyword: "string",
-    twitter-labs,
+    id: "string",
+    twitterlabs,
   },
 
-async run(event) {
-  const Twit = require('twit')
-  const { api_key, api_secret_key, access_token, access_token_secret } = this.twitter_developer_app.$auth
-  const T = new Twit({
-    consumer_key: api_key,
-    consumer_secret: api_secret_key,
-    access_token,
-    access_token_secret,
-    timeout_ms: 60 * 1000,  // optional HTTP request timeout to apply to all requests.
-    strictSSL: true,  // optional - requires SSL certificates to be valid.
-  })
+  async run(event) {
+    const Twit = require('twit')
+    const { api_key, api_secret_key, access_token, access_token_secret } = this.twitterlabs.$auth
+    const T = new Twit({
+      consumer_key: api_key,
+      consumer_secret: api_secret_key,
+      access_token,
+      access_token_secret,
+      timeout_ms: 60 * 1000,  // optional HTTP request timeout to apply to all requests.
+      strictSSL: true,  // optional - requires SSL certificates to be valid.
+    })
    
-  return (await T.get('https://api.twitter.com/labs/1/tweets/metrics/private', { ids: params.id })).data
-
-  this.$emit(T_event,{       
-    id: T.data[0].tweet_id,
-    summary: T.data[0].tweet.impression_count,
-  })    
+    const metrics = (await T.get('https://api.twitter.com/labs/1/tweets/metrics/private', { ids: this.id })).data
+    
+    const lastmetrics = this.db.get("lastmetrics")
+    
+    if (JSON.stringify(metrics.data[0]) != lastmetrics) {
+      this.$emit(metrics.data[0],{       
+        id: metrics.data[0].tweet_id,
+        summary: JSON.stringify(metrics.data[0].tweet),
+      }) 
+      this.db.set("lastmetrics", JSON.stringify(metrics.data[0]))
+    }
+  }
 }
