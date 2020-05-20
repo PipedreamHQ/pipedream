@@ -6,7 +6,7 @@ const twitterlabs = {
 const axios = require('axios')
 
 module.exports = {
-  name: "tweet metrics",
+  name: "new tweet metrics",
   version: "0.0.1",
   props: {
     db: "$.service.db",
