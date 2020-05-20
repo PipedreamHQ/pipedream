@@ -23,21 +23,18 @@ module.exports = {
     let updates = await getUpdates(this)
     for(update of updates) {
       if (update[".tag"] == "file") {
-        if (update.client_modified > currFileModTime) {
-          currFileModTime = update.client_modified
+        if (update.server_modified > currFileModTime) {
+          currFileModTime = update.server_modified
         }
         let revisions = await this.dropbox.sdk().filesListRevisions({
-          path: update.path_lower,
-          mode: { ".tag": "path" },
+          path: update.id,
+          mode: { ".tag": "id" },
           limit: 10,
         })
         if (revisions.entries.length > 1) {
-          let revs = revisions.entries.filter(x => { return x.id == update.id })
-          if (revs.length > 1) {
-            let oldest = revs.pop()
-            if (lastFileModTime && lastFileModTime >= oldest.client_modified) {
-              continue
-            }
+          let oldest = revisions.pop()
+          if (lastFileModTime && lastFileModTime >= oldest.client_modified) {
+            continue
           }
         }
         // TODO decorate with more info about the file
