@@ -1,7 +1,4 @@
-const twitterlabs = {
-  type: "app",
-  app: "twitter_developer_app",
-}
+const twitterlabs = require('https://github.com/PipedreamHQ/pipedream/components/twitter-labs/twitter-labs.app.js')
 
 const axios = require('axios')
 
