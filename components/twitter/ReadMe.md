@@ -1,6 +1,7 @@
 <p align="center">
 
-    <img width="124" height="100" src="/images/twitter/TwitterLogo.png">    </p>
+<img width="124" height="100" src="/images/twitter/TwitterLogo.png">    
+</p>
 <h1 align="center"><strong>Twitter Workflow Automation</strong></h1>
 
 
