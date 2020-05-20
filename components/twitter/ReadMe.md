@@ -114,23 +114,6 @@ Then, you can trigger a [**Pipedream workflow**](https://pipedream.com/new) — 
 
 They should work as is, but you can modify them in any way. For example, you can add a step to [**run any Node.js code**](https://docs.pipedream.com/workflows/steps/code/) or use [**pre-built functions**](https://docs.pipedream.com/workflows/steps/actions/) to send data to other destinations.
 
-<p align="center">
-    <a href="https://pipedream.com/sources?action=create&amp;url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ftwitter%2Fsearch-twitter.js&amp;app=twitter"><img alt="Search Mention" src="/images/twitter/SM.png" width="45%"></a>
-    <a href="https://pipedream.com/sources?action=create&amp;url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ftwitter%2Fmy-tweets.js&amp;app=twitter"><img alt="My Tweets" src="/images/twitter/MT.png" width="45%"></a>
-</p>
-<p align="center">
-    <a href="https://pipedream.com/sources?action=create&amp;url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ftwitter%2Fnew-follower-of-user.js&amp;app=twitter"><img alt="New Follower for User" src="/images/twitter/NFfU.png" width="45%"></a>
-    <a href="https://pipedream.com/sources?action=create&amp;url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ftwitter%2Fnew-follower-of-me.js&amp;app=twitter"><img alt="My New Followers" src="/images/twitter/MNF.png" width="45%"></a>
-</p>
-<p align="center">
-    <a href="https://pipedream.com/sources?action=create&amp;url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ftwitter%2Fmy-liked-tweets.js&amp;app=twitter"><img alt="My Liked Tweets" src="/images/twitter/MLT.png" width="45%"></a>
-    <a href="https://pipedream.com/sources?action=create&amp;url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ftwitter%2Ftweets-liked-by-user.js&amp;app=twitter"><img alt="Tweets Liked by User" src="/images/twitter/TLbU.png" width="45%"></a>
-</p>
-<p align="center">
-    <a href="https://pipedream.com/sources?action=create&amp;url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ftwitter%2Fuser-tweets.js&amp;app=twitter"><img alt="New Tweets from User" src="/images/twitter/NTfU.png" width="45%"></a>
-    <a href="https://pipedream.com/sources?action=create&amp;url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ftwitter%2Fnew-trends-by-geo.js&amp;app=twitter"><img alt="New Trends by Geo" src="/images/twitter/NTbG.png" width="45%"></a>
-</p>
-
 
 &nbsp;&nbsp;
 
