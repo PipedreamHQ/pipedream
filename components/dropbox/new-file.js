@@ -32,7 +32,7 @@ module.exports = {
           limit: 10,
         })
         if (revisions.entries.length > 1) {
-          let oldest = revisions.pop()
+          let oldest = revisions.entries.pop()
           if (lastFileModTime && lastFileModTime >= oldest.client_modified) {
             continue
           }
