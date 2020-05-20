@@ -13,7 +13,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 120,
+        intervalSeconds: 900,
       },
     },
     id: "string",
