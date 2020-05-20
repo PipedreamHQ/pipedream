@@ -31,17 +31,17 @@ module.exports = {
       timeout_ms: 60 * 1000,
       strictSSL: true,
     })
-   
-    const metrics = (await T.get('https://api.twitter.com/labs/1/tweets/metrics/private', { ids: this.id })).data
-    
+
+    const _isEqual = require("lodash.isequal")
+
+    const metrics = (await T.get('https://api.twitter.com/labs/1/tweets/metrics/private', { ids: this.id })).data.data[0]
     const lastmetrics = this.db.get("lastmetrics")
-    
-    if (JSON.stringify(metrics.data[0]) != lastmetrics) {
-      this.$emit(metrics.data[0],{       
-        id: metrics.data[0].tweet_id,
-        summary: JSON.stringify(metrics.data[0].tweet),
-      }) 
-      this.db.set("lastmetrics", JSON.stringify(metrics.data[0]))
-    }
+    if (lastmetrics && _isEqual(lastmetrics, metrics)) return
+    this.$emit(metrics,{       
+      id: metrics.tweet_id,
+      summary: JSON.stringify(metrics.tweet),
+    }) 
+    this.db.set("lastmetrics", metrics)
+
   }
 }
