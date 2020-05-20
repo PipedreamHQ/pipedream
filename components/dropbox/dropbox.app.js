@@ -46,15 +46,13 @@ module.exports = {
           }
           // TODO break after a certain number of folders has been found??
 
-          if (has_more = files.has_more) {
+          if (has_more) {
             files = await sdk.filesListFolderContinue({ cursor })
           }
         } while(has_more)
         options = options.sort((a, b) => { return a.toLowerCase().localeCompare(b.toLowerCase()) })
-        if (path && path != "") {
-          let parent = path.slice(0, path.lastIndexOf('/'))
-          if (parent == "") parent = "/"
-          options.unshift(parent)
+        if (path) {
+          options.unshift(require("path").dirname(path))
         }
         options.unshift(path)
       } catch (err) {
