@@ -28,8 +28,8 @@ module.exports = {
       consumer_secret: api_secret_key,
       access_token,
       access_token_secret,
-      timeout_ms: 60 * 1000,  // optional HTTP request timeout to apply to all requests.
-      strictSSL: true,  // optional - requires SSL certificates to be valid.
+      timeout_ms: 60 * 1000,
+      strictSSL: true,
     })
    
     const metrics = (await T.get('https://api.twitter.com/labs/1/tweets/metrics/private', { ids: this.id })).data
