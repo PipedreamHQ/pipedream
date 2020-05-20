@@ -1,4 +1,4 @@
 module.exports = {
   type: "app",
-  app: "twitter developer app",
+  app: "twitter_developer_app",
 }
