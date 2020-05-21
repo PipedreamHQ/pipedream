@@ -9,6 +9,7 @@ module.exports = {
     dropboxApphook: {
       type: "$.interface.apphook",
       appProp: "dropbox",
+      static: [],
     },
     db: "$.service.db",
   },
