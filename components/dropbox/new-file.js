@@ -49,24 +49,34 @@ module.exports = {
 
 async function initState(context) {
   const { path, recursive, dropbox, db } = context
+  const state = {
+    path,
+    recursive
+  }
+  try {
+    let fixedPath = (path == "/" ? "" : path)
+    let { cursor } = await dropbox.sdk().filesListFolderGetLatestCursor({ path: fixedPath, recursive })
+    state.cursor = cursor
+    db.set("dropbox_state", state)
+    db.set("last_file_mod_time", new Date())
+  } catch(err) {
+    return null
+  }
+  return state
+}
+
+async function getState(context) {
+  const { path, recursive, dropbox, db } = context
   let state = db.get("dropbox_state")
   if (state == null || state.path != path || state.recursive != recursive) {
-    try {
-      let fixedPath = (path == "/" ? "" : path)
-      let { cursor } = await dropbox.sdk().filesListFolderGetLatestCursor({ path: fixedPath, recursive })
-      state = { path, recursive, cursor }
-      db.set("dropbox_state", state)
-      db.set("last_file_mod_time", new Date())
-    } catch(err) {
-      state = null
-    }
+    state = await initState(context)
   }
   return state
 }
 
 async function getUpdates(context) {
   let ret = []
-  const state = await initState(context)
+  const state = await getState(context)
   if (state) {
     try {
       const { dropbox, db } = context
