@@ -1,7 +1,7 @@
 const dropbox = require('https://github.com/PipedreamHQ/pipedream/components/dropbox/dropbox.app.js')
 
 module.exports = {
-  name: "new-file-in-folder",
+  name: "new-file",
   props: {
     dropbox,
     path: { propDefinition: [dropbox, "path"]},
@@ -26,18 +26,22 @@ module.exports = {
         if (update.server_modified > currFileModTime) {
           currFileModTime = update.server_modified
         }
-        let revisions = await this.dropbox.sdk().filesListRevisions({
-          path: update.id,
-          mode: { ".tag": "id" },
-          limit: 10,
-        })
-        if (revisions.entries.length > 1) {
-          let oldest = revisions.entries.pop()
-          if (lastFileModTime && lastFileModTime >= oldest.client_modified) {
-            continue
+        try {
+          let revisions = await this.dropbox.sdk().filesListRevisions({
+            path: update.id,
+            mode: { ".tag": "id" },
+            limit: 10,
+          })
+          if (revisions.entries.length > 1) {
+            let oldest = revisions.entries.pop()
+            if (lastFileModTime && lastFileModTime >= oldest.client_modified) {
+              continue
+            }
           }
+        } catch(err) {
+          console.log(err)
+          throw(`Error looking up revisions for file: ${update.name}`)
         }
-        // TODO decorate with more info about the file
         this.$emit(update)
       }
     }
@@ -49,20 +53,18 @@ module.exports = {
 
 async function initState(context) {
   const { path, recursive, dropbox, db } = context
-  const state = {
-    path,
-    recursive
-  }
   try {
+    let startTime = new Date()
     let fixedPath = (path == "/" ? "" : path)
     let { cursor } = await dropbox.sdk().filesListFolderGetLatestCursor({ path: fixedPath, recursive })
-    state.cursor = cursor
+    const state = { path, recursive, cursor }
     db.set("dropbox_state", state)
-    db.set("last_file_mod_time", new Date())
+    db.set("last_file_mod_time", startTime)
+    return state
   } catch(err) {
-    return null
+    console.log(err)
+    throw(`Error getting latest cursor for folder: ${path}${recursive ? " (recursive)" : ""}`)
   }
-  return state
 }
 
 async function getState(context) {
@@ -80,15 +82,16 @@ async function getUpdates(context) {
   if (state) {
     try {
       const { dropbox, db } = context
-      const sdk = dropbox.sdk()
       let [cursor, has_more, entries] = [state.cursor, true, null]
       while(has_more) {
-        ({ entries, cursor, has_more } = await sdk.filesListFolderContinue({ cursor }))
+        ({ entries, cursor, has_more } = await dropbox.sdk().filesListFolderContinue({ cursor }))
         ret = ret.concat(entries)
       }
       state.cursor = cursor
       db.set("dropbox_state", state)
     } catch(err) {
+      console.log(err)
+      throw(`Error getting list of updated files/folders for cursor: ${state.cursor}`)
     }
   }
   return ret
