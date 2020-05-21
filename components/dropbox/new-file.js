@@ -14,13 +14,15 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      await initState(this)
+      let startTime = new Date()
+      await this.dropbox.initState(this)
+      this.db.set("last_file_mod_time", startTime)
     }
   },
   async run(event) {
     const lastFileModTime = this.db.get("last_file_mod_time")
     let currFileModTime = ""
-    let updates = await getUpdates(this)
+    let updates = await this.dropbox.getUpdates(this)
     for(update of updates) {
       if (update[".tag"] == "file") {
         if (update.server_modified > currFileModTime) {
@@ -49,50 +51,4 @@ module.exports = {
       this.db.set("last_file_mod_time", currFileModTime)
     }
   },
-}
-
-async function initState(context) {
-  const { path, recursive, dropbox, db } = context
-  try {
-    let startTime = new Date()
-    let fixedPath = (path == "/" ? "" : path)
-    let { cursor } = await dropbox.sdk().filesListFolderGetLatestCursor({ path: fixedPath, recursive })
-    const state = { path, recursive, cursor }
-    db.set("dropbox_state", state)
-    db.set("last_file_mod_time", startTime)
-    return state
-  } catch(err) {
-    console.log(err)
-    throw(`Error getting latest cursor for folder: ${path}${recursive ? " (recursive)" : ""}`)
-  }
-}
-
-async function getState(context) {
-  const { path, recursive, dropbox, db } = context
-  let state = db.get("dropbox_state")
-  if (state == null || state.path != path || state.recursive != recursive) {
-    state = await initState(context)
-  }
-  return state
-}
-
-async function getUpdates(context) {
-  let ret = []
-  const state = await getState(context)
-  if (state) {
-    try {
-      const { dropbox, db } = context
-      let [cursor, has_more, entries] = [state.cursor, true, null]
-      while(has_more) {
-        ({ entries, cursor, has_more } = await dropbox.sdk().filesListFolderContinue({ cursor }))
-        ret = ret.concat(entries)
-      }
-      state.cursor = cursor
-      db.set("dropbox_state", state)
-    } catch(err) {
-      console.log(err)
-      throw(`Error getting list of updated files/folders for cursor: ${state.cursor}`)
-    }
-  }
-  return ret
 }
