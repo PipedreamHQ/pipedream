@@ -53,7 +53,8 @@ module.exports = {
         }
         options.unshift(path)
       } catch (err) {
-        options.push("/")
+        console.log(err)
+        throw(`Error connecting to Dropbox API to get directory listing for path: ${path}`)
       }
       return { options }
     },
@@ -67,7 +68,7 @@ module.exports = {
         return state
       } catch(err) {
         console.log(err)
-        throw(`Error getting latest cursor for folder: ${path}${recursive ? " (recursive)" : ""}`)
+        throw(`Error connecting to Dropbox API to get latest cursor for folder: ${path}${recursive ? " (recursive)" : ""}`)
       }
     },
     async getState(context) {
@@ -93,7 +94,7 @@ module.exports = {
           db.set("dropbox_state", state)
         } catch(err) {
           console.log(err)
-          throw(`Error getting list of updated files/folders for cursor: ${state.cursor}`)
+          throw(`Error connecting to Dropbox API to get list of updated files/folders for cursor: ${state.cursor}`)
         }
       }
       return ret
