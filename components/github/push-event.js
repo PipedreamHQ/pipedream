@@ -1,14 +1,13 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
 
 module.exports = {
-  name: "Custom Events",
+  name: "New Push",
   version: "0.0.1",
   props: {
     db: "$.service.db",
     http: "$.interface.http",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
-    events: { propDefinition: [github, "events"] },
   },
   methods: {
     generateSecret() {
@@ -21,7 +20,7 @@ module.exports = {
       const { id } = await this.github.createHook({
         repoFullName: this.repoFullName,
         endpoint: this.http.endpoint,
-        events: this.events,
+        events: ["push"],
         secret,
       });
       this.db.set("hookId", id);
@@ -39,6 +38,7 @@ module.exports = {
       status: 200,
     });
     const { body, headers } = event;
+
     if (headers["X-Hub-Signature"]) {
       const crypto = require("crypto");
       const algo = "sha1";
