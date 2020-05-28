@@ -26,7 +26,6 @@ module.exports = {
     },
   },
   async run(event) {
-    {
     const intervalMs = 1000 * (event.interval_seconds || 300) // fall through to default for manual testing
     const now = new Date()
     const past = new Date(now.getTime() - intervalMs)
