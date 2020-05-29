@@ -6,6 +6,16 @@ module.exports = {
     dropbox,
     path: { propDefinition: [dropbox, "path"]},
     recursive: { propDefinition: [dropbox, "recursive"]},
+    includeMediaInfo: {
+      type: "boolean",
+      description: "Emit media info for photos and videos (incurs an additional API call)",
+      default: false,
+    },
+    includeLink: {
+      type: "boolean",
+      description: "Emit temporary download link to file (incurs an additional API call)",
+      default: false,
+    },
     dropboxApphook: {
       type: "$.interface.apphook",
       appProp: "dropbox",
@@ -40,6 +50,18 @@ module.exports = {
             if (lastFileModTime && lastFileModTime >= oldest.client_modified) {
               continue
             }
+          }
+          if (this.includeMediaInfo) {
+            update = await this.dropbox.sdk().filesGetMetadata({
+              path: update.path_lower,
+              include_media_info: true,
+            })
+          }
+          if (this.includeLink) {
+            const { link, metadata } = await this.dropbox.sdk().filesGetTemporaryLink({
+              path: update.path_lower,
+            })
+            update.link = link
           }
         } catch(err) {
           console.log(err)
