@@ -1,7 +1,7 @@
 const dropbox = require('https://github.com/PipedreamHQ/pipedream/components/dropbox/dropbox.app.js')
 
 module.exports = {
-  name: "new-file",
+  name: "Dropbox - New File Uploaded",
   props: {
     dropbox,
     path: { propDefinition: [dropbox, "path"]},
