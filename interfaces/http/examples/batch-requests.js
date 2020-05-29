@@ -30,6 +30,7 @@ module.exports = {
     if (type === "end") {
       console.log("END EVENT");
       this.$emit(events, { summary: `${events.length} events` });
+      this.db.set("events", []);
       return;
     }
 

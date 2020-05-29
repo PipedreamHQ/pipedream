@@ -16,11 +16,11 @@ module.exports = {
   name: "http",
   version: "0.0.1",
   props: {
-    http: "$.interface.http"
+    http: "$.interface.http",
   },
   run(event) {
     console.log(event); // event contains the method, payload, etc.
-  }
+  },
 };
 ```
 
@@ -63,23 +63,28 @@ You can also run any Node.js code on HTTP requests to filter or transform them, 
 ## Reference
 
 <!--ts-->
+      * [HTTP Event Sources](#http-event-sources)
+      * [Quickstart](#quickstart)
+      * [Reference](#reference)
+      * [Why use components?](#why-use-components)
+      * [What are HTTP event sources?](#what-are-http-event-sources)
+      * [Docs](#docs)
+      * [Example HTTP sources](#example-http-sources)
+         * [Emit only the HTTP payload instead of the whole event](#emit-only-the-http-payload-instead-of-the-whole-event)
+         * [Return a custom HTTP status code](#return-a-custom-http-status-code)
+         * [Issue a completely custom HTTP response (status, body, headers)](#issue-a-completely-custom-http-response-status-body-headers)
+         * [Authorize inbound requests with a secret](#authorize-inbound-requests-with-a-secret)
+         * [Batch incoming requests, emitting them as a batch](#batch-incoming-requests-emitting-them-as-a-batch)
+      * [Consuming event data from your own app, outside Pipedream](#consuming-event-data-from-your-own-app-outside-pipedream)
+         * [How to emit events](#how-to-emit-events)
+         * [Retrieving events programmatically](#retrieving-events-programmatically)
+      * [Logs](#logs)
+      * [Using npm packages](#using-npm-packages)
+      * [Pricing](#pricing)
+      * [Limits](#limits)
+      * [Getting Support](#getting-support)
 
-- [Why use components?](#why-use-components)
-- [What are HTTP event sources?](#what-are-http-event-sources)
-- [Docs](#docs)
-- [Example HTTP sources](#example-http-sources)
-  - [Emit only the HTTP payload instead of the whole event](#emit-only-the-http-payload-instead-of-the-whole-event)
-  - [Return a custom HTTP status code](#return-a-custom-http-status-code)
-  - [Issue a completely custom HTTP response (status, body, headers)](#issue-a-completely-custom-http-response-status-body-headers)
-  - [Authorize inbound requests with a secret](#authorize-inbound-requests-with-a-secret)
-- [Consuming event data from your own app, outside Pipedream](#consuming-event-data-from-your-own-app-outside-pipedream)
-  - [How to emit events](#how-to-emit-events)
-  - [Retrieving events programmatically](#retrieving-events-programmatically)
-- [Logs](#logs)
-- [Using npm packages](#using-npm-packages)
-- [Pricing](#pricing)
-- [Limits](#limits)
-- [Getting Support](#getting-support)
+<!-- Added by: dylansather, at: Fri May 29 09:32:03 PDT 2020 -->
 
 <!--te-->
 
@@ -193,7 +198,7 @@ The `this.http.respond()` method accepts an object with the following properties
 this.http.respond({
   status: 200,
   headers: { "X-My-Custom-Header": "test" },
-  body: event // This can be any string, object, or Buffer
+  body: event, // This can be any string, object, or Buffer
 });
 ```
 
@@ -225,6 +230,57 @@ This will prompt you to enter a **secret**, which you must pass in the `secret` 
 200
 ```
 
+### Batch incoming requests, emitting them as a batch
+
+[This component](https://github.com/PipedreamHQ/pipedream/blob/master/interfaces/http/examples/batch-requests.js) batches incoming requests according to the following logic:
+
+- As soon as we receive an event with `{ "type": "start" }` in the HTTP payload, we initialize an empty array to store incoming requests.
+- Any HTTP requests that arrive afterwards get added to this array, persisted in [component state](/COMPONENT-API.md#servicedb).
+- When we receive an event with `{ "type": "end" }` in the HTTP payload, we emit the batch of events from the component (an array of objects, corresponding to the HTTP requests). Any listening workflows will receive this batch of events.
+
+To run this source, [install the Pipedream CLI](https://docs.pipedream.com/cli/reference/#installing-the-cli):
+
+```bash
+curl https://cli.pipedream.com/install | sh
+```
+
+Then run:
+
+```bash
+pd deploy https://github.com/PipedreamHQ/pipedream/interfaces/http/examples/batch-requests.js
+```
+
+You'll be prompted to link your Pipedream account with the CLI at this point so it can authorize requests with your Pipedream API key. Once done, your source should be deployed. You'll see your unique HTTP endpoint URL displayed here, and you can visit [https://pipedream.com/sources](https://pipedream.com/sources) to view the source in the UI.
+
+Send a start request to begin collecting events:
+
+```bash
+curl -d '{ "type": "start" }' -H 'Content-Type: application/json' https://yourendpoint.m.pipedream.net
+```
+
+then send whatever HTTP requests you'd like:
+
+```bash
+curl -d '{ "foo": "bar" }' -H 'Content-Type: application/json' https://yourendpoint.m.pipedream.net
+curl -d '{ "hello": "world" }' -H 'Content-Type: application/json' https://yourendpoint.m.pipedream.net
+```
+
+and when you're done, send the termination event with an HTTP payload of `{ "type": "end" }`:
+
+```bash
+curl -d '{ "type": "end" }' -H 'Content-Type: application/json' https://yourendpoint.m.pipedream.net
+```
+
+Once it receives the end event, the source will emit all events collected between start and end (exclusive) as a batch:
+
+![Batch of events emitted in Pipedream UI](./images/batch-of-requests.png)
+
+Note that we display the count of events emitted - this is controlled by the `summary` property of the emit metadata, passed in the second argument to `this.$emit()` in the source:
+
+```javascript
+this.$emit(events, { summary: `${events.length} events` });
+```
+
 ## Consuming event data from your own app, outside Pipedream
 
 All of the [example components above](#example-http-sources) **emit** events. Emitted events appear in the **EVENTS** section of the UI for your source. You can also access these events programmatically, in your own app, using Pipedream APIs.
@@ -235,7 +291,7 @@ Within your component's [`run` method](/COMPONENT-API.md#run), pass the data you
 
 ```javascript
 this.$emit({
-  name: "Luke Skywalker"
+  name: "Luke Skywalker",
 });
 ```
 
