@@ -1,5 +1,4 @@
-const jotform = require('https://github.com/PipedreamHQ/pipedream/components/jotform/jotform.app.js')
-const busboy = require('busboy')
+const jotform = require('./jotform.app.js')
 
 module.exports = {
   name: "new-submission", 
@@ -28,38 +27,9 @@ module.exports = {
       status: 200,
     })
     
-    const bb = new busboy({ headers: event.headers });
-    let fileData = {}
-    let formData = {}
-
-    await new Promise((resolve, reject) => {
-      bb.on('file', function (fieldname, file, filename, encoding, mimetype) {
-        //console.log('File [%s]: filename=%j; encoding=%j; mimetype=%j', fieldname, filename, encoding, mimetype);
-        fileData.file = filename
-        fileData.fileName = filename
-        fileData.encoding = encoding
-        fileData.mimetype = mimetype
-        fileData.data = {}
-        
-        file
-        .on('data', data => {
-          fileData.data[fieldname] = data.length
-        })
-      }).on('field', (fieldname, val) => {
-        try {
-          formData[fieldname] = JSON.parse(val)
-        } catch (err) {
-          formData[fieldname] = val
-        }
-      })
-      .on("finish", resolve)
-      .on('error', reject)
-      bb.end(event.body)
-    })
-
-    this.$emit(formData, {
-      summary: JSON.stringify(formData.rawRequest || formData),
-      id: formData.submissionID,
+    this.$emit(event.body, {
+      summary: event.body.rawRequest || JSON.stringify(event.body),
+      id: event.body.submissionID,
     })
   },
 }
