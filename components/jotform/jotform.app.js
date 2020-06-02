@@ -66,7 +66,8 @@ module.exports = {
     },
     async deleteHook(opts = {}) { 
       const { formId, endpoint } = opts
-      const webhooks = (await this.getWebhooks({ formId })).content
+      const result = await this.getWebhooks({ formId }) 
+      let webhooks = Object.values(result && result.content || {})
       let webhookIdx = -1 
       for (let idx in webhooks) {
         if (webhooks[idx] === ensureTrailingSlash(endpoint)) {
