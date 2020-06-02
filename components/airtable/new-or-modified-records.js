@@ -4,7 +4,7 @@ const axios = require('axios')
 
 module.exports = {
   name: "New or modified records",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     db: "$.service.db",
     airtable,
@@ -38,6 +38,14 @@ module.exports = {
       return
     }
 
+    const { baseId, tableId, viewId } = this
+    const metadata = {
+      baseId,
+      tableId,
+      viewId
+    }
+
+
     let newRecords = 0, modifiedRecords = 0
     for (let record of data.records) {
       if(!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
@@ -48,9 +56,7 @@ module.exports = {
         modifiedRecords++
       }
 
-      record.metadata = {}
-      record.metadata.base_id = this.baseId
-      record.metadata.table_id = this.tableId
+      record.metadata = metadata
 
       this.$emit(record, {
         summary: `${record.type}: ${JSON.stringify(record.fields)}`,

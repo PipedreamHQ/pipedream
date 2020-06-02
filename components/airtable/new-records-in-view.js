@@ -4,7 +4,7 @@ const axios = require('axios')
 
 module.exports = {
   name: "New records in view",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     db: "$.service.db",
     airtable,
@@ -43,12 +43,17 @@ module.exports = {
       return
     }
 
+    const { baseId, tableId, viewId } = this
+    const metadata = {
+      baseId,
+      tableId,
+      viewId
+    }
+
+
     let recordCount = 0
     for (let record of data.records) {
-      record.metadata = {}
-      record.metadata.base_id = this.baseId
-      record.metadata.table_id = this.tableId
-      record.metadata.view_id = this.viewId 
+      record.metadata = metadata
 
       this.$emit(record, {
         ts: moment(record.createdTime).valueOf(),
