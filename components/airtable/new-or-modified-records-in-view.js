@@ -1,10 +1,10 @@
-const airtable = require('https://github.com/PipedreamHQ/pipedream/components/airtable/airtable.app.js')
+const airtable = require('./airtable.app.js')
 const moment = require('moment')
 const axios = require('axios')
 
 module.exports = {
-  name: "new-or-modified-records-in-view",
-  version: "0.0.1",
+  name: "New or modified records in view",
+  version: "0.0.2",
   props: {
     db: "$.service.db",
     airtable,
@@ -42,6 +42,13 @@ module.exports = {
       return
     }
 
+    const { baseId, tableId, viewId } = this
+    const metadata = {
+      baseId,
+      tableId,
+      viewId
+    }
+
     let newRecords = 0, modifiedRecords = 0
     for (let record of data.records) {
       if(!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
@@ -51,6 +58,9 @@ module.exports = {
         record.type = "record_modified"
         modifiedRecords++
       }
+
+      record.metadata = metadata
+
       this.$emit(record, {
         summary: `${record.type}: ${JSON.stringify(record.fields)}`,
         id: record.id,
