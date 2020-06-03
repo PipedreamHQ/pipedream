@@ -8,6 +8,7 @@ module.exports = {
   propDefinitions: {
     repoFullName: {
       type: "string",
+      label: "Repo",
       async options({ page }) {
         const repos = await this.getRepos({
           page: page + 1, // pipedream page 0-indexed, github is 1
@@ -17,6 +18,7 @@ module.exports = {
     },
     events: {
       type: "string[]",
+      label: "Events",
       options: listOfEvents,
     },
   },

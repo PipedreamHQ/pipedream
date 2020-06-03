@@ -1,3 +1,4 @@
-COMPONENT-API.md.orig.*
-COMPONENT-API.md.toc.*
+*.md.orig.*
+*.md.toc.*
 gh-md-toc
+.DS_Store
