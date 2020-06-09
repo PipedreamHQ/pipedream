@@ -1,4 +1,4 @@
-const jotform = require('./jotform.app.js')
+const jotform = require('https://github.com/PipedreamHQ/pipedream/components/jotform/jotform.app.js')
 
 module.exports = {
   name: "new-submission", 
