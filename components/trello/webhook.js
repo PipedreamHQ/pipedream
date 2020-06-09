@@ -1,4 +1,4 @@
-const trello = require('https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js')
+const trello = require('./trello.app.js')
 const _ = require('lodash') 
 
 const sleep = (milliseconds) => {
@@ -24,9 +24,6 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      console.log('pre-sleep')
-      await sleep(5000)
-      console.log('post-sleep')
       console.log(`board: ${this.boardId}`)
       const { id } = await this.trello.createHook({
         id: this.boardId,
