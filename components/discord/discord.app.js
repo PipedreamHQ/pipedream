@@ -38,29 +38,25 @@ module.exports = {
       const channels = await this._makeRequest({
         path: `/guilds/${guildID}/channels`,
       });
-      return channels.map((channel) => {
-        return {
-          label: channel.name,
-          value: channel.id,
-        };
-      });
+      // Don't display GUILD_CATEGORY channels and GUILD_VOICE channels
+      // https://discord.com/developers/docs/resources/channel#channel-object-channel-types
+      return channels
+        .filter((channel) => channel.type != 4 && channel.type != 2)
+        .map((channel) => {
+          return {
+            label: channel.name,
+            value: channel.id,
+          };
+        });
     },
-    async getMessagesSinceID(channelID, after) {
+    async getMessages(channelID, after, limit) {
       return await this._makeRequest({
         path: `/channels/${channelID}/messages`,
         params: {
           after,
+          limit,
         },
       });
-    },
-    async getLastMessageID(channelID) {
-      const messages = await this._makeRequest({
-        path: `/channels/${channelID}/messages`,
-        params: {
-          limit: 1,
-        },
-      });
-      return messages.length ? messages[0].id : 1;
     },
   },
 };
