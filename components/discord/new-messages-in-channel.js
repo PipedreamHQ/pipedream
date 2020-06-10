@@ -43,7 +43,7 @@ module.exports = {
     // get the last 100 messages, emit them, and checkpoint
     if (!lastMessageID) {
       messages = await this.discord.getMessages(this.channel, null, 100);
-      lastMessageId = messages.length
+      lastMessageID = messages.length
         ? maxBy(messages, (message) => message.id).id
         : 1;
     } else {
