@@ -4,15 +4,9 @@ const maxBy = require("lodash.maxby");
 
 module.exports = {
   name: "New Messages in Channel",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
     db: "$.service.db",
     discord,
     guild: { propDefinition: [discord, "guild"] },
@@ -32,34 +26,42 @@ module.exports = {
       optional: true,
       default: false,
     },
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60,
+      },
+    },
   },
   async run() {
     // We store a cursor to the last message ID
     let lastMessageID = this.db.get("lastMessageID");
 
+    let messages = [];
+
     // If this is our first time running this source,
-    // get the most recent message ID and exit
+    // get the last 100 messages, emit them, and checkpoint
     if (!lastMessageID) {
-      this.db.set(
-        "lastMessageID",
-        await this.discord.getLastMessageID(this.channel)
-      );
-      return;
+      messages = await this.discord.getMessages(this.channel, null, 100);
+      lastMessageId = messages.length
+        ? maxBy(messages, (message) => message.id).id
+        : 1;
+    } else {
+      let newMessages = [];
+      do {
+        newMessages = await this.discord.getMessages(
+          this.channel,
+          lastMessageID
+        );
+        messages = messages.concat(newMessages);
+        lastMessageID = newMessages.length
+          ? maxBy(newMessages, (message) => message.id).id
+          : lastMessageID;
+      } while (newMessages.length);
     }
 
-    let messages = [];
-    let newMessages = [];
-    do {
-      newMessages = await this.discord.getMessagesSinceID(
-        this.channel,
-        lastMessageID
-      );
-      console.log(newMessages);
-      messages = messages.concat(newMessages);
-      lastMessageID = newMessages.length
-        ? maxBy(newMessages, (message) => message.id).id
-        : lastMessageID;
-    } while (newMessages.length);
+    // Set the last message ID for the next run
+    this.db.set("lastMessageID", lastMessageID);
 
     if (!messages.length) {
       console.log(`No new messages in channel ${this.channel}`);
@@ -69,7 +71,6 @@ module.exports = {
     console.log(`${messages.length} new messages in channel ${this.channel}`);
 
     // Batched emits do not take advantage of the built-in deduper
-    console.log(messages);
     if (this.emitEventsInBatch) {
       this.$emit(messages, {
         summary: `${messages.length} new message${
@@ -85,8 +86,5 @@ module.exports = {
         });
       }
     }
-
-    // Finally, set the last message ID for the next run
-    this.db.set("lastMessageID", lastMessageID);
   },
 };
