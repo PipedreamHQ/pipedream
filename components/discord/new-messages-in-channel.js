@@ -3,7 +3,7 @@ const discord = require("https://github.com/PipedreamHQ/pipedream/components/dis
 const maxBy = require("lodash.maxby");
 
 module.exports = {
-  name: "New Messages in Channels",
+  name: "New Messages in Channel",
   version: "0.0.1",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
