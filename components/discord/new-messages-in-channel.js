@@ -4,7 +4,7 @@ const maxBy = require("lodash.maxby");
 
 module.exports = {
   name: "New Messages in Channel",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     db: "$.service.db",
@@ -20,9 +20,9 @@ module.exports = {
     },
     emitEventsInBatch: {
       type: "boolean",
-      label: "Emit changes as a single event",
+      label: "Emit messages as a single event",
       description:
-        "If `true`, all events are emitted as an array, within a single Pipedream event. Defaults to `false`, emitting each event in Fauna as its own event in Pipedream",
+        "If `true`, all messages are emitted as an array, within a single Pipedream event. Defaults to `false`, emitting each Discord message as its own event in Pipedream",
       optional: true,
       default: false,
     },
