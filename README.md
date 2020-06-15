@@ -5,9 +5,27 @@
   <a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F%3FbuttonType%3DFollowButton%26query%3Dhttps%253A%252F%252Ftwitter.com%252Fpipedream%26widget%3DButton&ref_src=twsrc%5Etfw&region=follow_link&screen_name=pipedream&tw_p=followbutton"><img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social"></a>
 </p>
 
-Pipedream is a platform for running hosted, backend components.
+Pipedream is a serverless integration and compute platform.
 
-**Pipedream components are reusable Node.js modules that run code on specific events**: HTTP requests and timers. Components are [free to run](#pricing) and [simple to learn](COMPONENT-API.md). Here's a component that spins up a hosted HTTP server on deploy and logs inbound HTTP requests:
+We provide a free, hosted platform that makes it easy to connect apps and develop, execute and maintain event-driven workflows. The platform has over 300 fully integrated applications with managed authentication and support for over 1M npm packages.
+
+**Key Features**:
+* [Event Sources](#event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from services (Github, Slack, Airtable, RSS & more)
+* [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by an event (via event source, HTTP or timer)
+* [Actions](#actions) - Pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 300+ API integrations, for example: sending email, adding a row to a Google Sheet, and more.
+* [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
+* Serverless - No server or cloud resources to manage
+* [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
+
+**Product Demo**: [YouTube](https://www.youtube.com/watch?v=hJ-KRbp6EO8&feature=youtu.be) (5 minutes)
+
+## Event Sources
+
+Pipedream receives data via event sources.  Event sources are open source, run on Pipedream's infrastructure and collect data from your own application and/or services like Github, DropBox, Zoom, RSS feeds, and more. 
+
+Event sources emit new events produced by the service, which can trigger Pipedream workflows, or which you can consume using [Pipedream's REST API](https://docs.pipedream.com/api/rest/) or a private, real-time [SSE stream](https://docs.pipedream.com/api/sse/). 
+
+Here is the simplest event source possible, an HTTP event source:
 
 ```javascript
 module.exports = {
@@ -21,51 +39,121 @@ module.exports = {
   }
 };
 ```
+<a href="http://tod.ly/2UNkcs3"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
-<a href="http://tod.ly/2KNthMc"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
+Popular Event Sources:
+* Airtable ([deploy](https://pipedream.com/sources/new?app=airtable))
+* AWS ([deploy](https://pipedream.com/sources/new?app=aws))
+* Dropbox ([deploy](https://pipedream.com/sources/new?app=dropbox))
+* Github ([deploy](https://pipedream.com/sources/new?app=github))
+* Google Calendar ([deploy](https://pipedream.com/sources/new?app=google-calendar))
+* Google Drive ([deploy](https://pipedream.com/sources/new?app=google-drive))
+* RSS ([deploy](https://pipedream.com/sources/new?app=rss))
+* Twitter ([deploy](https://pipedream.com/sources/new?app=twitter))
 
-Components come with a [built-in key-value store](COMPONENT-API.md#servicedb), an interface for passing input via [props](COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/), [CLI](https://docs.pipedream.com/cli/reference/), or [UI](https://pipedream.com/sources).
-
-[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow. Components that emit events are called **event sources**.
-
-## Usage
-
-Install the Pipedream CLI:
+Event sources can also be deployed via the [Pipedream CLI](https://docs.pipedream.com/cli/reference/):
 
 ```bash
 curl https://cli.pipedream.com/install | sh
 ```
 
-Then deploy a component from the registry:
+Once installed, you can deploy an event source by running:
 
 ```bash
 pd deploy   # prompts you to select a component and pass required options
 ```
 
-Get started by reviewing the quickstart on [HTTP Event Sources](components/http#quickstart), or review [the docs](#docs) to learn more.
+You can also create your own event sources for your own personal use. If you think others would benefit from your source, you can publish them to all Pipedream users by opening a PR in this repo. See these docs to get started:
 
-## Docs
+* [Component API](COMPONENT-API.md)
+* [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/interfaces/http)
+* [Timer-based Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/interfaces/timer)
 
-- [Why use components?](#why-use-components)
-- [Component API](COMPONENT-API.md)
-- [Event Sources](https://docs.pipedream.com/event-sources/)
-- [HTTP Event Sources Quickstart](https://github.com/PipedreamHQ/pipedream/tree/master/interfaces/http)
-- [REST API Reference](https://docs.pipedream.com/api/rest/)
-- [SSE Reference](https://docs.pipedream.com/api/sse/)
-- [CLI Reference](https://docs.pipedream.com/cli/reference/)
-- [Workflows](https://docs.pipedream.com/workflows/)
+## Workflows
 
-## Why use components?
+Workflows are a sequence of linear [steps](https://docs.pipedream.com/workflows/steps) - just Node.js code - triggered by an event (via event source, HTTP endpoint, or timer). Workflows make it easy to transform data and integrate with 300+ APIs from various apps and services.
 
-Components are similar to serverless functions, like those offered by AWS Lambda. You don't have to manage the server that runs the code — components are hosted on Pipedream infrastructure — and they run on specific events like HTTP requests and timers.
+* Trigger your workflow on any event (e.g. [HTTP requests](https://docs.pipedream.com/workflows/steps/triggers/#http) or a [schedule](https://docs.pipedream.com/workflows/steps/triggers/#cron-scheduler)).
+* Add steps to run [Node.js code](https://docs.pipedream.com/workflows/steps/code/) (using virtually any npm package) and [pre-built actions](https://docs.pipedream.com/workflows/steps/actions/).
+* Steps are executed in the order they appear in your workflow.
+* Data is shared between steps via [step exports](https://docs.pipedream.com/workflows/steps/#step-exports).
 
-But we believe components are simpler to learn, write, and maintain for many use cases. They let you focus more on the code, and less on the configuration of the function and its associated services:
+Workflow code is [public by default](https://docs.pipedream.com/public-workflows/) so the community can discover and [copy them](https://docs.pipedream.com/workflows/copy/). Your workflow execution and event data is private. 
 
-- You can configure an HTTP server [via props](/COMPONENT-API.md#interfacehttp), and can use a [built-in key-value store](/COMPONENT-API.md#servicedb) to manage state. Components creates the HTTP interface for you on deploy, and the key-value store comes for free: there's no need to create these resources manually.
-- Components are meant to be reusable. They can accept input via [props](/COMPONENT-API.md#props), which a user sets on deploy.
-- Components are self-contained. Their name, version, props, and code are all defined in one file. This makes components easy to understand at a glance, and easy to fork and modify.
+You can copy [this example workflow](https://pipedream.com/@tod/use-http-requests-to-trigger-a-workflow-p_6lCy5y/readme) to get started, or review some [community-developed workflows](https://pipedream.com/explore) to see what others are building.
 
-This is also an early release. [The component API](/COMPONENT-API.md) will improve over time. **Right now, we're looking for any and all [feedback](https://pipedream.com/community)**. Tell us what you're building, what works and what doesn't, and anything you think would improve the product.
+As you build more advanced workflows, you may also find these docs helpful:
+
+* [What are events?](https://docs.pipedream.com/workflows/events/) - events trigger workflow executions
+* [What are steps?](https://docs.pipedream.com/workflows/steps/) - building blocks you use to create workflows
+* [Managing workflow state](https://docs.pipedream.com/workflows/steps/code/state/) - how to store state in one execution of a workflow that you can read in subsequent executions
+* [Passing data to steps](https://docs.pipedream.com/workflows/steps/#passing-data-to-steps-step-parameters) - steps are just Node functions, and can accept input via step parameters.
+* [Connected Accounts](https://docs.pipedream.com/connected-accounts/) - how to authenticate to APIs within code steps.
+* [Error Handling](https://docs.pipedream.com/workflows/error-handling/global-error-workflow/#modifying-the-global-error-workflow) - how to use the Global Error workflow to manage errors raised by workflows.
+
+## Actions
+
+[Actions](https://docs.pipedream.com/workflows/steps/actions/) are pre-built code steps that you can use to perform common operations across Pipedream's 300+ API integrations, for example: sending email, adding a row to a Google Sheet, and more. Pipedream currently supports over 1000+ actions.
+
+Typically, integrating with these services requires a custom code to manage authentication, error handling, etc. Actions abstract that for you - you just pass the necessary params as input and the action handles the rest. For example, the **Send HTTP Request** action accepts the data you want to send and the URL you want to send it to, returning the HTTP response for use in future steps.
+
+Actions come pre-built to solve a common use case, but you can modify them in any way you'd like. Actions are just Node.js functions. When you add an action, you'll see its code in your workflow - just click into the code and start editing to modify it.
+
+Finally, you can [create your own actions](https://docs.pipedream.com/workflows/steps/actions/#creating-your-own-actions), allowing you to re-use them across workflows in your account. You can even [publish actions](https://docs.pipedream.com/workflows/steps/actions/#save-vs-publish) to the entire Pipedream community, making them available for anyone to use.
+
+Here's the code for the **Send HTTP Request** action:
+
+```javascript
+async params => {
+  const config = {
+    method: params.method ||  "post",
+    url: params.url,
+  }
+  for (const { key, value } of params.query || []) {
+    if (!config.params) config.params = {}
+    config.params[key] = value
+  }
+  for (const { key, value } of params.headers || []) {
+    if (!config.headers) config.headers = {}
+    config.headers[key] = value
+  }
+  if (params.auth) {
+    config.auth = {
+      username: params.auth.username,
+      password: params.auth.password,
+    }
+  }
+  if (params.responseType) {
+    config.responseType = params.responseType
+  }
+  if (params.payload) config.data = params.payload
+  return await require("@pipedreamhq/platform").axios(this, config)
+}  
+```
+
+## Destinations
+
+[Destinations](https://docs.pipedream.com/destinations/), like Actions, abstract the connection, batching, and delivery logic required to send events to services like Amazon S3 and Snowflake, or targets like HTTP and email.
+
+For example, sending data to an Amazon S3 bucket is as simple as calling `$send.s3()`:
+
+```javascript
+$send.s3({
+  bucket: "your-bucket-here",
+  prefix: "your-prefix/",
+  payload: event.body
+});
+```
+
+Pipedream supports the following destinations today:
+
+* [Amazon S3](https://docs.pipedream.com/destinations/s3/)
+* [Snowflake](https://docs.pipedream.com/destinations/snowflake/)
+* [HTTP](https://docs.pipedream.com/destinations/http/)
+* [Email](https://docs.pipedream.com/destinations/email/)
+* [Pipedream SQL Service](https://docs.pipedream.com/destinations/sql/)
+* [SSE](https://docs.pipedream.com/destinations/sse/)
+
 
 ## Pricing
 
@@ -75,7 +163,7 @@ If you exceed any of these limits, please [reach out](https://docs.pipedream.com
 
 ## Limits
 
-Components are subject to the [limits of the Pipedream platform](https://docs.pipedream.com/limits/).
+[Limits](https://docs.pipedream.com/limits/) of the Pipedream platform.
 
 ## Getting Support
 
