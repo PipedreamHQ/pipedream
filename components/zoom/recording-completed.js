@@ -4,7 +4,7 @@ const zoom = {
 };
 
 module.exports = {
-  name: "Completed Recordings for My Meetings and Webinars",
+  name: "Completed Recordings",
   version: "0.0.1",
   props: {
     zoom,
