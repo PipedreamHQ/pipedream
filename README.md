@@ -173,7 +173,7 @@ You can get help [on our public Slack](https://pipedream.com/community) or [reac
 
 ## Found a Bug? Have a Feature to suggest?
 
-Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/roadmap/issues) or [reach out to our team](https://docs.pipedream.com/support/) to see if a similar request already exists.
+Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/pipedream/issues) or [reach out to our team](https://docs.pipedream.com/support/) to see if a similar request already exists.
 
 If an issue exists, please [add a reaction](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-conversations-on-github) or comment on your specific use case.
 
