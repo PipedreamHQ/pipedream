@@ -19,6 +19,16 @@ We provide a free, hosted platform that makes it easy to connect apps and develo
 
 **Product Demo**: [YouTube](https://www.youtube.com/watch?v=hJ-KRbp6EO8&feature=youtu.be) (5 minutes)
 
+* [Event Sources](#event-sources)
+* [Workflows](#workflows)
+* [Actions](#actions)
+* [Destinations](#destinations)
+* [Pricing](#pricing)
+* [Limits](#limits)
+* [Support](#getting-support)
+* [Found a Bug? Have a Feature to suggest?](#found-a-bug-have-a-feature-to-suggest)
+* [Security disclosures](#security-disclosures)
+
 ## Event Sources
 
 Pipedream receives data via event sources.  Event sources are open source, run on Pipedream's infrastructure and collect data from your own application and/or services like Github, DropBox, Zoom, RSS feeds, and more. 
