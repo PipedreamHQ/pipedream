@@ -165,7 +165,7 @@ If you exceed any of these limits, please [reach out](https://docs.pipedream.com
 
 ## Limits
 
-[Limits](https://docs.pipedream.com/limits/) of the Pipedream platform.
+The Pipedream platform imposes some runtime limits on sources and workflows. [Read more about those in our docs](https://docs.pipedream.com/limits/).
 
 ## Getting Support
 
@@ -191,4 +191,4 @@ If an issue _doesn't_ yet exist, please use these templates to create one:
 
 ## Security disclosures
 
-If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact us at **security@pipedream.com** directly.
+If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact our security team at **security@pipedream.com**.
