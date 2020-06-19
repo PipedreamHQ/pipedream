@@ -19,6 +19,8 @@ We provide a free, hosted platform that makes it easy to connect apps and develo
 
 **Product Demo**: [YouTube](https://www.youtube.com/watch?v=hJ-KRbp6EO8&feature=youtu.be) (5 minutes)
 
+---
+
 * [Event Sources](#event-sources)
 * [Workflows](#workflows)
 * [Actions](#actions)
