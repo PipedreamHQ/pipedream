@@ -171,8 +171,22 @@ You can get help [on our public Slack](https://pipedream.com/community) or [reac
 
 ## Found a Bug? Have a Feature to suggest?
 
-Any bugs or feature requests for specific components can be raised in this repo as new Github issues or pull requests.
+Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/roadmap/issues) or [reach out to our team](https://docs.pipedream.com/support/) to see if a similar request already exists.
 
-Pipedream also operates [a roadmap](https://github.com/PipedreamHQ/roadmap) to solicit feature requests for the Pipedream platform at large (the [pipedream.com UI](https://pipedream.com), [workflows](https://docs.pipedream.com/workflows/), the CLI, etc).
+If an issue exists, please [add a reaction](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-conversations-on-github) or comment on your specific use case.
 
-You can always [reach out to our team](https://docs.pipedream.com/support/) - we're happy to discuss feedback or help fix a bug.
+If an issue _doesn't_ yet exist, please use these templates to create one:
+
+**[New feature](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=)**
+
+**[Report a bug](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=bug&template=bug_report.md&title=)**
+
+**[New trigger / source](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement%2C+trigger&template=trigger-request.md&title=%5BTRIGGER%5D)**
+
+**[New API integration](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app&template=app---service-integration.md&title=%5BAPP%5D)**
+
+**[New action](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=action%2C+enhancement&template=action-request.md&title=%5BACTION%5D)**
+
+## Security disclosures
+
+If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact us at **security@pipedream.com** directly.
