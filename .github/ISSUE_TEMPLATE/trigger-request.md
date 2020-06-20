@@ -1,6 +1,7 @@
 ---
-name: Trigger / Source Request
-about: Request a new workflow trigger or event source, for example: run a workflow on every new Github push.
+name: Trigger Request
+about: Need to run a workflow on a specific event, like every time a new PR is opened
+  on Github? Request it here!
 title: "[TRIGGER]"
 labels: enhancement, trigger
 assignees: ''
