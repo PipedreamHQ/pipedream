@@ -44,14 +44,14 @@ module.exports = {
 <a href="http://tod.ly/2UNkcs3"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
 Popular Event Sources:
-* Airtable ([deploy](https://pipedream.com/sources/new?app=airtable))
-* AWS ([deploy](https://pipedream.com/sources/new?app=aws))
-* Dropbox ([deploy](https://pipedream.com/sources/new?app=dropbox))
-* Github ([deploy](https://pipedream.com/sources/new?app=github))
-* Google Calendar ([deploy](https://pipedream.com/sources/new?app=google-calendar))
-* Google Drive ([deploy](https://pipedream.com/sources/new?app=google-drive))
-* RSS ([deploy](https://pipedream.com/sources/new?app=rss))
-* Twitter ([deploy](https://pipedream.com/sources/new?app=twitter))
+* [Airtable[(https://github.com/PipedreamHQ/pipedream/tree/master/components/airtable) ([deploy](https://pipedream.com/sources/new?app=airtable))
+* [AWS[(https://github.com/PipedreamHQ/pipedream/tree/master/components/aws) ([deploy](https://pipedream.com/sources/new?app=aws))
+* [Dropbox[(https://github.com/PipedreamHQ/pipedream/tree/master/components/dropbox) ([deploy](https://pipedream.com/sources/new?app=dropbox))
+* [Github[(https://github.com/PipedreamHQ/pipedream/tree/master/components/github) ([deploy](https://pipedream.com/sources/new?app=github))
+* [Google Calendar[(https://github.com/PipedreamHQ/pipedream/tree/master/components/google-calendar) ([deploy](https://pipedream.com/sources/new?app=google-calendar))
+* [Google Drive[(https://github.com/PipedreamHQ/pipedream/tree/master/components/google-drive) ([deploy](https://pipedream.com/sources/new?app=google-drive))
+* [RSS[(https://github.com/PipedreamHQ/pipedream/tree/master/components/rss) ([deploy](https://pipedream.com/sources/new?app=rss))
+* [Twitter[(https://github.com/PipedreamHQ/pipedream/tree/master/components/twitter) ([deploy](https://pipedream.com/sources/new?app=twitter))
 
 Event sources can also be deployed via the [Pipedream CLI](https://docs.pipedream.com/cli/reference/):
 
