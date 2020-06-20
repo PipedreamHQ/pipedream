@@ -19,15 +19,7 @@ We provide a free, hosted platform that makes it easy to connect apps and develo
 
 **Product Demo**: [YouTube](https://www.youtube.com/watch?v=hJ-KRbp6EO8&feature=youtu.be) (5 minutes)
 
-* [Event Sources](#event-sources)
-* [Workflows](#workflows)
-* [Actions](#actions)
-* [Destinations](#destinations)
-* [Pricing](#pricing)
-* [Limits](#limits)
-* [Support](#getting-support)
-* [Found a Bug? Have a Feature to suggest?](#found-a-bug-have-a-feature-to-suggest)
-* [Security disclosures](#security-disclosures)
+You can also [get support](#getting-support), [raise a bug or feature request](#found-a-bug-have-a-feature-to-suggest), or [file a security disclosure](#security-disclosures).
 
 ## Event Sources
 
@@ -173,7 +165,7 @@ If you exceed any of these limits, please [reach out](https://docs.pipedream.com
 
 ## Limits
 
-[Limits](https://docs.pipedream.com/limits/) of the Pipedream platform.
+The Pipedream platform imposes some runtime limits on sources and workflows. [Read more about those in our docs](https://docs.pipedream.com/limits/).
 
 ## Getting Support
 
@@ -181,7 +173,7 @@ You can get help [on our public Slack](https://pipedream.com/community) or [reac
 
 ## Found a Bug? Have a Feature to suggest?
 
-Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/roadmap/issues) or [reach out to our team](https://docs.pipedream.com/support/) to see if a similar request already exists.
+Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/pipedream/issues) or [reach out to our team](https://docs.pipedream.com/support/) to see if a similar request already exists.
 
 If an issue exists, please [add a reaction](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-conversations-on-github) or comment on your specific use case.
 
@@ -199,4 +191,4 @@ If an issue _doesn't_ yet exist, please use these templates to create one:
 
 ## Security disclosures
 
-If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact us at **security@pipedream.com** directly.
+If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact our security team at **security@pipedream.com**.
