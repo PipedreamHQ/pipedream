@@ -21,13 +21,7 @@ module.exports = {
         .describeLogGroups({ nextToken: lastToken })
         .promise();
       const { logGroups, nextToken } = data;
-      const options = logGroups.map((group) => {
-        return { label: group.logGroupName, value: group.logGroupName };
-      });
-      return {
-        options,
-        context: { nextToken },
-      };
+      return { logGroups, nextToken };
     },
   },
 };

@@ -4,7 +4,6 @@ const crypto = require("crypto");
 module.exports = {
   name: "CloudWatch Logs Insights Query",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
     aws,
     region: {
@@ -19,11 +18,18 @@ module.exports = {
       description: "The log groups you'd like to query",
       type: "string[]",
       async options({ page, prevContext }) {
-        const { nextToken } = prevContext;
-        return await this.aws.logsInsightsDescibeLogGroups(
+        const prevToken = prevContext.nextToken;
+        const { logGroups, nextToken } = this.aws.logsInsightsDescibeLogGroups(
           this.region,
-          nextToken
+          prevToken
         );
+        const options = logGroups.map((group) => {
+          return { label: group.logGroupName, value: group.logGroupName };
+        });
+        return {
+          options,
+          context: { nextToken },
+        };
       },
     },
     queryString: {
@@ -31,6 +37,14 @@ module.exports = {
       description:
         "The query you'd like to run. See [this AWS doc](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html) for help with query syntax",
       type: "string",
+    },
+    emitResultsInBatch: {
+      type: "boolean",
+      label: "Emit query results as a single event",
+      description:
+        "If `true`, all events are emitted as an array, within a single Pipedream event. If `false`, each row of results is emitted as its own event. Defaults to `true`",
+      optional: true,
+      default: true,
     },
     timer: {
       type: "$.interface.timer",
@@ -72,24 +86,25 @@ module.exports = {
       throw new Error(`Query ${queryId} failed with status ${result}`);
     }
 
-    if (!res.results || !res.results.length) {
+    console.log(JSON.stringify(res, null, 2));
+    const { results } = res;
+
+    if (!results || !results.length) {
       console.log("No results, exiting");
       this.db.set("startTime", now);
+      return;
     }
 
-    console.log(JSON.stringify(res, null, 2));
-
-    for (const item of res.results[0]) {
-      const { field, value } = item;
-      if (field === "@ptr") {
-        return;
-      }
-
-      const parsedEvent = JSON.parse(value);
-      this.$emit(parsedEvent, {
-        summary: this.queryString,
-        id: crypto.createHash("md5").update(value).digest("hex"),
+    if (this.emitResultsInBatch === true) {
+      this.$emit(results, {
+        summary: JSON.stringify(results),
       });
+    } else {
+      for (const item of results) {
+        this.$emit(item, {
+          summary: JSON.stringify(item),
+        });
+      }
     }
 
     // The next time this source runs, query for data starting now
