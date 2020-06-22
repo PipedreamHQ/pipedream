@@ -1,4 +1,4 @@
-const aws = require("https://github.com/PipedreamHQ/pipedream/tree/aws-cloudwatch-logs-insights/components/aws/aws.app.js");
+const aws = require("https://github.com/PipedreamHQ/pipedream/blob/aws-cloudwatch-logs-insights/components/aws/aws.app.js");
 const crypto = require("crypto");
 
 module.exports = {
