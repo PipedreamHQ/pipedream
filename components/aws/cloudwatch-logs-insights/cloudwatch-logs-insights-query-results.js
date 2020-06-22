@@ -19,10 +19,10 @@ module.exports = {
       type: "string[]",
       async options({ page, prevContext }) {
         const prevToken = prevContext.nextToken;
-        const { logGroups, nextToken } = this.aws.logsInsightsDescibeLogGroups(
-          this.region,
-          prevToken
-        );
+        const {
+          logGroups,
+          nextToken,
+        } = await this.aws.logsInsightsDescibeLogGroups(this.region, prevToken);
         const options = logGroups.map((group) => {
           return { label: group.logGroupName, value: group.logGroupName };
         });
