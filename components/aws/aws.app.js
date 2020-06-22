@@ -14,5 +14,20 @@ module.exports = {
       const ses = new AWS.SES();
       return (await ses.listIdentities().promise()).Identities;
     },
+    async logsInsightsDescibeLogGroups(region, lastToken) {
+      const AWS = this.sdk(region);
+      const cloudwatchlogs = new AWS.CloudWatchLogs();
+      const data = await cloudwatchlogs
+        .describeLogGroups({ nextToken: lastToken })
+        .promise();
+      const { logGroups, nextToken } = data;
+      const options = logGroups.map((group) => {
+        return { label: group.logGroupName, value: group.logGroupName };
+      });
+      return {
+        options,
+        context: { nextToken },
+      };
+    },
   },
 };
