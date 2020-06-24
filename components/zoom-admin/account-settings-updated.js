@@ -4,19 +4,23 @@ const zoomAdmin = {
 };
 
 module.exports = {
-  name: "Zoom Admin Custom Events",
+  name: "Account Settings Updated",
   version: "0.0.1",
   props: {
     zoomAdmin,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
+      static: ["account.updated"],
     },
   },
   async run(event) {
     console.log(event);
+    const { payload } = event;
+    const { id } = payload.object;
     this.$emit(event, {
-      summary: event.event,
+      summary: JSON.stringify(payload.object),
+      id: `${id}-${payload.time_stamp}`,
     });
   },
 };
