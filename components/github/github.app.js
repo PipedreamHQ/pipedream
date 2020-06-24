@@ -32,6 +32,9 @@ module.exports = {
       opts.url = `https://api.github.com${path[0] === "/" ? "" : "/"}${path}`
       return await axios(opts)
     },
+    async generateSecret() {
+      return "" + Math.random();
+    },
     async getRepos({ page }) {
       return (await this._makeRequest({
         path: "/user/repos",
