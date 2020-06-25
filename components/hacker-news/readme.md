@@ -1,4 +1,4 @@
-![pipedream](https://i.ibb.co/hB42XLK/github2.png)
+![pipedream](https://i.ibb.co/LPhXtH1/logo.png)
 
 <p align="center">
   <a href="https://pipedream.com/community"><img src="https://img.shields.io/badge/-Join%20us%20on%20Slack-green?logo=slack&logoColor=34d28B&labelColor=150d11&color=34d28B&logoWidth=18&link=https%3A%2F%2Fpipedream.com%2Fcommunity&link=https%3A%2F%2Fpipedream.com%2Fcommunity)](https://pipedream.com/community"></a>
@@ -14,23 +14,27 @@ The Hacker News components turn the Hacker News API into an event stream based o
 [Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow.
 
 ## Usage
+ 
+<a href="https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhacker-news%2Fnew-stories-by-keyword.js"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
-Install the Pipedream CLI [(or deploy via the UI)](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhacker-news%2Fnew-stories-by-keyword.js):
+or:
+
+Install the Pipedream CLI:
 
 ```bash
 curl https://cli.pipedream.com/install | sh
 ```
 
-Then deploy the Hacker News "new stories by keyword" or "new comments by keyword" component from the registry:
+Then deploy the Hacker News "new stories by keyword" component from the registry:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/hacker-news/new-stories-by-keyword.js
+pd deploy https://github.com/PipedreamHQ/pipedream/components/hacker-news/new-stories-by-keyword.js
 ```
 
-Or:
+Or, deploy the "new comments by keyword" component from the registry:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/hacker-news/new-comments-by-keyword.js
+pd deploy https://github.com/PipedreamHQ/pipedream/components/hacker-news/new-comments-by-keyword.js
 ```
 
 Submit your keyword and deploy your component.  
@@ -81,5 +85,5 @@ You can get help [on our public Slack](https://pipedream.com/community) or [reac
 Any bugs or feature requests for specific components can be raised in this repo as new Github issues or pull requests.
 
 Pipedream also operates [a roadmap](https://github.com/PipedreamHQ/roadmap) to solicit feature requests for the Pipedream platform at large (the [pipedream.com UI](https://pipedream.com), [workflows](https://docs.pipedream.com/workflows/), the CLI, etc).
-
+ 
 You can always [reach out to our team](https://docs.pipedream.com/support/) - we're happy to discuss feedback or help fix a bug.
