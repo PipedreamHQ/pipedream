@@ -11,7 +11,7 @@ module.exports = {
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
-      static: ["account.updated"],
+      eventNames: ["account.updated"],
     },
   },
   async run(event) {

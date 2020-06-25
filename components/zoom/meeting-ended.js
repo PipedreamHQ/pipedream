@@ -12,14 +12,14 @@ module.exports = {
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
-      static: ["meeting.ended"],
+      eventNames: ["meeting.ended"],
     },
   },
   async run(event) {
     const { payload } = event;
     const { object } = payload;
     this.$emit(event, {
-      summary: object.topic,
+      summary: `Meeting ${object.topic} ended`,
       id: object.uuid,
       ts: +new Date(object.end_time),
     });

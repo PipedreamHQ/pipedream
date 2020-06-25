@@ -12,7 +12,7 @@ module.exports = {
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
-      static: ["account.created"],
+      eventNames: ["account.created"],
     },
   },
   async run(event) {

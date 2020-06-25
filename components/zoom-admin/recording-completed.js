@@ -1,23 +1,23 @@
-const zoom = {
+const zoomAdmin = {
   type: "app",
-  app: "zoom",
+  app: "zoom_admin",
 };
 
 module.exports = {
   name: "Recording Completed",
   version: "0.0.1",
   props: {
-    zoom,
+    zoomAdmin,
     zoomApphook: {
       type: "$.interface.apphook",
-      appProp: "zoom",
+      appProp: "zoomAdmin",
       eventNames: ["recording.completed"],
     },
     includeAudioRecordings: {
       type: "boolean",
       label: "Include Audio Recordings",
       description:
-        "This source emits video (MP4) recordings only by default. Set this prop to true to include audio recordings",
+        "This source emits video (MP4) recordings only by default. Set this prop to `true` to include audio recordings",
       optional: true,
       default: false,
     },

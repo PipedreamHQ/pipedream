@@ -12,7 +12,7 @@ module.exports = {
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
-      static: ["meeting.created.by_me", "meeting.created.for_me"],
+      eventNames: ["meeting.created.by_me", "meeting.created.for_me"],
     },
   },
   async run(event) {
@@ -21,7 +21,7 @@ module.exports = {
     this.$emit(
       { event: "meeting.created", payload },
       {
-        summary: object.topic,
+        summary: `Meeting ${object.topic} created`,
         id: object.uuid,
         ts: +new Date(object.start_time),
       }

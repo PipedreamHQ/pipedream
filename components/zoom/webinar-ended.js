@@ -12,7 +12,7 @@ module.exports = {
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
-      static: ["webinar.ended"],
+      eventNames: ["webinar.ended"],
     },
   },
   async run(event) {
