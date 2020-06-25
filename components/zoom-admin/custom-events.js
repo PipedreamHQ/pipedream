@@ -8,10 +8,9 @@ module.exports = {
   version: "0.0.1",
   props: {
     zoomAdmin,
-    zoomApphook: {
-      type: "$.interface.apphook",
-      appProp: "zoomAdmin",
-      async eventNames() {
+    eventNameOptions: {
+      type: "string[]",
+      async options() {
         return [
           "account.created",
           "account.updated",
@@ -74,6 +73,13 @@ module.exports = {
           "zoomroom.alert",
           "zoomroom.delayed_alert",
         ];
+      },
+    },
+    zoomApphook: {
+      type: "$.interface.apphook",
+      appProp: "zoomAdmin",
+      async eventNames() {
+        return this.eventNameOptions;
       },
     },
   },
