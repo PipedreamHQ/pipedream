@@ -16,6 +16,28 @@ module.exports = {
         return repos.map(repo => repo.full_name)
       },
     },
+    orgs: {
+      type: "string",
+      label: "Organization",
+      async options({ page }) {
+        const orgs = await this.getOrgs({
+          page: page + 1, // pipedream page 0-indexed, github is 1
+        })
+        return orgs.map(org => org.login)
+      },
+      optional: true,
+    },
+    branches: {
+      type: "string",
+      label: "Branches",
+      async options({ page }) {
+        const branches = await this.getBranches({
+          page: page + 1, // pipedream page 0-indexed, github is 1
+        })
+        return branches.map(branch => branch.name)
+      },
+      optional: true,
+    },
     events: {
       type: "string[]",
       label: "Events",
@@ -35,13 +57,121 @@ module.exports = {
     async generateSecret() {
       return "" + Math.random();
     },
-    async getRepos({ page }) {
+    async getBranches(opts) {
+      const {
+        page,
+        repoFullName,
+      } = opts
       return (await this._makeRequest({
-        path: "/user/repos",
+        path: `/repos/${repoFullName}/branches`,
         params: {
           per_page: 100,
           page,
         },
+      })).data
+    },
+    async getCommits(opts) {
+      const {
+        repoFullName,
+      } = opts
+      return (await this._makeRequest({
+        path: `/repos/${repoFullName}/commits`,
+        params: {
+          per_page: 100,
+        },
+      })).data
+    },
+    async getReleases(opts) {
+      const {
+        repoFullName,
+      } = opts
+      return (await this._makeRequest({
+        path: `/repos/${repoFullName}/releases`,
+        params: {
+          per_page: 100,
+        },
+      })).data
+    },
+    async getOrgs(opts = {}) {
+      const {
+        page,
+      } = opts
+      return (await this._makeRequest({
+        path: "/user/orgs",
+        params: {
+          per_page: 100,
+          page,
+        },
+      })).data
+    },
+    async getRepos(opts = {}) {
+      const {
+        page,
+        org,
+      } = opts
+      if(!org) {
+        return (await this._makeRequest({
+          path: "/user/repos",
+          params: {
+            per_page: 100,
+            page,
+          },
+        })).data
+      } else {
+        return (await this._makeRequest({
+          path: `/orgs/${org}/repos`,
+          params: {
+            per_page: 100,
+            page,
+          },
+        })).data
+      }
+    },
+    async getTeams(opts = {}) {
+      const {
+        page,
+      } = opts
+      return (await this._makeRequest({
+        path: "/user/teams",
+        params: {
+          per_page: 100,
+          page,
+        },
+      })).data
+    },
+    async getUser(opts = {}) {
+      return (await this._makeRequest({
+        path: "/user",
+      })).data
+    },
+    async getNotifications(opts = {}) {
+      const {
+        all = true,
+        participating = false,
+        since,
+        before,
+        page,
+      } = opts
+
+      return (await this._makeRequest({
+        path: "/notifications",
+        params: {
+          per_page: 100,
+          page,
+          all,
+          participating,
+          since,
+          before,
+        },
+      })).data
+    },
+    async getUrl(opts = {}) {
+      const {
+        url,
+      } = opts
+
+      return (await this._makeRequest({
+        path: url.replace('https://api.github.com',''),
       })).data
     },
     async createHook({ repoFullName, endpoint, events, secret }) {

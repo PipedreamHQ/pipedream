@@ -2,12 +2,13 @@
 const github = require("./github.app.js");
 
 module.exports = {
-  name: "New Repository",
-  description: "New repository created.",
+  name: "New Commits",
+  description: "Triggers on new commits.",
   version: "0.0.1",
   props: {
     db: "$.service.db",
     github,
+    repoFullName: { propDefinition: [github, "repoFullName"] },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -17,16 +18,13 @@ module.exports = {
   },
   dedupe: "last",
   async run(event) {
-    const repos = await this.github.getRepos({
-      sort: 'created',
-      direction: 'desc',
+    const commits = await this.github.getCommits({
+      repoFullName: this.repoFullName,
     })
-
-    repos.forEach(repo => {
-      this.$emit(repo, {
-        summary: repo.full_name,
-        ts: repo.created_at && +new Date(repo.created_at),
-        id: repo.id,
+    commits.reverse().forEach(commit => {
+      this.$emit(commit, {
+        summary: commit.commit.message,
+        id: commit.sha
       })
     })
   },

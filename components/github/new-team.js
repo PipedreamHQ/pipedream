@@ -2,7 +2,7 @@
 const github = require("./github.app.js");
 
 module.exports = {
-  name: "New Repository",
+  name: "New Team",
   description: "New repository created.",
   version: "0.0.1",
   props: {
@@ -15,19 +15,9 @@ module.exports = {
       },
     },
   },
-  dedupe: "last",
+  //dedupe: "last",
   async run(event) {
-    const repos = await this.github.getRepos({
-      sort: 'created',
-      direction: 'desc',
-    })
-
-    repos.forEach(repo => {
-      this.$emit(repo, {
-        summary: repo.full_name,
-        ts: repo.created_at && +new Date(repo.created_at),
-        id: repo.id,
-      })
-    })
+    const teams = await this.github.getTeams()
+    console.log(teams)
   },
 };

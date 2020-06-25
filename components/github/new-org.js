@@ -1,9 +1,10 @@
 //const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
+
 const github = require("./github.app.js");
 
 module.exports = {
-  name: "New Repository",
-  description: "New repository created.",
+  name: "New Organization",
+  description: "New org created.",
   version: "0.0.1",
   props: {
     db: "$.service.db",
@@ -15,13 +16,11 @@ module.exports = {
       },
     },
   },
-  dedupe: "last",
+  //dedupe: "last",
   async run(event) {
-    const repos = await this.github.getRepos({
-      sort: 'created',
-      direction: 'desc',
-    })
-
+    const orgs = await this.github.getOrgs()
+    console.log(orgs)
+    /*
     repos.forEach(repo => {
       this.$emit(repo, {
         summary: repo.full_name,
@@ -29,5 +28,6 @@ module.exports = {
         id: repo.id,
       })
     })
+    */
   },
 };
