@@ -4,26 +4,25 @@ const zoomAdmin = {
 };
 
 module.exports = {
-  name: "Webinar Started",
+  name: "User Created",
   version: "0.0.1",
-  dedupe: "unique", // Dedupe based on webinar ID
+  dedupe: "unique", // Dedupe based on user ID
   props: {
     zoomAdmin,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
-      eventNames: ["webinar.started"],
+      eventNames: ["user.created"],
     },
   },
   async run(event) {
     const { payload } = event;
     const { object } = payload;
     this.$emit(
-      { event: "webinar.started", payload },
+      { event: "user.created", payload },
       {
-        summary: `Webinar ${object.topic} started`,
-        id: object.uuid,
-        ts: +new Date(object.start_time),
+        summary: `New user: ${object.email}`,
+        id: object.id,
       }
     );
   },

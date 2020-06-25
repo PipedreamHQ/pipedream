@@ -6,7 +6,7 @@ const zoomAdmin = {
 module.exports = {
   name: "Webinar Updated",
   version: "0.0.1",
-  dedupe: "unique", // Dedupe based on meeting ID
+  dedupe: "unique", // Dedupe based on webinar ID
   props: {
     zoomAdmin,
     zoomApphook: {
