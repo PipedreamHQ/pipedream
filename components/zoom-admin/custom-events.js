@@ -9,6 +9,7 @@ module.exports = {
   props: {
     zoomAdmin,
     eventNameOptions: {
+      label: "Zoom Events",
       type: "string[]",
       async options() {
         return [

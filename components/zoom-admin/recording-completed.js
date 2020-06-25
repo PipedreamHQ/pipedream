@@ -37,7 +37,7 @@ module.exports = {
     }
     const { download_token, payload } = event;
     const { object } = payload;
-    const { recording_files } = object;
+    const { recording_files, host_id, host_email } = object;
     if (!recording_files || recording_files.length === 0) {
       console.log("No files in recording. Exiting");
       return;
@@ -59,6 +59,8 @@ module.exports = {
           ...file,
           meeting_id_long: object.id, // Long ID is necessary for certain API operations
           meeting_topic: object.topic,
+          host_id,
+          host_email,
         },
         {
           summary: `${object.topic} — ${file.file_type}`,
