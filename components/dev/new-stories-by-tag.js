@@ -8,10 +8,10 @@ const FeedParser = require('feedparser')
 const hash = require('object-hash')
 
 module.exports = {
-  dev_to,
   name: "dev-to-new-stories-by-tag",
   version: "0.0.1",
   props: {
+    dev_to,
     timer: {
       type: "$.interface.timer",
       default: {
