@@ -34,7 +34,7 @@ module.exports = {
   },
   dedupe: "unique",
   async run() {
-    const res = await fetch(`https://dev.to/feed/tag/${encodeURIComponent(this.keyword)}`, {
+    const res = await fetch(`https://dev.to/feed/tag/${encodeURIComponent(this.tag)}`, {
       'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
       accept: 'text/html,application/xhtml+xml',
     })
