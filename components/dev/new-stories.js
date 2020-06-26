@@ -8,6 +8,7 @@ const FeedParser = require('feedparser')
 const hash = require('object-hash')
 
 module.exports = {
+  dev_to,
   name: "dev-to-new-stories",
   version: "0.0.1",
   props: {
