@@ -16,13 +16,26 @@ module.exports = {
       },
     },
   },
-  dedupe: "greatest",
+  //dedupe: "greatest",
   async run(event) {
     console.log(this.repoFullName)
     const releases = await this.github.getReleases({
-      repoFullName: this.repoFullName,
+      repoFullName: `angular/angular`,
+      ifModifiedSince: this.db.get('lastModified'),
     })
     console.log(releases)
+    this.db.set('lastModified', releases.headers['last-modified'])
+    /*
+    for (let i = 0; i < releases.length; i++) {
+      releases[i].commit = await this.github.getUrl({
+        url: releases[i].commit.url
+        since: 'deea6da0e00e8a0fca681670d65cf13d149dc482',
+      })
+      this.$emit(releases[i])
+      console.log(releases[i])
+    }
+    
+    /*
     releases.reverse().forEach(release => {
       if(release.published_at) {
         this.$emit(release, {
@@ -31,5 +44,6 @@ module.exports = {
         })
       }
     })
+    */
   },
 };

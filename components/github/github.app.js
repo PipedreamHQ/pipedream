@@ -30,11 +30,15 @@ module.exports = {
     branches: {
       type: "string",
       label: "Branches",
-      async options({ page }) {
+      async options({ page, repoFullName }) {
         const branches = await this.getBranches({
           page: page + 1, // pipedream page 0-indexed, github is 1
+          repoFullName,
         })
         return branches.map(branch => branch.name)
+        //return branches.map(branch => {
+        //  return { label: branch.name, value: branch.sha }
+        //})
       },
       optional: true,
     },
@@ -84,13 +88,21 @@ module.exports = {
     async getReleases(opts) {
       const {
         repoFullName,
+        ifModifiedSince,
       } = opts
-      return (await this._makeRequest({
-        path: `/repos/${repoFullName}/releases`,
+      const config = {
+        path: `/repos/angular/angular/tags`,
         params: {
           per_page: 100,
         },
-      })).data
+      }
+      if (ifModifiedSince) {
+        if(!config.headers) {
+          config.headers = {}
+        }
+        config.headers["If-Modified-Since"] = ifModifiedSince
+      }
+      return (await this._makeRequest(config))
     },
     async getOrgs(opts = {}) {
       const {
