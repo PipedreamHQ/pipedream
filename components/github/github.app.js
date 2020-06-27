@@ -16,7 +16,7 @@ module.exports = {
         return repos.map(repo => repo.full_name)
       },
     },
-    orgs: {
+    org: {
       type: "string",
       label: "Organization",
       async options({ page }) {
@@ -27,18 +27,15 @@ module.exports = {
       },
       optional: true,
     },
-    branches: {
+    branch: {
       type: "string",
-      label: "Branches",
+      label: "Branch",
       async options({ page, repoFullName }) {
         const branches = await this.getBranches({
           page: page + 1, // pipedream page 0-indexed, github is 1
           repoFullName,
         })
         return branches.map(branch => branch.name)
-        //return branches.map(branch => {
-        //  return { label: branch.name, value: branch.sha }
-        //})
       },
       optional: true,
     },
@@ -77,11 +74,13 @@ module.exports = {
     async getCommits(opts) {
       const {
         repoFullName,
+        sha,
       } = opts
       return (await this._makeRequest({
         path: `/repos/${repoFullName}/commits`,
         params: {
           per_page: 100,
+          sha,
         },
       })).data
     },

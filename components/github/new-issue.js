@@ -1,5 +1,13 @@
 //const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
 const github = require("./github.app.js");
+const eventNames = ["issues"]
+const eventTypes = ['opened']
+
+function generateMeta(data) {
+  return {
+    summary: `#${data.issue.number} ${data.issue.title} opened by ${data.sender.login}`,
+  }
+}
 
 module.exports = {
   name: "New Issues",
@@ -17,7 +25,7 @@ module.exports = {
       const { id } = await this.github.createHook({
         repoFullName: this.repoFullName,
         endpoint: this.http.endpoint,
-        events: ["issues"],
+        events: eventNames,
         secret,
       });
       this.db.set("hookId", id);
@@ -51,10 +59,9 @@ module.exports = {
       return;
     }
 
-    if (body.action === 'opened') {
-      this.$emit(body, {
-        summary: `#${body.issue.number} ${body.issue.title} opened by ${body.sender.login}`,
-      });
+    if (eventTypes.indexOf(body.action) > -1) {
+      const meta = generateMeta(body)
+      this.$emit(body, meta);
     }
   },
 };

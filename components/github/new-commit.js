@@ -9,6 +9,10 @@ module.exports = {
     db: "$.service.db",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    branch: { 
+      propDefinition: [github, "branch", c => ({ repoFullName: c.repoFullName })],
+      description: "Branch to pull commits from. If unspecified, will use the repository's default branch (usually master or develop)."
+    },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -18,9 +22,13 @@ module.exports = {
   },
   dedupe: "last",
   async run(event) {
-    const commits = await this.github.getCommits({
+    const config = {
       repoFullName: this.repoFullName,
-    })
+      sha: this.branch,
+    }
+    console.log(config)
+    const commits = await this.github.getCommits(config)
+    console.log(commits)
     commits.reverse().forEach(commit => {
       this.$emit(commit, {
         summary: commit.commit.message,
