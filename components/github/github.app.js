@@ -44,6 +44,22 @@ module.exports = {
       label: "Events",
       options: listOfEvents,
     },
+    labels: {
+      type: "string[]",
+      label: "Labels",
+      async options({ page, repoFullName }) {
+        const labels = await this.getLabels({
+          page: page + 1, // pipedream page 0-indexed, github is 1
+          repoFullName,
+        })
+        return labels.map(label => {
+          return {
+            label: label.name,
+            value: label.id,
+          }
+        })
+      },
+    },
   },
   methods: {
     async _makeRequest(opts) {
@@ -84,13 +100,26 @@ module.exports = {
         },
       })).data
     },
+    async getLabels(opts) {
+      const {
+        repoFullName,
+        page,
+      } = opts
+      return (await this._makeRequest({
+        path: `/repos/${repoFullName}/labels`,
+        params: {
+          per_page: 100,
+          page,
+        },
+      })).data
+    },
     async getReleases(opts) {
       const {
         repoFullName,
         ifModifiedSince,
       } = opts
       const config = {
-        path: `/repos/angular/angular/tags`,
+        path: `/repos/${repoFullName}/tags`,
         params: {
           per_page: 100,
         },
@@ -120,23 +149,13 @@ module.exports = {
         page,
         org,
       } = opts
-      if(!org) {
-        return (await this._makeRequest({
-          path: "/user/repos",
-          params: {
-            per_page: 100,
-            page,
-          },
-        })).data
-      } else {
-        return (await this._makeRequest({
-          path: `/orgs/${org}/repos`,
-          params: {
-            per_page: 100,
-            page,
-          },
-        })).data
-      }
+      return (await this._makeRequest({
+        path: org ? `/orgs/${org}/repos` : '/user/repos',
+        params: {
+          per_page: 100,
+          page,
+        },
+      })).data
     },
     async getTeams(opts = {}) {
       const {

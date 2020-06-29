@@ -1,5 +1,5 @@
-//const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
-const github = require("./github.app.js");
+const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
+//const github = require("./github.app.js");
 const events = ["pull_request"]
 const eventTypes = ['review_requested']
 
