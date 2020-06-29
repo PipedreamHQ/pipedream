@@ -91,12 +91,14 @@ module.exports = {
       const {
         repoFullName,
         sha,
+        page,
       } = opts
       return (await this._makeRequest({
         path: `/repos/${repoFullName}/commits`,
         params: {
           per_page: 100,
           sha,
+          page,
         },
       })).data
     },
