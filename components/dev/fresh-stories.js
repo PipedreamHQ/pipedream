@@ -21,7 +21,7 @@ module.exports = {
   },
   dedupe: "greatest",
   async run(event) {
-    const url = `https://dev.to/api/articles?state=fresh&per_page=1000`
+    const url = `https://dev.to/api/articles?per_page=1000`
     const data = (await axios({
       method: "get",
       url,
