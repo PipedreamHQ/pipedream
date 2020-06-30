@@ -40,7 +40,7 @@ module.exports = {
    data.forEach(event=>{
      this.$emit(event,{
        id: event.id,
-       ts: moment(event.created_at).valueOf(),     
+       ts: moment(event.published_timestamp).valueOf(),     
        summary: event.title,
      })
    })
