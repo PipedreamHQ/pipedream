@@ -42,7 +42,7 @@ module.exports = {
     }
     const sig = event.headers["stripe-signature"]
     try {
-      event = this.stripe.sdk().webhooks.constructEvent(event.body, sig, endpoint.secret)
+      event = this.stripe.sdk().webhooks.constructEvent(event.bodyRaw, sig, endpoint.secret)
     } catch (err) {
       this.http.respond({status: 400, body: err.message})
       console.log(err.message)
@@ -52,9 +52,8 @@ module.exports = {
   },
   methods: {
     getEndpoint() {
-      const endpointJson = this.db.get("endpoint")
-      if (!endpointJson) return
       let endpoint
+      const endpointJson = this.db.get("endpoint")
       try {
         endpoint = JSON.parse(endpointJson)
       } catch (err) {}
