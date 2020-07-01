@@ -168,7 +168,7 @@ module.exports = {
         'transfer.paid',
         'transfer.reversed',
         'transfer.updated',
-      ],
+      ]
     },
   },
 }

@@ -1,4 +1,4 @@
-const stripe = require("https://github.com/PipedreamHQ/pipedream/components/stripe/stripe.app.js");
+const stripe = require("https://github.com/PipedreamHQ/pipedream/components/stripe/stripe.app.js")
 
 module.exports = {
   name: "Custom Events",
@@ -14,16 +14,16 @@ module.exports = {
     db: "$.service.db",
   },
   hooks: {
-    activate() {
+    async activate() {
       let enabledEvents = this.enabledEvents
-      if (enabledEvents.include('*')) enabledEvents = ['*']
+      if (enabledEvents.includes('*')) enabledEvents = ['*']
       const endpoint = await this.stripe.sdk().webhookEndpoints.create({
         url: this.http.endpoint,
         enabled_events: enabledEvents,
       })
       this.db.set("endpoint", JSON.stringify(endpoint))
     },
-    deactivate() {
+    async deactivate() {
       const endpoint = this.getEndpoint()
       this.db.set("endpoint", null)
       if (!endpoint) return
@@ -33,7 +33,7 @@ module.exports = {
       }
     },
   },
-  async run(event) {
+  run(event) {
     const endpoint = this.getEndpoint()
     if (!endpoint) {
       this.http.respond({status: 500})
@@ -41,7 +41,7 @@ module.exports = {
     }
     const sig = event.headers["stripe-signature"]
     try {
-      event = this.stripe.sdk().webhooks.constructEvent(event.body, sig, endpoint.secret);
+      event = this.stripe.sdk().webhooks.constructEvent(event.body, sig, endpoint.secret)
     } catch (err) {
       this.http.respond({status: 400, body: err.message})
       console.log(err.message)
