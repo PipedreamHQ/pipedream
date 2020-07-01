@@ -1,20 +1,19 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
 //const github = require("./github.app.js");
-const eventNames = ["commit_comment"]
-const eventTypes = ['created']
+const eventNames = ["issues"]
+const eventTypes = ['opened']
 
 function generateMeta(data) {
   return {
-    summary: `${data.comment.user.login}: ${data.comment.body}`,
-    ts: data.comment.updated_at && +new Date(data.comment.updated_at),
+    summary: `#${data.issue.number} ${data.issue.title} opened by ${data.sender.login}`,
   }
 }
 
 module.exports = {
-  name: "New Commit Comments (Instant)",
-  description: "Triggers when new commit comments are created",
+  name: "New Issue (Instant)",
+  description: "Triggers when new issues are created in a repo",
   version: "0.0.1",
-  props: {
+  props: {   
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
     http: "$.interface.http",

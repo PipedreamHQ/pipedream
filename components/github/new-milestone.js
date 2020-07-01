@@ -10,7 +10,7 @@ function generateMeta(data) {
 }
 
 module.exports = {
-  name: "New Milestones (Instant)",
+  name: "New Milestone (Instant)",
   description: "Triggers when a new milestone is created in a repo",
   version: "0.0.1",
   props: {

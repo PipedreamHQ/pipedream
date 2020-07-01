@@ -1,17 +1,18 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
 //const github = require("./github.app.js");
-const eventNames = ["label"]
+const eventNames = ["commit_comment"]
 const eventTypes = ['created']
 
 function generateMeta(data) {
   return {
-    summary: `${data.repository.name} created by ${data.sender.login}`
+    summary: `${data.comment.user.login}: ${data.comment.body}`,
+    ts: data.comment.updated_at && +new Date(data.comment.updated_at),
   }
 }
 
 module.exports = {
-  name: "New Labels (Instant)",
-  description: "Triggers when a new label is created in a repo",
+  name: "New Commit Comment (Instant)",
+  description: "Triggers when new commit comments are created",
   version: "0.0.1",
   props: {
     github,

@@ -2,7 +2,7 @@ const github = require("https://github.com/PipedreamHQ/pipedream/components/gith
 //const github = require("./github.app.js");
 
 module.exports = {
-  name: "New Commits",
+  name: "New Commit",
   description: "Triggers on new commits to a repo or branch",
   version: "0.0.1",
   props: {

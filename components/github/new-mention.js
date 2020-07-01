@@ -2,7 +2,7 @@ const github = require("https://github.com/PipedreamHQ/pipedream/components/gith
 //const github = require("./github.app.js");
 
 module.exports = {
-  name: "New Mentions",
+  name: "New Mention",
   description: "Triggers when you are @mentioned in a new commit, comment, issue or pull request.",
   version: "0.0.1",
   props: {
