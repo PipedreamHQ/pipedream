@@ -1,27 +1,32 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
+//const github = require("./github.app.js");
+const eventNames = ["commit_comment"]
+const eventTypes = ['created']
+
+function generateMeta(data) {
+  return {
+    summary: `${data.comment.user.login}: ${data.comment.body}`,
+    ts: data.comment.updated_at && +new Date(data.comment.updated_at),
+  }
+}
 
 module.exports = {
-  name: "Custom Events",
+  name: "New Commit Comment (Instant)",
+  description: "Triggers when new commit comments are created",
   version: "0.0.1",
   props: {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
-    events: { propDefinition: [github, "events"] },
     http: "$.interface.http",
     db: "$.service.db",
   },
-  methods: {
-    generateSecret() {
-      return "" + Math.random();
-    },
-  },
   hooks: {
     async activate() {
-      const secret = this.generateSecret();
+      const secret = await this.github.generateSecret();
       const { id } = await this.github.createHook({
         repoFullName: this.repoFullName,
         endpoint: this.http.endpoint,
-        events: this.events,
+        events: eventNames,
         secret,
       });
       this.db.set("hookId", id);
@@ -39,6 +44,7 @@ module.exports = {
       status: 200,
     });
     const { body, headers } = event;
+
     if (headers["X-Hub-Signature"]) {
       const crypto = require("crypto");
       const algo = "sha1";
@@ -54,8 +60,9 @@ module.exports = {
       return;
     }
 
-    this.$emit(body, {
-      summary: JSON.stringify(body),
-    });
+    if (eventTypes.indexOf(body.action) > -1) {
+      const meta = generateMeta(body)
+      this.$emit(body, meta);
+    }
   },
 };

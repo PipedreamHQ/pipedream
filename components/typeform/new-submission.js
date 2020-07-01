@@ -4,11 +4,11 @@ const { uuid } = require("uuidv4")
 module.exports = {
   name: "New Submission", 
   version: "0.0.1",
-  props: {
-    db: "$.service.db",
-    http: "$.interface.http",
+  props: {    
     typeform,
     formId: { propDefinition: [typeform, "formId"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   }, 
   methods: { 
     generateSecret() {
