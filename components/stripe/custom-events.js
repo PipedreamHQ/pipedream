@@ -6,6 +6,7 @@ module.exports = {
     stripe,
     enabledEvents: {
       type: "string[]",
+      label: "Events to listen for (select '*' for all)",
       options() {
         return stripe.methods.enabledEvents()
       },
