@@ -11,14 +11,14 @@ function generateMeta(data) {
 }
 
 module.exports = {
-  name: "New Commit Comments",
+  name: "New Commit Comments (Instant)",
   description: "Triggers when new commit comments are created",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
-    http: "$.interface.http",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   },
   hooks: {
     async activate() {

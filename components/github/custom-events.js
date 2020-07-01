@@ -4,11 +4,11 @@ module.exports = {
   name: "Custom Events",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
-    http: "$.interface.http",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
     events: { propDefinition: [github, "events"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   },
   methods: {
     generateSecret() {

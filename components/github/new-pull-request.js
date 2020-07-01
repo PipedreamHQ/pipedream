@@ -10,14 +10,14 @@ function generateMeta(data) {
 }
 
 module.exports = {
-  name: "New Pull Request",
-  description: "Triggers when a new pull request is opened.",
+  name: "New Pull Request (Instant)",
+  description: "Triggers when a new pull request is opened",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
-    http: "$.interface.http",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   },
   hooks: {
     async activate() {

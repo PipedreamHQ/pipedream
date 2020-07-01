@@ -1,17 +1,16 @@
-const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
-//const github = require("./github.app.js");
+//const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
+const github = require("./github.app.js");
 
 module.exports = {
   name: "New Commits",
-  description: "Triggers on new commits.",
+  description: "Triggers on new commits to a repo or branch",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
     branch: { 
       propDefinition: [github, "branch", c => ({ repoFullName: c.repoFullName })],
-      description: "Branch to pull commits from. If unspecified, will use the repository's default branch (usually master or develop)."
+      description: "Branch to monitor for new commits. If no branch is selected, the repository’s default branch will be used (usually master).",
     },
     timer: {
       type: "$.interface.timer",
@@ -32,7 +31,8 @@ module.exports = {
     commits.reverse().forEach(commit => {
       this.$emit(commit, {
         summary: commit.commit.message,
-        id: commit.sha
+        id: commit.sha,
+        ts: commit.commit.author.date && +new Date(commit.commit.author.date),
       })
     })
   },

@@ -10,14 +10,14 @@ function generateMeta(data) {
 }
 
 module.exports = {
-  name: "New Project Card",
-  description: "Triggers when a new project card is created.",
+  name: "New Project Card (Instant)",
+  description: "Triggers when a new project card is created",
   version: "0.0.1",
-  props: {
-    db: "$.service.db",
-    http: "$.interface.http",
+  props: {    
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   },
   hooks: {
     async activate() {

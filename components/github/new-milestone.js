@@ -10,14 +10,14 @@ function generateMeta(data) {
 }
 
 module.exports = {
-  name: "New Milestone Created",
-  description: "Triggers when a new milestone is created.",
+  name: "New Milestones (Instant)",
+  description: "Triggers when a new milestone is created in a repo",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
-    http: "$.interface.http",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   },
   hooks: {
     async activate() {

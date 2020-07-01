@@ -3,10 +3,9 @@ const github = require("https://github.com/PipedreamHQ/pipedream/components/gith
 
 module.exports = {
   name: "New Review Request",
-  description: "You, or a team you're a member of, were requested to review a pull request.",
+  description: "Triggers when you or a team you're a member of are requested to review a pull request",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
     github,
     timer: {
       type: "$.interface.timer",
@@ -14,6 +13,7 @@ module.exports = {
         intervalSeconds: 60 * 5,
       },
     },
+    db: "$.service.db",
   },
   dedupe: "greatest",
   async run(event) {
@@ -25,7 +25,6 @@ module.exports = {
     })
 
     const filtered_notifications = notifications.filter(notification => notification.reason === 'review_requested')
-    //console.log(filtered_notifications)
 
     let maxDate = since
     for(let i = 0; i < filtered_notifications.length; i++) {

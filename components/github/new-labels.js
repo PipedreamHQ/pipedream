@@ -1,23 +1,23 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
 //const github = require("./github.app.js");
-const events = ["pull_request"]
-const eventTypes = ['review_requested']
+const eventNames = ["label"]
+const eventTypes = ['created']
 
 function generateMeta(data) {
   return {
-    summary: `#${data.number} ${data.pull_request.title} by ${data.sender.login}`,
+    summary: `${data.repository.name} created by ${data.sender.login}`
   }
 }
 
 module.exports = {
-  name: "New Review Request (Instant)",
-  description: "Triggered when a review is requested from you or a specified user",
+  name: "New Labels (Instant)",
+  description: "Triggers when a new label is created in a repo",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
-    http: "$.interface.http",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   },
   hooks: {
     async activate() {
@@ -25,7 +25,7 @@ module.exports = {
       const { id } = await this.github.createHook({
         repoFullName: this.repoFullName,
         endpoint: this.http.endpoint,
-        events,
+        events: eventNames,
         secret,
       });
       this.db.set("hookId", id);

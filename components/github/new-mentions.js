@@ -3,10 +3,9 @@ const github = require("https://github.com/PipedreamHQ/pipedream/components/gith
 
 module.exports = {
   name: "New Mentions",
-  description: "You were specifically @mentioned in a new Commit, Comment, Issue or Pull Request.",
+  description: "Triggers when you are @mentioned in a new commit, comment, issue or pull request.",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
     github,
     timer: {
       type: "$.interface.timer",
@@ -14,6 +13,7 @@ module.exports = {
         intervalSeconds: 60 * 5,
       },
     },
+    db: "$.service.db",
   },
   hooks: {
     async activate() {
@@ -32,24 +32,20 @@ module.exports = {
     })
 
     const mentions = notifications.filter(notification => notification.reason === 'mention')
-    //console.log(mentions)
-
     let maxDate = since
     for(let i = 0; i < mentions.length; i++) {
-      //if(!since || new Date(mentions[i].updated_at) > new Date(since)) {
-        if(!maxDate || new Date(mentions[i].updated_at) > new Date(maxDate)) {
-          maxDate = mentions[i].updated_at
-        }
-        const comment = await this.github.getUrl({ url: mentions[i].subject.latest_comment_url })
-        //console.log(comment)
-        if (comment.body.indexOf(`@${login}`) > -1) {
-          this.$emit(comment, {
-            summary: comment.body,
-            ts: comment.updated_at && +new Date(comment.updated_at),
-            id: comment.updated_at && +new Date(comment.updated_at),
-          })
-        }
-      //}
+      if(!maxDate || new Date(mentions[i].updated_at) > new Date(maxDate)) {
+        maxDate = mentions[i].updated_at
+      }
+      const comment = await this.github.getUrl({ url: mentions[i].subject.latest_comment_url })
+
+      if (comment.body.indexOf(`@${login}`) > -1) {
+        this.$emit(comment, {
+          summary: comment.body,
+          ts: comment.updated_at && +new Date(comment.updated_at),
+          id: comment.updated_at && +new Date(comment.updated_at),
+        })
+      }
     }
 
     if (maxDate !== since) {

@@ -3,10 +3,9 @@ const github = require("https://github.com/PipedreamHQ/pipedream/components/gith
 
 module.exports = {
   name: "New Repository",
-  description: "New repository created.",
+  description: "Triggers when a new repository is created",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
     github,
     timer: {
       type: "$.interface.timer",

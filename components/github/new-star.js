@@ -1,15 +1,17 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
 //const github = require("./github.app.js");
+const eventNames = ["star"]
+const eventTypes = ['created']
 
 module.exports = {
-  name: "New Stars",
+  name: "New Stars (Instant)",
   version: "0.0.1",
   description: "Triggers when a repo is starred",
   props: {
-    db: "$.service.db",
-    http: "$.interface.http",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   },
   hooks: {
     async activate() {
@@ -17,7 +19,7 @@ module.exports = {
       const { id } = await this.github.createHook({
         repoFullName: this.repoFullName,
         endpoint: this.http.endpoint,
-        events: ["star"],
+        events: eventNames,
         secret,
       });
       this.db.set("hookId", id);
@@ -51,7 +53,7 @@ module.exports = {
       return;
     }
 
-    if (body.action === 'created') {
+    if (eventTypes.indexOf(body.action) > -1) {
       this.$emit(body, {
         summary: `${body.sender.login} starred ${this.repoFullName}`,
         ts: body.starred_at && +new Date(body.starred_at),

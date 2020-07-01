@@ -1,23 +1,23 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
 //const github = require("./github.app.js");
-const eventNames = ["label"]
-const eventTypes = ['created']
+const eventNames = ["issues"]
+const eventTypes = ['opened']
 
 function generateMeta(data) {
   return {
-    summary: `${data.repository.name} created by ${data.sender.login}`
+    summary: `#${data.issue.number} ${data.issue.title} opened by ${data.sender.login}`,
   }
 }
 
 module.exports = {
-  name: "New Label Created",
-  description: "Triggers when a new label is created.",
+  name: "New Issues (Instant)",
+  description: "Triggers when new issues are created in a repo",
   version: "0.0.1",
-  props: {
-    db: "$.service.db",
-    http: "$.interface.http",
+  props: {   
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   },
   hooks: {
     async activate() {

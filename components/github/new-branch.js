@@ -10,14 +10,14 @@ function generateMeta(data) {
 }
 
 module.exports = {
-  name: "New Branch",
+  name: "New Branch (Instant)",
   description: "Triggers when a new branch is created",
   version: "0.0.1",
   props: {
-    db: "$.service.db",
-    http: "$.interface.http",
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
+    http: "$.interface.http",
+    db: "$.service.db",
   },
   hooks: {
     async activate() {

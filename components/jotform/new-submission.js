@@ -4,9 +4,9 @@ module.exports = {
   name: "new-submission", 
   version: "0.0.1",
   props: {
-    http: "$.interface.http",
     jotform,
     formId: { propDefinition: [jotform, "formId"] },
+    http: "$.interface.http",
   },
   hooks: {
     async activate() {
