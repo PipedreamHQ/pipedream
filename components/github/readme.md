@@ -1,6 +1,7 @@
-# Github API Integrations
+# Github API Integrations 
 ### Integrate Github APIs and thousands of applications.  Free for developers.
-=============================
+
+---
 
 Pipedream is a serverless integration and compute platform, and fully supports Github APIs.
 
