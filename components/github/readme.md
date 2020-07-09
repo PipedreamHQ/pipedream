@@ -6,7 +6,7 @@
 Pipedream is a serverless integration and compute platform.  We provide a free, hosted platform that makes it easy to connect apps and develop, execute and maintain event-driven workflows.
 
 **Key Features**:
-* [Github API Event Sources](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events Github
+* [Github API Event Sources](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from Github
 * [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by a Github event
 * Serverless - No server or cloud resources to manage
 * [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
