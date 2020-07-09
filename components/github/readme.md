@@ -29,6 +29,9 @@ We provide a free, hosted platform that makes it easy to connect apps and develo
  - [New Pull Request](https://pipedream.com/sources/new?app=github) -  Triggered when a new pull request is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-pull-request.js))
  - [New Push](https://pipedream.com/sources/new?app=github) - Triggered when a new push is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/push-event.js))
  - [New Repository](https://pipedream.com/sources/new?app=github) - Triggered when a new repository is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-repository.js))
+ - [New Review Request](https://pipedream.com/sources/new?app=github) - Triggered when a new review request is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-review-request.js))
+ - [New Security Alert](https://pipedream.com/sources/new?app=github) - Triggered when a new security alert is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-security-alert.js))
+ - [New Stars](https://pipedream.com/sources/new?app=github) - Triggered when a new star is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-star.js))
  
 Event sources can also be deployed via the [Pipedream CLI](https://docs.pipedream.com/cli/reference/):
 
