@@ -1,15 +1,12 @@
 # Github API Integrations 
-### Integrate Github APIs and thousands of applications.  Free for developers.
+### Integrate Github and thousands of applications with Pipedream.  Free for developers.
 
 ---
 
-Pipedream is a serverless integration and compute platform, and fully supports Github APIs.
-
-We provide a free, hosted platform that makes it easy to connect apps and develop, execute and maintain event-driven workflows. The platform has over 300 fully integrated applications with managed authentication and support for over 1M npm packages.
+Pipedream is a serverless integration and compute platform.  We provide a free, hosted platform that makes it easy to connect apps and develop, execute and maintain event-driven workflows.
 
 **Key Features**:
 * [Github API Event Sources](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events Github
-* [Github API Actions](#github-api-actions) - Pre-built code steps that you can use in a workflow to perform common operations
 * [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by a Github event
 * Serverless - No server or cloud resources to manage
 * [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
@@ -46,47 +43,6 @@ Once installed, you can deploy an event source by running:
 pd deploy   # prompts you to select a component and pass required options
 ```
 
-## Github API Actions
-
- - [Create Fork](https://pipedream.com/admin/actions/a_m8iXrd/edit) - Creates a fork given a repository for the authenticated user.
- - [Create Gist](https://pipedream.com/admin/actions/a_Nqi06R/edit) - Creates a new gist with one or more files.
- - [Create Git Blob](https://pipedream.com/admin/actions/a_2wim0x/edit) - Creates a Git blob object.
- - [Create Git Commit](https://pipedream.com/admin/actions/a_74iEgG/edit) - Creates a new Git commit object.
- - [Create Issue Comment](https://pipedream.com/admin/actions/a_a4iKxq/edit) - Creates a comment on an issue.
- - [Create Pull Request](https://pipedream.com/admin/actions/a_PNiwOa/edit) - Creates a pull requests in a repository.
- - [Create Repo Issue](https://pipedream.com/admin/actions/a_Vpi8z8/edit) - Creates an issue in a repository.
- - [Create Repository](https://pipedream.com/admin/actions/a_B0izJ7/edit) - Creates a repository in an organization.
- - [Create Tag](https://pipedream.com/admin/actions/a_YEiPo0/edit) - Creates a tag on a commit, tree, or blob.
- - [Follow a user](https://pipedream.com/admin/actions/a_G1iev0/edit) - Follow a user
- - [Get Auth User repo](https://pipedream.com/admin/actions/a_vgi8R0/edit) - Gets repositories that the authenticated user has explicit access permission.
- - [Get Commit](https://pipedream.com/admin/actions/a_EVioNG/edit) - Gets a commit in a repository.
- - [Get Git Commit](https://pipedream.com/admin/actions/a_Mdi8wj/edit) - Gets a got commit object.
- - [Get Issue Labels](https://pipedream.com/admin/actions/a_1WiqnE/edit) - Gets the labels on an issue.
- - [Get Org Repos](https://pipedream.com/admin/actions/a_jQiB0L/edit) - Gets an organization's repositories.
- - [Get Pull Request](https://pipedream.com/admin/actions/a_3Li12M/edit) - Gets details of a pull request by providing its number.
- - [Get Pull Request Commits](https://pipedream.com/admin/actions/a_eli5n0/edit) - Gets a maximum of 250 commits for a pull request. To receive a complete commit list for pull requests with more than 250 commits, use the Commit List API.
- - [Get Pull Request Merged State](https://pipedream.com/admin/actions/a_WYieB5/edit) - Get if a pull request has been merged.
- - [Get Repo](https://pipedream.com/admin/actions/a_Q3iwK3/edit) - Gets a repository's details.
- - [Get Repo Branch](https://pipedream.com/admin/actions/a_oVi31V/edit) - Gets a branch given its repository.
- - [Get Repo Branches](https://pipedream.com/admin/actions/a_8KiVaX/edit) - Gets a repository's branches.
- - [Get Repo Forks](https://pipedream.com/admin/actions/a_67ijXr/edit) - Gets forks of a repository.
- - [Get Repo Issues](https://pipedream.com/admin/actions/a_OOiaEV/edit) - Gets issues in a repository.
- - [Get Repo Stargazers](https://pipedream.com/admin/actions/a_0Mi8aM/edit) - Gets a repository's stargazers
- - [Get Repo Tags](https://pipedream.com/admin/actions/a_Jmi8V5/edit) - Gets a repository's tags.
- - [Get User Emails](https://pipedream.com/admin/actions/a_rJiLvX/edit) - Gets all email addresses from authenticated user, and specifies which one is visible to the public.
- - [Get User Followers](https://pipedream.com/admin/actions/a_2wim6x/edit) - Gets the authenticated user's followers.
- - [Get User Repo](https://pipedream.com/admin/actions/a_4riogQ/edit) - Gets public repositories for the specified user.
- - [Get User Teams](https://pipedream.com/admin/actions/a_74iE0G/edit) - Gets all the teams across all of the organizations to which the authenticated user belongs.
- - [List Auth User Repos](https://pipedream.com/admin/actions/a_2winpM/edit) - Lists repositories that the authenticated user has explicit permission to access.
- - [List commits on a repository](https://pipedream.com/admin/actions/a_dvikaP/edit) - List commits on a repository.
- - [List issues](https://pipedream.com/admin/actions/a_jQiBk5/edit) - List all issues assigned to the authenticated user across all visible repositories including owned repositories, member repositories, and organization repositories.
- - [Render markdown](https://pipedream.com/admin/actions/a_q1ioPJ/edit) - Renders an arbitrary Markdown document into HTML
- - [Search Code](https://pipedream.com/admin/actions/a_Lgijvx/edit) - Searches file contents via various criteria.
- - [Search Issues or Pull Requests](https://pipedream.com/admin/actions/a_wdijOP/edit) - Searches for issues or pull requests by state and keyword.
- - [Search Repositories](https://pipedream.com/admin/actions/a_rJiLmX/edit) - Searches repositories via various criteria.
- - [Star User Repo](https://pipedream.com/admin/actions/a_l0iLYA/edit) - Marks an authed user's repo as starred.
- - [Update Pull Request](https://pipedream.com/admin/actions/a_G1iBQ4/edit) - Updates details of a pull request by providing its number. 
-
 ## Workflows
 
 Workflows are a sequence of linear [steps](https://docs.pipedream.com/workflows/steps) - just Node.js code - triggered by an event (via event source, HTTP endpoint, or timer). Workflows make it easy to transform data and integrate with 300+ APIs from various apps and services.
@@ -105,7 +61,6 @@ You can copy [this example workflow](https://pipedream.com/@tod/use-http-request
 * [Airtable](https://github.com/PipedreamHQ/pipedream/tree/master/components/airtable) ([deploy](https://pipedream.com/sources/new?app=airtable))
 * [AWS](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws) ([deploy](https://pipedream.com/sources/new?app=aws))
 * [Dropbox](https://github.com/PipedreamHQ/pipedream/tree/master/components/dropbox) ([deploy](https://pipedream.com/sources/new?app=dropbox))
-* [Github](https://github.com/PipedreamHQ/pipedream/tree/master/components/github) ([deploy](https://pipedream.com/sources/new?app=github))
 * [Google Calendar](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-calendar) ([deploy](https://pipedream.com/sources/new?app=google-calendar))
 * [Google Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-drive) ([deploy](https://pipedream.com/sources/new?app=google-drive))
 * [RSS](https://github.com/PipedreamHQ/pipedream/tree/master/components/rss) ([deploy](https://pipedream.com/sources/new?app=rss))
@@ -116,7 +71,6 @@ You can copy [this example workflow](https://pipedream.com/@tod/use-http-request
 Pipedream is currently free, subject to the [limits noted below](https://docs.pipedream.com/limits/). Paid tiers for higher volumes are coming soon.
 
 If you exceed any of these limits, please [reach out](https://docs.pipedream.com/support/).
-
 
 ## Getting Support
 
