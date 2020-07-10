@@ -15,14 +15,14 @@ Pipedream is a serverless integration and compute platform.  We provide a free, 
 
 ## Twitter API Event Sources
 
- - [Search Twitter](https://pipedream.com/sources/new?app=Twitter) - Triggers when a new tweet matches your search ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/search-twitter.js))
- - [My Tweets](https://pipedream.com/sources/new?app=Twitter) - Triggered when a you tweet a new tweet ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/my-tweets.js))
- - [My Likes](https://pipedream.com/sources/new?app=Twitter) - Triggered when like a tweet ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/my-liked-tweets.js))
- - [New Followers](https://pipedream.com/sources/new?app=Twitter) - Triggered when you get a new follower ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/new-follower-of-me.js))
- - [New Followers of User](https://pipedream.com/sources/new?app=Twitter) - Triggered when a specific user gets a new follower ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/new-follower-of-user.js))
- - [New Trends by Geo](https://pipedream.com/sources/new?app=Twitter) - Triggered when there is a new trend in a specific geo ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/new-trends-by-geo.js))
- - [New Likes by User](https://pipedream.com/sources/new?app=Twitter) - Triggered when there is a new like from a specific user ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/tweets-liked-by-user.js))
- - [New Tweets by User](https://pipedream.com/sources/new?app=Twitter) - Triggered when there is a new tweet from a specific user ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/user-tweets.js)) 
+ - [Search Twitter](https://pipedream.com/sources/new?app=twitter) - Triggers when a new tweet matches your search ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/search-twitter.js))
+ - [My Tweets](https://pipedream.com/sources/new?app=twitter) - Triggered when a you tweet a new tweet ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/my-tweets.js))
+ - [My Likes](https://pipedream.com/sources/new?app=twitter) - Triggered when like a tweet ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/my-liked-tweets.js))
+ - [New Followers](https://pipedream.com/sources/new?app=twitter) - Triggered when you get a new follower ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/new-follower-of-me.js))
+ - [New Followers of User](https://pipedream.com/sources/new?app=twitter) - Triggered when a specific user gets a new follower ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/new-follower-of-user.js))
+ - [New Trends by Geo](https://pipedream.com/sources/new?app=twitter) - Triggered when there is a new trend in a specific geo ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/new-trends-by-geo.js))
+ - [New Likes by User](https://pipedream.com/sources/new?app=twitter) - Triggered when there is a new like from a specific user ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/tweets-liked-by-user.js))
+ - [New Tweets by User](https://pipedream.com/sources/new?app=twitter) - Triggered when there is a new tweet from a specific user ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/user-tweets.js)) 
 
 Event sources can also be deployed via the [Pipedream CLI](https://docs.pipedream.com/cli/reference/):
 
