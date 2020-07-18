@@ -2,7 +2,7 @@ const _ = require("lodash");
 const googleCalendar = require("https://github.com/PipedreamHQ/pipedream/components/google-calendar/google-calendar.app.js");
 
 module.exports = {
-  name: "google-calendar-event-cancelled",
+  name: "google-calendar-event-canceled",
   version: "0.0.1",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
@@ -46,8 +46,8 @@ module.exports = {
     const events = _.get(resp.data, "items");
     if (Array.isArray(events)) {
       for (const event of events) {
-        // only emit if status is cancelled
-        if (event.status === "cancelled") {
+        // only emit if status is canceled
+        if (event.status === "canceled") {
           const { summary, id } = event;
           this.$emit(event, {
             summary,

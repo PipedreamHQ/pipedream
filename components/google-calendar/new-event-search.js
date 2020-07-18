@@ -51,8 +51,8 @@ module.exports = {
     if (Array.isArray(events)) {
       for (const event of events) {
         const created = new Date(event.created);
-        // created in last 5 mins and not cancelled
-        if (created > past && event.status !== "cancelled") {
+        // created in last 5 mins and not canceled
+        if (created > past && event.status !== "canceled") {
           const { summary, id } = event;
           this.$emit(event, {
             summary,

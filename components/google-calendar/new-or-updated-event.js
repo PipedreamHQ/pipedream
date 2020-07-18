@@ -46,7 +46,7 @@ module.exports = {
     const events = _.get(resp.data, "items");
     if (Array.isArray(events)) {
       for (const event of events) {
-        if (event.status !== "cancelled") {
+        if (event.status !== "canceled") {
           const { summary, id } = event;
           this.$emit(event, {
             summary,

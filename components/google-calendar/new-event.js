@@ -47,7 +47,7 @@ module.exports = {
     if (Array.isArray(events)) {
       for (const event of events) {
         const created = new Date(event.created);
-        if (created > past && event.status !== "cancelled") {
+        if (created > past && event.status !== "canceled") {
           const { summary, id } = event;
           this.$emit(event, {
             summary,
