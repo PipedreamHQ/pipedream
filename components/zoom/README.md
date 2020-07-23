@@ -12,6 +12,6 @@ You can trigger a [Pipedream workflow](https://docs.pipedream.com/workflows/) â€
 
 To use a workflow, just **Copy** it and follow the instructions in the workflow's `README`. You can modify or extend these workflows in any way you'd like.
 
-- [Save Zoom Recordings to Amazon S3](https://pipedream.com/@dylburger/save-zoom-recordings-to-amazon-s3-p_PACKJG/readme)
+- [Save Zoom recordings to Amazon S3, then delete Zoom recording](https://pipedream.com/@dylburger/save-zoom-recordings-to-amazon-s3-p_PACKJG/readme)
 
 For a deeper introduction to Pipedream and event sources, see the [root `README` in this repo](/README.md), the [component API](/COMPONENT-API.md), or the [docs](http://docs.pipedream.com/apps/zoom/).
