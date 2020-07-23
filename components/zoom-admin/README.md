@@ -1,6 +1,6 @@
-## Zoom
+## Zoom Admin
 
-This directory contains [event sources](https://docs.pipedream.com/event-sources/) that operate on data from the [Zoom API](https://marketplace.zoom.us/docs/api-reference/introduction).
+This directory contains [event sources](https://docs.pipedream.com/event-sources/) that operate on data from the [Zoom API](https://marketplace.zoom.us/docs/api-reference/introduction). **These event sources work with the Zoom Admin app in Pipedream**, specifically meant for Zoom admins operating on data across their account.
 
 Event sources let you turn any API into an event stream. For example, the [`recording-completed.js`](recording-completed.js) event source polls the Zoom API for new meeting or webinar recordings tied to your user, and [emits](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#thisemit) a new event for every new recording it finds. You can access these events in real-time using a [private SSE stream](https://docs.pipedream.com/api/sse/) tied to your source, or in batch using the [REST API](https://docs.pipedream.com/api/rest/). Or you can trigger [Pipedream workflows](#pipedream-workflows) on every new event.
 
