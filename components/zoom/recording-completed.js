@@ -35,8 +35,8 @@ module.exports = {
       console.log("Not a recording.completed event. Exiting");
       return;
     }
-    const { download_token, payload } = event;
-    const { object } = payload;
+    const { payload } = event;
+    const { object, download_token } = payload;
     const { recording_files, host_id, host_email } = object;
     if (!recording_files || recording_files.length === 0) {
       console.log("No files in recording. Exiting");
