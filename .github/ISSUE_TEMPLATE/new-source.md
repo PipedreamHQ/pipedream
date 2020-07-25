@@ -1,8 +1,8 @@
 ---
-name: New Source
+name: New Source / Trigger
 about: Need to run a workflow on a specific event, like every time a new PR is opened
   on Github? Request it here!
-title: "[TRIGGER]"
+title: "[SOURCE]"
 labels: enhancement
 assignees: ''
 
