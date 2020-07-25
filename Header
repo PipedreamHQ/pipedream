@@ -1,0 +1,52 @@
+import React, {Component} from 'react';
+import Menu from './svg/bars-solid.svg.svg';
+import Close from './svg/times-solid.svg.svg';
+import CartIcon  from './svg/shopping-cart-solid.svg.svg';
+import {Link} from 'react-router-dom';
+import './Header.css';
+
+
+export class Header extends Component{
+
+    state = {
+        toggle:false
+    }
+
+    menuToggle = () =>{
+        this.setState({toggle: !this.state.toggle})
+    }
+  render(){
+      const {toggle} = this.state;
+    return(
+        <header>
+            <div className="menu" onClick={this.menuToggle}>
+               <img src={Menu} width="20"/>
+            </div>
+        <div className="logo">
+            <h1><Link to="/">Converse</Link></h1>
+        </div>
+    <nav>
+        <ul className={toggle ? "toggle" : ""}>
+            <li><Link>Home</Link></li>
+            <li><Link to="/product">Product</Link></li>
+            <li><Link>Contact</Link></li>
+            <li><Link>About</Link></li>
+            <li><Link>Login / Register</Link></li>
+            <li className="close" onClick={this.menuToggle}>
+                <img src={Close} width="20"/>
+            </li>
+        </ul>
+    <div className="nav-cart">
+        <span>0</span>
+        <Link to="/cart">
+        <img src={CartIcon} width="20"/>
+        </Link>
+    </div>
+    </nav>
+
+        </header>
+    );
+  }
+}
+
+export default Header;
