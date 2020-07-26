@@ -1,95 +1,38 @@
-const axios = require("axios");
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
-const qs = require("qs");
+const twilio = require("https://github.com/PipedreamHQ/pipedream/components/twilio/twilio.app.js");
 const twilioClient = require("twilio");
-
-const twilio = {
-  type: "app",
-  app: "twilio",
-  propDefinitions: {
-    authToken: {
-      type: "string",
-      label: "Twilio Auth Token",
-      description:
-        "The Twilio auth token, found [in your Twilio console](https://www.twilio.com/console)",
-    },
-    incomingPhoneNumber: {
-      type: "string",
-      label: "Incoming Phone Number",
-      description: "The Twilio phone number where you'll receive messages",
-      async options() {
-        return await this.listIncomingPhoneNumbers();
-      },
-    },
-    responseMessage: {
-      type: "string",
-      label: "SMS Response Message",
-      description: "The SMS message you want to send in response",
-    },
-  },
-  methods: {
-    async _makeRequest(opts) {
-      if (!opts.headers) opts.headers = {};
-      opts.auth = { username: this.$auth.Sid, password: this.$auth.Secret };
-      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
-      opts.headers["Content-Type"] = "application/x-www-form-urlencoded";
-      const { path } = opts;
-      delete opts.path;
-      opts.url = `https://api.twilio.com/2010-04-01/Accounts/${
-        this.$auth.AccountSid
-      }${path[0] === "/" ? "" : "/"}${path}`;
-      return await axios(opts);
-    },
-    async setIncomingSMSWebhookURL(phoneNumberSid, url) {
-      return await this._makeRequest({
-        path: `/IncomingPhoneNumbers/${phoneNumberSid}.json`,
-        method: "POST",
-        data: qs.stringify({
-          SmsMethod: "POST",
-          SmsUrl: url,
-        }),
-      });
-    },
-    async deleteIncomingSMSWebhookURL(phoneNumberSid) {
-      // TODO
-    },
-    async listIncomingPhoneNumbers() {
-      const numbers = [
-        {
-          label: "+14154184068", // phone number
-          value: "+14154184068", // Phone number SID
-        },
-      ];
-      return numbers;
-    },
-  },
-};
 
 module.exports = {
   name: "Incoming SMS",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     twilio,
     incomingPhoneNumber: { propDefinition: [twilio, "incomingPhoneNumber"] },
     authToken: { propDefinition: [twilio, "authToken"] },
+    responseMessage: { propDefinition: [twilio, "responseMessage"] },
     http: "$.interface.http",
-    db: "$.service.db",
-  },
-  methods: {
-    generateSecret() {
-      return "" + Math.random();
-    },
   },
   hooks: {
     async activate() {
-      const createWebhookResp = await setIncomingSMSWebhookURL(
+      console.log(
+        `Creating webhook for phone number ${this.incomingPhoneNumber} to point to this source`
+      );
+      const createWebhookResp = await this.twilio.setIncomingSMSWebhookURL(
         this.incomingPhoneNumber,
         this.http.endpoint
       );
       console.log(createWebhookResp);
     },
     async deactivate() {
-      // TODO
+      console.log(
+        `Removing webhook from phone number ${this.incomingPhoneNumber}`
+      );
+      const deleteWebhookResp = await this.twilio.setIncomingSMSWebhookURL(
+        this.incomingPhoneNumber,
+        "" // remove the webhook URL
+      );
+      console.log(deleteWebhookResp);
     },
   },
   async run(event) {
@@ -98,34 +41,34 @@ module.exports = {
 
     twiml.message(this.responseMessage);
 
+    // Respond to the user with the message provided in the source's configuration
     this.http.respond({
       status: 200,
       headers: { "Content-Type": "text/xml" },
       body: twiml.toString(),
     });
 
-    // TODO: validate incoming request
     const twilioSignature = headers["x-twilio-signature"];
     if (!twilioSignature) {
       console.log("No x-twilio-signature header in request. Exiting.");
       return;
     }
 
-    // See https://www.twilio.com/docs/usage/security?code-sample=code-validate-signature-of-request-1&code-language=Node.js&code-sdk-version=3.x
-    /* if (
+    // See https://www.twilio.com/docs/usage/webhooks/webhooks-security
+    if (
       !twilioClient.validateRequest(
         this.authToken,
         twilioSignature,
-        this.http.endpoint,
+        `${this.http.endpoint}/`, // This must match the incoming URL exactly, which contains a /
         body
       )
     ) {
       throw new Error("signature mismatch");
-    } */
+    }
 
     this.$emit(body, {
-      summary: JSON.stringify(body),
-      id: headers["i-twilio-idempotency-token"],
+      summary: body.Body, // the content of the text message
+      id: headers["i-twilio-idempotency-token"], // if Twilio retries a message, but we've already emitted, dedupe
     });
   },
 };

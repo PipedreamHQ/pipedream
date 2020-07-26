@@ -2,6 +2,12 @@ module.exports = {
   type: "app",
   app: "twilio",
   propDefinitions: {
+    authToken: {
+      type: "string",
+      label: "Twilio Auth Token",
+      description:
+        "The Twilio auth token, found [in your Twilio console](https://www.twilio.com/console)",
+    },
     incomingPhoneNumber: {
       type: "string",
       label: "Incoming Phone Number",
@@ -10,21 +16,31 @@ module.exports = {
         return await this.listIncomingPhoneNumbers();
       },
     },
+    responseMessage: {
+      type: "string",
+      label: "SMS Response Message",
+      description: "The SMS message you want to send in response",
+    },
   },
   methods: {
     getClient() {
-      // return twilio
+      return twilioClient(this.$auth.Sid, this.$auth.Secret, {
+        accountSid: this.$auth.AccountSid,
+      });
+    },
+    async setIncomingSMSWebhookURL(phoneNumberSid, url) {
+      const client = this.getClient();
+      return await client.incomingPhoneNumbers(phoneNumberSid).update({
+        smsMethod: "POST",
+        smsUrl: url,
+      });
     },
     async listIncomingPhoneNumbers() {
       const client = this.getClient();
-
-      const numbers = [
-        {
-          label: "+14154184068",
-          value: "+14154184068",
-        },
-      ];
-      return numbers;
+      const numbers = await client.incomingPhoneNumbers.list();
+      return numbers.map((number) => {
+        return { label: number.friendlyName, value: number.sid };
+      });
     },
   },
 };
