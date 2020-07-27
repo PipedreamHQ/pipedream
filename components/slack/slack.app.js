@@ -7,45 +7,35 @@ module.exports = {
     sdk() {
       return new WebClient(this.$auth.oauth_access_token)
     },
-    async getScopes() {
-      try {
-        const info = await this.sdk().auth.test()
-        if (info.ok) {
-          return info.response_metadata.scopes
-        }
-      } catch(err) {
-        console.log("Error getting scopes", err)
+    async scopes() {
+      const resp = await this.sdk().auth.test()
+      if (resp.ok) {
+        return resp.response_metadata.scopes
+      } else {
+        console.log("Error getting scopes", resp.error)
       }
     },
-    async getChannels(cursor) {
-      try {
-        const types = ["public_channel"]
-        const scopes = await this.getScopes()
-        if (scopes.includes("groups:read")) {
-          types.push("private_channel")
-        }
-        if (scopes.includes("mpim:read")) {
-          types.push("mpim")
-        }
-        if (scopes.includes("im:read")) {
-          types.push("im")
-        }
-        const params = {
-          cursor,
-          exclude_archived: true,
-          limit: 10,
-          types: types.join(),
-          user: this.$auth.oauth_uid,
-        }
-        const response = await this.sdk().users.conversations(params)
-        return {
-          options: response.channels.map((c) => {
-            return { label: c.name, value: c.id }
-          }),
-          context: { cursor: response.response_metadata.next_cursor },
-        }
-      } catch(err) {
-        console.log("Error getting channels", err)
+    async availableConversations(types, cursor) {
+      const params = {
+        types,
+        cursor,
+        limit: 10,
+        exclude_archived: true,
+        user: this.$auth.oauth_uid,
+      }
+      const resp = await this.sdk().users.conversations(params)
+      if (resp.ok) {
+        return { cursor: resp.response_metadata.next_cursor, conversations: resp.channels }
+      } else {
+        console.log("Error getting conversations", resp.error)
+      }
+    },
+    async users(cursor) {
+      const resp = await this.sdk().users.list({ cursor })
+      if (resp.ok) {
+        return { users: resp.members, cursor: resp.response_metadata.next_cursor }
+      } else {
+        console.log("Error getting users", resp.error)
       }
     },
   },

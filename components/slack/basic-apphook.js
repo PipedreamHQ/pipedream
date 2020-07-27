@@ -1,25 +1,55 @@
 const slack = require('https://github.com/PipedreamHQ/pipedream/components/slack/slack.app.js')
 
 module.exports = {
-  name: "Slack - New Message In Channel",
+  name: "Slack - New Message In Conversation(s)",
   dedupe: "unique",
   props: {
     slack,
-    channels: {
+    conversations: {
       type: "string[]",
-      label: "Channels",
-      description: "Channels you'd like to receive notifications for.",
+      label: "Conversations",
+      description: "Conversations you'd like to receive notifications for.",
       optional: true,
-      async options({ page, prevContext }) {
-        const { cursor } = prevContext
-        return await this.slack.getChannels(cursor)
+      async options({ prevContext }) {
+        let { types, cursor, userNames } = prevContext
+        if (types == null) {
+          scopes = await this.slack.scopes()
+          types = ["public_channel"]
+          if (scopes.includes("groups:read")) {
+            types.push("private_channel")
+          }
+          if (scopes.includes("mpim:read")) {
+            types.push("mpim")
+          }
+          if (scopes.includes("im:read")) {
+            types.push("im")
+            // TODO use paging
+            userNames = {}
+            for (const user of await this.slack.users()) {
+              userNames[user.id] = user.name
+            }
+          }
+        }
+        const resp = await this.slack.availableConversations(types.join(), cursor)
+        return {
+          options: resp.conversations.map((c) => {
+            if (c.is_im) {
+              return { label: `Direct messaging with: @${userNames[c.user]}`, value: c.id }
+            } else if (c.is_mpim) {
+              return { label: c.purpose.value, value: c.id }
+            } else {
+              return { label: `${c.is_private ? "Private" : "Public"} channel: ${c.name}`, value: c.id }
+            }
+          }),
+          context: { types, cursor: resp.cursor, userNames },
+        }
       },
     },
     slackApphook: {
       type: "$.interface.apphook",
       appProp: "slack",
       async eventNames() {
-        return this.channels || []
+        return this.conversations || []
       },
     },
     resolveNames: {
