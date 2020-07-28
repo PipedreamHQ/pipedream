@@ -16,6 +16,7 @@ module.exports = {
         return resp.response_metadata.scopes
       } else {
         console.log("Error getting scopes", resp.error)
+        throw(resp.error)
       }
     },
     async availableConversations(types, cursor) {
@@ -31,6 +32,7 @@ module.exports = {
         return { cursor: resp.response_metadata.next_cursor, conversations: resp.channels }
       } else {
         console.log("Error getting conversations", resp.error)
+        throw(resp.error)
       }
     },
     async users(cursor) {
@@ -39,6 +41,7 @@ module.exports = {
         return { users: resp.members, cursor: resp.response_metadata.next_cursor }
       } else {
         console.log("Error getting users", resp.error)
+        throw(resp.error)
       }
     },
   },
