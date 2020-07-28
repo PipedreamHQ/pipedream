@@ -52,6 +52,12 @@ module.exports = {
         return this.conversations || []
       },
     },
+    ignoreMyself: {
+      type: "boolean",
+      label: "Ignore myself",
+      description: "Ignore messages from me",
+      default: true,
+    },
     resolveNames: {
       type: "boolean",
       label: "Resolve names",
@@ -66,6 +72,9 @@ module.exports = {
       // events, we are ignoring them for now. If you want to handle these types of
       // events, feel free to change this code!!
       console.log("Ignoring message with subtype.")
+      return
+    }
+    if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
       return
     }
     if (this.resolveNames) {

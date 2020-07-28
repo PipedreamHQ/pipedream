@@ -4,6 +4,9 @@ module.exports = {
   type: "app",
   app: "slack",
   methods: {
+    mySlackId() {
+      return this.$auth.oauth_uid
+    },
     sdk() {
       return new WebClient(this.$auth.oauth_access_token)
     },
