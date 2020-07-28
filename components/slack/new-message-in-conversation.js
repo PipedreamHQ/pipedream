@@ -13,7 +13,7 @@ module.exports = {
       async options({ prevContext }) {
         let { types, cursor, userNames } = prevContext
         if (types == null) {
-          scopes = await this.slack.scopes()
+          const scopes = await this.slack.scopes()
           types = ["public_channel"]
           if (scopes.includes("groups:read")) {
             types.push("private_channel")
