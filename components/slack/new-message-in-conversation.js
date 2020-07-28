@@ -25,7 +25,7 @@ module.exports = {
             types.push("im")
             // TODO use paging
             userNames = {}
-            for (const user of await this.slack.users()) {
+            for (const user of (await this.slack.users()).users) {
               userNames[user.id] = user.name
             }
           }
