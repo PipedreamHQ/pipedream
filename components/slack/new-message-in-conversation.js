@@ -68,7 +68,7 @@ module.exports = {
     nameCache: "$.service.db",
   },
   methods: {
-    async getName(type, key, id, format, timeout = 360000) {
+    async getName(type, key, id, format, timeout = 3600000) {
       const cacheKey = `${type}:${id}`
       let record = this.nameCache.get(cacheKey)
       const time = Date.now()
