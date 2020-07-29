@@ -1,5 +1,55 @@
 const slack = require('https://github.com/PipedreamHQ/pipedream/components/slack/slack.app.js')
 
+async function getUserName(nameCache, sdk, id) {
+  const { users } = nameCache
+  if (users[id] == null) {
+    console.log("GETTING USERNAME", id)
+    const info = await sdk.users.info({ user: id })
+    if (info.ok) {
+      users[id] = info.user.name
+    } else {
+      throw (info.error)
+    }
+  }
+  return (users[id])
+}
+
+async function getConversationName(nameCache, sdk, id, username) {
+  const { users, conversations } = nameCache
+  if (conversations[id] == null) {
+    const info = await sdk.conversations.info({ channel: id })
+    if (info.ok) {
+      if (info.channel.is_im) {
+        console.log("DM", info.channel)
+        conversations[id] = `DM with ${await getUserName(nameCache, sdk, info.channel.user)}`
+      } else {
+        conversations[id] = info.channel.name
+      }
+    } else {
+      throw (info.error)
+    }
+  }
+  return (conversations[id])
+}
+
+async function getTeamName(nameCache, sdk, id) {
+  const { teams } = nameCache
+  if (teams[id] == null) {
+    try {
+      const info = await sdk.team.info({ team: id })
+      if (info.ok) {
+        teams[id] = info.team.name
+      } else {
+        throw (info.error)
+      }
+    } catch {
+      console.log("Error getting team name, probably need to re-connect the account at pipedream.com/apps")
+      teams[id] = id
+    }
+  }
+  return (teams[id])
+}
+
 module.exports = {
   name: "Slack - New Message In Conversation(s)",
   dedupe: "unique",
@@ -63,7 +113,8 @@ module.exports = {
       label: "Resolve names",
       description: "Resolve user and channel names (incurs extra API calls)",
       default: false,
-    }
+    },
+    nameCache: "$.service.db",
   },
   async run(event) {
     if (event.subtype != null) {
@@ -78,32 +129,24 @@ module.exports = {
       return
     }
     if (this.resolveNames) {
-      let info = await this.slack.sdk().users.info({ user: event.user })
-      if (info.ok) {
-        event.user_id = event.user
-        event.user = info.user.real_name
-      } else {
-        event.user_lookup_error = info.error
+      // invalidate old cache entries after an hour
+      const cacheTime = this.nameCache.get("cache_time")
+      if (cacheTime == null || Date.now() - cacheTime > 3600000) {
+        this.nameCache.set("slack_entity_names", { users: {}, conversations: {}, teams: {} })
+        this.nameCache.set("cache_time", Date.now())
       }
-      info = await this.slack.sdk().conversations.info({ channel: event.channel })
-      if (info.ok) {
-        event.channel_id = event.channel
-        event.channel = info.channel.name
-      } else {
-        event.channel_lookup_error = info.error
-      }
-      try {
-        info = await this.slack.sdk().team.info({ team: event.team })
-        if (info.ok) {
-          event.team_id = event.team
-          event.team = info.team.name
-        } else {
-          event.team_lookup_error = info.error
-        }
-      } catch (err) {
-        console.log("Error getting team name, probably need to re-connect the account at pipedream.com/apps")
-      }
+      const nameCache = this.nameCache.get("slack_entity_names")
+
+      event.user_id = event.user
+      event.user = await getUserName(nameCache, this.slack.sdk(), event.user)
+      event.channel_id = event.channel
+      event.channel = await getConversationName(nameCache, this.slack.sdk(), event.channel)
+      event.team_id = event.team
+      event.team = await getTeamName(nameCache, this.slack.sdk(), event.team)
+
+      this.nameCache.set("slack_entity_names", nameCache)
     }
+
     this.$emit(event, { id: event.client_msg_id })
   },
 }
