@@ -7,17 +7,14 @@ module.exports = {
   props: { 
     db: "$.service.db",
     twitter,
-    from: { propDefinition: [twitter, "from"] }, 
-    q: { propDefinition: [twitter, "keyword_filter"] },
-    result_type: { propDefinition: [twitter, "result_type"] },
+    screen_name: { 
+      propDefinition: [twitter, "from"],
+      label: 'Username', 
+    }, 
     includeRetweets: { propDefinition: [twitter, "includeRetweets"] },
     includeReplies: { propDefinition: [twitter, "includeReplies"] },
-    lang: { propDefinition: [twitter, "lang"] },
-    locale: { propDefinition: [twitter, "locale"] },
-    geocode: { propDefinition: [twitter, "geocode"] },
     enrichTweets: { propDefinition: [twitter, "enrichTweets"] },
     count: { propDefinition: [twitter, "count"] },
-    maxRequests: { propDefinition: [twitter, "maxRequests"] },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -27,37 +24,29 @@ module.exports = {
   }, 
   methods: {},
   async run(event) {
-    const from = `from:${this.from.replace('@','')}`
+    const screen_name = this.screen_name //.replace('@','')
     const since_id = this.db.get("since_id")
-    const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
-    let q = from, max_id, limitFirstPage
-    
-    // join "from" filter and search keywords
-    if (this.q) {
-      q += ` ${this.q}`
-    }
-    
-    if (!since_id) {
-      limitFirstPage = true
-    } else {
-      limitFirstPage = false
-    }
+    const { enrichTweets, includeReplies, includeRetweets, count } = this
+    let max_id
 
-    // run paginated search
-    const tweets = await this.twitter.paginatedSearch({ 
-      q, 
-      since_id, 
-      lang, 
-      locale, 
-      geocode, 
-      result_type, 
+    if(!includeReplies) {
+      exclude_replies = true
+    } else {
+      exclude_replies = false
+    }
+    include_rts = includeRetweets
+
+    console.log(screen_name)
+    const tweets = await this.twitter.getUserTimeline({
+      screen_name,
       enrichTweets, 
-      includeReplies, 
-      includeRetweets, 
-      maxRequests,
+      exclude_replies,
+      include_rts, 
       count,
-      limitFirstPage,
-    })
+      since_id,
+    }) 
+
+    console.log(tweets)
 
     // emit array of tweet objects
     if(tweets.length > 0) {

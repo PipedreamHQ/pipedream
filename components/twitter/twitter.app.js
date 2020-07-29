@@ -973,6 +973,27 @@ module.exports = {
         }
       })).data
     },
+    async getUserTimeline(opts = {}) {   
+      const {
+        screen_name,
+        count = 100,
+        exclude_replies,
+        include_rts,
+        since_id,
+      } = opts
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/statuses/user_timeline.json`,
+        method: 'get',
+        params: {
+          screen_name,
+          count,
+          exclude_replies,
+          include_rts,
+          since_id,
+          tweet_mode: 'extended',
+        }
+      })).data
+    },
     async searchHelper(opts = {}) {
       const tweets = []
 
