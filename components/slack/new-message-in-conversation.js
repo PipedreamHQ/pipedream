@@ -74,6 +74,7 @@ module.exports = {
       if (!record || time - record.ts > timeoutMs) {
         record = { ts: time, val: await refreshVal() }
         this.nameCache.set(key, record)
+      }
       return record.val
     },
     async getUserName(id) {
