@@ -981,17 +981,23 @@ module.exports = {
         include_rts,
         since_id,
       } = opts
+
+      const params = {
+        screen_name,
+        count,
+        exclude_replies,
+        include_rts,
+        tweet_mode: 'extended',
+      }
+
+      if(since_id) {
+        params.since_id = since_id
+      }
+
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/statuses/user_timeline.json`,
         method: 'get',
-        params: {
-          screen_name,
-          count,
-          exclude_replies,
-          include_rts,
-          since_id,
-          tweet_mode: 'extended',
-        }
+        params,
       })).data
     },
     async searchHelper(opts = {}) {
