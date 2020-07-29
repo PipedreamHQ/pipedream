@@ -3,15 +3,14 @@ const slack = require('https://github.com/PipedreamHQ/pipedream/components/slack
 async function getUserName(nameCache, sdk, id) {
   const { users } = nameCache
   if (users[id] == null) {
-    console.log("GETTING USERNAME", id)
     const info = await sdk.users.info({ user: id })
     if (info.ok) {
       users[id] = info.user.name
     } else {
-      throw (info.error)
+      throw info.error
     }
   }
-  return (users[id])
+  return users[id]
 }
 
 async function getConversationName(nameCache, sdk, id, username) {
@@ -20,16 +19,15 @@ async function getConversationName(nameCache, sdk, id, username) {
     const info = await sdk.conversations.info({ channel: id })
     if (info.ok) {
       if (info.channel.is_im) {
-        console.log("DM", info.channel)
         conversations[id] = `DM with ${await getUserName(nameCache, sdk, info.channel.user)}`
       } else {
         conversations[id] = info.channel.name
       }
     } else {
-      throw (info.error)
+      throw info.error
     }
   }
-  return (conversations[id])
+  return conversations[id]
 }
 
 async function getTeamName(nameCache, sdk, id) {
@@ -40,14 +38,14 @@ async function getTeamName(nameCache, sdk, id) {
       if (info.ok) {
         teams[id] = info.team.name
       } else {
-        throw (info.error)
+        throw info.error
       }
-    } catch {
-      console.log("Error getting team name, probably need to re-connect the account at pipedream.com/apps")
+    } catch(err) {
+      console.log("Error getting team name, probably need to re-connect the account at pipedream.com/apps", err)
       teams[id] = id
     }
   }
-  return (teams[id])
+  return teams[id]
 }
 
 module.exports = {
