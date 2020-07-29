@@ -68,35 +68,25 @@ module.exports = {
     nameCache: "$.service.db",
   },
   methods: {
-    async getName(type, key, id, format, timeout = 3600000) {
-      const cacheKey = `${type}:${id}`
-      let record = this.nameCache.get(cacheKey)
+    async maybeCached(key, refreshVal, timeoutMs = 3600000) {
+      let record = this.nameCache.get(key)
       const time = Date.now()
-      if (record == null || time - record.ts > timeout) {
-        try {
-          const info = await this.slack.sdk()[type].info({ [key]: id })
-          if (!info.ok) {
-            throw info.error
-          }
-          record = { ts: time, val: await format(info) }
-        } catch (err) {
-          if (type == "team") {
-            record = { ts: time, val: id }
-          } else {
-            throw err
-          }
-        }
-        this.nameCache.set(cacheKey, record)
-      }
+      if (!record || time - record.ts > timeoutMs) {
+        record = { ts: time, val: await refreshVal() }
+        this.nameCache.set(key, record)
       return record.val
     },
     async getUserName(id) {
-      return this.getName('users', 'user', id, async (info) => {
+      return this.maybeCached(`users:${id}`, async () => {
+        const info = await this.slack.sdk().users.info({ user: id })
+        if (!info.ok) throw new Error(info.error)
         return info.user.name
       })
     },
     async getConversationName(id) {
-      return this.getName('conversations', 'channel', id, async (info) => {
+      return this.maybeCached(`conversations:${id}`, async () => {
+        const info = await this.slack.sdk().conversations.info({ channel: id })
+        if (!info.ok) throw new Error(info.error)
         if (info.channel.is_im) {
           return `DM with ${await this.getUserName(info.channel.user)}`
         } else {
@@ -105,8 +95,14 @@ module.exports = {
       })
     },
     async getTeamName(id) {
-      return this.getName('team', 'team', id, async (info) => {
-        return info.team.name
+      return this.maybeCached(`team:${id}`, async (info) => {
+        try {
+          const info = await this.slack.sdk().team.info({ team: id })
+          return info.team.name
+        } catch (err) {
+          console.log("Error getting team name, probably need to re-connect the account at pipedream.com/apps", err)
+          return id
+        }
       })
     },
   },
