@@ -1,7 +1,8 @@
 const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twitter/twitter.app.js')
 
 module.exports = { 
-  name: "new-follower-of-user", 
+  name: "New Follower of User",
+  description: "Emit an event when a specific user gains a follower",  
   version: "0.0.1",
   props: {
     db: "$.service.db",

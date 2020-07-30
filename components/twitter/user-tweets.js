@@ -3,7 +3,7 @@ const moment = require('moment')
 
 module.exports = {
   name: "User Tweets",
-  description: "Emit new Tweets posted by a user.", 
+  description: "Emit new Tweets posted by a user", 
   version: "0.0.1",
   props: { 
     db: "$.service.db",
