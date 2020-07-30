@@ -1,7 +1,8 @@
 const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twitter/twitter.app.js')
 
 module.exports = { 
-  name: "tweets-liked-by-user", 
+  name: "Tweet Liked by User",
+  description: "Emit new Tweets liked by a specific user on Twitter", 
   version: "0.0.1",
   props: {
     twitter,

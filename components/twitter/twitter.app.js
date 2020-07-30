@@ -45,7 +45,7 @@ module.exports = {
       label: "Max API Requests per Execution (advanced)",
       description: "The maximum number of API requests to make per execution (e.g., multiple requests are required to retrieve paginated results). **Note:** Twitter [rate limits API requests](https://developer.twitter.com/en/docs/basics/rate-limiting) per 15 minute interval.",
       optional: true,
-      default: 5,
+      default: 1,
     },
     from: {
       type: "string",
@@ -848,7 +848,7 @@ module.exports = {
     screen_name: {
       type: "string",
       label: "Screen Name",
-      description: "The screen name of the user for whom to return results (e.g., `pipedream`)."
+      description: "The screen name of the user (e.g., `pipedream`)"
     },
     trendLocation: {
       type: "string",
@@ -971,6 +971,33 @@ module.exports = {
         params: {
           id,
         }
+      })).data
+    },
+    async getUserTimeline(opts = {}) {   
+      const {
+        screen_name,
+        count = 100,
+        exclude_replies,
+        include_rts,
+        since_id,
+      } = opts
+
+      const params = {
+        screen_name,
+        count,
+        exclude_replies,
+        include_rts,
+        tweet_mode: 'extended',
+      }
+
+      if(since_id) {
+        params.since_id = since_id
+      }
+
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/statuses/user_timeline.json`,
+        method: 'get',
+        params,
       })).data
     },
     async searchHelper(opts = {}) {

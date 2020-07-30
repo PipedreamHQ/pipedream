@@ -1,23 +1,18 @@
 const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twitter/twitter.app.js')
 const moment = require('moment')
- 
+
 module.exports = {
-  name: "user-tweets", 
+  name: "User Tweets",
+  description: "Emit new Tweets posted by a user", 
   version: "0.0.1",
   props: { 
     db: "$.service.db",
     twitter,
-    from: { propDefinition: [twitter, "from"] }, 
-    q: { propDefinition: [twitter, "keyword_filter"] },
-    result_type: { propDefinition: [twitter, "result_type"] },
-    includeRetweets: { propDefinition: [twitter, "includeRetweets"] },
+    screen_name: { propDefinition: [twitter, "screen_name"] }, 
+    include_rts: { propDefinition: [twitter, "includeRetweets"] },
     includeReplies: { propDefinition: [twitter, "includeReplies"] },
-    lang: { propDefinition: [twitter, "lang"] },
-    locale: { propDefinition: [twitter, "locale"] },
-    geocode: { propDefinition: [twitter, "geocode"] },
     enrichTweets: { propDefinition: [twitter, "enrichTweets"] },
     count: { propDefinition: [twitter, "count"] },
-    maxRequests: { propDefinition: [twitter, "maxRequests"] },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -27,37 +22,25 @@ module.exports = {
   }, 
   methods: {},
   async run(event) {
-    const from = `from:${this.from.replace('@','')}`
+    const screen_name = this.screen_name //.replace('@','')
     const since_id = this.db.get("since_id")
-    const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
-    let q = from, max_id, limitFirstPage
-    
-    // join "from" filter and search keywords
-    if (this.q) {
-      q += ` ${this.q}`
-    }
-    
-    if (!since_id) {
-      limitFirstPage = true
+    const { enrichTweets, includeReplies, include_rts, count } = this
+    let max_id
+
+    if(!includeReplies) {
+      exclude_replies = true
     } else {
-      limitFirstPage = false
+      exclude_replies = false
     }
 
-    // run paginated search
-    const tweets = await this.twitter.paginatedSearch({ 
-      q, 
-      since_id, 
-      lang, 
-      locale, 
-      geocode, 
-      result_type, 
+    const tweets = await this.twitter.getUserTimeline({
+      screen_name,
       enrichTweets, 
-      includeReplies, 
-      includeRetweets, 
-      maxRequests,
+      exclude_replies: !includeReplies,
+      include_rts, 
       count,
-      limitFirstPage,
-    })
+      since_id,
+    }) 
 
     // emit array of tweet objects
     if(tweets.length > 0) {

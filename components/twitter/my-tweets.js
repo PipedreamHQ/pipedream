@@ -2,7 +2,8 @@ const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twi
 const moment = require('moment')
  
 module.exports = { 
-  name: "my-tweets", 
+  name: "My Tweets",
+  description: "Emit new Tweets you post to Twitter", 
   version: "0.0.1",
   props: {
     db: "$.service.db",
