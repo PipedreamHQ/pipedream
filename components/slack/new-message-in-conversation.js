@@ -140,7 +140,7 @@ module.exports = {
       }
     }
     if (!event.client_msg_id) {
-      event.client_msg_id = `${Date.now()}-${Math.random().toString(36).substr(2, 10)}`
+      event.client_msg_id = `pd_${Math.random().toString(36).substr(2, 10)}_${Date.now()}`
     }
 
     this.$emit(event, { id: event.client_msg_id })
