@@ -140,7 +140,7 @@ module.exports = {
       }
     }
     if (!event.client_msg_id) {
-      event.pipedream_msg_id = `${Date.now()}-${Math.random().toString(36).substr(2, 10)}`
+      event.pipedream_msg_id = `pd_${Date.now()}_${Math.random().toString(36).substr(2, 10)}`
     }
 
     this.$emit(event, { id: event.client_msg_id || event.pipedream_msg_id })
