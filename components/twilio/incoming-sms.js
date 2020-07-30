@@ -1,6 +1,52 @@
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
-const twilio = require("https://github.com/PipedreamHQ/pipedream/components/twilio/twilio.app.js");
 const twilioClient = require("twilio");
+
+const twilio = {
+  type: "app",
+  app: "twilio",
+  propDefinitions: {
+    authToken: {
+      type: "string",
+      label: "Twilio Auth Token",
+      description:
+        "The Twilio auth token, found [in your Twilio console](https://www.twilio.com/console)",
+    },
+    incomingPhoneNumber: {
+      type: "string",
+      label: "Incoming Phone Number",
+      description: "The Twilio phone number where you'll receive messages",
+      async options() {
+        return await this.listIncomingPhoneNumbers();
+      },
+    },
+    responseMessage: {
+      type: "string",
+      label: "SMS Response Message",
+      description: "The SMS message you want to send in response",
+    },
+  },
+  methods: {
+    getClient() {
+      return twilioClient(this.$auth.Sid, this.$auth.Secret, {
+        accountSid: this.$auth.AccountSid,
+      });
+    },
+    async setIncomingSMSWebhookURL(phoneNumberSid, url) {
+      const client = this.getClient();
+      return await client.incomingPhoneNumbers(phoneNumberSid).update({
+        smsMethod: "POST",
+        smsUrl: url,
+      });
+    },
+    async listIncomingPhoneNumbers() {
+      const client = this.getClient();
+      const numbers = await client.incomingPhoneNumbers.list();
+      return numbers.map((number) => {
+        return { label: number.friendlyName, value: number.sid };
+      });
+    },
+  },
+};
 
 module.exports = {
   name: "Incoming SMS",
