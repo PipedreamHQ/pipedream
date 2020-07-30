@@ -1,6 +1,5 @@
 const slack = require('https://github.com/PipedreamHQ/pipedream/components/slack/slack.app.js')
 
-
 module.exports = {
   name: "Slack - New Message In Conversation(s)",
   dedupe: "unique",
@@ -77,6 +76,13 @@ module.exports = {
       }
       return record.val
     },
+    async getBotName(id) {
+      return this.maybeCached(`bots:${id}`, async () => {
+        const info = await this.slack.sdk().bots.info({ bot: id })
+        if (!info.ok) throw new Error(info.error)
+        return info.bot.name
+      })
+    },
     async getUserName(id) {
       return this.maybeCached(`users:${id}`, async () => {
         const info = await this.slack.sdk().users.info({ user: id })
@@ -108,7 +114,7 @@ module.exports = {
     },
   },
   async run(event) {
-    if (event.subtype != null) {
+    if (event.subtype != null && event.subtype != "bot_message") {
       // This source is designed to just emit an event for each new message received.
       // Due to inconsistencies with the shape of message_changed and message_deleted
       // events, we are ignoring them for now. If you want to handle these types of
@@ -120,12 +126,21 @@ module.exports = {
       return
     }
     if (this.resolveNames) {
-      event.user_id = event.user
-      event.user = await this.getUserName(event.user)
+      if (event.user) {
+        event.user_id = event.user
+        event.user = await this.getUserName(event.user)
+      } else if (event.bot_id) {
+        event.bot = await this.getBotName(event.bot_id)
+      }
       event.channel_id = event.channel
       event.channel = await this.getConversationName(event.channel)
-      event.team_id = event.team
-      event.team = await this.getTeamName(event.team)
+      if (event.team) {
+        event.team_id = event.team
+        event.team = await this.getTeamName(event.team)
+      }
+    }
+    if (!event.client_msg_id) {
+      event.client_msg_id = `${Date.now()}-${Math.random().toString(36).substr(2, 10)}`
     }
 
     this.$emit(event, { id: event.client_msg_id })
