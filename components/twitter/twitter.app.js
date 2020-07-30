@@ -45,7 +45,7 @@ module.exports = {
       label: "Max API Requests per Execution (advanced)",
       description: "The maximum number of API requests to make per execution (e.g., multiple requests are required to retrieve paginated results). **Note:** Twitter [rate limits API requests](https://developer.twitter.com/en/docs/basics/rate-limiting) per 15 minute interval.",
       optional: true,
-      default: 5,
+      default: 1,
     },
     from: {
       type: "string",
