@@ -8,10 +8,7 @@ module.exports = {
   props: { 
     db: "$.service.db",
     twitter,
-    screen_name: { 
-      propDefinition: [twitter, "from"],
-      label: 'Username', 
-    }, 
+    screen_name: { propDefinition: [twitter, "screen_name"] }, 
     include_rts: { propDefinition: [twitter, "includeRetweets"] },
     includeReplies: { propDefinition: [twitter, "includeReplies"] },
     enrichTweets: { propDefinition: [twitter, "enrichTweets"] },

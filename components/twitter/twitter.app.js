@@ -848,7 +848,7 @@ module.exports = {
     screen_name: {
       type: "string",
       label: "Screen Name",
-      description: "The screen name of the user for whom to return results (e.g., `pipedream`)."
+      description: "The screen name of the user (e.g., `pipedream`)"
     },
     trendLocation: {
       type: "string",
