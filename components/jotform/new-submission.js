@@ -26,6 +26,8 @@ module.exports = {
     this.http.respond({
       status: 200,
     })
+
+    event.body.data = JSON.parse(event.body.rawRequest)
     
     this.$emit(event.body, {
       summary: event.body.rawRequest || JSON.stringify(event.body),
