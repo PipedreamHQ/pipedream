@@ -27,7 +27,7 @@ module.exports = {
       status: 200,
     })
 
-    event.body.data = JSON.parse(event.body.rawRequest)
+    event.body.formData = JSON.parse(event.body.rawRequest)
     
     this.$emit(event.body, {
       summary: event.body.rawRequest || JSON.stringify(event.body),
