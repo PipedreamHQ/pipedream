@@ -1,4 +1,5 @@
 const hello = require("./hello")
+const test = require("./test.app.js")
 // Core HTTP component
 console.log(hello)
 module.exports = {
