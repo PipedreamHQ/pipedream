@@ -1,17 +1,21 @@
+const twilioClient = require("twilio");
+
 module.exports = {
   type: "app",
   app: "twilio",
   propDefinitions: {
     authToken: {
       type: "string",
+      secret: true,
       label: "Twilio Auth Token",
       description:
-        "The Twilio auth token, found [in your Twilio console](https://www.twilio.com/console)",
+        "The Twilio auth token, found [in your Twilio console](https://www.twilio.com/console). Required for validating Twilio events.",
     },
     incomingPhoneNumber: {
       type: "string",
       label: "Incoming Phone Number",
-      description: "The Twilio phone number where you'll receive messages",
+      description:
+        "The Twilio phone number where you'll receive messages. This source creates a webhook tied to this incoming phone number, **overwriting any existing webhook URL**.",
       async options() {
         return await this.listIncomingPhoneNumbers();
       },
@@ -19,7 +23,8 @@ module.exports = {
     responseMessage: {
       type: "string",
       label: "SMS Response Message",
-      description: "The SMS message you want to send in response",
+      description:
+        "The message you want to send in response to incoming messages",
     },
   },
   methods: {
