@@ -9,7 +9,7 @@ module.exports = {
       secret: true,
       label: "Twilio Auth Token",
       description:
-        "The Twilio auth token, found [in your Twilio console](https://www.twilio.com/console). Required for validating Twilio events.",
+        "Your Twilio auth token, found [in your Twilio console](https://www.twilio.com/console). Required for validating Twilio events.",
     },
     incomingPhoneNumber: {
       type: "string",
