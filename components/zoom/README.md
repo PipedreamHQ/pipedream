@@ -11,7 +11,7 @@ Pipedream is a serverless integration and compute platform.  We provide a free, 
 * Serverless - No server or cloud resources to manage
 * [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
-<a href="http://tod.ly/3fMdryW"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
+<a href="http://tod.ly/31IFFFb"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
 ## Zoom API Event Sources
 
