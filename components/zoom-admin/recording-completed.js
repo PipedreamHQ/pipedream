@@ -6,6 +6,7 @@ const zoomAdmin = {
 module.exports = {
   name: "Recording Completed",
   version: "0.0.1",
+  dedupe: "unique", // Dedupe events based on the ID of the recording file
   props: {
     zoomAdmin,
     zoomApphook: {
