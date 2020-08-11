@@ -53,7 +53,7 @@ Workflow code is [public by default](https://docs.pipedream.com/public-workflows
 
 You can copy [this example workflow](https://pipedream.com/@tod/use-http-requests-to-trigger-a-workflow-p_6lCy5y/readme) to get started, or review some [community-developed workflows](https://pipedream.com/explore) to see what others are building.
 
-Example Zoom Workflows
+**Example Zoom Workflows**
 - [Save Zoom recordings to Amazon S3, then delete Zoom recording](https://pipedream.com/@dylburger/save-zoom-recordings-to-amazon-s3-p_PACKJG/readme)
 
 For a deeper introduction to Pipedream and event sources, see the [root `README` in this repo](/README.md), the [component API](/COMPONENT-API.md), or the [docs](http://docs.pipedream.com/apps/zoom/).
