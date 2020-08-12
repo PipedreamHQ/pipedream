@@ -63,17 +63,22 @@ module.exports = {
   async run(event) {
     const { body, headers } = event;
 
-    // Emit metadata
-    const metadata = {
-      summary: body.Subject || body.Message,
-      id: headers["x-amz-sns-message-id"],
-      ts: +new Date(body.Timestamp),
-    };
-
     if (body.Type === "SubscriptionConfirmation") {
       console.log("Confirming SNS subscription");
       console.log(await axios({ url: body.SubscribeURL }));
     } else {
+      if (!body.Message) {
+        console.log("No message present, exiting");
+        return;
+      }
+
+      // Emit metadata
+      const metadata = {
+        summary: body.Subject || body.Message,
+        id: headers["x-amz-sns-message-id"],
+        ts: +new Date(body.Timestamp),
+      };
+
       try {
         this.$emit(JSON.parse(body.Message), metadata);
       } catch (err) {
