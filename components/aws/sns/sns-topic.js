@@ -56,6 +56,11 @@ module.exports = {
       const AWS = this.aws.sdk(this.region);
       const sns = new AWS.SNS();
       const TopicArn = this.db.get("topicARN");
+      const SubscriptionArn = this.db.get("subscriptionARN");
+
+      console.log(`Deleting SNS subscription ${SubscriptionArn}`);
+      console.log(await sns.unsubscribe({ SubscriptionArn }).promise());
+
       console.log(`Deleting SNS topic ${TopicArn}`);
       console.log(await sns.deleteTopic({ TopicArn }).promise());
     },
@@ -65,7 +70,13 @@ module.exports = {
 
     if (body.Type === "SubscriptionConfirmation") {
       console.log("Confirming SNS subscription");
-      console.log(await axios({ url: body.SubscribeURL }));
+      const { data } = await axios({ url: body.SubscribeURL });
+      this.db.set(
+        "subscriptionARN",
+        data.ConfirmSubscriptionResponse.ConfirmSubscriptionResult
+          .SubscriptionArn
+      );
+      console.log(data);
     } else {
       if (!body.Message) {
         console.log("No message present, exiting");
