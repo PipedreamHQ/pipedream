@@ -13,7 +13,13 @@
       />
     </a>
     <!-- repo link -->
-    <a v-if="repoLink" :href="repoLink" class="repo-link" target="_blank" rel="noopener">
+    <a
+      v-if="repoLink"
+      :href="repoLink"
+      class="repo-link"
+      target="_blank"
+      rel="noopener"
+    >
       <img
         class="navbar-icons"
         src="https://res.cloudinary.com/pipedreamin/image/upload/v1597037778/docs/GitHub-Mark-32px_vaecft.png"
@@ -117,6 +123,7 @@ export default {
   a {
     line-height: 1.4rem;
     color: inherit;
+    display: inline-block !important;
 
     &:hover, &.router-link-active {
       color: $accentColor;
@@ -144,6 +151,10 @@ export default {
     .nav-item, .repo-link {
       margin-left: 0;
     }
+  }
+
+  .nav-links {
+    margin-left: 3rem;
   }
 }
 
