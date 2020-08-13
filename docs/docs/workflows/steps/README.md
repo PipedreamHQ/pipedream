@@ -48,66 +48,7 @@ Instead of harcoding values directly in the code, these values can be parameteri
 
 Parameters promote reusability. They make it easier for others to use the workflow, since it's clear what values they need to pass to the step to get it working.
 
-In a new [Node.js code step](/workflows/steps/code/), try adding the following line of code:
-
-```js
-console.log(params.foo);
-```
-
-As soon as you do, you'll see a form appear below your code that asks you to enter a value for the field **Foo**:
-
-<div>
-<img width="600" alt="Params form for foo param" src="./images/params-foo.png">
-</div>
-
-When you reference a property of the `params` object in your code, Pipedream automatically creates an associated form field where you're asked to enter its value.
-
-You'll see this field appear no matter how the property is referenced in code. For example, you can [destructure properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring) of `params` and we'll correctly display the associated field below:
-
-<div>
-<img width="500" alt="Params form for name param" src="./images/params-name.png">
-</div>
-
-Like with [actions](/workflows/steps/actions/), you can reference properties of [the `event` object](/workflows/events/), any data [exported from steps](#step-exports), or any raw strings in these fields.
-
-You can use the **edit params schema** button near the top-right of the form to:
-
-- Change the type of a param (defaults to **string**)
-- Change its label
-- Add placeholder text and instructions
-- Validate its values, for example adding a regular expression against which values are tested
-
-<div>
-<img width="200" alt="edit params schema" src="./images/edit-params-schema.png">
-</div>
-
-### The values of step params are private by default
-
-[Workflow code is public](/public-workflows/), so it's critical you don't include secrets or other user-specific data in your code.
-
-By default, **the values of step parameters are private**, so if you use a param in your code and pass in its value using the associated form field, other viewers of your workflow won't see your user-specific value.
-
-To be clear, you **should not** do this:
-
-```javascript
-const username = "luke";
-```
-
-Instead, you **should** replace the value of variables with param references:
-
-```javascript
-const { username } = params;
-```
-
-and add the value of the parameter in its form field, instead.
-
-You can change the privacy of step parameters by clicking on the eye icon to the right of any param field. By default, they're private:
-
-<div>
-<img width="500" alt="param visibility toggle" src="./images/param-visibility.png">
-</div>
-
-But **any step parameter can be made public** if you're not passing user-specific data, need to present a default value, or want to display example values like we do in [this tutorial workflow](https://pipedream.com/@dylburger/hello-world-workflow-p_jmCL3N/edit).
+Learn more about [using and defining params](params/).
 
 ## Step Exports
 
