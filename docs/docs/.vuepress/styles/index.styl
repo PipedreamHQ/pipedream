@@ -1,0 +1,46 @@
+body
+	font-family Inter, sans-serif, Helvetica, Roboto, "Helvetica Neue", Arial, sans-serif
+
+$hoverColor = #34d28b
+$borderColor = #fff
+$bgColor = #fff
+$sidebarColor = #000
+$headerColor = #343c56
+$textColor = rgba(0,0,0,.84)
+
+html,
+body,
+.navbar,
+.sidebar,
+.navbar .links,
+.theme-container .navbar,
+.theme-container .sidebar
+	background-color $bgColor
+
+body .content .default
+	color $textColor
+
+.nav-item
+	color: $headerColor
+
+	@media (max-width: 719px)
+		color $headerColor
+
+.nav-item a:hover
+	color: $hoverColor
+
+	@media (max-width: 719px)
+		color $hoverColor
+
+.theme-container .navbar img
+	height 22px
+	width 144px
+	padding-top: 0.5em
+
+div .sidebar-button svg
+	color: $sidebarColor
+
+.navbar .site-name
+	color $sidebarColor
+	margin-left: -25px
+	margin-top: 1px
