@@ -1,3 +1,5 @@
+const test = require("./test.app.js")
+
 // Core HTTP component
 module.exports = {
   name: "http",
@@ -34,6 +36,7 @@ module.exports = {
     },
   },
   async run(event) {
+    console.log(test)
     const summary = `${event.method} ${event.path}`
 
     this.http.respond({
