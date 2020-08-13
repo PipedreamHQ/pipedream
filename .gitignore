@@ -2,3 +2,4 @@
 *.md.toc.*
 gh-md-toc
 .DS_Store
+.vscode

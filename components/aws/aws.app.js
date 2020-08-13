@@ -9,11 +9,6 @@ module.exports = {
       AWS.config.update({ region });
       return AWS;
     },
-    async sesIdentities(region) {
-      const AWS = this.sdk(region);
-      const ses = new AWS.SES();
-      return (await ses.listIdentities().promise()).Identities;
-    },
     async logsInsightsDescibeLogGroups(region, lastToken) {
       const AWS = this.sdk(region);
       const cloudwatchlogs = new AWS.CloudWatchLogs();
@@ -22,6 +17,11 @@ module.exports = {
         .promise();
       const { logGroups, nextToken } = data;
       return { logGroups, nextToken };
+    },
+    async sesIdentities(region) {
+      const AWS = this.sdk(region);
+      const ses = new AWS.SES();
+      return (await ses.listIdentities().promise()).Identities;
     },
   },
 };
