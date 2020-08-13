@@ -14,7 +14,7 @@ module.exports = {
     searchPlaceholder: "Search...",
     logo: "/pipedream.svg",
     repo: "PipedreamHQ/pipedream",
-    docsDir: "docs",
+    docsDir: "docs/docs",
 
     // Optional options for generating "Edit this page" link
 
