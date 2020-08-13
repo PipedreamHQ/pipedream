@@ -1,3 +1,5 @@
+const test = require("./test.app.js")
+
 // Core HTTP component
 module.exports = {
   name: "http",
