@@ -2,7 +2,7 @@ const test = require("./test.app.js")
 
 // Core HTTP component
 module.exports = {
-  name: "http",
+  name: "http2",
   version: "0.0.1",
   props: {
     http: "$.interface.http",
