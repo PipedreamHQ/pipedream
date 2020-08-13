@@ -1,6 +1,6 @@
 # CLI Reference
 
-The Pipedream CLI currently allows you to work with [event sources](/event-sources/) and their associated events. If you'd like to see support for managing [workflows](/workflows/), please +1 [this issue on Github](https://github.com/PipedreamHQ/roadmap/issues/4).
+The Pipedream CLI currently allows you to work with [event sources](/event-sources/) and their associated events. If you'd like to see support for managing [workflows](/workflows/), please +1 [this issue on Github](https://github.com/PipedreamHQ/pipedream/issues/220).
 
 ::: warning PREVIEW RELEASE
 This is an early version of the CLI, and we'd love your feedback on what we can improve. Please reach out on [Slack](https://pipedream.com/community) or raise an issue on our [Github repo](https://github.com/PipedreamHQ/pipedream) with any questions or suggestions.
@@ -18,7 +18,7 @@ To install the CLI, run:
 curl https://cli.pipedream.com/install | sh
 ```
 
-Pipedream publishes a build of the CLI for macOS and Linux (for `386`, `amd64` and `arm64` architectures).
+Pipedream publishes a build of the CLI for macOS and Linux (for `386`, `amd64`, `arm`, and `arm64` architectures).
 
 The Pipedream community has also published a [Docker image](https://github.com/kaytwo/pd-cli/) you can use to run the CLI on Windows.
 
