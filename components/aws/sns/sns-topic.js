@@ -85,7 +85,7 @@ module.exports = {
         console.log(
           `Couldn't parse message as JSON. Emitting raw message. Error: ${err}`
         );
-        this.$emit({ message: body.Message }, metadata);
+        this.$emit({ rawMessage: body.Message }, metadata);
       }
     }
   },
