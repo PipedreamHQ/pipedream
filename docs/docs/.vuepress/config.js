@@ -14,12 +14,11 @@ module.exports = {
     searchPlaceholder: "Search...",
     logo: "/pipedream.svg",
     repo: "PipedreamHQ/pipedream",
-    docsDir: "docs/docs",
 
     // Optional options for generating "Edit this page" link
 
     // if your docs are not at the root of the repo:
-    docsDir: "docs",
+    docsDir: "docs/docs",
     editLinks: true,
     // custom text for edit link. Defaults to "Edit this page"
     editLinkText: "Help us improve this page! Submit an edit on Github",
