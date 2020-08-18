@@ -1,8 +1,5 @@
 const axios = require('axios')
-const youtube = {
-  type: "app",
-  app: "youtube_data_api",
-}
+const youtube = require('https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js')
 
 
 module.exports = {
@@ -20,19 +17,6 @@ module.exports = {
     },
   },
   methods: {
-    async getVideos(pageToken=null) {
-      return await axios.get('https://www.googleapis.com/youtube/v3/search', {
-        headers: {
-          'Authorization' : `Bearer ${this.youtube.$auth.oauth_access_token}`
-        },
-        params: {
-          part : 'snippet',
-          type : 'video',
-          forMine : true,
-          pageToken
-        }
-      });
-    },
   },  
 
   async run(event) {
@@ -43,7 +27,7 @@ module.exports = {
     let results;
 
     while (count < totalResults) {
-      results = await this.getVideos(nextPageToken);
+      results = await this.youtube.getVideos(nextPageToken);
       totalResults = results.data.pageInfo.totalResults;
       nextPageToken = results.data.nextPageToken;
       results.data.items.forEach(function (video) {
@@ -59,6 +43,6 @@ module.exports = {
         ts: Date.now()
       });
     } 
-    
+
   }  
 };
