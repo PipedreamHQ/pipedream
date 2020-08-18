@@ -1,6 +1,5 @@
-const axios = require('axios')
-const youtube = require('https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js')
-
+const axios = require("axios");
+const youtube = require("https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js");
 
 module.exports = {
   name: "Youtube - New Videos",
@@ -16,11 +15,10 @@ module.exports = {
       },
     },
   },
-  methods: {
-  },  
+  methods: {},
 
   async run(event) {
-  	let videos = [];
+    let videos = [];
     let totalResults = 1;
     let nextPageToken = null;
     let count = 0;
@@ -40,9 +38,8 @@ module.exports = {
       this.$emit(video, {
         id: video.id.videoId,
         summary: video.snippet.title,
-        ts: Date.now()
+        ts: Date.now(),
       });
-    } 
-
-  }  
+    }
+  },
 };
