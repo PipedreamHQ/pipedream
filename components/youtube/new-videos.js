@@ -23,24 +23,24 @@ module.exports = {
     async getVideos(pageToken=null) {
       return await axios.get('https://www.googleapis.com/youtube/v3/search', {
         headers: {
-          'Authorization' : 'Bearer '+this.youtube.$auth.oauth_access_token
+          'Authorization' : `Bearer ${this.youtube.$auth.oauth_access_token}`
         },
         params: {
-          'part' : 'snippet',
-          'type' : 'video',
-          'forMine' : true,
-          'pageToken' : pageToken
+          part : 'snippet',
+          type : 'video',
+          forMine : true,
+          pageToken
         }
       });
     },
   },  
 
   async run(event) {
-  	var videos = [];
-    var totalResults = 1;
-    var nextPageToken = null;
-    var count = 0;
-    var results;
+  	let videos = [];
+    let totalResults = 1;
+    let nextPageToken = null;
+    let count = 0;
+    let results;
 
     while (count < totalResults) {
       results = await this.getVideos(nextPageToken);
@@ -52,14 +52,13 @@ module.exports = {
       });
     }
 
-    let t = this;
-    videos.forEach(function (video) {
-      t.$emit(video, {
+    for (const video of videos) {
+      this.$emit(video, {
         id: video.id.videoId,
         summary: video.snippet.title,
         ts: Date.now()
-      })
-    });  
+      });
+    } 
+    
   }  
 };
-
