@@ -41,7 +41,7 @@ const {
   stage_name,
   pipe_name,
   account,
-  host
+  host,
 } = auths.snowflake;
 
 $send.snowflake({
@@ -53,7 +53,7 @@ $send.snowflake({
   pipe_name,
   account,
   host: `${account}.snowflakecomputing.com`,
-  payload: { test: "This is from Pipedream" }
+  payload: { test: "This is from Pipedream" },
 });
 ```
 
@@ -209,7 +209,7 @@ Pipedream is [free](/pricing/) to use for delivering data to Snowflake, but you'
 
 Snowflake allows you to [restrict account access by IP address](https://docs.snowflake.net/manuals/user-guide/network-policies.html). If you'd like to apply that filter, any Snowflake connections using `$send.snowflake()` should come from one of the following IP addresses:
 
-<<< @/docs/snippets/public-node-ips
+<<< @/docs/snippets/public-node-ips.txt
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble writing data to Snowflake, please check to ensure this list matches your firewall rules.
 

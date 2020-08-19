@@ -14,7 +14,7 @@ Since this is a preview release, the commands you see below, and the [REST API](
 
 To install the CLI, run:
 
-```text
+```
 curl https://cli.pipedream.com/install | sh
 ```
 
@@ -34,7 +34,7 @@ We've also documented each command below, with usage examples for each.
 
 Everywhere you can refer to a specific source as an argument, you can use the source's ID _or_ its name slug. For example, to retrieve details about a specific source using `pd describe`, you can use either of the following commands:
 
-```text
+```
 λ ~/ pd describe dc_abc123
 
   id: dc_abc123
@@ -53,7 +53,7 @@ Searching for sources matching http
 
 Deletes an event source. Run:
 
-```text
+```
 pd describe <source-id-or-name>
 ```
 
@@ -69,13 +69,13 @@ When you select a source, we'll deploy it and start listening for new events.
 
 You can also deploy a specific source via Github URL:
 
-```text
+```
 pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
 ```
 
 or author a component locally and deploy that local file:
 
-```text
+```
 pd deploy http.js
 ```
 
@@ -85,7 +85,7 @@ pd deploy http.js
 
 Display the details for a source: its id, name, and other configuration details:
 
-```text
+```
 pd describe <source-id-or-name>
 ```
 
@@ -93,25 +93,25 @@ pd describe <source-id-or-name>
 
 Returns historical events sent to a source, and streams emitted events directly to the CLI.
 
-```text
+```
 pd events <source-id-or-name>
 ```
 
 By default, `pd events` prints (up to) the last 10 events sent to your source.
 
-```text
+```
 pd events -n 100 <source-id-or-name>
 ```
 
 `pd events -n N` retrieves the last `N` events sent to your source. We store the last 100 events sent to a source, so you can retrieve a max of 100 events using this command.
 
-```text
+```
 pd events -f <source-id-or-name>
 ```
 
 `pd events -f` connects to the [SSE stream tied to your source](/api/sse/) and displays events as the source produces them.
 
-```text
+```
 pd events -n N -f <source-id-or-name>
 ```
 
@@ -127,21 +127,21 @@ Lists Pipedream resources you own. Running `pd list` without any arguments promp
 
 You can also list specific resource types directly:
 
-```text
+```
 pd list sources
 ```
 
-```text
+```
 pd list streams
 ```
 
 `sources` and `streams` have shorter aliases, too:
 
-```text
+```
 pd list so
 ```
 
-```text
+```
 pd list st
 ```
 
@@ -157,7 +157,7 @@ Running `pd logout` without any arguments removes the default API key from your 
 
 You can remove the API key for a specific profile by running:
 
-```text
+```
 pd logout -p <profile>
 ```
 
@@ -179,25 +179,25 @@ Updates the code, props, or metadata for an event source.
 
 If you deployed a source from Github, for example, someone might publish an update to that source, and you may want to run the updated code.
 
-```text
+```
 pd update <source-id-or-name> --code https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
 ```
 
 You can change the name of a source:
 
-```text
+```
 pd update <source-id-or-name> --name new-awesome-name
 ```
 
 You can deactivate a source if you want to stop it from running:
 
-```text
+```
 pd update <source-id-or-name> --deactivate
 ```
 
 or activate a source you previously deactivated:
 
-```text
+```
 pd update <source-id-or-name> --activate
 ```
 
@@ -209,19 +209,19 @@ Profiles allow you to work with multiple, named Pipedream accounts via the CLI.
 
 When you [login to the CLI](/cli/login/), the CLI writes the API key for that account to your config file, in the `api_key` field:
 
-```text
+```
 api_key = abc123
 ```
 
 You can set API keys for other, named profiles, too. Run
 
-```text
+```
 pd login -p <profile>
 ```
 
 `<profile>` can be any string of shell-safe characters that you'd like to use to identify this new profile. The CLI opens up a browser asking you to login to your target Pipedream account, then writes the API key to a section of the config file under this profile:
 
-```text
+```
 [your_profile]
 api_key = def456
 ```
@@ -232,7 +232,7 @@ You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pip
 
 You can set a profile on any `pd` command by setting the `-p` or `--profile` flag. For example, to list the sources in a specific account, run:
 
-```text
+```
 pd list sources --profile <profile>
 ```
 
@@ -240,7 +240,7 @@ pd list sources --profile <profile>
 
 To get the current version of the `pd` CLI, run
 
-```text
+```
 pd --version
 ```
 
