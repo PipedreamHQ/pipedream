@@ -15,6 +15,8 @@ The [**Bot integration**](#discord-bot) lets you interact with the [Discord API]
 
 You can also use both types of integrations in the same workflow. Read on to learn more.
 
+[[toc]]
+
 ## Discord Webhook
 
 The **Discord Webhook** integration is the easiest way to send messages to a channel.
@@ -48,6 +50,33 @@ select the **Send Message to Channel** action:
 then [connect your Discord account](/connected-accounts/#connecting-accounts). When authorizing Pipedream access to your Discord account, you'll be asked to create a webhook for your target Discord server and channel.
 
 If you'd like to create another webhooks in another channel, you can create another Discord Webhook connection. You can send a message to any number of Discord webhooks within a single workflow.
+
+### Example: Send an embed
+
+[Discord embeds](https://discordjs.guide/popular-topics/embeds.html) are richly-formatted messages that include images, fields, and text, arranged in a custom way. You can send embeds using the Discord Webhook **Send Message to Channel** action in Pipedream.
+
+[**Copy this example workflow to get started**](https://pipedream.com/@dylburger/discord-embed-example-p_6lCoe8/edit). This workflow formats an example embed in the `format_embed_message` step, [exporting it](/workflows/steps/#step-exports) for use in future steps.
+
+```javascript
+this.msg = [
+  {
+    title: "Hello!",
+    description: "Hi! :grinning:",
+  },
+];
+```
+
+In the next step, we use the Discord Webhook **Send Message to Channel** action. This action expects _either_ a **Message** _or_ an **Embeds** parameter, which is delivered to your target channel. In this example workflow, we've selected the **Embeds** param, turned structured mode **off** (this allows us to [enter an expression](/workflows/steps/params/#params-types) for the Embeds array), and entered the value <code v-pre>{{steps.format_embed_message.msg}}</code>, which evaluates to the array of objects we formatted in the step above:
+
+<div>
+<img alt="Discord embed parameter" src="./images/discord-embed.png" width="400">
+</div>
+
+This should send a message to Discord that looks something like:
+
+<div>
+<img alt="Discord embed message in channel" src="./images/discord-embed-message.png" width="300">
+</div>
 
 ## Discord Bot
 
