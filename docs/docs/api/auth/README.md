@@ -12,7 +12,7 @@ You'll find this API key in your [Account Settings](https://pipedream.com/settin
 
 Pipedream uses [Bearer Authentication](https://oauth.net/2/bearer-tokens/) to authorize your access to the API or SSE event streams. When you make API requests, pass an `Authorization` header of the following format:
 
-```text
+```
 Authorization: Bearer <api key>
 ```
 

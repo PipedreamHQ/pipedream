@@ -2,7 +2,7 @@
 
 To install the CLI, run:
 
-```text
+```bash
 curl https://cli.pipedream.com/install | sh
 ```
 
