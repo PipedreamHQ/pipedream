@@ -1,6 +1,6 @@
 # Auth in code steps
 
-When you use [pre-built actions](workflows/steps/actions/) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](connected-accounts/#connecting-accounts) for that app and run your workflow.
+When you use [pre-built actions](/workflows/steps/actions/) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
 
 Often, though, you'll need to write your own code. You can also connect apps to custom code steps, utilizing the auth information to authorize requests to that app.
 

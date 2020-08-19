@@ -42,7 +42,7 @@ For example, you might create a single source to listen for new Twitter mentions
 
 **This model allows you to separate the data produced by a service (the event source) from the logic to process those events in different contexts (the workflow)**.
 
-Moreover, you can access events emitted by sources using Pipedream's [SSE](api/sse/) and [REST APIs](/api/rest/). This allows you to access these events in your own app, outside Pipedream's platform.
+Moreover, you can access events emitted by sources using Pipedream's [SSE](/api/sse/) and [REST APIs](/api/rest/). This allows you to access these events in your own app, outside Pipedream's platform.
 
 ### Shape of the `event` object
 
@@ -136,7 +136,7 @@ Within the `image` property of `event.body`, you'll see the value of this URL in
 
 #### Example: Download this file to the `/tmp` directory
 
-[This workflow](https://pipedream.com/@dylburger/example-download-an-image-to-tmp-p_KwC2Ad/edit) downloads an image passed in the `image` field in the form request, saving it to the [`/tmp` directory](workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
+[This workflow](https://pipedream.com/@dylburger/example-download-an-image-to-tmp-p_KwC2Ad/edit) downloads an image passed in the `image` field in the form request, saving it to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
 const stream = require("stream");
@@ -319,7 +319,7 @@ A **Webhook** trigger is an alias for the [HTTP](#http) trigger. They are equiva
 
 Pipedream allows you to run hosted cron jobs — any code run on a schedule — for free.
 
-We call these cron jobs "[workflows](/what-is-pipedream/#what-are-workflows)". Workflows are just scripts that run on a schedule.
+We call these cron jobs "[workflows](/workflows)". Workflows are just scripts that run on a schedule.
 
 You can write a cron job to:
 

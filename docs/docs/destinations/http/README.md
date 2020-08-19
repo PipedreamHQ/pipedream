@@ -13,8 +13,8 @@ $send.http({
   method: "POST",
   url: "[YOUR URL HERE]",
   data: {
-    name: "Luke Skywalker"
-  }
+    name: "Luke Skywalker",
+  },
 });
 ```
 
@@ -27,7 +27,7 @@ $send.http({
   data, // HTTP payload
   headers, // An object containing custom headers, e.g. { "Content-Type": "application/json" }
   params, // An object containing query string parameters as key-value pairs
-  auth // An object that contains a username and password property, for HTTP basic auth
+  auth, // An object that contains a username and password property, for HTTP basic auth
 });
 ```
 
@@ -37,13 +37,13 @@ If you iterate over an array of values and send an HTTP request for each:
 
 ```javascript
 const names = ["Luke", "Han", "Leia", "Obi Wan"];
-names.forEach(name => {
+names.forEach((name) => {
   $send.http({
     method: "POST",
     url: "[YOUR URL HERE]",
     data: {
-      name
-    }
+      name,
+    },
   });
 });
 ```
@@ -82,7 +82,7 @@ Currently, Pipedream will not retry any failed request. If your HTTP destination
 
 When you make an HTTP request using `$send.http()`, the traffic will come from one of the following IP addresses:
 
-<<< @/docs/snippets/public-node-ips
+<<< @/docs/snippets/public-node-ips.txt
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble sending HTTP requests to your target service, please check to ensure this list matches your firewall rules.
 

@@ -2,7 +2,7 @@
 
 Pipedream facilitates access to the Twitter API and Twitter events in two ways:
 
-- Within [Pipedream workflows](/workflows), you can use [pre-built actions](/workflows/steps/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom Node.js code](workflows/steps/code/) that interacts with the Twitter API.
+- Within [Pipedream workflows](/workflows), you can use [pre-built actions](/workflows/steps/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom Node.js code](/workflows/steps/code/) that interacts with the Twitter API.
 - You can also _trigger_ Pipedream workflows on new tweets, new followers, and other Twitter events. This allows you to run custom code in response to these events.
 
 [[toc]]
@@ -11,7 +11,7 @@ Pipedream facilitates access to the Twitter API and Twitter events in two ways:
 
 ### Pipedream's built-in Twitter app and actions
 
-Pipedream provides a **Twitter** OAuth app for interacting with the Twitter API. To use this app, [add a new step](workflows/steps/) to your workflow, search for "Twitter", and select the Twitter app from the list. This will display a list of [pre-built actions](/workflows/steps/actions/) (for example, **Post Tweet**, **Search Twitter**) associated with Twitter:
+Pipedream provides a **Twitter** OAuth app for interacting with the Twitter API. To use this app, [add a new step](/workflows/steps/) to your workflow, search for "Twitter", and select the Twitter app from the list. This will display a list of [pre-built actions](/workflows/steps/actions/) (for example, **Post Tweet**, **Search Twitter**) associated with Twitter:
 
 <div>
 <img alt="Twitter app / actions" width="600" src="./images/twitter-app-actions.png">
@@ -53,7 +53,7 @@ Twitter displays the name of the source app that produced the tweet, and cannot 
 
 If you operate your own Twitter bot, and you want to interact with the Twitter API using that bot's credentials, you can use the **Twitter Developer App** integration.
 
-To use this app, [add a new step](workflows/steps/) to your workflow, search for "Twitter Developer App", and select that app from the list. When you select an action and press **Connect Account**, you'll be prompted to enter the API Key, API Secret, Access Token, and Access Token Secret tied to your app in the [Twitter Developer Dashboard](https://developer.twitter.com/en/docs/basics/apps/guides/the-app-management-dashboard).
+To use this app, [add a new step](/workflows/steps/) to your workflow, search for "Twitter Developer App", and select that app from the list. When you select an action and press **Connect Account**, you'll be prompted to enter the API Key, API Secret, Access Token, and Access Token Secret tied to your app in the [Twitter Developer Dashboard](https://developer.twitter.com/en/docs/basics/apps/guides/the-app-management-dashboard).
 
 Once connected, you can run any custom code that uses these credentials to interact with the Twitter API. The **Post Tweet** action associated with this app, for example, uses the [`twit` Twitter API client](https://github.com/ttezel/twit) to send tweets:
 
@@ -84,7 +84,7 @@ return await T.post("statuses/update", {
 
 ## Run code on new tweets, followers, and more
 
-Pipedream [event sources](/event-sources) emit Twitter events — tweets, follows, likes, and more — in real time. Sources can trigger [Pipedream workflows](/workflows), and can be accessed via [SSE](api/sse/) and [REST APIs](/api/rest/).
+Pipedream [event sources](/event-sources) emit Twitter events — tweets, follows, likes, and more — in real time. Sources can trigger [Pipedream workflows](/workflows), and can be accessed via [SSE](/api/sse/) and [REST APIs](/api/rest/).
 
 Create a new Twitter event source at [https://pipedream.com/sources](https://pipedream.com/sources), or by clicking on any of the links below:
 
