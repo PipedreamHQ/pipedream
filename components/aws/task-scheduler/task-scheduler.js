@@ -158,13 +158,14 @@ module.exports = {
       console.log(`Deleting SNS topic ${TopicArn}`);
       console.log(await sns.deleteTopic({ TopicArn }).promise());
 
-      // TODO: something is failing below here. Investigate
       console.log(`Deleting Role policy`);
       console.log(
-        await iam.deleteRolePolicy({
-          RoleName,
-          PolicyName: "publish-messages-to-pipedream-sns-topic",
-        })
+        await iam
+          .deleteRolePolicy({
+            RoleName,
+            PolicyName: "publish-messages-to-pipedream-sns-topic",
+          })
+          .promise()
       );
 
       console.log(`Deleting IAM role ${RoleName}`);
@@ -193,8 +194,10 @@ module.exports = {
         console.log("No timestamp included in payload. Exiting");
         this.http.respond({
           status: 400,
-          body:
-            "No timestamp included in payload. Please provide an ISO8601 timestamp",
+          body: {
+            message:
+              "No timestamp included in payload. Please provide an ISO8601 timestamp in the 'timestamp' field",
+          },
         });
         return;
       }
