@@ -79,7 +79,7 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 - Accept user input on deploy via [CLI](https://docs.pipedream.com/cli/reference/#pd-deploy), [API](https://docs.pipedream.com/api/rest/#overview), or [UI](https://pipedream.com/sources)
 - Connect to 300+ apps using Pipedream managed auth
 - Use most npm pacakges with no `npm install` or `package.json` required
-- Store and retrieve state using the [built-in key-value store](#servicedb)
+- Store and retrieve state using the [built-in key-value store](#db)
 
 ## Quickstart
 
