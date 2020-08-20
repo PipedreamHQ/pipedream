@@ -8,7 +8,7 @@ To start using the Pipedream CLI, you'll need to link it to your Pipedream accou
 
 If you already have a Pipedream account, run
 
-```text
+```
 pd login
 ```
 
@@ -18,7 +18,7 @@ Otherwise, you'll be asked to login.
 
 Once you're done, go back to your shell and you should see confirmation that your account is linked:
 
-```text
+```
 > pd login
 Logged in as dylburger (dylan@pipedream.com)
 ```
@@ -27,7 +27,7 @@ Logged in as dylburger (dylan@pipedream.com)
 
 If you haven't signed up for a Pipedream account, you can create an account using the CLI:
 
-```text
+```
 pd signup
 ```
 
@@ -35,7 +35,7 @@ This will open up a new window in your default browser. You'll be asked to sign 
 
 Once you're done, go back to your shell and you should see confirmation that your account is linked:
 
-```text
+```
 > pd signup
 Logged in as dylburger (dylan@pipedream.com)
 ```
@@ -44,7 +44,7 @@ Logged in as dylburger (dylan@pipedream.com)
 
 You can log out of the CLI by running:
 
-```text
+```
 pd logout
 ```
 

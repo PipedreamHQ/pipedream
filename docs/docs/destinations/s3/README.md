@@ -14,7 +14,7 @@ You can send data to an S3 Destination in [Node.js code steps](/workflows/steps/
 $send.s3({
   bucket: "your-bucket-here",
   prefix: "your-prefix/",
-  payload: event.body
+  payload: event.body,
 });
 ```
 
@@ -82,7 +82,7 @@ As noted above, a given object contains all payloads delivered to an S3 Destinat
 
 S3 provides a mechanism to [limit operations only from specific IP addresses](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-3). If you'd like to apply that filter, uploads using `$send.s3()` should come from one of the following IP addresses:
 
-<<< @/docs/snippets/public-node-ips
+<<< @/docs/snippets/public-node-ips.txt
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble uploading S3 objects, please check to ensure this list matches your firewall rules.
 

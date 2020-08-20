@@ -42,9 +42,9 @@ After changing a step name, you'll need to update any references to the old step
 
 ## Passing data to steps (step parameters)
 
-[Steps are just functions](workflows/steps/code/#async-function-declaration). As functions, they can accept parameters and return data. We'll review how to pass params to steps here, and show you how to return data [below](#step-exports).
+[Steps are just functions](/workflows/steps/code/#async-function-declaration). As functions, they can accept parameters and return data. We'll review how to pass params to steps here, and show you how to return data [below](#step-exports).
 
-Instead of harcoding values directly in the code, these values can be parameterized, and passed to the step as a variable.
+Instead of hardcoding values directly in the code, these values can be parameterized, and passed to the step as a variable.
 
 Parameters promote reusability. They make it easier for others to use the workflow, since it's clear what values they need to pass to the step to get it working.
 
@@ -80,7 +80,7 @@ The variable `this` is a reference to the current step. `this` is a JavaScript o
 this.exportedData = "I can use this data in another step";
 this.anotherProperty = {
   data: "I can export any JSON-serializable data",
-  foo: "bar"
+  foo: "bar",
 };
 ```
 
@@ -99,7 +99,7 @@ You can also export data from steps using `return`:
 
 ```js
 return {
-  data: "I can use this data in another step"
+  data: "I can use this data in another step",
 };
 ```
 
