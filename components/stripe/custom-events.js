@@ -1,14 +1,14 @@
 const stripe = require("https://github.com/PipedreamHQ/pipedream/components/stripe/stripe.app.js")
 
 module.exports = {
-  name: "Custom Events",
+  name: "Customizable events webhook",
   props: {
     stripe,
     enabledEvents: {
       type: "string[]",
       label: "Events to listen for (select '*' for all)",
       options() {
-        return stripe.methods.enabledEvents()
+        return this.stripe.enabledEvents()
       },
     },
     http: "$.interface.http",
@@ -48,6 +48,7 @@ module.exports = {
       console.log(err.message)
       return
     }
+    this.http.respond({status: 200})
     this.$emit(event)
   },
   methods: {
