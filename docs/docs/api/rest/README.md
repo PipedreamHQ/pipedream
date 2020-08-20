@@ -414,7 +414,7 @@ One of `component_id`, `component_code`, or `component_url` is required. If all 
 
 The name of the source.
 
-If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#name-slugs) of the component used to create the source.
+If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure) of the component used to create the source.
 
 **Example Request**
 
@@ -495,7 +495,7 @@ One of `component_id`, `component_code`, or `component_url` is required. If all 
 
 The name of the source.
 
-If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#name-slugs) of the component used to create the source.
+If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure) of the component used to create the source.
 
 ---
 
