@@ -29,7 +29,7 @@ Component can:
 - [`require` any npm package](#using-npm-packages)
 - Spin up Pipedream infrastructure, like HTTP servers and scheduled jobs, by declaring the correct [interfaces](#interfaces)
 - Store and retrieve state using the [built-in key-value store](#servicedb)
-- [Emit data](#thisemit) you process within the component, allowing you to access it outside of Pipedream via API.
+- [Emit data](#emit) you process within the component, allowing you to access it outside of Pipedream via API.
 
 ## Reference
 
@@ -49,7 +49,7 @@ Component can:
 - [props](#props)
   - [Example](#example)
 - [methods](#methods)
-- [`this.$emit`](#thisemit)
+- [`this.$emit`](#emit)
   - [How to emit events](#how-to-emit-events)
   - [Retrieving events programmatically](#retrieving-events-programmatically)
 - [`$.service.db`](#servicedb)
@@ -94,7 +94,7 @@ async run(event) {
 }
 ```
 
-You can reference [`this`](#referencing-this) within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and Pipedream-provided functions like [`this.$emit`](#thisemit).
+You can reference [`this`](#referencing-this) within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and Pipedream-provided functions like [`this.$emit`](#emit).
 
 You can view logs produced by the `run` method in the **LOGS** section of the Pipedream UI for the component, or using the `pd logs` CLI command:
 
@@ -110,7 +110,7 @@ pd events <deployed-component-name>
 
 ## Referencing `this`
 
-`this` refers to the component, and provides access to [props](#props), [methods](#methods), and Pipedream-provided functions like [`this.$emit`](#thisemit).
+`this` refers to the component, and provides access to [props](#props), [methods](#methods), and Pipedream-provided functions like [`this.$emit`](#emit).
 
 ### Referencing props
 
@@ -369,7 +369,7 @@ Each time a component is invoked, its [`run` method](#run) is called. You can vi
 pd logs <deployed-component-name>
 ```
 
-If the `run` method emits events using [`this.$emit`](#thisemit), you can access the events in the **EVENTS** section of the Pipedream UI for the component, or using the `pd events` CLI command:
+If the `run` method emits events using [`this.$emit`](#emit), you can access the events in the **EVENTS** section of the Pipedream UI for the component, or using the `pd events` CLI command:
 
 ```bash
 pd events <deployed-component-name>

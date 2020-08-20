@@ -8,7 +8,6 @@ This document was created to help developers author and use Pipedream components
   - [Getting Started with the CLI](#getting-started-with-the-cli)
   - [Contributing](#contributing)
 - [Component Lifecycle](#component-lifecycle)
-  - [Diagram](#diagram)
   - [States](#states)
     - [Saved Component](#saved-component)
     - [Deployed Component](#deployed-component)
@@ -37,7 +36,7 @@ This document was created to help developers author and use Pipedream components
       - [Delete](#delete-2)
     - [API](#api)
 - [Event Lifecycle](#event-lifecycle)
-  - [Diagram](#diagram-1)
+  - [Diagram](#diagram)
   - [Triggering Components](#triggering-components)
   - [Emitting Events](#emitting-events)
   - [Consuming Events](#consuming-events)
@@ -117,17 +116,13 @@ Deploy or contribute to curated open source components in Pipedream's Github rep
 
 # Component Lifecycle
 
-## Diagram
-
-![image-20200816223906765](./images/image-20200816223906765.png)
-
 ## States
 
-Pipedream components support `Activate()` and `Deactivate()` lifecycle hooks. The code for these hooks are defined within the component. Learn more about the [component structure](#component-structure) and [hook usage](#hooks).
+Pipedream components support `activate()` and `deactivate()` lifecycle hooks. The code for these hooks are defined within the component. Learn more about the [component structure](#component-structure) and [hook usage](#hooks).
 
 ### Saved Component
 
-A saved component is non-instantiated component code that has previously been deployed to Pipedream. Each saved component has a unique saved component ID. Saved components cannot be invoked directly — they must first be depoyed.
+A saved component is non-instantiated component code that has previously been deployed to Pipedream. Each saved component has a unique saved component ID. Saved components cannot be invoked directly — they must first be deployed.
 
 ### Deployed Component
 
@@ -169,7 +164,7 @@ The `Deactivate()` hook is automatically invoked by Pipedream when a component i
 
 #### Development Mode
 
-The easiest way to develop and iteratively test is to use the `pd dev` command tol deploy a local file, attach to a component, and automatically update the component on each local save. To deploy a new component with `pd dev`, run:
+The easiest way to develop and iteratively test is to use the `pd dev` command to deploy a local file, attach to a component, and automatically update the component on each local save. To deploy a new component with `pd dev`, run:
 
 ```bash
 pd dev <filename>
@@ -199,7 +194,7 @@ pd deploy my-component.js
 
 ##### From Pipedream Github Repo
 
-You can explore the components available to deploy in [Pipedream's Github repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
+You can explore the components available to deploy in [Pipedream's Github repo](components).
 
 ```bash
 pd deploy <github-url>
@@ -235,7 +230,7 @@ View the [CLI command reference](https://docs.pipedream.com/cli/reference/#comma
 
 #### Deploy
 
-You can find any deploy curated components at https://pipedream.com/sources/new, or you can deploy code via the UI using following URL patterns.
+You can find and deploy curated components at https://pipedream.com/sources/new, or you can deploy code via the UI using following URL patterns.
 
 ##### From Pipedream Github Repo
 
@@ -280,13 +275,13 @@ The event lifecycle applies to deployed components. Learn about the [component l
 
 ## Diagram
 
-![image-20200811161858648](images/image-20200811161858648.png)
+![./image-20200819210516311](images/image-20200819210516311.png)
 
 ## Triggering Components
 
 Components are triggered when you manually run them (e.g., via the **RUN NOW** button in the UI) or when one of their [interfaces](#interface-props) is triggered. Pipedream currently support **HTTP** and **timer** interfaces.
 
-When a component is triggered, the `run()` method of the component is executed. Standard output and errors are surfaced in the **logs**.
+When a component is triggered, the `run()` method of the component is executed. Standard output and errors are surfaced in the **logs** tab.
 
 ## Emitting Events
 
@@ -434,7 +429,7 @@ To see more examples, explore the curated components in Pipedream's Github repo.
 
 #### Advanced Configuration
 
-#### Asyc Options ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/github.app.js))
+#### Asyc Options ([example](components/github/github.app.js))
 
 Async options allow users to select prop values that can be programatically generated (e.g., based on an real-time API response).
 
@@ -477,7 +472,7 @@ module.exports = {
 }
 ```
 
-##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-commit.js))
+##### Prop Definitions ([example](components/github/new-commit.js))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 
