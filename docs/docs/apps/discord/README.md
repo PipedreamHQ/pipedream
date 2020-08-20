@@ -121,3 +121,11 @@ To request a new Discord Bot action, please file an issue on our [Github repo](h
 Right now, the Discord Bot integration cannot utilize the [Discord Gateway](https://discordapp.com/developers/docs/topics/gateway) to receive events via websockets or make API requests that require an initial connection to the gateway.
 
 Please [reach out](/support) if prevents you from building a workflow. We're happy to prioritize support for this in the future.
+
+## Discord Event Sources
+
+[Event sources](/event-sources/) let you trigger workflows on new events from Discord. For example, you can create a source that listens for new messages in a Discord channel, triggering a workflow on each new message.
+
+### New Messages in Channel
+
+[Read the Github docs](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord/README.md) to create an event source that emits a new event each time a new message arrives in a Discord channel. This lets you trigger a Pipedream workflow on each new message, or listen for new messages via Pipedream's [SSE interface](/api/sse/) or [REST API](/api/rest/#operations).
