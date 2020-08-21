@@ -13,5 +13,16 @@ module.exports = {
 				}
 			);
 		},
+		async getChannels(params) {
+			return await axios.get(
+				"https://www.googleapis.com/youtube/v3/channels",
+				{
+					headers: {
+						Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+					},
+					params,
+				}
+			);
+		},
 	},
 };
