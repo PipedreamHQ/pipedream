@@ -1,5 +1,48 @@
 ## AWS Task Scheduler
 
+## How this works
+
+## Estimated Costs
+
+## API
+
+This source exposes an HTTP endpoint where you can send POST request to schedule new tasks. Your endpoint URL should appear as the **Endpoint** in your source's details, in the **Events** tab:
+
+<img src="./images/source-endpoint-url.png" width="400px">
+
+## Example: Schedule a task 30 seconds in the future
+
+You can use [this workflow](https://pipedream.com/@dylan/example-schedule-a-task-with-the-aws-task-scheduler-source-p_zAC2aK/edit) to schedule a new task N seconds in the future:
+
+```javascript
+// N seconds from now
+this.ts = new Date(+new Date() + params.numSeconds * 1000).toISOString();
+
+return await require("@pipedreamhq/platform").axios(this, {
+  url: `${params.taskSchedulerURL}/schedule`,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  data: {
+    timestamp: this.ts,
+    message: {
+      name: "Luke",
+      title: "Jedi",
+    },
+  },
+});
+```
+
+Or with `cURL`:
+
+```bash
+> curl -d '{ "timestamp": "2020-08-21T04:29:00.951Z", "message": { "name": "Luke" }}' \
+  -H "Content-Type: application/json" \
+  https://d00ca068fb5d375a3b95d0a70ba25e3f.m.pipedream.net/schedule
+
+{"message":"Scheduled task at 2020-08-21T04:29:00.951Z"}
+```
+
 ### Example: Run a workflow at sunrise and sunset
 
 ### IAM Policy

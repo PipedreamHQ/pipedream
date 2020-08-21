@@ -175,6 +175,7 @@ module.exports = {
   async run(event) {
     const { body, path, headers } = event;
 
+    // SNS SUBSCRIPTION CONFIRMATION - ONE TIME REQUEST
     if (body.Type && body.Type === "SubscriptionConfirmation") {
       console.log("Confirming SNS subscription");
       const { data } = await axios({ url: body.SubscribeURL });
@@ -187,7 +188,7 @@ module.exports = {
       return;
     }
 
-    // Schedule a new task
+    // SCHEDULE NEW TASK
     if (path === "/schedule") {
       const { timestamp } = body;
       if (!timestamp) {
@@ -235,13 +236,12 @@ module.exports = {
       return;
     }
 
-    // Else process an incoming scheduled task
+    // TASK IS SCHEDULED - EMIT!
     if (!body.Message) {
-      console.log("No message present, exiting");
+      console.log("No SNS message present, exiting");
       return;
     }
 
-    // Emit metadata
     const metadata = {
       summary: body.Subject || body.Message,
       id: headers["x-amz-sns-message-id"],
