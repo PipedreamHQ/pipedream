@@ -29,11 +29,17 @@ module.exports = {
     let nextPageToken = null;
     let count = 0;
     let results;
+    const intervalMs = 1000 * (event.interval_seconds || 300); // fall through to default for manual testing
+    const now = new Date();
+    const past = new Date(now.getTime() - intervalMs);
+    const updatedMin = past.toISOString();
+
     let params = {
       part: "snippet",
       type: "video",
       channelId: this.channelId,
       pageToken: null,
+      publishedAfter: updatedMin
     };
 
     while (count < totalResults) {
