@@ -8,7 +8,16 @@
 
 This source exposes an HTTP endpoint where you can send POST request to schedule new tasks. Your endpoint URL should appear as the **Endpoint** in your source's details, in the **Events** tab:
 
-<img src="./images/source-endpoint-url.png" width="400px">
+<img src="./images/source-endpoint-url.png" width="700px">
+
+To schedule a new task, send a message to the **`/schedule` path** with the following format:
+
+```json
+{
+  "timestamp": "2020-08-21T04:29:00.951Z", // timestamp: an ISO 8601 timestamp
+  "message": { "name": "Luke" } // message: any object or string
+}
+```
 
 ## Example: Schedule a task 30 seconds in the future
 
