@@ -5,7 +5,8 @@ const zoom = {
 
 module.exports = {
   name: "Zoom Custom Events",
-  description: "Listen for any events triggered from your Zoom account",
+  description:
+    "Listen for any events tied to your Zoom user or resources you own",
   version: "0.0.2",
   props: {
     zoom,

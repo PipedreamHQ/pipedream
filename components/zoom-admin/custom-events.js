@@ -5,7 +5,8 @@ const zoomAdmin = {
 
 module.exports = {
   name: "Zoom Admin Custom Events",
-  version: "0.0.1",
+  description: "Listen for any events tied to your Zoom account",
+  version: "0.0.2",
   props: {
     zoomAdmin,
     eventNameOptions: {

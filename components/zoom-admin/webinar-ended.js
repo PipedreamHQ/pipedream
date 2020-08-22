@@ -5,7 +5,8 @@ const zoomAdmin = {
 
 module.exports = {
   name: "Webinar Ended",
-  version: "0.0.1",
+  description: "Emits an event each time a webinar ends in your Zoom account",
+  version: "0.0.2",
   dedupe: "unique", // Dedupe based on webinar ID
   props: {
     zoomAdmin,
