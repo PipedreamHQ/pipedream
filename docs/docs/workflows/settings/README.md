@@ -1,9 +1,9 @@
 # Workflow Settings
 
-You can control workflow-specific settings in the **Settings** to the left of your workflow:
+You can control workflow-specific settings in the **Settings** header, just above your workflow's code.
 
 <div>
-<img alt="Workflow settings" width="150" src="./images/workflow-settings.png">
+<img alt="Workflow settings" src="./images/workflow-settings.png">
 </div>
 
 ## Errors
