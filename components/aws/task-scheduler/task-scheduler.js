@@ -2,7 +2,7 @@ const aws = require("https://github.com/PipedreamHQ/pipedream/components/aws/aws
 const axios = require("axios");
 
 module.exports = {
-  name: "Task Scheduler with Step Functions + SNS",
+  name: "New Scheduled Tasks",
   description:
     "Creates a Step Function State Machine to publish a message to an SNS topic at a specific timestamp. The SNS topic delivers the message to this Pipedream source",
   version: "0.0.1",
