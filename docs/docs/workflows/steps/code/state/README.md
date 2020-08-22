@@ -44,7 +44,24 @@ if ($checkpoint) {
 }
 ```
 
-### Example workflow
+### Example workflow - use `$checkpoint` to increment a number
+
+Often, you'll want to track the count of events a workflow processes, or keep track of some incrementing ID that you can pass to other systems as a unique identifier for an event.
+
+[This workflow](https://pipedream.com/@dylburger/increment-a-number-stored-in-checkpoint-p_aNCYbM/edit) stores an ID in `$checkpoint`, incrementing the ID each time the workflow is run. The first time the workflow runs, the value of `$checkpoint` will be `undefined`, so the workflow initializes the ID to a value of `1` on the first run. Subsequent runs of the workflow continue to increment the value of `$checkpoint`, saving the new value back to `$checkpoint` for the next invocation:
+
+```javascript
+// Immediately read the current value of $checkpoint and increment it
+// If this is the first time you're running the workflow, $checkpoint
+// will be undefined, so we initialize the value to 1.
+const checkpoint = $checkpoint + 1 || 1;
+console.log(checkpoint);
+
+// Write the new value of checkpoint back to $checkpoint for the next workflow run
+$checkpoint = checkpoint;
+```
+
+### Example workflow - dedupe incoming data
 
 `$checkpoint` is frequently used to dedupe incoming data. For example, you might receive events via webhooks and encounter duplicate HTTP requests (tied to the same user taking the same action in the source system). You need a way to make sure you don't process the same request twice.
 

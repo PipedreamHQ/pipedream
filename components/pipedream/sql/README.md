@@ -24,7 +24,7 @@ This source accepts three props:
 
 - **SQL Query** : The query you'd like to run
 - **Result Type** (_optional_): Specifies how you want the query results formatted in the emitted event. One of `array`, `object`, or `csv`. **Defaults to `array`**.
-- **Emit each record as its own event** (_optional_): If `true`, each record in your results set is [emitted](/COMPONENT-API.md#thisemit) as its own event. **Defaults to `false`**, emitting results as a single event (based on the result type specified in the **Result Types** prop). See the [Result Format section](#result-format) for example output.
+- **Emit each record as its own event** (_optional_): If `true`, each record in your results set is [emitted](/COMPONENT-API.md#emit) as its own event. **Defaults to `false`**, emitting results as a single event (based on the result type specified in the **Result Types** prop). See the [Result Format section](#result-format) for example output.
 
 **Emit each record as its own event** only applies to a **Result Type** of `array`. If **Result Type** is set to `object` or `csv`, the value of **Emit each record as its own event** is ignored and assumed to be `false` — the source will always emit one event for each query.
 

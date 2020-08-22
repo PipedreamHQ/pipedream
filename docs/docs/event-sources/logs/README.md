@@ -26,7 +26,7 @@ To connect to this stream, you'll need to:
 
 When you run `pd list streams`, you'll see output like the following:
 
-```text
+```
 λ pd list streams
 
   NAME                  TYPE   VISIBILITY  SSE

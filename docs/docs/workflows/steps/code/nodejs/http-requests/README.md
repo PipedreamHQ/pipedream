@@ -34,7 +34,7 @@ You make HTTP requests by passing a [JavaScript object](https://developer.mozill
 ```javascript
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`
+  url: `https://swapi.co/api/films/`,
 });
 ```
 
@@ -43,7 +43,7 @@ The response object `resp` contains a lot of information about the response: its
 ```javascript
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`
+  url: `https://swapi.co/api/films/`,
 });
 
 // HTTP response data is in the data property
@@ -66,7 +66,7 @@ const axios = require("axios");
 // Make an HTTP GET request using axios
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`
+  url: `https://swapi.co/api/films/`,
 });
 
 // Retrieve just the data from the response
@@ -111,8 +111,8 @@ const resp = await axios({
   method: "GET",
   url: `https://jsonplaceholder.typicode.com/comments`,
   params: {
-    postId: 1
-  }
+    postId: 1,
+  },
 });
 
 // Retrieve just the data from the response
@@ -135,11 +135,11 @@ const resp = await axios({
   method: "POST",
   url: `https://jsonplaceholder.typicode.com/posts`,
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   },
   data: {
-    name: "Luke"
-  }
+    name: "Luke",
+  },
 });
 ```
 
@@ -160,7 +160,7 @@ const agent = new httpsProxyAgent(`http://${user}:${pass}@${host}:${port}`);
 const config = {
   method: "GET",
   url,
-  httpsAgent: agent
+  httpsAgent: agent,
 };
 
 const resp = await axios.request(config);
@@ -176,3 +176,40 @@ By default, HTTP requests made from Pipedream can come from a large range of IP 
 
 - [Use an HTTP proxy to proxy requests](#use-an-http-proxy-to-proxy-requests-through-another-host)
 - If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
+
+## Forward an incoming HTTP request to another URL
+
+Often, you'll want to forward an incoming HTTP request from Pipedream to another service, with the same HTTP method, headers, body, etc. [This workflow](https://pipedream.com/@dylburger/forward-http-request-issue-http-response-p_BjC8Pp/edit) does just that.
+
+Once you **Copy** the workflow, enter the **URL** where you'd like to forward an HTTP request in the `forward_http_request` step. Every HTTP request you send to the workflow's HTTP endpoint will get forwarded to that URL.
+
+```javascript
+const config = {
+  method: event.method || "POST",
+  url: params.url,
+};
+
+const { query } = event;
+if (Object.keys(query).length) {
+  config.params = query;
+}
+
+// Headers, removing the original Host
+const { headers } = event;
+delete headers.host;
+if (Object.keys(headers).length) {
+  config.headers = headers;
+}
+
+if (event.body) config.data = event.body;
+
+return await require("@pipedreamhq/platform").axios(this, config);
+```
+
+You can modify this workflow in any way you'd like. For example, if you wanted to forward only certain types of requests, you could add another Node.js code step before the `forward_http_request` step, [ending the workflow early](/workflows/steps/code/#end) if the request doesn't contain a specific key in the HTTP payload:
+
+```javascript
+if (!event.body.myImportantData) {
+  $end("myImportantData not present in HTTP payload. Exiting");
+}
+```

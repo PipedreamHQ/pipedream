@@ -5,7 +5,9 @@ const zoomAdmin = {
 
 module.exports = {
   name: "Account Updated",
-  version: "0.0.1",
+  description:
+    "Emits an event each time your master account or sub-account profile is updated",
+  version: "0.0.2",
   props: {
     zoomAdmin,
     zoomApphook: {

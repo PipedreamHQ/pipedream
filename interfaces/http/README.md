@@ -24,9 +24,9 @@ module.exports = {
 };
 ```
 
-Components come with a [built-in key-value store](/COMPONENT-API.md#servicedb), an interface for passing input via [props](/COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/), [CLI](https://docs.pipedream.com/cli/reference/), or [UI](https://pipedream.com/sources).
+Components come with a [built-in key-value store](/COMPONENT-API.md#db), an interface for passing input via [props](/COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/), [CLI](https://docs.pipedream.com/cli/reference/), or [UI](https://pipedream.com/sources).
 
-[Components can emit events](/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow.
+[Components can emit events](/COMPONENT-API.md#emit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow.
 
 **Components that emit events are called event sources**. This `README` covers [HTTP event sources](#what-are-http-event-sources), the simplest type of source. They're essentially free, hosted HTTP applications that you can program with Node.js. Since all of the components referenced in this `README` are also event sources, we use the terms interchangeably below.
 
@@ -95,7 +95,7 @@ Components are similar to serverless functions, like those offered by AWS Lambda
 
 But we believe components are simpler to learn, write, and maintain for many use cases. They let you focus more on the code, and less on the configuration of the function and its associated services:
 
-- You can configure an HTTP server [via props](/COMPONENT-API.md#interfacehttp), and can use a [built-in key-value store](/COMPONENT-API.md#servicedb) to manage state. Components creates the HTTP interface for you on deploy, and the key-value store comes for free: there's no need to create these resources manually.
+- You can configure an HTTP server [via props](/COMPONENT-API.md#http), and can use a [built-in key-value store](/COMPONENT-API.md#db) to manage state. Components creates the HTTP interface for you on deploy, and the key-value store comes for free: there's no need to create these resources manually.
 - Components are built to be reusable. They can accept input via [props](/COMPONENT-API.md#props), which a user sets on deploy.
 - Components are self-contained. Their name, version, props, and code are all defined in one file. This makes components easy to understand at a glance, and easy to fork and modify.
 
@@ -236,7 +236,7 @@ This will prompt you to enter a **secret**, which you must pass in the `secret` 
 [This component](https://github.com/PipedreamHQ/pipedream/blob/master/interfaces/http/examples/batch-requests.js) batches incoming requests according to the following logic:
 
 - As soon as we receive an event with `{ "type": "start" }` in the HTTP payload, we initialize an empty array to store incoming requests.
-- Any HTTP requests that arrive afterwards get added to this array, persisted in [component state](/COMPONENT-API.md#servicedb).
+- Any HTTP requests that arrive afterwards get added to this array, persisted in [component state](/COMPONENT-API.md#db).
 - When we receive an event with `{ "type": "end" }` in the HTTP payload, we emit the batch of events from the component (an array of objects, corresponding to the HTTP requests). Any listening workflows will receive this batch of events.
 
 To run this source, [install the Pipedream CLI](https://docs.pipedream.com/cli/reference/#installing-the-cli):

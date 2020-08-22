@@ -13,7 +13,7 @@ This should take about 5 minutes to complete.
 
 Run:
 
-```text
+```
 curl https://cli.pipedream.com/install | sh
 ```
 
@@ -25,7 +25,7 @@ If you haven't signed up for a Pipedream account, you can create an account at t
 
 Run:
 
-```text
+```
 pd login
 ```
 
@@ -35,7 +35,7 @@ Otherwise, you'll be directed to login or sign up for a new account.
 
 Once you're done, go back to your shell and you should see confirmation that your account is linked:
 
-```text
+```
 > pd login
 Logged in as dylburger (dylan@pipedream.com)
 ```
@@ -44,13 +44,13 @@ Logged in as dylburger (dylan@pipedream.com)
 
 Run:
 
-```text
+```
 pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
 ```
 
 Deploying this source creates an endpoint URL specific your source that you can send any HTTP request to. The CLI will display this endpoint when your source is done deploying. It'll also immediately start listening to the SSE stream tied to your source, displaying new events as they arrive:
 
-```text
+```
 > pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
 
 Deploying...
@@ -68,7 +68,7 @@ Press Ctrl + C to terminate.
 
 In a new shell, send an HTTP request to the endpoint URL for your event source, for example using `cURL`:
 
-```text
+```
 curl -d '{"name": "Luke"}' https://myendpoint.m.pipedream.net
 ```
 
@@ -102,13 +102,13 @@ There are a few ways to consume events sent to a source. Let's review them one-b
 
 We saw above that the `pd deploy` command will begin listening for new events as soon as a source is created. This is nice the first time you deploy a source, but to retrieve events later you'll want to use `pd events`. You can return the last event sent to your source by running:
 
-```text
+```
 pd events -n 1 http
 ```
 
 or, like above, you can listen for new events as they arrive:
 
-```text
+```
 pd events -f http
 ```
 

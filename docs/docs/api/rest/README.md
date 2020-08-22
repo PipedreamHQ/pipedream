@@ -18,7 +18,7 @@ The base URL for all requests is **{{$site.themeConfig.API_BASE_URL}}** .
 
 Pipedream uses [Bearer Authentication](https://oauth.net/2/bearer-tokens/) to authorize your access to the API. When you make API requests, pass an `Authorization` header of the following format:
 
-```text
+```
 Authorization: Bearer <api key>
 ```
 
@@ -151,7 +151,7 @@ Retrieve information on the authenticated user.
 
 **Endpoint**
 
-```text
+```
 GET /users/me
 ```
 
@@ -195,7 +195,7 @@ This route returns the components `id`, `code`, `configurable_props`, and other 
 
 **Endpoint**
 
-```text
+```
 POST /components
 ```
 
@@ -267,7 +267,7 @@ Retrieve a component by ID to determine its metadata and configurable props.
 
 **Endpoint**
 
-```text
+```
 GET /components/{id}
 ```
 
@@ -329,7 +329,7 @@ curl https://api.pipedream.com/v1/components/sc_JDi8EB \
 
 **Endpoint**
 
-```text
+```
 GET /users/me/sources/
 ```
 
@@ -378,7 +378,7 @@ curl 'https://api.pipedream.com/v1/users/me/sources' \
 
 **Endpoint**
 
-```text
+```
 POST /sources/
 ```
 
@@ -414,7 +414,7 @@ One of `component_id`, `component_code`, or `component_url` is required. If all 
 
 The name of the source.
 
-If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#name-slugs) of the component used to create the source.
+If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure) of the component used to create the source.
 
 **Example Request**
 
@@ -459,7 +459,7 @@ Example response from creating an RSS source that runs once a minute:
 
 **Endpoint**
 
-```text
+```
 PUT /sources/{id}
 ```
 
@@ -495,7 +495,7 @@ One of `component_id`, `component_code`, or `component_url` is required. If all 
 
 The name of the source.
 
-If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#name-slugs) of the component used to create the source.
+If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure) of the component used to create the source.
 
 ---
 
@@ -511,7 +511,7 @@ Default: `true`.
 
 **Endpoint**
 
-```text
+```
 DELETE /sources/{id}
 ```
 
@@ -529,7 +529,7 @@ You can configure a source, or a workflow, to receive events from any number of 
 
 **Endpoint**
 
-```text
+```
 POST /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_source_id}
 ```
 
@@ -574,7 +574,7 @@ Retrieve up to the last 100 events emitted by a source.
 
 **Endpoint**
 
-```text
+```
 GET /sources/{id}/event_summaries
 ```
 
@@ -582,13 +582,13 @@ GET /sources/{id}/event_summaries
 
 The event data for events larger than `1KB` may get truncated in the response. If you're processing larger events, and need to see the full event data, pass `?expand=event`:
 
-```text
+```
 GET /sources/{id}/event_summaries?expand=event
 ```
 
 Pass `?limit=N` to retrieve the last **N** events:
 
-```text
+```
 GET /sources/{id}/event_summaries?limit=10
 ```
 
@@ -604,7 +604,7 @@ These IDs can be retrieved by using the [`GET /sources/{id}/event_summaries` end
 
 **Endpoint**
 
-```text
+```
 DELETE /sources/{id}/events
 ```
 

@@ -15,6 +15,8 @@ The [**Bot integration**](#discord-bot) lets you interact with the [Discord API]
 
 You can also use both types of integrations in the same workflow. Read on to learn more.
 
+[[toc]]
+
 ## Discord Webhook
 
 The **Discord Webhook** integration is the easiest way to send messages to a channel.
@@ -48,6 +50,33 @@ select the **Send Message to Channel** action:
 then [connect your Discord account](/connected-accounts/#connecting-accounts). When authorizing Pipedream access to your Discord account, you'll be asked to create a webhook for your target Discord server and channel.
 
 If you'd like to create another webhooks in another channel, you can create another Discord Webhook connection. You can send a message to any number of Discord webhooks within a single workflow.
+
+### Example: Send an embed
+
+[Discord embeds](https://discordjs.guide/popular-topics/embeds.html) are richly-formatted messages that include images, fields, and text, arranged in a custom way. You can send embeds using the Discord Webhook **Send Message to Channel** action in Pipedream.
+
+[**Copy this example workflow to get started**](https://pipedream.com/@dylburger/discord-embed-example-p_6lCoe8/edit). This workflow formats an example embed in the `format_embed_message` step, [exporting it](/workflows/steps/#step-exports) for use in future steps.
+
+```javascript
+this.msg = [
+  {
+    title: "Hello!",
+    description: "Hi! :grinning:",
+  },
+];
+```
+
+In the next step, we use the Discord Webhook **Send Message to Channel** action. This action expects _either_ a **Message** _or_ an **Embeds** parameter, which is delivered to your target channel. In this example workflow, we've selected the **Embeds** param, turned structured mode **off** (this allows us to [enter an expression](/workflows/steps/params/#params-types) for the Embeds array), and entered the value <code v-pre>{{steps.format_embed_message.msg}}</code>, which evaluates to the array of objects we formatted in the step above:
+
+<div>
+<img alt="Discord embed parameter" src="./images/discord-embed.png" width="400">
+</div>
+
+This should send a message to Discord that looks something like:
+
+<div>
+<img alt="Discord embed message in channel" src="./images/discord-embed-message.png" width="300">
+</div>
 
 ## Discord Bot
 
@@ -92,3 +121,11 @@ To request a new Discord Bot action, please file an issue on our [Github repo](h
 Right now, the Discord Bot integration cannot utilize the [Discord Gateway](https://discordapp.com/developers/docs/topics/gateway) to receive events via websockets or make API requests that require an initial connection to the gateway.
 
 Please [reach out](/support) if prevents you from building a workflow. We're happy to prioritize support for this in the future.
+
+## Discord Event Sources
+
+[Event sources](/event-sources/) let you trigger workflows on new events from Discord. For example, you can create a source that listens for new messages in a Discord channel, triggering a workflow on each new message.
+
+### New Messages in Channel
+
+[Read the Github docs](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord/README.md) to create an event source that emits a new event each time a new message arrives in a Discord channel. This lets you trigger a Pipedream workflow on each new message, or listen for new messages via Pipedream's [SSE interface](/api/sse/) or [REST API](/api/rest/#operations).
