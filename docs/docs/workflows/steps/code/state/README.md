@@ -130,6 +130,31 @@ this.$checkpoint = {
 
 `this.$checkpoint` is scoped to a step, and `$checkpoint` is scoped to a workflow. But their programming API is equivalent: they both start out with values of `undefined`, they both store JSON-serializable data, etc.
 
+## Resetting `$checkpoint`
+
+If you'd like to remove all of the data for `$checkpoint` or a step-specific `$checkpoint` variable, you can do it in one of two ways.
+
+### Resetting `$checkpoint` from the UI
+
+In your [workflow's Settings](/workflows/settings/), find your [Current checkpoint data](/workflows/settings/#current-checkpoint-values) and press the **Clear** button next to the variable whose data you'd like to clear:
+
+<div>
+<img alt="Clear $checkpoint data" src="./images/clear-checkpoint.png">
+</div>
+
+This will set the value of `$checkpoint` to `undefined`.
+
+### Resetting `$checkpoint` from code
+
+[Add a new Node.js code step](/workflows/steps/code/#adding-a-code-step) to your workflow, just below the trigger step. Then add the following code to that step:
+
+```javascript
+$checkpoint = undefined;
+$end("Clearing $checkpoint");
+```
+
+This will set the value of `$checkpoint` to `undefined`, the end your workflow. **Then delete this step** to get back to your workflow's original state.
+
 ## Limits
 
 You can store up to 64KB of data in both `$checkpoint` and step-specific `this.$checkpoint` state.
