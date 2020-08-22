@@ -5,7 +5,9 @@ const zoomAdmin = {
 
 module.exports = {
   name: "User Invitation Accepted",
-  version: "0.0.1",
+  description:
+    "Emits an event each time a user accepts an invite to your Zoom account",
+  version: "0.0.2",
   dedupe: "unique", // Dedupe based on user ID
   props: {
     zoomAdmin,

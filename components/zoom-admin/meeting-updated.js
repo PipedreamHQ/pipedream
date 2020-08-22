@@ -5,7 +5,9 @@ const zoomAdmin = {
 
 module.exports = {
   name: "Meeting Updated",
-  version: "0.0.1",
+  description:
+    "Emits an event each time a meeting is updated in your Zoom account",
+  version: "0.0.2",
   dedupe: "unique", // dedupe on the meeting ID + timestamp
   props: {
     zoomAdmin,

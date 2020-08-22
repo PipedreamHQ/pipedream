@@ -2,7 +2,9 @@ const aws = require("https://github.com/PipedreamHQ/pipedream/components/aws/aws
 const crypto = require("crypto");
 
 module.exports = {
-  name: "CloudWatch Logs Insights Query",
+  name: "New Records Returned by CloudWatch Logs Insights Query",
+  description:
+    "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",
   version: "0.0.1",
   props: {
     aws,

@@ -1,8 +1,10 @@
 const pipedream = require("https://github.com/PipedreamHQ/pipedream/components/pipedream/pipedream.app.js");
 
 module.exports = {
-  name: "pipedream-sql",
-  version: "0.0.1",
+  name: "New Records from SQL Query",
+  description:
+    "Runs a query against the Pipedream SQL Service on a schedule, emitting the results in batch (default) or with each record as its own event",
+  version: "0.0.2",
   dedupe: "unique", // Dedupes records based on the query execution ID
   props: {
     timer: {
