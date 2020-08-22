@@ -2,10 +2,10 @@ const aws = require("https://github.com/PipedreamHQ/pipedream/components/aws/aws
 const axios = require("axios");
 
 module.exports = {
-  name: "SNS to Pipedream Subscription",
+  name: "New SNS Messages",
   description:
     "Creates an SNS topic in your AWS account. Messages published to this topic are emitted from the Pipedream source.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique", // Dedupe on SNS message ID
   props: {
     region: {

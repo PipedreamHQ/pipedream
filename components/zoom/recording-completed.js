@@ -5,7 +5,9 @@ const zoom = {
 
 module.exports = {
   name: "Recording Completed",
-  version: "0.0.1",
+  description:
+    "Emits an event each time a new recording completes for a meeting where you're the host",
+  version: "0.0.2",
   props: {
     zoom,
     zoomApphook: {
