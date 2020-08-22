@@ -155,9 +155,9 @@ $checkpoint = undefined;
 $end("Clearing $checkpoint");
 ```
 
-This will set the value of `$checkpoint` to `undefined`, the end your workflow.
+This will set the value of `$checkpoint` to `undefined`, and then immediately end your workflow.
 
-You can also set the `$checkpoint` to any JSON-serializable value:
+You can also set `$checkpoint` to any JSON-serializable value:
 
 ```javascript
 $checkpoint = { test: "data" };
