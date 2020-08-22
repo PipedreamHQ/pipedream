@@ -130,13 +130,13 @@ this.$checkpoint = {
 
 `this.$checkpoint` is scoped to a step, and `$checkpoint` is scoped to a workflow. But their programming API is equivalent: they both start out with values of `undefined`, they both store JSON-serializable data, etc.
 
-## Resetting `$checkpoint`
+## Resetting or changing the value of `$checkpoint`
 
-If you'd like to remove all of the data for `$checkpoint` or a step-specific `$checkpoint` variable, you can do it in one of two ways.
+If you'd like to remove all of the data for `$checkpoint` or a step-specific `$checkpoint` variable, or set `$checkpoint` to a specific value, you can do so through the UI, or using a Node.js code step.
 
-### Resetting `$checkpoint` from the UI
+### Resetting or changing `$checkpoint` from the UI
 
-In your [workflow's Settings](/workflows/settings/), find your [Current checkpoint data](/workflows/settings/#current-checkpoint-values) and press the **Clear** button next to the variable whose data you'd like to clear:
+To reset the value of `$checkpoint`, visit your [workflow's Settings](/workflows/settings/), find your [Current checkpoint data](/workflows/settings/#current-checkpoint-values) and press the **Clear** button next to the variable whose data you'd like to clear:
 
 <div>
 <img alt="Clear $checkpoint data" src="./images/clear-checkpoint.png">
@@ -144,16 +144,25 @@ In your [workflow's Settings](/workflows/settings/), find your [Current checkpoi
 
 This will set the value of `$checkpoint` to `undefined`.
 
-### Resetting `$checkpoint` from code
+You can also add any JSON-serializable data to the `$checkpoint` editor, modifying or overwriting its current value.
 
-[Add a new Node.js code step](/workflows/steps/code/#adding-a-code-step) to your workflow, just below the trigger step. Then add the following code to that step:
+### Resetting or changing `$checkpoint` from code
+
+To reset the value of `$checkpoint`, [add a new Node.js code step](/workflows/steps/code/#adding-a-code-step) to your workflow, just below the trigger step. Then add the following code to that step:
 
 ```javascript
 $checkpoint = undefined;
 $end("Clearing $checkpoint");
 ```
 
-This will set the value of `$checkpoint` to `undefined`, the end your workflow. **Then delete this step** to get back to your workflow's original state.
+This will set the value of `$checkpoint` to `undefined`, the end your workflow.
+
+You can also set the `$checkpoint` to any JSON-serializable value:
+
+```javascript
+$checkpoint = { test: "data" };
+$end("Initializing $checkpoint");
+```
 
 ## Limits
 
