@@ -4,7 +4,7 @@ const axios = require("axios");
 module.exports = {
   name: "New Scheduled Tasks",
   description:
-    "Creates a Step Function State Machine to publish a message to an SNS topic at a specific timestamp. The SNS topic delivers the message to this Pipedream source",
+    "Creates a Step Function State Machine to publish a message to an SNS topic at a specific timestamp. The SNS topic delivers the message to this Pipedream source, and the source emits it as a new event",
   version: "0.0.1",
   dedupe: "unique", // Dedupe on SNS message ID
   props: {
@@ -16,6 +16,14 @@ module.exports = {
       default: "us-east-1",
     },
     aws,
+    secret: {
+      type: "string",
+      secret: true,
+      label: "Secret",
+      optional: true,
+      description:
+        "**Optional but recommended**: if you enter a secret here, scheduled task requests must pass this as the `secret` parameter of the HTTP POST request",
+    },
     http: "$.interface.http",
     db: "$.service.db",
   },
@@ -108,7 +116,7 @@ module.exports = {
                   "Resource": "arn:aws:states:::sns:publish",
                   "Parameters": {  
                     "TopicArn": "${topicArn}",
-                    "Message.$": "$.message"
+                    "Message.$": "$"
                   },
                   "End": true
                 }
@@ -185,29 +193,54 @@ module.exports = {
           .SubscriptionArn
       );
       console.log(data);
+
+      // Emit a sample message so the user sees the format
+      this.$emit({
+        timestamp: new Date().toISOString(),
+        message: "Sample message",
+      });
       return;
     }
 
+    // At this point, we're either scheduling a new task, or emitting
+    // a task's message at its scheduled time. Both types of requests
+    // expect a secret to be passed to ensure tasks aren't spoofed.
+    // Secrets are optional, so we first check if the user configured
+    // a secret, then check its value against the prop (validation below)
+    try {
+    } catch (err) {}
+
     // SCHEDULE NEW TASK
     if (path === "/schedule") {
-      const { timestamp } = body;
+      const { timestamp, message, secret } = body;
+      let err;
+      if (this.secret && secret !== this.secret) {
+        err = "Secret on incoming request doesn't match the configured secret";
+      }
       if (!timestamp) {
-        console.log("No timestamp included in payload. Exiting");
+        err =
+          "No timestamp included in payload. Please provide an ISO8601 timestamp in the 'timestamp' field";
+      }
+      if (!message) {
+        err = "No message passed in payload";
+      }
+      if (err) {
+        console.log(err);
         this.http.respond({
           status: 400,
           body: {
-            message:
-              "No timestamp included in payload. Please provide an ISO8601 timestamp in the 'timestamp' field",
+            debug,
           },
         });
         return;
       }
+
       const AWS = this.aws.sdk(this.region);
       const stepfunctions = new AWS.StepFunctions();
       let stateMachineARN = this.db.get("stateMachineARN");
       console.log("Scheduling task");
 
-      let message, status;
+      let msg, status;
       try {
         const executionResp = await stepfunctions
           .startExecution({
@@ -217,16 +250,17 @@ module.exports = {
           .promise();
         console.log(executionResp);
         status = 200;
-        message = `Scheduled task at ${timestamp}`;
+        msg = `Scheduled task at ${timestamp}`;
       } catch (err) {
         status = 500;
-        message = "Failed to schedule task. Please see logs";
+        msg = "Failed to schedule task. Please see logs";
+        console.log(err);
       }
 
       this.http.respond({
         status,
         body: {
-          message,
+          msg,
         },
         headers: {
           "content-type": "application/json",
@@ -242,19 +276,20 @@ module.exports = {
       return;
     }
 
+    const { message, secret, timestamp } = JSON.parse(body.Message);
+    if (this.secret && secret !== this.secret) {
+      console.log(
+        "Incoming message from SNS does not contain the configured secret. Exiting"
+      );
+      return;
+    }
+
     const metadata = {
-      summary: body.Subject || body.Message,
+      summary: body.Subject || JSON.stringify(message),
       id: headers["x-amz-sns-message-id"],
       ts: +new Date(body.Timestamp),
     };
 
-    try {
-      this.$emit(JSON.parse(body.Message), metadata);
-    } catch (err) {
-      console.log(
-        `Couldn't parse message as JSON. Emitting raw message. Error: ${err}`
-      );
-      this.$emit({ rawMessage: body.Message }, metadata);
-    }
+    this.$emit({ message, timestamp }, metadata);
   },
 };
