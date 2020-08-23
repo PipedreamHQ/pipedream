@@ -195,41 +195,43 @@ module.exports = {
       console.log(data);
 
       // Emit a sample message so the user sees the format
-      this.$emit({
-        timestamp: new Date().toISOString(),
-        message: "Sample message",
-      });
+      const timestamp = new Date().toISOString();
+      const message = "Sample message";
+      const metadata = {
+        summary: message,
+        id: headers["x-amz-sns-message-id"],
+        ts: +new Date(body.Timestamp),
+      };
+
+      this.$emit({ message, timestamp }, metadata);
       return;
     }
-
-    // At this point, we're either scheduling a new task, or emitting
-    // a task's message at its scheduled time. Both types of requests
-    // expect a secret to be passed to ensure tasks aren't spoofed.
-    // Secrets are optional, so we first check if the user configured
-    // a secret, then check its value against the prop (validation below)
-    try {
-    } catch (err) {}
 
     // SCHEDULE NEW TASK
     if (path === "/schedule") {
       const { timestamp, message, secret } = body;
-      let err;
+      const errors = [];
+      // Secrets are optional, so we first check if the user configured
+      // a secret, then check its value against the prop (validation below)
       if (this.secret && secret !== this.secret) {
-        err = "Secret on incoming request doesn't match the configured secret";
+        errors.push(
+          "Secret on incoming request doesn't match the configured secret"
+        );
       }
       if (!timestamp) {
-        err =
-          "No timestamp included in payload. Please provide an ISO8601 timestamp in the 'timestamp' field";
+        errors.push(
+          "No timestamp included in payload. Please provide an ISO8601 timestamp in the 'timestamp' field"
+        );
       }
       if (!message) {
-        err = "No message passed in payload";
+        errors.push("No message passed in payload");
       }
-      if (err) {
-        console.log(err);
+      if (errors.length) {
+        console.log(errors);
         this.http.respond({
           status: 400,
           body: {
-            debug,
+            errors,
           },
         });
         return;
