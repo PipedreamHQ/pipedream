@@ -1,6 +1,6 @@
 // Core HTTP component
 module.exports = {
-  name: "http",
+  name: "http-nested",
   version: "0.0.1",
   props: {
     http: "$.interface.http",
