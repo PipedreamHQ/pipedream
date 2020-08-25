@@ -1,8 +1,8 @@
-const axios = require("axios");
 const youtube = require("https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js");
 
 module.exports = {
   name: "Youtube - New Videos in Channel",
+  description: "Emits an event for each new Youtube video posted to a Channel.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -11,7 +11,6 @@ module.exports = {
       type: "string",
       label: "Channel ID",
       description: "The ID of the channel to search for new videos in.",
-      default: "",
     },
     db: "$.service.db",
     timer: {
@@ -21,7 +20,6 @@ module.exports = {
       },
     },
   },
-  methods: {},
 
   async run(event) {
     let videos = [];
@@ -29,17 +27,16 @@ module.exports = {
     let nextPageToken = null;
     let count = 0;
     let results;
-    const intervalMs = 1000 * (event.interval_seconds || 300); // fall through to default for manual testing
+
     const now = new Date();
-    const past = new Date(now.getTime() - intervalMs);
-    const updatedMin = past.toISOString();
+    const publishedAfter = this.db.get("publishedAfter") || 0;
 
     let params = {
       part: "snippet",
       type: "video",
       channelId: this.channelId,
       pageToken: null,
-      publishedAfter: updatedMin
+      publishedAfter,
     };
 
     while (count < totalResults) {
@@ -52,6 +49,8 @@ module.exports = {
         count++;
       });
     }
+
+    this.db.set("publishedAfter", now);
 
     for (const video of videos) {
       this.$emit(video, {

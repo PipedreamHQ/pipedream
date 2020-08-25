@@ -1,8 +1,8 @@
-const axios = require("axios");
 const youtube = require("https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js");
 
 module.exports = {
 	name: "Youtube - New Videos by Username",
+	description: "Emits an event for each new Youtube video tied to a username.",
 	version: "0.0.1",
 	dedupe: "unique",
 	props: {
@@ -10,9 +10,7 @@ module.exports = {
 		username: {
 			type: "string",
 			label: "Username",
-			description:
-				"Search for new videos uploaded by the YouTube Username.",
-			default: "",
+			description: "Search for new videos uploaded by the YouTube Username.",
 		},
 		db: "$.service.db",
 		timer: {
@@ -22,7 +20,6 @@ module.exports = {
 			},
 		},
 	},
-	methods: {},
 
 	async run(event) {
 		let videos = [];
@@ -32,10 +29,8 @@ module.exports = {
 		let count;
 		let results;
 
-		const intervalMs = 1000 * (event.interval_seconds || 300); // fall through to default for manual testing
 		const now = new Date();
-		const past = new Date(now.getTime() - intervalMs);
-		const updatedMin = past.toISOString();
+		const publishedAfter = this.db.get("publishedAfter") || 0;
 
 		let params = {
 			part: "id",
@@ -56,7 +51,7 @@ module.exports = {
 				type: "video",
 				channelId: this.channelId,
 				pageToken: null,
-				publishedAfter: updatedMin,
+				publishedAfter,
 			};
 
 			while (count < totalResults) {
@@ -72,6 +67,8 @@ module.exports = {
 				if (!results.data.items || results.data.items.length < 1) break;
 			}
 		}
+
+		this.db.set("publishedAfter", now);
 
 		for (const video of videos) {
 			this.$emit(video, {
