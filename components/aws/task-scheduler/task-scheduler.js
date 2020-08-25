@@ -22,7 +22,7 @@ module.exports = {
       label: "Secret",
       optional: true,
       description:
-        "**Optional but recommended**: if you enter a secret here, scheduled task requests must pass this as the `secret` parameter of the HTTP POST request",
+        "**Optional but recommended**: if you enter a secret here, you must pass this value in the `secret` parameter of the HTTP POST request",
     },
     http: "$.interface.http",
     db: "$.service.db",
@@ -244,15 +244,59 @@ module.exports = {
 
       let msg, status;
       try {
-        const executionResp = await stepfunctions
+        const { executionArn } = await stepfunctions
           .startExecution({
             stateMachineArn: stateMachineARN,
             input: JSON.stringify(body),
           })
           .promise();
-        console.log(executionResp);
+        console.log(executionArn);
         status = 200;
-        msg = `Scheduled task at ${timestamp}`;
+        msg = {
+          executionArn,
+          timestamp,
+        };
+      } catch (err) {
+        status = 500;
+        msg = "Failed to schedule task. Please see logs";
+        console.log(err);
+      }
+
+      this.http.respond({
+        status,
+        body: {
+          msg,
+        },
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      return;
+    }
+
+    // CANCEL SCHEDULED TASK
+    // The user must pass an executionArn they'd like to cancel
+    if (path === "/cancel") {
+      const { executionArn, secret } = body;
+      if (this.secret && secret !== this.secret) {
+        errors.push(
+          "Secret on incoming request doesn't match the configured secret"
+        );
+      }
+
+      let msg, status;
+      try {
+        const AWS = this.aws.sdk(this.region);
+        const stepfunctions = new AWS.StepFunctions();
+        const stopExecutionResp = await stepfunctions
+          .stopExecution({
+            executionArn,
+          })
+          .promise();
+        console.log(stopExecutionResp);
+        status = 200;
+        msg = `Cancelled scheduled task for ${executionArn}`;
       } catch (err) {
         status = 500;
         msg = "Failed to schedule task. Please see logs";

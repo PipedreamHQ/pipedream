@@ -37,6 +37,24 @@ You can also listen for these events in your own app / infra, by [subscribing to
 
 <!--te-->
 
+## Quickstart
+
+**TODO: watch this video**
+
+1. Complete the Prerequisite steps, ensuring you have an AWS access key and secret key that allows Pipedream access to create the necessary AWS resources in your account.
+2. Create the Task Scheduler event source, linking your AWS access and secret key from Step 1. Adding a **Secret** is optional, but recommended.
+3. [Copy this workflow](https://pipedream.com/@dylan/example-schedule-a-task-with-the-aws-task-scheduler-source-p_zAC2aK/edit) and enter the **Endpoint** of your source (in the source's **Events** tab) as the value of the **Task Scheduler URL:w
+   ** parameter in the `schedule_task` step:
+
+<img src="./images/source-endpoint-url.png" width="700px">
+
+4. In the workflow, press the **Send Test Event** button. **This will send a test request to your Task Scheduler source, scheduling a task 30 seconds from now**.
+5. Wait 30 seconds, and the Task Scheduler source will emit this event:
+
+**TODO: add image**
+
+6. From here, you can select the Task Scheduler source as the trigger step for any Pipedream workflow. Scheduled tasks will trigger the workflow, allowing you to process them however you'd like.
+
 ## Prerequisites
 
 ### An AWS account
@@ -141,20 +159,49 @@ When you create this event source, Pipedream will use the linked AWS credentials
 | [SNS -> Pipedream HTTPS delivery](https://aws.amazon.com/sns/pricing/)      | \$0.0000006          |
 | Total                                                                       | \$0.0000511          |
 
-## API
+## HTTP API
 
-### Scheduling a task
-
-This source exposes an HTTP endpoint where you can send `POST` request to schedule new tasks. Your endpoint URL should appear as the **Endpoint** in your source's details, in the **Events** tab:
+This source exposes an HTTP endpoint where you can send `POST` requests to schedule or cancel new tasks. Your endpoint URL should appear as the **Endpoint** in your source's details, in the **Events** tab:
 
 <img src="./images/source-endpoint-url.png" width="700px">
 
-To schedule a new task, `POST` a JSON object with an [ISO 8601](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) `timestamp` and a `message` to the **`/schedule` path** of your source's HTTP endpoint:
+### Scheduling a task
+
+```
+POST /schedule
+```
+
+To schedule a new task, `POST` a JSON object with an [ISO 8601](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) `timestamp`, a `message`, and an optional `secret` to the **`/schedule` path** of your source's HTTP endpoint:
 
 ```javascript
 {
   "timestamp": "2020-08-21T04:29:00.951Z", // timestamp: an ISO 8601 timestamp
   "message": { "name": "Luke" } // message can be any object or string
+  "secret": "abc123" // secret (optional): if configured, all requests must contain this secret
+}
+```
+
+Successful task schedule requests yield a `200 OK` response with the following payload:
+
+```javascript
+{
+    "executionArn": "arn:aws:states:us-east-1:123456789:execution:pipedream-scheduled-tasks-dc_abc123:8699662d-f707-4005-91a2-ac956223c47c",
+    "timestamp": "2020-08-21T04:29:00.951Z"
+}
+```
+
+### Cancel scheduled tasks
+
+```
+POST /cancel
+```
+
+If you've scheduled a task, but need to cancel it before it's executed, you can make an HTTP POST request to the `/cancel` path:
+
+```javascript
+{
+  "executionArn": "arn:aws:states:us-east-1:123456789:execution:pipedream-scheduled-tasks-dc_abc123:8699662d-f707-4005-91a2-ac956223c47c" // The executionArn from the original schedule request
+  "secret": "abc123" // secret (optional): if configured, all requests must contain this secret
 }
 ```
 
