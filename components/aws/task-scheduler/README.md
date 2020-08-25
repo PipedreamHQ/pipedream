@@ -155,7 +155,7 @@ When you create this event source, Pipedream will use the linked AWS credentials
 | Service                                                                     | Price per task (USD) | Notes                                                  |
 | --------------------------------------------------------------------------- | -------------------- | ------------------------------------------------------ |
 | [Step Functions executions](https://aws.amazon.com/step-functions/pricing/) | \$0.00005            | Each state machine execution has two state transitions |
-| [SNS published messages](https://aws.amazon.com/sns/pricing/)               | \0.0000005           |
+| [SNS published messages](https://aws.amazon.com/sns/pricing/)               | \$0.0000005          |
 | [SNS -> Pipedream HTTPS delivery](https://aws.amazon.com/sns/pricing/)      | \$0.0000006          |
 | Total                                                                       | \$0.0000511          |
 
@@ -181,6 +181,8 @@ To schedule a new task, `POST` a JSON object with an [ISO 8601](https://develope
 }
 ```
 
+[**See this workflow for sample Node.js code to schedule new tasks**](https://pipedream.com/@dylburger/copy-of-example-schedule-a-task-with-the-aws-task-scheduler-source-p_13CZwd/edit)
+
 Successful task schedule requests yield a `200 OK` response with the following payload:
 
 ```javascript
@@ -204,6 +206,8 @@ If you've scheduled a task, but need to cancel it before it's executed, you can 
   "secret": "abc123" // secret (optional): if configured, all requests must contain this secret
 }
 ```
+
+[**See this workflow for sample Node.js code to cancel tasks**](https://pipedream.com/@dylburger/copy-of-copy-of-example-schedule-a-task-with-the-aws-task-scheduler-source-p_7NCbga/edit)
 
 ### Processing scheduled tasks
 
