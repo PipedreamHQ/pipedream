@@ -8,17 +8,17 @@ module.exports = {
   props: {
     youtube,
     username: {
-    type: "string",
-    label: "Username",
-    description: "Search for new videos uploaded by the YouTube Username.",
-  },
-  db: "$.service.db",
-  timer: {
-    type: "$.interface.timer",
-    default: {
-      intervalSeconds: 60 * 15,
+      type: "string",
+      label: "Username",
+      description: "Search for new videos uploaded by the YouTube Username.",
     },
-  },
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
   },
 
   async run(event) {
