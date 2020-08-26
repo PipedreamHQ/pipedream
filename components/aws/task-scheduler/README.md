@@ -22,21 +22,6 @@ You can also listen for these events in your own app / infra, by [subscribing to
 <img src="./images/overview.png" style="margin-left: auto; margin-right: auto; display: block;">
 <br />
 
-## Quickstart
-
-1. Complete the [Prerequisites](#prerequisites).
-2. [Click here to create the Task Scheduler event source](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Faws%2Ftask-scheduler%2Ftask-scheduler.js), linking your AWS access and secret key from **Step 1**. Adding a **Secret** is optional, but recommended.
-3. [Copy this workflow](https://pipedream.com/@dylan/example-schedule-a-task-with-the-aws-task-scheduler-source-p_zAC2aK/edit) and enter the **Endpoint** of your source (in the source's **Events** tab) as the value of the **Task Scheduler URL** parameter in the `schedule_task` step:
-
-<img src="./images/source-endpoint-url.png" width="700px">
-
-4. In the workflow, press the **Send Test Event** button. **This will send a request to your Task Scheduler source, scheduling a task 30 seconds from now**.
-5. Wait 30 seconds, and the Task Scheduler source will emit this event:
-
-<img src="./images/test-event.png" width="300px">
-
-6. [Create a new workflow](https://pipedream.com/new) and select the Task Scheduler source as the trigger. When configured as a workflow trigger, tasks will run the workflow as soon as they're scheduled. This lets you run a workflow on custom events at any arbitrary time - pretty powerful stuff!
-
 <!--ts-->
 
 - [Prerequisites](#prerequisites)
@@ -53,6 +38,21 @@ You can also listen for these events in your own app / infra, by [subscribing to
 <!-- Added by: dylansather, at: Sat Aug 22 20:25:03 PDT 2020 -->
 
 <!--te-->
+
+## Quickstart
+
+1. Complete the [Prerequisites](#prerequisites).
+2. [Click here to create the Task Scheduler event source](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Faws%2Ftask-scheduler%2Ftask-scheduler.js), linking your AWS access and secret key from **Step 1**. Adding a **Secret** is optional, but recommended.
+3. [Copy this workflow](https://pipedream.com/@dylan/example-schedule-a-task-with-the-aws-task-scheduler-source-p_zAC2aK/edit) and enter the **Endpoint** of your source (in the source's **Events** tab) as the value of the **Task Scheduler URL** parameter in the `schedule_task` step:
+
+<img src="./images/source-endpoint-url.png" width="700px">
+
+4. In the workflow, press the **Send Test Event** button. **This will send a request to your Task Scheduler source, scheduling a task 30 seconds from now**.
+5. Wait 30 seconds, and the Task Scheduler source will emit this event:
+
+<img src="./images/test-event.png" width="300px">
+
+6. [Create a new workflow](https://pipedream.com/new) and select the Task Scheduler source as the trigger. When configured as a workflow trigger, tasks will run the workflow as soon as they're scheduled. This lets you run a workflow on custom events at any arbitrary time - pretty powerful stuff!
 
 ## Prerequisites
 
