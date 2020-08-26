@@ -24,6 +24,7 @@ You can also listen for these events in your own app / infra, by [subscribing to
 
 <!--ts-->
 
+- [Quickstart](#quickstart)
 - [Prerequisites](#prerequisites)
   - [An AWS account](#an-aws-account)
   - [An AWS IAM Policy for creating the necessary AWS resources](#an-aws-iam-policy-for-creating-the-necessary-aws-resources)
