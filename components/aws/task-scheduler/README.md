@@ -1,8 +1,10 @@
 # AWS Task Scheduler
 
-This event source creates a service for scheduling one-time tasks, at any timestamp, up to one year in the future. The source creates resources in _your_ AWS account that handle task scheduling, but you don't have to worry about the AWS internals: the source exposes a simple API for scheduling tasks and processing them at the scheduled time.
+**This event source creates a service for scheduling one-time tasks, at any timestamp, up to one year in the future**.
 
-To schedule a new task, just send a `POST` request to your source's HTTP endpoint, at the `/schedule` path, with the following format:
+The source [creates AWS resources](#aws-resources) in _your_ AWS account that handle task scheduling, but you don't have to worry about the AWS internals: the source exposes a simple HTTP API for [scheduling tasks](#http-api) and [processing them](#processing-scheduled-tasks) at the scheduled time.
+
+To [schedule a new task](#scheduling-a-task), just send an HTTP `POST` request to your source's endpoint, at the `/schedule` path, with the following format:
 
 ```javascript
 {
@@ -41,19 +43,18 @@ You can also listen for these events in your own app / infra, by [subscribing to
 
 **TODO: watch this video**
 
-1. Complete the Prerequisite steps, ensuring you have an AWS access key and secret key that allows Pipedream access to create the necessary AWS resources in your account.
-2. Create the Task Scheduler event source, linking your AWS access and secret key from Step 1. Adding a **Secret** is optional, but recommended.
-3. [Copy this workflow](https://pipedream.com/@dylan/example-schedule-a-task-with-the-aws-task-scheduler-source-p_zAC2aK/edit) and enter the **Endpoint** of your source (in the source's **Events** tab) as the value of the **Task Scheduler URL:w
-   ** parameter in the `schedule_task` step:
+1. Complete the [Prerequisites](#prerequisites).
+2. Create the Task Scheduler event source, linking your AWS access and secret key from **Step 1**. Adding a **Secret** is optional, but recommended.
+3. [Copy this workflow](https://pipedream.com/@dylan/example-schedule-a-task-with-the-aws-task-scheduler-source-p_zAC2aK/edit) and enter the **Endpoint** of your source (in the source's **Events** tab) as the value of the **Task Scheduler URL** parameter in the `schedule_task` step:
 
 <img src="./images/source-endpoint-url.png" width="700px">
 
-4. In the workflow, press the **Send Test Event** button. **This will send a test request to your Task Scheduler source, scheduling a task 30 seconds from now**.
+4. In the workflow, press the **Send Test Event** button. **This will send a request to your Task Scheduler source, scheduling a task 30 seconds from now**.
 5. Wait 30 seconds, and the Task Scheduler source will emit this event:
 
-**TODO: add image**
+<img src="./images/test-event.png" width="300px">
 
-6. From here, you can select the Task Scheduler source as the trigger step for any Pipedream workflow. Scheduled tasks will trigger the workflow, allowing you to process them however you'd like.
+6. [Create a new workflow](https://pipedream.com/new) and select the Task Scheduler source as the trigger. When configured as a workflow trigger, tasks will run the workflow as soon as they're scheduled. This lets you run a workflow on custom events at any arbitrary time - pretty powerful!
 
 ## Prerequisites
 
@@ -252,5 +253,3 @@ Or send the same request with `cURL`:
 
 {"message":"Scheduled task at 2020-08-21T04:29:00.951Z"}
 ```
-
-## Example: schedule a task at sunrise and sunset
