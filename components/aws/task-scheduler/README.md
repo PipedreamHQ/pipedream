@@ -39,18 +39,20 @@ You can also listen for these events in your own app / infra, by [subscribing to
 
 <!--ts-->
 
+- [Quickstart](#quickstart)
 - [Prerequisites](#prerequisites)
   - [An AWS account](#an-aws-account)
   - [An AWS IAM Policy for creating the necessary AWS resources](#an-aws-iam-policy-for-creating-the-necessary-aws-resources)
   - [An AWS IAM user, with an access and secret key](#an-aws-iam-user-with-an-access-and-secret-key)
 - [AWS Resources](#aws-resources)
   - [Estimated AWS Costs](#estimated-aws-costs)
-- [API](#api)
+- [HTTP API](#http-api)
   - [Scheduling a task](#scheduling-a-task)
-  - [Processing scheduled tasks](#processing-scheduled-tasks)
+  - [Cancel scheduled tasks](#cancel-scheduled-tasks)
+- [Processing scheduled tasks](#processing-scheduled-tasks)
 - [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
 
-<!-- Added by: dylansather, at: Sat Aug 22 20:25:03 PDT 2020 -->
+<!-- Added by: dylansather, at: Tue Aug 25 21:10:25 PDT 2020 -->
 
 <!--te-->
 
@@ -208,7 +210,7 @@ If you've scheduled a task, but need to cancel it before it's executed, you can 
 
 [**See this workflow for sample Node.js code to cancel tasks**](https://pipedream.com/@dylburger/copy-of-copy-of-example-schedule-a-task-with-the-aws-task-scheduler-source-p_7NCbga/edit)
 
-### Processing scheduled tasks
+## Processing scheduled tasks
 
 Scheduled tasks are emitted by the event source as events, which you can consume with
 
