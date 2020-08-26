@@ -42,7 +42,7 @@ module.exports = {
 
     while (count < totalResults) {
       params.pageToken = nextPageToken;
-      results = await this.youtube.getVideos(params);
+      results = await this.youtube.getPlaylistItems(params);
       totalResults = results.data.pageInfo.totalResults;
       nextPageToken = results.data.nextPageToken;
       results.data.items.forEach(function (video) {
