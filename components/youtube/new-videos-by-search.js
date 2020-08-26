@@ -51,7 +51,7 @@ module.exports = {
 
     while (count < totalResults && count < this.maxResults) {
       params.pageToken = nextPageToken;
-      results = await this.getVideos(params);
+      results = await this.youtube.getVideos(params);
       totalResults = results.data.pageInfo.totalResults;
       nextPageToken = results.data.nextPageToken;
       results.data.items.forEach(function (video) {
