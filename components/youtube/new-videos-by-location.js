@@ -1,7 +1,7 @@
 const youtube = require("https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js");
 
 module.exports = {
-  name: "Youtube - New Videos by Location",
+  name: "New Videos by Location",
   description: "Emits an event for each new YouTube video tied to a location.",
   version: "0.0.1",
   dedupe: "unique",

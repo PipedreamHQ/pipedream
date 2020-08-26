@@ -1,7 +1,7 @@
 const youtube = require("https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js");
 
 module.exports = {
-  name: "Youtube - New Videos by Username",
+  name: "New Videos by Username",
   description: "Emits an event for each new Youtube video tied to a username.",
   version: "0.0.1",
   dedupe: "unique",
@@ -49,7 +49,7 @@ module.exports = {
       totalResults = 1;
       nextPageToken = null;
       params = {
-      part: "snippet",
+        part: "snippet",
         type: "video",
         channelId: this.channelId,
         pageToken: null,
