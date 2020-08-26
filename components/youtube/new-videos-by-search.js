@@ -1,7 +1,7 @@
 const youtube = require("https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js");
 
 module.exports = {
-  name: "Youtube - New Videos by Search",
+  name: "New Videos by Search",
   description:
     "Emits an event for each new YouTube video matching a search query.",
   version: "0.0.1",

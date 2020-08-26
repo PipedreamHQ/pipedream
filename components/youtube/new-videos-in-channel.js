@@ -1,7 +1,7 @@
 const youtube = require("https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js");
 
 module.exports = {
-  name: "Youtube - New Videos in Channel",
+  name: "New Videos in Channel",
   description: "Emits an event for each new Youtube video posted to a Channel.",
   version: "0.0.1",
   dedupe: "unique",
