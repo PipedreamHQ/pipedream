@@ -1,4 +1,4 @@
-const youtube = require("./youtube.app.js");
+const youtube = require("https://github.com/PipedreamHQ/pipedream/components/youtube/youtube.app.js");
 
 module.exports = {
   name: "Youtube - New Videos in Playlist",
