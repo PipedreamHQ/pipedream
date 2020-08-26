@@ -23,7 +23,7 @@ module.exports = {
     async getPlaylistItems(params) {
       return await axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
         headers: {
-          'Authorization' : 'Bearer '+this.youtube.$auth.oauth_access_token
+          'Authorization' : 'Bearer '+this.$auth.oauth_access_token
         },
         params
       });
