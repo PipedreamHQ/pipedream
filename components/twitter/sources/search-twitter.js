@@ -2,7 +2,7 @@ const twitter = require('../twitter.app.js')
 const moment = require('moment')
  
 module.exports = {
-  name: "Search Mentions",
+  name: "Search Mentions Local Requires",
   description: "Emit new Tweets that matches your search criteria", 
   version: "0.0.1",
   props: {
