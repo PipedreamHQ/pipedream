@@ -11,16 +11,17 @@ Pipedream is an integration platform for developers to build and run [workflows]
 - Workflows are code, which you can run for [free](/pricing/).
 - No server or cloud resources to manage.
 
+<img src="./workflows/images/workflow-diagram.png" width="400px" >
+
 ### Quickstart
 
 If you're new to Pipedream, we recommend starting with this [5 minute tutorial](https://pipedream.com/new?appcue=5ec1fd72-798f-4f32-b225-35b94315bf11) to learn how to:
 
-- Trigger a workflow on HTTP requests 
-- Retrieve data from an API using Node.js and npm 
-- Deploy and test your changes. 
+- Trigger a workflow on HTTP requests
+- Retrieve data from an API using Node.js and npm
+- Deploy and test your changes.
 
 If you want to skip the tutorial, just [sign in](/sign-up/) to get started for free! If you have any questions or feedback, [join us on Slack](https://pipedream.com/community/) or [reach out](/support/)!
-
 
 ### No servers or infrastructure to manage
 
