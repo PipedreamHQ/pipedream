@@ -30,7 +30,9 @@ module.exports = {
     let results;
 
     const now = new Date();
-    const publishedAfter = this.db.get("publishedAfter") || 0;
+    const monthAgo = now;
+    monthAgo.setMonth(monthAgo.getMonth() - 1);
+    const publishedAfter = this.db.get("publishedAfter") || monthAgo;
 
     let params = {
       part: "id",
