@@ -10,7 +10,7 @@
 
 const { uuid } = require("uuidv4");
 const includes = require("lodash.includes");
-const googleDrive = require("https://github.com/PipedreamHQ/pipedream/components/google-drive/google-drive.app.js");
+const googleDrive = require("../google-drive.app.js");
 
 module.exports = {
   name: "New or Modified Files in My Drive",

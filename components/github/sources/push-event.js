@@ -1,4 +1,4 @@
-const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
+const github = require("../github.app.js");
 
 module.exports = {
   name: "New Push",

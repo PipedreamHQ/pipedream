@@ -1,4 +1,4 @@
-const gorgias = require('https://github.com/PipedreamHQ/pipedream/components/gorgias/gorgias.app.js')
+const gorgias = require('../gorgias.app.js')
 const moment = require('moment')
 
 const axios = require('axios')

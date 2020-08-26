@@ -1,4 +1,4 @@
-const twitter = require('https://github.com/PipedreamHQ/pipedream/components/twitter/twitter.app.js')
+const twitter = require('../twitter.app.js')
 
 module.exports = { 
   name: "My Liked Tweets", 

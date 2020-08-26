@@ -1,4 +1,4 @@
-const twilio = require("https://github.com/PipedreamHQ/pipedream/components/twilio/twilio.app.js");
+const twilio = require("../twilio.app.js");
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 const twilioClient = require("twilio");
 

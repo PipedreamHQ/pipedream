@@ -1,4 +1,4 @@
-const slack = require('https://github.com/PipedreamHQ/pipedream/components/slack/slack.app.js')
+const slack = require('../slack.app.js')
 
 module.exports = {
   name: "Slack - New Message In Conversation(s)",

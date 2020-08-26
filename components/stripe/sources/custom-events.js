@@ -1,4 +1,4 @@
-const stripe = require("https://github.com/PipedreamHQ/pipedream/components/stripe/stripe.app.js")
+const stripe = require("../stripe.app.js")
 
 module.exports = {
   name: "Customizable events webhook",

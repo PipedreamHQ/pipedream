@@ -1,4 +1,4 @@
-const typeform = require('https://github.com/PipedreamHQ/pipedream/components/typeform/typeform.app.js')
+const typeform = require('../typeform.app.js')
 const { uuid } = require("uuidv4")
 
 module.exports = {

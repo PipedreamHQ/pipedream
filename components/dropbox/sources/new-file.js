@@ -1,4 +1,4 @@
-const dropbox = require('https://github.com/PipedreamHQ/pipedream/components/dropbox/dropbox.app.js')
+const dropbox = require('../dropbox.app.js')
 
 module.exports = {
   name: "Dropbox - New File Uploaded",

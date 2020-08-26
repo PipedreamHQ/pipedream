@@ -1,5 +1,5 @@
 const axios = require("axios");
-const aws = require("https://github.com/PipedreamHQ/pipedream/components/aws/aws.app.js");
+const aws = require("../aws.app.js");
 const shortid = require("shortid");
 
 module.exports = {
