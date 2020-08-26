@@ -5,7 +5,9 @@ const zoomAdmin = {
 
 module.exports = {
   name: "Account Created",
-  version: "0.0.1",
+  description:
+    "Emits an event each time a sub-account is created in your master account",
+  version: "0.0.2",
   dedupe: "unique", // Dedupe based on account ID
   props: {
     zoomAdmin,

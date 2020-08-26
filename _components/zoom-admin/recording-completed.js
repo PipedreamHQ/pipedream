@@ -5,7 +5,9 @@ const zoomAdmin = {
 
 module.exports = {
   name: "Recording Completed",
-  version: "0.0.1",
+  description:
+    "Emits an event each time a recording is ready for viewing in your Zoom account",
+  version: "0.0.2",
   dedupe: "unique", // Dedupe events based on the ID of the recording file
   props: {
     zoomAdmin,

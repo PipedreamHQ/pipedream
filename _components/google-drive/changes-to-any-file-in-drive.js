@@ -13,8 +13,10 @@ const includes = require("lodash.includes");
 const googleDrive = require("https://github.com/PipedreamHQ/pipedream/components/google-drive/google-drive.app.js");
 
 module.exports = {
-  name: "Google Drive - Changes to Any Files in My Drive",
-  version: "0.0.1",
+  name: "New or Modified Files in My Drive",
+  description:
+    "Emits a new event any time any file in your linked Google Drive is added, modified, or deleted",
+  version: "0.0.2",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",

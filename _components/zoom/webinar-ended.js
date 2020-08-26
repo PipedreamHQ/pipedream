@@ -5,7 +5,8 @@ const zoom = {
 
 module.exports = {
   name: "Webinar Ended",
-  version: "0.0.1",
+  description: "Emits an event each time a webinar ends where you're the host",
+  version: "0.0.2",
   dedupe: "unique", // Dedupe based on meeting ID
   props: {
     zoom,

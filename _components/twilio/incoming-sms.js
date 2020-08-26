@@ -3,8 +3,10 @@ const MessagingResponse = require("twilio").twiml.MessagingResponse;
 const twilioClient = require("twilio");
 
 module.exports = {
-  name: "Incoming SMS",
-  version: "0.0.1",
+  name: "New Incoming SMS",
+  description:
+    "Configures a webhook in Twilio, tied to an incoming phone number, and emits an event each time an SMS is sent to that number",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     twilio,
