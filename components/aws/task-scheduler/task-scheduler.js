@@ -23,7 +23,7 @@ module.exports = {
       label: "Secret",
       optional: true,
       description:
-        "**Optional but recommended**: if you enter a secret here, you must pass this value in the `secret` parameter of the HTTP POST request",
+        "**Optional but recommended**: if you enter a secret here, you must pass this value in [the `secret` parameter HTTP POST requests](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws/task-scheduler#scheduling-a-task)",
     },
     http: "$.interface.http",
     db: "$.service.db",
