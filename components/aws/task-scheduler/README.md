@@ -214,9 +214,9 @@ If you've scheduled a task, but need to cancel it before it's executed, you can 
 Scheduled tasks are emitted by the event source as events, which you can consume with
 
 - [Pipedream workflows](https://docs.pipedream.com/workflows/)
-- A source-specific SSE stream
-- The Pipedream REST API
-- The Pipedream CLI
+- [A source-specific SSE stream](https://docs.pipedream.com/api/sse/)
+- [The Pipedream REST API](https://docs.pipedream.com/api/rest/)
+- [The Pipedream CLI](https://docs.pipedream.com/cli/reference/#installing-the-cli)
 
 [See the docs on consuming events from sources](https://docs.pipedream.com/event-sources/#consuming-events-from-sources) for more information.
 
@@ -252,3 +252,5 @@ Or send the same request with `cURL`:
 
 {"message":"Scheduled task at 2020-08-21T04:29:00.951Z"}
 ```
+
+## Example: schedule a task at sunrise and sunset
