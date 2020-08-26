@@ -17,7 +17,7 @@ When the timestamp arrives and the task is invoked, the source will emit the pay
 You can also listen for these events in your own app / infra, by [subscribing to your source's SSE stream](https://docs.pipedream.com/api/sse/). Each time a scheduled task is emitted from your Pipedream source, it also emits a message to that SSE stream. Any application (a Docker container, a Rails app, etc.) listening to that SSE stream can react to that message to run whatever code you'd like.
 
 <br />
-<img src="./images/overview.png" width="700px" style="margin-left: auto; margin-right: auto; display: block;">
+<img src="./images/overview.png" style="margin-left: auto; margin-right: auto; display: block;">
 <br />
 
 <!--ts-->
@@ -213,7 +213,7 @@ If you've scheduled a task, but need to cancel it before it's executed, you can 
 
 Scheduled tasks are emitted by the event source as events, which you can consume with
 
-- Pipedream workflows
+- [Pipedream workflows](https://docs.pipedream.com/workflows/)
 - A source-specific SSE stream
 - The Pipedream REST API
 - The Pipedream CLI

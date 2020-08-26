@@ -1,5 +1,6 @@
-const aws = require("https://github.com/PipedreamHQ/pipedream/components/aws/aws.app.js");
 const axios = require("axios");
+const aws = require("https://github.com/PipedreamHQ/pipedream/components/aws/aws.app.js");
+const shortid = require("shortid");
 
 module.exports = {
   name: "New Scheduled Tasks",
@@ -32,9 +33,16 @@ module.exports = {
       const AWS = this.aws.sdk(this.region);
       const sns = new AWS.SNS();
 
+      // We add an ID composed of the component ID and another random ID. The
+      // component is included so it's clear to the user which component created
+      // the resources. The short ID is included because these resources are
+      // destroyed and created on component updates, and we hit race conditions
+      // trying to delete and re-create a resource with the exact same name.
+      const uuid = `${process.env.PD_COMPONENT}-${shortid.generate()}`;
+
       // Create an SNS topic and an associated subscription to
       // send messages from Step Functions -> Pipedream
-      const topicName = `pipedream-scheduled-tasks-${process.env.PD_COMPONENT}`;
+      const topicName = `pipedream-scheduled-tasks-${uuid}`;
       console.log(`Creating SNS topic ${topicName}`);
       const topic = await sns.createTopic({ Name: topicName }).promise();
       this.db.set("topicARN", topic.TopicArn);
@@ -47,7 +55,7 @@ module.exports = {
       // IAM doesn't accept an inline policy on the createRole API call, so we
       // create the role first, then update its inline policy.
       const topicArn = this.db.get("topicARN");
-      const RoleName = `pipedream-scheduled-tasks-${process.env.PD_COMPONENT}-role`;
+      const RoleName = `pipedream-scheduled-tasks-${uuid}-role`;
       this.db.set("roleName", RoleName);
       const createRoleResponse = await iam
         .createRole({
@@ -122,7 +130,7 @@ module.exports = {
                 }
               }
             }`,
-            name: `pipedream-scheduled-tasks-${process.env.PD_COMPONENT}`,
+            name: `pipedream-scheduled-tasks-${uuid}`,
             roleArn: createRoleResponse.Role.Arn,
           })
           .promise()
