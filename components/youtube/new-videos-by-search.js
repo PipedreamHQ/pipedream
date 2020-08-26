@@ -37,7 +37,9 @@ module.exports = {
     let results;
 
     const now = new Date();
-    const publishedAfter = this.db.get("publishedAfter") || 0;
+    const dayAgo = now;
+    dayAgo.setDate(dayAgo.getDate() - 1);
+    const publishedAfter = this.db.get("publishedAfter") || dayAgo;
 
     let params = {
       part: "snippet",
