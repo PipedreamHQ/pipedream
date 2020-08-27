@@ -1,6 +1,6 @@
 const get = require("lodash.get");
 const { v4: uuidv4 } = require("uuid")
-const googleCalendar = require("../google-calendar/google-calendar.app.js");
+const googleCalendar = require("../google-calendar.app.js");
 
 module.exports = {
   name: "google-calendar-new-or-updated-event-via-push",
