@@ -1,6 +1,6 @@
 module.exports = {
   type: "app",
-  app: "gcp",
+  app: "google_cloud",
   methods: {
     sdkParams() {
       const { projectId, clientEmail, privateKey } = this.$auth;

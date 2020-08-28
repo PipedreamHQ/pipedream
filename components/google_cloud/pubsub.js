@@ -1,4 +1,4 @@
-const gcp = require("https://github.com/PipedreamHQ/pipedream/components/gcp/gcp.app.js");
+const google_cloud = require("https://github.com/PipedreamHQ/pipedream/components/google_cloud/google_cloud.app.js");
 
 module.exports = {
   name: "New Pub/Sub Messages",
@@ -8,7 +8,7 @@ module.exports = {
   version: "0.0.1",
   dedupe: "unique", // Dedupe on Pub/Sub message ID
   props: {
-    gcp,
+    google_cloud,
     http: "$.interface.http",
     db: "$.service.db",
     topic: {
@@ -33,7 +33,7 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      const sdkParams = this.gcp.sdkParams();
+      const sdkParams = this.google_cloud.sdkParams();
       const { PubSub } = require('@google-cloud/pubsub');
       const pubSubClient = new PubSub(sdkParams);
 
@@ -60,7 +60,7 @@ module.exports = {
       this.db.set('subscriptionName', subscriptionName);
     },
     async deactivate() {
-      const sdkParams = this.gcp.sdkParams();
+      const sdkParams = this.google_cloud.sdkParams();
       const { PubSub } = require('@google-cloud/pubsub');
       const pubSubClient = new PubSub(sdkParams);
 
