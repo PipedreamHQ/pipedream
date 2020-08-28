@@ -1,4 +1,4 @@
-const google_cloud = require("https://github.com/PipedreamHQ/pipedream/components/google_cloud/google_cloud.app.js");
+const google_cloud = require("https://github.com/PipedreamHQ/pipedream/components/google-cloud/google-cloud.app.js");
 
 module.exports = {
   name: "New Pub/Sub Messages",
