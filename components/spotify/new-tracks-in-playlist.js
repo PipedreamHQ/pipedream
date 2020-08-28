@@ -1,7 +1,7 @@
 const spotify = require("https://github.com/PipedreamHQ/pipedream/components/spotify/spotify.app.js");
 
 module.exports = {
-  name: "Spotify - New Tracks in Playlist",
+  name: "New Tracks in Playlist",
   description: "Emits an event for each new Spotify track added to a playlist.",
   version: "0.0.1",
   dedupe: "unique",
@@ -60,7 +60,7 @@ module.exports = {
       this.$emit(track, {
         id: track.track.id,
         summary: track.track.name,
-        ts: Date.now(),
+        ts: track.added_at,
       });
     }
   },

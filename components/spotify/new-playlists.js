@@ -1,7 +1,7 @@
 const spotify = require("https://github.com/PipedreamHQ/pipedream/components/spotify/spotify.app.js");
 
 module.exports = {
-  name: "Spotify - New Playlists",
+  name: "New Playlists",
   description:
     "Emits an event for each new playlist owned or followed by the current Spotify user.",
   version: "0.0.1",
