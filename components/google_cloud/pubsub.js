@@ -71,4 +71,31 @@ module.exports = {
       await pubSubClient.topic(topicName).delete();
     },
   },
+  async run(event) {
+    const { data, messageId, publishTime } = event.body.message;
+
+    if (!data) {
+      console.warn('No message present, exiting');
+      return;
+    }
+    const dataString = Buffer.from(data, 'base64').toString('utf-8');
+    const metadata = {
+      id: messageId,
+      summary: dataString,
+      ts: +new Date(publishTime),
+    };
+
+    let dataObj;
+    try {
+      dataObj = JSON.parse(dataString);
+    } catch (err) {
+      console.error(
+        `Couldn't parse message as JSON. Emitting raw message. Error: ${err}`
+      );
+      dataObj = {
+        rawMessage: dataString,
+      };
+    }
+    this.$emit(dataObj, metadata);
+  },
 };
