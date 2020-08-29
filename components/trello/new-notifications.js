@@ -2,7 +2,8 @@ const spotify = require("https://github.com/PipedreamHQ/pipedream/components/tre
 
 module.exports = {
   name: "New Notifications",
-  description: "Emits an event for each new Trello notification for the authenticated user.",
+  description:
+    "Emits an event for each new Trello notification for the authenticated user.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -24,15 +25,15 @@ module.exports = {
 
     let params = {
       since,
-    }
+    };
 
-    results = await this.trello.getNotifications('me', params);
+    results = await this.trello.getNotifications("me", params);
     results.forEach(function (notification) {
       notifications.push(notification);
     });
 
     if (results.length > 0)
-      this.db.set("lastNotificationId", results[results.length-1].id);
+      this.db.set("lastNotificationId", results[results.length - 1].id);
 
     for (const notification of notifications) {
       this.$emit(notification, {
@@ -42,4 +43,4 @@ module.exports = {
       });
     }
   },
-}
+};

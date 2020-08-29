@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require("axios");
 const events = `addAttachmentToCard
 addChecklistToCard
 addLabelToCard
@@ -32,8 +32,8 @@ updateCheckItemStateOnCard
 updateChecklist
 updateComment
 updateLabel
-updateList`.split('\n')
- 
+updateList`.split("\n");
+
 module.exports = {
   type: "app",
   app: "trello",
@@ -45,11 +45,11 @@ module.exports = {
       optional: true,
       // options needs to support standardized opts for pagination
       async options(opts) {
-        const cards = await this.getCards(opts.boardId)
+        const cards = await this.getCards(opts.boardId);
         // XXX short hand where value and label are same value
-        return cards.map(card => {
-          return { label: `${card.name} (${card.id})`, value: card.id }
-        })
+        return cards.map((card) => {
+          return { label: `${card.name} (${card.id})`, value: card.id };
+        });
       },
     },
     boardId: {
@@ -58,12 +58,12 @@ module.exports = {
       label: "Board",
       // options needs to support standardized opts for pagination
       async options(opts) {
-        const boards = await this.getBoards(this.$auth.oauth_uid)
+        const boards = await this.getBoards(this.$auth.oauth_uid);
         // XXX short hand where value and label are same value
-        const activeBoards = boards.filter(board => board.closed === false)
-        return activeBoards.map(board => {
-          return { label: `${board.name} (${board.id})`, value: board.id }
-        })
+        const activeBoards = boards.filter((board) => board.closed === false);
+        return activeBoards.map((board) => {
+          return { label: `${board.name} (${board.id})`, value: board.id };
+        });
       },
       // XXX validate
     },
@@ -72,7 +72,8 @@ module.exports = {
       type: "string[]",
       label: "Event Types",
       optional: true,
-      description: "Only emit events for the selected event types (e.g., `updateCard`).",
+      description:
+        "Only emit events for the selected event types (e.g., `updateCard`).",
       // options needs to support standardized opts for pagination
       options: events,
       // XXX validate
@@ -84,11 +85,11 @@ module.exports = {
       optional: true,
       // options needs to support standardized opts for pagination
       async options(opts) {
-        const lists = await this.getLists(opts.boardId)
+        const lists = await this.getLists(opts.boardId);
         // XXX short hand where value and label are same value
-        return lists.map(list => {
-          return { label: `${list.name} (${list.id})`, value: list.id }
-        })
+        return lists.map((list) => {
+          return { label: `${list.name} (${list.id})`, value: list.id };
+        });
       },
       // XXX validate
     },
@@ -99,91 +100,95 @@ module.exports = {
         data,
         method,
         url,
-      }
+      };
       const token = {
         key: this.$auth.oauth_access_token,
         secret: this.$auth.oauth_refresh_token,
-      }
-      return (await axios({
-        method: 'POST',
-        url: this.$auth.oauth_signer_uri,
-        data: {
-          requestData,
-          token,
-        }
-      })).data
+      };
+      return (
+        await axios({
+          method: "POST",
+          url: this.$auth.oauth_signer_uri,
+          data: {
+            requestData,
+            token,
+          },
+        })
+      ).data;
     },
     async _makeRequest(config) {
-      if (!config.headers) config.headers = {}
-      const authorization = await this._getAuthorizationHeader(config)
-      config.headers.authorization = authorization
+      if (!config.headers) config.headers = {};
+      const authorization = await this._getAuthorizationHeader(config);
+      config.headers.authorization = authorization;
       try {
-        return await axios(config)
+        return await axios(config);
       } catch (err) {
-        console.log(err) // TODO
+        console.log(err); // TODO
       }
     },
-    async getBoards(id) {   
+    async getBoards(id) {
       const config = {
         url: `https://api.trello.com/1/members/${id}/boards`,
-      }
-      return (await this._makeRequest(config)).data
+      };
+      return (await this._makeRequest(config)).data;
     },
-    async getCards(id) {   
+    async getCards(id) {
       const config = {
         url: `https://api.trello.com/1/boards/${id}/cards`,
-      }
-      return (await this._makeRequest(config)).data
+      };
+      return (await this._makeRequest(config)).data;
     },
     async getListCards(id) {
-        const config = {
+      const config = {
         url: `https://api.trello.com/1/lists/${id}/cards`,
-      }
-      return (await this._makeRequest(config)).data
+      };
+      return (await this._makeRequest(config)).data;
     },
-    async getLists(id) {   
+    async getLists(id) {
       const config = {
         url: `https://api.trello.com/1/boards/${id}/lists`,
-      }
-      return (await this._makeRequest(config)).data
+      };
+      return (await this._makeRequest(config)).data;
     },
     async getNotifications(id, params) {
       const config = {
         url: `https://api.trello.com/1/members/${id}/notifications`,
         params,
-      }
-      return (await this._makeRequest(config)).data
+      };
+      return (await this._makeRequest(config)).data;
     },
     async getCardActions(id) {
       const config = {
         url: `https://api.trello.com/1/cards/${id}/actions`,
-      }
-      return (await this._makeRequest(config)).data
+      };
+      return (await this._makeRequest(config)).data;
     },
     async createHook({ id, endpoint }) {
-      console.log(`id: ${id}`)
+      console.log(`id: ${id}`);
       const resp = await this._makeRequest({
         method: "post",
         url: `https://api.trello.com/1/webhooks/`,
         headers: {
-          "Content-Type": "applicaton/json" 
+          "Content-Type": "applicaton/json",
         },
         params: {
           idModel: id,
           description: "Pipedream Source ID", //todo add ID
           callbackURL: endpoint,
         },
-      })
+      });
 
-      console.log(resp)
+      console.log(resp);
 
-      return resp.data
+      return resp.data;
     },
     async deleteHook({ hookId }) {
-      return (await this._makeRequest({
-        method: "delete",
-        url: `https://api.trello.com/1/webhooks/${hookId}`,
-      })).data
+      return (
+        await this._makeRequest({
+          method: "delete",
+          url: `https://api.trello.com/1/webhooks/${hookId}`,
+        })
+      ).data;
     },
   },
-}
+};

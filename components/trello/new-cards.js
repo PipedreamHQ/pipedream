@@ -10,13 +10,15 @@ module.exports = {
     boardId: {
       type: "string",
       label: "Board ID",
-      description: "(Optional) Search for new cards added to the specified board.",
+      description:
+        "(Optional) Search for new cards added to the specified board.",
       default: "",
     },
     listId: {
       type: "string",
       label: "List ID",
-      description: "(Optional) Search for new cards added to the specified list.",
+      description:
+        "(Optional) Search for new cards added to the specified list.",
       default: "",
     },
     db: "$.service.db",
@@ -39,18 +41,18 @@ module.exports = {
     let lastEvent = this.db.get("lastEvent") || monthAgo;
     lastEvent = new Date(lastEvent);
 
-    if (this.listId.length>0) {
+    if (this.listId.length > 0) {
       // get cards in list
       results = await this.trello.getListCards(this.listId);
-    } else if (this.boardId.length>0) {
+    } else if (this.boardId.length > 0) {
       // get cards in board
       results = await this.trello.getCards(this.boardId);
     } else {
       // get cards on all the user's boards
-      boards = await this.trello.getBoards('me');
-      for(var i=0;i<boards.length;i++) {
+      boards = await this.trello.getBoards("me");
+      for (var i = 0; i < boards.length; i++) {
         cardsOnBoard = await this.trello.getCards(boards[i].id);
-        cardsOnBoard.forEach(function(card) {
+        cardsOnBoard.forEach(function (card) {
           results.push(card);
         });
       }
