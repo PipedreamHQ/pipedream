@@ -1,4 +1,4 @@
-// This source processes changes to files in a user's Google Drive,
+// This source processes changes to specific files in a user's Google Drive,
 // implementing strategy enumerated in the Push Notifications API docs:
 // https://developers.google.com/drive/api/v3/push .
 //
@@ -15,7 +15,7 @@ module.exports = {
   name: "Changes to Specific Files",
   description:
     "Watches for changes to specific files, emitting an event any time a change is made to one of those files",
-  version: "0.0.2",
+  version: "0.0.3",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
@@ -23,7 +23,28 @@ module.exports = {
     googleDrive,
     db: "$.service.db",
     http: "$.interface.http",
-    files: { propDefinition: [googleDrive, "files"] },
+    drive: { propDefinition: [googleDrive, "watchedDrive"] },
+    files: {
+      type: "string[]",
+      label: "Files",
+      description: "The files you want to watch for changes.",
+      optional: true,
+      async options({ page, prevContext }) {
+        const { nextPageToken } = prevContext;
+        if (!this.drive) return [];
+        if (this.drive === "myDrive") {
+          return await this.googleDrive.listFiles({ pageToken: nextPageToken });
+        }
+
+        return await this.googleDrive.listFiles({
+          pageToken: nextPageToken,
+          corpora: "drive",
+          driveId: this.drive,
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        });
+      },
+    },
     updateTypes: { propDefinition: [googleDrive, "updateTypes"] },
     watchForPropertiesChanges: {
       propDefinition: [googleDrive, "watchForPropertiesChanges"],
