@@ -65,10 +65,14 @@ module.exports = {
       const pubSubClient = new PubSub(sdkParams);
 
       const subscriptionName = this.db.get('subscriptionName');
-      await pubSubClient.subscription(subscriptionName).delete();
+      if (subscriptionName) {
+        await pubSubClient.subscription(subscriptionName).delete();
+      }
 
       const topicName = this.db.get('topicName')
-      await pubSubClient.topic(topicName).delete();
+      if (topicName) {
+        await pubSubClient.topic(topicName).delete();
+      }
     },
   },
   async run(event) {
