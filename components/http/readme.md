@@ -17,7 +17,7 @@ curl https://cli.pipedream.com/install | sh
 Then run
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/http.js
 ```
 
 This deploys an [HTTP event source](#what-are-http-event-sources) and creates a unique endpoint URL you can send any HTTP requests to:

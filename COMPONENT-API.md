@@ -203,7 +203,7 @@ pd deploy <github-url>
 E.g.,
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/http.js
 ```
 
 ##### From Any URL
@@ -215,7 +215,7 @@ pd deploy <url-to-raw-code>
 E.g.,
 
 ```bash
-pd deploy https://raw.githubusercontent.com/PipedreamHQ/pipedream/master/components/http/http.js
+pd deploy https://raw.githubusercontent.com/PipedreamHQ/pipedream/master/components/http/sources/http.js
 ```
 
 #### Update
@@ -472,7 +472,7 @@ module.exports = {
 }
 ```
 
-##### Prop Definitions ([example](components/github/new-commit.js))
+##### Prop Definitions ([example](components/github/sources/new-commit.js))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 

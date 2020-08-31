@@ -41,7 +41,7 @@ The `Authorization` header is required on all endpoints for authentication.
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/sources/rss.js"}'
 ```
 
 ## Common Parameters
@@ -213,7 +213,7 @@ The full code for a [Pipedream component](https://github.com/PipedreamHQ/pipedre
 
 A reference to the URL where the component is hosted.
 
-For example, to create an RSS component, pass `https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+For example, to create an RSS component, pass `https://github.com/PipedreamHQ/pipedream/components/rss/sources/rss.js`.
 
 ---
 
@@ -227,7 +227,7 @@ Here's an example of how to create an RSS component from a Github URL:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/sources/rss.js"}'
 ```
 
 **Example Response**
@@ -402,7 +402,7 @@ The full code for a [Pipedream component](https://github.com/PipedreamHQ/pipedre
 
 A reference to the URL where the component is hosted.
 
-For example, to create an RSS component, pass `https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+For example, to create an RSS component, pass `https://github.com/PipedreamHQ/pipedream/components/rss/sources/rss.js`.
 
 ---
 
@@ -422,7 +422,7 @@ If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ
 curl https://api.pipedream.com/v1/sources \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/sources/rss.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
 
 **Example Response**
@@ -483,7 +483,7 @@ The full code for a [Pipedream component](https://github.com/PipedreamHQ/pipedre
 
 A reference to the URL where the component is hosted.
 
-For example, to create an RSS component, pass `https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+For example, to create an RSS component, pass `https://github.com/PipedreamHQ/pipedream/components/rss/sources/rss.js`.
 
 ---
 

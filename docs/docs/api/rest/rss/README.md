@@ -14,7 +14,7 @@ To create an RSS component, pass a reference to the `component_url` for the RSS 
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/sources/rss.js"}'
 ```
 
 This returns a `200 OK` response with the following payload:
@@ -58,7 +58,7 @@ Now that we know what inputs we need to create our source, let's make an API req
 curl https://api.pipedream.com/v1/sources \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/sources/rss.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
 
 If successful, you should get back a `200 OK` response from the API with the following payload:

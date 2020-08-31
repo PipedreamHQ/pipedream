@@ -70,7 +70,7 @@ When you select a source, we'll deploy it and start listening for new events.
 You can also deploy a specific source via Github URL:
 
 ```
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/http.js
 ```
 
 or author a component locally and deploy that local file:
@@ -180,7 +180,7 @@ Updates the code, props, or metadata for an event source.
 If you deployed a source from Github, for example, someone might publish an update to that source, and you may want to run the updated code.
 
 ```
-pd update <source-id-or-name> --code https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd update <source-id-or-name> --code https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/http.js
 ```
 
 You can change the name of a source:
