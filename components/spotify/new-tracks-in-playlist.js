@@ -7,10 +7,23 @@ module.exports = {
   dedupe: "unique",
   props: {
     spotify,
-    playlistId: {
-      type: "string",
-      label: "Playlist ID",
-      description: "Search for new tracks added to the specified playlist.",
+    playlists: {
+      type: "string[]",
+      label: "Playlist",
+      description: "Search for new tracks added to the specified playlist(s).",
+      async options({ page, prevContext }) {
+        const limit = 20;
+        const offset = prevContext.offset ? prevContext.offset : 0;
+        const results = await this.spotify.getPlaylists({ limit, offset });
+        const options = results.data.items.map((playlist) => {
+          return { label: playlist.name, value: playlist.id };
+        });
+        const newOffset = prevContext+limit;
+        return {
+          options,
+          context: { newOffset },
+        };
+      },
     },
     db: "$.service.db",
     timer: {
@@ -41,18 +54,25 @@ module.exports = {
       offset,
     };
 
-    while (count < total) {
-      results = await this.spotify.getPlaylistItems(this.playlistId, params);
-      total = results.data.total;
-      results.data.items.forEach(function (track) {
-        addedAt = new Date(track.added_at);
-        if (addedAt.getTime() > lastEvent.getTime()) {
-          tracks.push(track);
-        }
-        count++;
-      });
-      params.offset += limit;
-    }
+    for (playlistId of this.playlists) {
+      let i = 0;
+      params.offset = 0;
+      while (count < total && i < total) {
+        results = await this.spotify.getPlaylistItems(playlistId, params);
+        total = results.data.total;
+        results.data.items.forEach(function (track) {
+          addedAt = new Date(track.added_at);
+          if (addedAt.getTime() > lastEvent.getTime()) {
+            tracks.push(track);
+          }
+          count++;
+        });
+        i++;
+        params.offset += limit;
+      }
+      count = 0;
+      total = 1;
+    }  
 
     this.db.set("lastEvent", now);
 
