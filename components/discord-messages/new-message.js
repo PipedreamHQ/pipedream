@@ -1,4 +1,4 @@
-const discord = require("https://github.com/PipedreamHQ/pipedream/components/discord/discord-messages.app.js")
+const discord = require("https://github.com/PipedreamHQ/pipedream/components/discord-messages/discord-messages.app.js")
 
 module.exports = {
   name: '',
