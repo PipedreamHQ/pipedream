@@ -120,7 +120,7 @@ Then click **RUN NOW** to invoke your source. Your event will appear in real-tim
 
 ### Maintain state across invocations
 
-Next, we'll use Pipedream's `db` service totrack the number of times the component is invoked.
+Next, we'll use Pipedream's `db` service to track the number of times the component is invoked.
 
 First, we'll assign `$.service.db` to a prop so we can reference it in our code via `this`.
 
