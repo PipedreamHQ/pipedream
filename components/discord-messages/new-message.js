@@ -1,7 +1,7 @@
 const discord = require("https://github.com/PipedreamHQ/pipedream/components/discord-messages/discord-messages.app.js")
 
 module.exports = {
-  name: 'instant discord messages',
+  name: 'instant discord message',
   version: '0.0.1',
   props: {
     discord,
