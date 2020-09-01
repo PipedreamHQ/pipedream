@@ -138,6 +138,12 @@ module.exports = {
       };
       return (await this._makeRequest(config)).data;
     },
+    async getMemberCards(id) {
+      const config = {
+        url: `https://api.trello.com/1/members/${id}/cards`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
     async getListCards(id) {
       const config = {
         url: `https://api.trello.com/1/lists/${id}/cards`,
@@ -147,6 +153,18 @@ module.exports = {
     async getLists(id) {
       const config = {
         url: `https://api.trello.com/1/boards/${id}/lists`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    async getLabels(id) {
+      const config = {
+        url: `https://api.trello.com/1/boards/${id}/labels`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    async getChecklists(id) {
+      const config = {
+        url: `https://api.trello.com/1/boards/${id}/checklists`,
       };
       return (await this._makeRequest(config)).data;
     },
