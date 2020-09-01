@@ -53,11 +53,10 @@ module.exports = {
         `Subscribing this source's URL to the Pub/Sub topic: ${pushEndpoint}
         (under name ${subscriptionName}).`
       );
-      const subscriptionResult = await pubSubClient
+      const [subscriptionResult] = await pubSubClient
         .topic(topic.name)
         .createSubscription(subscriptionName, subscriptionOptions);
-      console.log(subscriptionResult);
-      this.db.set('subscriptionName', subscriptionName);
+      this.db.set('subscriptionName', subscriptionResult.name);
     },
     async deactivate() {
       const sdkParams = this.google_cloud.sdkParams();
