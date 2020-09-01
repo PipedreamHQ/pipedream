@@ -6,13 +6,13 @@ module.exports = {
   methods: {
     async _makeRequest(opts) {
       if (!opts.headers) opts.headers = {}
-      opts.headers.authorization = this.$auth.oauth_access_token
+      opts.headers.authorization = `Bearer ${this.$auth.oauth_access_token}`
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1"
       const { path } = opts
       delete opts.path
       opts.url = `https://discordapp.com/api${
-      path[0] === "/" ? "" : "/"
-    }${path}`
+        path[0] === "/" ? "" : "/"
+      }${path}`
       return await require("@pipedreamhq/platform").axios(this, opts)
     },
     async getChannels() {
