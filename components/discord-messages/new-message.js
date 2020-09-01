@@ -2,7 +2,7 @@ const discord = require("https://github.com/PipedreamHQ/pipedream/components/dis
 
 module.exports = {
   name: 'instant discord message',
-  version: '0.0.3',
+  version: '0.0.4',
   props: {
     discord,
     discordApphook: {
@@ -17,7 +17,7 @@ module.exports = {
       label: "Channels",
       description: "The channels you'd like to watch for new messages",
       async options() {
-        return await this.discord.getChannels(this.guild)
+        return await this.discord.getChannels()
       },
     },
   },

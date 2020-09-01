@@ -15,9 +15,9 @@ module.exports = {
     }${path}`
       return await require("@pipedreamhq/platform").axios(this, opts)
     },
-    async getChannels(guildID) {
+    async getChannels() {
       const channels = await this._makeRequest({
-        path: `/guilds/${guildID}/channels`,
+        path: `/guilds/${this.$auth.oauth_uid}/channels`,
       })
       // Don't display GUILD_CATEGORY channels and GUILD_VOICE channels
       // https://discord.com/developers/docs/resources/channel#channel-object-channel-types
