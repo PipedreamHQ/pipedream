@@ -2,7 +2,7 @@ const discord = require("https://github.com/PipedreamHQ/pipedream/components/dis
 
 module.exports = {
   name: 'instant discord message',
-  version: '0.0.4',
+  version: '0.0.5',
   props: {
     discord,
     discordApphook: {

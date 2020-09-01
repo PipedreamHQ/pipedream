@@ -6,7 +6,7 @@ module.exports = {
   methods: {
     async _makeRequest(opts) {
       if (!opts.headers) opts.headers = {}
-      opts.headers.authorization = this.$auth.oauth_access_token}
+      opts.headers.authorization = this.$auth.oauth_access_token
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1"
       const { path } = opts
       delete opts.path
