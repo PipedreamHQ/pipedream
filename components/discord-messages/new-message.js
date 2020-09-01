@@ -17,7 +17,7 @@ module.exports = {
       label: "Channels",
       description: "The channels you'd like to watch for new messages",
       async options() {
-        return await this.discord.getChannels(this.guild);
+        return await this.discord.getChannels(this.guild)
       },
     },
   },
