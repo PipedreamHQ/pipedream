@@ -187,6 +187,12 @@ module.exports = {
       };
       return (await this._makeRequest(config)).data;
     },
+    async getMember(id) {
+      const config = {
+        url: `https://api.trello.com/1/members/${id}`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
     async createHook({ id, endpoint }) {
       console.log(`id: ${id}`);
       const resp = await this._makeRequest({
