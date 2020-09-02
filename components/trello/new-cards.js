@@ -1,4 +1,4 @@
-const spotify = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
+const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
 
 module.exports = {
   name: "New Cards",
@@ -7,71 +7,55 @@ module.exports = {
   dedupe: "unique",
   props: {
     trello,
-    boardId: {
-      type: "string",
-      label: "Board ID",
-      description:
-        "(Optional) Search for new cards added to the specified board.",
-      default: "",
-    },
-    listId: {
-      type: "string",
-      label: "List ID",
-      description:
-        "(Optional) Search for new cards added to the specified list.",
-      default: "",
-    },
+    boardId: { propDefinition: [trello, "boardId"] },
+    listIds: { propDefinition: [trello, "listIds", c => ({ boardId: c.boardId })] },
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+    http: "$.interface.http",
+  },
+  hooks: {
+    async activate() {
+      const { id } = await this.trello.createHook({
+        id: this.boardId,
+        endpoint: this.http.endpoint,
+      })
+      this.db.set("hookId", id)
+      this.db.set("listIds", this.listIds)
+    },
+    async deactivate() {
+      console.log(this.db.get("hookId"))
+      await this.trello.deleteHook({
+        hookId: this.db.get("hookId"),
+      })
     },
   },
 
   async run(event) {
-    let cards = [];
-    let boards, cardsOnBoard, lastActivity;
-    let results = [];
+    this.http.respond({
+      status: 200,
+    })
 
-    const now = new Date();
-    const monthAgo = new Date(now.getTime());
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
-    let lastEvent = this.db.get("lastEvent") || monthAgo;
-    lastEvent = new Date(lastEvent);
+    const body = _.get(event, 'body')
+    if (body) {
+      const eventType = _.get(body, 'action.type');
+      const cardId = _.get(body, 'action.data.card.id');
+      const listIds = this.db.get("listIds")
+      let emitEvent = false;
+      let card;
 
-    if (this.listId.length > 0) {
-      // get cards in list
-      results = await this.trello.getListCards(this.listId);
-    } else if (this.boardId.length > 0) {
-      // get cards in board
-      results = await this.trello.getCards(this.boardId);
-    } else {
-      // get cards on all the user's boards
-      boards = await this.trello.getBoards("me");
-      for (var i = 0; i < boards.length; i++) {
-        cardsOnBoard = await this.trello.getCards(boards[i].id);
-        cardsOnBoard.forEach(function (card) {
-          results.push(card);
-        });
+      if (eventType && eventType == 'createCard') {
+        card = await this.trello.getCard(cardId);
+        if (listIds.length < 1) emitEvent = true;
+        else if (listIds.includes(card.idList))
+          emitEvent = true;
       }
-    }
-    results.forEach(function (card) {
-      lastActivity = new Date(card.dateLastActivity);
-      if (lastActivity.getTime() > lastEvent.getTime()) {
-        cards.push(card);
+
+      if (emitEvent) {
+        this.$emit(card, {
+          id: card.id,
+          summary: card.name,
+          ts: Date.now(),
+        })
       }
-    });
-
-    this.db.set("lastEvent", now);
-
-    for (const card of cards) {
-      this.$emit(card, {
-        id: card.id,
-        summary: card.name,
-        ts: now,
-      });
     }
   },
 };

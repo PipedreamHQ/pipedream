@@ -132,6 +132,12 @@ module.exports = {
       };
       return (await this._makeRequest(config)).data;
     },
+    async getCard(id) {
+      const config = {
+        url: `https://api.trello.com/1/cards/${id}`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
     async getCards(id) {
       const config = {
         url: `https://api.trello.com/1/boards/${id}/cards`,
@@ -206,7 +212,7 @@ module.exports = {
           method: "delete",
           url: `https://api.trello.com/1/webhooks/${hookId}`,
         })
-      ).data;
+      );
     },
   },
 };

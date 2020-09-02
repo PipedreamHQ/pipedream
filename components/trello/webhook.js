@@ -1,4 +1,4 @@
-const trello = require('./trello.app.js')
+const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
 const _ = require('lodash') 
 
 const sleep = (milliseconds) => {
