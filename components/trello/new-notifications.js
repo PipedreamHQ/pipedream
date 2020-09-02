@@ -1,4 +1,4 @@
-const spotify = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
+const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
 
 module.exports = {
   name: "New Notifications",

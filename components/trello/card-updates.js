@@ -1,53 +1,73 @@
-const spotify = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
+const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
+const _ = require("lodash");
 
 module.exports = {
   name: "Card Updates",
   description: "Emits an event for each update to a Trello card.",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
     trello,
-    cardId: {
-      type: "string",
-      label: "Card ID",
-      description: "Search for updates to the card specified.",
+    boardId: { propDefinition: [trello, "boardId"] },
+    cardIds: {
+      propDefinition: [trello, "cardIds", (c) => ({ boardId: c.boardId })],
     },
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+    http: "$.interface.http",
+  },
+
+  hooks: {
+    async activate() {
+      let modelId = this.boardId;
+      if (!this.boardId) {
+        const member = await this.trello.getMember("me");
+        modelId = member.id;
+      }
+      const { id } = await this.trello.createHook({
+        id: modelId,
+        endpoint: this.http.endpoint,
+      });
+      this.db.set("hookId", id);
+      this.db.set("boardId", this.boardId);
+      this.db.set("cardIds", this.cardIds);
+    },
+    async deactivate() {
+      console.log(this.db.get("hookId"));
+      await this.trello.deleteHook({
+        hookId: this.db.get("hookId"),
+      });
     },
   },
 
   async run(event) {
-    let updates = [];
-    let results = [];
-    let dateUpdated;
-
-    const now = new Date();
-    const monthAgo = new Date(now.getTime());
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
-    let lastEvent = this.db.get("lastEvent") || monthAgo;
-    lastEvent = new Date(lastEvent);
-
-    results = await this.trello.getCardActions(this.cardId);
-    results.forEach(function (update) {
-      dateUpdated = new Date(update.date);
-      if (dateUpdated.getTime() > lastEvent.getTime()) {
-        updates.push(update);
-      }
+    this.http.respond({
+      status: 200,
     });
 
-    this.db.set("lastEvent", now);
+    const body = _.get(event, "body");
+    if (body) {
+      const eventType = _.get(body, "action.type");
+      const cardId = _.get(body, "action.data.card.id");
+      const boardId = this.db.get("boardId");
+      const cardIds = this.db.get("cardIds");
+      let emitEvent = false;
+      let card;
 
-    for (const update of updates) {
-      this.$emit(update, {
-        id: update.id,
-        summary: `${update.type} : ${update.data.card.name}`,
-        ts: update.date,
-      });
+      if (eventType && eventType == "updateCard") {
+        card = await this.trello.getCard(cardId);
+        if (!boardId) emitEvent = true;
+        else if (!cardIds || (cardIds && cardIds.length < 1)) emitEvent = true;
+        else if (cardIds.includes(card.id)) {
+          emitEvent = true;
+        }
+      }
+
+      if (emitEvent) {
+        this.$emit(card, {
+          id: card.id,
+          summary: card.name,
+          ts: Date.now(),
+        });
+      }
     }
   },
 };

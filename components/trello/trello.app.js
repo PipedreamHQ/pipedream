@@ -126,6 +126,12 @@ module.exports = {
         console.log(err); // TODO
       }
     },
+    async getBoard(id) {
+      const config = {
+        url: `https://api.trello.com/1/boards/${id}`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
     async getBoards(id) {
       const config = {
         url: `https://api.trello.com/1/members/${id}/boards`,
@@ -150,9 +156,27 @@ module.exports = {
       };
       return (await this._makeRequest(config)).data;
     },
+    async getChecklists(id) {
+      const config = {
+        url: `https://api.trello.com/1/boards/${id}/checklists`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    async getChecklist(id) {
+      const config = {
+        url: `https://api.trello.com/1/checklists/${id}`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
     async getListCards(id) {
       const config = {
         url: `https://api.trello.com/1/lists/${id}/cards`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    async getList(id) {
+      const config = {
+        url: `https://api.trello.com/1/lists/${id}`,
       };
       return (await this._makeRequest(config)).data;
     },
@@ -165,12 +189,6 @@ module.exports = {
     async getLabels(id) {
       const config = {
         url: `https://api.trello.com/1/boards/${id}/labels`,
-      };
-      return (await this._makeRequest(config)).data;
-    },
-    async getChecklists(id) {
-      const config = {
-        url: `https://api.trello.com/1/boards/${id}/checklists`,
       };
       return (await this._makeRequest(config)).data;
     },
@@ -213,12 +231,10 @@ module.exports = {
       return resp.data;
     },
     async deleteHook({ hookId }) {
-      return (
-        await this._makeRequest({
-          method: "delete",
-          url: `https://api.trello.com/1/webhooks/${hookId}`,
-        })
-      );
+      return await this._makeRequest({
+        method: "delete",
+        url: `https://api.trello.com/1/webhooks/${hookId}`,
+      });
     },
   },
 };
