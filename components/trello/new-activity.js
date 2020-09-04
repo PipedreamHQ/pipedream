@@ -57,7 +57,7 @@ module.exports = {
     const listId = get(body, "action.data.list.id");
     const cardId = get(body, "action.data.card.id");
 
-    if ((eventType && !eventTypes.includes(eventType)) || (listId && !listIds.includes(listId)) || (cardId && !cardIds.includes(cardId))) {
+    if ((eventTypes && !eventTypes.includes(eventType)) || (listIds && !listIds.includes(listId)) || (cardIds && !cardIds.includes(cardId))) {
         return
     }
 
