@@ -137,7 +137,7 @@ module.exports = {
       var doubleHash = base64Digest(content);
       var headerHash = request.headers['x-trello-webhook'];
       return doubleHash == headerHash;
-    }
+    },
     async getBoard(id) {
       const config = {
         url: `https://api.trello.com/1/boards/${id}`,
