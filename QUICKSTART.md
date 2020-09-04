@@ -222,7 +222,7 @@ Next, we'll update our component to run on HTTP requests instead of a timer. To 
 http: "$.interface.http",
 ```
 
-In addition, we'll update the function signature pass in the HTTP event so we can reference it in our code:
+In addition, we'll update the function signature to pass in the HTTP event so we can reference it in our code:
 
 ```javascript
 async run(event) {
@@ -372,13 +372,13 @@ module.exports = {
 }
 ```
 
-Save the changes to your file and then click **RUN NOW** in the Pipedream UI. You should again see 10 events emitted, but this time each event should have a coresponding summary in the event list.
+Save the changes to your file and then click **RUN NOW** in the Pipedream UI. You should again see 10 events emitted, but this time each event should have a corresponding summary in the event list.
 
 ## Only Emit New Items in the  RSS Feed
 
 In the previous examples, we always emit any data that is returned. However, we are emitting duplicate events -- e.g.,  if you run invoke the component twice, you will see the same events emitted twice.
 
-Pipedream provides buiit-in deduplication strategies to make it easy to emit new events only. For this example, we'll use the `unique` strategy. This strategy caches the last 100 event `id` values, and only emits events with `id` values that are not contained in that cache.
+Pipedream provides built-in deduplication strategies to make it easy to emit new events only. For this example, we'll use the `unique` strategy. This strategy caches the last 100 event `id` values, and only emits events with `id` values that are not contained in that cache.
 
 To dedupe with the `unique` strategy, we need to first declare it:
 
@@ -469,7 +469,7 @@ module.exports = {
 
 # Use managed auth to pull data from Github (~10 mins)
 
-In the last example, we were able to retrieve data to emit wihtout any authentication. Now we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). Similar to the last example, continue editing the same file, but start with the following scaffolding:
+In the last example, we were able to retrieve data to emit without any authentication. Now we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). Similar to the last example, continue editing the same file, but start with the following scaffolding:
 
 ```javascript
 module.exports = {
