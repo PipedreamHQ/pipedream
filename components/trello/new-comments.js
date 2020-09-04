@@ -2,14 +2,16 @@ const trello = require("https://github.com/PipedreamHQ/pipedream/components/trel
 const _ = require("lodash");
 
 module.exports = {
-  name: "New Member on Card",
-  description:
-    "Emits an event for each card joined by the authenticated Trello user.",
+  name: "New Comments on Card",
+  description: "Emits an event for each new comment added to a card.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
     trello,
     boardId: { propDefinition: [trello, "boardId"] },
+    cardIds: {
+      propDefinition: [trello, "cardIds", (c) => ({ boardId: c.boardId })],
+    },
     db: "$.service.db",
     http: "$.interface.http",
   },
@@ -27,6 +29,7 @@ module.exports = {
       });
       this.db.set("hookId", id);
       this.db.set("boardId", this.boardId);
+      this.db.set("cardIds", this.cardIds);
     },
     async deactivate() {
       console.log(this.db.get("hookId"));
@@ -44,20 +47,27 @@ module.exports = {
     const body = _.get(event, "body");
     if (body) {
       const eventType = _.get(body, "action.type");
+      const cardId = _.get(body, "action.data.card.id");
       const boardId = this.db.get("boardId");
+      const cardIds = this.db.get("cardIds");
+      let comment = "";
       let emitEvent = false;
       let card;
 
-      if (eventType && eventType == "addMemberToCard") {
-        const cardId = _.get(body, "action.data.card.id");
+      if (eventType && eventType == "commentCard") {
+        comment = _.get(body, "action.data.text");
         card = await this.trello.getCard(cardId);
-        emitEvent = true;
+        if (!boardId) emitEvent = true;
+        else if (!cardIds || (cardIds && cardIds.length < 1)) emitEvent = true;
+        else if (cardIds.includes(card.id)) {
+          emitEvent = true;
+        }
       }
 
       if (emitEvent) {
         this.$emit(card, {
           id: card.id,
-          summary: card.name,
+          summary: comment,
           ts: Date.now(),
         });
       }
