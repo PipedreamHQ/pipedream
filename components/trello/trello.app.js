@@ -1,38 +1,41 @@
 const axios = require("axios");
-const events = `addAttachmentToCard
-addChecklistToCard
-addLabelToCard
-addMemberToBoard
-addMemberToCard
-commentCard
-convertToCardFromCheckItem
-copyCard
-createCard
-createCheckItem
-createLabel
-createList
-deleteAttachmentFromCard
-deleteCard
-deleteCheckItem
-deleteComment
-deleteLabel
-emailCard
-moveCardFromBoard
-moveCardToBoard
-moveListFromBoard
-moveListToBoard
-removeChecklistFromCard
-removeLabelFromCard
-removeMemberFromBoard
-removeMemberFromCard
-updateBoard
-updateCard
-updateCheckItem
-updateCheckItemStateOnCard
-updateChecklist
-updateComment
-updateLabel
-updateList`.split("\n");
+var crypto = require('crypto');
+const events = [
+  { label: "Add Attachment To Card", value: `addAttachmentToCard` },
+  { label: "Add Checklist To Card", value: `addChecklistToCard` },
+  { label: "Add Label To Card", value: `addLabelToCard` },
+  { label: "Add Member To Board", value: `addMemberToBoard` },
+  { label: "Add Member To Card", value: `addMemberToCard` },
+  { label: "Comment Card", value: `commentCard` },
+  { label: "Convert To Card From Check Item", value: `convertToCardFromCheckItem` },
+  { label: "Copy Card", value: `copyCard` },
+  { label: "Create Card", value: `createCard` },
+  { label: "Create Check Item", value: `createCheckItem` },
+  { label: "Create Label", value: `createLabel` },
+  { label: "Create List", value: `createList` },
+  { label: "Delete Attachment From Card", value: `deleteAttachmentFromCard` },
+  { label: "Delete Card", value: `deleteCard` },
+  { label: "Delete Check Item", value: `deleteCheckItem` },
+  { label: "Delete Comment", value: `deleteComment` },
+  { label: "Delete Label", value: `deleteLabel` },
+  { label: "Email Card", value: `emailCard` },
+  { label: "Move Card From Board", value: `moveCardFromBoard` },
+  { label: "Move Card To Board", value: `moveCardToBoard` },
+  { label: "Move List From Board", value: `moveListFromBoard` },
+  { label: "Move List To Board", value: `moveListToBoard` },
+  { label: "Remove Checklist From Card", value: `removeChecklistFromCard` },
+  { label: "Remove Label From Card", value: `removeLabelFromCard` },
+  { label: "Remove Member From Board", value: `removeMemberFromBoard` },
+  { label: "Remove Member From Card", value: `removeMemberFromCard` },
+  { label: "Update Board", value: `updateBoard` },
+  { label: "Update Card", value: `updateCard` },
+  { label: "Update Check Item", value: `updateCheckItem` },
+  { label: "Update Check Item State On Card", value: `updateCheckItemStateOnCard` },
+  { label: "Update Checklist", value: `updateChecklist` },
+  { label: "Update Comment", value: `updateComment` },
+  { label: "Update Label", value: `updateLabel` },
+  { label: "Update List", value: `updateList` },
+]
 
 module.exports = {
   type: "app",
@@ -126,6 +129,15 @@ module.exports = {
         console.log(err); // TODO
       }
     },
+    async verifyTrelloWebhookRequest(request, secret, callbackURL) {
+      var base64Digest = function (s) {
+        return crypto.createHmac('sha1', secret).update(s).digest('base64');
+      }
+      var content = JSON.stringify(request.body) + callbackURL;
+      var doubleHash = base64Digest(content);
+      var headerHash = request.headers['x-trello-webhook'];
+      return doubleHash == headerHash;
+    }
     async getBoard(id) {
       const config = {
         url: `https://api.trello.com/1/boards/${id}`,
@@ -150,27 +162,9 @@ module.exports = {
       };
       return (await this._makeRequest(config)).data;
     },
-    async getMemberCards(id) {
-      const config = {
-        url: `https://api.trello.com/1/members/${id}/cards`,
-      };
-      return (await this._makeRequest(config)).data;
-    },
-    async getChecklists(id) {
-      const config = {
-        url: `https://api.trello.com/1/boards/${id}/checklists`,
-      };
-      return (await this._makeRequest(config)).data;
-    },
     async getChecklist(id) {
       const config = {
         url: `https://api.trello.com/1/checklists/${id}`,
-      };
-      return (await this._makeRequest(config)).data;
-    },
-    async getListCards(id) {
-      const config = {
-        url: `https://api.trello.com/1/lists/${id}/cards`,
       };
       return (await this._makeRequest(config)).data;
     },
@@ -186,22 +180,10 @@ module.exports = {
       };
       return (await this._makeRequest(config)).data;
     },
-    async getLabels(id) {
-      const config = {
-        url: `https://api.trello.com/1/boards/${id}/labels`,
-      };
-      return (await this._makeRequest(config)).data;
-    },
     async getNotifications(id, params) {
       const config = {
         url: `https://api.trello.com/1/members/${id}/notifications`,
         params,
-      };
-      return (await this._makeRequest(config)).data;
-    },
-    async getCardActions(id) {
-      const config = {
-        url: `https://api.trello.com/1/cards/${id}/actions`,
       };
       return (await this._makeRequest(config)).data;
     },

@@ -1,5 +1,5 @@
 const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
-const _ = require("lodash");
+const get = require('lodash.get');
 
 module.exports = {
   name: "New Cards",
@@ -39,33 +39,37 @@ module.exports = {
   },
 
   async run(event) {
+    // validate signature
+    if (!this.trello.verifyTrelloWebhookRequest(event, this.trello.$auth.oauth_refresh_token, this.http.endpoint)) {
+      return
+    }
     this.http.respond({
       status: 200,
     });
 
-    const body = _.get(event, "body");
-    if (body) {
-      const eventType = _.get(body, "action.type");
-      const cardId = _.get(body, "action.data.card.id");
-      const boardId = this.db.get("boardId");
-      const listIds = this.db.get("listIds");
-      let emitEvent = false;
-      let card;
-
-      if (eventType && eventType == "createCard") {
-        card = await this.trello.getCard(cardId);
-        if (!boardId) emitEvent = true;
-        else if (!listIds || (listIds && listIds.length < 1)) emitEvent = true;
-        else if (listIds.includes(card.idList)) emitEvent = true;
-      }
-
-      if (emitEvent) {
-        this.$emit(card, {
-          id: card.id,
-          summary: card.name,
-          ts: Date.now(),
-        });
-      }
+    const body = get(event, "body");
+    if (!body) {
+      return
     }
+
+    const eventType = get(body, "action.type");
+    if (eventType !== "createCard") {
+      return
+    }
+
+    const cardId = get(body, "action.data.card.id");
+    const boardId = this.db.get("boardId");
+    const listIds = this.db.get("listIds");
+    const card = await this.trello.getCard(cardId);
+
+    if ((boardId && boardId !== card.idBoard) || (listdIds && listIds.length > 0 && !listIds.includes(card.idList))) {
+      return
+    }
+
+    this.$emit(card, {
+      id: card.id,
+      summary: card.name,
+      ts: Date.now(),
+    });
   },
 };

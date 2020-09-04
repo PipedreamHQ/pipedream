@@ -1,5 +1,5 @@
 const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
-const _ = require("lodash");
+const get = require('lodash.get');
 
 module.exports = {
   name: "New Labels",
@@ -36,32 +36,35 @@ module.exports = {
   },
 
   async run(event) {
+    // validate signature
+    if (!this.trello.verifyTrelloWebhookRequest(event, this.trello.$auth.oauth_refresh_token, this.http.endpoint)) {
+      return
+    }
     this.http.respond({
       status: 200,
     });
 
-    const body = _.get(event, "body");
-    if (body) {
-      const eventType = _.get(body, "action.type");
-      const boardId = this.db.get("boardId");
-      let emitEvent = false;
-      let label;
-
-      if (eventType && eventType == "createLabel") {
-        const labelId = _.get(body, "action.data.label.id");
-        label = await this.trello.getLabel(labelId);
-        emitEvent = true;
-      }
-
-      if (emitEvent) {
-        let summary = label.color;
-        summary += label.name ? ` - ${label.name}` : "";
-        this.$emit(label, {
-          id: label.id,
-          summary,
-          ts: Date.now(),
-        });
-      }
+    const body = get(event, "body");
+    if (!body) {
+      return
     }
+      
+    const eventType = get(body, "action.type");
+    if (eventType !== "createLabel") {
+      return
+    }
+    const boardId = this.db.get("boardId");
+    const labelId = get(body, "action.data.label.id");
+    const label = await this.trello.getLabel(labelId);
+
+    if (boardId && boardId !== label.idBoard) {
+      return
+    }
+
+    this.$emit(label, {
+      id: label.id,
+      summary: label.name ? `${label.color} - ${label.name}` : `${label.color}`,
+      ts: Date.now(),
+    });
   },
 };

@@ -1,7 +1,7 @@
 const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
 
 module.exports = {
-  name: "Cards Due",
+  name: "Time Before Due Time",
   description:
     "Emits an event at a specified time before a card is due.",
   version: "0.0.1",
@@ -27,6 +27,7 @@ module.exports = {
           { label: 'Weeks', value: 604800000 },
         ]
       },
+      default: 'Minutes',
     },
     db: "$.service.db",
     timer: {
@@ -40,18 +41,17 @@ module.exports = {
   async run(event) {
     let cards = [];
     let results = [];
-    let due, notifyAt, n;
-    const modelId = this.boardId ? this.boardId : "me";
+    let due, notifyAt;
+    const boardId = this.boardId ? this.boardId : "me";
     const now = new Date();
 
-    results = await this.trello.getCards(modelId);
-    for (var i=0; i<results.length; i++) {
-      if (results[i].due) {
-        due = new Date(results[i].due);
-        n = this.timeBefore*this.timeBeforeUnit;
+    results = await this.trello.getCards(boardId);
+    for (const result of results) {
+      if (result.due) {
+        due = new Date(result.due);
         notifyAt = new Date(due.getTime() - (this.timeBefore*this.timeBeforeUnit));
         if (notifyAt.getTime() <= now.getTime()) {
-          cards.push(results[i]);
+          cards.push(result);
         }
       }
     }
@@ -60,7 +60,7 @@ module.exports = {
       this.$emit(card, {
         id: card.id,
         summary: card.name,
-        ts: now,
+        ts: Date.now(),
       });
     }
   },

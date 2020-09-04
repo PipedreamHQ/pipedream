@@ -1,9 +1,5 @@
 const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
-const _ = require("lodash");
-
-const sleep = (milliseconds) => {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds));
-};
+const get = require('lodash.get');
 
 module.exports = {
   name: "New Activity",
@@ -19,11 +15,6 @@ module.exports = {
     },
     cardIds: {
       propDefinition: [trello, "cardIds", (c) => ({ boardId: c.boardId })],
-    },
-  },
-  methods: {
-    generateSecret() {
-      return "" + Math.random();
     },
   },
   hooks: {
@@ -46,40 +37,32 @@ module.exports = {
     },
   },
   async run(event) {
-    // have to be careful about where this event came from to respond
+    // validate signature
+    if (!this.trello.verifyTrelloWebhookRequest(event, this.trello.$auth.oauth_refresh_token, this.http.endpoint)) {
+      return
+    }
     this.http.respond({
       status: 200,
     });
 
-    const body = _.get(event, "body");
-    if (body) {
-      const eventTypes = this.db.get("eventTypes");
-      const listIds = this.db.get("listIds");
-      const cardIds = this.db.get("cardIds");
-
-      const eventType = _.get(body, "action.type");
-      const listId = _.get(body, "action.data.list.id");
-      const cardId = _.get(body, "action.data.card.id");
-
-      let emitEvent = false;
-
-      if (!eventTypes && !listIds && !cardIds) {
-        emitEvent = true;
-      } else {
-        if (
-          (eventType && eventTypes.includes(eventType)) ||
-          (listId && listIds.includes(listId)) ||
-          (cardId && cardIds.includes(cardId))
-        ) {
-          emitEvent = true;
-        }
-      }
-
-      if (emitEvent) {
-        this.$emit(body, {
-          summary: eventType,
-        });
-      }
+    const body = get(event, "body");
+    if (!body) {
+      return
     }
+    const eventTypes = this.db.get("eventTypes");
+    const listIds = this.db.get("listIds");
+    const cardIds = this.db.get("cardIds");
+
+    const eventType = get(body, "action.type");
+    const listId = get(body, "action.data.list.id");
+    const cardId = get(body, "action.data.card.id");
+
+    if ((eventType && !eventTypes.includes(eventType)) || (listId && !listIds.includes(listId)) || (cardId && !cardIds.includes(cardId))) {
+        return
+    }
+
+    this.$emit(body, {
+      summary: eventType,
+    });
   },
 };
