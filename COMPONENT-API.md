@@ -344,14 +344,14 @@ module.exports = {
 
 | Property        | Type    | Required?    | Description                                                                |
 |-----------------|---------|-------------|----------------------------------------------------------------------------|
-| `name` | `string` | required | The name of the component, a string which identifies components deployed to users' accounts. This name will show up in the Pipedream UI, in CLI output (for example, from pd list commands), etc. It will also be converted to a unique slug on deploy to refernce a specific component instance (it will be auto-incremented if not unique within a user account). |
+| `name` | `string` | required | The name of the component, a string which identifies components deployed to users' accounts. This name will show up in the Pipedream UI, in CLI output (for example, from `pd list` commands), etc. It will also be converted to a unique slug on deploy to reference a specific component instance (it will be auto-incremented if not unique within a user account). |
 | `version` | `string` | required | The component version. There are no constraints on the version, but consider using [semantic versioning](https://semver.org/). |
 | `description` | `string` | recommended | The description will appear in the Pipedream UI to aid in discovery and to contextualize instantiated components |
 | `props` | `object` | optional | Props are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`). |
 | `methods` | `object` | optional | Define component methods for the component instance. They can be referenced via `this` (e.g., `this.methodName()`). |
 | `hooks` | `object` | optional | Hooks are functions that are executed when specific component lifecycle events occur. Currently supported hooks are `activate()` and `deactivate()` (they execute when the component is activated or deactivated). |
 | `dedupe` | `string` | optional | You may specify a dedupe strategy (`unique`, `greatest`, `last`) to be applied to emitted events |
-| `run` | `method` | required | Each time a component is invoked (for example, via HTTP request), its `run` method is called. The event that triggered the component is passed to run, so that you can access it within the method. Events are emitted using `this.$emit()`. |
+| `run` | `method` | required | Each time a component is invoked (for example, via HTTP request), its `run` method is called. The event that triggered the component is passed to `run`, so that you can access it within the method. Events are emitted using `this.$emit()`. |
 
 ## Props
 
@@ -382,7 +382,7 @@ props: {
     options: [], // OR async options() {} to return dynamic options
     optional: true || false,
     propDefinition: [],
-    default: 
+    default: "",
   },
 },
 ```
@@ -395,7 +395,7 @@ props: {
 | `options`        | `string[]` or `object[]` or `method` | optional | Provide an array to display options to a user in a drop down menu. Users may select a single option.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
 | `optional`        | `boolean` | optional | Set to `true` to make this prop  optional. Defaults to `false`. |
 | `propDefinition`   | `[]` | optional | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage. |
-| `default`        | `string` | optional | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input) |
+| `default`        | `string` | optional | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input). |
 
 
 **Usage**
@@ -536,7 +536,7 @@ Interface props are infrastructure abstractions provided by the Pipedream platfo
 
 ### Timer
 
-To use the timer interface, declare a prop whose value is the string $.interface.timer:
+To use the timer interface, declare a prop whose value is the string `$.interface.timer`:
 
 **Definition**
 
@@ -605,7 +605,7 @@ module.exports = {
 
 #### HTTP
 
-To use the HTTP interface, declare a prop whose value is the string $.interface.http:
+To use the HTTP interface, declare a prop whose value is the string `$.interface.http`:
 
 ```javascript
 props: {
@@ -626,7 +626,7 @@ props: {
 | Code        | Description    | Read Scope | Write Scope |
 |-------------|----------------|-------------|--------|
 | `this.myPropName` | Returns an object with the unique endpoint URL generated by Pipedream (e.g., `{ endpoint: 'https://abcde.m.pipedream.net' }`) | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
-| `event` | Returns an object representing the HTTP request (e.g., `{ method: 'POST', path: '/', query: {}, headers: {}, bodyRaw: '', body: }`) | `run(event)` | The shape of `event` corresponds with the the HTTP request you make to the endpoint generated by Pipedream for this interface |
+| `event` | Returns an object representing the HTTP request (e.g., `{ method: 'POST', path: '/', query: {}, headers: {}, bodyRaw: '', body: {}, }`) | `run(event)` | The shape of `event` corresponds with the the HTTP request you make to the endpoint generated by Pipedream for this interface |
 | `this.myPropName.respond()` | Returns an HTTP response to the client (e.g., `this.http.respond({status: 200})`). | n/a | `run()` |
 
 ##### Responding to HTTP requests
@@ -726,7 +726,7 @@ props: {
 |-------------|----------------|---------------|--------|
 | `type`        | `string` | required | Value must be `app` |
 | `app`        | `string` | required | Value must be set to the name slug for an app registered on Pipedream. If you don't see an app listed, please reach out in our public Slack. This data will be discoverable in a self-service way in the near future. |
-| `propDefinitions`  | `object` | optional | An object that contains objects with predefined user input props. See the section on User Input Props above to learn about the shapes that can be defined and how to reference in components using the `propDefiniton` property |
+| `propDefinitions`  | `object` | optional | An object that contains objects with predefined user input props. See the section on User Input Props above to learn about the shapes that can be defined and how to reference in components using the `propDefinition` property |
 | `methods`        | `object` | optional | Define app-specific methods. Methods can be referenced within the app object context via `this` (e.g., `this.methodName()`) and within a component via `this.myAppPropName` (e.g., `this.myAppPropName.methodName()`). |
 
 
@@ -772,8 +772,8 @@ hooks: {
 
 | Property        | Type    | Required? | Description |
 |-------------|----------------|---------------|--------|
-| `activate`        | `method` | optional | Executed each time a commponent is deployed or updated |
-| `deactivate`        | `method` | optional | Executed each time a commponent is deactivated  |
+| `activate`        | `method` | optional | Executed each time a component is deployed or updated |
+| `deactivate`        | `method` | optional | Executed each time a component is deactivated  |
 
 ## Dedupe Strategies
 
