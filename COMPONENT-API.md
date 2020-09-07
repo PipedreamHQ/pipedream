@@ -50,7 +50,7 @@ This document was created to help developers author and use Pipedream components
     - [User Input Props](#user-input-props)
       - [General](#general)
       - [Advanced Configuration](#advanced-configuration)
-      - [Asyc Options (example)](#asyc-options-example)
+      - [Async Options (example)](#async-options-example)
         - [Prop Definitions (example)](#prop-definitions-example)
     - [Interface Props](#interface-props)
     - [Timer](#timer)
@@ -78,7 +78,7 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 - Emit data on each event to inspect it, trigger Pipedream hosted workflows or access it outside of Pipedream via API
 - Accept user input on deploy via [CLI](https://docs.pipedream.com/cli/reference/#pd-deploy), [API](https://docs.pipedream.com/api/rest/#overview), or [UI](https://pipedream.com/sources)
 - Connect to 300+ apps using Pipedream managed auth
-- Use most npm pacakges with no `npm install` or `package.json` required
+- Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
 
 ## Quickstart
@@ -300,7 +300,7 @@ Pipedream makes it easy to consume events via:
 
 ### UI
 
-When you navigate to your source component in the UI, you will be able to select and inspect the most recent 100 events (i.e., an event bin). For example, if you send requests to a simple HTTP source, you will be able to inspect the events (i.e, a request bin).
+When you navigate to your source component in the UI, you will be able to select and inspect the most recent 100 events (i.e., an event bin). For example, if you send requests to a simple HTTP source, you will be able to inspect the events (i.e., a request bin).
 
 ### Workflows
 
@@ -429,9 +429,9 @@ To see more examples, explore the curated components in Pipedream's Github repo.
 
 #### Advanced Configuration
 
-#### Asyc Options ([example](components/github/github.app.js))
+#### Async Options ([example](components/github/github.app.js))
 
-Async options allow users to select prop values that can be programatically generated (e.g., based on an real-time API response).
+Async options allow users to select prop values that can be programmatically generated (e.g., based on a real-time API response).
 
 ```javascript
 async options({ 
@@ -583,7 +583,7 @@ module.exports = {
 }
 ```
 
-Following is a basic example of a component that is triggered by a `$.interface.timer` and has default defined as a interval.
+Following is a basic example of a component that is triggered by a `$.interface.timer` and has default defined as an interval.
 
 ```javascript
 module.exports = {
@@ -739,7 +739,7 @@ props: {
 | `this.methodName()` | Execute a common method defined for an app within the app definition (e.g., from another method) | **App Object:** `methods` | n/a |
 | `this.myAppPropName.methodName()` | Execute a common method defined for an app from a component that includes the app as a prop | **Parent Component:** `run()` `hooks` `methods` | n/a |
 
->**Note:** The specific `$auth` keys supported for each app will be pulished in the near future.
+>**Note:** The specific `$auth` keys supported for each app will be published in the near future.
 
 ## Methods
 
@@ -783,7 +783,7 @@ hooks: {
 |-------------|----------------|
 | `unique`        | Pipedream maintains a cache of 100 emitted `id` values. Events with `id` values that are not in the cache are emitted, and the `id` value is added to the cache. After 100 events, `id` values are purged from the cache based on the order received (first in, first out). A common use case for this strategy is an RSS feed which typically does not exceed 100 items |
 | `greatest`        | Pipedream caches the largest `id` value (must be numeric). Only events with larger `id` values are emitted (and the cache is updated to match the new, largest value). |
-| `last`        | Pipedream caches the ID assocaited with the last emitted event. When new events are emitted, only events after the matching `id` value will be emitted as events. If no `id` values match, then all events will be emitted. |
+| `last`        | Pipedream caches the ID associated with the last emitted event. When new events are emitted, only events after the matching `id` value will be emitted as events. If no `id` values match, then all events will be emitted. |
 
 ## Run
 
