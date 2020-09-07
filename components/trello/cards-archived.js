@@ -2,17 +2,18 @@ const trello = require("https://github.com/PipedreamHQ/pipedream/components/trel
 const get = require("lodash.get");
 
 module.exports = {
-  name: "New Lists",
-  description: "Emits an event for each new list added to a board.",
+  name: "Cards Archived",
+  description: "Emits an event for each card archived.",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
-    trello,
-    boardId: { propDefinition: [trello, "boardId"] },
     db: "$.service.db",
     http: "$.interface.http",
+    trello,
+    boardId: { propDefinition: [trello, "boardId"] },
+    listIds: {
+      propDefinition: [trello, "listIds", (c) => ({ boardId: c.boardId })],
+    },
   },
-
   hooks: {
     async activate() {
       let modelId = this.boardId;
@@ -26,6 +27,7 @@ module.exports = {
       });
       this.db.set("hookId", id);
       this.db.set("boardId", this.boardId);
+      this.db.set("listIds", this.listIds);
     },
     async deactivate() {
       console.log(this.db.get("hookId"));
@@ -34,7 +36,6 @@ module.exports = {
       });
     },
   },
-
   async run(event) {
     // validate signature
     if (
@@ -55,22 +56,26 @@ module.exports = {
       return;
     }
 
-    const eventType = get(body, "action.type");
-    if (eventType !== "createList") {
+    const eventTranslationKey = get(body, "action.display.translationKey");
+    if (eventTranslationKey !== "action_archived_card") {
       return;
     }
 
+    const cardId = get(body, "action.data.card.id");
     const boardId = this.db.get("boardId");
-    const listId = get(body, "action.data.list.id");
-    const list = await this.trello.getList(listId);
+    const listIds = this.db.get("listIds");
+    const card = await this.trello.getCard(cardId);
 
-    if (boardId && boardId !== list.idBoard) {
-      return;
+    if (boardId) {
+      if (boardId !== card.idBoard) return;
+    }
+    if (listIds) {
+      if (listIds.length > 0 && !listIds.includes(card.idList)) return;
     }
 
-    this.$emit(list, {
-      id: list.id,
-      summary: list.name,
+    this.$emit(card, {
+      id: card.id,
+      summary: card.name,
       ts: Date.now(),
     });
   },

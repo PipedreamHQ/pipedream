@@ -27,7 +27,10 @@ module.exports = {
     const notifications = await this.trello.getNotifications("me", params);
 
     if (notifications.length > 0)
-      this.db.set("lastNotificationId", notifications[notifications.length - 1].id);
+      this.db.set(
+        "lastNotificationId",
+        notifications[notifications.length - 1].id
+      );
 
     for (const notification of notifications) {
       notificationDate = new Date(notification.date);

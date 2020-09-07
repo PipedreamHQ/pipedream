@@ -1,5 +1,5 @@
 const axios = require("axios");
-var crypto = require('crypto');
+var crypto = require("crypto");
 const events = [
   { label: "Add Attachment To Card", value: `addAttachmentToCard` },
   { label: "Add Checklist To Card", value: `addChecklistToCard` },
@@ -7,7 +7,10 @@ const events = [
   { label: "Add Member To Board", value: `addMemberToBoard` },
   { label: "Add Member To Card", value: `addMemberToCard` },
   { label: "Comment Card", value: `commentCard` },
-  { label: "Convert To Card From Check Item", value: `convertToCardFromCheckItem` },
+  {
+    label: "Convert To Card From Check Item",
+    value: `convertToCardFromCheckItem`,
+  },
   { label: "Copy Card", value: `copyCard` },
   { label: "Create Card", value: `createCard` },
   { label: "Create Check Item", value: `createCheckItem` },
@@ -30,12 +33,15 @@ const events = [
   { label: "Update Board", value: `updateBoard` },
   { label: "Update Card", value: `updateCard` },
   { label: "Update Check Item", value: `updateCheckItem` },
-  { label: "Update Check Item State On Card", value: `updateCheckItemStateOnCard` },
+  {
+    label: "Update Check Item State On Card",
+    value: `updateCheckItemStateOnCard`,
+  },
   { label: "Update Checklist", value: `updateChecklist` },
   { label: "Update Comment", value: `updateComment` },
   { label: "Update Label", value: `updateLabel` },
   { label: "Update List", value: `updateList` },
-]
+];
 
 module.exports = {
   type: "app",
@@ -131,11 +137,11 @@ module.exports = {
     },
     async verifyTrelloWebhookRequest(request, secret, callbackURL) {
       var base64Digest = function (s) {
-        return crypto.createHmac('sha1', secret).update(s).digest('base64');
-      }
+        return crypto.createHmac("sha1", secret).update(s).digest("base64");
+      };
       var content = JSON.stringify(request.body) + callbackURL;
       var doubleHash = base64Digest(content);
-      var headerHash = request.headers['x-trello-webhook'];
+      var headerHash = request.headers["x-trello-webhook"];
       return doubleHash == headerHash;
     },
     async getBoard(id) {
@@ -165,6 +171,12 @@ module.exports = {
     async getChecklist(id) {
       const config = {
         url: `https://api.trello.com/1/checklists/${id}`,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    async getLabel(id) {
+      const config = {
+        url: `https://api.trello.com/1/labels/${id}`,
       };
       return (await this._makeRequest(config)).data;
     },

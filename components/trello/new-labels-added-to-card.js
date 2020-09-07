@@ -2,17 +2,21 @@ const trello = require("https://github.com/PipedreamHQ/pipedream/components/trel
 const get = require("lodash.get");
 
 module.exports = {
-  name: "New Lists",
-  description: "Emits an event for each new list added to a board.",
+  name: "New Labels Added To Card",
+  description: "Emits an event for each label added to a card.",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
-    trello,
-    boardId: { propDefinition: [trello, "boardId"] },
     db: "$.service.db",
     http: "$.interface.http",
+    trello,
+    boardId: { propDefinition: [trello, "boardId"] },
+    listIds: {
+      propDefinition: [trello, "listIds", (c) => ({ boardId: c.boardId })],
+    },
+    cardIds: {
+      propDefinition: [trello, "cardIds", (c) => ({ boardId: c.boardId })],
+    },
   },
-
   hooks: {
     async activate() {
       let modelId = this.boardId;
@@ -26,6 +30,8 @@ module.exports = {
       });
       this.db.set("hookId", id);
       this.db.set("boardId", this.boardId);
+      this.db.set("listIds", this.listIds);
+      this.db.set("cardIds", this.cardIds);
     },
     async deactivate() {
       console.log(this.db.get("hookId"));
@@ -34,7 +40,6 @@ module.exports = {
       });
     },
   },
-
   async run(event) {
     // validate signature
     if (
@@ -56,21 +61,33 @@ module.exports = {
     }
 
     const eventType = get(body, "action.type");
-    if (eventType !== "createList") {
+    if (eventType !== "addLabelToCard") {
       return;
     }
 
+    const cardId = get(body, "action.data.card.id");
+    const labelName = get(body, "action.data.label.name");
+    const labelColor = get(body, "action.data.label.color");
     const boardId = this.db.get("boardId");
-    const listId = get(body, "action.data.list.id");
-    const list = await this.trello.getList(listId);
+    const listIds = this.db.get("listIds");
+    const cardIds = this.db.get("cardIds");
+    const card = await this.trello.getCard(cardId);
 
-    if (boardId && boardId !== list.idBoard) {
-      return;
+    if (boardId) {
+      if (boardId !== card.idBoard) return;
+    }
+    if (listIds) {
+      if (listIds.length > 0 && !listIds.includes(card.idList)) return;
+    }
+    if (cardIds) {
+      if (cardIds.length > 0 && !cardIds.includes(card.id)) return;
     }
 
-    this.$emit(list, {
-      id: list.id,
-      summary: list.name,
+    this.$emit(card, {
+      id: card.id,
+      summary: labelName
+        ? `${labelColor} - ${labelName}; added to ${card.name}`
+        : `${labelColor}; added to ${card.name}`,
       ts: Date.now(),
     });
   },

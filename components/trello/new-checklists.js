@@ -1,5 +1,5 @@
 const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
-const get = require('lodash.get');
+const get = require("lodash.get");
 
 module.exports = {
   name: "New Checklists",
@@ -37,8 +37,14 @@ module.exports = {
 
   async run(event) {
     // validate signature
-    if (!this.trello.verifyTrelloWebhookRequest(event, this.trello.$auth.oauth_refresh_token, this.http.endpoint)) {
-      return
+    if (
+      !this.trello.verifyTrelloWebhookRequest(
+        event,
+        this.trello.$auth.oauth_refresh_token,
+        this.http.endpoint
+      )
+    ) {
+      return;
     }
     this.http.respond({
       status: 200,
@@ -46,12 +52,12 @@ module.exports = {
 
     const body = get(event, "body");
     if (!body) {
-      return
+      return;
     }
 
     const eventType = get(body, "action.type");
     if (eventType !== "addChecklistToCard") {
-      return
+      return;
     }
 
     const boardId = this.db.get("boardId");
@@ -59,13 +65,13 @@ module.exports = {
     const checklist = await this.trello.getChecklist(checklistId);
 
     if (boardId && boardId !== checklist.idBoard) {
-      return
+      return;
     }
 
     this.$emit(checklist, {
       id: checklist.id,
       summary: checklist.name,
       ts: Date.now(),
-    });  
+    });
   },
 };

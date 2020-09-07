@@ -1,5 +1,5 @@
 const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
-const get = require('lodash.get');
+const get = require("lodash.get");
 
 module.exports = {
   name: "Card Updates",
@@ -40,8 +40,14 @@ module.exports = {
 
   async run(event) {
     // validate signature
-    if (!this.trello.verifyTrelloWebhookRequest(event, this.trello.$auth.oauth_refresh_token, this.http.endpoint)) {
-      return
+    if (
+      !this.trello.verifyTrelloWebhookRequest(
+        event,
+        this.trello.$auth.oauth_refresh_token,
+        this.http.endpoint
+      )
+    ) {
+      return;
     }
     this.http.respond({
       status: 200,
@@ -49,12 +55,12 @@ module.exports = {
 
     const body = get(event, "body");
     if (!body) {
-      return
+      return;
     }
 
     const eventType = get(body, "action.type");
     if (eventType !== "updateCard") {
-      return
+      return;
     }
 
     const cardId = get(body, "action.data.card.id");
@@ -62,8 +68,11 @@ module.exports = {
     const cardIds = this.db.get("cardIds");
     const card = await this.trello.getCard(cardId);
 
-    if ((boardId && boardId !== card.idBoard) || (cardIds && cardIds.length > 0 && !cardIds.includes(card.id))) {
-      return
+    if (boardId) {
+      if (boardId !== card.idBoard) return;
+    }
+    if (cardIds) {
+      if (cardIds.length > 0 && !cardIds.includes(card.id)) return;
     }
 
     this.$emit(card, {

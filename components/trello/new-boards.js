@@ -1,5 +1,5 @@
 const trello = require("https://github.com/PipedreamHQ/pipedream/components/trello/trello.app.js");
-const get = require('lodash.get');
+const get = require("lodash.get");
 
 module.exports = {
   name: "New Boards",
@@ -30,8 +30,14 @@ module.exports = {
 
   async run(event) {
     // validate signature
-    if (!this.trello.verifyTrelloWebhookRequest(event, this.trello.$auth.oauth_refresh_token, this.http.endpoint)) {
-      return
+    if (
+      !this.trello.verifyTrelloWebhookRequest(
+        event,
+        this.trello.$auth.oauth_refresh_token,
+        this.http.endpoint
+      )
+    ) {
+      return;
     }
     this.http.respond({
       status: 200,
@@ -39,12 +45,12 @@ module.exports = {
 
     const body = get(event, "body");
     if (!body) {
-      return
+      return;
     }
 
     const eventType = get(body, "action.type");
     if (eventType !== "createBoard") {
-      return
+      return;
     }
 
     const boardId = get(body, "action.data.board.id");

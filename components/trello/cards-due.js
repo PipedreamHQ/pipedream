@@ -2,8 +2,7 @@ const trello = require("https://github.com/PipedreamHQ/pipedream/components/trel
 
 module.exports = {
   name: "Time Before Due Time",
-  description:
-    "Emits an event at a specified time before a card is due.",
+  description: "Emits an event at a specified time before a card is due.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -21,13 +20,13 @@ module.exports = {
       description: "Unit of time for Time Before.",
       async options() {
         return [
-          { label: 'Minutes', value: 60000 },
-          { label: 'Hours', value: 3600000 },
-          { label: 'Days', value: 86400000 },
-          { label: 'Weeks', value: 604800000 },
-        ]
+          { label: "Minutes", value: 60000 },
+          { label: "Hours", value: 3600000 },
+          { label: "Days", value: 86400000 },
+          { label: "Weeks", value: 604800000 },
+        ];
       },
-      default: 'Minutes',
+      default: "Minutes",
     },
     db: "$.service.db",
     timer: {
@@ -49,7 +48,9 @@ module.exports = {
     for (const result of results) {
       if (result.due) {
         due = new Date(result.due);
-        notifyAt = new Date(due.getTime() - (this.timeBefore*this.timeBeforeUnit));
+        notifyAt = new Date(
+          due.getTime() - this.timeBefore * this.timeBeforeUnit
+        );
         if (notifyAt.getTime() <= now.getTime()) {
           cards.push(result);
         }
