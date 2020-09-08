@@ -1,5 +1,6 @@
 const axios = require("axios")
 
+// https://developer.yahoo.com/fantasysports/guide/#user-resource
 const yfs = {
   label: "Yahoo! Fantasy Sports",
   type: "app",
@@ -60,12 +61,38 @@ const yfs = {
       }
       return ret
     },
-    async getLeagueTransactions(leagueKey) {
+    async getLeagueTransactions(leagueKey, eventTypes) {
       const resp = await this._makeRequest({
-        path: `/leagues;league_keys=${leagueKey}/transactions`,
+        path: `/leagues;league_keys=${leagueKey}/transactions;types=${eventTypes.join(",")}`,
       })
       const leagues = this.unwrap(resp.data.fantasy_content.leagues)
       return leagues[0].transactions
+    },
+    transactionSummary(txn) {
+      switch (txn.type) {
+        case "add": {
+          const p = txn.players[0]
+          return `(+) ${p.name.full}, ${p.editorial_team_abbr} - ${p.display_position} -- ${p.transaction_data.destination_team_name}`
+        }
+        case "add/drop": {
+          // XXX check always add drop in this order
+          const p0 = txn.players[0]
+          const p1 = txn.players[1]
+          return `(+) ${p0.name.full}, ${p0.editorial_team_abbr} - ${p0.display_position} ` +
+          `(-) ${p1.name.full}, ${p1.editorial_team_abbr} - ${p1.display_position} -- ${p0.transaction_data.destination_team_name}`
+        }
+        case "drop": {
+          const p = txn.players[0]
+          return `(-) ${p.name.full}, ${p.editorial_team_abbr} - ${p.display_position} -- ${p.transaction_data.source_team_name}`
+        }
+        case "commish":
+          return "Commish event" // XXX can't push much else :/
+        // TODO
+        // case "trade":
+        //   break
+        default:
+          return "Unhandled transaction type"
+      }
     },
   },
 }
@@ -80,17 +107,30 @@ module.exports = {
         return await this.yfs.getLeagueOptions()
       },
     },
+    eventTypes: {
+      type: "string[]",
+      options: ["*", "add", "drop", "commish", "trade"], // not type with team_key
+      optional: true,
+      default: ["*"],
+    },
     timer: "$.interface.timer",
   },
   dedupe: "unique",
   async run() {
-    const transactions = await this.yfs.getLeagueTransactions(this.league)
-    // XXX figure out count
-    // XXX make calls to join with metadata
-    for (const transaction of transactions) {
-      this.$emit(transaction, {
-        id: transaction.transaction_key,
-        ts: (+transaction.timestamp)*1000,
+    let eventTypes = []
+    if (this.eventTypes.includes("*")) {
+      eventTypes.push("add", "drop", "commish", "trade")
+    } else {
+      eventTypes = this.eventTypes
+    }
+    const transactions = await this.yfs.getLeagueTransactions(this.league, eventTypes)
+    // XXX figure out count... field any integer greater than 0 but nothing about default limit or pagination?
+    for (const txn of transactions) {
+      txn._summary = this.yfs.transactionSummary(txn)
+      this.$emit(txn, {
+        id: txn.transaction_key,
+        ts: (+txn.timestamp)*1000,
+        summary: txn._summary,
       })
     }
   },
