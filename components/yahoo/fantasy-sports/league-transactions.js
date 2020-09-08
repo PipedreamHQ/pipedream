@@ -16,22 +16,35 @@ const yfs = {
       return await axios(config)
     },
     unwrap(o) {
-      // XXX make this less cryptic :P
-      const ret = []
-      for (let i = 0; i < o.count; i++) {
-        const arr = o[i]
-        for (const k in arr) {
-          const sub = arr[k][0]
-          if (arr[k][1]) {
-            for (const subk in arr[k][1]) {
-              const subo = this.unwrap(arr[k][1][subk])
-              sub[subk] = subo
+      if (o && typeof o === "object" && "count" in o) {
+        const ret = []
+        for (let i = 0; i < o.count; i++) {
+          // ignore the k as its the name of the object type
+          for (const k in o[i]) {
+            ret.push(this.unwrap(o[i][k]))
+          }
+        }
+        return ret
+      }
+      if (Array.isArray(o)) {
+        // can be array and object mix...
+        const ret = {}
+        for (const el of o) {
+          if (Array.isArray(el)) {
+            for (const subel of el) {
+              for (const k in subel) {
+                ret[k] = this.unwrap(subel[k])
+              }
+            }
+          } else { // if object
+            for (const k in el) {
+              ret[k] = this.unwrap(el[k])
             }
           }
-          ret.push(sub)
         }
+        return ret
       }
-      return ret
+      return o
     },
     async getLeagueOptions() {
       const resp = await this._makeRequest({
