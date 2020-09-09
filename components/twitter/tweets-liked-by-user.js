@@ -15,7 +15,7 @@ module.exports = {
     },
   },
   dedupe: "unique",
-  async run(event) {     
+  async run(_event) {     
     (await this.twitter.getLikedTweets({ screen_name: this.screen_name })).reverse().forEach(tweet => {
       this.$emit(tweet, {
         id: tweet.id_str,

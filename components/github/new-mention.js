@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   dedupe: "greatest",
-  async run(event) {
+  async run(_event) {
     const since = this.db.get("since")
     const login = this.db.get("login")
 

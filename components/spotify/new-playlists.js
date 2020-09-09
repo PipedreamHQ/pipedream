@@ -16,7 +16,7 @@ module.exports = {
     },
   },
 
-  async run(event) {
+  async run(_event) {
     let playlists = [];
     let results;
     let total = 1;

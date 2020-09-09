@@ -45,11 +45,13 @@ module.exports = {
     if (this.resultType === "array" && this.emitEachRecordAsEvent) {
       // First, extract the properties to include in every event
       const { columnInfo, queryExecutionId, csvLocation } = results;
+      /*
       let event = {
         columnInfo,
         queryExecutionId,
         csvLocation,
       };
+      */
       const header = results.results.shift();
       for (const [i, row] of results.results.entries()) {
         let record = {};

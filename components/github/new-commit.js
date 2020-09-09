@@ -20,7 +20,7 @@ module.exports = {
     },
   },
   dedupe: "last",
-  async run(event) {
+  async run(_event) {
     const config = {
       repoFullName: this.repoFullName,
       sha: this.branch,

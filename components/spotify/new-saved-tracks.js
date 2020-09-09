@@ -17,7 +17,7 @@ module.exports = {
     },
   },
 
-  async run(event) {
+  async run(_event) {
     let tracks = [];
     let results;
     let addedAt;

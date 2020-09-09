@@ -1,7 +1,5 @@
 const twitterlabs = require('https://github.com/PipedreamHQ/pipedream/components/twitter-labs/twitter-labs.app.js')
 
-const axios = require('axios')
-
 module.exports = {
   name: "new tweet metrics",
   version: "0.0.1",
@@ -17,7 +15,7 @@ module.exports = {
     twitterlabs,
   },
 
-  async run(event) {
+  async run(_event) {
     const Twit = require('twit')
     const { api_key, api_secret_key, access_token, access_token_secret } = this.twitterlabs.$auth
     const T = new Twit({

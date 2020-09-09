@@ -26,7 +26,7 @@ module.exports = {
       this.db.set("calendarIds", []);
     },
   },
-  async run(event) {
+  async run(_event) {
     const previousCalendarIds = this.db.get("calendarIds") || [];
 
     const calListResp = await this.googleCalendar.calendarList();

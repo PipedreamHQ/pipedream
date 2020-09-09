@@ -84,7 +84,7 @@ module.exports = {
       const state = await this.getState(context)
       if (state) {
         try {
-          const { dropbox, db } = context
+          const { db } = context
           let [cursor, has_more, entries] = [state.cursor, true, null]
           while(has_more) {
             ({ entries, cursor, has_more } = await this.sdk().filesListFolderContinue({ cursor }))

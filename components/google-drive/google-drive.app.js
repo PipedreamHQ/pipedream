@@ -18,7 +18,7 @@ module.exports = {
       type: "string",
       label: "Drive",
       description: "The drive you want to watch for changes",
-      async options({ page, prevContext }) {
+      async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return await this.listDrives(nextPageToken);
       },

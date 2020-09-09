@@ -15,8 +15,8 @@ module.exports = {
     },
   },
   dedupe: "unique",
-  async run(event) {     
-    const response = (await this.twitter.getTrends()).forEach(geo => {
+  async run(_event) {     
+    (await this.twitter.getTrends()).forEach(geo => {
       geo.trends.reverse().forEach(trend => {
         this.$emit(trend, {
           id: trend.query,

@@ -16,7 +16,7 @@ module.exports = {
     gorgias,
   },
   dedupe: "greatest",
-  async run(event) {
+  async run(_event) {
     const url = `https://${this.gorgias.$auth.domain}.gorgias.com/api/events/?per_page=100`
     const data = (await axios({
       method: "get",

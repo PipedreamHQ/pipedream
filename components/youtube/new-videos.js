@@ -16,7 +16,7 @@ module.exports = {
     },
   },
 
-  async run(event) {
+  async run(_event) {
     let videos = [];
     let totalResults = 1;
     let nextPageToken = null;

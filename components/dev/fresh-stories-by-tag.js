@@ -27,7 +27,7 @@ module.exports = {
     dev_to,
   },
   dedupe: "greatest",
-  async run(event) {
+  async run(_event) {
     const url = `https://dev.to/api/articles?per_page=1000&top=1&tag=${encodeURIComponent(this.tag)}`
     const data = (await axios({
       method: "get",

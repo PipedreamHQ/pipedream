@@ -14,7 +14,7 @@ module.exports = {
       },
     },
   },
-  async run(event) {     
+  async run(_event) {     
     const cached = this.db.get("followers") || []
     const activation = this.db.get("activation") || true
     let newFollowers = []

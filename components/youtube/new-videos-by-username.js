@@ -21,7 +21,7 @@ module.exports = {
     },
   },
 
-  async run(event) {
+  async run(_event) {
     let videos = [];
     let channelIds = [];
     let totalResults;
@@ -44,7 +44,7 @@ module.exports = {
       channelIds.push(channel.id);
     });
 
-    for (const channelId of channelIds) {
+    for (const _channelId of channelIds) {
       count = 0;
       totalResults = 1;
       nextPageToken = null;

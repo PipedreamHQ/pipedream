@@ -32,7 +32,7 @@ module.exports = {
     },
     npm,
   },
-  async run(event) {
+  async run(_event) {
     const npm_event = (await axios({
       method: "get",
       url: `https://api.npmjs.org/downloads/point/${encodeURIComponent(this.period)}/${encodeURIComponent(this.package)}`,

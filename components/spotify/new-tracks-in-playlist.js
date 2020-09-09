@@ -11,7 +11,7 @@ module.exports = {
       type: "string[]",
       label: "Playlist",
       description: "Search for new tracks added to the specified playlist(s).",
-      async options({ page, prevContext }) {
+      async options({ prevContext }) {
         const limit = 20;
         const offset = prevContext.offset ? prevContext.offset : 0;
         const results = await this.spotify.getPlaylists({ limit, offset });
@@ -34,7 +34,7 @@ module.exports = {
     },
   },
 
-  async run(event) {
+  async run(_event) {
     let tracks = [];
     let results;
     let addedAt;

@@ -21,7 +21,7 @@ module.exports = {
     },
   }, 
   methods: {},
-  async run(event) {
+  async run(_event) {
     const screen_name = this.screen_name //.replace('@','')
     const since_id = this.db.get("since_id")
     const { enrichTweets, includeReplies, include_rts, count } = this

@@ -15,7 +15,7 @@ module.exports = {
     },
   },
   dedupe: "last",
-  async run(event) {
+  async run(_event) {
     const repos = await this.github.getRepos({
       sort: 'created',
       direction: 'desc',

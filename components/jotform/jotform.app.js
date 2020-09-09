@@ -13,7 +13,7 @@ module.exports = {
     formId: {
       type: "string", 
       label: "Form", 
-      async options(opts) { 
+      async options(_opts) { 
         const forms = await this.getForms(this.$auth.api_key)  
         return forms.content.map(form => { 
           return { label: form.title, value: form.id } 

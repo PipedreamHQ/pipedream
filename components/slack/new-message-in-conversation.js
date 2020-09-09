@@ -102,7 +102,7 @@ module.exports = {
       })
     },
     async getTeamName(id) {
-      return this.maybeCached(`team:${id}`, async (info) => {
+      return this.maybeCached(`team:${id}`, async (_info) => {
         try {
           const info = await this.slack.sdk().team.info({ team: id })
           return info.team.name

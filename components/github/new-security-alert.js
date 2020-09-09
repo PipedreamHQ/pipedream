@@ -16,7 +16,7 @@ module.exports = {
     db: "$.service.db",
   },
   dedupe: "greatest",
-  async run(event) {
+  async run(_event) {
     const since = this.db.get("since")
 
     const notifications = await this.github.getNotifications({

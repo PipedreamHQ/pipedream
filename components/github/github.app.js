@@ -171,7 +171,7 @@ module.exports = {
         },
       })).data
     },
-    async getUser(opts = {}) {
+    async getUser(_opts = {}) {
       return (await this._makeRequest({
         path: "/user",
       })).data

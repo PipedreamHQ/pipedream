@@ -28,7 +28,7 @@ module.exports = {
       await this.dropbox.initState(this)
     }
   },
-  async run(event) {
+  async run(_event) {
     let updates = await this.dropbox.getUpdates(this)
     for(update of updates) {
       if (update[".tag"] == "file") {
@@ -39,7 +39,7 @@ module.exports = {
           })
         }
         if (this.includeLink) {
-          const { link, metadata } = await this.dropbox.sdk().filesGetTemporaryLink({
+          const { link } = await this.dropbox.sdk().filesGetTemporaryLink({
             path: update.path_lower,
           })
           update.link = link

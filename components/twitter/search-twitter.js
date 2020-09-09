@@ -25,7 +25,7 @@ module.exports = {
       },
     }, 
   }, 
-  async run(event) {
+  async run(_event) {
     const since_id = this.db.get("since_id")
     const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
     let q = this.q, max_id, limitFirstPage

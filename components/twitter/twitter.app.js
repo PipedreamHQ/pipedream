@@ -100,7 +100,7 @@ module.exports = {
       label: "Language",
       description: "Restricts tweets to the given language. Language detection is best-effort.",
       optional: true,
-      async options(opts) {
+      async options(_opts) {
         // data from https://datahub.io/core/language-codes
         const isoLanguages = [
           {
@@ -853,7 +853,7 @@ module.exports = {
     trendLocation: {
       type: "string",
       label: "Location",
-      async options(opts) {
+      async options(_opts) {
         const trendLocations = await this.getTrendLocations()
         return trendLocations.map(location => {
           return { label: `${location.name}, ${location.countryCode} (${location.placeType.name})`, value: location.woeid }
@@ -881,7 +881,7 @@ module.exports = {
         }
       })).data
     },
-    async _makeRequest(config, attempt = 0) {
+    async _makeRequest(config, _attempt = 0) {
       if (!config.headers) config.headers = {}
       if (config.params) {
         const query = querystring.stringify(config.params)

@@ -29,7 +29,7 @@ module.exports = {
       label: "Files",
       description: "The files you want to watch for changes.",
       optional: true,
-      async options({ page, prevContext }) {
+      async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         if (!this.drive) return [];
         if (this.drive === "myDrive") {
