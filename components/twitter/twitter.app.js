@@ -892,19 +892,19 @@ module.exports = {
       }
       let authorization, count = 0
       const maxTries = 3
-      while(true) {
-        try {
-          authorization = await this._getAuthorizationHeader(config)
-          break
-        } catch (err) {
-          // handle exception
-          if (++count == maxTries) {
-            throw err
-          } 
-          const milliseconds = 1000 * count
-          await new Promise(resolve => setTimeout(resolve, milliseconds)) 
-        }
+      
+      try {
+        authorization = await this._getAuthorizationHeader(config)
+        break
+      } catch (err) {
+        // handle exception
+        if (++count == maxTries) {
+          throw err
+        } 
+        const milliseconds = 1000 * count
+        await new Promise(resolve => setTimeout(resolve, milliseconds)) 
       }
+    
       config.headers.authorization = authorization
       return await axios(config)
     },
