@@ -57,7 +57,9 @@ module.exports = {
       const endpointJson = this.db.get("endpoint")
       try {
         endpoint = JSON.parse(endpointJson)
-      } catch (err) {}
+      } catch (err) {
+        console.log(err)
+      }
       return endpoint
     },
   },
