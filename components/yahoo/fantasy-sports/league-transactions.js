@@ -73,7 +73,6 @@ const yfs = {
       return leagues[0].transactions
     },
     transactionSummary(txn) {
-      const p
       switch (txn.type) {
         case "add": {
           const p = txn.players[0]
