@@ -1,5 +1,9 @@
 const axios = require("axios")
 
+function displayPlayer(p) {
+  return `${p.name.full}, ${p.editorial_team_abbr} - ${p.display_position}`
+}
+
 // https://developer.yahoo.com/fantasysports/guide/#user-resource
 const yfs = {
   label: "Yahoo! Fantasy Sports",
@@ -69,27 +73,36 @@ const yfs = {
       return leagues[0].transactions
     },
     transactionSummary(txn) {
+      const p
       switch (txn.type) {
         case "add": {
           const p = txn.players[0]
-          return `(+) ${p.name.full}, ${p.editorial_team_abbr} - ${p.display_position} -- ${p.transaction_data.destination_team_name}`
+          return `Add: (+) ${displayPlayer(p)} -- ${p.transaction_data.destination_team_name}`
         }
         case "add/drop": {
           // XXX check always add drop in this order
           const p0 = txn.players[0]
           const p1 = txn.players[1]
-          return `(+) ${p0.name.full}, ${p0.editorial_team_abbr} - ${p0.display_position} ` +
-          `(-) ${p1.name.full}, ${p1.editorial_team_abbr} - ${p1.display_position} -- ${p0.transaction_data.destination_team_name}`
+          return `Add/Drop: (+) ${displayPlayer(p0)} (-) ${displayPlayer(p1)} -- ${p0.transaction_data.destination_team_name}`
         }
         case "drop": {
           const p = txn.players[0]
-          return `(-) ${p.name.full}, ${p.editorial_team_abbr} - ${p.display_position} -- ${p.transaction_data.source_team_name}`
+          return `Drop: (-) ${displayPlayer(p)} -- ${p.transaction_data.source_team_name}`
         }
         case "commish":
           return "Commish event" // XXX can't push much else :/
-        // TODO
-        // case "trade":
-        //   break
+        case "trade": {
+          // XXX join for team names...
+          const a = txn.trader_team_key
+          const b = txn.tradee_team_key
+          const aps = []
+          const bps = []
+          for (const p of txn.players) {
+            if (p.transaction_data.source_team_key === a) aps.push(p)
+            if (p.transaction_data.source_team_key === b) bps.push(p)
+          }
+          return `Trade: ${aps.map(displayPlayer).join(" / ")} -- ${bps.map(displayPlayer).join(" / ")}`
+        }
         default:
           return "Unhandled transaction type"
       }
