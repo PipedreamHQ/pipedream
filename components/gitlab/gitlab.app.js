@@ -17,13 +17,18 @@ module.exports = {
     gitlabAuthToken() {
       return this.$auth.oauth_access_token
     },
-    generateSecret: uuid.v4,
+    generateToken: uuid.v4,
+    isValidSource(headers, db) {
+      const token = headers["x-gitlab-token"];
+      const expectedToken = db.get("token");
+      return token === expectedToken;
+    },
     async createHook(opts) {
       const { projectId, hookParams } = opts;
       const baseUrl = this.apiUrl();
       const url = `${baseUrl}/projects/${projectId}/hooks`;
 
-      const token = this.generateSecret();
+      const token = this.generateToken();
       const data = {
         ...hookParams,
         token,
