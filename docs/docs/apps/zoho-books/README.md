@@ -2,6 +2,8 @@
 
 Pipedream allows you to connect to the [Zoho Books API](https://www.zoho.com/books/api/v3/) from any workflow.
 
+[[toc]]
+
 ## Connecting to the Zoho Books API from Pipedream
 
 1. First, sign up for Pipedream at [https://pipedream.com](https://pipedream.com).
@@ -11,5 +13,10 @@ Pipedream allows you to connect to the [Zoho Books API](https://www.zoho.com/boo
 5. Once you've added a step, press the **Connect Account** button near the top. If this is your first time authorizing Pipedream's access to your Zoho Books account, you'll be prompted to accept that access, and Pipedream will store the authorization grant to enable the workflow to access the API. If you've already linked an Zoho Books account via Pipedream, pressing **Connect Account** will list any existing accounts you've linked.
 
 Once you've connected your account, you can run your workflow and fetch data from the API. You can change any of the code associated with this step, changing the API endpoint you'd like to retrieve data from, or modifying the results in any way.
+
+## Example Workflows
+
+1. Here is example of how you can trigger an API call to Zoho Books using a Cron Schedule: [https://pipedream.com/@/p_o7C1DK/](https://pipedream.com/@/p_o7C1DK/)
+2. Here is an example of how you can trigger an API call to Zoho Books using an HTTP request: [https://pipedream.com/@/p_A2CJ9l/](https://pipedream.com/@/p_A2CJ9l/)
 
 <Footer />
