@@ -6,7 +6,7 @@ module.exports = {
   app: "gitlab",
   propDefinitions: {
     projectId: {
-      type: "string",
+      type: "integer",
       label: "Project ID",
     },
   },
