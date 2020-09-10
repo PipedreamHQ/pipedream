@@ -45,11 +45,9 @@ You can also visit **https://pipedream.com/sources** and click the Create Source
 
 If you don't have a feed handy, you can use **https://rss.m.pipedream.net**. This generates a new, random item once every 15 minutes.
 
-You can also create an event source using the Pipedream CLI:
+You can also create an event source using [the Pipedream CLI](https://docs.pipedream.com/cli/install/):
 
 ```bash
-  $ curl https://cli.pipedream.com/install | sh
-
   $ pd deploy # Select the rss source, enter your URL
 ```
 
