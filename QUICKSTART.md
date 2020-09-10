@@ -1,3 +1,4 @@
+
 # Quickstart: Creating Pipedream Components
 
 After completing this quickstart, you will understand how to:
@@ -55,11 +56,33 @@ We recommend that you execute the examples in order — each one builds on the 
 
 1. Create a free account at https://pipedream.com. Just sign in with your Google or Github account.
 2. Install the Pipedream CLI
+  * macOS/Linux
 ```bash
 curl https://cli.pipedream.com/install | sh
 ```
+  * Windows (native .exe)
+    * Download the latest Windows `pd.zip` from http://cli.pipedream.com/windows/amd64/latest/pd.zip.
+    * Unzip the `pd.zip` file.
+    * Run the `pd.exe` file
+    
+Note: For best results run `pd.exe` in a terminal that supports ANSI colors (like Windows Terminal).
+  * Windows (WSL)
+ ```bash
+ curl https://cli.pipedream.com/install | sudo sh
+ ```
 
-Pipedream publishes a build of the CLI for macOS and Linux (for `386`, `amd64`, `arm`, and `arm64` architectures). If you need to use the CLI on another OS or architecture, [please reach out](https://docs.pipedream.com/support/).
+Note: Tested on WSL Ubuntu
+
+Pipedream publishes the following builds of the CLI for macOS, Linux and Windows. If you need to use the CLI on another OS or architecture, [please reach out](https://docs.pipedream.com/support/).
+
+| OS | arch | link|
+| --- | --- | --- |
+| macOS | amd64 | [download](http://cli.pipedream.com/darwin/amd64/latest/pd.zip) |
+| Windows | amd64 | [download](http://cli.pipedream.com/windows/amd64/latest/pd.zip) |
+| Linux | amd64 | [download](http://cli.pipedream.com/linux/amd64/latest/pd.zip) |
+| Linux | 386 | [download](http://cli.pipedream.com/linux/386/latest/pd.zip) |
+| Linux | arm | [download](http://cli.pipedream.com/linux/arm/latest/pd.zip) |
+| Linux | arm64 | [download](http://cli.pipedream.com/linux/arm64/latest/pd.zip) |
 
 Once the CLI is installed, log into Pipedream:
 
