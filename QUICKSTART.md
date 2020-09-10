@@ -57,6 +57,18 @@ We recommend that you execute the examples in order — each one builds on the 
 
 **Step 2.** Download and Install the Pipedream CLI.
 
+  * macOS
+```bash
+curl https://cli.pipedream.com/install | sh
+```
+  * Linux
+    * Unzip and place the `pd` binary somewhere in your `PATH`
+  * Windows (native)
+    * For best results run `pd.exe` in a terminal that supports ANSI colors.
+  * Windows (WSL)
+    * Use the appropriate Linux build for your architecture.
+
+
 Pipedream publishes the following builds of the CLI. If you need to use the CLI on another OS or architecture, [please reach out](https://docs.pipedream.com/support/).
 
 | Operating System  | Architecture | link|
@@ -67,14 +79,6 @@ Pipedream publishes the following builds of the CLI. If you need to use the CLI 
 | Linux | arm64 | [download](http://cli.pipedream.com/linux/arm64/latest/pd.zip) |
 | macOS | amd64 | [download](http://cli.pipedream.com/darwin/amd64/latest/pd.zip) |
 | Windows | amd64 | [download](http://cli.pipedream.com/windows/amd64/latest/pd.zip) |
-
-Notes:
-  * All
-    * Unzip and place the `pd` binary somewhere in your `PATH`
-  * Windows (native)
-    * For best results run `pd.exe` in a terminal that supports ANSI colors.
-  * Windows (WSL)
-    * Use the appropriate Linux build for your architecture.
 
 **Step 3.** Once the CLI is installed, log into Pipedream:
 ```bash
