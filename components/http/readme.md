@@ -8,13 +8,7 @@ Components come with a [built-in key-value store](/COMPONENT-API.md#db), an inte
 
 ## Quickstart
 
-To install the Pipedream CLI, run:
-
-```bash
-curl https://cli.pipedream.com/install | sh
-```
-
-Then run
+[Install the Pipedream CLI](https://docs.pipedream.com/cli/install/), then run:
 
 ```bash
 pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js

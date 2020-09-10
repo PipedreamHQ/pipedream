@@ -11,13 +11,7 @@ In this `README`, you'll learn how to [run any Node.js code on a schedule](#runn
 
 **Watch [this short video](https://www.youtube.com/watch?v=PwjVR0dj-Hk&amp=) or step through the commands below**.
 
-Install the Pipedream CLI:
-
-```bash
-curl https://cli.pipedream.com/install | sh
-```
-
-Create a file with a single `console.log()` statement:
+[Install the Pipedream CLI](https://docs.pipedream.com/cli/install/), then create a file with a single `console.log()` statement:
 
 ```bash
 echo 'console.log("Hello, world")' > cronjob.js
@@ -118,11 +112,7 @@ You can run code from a few different sources:
 - [Deploy your own component from scratch](#create-your-own-component)
 - [Send an HTTP request to a URL to trigger external code](#send-an-http-request)
 
-In the examples below, you'll use the [Pipedream CLI](https://docs.pipedream.com/cli/reference/) to deploy scheduled jobs. This is the simplest way to interact with Pipedream while you're learning. Install the Pipedream CLI before you begin:
-
-```bash
-curl https://cli.pipedream.com/install | sh
-```
+In the examples below, you'll use the [Pipedream CLI](https://docs.pipedream.com/cli/reference/) to deploy scheduled jobs. This is the simplest way to interact with Pipedream while you're learning. [Install the Pipedream CLI](https://docs.pipedream.com/cli/install/) before you begin.
 
 You can also deploy components using the [Pipedream UI](https://pipedream.com/sources) or [REST API](https://docs.pipedream.com/api/rest/#create-a-source).
 

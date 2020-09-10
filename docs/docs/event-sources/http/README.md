@@ -11,13 +11,7 @@ This should take about 5 minutes to complete.
 
 ## Install the Pipedream CLI
 
-Run:
-
-```
-curl https://cli.pipedream.com/install | sh
-```
-
-This installs the `pd` CLI locally.
+[See the CLI installation docs](/cli/install/) to learn how to install the CLI for your OS / architecture.
 
 ## Link your Pipedream account to the CLI
 
