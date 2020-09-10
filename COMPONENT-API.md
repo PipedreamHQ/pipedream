@@ -389,7 +389,7 @@ props: {
 
 | Property        | Type    | Required? | Description |
 |-------------|----------------|---------------|--------|
-| `type`        | `string` | required | Value must be set to a valid prop type: `string` `string[]` `number` `boolean` `secret` |
+| `type`        | `string` | required | Value must be set to a valid prop type: `string` `string[]` `integer` `boolean` `secret` |
 | `label`        | `string` | optional | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed  to the user.  |
 | `description`        | `string` | optional | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported. |
 | `options`        | `string[]` or `object[]` or `method` | optional | Provide an array to display options to a user in a drop down menu. Users may select a single option.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
