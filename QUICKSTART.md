@@ -1,4 +1,3 @@
-
 # Quickstart: Creating Pipedream Components
 
 After completing this quickstart, you will understand how to:
@@ -75,7 +74,6 @@ Notes:
     * For best results run `pd.exe` in a terminal that supports ANSI colors.
   * Windows (WSL)
     * Use the appropriate Linux build for your architecture.
-    
 
 **Step 3.** Once the CLI is installed, log into Pipedream:
 ```bash
