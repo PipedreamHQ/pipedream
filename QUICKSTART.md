@@ -67,6 +67,7 @@ Pipedream publishes the following builds of the CLI. If you need to use the CLI 
 | Linux | arm64 | [download](http://cli.pipedream.com/linux/arm64/latest/pd.zip) |
 | macOS | amd64 | [download](http://cli.pipedream.com/darwin/amd64/latest/pd.zip) |
 | Windows | amd64 | [download](http://cli.pipedream.com/windows/amd64/latest/pd.zip) |
+
 Notes:
   * All
     * Unzip and place the `pd` binary somewhere in your `PATH`
