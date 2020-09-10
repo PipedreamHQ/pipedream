@@ -5,9 +5,9 @@ module.exports = {
   type: "app",
   app: "gitlab",
   propDefinitions: {
-    repoId: {
+    projectId: {
       type: "string",
-      label: "Repo ID",
+      label: "Project ID",
     },
   },
   methods: {
@@ -19,9 +19,9 @@ module.exports = {
     },
     generateSecret: uuid.v4,
     async createHook(opts) {
-      const { repoId, hookParams } = opts;
+      const { projectId, hookParams } = opts;
       const baseUrl = this.apiUrl();
-      const url = `${baseUrl}/projects/${repoId}/hooks`;
+      const url = `${baseUrl}/projects/${projectId}/hooks`;
 
       const token = this.generateSecret();
       const data = {
@@ -45,9 +45,9 @@ module.exports = {
       };
     },
     deleteHook(opts) {
-      const { hookId, repoId } = opts;
+      const { hookId, projectId } = opts;
       const baseUrl = this.apiUrl();
-      const url = `${baseUrl}/projects/${repoId}/hooks/${hookId}`;
+      const url = `${baseUrl}/projects/${projectId}/hooks/${hookId}`;
 
       const gitlabAuthToken = this.gitlabAuthToken();
       const headers = {
