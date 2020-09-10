@@ -1,5 +1,7 @@
 # Installing the CLI
 
+[[toc]]
+
 ## macOS
 
 Run the following command:
