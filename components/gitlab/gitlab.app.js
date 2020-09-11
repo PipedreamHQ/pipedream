@@ -7,7 +7,7 @@ module.exports = {
   app: "gitlab",
   propDefinitions: {
     projectId: {
-      type: "string",
+      type: "integer",
       label: "Project ID",
       description: "The project ID, as displayed in the main project page",
       async options({ page, prevContext }) {
