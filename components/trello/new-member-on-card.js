@@ -41,7 +41,6 @@ module.exports = {
     if (
       !this.trello.verifyTrelloWebhookRequest(
         event,
-        this.trello.$auth.oauth_refresh_token,
         this.http.endpoint
       )
     ) {

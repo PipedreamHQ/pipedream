@@ -134,8 +134,9 @@ module.exports = {
       } catch (err) {
         console.log(err); // TODO
       }
-    },
-    async verifyTrelloWebhookRequest(request, secret, callbackURL) {
+    }, 
+    async verifyTrelloWebhookRequest(request, callbackURL) {
+      let secret = this.$auth.oauth_refresh_token;
       var base64Digest = function (s) {
         return crypto.createHmac("sha1", secret).update(s).digest("base64");
       };

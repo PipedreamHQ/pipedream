@@ -43,7 +43,6 @@ module.exports = {
     if (
       !this.trello.verifyTrelloWebhookRequest(
         event,
-        this.trello.$auth.oauth_refresh_token,
         this.http.endpoint
       )
     ) {
@@ -68,12 +67,8 @@ module.exports = {
     const listIds = this.db.get("listIds");
     const card = await this.trello.getCard(cardId);
 
-    if (boardId) {
-      if (boardId !== card.idBoard) return;
-    }
-    if (listIds) {
-      if (listIds.length > 0 && !listIds.includes(card.idList)) return;
-    }
+    if (boardId && boardId !== card.idBoard) return;
+    if (listIds && listIds.length > 0 && !listIds.includes(card.idList)) return;
 
     this.$emit(card, {
       id: card.id,
