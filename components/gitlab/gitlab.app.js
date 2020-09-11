@@ -1,4 +1,5 @@
 const axios = require("axios");
+const parseLinkHeader = require('parse-link-header');
 const uuid = require("uuid");
 
 module.exports = {
@@ -6,20 +7,66 @@ module.exports = {
   app: "gitlab",
   propDefinitions: {
     projectId: {
-      type: "integer",
+      type: "string",
       label: "Project ID",
+      description: "The project ID, as displayed in the main project page",
+      async options({ page, prevContext }) {
+        let url;
+        let requestParams = this._makeRequestParams();  // Basic request parameters
+        if (page === 0) {
+          // First time the options are being retrieved.
+          url = this._userProjectsEndpoint();
+          const params = {
+            order_by: "path",
+            sort: "asc",
+          };
+          requestParams = {
+            ...requestParams,
+            params,
+          };
+        } else if (prevContext.nextPage) {
+          // Retrieve next page of options
+          url = prevContext.nextPage.url;
+        } else {
+          // No more options available
+          return [];
+        }
+
+        const { data, headers } = await axios.get(url, requestParams);
+
+        // https://docs.gitlab.com/ee/api/README.html#pagination-link-header
+        const { next } = parseLinkHeader(headers.link);
+        const options = data.map(project => ({
+          label: project.path_with_namespace,
+          value: project.id,
+        }));
+        return {
+          options,
+          context: {
+            nextPage: next,
+          },
+        };
+      },
     },
   },
   methods: {
     _apiUrl() {
       return "https://gitlab.com/api/v4";
     },
-    _endpointUrl(projectId) {
+    _userProjectsEndpoint() {
+      const baseUrl = this._apiUrl();
+      const userId = this._gitlabUserId();
+      return `${baseUrl}/users/${userId}/projects`;
+    },
+    _hooksEndpointUrl(projectId) {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/projects/${projectId}/hooks`;
     },
     _gitlabAuthToken() {
       return this.$auth.oauth_access_token
+    },
+    _gitlabUserId() {
+      return this.$auth.oauth_uid;
     },
     _makeRequestParams() {
       const gitlabAuthToken = this._gitlabAuthToken();
@@ -39,7 +86,7 @@ module.exports = {
     },
     async createHook(opts) {
       const { projectId, hookParams } = opts;
-      const url = this._endpointUrl(projectId);
+      const url = this._hooksEndpointUrl(projectId);
 
       const token = this._generateToken();
       const data = {
@@ -57,7 +104,7 @@ module.exports = {
     },
     deleteHook(opts) {
       const { hookId, projectId } = opts;
-      const baseUrl = this._endpointUrl(projectId);
+      const baseUrl = this._hooksEndpointUrl(projectId);
       const url = `${baseUrl}/${hookId}`;
       const requestParams = this._makeRequestParams();
       return axios.delete(url, requestParams);
