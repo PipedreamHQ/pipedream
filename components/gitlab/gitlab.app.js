@@ -11,13 +11,27 @@ module.exports = {
     },
   },
   methods: {
-    apiUrl() {
+    _apiUrl() {
       return "https://gitlab.com/api/v4";
     },
-    gitlabAuthToken() {
+    _endpointUrl(projectId) {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/projects/${projectId}/hooks`;
+    },
+    _gitlabAuthToken() {
       return this.$auth.oauth_access_token
     },
-    generateToken: uuid.v4,
+    _makeRequestParams() {
+      const gitlabAuthToken = this._gitlabAuthToken();
+      const headers = {
+        "Authorization": `Bearer ${gitlabAuthToken}`,
+        "User-Agent": "@PipedreamHQ/pipedream v0.1",
+      };
+      return {
+        headers,
+      };
+    },
+    _generateToken: uuid.v4,
     isValidSource(headers, db) {
       const token = headers["x-gitlab-token"];
       const expectedToken = db.get("token");
@@ -25,23 +39,15 @@ module.exports = {
     },
     async createHook(opts) {
       const { projectId, hookParams } = opts;
-      const baseUrl = this.apiUrl();
-      const url = `${baseUrl}/projects/${projectId}/hooks`;
+      const url = this._endpointUrl(projectId);
 
-      const token = this.generateToken();
+      const token = this._generateToken();
       const data = {
         ...hookParams,
         token,
       };
 
-      const gitlabAuthToken = this.gitlabAuthToken();
-      const headers = {
-        "Authorization": `Bearer ${gitlabAuthToken}`,
-      };
-
-      const requestParams = {
-        headers,
-      };
+      const requestParams = this._makeRequestParams();
       const response = await axios.post(url, data, requestParams);
       const hookId = response.data.id;
       return {
@@ -51,17 +57,9 @@ module.exports = {
     },
     deleteHook(opts) {
       const { hookId, projectId } = opts;
-      const baseUrl = this.apiUrl();
-      const url = `${baseUrl}/projects/${projectId}/hooks/${hookId}`;
-
-      const gitlabAuthToken = this.gitlabAuthToken();
-      const headers = {
-        "Authorization": `Bearer ${gitlabAuthToken}`,
-      };
-
-      const requestParams = {
-        headers,
-      };
+      const baseUrl = this._endpointUrl(projectId);
+      const url = `${baseUrl}/${hookId}`;
+      const requestParams = this._makeRequestParams();
       return axios.delete(url, requestParams);
     },
   },
