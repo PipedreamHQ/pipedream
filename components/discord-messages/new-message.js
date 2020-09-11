@@ -6,7 +6,7 @@ module.exports = {
   props: {
     discord,
     channels: {
-      type: "$.discord.channels",
+      type: "$.discord.channel[]",
       appProp: "discord",
       label: "Channels",
       description: "Select the channels you'd like to be notified for",

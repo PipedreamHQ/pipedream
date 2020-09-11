@@ -14,7 +14,7 @@ module.exports = {
       },
     },
     channels: {
-      type: "$.discord.channels",
+      type: "$.discord.channel[]",
       appProp: "discord",
       guildProp: "guild",
       label: "Channels",
