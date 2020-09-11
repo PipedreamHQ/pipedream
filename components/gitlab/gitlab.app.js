@@ -12,16 +12,17 @@ module.exports = {
       description: "The project ID, as displayed in the main project page",
       async options({ page, prevContext }) {
         let url;
-        let requestParams = this._makeRequestParams();  // Basic request parameters
+        let requestConfig = this._makeRequestConfig();  // Basic axios request config
         if (page === 0) {
           // First time the options are being retrieved.
           url = this._userProjectsEndpoint();
           const params = {
             order_by: "path",
             sort: "asc",
+            per_page: 1,
           };
-          requestParams = {
-            ...requestParams,
+          requestConfig = {
+            ...requestConfig,
             params,
           };
         } else if (prevContext.nextPage) {
@@ -32,7 +33,7 @@ module.exports = {
           return [];
         }
 
-        const { data, headers } = await axios.get(url, requestParams);
+        const { data, headers } = await axios.get(url, requestConfig);
 
         // https://docs.gitlab.com/ee/api/README.html#pagination-link-header
         const { next } = parseLinkHeader(headers.link);
@@ -68,7 +69,7 @@ module.exports = {
     _gitlabUserId() {
       return this.$auth.oauth_uid;
     },
-    _makeRequestParams() {
+    _makeRequestConfig() {
       const gitlabAuthToken = this._gitlabAuthToken();
       const headers = {
         "Authorization": `Bearer ${gitlabAuthToken}`,
@@ -94,8 +95,8 @@ module.exports = {
         token,
       };
 
-      const requestParams = this._makeRequestParams();
-      const response = await axios.post(url, data, requestParams);
+      const requestConfig = this._makeRequestConfig();
+      const response = await axios.post(url, data, requestConfig);
       const hookId = response.data.id;
       return {
         hookId,
@@ -106,8 +107,8 @@ module.exports = {
       const { hookId, projectId } = opts;
       const baseUrl = this._hooksEndpointUrl(projectId);
       const url = `${baseUrl}/${hookId}`;
-      const requestParams = this._makeRequestParams();
-      return axios.delete(url, requestParams);
+      const requestConfig = this._makeRequestConfig();
+      return axios.delete(url, requestConfig);
     },
   },
 };
