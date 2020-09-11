@@ -57,7 +57,7 @@ module.exports = {
         const cards = await this.getCards(opts.boardId);
         // XXX short hand where value and label are same value
         return cards.map((card) => {
-          return { label: `${card.name} (${card.id})`, value: card.id };
+          return { label: card.name, value: card.id };
         });
       },
     },
@@ -71,7 +71,7 @@ module.exports = {
         // XXX short hand where value and label are same value
         const activeBoards = boards.filter((board) => board.closed === false);
         return activeBoards.map((board) => {
-          return { label: `${board.name} (${board.id})`, value: board.id };
+          return { label: board.name, value: board.id };
         });
       },
       // XXX validate
@@ -97,7 +97,7 @@ module.exports = {
         const lists = await this.getLists(opts.boardId);
         // XXX short hand where value and label are same value
         return lists.map((list) => {
-          return { label: `${list.name} (${list.id})`, value: list.id };
+          return { label: list.name, value: list.id };
         });
       },
       // XXX validate
