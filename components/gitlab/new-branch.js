@@ -1,9 +1,27 @@
 const gitlab = require("https://github.com/PipedreamHQ/pipedream/components/gitlab/gitlab.app.js");
 
+function generateMeta(data) {
+  const id = data.checkout_sha;
+
+  const newBranchName = data.ref;
+  const userFullName = data.user_name;
+  const userLogin = data.user_username;
+  const summary = `New Branch: ${newBranchName} by ${userFullName} (${userLogin})`;
+
+  const ts = +new Date();
+
+  return {
+    id,
+    summary,
+    ts,
+  };
+}
+
 module.exports = {
   name: "New Branch (Instant)",
   description: "Emits an event when a new branch is created",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     gitlab,
     projectId: { propDefinition: [gitlab, "projectId"] },
@@ -20,9 +38,11 @@ module.exports = {
         hookParams,
         projectId: this.projectId,
       };
-      const response = await this.gitlab.createHook(opts);
-
-      const { hookId, token } = response;
+      const { hookId, token } = await this.gitlab.createHook(opts);
+      console.log(
+        `Created "push events" webhook for project ID ${this.projectId}.
+        (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
+      );
       this.db.set("hookId", hookId);
       this.db.set("token", token);
     },
@@ -32,7 +52,11 @@ module.exports = {
         hookId,
         projectId: this.projectId,
       };
-      this.gitlab.deleteHook(opts);
+      await this.gitlab.deleteHook(opts);
+      console.log(
+        `Deleted webhook for project ID ${this.projectId}.
+        (Hook ID: ${hookId})`
+      );
     },
   },
   methods: {
@@ -62,7 +86,8 @@ module.exports = {
     // Gitlab doesn't offer a specific hook for "new branch" events,
     // but such event can be deduced from the payload of "push" events.
     if (this.isNewBranch(body)) {
-      this.$emit(body);
+      const meta = generateMeta(body);
+      this.$emit(body, meta);
     }
   },
 };
