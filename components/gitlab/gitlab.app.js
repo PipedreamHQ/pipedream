@@ -19,7 +19,6 @@ module.exports = {
           const params = {
             order_by: "path",
             sort: "asc",
-            per_page: 1,
           };
           requestConfig = {
             ...requestConfig,
