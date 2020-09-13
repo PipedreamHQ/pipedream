@@ -2,7 +2,7 @@ const todoist = require("https://github.com/pipedream/todoist/todoist.app.js");
 
 module.exports = {
   name: "Sync Resources",
-  description: "Get updates for your selected resources",
+  description: "Emit an event when select resources are created or modified",
   version: "0.0.1",
   props: {
     todoist,

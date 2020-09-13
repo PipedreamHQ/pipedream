@@ -13,7 +13,7 @@ module.exports = {
       async options() {
         resourceTypes.unshift('all')
         return resourceTypes
-      },
+      }, 
     },
     excludeResourceTypes: {
       type: "string[]",
@@ -22,9 +22,22 @@ module.exports = {
       optional: true,
       options: resourceTypes,
     },
+    selectProjects: {
+      type: "integer[]",
+      label: "Select Projects",
+      description: "Filter for events that match one or more projects. Leave this blank to emit results for any project.",
+      optional: true,
+      async options() {
+        // write any node code that returns a string[] or object[] (with label/value keys)
+        return (await this.getProjects()).map(project => { 
+          console.log(project)
+          return { label: project.name, value: project.id } 
+        }) 
+      },
+    }
   },
   methods: {
-    async _makeRequest(opts) {
+    async _makeSyncRequest(opts) {
       const { path } = opts
       delete opts.path
       opts.url = `https://api.todoist.com${path[0] === "/" ? "" : "/"}${path}`
@@ -34,14 +47,40 @@ module.exports = {
       console.log(opts)
       return await axios(opts)
     },
+    async _makeRestRequest(opts) {
+      const { path } = opts
+      delete opts.path
+      opts.url = `https://api.todoist.com${path[0] === "/" ? "" : "/"}${path}`
+      opts.headers = {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`
+      }
+      return await axios(opts)
+    },
+    async isProjectInList(project_id, selectedProjectIds) {
+      if (selectedProjectIds.length > 0) {
+        if(!selectedProjectIds.includes(project_id)) {
+          return false
+        } else {
+          return true
+        }
+      } else {
+        return true
+      }  
+    },
     async sync(opts) {      
-      return (await this._makeRequest({
+      return (await this._makeSyncRequest({
         path: `/sync/v8/sync`,
         method: 'POST',
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         payload: opts
+      })).data
+    },
+    async getProjects() {      
+      return (await this._makeRestRequest({
+        path: `/rest/v1/projects`,
+        method: 'GET',
       })).data
     },
   }
