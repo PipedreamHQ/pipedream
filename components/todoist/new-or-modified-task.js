@@ -26,13 +26,13 @@ module.exports = {
 
     for (const property in result) {
       if(Array.isArray(result[property])) {
-        result[property].forEach(element => {
-          if(this.todoist.isProjectInList(element.project_id, this.selectProjects)) {
+        for (const element of result[property]) {
+          if(await this.todoist.isProjectInList(element.project_id, this.selectProjects)) {
             this.$emit(element, {
               summary: element.content,
             })
           }
-        })
+        }
       }
     }
 

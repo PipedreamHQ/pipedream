@@ -27,7 +27,7 @@ module.exports = {
   
     for (const property in result) {
       if(Array.isArray(result[property])) {
-        result[property].forEach(element => {
+        for (const element of result[property]) {
           let matchingProject = await this.todoist.isProjectInList(element.project_id, this.selectProjects)
           if(element.checked === 1 && matchingProject) {
             let dedupeId = `${element.id}-${(new Date(element.date_completed)).getTime()}`
@@ -36,7 +36,7 @@ module.exports = {
               id: dedupeId, 
             })
           } 
-        })
+        }
       }
     } 
 
