@@ -24,11 +24,11 @@ module.exports = {
       resource_types: JSON.stringify(resourceTypes),
       sync_token,
     })
- 
+  
     for (const property in result) {
       if(Array.isArray(result[property])) {
         result[property].forEach(element => {
-          let matchingProject = this.todoist.isProjectInList(element.project_id, this.selectProjects)
+          let matchingProject = await this.todoist.isProjectInList(element.project_id, this.selectProjects)
           if(element.checked === 1 && matchingProject) {
             let dedupeId = `${element.id}-${(new Date(element.date_completed)).getTime()}`
             this.$emit(element, {

@@ -55,11 +55,13 @@ module.exports = {
       return await axios(opts)
     },
     async isProjectInList(project_id, selectedProjectIds) {
+      console.log(project_id)
+      console.log(selectedProjectIds)
       if (selectedProjectIds.length > 0) {
-        if(!selectedProjectIds.includes(project_id)) {
-          return false
-        } else {
+        if(selectedProjectIds.includes(project_id)) {
           return true
+        } else {
+          return false
         }
       } else {
         return true
