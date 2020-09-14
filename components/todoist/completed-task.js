@@ -24,7 +24,7 @@ module.exports = {
       resource_types: JSON.stringify(resourceTypes),
       sync_token,
     })
-
+ 
     for (const property in result) {
       if(Array.isArray(result[property])) {
         result[property].forEach(element => {
