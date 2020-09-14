@@ -10,32 +10,15 @@ module.exports = {
       type: "integer",
       label: "Project ID",
       description: "The project ID, as displayed in the main project page",
-      async options({ page, prevContext }) {
-        let url;
-        let requestConfig = this._makeRequestConfig();  // Basic axios request config
-        if (page === 0) {
-          // First time the options are being retrieved.
-          url = this._userProjectsEndpoint();
-          const params = {
-            order_by: "path",
-            sort: "asc",
-          };
-          requestConfig = {
-            ...requestConfig,
-            params,
-          };
-        } else if (prevContext.nextPage) {
-          // Retrieve next page of options
-          url = prevContext.nextPage.url;
-        } else {
-          // No more options available
-          return [];
-        }
+      async options(context) {
+        const url = this._userProjectsEndpoint();
+        const params = {
+          order_by: "path",
+          sort: "asc",
+        };
 
-        const { data, headers } = await axios.get(url, requestConfig);
+        const { data, next } = await this._propDefinitionsOptions(url, params, context);
 
-        // https://docs.gitlab.com/ee/api/README.html#pagination-link-header
-        const { next } = parseLinkHeader(headers.link);
         const options = data.map(project => ({
           label: project.path_with_namespace,
           value: project.id,
@@ -79,6 +62,33 @@ module.exports = {
       };
     },
     _generateToken: uuid.v4,
+    async _propDefinitionsOptions(url, params, { page, prevContext }) {
+      let requestConfig = this._makeRequestConfig();  // Basic axios request config
+      if (page === 0) {
+        // First time the options are being retrieved.
+        // Include the parameters provided, which will be persisted
+        // across the different pages.
+        requestConfig = {
+          ...requestConfig,
+          params,
+        };
+      } else if (prevContext.nextPage) {
+        // Retrieve next page of options.
+        url = prevContext.nextPage.url;
+      } else {
+        // No more options available.
+        return { data: [] };
+      }
+
+      const { data, headers } = await axios.get(url, requestConfig);
+      // https://docs.gitlab.com/ee/api/README.html#pagination-link-header
+      const { next } = parseLinkHeader(headers.link);
+
+      return {
+        data,
+        next,
+      };
+    },
     isValidSource(headers, db) {
       const token = headers["x-gitlab-token"];
       const expectedToken = db.get("token");
