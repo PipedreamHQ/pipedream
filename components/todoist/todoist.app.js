@@ -30,7 +30,6 @@ module.exports = {
       async options() {
         // write any node code that returns a string[] or object[] (with label/value keys)
         return (await this.getProjects()).map(project => { 
-          console.log(project)
           return { label: project.name, value: project.id } 
         }) 
       },
@@ -44,7 +43,6 @@ module.exports = {
       opts.payload.token = this.$auth.oauth_access_token
       opts.data = querystring.stringify(opts.payload)
       delete opts.payload
-      console.log(opts)
       return await axios(opts)
     },
     async _makeRestRequest(opts) {
