@@ -31,6 +31,29 @@ module.exports = {
         };
       },
     },
+    branchName: {
+      type: "string",
+      label: "Branch Name",
+      description: "The name of the branch",
+      async options(context) {
+        const { projectId } = context;
+        const url = this._projectBranchesEndpoint(projectId);
+        const params = {
+          order_by: "name",
+          // sort: "asc",
+        };
+
+        const { data, next } = await this._propDefinitionsOptions(url, params, context);
+
+        const options = data.map(branch => branch.name);
+        return {
+          options,
+          context: {
+            nextPage: next,
+          },
+        };
+      },
+    },
   },
   methods: {
     _apiUrl() {
@@ -40,6 +63,10 @@ module.exports = {
       const baseUrl = this._apiUrl();
       const userId = this._gitlabUserId();
       return `${baseUrl}/users/${userId}/projects`;
+    },
+    _projectBranchesEndpoint(projectId) {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/projects/${projectId}/repository/branches`;
     },
     _hooksEndpointUrl(projectId) {
       const baseUrl = this._apiUrl();
