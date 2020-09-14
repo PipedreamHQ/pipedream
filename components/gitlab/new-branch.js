@@ -1,22 +1,5 @@
 const gitlab = require("https://github.com/PipedreamHQ/pipedream/components/gitlab/gitlab.app.js");
 
-function generateMeta(data) {
-  const id = data.checkout_sha;
-
-  const newBranchName = data.ref;
-  const userFullName = data.user_name;
-  const userLogin = data.user_username;
-  const summary = `New Branch: ${newBranchName} by ${userFullName} (${userLogin})`;
-
-  const ts = +new Date();
-
-  return {
-    id,
-    summary,
-    ts,
-  };
-}
-
 module.exports = {
   name: "New Branch (Instant)",
   description: "Emits an event when a new branch is created",
@@ -66,6 +49,22 @@ module.exports = {
       const expectedBeforeValue = "0000000000000000000000000000000000000000";
       return before === expectedBeforeValue;
     },
+    generateMeta(data) {
+      const id = data.checkout_sha;
+
+      const newBranchName = data.ref;
+      const userFullName = data.user_name;
+      const userLogin = data.user_username;
+      const summary = `New Branch: ${newBranchName} by ${userFullName} (${userLogin})`;
+
+      const ts = +new Date();
+
+      return {
+        id,
+        summary,
+        ts,
+      };
+    },
   },
   async run(event) {
     const { headers, body } = event;
@@ -86,7 +85,7 @@ module.exports = {
     // Gitlab doesn't offer a specific hook for "new branch" events,
     // but such event can be deduced from the payload of "push" events.
     if (this.isNewBranch(body)) {
-      const meta = generateMeta(body);
+      const meta = this.generateMeta(body);
       this.$emit(body, meta);
     }
   },

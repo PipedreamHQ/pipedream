@@ -1,14 +1,7 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
 //const github = require("./github.app.js");
-const eventNames = ["commit_comment"]
-const eventTypes = ['created']
-
-function generateMeta(data) {
-  return {
-    summary: `${data.comment.user.login}: ${data.comment.body}`,
-    ts: data.comment.updated_at && +new Date(data.comment.updated_at),
-  }
-}
+const eventNames = ["commit_comment"];
+const eventTypes = ['created'];
 
 module.exports = {
   name: "New Commit Comment (Instant)",
@@ -39,6 +32,14 @@ module.exports = {
       });
     },
   },
+  methods: {
+    generateMeta(data) {
+      return {
+        summary: `${data.comment.user.login}: ${data.comment.body}`,
+        ts: data.comment.updated_at && +new Date(data.comment.updated_at),
+      };
+    },
+  },
   async run(event) {
     this.http.respond({
       status: 200,
@@ -61,7 +62,7 @@ module.exports = {
     }
 
     if (eventTypes.indexOf(body.action) > -1) {
-      const meta = generateMeta(body)
+      const meta = this.generateMeta(body);
       this.$emit(body, meta);
     }
   },
