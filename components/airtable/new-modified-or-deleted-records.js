@@ -10,7 +10,8 @@ const axiosRateLimiter = limiter.wrap(axios);
 
 module.exports = {
   name: 'New, Modified or Deleted Records',
-  version: '0.0.2',
+  description: 'Emits an event each time a record is added, updated, or deleted in an Airtable table'
+  version: '0.0.1',
   props: {
     db: '$.service.db',
     airtable,
