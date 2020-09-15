@@ -5,7 +5,7 @@ module.exports = {
   name: "New Member on Card",
   description:
     "Emits an event for each card joined by the authenticated Trello user.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     trello,

@@ -4,7 +4,7 @@ const get = require("lodash.get");
 module.exports = {
   name: "New Comments on Card",
   description: "Emits an event for each new comment added to a card.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     trello,

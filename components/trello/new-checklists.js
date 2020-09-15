@@ -4,7 +4,7 @@ const get = require("lodash.get");
 module.exports = {
   name: "New Checklists",
   description: "Emits an event for each new checklist added to a board.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     trello,

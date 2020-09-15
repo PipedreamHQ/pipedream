@@ -4,7 +4,7 @@ const get = require("lodash.get");
 module.exports = {
   name: "New Labels Added To Card",
   description: "Emits an event for each label added to a card.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     db: "$.service.db",
     http: "$.interface.http",

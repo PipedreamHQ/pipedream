@@ -3,7 +3,7 @@ const trello = require("https://github.com/PipedreamHQ/pipedream/components/trel
 module.exports = {
   name: "Time Before Due Time",
   description: "Emits an event at a specified time before a card is due.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     trello,
