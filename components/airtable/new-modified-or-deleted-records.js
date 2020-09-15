@@ -55,36 +55,7 @@ module.exports = {
       modifiedRecordsCount = 0,
       deletedRecordsCount = 0;
 
-    if (!data.records.length) {
-      delete config.params.filterByFormula;
-
-      while (allRecordIds.length === 0 || config.params.offset) {
-        const { data } = await axiosRateLimiter(config);
-        if (!data.records.length || data.records.length === 0) return;
-        allRecordIds = [...allRecordIds, ...data.records.map(record => record.id)];
-        if (data.offset) {
-          config.params.offset = data.offset;
-        } else {
-          delete config.params.offset;
-        }
-      }
-
-      if (prevAllRecordIds && prevAllRecordIds.length > allRecordIds.length) {
-        let deletedRecordIds = prevAllRecordIds.filter(prevRecord => !allRecordIds.includes(prevRecord));
-        for (let recordID of deletedRecordIds) {
-          deletedRecordsCount++;
-          deletedRecordObj = {
-            metadata,
-            type: 'record_deleted',
-            id: recordID,
-          };
-          this.$emit(deletedRecordObj, {
-            summary: 'record_deleted',
-            id: recordID,
-          });
-        }
-      }
-    } else {
+    if (data.records) {
       for (let record of data.records) {
         if (!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
           record.type = 'new_record';
@@ -103,6 +74,40 @@ module.exports = {
       }
     }
 
+    delete config.params.filterByFormula;
+
+    while (allRecordIds.length === 0 || config.params.offset) {
+      const { data } = await axiosRateLimiter(config);
+      if (!data.records.length || data.records.length === 0) return;
+      allRecordIds = [
+        ...allRecordIds,
+        ...data.records.map(record => record.id)
+      ];
+      if (data.offset) {
+        config.params.offset = data.offset;
+      } else {
+        delete config.params.offset;
+      }
+    }
+
+    if (prevAllRecordIds) {
+      let deletedRecordIds = prevAllRecordIds.filter(
+        prevRecord => !allRecordIds.includes(prevRecord)
+      );
+      for (let recordID of deletedRecordIds) {
+        deletedRecordsCount++;
+        deletedRecordObj = {
+          metadata,
+          type: "record_deleted",
+          id: recordID
+        };
+        this.$emit(deletedRecordObj, {
+          summary: "record_deleted",
+          id: recordID
+        });
+      }
+    }
+
     console.log(
       `Emitted ${newRecordsCount} new records(s) and ${modifiedRecordsCount} modified record(s) and ${deletedRecordsCount} deleted records.`
     );
@@ -110,4 +115,3 @@ module.exports = {
     this.db.set('lastTimestamp', timestamp);
   },
 };
-
