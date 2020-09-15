@@ -2,7 +2,7 @@ const discord = require("https://github.com/PipedreamHQ/pipedream/components/dis
 
 module.exports = {
   name: 'instant discord message',
-  version: '0.0.7',
+  version: '0.0.8',
   props: {
     discord,
     channels: {
@@ -26,6 +26,9 @@ module.exports = {
     },
   },
   async run(event) {
+    if (event.guildID != this.discord.$auth.guild_id) {
+      return
+    }
     if (this.ignoreMyself && event.authorID == this.discord.$auth.oauth_uid) {
       return
     }
