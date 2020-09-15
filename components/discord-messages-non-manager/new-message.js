@@ -2,7 +2,7 @@ const discord = require("https://github.com/PipedreamHQ/pipedream/components/dis
 
 module.exports = {
   name: 'instant discord message',
-  version: '0.0.1',
+  version: '0.0.2',
   props: {
     discord,
     guild: {
