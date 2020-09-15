@@ -27,8 +27,17 @@ module.exports = {
         return this.channels || []
       },
     },
+    ignoreMyself: {
+      type: "boolean",
+      label: "Ignore myself",
+      description: "Ignore messages from me",
+      default: true,
+    },
   },
   async run(event) {
+    if (this.ignoreMyself && event.authorID == this.discord.$auth.oauth_uid) {
+      return
+    }
     this.$emit(event)
   },
 }
