@@ -1,4 +1,4 @@
-const todoist = require("https://github.com/pipedream/todoist/todoist.app.js");
+const todoist = require("./todoist.app.js");
 
 module.exports = {
   name: "Sync Resources",
