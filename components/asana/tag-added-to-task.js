@@ -67,7 +67,7 @@ module.exports = {
     let tags = [];
     const taskIds = this.db.get("taskIds");
 
-    for (const e of body.events) { console.log(e)
+    for (const e of body.events) {
       if (!taskIds || (taskIds.length < 0) || (Object.keys(taskIds).length === 0) || (taskIds && taskIds.includes(e.resource.gid))) {
         let task = await this.asana.getTask(e.resource.gid);
         let tag = await this.asana.getTag(e.parent.gid);
