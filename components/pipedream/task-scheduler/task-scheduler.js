@@ -6,7 +6,7 @@ module.exports = {
   description:
     "Exposes an HTTP API for scheduling messages to be emitted at a future time",
   version: "0.0.1",
-  dedupe: "unique", // Dedupe on UUID
+  dedupe: "unique", // Dedupe on a UUID generated for every scheduled task
   props: {
     pipedream,
     secret: {
@@ -23,7 +23,9 @@ module.exports = {
   async run(event) {
     const { body, headers, path, $channel, $id } = event;
 
-    // Subscribe the component to itself, if not already
+    // Subscribe the component to itself, if not already.
+    // Scheduled tasks are sent to the self channel, which
+    // emits the message at the specified delivery_ts to this component.
     const isSubscribedToSelf = this.db.get("isSubscribedToSelf");
     if (!isSubscribedToSelf) {
       console.log("Subscribing to self channel for event source");
@@ -40,7 +42,7 @@ module.exports = {
       const errors = [];
 
       // timestamp should be an ISO 8601 string. Parse and check
-      // for validity in error handling below.
+      // for validity below.
       const epoch = Date.parse(timestamp);
 
       // Secrets are optional, so we first check if the user configured
@@ -75,9 +77,8 @@ module.exports = {
         return;
       }
 
-      console.log("Scheduling task");
-      // Scheduled tasks are emitted to the self channel, which is emitted
-      // to this same deployed component, at the specified delivery_ts
+      // Scheduled tasks are emitted to the self channel, which is delivered
+      // to this same deployed component at the specified delivery_ts
       const $id = uuid();
       this.$emit(
         { ...body, $channel: "self", $id },
@@ -101,10 +102,10 @@ module.exports = {
       return;
     }
 
-    // HANDLE SCHEDULED EMIT
+    // INCOMING SCHEDULED EMIT
     if ($channel === "self") {
-      console.log("Incoming scheduled emit");
-      // Delete the channel name and id from the incoming event
+      // Delete the channel name and id from the incoming event,
+      // which were used only as metadata
       delete event.$channel;
       delete event.$id;
       this.$emit(event, {
@@ -112,7 +113,6 @@ module.exports = {
         id: $id,
         ts: +new Date(),
       });
-      return;
     }
   },
 };
