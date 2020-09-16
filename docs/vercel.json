@@ -42,7 +42,7 @@
       "source": "/notebook/sources/",
       "destination": "/workflows/steps/triggers/"
     },
-    { "source": "/notebook/sql/", "destination": "/destinations/triggers/" },
+    { "source": "/notebook/sql/", "destination": "/destinations/sql/" },
     { "source": "/what-is-pipedream/", "destination": "/" }
   ]
 }
