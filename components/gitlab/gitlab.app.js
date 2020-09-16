@@ -40,7 +40,6 @@ module.exports = {
         const url = this._projectBranchesEndpoint(projectId);
         const params = {
           order_by: "name",
-          // sort: "asc",
         };
 
         const { data, next } = await this._propDefinitionsOptions(url, params, context);
