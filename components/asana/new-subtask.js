@@ -49,6 +49,10 @@ module.exports = {
   },
 
   async run(event) {
+    // validate signature
+    if (!this.asana.verifyAsanaWebhookRequest(event))
+      return;
+    
     this.http.respond({
       status: 200,
       headers: {
@@ -66,8 +70,7 @@ module.exports = {
 
     for (const e of body.events) {
       if (e.parent.resource_type == "task" && (!taskIds || (taskIds.length < 0) || (Object.keys(taskIds).length === 0) || (taskIds && taskIds.includes(e.parent.gid)))) {
-        let task = await this.asana.getTask(e.resource.gid);
-        tasks.push(task.data.data);
+        tasks.push(await this.asana.getTask(e.resource.gid));
       }
     }
 

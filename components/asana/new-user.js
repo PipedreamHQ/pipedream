@@ -29,7 +29,6 @@ module.exports = {
       };
       const resp = await this.asana.createHook(body);
       this.db.set("hookId", resp.data.gid);
-      this.db.set("workspaceId", this.workspaceId);
     },
     async deactivate() {
       console.log(this.db.get("hookId"));
@@ -38,6 +37,10 @@ module.exports = {
   },
 
   async run(event) {
+    // validate signature
+    if (!this.asana.verifyAsanaWebhookRequest(event))
+      return;
+    
     this.http.respond({
       status: 200,
       headers: {
@@ -53,8 +56,7 @@ module.exports = {
     let users = [];
 
     for (const e of body.events) {
-      let user = await this.asana.getUser(e.user.gid);
-      users.push(user.data.data);
+      users.push(await this.asana.getUser(e.user.gid));
     }
 
     for (const user of users) {

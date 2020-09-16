@@ -36,7 +36,6 @@ module.exports = {
       };
       const resp = await this.asana.createHook(body);
       this.db.set("hookId", resp.data.gid);
-      this.db.set("projectId", this.projectId);
     },
     async deactivate() {
       console.log(this.db.get("hookId"));
@@ -45,6 +44,10 @@ module.exports = {
   },
 
   async run(event) {
+    // validate signature
+    if (!this.asana.verifyAsanaWebhookRequest(event))
+      return;
+    
     this.http.respond({
       status: 200,
       headers: {
@@ -60,8 +63,7 @@ module.exports = {
     let stories = [];
 
     for (const e of body.events) {
-      let story = await this.asana.getStory(e.resource.gid);
-      stories.push(story.data.data);
+      stories.push(await this.asana.getStory(e.resource.gid));;
     }
 
     for (const story of stories) {

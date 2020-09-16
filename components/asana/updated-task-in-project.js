@@ -38,7 +38,6 @@ module.exports = {
       };
       const resp = await this.asana.createHook(body);
       this.db.set("hookId", resp.data.gid);
-      this.db.set("projectId", this.projectId);
       this.db.set("taskIds", this.taskIds);
     },
     async deactivate() {
@@ -48,6 +47,10 @@ module.exports = {
   },
 
   async run(event) {
+    // validate signature
+    if (!this.asana.verifyAsanaWebhookRequest(event))
+      return;
+    
     this.http.respond({
       status: 200,
       headers: {
@@ -66,7 +69,8 @@ module.exports = {
     for (const e of body.events) {
       if (!taskIds || (taskIds.length < 0) || (Object.keys(taskIds).length === 0) || (taskIds && taskIds.includes(e.resource.gid))) {
         let task = await this.asana.getTask(e.resource.gid);
-        tasks.push(task.data.data);
+        task.change = e.change;
+        tasks.push(task);
       }
     }
 
