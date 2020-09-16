@@ -83,6 +83,7 @@ module.exports = {
     // in a separate variable called `total_commits_count`, which
     // we'll use to keep track of the commits that we need to emit
     // downstream.
+    // See https://gitlab.com/help/user/project/integrations/webhooks#push-events
     const { total_commits_count } = body;
     const allCommits = this.gitlab.getCommits({
       projectId: this.projectId,
