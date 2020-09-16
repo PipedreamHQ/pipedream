@@ -68,6 +68,10 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/projects/${projectId}/repository/branches`;
     },
+    _projectCommitsEndpoints(projectId) {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/projects/${projectId}/repository/commits`;
+    },
     _hooksEndpointUrl(projectId) {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/projects/${projectId}/hooks`;
@@ -120,6 +124,47 @@ module.exports = {
       const token = headers["x-gitlab-token"];
       const expectedToken = db.get("token");
       return token === expectedToken;
+    },
+    async *getCommits(opts) {
+      const { projectId, branchName } = opts;
+
+      // Nothing to do here if the amount of commits we wish
+      // to retrieve is not greater than 0.
+      let { totalCommitsCount } = opts;
+      if (totalCommitsCount <= 0) return;
+
+      let url = this._projectCommitsEndpoints(projectId);
+      const baseRequestConfig = this._makeRequestConfig();
+
+      do {
+        // Prepare the parameters for the Gitlab API call.
+        const resultsPerPage = Math.min(50, totalCommitsCount);
+        const params = {
+          ref_name: branchName,
+          per_page: resultsPerPage,
+        };
+        const requestConfig = {
+          ...baseRequestConfig,
+          params,
+        };
+
+        // Yield the retrieved commits in a serial manner, until
+        // we exhaust the response from the Gitlab API, or we reach
+        // the total amount of commits that are relevant for this case,
+        // whichever comes first.
+        const { data, headers } = await axios.get(url, requestConfig);
+        for (const commit of data) {
+          yield commit;
+          --totalCommitsCount;
+          if (totalCommitsCount === 0) return;
+        }
+
+        // Extract the URL of the next page, if any.
+        const { next } = parseLinkHeader(headers.link);
+        if (next) {
+          url = next.url;
+        }
+      } while (url);
     },
     async createHook(opts) {
       const { projectId, hookParams } = opts;
