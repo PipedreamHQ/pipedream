@@ -1,8 +1,8 @@
 const gitlab = require("https://github.com/PipedreamHQ/pipedream/components/gitlab/gitlab.app.js");
 
 module.exports = {
-  name: "New Branch (Instant)",
-  description: "Emits an event when a new branch is created",
+  name: "New Commit (Instant)",
+  description: "Emits an event when a new commit is pushed to a branch",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -54,10 +54,11 @@ module.exports = {
         short_id,
       } = commit;
       const summary = `New commit: ${message} (${short_id})`;
+      const ts = +new Date(committed_date);
       return {
         id,
         summary,
-        ts: committed_date,
+        ts,
       };
     },
   },
