@@ -1,5 +1,5 @@
 // Discord Bot app file
-const discord = require("https://github.com/PipedreamHQ/pipedream/components/discord/discord.app.js");
+const discord = require("https://github.com/PipedreamHQ/pipedream/components/discord_bot/discord_bot.app.js");
 const maxBy = require("lodash.maxby");
 
 module.exports = {

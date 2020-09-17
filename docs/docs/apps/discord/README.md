@@ -128,4 +128,4 @@ Please [reach out](/support) if prevents you from building a workflow. We're hap
 
 ### New Messages in Channel
 
-[Read the Github docs](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord/README.md) to create an event source that emits a new event each time a new message arrives in a Discord channel. This lets you trigger a Pipedream workflow on each new message, or listen for new messages via Pipedream's [SSE interface](/api/sse/) or [REST API](/api/rest/#operations).
+[Read the Github docs](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_bot/README.md) to create an event source that emits a new event each time a new message arrives in a Discord channel. This lets you trigger a Pipedream workflow on each new message, or listen for new messages via Pipedream's [SSE interface](/api/sse/) or [REST API](/api/rest/#operations).
