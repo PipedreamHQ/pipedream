@@ -2,7 +2,7 @@ const discord = require("https://github.com/PipedreamHQ/pipedream/components/dis
 
 module.exports = {
   name: 'new discord message',
-  version: '0.0.1',
+  version: '0.0.2',
   dedupe: "unique",
   props: {
     discord,
@@ -33,6 +33,6 @@ module.exports = {
     if (this.ignoreMyself && event.authorID == this.discord.$auth.oauth_uid) {
       return
     }
-    this.$emit(event)
+    this.$emit(event, { id: event.id })
   },
 }
