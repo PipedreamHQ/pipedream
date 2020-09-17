@@ -10,36 +10,41 @@ module.exports = {
       type: "integer",
       label: "Project ID",
       description: "The project ID, as displayed in the main project page",
-      async options({ page, prevContext }) {
-        let url;
-        let requestConfig = this._makeRequestConfig();  // Basic axios request config
-        if (page === 0) {
-          // First time the options are being retrieved.
-          url = this._userProjectsEndpoint();
-          const params = {
-            order_by: "path",
-            sort: "asc",
-          };
-          requestConfig = {
-            ...requestConfig,
-            params,
-          };
-        } else if (prevContext.nextPage) {
-          // Retrieve next page of options
-          url = prevContext.nextPage.url;
-        } else {
-          // No more options available
-          return [];
-        }
+      async options(context) {
+        const url = this._userProjectsEndpoint();
+        const params = {
+          order_by: "path",
+          sort: "asc",
+        };
 
-        const { data, headers } = await axios.get(url, requestConfig);
+        const { data, next } = await this._propDefinitionsOptions(url, params, context);
 
-        // https://docs.gitlab.com/ee/api/README.html#pagination-link-header
-        const { next } = parseLinkHeader(headers.link);
         const options = data.map(project => ({
           label: project.path_with_namespace,
           value: project.id,
         }));
+        return {
+          options,
+          context: {
+            nextPage: next,
+          },
+        };
+      },
+    },
+    branchName: {
+      type: "string",
+      label: "Branch Name",
+      description: "The name of the branch",
+      async options(context) {
+        const { projectId } = context;
+        const url = this._projectBranchesEndpoint(projectId);
+        const params = {
+          order_by: "name",
+        };
+
+        const { data, next } = await this._propDefinitionsOptions(url, params, context);
+
+        const options = data.map(branch => branch.name);
         return {
           options,
           context: {
@@ -57,6 +62,14 @@ module.exports = {
       const baseUrl = this._apiUrl();
       const userId = this._gitlabUserId();
       return `${baseUrl}/users/${userId}/projects`;
+    },
+    _projectBranchesEndpoint(projectId) {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/projects/${projectId}/repository/branches`;
+    },
+    _projectCommitsEndpoints(projectId) {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/projects/${projectId}/repository/commits`;
     },
     _hooksEndpointUrl(projectId) {
       const baseUrl = this._apiUrl();
@@ -79,10 +92,78 @@ module.exports = {
       };
     },
     _generateToken: uuid.v4,
+    async _propDefinitionsOptions(url, params, { page, prevContext }) {
+      let requestConfig = this._makeRequestConfig();  // Basic axios request config
+      if (page === 0) {
+        // First time the options are being retrieved.
+        // Include the parameters provided, which will be persisted
+        // across the different pages.
+        requestConfig = {
+          ...requestConfig,
+          params,
+        };
+      } else if (prevContext.nextPage) {
+        // Retrieve next page of options.
+        url = prevContext.nextPage.url;
+      } else {
+        // No more options available.
+        return { data: [] };
+      }
+
+      const { data, headers } = await axios.get(url, requestConfig);
+      // https://docs.gitlab.com/ee/api/README.html#pagination-link-header
+      const { next } = parseLinkHeader(headers.link);
+
+      return {
+        data,
+        next,
+      };
+    },
     isValidSource(headers, db) {
       const token = headers["x-gitlab-token"];
       const expectedToken = db.get("token");
       return token === expectedToken;
+    },
+    async *getCommits(opts) {
+      const { projectId, branchName } = opts;
+
+      // Nothing to do here if the amount of commits we wish
+      // to retrieve is not greater than 0.
+      let { totalCommitsCount } = opts;
+      if (totalCommitsCount <= 0) return;
+
+      let url = this._projectCommitsEndpoints(projectId);
+      const baseRequestConfig = this._makeRequestConfig();
+
+      do {
+        // Prepare the parameters for the Gitlab API call.
+        const resultsPerPage = Math.min(50, totalCommitsCount);
+        const params = {
+          ref_name: branchName,
+          per_page: resultsPerPage,
+        };
+        const requestConfig = {
+          ...baseRequestConfig,
+          params,
+        };
+
+        // Yield the retrieved commits in a serial manner, until
+        // we exhaust the response from the Gitlab API, or we reach
+        // the total amount of commits that are relevant for this case,
+        // whichever comes first.
+        const { data, headers } = await axios.get(url, requestConfig);
+        for (const commit of data) {
+          yield commit;
+          --totalCommitsCount;
+          if (totalCommitsCount === 0) return;
+        }
+
+        // Extract the URL of the next page, if any.
+        const { next } = parseLinkHeader(headers.link);
+        if (next) {
+          url = next.url;
+        }
+      } while (url);
     },
     async createHook(opts) {
       const { projectId, hookParams } = opts;
