@@ -3,6 +3,7 @@ const discord = require("https://github.com/PipedreamHQ/pipedream/components/dis
 module.exports = {
   name: 'new discord message',
   version: '0.0.1',
+  dedupe: "unique",
   props: {
     discord,
     channels: {
