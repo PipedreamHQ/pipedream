@@ -1,4 +1,4 @@
-const todoist = require("./todoist.app.js");
+const todoist = require("../../todoist.app.js");
 
 module.exports = {
   name: "New or Modified Task",

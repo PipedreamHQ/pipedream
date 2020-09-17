@@ -1,11 +1,12 @@
-const todoist = require("./todoist.app.js");
+const todoist = require("../../todoist.app.js");
 
 module.exports = {
-  name: "New or Modified Project",
-  description: "Emit an event for each new or modified project",
+  name: "Sync Resources",
+  description: "Emit updates for your selected resources",
   version: "0.0.1",
   props: {
     todoist,
+    selectProjects: { propDefinition: [todoist, "selectProjects"] },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -14,9 +15,10 @@ module.exports = {
     },
     db: "$.service.db",
   },
+  dedupe: "greatest",
   async run(event) {
     const sync_token = this.db.get("sync_token") || '*'
-    const resourceTypes = ['projects']
+    const resourceTypes = ['items']
 
     const result = await this.todoist.sync({
       resource_types: JSON.stringify(resourceTypes),
@@ -25,11 +27,14 @@ module.exports = {
 
     for (const property in result) {
       if(Array.isArray(result[property])) {
-        result[property].forEach(element => {
-          this.$emit(element, {
-            summary: element.name
-          })
-        })
+        for (const element of result[property]) {
+          if(await this.todoist.isProjectInList(element.project_id, this.selectProjects)) {
+            this.$emit(element, {
+              summary: element.content,
+              id: element.id,
+            })
+          }
+        }
       }
     }
 
