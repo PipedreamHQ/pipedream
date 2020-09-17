@@ -1,6 +1,6 @@
 # Reference: Pipedream Components
 
-This document was created to help developers author and use Pipedream components. Please raise an issue or PR in this repo if you notice something out-of-date.  
+This document was created to help developers author and use Pipedream components. Please raise an issue or PR in this repo if you notice something out-of-date.
 
 - [Overview](#overview)
   - [What is a component?](#what-is-a-component)
@@ -50,7 +50,7 @@ This document was created to help developers author and use Pipedream components
     - [User Input Props](#user-input-props)
       - [General](#general)
       - [Advanced Configuration](#advanced-configuration)
-      - [Asyc Options (example)](#asyc-options-example)
+      - [Async Options (example)](#async-options-example)
         - [Prop Definitions (example)](#prop-definitions-example)
     - [Interface Props](#interface-props)
     - [Timer](#timer)
@@ -64,21 +64,20 @@ This document was created to help developers author and use Pipedream components
   - [Hooks](#hooks-1)
   - [Dedupe Strategies](#dedupe-strategies)
   - [Run](#run)
-    - [$emit](#emit)
+    - [\$emit](#emit)
     - [Using npm packages](#using-npm-packages)
 
-
-# Overview 
+# Overview
 
 ## What is a component?
 
-Components are Node.js modules that run on Pipedream's serverless infrastructure. 
+Components are Node.js modules that run on Pipedream's serverless infrastructure.
 
 - Trigger Node.js on HTTP requests, timers, cron schedules, or manually
 - Emit data on each event to inspect it, trigger Pipedream hosted workflows or access it outside of Pipedream via API
 - Accept user input on deploy via [CLI](https://docs.pipedream.com/cli/reference/#pd-deploy), [API](https://docs.pipedream.com/api/rest/#overview), or [UI](https://pipedream.com/sources)
 - Connect to 300+ apps using Pipedream managed auth
-- Use most npm pacakges with no `npm install` or `package.json` required
+- Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
 
 ## Quickstart
@@ -94,19 +93,7 @@ To help you get started, we created a [step-by-step walkthrough](QUICKSTART.md) 
 
 ## Getting Started with the CLI
 
-Several examples below use the CLI. To install it, run:
-
-```bash
-curl https://cli.pipedream.com/install | sh
-```
-
-Pipedream publishes a build of the CLI for macOS and Linux (for `386`, `amd64`, `arm`, and `arm64` architectures). If you need to use the CLI on another OS or architecture, [please reach out](https://docs.pipedream.com/support/).
-
-Once the CLI is installed, log into Pipedream:
-
-```bash
-pd login
-```
+Several examples below use the CLI. To install it, [follow the instructions for your OS / architecture](https://docs.pipedream.com/cli/install/).
 
 See the [CLI reference](https://docs.pipedream.com/cli/reference/) for detailed usage and examples beyond those covered below.
 
@@ -136,7 +123,7 @@ On delete, Pipedream invokes the `Deactivate()` hook and then deletes the deploy
 
 ### Deploy
 
-On deploy, Pipedream creates an instance of a saved component and invokes the optional `Activate()` hook. A unique deployed component ID is generated for the component. 
+On deploy, Pipedream creates an instance of a saved component and invokes the optional `Activate()` hook. A unique deployed component ID is generated for the component.
 
 You can deploy a component via the [CLI, UI or API](#management).
 
@@ -152,11 +139,11 @@ On delete, Pipedream invokes the optional `Deactivate()` hook and deletes the co
 
 ### Activate
 
-The `Activate()` hook is automatically invoked by Pipedream when a component is deployed or updated. A common use case for the activate hook is to automate webhook subscriptions, but you can run any valid code. To learn more about defining a custom `Activate()` hook, refer to the [API documentation](#hooks-1). 
+The `Activate()` hook is automatically invoked by Pipedream when a component is deployed or updated. A common use case for the activate hook is to automate webhook subscriptions, but you can run any valid code. To learn more about defining a custom `Activate()` hook, refer to the [API documentation](#hooks-1).
 
 ### Deactivate
 
-The `Deactivate()` hook is automatically invoked by Pipedream when a component is updated or deleted. A common use case for the deactivate hook is to automatically delete a webhook subscription when a component is deleted, but you can run any valid code. To learn more about defining a custom `Deactivate()` hook, refer to the [API documentation](#hooks-1). 
+The `Deactivate()` hook is automatically invoked by Pipedream when a component is updated or deleted. A common use case for the deactivate hook is to automatically delete a webhook subscription when a component is deleted, but you can run any valid code. To learn more about defining a custom `Deactivate()` hook, refer to the [API documentation](#hooks-1).
 
 ## Management
 
@@ -180,7 +167,7 @@ pd dev [--dc <existing-deployed-component-id>] <file-or-name>
 
 ##### From Local Code
 
-To deploy a via CLI, use the `pd deploy` command. 
+To deploy a via CLI, use the `pd deploy` command.
 
 ```bash
 pd deploy <filename>
@@ -268,7 +255,6 @@ You can delete a component via the UI at https://pipedream.com/sources.
 
 See the [docs](https://docs.pipedream.com/api/rest/#operations).
 
-
 # Event Lifecycle
 
 The event lifecycle applies to deployed components. Learn about the [component lifecycle](#component-lifecycle).
@@ -285,9 +271,9 @@ When a component is triggered, the `run()` method of the component is executed. 
 
 ## Emitting Events
 
-Components can emit events via `this.$emit()`. If you define a dedupe strategy for a component, Pipedream automatically dedupes the events you emit. 
+Components can emit events via `this.$emit()`. If you define a dedupe strategy for a component, Pipedream automatically dedupes the events you emit.
 
->  **TIP:** if you want to use a dedupe strategy, be sure to pass an `id` for each event. Pipedream uses this value for deduping purposes.
+> **TIP:** if you want to use a dedupe strategy, be sure to pass an `id` for each event. Pipedream uses this value for deduping purposes.
 
 ## Consuming Events
 
@@ -300,7 +286,7 @@ Pipedream makes it easy to consume events via:
 
 ### UI
 
-When you navigate to your source component in the UI, you will be able to select and inspect the most recent 100 events (i.e., an event bin). For example, if you send requests to a simple HTTP source, you will be able to inspect the events (i.e, a request bin).
+When you navigate to your source component in the UI, you will be able to select and inspect the most recent 100 events (i.e., an event bin). For example, if you send requests to a simple HTTP source, you will be able to inspect the events (i.e., a request bin).
 
 ### Workflows
 
@@ -308,7 +294,7 @@ Trigger hosted Node.js workflows on each event. Integrate with 300+ apps includi
 
 ### API
 
-Events can be retrieved using the [REST API](https://docs.pipedream.com/api/rest/)  or [SSE stream tied to your component](https://docs.pipedream.com/api/sse/). This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/rest/) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/api/sse/) to process them in real time.
+Events can be retrieved using the [REST API](https://docs.pipedream.com/api/rest/) or [SSE stream tied to your component](https://docs.pipedream.com/api/sse/). This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/rest/) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/api/sse/) to process them in real time.
 
 ### CLI
 
@@ -337,33 +323,32 @@ module.exports = {
   },
   dedupe: "",
   async run(event) {
-    this.$emit()
+    this.$emit();
   },
-}
+};
 ```
 
-| Property        | Type    | Required?    | Description                                                                |
-|-----------------|---------|-------------|----------------------------------------------------------------------------|
-| `name` | `string` | required | The name of the component, a string which identifies components deployed to users' accounts. This name will show up in the Pipedream UI, in CLI output (for example, from pd list commands), etc. It will also be converted to a unique slug on deploy to refernce a specific component instance (it will be auto-incremented if not unique within a user account). |
-| `version` | `string` | required | The component version. There are no constraints on the version, but consider using [semantic versioning](https://semver.org/). |
-| `description` | `string` | recommended | The description will appear in the Pipedream UI to aid in discovery and to contextualize instantiated components |
-| `props` | `object` | optional | Props are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`). |
-| `methods` | `object` | optional | Define component methods for the component instance. They can be referenced via `this` (e.g., `this.methodName()`). |
-| `hooks` | `object` | optional | Hooks are functions that are executed when specific component lifecycle events occur. Currently supported hooks are `activate()` and `deactivate()` (they execute when the component is activated or deactivated). |
-| `dedupe` | `string` | optional | You may specify a dedupe strategy (`unique`, `greatest`, `last`) to be applied to emitted events |
-| `run` | `method` | required | Each time a component is invoked (for example, via HTTP request), its `run` method is called. The event that triggered the component is passed to run, so that you can access it within the method. Events are emitted using `this.$emit()`. |
+| Property      | Type     | Required?   | Description                                                                                                                                                                                                                                                                                                                                                            |
+| ------------- | -------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | `string` | required    | The name of the component, a string which identifies components deployed to users' accounts. This name will show up in the Pipedream UI, in CLI output (for example, from `pd list` commands), etc. It will also be converted to a unique slug on deploy to reference a specific component instance (it will be auto-incremented if not unique within a user account). |
+| `version`     | `string` | required    | The component version. There are no constraints on the version, but consider using [semantic versioning](https://semver.org/).                                                                                                                                                                                                                                         |
+| `description` | `string` | recommended | The description will appear in the Pipedream UI to aid in discovery and to contextualize instantiated components                                                                                                                                                                                                                                                       |
+| `props`       | `object` | optional    | Props are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`).                                                                                                                  |
+| `methods`     | `object` | optional    | Define component methods for the component instance. They can be referenced via `this` (e.g., `this.methodName()`).                                                                                                                                                                                                                                                    |
+| `hooks`       | `object` | optional    | Hooks are functions that are executed when specific component lifecycle events occur. Currently supported hooks are `activate()` and `deactivate()` (they execute when the component is activated or deactivated).                                                                                                                                                     |
+| `dedupe`      | `string` | optional    | You may specify a dedupe strategy (`unique`, `greatest`, `last`) to be applied to emitted events                                                                                                                                                                                                                                                                       |
+| `run`         | `method` | required    | Each time a component is invoked (for example, via HTTP request), its `run` method is called. The event that triggered the component is passed to `run`, so that you can access it within the method. Events are emitted using `this.$emit()`.                                                                                                                         |
 
 ## Props
 
- Props are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`). 
+Props are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`).
 
-| Prop Type        | Description    |
-|-------------|----------------|
-| [User Input](#user-input-props) | Enable components to accept input on deploy |
-| [Interface](#interface-props)  | Attaches a Pipedream interface to your component (e.g., an HTTP interface or timer) |
-| [Service](#service-props)  | Attaches a Pipedream service to  your component (e.g., a key-value database to maintain state) |
-| [App](#user-input-props) | Enables managed auth for a component |
-
+| Prop Type                       | Description                                                                                   |
+| ------------------------------- | --------------------------------------------------------------------------------------------- |
+| [User Input](#user-input-props) | Enable components to accept input on deploy                                                   |
+| [Interface](#interface-props)   | Attaches a Pipedream interface to your component (e.g., an HTTP interface or timer)           |
+| [Service](#service-props)       | Attaches a Pipedream service to your component (e.g., a key-value database to maintain state) |
+| [App](#user-input-props)        | Enables managed auth for a component                                                          |
 
 ### User Input Props
 
@@ -382,26 +367,25 @@ props: {
     options: [], // OR async options() {} to return dynamic options
     optional: true || false,
     propDefinition: [],
-    default: 
+    default: "",
   },
 },
 ```
 
-| Property        | Type    | Required? | Description |
-|-------------|----------------|---------------|--------|
-| `type`        | `string` | required | Value must be set to a valid prop type: `string` `string[]` `number` `boolean` `secret` |
-| `label`        | `string` | optional | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed  to the user.  |
-| `description`        | `string` | optional | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported. |
-| `options`        | `string[]` or `object[]` or `method` | optional | Provide an array to display options to a user in a drop down menu. Users may select a single option.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
-| `optional`        | `boolean` | optional | Set to `true` to make this prop  optional. Defaults to `false`. |
-| `propDefinition`   | `[]` | optional | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage. |
-| `default`        | `string` | optional | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input) |
-
+| Property         | Type                                 | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ---------------- | ------------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`           | `string`                             | required  | Value must be set to a valid prop type: `string` `string[]` `number` `boolean` `secret`                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `label`          | `string`                             | optional  | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed to the user.                                                                                                                                                                                                                                                                                                                                                                                             |
+| `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                                                    |
+| `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu. Users may select a single option.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
+| `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                                                         |
+| `default`        | `string`                             | optional  | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input).                                                                                                                                                                                                                                                                                                                                                                     |
 
 **Usage**
 
-| Code        | Description    | Read Scope | Write Scope |
-|-------------|----------------|-------------|--------|
+| Code              | Description                              | Read Scope                | Write Scope                                                                             |
+| ----------------- | ---------------------------------------- | ------------------------- | --------------------------------------------------------------------------------------- |
 | `this.myPropName` | Returns the configured value of the prop | `run()` `hooks` `methods` | n/a (input props may only be modified on component deploy or update via UI, CLI or API) |
 
 **Example**
@@ -410,48 +394,48 @@ Following is a basic example that demonstrates how to capture user input via a p
 
 ```javascript
 module.exports = {
-  name: 'User Input Prop Example',
-  version: '0.1',
+  name: "User Input Prop Example",
+  version: "0.1",
   props: {
     msg: {
       type: "string",
       label: "Message",
-      description: "Enter a message to `console.log()`"
-    }
+      description: "Enter a message to `console.log()`",
+    },
   },
   async run() {
-    this.$emit(this.msg)
+    this.$emit(this.msg);
   },
-}
+};
 ```
 
 To see more examples, explore the curated components in Pipedream's Github repo.
 
 #### Advanced Configuration
 
-#### Asyc Options ([example](components/github/github.app.js))
+#### Async Options ([example](components/github/github.app.js))
 
-Async options allow users to select prop values that can be programatically generated (e.g., based on an real-time API response).
+Async options allow users to select prop values that can be programmatically generated (e.g., based on a real-time API response).
 
 ```javascript
-async options({ 
+async options({
   page,
-  prevContext, 
+  prevContext,
 }) {},
 ```
 
-| Property        | Type    | Required? | Description |
-|-------------|----------------|---------------|--------|
-| `options()`        | `method` | optional | Typically returns an array of values matching the prop type (e.g., `string`) or an array of object that define the `label` and `value` for each option. The `page` and `prevContext` input parameter names are reserved for pagination (see below).<br>&nbsp;<br>When using `prevContext` for pagination, it must return an object with an `options` array and a `context` object with a `nextPageToken` key. E.g.,  `{ options, context: { nextPageToken }, }` |
-| `page` | `integer` | optional |  Returns a `0` indexed page number. For use with APIs that accept a numeric page number for pagination. |
-| `prevContext` | `string` | optional | Return a string representing the context for the previous `options` invocation. For use with APIs that accept a token representing the last record for pagination. |
+| Property      | Type      | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------- | --------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `options()`   | `method`  | optional  | Typically returns an array of values matching the prop type (e.g., `string`) or an array of object that define the `label` and `value` for each option. The `page` and `prevContext` input parameter names are reserved for pagination (see below).<br>&nbsp;<br>When using `prevContext` for pagination, it must return an object with an `options` array and a `context` object with a `nextPageToken` key. E.g., `{ options, context: { nextPageToken }, }` |
+| `page`        | `integer` | optional  | Returns a `0` indexed page number. For use with APIs that accept a numeric page number for pagination.                                                                                                                                                                                                                                                                                                                                                         |
+| `prevContext` | `string`  | optional  | Return a string representing the context for the previous `options` invocation. For use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                             |
 
 Following is a code example demonstrating the usage of async options.
 
 ```javascript
 module.exports = {
-  name: 'Async Options Example',
-  version: '0.1',
+  name: "Async Options Example",
+  version: "0.1",
   props: {
     msg: {
       type: "string",
@@ -459,17 +443,14 @@ module.exports = {
       description: "Select a message to `console.log()`",
       async options() {
         // write any node code that returns a string[] or object[] (with label/value keys)
-        return [
-          'This is option 1',
-          'This is option 2',
-        ]
+        return ["This is option 1", "This is option 2"];
       },
-    }
+    },
   },
   async run() {
-    this.$emit(this.msg)
+    this.$emit(this.msg);
   },
-}
+};
 ```
 
 ##### Prop Definitions ([example](components/github/new-commit.js))
@@ -478,23 +459,23 @@ Prop definitions enable you to reuse props that are defined in another object. A
 
 ```javascript
 props: {
-  myPropName: { 
+  myPropName: {
     propDefinition: [
-      app, 
-      "propDefinitionName", 
+      app,
+      "propDefinitionName",
       inputValues
-    ] 
+    ]
   },
 },
 
 ```
 
-| Property        | Type    | Required? | Description |
-|-------------|----------------|---------------|--------|
-| `propDefinition`        | `array` | optional | An array of options that define a reference to a `propDefinitions` within the `propDefinitions` for an `app` |
-| `app` | `object` | required |  An app object |
-| `propDefinitionName` | `string` | required | The name of a specific `propDefinition` defined in the corresponding `app` object |
-| `inputValues` | `object` | optional | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br>&nbsp;<br>`c => ({ variableName: c.previousPropName })`|
+| Property             | Type     | Required? | Description                                                                                                                                                                |
+| -------------------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `propDefinition`     | `array`  | optional  | An array of options that define a reference to a `propDefinitions` within the `propDefinitions` for an `app`                                                               |
+| `app`                | `object` | required  | An app object                                                                                                                                                              |
+| `propDefinitionName` | `string` | required  | The name of a specific `propDefinition` defined in the corresponding `app` object                                                                                          |
+| `inputValues`        | `object` | optional  | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br>&nbsp;<br>`c => ({ variableName: c.previousPropName })` |
 
 Following is a code example that demonstrates how to use `propDefinitions`.
 
@@ -506,37 +487,37 @@ const rss = {
     urlDef: {
       type: "string",
       label: "RSS URL",
-      description: "Enter a URL for an RSS feed."
+      description: "Enter a URL for an RSS feed.",
     },
-  }
-}
+  },
+};
 
 module.exports = {
-  name: 'Prop Definition Example',
+  name: "Prop Definition Example",
   description: `This component captures an RSS URL and logs it`,
-  version: '0.1',
+  version: "0.1",
   props: {
     rss,
     url: { propDefinition: [rss, "urlDef"] },
   },
   async run() {
-    console.log(this.url)
-  }, 
-}
+    console.log(this.url);
+  },
+};
 ```
 
 ### Interface Props
 
 Interface props are infrastructure abstractions provided by the Pipedream platform. They declare how a component is invoked — via HTTP request, run on a schedule, etc. — and therefore define the shape of the events it processes.
 
-| Interface Type         | Description                                                                                  |
-|---------------------|----------------------------------------------------------------------------------------------|
-| [Timer](#timer) | Invoke your component on an interval (defaults to every hour) or based on a cron expression  |
-| [HTTP](#http)  | Invoke your code on HTTP requests                                                            |
+| Interface Type  | Description                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| [Timer](#timer) | Invoke your component on an interval (defaults to every hour) or based on a cron expression |
+| [HTTP](#http)   | Invoke your code on HTTP requests                                                           |
 
 ### Timer
 
-To use the timer interface, declare a prop whose value is the string $.interface.timer:
+To use the timer interface, declare a prop whose value is the string `$.interface.timer`:
 
 **Definition**
 
@@ -549,17 +530,17 @@ props: {
 }
 ```
 
-| Property         | Type | Required? |  Description                                                                                  |
-|---------------------|-------|-----------------------------------------------------------------------------------------|-----|
-| `type` | `string` | required | Must be set to `$.interface.timer`  |
-| `default`  | `object` | optional | **Define a default interval**<br>`{ intervalSeconds: 60, },`<br>&nbsp;<br>**Define a default cron expression**<br>` { cron: "0 0 * * *", },`  |
+| Property  | Type     | Required? | Description                                                                                                                                  |
+| --------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`    | `string` | required  | Must be set to `$.interface.timer`                                                                                                           |
+| `default` | `object` | optional  | **Define a default interval**<br>`{ intervalSeconds: 60, },`<br>&nbsp;<br>**Define a default cron expression**<br>` { cron: "0 0 * * *", },` |
 
 **Usage**
 
-| Code        | Description    | Read Scope | Write Scope |
-|-------------|----------------|-------------|--------|
-| `this.myPropName` | Returns the type of interface configured (e.g., `{ type: '$.interface.timer' }`) | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
-| `event` | Returns an object with the invocation timestamp and interface configuration (e.g., `{ "timestamp": 1593937896, "interval_seconds": 3600 }`) | `run(event)` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
+| Code              | Description                                                                                                                                 | Read Scope                | Write Scope                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------- |
+| `this.myPropName` | Returns the type of interface configured (e.g., `{ type: '$.interface.timer' }`)                                                            | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
+| `event`           | Returns an object with the invocation timestamp and interface configuration (e.g., `{ "timestamp": 1593937896, "interval_seconds": 3600 }`) | `run(event)`              | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
 
 **Example**
 
@@ -567,45 +548,45 @@ Following is a basic example of a component that is triggered by a `$.interface.
 
 ```javascript
 module.exports = {
-  name: 'Cron Example',
-  version: '0.1',
+  name: "Cron Example",
+  version: "0.1",
   props: {
     timer: {
       type: "$.interface.timer",
       default: {
-        cron: "0 0 * * *" // Run job once a day
-      }
-    }
+        cron: "0 0 * * *", // Run job once a day
+      },
+    },
   },
   async run() {
-    console.log('hello world!')
-  }, 
-}
+    console.log("hello world!");
+  },
+};
 ```
 
-Following is a basic example of a component that is triggered by a `$.interface.timer` and has default defined as a interval.
+Following is a basic example of a component that is triggered by a `$.interface.timer` and has default defined as an interval.
 
 ```javascript
 module.exports = {
-  name: 'Interval Example',
-  version: '0.1',
+  name: "Interval Example",
+  version: "0.1",
   props: {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 60 * 24 // Run job once a day
-      }
-    }
+        intervalSeconds: 60 * 60 * 24, // Run job once a day
+      },
+    },
   },
   async run() {
-    console.log('hello world!')
-  }, 
-}
+    console.log("hello world!");
+  },
+};
 ```
 
 #### HTTP
 
-To use the HTTP interface, declare a prop whose value is the string $.interface.http:
+To use the HTTP interface, declare a prop whose value is the string `$.interface.http`:
 
 ```javascript
 props: {
@@ -615,43 +596,41 @@ props: {
 
 **Definition**
 
-| Property         | Type | Required? |  Description                                                                                  |
-|---------------------|-------|-----------------------------------------------------------------------------------------|-----|
-| `type` | `string` | required | Must be set to `$.interface.http`  |
-| `respond`  | `method` | required | The HTTP interface exposes a `respond()` method that lets your component issue HTTP responses to the client.  |
-
+| Property  | Type     | Required? | Description                                                                                                  |
+| --------- | -------- | --------- | ------------------------------------------------------------------------------------------------------------ |
+| `type`    | `string` | required  | Must be set to `$.interface.http`                                                                            |
+| `respond` | `method` | required  | The HTTP interface exposes a `respond()` method that lets your component issue HTTP responses to the client. |
 
 **Usage**
 
-| Code        | Description    | Read Scope | Write Scope |
-|-------------|----------------|-------------|--------|
-| `this.myPropName` | Returns an object with the unique endpoint URL generated by Pipedream (e.g., `{ endpoint: 'https://abcde.m.pipedream.net' }`) | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
-| `event` | Returns an object representing the HTTP request (e.g., `{ method: 'POST', path: '/', query: {}, headers: {}, bodyRaw: '', body: }`) | `run(event)` | The shape of `event` corresponds with the the HTTP request you make to the endpoint generated by Pipedream for this interface |
-| `this.myPropName.respond()` | Returns an HTTP response to the client (e.g., `this.http.respond({status: 200})`). | n/a | `run()` |
+| Code                        | Description                                                                                                                             | Read Scope                | Write Scope                                                                                                                   |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `this.myPropName`           | Returns an object with the unique endpoint URL generated by Pipedream (e.g., `{ endpoint: 'https://abcde.m.pipedream.net' }`)           | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API)                                   |
+| `event`                     | Returns an object representing the HTTP request (e.g., `{ method: 'POST', path: '/', query: {}, headers: {}, bodyRaw: '', body: {}, }`) | `run(event)`              | The shape of `event` corresponds with the the HTTP request you make to the endpoint generated by Pipedream for this interface |
+| `this.myPropName.respond()` | Returns an HTTP response to the client (e.g., `this.http.respond({status: 200})`).                                                      | n/a                       | `run()`                                                                                                                       |
 
 ##### Responding to HTTP requests
 
 The HTTP interface exposes a `respond()` method that lets your component issue HTTP responses. You **must** run `this.http.respond()` to respond to the client from the `run()` method of a component.
 
-| Property        | Type    | Required? | Description |
-|-------------|----------------|---------------|--------|
-| `status`    | `integer` | required | An integer representing the HTTP status code. Return `200` to indicate success. Standard status codes range from `100` - `599`  |
-| `headers`    | `object` | optional | Return custom key-value pairs in the HTTP response  |
-| `body`    | `string` `object` `buffer` | optional | Return a custom body in the HTTP response. This can be any string, object, or Buffer.  |
-
+| Property  | Type                       | Required? | Description                                                                                                                    |
+| --------- | -------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `status`  | `integer`                  | required  | An integer representing the HTTP status code. Return `200` to indicate success. Standard status codes range from `100` - `599` |
+| `headers` | `object`                   | optional  | Return custom key-value pairs in the HTTP response                                                                             |
+| `body`    | `string` `object` `buffer` | optional  | Return a custom body in the HTTP response. This can be any string, object, or Buffer.                                          |
 
 ##### HTTP Event Shape
 
 Following is the shape of the event passed to the `run()` method of your component.
 
 ```javascript
-{ 
-  method: 'POST', 
-  path: '/', 
-  query: {}, 
-  headers: {}, 
-  bodyRaw: '', 
-  body: 
+{
+  method: 'POST',
+  path: '/',
+  query: {},
+  headers: {},
+  bodyRaw: '',
+  body:
 }
 ```
 
@@ -670,24 +649,22 @@ module.exports = {
     this.http.respond({
       status: 200,
       body: {
-        'msg': 'hello world!'
+        msg: "hello world!",
       },
       headers: {
         "content-type": "application/json",
       },
     });
-    console.log(event)
-  }
-}
+    console.log(event);
+  },
+};
 ```
 
 ### Service Props
 
-| Service         | Description                                                                                  |
-|---------------------|----------------------------------------------------------------------------------------------|
-| _DB_ | Provides access to a simple, component-specific key-value store to maintain state across invocations.|
-
-
+| Service | Description                                                                                           |
+| ------- | ----------------------------------------------------------------------------------------------------- |
+| _DB_    | Provides access to a simple, component-specific key-value store to maintain state across invocations. |
 
 #### DB
 
@@ -701,11 +678,10 @@ props: {
 
 **Usage**
 
-| Code        | Description    | Read Scope | Write Scope |
-|-------------|----------------|-------------|--------|
-| `this.myPropName.get('key')` | Method to get a previously set value for a key. Returns `undefined` if a key does not exist. | `run()` `hooks` `methods` | Use the `set()` method to write values |
-| `this.myPropName.set('key', value)` | Method to set a value for a key. Values must be JSON serializable data. | Use the `get()` method to read values | `run()` `hooks` `methods` |
-
+| Code                                | Description                                                                                  | Read Scope                            | Write Scope                            |
+| ----------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------- |
+| `this.myPropName.get('key')`        | Method to get a previously set value for a key. Returns `undefined` if a key does not exist. | `run()` `hooks` `methods`             | Use the `set()` method to write values |
+| `this.myPropName.set('key', value)` | Method to set a value for a key. Values must be JSON serializable data.                      | Use the `get()` method to read values | `run()` `hooks` `methods`              |
 
 ### App Props
 
@@ -717,29 +693,28 @@ props: {
     type: "app",
     app: "",
     propDefinitions: {}
-    methods: {}, 
+    methods: {},
   },
 },
 ```
 
-| Property        | Type    | Required? | Description |
-|-------------|----------------|---------------|--------|
-| `type`        | `string` | required | Value must be `app` |
-| `app`        | `string` | required | Value must be set to the name slug for an app registered on Pipedream. If you don't see an app listed, please reach out in our public Slack. This data will be discoverable in a self-service way in the near future. |
-| `propDefinitions`  | `object` | optional | An object that contains objects with predefined user input props. See the section on User Input Props above to learn about the shapes that can be defined and how to reference in components using the `propDefiniton` property |
-| `methods`        | `object` | optional | Define app-specific methods. Methods can be referenced within the app object context via `this` (e.g., `this.methodName()`) and within a component via `this.myAppPropName` (e.g., `this.myAppPropName.methodName()`). |
-
+| Property          | Type     | Required? | Description                                                                                                                                                                                                                      |
+| ----------------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`            | `string` | required  | Value must be `app`                                                                                                                                                                                                              |
+| `app`             | `string` | required  | Value must be set to the name slug for an app registered on Pipedream. If you don't see an app listed, please reach out in our public Slack. This data will be discoverable in a self-service way in the near future.            |
+| `propDefinitions` | `object` | optional  | An object that contains objects with predefined user input props. See the section on User Input Props above to learn about the shapes that can be defined and how to reference in components using the `propDefinition` property |
+| `methods`         | `object` | optional  | Define app-specific methods. Methods can be referenced within the app object context via `this` (e.g., `this.methodName()`) and within a component via `this.myAppPropName` (e.g., `this.myAppPropName.methodName()`).           |
 
 **Usage**
 
-| Code        | Description    | Read Scope | Write Scope |
-|-------------|----------------|-------------|--------|
-| `this.$auth` | Provides access to OAuth tokens and API keys for Pipedream managed auth | **App Object:** `methods` | n/a |
-| `this.myAppPropName.$auth` | Provides access to OAuth tokens and API keys for Pipedream managed auth | **Parent Component:** `run()` `hooks` `methods` | n/a |
-| `this.methodName()` | Execute a common method defined for an app within the app definition (e.g., from another method) | **App Object:** `methods` | n/a |
-| `this.myAppPropName.methodName()` | Execute a common method defined for an app from a component that includes the app as a prop | **Parent Component:** `run()` `hooks` `methods` | n/a |
+| Code                              | Description                                                                                      | Read Scope                                      | Write Scope |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------- | ----------- |
+| `this.$auth`                      | Provides access to OAuth tokens and API keys for Pipedream managed auth                          | **App Object:** `methods`                       | n/a         |
+| `this.myAppPropName.$auth`        | Provides access to OAuth tokens and API keys for Pipedream managed auth                          | **Parent Component:** `run()` `hooks` `methods` | n/a         |
+| `this.methodName()`               | Execute a common method defined for an app within the app definition (e.g., from another method) | **App Object:** `methods`                       | n/a         |
+| `this.myAppPropName.methodName()` | Execute a common method defined for an app from a component that includes the app as a prop      | **Parent Component:** `run()` `hooks` `methods` | n/a         |
 
->**Note:** The specific `$auth` keys supported for each app will be pulished in the near future.
+> **Note:** The specific `$auth` keys supported for each app will be published in the near future.
 
 ## Methods
 
@@ -770,20 +745,20 @@ hooks: {
 },
 ```
 
-| Property        | Type    | Required? | Description |
-|-------------|----------------|---------------|--------|
-| `activate`        | `method` | optional | Executed each time a commponent is deployed or updated |
-| `deactivate`        | `method` | optional | Executed each time a commponent is deactivated  |
+| Property     | Type     | Required? | Description                                           |
+| ------------ | -------- | --------- | ----------------------------------------------------- |
+| `activate`   | `method` | optional  | Executed each time a component is deployed or updated |
+| `deactivate` | `method` | optional  | Executed each time a component is deactivated         |
 
 ## Dedupe Strategies
 
 > **IMPORTANT:** To use a dedupe strategy, you must emit an `id` as part of the event metadata (dedupe strategies are applied to the submitted `id`)
 
-| Strategy       | Description |
-|-------------|----------------|
-| `unique`        | Pipedream maintains a cache of 100 emitted `id` values. Events with `id` values that are not in the cache are emitted, and the `id` value is added to the cache. After 100 events, `id` values are purged from the cache based on the order received (first in, first out). A common use case for this strategy is an RSS feed which typically does not exceed 100 items |
-| `greatest`        | Pipedream caches the largest `id` value (must be numeric). Only events with larger `id` values are emitted (and the cache is updated to match the new, largest value). |
-| `last`        | Pipedream caches the ID assocaited with the last emitted event. When new events are emitted, only events after the matching `id` value will be emitted as events. If no `id` values match, then all events will be emitted. |
+| Strategy   | Description                                                                                                                                                                                                                                                                                                                                                              |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `unique`   | Pipedream maintains a cache of 100 emitted `id` values. Events with `id` values that are not in the cache are emitted, and the `id` value is added to the cache. After 100 events, `id` values are purged from the cache based on the order received (first in, first out). A common use case for this strategy is an RSS feed which typically does not exceed 100 items |
+| `greatest` | Pipedream caches the largest `id` value (must be numeric). Only events with larger `id` values are emitted (and the cache is updated to match the new, largest value).                                                                                                                                                                                                   |
+| `last`     | Pipedream caches the ID associated with the last emitted event. When new events are emitted, only events after the matching `id` value will be emitted as events. If no `id` values match, then all events will be emitted.                                                                                                                                              |
 
 ## Run
 
@@ -811,26 +786,23 @@ If the `run` method emits events using `this.$emit`, you can access the events i
 pd events <deployed-component-name>
 ```
 
-### $emit
+### \$emit
 
 `this.$emit()` is a method in scope for the `run` method of a component
 
 ```javascript
-this.$emit(
-  event,
-  {
-    id,
-    summary,
-    ts,
-  }
-)
+this.$emit(event, {
+  id,
+  summary,
+  ts,
+});
 ```
 
-| Property  | Type                   | Required?                                | Description                                                  |
-| --------- | ---------------------- | ---------------------------------------- | ------------------------------------------------------------ |
-| `event`   | JSON serializable data | optional                                 | The data to emit as the event                                |
-| `id`      | `string` or `number`   | Required if a dedupe strategy is applied | A value to uniquely identify this event. Common `id` values may be a 3rd party ID, a timestamp, or a data hash |
-| `summary` | `string`               | optional                                 | Define a summary to customize the data displayed in the events list to help differentiate events at a glance |
+| Property  | Type                   | Required?                                | Description                                                                                                                                                                                                                                            |
+| --------- | ---------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `event`   | JSON serializable data | optional                                 | The data to emit as the event                                                                                                                                                                                                                          |
+| `id`      | `string` or `number`   | Required if a dedupe strategy is applied | A value to uniquely identify this event. Common `id` values may be a 3rd party ID, a timestamp, or a data hash                                                                                                                                         |
+| `summary` | `string`               | optional                                 | Define a summary to customize the data displayed in the events list to help differentiate events at a glance                                                                                                                                           |
 | `ts`      | `integer`              | optional                                 | If you submit a timestamp, events will automatically be ordered and emitted from oldest to newest. If using the `last` dedupe strategy, the value cached as the `last` event for an invocation will correspond to the event with the newest timestamp. |
 
 Following is a basic example that emits an event on each component execution.
@@ -840,9 +812,9 @@ module.exports = {
   name: "this.$emit() example",
   description: "Deploy and run this component manually via the Pipedream UI",
   async run() {
-    this.$emit({ message: "hello world!" })
-  }
-}
+    this.$emit({ message: "hello world!" });
+  },
+};
 ```
 
 ### Using npm packages
@@ -850,10 +822,9 @@ module.exports = {
 To use an npm package in a component, just require it. There is no `package.json` or `npm install` required.
 
 ```javascript
-const myVariable = require('npmPackageName')
+const myVariable = require("npmPackageName");
 ```
 
 When you deploy a component, Pipedream downloads these packages and bundles them with your deployment.
 
 Some packages — for example, packages like [Puppeteer](https://pptr.dev/), which includes large dependencies like Chromium — may not work on Pipedream. Please [reach out](https://docs.pipedream.com/support/) if you encounter a specific issue.
-

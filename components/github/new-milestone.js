@@ -1,13 +1,7 @@
 const github = require("https://github.com/PipedreamHQ/pipedream/components/github/github.app.js");
 //const github = require("./github.app.js");
-const eventNames = ["milestone"]
-const eventTypes = ['created']
-
-function generateMeta(data) {
-  return {
-    summary: `${data.milestone.title} created by ${data.sender.login}`
-  }
-}
+const eventNames = ["milestone"];
+const eventTypes = ['created'];
 
 module.exports = {
   name: "New Milestone (Instant)",
@@ -38,6 +32,13 @@ module.exports = {
       });
     },
   },
+  methods: {
+    generateMeta(data) {
+      return {
+        summary: `${data.milestone.title} created by ${data.sender.login}`,
+      };
+    },
+  },
   async run(event) {
     this.http.respond({
       status: 200,
@@ -60,7 +61,7 @@ module.exports = {
     }
 
     if (eventTypes.indexOf(body.action) > -1) {
-      const meta = generateMeta(body)
+      const meta = this.generateMeta(body);
       this.$emit(body, meta);
     }
   },
