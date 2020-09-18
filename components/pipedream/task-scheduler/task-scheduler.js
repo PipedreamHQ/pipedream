@@ -2,7 +2,7 @@ const pipedream = require("https://github.com/PipedreamHQ/pipedream/components/p
 const { uuid } = require("uuidv4");
 
 module.exports = {
-  name: "New Scheduled Tasks",
+  name: "New Scheduled Tasks (Alpha)",
   description:
     "Exposes an HTTP API for scheduling messages to be emitted at a future time",
   version: "0.0.1",
