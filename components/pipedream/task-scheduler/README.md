@@ -8,7 +8,6 @@ To [schedule a new task](#scheduling-a-task), just send an HTTP `POST` request t
 {
   "timestamp": "2020-08-21T04:29:00.951Z", // timestamp: an ISO 8601 timestamp
   "message": { "name": "Luke" } // message: any object or string
-  "secret": "abc123" // secret (optional): if configured, all requests must contain this secret
 }
 ```
 
@@ -36,14 +35,23 @@ This source exposes an HTTP endpoint where you can send `POST` requests to sched
 POST /schedule
 ```
 
-To schedule a new task, `POST` a JSON object with an [ISO 8601](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) `timestamp`, a `message`, and an optional `secret` to the **`/schedule` path** of your source's HTTP endpoint:
+To schedule a new task, `POST` a JSON object with an [ISO 8601](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) `timestamp` and a `message` to the **`/schedule` path** of your source's HTTP endpoint:
 
 ```javascript
 {
   "timestamp": "2020-08-21T04:29:00.951Z", // timestamp: an ISO 8601 timestamp
   "message": { "name": "Luke" } // message can be any object or string
-  "secret": "abc123" // secret (optional): if configured, all requests must contain this secret
 }
+```
+
+Optionally, if you configured a secret in your source, you'll need to pass that in the `x-pd-secret` header. For example:
+
+```bash
+curl -X POST \
+  -H 'Content-Type: application/json' \
+  -H 'x-pd-secret: 123' \
+  -d '{ "timestamp": "2020-09-18T04:40:59Z", "message": "foo" }' \
+  https://endpoint.m.pipedream.net/schedule
 ```
 
 Successful task schedule requests yield a `200 OK` response, noting the task was successfully scheduled.
@@ -67,11 +75,16 @@ You can use [this workflow](https://pipedream.com/@dylburger/example-schedule-a-
 // N seconds from now
 this.ts = new Date(+new Date() + params.numSeconds * 1000).toISOString();
 
+const headers = {
+  "Content-Type": "application/json",
+};
+if (params.secret) {
+  headers["x-pd-secret"] = params.secret;
+}
+
 return await require("@pipedreamhq/platform").axios(this, {
   url: `${params.taskSchedulerURL}/schedule`,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers,
   data: {
     timestamp: this.ts,
     message: {
@@ -85,9 +98,9 @@ return await require("@pipedreamhq/platform").axios(this, {
 Or send the same request with `cURL`:
 
 ```bash
-> curl -d '{ "timestamp": "2020-08-21T04:29:00.951Z", "message": { "name": "Luke", "title": "Jedi" }}' \
-  -H "Content-Type: application/json" \
-  https://myendpoint.m.pipedream.net/schedule
-
-{"message":"Scheduled task at 2020-08-21T04:29:00.951Z"}
+curl -X POST \
+  -H 'Content-Type: application/json' \
+  -H 'x-pd-secret: 123' \
+  -d '{ "timestamp": "2020-09-18T04:40:59Z", "message": "foo" }' \
+  https://endpoint.m.pipedream.net/schedule
 ```
