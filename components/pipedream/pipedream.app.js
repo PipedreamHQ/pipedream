@@ -9,6 +9,20 @@ module.exports = {
   type: "app",
   app: "pipedream",
   methods: {
+    async subscribe(emitter, listener, channel) {
+      let url = `${PIPEDREAM_BASE_URL}/subscriptions?emitter_id=${emitter}&listener_id=${listener}`;
+      if (channel) {
+        url += `&event_name=${channel}`;
+      }
+      return await axios({
+        method: "POST",
+        url,
+        headers: {
+          Authorization: `Bearer ${this.$auth.api_key}`,
+          "Content-Type": "application/json",
+        },
+      });
+    },
     // Runs a query againt the Pipedream SQL service
     // https://docs.pipedream.com/destinations/sql/
     async runSQLQuery(query, format) {
