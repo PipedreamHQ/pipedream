@@ -10,7 +10,7 @@ module.exports = {
       type: "$.discord.channel[]",
       appProp: "discord",
       label: "Channels",
-      description: "Select the channel()s you'd like to be notified for",
+      description: "Select the channel(s) you'd like to be notified for",
     },
     discordApphook: {
       type: "$.interface.apphook",
