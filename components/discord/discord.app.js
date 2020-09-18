@@ -1,8 +1,1 @@
-module.exports = {
-  type: "app",
-  app: "discord",
-  propDefinitions: {
-  },
-  methods: {
-  },
-}
+../discord_bot/discord_bot.app.js
