@@ -18,14 +18,9 @@ module.exports = {
   },
 
   async run(event) {
-    let teams = [];
-
     let results = await this.asana.getTeams(this.organizationId);
     for (const result of results) {
-      teams.push(await this.asana.getTeam(result.gid));
-    }
-
-    for (const team of teams) {
+      let team = await this.asana.getTeam(result.gid);
       this.$emit(team, {
         id: team.gid,
         summary: team.name,

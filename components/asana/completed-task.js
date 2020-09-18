@@ -1,8 +1,7 @@
 const asana = require("https://github.com/PipedreamHQ/pipedream/components/asana/asana.app.js");
-const get = require("lodash.get");
 
 module.exports = {
-  name: "Task Completed",
+  name: "Task Completed (Instant)",
   description: "Emits an event for each task completed in a project.",
   version: "0.0.1",
   dedupe: "unique",
@@ -56,23 +55,18 @@ module.exports = {
       },
     });
 
-    const body = get(event, "body");
+    const { body } = event;
     if (!body || !body.events) {
       return;
     }
 
-    let tasks = [];
-
     for (const e of body.events) {
-      tasks.push(await this.asana.getTask(e.resource.gid));
-    }
-
-    for (const task of tasks) {
+      let task = await this.asana.getTask(e.resource.gid);
       this.$emit(task, {
         id: task.gid,
         summary: task.name,
         ts: Date.now(),
       });
-    }  
+    } 
   },
 };

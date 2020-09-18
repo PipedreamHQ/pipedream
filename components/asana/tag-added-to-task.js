@@ -1,8 +1,7 @@
 const asana = require("https://github.com/PipedreamHQ/pipedream/components/asana/asana.app.js");
-const get = require("lodash.get");
 
 module.exports = {
-  name: "Tag Added To Task",
+  name: "Tag Added To Task (Instant)",
   description: "Emits an event for each new tag added to a task.",
   version: "0.0.1",
   props: {
@@ -59,29 +58,23 @@ module.exports = {
       },
     });
 
-    const body = get(event, "body");
+    const { body } = event;
     if (!body || !body.events) {
       return;
     }
 
-    let tags = [];
     const taskIds = this.db.get("taskIds");
 
     for (const e of body.events) {
       if (!taskIds || (taskIds.length < 0) || (Object.keys(taskIds).length === 0) || (taskIds && taskIds.includes(e.resource.gid))) {
         let task = await this.asana.getTask(e.resource.gid);
         let tag = await this.asana.getTag(e.parent.gid);
-        tag.task_name = task.name;
-        tags.push(tag);
-      }
-    }
-
-    for (const tag of tags) {
-      this.$emit(tag, {
-        id: tag.gid,
-        summary: `${tag.name} added to ${tag.task_name}`,
-        ts: Date.now(),
+        this.$emit(tag, {
+          id: tag.gid,
+          summary: `${tag.name} added to ${task.name}`,
+          ts: Date.now(),
       });
+      }
     }
   },
 };

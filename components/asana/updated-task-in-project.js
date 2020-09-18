@@ -1,8 +1,7 @@
 const asana = require("https://github.com/PipedreamHQ/pipedream/components/asana/asana.app.js");
-const get = require("lodash.get");
 
 module.exports = {
-  name: "Task Updated In Project",
+  name: "Task Updated In Project (Instant)",
   description: "Emits an event for each task updated in a project.",
   version: "0.0.1",
   props: {
@@ -58,28 +57,23 @@ module.exports = {
       },
     });
 
-    const body = get(event, "body");
+    const { body } = event;
     if (!body || !body.events) {
       return;
     }
 
-    let tasks = [];
     const taskIds = this.db.get("taskIds");
 
     for (const e of body.events) {
       if (!taskIds || (taskIds.length < 0) || (Object.keys(taskIds).length === 0) || (taskIds && taskIds.includes(e.resource.gid))) {
         let task = await this.asana.getTask(e.resource.gid);
         task.change = e.change;
-        tasks.push(task);
-      }
-    }
-
-    for (const task of tasks) {
-      this.$emit(task, {
-        id: task.gid,
-        summary: task.name,
-        ts: Date.now(),
+        this.$emit(task, {
+          id: task.gid,
+          summary: task.name,
+          ts: Date.now(),
       });
+      }
     }
   },
 };

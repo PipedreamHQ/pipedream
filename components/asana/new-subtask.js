@@ -1,8 +1,7 @@
 const asana = require("https://github.com/PipedreamHQ/pipedream/components/asana/asana.app.js");
-const get = require("lodash.get");
 
 module.exports = {
-  name: "New Subtask",
+  name: "New Subtask (Instant)",
   description: "Emits an event for each subtask added to a project.",
   version: "0.0.1",
   dedupe: "unique",
@@ -60,26 +59,22 @@ module.exports = {
       },
     });
 
-    const body = get(event, "body");
+    const { body } = event;
     if (!body || !body.events) {
       return;
     }
 
-    let tasks = [];
     const taskIds = this.db.get("taskIds");
 
     for (const e of body.events) {
       if (e.parent.resource_type == "task" && (!taskIds || (taskIds.length < 0) || (Object.keys(taskIds).length === 0) || (taskIds && taskIds.includes(e.parent.gid)))) {
-        tasks.push(await this.asana.getTask(e.resource.gid));
+        let task = await this.asana.getTask(e.resource.gid);
+        this.$emit(task, {
+          id: task.gid,
+          summary: task.name,
+          ts: Date.now(),
+        });
       }
     }
-
-    for (const task of tasks) {
-      this.$emit(task, {
-        id: task.gid,
-        summary: task.name,
-        ts: Date.now(),
-      });
-    }  
   },
 };

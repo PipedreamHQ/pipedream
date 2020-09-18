@@ -1,8 +1,7 @@
 const asana = require("https://github.com/PipedreamHQ/pipedream/components/asana/asana.app.js");
-const get = require("lodash.get");
 
 module.exports = {
-  name: "Project Added To Workspace",
+  name: "Project Added To Workspace (Instant)",
   description: "Emits an event for each new project added to a workspace.",
   version: "0.0.1",
   dedupe: "unique",
@@ -48,18 +47,13 @@ module.exports = {
       },
     });
 
-    const body = get(event, "body");
+    const { body } = event;
     if (!body || !body.events) {
       return;
     }
 
-    let projects = [];
-
     for (const e of body.events) {
-      projects.push(await this.asana.getProject(e.resource.gid));
-    }
-
-    for (const project of projects) {
+      let project = await this.asana.getProject(e.resource.gid);
       this.$emit(project, {
         id: project.gid,
         summary: project.name,

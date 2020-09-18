@@ -59,26 +59,50 @@ module.exports = {
     },
   },
   methods: {
+    async _getBaseUrl() {
+      return "https://app.asana.com/api/1.0"
+    },
     async _getHeaders() {
       return {
         Accept: "application/json",
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    async _getAuthorizationHeader({ data, method, url, headers }) {
-      const token = {
-        key: this.$auth.oauth_access_token,
-        secret: this.$auth.oauth_refresh_token,
+    async _makeRequest(endpoint) {
+      config = {
+        url: `${await this._getBaseUrl()}/${endpoint}`,
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        }
       };
+      try {
+        return await axios(config);
+      } catch (err) {
+        console.log(err);
+      }
+    }, 
+    async _getAuthorizationHeader({ data, method, url, headers }) {
       return await axios({
         method: "POST",
-        url: `https://app.asana.com/api/1.0/webhooks`,
+        url: `${await this._getBaseUrl()}/webhooks`,
         data: data.body,
         headers,
       });
     },
-    async _makeWebhookRequest(config) {
-      if (!config.headers) config.headers = {};
+    async createHook(body) {
+      const config = {
+        method: "post",
+        url: `${await this._getBaseUrl()}/webhooks`,
+        headers: {
+          "Content-Type": "applicaton/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        data: {
+          body,
+        },
+      };
       const authorization = await this._getAuthorizationHeader(config);
       config.headers.authorization = authorization;
       try {
@@ -88,25 +112,10 @@ module.exports = {
       }
       return authorization.data;
     },
-    async createHook(body) {
-      const resp = await this._makeWebhookRequest({
-        method: "post",
-        url: `https://app.asana.com/api/1.0/webhooks`,
-        headers: {
-          "Content-Type": "applicaton/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data: {
-          body,
-        },
-      });
-      return resp;
-    },
     async deleteHook(hookId) {
       const config = {
         method: "delete",
-        url: `https://app.asana.com/api/1.0/webhooks/${hookId}`,
+        url: `${await this._getBaseUrl()}/webhooks/${hookId}`,
         headers: await this._getHeaders(),
       };
       try {
@@ -123,28 +132,16 @@ module.exports = {
       var content = JSON.stringify(request.body);
       var doubleHash = base64Digest(content);
       var headerHash = request.headers["x-hook-secret"];
-      return doubleHash == headerHash;
+      return doubleHash === headerHash;
     },
     async getWorkspace(workspaceId) {
-      const workspace = await axios.get(
-        `https://app.asana.com/api/1.0/workspaces/${workspaceId}`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return workspace.data.data;
+      return (await this._makeRequest(`workspaces/${workspaceId}`)).data.data;
     },
     async getWorkspaces() {
-      const workspaces = await axios.get(
-        `https://app.asana.com/api/1.0/workspaces/`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return workspaces.data.data;
+      return (await this._makeRequest("workspaces")).data.data;
     },
     async getOrganizations() {
-      let organizations = [];
+      const organizations = [];
       const workspaces = await this.getWorkspaces();
       for (const workspace of workspaces) {
         let w = await this.getWorkspace(workspace.gid);
@@ -153,99 +150,41 @@ module.exports = {
       return organizations;
     },
     async getProject(projectId) {
-      const project = await axios.get(
-        `https://app.asana.com/api/1.0/projects/${projectId}`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return project.data.data;
+      return (await this._makeRequest(`projects/${projectId}`)).data.data;
     },
     async getProjects(workspaceId) {
-      const projects = await axios.get(
-        `https://app.asana.com/api/1.0/projects?workspace=${workspaceId}`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return projects.data.data;
+      return (await this._makeRequest(`projects?workspace=${workspaceId}`)).data.data;
     },
     async getStory(storyId) {
-      const story = await axios.get(
-        `https://app.asana.com/api/1.0/stories/${storyId}`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return story.data.data;
+      return (await this._makeRequest(`stories/${storyId}`)).data.data;
     },
     async getTask(taskId) {
-      const task = await axios.get(
-        `https://app.asana.com/api/1.0/tasks/${taskId}`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return task.data.data;
+      return (await this._makeRequest(`tasks/${taskId}`)).data.data;
     },
     async getTasks(projectId) {
       let incompleteTasks = [];
-      const tasks = await axios.get(
-        `https://app.asana.com/api/1.0/projects/${projectId}/tasks`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      for (const task of tasks.data.data) {
+      const tasks = (await this._makeRequest(`projects/${projectId}/tasks`)).data.data;
+      for (const task of tasks) {
         let t = await this.getTask(task.gid);
         if (t.completed == false) incompleteTasks.push(task);
       }
       return incompleteTasks;
     },
     async getTag(tagId) {
-      const tag = await axios.get(
-        `https://app.asana.com/api/1.0/tags/${tagId}`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return tag.data.data;
+      return (await this._makeRequest(`tags/${tagId}`)).data.data;
     },
     async getTeam(teamId) {
-      const team = await axios.get(
-        `https://app.asana.com/api/1.0/teams/${teamId}`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return team.data.data;
+      return (await this._makeRequest(`teams/${teamId}`)).data.data;
     },
     async getTeams(organizationId) {
-      const teams = await axios.get(
-        `https://app.asana.com/api/1.0/organizations/${organizationId}/teams`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return teams.data.data;
+      return (await this._makeRequest(`organizations/${organizationId}/teams`)).data.data;
     },
     async getUser(userId) {
-      const user = await axios.get(
-        `https://app.asana.com/api/1.0/users/${userId}`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return user.data.data;
+
+      return (await this._makeRequest(`users/${userId}`)).data.data;
     },
     async getUsers(workspaceId) {
-      const users = await axios.get(
-        `https://app.asana.com/api/1.0/workspaces/${workspaceId}/users`,
-        {
-          headers: await this._getHeaders(),
-        }
-      );
-      return users.data.data;
+      return (await this._makeRequest(`workspaces/${workspaceId}/users`)).data.data;
     },
   },
 };

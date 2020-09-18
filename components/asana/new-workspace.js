@@ -17,14 +17,9 @@ module.exports = {
   },
 
   async run(event) {
-    let workspaces = [];
-
     let results = await this.asana.getWorkspaces();
     for (const result of results) {
-      workspaces.push(await this.asana.getWorkspace(result.gid));
-    }
-
-    for (const workspace of workspaces) {
+      let workspace = await this.asana.getWorkspace(result.gid);
       this.$emit(workspace, {
         id: workspace.gid,
         summary: workspace.name,
