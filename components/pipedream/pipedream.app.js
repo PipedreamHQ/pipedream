@@ -9,17 +9,43 @@ module.exports = {
   type: "app",
   app: "pipedream",
   methods: {
-    async subscribe(emitter, listener, channel) {
-      let url = `${PIPEDREAM_BASE_URL}/subscriptions?emitter_id=${emitter}&listener_id=${listener}`;
+    async _makeAPIRequest(opts) {
+      if (!opts.headers) opts.headers = {};
+      opts.headers.authorization = `bearer ${this.$auth.api_key}`;
+      opts.headers["Content-Type"] = "application/json";
+      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
+      const { path } = opts;
+      delete opts.path;
+      opts.url = `${PIPEDREAM_BASE_URL}${path[0] === "/" ? "" : "/"}${path}`;
+      return await axios(opts);
+    },
+    async subscribe(emitter_id, listener_id, channel) {
+      let params = {
+        emitter_id,
+        listener_id,
+      };
       if (channel) {
-        url += `&event_name=${channel}`;
+        params.event_name = channel;
       }
-      return await axios({
+      return await this._makeAPIRequest({
         method: "POST",
-        url,
-        headers: {
-          Authorization: `Bearer ${this.$auth.api_key}`,
-          "Content-Type": "application/json",
+        path: "/subscriptions",
+        params,
+      });
+    },
+    async listEvents(dcID) {
+      return await this._makeAPIRequest({
+        path: `/sources/${dcID}/event_summaries`,
+      });
+    },
+    async deleteEvent(dcID, eventID, event_name) {
+      return await this._makeAPIRequest({
+        method: "DELETE",
+        path: `/sources/${dcID}/events`,
+        params: {
+          start_id: eventID,
+          end_id: eventID,
+          event_name,
         },
       });
     },

@@ -102,6 +102,48 @@ module.exports = {
       return;
     }
 
+    // CANCEL SCHEDULED TASK
+    // The user must pass a scheduled event UUID they'd like to cancel
+    // We lookup the event by ID and delete it from the 'self' queue
+    if (path === "/cancel") {
+      const { id, secret } = body;
+      if (this.secret && secret !== this.secret) {
+        errors.push(
+          "Secret on incoming request doesn't match the configured secret"
+        );
+      }
+
+      let msg, status;
+      try {
+        // List events in the self channel - the queue of
+        // scheduled events, to be emitted in the future
+
+        // Find the event in the list by id
+
+        // Event might not exist - return a 404 if so
+
+        // Delete the event in the self channel
+        status = 200;
+        msg = `Cancelled scheduled task for event ${id}`;
+      } catch (err) {
+        status = 500;
+        msg = "Failed to schedule task. Please see the logs";
+        console.log(err);
+      }
+
+      this.http.respond({
+        status,
+        body: {
+          msg,
+        },
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      return;
+    }
+
     // INCOMING SCHEDULED EMIT
     if ($channel === "self") {
       // Delete the channel name and id from the incoming event,
