@@ -5,7 +5,7 @@ module.exports = {
   name: "New Scheduled Tasks (Alpha)",
   description:
     "Exposes an HTTP API for scheduling messages to be emitted at a future time",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique", // Dedupe on a UUID generated for every scheduled task
   props: {
     pipedream,
@@ -22,16 +22,17 @@ module.exports = {
   },
   async run(event) {
     const { body, headers, path, $channel, $id } = event;
+    const componentId = process.env.PD_COMPONENT;
+    const selfChannel = "self";
 
     // Subscribe the component to itself, if not already.
     // Scheduled tasks are sent to the self channel, which
     // emits the message at the specified delivery_ts to this component.
     const isSubscribedToSelf = this.db.get("isSubscribedToSelf");
     if (!isSubscribedToSelf) {
-      console.log("Subscribing to self channel for event source");
-      const componentId = process.env.PD_COMPONENT;
+      console.log(`Subscribing to ${selfChannel} channel for event source`);
       console.log(
-        await this.pipedream.subscribe(componentId, componentId, "self")
+        await this.pipedream.subscribe(componentId, componentId, selfChannel)
       );
       this.db.set("isSubscribedToSelf", true);
     }
@@ -81,9 +82,9 @@ module.exports = {
       // to this same deployed component at the specified delivery_ts
       const $id = uuid();
       this.$emit(
-        { ...body, $channel: "self", $id },
+        { ...body, $channel: selfChannel, $id },
         {
-          name: "self",
+          name: selfChannel,
           id: $id,
           delivery_ts: epoch,
         }
@@ -93,6 +94,7 @@ module.exports = {
         status: 200,
         body: {
           msg: "Successfully scheduled task",
+          id: $id,
         },
         headers: {
           "content-type": "application/json",
@@ -106,8 +108,10 @@ module.exports = {
     // The user must pass a scheduled event UUID they'd like to cancel
     // We lookup the event by ID and delete it from the 'self' queue
     if (path === "/cancel") {
-      const { id, secret } = body;
-      if (this.secret && secret !== this.secret) {
+      const { id } = body;
+      const errors = [];
+
+      if (this.secret && headers["x-pd-secret"] !== this.secret) {
         errors.push(
           "Secret on incoming request doesn't match the configured secret"
         );
@@ -117,12 +121,39 @@ module.exports = {
       try {
         // List events in the self channel - the queue of
         // scheduled events, to be emitted in the future
+        const events = await this.pipedream.listEvents(
+          componentId,
+          selfChannel
+        );
+        console.log(`Events: `, events);
 
         // Find the event in the list by id
+        const eventToCancel = events.data.find((e) => {
+          const { metadata } = e;
+          return metadata.id === id;
+        });
 
-        // Event might not exist - return a 404 if so
+        console.log(`Event to cancel: `, eventToCancel);
 
-        // Delete the event in the self channel
+        if (!eventToCancel) {
+          console.log(`No event with ${id} found`);
+          this.http.respond({
+            status: 404,
+            body: {
+              msg: `No event with ${id} found`,
+            },
+          });
+          return;
+        }
+
+        // Delete the event in the self channel, where it's queued up for delivery
+        console.log(
+          await this.pipedream.deleteEvent(
+            componentId,
+            eventToCancel.id,
+            selfChannel
+          )
+        );
         status = 200;
         msg = `Cancelled scheduled task for event ${id}`;
       } catch (err) {
@@ -145,7 +176,7 @@ module.exports = {
     }
 
     // INCOMING SCHEDULED EMIT
-    if ($channel === "self") {
+    if ($channel === selfChannel) {
       // Delete the channel name and id from the incoming event,
       // which were used only as metadata
       delete event.$channel;
