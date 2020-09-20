@@ -2,26 +2,60 @@
 const axios = require("axios");
 const { convertArrayToCSV } = require("convert-array-to-csv");
 
-const PIPEDREAM_BASE_URL = "https://api.pipedream.com/v1";
 const PIPEDREAM_SQL_BASE_URL = "https://rt.pipedream.com/sql";
 
 module.exports = {
   type: "app",
   app: "pipedream",
   methods: {
-    async subscribe(emitter, listener, channel) {
-      let url = `${PIPEDREAM_BASE_URL}/subscriptions?emitter_id=${emitter}&listener_id=${listener}`;
+    async _makeAPIRequest(opts) {
+      if (!opts.headers) opts.headers = {};
+      opts.headers["Authorization"] = `Bearer ${this.$auth.api_key}`;
+      opts.headers["Content-Type"] = "application/json";
+      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
+      const { path } = opts;
+      delete opts.path;
+      opts.url = `https://api.pipedream.com/v1${
+        path[0] === "/" ? "" : "/"
+      }${path}`;
+      return await axios(opts);
+    },
+    async subscribe(emitter_id, listener_id, channel) {
+      let params = {
+        emitter_id,
+        listener_id,
+      };
       if (channel) {
-        url += `&event_name=${channel}`;
+        params.event_name = channel;
       }
-      return await axios({
+      return await this._makeAPIRequest({
         method: "POST",
-        url,
-        headers: {
-          Authorization: `Bearer ${this.$auth.api_key}`,
-          "Content-Type": "application/json",
-        },
+        path: "/subscriptions",
+        params,
       });
+    },
+    async listEvents(dcID, event_name) {
+      return (
+        await this._makeAPIRequest({
+          path: `/sources/${dcID}/event_summaries`,
+          params: {
+            event_name,
+          },
+        })
+      ).data;
+    },
+    async deleteEvent(dcID, eventID, event_name) {
+      return (
+        await this._makeAPIRequest({
+          method: "DELETE",
+          path: `/sources/${dcID}/events`,
+          params: {
+            start_id: eventID,
+            end_id: eventID,
+            event_name,
+          },
+        })
+      ).data;
     },
     // Runs a query againt the Pipedream SQL service
     // https://docs.pipedream.com/destinations/sql/
