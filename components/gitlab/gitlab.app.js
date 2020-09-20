@@ -67,9 +67,13 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/projects/${projectId}/repository/branches`;
     },
-    _projectCommitsEndpoints(projectId) {
+    _projectCommitsEndpoint(projectId) {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/projects/${projectId}/repository/commits`;
+    },
+    _projectMilestonesEndpoint(projectId) {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/projects/${projectId}/milestones`;
     },
     _hooksEndpointUrl(projectId) {
       const baseUrl = this._apiUrl();
@@ -132,7 +136,7 @@ module.exports = {
       let { totalCommitsCount } = opts;
       if (totalCommitsCount <= 0) return;
 
-      let url = this._projectCommitsEndpoints(projectId);
+      let url = this._projectCommitsEndpoint(projectId);
       const baseRequestConfig = this._makeRequestConfig();
 
       do {
@@ -160,9 +164,42 @@ module.exports = {
 
         // Extract the URL of the next page, if any.
         const { next } = parseLinkHeader(headers.link);
-        if (next) {
-          url = next.url;
+        url = next ? next.url : null;
+      } while (url);
+    },
+    async *getMilestones(opts) {
+      const {
+        projectId,
+        lastProcessedMilestoneId = -1,
+        pageSize = 10,
+      } = opts;
+
+      let url = this._projectMilestonesEndpoint(projectId);
+
+      // Prepare the parameters for the Gitlab API call.
+      const baseRequestConfig = this._makeRequestConfig();
+      const params = {
+        per_page: pageSize,
+      };
+      const requestConfig = {
+        ...baseRequestConfig,
+        params,
+      };
+
+      do {
+        // Yield the retrieved milestones in a serial manner, until
+        // we exhaust the response from the Gitlab API, or we reach
+        // the last processed milestone from the previous run,
+        // whichever comes first.
+        const { data, headers } = await axios.get(url, requestConfig);
+        for (const milestone of data) {
+          if (milestone.id === lastProcessedMilestoneId) return;
+          yield milestone;
         }
+
+        // Extract the URL of the next page, if any.
+        const { next } = parseLinkHeader(headers.link);
+        url = next ? next.url : null;
       } while (url);
     },
     async createHook(opts) {
