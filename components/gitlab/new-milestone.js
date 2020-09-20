@@ -11,7 +11,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     http: "$.interface.http",
@@ -40,11 +40,10 @@ module.exports = {
         created_at,
         title,
       } = data;
-      const summary = `New milestone created: ${title}`;
       const ts = +new Date(created_at);
       return {
         id,
-        summary,
+        summary: title,
         ts,
       };
     },
@@ -68,24 +67,25 @@ module.exports = {
     };
     const unprocessedMilestones = await this.collectMilestones(opts);
 
-    if (unprocessedMilestones.length > 0) {
-      console.log(`Detected ${unprocessedMilestones.length} new milestones`);
-
-      // We store the most recent milestone ID in the DB so that
-      // we don't process it (and previous milestones) in future runs.
-      lastProcessedMilestoneId = unprocessedMilestones[0].id;
-      this.db.set("lastProcessedMilestoneId", lastProcessedMilestoneId);
-
-      // We need to sort the retrieved milestones
-      // in reverse order (since the Gitlab API sorts them
-      // from most to least recent) and emit an event for each
-      // one of them.
-      unprocessedMilestones.reverse().forEach(milestone => {
-        const meta = this.generateMeta(milestone);
-        this.$emit(milestone, meta);
-      });
-    } else {
+    if (unprocessedMilestones.length <= 0) {
       console.log("No new Gitlab milestones detected");
+      return;
     }
+
+    console.log(`Detected ${unprocessedMilestones.length} new milestones`);
+
+    // We store the most recent milestone ID in the DB so that
+    // we don't process it (and previous milestones) in future runs.
+    lastProcessedMilestoneId = unprocessedMilestones[0].id;
+    this.db.set("lastProcessedMilestoneId", lastProcessedMilestoneId);
+
+    // We need to sort the retrieved milestones
+    // in reverse order (since the Gitlab API sorts them
+    // from most to least recent) and emit an event for each
+    // one of them.
+    unprocessedMilestones.reverse().forEach(milestone => {
+      const meta = this.generateMeta(milestone);
+      this.$emit(milestone, meta);
+    });
   },
 };
