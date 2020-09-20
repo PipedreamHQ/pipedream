@@ -17,11 +17,13 @@ You can also listen for these events in your own app / infra, by [subscribing to
 
 <!--ts-->
 
-- [Task Scheduler](#task-scheduler)
-  - [HTTP API](#http-api)
-    - [Scheduling a task](#scheduling-a-task)
-  - [Processing scheduled tasks](#processing-scheduled-tasks)
-  - [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
+- [HTTP API](#http-api)
+  - [Scheduling a task](#scheduling-a-task)
+  - [Cancelling a scheduled task](#cancelling-a-scheduled-task)
+- [Processing scheduled tasks](#processing-scheduled-tasks)
+- [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
+
+<!-- Added by: dylansather, at: Sun Sep 20 11:06:14 PDT 2020 -->
 
 <!--te-->
 
@@ -55,6 +57,26 @@ curl -X POST \
 ```
 
 Successful task schedule requests yield a `200 OK` response, noting the task was successfully scheduled.
+
+[See this workflow](https://pipedream.com/@dylburger/example-schedule-a-task-with-the-pipedream-task-scheduler-source-p_6lCqJj/edit) for an example of how to schedule new tasks.
+
+## Cancelling a scheduled task
+
+```
+POST /cancel
+```
+
+When you schedule a task, you'll receive a unique ID assigned to that task in the `id` field of the HTTP response body. That `id` can be passed to the `/cancel` endpoint to cancel that task before its scheduled time arrives:
+
+```bash
+curl -X POST \
+  -H 'Content-Type: application/json' \
+  -H 'x-pd-secret: 123' \
+  -d '{ "id": "8fceb45b-0241-4d04-9f3f-334679586370" }' \
+  https://endpoint.m.pipedream.net/cancel
+```
+
+[See this workflow](https://pipedream.com/@dylburger/example-cancel-a-scheduled-task-with-the-pipedream-task-scheduler-source-p_o7CGnq/edit) for an example of how to cancel scheduled tasks.
 
 ## Processing scheduled tasks
 
