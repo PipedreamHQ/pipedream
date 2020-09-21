@@ -2,7 +2,7 @@ const trello = require("https://github.com/PipedreamHQ/pipedream/components/trel
 const get = require("lodash.get");
 
 module.exports = {
-  name: "New Cards",
+  name: "New Cards (Instant)",
   description: "Emits an event for each new Trello card on a board.",
   version: "0.0.2",
   dedupe: "unique",
