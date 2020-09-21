@@ -130,7 +130,11 @@ module.exports = {
       "/pricing/",
       "/limits/",
       "/new-feature-or-bug/",
-      "/security/",
+      {
+        title: "Security",
+        collapsable: false,
+        children: ["/security/", "/security/pgp-key/"],
+      },
       "/status/",
     ],
     PIPEDREAM_BASE_URL: "https://pipedream.com",
