@@ -5,7 +5,7 @@ prev: false
 
 # Security at Pipedream
 
-Pipedream is committed to the security of your workflows and associated data. Below, we outline how we handle specific data and what we do to secure it. This is not an exhaustive list of security practices, but an overview of key policies and procedures.
+Pipedream is committed to the security of your data. Below, we outline how we handle specific data and what we do to secure it. This is not an exhaustive list of security practices, but an overview of key policies and procedures.
 
 If you have any questions that aren't covered below, or if you'd like to report a suspected vulnerability, please contact us at <span style="font-weight: bold">security@pipedream.com</span>.
 
@@ -15,7 +15,7 @@ If you have any questions that aren't covered below, or if you'd like to report 
 
 If you'd like to report a suspected vulnerability, please contact <span style="font-weight: bold">security@pipedream.com</span>.
 
-If you need to encrypt sensitive data as part of your report, you can use our [PGP key](/security/pgp-key/) to communicate securely with our security team.
+If you need to encrypt sensitive data as part of your report, you can use our [PGP key](/security/pgp-key/).
 
 ## Hosting Details
 
