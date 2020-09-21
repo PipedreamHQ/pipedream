@@ -4,7 +4,7 @@ module.exports = {
   name: "New Project (Instant)",
   description: "Triggers when a new project (i.e. repository) is created",
   version: "0.0.1",
-  dedupe: "unique",
+  dedupe: "greatest",
   props: {
     gitlab,
     timer: {

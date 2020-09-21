@@ -4,7 +4,7 @@ module.exports = {
   name: "New Milestone (Instant)",
   description: "Triggers when a new milestone is created in a project",
   version: "0.0.1",
-  dedupe: "unique",
+  dedupe: "greatest",
   props: {
     gitlab,
     projectId: { propDefinition: [gitlab, "projectId"] },
