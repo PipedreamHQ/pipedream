@@ -82,7 +82,7 @@ module.exports = {
       } = data.object_attributes;
       const summary = `New reviewer for "${title}": ${reviewer}`;
       const ts = +new Date(updated_at);
-      const compositeId = `${id}-${ts}`;
+      const compositeId = `${id}-${ts}-${reviewer}`;
       return {
         id: compositeId,
         summary,
