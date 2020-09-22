@@ -1,7 +1,7 @@
 const gitlab = require("https://github.com/PipedreamHQ/pipedream/components/gitlab/gitlab.app.js");
 
 module.exports = {
-  name: "New Project (Instant)",
+  name: "New Project",
   description: "Triggers when a new project (i.e. repository) is created",
   version: "0.0.1",
   dedupe: "greatest",
