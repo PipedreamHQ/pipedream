@@ -4,6 +4,10 @@ module.exports = {
   name: "http-payload-only",
   version: "0.0.1",
   props: {
+    http_webhook: {
+      type: 'app',
+      app: 'http_webhook',
+    },
     http: "$.interface.http"
   },
   async run(event) {

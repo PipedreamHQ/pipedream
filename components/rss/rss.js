@@ -7,6 +7,10 @@ module.exports = {
   name: "rss",
   version: "0.0.1",
   props: {
+    rss: {
+      type: 'app',
+      app: 'rss',
+    },
     url:{
       type: "string",
       label: 'Feed URL',
