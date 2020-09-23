@@ -51,7 +51,7 @@ module.exports = {
       // in it are interpreted as new review requests.
       if (action === "open" || action === "reopen") {
         const { assignees = [] } = body;
-        return assignees.map(a => a.username);
+        return assignees;
       }
 
       // Gitlab API provides any merge request update diff
@@ -60,19 +60,18 @@ module.exports = {
       // if there are new review requests.
       const { assignees } = body.changes;
       if (!assignees) {
-        console.log(`No new asignees in merge request "${title}"`);
+        console.log(`No new assignees in merge request "${title}"`);
         return [];
       }
 
       // If the assignees of the merge request changed, we need to compute
       // the difference in order to extract the new reviewers.
-      const previousAsignees = new Set(assignees.previous.map(a => a.username));
-      const currentAsignees = assignees.current.map(a => a.username);
-      const newAsignees = currentAsignees.filter(a => !previousAsignees.has(a));
+      const previousAssigneesUsernames = new Set(assignees.previous.map(a => a.username));
+      const newAssignees = assignees.current.filter(a => !previousAssigneesUsernames.has(a.username));
       console.log(
-        `Assignees in merge request "${title}" changed to: ${newAsignees.join(', ')}`
+        `Assignees in merge request "${title}" changed to: ${newAssignees.map(a => a.username).join(', ')}`
       );
-      return newAsignees;
+      return newAssignees;
     },
     generateMeta(data, reviewer) {
       const {
@@ -110,7 +109,11 @@ module.exports = {
     // but such event can be deduced from the payload of "merge request" events.
     this.getNewReviewers(body).forEach(reviewer => {
       const meta = this.generateMeta(body, reviewer);
-      this.$emit(body, meta);
+      const event = {
+        ...body,
+        reviewer,
+      };
+      this.$emit(event, meta);
     });
   },
 };
