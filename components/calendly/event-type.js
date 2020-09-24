@@ -17,24 +17,24 @@ module.exports = {
 	},
 
 	async run(event) {
-    const now = new Date();
-    const monthAgo = new Date(now.getTime());
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
-    let lastEvent = this.db.get("lastEvent") || monthAgo;
-    lastEvent = new Date(lastEvent);
+		const now = new Date();
+		const monthAgo = new Date(now.getTime());
+		monthAgo.setMonth(monthAgo.getMonth() - 1);
+		let lastEvent = this.db.get("lastEvent") || monthAgo;
+		lastEvent = new Date(lastEvent);
 
 		const eventTypes = await this.calendly.getEventTypes();
 		for (const eventType of eventTypes) {
-      let created_at = new Date(eventType.attributes.created_at);
-      if (created_at.getTime() > lastEvent) {
-        this.$emit(eventType, {
-          id: eventType.id,
-          summary: eventType.attributes.name,
-          ts: Date.now(),
-        });
-      }
-    }
+			let created_at = new Date(eventType.attributes.created_at);
+			if (created_at.getTime() > lastEvent) {
+				this.$emit(eventType, {
+					id: eventType.id,
+					summary: eventType.attributes.name,
+					ts: Date.now(),
+				});
+			}
+		}
 
-    this.db.set("lastEvent", Date.now());
-	}
+		this.db.set("lastEvent", Date.now());
+	},
 };
