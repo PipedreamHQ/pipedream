@@ -65,9 +65,12 @@ module.exports = {
         ],
       },
       {
-        title: "Error Handling",
+        title: "Errors",
         collapsable: false,
-        children: ["/workflows/error-handling/global-error-workflow/"],
+        children: [
+          "/errors/",
+          "/workflows/error-handling/global-error-workflow/",
+        ],
       },
       {
         title: "Managing Workflows",
@@ -143,6 +146,7 @@ module.exports = {
     PAYLOAD_SIZE_LIMIT: "512KB",
     EMAIL_PAYLOAD_SIZE_LIMIT: "256KB",
     INSPECTOR_EVENT_LIMIT: "100",
+    FUNCTION_PAYLOAD_LIMIT: "8MB",
     INSPECTOR_EVENT_EXPIRY_DAYS: "30",
     NODE_VERSION: "10",
   },
