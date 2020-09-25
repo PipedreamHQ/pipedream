@@ -1,48 +1,41 @@
-const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost/ghost.app.js");
+const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost/ghost-admin.app.js");
 
 module.exports = {
-  name: "Page Published",
+  name: "Page Published (Instant)",
   description: "Emits an event for each new page published on a site.",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
     ghost,
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+    http: "$.interface.http",
+  },
+
+  hooks: {
+    async activate() {
+      const data = {
+        webhooks: [
+          {
+            event: "page.published",
+            target_url: this.http.endpoint,
+          },
+        ],
+      };
+      const token = await this.ghost._getToken();
+      const resp = await this.ghost.createHook(token, data);
+      this.db.set("hookId", resp.data.webhooks[0].id);
+      this.db.set("token", token);
+    },
+    async deactivate() {
+      console.log(this.db.get("hookId"));
+      await this.ghost.deleteHook(this.db.get("hookId"), this.db.get("token"));
     },
   },
 
   async run(event) {
-    const now = new Date();
-    const monthAgo = new Date(now.getTime());
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
-    let lastEvent = this.db.get("lastEvent") || monthAgo;
-    lastEvent = new Date(lastEvent);
-
-    let total = 1;
-    let page = 1;
-    let done = false;
-
-    while (page <= total && !done) {
-      let results = await this.ghost.getPages(page);
-      total = results.data.meta.pagination.total;
-      for (const result of results.data.pages) {
-        let published_at = new Date(result.published_at);
-        this.$emit(result, {
-          id: result.id,
-          summary: result.title,
-          ts: published_at.getTime(),
-        });
-        // results are in reverse chronological order. Once we reach one published before the last event, we can stop.
-        if (published_at.getTime() < lastEvent) done = true;
-      }
-      page++;
-    }
-
-    this.db.set("lastEvent", Date.now());
+    this.$emit(event.body, {
+      id: event.body.page.current.id,
+      summary: event.body.page.current.title,
+      ts: Date.now(),
+    });
   },
 };

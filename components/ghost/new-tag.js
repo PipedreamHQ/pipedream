@@ -1,36 +1,41 @@
-const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost/ghost.app.js");
+const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost/ghost-admin.app.js");
 
 module.exports = {
-  name: "New Tag",
+  name: "Tag Added (Instant)",
   description: "Emits an event for each new tag created on a site.",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
     ghost,
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+    http: "$.interface.http",
+  },
+
+  hooks: {
+    async activate() {
+      const data = {
+        webhooks: [
+          {
+            event: "tag.added",
+            target_url: this.http.endpoint,
+          },
+        ],
+      };
+      const token = await this.ghost._getToken();
+      const resp = await this.ghost.createHook(token, data);
+      this.db.set("hookId", resp.data.webhooks[0].id);
+      this.db.set("token", token);
+    },
+    async deactivate() {
+      console.log(this.db.get("hookId"));
+      await this.ghost.deleteHook(this.db.get("hookId"), this.db.get("token"));
     },
   },
 
   async run(event) {
-    let total = 1;
-    let page = 1;
-
-    while (page <= total) {
-      let results = await this.ghost.getTags(page);
-      total = results.data.meta.pagination.total;
-      for (const result of results.data.tags) {
-        this.$emit(result, {
-          id: result.id,
-          summary: result.name,
-          ts: Date.now(),
-        });
-      }
-      page++;
-    }
+    this.$emit(event.body, {
+      id: event.body.tag.current.id,
+      summary: event.body.tag.current.name,
+      ts: Date.now(),
+    });
   },
 };

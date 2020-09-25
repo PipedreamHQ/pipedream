@@ -1,9 +1,10 @@
 const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost/ghost-admin.app.js");
 
 module.exports = {
-  name: "Post Published (Instant)",
-  description: "Emits an event for each new post published on a site.",
+  name: "Member Created (Instant)",
+  description: "Emits an event for each new member added to a site.",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     ghost,
     db: "$.service.db",
@@ -15,7 +16,7 @@ module.exports = {
       const data = {
         webhooks: [
           {
-            event: "post.published",
+            event: "member.added",
             target_url: this.http.endpoint,
           },
         ],
@@ -33,8 +34,8 @@ module.exports = {
 
   async run(event) {
     this.$emit(event.body, {
-      id: event.body.post.current.id,
-      summary: event.body.post.current.title,
+      id: event.body.member.current.id,
+      summary: event.body.member.current.name,
       ts: Date.now(),
     });
   },
