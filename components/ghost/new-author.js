@@ -1,4 +1,19 @@
-const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost/ghost.app.js");
+const axios = require("axios");
+
+const ghost = {
+  type: "app",
+  app: "ghost_org_content_api",
+  methods: {
+    async getAuthors(page, latestId) {
+      const limit = 15;
+      return (results = await axios.get(
+        `${this.$auth.admin_domain}/ghost/api/v3/content/authors?key=${this.$auth.content_api_key}&limit=${limit}&page=${page}&filter=id:>'${latestId}'`
+      ));
+    },
+  },
+};
+
+//const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost/ghost.app.js");
 
 module.exports = {
   name: "New Author",
@@ -19,18 +34,24 @@ module.exports = {
   async run(event) {
     let total = 1;
     let page = 1;
+    const latestId = this.db.get("latestId") || 0;
+    let maxId = 1;
 
     while (page <= total) {
-      let results = await this.ghost.getAuthors(page);
-      total = results.data.meta.pagination.total;
+      let results = await this.ghost.getAuthors(page, latestId);
+      total = results.data.meta.pagination.pages;
       for (const result of results.data.authors) {
         this.$emit(result, {
           id: result.id,
           summary: result.name,
           ts: Date.now(),
         });
+        if (Number(`0x${result.id.substr(1)}`) > Number(`0x${maxId}`)) maxId = result.id;
       }
       page++;
     }
+
+    if (Number(`0x${maxId}`) > Number(`0x${latestId}`))
+      this.db.set("latestId", maxId);
   },
 };

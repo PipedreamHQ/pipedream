@@ -33,7 +33,7 @@ module.exports = {
       try {
         return await axios(config);
       } catch (err) {
-        console.log(err);
+        throw err;
       }
     },
     async deleteHook(hookId, token) {
@@ -45,7 +45,7 @@ module.exports = {
       try {
         await axios(config);
       } catch (err) {
-        console.log(err);
+        throw err;
       }
     },
   },
