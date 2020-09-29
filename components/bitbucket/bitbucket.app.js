@@ -13,6 +13,7 @@ module.exports = {
         const params = {
           sort: "name",
           fields: [
+            "next",
             "values.name",
             "values.slug",
           ],
