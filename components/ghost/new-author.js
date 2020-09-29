@@ -1,19 +1,4 @@
-const axios = require("axios");
-
-const ghost = {
-  type: "app",
-  app: "ghost_org_content_api",
-  methods: {
-    async getAuthors(page, latestId) {
-      const limit = 15;
-      return (results = await axios.get(
-        `${this.$auth.admin_domain}/ghost/api/v3/content/authors?key=${this.$auth.content_api_key}&limit=${limit}&page=${page}&filter=id:>'${latestId}'`
-      ));
-    },
-  },
-};
-
-//const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost/ghost.app.js");
+const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost/ghost.app.js");
 
 module.exports = {
   name: "New Author",
