@@ -43,6 +43,7 @@ module.exports = {
         const params = {
           sort: "slug",
           fields: [
+            "next",
             "values.slug",
           ],
         };
