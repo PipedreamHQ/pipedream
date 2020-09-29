@@ -57,6 +57,7 @@ module.exports = {
 
       this.$emit(
         {
+          download_url_with_token: `${file.download_url}?access_token=${download_token}`,
           download_token,
           ...file,
           meeting_id_long: object.id, // Long ID is necessary for certain API operations
