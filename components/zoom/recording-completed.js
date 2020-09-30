@@ -77,11 +77,9 @@ module.exports = {
       return;
     }
 
-    if(this.meetingFilter.length > 0) {
-      if(!this.meetingFilter.includes(object.id)) {
-        console.log('Meeting ID does not match the filter rules.')
-        return
-      }
+    if(this.meetingFilter.length > 0) && !this.meetingFilter.includes(object.id)) {
+      console.log('Meeting ID does not match the filter rules.')
+      return
     }
 
     for (const file of recording_files) {
