@@ -2,7 +2,7 @@ const trello = require("https://github.com/PipedreamHQ/pipedream/components/trel
 const get = require("lodash.get");
 
 module.exports = {
-  name: "Cards Moved",
+  name: "Cards Moved (Instant)",
   description: "Emits an event each time a card is moved to a list.",
   version: "0.0.2",
   props: {

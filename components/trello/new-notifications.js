@@ -4,7 +4,7 @@ module.exports = {
   name: "New Notifications",
   description:
     "Emits an event for each new Trello notification for the authenticated user.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     trello,

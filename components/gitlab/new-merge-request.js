@@ -1,8 +1,8 @@
 const gitlab = require("https://github.com/PipedreamHQ/pipedream/components/gitlab/gitlab.app.js");
 
 module.exports = {
-  name: "New Branch (Instant)",
-  description: "Emits an event when a new branch is created",
+  name: "New Merge Request (Instant)",
+  description: "Emits an event when a new merge request is created",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -14,7 +14,7 @@ module.exports = {
   hooks: {
     async activate() {
       const hookParams = {
-        push_events: true,
+        merge_requests_events: true,
         url: this.http.endpoint,
       };
       const opts = {
@@ -23,7 +23,7 @@ module.exports = {
       };
       const { hookId, token } = await this.gitlab.createHook(opts);
       console.log(
-        `Created "push events" webhook for project ID ${this.projectId}.
+        `Created "merge request events" webhook for project ID ${this.projectId}.
         (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
       );
       this.db.set("hookId", hookId);
@@ -43,18 +43,22 @@ module.exports = {
     },
   },
   methods: {
-    isNewBranch(body) {
-      // Logic based on https://gitlab.com/gitlab-org/gitlab-foss/-/issues/31723.
-      const { before } = body;
-      const expectedBeforeValue = "0000000000000000000000000000000000000000";
-      return before === expectedBeforeValue;
+    isNewMergeRequest(body) {
+      const { action } = body.object_attributes;
+      const expectedAction = "open";
+      return action === expectedAction;
     },
     generateMeta(data) {
-      const newBranchName = data.ref;
-      const summary = `New Branch: ${newBranchName}`;
-      const ts = +new Date();
+      const {
+        id,
+        created_at,
+        title,
+      } = data.object_attributes;
+      const { name, username } = data.user;
+      const summary = `New Merge Request: "${title}" by ${name} (${username})`;
+      const ts = +new Date(created_at);
       return {
-        id: newBranchName,
+        id,
         summary,
         ts,
       };
@@ -76,9 +80,9 @@ module.exports = {
       status: 200,
     });
 
-    // Gitlab doesn't offer a specific hook for "new branch" events,
-    // but such event can be deduced from the payload of "push" events.
-    if (this.isNewBranch(body)) {
+    // Gitlab doesn't offer a specific hook for "new merge request" events,
+    // but such event can be deduced from the payload of "merge request" events.
+    if (this.isNewMergeRequest(body)) {
       const meta = this.generateMeta(body);
       this.$emit(body, meta);
     }

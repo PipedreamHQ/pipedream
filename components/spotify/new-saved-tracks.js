@@ -18,7 +18,6 @@ module.exports = {
   },
 
   async run(event) {
-    let tracks = [];
     let results;
     let addedAt;
     let total = 1;
@@ -40,24 +39,20 @@ module.exports = {
     while (count < total) {
       results = await this.spotify.getTracks(params);
       total = results.data.total;
-      results.data.items.forEach(function (track) {
+      for (const track of results.data.items) {
         addedAt = new Date(track.added_at);
         if (addedAt.getTime() > lastEvent.getTime()) {
-          tracks.push(track);
+          this.$emit(track, {
+            id: track.track.id,
+            summary: track.track.name,
+            ts: track.added_at,
+          });
         }
         count++;
-      });
+      }
       params.offset += limit;
     }
 
     this.db.set("lastEvent", now);
-
-    for (const track of tracks) {
-      this.$emit(track, {
-        id: track.track.id,
-        summary: track.track.name,
-        ts: track.added_at,
-      });
-    }
   },
 };

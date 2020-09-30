@@ -2,7 +2,7 @@ const trello = require("https://github.com/PipedreamHQ/pipedream/components/trel
 const get = require("lodash.get");
 
 module.exports = {
-  name: "New Activity",
+  name: "New Activity (Instant)",
   version: "0.0.2",
   props: {
     db: "$.service.db",

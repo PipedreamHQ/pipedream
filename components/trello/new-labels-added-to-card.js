@@ -2,7 +2,7 @@ const trello = require("https://github.com/PipedreamHQ/pipedream/components/trel
 const get = require("lodash.get");
 
 module.exports = {
-  name: "New Labels Added To Card",
+  name: "New Labels Added To Card (Instant)",
   description: "Emits an event for each label added to a card.",
   version: "0.0.2",
   props: {

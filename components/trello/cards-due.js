@@ -38,31 +38,27 @@ module.exports = {
   },
 
   async run(event) {
-    let cards = [];
+    const cards = [];
     let results = [];
     let due, notifyAt;
     const boardId = this.boardId ? this.boardId : "me";
     const now = new Date();
 
     results = await this.trello.getCards(boardId);
-    for (const result of results) {
-      if (result.due) {
-        due = new Date(result.due);
+    for (const card of results) {
+      if (card.due) {
+        due = new Date(card.due);
         notifyAt = new Date(
           due.getTime() - this.timeBefore * this.timeBeforeUnit
         );
         if (notifyAt.getTime() <= now.getTime()) {
-          cards.push(result);
+          this.$emit(card, {
+            id: card.id,
+            summary: card.name,
+            ts: Date.now(),
+          });
         }
       }
-    }
-
-    for (const card of cards) {
-      this.$emit(card, {
-        id: card.id,
-        summary: card.name,
-        ts: Date.now(),
-      });
     }
   },
 };

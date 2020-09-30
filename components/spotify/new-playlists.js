@@ -17,7 +17,6 @@ module.exports = {
   },
 
   async run(event) {
-    let playlists = [];
     let results;
     let total = 1;
     let count = 0;
@@ -32,19 +31,15 @@ module.exports = {
     while (count < total) {
       results = await this.spotify.getPlaylists(params);
       total = results.data.total;
-      results.data.items.forEach(function (playlist) {
-        playlists.push(playlist);
+      for (const playlist of results.data.items) {
+        this.$emit(playlist, {
+          id: playlist.id,
+          summary: playlist.name,
+          ts: Date.now(),
+        });
         count++;
-      });
+      }
       params.offset += limit;
-    }
-
-    for (const playlist of playlists) {
-      this.$emit(playlist, {
-        id: playlist.id,
-        summary: playlist.name,
-        ts: Date.now(),
-      });
     }
   },
 };
