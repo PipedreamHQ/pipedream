@@ -17,7 +17,7 @@ module.exports = {
       appProp: "zoom",
       eventNames: ["recording.completed"],
     },
-    meetingFilter: {
+    meetingIds: {
       type: "integer[]",
       label: "Meeting Filter",
       description: "Optionally filter for events for one or more meetings.",
@@ -77,7 +77,7 @@ module.exports = {
       return;
     }
 
-    if(this.meetingFilter.length > 0 && !this.meetingFilter.includes(object.id)) {
+    if(this.meetingIds.length > 0 && !this.meetingIds.includes(object.id)) {
       console.log('Meeting ID does not match the filter rules.')
       return
     }
