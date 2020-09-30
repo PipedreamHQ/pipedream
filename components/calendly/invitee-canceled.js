@@ -27,8 +27,10 @@ module.exports = {
 
   async run(event) {
     if (event.headers["x-calendly-hook-id"] != this.db.get("hookId")) {
-      return;
+      return this.http.respond({status: 404});
     }
+
+    this.http.respond({status: 200});
     
     this.$emit(event.body, {
       id: event.body.payload.event.uuid,
