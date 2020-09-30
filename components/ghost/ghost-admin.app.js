@@ -30,11 +30,7 @@ module.exports = {
         headers: this._getHeader(token),
         data,
       };
-      try {
-        return await axios(config);
-      } catch (err) {
-        throw err;
-      }
+      return await axios(config);
     },
     async deleteHook(hookId, token) {
       const config = {
@@ -42,11 +38,7 @@ module.exports = {
         url: `${this._getBaseURL()}/webhooks/${hookId}`,
         headers: this._getHeader(token),
       };
-      try {
-        await axios(config);
-      } catch (err) {
-        throw err;
-      }
+      await axios(config);
     },
   },
 };
