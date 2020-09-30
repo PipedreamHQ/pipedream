@@ -202,6 +202,41 @@ module.exports = {
         url = next ? next.url : null;
       } while (url);
     },
+    async *getProjects(opts) {
+      const {
+        lastProcessedProjectId = -1,
+        pageSize = 10,
+      } = opts;
+
+      let url = this._userProjectsEndpoint();
+
+      // Prepare the parameters for the Gitlab API call.
+      const baseRequestConfig = this._makeRequestConfig();
+      const params = {
+        per_page: pageSize,
+        owned: true,
+      };
+      const requestConfig = {
+        ...baseRequestConfig,
+        params,
+      };
+
+      do {
+        // Yield the retrieved projects in a serial manner, until
+        // we exhaust the response from the Gitlab API, or we reach
+        // the last processed project from the previous run,
+        // whichever comes first.
+        const { data, headers } = await axios.get(url, requestConfig);
+        for (const project of data) {
+          if (project.id === lastProcessedProjectId) return;
+          yield project;
+        }
+
+        // Extract the URL of the next page, if any.
+        const { next } = parseLinkHeader(headers.link);
+        url = next ? next.url : null;
+      } while (url);
+    },
     async createHook(opts) {
       const { projectId, hookParams } = opts;
       const url = this._hooksEndpointUrl(projectId);
