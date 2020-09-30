@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 const zoom = {
   type: "app",
   app: "zoom",
@@ -7,13 +9,28 @@ module.exports = {
   name: "Recording Completed",
   description:
     "Emits an event each time a new recording completes for a meeting or webinar where you're the host",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     zoom,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
       eventNames: ["recording.completed"],
+    },
+    meetingIds: {
+      type: "integer[]",
+      label: "Meeting Filter",
+      description: "Optionally filter for events for one or more meetings.",
+      async options({ page }) {
+        const data = await this.listMeetings(page)
+        return data.meetings.map(meeting => {
+          return {
+            label: `${meeting.topic} (${meeting.id})`,
+            value: meeting.id,
+          }
+        })
+      },
+      optional: true,
     },
     includeAudioRecordings: {
       type: "boolean",
@@ -32,6 +49,21 @@ module.exports = {
       default: false,
     },
   },
+  methods: {
+    async listMeetings({ page }){
+      const config = {
+        method: "get",
+        url: `https://api.zoom.us/v2//users/me/meetings`,
+        headers: {
+          Authorization: `Bearer ${this.zoom.$auth.oauth_access_token}`    
+        },
+        params: {
+          page_number: page + 1,
+        }
+      }
+      return (await axios(config)).data
+    },
+  },
   async run(event) {
     if (event.event !== "recording.completed") {
       console.log("Not a recording.completed event. Exiting");
@@ -43,6 +75,11 @@ module.exports = {
     if (!recording_files || recording_files.length === 0) {
       console.log("No files in recording. Exiting");
       return;
+    }
+
+    if(this.meetingIds.length > 0 && !this.meetingIds.includes(object.id)) {
+      console.log('Meeting ID does not match the filter rules.')
+      return
     }
 
     for (const file of recording_files) {
