@@ -77,7 +77,7 @@ module.exports = {
       return;
     }
 
-    if(this.meetingFilter.length > 0) && !this.meetingFilter.includes(object.id)) {
+    if(this.meetingFilter.length > 0 && !this.meetingFilter.includes(object.id)) {
       console.log('Meeting ID does not match the filter rules.')
       return
     }
