@@ -19,6 +19,7 @@ module.exports = {
   hooks: {
     async activate() {
       const opts = {
+        collectLimit: 1,
         pageSize: 1,
       };
       const projects = await this.collectProjects(opts);
@@ -47,10 +48,18 @@ module.exports = {
       };
     },
     async collectProjects(opts) {
+      let { collectLimit } = opts;
+      if (collectLimit !== undefined && collectLimit <= 0) {
+        return [];
+      }
+
       const projects = this.gitlab.getProjects(opts);
       const projectsCollected = [];
       for await (const project of projects) {
         projectsCollected.push(project);
+        if (collectLimit !== undefined && --collectLimit == 0) {
+          break;
+        }
       }
       return projectsCollected;
     },
