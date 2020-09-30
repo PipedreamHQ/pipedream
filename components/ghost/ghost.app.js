@@ -4,11 +4,17 @@ module.exports = {
   type: "app",
   app: "ghost_org_content_api",
   methods: {
-    async getAuthors(page, latestId) {
-      const limit = 15;
-      return (results = await axios.get(
-        `${this.$auth.admin_domain}/ghost/api/v3/content/authors?key=${this.$auth.content_api_key}&limit=${limit}&page=${page}&filter=id:>'${latestId}'`
-      ));
+    async getAuthors(page) {
+      const config = {
+        method: 'GET',
+        url: `${this.$auth.admin_domain}/ghost/api/v3/content/authors`,
+        params: {
+          key: this.$auth.content_api_key,
+          limit: 15,
+          page,
+        }
+      }
+      return await axios(config);
     },
   },
 };

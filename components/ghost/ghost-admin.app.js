@@ -5,10 +5,10 @@ module.exports = {
   type: "app",
   app: "ghost_org_admin_api",
   methods: {
-    async _getBaseURL() {
+    _getBaseURL() {
       return `${this.$auth.admin_api_url}ghost/api/v3/admin`;
     },
-    async _getHeader(token) {
+    _getHeader(token) {
       return {
         Authorization: `Ghost ${token}`,
       };
@@ -26,8 +26,8 @@ module.exports = {
     async createHook(token, data) {
       const config = {
         method: "post",
-        url: `${await this._getBaseURL()}/webhooks`,
-        headers: await this._getHeader(token),
+        url: `${this._getBaseURL()}/webhooks`,
+        headers: this._getHeader(token),
         data,
       };
       try {
@@ -39,8 +39,8 @@ module.exports = {
     async deleteHook(hookId, token) {
       const config = {
         method: "delete",
-        url: `${await this._getBaseURL()}/webhooks/${hookId}`,
-        headers: await this._getHeader(token),
+        url: `${this._getBaseURL()}/webhooks/${hookId}`,
+        headers: this._getHeader(token),
       };
       try {
         await axios(config);

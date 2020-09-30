@@ -19,11 +19,9 @@ module.exports = {
   async run(event) {
     let total = 1;
     let page = 1;
-    const latestId = this.db.get("latestId") || 0;
-    let maxId = 1;
 
     while (page <= total) {
-      let results = await this.ghost.getAuthors(page, latestId);
+      let results = await this.ghost.getAuthors(page);
       total = results.data.meta.pagination.pages;
       for (const result of results.data.authors) {
         this.$emit(result, {
@@ -31,12 +29,8 @@ module.exports = {
           summary: result.name,
           ts: Date.now(),
         });
-        if (Number(`0x${result.id.substr(1)}`) > Number(`0x${maxId}`)) maxId = result.id;
       }
       page++;
     }
-
-    if (Number(`0x${maxId}`) > Number(`0x${latestId}`))
-      this.db.set("latestId", maxId);
   },
 };

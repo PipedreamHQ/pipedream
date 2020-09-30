@@ -27,7 +27,6 @@ module.exports = {
       this.db.set("token", token);
     },
     async deactivate() {
-      console.log(this.db.get("hookId"));
       await this.ghost.deleteHook(this.db.get("hookId"), this.db.get("token"));
     },
   },
