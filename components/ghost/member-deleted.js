@@ -3,7 +3,7 @@ const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost
 module.exports = {
   name: "Member Deleted (Instant)",
   description: "Emits an event each time a member is deleted from a site.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ghost,

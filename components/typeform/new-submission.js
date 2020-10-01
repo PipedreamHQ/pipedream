@@ -2,15 +2,15 @@ const typeform = require('https://github.com/PipedreamHQ/pipedream/components/ty
 const { uuid } = require("uuidv4")
 
 module.exports = {
-  name: "New Submission", 
-  version: "0.0.1",
-  props: {    
+  name: "New Submission",
+  version: "0.0.2",
+  props: {
     typeform,
     formId: { propDefinition: [typeform, "formId"] },
     http: "$.interface.http",
     db: "$.service.db",
-  }, 
-  methods: { 
+  },
+  methods: {
     generateSecret() {
       return ""+Math.random()
     },
@@ -38,11 +38,7 @@ module.exports = {
       }))
     },
   },
-  async run(event) { 
-    this.http.respond({
-      status: 200,
-    })
-
+  async run(event) {
     const { body, headers } = event
 
     if (headers["Typeform-Signature"]) {

@@ -3,7 +3,7 @@ const asana = require("https://github.com/PipedreamHQ/pipedream/components/asana
 module.exports = {
   name: "New Subtask (Instant)",
   description: "Emits an event for each subtask added to a project.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     asana,
@@ -19,7 +19,10 @@ module.exports = {
       propDefinition: [asana, "taskIds", (c) => ({ projectId: c.projectId })],
     },
     db: "$.service.db",
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
   },
 
   hooks: {
@@ -51,7 +54,7 @@ module.exports = {
     // validate signature
     if (!this.asana.verifyAsanaWebhookRequest(event))
       return;
-    
+
     this.http.respond({
       status: 200,
       headers: {

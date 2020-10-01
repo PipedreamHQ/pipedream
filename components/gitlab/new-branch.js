@@ -8,7 +8,10 @@ module.exports = {
   props: {
     gitlab,
     projectId: { propDefinition: [gitlab, "projectId"] },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   hooks: {

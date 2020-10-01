@@ -11,7 +11,10 @@ module.exports = {
     branchName: {
       propDefinition: [gitlab, "branchName", c => ({ projectId: c.projectId })],
     },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   hooks: {

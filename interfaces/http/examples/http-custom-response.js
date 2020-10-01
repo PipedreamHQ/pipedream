@@ -1,9 +1,12 @@
 // Example component showing how to return a custom HTTP response
 module.exports = {
   name: "http-custom-response",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
-    http: "$.interface.http"
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
   },
   async run(event) {
     this.http.respond({

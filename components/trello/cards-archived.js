@@ -4,7 +4,7 @@ const get = require("lodash.get");
 module.exports = {
   name: "Cards Archived",
   description: "Emits an event for each card archived.",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     db: "$.service.db",
     http: "$.interface.http",
@@ -46,9 +46,6 @@ module.exports = {
     ) {
       return;
     }
-    this.http.respond({
-      status: 200,
-    });
 
     const body = get(event, "body");
     if (!body) {

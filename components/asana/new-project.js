@@ -3,13 +3,16 @@ const asana = require("https://github.com/PipedreamHQ/pipedream/components/asana
 module.exports = {
   name: "Project Added To Workspace (Instant)",
   description: "Emits an event for each new project added to a workspace.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     asana,
     workspaceId: { propDefinition: [asana, "workspaceId"] },
     db: "$.service.db",
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
   },
 
   hooks: {
@@ -39,7 +42,7 @@ module.exports = {
     // validate signature
     if (!this.asana.verifyAsanaWebhookRequest(event))
       return;
-    
+
     this.http.respond({
       status: 200,
       headers: {

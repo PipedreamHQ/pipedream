@@ -5,7 +5,7 @@ module.exports = {
   description:
     `Creates a Pub/Sub topic in your GCP account.
     Messages published to this topic are emitted from the Pipedream source.`,
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique", // Dedupe on Pub/Sub message ID
   props: {
     google_cloud,

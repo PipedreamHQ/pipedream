@@ -3,7 +3,7 @@ const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost
 module.exports = {
   name: "Post Published (Instant)",
   description: "Emits an event for each new post published on a site.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ghost,
     db: "$.service.db",
