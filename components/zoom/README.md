@@ -8,10 +8,10 @@ Pipedream is a serverless integration and compute platform. We provide a free, h
 
 **Key Features**:
 
-- [Zoom API Event Sources](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from Zoom
-- [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by a Zoom event
-- Serverless - No server or cloud resources to manage
-- [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
+- [Zoom API Event Sources](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from Zoom.
+- [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by a Zoom event.
+- Serverless - No server or cloud resources to manage.
+- [Free](#pricing) - No fees for individual developers .(see [limits](https://docs.pipedream.com/limits/))
 
 <a href="http://tod.ly/31IFFFb"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
