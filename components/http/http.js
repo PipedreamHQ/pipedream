@@ -1,32 +1,35 @@
 // Core HTTP component
 module.exports = {
   name: "http",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     emitBodyOnly: {
-      type: "boolean", 
+      type: "boolean",
       label: "Body Only",
       description: "This source emits an event representing the full HTTP request by default. Select TRUE to emit the body only.",
       optional: true,
       default: false,
     },
     resStatusCode: {
-      type: "string", 
+      type: "string",
       label: "Response Status Code",
       description: "The status code to return in the HTTP response.",
       optional: true,
       default: '200',
     },
     resContentType: {
-      type: "string", 
+      type: "string",
       label: "Response Content-Type",
       description: "The content-type of the body returned in the HTTP response.",
       optional: true,
       default: `application/json`,
     },
     resBody: {
-      type: "string", 
+      type: "string",
       label: "Response Body",
       description: "The body to return in the HTTP response.",
       optional: true,

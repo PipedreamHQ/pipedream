@@ -1,8 +1,8 @@
 const jotform = require('https://github.com/PipedreamHQ/pipedream/components/jotform/jotform.app.js')
 
 module.exports = {
-  name: "new-submission", 
-  version: "0.0.1",
+  name: "new-submission",
+  version: "0.0.2",
   props: {
     jotform,
     formId: { propDefinition: [jotform, "formId"] },
@@ -23,12 +23,8 @@ module.exports = {
     },
   },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    })
-
     event.body.formData = JSON.parse(event.body.rawRequest)
-    
+
     this.$emit(event.body, {
       summary: event.body.rawRequest || JSON.stringify(event.body),
       id: event.body.submissionID,

@@ -5,7 +5,7 @@ module.exports = {
   name: "New Scheduled Tasks (Alpha)",
   description:
     "Exposes an HTTP API for scheduling messages to be emitted at a future time",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique", // Dedupe on a UUID generated for every scheduled task
   props: {
     pipedream,
@@ -17,7 +17,10 @@ module.exports = {
       description:
         "**Optional but recommended**: if you enter a secret here, you must pass this value in the `secret` parameter HTTP POST requests",
     },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   async run(event) {

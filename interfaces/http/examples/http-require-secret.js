@@ -3,9 +3,12 @@ const get = require("lodash.get");
 
 module.exports = {
   name: "http-require-secret",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     secret: "string"
   },
   async run(event) {

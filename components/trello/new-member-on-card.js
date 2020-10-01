@@ -5,7 +5,7 @@ module.exports = {
   name: "New Member on Card (Instant)",
   description:
     "Emits an event for each card joined by the authenticated Trello user.",
-  version: "0.0.2",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     trello,
@@ -46,9 +46,6 @@ module.exports = {
     ) {
       return;
     }
-    this.http.respond({
-      status: 200,
-    });
 
     const body = get(event, "body");
     if (!body) {

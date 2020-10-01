@@ -3,7 +3,7 @@ const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost
 module.exports = {
   name: "Member Created (Instant)",
   description: "Emits an event for each new member added to a site.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ghost,

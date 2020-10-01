@@ -16,7 +16,10 @@ module.exports = {
       ],
     },
     db: "$.service.db",
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
   },
 
   hooks: {
@@ -67,6 +70,6 @@ module.exports = {
         summary: task.name,
         ts: Date.now(),
       });
-    } 
+    }
   },
 };

@@ -4,7 +4,7 @@ const get = require("lodash.get");
 module.exports = {
   name: "Card Updates (Instant)",
   description: "Emits an event for each update to a Trello card.",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     trello,
     boardId: { propDefinition: [trello, "boardId"] },
@@ -48,9 +48,6 @@ module.exports = {
     ) {
       return;
     }
-    this.http.respond({
-      status: 200,
-    });
 
     const body = get(event, "body");
     if (!body) {

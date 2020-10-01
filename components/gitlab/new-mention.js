@@ -13,7 +13,10 @@ module.exports = {
       description: "The Gitlab user alias whose mentions will emit events.",
       type: "string",
     },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   hooks: {

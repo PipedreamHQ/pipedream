@@ -3,7 +3,7 @@ const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost
 module.exports = {
   name: "Tag Added (Instant)",
   description: "Emits an event for each new tag created on a site.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ghost,
     db: "$.service.db",

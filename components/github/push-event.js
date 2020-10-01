@@ -2,7 +2,7 @@ const github = require("https://github.com/PipedreamHQ/pipedream/components/gith
 
 module.exports = {
   name: "New Push",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
@@ -34,9 +34,6 @@ module.exports = {
     },
   },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    });
     const { body, headers } = event;
 
     if (headers["X-Hub-Signature"]) {

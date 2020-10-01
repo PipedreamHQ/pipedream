@@ -3,7 +3,7 @@ const ghost = require("https://github.com/PipedreamHQ/pipedream/components/ghost
 module.exports = {
   name: "Member Updated (Instant)",
   description: "Emits an event each time a member is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ghost,
     db: "$.service.db",

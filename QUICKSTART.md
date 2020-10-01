@@ -226,7 +226,10 @@ Save the changes to your file (your component on Pipedream should automatically 
 Next, we'll update our component to run on HTTP requests instead of a timer. To do that, we'll just replace the `timer` interface with an `http` interface.
 
 ```javascript
-http: "$.interface.http",
+http: { 
+        type: "$.interface.http", 
+        customResponse: true 
+      },
 ```
 
 In addition, we'll update the function signature to pass in the HTTP event so we can reference it in our code:
@@ -259,7 +262,10 @@ module.exports = {
   description: "This is a demo source",
   props: {
     db: "$.service.db",
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true
+    },
   },
   async run(event) {
     let count = this.db.get("count") || 1;

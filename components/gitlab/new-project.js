@@ -13,7 +13,10 @@ module.exports = {
         intervalSeconds: 15 * 60, // 15 minutes
       },
     },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   hooks: {

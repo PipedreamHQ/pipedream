@@ -4,7 +4,7 @@ const get = require("lodash.get");
 module.exports = {
   name: "New Lists (Instant)",
   description: "Emits an event for each new list added to a board.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     trello,
@@ -45,9 +45,6 @@ module.exports = {
     ) {
       return;
     }
-    this.http.respond({
-      status: 200,
-    });
 
     const body = get(event, "body");
     if (!body) {

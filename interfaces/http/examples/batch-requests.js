@@ -4,16 +4,12 @@
 // is received.
 module.exports = {
   name: "Collect events, emit as batch",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     http: "$.interface.http",
     db: "$.service.db",
   },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    });
-
     // Check if the event contains the start or end flags
     // If start, start a new batch
     // If end, flush the batch
