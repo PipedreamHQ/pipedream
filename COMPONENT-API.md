@@ -590,7 +590,10 @@ To use the HTTP interface, declare a prop whose value is the string `$.interface
 
 ```javascript
 props: {
-  myPropName: "$.interface.http",
+  myPropName: {
+    type: "$.interface.http",
+    customResponse: true, // optional: defaults to false
+  },
 }
 ```
 
@@ -611,7 +614,7 @@ props: {
 
 ##### Responding to HTTP requests
 
-The HTTP interface exposes a `respond()` method that lets your component issue HTTP responses. You **must** run `this.http.respond()` to respond to the client from the `run()` method of a component.
+The HTTP interface exposes a `respond()` method that lets your component issue HTTP responses. You may run `this.http.respond()` to respond to the client from the `run()` method of a component.  In this case you should also pass the `customResponse: true` parameter to the prop.
 
 | Property  | Type                       | Required? | Description                                                                                                                    |
 | --------- | -------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -643,7 +646,10 @@ module.exports = {
   name: "HTTP Example",
   version: "0.0.1",
   props: {
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
   },
   async run(event) {
     this.http.respond({

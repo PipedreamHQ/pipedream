@@ -15,7 +15,7 @@ module.exports = {
   name: "Changes to Specific Files",
   description:
     "Watches for changes to specific files, emitting an event any time a change is made to one of those files",
-  version: "0.0.3",
+  version: "0.0.4",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
@@ -143,11 +143,6 @@ module.exports = {
       this.db.set("subscriptions", subscriptions);
       return;
     }
-
-    // Otherwise, component was invoked by an HTTP request
-    this.http.respond({
-      status: 200,
-    });
 
     const { headers } = event;
 

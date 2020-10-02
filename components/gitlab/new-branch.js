@@ -8,7 +8,10 @@ module.exports = {
   props: {
     gitlab,
     projectId: { propDefinition: [gitlab, "projectId"] },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   hooks: {
@@ -50,17 +53,11 @@ module.exports = {
       return before === expectedBeforeValue;
     },
     generateMeta(data) {
-      const id = data.checkout_sha;
-
       const newBranchName = data.ref;
-      const userFullName = data.user_name;
-      const userLogin = data.user_username;
-      const summary = `New Branch: ${newBranchName} by ${userFullName} (${userLogin})`;
-
+      const summary = `New Branch: ${newBranchName}`;
       const ts = +new Date();
-
       return {
-        id,
+        id: newBranchName,
         summary,
         ts,
       };

@@ -1,10 +1,10 @@
 const gitlab = require("https://github.com/PipedreamHQ/pipedream/components/gitlab/gitlab.app.js");
 
 module.exports = {
-  name: "New Milestone (Instant)",
+  name: "New Milestone",
   description: "Triggers when a new milestone is created in a project",
   version: "0.0.1",
-  dedupe: "unique",
+  dedupe: "greatest",
   props: {
     gitlab,
     projectId: { propDefinition: [gitlab, "projectId"] },
@@ -14,7 +14,10 @@ module.exports = {
         intervalSeconds: 15 * 60, // 15 minutes
       },
     },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   hooks: {
