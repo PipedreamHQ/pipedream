@@ -8,7 +8,10 @@ module.exports = {
   props: {
     gitlab,
     projectId: { propDefinition: [gitlab, "projectId"] },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   hooks: {
@@ -68,9 +71,11 @@ module.exports = {
       // the difference in order to extract the new reviewers.
       const previousAssigneesUsernames = new Set(assignees.previous.map(a => a.username));
       const newAssignees = assignees.current.filter(a => !previousAssigneesUsernames.has(a.username));
-      console.log(
-        `Assignees in merge request "${title}" changed to: ${newAssignees.map(a => a.username).join(', ')}`
-      );
+      if (newAssignees.length > 1) {
+        console.log(
+          `Assignees added to merge request "${title}": ${newAssignees.map(a => a.username).join(', ')}`
+        );
+      }
       return newAssignees;
     },
     generateMeta(data, reviewer) {
@@ -79,9 +84,9 @@ module.exports = {
         title,
         updated_at
       } = data.object_attributes;
-      const summary = `New reviewer for "${title}": ${reviewer}`;
+      const summary = `New reviewer for "${title}": ${reviewer.username}`;
       const ts = +new Date(updated_at);
-      const compositeId = `${id}-${ts}-${reviewer}`;
+      const compositeId = `${id}-${ts}-${reviewer.username}`;
       return {
         id: compositeId,
         summary,
