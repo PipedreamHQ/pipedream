@@ -71,7 +71,7 @@ module.exports = {
       // the difference in order to extract the new reviewers.
       const previousAssigneesUsernames = new Set(assignees.previous.map(a => a.username));
       const newAssignees = assignees.current.filter(a => !previousAssigneesUsernames.has(a.username));
-      if (newAssignees.length > 1) {
+      if (newAssignees.length > 0) {
         console.log(
           `Assignees added to merge request "${title}": ${newAssignees.map(a => a.username).join(', ')}`
         );
