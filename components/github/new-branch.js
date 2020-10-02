@@ -6,7 +6,7 @@ const eventTypes = ['branch'];
 module.exports = {
   name: "New Branch (Instant)",
   description: "Triggers when a new branch is created",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
@@ -40,9 +40,6 @@ module.exports = {
     },
   },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    });
     const { body, headers } = event;
 
     if (headers["X-Hub-Signature"]) {

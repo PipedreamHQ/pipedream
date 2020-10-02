@@ -6,7 +6,7 @@ const eventTypes = ['created'];
 module.exports = {
   name: "New Commit Comment (Instant)",
   description: "Triggers when new commit comments are created",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
@@ -41,9 +41,6 @@ module.exports = {
     },
   },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    });
     const { body, headers } = event;
 
     if (headers["X-Hub-Signature"]) {

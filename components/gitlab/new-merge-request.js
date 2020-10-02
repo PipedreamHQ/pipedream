@@ -1,8 +1,8 @@
 const gitlab = require("https://github.com/PipedreamHQ/pipedream/components/gitlab/gitlab.app.js");
 
 module.exports = {
-  name: "New Issue (Instant)",
-  description: "Triggers when new issues are created in a project",
+  name: "New Merge Request (Instant)",
+  description: "Emits an event when a new merge request is created",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -17,7 +17,7 @@ module.exports = {
   hooks: {
     async activate() {
       const hookParams = {
-        issues_events: true,
+        merge_requests_events: true,
         url: this.http.endpoint,
       };
       const opts = {
@@ -26,7 +26,7 @@ module.exports = {
       };
       const { hookId, token } = await this.gitlab.createHook(opts);
       console.log(
-        `Created "issues events" webhook for project ID ${this.projectId}.
+        `Created "merge request events" webhook for project ID ${this.projectId}.
         (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
       );
       this.db.set("hookId", hookId);
@@ -46,20 +46,19 @@ module.exports = {
     },
   },
   methods: {
-    isNewIssue(body) {
-      const { previous } = body.changes.updated_at;
-      return previous === undefined;
+    isNewMergeRequest(body) {
+      const { action } = body.object_attributes;
+      const expectedAction = "open";
+      return action === expectedAction;
     },
     generateMeta(data) {
-      const { issue } = data;
-      const { name, username } = data.user;
       const {
         id,
-        iid,
         created_at,
         title,
-      } = issue;
-      const summary = `New issue by ${name} (${username}): #${iid} ${title}`;
+      } = data.object_attributes;
+      const { name, username } = data.user;
+      const summary = `New Merge Request: "${title}" by ${name} (${username})`;
       const ts = +new Date(created_at);
       return {
         id,
@@ -84,14 +83,10 @@ module.exports = {
       status: 200,
     });
 
-    // Gitlab doesn't offer a specific hook for "new issue" events,
-    // but such event can be deduced from the payload of "issues" events.
-    if (this.isNewIssue(body)) {
-      const { user, object_attributes } = body;
-      const meta = this.generateMeta({
-        user,
-        issue: object_attributes,
-      });
+    // Gitlab doesn't offer a specific hook for "new merge request" events,
+    // but such event can be deduced from the payload of "merge request" events.
+    if (this.isNewMergeRequest(body)) {
+      const meta = this.generateMeta(body);
       this.$emit(body, meta);
     }
   },

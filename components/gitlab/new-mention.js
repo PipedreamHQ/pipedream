@@ -1,13 +1,18 @@
 const gitlab = require("https://github.com/PipedreamHQ/pipedream/components/gitlab/gitlab.app.js");
 
 module.exports = {
-  name: "New Issue (Instant)",
-  description: "Triggers when new issues are created in a project",
+  name: "New Mention (Instant)",
+  description: "Triggers when you are @mentioned in a new commit, comment, issue or pull request.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
     gitlab,
     projectId: { propDefinition: [gitlab, "projectId"] },
+    username: {
+      label: "Gitlab Username",
+      description: "The Gitlab user alias whose mentions will emit events.",
+      type: "string",
+    },
     http: {
       type: "$.interface.http",
       customResponse: true,
@@ -18,6 +23,7 @@ module.exports = {
     async activate() {
       const hookParams = {
         issues_events: true,
+        note_events: true,
         url: this.http.endpoint,
       };
       const opts = {
@@ -26,7 +32,7 @@ module.exports = {
       };
       const { hookId, token } = await this.gitlab.createHook(opts);
       console.log(
-        `Created "issues events" webhook for project ID ${this.projectId}.
+        `Created "issues/note events" webhook for project ID ${this.projectId}.
         (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
       );
       this.db.set("hookId", hookId);
@@ -46,21 +52,33 @@ module.exports = {
     },
   },
   methods: {
-    isNewIssue(body) {
-      const { previous } = body.changes.updated_at;
-      return previous === undefined;
+    isUserMentioned(body) {
+      const pattern = new RegExp(`\\B@${this.username}\\b`);
+      const groomedAttributes = {
+        ...body.object_attributes,
+        // We want to exclude some fields, since they do not map
+        // to the content being updated, and could result in false
+        // positives (e.g. if a URL contains `@someuser` in its path).
+        url: '',
+      };
+      const changeSummary = JSON.stringify(groomedAttributes);
+      return pattern.test(changeSummary);
     },
     generateMeta(data) {
-      const { issue } = data;
-      const { name, username } = data.user;
+      const { changedEntity } = data;
       const {
         id,
-        iid,
         created_at,
-        title,
-      } = issue;
-      const summary = `New issue by ${name} (${username}): #${iid} ${title}`;
+        event_type,
+        noteable_type,
+      } = changedEntity;
+
+      const { username } = data.user;
+      const entityType = noteable_type ? noteable_type.toLowerCase() : event_type;
+      const summary = `New mention of ${this.username} in ${entityType} by ${username}`;
+
       const ts = +new Date(created_at);
+
       return {
         id,
         summary,
@@ -84,13 +102,13 @@ module.exports = {
       status: 200,
     });
 
-    // Gitlab doesn't offer a specific hook for "new issue" events,
+    // Gitlab doesn't offer a specific hook for "new label" events,
     // but such event can be deduced from the payload of "issues" events.
-    if (this.isNewIssue(body)) {
+    if (this.isUserMentioned(body)) {
       const { user, object_attributes } = body;
       const meta = this.generateMeta({
         user,
-        issue: object_attributes,
+        changedEntity: object_attributes,
       });
       this.$emit(body, meta);
     }

@@ -4,7 +4,7 @@ const get = require("lodash.get");
 module.exports = {
   name: "Cards Moved (Instant)",
   description: "Emits an event each time a card is moved to a list.",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     db: "$.service.db",
     http: "$.interface.http",
@@ -46,9 +46,6 @@ module.exports = {
     ) {
       return;
     }
-    this.http.respond({
-      status: 200,
-    });
 
     const body = get(event, "body");
     if (!body) {
