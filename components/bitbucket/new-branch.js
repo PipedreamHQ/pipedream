@@ -8,7 +8,10 @@ module.exports = {
   props: {
     bitbucket,
     db: "$.service.db",
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     workspaceId: { propDefinition: [bitbucket, "workspaceId"] },
     repositoryId: {
       propDefinition: [
