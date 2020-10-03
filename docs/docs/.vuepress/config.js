@@ -32,6 +32,11 @@ module.exports = {
         children: ["/workflows/", "/your-first-workflow/"],
       },
       {
+        title: "Event Sources",
+        collapsable: false,
+        children: ["/event-sources/", "/event-sources/logs/"],
+      },
+      {
         title: "Workflow Steps",
         collapsable: false,
         children: [
@@ -83,11 +88,7 @@ module.exports = {
           "/environment-variables/",
         ],
       },
-      {
-        title: "Event Sources",
-        collapsable: false,
-        children: ["/event-sources/", "/event-sources/logs/"],
-      },
+      "/user-settings/",
       {
         title: "CLI",
         collapsable: false,
