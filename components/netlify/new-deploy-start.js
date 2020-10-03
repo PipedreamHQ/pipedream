@@ -1,8 +1,3 @@
-const axios = require("axios");
-const crypto = require("crypto");
-const jwt = require('jwt-simple');
-const NetlifyAPI = require("netlify");
-const parseLinkHeader = require('parse-link-header');
 const netlify = require("https://github.com/PipedreamHQ/pipedream/components/netlify/netlify.app.js");
 
 module.exports = {
@@ -40,16 +35,19 @@ module.exports = {
     },
   },
   methods: {
-    async generateMeta(data) {
-      const { id, build_id, created_at } = data;
-      const ts = +new Date(created_at);
-
+    async getSha(data) {
+      const { build_id } = data;
       const netlifyClient = this.netlify.createClient();
-      // If the value of the commit SHA being built is `null`,
-      // it means that the branch HEAD commit is the one being re-built.
-      const sha = (await netlifyClient.getSiteBuild({ build_id }).sha) || "HEAD";
-      const summary = `Deploy started for commit ${sha}`;
+      const { sha } = await netlifyClient.getSiteBuild({ build_id });
 
+      // If the value of the commit SHA being built is `null`,
+      // it means that the branch HEAD commit is being re-built.
+      return sha !== null ? sha : "HEAD";
+    },
+    generateMeta(data) {
+      const { id, created_at, sha } = data;
+      const ts = +new Date(created_at);
+      const summary = `Deploy started for commit ${sha}`;
       return {
         id,
         summary,
@@ -73,7 +71,15 @@ module.exports = {
       status: 200,
     });
 
-    const meta = await this.generateMeta(body);
-    this.$emit(body, meta);
+    // Given that the event payload doesn't provide information
+    // about the actual commit SHA being deployed, we need
+    // to explicitly query it from the Netlify API.
+    const sha = await this.getSha(body);
+    const data = {
+      ...body,
+      sha,
+    };
+    const meta = this.generateMeta(data);
+    this.$emit(data, meta);
   },
 };
