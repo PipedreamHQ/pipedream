@@ -35,19 +35,10 @@ module.exports = {
     },
   },
   methods: {
-    async getSha(data) {
-      const { build_id } = data;
-      const netlifyClient = this.netlify.createClient();
-      const { sha } = await netlifyClient.getSiteBuild({ build_id });
-
-      // If the value of the commit SHA being built is `null`,
-      // it means that the branch HEAD commit is being re-built.
-      return sha !== null ? sha : "HEAD";
-    },
     generateMeta(data) {
-      const { id, created_at, sha } = data;
+      const { id, created_at, commit_ref } = data;
       const ts = +new Date(created_at);
-      const summary = `Deploy started for commit ${sha}`;
+      const summary = `Deploy started for commit ${commit_ref}`;
       return {
         id,
         summary,
@@ -71,15 +62,7 @@ module.exports = {
       status: 200,
     });
 
-    // Given that the event payload doesn't provide information
-    // about the actual commit SHA being deployed, we need
-    // to explicitly query it from the Netlify API.
-    const sha = await this.getSha(body);
-    const data = {
-      ...body,
-      sha,
-    };
-    const meta = this.generateMeta(data);
-    this.$emit(data, meta);
+    const meta = this.generateMeta(body);
+    this.$emit(body, meta);
   },
 };
