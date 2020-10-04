@@ -157,7 +157,7 @@ module.exports = {
             selfChannel
           )
         );
-        status = 200;
+        status = 202; // Task deletion happens async; communicate that to caller
         msg = `Cancelled scheduled task for event ${id}`;
       } catch (err) {
         status = 500;
