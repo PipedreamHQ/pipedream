@@ -126,6 +126,7 @@ module.exports = {
           "/apps/intercom/",
           "/apps/servicenow/",
           "/apps/slack/",
+          "/apps/strava/",
           "/apps/twitter/",
           "/apps/zoho-books/",
           "/apps/zoom/",
