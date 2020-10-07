@@ -1,8 +1,8 @@
 const bitbucket = require("https://github.com/PipedreamHQ/pipedream/components/bitbucket/bitbucket.app.js");
 
 module.exports = {
-  name: "New Branch (Instant)",
-  description: "Emits an event when a new branch is created",
+  name: "New Repository Event (Instant)",
+  description: "Emits an event when a repository-wide event occurs.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -20,16 +20,15 @@ module.exports = {
         c => ({ workspaceId: c.workspaceId }),
       ],
     },
+    eventTypes: { propDefinition: [bitbucket, "eventTypes", c => ({ subjectType: "repository" })] },
   },
   hooks: {
     async activate() {
       const hookParams = {
-        description: "Pipedream - New Branch",
+        description: "Pipedream - Repository Event",
         url: this.http.endpoint,
         active: true,
-        events: [
-          "repo:push"
-        ],
+        events: this.eventTypes,
       };
       const opts = {
         workspaceId: this.workspaceId,
@@ -38,7 +37,7 @@ module.exports = {
       };
       const { hookId } = await this.bitbucket.createRepositoryHook(opts);
       console.log(
-        `Created "repository push" webhook for repository "${this.workspaceId}/${this.repositoryId}".
+        `Created webhook for repository "${this.workspaceId}/${this.repositoryId}".
         (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
       );
       this.db.set("hookId", hookId);
@@ -58,24 +57,16 @@ module.exports = {
     },
   },
   methods: {
-    isNewBranch(change) {
-      const expectedChangeTypes = new Set([
-        "branch",
-        "named_branch",
-      ]);
-      return (
-        change.created &&
-        expectedChangeTypes.has(change.new.type)
-      );
-    },
     generateMeta(data) {
-      const { headers, change } = data;
-      const newBranchName = change.new.name;
-      const summary = `New Branch: ${newBranchName}`;
-      const ts = +new Date(headers["x-event-time"]);
-      const compositeId = `${newBranchName}-${ts}`;
+      const {
+        "x-request-uuid": id,
+        "x-event-key": eventType,
+        "x-event-time": eventDate,
+      } = data.headers;
+      const summary = `New repository event: ${eventType}`;
+      const ts = +new Date(eventDate);
       return {
-        id: compositeId,
+        id,
         summary,
         ts,
       };
@@ -97,19 +88,11 @@ module.exports = {
       status: 200,
     });
 
-    const { changes = [] } = body.push;
-    changes
-      .filter(this.isNewBranch)
-      .forEach(change => {
-        const data = {
-          ...body,
-          change,
-        };
-        const meta = this.generateMeta({
-          headers,
-          change,
-        });
-        this.$emit(data, meta);
-      });
+    const data = {
+      headers,
+      body,
+    };
+    const meta = this.generateMeta(data);
+    this.$emit(data, meta);
   },
 };
