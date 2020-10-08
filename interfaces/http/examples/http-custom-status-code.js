@@ -1,9 +1,12 @@
 // Example component showing how to return a custom status code
 module.exports = {
   name: "http-custom-status-code",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     status: "string"
   },
   async run(event) {

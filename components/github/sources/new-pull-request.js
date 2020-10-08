@@ -2,16 +2,10 @@ const github = require("../github.app.js");
 const eventNames = ["pull_request"]
 const eventTypes = ['opened']
 
-function generateMeta(data) {
-  return {
-    summary: `#${data.number} ${data.pull_request.title} by ${data.sender.login}`
-  }
-}
-
 module.exports = {
   name: "New Pull Request (Instant)",
   description: "Triggers when a new pull request is opened",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
@@ -37,10 +31,14 @@ module.exports = {
       });
     },
   },
+  methods: {
+    generateMeta(data) {
+      return {
+        summary: JSON.stringify(data),
+      };
+    },
+  },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    });
     const { body, headers } = event;
 
     if (headers["X-Hub-Signature"]) {
@@ -59,7 +57,7 @@ module.exports = {
     }
 
     if (eventTypes.indexOf(body.action) > -1) {
-      const meta = generateMeta(body)
+      const meta = this.generateMeta(body);
       this.$emit(body, meta);
     }
   },

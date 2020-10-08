@@ -25,7 +25,10 @@ module.exports = {
       description:
         "**Optional but recommended**: if you enter a secret here, you must pass this value in [the `secret` parameter HTTP POST requests](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws/task-scheduler#scheduling-a-task)",
     },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   hooks: {
@@ -119,10 +122,10 @@ module.exports = {
                   "TimestampPath": "$.timestamp",
                   "Next": "Send Message to SNS"
                 },
-                "Send Message to SNS":{  
+                "Send Message to SNS":{
                   "Type": "Task",
                   "Resource": "arn:aws:states:::sns:publish",
-                  "Parameters": {  
+                  "Parameters": {
                     "TopicArn": "${topicArn}",
                     "Message.$": "$"
                   },

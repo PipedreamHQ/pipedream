@@ -2,17 +2,10 @@ const github = require("../github.app.js");
 const eventNames = ["commit_comment"]
 const eventTypes = ['created']
 
-function generateMeta(data) {
-  return {
-    summary: `${data.comment.user.login}: ${data.comment.body}`,
-    ts: data.comment.updated_at && +new Date(data.comment.updated_at),
-  }
-}
-
 module.exports = {
   name: "New Commit Comment (Instant)",
   description: "Triggers when new commit comments are created",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
@@ -38,10 +31,15 @@ module.exports = {
       });
     },
   },
+  methods: {
+    generateMeta(data) {
+      return {
+        summary: `${data.comment.user.login}: ${data.comment.body}`,
+        ts: data.comment.updated_at && +new Date(data.comment.updated_at),
+      };
+    },
+  },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    });
     const { body, headers } = event;
 
     if (headers["X-Hub-Signature"]) {
@@ -60,7 +58,7 @@ module.exports = {
     }
 
     if (eventTypes.indexOf(body.action) > -1) {
-      const meta = generateMeta(body)
+      const meta = this.generateMeta(body);
       this.$emit(body, meta);
     }
   },

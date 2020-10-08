@@ -13,10 +13,10 @@ const includes = require("lodash.includes");
 const googleDrive = require("../google-drive.app.js");
 
 module.exports = {
-  name: "New or Modified Files in My Drive",
+  name: "New or Modified Files in Drive",
   description:
     "Emits a new event any time any file in your linked Google Drive is added, modified, or deleted",
-  version: "0.0.2",
+  version: "0.0.4",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
@@ -24,6 +24,7 @@ module.exports = {
     googleDrive,
     db: "$.service.db",
     http: "$.interface.http",
+    drive: { propDefinition: [googleDrive, "watchedDrive"] },
     updateTypes: { propDefinition: [googleDrive, "updateTypes"] },
     watchForPropertiesChanges: {
       propDefinition: [googleDrive, "watchForPropertiesChanges"],
@@ -49,7 +50,8 @@ module.exports = {
       const { expiration, resourceId } = await this.googleDrive.watchDrive(
         channelID,
         this.http.endpoint,
-        startPageToken
+        startPageToken,
+        this.drive === "myDrive" ? null : this.drive
       );
       // We use and increment the pageToken as new changes arrive, in run()
       this.db.set("pageToken", startPageToken);
@@ -118,17 +120,13 @@ module.exports = {
         const { expiration, resourceId } = await this.googleDrive.watchDrive(
           channelID,
           this.http.endpoint,
-          pageToken
+          pageToken,
+          this.drive === "myDrive" ? null : this.drive
         );
         this.db.set("subscription", { expiration, resourceId });
       }
       return;
     }
-
-    // Otherwise, component was invoked by an HTTP request
-    this.http.respond({
-      status: 200,
-    });
 
     const { headers } = event;
 
@@ -187,11 +185,15 @@ module.exports = {
     const {
       changedFiles,
       newStartPageToken,
-    } = await this.googleDrive.getChanges(pageToken);
+    } = await this.googleDrive.getChanges(
+      pageToken,
+      this.drive === "myDrive" ? null : this.drive
+    );
 
     this.db.set("pageToken", newStartPageToken);
 
     for (const file of changedFiles) {
+      console.log(file);
       const eventToEmit = {
         file,
         change: {

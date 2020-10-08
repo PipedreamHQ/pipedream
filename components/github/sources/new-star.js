@@ -4,7 +4,7 @@ const eventTypes = ['created']
 
 module.exports = {
   name: "New Stars (Instant)",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Triggers when a repo is starred",
   props: {
     github,
@@ -32,9 +32,6 @@ module.exports = {
     },
   },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    });
     const { body, headers } = event;
 
     if (headers["X-Hub-Signature"]) {

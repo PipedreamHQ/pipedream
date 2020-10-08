@@ -12,17 +12,7 @@ Since this is a preview release, the commands you see below, and the [REST API](
 
 ## Installing the CLI
 
-To install the CLI, run:
-
-```
-curl https://cli.pipedream.com/install | sh
-```
-
-Pipedream publishes a build of the CLI for macOS and Linux (for `386`, `amd64`, `arm`, and `arm64` architectures).
-
-The Pipedream community has also published a [Docker image](https://github.com/kaytwo/pd-cli/) you can use to run the CLI on Windows.
-
-If you need to use the CLI on another OS or architecture, [please reach out](/support/).
+[See the CLI installation docs](/cli/install/) to learn how to install the CLI for your OS / architecture.
 
 ## Command Reference
 

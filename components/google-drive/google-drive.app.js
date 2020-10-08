@@ -14,14 +14,13 @@ module.exports = {
   type: "app",
   app: "google_drive",
   propDefinitions: {
-    files: {
-      type: "string[]",
-      label: "Files",
-      description: "The files you want to watch for changes.",
-      optional: true,
+    watchedDrive: {
+      type: "string",
+      label: "Drive",
+      description: "The drive you want to watch for changes",
       async options({ page, prevContext }) {
         const { nextPageToken } = prevContext;
-        return await this.listFiles(nextPageToken);
+        return await this.listDrives(nextPageToken);
       },
     },
     updateTypes: {
@@ -65,12 +64,26 @@ module.exports = {
         })
       ).data;
     },
-    async getChanges(pageToken) {
+    async getChanges(pageToken, driveId) {
       const drive = this.drive();
-      const { changes, newStartPageToken } = (
-        await drive.changes.list({
+      // As with many of the methods for Google Drive, we must
+      // pass a request of a different shape when we're requesting
+      // changes for My Drive (null driveId) vs. a shared drive
+      let changeRequest;
+      if (driveId) {
+        changeRequest = {
+          driveId,
           pageToken,
-        })
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      } else {
+        changeRequest = {
+          pageToken,
+        };
+      }
+      const { changes, newStartPageToken } = (
+        await drive.changes.list(changeRequest)
       ).data;
       const changedFiles = changes.map((change) => change.file);
       return {
@@ -82,9 +95,28 @@ module.exports = {
       const drive = this.drive();
       return (await drive.changes.getStartPageToken({})).data.startPageToken;
     },
-    async listFiles(pageToken) {
+    async listDrives(pageToken) {
       const drive = this.drive();
-      const resp = await drive.files.list({ pageToken });
+      const resp = await drive.drives.list({ pageToken });
+      const { drives, nextPageToken } = resp.data;
+      // "My Drive" isn't returned from the list of drives,
+      // so we add it to the list and assign it a static
+      // ID that we can refer to when we need.
+      const options = [{ label: "My Drive", value: "myDrive" }];
+      for (const d of drives) {
+        options.push({ label: d.name, value: d.id });
+      }
+      return {
+        options,
+        context: { nextPageToken },
+      };
+    },
+    async listFiles(opts) {
+      const drive = this.drive();
+      // Listing files in My Drive and a shared drive requires
+      // mutually-exclusive options, so we accept an object of
+      // opts from the caller and pass them to the list method.
+      const resp = await drive.files.list(opts);
       const { files, nextPageToken } = resp.data;
       const options = files.map((file) => {
         return { label: file.name, value: file.id };
@@ -101,17 +133,34 @@ module.exports = {
         address, // the component-specific HTTP endpoint
       };
     },
-    async watchDrive(id, address, pageToken) {
+    async watchDrive(id, address, pageToken, driveId) {
       const drive = this.drive();
       const requestBody = this._makeWatchRequestBody(id, address);
+
+      // Google expects an entirely different object to be passed
+      // when you make a watch request for My Drive vs. a shared drive
+      // "My Drive" doesn't have a driveId, so if this method is called
+      // without a driveId, we make a watch request for My Drive
+      let watchRequest;
+      if (driveId) {
+        watchRequest = {
+          driveId,
+          pageToken,
+          requestBody,
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      } else {
+        watchRequest = {
+          pageToken,
+          requestBody,
+        };
+      }
       // When watching for changes to an entire account, we must pass a pageToken,
       // which points to the moment in time we want to start watching for changes:
       // https://developers.google.com/drive/api/v3/manage-changes
       const { expiration, resourceId } = (
-        await drive.changes.watch({
-          pageToken,
-          requestBody,
-        })
+        await drive.changes.watch(watchRequest)
       ).data;
       console.log(`Watch request for drive successful, expiry: ${expiration}`);
       return {
@@ -126,6 +175,7 @@ module.exports = {
         await drive.files.watch({
           fileId,
           requestBody,
+          supportsAllDrives: true,
         })
       ).data;
       console.log(

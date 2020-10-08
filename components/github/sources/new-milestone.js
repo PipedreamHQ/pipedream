@@ -2,16 +2,10 @@ const github = require("../github.app.js");
 const eventNames = ["milestone"]
 const eventTypes = ['created']
 
-function generateMeta(data) {
-  return {
-    summary: `${data.milestone.title} created by ${data.sender.login}`
-  }
-}
-
 module.exports = {
   name: "New Milestone (Instant)",
   description: "Triggers when a new milestone is created in a repo",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
@@ -37,10 +31,14 @@ module.exports = {
       });
     },
   },
+  methods: {
+    generateMeta(data) {
+      return {
+        summary: `${data.milestone.title} created by ${data.sender.login}`,
+      };
+    },
+  },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    });
     const { body, headers } = event;
 
     if (headers["X-Hub-Signature"]) {
@@ -59,7 +57,7 @@ module.exports = {
     }
 
     if (eventTypes.indexOf(body.action) > -1) {
-      const meta = generateMeta(body)
+      const meta = this.generateMeta(body);
       this.$emit(body, meta);
     }
   },

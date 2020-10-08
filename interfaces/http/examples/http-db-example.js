@@ -3,9 +3,12 @@
 // it increments the requestCount key and emits it
 module.exports = {
   name: 'http-db',
-  version: '0.0.1',
+  version: '0.0.2',
   props: {
-    http: '$.interface.http',
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: '$.service.db',
   },
   async run(event) {

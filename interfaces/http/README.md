@@ -34,13 +34,7 @@ Run through the [quickstart](#quickstart) to create your first source.
 
 ## Quickstart
 
-To install the Pipedream CLI, run:
-
-```bash
-curl https://cli.pipedream.com/install | sh
-```
-
-Then run
+[Install the Pipedream CLI](https://docs.pipedream.com/cli/reference/#installing-the-cli), then run:
 
 ```bash
 pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
@@ -239,13 +233,7 @@ This will prompt you to enter a **secret**, which you must pass in the `secret` 
 - Any HTTP requests that arrive afterwards get added to this array, persisted in [component state](/COMPONENT-API.md#db).
 - When we receive an event with `{ "type": "end" }` in the HTTP payload, we emit the batch of events from the component (an array of objects, corresponding to the HTTP requests). Any listening workflows will receive this batch of events.
 
-To run this source, [install the Pipedream CLI](https://docs.pipedream.com/cli/reference/#installing-the-cli):
-
-```bash
-curl https://cli.pipedream.com/install | sh
-```
-
-Then run:
+To run this source, [install the Pipedream CLI](https://docs.pipedream.com/cli/reference/#installing-the-cli), then run:
 
 ```bash
 pd deploy https://github.com/PipedreamHQ/pipedream/interfaces/http/examples/batch-requests.js

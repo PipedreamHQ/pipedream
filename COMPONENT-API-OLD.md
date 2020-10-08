@@ -177,11 +177,12 @@ With this prop declaration, a unique HTTP endpoint URL will be created for this 
 
 #### Methods on the HTTP interface
 
-The HTTP interface exposes a `respond` method that lets your component issue HTTP responses. Assuming the prop for your HTTP interface is named `http`:
+The HTTP interface exposes a `respond` method that lets your component issue HTTP responses, to use it you must also pass the customResponse field. Assuming the prop for your HTTP interface is named `http`:
 
 ```javascript
 props: {
-  http: "$.interface.http"
+  http: "$.interface.http",
+  customResponse: true,
 },
 ```
 

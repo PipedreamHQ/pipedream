@@ -11,7 +11,10 @@ module.exports = {
         return this.stripe.enabledEvents()
       },
     },
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
   },
   hooks: {
