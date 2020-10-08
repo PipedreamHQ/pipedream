@@ -2,7 +2,7 @@
 
 Below you'll find a list of all the apps that have built-in integrations to Pipedream. Since you can [write any Node.js code](/workflows/steps/code/) on Pipedream, and pass API keys or credentials using [environment variables](/environment-variables/), you can connect to virtually any service, so this list isn't exhaustive.
 
-But Pipedream-integrated apps benefit you in a few ways:
+But Pipedream-integrated apps provide a few benefits:
 
 - You can [connect the app once](/connected-accounts/) and [link that connected account to any step of a workflow](/connected-accounts/#connecting-accounts)
 - Pipedream provides [pre-built actions](/workflows/steps/actions/) that wrap common operations for the app. You shouldn't have to write the code to send a message to Slack, or add a new row to a Google Sheet, so actions make that easy. Actions are just code, so you can fork and modify them, or even [publish your own to the Pipedream community](/workflows/steps/actions/#creating-your-own-actions).

@@ -3,7 +3,7 @@ prev: false
 next: false
 ---
 
-# Pricing and Paid Plans
+# Plans and Pricing
 
 The Pipedream team believes anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/event-sources/), [workflows](/workflows/managing/#sharing-workflows), [actions](/workflows/steps/actions/#creating-your-own-actions), and other integration components so that other Pipedream users benefit from your work.
 
@@ -23,21 +23,32 @@ Read more about our plans and pricing options below.
 
 On the Developer tier, your workflow code is public by default to encourage [sharing](/workflows/managing/#sharing-workflows). **Your workflow data, and the values of step parameters, remain private**. You can [make your workflow code private](/workflows/managing/#workflow-visibility) at any time. [Read more here](/public-workflows/).
 
+**To run any number of invocations, for any amount of time, [upgrade to the Professional tier](https://pipedream.com/pricing)**.
+
 ## Professional Tier
 
-The Professional tier includes all the features of the Developer tier. On the Professional tier,
-
-The Professional tier also comes with the following benefits:
+The Professional tier includes all the features of the Developer tier. It also comes with the following benefits:
 
 - **You can run any number of invocations, for any amount of compute time**.
 - [Email Support](https://pipedream.com/support)
 - All workflow code is **private** by default
 
+Pipedream will be adding more features to the Professional tier over time.
+
+### Upgrading to the Professional Tier
+
+You can upgrade to the Professional Tier from your [Billing and Usage Settings](https://pipedream.com/settings/billing).
+
 ### Professional Tier Pricing
 
-Invocations on the Professional tier are priced at **\$0.0001 per invocation, with a minimum monthly charge of \$10/month**. In other words, when you upgrade to the Professional tier, you pay \$10 per month for an initial set of 100,000 invocations. If you use more than 100,000 invocations during that month, you'll be billed for \$0.0001 for each extra invocation.
+Invocations on the Professional tier are priced at **\${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation, with a minimum monthly charge of \$10/month**. In other words, when you upgrade to the Professional tier, you pay \$10 per month for an initial set of 100,000 invocations. If you use more than 100,000 invocations during that month, you'll be billed for \${{$site.themeConfig.PRICE_PER_INVOCATION}} for each extra invocation.
 
-For example, if you
+For example, if you run 300,000 invocations during a given [billing period](#billing-period) (roughly one month), you'll be charged a total of \$30:
+
+- \$10 for the minimum monthly charge (yields 100,000 [base invocations](#base-invocations-quota)), paid at the start of your billing period.
+- \$20 for the 200,000 [additional billable invocations](#additional-billable-invocations), paid at the start of the next billing period.
+
+See [when we invoice](#when-am-i-invoiced-billed-for-paid-plans) for more information on your billing schedule.
 
 ## Team / Enterprise Tiers
 
@@ -45,17 +56,37 @@ To discuss team and enterprise plans, please contact the Pipedream Sales Team [u
 
 ## Definition of Terms
 
+Pipedream uses a number of terms to describe platform metrics and details of our plans. See the definitions of key terms below.
+
 ### Invocations
+
+Pipedream counts an **invocation** each time a workflow or event source is triggered by an incoming event.
+
+Pipedream increments the count of invocations by one for each incoming event, regardless of the number of steps in your workflow. For example, if you send an HTTP request to a workflow with five steps, Pipedream will count that as one invocation.
+
+Moreover, if an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow.
 
 ### Compute Time
 
+Pipedream calculates **compute time** as the total time your workflow or event source runs user code.
+
+Pipedream records a minimum time of `100ms` per execution. For example, if your workflow runs for `50ms`, you'll incur `100ms` of time towards your [daily compute time quota](/limits/#compute-time-per-day).
+
 ### Billing Period
+
+Many of the usage statistics for paid users are tied to a **billing period**. Your billing period starts when you sign up for a paid plan, and recurs roughly once a month for the duration of your subscription.
+
+For example, if you sign up on Jan 1st, your first billing period will last one month, ending around Feb 1st, at which point you'll start a new billing period.
+
+Your invoices are tied to your billing period. [Read more about invoicing / billing here](/#when-am-i-invoiced-billed).
 
 ### Base Invocations Quota
 
-- Base + extra
+If you sign up for the [Professional tier](#professional-tier), you pay \$10 at the start of each [billing period](#billing-period). This minimum monthly charge grants you a base of 100,000 you can use for the rest of your billing period. If you have been granted any additional invocation quota increases by Pipedream, that is added to your 100,000 base invocations. **This total is called the base invocations quota**.
 
-### Invocations Overage
+### Additional Billable Invocations
+
+Any invocations you run over your [base invocations quota](#base-invocations-quota) are called **additional billable invocations**. On the Professional tier, any additional billable invocations are billed at \${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed).
 
 ## FAQ
 
@@ -63,14 +94,22 @@ To discuss team and enterprise plans, please contact the Pipedream Sales Team [u
 
 [See the definition here](#invocations).
 
-### When am I invoiced / billed?
+### Are there any limits on paid tiers?
+
+**You can run any number of invocations, for any amount of compute time**, on paid tiers. [Other platform limits](/limits/) apply.
+
+### When am I invoiced / billed for paid plans?
 
 When you upgrade to the Professional tier, Stripe will immediately charge your payment method on file for \$10.
 
-If you accrue any [invocations overage](/pricing/#invocations-overage), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next \$10 monthly minimum, is charged at the start of the _next_ billing period.
+If you accrue any [additional billable invocations](#additional-billable-invocations), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next \$10 monthly minimum, is charged at the start of the _next_ billing period.
 
-For example, if you sign up for a paid plan on January 1st, you're immediately charged \$10. If you run 300,000 invocations in January, you'd use the 100,000 invocations tied to this \$10 payment, and you'd accrue an invocations overage of 200,000 invocations, for a total cost of \$20. That \$20 charge would be added to your next invoice, around Feb 1st, along with the \$10 monthly minimum charge for the billing period starting Feb 1st.
+For example, if you sign up for a paid plan on January 1st, you're immediately charged \$10. If you run 300,000 invocations in January, you'd use the 100,000 invocations tied to this \$10 payment, and you'd accrue 200,000 additional billable invocations, for a total cost of \$20. That \$20 charge would be added to your next invoice, around Feb 1st, along with the \$10 monthly minimum charge for the billing period starting Feb 1st.
 
 ### How does Pipedream secure my credit card data?
 
 Pipedream stores no information on your payment method, and uses Stripe as our payment processor. [See our security docs](/security/#payment-processor) for more information.
+
+### How do I cancel my paid plan?
+
+You can cancel your plan in your [Billing and Usage Settings](https://pipedream.com/settings/billing). You will have access to your paid plan through the end of your current billing period.

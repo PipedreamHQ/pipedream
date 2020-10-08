@@ -31,7 +31,7 @@ Users on the [Developer (free) tier](/pricing/#developer-tier) have a default qu
 
 across all workflows and event sources. **You are _not_ limited on invocations on paid plans like the [Professional tier](/pricing/#professional-tier)**.
 
-You can view your invocations usage in your [Billing & Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
+You can view your invocations usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
 
 Your quota is reset, daily, at 00:00 (midnight) UTC.
 
@@ -50,7 +50,7 @@ Users on the [Developer (free) tier](/pricing/#developer-tier) have a default co
 
 across all workflows and event sources. **You are _not_ limited on compute time on paid plans like the [Professional tier](/pricing/#professional-tier)**.
 
-You can view your current usage in your [Billing & Usage Settings](https://pipedream.com/settings/billing).
+You can view your current usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing).
 
 Your compute time quota is reset, daily, at 00:00 (midnight) UTC.
 
