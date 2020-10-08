@@ -5,7 +5,11 @@ next: false
 
 # Limits
 
-Currently, [Pipedream is free](/pricing/) for all users, subject to the technical limits noted below.
+Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You should receive an [error](/errors/) when you encounter these limits.
+
+Some of these limits apply only on the free tier. For example, Pipedream limits the daily number of invocations and execution time you can use on the free tier, but you can run an unlimited number of invocations, for any amount of execution time, on the paid tier.
+
+Other limits apply to both the free and paid tiers, but many can be raised upon request. Please see the details on each limit below.
 
 **These limits are subject to change at any time**.
 
@@ -19,13 +23,53 @@ Currently, [Pipedream is free](/pricing/) for all users, subject to the technica
 
 **You can run an unlimited number of event sources**, as long as each operates under the limits below.
 
+## Daily Invocations
+
+Users on the [Developer (free) tier](/pricing/#developer-tier) have a default quota of
+
+**{{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}} invocations per day**
+
+across all workflows and event sources. **You are _not_ limited on invocations on paid plans like the [Professional tier](/pricing/#professional-tier)**.
+
+You can view your invocations usage in your [Billing & Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
+
+Your quota is reset, daily, at 00:00 (midnight) UTC.
+
+### Invocations Quota Notifications
+
+|     Tier     |                                                                          Notifications                                                                          |
+| :----------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|  Developer   |                                                  You'll receive an email at 80% and 100% of your daily usage.                                                   |
+| Professional | You'll receive an email at 80% and 100% of your [base invocations quota](/pricing/#base-invocations-quota) for your [billing period](/pricing/#billing-period). |
+
+## Compute time per day
+
+Users on the [Developer (free) tier](/pricing/#developer-tier) have a default compute time quota of
+
+**30 minutes (1,800,000 milliseconds) per day**
+
+across all workflows and event sources. **You are _not_ limited on compute time on paid plans like the [Professional tier](/pricing/#professional-tier)**.
+
+You can view your current usage in your [Billing & Usage Settings](https://pipedream.com/settings/billing).
+
+Your compute time quota is reset, daily, at 00:00 (midnight) UTC.
+
+Pipedream records a minimum time of `100ms` per execution. For example, if your workflow runs for `50ms`, you'll incur `100ms` of time towards your daily quota.
+
+### Compute Time Quota Notifications
+
+|     Tier     |                                             Notifications                                             |
+| :----------: | :---------------------------------------------------------------------------------------------------: |
+|  Developer   |                     You'll receive an email at 80% and 100% of your daily usage.                      |
+| Professional | **Not applicable** - Professional tier users have unlimited compute time, so receive no notifications |
+
 ## HTTP Triggers
 
 The following limits apply to [HTTP triggers](/workflows/steps/triggers/#http).
 
 ### HTTP Request Body Size
 
-**The body of HTTP requests sent to a source is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`**.
+**The body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`**.
 
 Your endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`.
 
@@ -39,7 +83,7 @@ Generally the rate of HTTP requests sent to an endpoint is quantified by QPS, or
 
 **You can send an average of 10 requests per second to your HTTP trigger**. Any requests that exceed that threshold may trigger rate limiting. If you're rate limited, we'll return a `429 Too Many Requests` response. If you control the application sending requests, you should retry the request with [exponential backoff](https://cloud.google.com/storage/docs/exponential-backoff) or a similar technique.
 
-Generally, we'll also accept short bursts of traffic, as long as you remain around an average of 10 QPS (e.g. sending a batch of 50 requests every 30 seconds should not trigger rate limiting).
+We'll also accept short bursts of traffic, as long as you remain close to an average of 10 QPS (e.g. sending a batch of 50 requests every 30 seconds should not trigger rate limiting).
 
 **This limit can be raised**. [Reach out to our team](/support/) to request an increase.
 
@@ -50,20 +94,6 @@ Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also
 The only limit that differs between email and HTTP triggers is the payload size: the body of HTTP requests is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`, where **the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}`**.
 
 This limit cannot be raised.
-
-## Execution time per day
-
-**Users on the free tier have a total execution quota of 30 minutes (1,800,000 milliseconds) per day across all workflows and event sources.**
-
-You can view your current quota usage in your [Settings](https://pipedream.com/settings/billing).
-
-Your quota is reset, daily, at 00:00 (midnight) UTC.
-
-Pipedream records a minimum of `100ms` per execution. For example, if your workflow runs for `50ms`, you'll incur `100ms` of time towards your daily quota.
-
-You'll receive an email when you exhaust 80% and 100% of your daily quota. Again, this quota will be reset every day at 00:00 UTC.
-
-**This limit can be raised**. [Reach out to our team](/support/) to request an increase.
 
 ## Memory
 
