@@ -19,7 +19,7 @@ module.exports = {
       type: "boolean",
       label: "Recursive",
       description: "Also watch sub-directories and their contents.",
-      optional: true,
+      optional: false,
       default: false,
     },
   },
