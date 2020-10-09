@@ -1,4 +1,4 @@
-const common = require("https://github.com/PipedreamHQ/pipedream/components/netlify/common.js");
+const common = require("./common");
 
 module.exports = {
   ...common,

@@ -1,4 +1,4 @@
-const netlify = require("https://github.com/PipedreamHQ/pipedream/components/netlify/netlify.app.js");
+const netlify = require("./netlify.app");
 
 module.exports = {
   dedupe: "unique",

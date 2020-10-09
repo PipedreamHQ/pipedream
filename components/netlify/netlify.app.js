@@ -11,7 +11,7 @@ module.exports = {
     siteId: {
       type: "string",
       label: "Site ID",
-      description: "The site for which events must be captured.",
+      description: "The site for which events must be captured",
       async options(context) {
         // At the moment we need to "manually" query these items
         // instead of using the Netlify client, since it doesn't support
