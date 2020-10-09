@@ -26,6 +26,7 @@ module.exports = {
       "/",
       "/support/",
       "/sign-up/",
+      "/pricing/",
       {
         title: "Getting Started",
         collapsable: false,
@@ -132,7 +133,6 @@ module.exports = {
           "/apps/zoom/",
         ],
       },
-      "/pricing/",
       "/limits/",
       "/new-feature-or-bug/",
       {

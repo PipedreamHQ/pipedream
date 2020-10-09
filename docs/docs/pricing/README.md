@@ -25,6 +25,10 @@ On the Developer tier, your workflow code is public by default to encourage [sha
 
 **To run any number of invocations, for any amount of time, [upgrade to the Professional tier](https://pipedream.com/pricing)**.
 
+### Developer Tier Support options
+
+Users on the Developer Tier have access to community support, on Github Discussions and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
+
 ## Professional Tier
 
 The Professional tier includes all the features of the Developer tier. It also comes with the following benefits:
@@ -49,6 +53,10 @@ For example, if you run 300,000 invocations during a given [billing period](#bil
 - \$20 for the 200,000 [additional billable invocations](#additional-billable-invocations), paid at the start of the next billing period.
 
 See [when we invoice](#when-am-i-invoiced-billed-for-paid-plans) for more information on your billing schedule.
+
+### Professional Tier Support options
+
+Users on the Professional Tier have access to both email and community support, on Github Discussions and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
 
 ## Team / Enterprise Tiers
 
@@ -109,6 +117,14 @@ For example, if you sign up for a paid plan on January 1st, you're immediately c
 ### How does Pipedream secure my credit card data?
 
 Pipedream stores no information on your payment method, and uses Stripe as our payment processor. [See our security docs](/security/#payment-processor) for more information.
+
+### How do I change my billing payment method?
+
+Please visit your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1) to change your payment method.
+
+### How can I view my past invoices?
+
+Invoices are emailed to your email address. You can also visit your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1) to view past invoices.
 
 ### How do I cancel my paid plan?
 

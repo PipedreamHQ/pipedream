@@ -16,13 +16,13 @@ Pipedream sets [limits](/limits/) on runtime, memory, and other execution-relate
 
 ### Invocations Quota Exceeded
 
-Pipedream imposes a limit on the [daily invocations](/limits/#daily-invocations) across all workflows and sources. If you hit this limit, you'll see an **Invocations Quota Exceeded** error.
+On the [Developer (free) tier](/pricing/#developer-tier), Pipedream imposes a limit on the [daily invocations](/limits/#daily-invocations) across all workflows and sources. If you hit this limit, you'll see an **Invocations Quota Exceeded** error.
 
 Paid plans, like the [Professional Tier](#professional-tier), have no invocations limit. [Upgrade here](https://pipedream.com/pricing).
 
 ### Runtime Quota Exceeded
 
-Pipedream imposes a limit on the [daily compute time](/limits/#compute-time-per-day) across all workflows and sources. If you hit this limit, you'll see a **Runtime Quota Exceeded** error.
+On the [Developer (free) tier](/pricing/#developer-tier), Pipedream imposes a limit on the [daily compute time](/limits/#compute-time-per-day) across all workflows and sources. If you hit this limit, you'll see a **Runtime Quota Exceeded** error.
 
 Paid plans, like the [Professional Tier](#professional-tier), have no compute time limit. [Upgrade here](https://pipedream.com/pricing).
 
