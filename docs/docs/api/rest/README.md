@@ -171,12 +171,16 @@ curl 'https://api.pipedream.com/v1/users/me' \
 ```json
 {
   "data": {
-    "id": "...",
-    "email": "...",
-    "username": "...",
-    "lambda_time_quota": 1800000,
-    "api_key": "...",
-    "lambda_time_used": 500000
+    "id": "u_abc123",
+    "email": "user@example.com",
+    "username": "username",
+    "admin": "false",
+    "compute_time_quota": 104400000,
+    "api_key": "XXX",
+    "billing_period_start_ts": 1602206178,
+    "billing_period_end_ts": 1604884578,
+    "extra_daily_invocations": 24011,
+    "compute_time_used": 520400
   }
 }
 ```

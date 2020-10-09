@@ -317,7 +317,7 @@ A **Webhook** trigger is an alias for the [HTTP](#http) trigger. They are equiva
 
 ## Cron Scheduler
 
-Pipedream allows you to run hosted cron jobs — any code run on a schedule — for free.
+Pipedream allows you to run hosted cron jobs — any code run on a schedule — [for free](/pricing).
 
 We call these cron jobs "[workflows](/workflows)". Workflows are just scripts that run on a schedule.
 
