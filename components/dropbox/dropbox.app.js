@@ -35,6 +35,9 @@ module.exports = {
       try {
         const sdk = this.sdk()
         let files = await sdk.filesListFolder({ path, limit })
+        if (files.result) {
+          files = files.result
+        }
         do {
           ({ entries, has_more, cursor } = files)
           for(entry of entries) {
@@ -45,6 +48,9 @@ module.exports = {
           // TODO break after a certain number of folders has been found??
           if (has_more) {
             files = await sdk.filesListFolderContinue({ cursor })
+            if (files.result) {
+              files = files.result
+            }
           }
         } while(has_more)
         options = options.sort((a, b) => { return a.toLowerCase().localeCompare(b.toLowerCase()) })
@@ -62,7 +68,11 @@ module.exports = {
       const { path, recursive, db } = context
       try {
         let fixedPath = (path == "/" ? "" : path)
-        let { cursor } = await this.sdk().filesListFolderGetLatestCursor({ path: fixedPath, recursive })
+        let response = await this.sdk().filesListFolderGetLatestCursor({ path: fixedPath, recursive })
+        if (response.result) {
+          response = response.result
+        }
+        let { cursor } = response
         const state = { path, recursive, cursor }
         db.set("dropbox_state", state)
         return state
@@ -87,7 +97,11 @@ module.exports = {
           const { dropbox, db } = context
           let [cursor, has_more, entries] = [state.cursor, true, null]
           while(has_more) {
-            ({ entries, cursor, has_more } = await this.sdk().filesListFolderContinue({ cursor }))
+            let response = await this.sdk().filesListFolderContinue({ cursor })
+            if (response.result) {
+              response = response.result
+            }
+            ({ entries, cursor, has_more } = response)
             ret = ret.concat(entries)
           }
           state.cursor = cursor
