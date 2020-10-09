@@ -171,16 +171,15 @@ curl 'https://api.pipedream.com/v1/users/me' \
 ```json
 {
   "data": {
-    "id": "u_abc123",
-    "email": "user@example.com",
-    "username": "username",
-    "admin": "false",
-    "compute_time_quota": 104400000,
+    "id": "u_aPmhl8",
+    "username": "dylburger",
+    "email": "dylan@pipedream.com",
+    "admin": true,
     "api_key": "XXX",
-    "billing_period_start_ts": 1602206178,
-    "billing_period_end_ts": 1604884578,
-    "extra_daily_invocations": 24011,
-    "compute_time_used": 520400
+    "daily_compute_time_quota": 95400000,
+    "daily_compute_time_used": 8420300,
+    "daily_invocations_quota": 27344,
+    "daily_invocations_used": 24903
   }
 }
 ```
