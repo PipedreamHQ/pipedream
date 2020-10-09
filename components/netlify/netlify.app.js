@@ -90,7 +90,7 @@ module.exports = {
       const opts = {
         userAgent: "@PipedreamHQ/pipedream v0.1",
         pathPrefix: "/api/v1",
-        accessToken: this.$auth.oauth_access_token,
+        accessToken: this._authToken(),
       };
       return new NetlifyAPI(opts);
     },
