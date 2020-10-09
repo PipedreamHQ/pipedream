@@ -126,6 +126,10 @@ Please visit your [Stripe customer portal](https://pipedream.com/settings/billin
 
 Invoices are emailed to your email address. You can also visit your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1) to view past invoices.
 
+### Can I retrieve my billing information via API?
+
+Yes. You can retrieve your usage and billing metadata from the [/users/me](/api/rest/#get-current-user-info) endpoint in the Pipedream REST API.
+
 ### How do I cancel my paid plan?
 
-You can cancel your plan in your [Billing and Usage Settings](https://pipedream.com/settings/billing). You will have access to your paid plan through the end of your current billing period.
+You can cancel your plan in your [Billing and Usage Settings](https://pipedream.com/settings/billing). You will have access to your paid plan through the end of your current billing period. Pipedream does not prorate plans cancelled within a billing period.
