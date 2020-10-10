@@ -91,6 +91,33 @@ module.exports = {
         };
       },
     },
+    eventTypes: {
+      type: "string[]",
+      label: "Event Types",
+      description: "The type of events to watch",
+      async options(context) {
+        const { subjectType } = context;
+        const url = this._eventTypesEndpoint(subjectType);
+        const params = {
+          fields: [
+            "next",
+            "values.category",
+            "values.event",
+            "values.label",
+          ],
+        };
+
+        const data = await this._propDefinitionsOptions(url, params, context);
+        const options = data.values.map(this._formatEventTypeOption);
+        return {
+          options,
+          context: {
+            // https://developer.atlassian.com/bitbucket/api/2/reference/meta/pagination
+            nextPageUrl: data.next,
+          },
+        };
+      },
+    },
   },
   methods: {
     _apiUrl() {
@@ -104,6 +131,10 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/repositories/${workspaceId}`;
     },
+    _eventTypesEndpoint(subjectType) {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/hook_events/${subjectType}`;
+    },
     _repositoryBranchesEndpoint(workspaceId, repositoryId) {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/repositories/${workspaceId}/${repositoryId}/refs`;
@@ -112,14 +143,31 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/repositories/${workspaceId}/${repositoryId}/commits/${branchName}`;
     },
-    _hooksEndpointUrl(workspaceId, repositoryId) {
+    _workspaceHooksEndpointUrl(workspaceId) {
+      const baseUrl = this._userWorkspacesEndpoint();
+      return `${baseUrl}/${workspaceId}/hooks`;
+    },
+    _workspaceHookEndpointUrl(workspaceId, hookId) {
+      const baseUrl = this._workspaceHooksEndpointUrl(workspaceId);
+      // https://developer.atlassian.com/bitbucket/api/2/reference/meta/uri-uuid#uuid
+      return `${baseUrl}/{${hookId}}`;
+    },
+    _repositoryHooksEndpointUrl(workspaceId, repositoryId) {
       const baseUrl = this._workspaceRepositoriesEndpoint(workspaceId);
       return `${baseUrl}/${repositoryId}/hooks`;
     },
-    _hookEndpointUrl(workspaceId, repositoryId, hookId) {
-      const baseUrl = this._hooksEndpointUrl(workspaceId, repositoryId);
+    _repositoryHookEndpointUrl(workspaceId, repositoryId, hookId) {
+      const baseUrl = this._repositoryHooksEndpointUrl(workspaceId, repositoryId);
       // https://developer.atlassian.com/bitbucket/api/2/reference/meta/uri-uuid#uuid
       return `${baseUrl}/{${hookId}}`;
+    },
+    _formatEventTypeOption(eventType) {
+      const { category, label, event } = eventType;
+      const optionLabel = `${category} ${label}`;
+      return {
+        label: optionLabel,
+        value: event,
+      };
     },
     async _propDefinitionsOptions(url, params, { page, prevContext }) {
       let requestConfig = this._makeRequestConfig();  // Basic axios request config
@@ -180,28 +228,56 @@ module.exports = {
         headers,
       };
     },
+    async createWorkspaceHook(opts) {
+      const { workspaceId } = opts;
+      const url = this._workspaceHooksEndpointUrl(workspaceId);
+      const hookOpts = {
+        ...opts,
+        url,
+      };
+      return this.createHook(hookOpts);
+    },
+    async createRepositoryHook(opts) {
+      const { workspaceId, repositoryId } = opts;
+      const url = this._repositoryHooksEndpointUrl(workspaceId, repositoryId);
+      const hookOpts = {
+        ...opts,
+        url,
+      };
+      return this.createHook(hookOpts);
+    },
     async createHook(opts) {
       const {
-        workspaceId,
-        repositoryId,
+        url,
         hookParams,
       } = opts;
-      const url = this._hooksEndpointUrl(workspaceId, repositoryId);
       const requestConfig = this._makeRequestConfig();
-
       const response = await axios.post(url, hookParams, requestConfig);
       const hookId = response.data.uuid.match(/^{(.*)}$/)[1];
       return {
         hookId,
       };
     },
-    deleteHook(opts) {
-      const {
-        workspaceId,
-        repositoryId,
-        hookId,
-      } = opts;
-      const url = this._hookEndpointUrl(workspaceId, repositoryId, hookId);
+    async deleteWorkspaceHook(opts) {
+      const { workspaceId, hookId } = opts;
+      const url = this._workspaceHookEndpointUrl(workspaceId, hookId);
+      const hookOpts = {
+        ...opts,
+        url,
+      };
+      return this.deleteHook(hookOpts);
+    },
+    async deleteRepositoryHook(opts) {
+      const { workspaceId, repository, hookId } = opts;
+      const url = this._repositoryHookEndpointUrl(workspaceId, repository, hookId);
+      const hookOpts = {
+        ...opts,
+        url,
+      };
+      return this.deleteHook(hookOpts);
+    },
+    async deleteHook(opts) {
+      const { url } = opts;
       const requestConfig = this._makeRequestConfig();
       return axios.delete(url, requestConfig);
     },

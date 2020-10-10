@@ -1,8 +1,8 @@
 const bitbucket = require("./bitbucket.app");
 
 module.exports = {
-  name: "New Commit Comment (Instant)",
-  description: "Emits an event when a commit receives a comment",
+  name: "New Workspace Event (Instant)",
+  description: "Emits an event when a workspace-wide event occurs.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -13,32 +13,23 @@ module.exports = {
       customResponse: true,
     },
     workspaceId: { propDefinition: [bitbucket, "workspaceId"] },
-    repositoryId: {
-      propDefinition: [
-        bitbucket,
-        "repositoryId",
-        c => ({ workspaceId: c.workspaceId }),
-      ],
-    },
+    eventTypes: { propDefinition: [bitbucket, "eventTypes", c => ({ subjectType: "workspace" })] },
   },
   hooks: {
     async activate() {
       const hookParams = {
-        description: "Pipedream - New Commit Comment",
+        description: "Pipedream - Workspace Event",
         url: this.http.endpoint,
         active: true,
-        events: [
-          "repo:commit_comment_created"
-        ],
+        events: this.eventTypes,
       };
       const opts = {
         workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
         hookParams,
       };
-      const { hookId } = await this.bitbucket.createRepositoryHook(opts);
+      const { hookId } = await this.bitbucket.createWorkspaceHook(opts);
       console.log(
-        `Created "repository commit comment created" webhook for repository "${this.workspaceId}/${this.repositoryId}".
+        `Created webhook for workspace "${this.workspaceId}".
         (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
       );
       this.db.set("hookId", hookId);
@@ -47,24 +38,26 @@ module.exports = {
       const hookId = this.db.get("hookId");
       const opts = {
         workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
         hookId,
       };
-      await this.bitbucket.deleteRepositoryHook(opts);
+      await this.bitbucket.deleteWorkspaceHook(opts);
       console.log(
-        `Deleted webhook for repository "${this.workspaceId}/${this.repositoryId}".
+        `Deleted webhook for repository "${this.workspaceId}".
         (Hook ID: ${hookId})`
       );
     },
   },
   methods: {
     generateMeta(data) {
-      const { headers, body } = data;
-      const { comment, commit } = body;
-      const summary = `New comment on commit ${commit.hash}`;
-      const ts = +new Date(headers["x-event-time"]);
+      const {
+        "x-request-uuid": id,
+        "x-event-key": eventType,
+        "x-event-time": eventDate,
+      } = data.headers;
+      const summary = `New workspace event: ${eventType}`;
+      const ts = +new Date(eventDate);
       return {
-        id: comment.id,
+        id,
         summary,
         ts,
       };
@@ -86,7 +79,11 @@ module.exports = {
       status: 200,
     });
 
-    const meta = this.generateMeta(event);
-    this.$emit(body, meta);
+    const data = {
+      headers,
+      body,
+    };
+    const meta = this.generateMeta(data);
+    this.$emit(data, meta);
   },
 };
