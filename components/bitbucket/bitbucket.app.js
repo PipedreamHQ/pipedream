@@ -268,8 +268,8 @@ module.exports = {
       return this.deleteHook(hookOpts);
     },
     async deleteRepositoryHook(opts) {
-      const { workspaceId, repository, hookId } = opts;
-      const url = this._repositoryHookEndpointUrl(workspaceId, repository, hookId);
+      const { workspaceId, repositoryId, hookId } = opts;
+      const url = this._repositoryHookEndpointUrl(workspaceId, repositoryId, hookId);
       const hookOpts = {
         ...opts,
         url,
