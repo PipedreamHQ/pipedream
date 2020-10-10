@@ -36,7 +36,7 @@ module.exports = {
         repositoryId: this.repositoryId,
         hookParams,
       };
-      const { hookId } = await this.bitbucket.createHook(opts);
+      const { hookId } = await this.bitbucket.createRepositoryHook(opts);
       console.log(
         `Created "pull request create" webhook for repository "${this.workspaceId}/${this.repositoryId}".
         (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
@@ -50,7 +50,7 @@ module.exports = {
         repositoryId: this.repositoryId,
         hookId,
       };
-      await this.bitbucket.deleteHook(opts);
+      await this.bitbucket.deleteRepositoryHook(opts);
       console.log(
         `Deleted webhook for repository "${this.workspaceId}/${this.repositoryId}".
         (Hook ID: ${hookId})`
