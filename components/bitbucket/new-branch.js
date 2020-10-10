@@ -1,4 +1,4 @@
-const bitbucket = require("https://github.com/PipedreamHQ/pipedream/components/bitbucket/bitbucket.app.js");
+const bitbucket = require("./bitbucket.app");
 
 module.exports = {
   name: "New Branch (Instant)",
