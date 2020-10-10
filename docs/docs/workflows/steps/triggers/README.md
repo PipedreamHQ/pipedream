@@ -395,6 +395,23 @@ As soon as you send an email to the workflow-specific address, Pipedream parses 
 
 [Read more about the shape of the email trigger event](/workflows/events/#email).
 
+### Appending metadata to the incoming email address with `+data`
+
+Pipedream provides a way to append metadata to incoming emails by adding a `+` sign to the incoming email key, followed by any arbitrary string:
+
+```
+myemailaddr+test@pipedream.net
+```
+
+Any emails sent to your workflow-specific email address will resolve to that address, triggering your workflow, no matter the data you add after the `+` sign. Sending an email to both of these addresses triggers the workflow with the address `myemailaddr@pipedream.net`:
+
+```
+myemailaddr+test@pipedream.net
+myemailaddr+unsubscribe@pipedream.net
+```
+
+This allows you implement conditional logic in your workflow based on the data in that string.
+
 ### Limitations
 
 See the [Email Trigger section of our Limits doc](/limits/#email-triggers) to learn more about the limits of the email trigger.

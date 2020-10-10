@@ -37,11 +37,18 @@ module.exports = {
             path: update.path_lower,
             include_media_info: true,
           })
+          if (update.result) {
+            update = update.result
+          }
         }
         if (this.includeLink) {
-          const { link, metadata } = await this.dropbox.sdk().filesGetTemporaryLink({
+          let response = await this.dropbox.sdk().filesGetTemporaryLink({
             path: update.path_lower,
           })
+          if (response.result) {
+            response = response.result
+          }
+          const { link, metadata } = response
           update.link = link
         }
       }
