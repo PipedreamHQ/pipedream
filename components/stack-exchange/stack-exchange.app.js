@@ -76,6 +76,14 @@ module.exports = {
           params,
         };
         const { data } = await axios.get(url, requestConfig);
+        if (data.items.length === 0) {
+          console.log(`
+            No new questions found for the following parameters:
+            ${JSON.stringify(baseParams, null, 2)}
+          `);
+        } else {
+          console.log(`Found ${data.items.length} new question(s)`);
+        }
         for (const item of data.items) {
           yield item;
         }
