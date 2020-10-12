@@ -143,6 +143,18 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/repositories/${workspaceId}/${repositoryId}/commits/${branchName}`;
     },
+    _hooksEndpointUrl(hookPathProps) {
+      const { workspaceId, repositoryId } = hookPathProps;
+      return repositoryId ?
+        this._repositoryHooksEndpointUrl(workspaceId, repositoryId) :
+        this._workspaceHooksEndpointUrl(workspaceId);
+    },
+    _hookEndpointUrl(hookPathProps, hookId) {
+      const { workspaceId, repositoryId } = hookPathProps;
+      return repositoryId ?
+        this._repositoryHookEndpointUrl(workspaceId, repositoryId, hookId) :
+        this._workspaceHookEndpointUrl(workspaceId, hookId);
+    },
     _workspaceHooksEndpointUrl(workspaceId) {
       const baseUrl = this._userWorkspacesEndpoint();
       return `${baseUrl}/${workspaceId}/hooks`;
@@ -216,7 +228,7 @@ module.exports = {
       } while (url);
     },
     _authToken() {
-      return this.$auth.oauth_access_token
+      return this.$auth.oauth_access_token;
     },
     _makeRequestConfig() {
       const authToken = this._authToken();
@@ -228,29 +240,12 @@ module.exports = {
         headers,
       };
     },
-    async createWorkspaceHook(opts) {
-      const { workspaceId } = opts;
-      const url = this._workspaceHooksEndpointUrl(workspaceId);
-      const hookOpts = {
-        ...opts,
-        url,
-      };
-      return this.createHook(hookOpts);
-    },
-    async createRepositoryHook(opts) {
-      const { workspaceId, repositoryId } = opts;
-      const url = this._repositoryHooksEndpointUrl(workspaceId, repositoryId);
-      const hookOpts = {
-        ...opts,
-        url,
-      };
-      return this.createHook(hookOpts);
-    },
     async createHook(opts) {
       const {
-        url,
         hookParams,
+        hookPathProps
       } = opts;
+      const url = this._hooksEndpointUrl(hookPathProps);
       const requestConfig = this._makeRequestConfig();
       const response = await axios.post(url, hookParams, requestConfig);
       const hookId = response.data.uuid.match(/^{(.*)}$/)[1];
@@ -258,33 +253,11 @@ module.exports = {
         hookId,
       };
     },
-    async deleteWorkspaceHook(opts) {
-      const { workspaceId, hookId } = opts;
-      const url = this._workspaceHookEndpointUrl(workspaceId, hookId);
-      const hookOpts = {
-        ...opts,
-        url,
-      };
-      return this.deleteHook(hookOpts);
-    },
-    async deleteRepositoryHook(opts) {
-      const { workspaceId, repositoryId, hookId } = opts;
-      const url = this._repositoryHookEndpointUrl(workspaceId, repositoryId, hookId);
-      const hookOpts = {
-        ...opts,
-        url,
-      };
-      return this.deleteHook(hookOpts);
-    },
     async deleteHook(opts) {
-      const { url } = opts;
+      const { hookId, hookPathProps } = opts;
+      const url = this._hookEndpointUrl(hookPathProps, hookId);
       const requestConfig = this._makeRequestConfig();
       return axios.delete(url, requestConfig);
-    },
-    isValidSource(headers, db) {
-      const hookId = headers["x-hook-uuid"];
-      const expectedHookId = db.get("hookId");
-      return hookId === expectedHookId;
     },
   },
 };
