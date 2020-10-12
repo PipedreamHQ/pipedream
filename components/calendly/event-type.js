@@ -17,10 +17,7 @@ module.exports = {
   },
 
   async run(event) {
-    const now = new Date();
-    const monthAgo = new Date(now.getTime());
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
-    let lastEvent = this.db.get("lastEvent") || monthAgo;
+    let lastEvent = this.db.get("lastEvent") || this.calendly.monthAgo();
     lastEvent = new Date(lastEvent);
 
     const eventTypes = await this.calendly.getEventTypes();

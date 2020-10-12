@@ -4,7 +4,7 @@ module.exports = {
   type: "app",
   app: "calendly",
   methods: {
-    _getHeader() {
+    _getAuthHeader() {
       return {
         "X-TOKEN": this.$auth.api_key,
       };
@@ -12,17 +12,23 @@ module.exports = {
     _getBaseURL() {
       return "https://calendly.com/api/v1"
     },
+    monthAgo() {
+      const now = new Date();
+      const monthAgo = new Date(now.getTime());
+      monthAgo.setMonth(monthAgo.getMonth() - 1);
+      return monthAgo;
+    },
     async getEventTypes() {
       return (
         await axios.get(`${this._getBaseURL()}/users/me/event_types`, {
-          headers: this._getHeader(),
+          headers: this._getAuthHeader(),
         })
       ).data.data;
     },
     async getEvents() {
       return (
         await axios.get(`${this._getBaseURL()}/users/me/events`, {
-          headers: this._getHeader(),
+          headers: this._getAuthHeader(),
         })
       ).data.data;
     },
@@ -30,7 +36,7 @@ module.exports = {
       const config = {
         method: "post",
         url: `${this._getBaseURL()}/hooks`,
-        headers: this._getHeader(),
+        headers: this._getAuthHeader(),
         data,
       };
       return (await axios(config));
@@ -39,7 +45,7 @@ module.exports = {
       const config = {
         method: "delete",
         url: `${this._getBaseURL()}/hooks/${hookId}`,
-        headers: this._getHeader(),
+        headers: this._getAuthHeader(),
       };
       await axios(config);
     },

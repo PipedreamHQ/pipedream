@@ -8,7 +8,10 @@ module.exports = {
   props: {
     calendly,
     db: "$.service.db",
-    http: "$.interface.http",
+        http: {
+      type: "$.interface.http",
+      customResponse: true,
+    }
   },
 
   hooks: {
