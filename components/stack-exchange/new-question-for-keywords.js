@@ -52,7 +52,6 @@ module.exports = {
       toDate,
       order: 'asc',
       sort: 'creation',
-      accepted: true,
       closed: false,
       site: this.siteId,
       q: keywordsQuery,
