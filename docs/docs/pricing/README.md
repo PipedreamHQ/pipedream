@@ -33,7 +33,7 @@ Users on the Developer Tier have access to community support, on Github Discussi
 
 The Professional tier includes all the features of the Developer tier. It also comes with the following benefits:
 
-- **You can run any number of invocations, for any amount of compute time**.
+- **You can run any number of invocations, for any amount of time**
 - [Email Support](https://pipedream.com/support)
 - All workflow code is **private** by default
 
@@ -49,7 +49,7 @@ Invocations on the Professional tier are priced at **\${{$site.themeConfig.PRICE
 
 For example, if you run 300,000 invocations during a given [billing period](#billing-period) (roughly one month), you'll be charged a total of \$30:
 
-- \$10 for the minimum monthly charge (yields 100,000 [base invocations](#base-invocations-quota)), paid at the start of your billing period.
+- \$10 for the minimum monthly charge (yields 100,000 [base invocations](#base-invocations-quota) that you can use at any time during that month), paid at the start of your billing period.
 - \$20 for the 200,000 [additional billable invocations](#additional-billable-invocations), paid at the start of the next billing period.
 
 See [when we invoice](#when-am-i-invoiced-billed-for-paid-plans) for more information on your billing schedule.
@@ -72,7 +72,7 @@ Pipedream counts an **invocation** each time a workflow or event source is trigg
 
 Pipedream increments the count of invocations by one for each incoming event, regardless of the number of steps in your workflow. For example, if you send an HTTP request to a workflow with five steps, Pipedream will count that as one invocation.
 
-Moreover, if an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow.
+If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
 
 ### Compute Time
 
@@ -117,6 +117,12 @@ For example, if you sign up for a paid plan on January 1st, you're immediately c
 ### How does Pipedream secure my credit card data?
 
 Pipedream stores no information on your payment method, and uses Stripe as our payment processor. [See our security docs](/security/#payment-processor) for more information.
+
+### Are unused invocations rolled over from one period to the next?
+
+On the Developer tier, unused daily invocations (and compute time) under the daily limit are **not** rolled over to the next day.
+
+On paid tiers, unused invocations included as a part of the base \$10 monthly fee are also **not** rolled over to the next month.
 
 ### How do I change my billing payment method?
 
