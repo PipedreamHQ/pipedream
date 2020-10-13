@@ -1,4 +1,4 @@
-const _ = require("underscore");
+const _ = require("lodash");
 const axios = require("axios");
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
           label: site.name,
           value: site.api_site_parameter,
         }));
-        const options = _.sortBy(rawOptions, 'label');
+        const options = _.sortBy(rawOptions, ['label']);
         return {
           options,
         };
