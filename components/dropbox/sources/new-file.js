@@ -45,6 +45,9 @@ module.exports = {
             mode: { ".tag": "id" },
             limit: 10,
           })
+          if (revisions.result) {
+            revisions = revisions.result
+          }
           if (revisions.entries.length > 1) {
             let oldest = revisions.entries.pop()
             if (lastFileModTime && lastFileModTime >= oldest.client_modified) {
@@ -56,11 +59,18 @@ module.exports = {
               path: update.path_lower,
               include_media_info: true,
             })
+            if (update.result) {
+              update = update.result
+            }
           }
           if (this.includeLink) {
-            const { link, metadata } = await this.dropbox.sdk().filesGetTemporaryLink({
+            let response = await this.dropbox.sdk().filesGetTemporaryLink({
               path: update.path_lower,
             })
+            if (response.result) {
+              response = response.result
+            }
+            const { link, metadata } = response
             update.link = link
           }
         } catch(err) {
