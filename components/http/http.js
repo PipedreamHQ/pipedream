@@ -3,11 +3,14 @@ module.exports = {
   name: "http",
   version: "0.0.2",
   props: {
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     http_webhook: {
       type: 'app',
       app: 'http_webhook',
     },
-    http: "$.interface.http",
     emitBodyOnly: {
       type: "boolean",
       label: "Body Only",
