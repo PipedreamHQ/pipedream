@@ -28,7 +28,7 @@ module.exports = {
     let results = null;
     let starting_after = null;
 
-    while (results.data.pages.next !== null && results.data.pages.next !== undefined) {
+    while (!results || (results.data.pages.next !== null && results.data.pages.next !== undefined)) {
       if (resuls)
         starting_after = results.data.pages.next.starting_after;
       results = await this.intercom.searchContacts(data, starting_after);

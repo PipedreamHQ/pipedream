@@ -13,6 +13,12 @@ module.exports = {
         Accept: "application/json",
       };
     },
+    monthAgo() {
+      const now = new Date();
+      const monthAgo = new Date(now.getTime());
+      monthAgo.setMonth(monthAgo.getMonth() - 1);
+      return monthAgo;
+    },
     async searchContacts(data, starting_after = null) {
       config = {
         method: "POST",

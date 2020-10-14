@@ -17,8 +17,7 @@ module.exports = {
   },
 
   async run(event) {
-    const monthAgo = new Date();
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
+    const monthAgo = this.intercom.monthAgo();
     let lastContactReplyAt =
       this.db.get("lastContactReplyAt") || Math.floor(monthAgo / 1000);
     lastContactReplyAt = Math.floor(monthAgo / 1000);

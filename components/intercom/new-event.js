@@ -51,7 +51,6 @@ module.exports = {
       let results = null;
       let next = null;
 
-      // if additional pages exist, loop through them
       while (!results || results.data.pages.next !== undefined) {
         if (results) next = results.data.pages.next;
         else next = since;
