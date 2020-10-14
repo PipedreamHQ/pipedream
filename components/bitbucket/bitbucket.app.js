@@ -185,8 +185,13 @@ module.exports = {
       let requestConfig = this._makeRequestConfig();  // Basic axios request config
       if (page === 0) {
         // First time the options are being retrieved.
-        // Include the parameters provided, which will be persisted
-        // across the different pages.
+        //
+        // In such case, we include the query parameters provided
+        // as arguments to this function.
+        //
+        // For subsequent pages, the "next page" URL's (provided by
+        // the BitBucket API) will already include these parameters,
+        // so we don't need to explicitly provide them again.
         requestConfig = {
           ...requestConfig,
           params,
