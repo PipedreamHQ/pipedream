@@ -1,4 +1,4 @@
-const airtable = require('https://github.com/PipedreamHQ/pipedream/components/airtable/airtable.app.js');
+const airtable = require('../../airtable.app.js');
 const moment = require('moment');
 const axios = require('axios');
 const Bottleneck = require('bottleneck');
@@ -10,6 +10,7 @@ const axiosRateLimiter = limiter.wrap(axios);
 
 module.exports = {
   name: 'New, Modified or Deleted Records',
+  key: 'airtable-new-modified-or-deleted-records',
   version: '0.0.1',
   description:
     "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",

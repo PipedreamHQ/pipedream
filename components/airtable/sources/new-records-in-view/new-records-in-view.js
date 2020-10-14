@@ -1,9 +1,10 @@
-const airtable = require('../airtable.app.js')
+const airtable = require('../../airtable.app.js')
 const moment = require('moment')
 const axios = require('axios')
 
 module.exports = {
   name: "New records in view",
+  key: "airtable-new-records-in-view",
   version: "0.0.2",
   props: {
     db: "$.service.db",
