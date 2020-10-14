@@ -72,6 +72,8 @@ Pipedream counts an **invocation** each time a workflow or event source is trigg
 
 Pipedream increments the count of invocations by one for each incoming event, regardless of the number of steps in your workflow. For example, if you send an HTTP request to a workflow with five steps, Pipedream will count that as one invocation.
 
+Moreover, if you have a workflow triggered by a cron job running once a minute for the entire day, that will incur 1,440 invocations (60 minute \* 24 hours). For cron-triggered workflows or event sources, remember that you can always reduce the frequency to reduce your invocations.
+
 If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
 
 ### Compute Time
@@ -100,7 +102,13 @@ Any invocations you run over your [base invocations quota](#base-invocations-quo
 
 ### What are invocations?
 
-[See the definition here](#invocations).
+Pipedream counts an **invocation** each time a workflow or event source is triggered by an incoming event.
+
+Pipedream increments the count of invocations by one for each incoming event, regardless of the number of steps in your workflow. For example, if you send an HTTP request to a workflow with five steps, Pipedream will count that as one invocation.
+
+Moreover, if you have a workflow triggered by a cron job running once a minute for the entire day, that will incur 1,440 invocations (60 minute \* 24 hours). For cron-triggered workflows or event sources, remember that you can always reduce the frequency to reduce your invocations.
+
+If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
 
 ### Are there any limits on paid tiers?
 
@@ -116,11 +124,11 @@ For example, if you sign up for a paid plan on January 1st, you're immediately c
 
 ### How does Pipedream secure my credit card data?
 
-Pipedream stores no information on your payment method, and uses Stripe as our payment processor. [See our security docs](/security/#payment-processor) for more information.
+Pipedream stores no information on your payment method and uses Stripe as our payment processor. [See our security docs](/security/#payment-processor) for more information.
 
 ### Are unused invocations rolled over from one period to the next?
 
-On the Developer tier, unused daily invocations (and compute time) under the daily limit are **not** rolled over to the next day.
+**No**. On the Developer tier, unused daily invocations (and compute time) under the daily limit are **not** rolled over to the next day.
 
 On paid tiers, unused invocations included as a part of the base \$10 monthly fee are also **not** rolled over to the next month.
 
