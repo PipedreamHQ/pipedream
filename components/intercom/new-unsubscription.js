@@ -45,7 +45,7 @@ module.exports = {
       results.data.pages.next !== undefined
     )) {
       if (results) starting_after = results.data.pages.next.starting_after;
-      results = await this.intercom.searchContacts(data, starting_after); console.log(results.data);
+      results = await this.intercom.searchContacts(data, starting_after);
       for (const user of results.data.data) {
         this.$emit(user, {
           id: user.id,
