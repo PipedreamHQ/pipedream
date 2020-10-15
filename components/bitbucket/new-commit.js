@@ -91,43 +91,45 @@ module.exports = {
       // causes. We need to make sure that we're only processing events
       // that are related to new commits in the particular branch
       // that the user indicated.
-      const eventsForThisBranch = changes.filter(this.isEventForThisBranch);
-      const isEventRelevant = eventsForThisBranch
-        .filter(this.doesEventContainNewCommits)
-        .length > 0;
-      if (isEventRelevant) {
-        // BitBucket events provide information about the state
-        // of an entity before it was changed.
-        // Based on that, we can extract the HEAD commit of
-        // the relevant branch before new commits were pushed to it.
-        const lastProcessedCommitHash = eventsForThisBranch
-          .map(this.getBaseCommitHash)
-          .shift();
-
-        // The event payload contains some commits but it's not exhaustive,
-        // so we need to explicitly fetch them just in case.
-        const opts = {
-          workspaceId: this.workspaceId,
-          repositoryId: this.repositoryId,
-          branchName: this.branchName,
-          lastProcessedCommitHash,
-        };
-        const allCommits = this.bitbucket.getCommits(opts);
-
-        // We need to collect all the relevant commits, sort
-        // them in reverse order (since the BitBucket API sorts them
-        // from most to least recent) and emit an event for each
-        // one of them.
-        const allCommitsCollected = [];
-        for await (const commit of allCommits) {
-          allCommitsCollected.push(commit);
-        };
-
-        allCommitsCollected.reverse().forEach(commit => {
-          const meta = this.generateMeta(commit)
-          this.$emit(commit, meta);
-        });
+      const newCommitsInThisBranch = changes
+        .filter(this.isEventForThisBranch)
+        .filter(this.doesEventContainNewCommits);
+      const isEventRelevant = newCommitsInThisBranch.length > 0;
+      if (!isEventRelevant) {
+        return;
       }
+
+      // BitBucket events provide information about the state
+      // of an entity before it was changed.
+      // Based on that, we can extract the HEAD commit of
+      // the relevant branch before new commits were pushed to it.
+      const lastProcessedCommitHash = newCommitsInThisBranch
+        .map(this.getBaseCommitHash)
+        .shift();
+
+      // The event payload contains some commits but it's not exhaustive,
+      // so we need to explicitly fetch them just in case.
+      const opts = {
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+        branchName: this.branchName,
+        lastProcessedCommitHash,
+      };
+      const allCommits = this.bitbucket.getCommits(opts);
+
+      // We need to collect all the relevant commits, sort
+      // them in reverse order (since the BitBucket API sorts them
+      // from most to least recent) and emit an event for each
+      // one of them.
+      const allCommitsCollected = [];
+      for await (const commit of allCommits) {
+        allCommitsCollected.push(commit);
+      };
+
+      allCommitsCollected.reverse().forEach(commit => {
+        const meta = this.generateMeta(commit)
+        this.$emit(commit, meta);
+      });
     },
   },
 };
