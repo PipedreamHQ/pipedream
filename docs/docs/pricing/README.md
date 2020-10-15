@@ -45,7 +45,7 @@ You can upgrade to the Professional Tier from your [Billing and Usage Settings](
 
 ### Professional Tier Pricing
 
-Invocations on the Professional tier are priced at **\${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation, with a minimum monthly charge of \$10/month**. In other words, when you upgrade to the Professional tier, you pay \$10 per month for an initial set of 100,000 invocations. If you use more than 100,000 invocations during that month, you'll be billed for \${{$site.themeConfig.PRICE_PER_INVOCATION}} for each extra invocation.
+Invocations on the Professional tier are priced at **\${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation, with a minimum monthly charge of \$10/month**. In other words, when you upgrade to the Professional tier, you pay \$10 per month for an initial set of 100,000 invocations, which you can use at any time during that month. If you use more than 100,000 invocations during that month, you'll be billed \${{$site.themeConfig.PRICE_PER_INVOCATION}} for each extra invocation.
 
 For example, if you run 300,000 invocations during a given [billing period](#billing-period) (roughly one month), you'll be charged a total of \$30:
 
