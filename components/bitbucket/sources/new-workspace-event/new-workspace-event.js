@@ -1,8 +1,9 @@
-const bitbucket = require("./bitbucket.app");
+const bitbucket = require("../../bitbucket.app");
 
 module.exports = {
-  name: "New Repository Event (Instant)",
-  description: "Emits an event when a repository-wide event occurs.",
+  key: "bitbucket-new-workspace-event",
+  name: "New Workspace Event (Instant)",
+  description: "Emits an event when a workspace-wide event occurs.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -13,31 +14,23 @@ module.exports = {
       customResponse: true,
     },
     workspaceId: { propDefinition: [bitbucket, "workspaceId"] },
-    repositoryId: {
-      propDefinition: [
-        bitbucket,
-        "repositoryId",
-        c => ({ workspaceId: c.workspaceId }),
-      ],
-    },
-    eventTypes: { propDefinition: [bitbucket, "eventTypes", c => ({ subjectType: "repository" })] },
+    eventTypes: { propDefinition: [bitbucket, "eventTypes", c => ({ subjectType: "workspace" })] },
   },
   hooks: {
     async activate() {
       const hookParams = {
-        description: "Pipedream - Repository Event",
+        description: "Pipedream - Workspace Event",
         url: this.http.endpoint,
         active: true,
         events: this.eventTypes,
       };
       const opts = {
         workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
         hookParams,
       };
-      const { hookId } = await this.bitbucket.createRepositoryHook(opts);
+      const { hookId } = await this.bitbucket.createWorkspaceHook(opts);
       console.log(
-        `Created webhook for repository "${this.workspaceId}/${this.repositoryId}".
+        `Created webhook for workspace "${this.workspaceId}".
         (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
       );
       this.db.set("hookId", hookId);
@@ -46,12 +39,11 @@ module.exports = {
       const hookId = this.db.get("hookId");
       const opts = {
         workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
         hookId,
       };
-      await this.bitbucket.deleteRepositoryHook(opts);
+      await this.bitbucket.deleteWorkspaceHook(opts);
       console.log(
-        `Deleted webhook for repository "${this.workspaceId}/${this.repositoryId}".
+        `Deleted webhook for repository "${this.workspaceId}".
         (Hook ID: ${hookId})`
       );
     },
@@ -63,7 +55,7 @@ module.exports = {
         "x-event-key": eventType,
         "x-event-time": eventDate,
       } = data.headers;
-      const summary = `New repository event: ${eventType}`;
+      const summary = `New workspace event: ${eventType}`;
       const ts = +new Date(eventDate);
       return {
         id,

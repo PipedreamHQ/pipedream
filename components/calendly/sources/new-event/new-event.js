@@ -1,6 +1,7 @@
-const calendly = require("https://github.com/PipedreamHQ/pipedream/components/calendly/calendly.app.js");
+const calendly = require("../../calendly.app.js");
 
 module.exports = {
+  key: "calendly-new-event",
   name: "New Event",
   description: "Emits an event for each new event created",
   version: "0.0.1",

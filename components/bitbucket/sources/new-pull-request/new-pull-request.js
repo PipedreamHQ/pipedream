@@ -1,6 +1,7 @@
-const bitbucket = require("./bitbucket.app");
+const bitbucket = require("../../bitbucket.app");
 
 module.exports = {
+  key: "bitbucket-new-pull-request",
   name: "New Pull Request (Instant)",
   description: "Emits an event when a new pull request is created",
   version: "0.0.1",

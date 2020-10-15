@@ -1,8 +1,9 @@
-const bitbucket = require("./bitbucket.app");
+const bitbucket = require("../../bitbucket.app");
 
 module.exports = {
-  name: "New Issue (Instant)",
-  description: "Emits an event when a new issue is created",
+  key: "bitbucket-new-repo-event",
+  name: "New Repository Event (Instant)",
+  description: "Emits an event when a repository-wide event occurs.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -20,16 +21,15 @@ module.exports = {
         c => ({ workspaceId: c.workspaceId }),
       ],
     },
+    eventTypes: { propDefinition: [bitbucket, "eventTypes", c => ({ subjectType: "repository" })] },
   },
   hooks: {
     async activate() {
       const hookParams = {
-        description: "Pipedream - New Issue",
+        description: "Pipedream - Repository Event",
         url: this.http.endpoint,
         active: true,
-        events: [
-          "issue:created"
-        ],
+        events: this.eventTypes,
       };
       const opts = {
         workspaceId: this.workspaceId,
@@ -38,7 +38,7 @@ module.exports = {
       };
       const { hookId } = await this.bitbucket.createRepositoryHook(opts);
       console.log(
-        `Created "issue create" webhook for repository "${this.workspaceId}/${this.repositoryId}".
+        `Created webhook for repository "${this.workspaceId}/${this.repositoryId}".
         (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
       );
       this.db.set("hookId", hookId);
@@ -59,10 +59,13 @@ module.exports = {
   },
   methods: {
     generateMeta(data) {
-      const { headers, body } = data;
-      const { id, title } = body.issue;
-      const summary = `New Issue: #${id} ${title}`;
-      const ts = +new Date(headers["x-event-time"]);
+      const {
+        "x-request-uuid": id,
+        "x-event-key": eventType,
+        "x-event-time": eventDate,
+      } = data.headers;
+      const summary = `New repository event: ${eventType}`;
+      const ts = +new Date(eventDate);
       return {
         id,
         summary,
@@ -86,7 +89,11 @@ module.exports = {
       status: 200,
     });
 
-    const meta = this.generateMeta(event);
-    this.$emit(body, meta);
+    const data = {
+      headers,
+      body,
+    };
+    const meta = this.generateMeta(data);
+    this.$emit(data, meta);
   },
 };

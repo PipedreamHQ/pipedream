@@ -1,6 +1,7 @@
-const calendly = require("https://github.com/PipedreamHQ/pipedream/components/calendly/calendly.app.js");
+const calendly = require("../../calendly.app.js");
 
 module.exports = {
+  key: "calendly-invitee-created",
   name: "Invitee Created (Instant)",
   description: "Emits an event when an invitee schedules an event",
   version: "0.0.1",
