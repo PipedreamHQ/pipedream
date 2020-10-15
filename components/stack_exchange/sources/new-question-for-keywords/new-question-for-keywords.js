@@ -1,6 +1,7 @@
-const stack_exchange = require('./stack-exchange.app');
+const stack_exchange = require('../../stack_exchange.app');
 
 module.exports = {
+  key: "stack_exchange-new-question-for-specific-keywords",
   name: "New Question for Specific Keywords",
   description: "Emits an event when a new question is posted and related to a set of specific keywords",
   version: "0.0.1",
