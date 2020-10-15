@@ -3,8 +3,9 @@ const moment = require('moment')
 const axios = require('axios')
 
 module.exports = {
-  name: "New or modified records",
+  name: "New or Modified Records",
   key: 'airtable-new-or-modified-records',
+  description: "Emit an event for each new or modified record in a table",
   version: "0.0.2",
   props: {
     db: "$.service.db",

@@ -3,7 +3,8 @@ const moment = require('moment')
 const axios = require('axios')
 
 module.exports = {
-  name: "New records in view",
+  name: "New Records in View",
+  description: "Emit an event for each new record in a view",
   key: "airtable-new-records-in-view",
   version: "0.0.2",
   props: {

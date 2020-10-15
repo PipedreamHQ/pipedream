@@ -3,7 +3,8 @@ const discord = require("../../discord.app.js");
 const maxBy = require("lodash.maxby");
 
 module.exports = {
-  name: "New Messages in Channel",
+  name: "New Message in Channel",
+  description: "Emit an event for each new message posted to a Discord channel",
   key: "discord-new-messages-in-channel",
   version: "0.0.3",
   dedupe: "unique", // Dedupe events based on the Discord message ID
