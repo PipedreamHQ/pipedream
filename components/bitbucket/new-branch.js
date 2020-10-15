@@ -1,18 +1,15 @@
-const bitbucket = require("./bitbucket.app");
+const common = require("./common");
+const { bitbucket } = common.props;
+
+const EVENT_SOURCE_NAME = "New Branch (Instant)";
 
 module.exports = {
-  name: "New Branch (Instant)",
+  ...common,
+  name: EVENT_SOURCE_NAME,
   description: "Emits an event when a new branch is created",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
-    bitbucket,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    workspaceId: { propDefinition: [bitbucket, "workspaceId"] },
+    ...common.props,
     repositoryId: {
       propDefinition: [
         bitbucket,
@@ -21,43 +18,22 @@ module.exports = {
       ],
     },
   },
-  hooks: {
-    async activate() {
-      const hookParams = {
-        description: "Pipedream - New Branch",
-        url: this.http.endpoint,
-        active: true,
-        events: [
-          "repo:push"
-        ],
-      };
-      const opts = {
-        workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
-        hookParams,
-      };
-      const { hookId } = await this.bitbucket.createRepositoryHook(opts);
-      console.log(
-        `Created "repository push" webhook for repository "${this.workspaceId}/${this.repositoryId}".
-        (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
-      );
-      this.db.set("hookId", hookId);
-    },
-    async deactivate() {
-      const hookId = this.db.get("hookId");
-      const opts = {
-        workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
-        hookId,
-      };
-      await this.bitbucket.deleteRepositoryHook(opts);
-      console.log(
-        `Deleted webhook for repository "${this.workspaceId}/${this.repositoryId}".
-        (Hook ID: ${hookId})`
-      );
-    },
-  },
   methods: {
+    ...common.methods,
+    getEventSourceName() {
+      return EVENT_SOURCE_NAME;
+    },
+    getHookEvents() {
+      return [
+        "repo:push",
+      ];
+    },
+    getHookPathProps() {
+      return {
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+      };
+    },
     isNewBranch(change) {
       const expectedChangeTypes = new Set([
         "branch",
@@ -80,36 +56,22 @@ module.exports = {
         ts,
       };
     },
-  },
-  async run(event) {
-    const { headers, body } = event;
-
-    // Reject any calls not made by the proper BitBucket webhook.
-    if (!this.bitbucket.isValidSource(headers, this.db)) {
-      this.http.respond({
-        status: 404,
-      });
-      return;
-    }
-
-    // Acknowledge the event back to BitBucket.
-    this.http.respond({
-      status: 200,
-    });
-
-    const { changes = [] } = body.push;
-    changes
-      .filter(this.isNewBranch)
-      .forEach(change => {
-        const data = {
-          ...body,
-          change,
-        };
-        const meta = this.generateMeta({
-          headers,
-          change,
+    async processEvent(event) {
+      const { headers, body } = event;
+      const { changes = [] } = body.push;
+      changes
+        .filter(this.isNewBranch)
+        .forEach(change => {
+          const data = {
+            ...body,
+            change,
+          };
+          const meta = this.generateMeta({
+            headers,
+            change,
+          });
+          this.$emit(data, meta);
         });
-        this.$emit(data, meta);
-      });
+    },
   },
 };

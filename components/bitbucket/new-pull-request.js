@@ -1,12 +1,12 @@
 const common = require("./common");
 const { bitbucket } = common.props;
 
-const EVENT_SOURCE_NAME = "New Commit Comment (Instant)";
+const EVENT_SOURCE_NAME = "New Pull Request (Instant)";
 
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  description: "Emits an event when a commit receives a comment",
+  description: "Emits an event when a new pull request is created",
   version: "0.0.1",
   props: {
     ...common.props,
@@ -25,7 +25,7 @@ module.exports = {
     },
     getHookEvents() {
       return [
-        "repo:commit_comment_created",
+        "pullrequest:created",
       ];
     },
     getHookPathProps() {
@@ -36,11 +36,11 @@ module.exports = {
     },
     generateMeta(data) {
       const { headers, body } = data;
-      const { comment, commit } = body;
-      const summary = `New comment on commit ${commit.hash}`;
+      const { id, title } = body.pullrequest;
+      const summary = `New Pull Request: ${title}`;
       const ts = +new Date(headers["x-event-time"]);
       return {
-        id: comment.id,
+        id,
         summary,
         ts,
       };

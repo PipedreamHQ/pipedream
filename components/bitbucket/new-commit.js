@@ -1,18 +1,16 @@
-const bitbucket = require("./bitbucket.app");
+const _ = require("lodash");
+const common = require("./common");
+const { bitbucket } = common.props;
+
+const EVENT_SOURCE_NAME = "New Commit (Instant)";
 
 module.exports = {
-  name: "New Commit (Instant)",
+  ...common,
+  name: EVENT_SOURCE_NAME,
   description: "Emits an event when a new commit is pushed to a branch",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
-    bitbucket,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    workspaceId: { propDefinition: [bitbucket, "workspaceId"] },
+    ...common.props,
     repositoryId: {
       propDefinition: [
         bitbucket,
@@ -31,43 +29,22 @@ module.exports = {
       ],
     },
   },
-  hooks: {
-    async activate() {
-      const hookParams = {
-        description: "Pipedream - New Commit",
-        url: this.http.endpoint,
-        active: true,
-        events: [
-          "repo:push"
-        ],
-      };
-      const opts = {
-        workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
-        hookParams,
-      };
-      const { hookId } = await this.bitbucket.createRepositoryHook(opts);
-      console.log(
-        `Created "repository push" webhook for repository "${this.workspaceId}/${this.repositoryId}".
-        (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
-      );
-      this.db.set("hookId", hookId);
-    },
-    async deactivate() {
-      const hookId = this.db.get("hookId");
-      const opts = {
-        workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
-        hookId,
-      };
-      await this.bitbucket.deleteRepositoryHook(opts);
-      console.log(
-        `Deleted webhook for repository "${this.workspaceId}/${this.repositoryId}".
-        (Hook ID: ${hookId})`
-      );
-    },
-  },
   methods: {
+    ...common.methods,
+    getEventSourceName() {
+      return EVENT_SOURCE_NAME;
+    },
+    getHookEvents() {
+      return [
+        "repo:push",
+      ];
+    },
+    getHookPathProps() {
+      return {
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+      };
+    },
     isEventForThisBranch(change) {
       const expectedChangeTypes = new Set([
         "branch",
@@ -82,13 +59,23 @@ module.exports = {
     doesEventContainNewCommits(change) {
       return change.commits && change.commits.length > 0;
     },
+    getBaseCommitHash(change) {
+      return _.get(change, [
+        "old",
+        "target",
+        "hash",
+      ]);
+    },
     generateMeta(commit) {
       const {
         hash,
         message,
         date,
       } = commit;
-      const summary = `New commit: ${message} (${hash})`;
+      const commitTitle = message
+        .split("\n")
+        .shift();
+      const summary = `New commit: ${commitTitle} (${hash})`;
       const ts = +new Date(date);
       return {
         id: hash,
@@ -96,40 +83,39 @@ module.exports = {
         ts,
       };
     },
-  },
-  async run(event) {
-    const { headers, body } = event;
+    async processEvent(event) {
+      const { body } = event;
+      const { changes = [] } = body.push;
 
-    // Reject any calls not made by the proper BitBucket webhook.
-    if (!this.bitbucket.isValidSource(headers, this.db)) {
-      this.http.respond({
-        status: 404,
-      });
-      return;
-    }
+      // Push events can be for different branches, tags and
+      // causes. We need to make sure that we're only processing events
+      // that are related to new commits in the particular branch
+      // that the user indicated.
+      const newCommitsInThisBranch = changes
+        .filter(this.isEventForThisBranch)
+        .filter(this.doesEventContainNewCommits);
+      const isEventRelevant = newCommitsInThisBranch.length > 0;
+      if (!isEventRelevant) {
+        return;
+      }
 
-    // Acknowledge the event back to BitBucket.
-    this.http.respond({
-      status: 200,
-    });
+      // BitBucket events provide information about the state
+      // of an entity before it was changed.
+      // Based on that, we can extract the HEAD commit of
+      // the relevant branch before new commits were pushed to it.
+      const lastProcessedCommitHash = newCommitsInThisBranch
+        .map(this.getBaseCommitHash)
+        .shift();
 
-    // Push events can be for different branches, tags and
-    // causes. We need to make sure that we're only processing events
-    // that are related to new commits in the particular branch
-    // that the user indicated.
-    const { changes = [] } = body.push;
-    const isEventRelevant = changes
-      .filter(this.isEventForThisBranch)
-      .filter(this.doesEventContainNewCommits)
-      .length > 0;
-    if (isEventRelevant) {
-      const lastProcessedCommitHash = this.db.get("lastProcessedCommitHash");
-      const allCommits = this.bitbucket.getCommits({
+      // The event payload contains some commits but it's not exhaustive,
+      // so we need to explicitly fetch them just in case.
+      const opts = {
         workspaceId: this.workspaceId,
         repositoryId: this.repositoryId,
         branchName: this.branchName,
         lastProcessedCommitHash,
-      });
+      };
+      const allCommits = this.bitbucket.getCommits(opts);
 
       // We need to collect all the relevant commits, sort
       // them in reverse order (since the BitBucket API sorts them
@@ -140,16 +126,10 @@ module.exports = {
         allCommitsCollected.push(commit);
       };
 
-      // We store the most recent commit hash in the DB so that
-      // we don't query the BitBucket API for commits beyond this point
-      // for subsequent events.
-      lastProcessedCommitHash = allCommitsCollected[0].id;
-      this.db.set("lastProcessedCommitHash", lastProcessedCommitHash);
-
       allCommitsCollected.reverse().forEach(commit => {
         const meta = this.generateMeta(commit)
         this.$emit(commit, meta);
       });
-    }
+    },
   },
 };
