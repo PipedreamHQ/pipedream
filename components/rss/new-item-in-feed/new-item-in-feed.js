@@ -3,13 +3,16 @@ const fetch = require('node-fetch')
 const FeedParser = require('feedparser')
 const hash = require('object-hash')
 
-
 module.exports = {
   key: "rss-new-item-in-feed",
   name: "New Item in Feed",
   description: "Emit new items from an RSS feed.",
   version: "0.0.1",
   props: {
+    rss: {
+      type: 'app',
+      app: 'rss',
+    },
     url:{
       type: "string",
       label: 'Feed URL',

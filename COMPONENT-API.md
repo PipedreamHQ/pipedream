@@ -65,7 +65,7 @@ This document was created to help developers author and use Pipedream components
   - [Dedupe Strategies](#dedupe-strategies)
   - [Run](#run)
     - [\$emit](#emit)
-    - [Using npm packages](#using-npm-packages)
+  - [Using npm packages](#using-npm-packages)
 
 # Overview
 
@@ -823,7 +823,7 @@ module.exports = {
 };
 ```
 
-### Using npm packages
+## Using npm packages
 
 To use an npm package in a component, just require it. There is no `package.json` or `npm install` required.
 
@@ -834,3 +834,12 @@ const myVariable = require("npmPackageName");
 When you deploy a component, Pipedream downloads these packages and bundles them with your deployment.
 
 Some packages — for example, packages like [Puppeteer](https://pptr.dev/), which includes large dependencies like Chromium — may not work on Pipedream. Please [reach out](https://docs.pipedream.com/support/) if you encounter a specific issue.
+
+By default, Pipedream pins the current version of the package to the component. For example, if you `require("axios")` and the current version of `axios` is `0.20.0`, Pipedream downloads that version of the package and also pins future updates to that version. When the component updates, Pipedream will always download version `0.20.0`. 
+
+If you want to always download the latest version of the package, you can `require("axios@latest")`, and Pipedream will download the latest version of the package on all component updates.
+
+If you'd like to use a _specific_ version of a package, you can add that version in the `require` string, for example: `require("axios@0.19.2")`. Moreover, you can pass the same version specifiers that npm and other tools allow to specify allowed semantic version upgrades. For example, 
+
+- To allow for future patch version upgrades, use `require("axios@~0.20.0")`
+- To allow for patch and minor version upgrades, use `require("axios@^0.20.0")`

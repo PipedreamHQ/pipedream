@@ -11,6 +11,10 @@ module.exports = {
       type: "$.interface.http",
       customResponse: true,
     },
+    http_webhook: {
+      type: 'app',
+      app: 'http_webhook',
+    },
     emitBodyOnly: {
       type: "boolean",
       label: "Body Only",

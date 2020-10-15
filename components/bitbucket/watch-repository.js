@@ -1,9 +1,8 @@
-const bitbucket = require("../../bitbucket.app.js");
+const bitbucket = require("./bitbucket.app");
 
 module.exports = {
-  name: "New Commit Comment (Instant)",
-  key: "bitbucket-new-commit-comment",
-  description: "Emits an event when a commit receives a comment",
+  name: "New Repository Event (Instant)",
+  description: "Emits an event when a repository-wide event occurs.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -21,16 +20,15 @@ module.exports = {
         c => ({ workspaceId: c.workspaceId }),
       ],
     },
+    eventTypes: { propDefinition: [bitbucket, "eventTypes", c => ({ subjectType: "repository" })] },
   },
   hooks: {
     async activate() {
       const hookParams = {
-        description: "Pipedream - New Commit Comment",
+        description: "Pipedream - Repository Event",
         url: this.http.endpoint,
         active: true,
-        events: [
-          "repo:commit_comment_created"
-        ],
+        events: this.eventTypes,
       };
       const opts = {
         workspaceId: this.workspaceId,
@@ -39,7 +37,7 @@ module.exports = {
       };
       const { hookId } = await this.bitbucket.createRepositoryHook(opts);
       console.log(
-        `Created "repository commit comment created" webhook for repository "${this.workspaceId}/${this.repositoryId}".
+        `Created webhook for repository "${this.workspaceId}/${this.repositoryId}".
         (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
       );
       this.db.set("hookId", hookId);
@@ -60,12 +58,15 @@ module.exports = {
   },
   methods: {
     generateMeta(data) {
-      const { headers, body } = data;
-      const { comment, commit } = body;
-      const summary = `New comment on commit ${commit.hash}`;
-      const ts = +new Date(headers["x-event-time"]);
+      const {
+        "x-request-uuid": id,
+        "x-event-key": eventType,
+        "x-event-time": eventDate,
+      } = data.headers;
+      const summary = `New repository event: ${eventType}`;
+      const ts = +new Date(eventDate);
       return {
-        id: comment.id,
+        id,
         summary,
         ts,
       };
@@ -87,7 +88,11 @@ module.exports = {
       status: 200,
     });
 
-    const meta = this.generateMeta(event);
-    this.$emit(body, meta);
+    const data = {
+      headers,
+      body,
+    };
+    const meta = this.generateMeta(data);
+    this.$emit(data, meta);
   },
 };

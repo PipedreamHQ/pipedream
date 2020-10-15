@@ -10,7 +10,11 @@ module.exports = {
   props: {
     http: {
       type: "$.interface.http",
-      customResponse: true,
+      customResposne: true,
+    },
+    http_webhook: {
+      type: 'app',
+      app: 'http_webhook',
     },
   },
   async run(event) {
