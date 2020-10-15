@@ -2,9 +2,9 @@ const fetch = require('node-fetch')
 const FeedParser = require('feedparser')
 const hash = require('object-hash')
 
-
 module.exports = {
   name: "rss",
+  key: "rss",
   version: "0.0.1",
   props: {
     rss: {

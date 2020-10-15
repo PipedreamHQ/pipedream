@@ -1,6 +1,7 @@
 // Core HTTP component
 module.exports = {
   name: "http",
+  key: "http",
   version: "0.0.2",
   props: {
     http: {

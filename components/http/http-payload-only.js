@@ -2,6 +2,7 @@
 // Returns a 200 OK response, emits the HTTP payload as an event
 module.exports = {
   name: "http-payload-only",
+  key: "http-payload-only",
   version: "0.0.2",
   props: {
     http: {
