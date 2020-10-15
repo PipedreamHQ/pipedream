@@ -2,8 +2,8 @@ const http_webhook = require('../../http_webhook.app.js')
 
 // Core HTTP component
 module.exports = {
-  key: "http_webhook-new-requests",
-  name: "New Requests",
+  key: "http_webhook-new-request",
+  name: "New Request",
   description: "Get a URL and emit the full HTTP event on every request (including headers and query parameters). You can also configure the HTTP response code, body, and more.",
   version: "0.0.2",
   props: {
