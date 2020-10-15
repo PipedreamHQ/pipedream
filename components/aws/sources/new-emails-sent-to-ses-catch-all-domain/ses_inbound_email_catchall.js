@@ -1,7 +1,8 @@
-const aws = require("../aws.app.js");
+const aws = require("../../aws.app.js");
 const axios = require("axios");
 
 module.exports = {
+  key: "aws-new-emails-sent-to-ses-catch-all-domain",
   name: "New Emails sent to SES Catch-all Domain",
   description:
     "The source subscribes to all emails delivered to a specific domain configured in AWS SES. When an email is sent to any address at the domain, this event source emits that email as a formatted event. These events can trigger a Pipedream workflow and can be consumed via SSE or REST API.",

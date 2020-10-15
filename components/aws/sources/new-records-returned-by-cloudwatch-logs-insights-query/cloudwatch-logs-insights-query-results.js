@@ -1,7 +1,8 @@
-const aws = require("../aws.app.js");
+const aws = require("../../aws.app.js");
 const crypto = require("crypto");
 
 module.exports = {
+  key: "aws-new-records-returned-by-cloudwatch-logs-insights-query",
   name: "New Records Returned by CloudWatch Logs Insights Query",
   description:
     "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",

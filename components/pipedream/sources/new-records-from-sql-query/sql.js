@@ -1,6 +1,7 @@
-const pipedream = require("../pipedream.app.js");
+const pipedream = require("../../pipedream.app.js");
 
 module.exports = {
+  key: "pipedream-new-records-from-sql-query",
   name: "New Records from SQL Query",
   description:
     "Runs a query against the Pipedream SQL Service on a schedule, emitting the results in batch (default) or with each record as its own event",

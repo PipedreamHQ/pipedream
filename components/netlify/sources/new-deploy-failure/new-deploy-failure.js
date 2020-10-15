@@ -1,7 +1,8 @@
-const common = require("./common");
+const common = require("../../common");
 
 module.exports = {
   ...common,
+  key: "netlify-new-deploy-failure",
   name: "New Deploy Failure (Instant)",
   description: "Emits an event when a new deployment fails",
   version: "0.0.1",

@@ -1,8 +1,9 @@
 const axios = require("axios");
-const aws = require("../aws.app.js");
+const aws = require("../../aws.app.js");
 const shortid = require("shortid");
 
 module.exports = {
+  key: "aws-new-scheduled-tasks",
   name: "New Scheduled Tasks",
   description:
     "Creates a Step Function State Machine to publish a message to an SNS topic at a specific timestamp. The SNS topic delivers the message to this Pipedream source, and the source emits it as a new event",

@@ -1,7 +1,8 @@
-const aws = require("../aws.app.js");
+const aws = require("../../aws.app.js");
 const axios = require("axios");
 
 module.exports = {
+  key: "aws-new-sns-messages",
   name: "New SNS Messages",
   description:
     "Creates an SNS topic in your AWS account. Messages published to this topic are emitted from the Pipedream source.",

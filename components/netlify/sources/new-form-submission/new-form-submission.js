@@ -1,7 +1,8 @@
-const common = require("./common");
+const common = require("../../common");
 
 module.exports = {
   ...common,
+  key: "netlify-new-form-submission",
   name: "New Form Submission (Instant)",
   description: "Emits an event when a user submits a form",
   version: "0.0.1",
