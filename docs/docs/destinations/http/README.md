@@ -31,7 +31,7 @@ $send.http({
 });
 ```
 
-**Destination delivery is asynchronous**: the HTTP requests are sent after your workflow finishes. This means **you cannot write code that operates on the HTTP response**. The benefit of using `$send.http()`, though, is that these HTTP requests also don't count against your workflow quota.
+**Destination delivery is asynchronous**: the HTTP requests are sent after your workflow finishes. This means **you cannot write code that operates on the HTTP response**. The benefit of using `$send.http()`, though, is that these HTTP requests also don't count against your [compute time quota](/limits/#compute-time-per-day) on the [free tier](/pricing/#developer-tier).
 
 If you iterate over an array of values and send an HTTP request for each:
 

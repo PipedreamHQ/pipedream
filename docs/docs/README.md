@@ -5,11 +5,11 @@ next: false
 
 # What is Pipedream?
 
-Pipedream is an integration platform for developers to build and run [workflows](/workflows/) that integrate apps, data, and APIs — no servers or infrastructure to manage!
+Pipedream is an integration platform for developers to build and run [workflows](/workflows/) that integrate apps and data.
 
-- Develop any workflow, based on any trigger.
+- Develop any workflow, based on any [trigger](workflows/steps/triggers/).
 - Workflows are code, which you can run for [free](/pricing/).
-- No server or cloud resources to manage.
+- Workflows run serverlessly: you manage no infrastructure of your own.
 
 <img src="./workflows/images/workflow-diagram.png" width="400px" >
 
@@ -18,10 +18,10 @@ Pipedream is an integration platform for developers to build and run [workflows]
 If you're new to Pipedream, we recommend starting with this [5 minute tutorial](https://pipedream.com/new?appcue=5ec1fd72-798f-4f32-b225-35b94315bf11) to learn how to:
 
 - Trigger a workflow on HTTP requests
-- Retrieve data from an API using Node.js and npm
-- Deploy and test your changes.
+- Retrieve data from an API using Node.js and npm modules
+- Deploy and test your changes
 
-If you want to skip the tutorial, just [sign in](/sign-up/) to get started for free! If you have any questions or feedback, [join us on Slack](https://pipedream.com/community/) or [reach out](/support/)!
+If you want to skip the tutorial, just [sign in](/sign-up/) to get started for free. If you have any questions or feedback, [join us on Slack](https://pipedream.com/community/) or [reach out](/support/).
 
 ### No servers or infrastructure to manage
 
@@ -45,6 +45,6 @@ See events and debug execution details in real time. Output, errors, timing, and
 
 Auth apps once, connect to those apps in any workflow. Pipedream supports OAuth and key-based auth, and handles the OAuth flow and token refresh for you. Just link accounts to steps and reference the relevant auth info in code.
 
-### It's free!
+### It's free
 
-We believe anyone should be able to run simple, low-volume workflows at [no cost](/pricing/), sharing their workflows with the public so everyone benefits from the work of others. We also want to foster a positive community where people feel good about sharing their work and where everyone can learn from one another.
+The Pipedream team believes anyone should be able to run simple, low-volume workflows at no cost. **Pipedream offers a [generous free tier](/pricing/#developer-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](/pricing/#professional-tier).

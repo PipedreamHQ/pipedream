@@ -10,9 +10,9 @@ When you create a workflow, you can edit the **Title** and **Description** near 
 <img alt="Pipeline title and description" src="./images/pipeline.png">
 </div>
 
-## Workflows are public by default, your data is private
+## Workflow visibility
 
-**All workflow steps are public by default. The data you send to a workflow, or logs you generate, are private**.
+On the [Developer (free) tier](/pricing/#developer-tier), **all workflow code is public by default. The data you send to a workflow, or logs you generate, are private**. On the [Professional tier](/pricing/#professional-tier), all workflow code is **private** by default.
 
 You can change the visibility of workflow code using the dropdown menu to the right of the **code** label at the top of your workflow:
 
@@ -20,13 +20,13 @@ You can change the visibility of workflow code using the dropdown menu to the ri
 <img alt="Workflow visibility toggle" src="./images/workflow-visibility.png">
 </div>
 
-Please see our [docs on workflow visibility](/public-workflows/) for more information.
+Please see our [docs on public workflows](/public-workflows/) for more information about workflow visibility and privacy.
 
 ## Copying public workflows
 
-We hope that the workflows you write are helpful for many other people. If you've written a workflow to send all Stripe transaction data to a Redshift data warehouse, someone else will probably want to use your workflow to solve that same use case.
+We hope that the workflows you write are helpful for others. If you've written a workflow to send all Stripe transaction data to a Redshift data warehouse, for example, someone else will probably want to use your workflow to solve that same use case.
 
-If you've used [Github](https://github.com/), you can think of the workflow as a unique, public repository. It's code that anyone can view and copy for their own use.
+If you've used [Github](https://github.com/), you can think of each workflow as a unique, public repository. It's code that anyone can view and copy for their own use.
 
 On Pipedream, anyone can find a public workflow, [copy it](/workflows/copy/), and run it, modifying any of the steps within the workflow to make it work for their use case.
 
