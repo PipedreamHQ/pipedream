@@ -45,14 +45,14 @@ module.exports = {
       return {
         id,
         summary,
-        ts
+        ts,
       };
     },
   },
   async run() {
     const fromDate = this.db.get("fromDate");
     const toDate = this._getCurrentEpoch();
-    const filter = '!SWK9z)lpGv4T*1o5xl'; // See https://api.stackexchange.com/docs/filters
+    const filter = '!SWKA(ozr4ec2cHE9JK'; // See https://api.stackexchange.com/docs/filters
     const searchParams = {
       fromDate,
       toDate,
