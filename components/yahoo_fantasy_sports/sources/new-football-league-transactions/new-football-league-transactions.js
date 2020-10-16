@@ -7,6 +7,7 @@ function displayPlayer(p) {
 module.exports = {
   key: "yahoo_fantasy_sports-new-football-league-transactions",
   name: "New Football League Transactions",
+  version: "0.0.1",
   props: {
     yfs,
     league: {

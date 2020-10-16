@@ -3,6 +3,7 @@ const dropbox = require('../../dropbox.app.js')
 module.exports = {
   key: "dropbod-new-or-modified-file-or-folder",
   name: "New or Modified File or Folder",
+  version: "0.0.1",
   description: "Emits an event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     dropbox,

@@ -3,6 +3,7 @@ const stripe = require("../../stripe.app.js")
 module.exports = {
   key: "stripe-custom-webhook-events",
   name: "Custom Webhook Events",
+  version: "0.0.1",
   description: "Subscribe to one or more event types and emit an event on each webhook request",
   props: {
     stripe,

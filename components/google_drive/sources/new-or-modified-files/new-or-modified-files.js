@@ -10,7 +10,7 @@
 
 const { uuid } = require("uuidv4");
 const includes = require("lodash.includes");
-const googleDrive = require("../google_drive.app.js");
+const googleDrive = require("../../google_drive.app.js");
 
 module.exports = {
   key: "google_drive-new-or-modified-files",

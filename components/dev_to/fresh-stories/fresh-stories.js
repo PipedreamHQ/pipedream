@@ -4,6 +4,7 @@ const moment = require('moment')
 const axios = require('axios')
 module.exports = {
   name: "New Stories",
+  key: "dev_to-fresh-stories",
   description: "Emit an event for each new story",
   version: "0.0.1",
   props: {

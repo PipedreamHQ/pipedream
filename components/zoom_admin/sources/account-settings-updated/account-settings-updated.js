@@ -1,6 +1,5 @@
 const zoomAdmin = require('../../zoom_admin.app.js')
 
-
 module.exports = {
   key: "zoom_admin-account-settings-updated",
   name: "Account Settings Updated",
