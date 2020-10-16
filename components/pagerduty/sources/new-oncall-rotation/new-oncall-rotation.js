@@ -4,6 +4,7 @@ const pagerduty = require("../../pagerduty.app.js");
 module.exports = {
   key: "pagerduty-new-on-call-rotation",
   name: "New On-Call Rotation",
+  version: "0.0.1",
   description:
     "Emits an event each time a new user rotates onto an on-call rotation",
   props: {
