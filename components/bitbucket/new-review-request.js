@@ -38,13 +38,13 @@ module.exports = {
     generateMeta(data) {
       const {
         headers,
-        pullRequest,
+        body,
         reviewer,
       } = data;
       const {
         id: pullRequestId,
         title,
-      } = pullRequest;
+      } = body.pullrequest;
       const {
         display_name: reviewerName,
         uuid: reviewerId,
@@ -60,11 +60,10 @@ module.exports = {
     },
     async processEvent(event) {
       const { headers, body } = event;
-      const { pullrequest: pullRequest } = body;
-      pullRequest.reviewers.forEach(reviewer => {
+      body.pullrequest.reviewers.forEach(reviewer => {
         const data = {
           headers,
-          pullRequest,
+          body,
           reviewer,
         };
         const meta = this.generateMeta(data);
