@@ -1,19 +1,15 @@
-const http_webhook = require('../../http_webhook.app.js')
+const http_app = require('../../http.app.js')
 
 // Core HTTP component
 module.exports = {
-  key: "http_webhook-new-request",
-  name: "New Request",
+  key: "http-new-requests",
+  name: "New Requests",
   description: "Get a URL and emit the full HTTP event on every request (including headers and query parameters). You can also configure the HTTP response code, body, and more.",
   version: "0.0.2",
   props: {
     http: {
       type: "$.interface.http",
       customResponse: true,
-    },
-    http_webhook: {
-      type: 'app',
-      app: 'http_webhook',
     },
     emitBodyOnly: {
       type: "boolean",
@@ -43,7 +39,7 @@ module.exports = {
       optional: true,
       default: `{ "success": true }`,
     },
-    http_webhook,
+    http_app,
   },
   async run(event) {
     const summary = `${event.method} ${event.path}`
