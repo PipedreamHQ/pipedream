@@ -6,7 +6,7 @@ const EVENT_SOURCE_NAME = "New Repository Event (Instant)";
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  description: "Emits an event when a repository-wide event occurs.",
+  description: "Emits an event when a repository-wide event occurs",
   version: "0.0.1",
   props: {
     ...common.props,
