@@ -2,23 +2,21 @@
 
 Pipedream makes it easy to manage the concurrency and rate at which events from a source trigger your workflow code using event queue controls.
 
-## Where Do I Manage Event Queues?
-
-Event queues can be managed in your workflow settings. Event queues are currently supported for any workflow that is triggered by an event source (event queues are not currently supported for native workflow triggers).
-
-
-
 ## Why Is It Important?
 
-Workflows listen for events and execute code as soon as they are triggered. This creates several challenges including:
+Workflows listen for events and execute code as soon as they are triggered. While this works for many use cases, this behavior can have unintended consequences:
 
 - If multiple events occur over a short period of time, there is no guarantee that they will complete execution in the order in which they were triggered
 - If you are trying to maintain state between executions (e.g., using $checkpoint) you can have race conditions
 - When integrating with 3rd party APIs, you may hit rate limits or race conditions may cause data loss
 
+Event queues help to solve these problems by giving you control over the concurrency and rate at which a workflow is triggered. 
+
 ## How It Works
 
 Events emitted from a source to a workflow are placed in a queue, and Pipedream triggers your workflow with events from the queue based on your concurrency and rate limit settings. These settings may be customized per workflow (so the same events may be processed at different rates by different workflows).
+
+**[IMAGE]**
 
 The maximum number of events Pipedream will queue per workflow depends on your account type.
 
@@ -26,9 +24,15 @@ The maximum number of events Pipedream will queue per workflow depends on your a
 - Paid accounts will have higher limits
 - Team/Enterprise accounts may have custom limits. If you need a larger queue size, please contact Pipedream.
 
-If the number of events exceeds the cache size, events will be lost. If that happens, and error message will be displayed in the event list of your workflow, your global error queue will be triggered. 
+If the number of events exceeds the cache size, events will be lost. If that happens, an error message will be displayed in the event list of your workflow and your global error queue will be triggered. 
 
-For more context on this feature and technical details, check out our engineering blog post.
+For more context on this feature and technical details, check out our **engineering blog post [need to link]**.
+
+## Where Do I Manage Event Queues?
+
+Event queues can be managed in your workflow settings. Event queues are currently supported for any workflow that is triggered by an event source (event queues are not currently supported for native workflow triggers).
+
+**[SCREENSHOT]**
 
 ## Managing Concurency
 
@@ -42,31 +46,3 @@ To pause events from triggering a workflow, set the number of workers to `0`. To
 
 - Pipedream guarantees that events will be executed by your workflow in the order they are emitted. 
 - Settings may be customized per workflow. Therefore, workflows can execute events from the same source at two different rates. F
-
-## Examples
-
-We're review two examples to explain the benefits of concurrency and rate limit controls.
-
-### Sending Data to Google Sheets
-
-Sending data to Google Sheets is a common use case on Pipedream.
-
- 
-
-- By default, Pipedream will enforce single concurrent executions and a rate limit of one event per second. However, you have full control to customize these settings.
-- These settings   
-- Pipedream will cache up to 100 events per 
-
-
-
-All emits (from any attached emitters) go into a single queue that can be rate limited and/or linearized In the case of the multiple emitters, they can be interleavedThat queue is capped, meaning we will drop any new events when it reaches capacity.Rate limiting and in order delivery can be used concurrently (e.g., execute events in order and send to workflow at a max rate of 1 EPS)As a user, I am notified if events are being dropped because I hit my queue limit via the error workflowMVP Constraints This feature will only work for event sources (not native triggers)Only EPS or configurable windows -- e.g., N seconds, N minutes, etc?The cap size will not be configurable by user for the MVP (e.g., this could be something we want for premium accounts in the future). Cap size for MVP tbd?Rate limiting for consumption via the event source SSE API is out of scope for the MVP (pravin to do product work on API consumption)
-
-
-
-[Like events](/event-sources/), logs can also be consumed programmatically:
-
-
-
-\- Connecting to the [SSE stream](/api/sse/) directly
-
-\- Using the [`pd logs`](#pd-logs) CLI command
