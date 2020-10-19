@@ -22,13 +22,13 @@ or:
 [Install the Pipedream CLI](https://docs.pipedream.com/cli/install/), then deploy the Hacker News "new stories by keyword" component from the registry:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/components/hacker-news/new-stories-by-keyword.js
+pd deploy hacker_news-new-stories-by-keyword
 ```
 
 Or, deploy the "new comments by keyword" component from the registry:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/components/hacker-news/new-comments-by-keyword.js
+pd deploy hacker_news-new-stories-by-keyword
 ```
 
 Submit your keyword and deploy your component.

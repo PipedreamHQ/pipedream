@@ -184,13 +184,13 @@ pd deploy my-component.js
 You can explore the components available to deploy in [Pipedream's Github repo](components).
 
 ```bash
-pd deploy <github-url>
+pd deploy <source-key>
 ```
 
 E.g.,
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy http-new-requests
 ```
 
 ##### From Any URL
