@@ -6,7 +6,7 @@ const EVENT_SOURCE_NAME = "New Workspace Event (Instant)";
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  description: "Emits an event when a workspace-wide event occurs.",
+  description: "Emits an event when a workspace-wide event occurs",
   version: "0.0.1",
   props: {
     ...common.props,

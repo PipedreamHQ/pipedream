@@ -7,7 +7,7 @@ module.exports = {
     workspaceId: {
       type: "string",
       label: "Workspace",
-      description: "The workspace that contains the repositories to work with.",
+      description: "The workspace that contains the repositories to work with",
       async options(context) {
         const url = this._userWorkspacesEndpoint();
         const params = {
@@ -36,7 +36,7 @@ module.exports = {
     repositoryId: {
       type: "string",
       label: "Repository",
-      description: "The repository for which the events will be processed.",
+      description: "The repository for which the events will be processed",
       async options(context) {
         const { workspaceId } = context;
         const url = this._workspaceRepositoriesEndpoint(workspaceId);
