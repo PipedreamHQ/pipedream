@@ -82,7 +82,7 @@ POST sample JSON to [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a 
 ```javascript
 const axios = require("axios");
 
-// Make an HTTP GET request using axios
+// Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
   url: `https://jsonplaceholder.typicode.com/posts`
@@ -144,6 +144,34 @@ const resp = await axios({
 ```
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/send-an-http-request-with-headers-p_q6ClzO/edit).
+
+## Send multiple HTTP requests using a loop
+
+There are many ways to make multiple HTTP requests. This code shows you a simple example that sends the numbers `1`, `2`, and `3` in the body of an HTTP POST request:
+
+```javascript
+const axios = require("axios");
+
+// We'll store each response and return them in this array
+const responses = [];
+
+for (const num of [1, 2, 3]) {
+  const resp = await axios({
+    method: "POST",
+    url: params.url,
+    data: {
+      num, // Will send the current value of num in the loop
+    },
+  });
+  responses.push(resp.data);
+}
+
+return responses;
+```
+
+This sends each HTTP request _in sequence_, one after another, and returns an array of response data returned from the URL to which you send the POST request.
+
+[Copy this workflow](https://pipedream.com/@dylburger/iterate-over-a-pipedream-step-export-sending-multiple-http-requests-p_ljCAPN/edit) and fill in your destination URL to see how this works. **This workflow iterates over the value of a Pipedream [step export](/workflows/steps/#step-exports)** - data returned from a previous step. Since you often want to iterate over data returned from a Pipedream action or other code step, this is a common use case.
 
 ## Use an HTTP proxy to proxy requests through another host
 
