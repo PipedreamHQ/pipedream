@@ -24,19 +24,18 @@ You can also listen for these events in your own app / infra, by [subscribing to
 
 <!--ts-->
 
-- [AWS Task Scheduler](#aws-task-scheduler)
-  - [Quickstart](#quickstart)
-  - [Prerequisites](#prerequisites)
-    - [An AWS account](#an-aws-account)
-    - [An AWS IAM Policy for creating the necessary AWS resources](#an-aws-iam-policy-for-creating-the-necessary-aws-resources)
-    - [An AWS IAM user, with an access and secret key](#an-aws-iam-user-with-an-access-and-secret-key)
-  - [AWS Resources](#aws-resources)
-    - [Estimated AWS Costs](#estimated-aws-costs)
-  - [HTTP API](#http-api)
-    - [Scheduling a task](#scheduling-a-task)
-    - [Cancel scheduled tasks](#cancel-scheduled-tasks)
-  - [Processing scheduled tasks](#processing-scheduled-tasks)
-  - [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
+- [Quickstart](#quickstart)
+- [Prerequisites](#prerequisites)
+  - [An AWS account](#an-aws-account)
+  - [An AWS IAM Policy for creating the necessary AWS resources](#an-aws-iam-policy-for-creating-the-necessary-aws-resources)
+  - [An AWS IAM user, with an access and secret key](#an-aws-iam-user-with-an-access-and-secret-key)
+- [AWS Resources](#aws-resources)
+  - [Estimated AWS Costs](#estimated-aws-costs)
+- [HTTP API](#http-api)
+  - [Scheduling a task](#scheduling-a-task)
+  - [Cancel scheduled tasks](#cancel-scheduled-tasks)
+- [Processing scheduled tasks](#processing-scheduled-tasks)
+- [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
 
 <!-- Added by: dylansather, at: Tue Aug 25 21:10:25 PDT 2020 -->
 

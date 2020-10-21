@@ -17,12 +17,11 @@ You can also listen for these events in your own app / infra, by [subscribing to
 
 <!--ts-->
 
-- [Task Scheduler](#task-scheduler)
-  - [HTTP API](#http-api)
-    - [Scheduling a task](#scheduling-a-task)
-  - [Cancelling a scheduled task](#cancelling-a-scheduled-task)
-  - [Processing scheduled tasks](#processing-scheduled-tasks)
-  - [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
+- [HTTP API](#http-api)
+  - [Scheduling a task](#scheduling-a-task)
+- [Cancelling a scheduled task](#cancelling-a-scheduled-task)
+- [Processing scheduled tasks](#processing-scheduled-tasks)
+- [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
 
 <!-- Added by: dylansather, at: Sun Sep 20 11:06:14 PDT 2020 -->
 

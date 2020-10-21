@@ -6,10 +6,9 @@ FaunaDB Event Sources collect data from FaunaDB (for example, changes to a colle
 
 <!--ts-->
 
-- [FaunaDB Event Sources](#faunadb-event-sources)
-  - [Sources](#sources)
-    - [Changes to Documents in a Collection](#changes-to-documents-in-a-collection)
-  - [Workflows](#workflows)
+- [Sources](#sources)
+  - [Changes to Documents in a Collection](#changes-to-documents-in-a-collection)
+- [Workflows](#workflows)
 
 <!--te-->
 

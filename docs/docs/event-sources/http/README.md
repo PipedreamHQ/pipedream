@@ -2,13 +2,10 @@
 
 This tutorial will walk you through how to:
 
-- [Creating an HTTP source](#creating-an-http-source)
-  - [Install the Pipedream CLI](#install-the-pipedream-cli)
-  - [Link your Pipedream account to the CLI](#link-your-pipedream-account-to-the-cli)
-  - [Create an HTTP source](#create-an-http-source)
-  - [Consume events from your source](#consume-events-from-your-source)
-    - [`pd events`](#pd-events)
-  - [Next Steps](#next-steps)
+1. [Install the Pipedream CLI](#install-the-pipedream-cli)
+2. [Link your Pipedream account to the CLI](#link-your-pipedream-account-to-the-cli)
+3. [Create an HTTP source](#create-an-http-source)
+4. [Consume events from your source](#consume-events-from-your-source)
 
 This should take about 5 minutes to complete.
 

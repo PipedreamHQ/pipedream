@@ -5,7 +5,7 @@ const eventTypes = ['created']
 module.exports = {
   key: "github-new-commit-comment",
   name: "New Commit Comment (Instant)",
-  description: "Emitan event when a new commit comment is created",
+  description: "Emit an event when a new commit comment is created",
   version: "0.0.2",
   props: {
     github,
