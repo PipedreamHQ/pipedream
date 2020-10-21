@@ -1,4 +1,4 @@
-const _ = require("lodash");
+const isEmpty = require("lodash/isEmpty");
 const common = require("./common");
 const { bitbucket } = common.props;
 
@@ -52,7 +52,7 @@ module.exports = {
     isEventRelevant(event) {
       const { state: eventType } = event.body.commit_status;
       return (
-        _.isEmpty(this.eventTypes) ||
+        isEmpty(this.eventTypes) ||
         this.eventTypes.some(i => i === eventType)
       );
     },

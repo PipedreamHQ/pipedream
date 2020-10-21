@@ -1,4 +1,4 @@
-const _ = require("lodash");
+const get = require("lodash/get");
 const common = require("./common");
 const { bitbucket } = common.props;
 
@@ -60,7 +60,7 @@ module.exports = {
       return change.commits && change.commits.length > 0;
     },
     getBaseCommitHash(change) {
-      return _.get(change, [
+      return get(change, [
         "old",
         "target",
         "hash",
