@@ -16,7 +16,7 @@ First, you must have sent some data to the Pipedream SQL Service. Visit [https:/
 
 ## Usage
 
-[Click here to create a Scheduled SQL Source](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fpipedream%2Fsql%2Fsql.js&app=pipedream). You'll be asked to select a schedule (by default, this source runs once a day at 00:00 UTC) and configure the props below.
+[Click here to create a Scheduled SQL Source](https://pipedream.com/sources?action=create&key=pipedream-new-records-from-sql-query&app=pipedream). You'll be asked to select a schedule (by default, this source runs once a day at 00:00 UTC) and configure the props below.
 
 ### Props
 

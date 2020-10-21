@@ -1,6 +1,6 @@
 # Task Scheduler
 
-**This event source exposes an HTTP API for scheduling one-time tasks, at any timestamp, up to one year in the future. [Click here to create this source](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fpipedream%2Ftask-scheduler%2Ftask-scheduler.js)**.
+**This event source exposes an HTTP API for scheduling one-time tasks, at any timestamp, up to one year in the future. [Click here to create this source](https://pipedream.com/sources?action=create&key=pipedream-new-scheduled-tasks)**.
 
 To [schedule a new task](#scheduling-a-task), just send an HTTP `POST` request to your source's endpoint, at the `/schedule` path, with the following format:
 
@@ -17,11 +17,12 @@ You can also listen for these events in your own app / infra, by [subscribing to
 
 <!--ts-->
 
-- [HTTP API](#http-api)
-  - [Scheduling a task](#scheduling-a-task)
+- [Task Scheduler](#task-scheduler)
+  - [HTTP API](#http-api)
+    - [Scheduling a task](#scheduling-a-task)
   - [Cancelling a scheduled task](#cancelling-a-scheduled-task)
-- [Processing scheduled tasks](#processing-scheduled-tasks)
-- [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
+  - [Processing scheduled tasks](#processing-scheduled-tasks)
+  - [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
 
 <!-- Added by: dylansather, at: Sun Sep 20 11:06:14 PDT 2020 -->
 

@@ -165,7 +165,7 @@ Sometimes, you might not care about the HTTP metadata, and just want to retrieve
 To deploy this source, run:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/interfaces/http/http-payload-only.js
+pd deploy http-new-requests-payload-only
 ```
 
 ### Return a custom HTTP status code

@@ -1,5 +1,5 @@
 const trello = require("../../trello.app.js");
-const get = require("../new-board/node_modules/lodash.get");
+const get = require("lodash.get");
 
 module.exports = {
   key: "trello-custom-webhook-events",

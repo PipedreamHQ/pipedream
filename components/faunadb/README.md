@@ -6,9 +6,10 @@ FaunaDB Event Sources collect data from FaunaDB (for example, changes to a colle
 
 <!--ts-->
 
-- [Sources](#sources)
-  - [Changes to Documents in a Collection](#changes-to-documents-in-a-collection)
-- [Workflows](#workflows)
+- [FaunaDB Event Sources](#faunadb-event-sources)
+  - [Sources](#sources)
+    - [Changes to Documents in a Collection](#changes-to-documents-in-a-collection)
+  - [Workflows](#workflows)
 
 <!--te-->
 
@@ -16,7 +17,7 @@ FaunaDB Event Sources collect data from FaunaDB (for example, changes to a colle
 
 ### Changes to Documents in a Collection
 
-[**Click here to create this source**](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ffaunadb%2Fchanges-to-collection.js&app=faunadb)
+[**Click here to create this source**](https://pipedream.com/sources?action=create&key=faunadb-changes-to-collection&app=faunadb)
 
 The [`changes-to-collection.js`](changes-to-collection.js) source tracks [`add` and `remove` events](https://docs.fauna.com/fauna/current/api/fql/functions/events) to documents in a specific collection. Each time you add or remove a document from this collection, this event source emits an event of the following shape:
 

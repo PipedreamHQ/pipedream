@@ -15,7 +15,7 @@ The Hacker News components turn the Hacker News API into an event stream based o
 
 ## Usage
 
-<a href="https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhacker-news%2Fnew-stories-by-keyword.js"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
+<a href="https://pipedream.com/sources?action=create&key=hacker_news-new-stories-by-keyword"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
 or:
 

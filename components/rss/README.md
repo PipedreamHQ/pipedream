@@ -35,7 +35,7 @@ Then, you can process items from your event source in 3 ways:
 - Subscribe to a private SSE stream, which publishes items in real time
 - Trigger a Pipedream workflow for each item, running hosted Node.js code (also real time)
 - Access items in batch using Pipedream's REST API
-  To get started, [**create a new RSS source in the Pipedream UI**](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Frss%2Frss.js&app=none). Name the source and add your feed URL:
+  To get started, [**create a new RSS source in the Pipedream UI**](https://pipedream.com/sources?action=create&key=rss-new-item-in-feed). Name the source and add your feed URL:
 
 <p align="center">
     <kbd><img  alt="RSS Source in Pipedream UI" width="672" src="https://rss.pipedream.com/img/rss-source-in-ui.2832e34f.png"></kbd>

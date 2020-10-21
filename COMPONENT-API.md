@@ -222,13 +222,13 @@ You can find and deploy curated components at https://pipedream.com/sources/new,
 ##### From Pipedream Github Repo
 
 ```bash
-https://pipedream.com/sources?action=create&url=<url-encoded-github-url>
+https://pipedream.com/sources?action=create&key=<source-key>
 ```
 
 E.g.,
 
 ```bash
-https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhttp%2Fhttp.js
+https://pipedream.com/sources?action=create&key=http-new-requests
 ```
 
 ##### From Any URL

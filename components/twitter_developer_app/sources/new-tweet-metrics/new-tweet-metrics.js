@@ -1,9 +1,9 @@
-const twitterlabs = require('../../twitter_labs.app.js')
+const twitterlabs = require('../../twitter_developer_app.app.js')
 
 const axios = require('axios')
 
 module.exports = {
-  key: "twitter_labs-new-tweet-metrics",
+  key: "twitter_developer_app-new-tweet-metrics",
   name: "New Tweet Metrics",
   version: "0.0.1",
   props: {

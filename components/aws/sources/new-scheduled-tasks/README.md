@@ -24,18 +24,19 @@ You can also listen for these events in your own app / infra, by [subscribing to
 
 <!--ts-->
 
-- [Quickstart](#quickstart)
-- [Prerequisites](#prerequisites)
-  - [An AWS account](#an-aws-account)
-  - [An AWS IAM Policy for creating the necessary AWS resources](#an-aws-iam-policy-for-creating-the-necessary-aws-resources)
-  - [An AWS IAM user, with an access and secret key](#an-aws-iam-user-with-an-access-and-secret-key)
-- [AWS Resources](#aws-resources)
-  - [Estimated AWS Costs](#estimated-aws-costs)
-- [HTTP API](#http-api)
-  - [Scheduling a task](#scheduling-a-task)
-  - [Cancel scheduled tasks](#cancel-scheduled-tasks)
-- [Processing scheduled tasks](#processing-scheduled-tasks)
-- [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
+- [AWS Task Scheduler](#aws-task-scheduler)
+  - [Quickstart](#quickstart)
+  - [Prerequisites](#prerequisites)
+    - [An AWS account](#an-aws-account)
+    - [An AWS IAM Policy for creating the necessary AWS resources](#an-aws-iam-policy-for-creating-the-necessary-aws-resources)
+    - [An AWS IAM user, with an access and secret key](#an-aws-iam-user-with-an-access-and-secret-key)
+  - [AWS Resources](#aws-resources)
+    - [Estimated AWS Costs](#estimated-aws-costs)
+  - [HTTP API](#http-api)
+    - [Scheduling a task](#scheduling-a-task)
+    - [Cancel scheduled tasks](#cancel-scheduled-tasks)
+  - [Processing scheduled tasks](#processing-scheduled-tasks)
+  - [Example: Schedule a task 30 seconds in the future](#example-schedule-a-task-30-seconds-in-the-future)
 
 <!-- Added by: dylansather, at: Tue Aug 25 21:10:25 PDT 2020 -->
 
@@ -44,7 +45,7 @@ You can also listen for these events in your own app / infra, by [subscribing to
 ## Quickstart
 
 1. Complete the [Prerequisites](#prerequisites).
-2. [Click here to create the Task Scheduler event source](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Faws%2Ftask-scheduler%2Ftask-scheduler.js), linking your AWS access and secret key from **Step 1**. Adding a **Secret** is optional, but recommended.
+2. [Click here to create the Task Scheduler event source](https://pipedream.com/sources?action=create&key=aws-new-scheduled-tasks), linking your AWS access and secret key from **Step 1**. Adding a **Secret** is optional, but recommended.
 3. [Copy this workflow](https://pipedream.com/@dylan/example-schedule-a-task-with-the-aws-task-scheduler-source-p_zAC2aK/edit) and enter the **Endpoint** of your source (in the source's **Events** tab) as the value of the **Task Scheduler URL** parameter in the `schedule_task` step:
 
 <img src="./images/source-endpoint-url.png" width="700px">
