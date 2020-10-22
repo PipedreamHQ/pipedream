@@ -42,13 +42,19 @@ After changing a step name, you'll need to update any references to the old step
 
 ## Passing data to steps (step parameters)
 
-[Steps are just functions](/workflows/steps/code/#async-function-declaration). As functions, they can accept parameters and return data. We'll review how to pass params to steps here, and show you how to return data [below](#step-exports).
+[Steps are just functions](/workflows/steps/code/#async-function-declaration). As functions, they can accept parameters.
 
-Instead of hardcoding values directly in the code, these values can be parameterized, and passed to the step as a variable.
+To define a parameter, simply reference it in your code. For example, try adding this code to your step:
 
-Parameters promote reusability. They make it easier for others to use the workflow, since it's clear what values they need to pass to the step to get it working.
+```javascript
+console.log(params.name);
+```
 
-Learn more about [using and defining params](params/).
+then save or deploy your workflow. You'll see a form appear above your code step, prompting you to pass data to the `name` param. You can edit its name, description, type, and more from this UI.
+
+Parameters promote reusability. They make it easier for others to use your workflow, since it's clear what values they need to pass to the step to get it working.
+
+[Read more about params here](params/).
 
 ## Step Exports
 
