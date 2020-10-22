@@ -26,6 +26,7 @@ module.exports = {
       "/",
       "/support/",
       "/sign-up/",
+      "/pricing/",
       {
         title: "Getting Started",
         collapsable: false,
@@ -132,7 +133,6 @@ module.exports = {
           "/apps/zoom/",
         ],
       },
-      "/pricing/",
       "/limits/",
       "/new-feature-or-bug/",
       {
@@ -150,6 +150,8 @@ module.exports = {
     INSPECTOR_EVENT_LIMIT: "100",
     FUNCTION_PAYLOAD_LIMIT: "8MB",
     INSPECTOR_EVENT_EXPIRY_DAYS: "30",
+    DAILY_INVOCATIONS_LIMIT: "3,333",
+    PRICE_PER_INVOCATION: "0.0001",
     NODE_VERSION: "10",
   },
 };

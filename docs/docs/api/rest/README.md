@@ -171,12 +171,15 @@ curl 'https://api.pipedream.com/v1/users/me' \
 ```json
 {
   "data": {
-    "id": "...",
-    "email": "...",
-    "username": "...",
-    "lambda_time_quota": 1800000,
-    "api_key": "...",
-    "lambda_time_used": 500000
+    "id": "u_aPmhl8",
+    "username": "dylburger",
+    "email": "dylan@pipedream.com",
+    "admin": true,
+    "api_key": "XXX",
+    "daily_compute_time_quota": 95400000,
+    "daily_compute_time_used": 8420300,
+    "daily_invocations_quota": 27344,
+    "daily_invocations_used": 24903
   }
 }
 ```

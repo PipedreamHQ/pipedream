@@ -6,7 +6,7 @@ For example, HTTP triggers expose a URL where you can send any HTTP requests. We
 
 Today, we support the following triggers:
 
-- [Triggers for Twitter, Google Calendar, and services](#app-based-triggers)
+- [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
 - [HTTP](#http)
 - [Cron Scheduler](#cron-scheduler)
 - [Email](#email)
@@ -317,7 +317,7 @@ A **Webhook** trigger is an alias for the [HTTP](#http) trigger. They are equiva
 
 ## Cron Scheduler
 
-Pipedream allows you to run hosted cron jobs — any code run on a schedule — for free.
+Pipedream allows you to run hosted cron jobs — any code run on a schedule — [for free](/pricing).
 
 We call these cron jobs "[workflows](/workflows)". Workflows are just scripts that run on a schedule.
 
@@ -383,9 +383,7 @@ Code steps show [Logs](/workflows/steps/code/#logs) below the step itself. Any t
 
 Cron jobs can be run at most once a minute. Any cron expression that specifies a higher frequency will be rejected.
 
-Cron jobs can run for at most 30 seconds. If your workflow takes longer than 30 seconds to execute, you'll see a `TIMEOUT` error for that run, and will be able to review all logs up until the timeout occurred.
-
-There are other limits that apply to all workflows on Pipedream — see our [Limits docs](/limits/#workflows) for more information.
+Cron jobs can run for at most 30 seconds, by default. You can raise this up to 300 seconds by [setting your workflow's execution timeout](/workflows/settings/#execution-timeout-limit). If your workflow runs longer than the configured timeout, you'll see a `TIMEOUT` error for that run, and will be able to review all logs up until the timeout occurred.
 
 ## Email
 

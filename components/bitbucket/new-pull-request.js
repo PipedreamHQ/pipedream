@@ -1,14 +1,13 @@
-const common = require("../../common");
+const common = require("./common");
 const { bitbucket } = common.props;
 
-const EVENT_SOURCE_NAME = "New Issue (Instant)";
+const EVENT_SOURCE_NAME = "New Pull Request (Instant)";
 
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  key: "bitbucket-new-issue",
-  description: "Emits an event when a new issue is created",
-  version: "0.0.2",
+  description: "Emits an event when a new pull request is created",
+  version: "0.0.1",
   props: {
     ...common.props,
     repositoryId: {
@@ -26,7 +25,7 @@ module.exports = {
     },
     getHookEvents() {
       return [
-        "issue:created",
+        "pullrequest:created",
       ];
     },
     getHookPathProps() {
@@ -37,8 +36,8 @@ module.exports = {
     },
     generateMeta(data) {
       const { headers, body } = data;
-      const { id, title } = body.issue;
-      const summary = `New Issue: #${id} ${title}`;
+      const { id, title } = body.pullrequest;
+      const summary = `New Pull Request: ${title}`;
       const ts = +new Date(headers["x-event-time"]);
       return {
         id,

@@ -1,14 +1,13 @@
-const common = require("../../common");
+const common = require("./common");
 const { bitbucket } = common.props;
 
-const EVENT_SOURCE_NAME = "New Branch (Instant)";
+const EVENT_SOURCE_NAME = "New Tag (Instant)";
 
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  key: "bitbucket-new-branch",
-  description: "Emits an event when a new branch is created",
-  version: "0.0.2",
+  description: "Emits an event when a commit is tagged",
+  version: "0.0.1",
   props: {
     ...common.props,
     repositoryId: {
@@ -35,10 +34,9 @@ module.exports = {
         repositoryId: this.repositoryId,
       };
     },
-    isNewBranch(change) {
+    isNewTag(change) {
       const expectedChangeTypes = new Set([
-        "branch",
-        "named_branch",
+        "tag",
       ]);
       return (
         change.created &&
@@ -47,10 +45,10 @@ module.exports = {
     },
     generateMeta(data) {
       const { headers, change } = data;
-      const newBranchName = change.new.name;
-      const summary = `New Branch: ${newBranchName}`;
+      const { name: newTagName } = change.new;
+      const summary = `New Tag: ${newTagName}`;
       const ts = +new Date(headers["x-event-time"]);
-      const compositeId = `${newBranchName}-${ts}`;
+      const compositeId = `${newTagName}-${ts}`;
       return {
         id: compositeId,
         summary,
@@ -61,7 +59,7 @@ module.exports = {
       const { headers, body } = event;
       const { changes = [] } = body.push;
       changes
-        .filter(this.isNewBranch)
+        .filter(this.isNewTag)
         .forEach(change => {
           const data = {
             ...body,

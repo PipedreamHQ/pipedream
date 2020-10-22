@@ -1,19 +1,16 @@
-const bitbucket = require("../../bitbucket.app.js");
+const common = require("../../common");
+const { bitbucket } = common.props;
+
+const EVENT_SOURCE_NAME = "New Commit Comment (Instant)";
 
 module.exports = {
-  name: "New Commit Comment (Instant)",
+  ...common,
+  name: EVENT_SOURCE_NAME,
   key: "bitbucket-new-commit-comment",
   description: "Emits an event when a commit receives a comment",
-  version: "0.0.1",
-  dedupe: "unique",
+  version: "0.0.2",
   props: {
-    bitbucket,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    workspaceId: { propDefinition: [bitbucket, "workspaceId"] },
+    ...common.props,
     repositoryId: {
       propDefinition: [
         bitbucket,
@@ -22,43 +19,22 @@ module.exports = {
       ],
     },
   },
-  hooks: {
-    async activate() {
-      const hookParams = {
-        description: "Pipedream - New Commit Comment",
-        url: this.http.endpoint,
-        active: true,
-        events: [
-          "repo:commit_comment_created"
-        ],
-      };
-      const opts = {
-        workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
-        hookParams,
-      };
-      const { hookId } = await this.bitbucket.createRepositoryHook(opts);
-      console.log(
-        `Created "repository commit comment created" webhook for repository "${this.workspaceId}/${this.repositoryId}".
-        (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
-      );
-      this.db.set("hookId", hookId);
-    },
-    async deactivate() {
-      const hookId = this.db.get("hookId");
-      const opts = {
-        workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
-        hookId,
-      };
-      await this.bitbucket.deleteRepositoryHook(opts);
-      console.log(
-        `Deleted webhook for repository "${this.workspaceId}/${this.repositoryId}".
-        (Hook ID: ${hookId})`
-      );
-    },
-  },
   methods: {
+    ...common.methods,
+    getEventSourceName() {
+      return EVENT_SOURCE_NAME;
+    },
+    getHookEvents() {
+      return [
+        "repo:commit_comment_created",
+      ];
+    },
+    getHookPathProps() {
+      return {
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+      };
+    },
     generateMeta(data) {
       const { headers, body } = data;
       const { comment, commit } = body;
@@ -70,24 +46,5 @@ module.exports = {
         ts,
       };
     },
-  },
-  async run(event) {
-    const { headers, body } = event;
-
-    // Reject any calls not made by the proper BitBucket webhook.
-    if (!this.bitbucket.isValidSource(headers, this.db)) {
-      this.http.respond({
-        status: 404,
-      });
-      return;
-    }
-
-    // Acknowledge the event back to BitBucket.
-    this.http.respond({
-      status: 200,
-    });
-
-    const meta = this.generateMeta(event);
-    this.$emit(body, meta);
   },
 };

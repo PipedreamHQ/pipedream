@@ -155,7 +155,7 @@ Pipedream supports the following destinations today:
 
 ## Pricing
 
-Pipedream is currently free, subject to the [limits noted below](#limits). Paid tiers for higher volumes are coming soon.
+Pipedream has a [generous free tier](https://docs.pipedream.com/pricing/#developer-tier). You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](https://docs.pipedream.com/pricing/#professional-tier).
 
 If you exceed any of these limits, please [reach out](https://docs.pipedream.com/support/).
 
