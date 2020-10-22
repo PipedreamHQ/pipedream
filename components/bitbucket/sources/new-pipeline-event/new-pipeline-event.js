@@ -1,5 +1,5 @@
 const isEmpty = require("lodash/isEmpty");
-const common = require("./common");
+const common = require("../../common");
 const { bitbucket } = common.props;
 
 const EVENT_SOURCE_NAME = "New Pipeline Event (Instant)";
@@ -7,7 +7,8 @@ const EVENT_SOURCE_NAME = "New Pipeline Event (Instant)";
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  description: "Emits an event when a pipeline event occurs",
+  key: "bitbucket-new-pipeline-event",
+  description: "Emits an event when a pipeline event occurs.",
   version: "0.0.1",
   props: {
     ...common.props,

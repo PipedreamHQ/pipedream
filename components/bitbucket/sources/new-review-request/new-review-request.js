@@ -1,4 +1,4 @@
-const common = require("./common");
+const common = require("../../common");
 const { bitbucket } = common.props;
 
 const EVENT_SOURCE_NAME = "New Review Request (Instant)";
@@ -6,7 +6,8 @@ const EVENT_SOURCE_NAME = "New Review Request (Instant)";
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  description: "Emits an event when a reviewer is added to a pull request",
+  key: "bitbucket-new-review-request",
+  description: "Emits an event when a reviewer is added to a pull request.",
   version: "0.0.1",
   props: {
     ...common.props,

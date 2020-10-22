@@ -1,4 +1,4 @@
-const common = require("./common");
+const common = require("../../common");
 const { bitbucket } = common.props;
 
 const EVENT_SOURCE_NAME = "New Tag (Instant)";
@@ -6,7 +6,8 @@ const EVENT_SOURCE_NAME = "New Tag (Instant)";
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  description: "Emits an event when a commit is tagged",
+  key: "bitbucket-new-tag",
+  description: "Emits an event when a commit is tagged.",
   version: "0.0.1",
   props: {
     ...common.props,

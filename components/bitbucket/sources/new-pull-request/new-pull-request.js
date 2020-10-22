@@ -1,19 +1,16 @@
-const bitbucket = require("../../bitbucket.app");
+const common = require("../../common");
+const { bitbucket } = common.props;
+
+const EVENT_SOURCE_NAME = "New Pull Request (Instant)";
 
 module.exports = {
+  ...common,
+  name: EVENT_SOURCE_NAME,
   key: "bitbucket-new-pull-request",
-  name: "New Pull Request (Instant)",
-  description: "Emits an event when a new pull request is created",
-  version: "0.0.1",
-  dedupe: "unique",
+  description: "Emits an event when a new pull request is created.",
+  version: "0.0.2",
   props: {
-    bitbucket,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    workspaceId: { propDefinition: [bitbucket, "workspaceId"] },
+    ...common.props,
     repositoryId: {
       propDefinition: [
         bitbucket,
@@ -22,43 +19,22 @@ module.exports = {
       ],
     },
   },
-  hooks: {
-    async activate() {
-      const hookParams = {
-        description: "Pipedream - New Pull Request",
-        url: this.http.endpoint,
-        active: true,
-        events: [
-          "pullrequest:created"
-        ],
-      };
-      const opts = {
-        workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
-        hookParams,
-      };
-      const { hookId } = await this.bitbucket.createRepositoryHook(opts);
-      console.log(
-        `Created "pull request create" webhook for repository "${this.workspaceId}/${this.repositoryId}".
-        (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
-      );
-      this.db.set("hookId", hookId);
-    },
-    async deactivate() {
-      const hookId = this.db.get("hookId");
-      const opts = {
-        workspaceId: this.workspaceId,
-        repositoryId: this.repositoryId,
-        hookId,
-      };
-      await this.bitbucket.deleteRepositoryHook(opts);
-      console.log(
-        `Deleted webhook for repository "${this.workspaceId}/${this.repositoryId}".
-        (Hook ID: ${hookId})`
-      );
-    },
-  },
   methods: {
+    ...common.methods,
+    getEventSourceName() {
+      return EVENT_SOURCE_NAME;
+    },
+    getHookEvents() {
+      return [
+        "pullrequest:created",
+      ];
+    },
+    getHookPathProps() {
+      return {
+        workspaceId: this.workspaceId,
+        repositoryId: this.repositoryId,
+      };
+    },
     generateMeta(data) {
       const { headers, body } = data;
       const { id, title } = body.pullrequest;
@@ -70,24 +46,5 @@ module.exports = {
         ts,
       };
     },
-  },
-  async run(event) {
-    const { headers, body } = event;
-
-    // Reject any calls not made by the proper BitBucket webhook.
-    if (!this.bitbucket.isValidSource(headers, this.db)) {
-      this.http.respond({
-        status: 404,
-      });
-      return;
-    }
-
-    // Acknowledge the event back to BitBucket.
-    this.http.respond({
-      status: 200,
-    });
-
-    const meta = this.generateMeta(event);
-    this.$emit(body, meta);
   },
 };
