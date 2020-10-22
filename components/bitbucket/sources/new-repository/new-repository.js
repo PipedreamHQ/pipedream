@@ -1,12 +1,13 @@
-const common = require("./common");
-const watchWorkspace = require("./watch-workspace");
+const common = require("../../common");
+const watchWorkspace = require("../new-workspace-event/new-workspace-event");
 
 const EVENT_SOURCE_NAME = "New Repository (Instant)";
 
 module.exports = {
   ...watchWorkspace,
   name: EVENT_SOURCE_NAME,
-  description: "Emits an event when a repository is created",
+  key: "bitbucket-new-repository",
+  description: "Emits an event when a repository is created.",
   version: "0.0.1",
   props: {
     ...common.props,
