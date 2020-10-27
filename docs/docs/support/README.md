@@ -17,11 +17,11 @@ We also run a [Slack community](https://join.slack.com/t/pipedream-users/shared_
 
 ### `#announcements`
 
-The Pipedream team announces new features, app integrations, system maintenence, and other news here.
+New features, app integrations, system maintenance, and other announcements from Pipedream.
 
 ### `#bugs`
 
-Found a bug? Chat about it with the Pipedream team here.
+Found a bug? Let us know!
 
 ### `#contribute`
 
@@ -29,27 +29,27 @@ Interested in contributing an [event source](/event-sources), [action](/workflow
 
 ### `#feature-requests`
 
-Have feedback on a feature you'd like to see? Chat about it with the Pipedream team here.
+We love feedback. Let us know if you have a suggestion for a new feature here.
 
 ### `#general`
 
-Ask any question, introduce yourself, or provide any feedback here.
+Can't find the right channel for your question? Just want to introduce yourself, or chat about the product? This is the place!
 
 ### `#help`
 
-Have a question or problem with a workflow, an event source, or anything else? Ask here! The Pipedream team is available for support 9am - 5pm UTC-8, Monday - Friday.
+Having trouble with an event source, workflow, or anything else? Ask here.
 
 ### `#incidents`
 
-Pipedream operates a [status page](/status/), and any incident updates will be posted to this channel.
+Pipedream operates a [status page](/status/), which routes all incident updates here.
 
 ### `#random`
 
-Chat about anything here!
+Anything not related to Pipedream.
 
 ### `#share-your-work`
 
-Share workflows, actions, or anything here.
+Created a workflow, action, or event source others might find useful? Share it here!
 
 ## Email Support (Professional Tier)
 
