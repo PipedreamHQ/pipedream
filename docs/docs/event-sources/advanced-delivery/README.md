@@ -65,39 +65,3 @@ The interval defines the time period over which the limit will be enforced. You 
 
 To stop the queue from invoking your worklow, throttle workflow execution and set the limit to `0`.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-The following diagram illustrates challenges that can arise from the concurrent execution of events:
-
-![image-20201027124959905](images/image-20201027124959905.png)
-
-1. `Event 1` starts executing and reads `State0`
-2. `Event 2` starts executing before `Event 1` is finished. Since `Event 1` is not finished executing, `Event 2` also reads `State 0`
-3. `Event 2` completes executing before `Event 1` is complete and saves `State2`
-4. `Event 1` completes executing and saves `State1`, overwriting the value saved by `Event2`
-5. `Event 3` starts executing and reads `State1`
-
-In this example, there are race conditions that could affect the results of `Event 2` and `Event 3`. The following diagram illustrates how these same events would execute if the order of execution was guaranteed. 
-
-![image-20201027125010252](images/image-20201027125010252.png)
-
-1. `Event 1` starts executing and reads `State0`. When it is complete, it saves `State1`
-2. `Event 2` only starts executing after `Event 1` is complete. As a result, it reads `State1` and outputs `State2` when it is complete.
-3. As in the previous example, `Event 3` executes after `Event 2` . However, it reads `State2` instead of `State1`.
-
-If you are trying to maintain state between executions (e.g., using $checkpoint) you can have race conditions. For example, a value from an earlier event can overwrite the state saved from a later event if the earlier event finishes executing after the first.
-
-- When integrating 3rd party APIs, rate limits or race conditions may cause data loss. 
-
