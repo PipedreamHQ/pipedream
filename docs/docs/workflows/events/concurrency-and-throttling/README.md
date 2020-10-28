@@ -12,7 +12,7 @@ Workflows listen for events and execute as soon as they are triggered. While thi
 
 Without restricting concurrency, events can be processed in parallel and there is no guarantee that they will execute in the order in which they were received. This can cause race conditions. 
 
-For example, if two workflow events try to add data to Google Sheets simultaneously, they may both attempt to write data to the same row. As a result, one event can overwrite data from another event. The diagram below illustrates this example — both `Event 1` and `Event 2` attempt to write data to Google Sheets concurrently — as a result, they will both write to the same row and the data for one event will be overwritten and lost (and no error will be thrown). We observed this scenario resulted in data loss approximately 20% of the time with high volume workflows.
+For example, if two workflow events try to add data to Google Sheets simultaneously, they may both attempt to write data to the same row. As a result, one event can overwrite data from another event. The diagram below illustrates this example — both `Event 1` and `Event 2` attempt to write data to Google Sheets concurrently — as a result, they will both write to the same row and the data for one event will be overwritten and lost (and no error will be thrown). 
 
 ![image-20201027132901691](./images/image-20201027132901691.png)
 
@@ -38,8 +38,6 @@ The maximum number of events Pipedream will queue per workflow depends on your a
 - Team/Enterprise accounts may have custom limits. If you need a larger queue size, please contact Pipedream
 
 **IMPORTANT:** If the number of events emitted to a workflow exceeds the queue size, events will be lost. If that happens, an error message will be displayed in the event list of your workflow and your [global error workflow](/workflows/error-handling/global-error-workflow/) will be triggered.
-
-For more context on this feature and technical details, check out our **engineering blog post**.
 
 ### Where Do I Manage Concurrency and Throttling?
 
