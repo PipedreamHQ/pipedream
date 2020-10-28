@@ -1,6 +1,7 @@
 const stack_exchange = require('./stack-exchange.app');
 
 module.exports = {
+  key: "stack_exchange-new-question-for-specific-keywords",
   name: "New Answers for Specific Questions",
   description: "Emits an event when a new answer is posted in one of the specified questions",
   version: "0.0.1",
