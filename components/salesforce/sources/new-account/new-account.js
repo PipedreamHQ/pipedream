@@ -1,10 +1,11 @@
-const common = require("./common");
+const common = require("../../common");
 
 const EVENT_SOURCE_NAME = "New Account (Instant)";
 
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
+  key: "salesforce-new-account",
   description: "Triggers when a new account is created",
   version: "0.0.1",
   methods: {
