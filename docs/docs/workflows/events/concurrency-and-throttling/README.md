@@ -2,15 +2,17 @@
 
 Pipedream makes it easy to manage the concurrency and rate at which events from a source trigger your workflow code using execution controls.
 
+[[toc]]
+
 ## Why Is It Important?
 
 Workflows listen for events and execute as soon as they are triggered. While this behavior is expected for many use cases, there can be unintended consequences. 
 
-**Concurrency**
+### Concurrency
 
 Without restricting concurrency, events can be processed in parallel and there is no guarantee that they will execute in the order in which they were received. This can cause race conditions. 
 
-For example, if two workflow events try to add data to Google Sheets simultaneously, they may both attempt to write data to the same row. As a result, one event can overwrite data from another event. The diagram below illustrates this example -- both `Event 1` and `Event 2` attempt to write data to Google Sheets concurrently -- as a result, they will both write to the same row and the data for one event will be overwritten and lost (and no error will be thrown). We observed this scenario resulted in data loss approximately 20% of the time with high volume workflows.
+For example, if two workflow events try to add data to Google Sheets simultaneously, they may both attempt to write data to the same row. As a result, one event can overwrite data from another event. The diagram below illustrates this example — both `Event 1` and `Event 2` attempt to write data to Google Sheets concurrently — as a result, they will both write to the same row and the data for one event will be overwritten and lost (and no error will be thrown). We observed this scenario resulted in data loss approximately 20% of the time with high volume workflows.
 
 ![image-20201027132901691](./images/image-20201027132901691.png)
 
@@ -20,7 +22,7 @@ You can avoid race conditions like this by limiting workflow concurrency to a si
 
 While the first example resulted in only two rows of data in Google Sheets, this time data for all three events are recorded to three separate rows.
 
-**Throttling**
+### Throttling
 
 If your workflow integrates with any APIs, then you may need to limit the rate at which your workflow executes to avoid hitting rate limits from your API provider. Since event-driven workflows are stateless, you can't manage the rate of execution from within your workflow code. Pipedream's execution controls solve this problem by allowing you to control the maximum number of times a workflow may be invoked over a specific period of time (e.g., up to 1 event every second).
 
@@ -41,7 +43,7 @@ For more context on this feature and technical details, check out our **engineer
 
 ## Where Do I Manage Concurrency and Throttling?
 
-Concurency and throttling can be managed in the **Execution Controls** section of your **Workflow Settings**. Event queues are currently supported for any workflow that is triggered by an event source. Event queues are not currently supported for native workflow triggers (native HTTP, cron, SDK and email).
+Concurrency and throttling can be managed in the **Execution Controls** section of your **Workflow Settings**. Event queues are currently supported for any workflow that is triggered by an event source. Event queues are not currently supported for native workflow triggers (native HTTP, cron, SDK and email).
 
 
 
