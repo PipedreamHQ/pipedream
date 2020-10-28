@@ -184,13 +184,13 @@ pd deploy my-component.js
 You can explore the components available to deploy in [Pipedream's Github repo](components).
 
 ```bash
-pd deploy <github-url>
+pd deploy <source-key>
 ```
 
 E.g.,
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy http-new-requests
 ```
 
 ##### From Any URL
@@ -222,13 +222,13 @@ You can find and deploy curated components at https://pipedream.com/sources/new,
 ##### From Pipedream Github Repo
 
 ```bash
-https://pipedream.com/sources?action=create&url=<url-encoded-github-url>
+https://pipedream.com/sources?action=create&key=<source-key>
 ```
 
 E.g.,
 
 ```bash
-https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fhttp%2Fhttp.js
+https://pipedream.com/sources?action=create&key=http-new-requests
 ```
 
 ##### From Any URL
@@ -377,7 +377,7 @@ props: {
 | `type`           | `string`                             | required  | Value must be set to a valid prop type: `string` `string[]` `number` `boolean` `secret`                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `label`          | `string`                             | optional  | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed to the user.                                                                                                                                                                                                                                                                                                                                                                                             |
 | `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                                                    |
-| `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu. Users may select a single option.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
+| `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
 | `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                                                         |
 | `default`        | `string`                             | optional  | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input).                                                                                                                                                                                                                                                                                                                                                                     |

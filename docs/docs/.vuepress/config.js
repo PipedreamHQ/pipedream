@@ -24,7 +24,7 @@ module.exports = {
     editLinkText: "Help us improve this page! Submit an edit on Github",
     sidebar: [
       "/",
-      "/support/",
+      ["/support/", "Support and Community"],
       "/sign-up/",
       "/pricing/",
       {

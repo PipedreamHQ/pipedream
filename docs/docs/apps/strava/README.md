@@ -20,11 +20,11 @@ Pipedream exposes event sources for each of the following events:
 
 |                                                                            Event (click to create source)                                                                            |         Description          |
 | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------: |
-| [`activity.created`](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fstrava%2Factivity-created.js) |      New activity added      |
-| [`activity.updated`](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fstrava%2Factivity-updated.js) | Activity title, type changed |
-| [`activity.deleted`](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fstrava%2Factivity-deleted.js) |       Activity deleted       |
+| [`activity.created`](https://pipedream.com/sources?action=create&key=strava-activity-created) |      New activity added      |
+| [`activity.updated`](https://pipedream.com/sources?action=create&key=strava-activity-updated) | Activity title, type changed |
+| [`activity.deleted`](https://pipedream.com/sources?action=create&key=strava-activity-deleted) |       Activity deleted       |
 
-You can also create a [Custom Strava Events](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fstrava%2Fcustom-event.js) source that will allow you to listen for any combination of the events above. For example, if you wanted to run a Pipedream workflow every time an event was added _or_ updated, you can create a Custom Events source that will emit both events.
+You can also create a [Custom Strava Events](https://pipedream.com/sources?action=create&key=strava-custom-events) source that will allow you to listen for any combination of the events above. For example, if you wanted to run a Pipedream workflow every time an event was added _or_ updated, you can create a Custom Events source that will emit both events.
 
 You can review the code for any of these event sources [on the `PipedreamHQ/pipedream` Github repo](https://github.com/PipedreamHQ/pipedream/tree/master/components/strava). The Pipedream team welcomes PRs and suggested improvements.
 

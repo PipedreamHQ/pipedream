@@ -57,10 +57,10 @@ Running `pd deploy`, without any arguments, brings up an interactive menu asking
 
 When you select a source, we'll deploy it and start listening for new events.
 
-You can also deploy a specific source via Github URL:
+You can also deploy a specific source via the source key:
 
 ```
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy http-new-requests
 ```
 
 or author a component locally and deploy that local file:

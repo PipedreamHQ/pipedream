@@ -2,7 +2,7 @@
 
 ## New Messages in Channel
 
-[**Create this source here**](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Fdiscord%2Fnew-messages-in-channel.js&app=discord_bot).
+[**Create this source here**](https://pipedream.com/sources?action=create&key=&app=discord_bot).
 
 This event source emits events each time a new message is delivered to a Discord channel. By default, it emits an event for every message.
 
