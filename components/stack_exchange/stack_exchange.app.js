@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const axios = require("axios");
+const he = require("he");
 
 module.exports = {
   type: "app",
@@ -35,6 +36,48 @@ module.exports = {
       label: "Keywords",
       description: "Keywords to search for in questions",
     },
+    questionIds: {
+      type: "string[]",
+      label: "Questions",
+      description: "Questions to monitor for new answers (max: 100)",
+      useQuery: true,
+      async options(context) {
+        const {
+          hasMore = true,
+          page,
+          query,
+          siteId,
+        } = context;
+        if (!hasMore) {
+          return {
+            options: []
+          };
+        }
+
+        const q = query !== null ? query : '';
+        const searchParams = {
+          sort: 'relevance',
+          order: 'desc',
+          closed: false,
+          site: siteId,
+          q,
+        };
+        const url = this._advancedSearchUrl();
+        const searchPage = page + 1;  // The StackExchange API pages are 1-indexed
+        const { items, has_more } = await this.getItemsForPage(url, searchParams, searchPage);
+
+        const options = items.map((question) => ({
+          label: he.decode(question.title),
+          value: question.question_id,
+        }));
+        return {
+          options,
+          context: {
+            hasMore: has_more,
+          },
+        };
+      },
+    },
   },
   methods: {
     _apiUrl() {
@@ -47,6 +90,11 @@ module.exports = {
     _advancedSearchUrl() {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/search/advanced`;
+    },
+    _answersForQuestionsUrl(questionIds) {
+      const baseUrl = this._apiUrl();
+      const ids = questionIds.join(';');
+      return `${baseUrl}/questions/${ids}/answers`;
     },
     _authToken() {
       return this.$auth.oauth_access_token
@@ -61,35 +109,47 @@ module.exports = {
         headers,
       };
     },
-    async *advancedSearch(baseParams) {
+    advancedSearch(searchParams) {
       const url = this._advancedSearchUrl();
-      const baseRequestConfig = this._makeRequestConfig();
+      return this.getItems(url, searchParams);
+    },
+    answersForQuestions(questionIds, searchParams) {
+      const url = this._answersForQuestionsUrl(questionIds);
+      return this.getItems(url, searchParams);
+    },
+    async *getItems(url, baseParams) {
       let page = 1;
       let hasMore = false;
       do {
-        const params = {
-          ...baseParams,
-          page,
-        };
-        const requestConfig = {
-          ...baseRequestConfig,
-          params,
-        };
-        const { data } = await axios.get(url, requestConfig);
+        const data = await this.getItemsForPage(url, baseParams, page);
         if (data.items.length === 0) {
           console.log(`
-            No new questions found for the following parameters:
+            No new items found in ${url} for the following parameters:
             ${JSON.stringify(baseParams, null, 2)}
           `);
-        } else {
-          console.log(`Found ${data.items.length} new question(s)`);
+          return;
         }
+
+        console.log(`Found ${data.items.length} new item(s) in ${url}`);
         for (const item of data.items) {
           yield item;
         }
         hasMore = data.has_more;
         ++page;
       } while (hasMore);
+    },
+    async getItemsForPage(url, baseParams, page) {
+      const baseRequestConfig = this._makeRequestConfig();
+      const params = {
+        ...baseParams,
+        page,
+      };
+      const requestConfig = {
+        ...baseRequestConfig,
+        params,
+      };
+      const { data } = await axios.get(url, requestConfig);
+      return data;
     },
   },
 };
