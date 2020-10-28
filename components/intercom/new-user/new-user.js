@@ -1,8 +1,9 @@
-const intercom = require("https://github.com/PipedreamHQ/pipedream/components/intercom/intercom.app.js");
+const intercom = require("../../intercom.app.js")
 
 module.exports = {
-  name: "Lead Converted To User",
-  description: "Emits an event each time a lead is converted to a user.",
+  key: "intercom-new-user",
+  name: "New Users",
+  description: "Emits an event each time a new user is added.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -15,7 +16,6 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     const monthAgo = this.intercom.monthAgo();
     let lastUserCreatedAt =
@@ -41,11 +41,7 @@ module.exports = {
     let results = null;
     let starting_after = null;
 
-    while (
-      !results ||
-      (results.data.pages.next !== null &&
-        results.data.pages.next !== undefined)
-    ) {
+    while (!results || results.data.pages.next) {
       if (results) starting_after = results.data.pages.next.starting_after;
       results = await this.intercom.searchContacts(data, starting_after);
       for (const user of results.data.data) {

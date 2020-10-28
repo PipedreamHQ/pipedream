@@ -1,6 +1,7 @@
-const intercom = require("https://github.com/PipedreamHQ/pipedream/components/intercom/intercom.app.js");
+const intercom = require("../../intercom.app.js")
 
 module.exports = {
+  key: "intercom-tag-added-to-conversation",
   name: "Tag Added To Conversation",
   description: "Emits an event each time a new tag is added to a conversation.",
   version: "0.0.1",
@@ -15,7 +16,6 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     const data = {
       query: {
@@ -28,11 +28,7 @@ module.exports = {
     let results = null;
     let starting_after = null;
 
-    while (
-      !results ||
-      (results.data.pages.next !== null &&
-        results.data.pages.next !== undefined)
-    ) {
+    while (!results || results.data.pages.next) {
       if (resulst) starting_after = results.data.pages.next.starting_after;
       results = await this.intercom.searchConversations(data, starting_after);
       for (const conversation of results.data.conversations) {

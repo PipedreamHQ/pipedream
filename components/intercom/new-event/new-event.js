@@ -1,6 +1,7 @@
-const intercom = require("https://github.com/PipedreamHQ/pipedream/components/intercom/intercom.app.js");
+const intercom = require("../../intercom.app.js")
 
 module.exports = {
+  key: "intercom-new-event",
   name: "New Event",
   description: "Emits an event for each new Intercom event for a user.",
   version: "0.0.1",
@@ -44,14 +45,13 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     for (const userId of this.userIds) {
       let since = this.db.get(userId) || null;
       let results = null;
       let next = null;
 
-      while (!results || results.data.pages.next !== undefined) {
+      while (!results || results.data.pages.next) {
         if (results) next = results.data.pages.next;
         else next = since;
         results = await this.intercom.getEvents(userId, next);

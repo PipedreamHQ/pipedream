@@ -1,6 +1,7 @@
-const intercom = require("https://github.com/PipedreamHQ/pipedream/components/intercom/intercom.app.js");
+const intercom = require("../../intercom.app.js")
 
 module.exports = {
+  key: "intercom-new-company",
   name: "New Companies",
   description: "Emits an event each time a new company is added.",
   version: "0.0.1",
@@ -15,7 +16,6 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     const monthAgo = this.intercom.monthAgo();
     let lastCompanyCreatedAt =
@@ -25,12 +25,7 @@ module.exports = {
     let results = null;
     let starting_after = null;
 
-    while (
-      !results ||
-      (results.data.pages.next !== null &&
-        results.data.pages.next !== undefined &&
-        !done)
-    ) {
+    while (!results || results.data.pages.next) {
       if (results) starting_after = results.data.pages.next.starting_after;
       results = await this.intercom.getCompanies(starting_after);
       for (const company of results.data.data) {

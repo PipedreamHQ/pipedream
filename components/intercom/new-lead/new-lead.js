@@ -1,8 +1,9 @@
-const intercom = require("https://github.com/PipedreamHQ/pipedream/components/intercom/intercom.app.js");
+const intercom = require("../../intercom.app.js")
 
 module.exports = {
-  name: "Lead Added Email",
-  description: "Emits an event each time a lead adds their email address.",
+  key: "intercom-new-lead",
+  name: "New Leads",
+  description: "Emits an event each time a new lead is added.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -15,29 +16,23 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     const monthAgo = this.intercom.monthAgo();
-    let lastLeadUpdatedAt =
-      this.db.get("lastLeadUpdatedAt") || Math.floor(monthAgo / 1000);
+    let lastLeadCreatedAt =
+      this.db.get("lastLeadCreatedAt") || Math.floor(monthAgo / 1000);
     const data = {
       query: {
         operator: "AND",
         value: [
           {
-            field: "updated_at",
+            field: "created_at",
             operator: ">",
-            value: lastLeadUpdatedAt,
+            value: lastLeadCreatedAt,
           },
           {
             field: "role",
             operator: "=",
             value: "lead",
-          },
-          {
-            field: "email",
-            operator: "!=",
-            value: null,
           },
         ],
       },
@@ -46,24 +41,20 @@ module.exports = {
     let results = null;
     let starting_after = null;
 
-    while (
-      !results ||
-      (results.data.pages.next !== null &&
-        results.data.pages.next !== undefined)
-    ) {
+    while (!results || results.data.pages.next) {
       if (results) starting_after = results.data.pages.next.starting_after;
       results = await this.intercom.searchContacts(data, starting_after);
       for (const lead of results.data.data) {
-        if (lead.updated_at > lastLeadUpdatedAt)
-          lastLeadUpdatedAt = lead.updated_at;
+        if (lead.created_at > lastLeadCreatedAt)
+          lastLeadCreatedAt = lead.created_at;
         this.$emit(lead, {
           id: lead.id,
-          summary: lead.email,
-          ts: lead.updated_at,
+          summary: lead.name || lead.id,
+          ts: lead.created_at,
         });
       }
     }
 
-    this.db.set("lastLeadUpdatedAt", lastLeadUpdatedAt);
+    this.db.set("lastLeadCreatedAt", lastLeadCreatedAt);
   },
 };
