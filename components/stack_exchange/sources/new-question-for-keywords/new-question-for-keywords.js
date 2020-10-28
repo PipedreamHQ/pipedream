@@ -27,8 +27,7 @@ module.exports = {
   methods: {
     _getCurrentEpoch() {
       // The StackExchange API works with Unix epochs in seconds.
-      const epochInMs = +new Date();
-      return Math.floor(epochInMs / 1000);
+      return Math.floor(Date.now() / 1000);
     },
     generateMeta(data) {
       const {

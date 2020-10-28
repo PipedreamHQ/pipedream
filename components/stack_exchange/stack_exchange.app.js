@@ -173,7 +173,18 @@ module.exports = {
       let hasMore = false;
       do {
         const data = await this.getItemsForPage(url, baseParams, page);
-        if (data.items.length === 0) {
+        const { items } = data;
+
+        if (items === undefined) {
+          console.warn(`
+            Unexpected response from ${url} (page ${page}):
+            "items" is undefined.
+            Query parameters: ${JSON.stringify(baseParams, null, 2)}.
+          `);
+          return;
+        }
+
+        if (items.length === 0) {
           console.log(`
             No new items found in ${url} for the following parameters:
             ${JSON.stringify(baseParams, null, 2)}
@@ -181,8 +192,8 @@ module.exports = {
           return;
         }
 
-        console.log(`Found ${data.items.length} new item(s) in ${url}`);
-        for (const item of data.items) {
+        console.log(`Found ${items.length} new item(s) in ${url}`);
+        for (const item of items) {
           yield item;
         }
         hasMore = data.has_more;
