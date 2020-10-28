@@ -34,10 +34,10 @@ Events emitted from a source to a workflow are placed in a queue, and Pipedream 
 
 The maximum number of events Pipedream will queue per workflow depends on your account type.
 
-- Up to 100 events will be queued per workflow for free and pro accounts
+- Up to 100 events will be queued per workflow for [free and pro accounts](https://pipedream.com/pricing)
 - Team/Enterprise accounts may have custom limits. If you need a larger queue size, please contact Pipedream
 
-**IMPORTANT:** If the number of events emitted to a workflow exceeds the queue size, events will be lost. If that happens, an error message will be displayed in the event list of your workflow and your global error workflow will be triggered.
+**IMPORTANT:** If the number of events emitted to a workflow exceeds the queue size, events will be lost. If that happens, an error message will be displayed in the event list of your workflow and your [global error workflow](/workflows/error-handling/global-error-workflow/) will be triggered.
 
 For more context on this feature and technical details, check out our **engineering blog post**.
 
