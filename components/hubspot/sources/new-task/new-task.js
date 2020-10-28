@@ -16,7 +16,6 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     const yearFromNow = new Date();
     yearFromNow.setFullYear(yearFromNow.getFullYear() + 1);

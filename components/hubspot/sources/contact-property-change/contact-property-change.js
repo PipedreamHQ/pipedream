@@ -1,4 +1,5 @@
 const hubspot = require("../../hubspot.app.js");
+const get = require("lodash.get");
 
 module.exports = {
   key: "hubspot-contact-property-change",
@@ -33,16 +34,22 @@ module.exports = {
       },
     },
   },
-
+  methods: {
+    generateMeta(contact, property, updatedAt) {
+      return {
+        id: `${contact.id}${property.value}${
+          contact.properties[property.value].value
+        }`,
+        summary: `${contact.properties.firstname.value} ${contact.properties.lastname.value} changed ${property.label}`,
+        ts: updatedAt.getTime(),
+      };
+    },
+  },
   async run(event) {
     const lastRun = this.db.get("updatedAfter") || this.hubspot.monthAgo();
     const updatedAfter = new Date(lastRun);
 
-    const properties = [];
-    for (let property of this.properties) {
-      property = JSON.parse(property);
-      properties.push(property.value);
-    }
+    const properties = this.properties.map((p) => JSON.parse(p).value);
     properties.push("firstname");
     properties.push("lastname");
 
@@ -62,16 +69,13 @@ module.exports = {
         for (let property of this.properties) {
           property = JSON.parse(property);
           let updatedAt = new Date(
-            contact.properties[property.value].versions[0].timestamp
+            get(contact, `properties[${property.value}].versions[0].timestamp`)
           );
           if (updatedAt > updatedAfter) {
-            this.$emit(contact, {
-              id: `${contact.id}${property.value}${
-                contact.properties[property.value].value
-              }`,
-              summary: `${contact.properties.firstname.value} ${contact.properties.lastname.value} changed ${property.label}`,
-              ts: updatedAt.getTime(),
-            });
+            this.$emit(
+              contact,
+              this.generateMeta(contact, property, updatedAt)
+            );
           }
         }
       }

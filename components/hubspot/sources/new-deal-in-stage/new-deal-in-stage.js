@@ -32,7 +32,15 @@ module.exports = {
       },
     },
   },
-
+  methods: {
+    generateMeta(deal, stage, updatedAt) {
+      return {
+        id: `${deal.id}${deal.properties.dealstage}`,
+        summary: `${deal.properties.dealname} ${stage.label}`,
+        ts: updatedAt.getTime(),
+      }
+    }
+  },
   async run(event) {
     const lastRun = this.db.get("updatedAfter") || this.hubspot.monthAgo();
     const updatedAfter = new Date(lastRun);
@@ -67,13 +75,8 @@ module.exports = {
         else delete data.after;
         for (const deal of deals.results) {
           let updatedAt = new Date(deal.updatedAt);
-          console.log(updatedAt);
           if (updatedAt.getTime() > updatedAfter.getTime()) {
-            this.$emit(deal, {
-              id: `${deal.id}${deal.properties.dealstage}`,
-              summary: `${deal.properties.dealname} ${stage.label}`,
-              ts: updatedAt.getTime(),
-            });
+            this.$emit(deal, this.generateMeta(deal, stage, updatedAt));
           } else {
             // don't need to continue if we've gotten to deals already evaluated
             done = true;

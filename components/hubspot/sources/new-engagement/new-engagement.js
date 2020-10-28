@@ -16,7 +16,6 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     const lastRun = this.db.get("createdAfter") || this.hubspot.monthAgo();
     const createdAfter = new Date(lastRun);
@@ -25,7 +24,7 @@ module.exports = {
     };
     let results = null;
 
-    while (!results || params.offset != undefined) {
+    while (!results || params.offset) {
       results = await this.hubspot.getEngagements(params);
       for (const result of results.results) {
         let createdAt = new Date(result.engagement.createdAt);
@@ -37,7 +36,7 @@ module.exports = {
           });
         }
       }
-      if (results.hasMore == true) params.offset = results.offset;
+      if (results.hasMore) params.offset = results.offset;
       else delete params.offset;
     }
 

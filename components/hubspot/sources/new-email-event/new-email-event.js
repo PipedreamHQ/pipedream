@@ -16,7 +16,6 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     const createdAfter = new Date(this.hubspot.monthAgo());
     const params = {
@@ -29,7 +28,6 @@ module.exports = {
 
     while (hasMore && !done) {
       let results = await this.hubspot.getEmailEvents(params);
-      console.log(results);
       hasMore = results.hasMore;
       if (hasMore) params.offset = results.offset;
       for (const emailevent of results.events) {
@@ -45,7 +43,5 @@ module.exports = {
         }
       }
     }
-
-    this.db.set("createdAfter", Date.now());
   },
 };

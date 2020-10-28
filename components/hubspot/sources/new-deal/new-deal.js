@@ -16,7 +16,6 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     const lastRun = this.db.get("createdAfter") || this.hubspot.monthAgo();
     const createdAfter = new Date(lastRun);

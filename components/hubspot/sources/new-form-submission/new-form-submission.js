@@ -40,7 +40,15 @@ module.exports = {
       },
     },
   },
-
+  methods: {
+    generateMeta(form, result, submittedAt) {
+      return {
+        id: `${form.value}${result.submittedAt}`,
+        summary: `${form.label} submitted at ${submittedAt.toLocaleDateString()} ${submittedAt.toLocaleTimeString()}`,
+        ts: result.submittedAt,
+      }
+    }
+  },
   async run(event) {
     const lastRun = this.db.get("submittedAfter") || this.hubspot.monthAgo();
     const submittedAfter = new Date(lastRun);
@@ -58,13 +66,7 @@ module.exports = {
         for (const result of results.results) {
           let submittedAt = new Date(result.submittedAt);
           if (submittedAt.getTime() > submittedAfter.getTime()) {
-            this.$emit(result, {
-              id: `${form.value}${result.submittedAt}`,
-              summary: `${
-                form.label
-              } submitted at ${submittedAt.toLocaleDateString()} ${submittedAt.toLocaleTimeString()}`,
-              ts: result.submittedAt,
-            });
+            this.$emit(result, this.generateMeta(form, result, submittedAt));
           } else {
             done = true; // don't need to continue if we've gotten to submissions already evaluated
           }

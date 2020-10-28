@@ -40,7 +40,15 @@ module.exports = {
       },
     },
   },
-
+  methods: {
+    generateMeta(contact, list) {
+      return {
+        id: `${contact.vid}${list.value}`,
+        summary: `${contact.properties.firstname.value} ${contact.properties.lastname.value} added to ${list.label}`,
+        ts: Date.now(),
+      }
+    }
+  },
   async run(event) {
     for (let list of this.lists) {
       list = JSON.parse(list);
@@ -55,11 +63,7 @@ module.exports = {
         hasMore = contacts["has-more"];
         if (hasMore) params.vidOffset = contacts["vid-offset"];
         for (const contact of contacts.contacts) {
-          this.$emit(contact, {
-            id: `${contact.vid}${list.value}`,
-            summary: `${contact.properties.firstname.value} ${contact.properties.lastname.value} added to ${list.label}`,
-            ts: Date.now(),
-          });
+          this.$emit(contact, this.generateMeta(contact, list));
         }
       }
     }

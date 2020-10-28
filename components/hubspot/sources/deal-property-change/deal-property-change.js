@@ -1,4 +1,5 @@
 const hubspot = require("../../hubspot.app.js");
+const get = require("lodash.get")
 
 module.exports = {
   key: "hubspot-deal-property-change",
@@ -33,16 +34,20 @@ module.exports = {
       },
     },
   },
-
+  methods: {
+    generateMeta(deal, prop, updatedAt) {
+      return {
+        id: `${deal.id}${prop.value}${deal.properties[prop.value].value}`,
+        summary: `${prop.label} changed on ${deal.properties.dealname.value}`,
+        ts: updatedAt.getTime(),
+      }
+    }
+  },
   async run(event) {
     const lastRun = this.db.get("updatedAfter") || this.hubspot.monthAgo();
     const updatedAfter = new Date(lastRun);
 
-    const property = [];
-    for (let prop of this.properties) {
-      prop = JSON.parse(prop);
-      property.push(prop.value);
-    }
+    const property = this.properties.map(p => JSON.parse(p).value)
 
     const params = {
       count: 20,
@@ -62,16 +67,10 @@ module.exports = {
           prop = JSON.parse(prop);
           if (deal.properties[prop.value]) {
             let updatedAt = new Date(
-              deal.properties[prop.value].versions[0].timestamp
+              get(deal, `properties[${prop.value}].versions[0].timestamp`)
             );
             if (updatedAt > updatedAfter) {
-              this.$emit(deal, {
-                id: `${deal.id}${prop.value}${
-                  deal.properties[prop.value].value
-                }`,
-                summary: `${prop.label} changed on ${deal.properties.dealname.value}`,
-                ts: updatedAt.getTime(),
-              });
+              this.$emit(deal, this.generateMeta(deal, prop, updatedAt));
             }
           }
         }

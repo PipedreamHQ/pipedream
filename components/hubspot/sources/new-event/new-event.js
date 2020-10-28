@@ -70,7 +70,6 @@ module.exports = {
       },
     },
   },
-
   async run(event) {
     const lastRun = this.db.get("occurredAfter") || this.hubspot.monthAgo();
     const occurredAfter = new Date(lastRun);
@@ -88,7 +87,6 @@ module.exports = {
 
       while (!results || params.after) {
         results = await this.hubspot.getEvents(params);
-        console.log(results);
         if (results.paging) params.after = results.paging.next.after;
         else delete params.after;
         for (const result of results.results) {

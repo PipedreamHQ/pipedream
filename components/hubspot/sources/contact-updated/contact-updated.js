@@ -15,7 +15,15 @@ module.exports = {
       },
     },
   },
-
+  methods: {
+    generateMeta(contact, updatedAt) {
+      return {
+        id: `${contact.id}${updatedAt.getTime()}`,
+        summary: `${contact.properties.firstname} ${contact.properties.lastname}`,
+        ts: updatedAt.getTime(),
+      }
+    }
+  },
   async run(event) {
     const lastRun = this.db.get("updatedAfter") || this.hubspot.monthAgo();
     const updatedAfter = new Date(lastRun);
@@ -40,11 +48,7 @@ module.exports = {
       for (const contact of contacts.results) {
         let updatedAt = new Date(contact.updatedAt);
         if (updatedAt.getTime() > updatedAfter.getTime()) {
-          this.$emit(contact, {
-            id: `${contact.id}${updatedAt.getTime()}`,
-            summary: `${contact.properties.firstname} ${contact.properties.lastname}`,
-            ts: updatedAt.getTime(),
-          });
+          this.$emit(contact, this.generateMeta(contact, updatedAt));
         } else {
           // don't need to continue if we've gotten to contacts already evaluated
           done = true;
