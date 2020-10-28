@@ -11,7 +11,7 @@ Components come with a [built-in key-value store](/COMPONENT-API.md#db), an inte
 [Install the Pipedream CLI](https://docs.pipedream.com/cli/install/), then run:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy http-new-requests
 ```
 
 This deploys an [HTTP event source](#what-are-http-event-sources) and creates a unique endpoint URL you can send any HTTP requests to:

@@ -5,11 +5,11 @@ next: false
 
 # Environment Variables
 
-**Environment variables** give you a way to separate secrets and other data from your code.
+**Environment variables** enable you to separate secrets and other data from your code.
 
-For example, you wouldn't want to include an API key in a code cell of a workflow. On the free tier, all workflow code is public by default, so anyone would be able to see your API key in plain sight. By referencing the value of an environment variable, instead, your public workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
+For example, you wouldn't want to include an API key in a code cell of a workflow. On the [Developer (free) tier](/pricing/#developer-tier), all workflow code is public by default, so anyone would be able to see your API key in plain sight. By referencing the value of an environment variable, instead, your public workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
 
-You can [make any workflow private](/workflows/managing/#workflows-are-public-by-default-your-data-is-private), but it's still recommended to never keep API keys or other sensitive data directly in your code, no matter where that code is stored.
+You can [make any workflow private](/workflows/managing/#workflow-visibility), but it's still recommended to never keep API keys or other sensitive data directly in your code, no matter where that code is stored.
 
 Environment variables are defined at the account-level, and can be referenced in code cells in any workflow.
 
@@ -17,7 +17,7 @@ Environment variables are defined at the account-level, and can be referenced in
 
 ## Creating, updating environment variables
 
-Environment variables are managed at the account-level. You can access your environment variables by clicking on the **Settings** link in the header of the app or by visiting <a href="https://pipedream.com/settings">{{$site.themeConfig.PIPEDREAM_BASE_URL}}/environment</a>
+Environment variables are managed at the account-level. You can access your environment variables by clicking on the **Settings** link in the header of the app or by visiting <a href="https://pipedream.com/settings/env-vars">{{$site.themeConfig.PIPEDREAM_BASE_URL}}/settings/env-vars</a>
 
 If this is your first time adding an environment variable, you'll see a menu prompting you to add a new **Key** and associated **Value**:
 

@@ -24,12 +24,18 @@ module.exports = {
     editLinkText: "Help us improve this page! Submit an edit on Github",
     sidebar: [
       "/",
-      "/support/",
+      ["/support/", "Support and Community"],
       "/sign-up/",
+      "/pricing/",
       {
         title: "Getting Started",
         collapsable: false,
         children: ["/workflows/", "/your-first-workflow/"],
+      },
+      {
+        title: "Event Sources",
+        collapsable: false,
+        children: ["/event-sources/", "/event-sources/logs/"],
       },
       {
         title: "Workflow Steps",
@@ -66,9 +72,12 @@ module.exports = {
         ],
       },
       {
-        title: "Error Handling",
+        title: "Errors",
         collapsable: false,
-        children: ["/workflows/error-handling/global-error-workflow/"],
+        children: [
+          "/errors/",
+          "/workflows/error-handling/global-error-workflow/",
+        ],
       },
       {
         title: "Managing Workflows",
@@ -81,11 +90,7 @@ module.exports = {
           "/environment-variables/",
         ],
       },
-      {
-        title: "Event Sources",
-        collapsable: false,
-        children: ["/event-sources/", "/event-sources/logs/"],
-      },
+      "/user-settings/",
       {
         title: "CLI",
         collapsable: false,
@@ -123,15 +128,19 @@ module.exports = {
           "/apps/intercom/",
           "/apps/servicenow/",
           "/apps/slack/",
+          "/apps/strava/",
           "/apps/twitter/",
           "/apps/zoho-books/",
           "/apps/zoom/",
         ],
       },
-      "/pricing/",
       "/limits/",
       "/new-feature-or-bug/",
-      "/security/",
+      {
+        title: "Security",
+        collapsable: false,
+        children: ["/security/", "/security/pgp-key/"],
+      },
       "/status/",
     ],
     PIPEDREAM_BASE_URL: "https://pipedream.com",
@@ -140,7 +149,10 @@ module.exports = {
     PAYLOAD_SIZE_LIMIT: "512KB",
     EMAIL_PAYLOAD_SIZE_LIMIT: "256KB",
     INSPECTOR_EVENT_LIMIT: "100",
+    FUNCTION_PAYLOAD_LIMIT: "8MB",
     INSPECTOR_EVENT_EXPIRY_DAYS: "30",
+    DAILY_INVOCATIONS_LIMIT: "3,333",
+    PRICE_PER_INVOCATION: "0.0001",
     NODE_VERSION: "10",
   },
 };

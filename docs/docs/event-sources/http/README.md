@@ -3,9 +3,9 @@
 This tutorial will walk you through how to:
 
 1. [Install the Pipedream CLI](#install-the-pipedream-cli)
-2. [Link the CLI to your Pipedream account](#sign-up-for-pipedream)
+2. [Link your Pipedream account to the CLI](#link-your-pipedream-account-to-the-cli)
 3. [Create an HTTP source](#create-an-http-source)
-4. [Consume events from that source](#consume-events-from-your-http-source)
+4. [Consume events from your source](#consume-events-from-your-source)
 
 This should take about 5 minutes to complete.
 
@@ -39,13 +39,13 @@ Logged in as dylburger (dylan@pipedream.com)
 Run:
 
 ```
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy http-new-requests
 ```
 
 Deploying this source creates an endpoint URL specific your source that you can send any HTTP request to. The CLI will display this endpoint when your source is done deploying. It'll also immediately start listening to the SSE stream tied to your source, displaying new events as they arrive:
 
 ```
-> pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+> pd deploy http-new-requests
 
 Deploying...
 Deploy complete.

@@ -43,6 +43,7 @@
       "destination": "/workflows/steps/triggers/"
     },
     { "source": "/notebook/sql/", "destination": "/destinations/sql/" },
-    { "source": "/what-is-pipedream/", "destination": "/" }
+    { "source": "/what-is-pipedream/", "destination": "/" },
+    { "source": "/support/", "destination": "https://pipedream.com/support" }
   ]
 }

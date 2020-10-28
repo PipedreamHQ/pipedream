@@ -6,7 +6,7 @@ For example, HTTP triggers expose a URL where you can send any HTTP requests. We
 
 Today, we support the following triggers:
 
-- [Triggers for Twitter, Google Calendar, and services](#app-based-triggers)
+- [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
 - [HTTP](#http)
 - [Cron Scheduler](#cron-scheduler)
 - [Email](#email)
@@ -317,7 +317,7 @@ A **Webhook** trigger is an alias for the [HTTP](#http) trigger. They are equiva
 
 ## Cron Scheduler
 
-Pipedream allows you to run hosted cron jobs — any code run on a schedule — for free.
+Pipedream allows you to run hosted cron jobs — any code run on a schedule — [for free](/pricing).
 
 We call these cron jobs "[workflows](/workflows)". Workflows are just scripts that run on a schedule.
 
@@ -383,9 +383,7 @@ Code steps show [Logs](/workflows/steps/code/#logs) below the step itself. Any t
 
 Cron jobs can be run at most once a minute. Any cron expression that specifies a higher frequency will be rejected.
 
-Cron jobs can run for at most 30 seconds. If your workflow takes longer than 30 seconds to execute, you'll see a `TIMEOUT` error for that run, and will be able to review all logs up until the timeout occurred.
-
-There are other limits that apply to all workflows on Pipedream — see our [Limits docs](/limits/#workflows) for more information.
+Cron jobs can run for at most 30 seconds, by default. You can raise this up to 300 seconds by [setting your workflow's execution timeout](/workflows/settings/#execution-timeout-limit). If your workflow runs longer than the configured timeout, you'll see a `TIMEOUT` error for that run, and will be able to review all logs up until the timeout occurred.
 
 ## Email
 
@@ -394,6 +392,23 @@ When you select the **Email** trigger, we create an email address specific to yo
 As soon as you send an email to the workflow-specific address, Pipedream parses its body, headers, and attachments into a JavaScript object it exposes in the `steps.trigger.event` variable that you can access within your workflow. This transformation can take a few seconds to perform. Once done, Pipedream will immediately trigger your workflow with the transformed payload.
 
 [Read more about the shape of the email trigger event](/workflows/events/#email).
+
+### Appending metadata to the incoming email address with `+data`
+
+Pipedream provides a way to append metadata to incoming emails by adding a `+` sign to the incoming email key, followed by any arbitrary string:
+
+```
+myemailaddr+test@pipedream.net
+```
+
+Any emails sent to your workflow-specific email address will resolve to that address, triggering your workflow, no matter the data you add after the `+` sign. Sending an email to both of these addresses triggers the workflow with the address `myemailaddr@pipedream.net`:
+
+```
+myemailaddr+test@pipedream.net
+myemailaddr+unsubscribe@pipedream.net
+```
+
+This allows you implement conditional logic in your workflow based on the data in that string.
 
 ### Limitations
 

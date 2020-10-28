@@ -104,6 +104,9 @@ module.exports = {
     },
   },
   methods: {
+    async _getBaseUrl() {
+      return "https://api.trello.com/1"
+    },
     async _getAuthorizationHeader({ data, method, url }) {
       const requestData = {
         data,
@@ -143,66 +146,66 @@ module.exports = {
       var content = JSON.stringify(request.body) + callbackURL;
       var doubleHash = base64Digest(content);
       var headerHash = request.headers["x-trello-webhook"];
-      return doubleHash == headerHash;
+      return doubleHash === headerHash;
     },
     async getBoard(id) {
       const config = {
-        url: `https://api.trello.com/1/boards/${id}`,
+        url: `${await this._getBaseUrl()}/boards/${id}`,
       };
       return (await this._makeRequest(config)).data;
     },
     async getBoards(id) {
       const config = {
-        url: `https://api.trello.com/1/members/${id}/boards`,
+        url: `${await this._getBaseUrl()}/members/${id}/boards`,
       };
       return (await this._makeRequest(config)).data;
     },
     async getCard(id) {
       const config = {
-        url: `https://api.trello.com/1/cards/${id}`,
+        url: `${await this._getBaseUrl()}/cards/${id}`,
       };
       return (await this._makeRequest(config)).data;
     },
     async getCards(id) {
       const config = {
-        url: `https://api.trello.com/1/boards/${id}/cards`,
+        url: `${await this._getBaseUrl()}/boards/${id}/cards`,
       };
       return (await this._makeRequest(config)).data;
     },
     async getChecklist(id) {
       const config = {
-        url: `https://api.trello.com/1/checklists/${id}`,
+        url: `${await this._getBaseUrl()}/checklists/${id}`,
       };
       return (await this._makeRequest(config)).data;
     },
     async getLabel(id) {
       const config = {
-        url: `https://api.trello.com/1/labels/${id}`,
+        url: `${await this._getBaseUrl()}/labels/${id}`,
       };
       return (await this._makeRequest(config)).data;
     },
     async getList(id) {
       const config = {
-        url: `https://api.trello.com/1/lists/${id}`,
+        url: `${await this._getBaseUrl()}/lists/${id}`,
       };
       return (await this._makeRequest(config)).data;
     },
     async getLists(id) {
       const config = {
-        url: `https://api.trello.com/1/boards/${id}/lists`,
+        url: `${await this._getBaseUrl()}/boards/${id}/lists`,
       };
       return (await this._makeRequest(config)).data;
     },
     async getNotifications(id, params) {
       const config = {
-        url: `https://api.trello.com/1/members/${id}/notifications`,
+        url: `${await this._getBaseUrl()}/members/${id}/notifications`,
         params,
       };
       return (await this._makeRequest(config)).data;
     },
     async getMember(id) {
       const config = {
-        url: `https://api.trello.com/1/members/${id}`,
+        url: `${await this._getBaseUrl()}/members/${id}`,
       };
       return (await this._makeRequest(config)).data;
     },
@@ -210,7 +213,7 @@ module.exports = {
       console.log(`id: ${id}`);
       const resp = await this._makeRequest({
         method: "post",
-        url: `https://api.trello.com/1/webhooks/`,
+        url: `${await this._getBaseUrl()}/webhooks/`,
         headers: {
           "Content-Type": "applicaton/json",
         },
@@ -228,7 +231,7 @@ module.exports = {
     async deleteHook({ hookId }) {
       return await this._makeRequest({
         method: "delete",
-        url: `https://api.trello.com/1/webhooks/${hookId}`,
+        url: `${await this._getBaseUrl()}/webhooks/${hookId}`,
       });
     },
   },

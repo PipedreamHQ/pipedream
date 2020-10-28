@@ -2,7 +2,10 @@ module.exports = {
   name: "HTTP Example",
   version: "0.0.1",
   props: {
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
   },
   async run(event) {
     this.http.respond({
