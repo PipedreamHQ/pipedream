@@ -28,7 +28,7 @@ If your workflow integrates with any APIs, then you may need to limit the rate a
 
 ## How It Works
 
-Events emitted from a source to a workflow are placed in a queue, and Pipedream triggers your workflow with events from the queue based on your concurrency and rate limit settings. These settings may be customized per workflow (so the same events may be processed at different rates by different workflows).
+Events emitted from a source to a workflow are placed in a queue, and Pipedream triggers your workflow with events from the queue based on your concurrency and throttling settings. These settings may be customized per workflow (so the same events may be processed at different rates by different workflows).
 
 ![image-20201027145847752](./images/image-20201027145847752.png)
 
@@ -41,7 +41,9 @@ The maximum number of events Pipedream will queue per workflow depends on your a
 
 For more context on this feature and technical details, check out our **engineering blog post**.
 
-## Where Do I Manage Concurrency and Throttling?
+## Usage
+
+### Where Do I Manage Concurrency and Throttling?
 
 Concurrency and throttling can be managed in the **Execution Controls** section of your **Workflow Settings**. Event queues are currently supported for any workflow that is triggered by an event source. Event queues are not currently supported for native workflow triggers (native HTTP, cron, SDK and email).
 
@@ -49,13 +51,13 @@ Concurrency and throttling can be managed in the **Execution Controls** section 
 
 ![image-20201027120141750](./images/image-20201027120141750.png)
 
-## Managing Event Concurency
+### Managing Event Concurency
 
 Concurrency controls define how many events can be executed in parallel. To enforce serialized, in-order execution, limit concurency to `1` worker. This guarantees that each event will only be processed once the execution for the previous event is complete. 
 
 To execute events in parallel, increase the number of workers (the number of workers defines the maximum number of concurrent events that may be processed), or disable concurrency controls for unlimited parallelization.
 
-## Throttling Workflow Execution
+### Throttling Workflow Execution
 
 To throttle workflow execution, enable it in your workflow settings and configure the **limit** and **interval**.
 
@@ -63,7 +65,19 @@ The limit defines how many events (from `0-10000`) to process in a given time pe
 
 The interval defines the time period over which the limit will be enforced. You may specify the time period as a number of seconds, minutes or hours (ranging from `1-10000`) 
 
-## Pausing Workflow Execution
+### Applying Concurrency and Throttling Together
+
+The conditions for both concurrency and throttling must be met in order for a new event to trigger a workflow execution. Here are some examples:
+
+| Concurrency | Throttling           | Result                                                       |
+| ----------- | -------------------- | ------------------------------------------------------------ |
+| Off         | Off                  | Events will trigger your workflow **as soon as they are received**. Events may execute in parallel. |
+| 1 Worker    | Off                  | Events will trigger your workflow in a **serialized pattern** (a maximum of 1 event will be processed at a time). As soon as one event finishes processing, the next event in the queue will be processed. |
+| 1 Worker    | 1 Event per Second   | Events will trigger your workflow in a **serialized pattern** at a **maximum rate** of 1 event per second. <br /><br />If an event takes <u>less</u> than one second to finish processing, the next event in the queue will not being processing until 1 second from the start of the most recently processed event. <br />If an event takes <u>longer</u> than one second to process, the next event in the queue will begin processing immediately. |
+| 1 Worker    | 10 Events per Minute | Events will trigger your workflow in a **serialized pattern** at a **maximum rate** of 10 events per minute. <br /><br />If an event takes <u>less</u> than one minute to finish processing, the next event in the queue immediately begin processing. If 10 events been processed in less than one minute, the remaining events will be queued until 1 minute from the start of the initial event.<br /> |
+| 5 Workers   | Off                  | Up to 5 events will trigger your workflow in parallel as soon as they are received. If more events arrive while 5 events are being processed, they will be queued and executed in order as soon as an event completes processing. |
+
+### Pausing Workflow Execution
 
 To stop the queue from invoking your worklow, throttle workflow execution and set the limit to `0`.
 
