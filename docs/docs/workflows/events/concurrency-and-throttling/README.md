@@ -26,7 +26,7 @@ While the first example resulted in only two rows of data in Google Sheets, this
 
 If your workflow integrates with any APIs, then you may need to limit the rate at which your workflow executes to avoid hitting rate limits from your API provider. Since event-driven workflows are stateless, you can't manage the rate of execution from within your workflow code. Pipedream's execution controls solve this problem by allowing you to control the maximum number of times a workflow may be invoked over a specific period of time (e.g., up to 1 event every second).
 
-## How It Works
+## Usage
 
 Events emitted from a source to a workflow are placed in a queue, and Pipedream triggers your workflow with events from the queue based on your concurrency and throttling settings. These settings may be customized per workflow (so the same events may be processed at different rates by different workflows).
 
@@ -40,8 +40,6 @@ The maximum number of events Pipedream will queue per workflow depends on your a
 **IMPORTANT:** If the number of events emitted to a workflow exceeds the queue size, events will be lost. If that happens, an error message will be displayed in the event list of your workflow and your global error workflow will be triggered.
 
 For more context on this feature and technical details, check out our **engineering blog post**.
-
-## Usage
 
 ### Where Do I Manage Concurrency and Throttling?
 
