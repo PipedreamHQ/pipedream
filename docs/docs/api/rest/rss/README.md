@@ -43,7 +43,7 @@ props: {
 },
 ```
 
-In this case, you can ignore the `rss` "app" prop. The other two props — `url` and `timer` - are inputs that you can control:
+In this case, you can ignore the `rss` "app" prop. The other two props — `url` and `timer` — are inputs that you can control:
 
 - `url`: the URL to the RSS feed
 - `timer` (optional): the frequency at which you'd like to poll the RSS feed for new items. By default, this source will poll for new items every 15 minutes.
