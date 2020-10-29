@@ -1,7 +1,5 @@
 const supersaas = require('../supersaas.app.js');
 
-// Changed user: Manual credit change and starting credit.
-
 module.exports = {
   key: 'supersaas-credit-balance-changes',
   name: 'Credit balance changes',
