@@ -8,12 +8,6 @@ You can see a list of all event sources by visiting [https://pipedream.com/sourc
 
 The code for sources is kept in the [`PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream). If you think a source can be improved, or you find a bug, please raise an issue or PR in that repo.
 
-::: warning
-Pipedream Event Sources are in preview, and we'd love your feedback on how you'd like to use them, and what we can improve. Please reach out on [Slack](https://pipedream.com/community) or raise an issue on our [Github repo](https://github.com/PipedreamHQ/pipedream) with any questions or suggestions.
-
-Since this is a preview release, the documentation below, the [REST API](/api/rest/), and the [CLI](/cli/reference/) are subject to change based on feedback.
-:::
-
 [[toc]]
 
 ## Creating event sources

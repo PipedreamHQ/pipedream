@@ -1,7 +1,5 @@
 # Component API
 
-**This API is in preview and subject to change without notice. We make a best effort to update this doc as we make changes to the API, but please raise an issue or PR in this repo if you notice something out-of-date.**
-
 Pipedream components are Node.js modules that export an object with the following properties:
 
 ```javascript
