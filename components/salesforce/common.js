@@ -146,6 +146,6 @@ module.exports = {
       statusCode: 200,
     });
 
-    return this.processEvent(event);
+    await this.processEvent(event);
   },
 };
