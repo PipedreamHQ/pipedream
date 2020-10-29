@@ -1,4 +1,4 @@
-const intercom = require("../../intercom.app.js")
+const intercom = require("../../intercom.app.js");
 
 module.exports = {
   key: "intercom-tag-added-to-lead",
@@ -25,21 +25,15 @@ module.exports = {
       },
     };
 
-    let results = null;
-    let starting_after = null;
-
-    while (!results || results.data.pages.next) {
-      if (results) starting_after = results.data.pages.next.starting_after;
-      results = await this.intercom.searchContacts(data, starting_after);
-      for (const lead of results.data.data) {
-        if (lead.tags.data.length > 0) {
-          for (const tag of lead.tags.data) {
-            this.$emit(tag, {
-              id: `${lead.id}${tag.id}`,
-              summary: `Tag added to ${lead.name ? lead.name : lead.id}`,
-              ts: Date.now(),
-            });
-          }
+    const results = await this.intercom.searchContacts(data);
+    for (const lead of results) {
+      if (lead.tags.data.length > 0) {
+        for (const tag of lead.tags.data) {
+          this.$emit(tag, {
+            id: `${lead.id}${tag.id}`,
+            summary: `Tag added to ${lead.name ? lead.name : lead.id}`,
+            ts: Date.now(),
+          });
         }
       }
     }

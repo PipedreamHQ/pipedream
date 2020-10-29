@@ -1,4 +1,4 @@
-const intercom = require("../../intercom.app.js")
+const intercom = require("../../intercom.app.js");
 
 module.exports = {
   key: "intercom-new-unsubscription",
@@ -36,19 +36,13 @@ module.exports = {
       },
     };
 
-    let results = null;
-    let starting_after = null;
-
-    while (!results || results.data.pages.next) {
-      if (results) starting_after = results.data.pages.next.starting_after;
-      results = await this.intercom.searchContacts(data, starting_after);
-      for (const user of results.data.data) {
-        this.$emit(user, {
-          id: user.id,
-          summary: user.name,
-          ts: Date.now(),
-        });
-      }
+    const results = await this.intercom.searchContacts(data);
+    for (const user of results) {
+      this.$emit(user, {
+        id: user.id,
+        summary: user.name,
+        ts: Date.now(),
+      });
     }
   },
 };

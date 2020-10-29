@@ -1,5 +1,5 @@
-const intercom = require("../../intercom.app.js")
-const get = require("lodash.get")
+const intercom = require("../../intercom.app.js");
+const get = require("lodash.get");
 
 module.exports = {
   key: "intercom-new-admin-reply",
@@ -30,32 +30,28 @@ module.exports = {
       },
     };
 
-    let results = null;
-    let starting_after = null;
-
-    while (!results || results.data.pages.next) {
-      if (results) starting_after = results.data.pages.next.starting_after;
-      results = await this.intercom.searchConversations(data, starting_after);
-
-      for (const conversation of results.data.conversations) {
-        if (conversation.statistics.last_admin_reply_at > lastAdminReplyAt)
-          lastAdminReplyAt = conversation.statistics.last_admin_reply_at;
-        const conversationData = (
-          await this.intercom.getConversation(conversation.id)
-        ).data;
-        const total_count = conversationData.conversation_parts.total_count;
-        const conversationBody = get(conversationData, "conversation_parts.conversation_parts[total_count - 1].body");
-        if (total_count > 0 && conversationBody) {
-          // emit id & summary from last part/reply added
-          this.$emit(conversationData, {
-            id:
-              conversationData.conversation_parts.conversation_parts[
-                total_count - 1
-              ].id,
-            summary: conversationBody,
-            ts: conversation.statistics.last_admin_reply_at,
-          });
-        }
+    results = await this.intercom.searchConversations(data);
+    for (const conversation of results) {
+      if (conversation.statistics.last_admin_reply_at > lastAdminReplyAt)
+        lastAdminReplyAt = conversation.statistics.last_admin_reply_at;
+      const conversationData = (
+        await this.intercom.getConversation(conversation.id)
+      ).data;
+      const total_count = conversationData.conversation_parts.total_count;
+      const conversationBody = get(
+        conversationData,
+        "conversation_parts.conversation_parts[total_count - 1].body"
+      );
+      if (total_count > 0 && conversationBody) {
+        // emit id & summary from last part/reply added
+        this.$emit(conversationData, {
+          id:
+            conversationData.conversation_parts.conversation_parts[
+              total_count - 1
+            ].id,
+          summary: conversationBody,
+          ts: conversation.statistics.last_admin_reply_at,
+        });
       }
     }
 

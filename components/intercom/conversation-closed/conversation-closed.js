@@ -28,21 +28,15 @@ module.exports = {
       },
     };
 
-    let results = null;
-    let starting_after = null;
-
-    while (!results || results.data.pages.next) {
-      if (results) starting_after = results.data.pages.next.starting_after;
-      results = await this.intercom.searchConversations(data, starting_after);
-      for (const conversation of results.data.conversations) {
-        if (conversation.created_at > lastConversationClosedAt)
-          lastConversationClosedAt = conversation.statistics.last_close_at;
-        this.$emit(conversation, {
-          id: `${conversation.id}${conversation.last_close_at}`,
-          summary: conversation.source.body,
-          ts: conversation.last_close_at,
-        });
-      }
+    const results = await this.intercom.searchConversations(data);
+    for (const conversation of results) {
+      if (conversation.created_at > lastConversationClosedAt)
+        lastConversationClosedAt = conversation.statistics.last_close_at;
+      this.$emit(conversation, {
+        id: `${conversation.id}${conversation.last_close_at}`,
+        summary: conversation.source.body,
+        ts: conversation.last_close_at,
+      });
     }
 
     this.db.set("lastConversationClosedAt", lastConversationClosedAt);

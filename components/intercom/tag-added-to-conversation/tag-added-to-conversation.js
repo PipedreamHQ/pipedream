@@ -1,4 +1,4 @@
-const intercom = require("../../intercom.app.js")
+const intercom = require("../../intercom.app.js");
 
 module.exports = {
   key: "intercom-tag-added-to-conversation",
@@ -25,20 +25,14 @@ module.exports = {
       },
     };
 
-    let results = null;
-    let starting_after = null;
-
-    while (!results || results.data.pages.next) {
-      if (resulst) starting_after = results.data.pages.next.starting_after;
-      results = await this.intercom.searchConversations(data, starting_after);
-      for (const conversation of results.data.conversations) {
-        for (const tag of conversation.tags.tags) {
-          this.$emit(tag, {
-            id: `${conversation.id}${tag.id}`,
-            summary: tag.name,
-            ts: tag.applied_at,
-          });
-        }
+    results = await this.intercom.searchConversations(data);
+    for (const conversation of results) {
+      for (const tag of conversation.tags.tags) {
+        this.$emit(tag, {
+          id: `${conversation.id}${tag.id}`,
+          summary: tag.name,
+          ts: tag.applied_at,
+        });
       }
     }
   },
