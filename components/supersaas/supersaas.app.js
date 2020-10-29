@@ -1,3 +1,5 @@
+const envConf = require('./envConf.js');
+
 module.exports = {
   type: 'app',
   app: 'supersaas',
@@ -18,7 +20,7 @@ module.exports = {
       const { axios } = await require('@pipedreamhq/platform');
 
       return await axios(this, {
-        url: `https://guiprav.pagekite.me${path}`,
+        url: `${envConf.urlPrefix}${path}`,
 
         ...opts,
 
