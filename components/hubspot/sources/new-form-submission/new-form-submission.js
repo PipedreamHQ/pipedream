@@ -14,7 +14,7 @@ module.exports = {
       optional: false,
       async options({ page, prevContext }) {
         const params = {
-          limit: 10,
+          limit: 50,
           offset: prevContext || 0,
         };
         const results = await this.hubspot.getForms(params);
@@ -44,16 +44,18 @@ module.exports = {
     generateMeta(form, result, submittedAt) {
       return {
         id: `${form.value}${result.submittedAt}`,
-        summary: `${form.label} submitted at ${submittedAt.toLocaleDateString()} ${submittedAt.toLocaleTimeString()}`,
+        summary: `${
+          form.label
+        } submitted at ${submittedAt.toLocaleDateString()} ${submittedAt.toLocaleTimeString()}`,
         ts: result.submittedAt,
-      }
-    }
+      };
+    },
   },
   async run(event) {
     const lastRun = this.db.get("submittedAfter") || this.hubspot.monthAgo();
     const submittedAfter = new Date(lastRun);
     const params = {
-      limit: 20,
+      limit: 50,
     };
 
     for (let form of this.forms) {

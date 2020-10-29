@@ -14,7 +14,7 @@ module.exports = {
       optional: false,
       async options({ page, prevContext }) {
         const params = {
-          count: 20,
+          count: 100,
           offset: Object.keys(prevContext).length != 0 ? prevContext.offset : 0,
         };
         const results = await this.hubspot.getLists(params);
@@ -46,14 +46,14 @@ module.exports = {
         id: `${contact.vid}${list.value}`,
         summary: `${contact.properties.firstname.value} ${contact.properties.lastname.value} added to ${list.label}`,
         ts: Date.now(),
-      }
-    }
+      };
+    },
   },
   async run(event) {
     for (let list of this.lists) {
       list = JSON.parse(list);
       const params = {
-        count: 20,
+        count: 100,
       };
 
       let hasMore = true;

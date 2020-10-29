@@ -21,14 +21,14 @@ module.exports = {
         id: `${contact.id}${updatedAt.getTime()}`,
         summary: `${contact.properties.firstname} ${contact.properties.lastname}`,
         ts: updatedAt.getTime(),
-      }
-    }
+      };
+    },
   },
   async run(event) {
     const lastRun = this.db.get("updatedAfter") || this.hubspot.monthAgo();
     const updatedAfter = new Date(lastRun);
     const data = {
-      limit: 10,
+      limit: 100,
       sorts: [
         {
           propertyName: "hs_lastmodifieddate",

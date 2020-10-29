@@ -20,7 +20,7 @@ module.exports = {
     const lastRun = this.db.get("createdAfter") || this.hubspot.monthAgo();
     const createdAfter = new Date(lastRun);
     const params = {
-      limit: 100,
+      limit: 250,
     };
     let results = null;
 

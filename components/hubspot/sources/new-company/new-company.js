@@ -20,7 +20,7 @@ module.exports = {
     const lastRun = this.db.get("createdAfter") || this.hubspot.monthAgo();
     const createdAfter = new Date(lastRun);
     const data = {
-      limit: 10,
+      limit: 100,
       sorts: [
         {
           propertyName: "createdate",

@@ -38,8 +38,8 @@ module.exports = {
         id: `${deal.id}${deal.properties.dealstage}`,
         summary: `${deal.properties.dealname} ${stage.label}`,
         ts: updatedAt.getTime(),
-      }
-    }
+      };
+    },
   },
   async run(event) {
     const lastRun = this.db.get("updatedAfter") || this.hubspot.monthAgo();
@@ -48,7 +48,7 @@ module.exports = {
     for (let stage of this.stages) {
       stage = JSON.parse(stage);
       const data = {
-        limit: 10,
+        limit: 100,
         filters: [
           {
             propertyName: "dealstage",

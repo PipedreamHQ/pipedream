@@ -19,7 +19,7 @@ module.exports = {
   async run(event) {
     const createdAfter = new Date(this.hubspot.monthAgo());
     const params = {
-      limit: 20,
+      limit: 100,
       startTimestamp: createdAfter.getTime(),
     };
 

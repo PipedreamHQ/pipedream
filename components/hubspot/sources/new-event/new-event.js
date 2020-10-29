@@ -42,7 +42,7 @@ module.exports = {
         if (this.objectType == "company") objectType = "companies";
         else objectType = `${this.objectType}s`;
         const params = {
-          limit: 10,
+          limit: 100,
         };
         if (Object.keys(prevContext).length !== 0) params.next = prevContext;
 
@@ -77,7 +77,7 @@ module.exports = {
     for (let objectId of this.objectIds) {
       objectId = JSON.parse(objectId);
       const params = {
-        limit: 20,
+        limit: 100,
         objectType: this.objectType,
         objectId: objectId.value,
         occurredAfter,

@@ -1,5 +1,5 @@
 const hubspot = require("../../hubspot.app.js");
-const get = require("lodash.get")
+const get = require("lodash.get");
 
 module.exports = {
   key: "hubspot-deal-property-change",
@@ -40,17 +40,17 @@ module.exports = {
         id: `${deal.id}${prop.value}${deal.properties[prop.value].value}`,
         summary: `${prop.label} changed on ${deal.properties.dealname.value}`,
         ts: updatedAt.getTime(),
-      }
-    }
+      };
+    },
   },
   async run(event) {
     const lastRun = this.db.get("updatedAfter") || this.hubspot.monthAgo();
     const updatedAfter = new Date(lastRun);
 
-    const property = this.properties.map(p => JSON.parse(p).value)
+    const property = this.properties.map((p) => JSON.parse(p).value);
 
     const params = {
-      count: 20,
+      count: 100,
       property,
       includePropertyVersions: true,
       since: updatedAfter.getTime(),
