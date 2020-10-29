@@ -4,61 +4,59 @@ Here, we'll walk through an example of how to create an RSS [event source](/even
 
 Before you begin, you'll need your [Pipedream API Key](/api/auth/#pipedream-api-key).
 
-## Creating the component
+## Find the details of the source you'd like to create
 
-To create a source using the API, you must first [create a **component**](/api/rest/#create-a-component) - the code that runs your source - in your Pipedream account.
+To create an event source using Pipedream's REST API, you'll need two things:
 
-To create an RSS component, pass a reference to the `component_url` for the RSS source on Github:
+- The `key` that identifies the component by name
+- The `props` - input data - required to create the source
 
-```bash
-curl https://api.pipedream.com/v1/components \
-  -H "Authorization: Bearer <api_key>" \
-  -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+You can find both of these by reviewing the code for the source, [in Pipedream's Github repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
+
+In the `components/` directory, you'll see a list of apps. Navigate to the app-specific directory for your source, then visit the `sources/` directory in that dir to find your source. For example, to create an RSS source, visit the [`components/rss/sources/new-item-in-feed/new-item-in-feed.js` source](https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js).
+
+The `key` is a globally unique identifier for the source. You'll see the `key` for this source near the top of the file:
+
+```javascript
+key: "rss-new-item-in-feed",
 ```
 
-This returns a `200 OK` response with the following payload:
+Below that, you'll see the `props` section:
 
-```json
-{
-  "data": {
-    "id": "sc_abc123",
-    "code": "component code here",
-    "code_hash": "685c7a680d055eaf505b08d5d814feef9fabd516d5960837d2e0838d3e1c9ed1",
-    "name": "rss",
-    "version": "0.0.1",
-    "configurable_props": [
-      {
-        "name": "url",
-        "type": "string",
-        "label": "Feed URL",
-        "description": "Enter the URL for any public RSS feed."
-      },
-      {
-        "name": "timer",
-        "type": "$.interface.timer",
-        "default": {
-          "intervalSeconds": 900
-        }
-      }
-    ],
-    "created_at": 1588866900,
-    "updated_at": 1588866900
-  }
-}
+```javascript
+props: {
+  rss: {
+    type: 'app',
+    app: 'rss',
+  },
+  url:{
+    type: "string",
+    label: 'Feed URL',
+    description: "Enter the URL for any public RSS feed.",
+  },
+  timer: {
+    type: "$.interface.timer",
+    default: {
+      intervalSeconds: 60 * 15,
+    },
+  },
+},
 ```
 
-Note the `configurable_props` array. **This tells us what values we must pass as inputs when creating a source from this component**. Pipedream refers to these inputs as **props**.
+In this case, you can ignore the `rss` "app" prop. The other two props — `url` and `timer` - are inputs that you can control:
 
-For the RSS component, we see two props — `url` and `timer`. The RSS component fetches items from a specific feed URL, on a set frequency. We see that `timer` has a default value of `900` seconds (15 minutes). If you're OK with that default frequency, you do not need to set a value for that prop when creating a source. If you _do_ want to modify this schedule, you can set it to any integer greater than or equal to 15 seconds (a source can run no more than that).
+- `url`: the URL to the RSS feed
+- `timer` (optional): the frequency at which you'd like to poll the RSS feed for new items. By default, this source will poll for new items every 15 minutes.
 
-Now that we know what inputs we need to create our source, let's make an API request to do that. In this example, I'll use a sample feed hosted at `https://rss.m.pipedream.net`. This feed produces new items once every 15 minutes, but to show you how to configure the `timer` prop with a higher frequency, we'll set it to run once a minute:
+## Creating the source
+
+To create an RSS event source, make an HTTP POST request to the `/v1/sources` endpoint of Pipedream's REST API, passing the `url` you'd like to poll and the frequency at which you'd like to run the source in the `timer` object. In this example, we'll run the source once every 60 seconds.
 
 ```bash
-curl https://api.pipedream.com/v1/sources \
-  -H "Authorization: Bearer <api_key>" \
+cucurl https://api.pipedream.com/v1/sources \
+  -H "Authorization: Bearer XXX" -vvv \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
+  -d '{"key": "rss-new-item-in-feed", "name": "test-rss", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
 
 If successful, you should get back a `200 OK` response from the API with the following payload:
