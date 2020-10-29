@@ -1,1 +1,1 @@
-exports.urlPrefix = 'https://guiprav.pagekite.me';
+exports.urlPrefix = 'https://supersaas.com';
