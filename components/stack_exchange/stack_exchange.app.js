@@ -39,32 +39,18 @@ module.exports = {
     questionIds: {
       type: "string[]",
       label: "Questions",
-      description: "Questions to monitor for new answers (max: 100)",
+      description: "Questions to monitor (max: 100)",
       useQuery: true,
       async options(context) {
-        const {
-          hasMore = true,
-          page,
-          query,
-          siteId,
-        } = context;
-        if (!hasMore) {
-          return {
-            options: []
-          };
-        }
-
-        const q = query !== null ? query : '';
+        const q = context.query || '';
         const searchParams = {
           sort: 'relevance',
           order: 'desc',
           closed: false,
-          site: siteId,
           q,
         };
         const url = this._advancedSearchUrl();
-        const searchPage = page + 1;  // The StackExchange API pages are 1-indexed
-        const { items, has_more } = await this.getItemsForPage(url, searchParams, searchPage);
+        const { items, hasMore } = await this._propDefinitionsOptions(url, searchParams, context);
 
         const options = items.map((question) => ({
           label: he.decode(question.title),
@@ -73,7 +59,34 @@ module.exports = {
         return {
           options,
           context: {
-            hasMore: has_more,
+            hasMore,
+          },
+        };
+      },
+    },
+    userIds: {
+      type: "string[]",
+      label: "Users",
+      description: "Users to monitor (max: 100)",
+      useQuery: true,
+      async options(context) {
+        const inname = context.query || '';
+        const searchParams = {
+          sort: 'reputation',
+          order: 'desc',
+          inname,
+        };
+        const url = this._usersUrl();
+        const { items, hasMore } = await this._propDefinitionsOptions(url, searchParams, context);
+
+        const options = items.map((user) => ({
+          label: user.display_name,
+          value: user.user_id,
+        }));
+        return {
+          options,
+          context: {
+            hasMore,
           },
         };
       },
@@ -91,13 +104,50 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/search/advanced`;
     },
+    _usersUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/users`;
+    },
     _answersForQuestionsUrl(questionIds) {
       const baseUrl = this._apiUrl();
       const ids = questionIds.join(';');
       return `${baseUrl}/questions/${ids}/answers`;
     },
+    _answersFromUsersUrl(userIds) {
+      const baseUrl = this._apiUrl();
+      const ids = userIds.join(';');
+      return `${baseUrl}/users/${ids}/answers`;
+    },
     _authToken() {
       return this.$auth.oauth_access_token
+    },
+    async _propDefinitionsOptions(url, baseSearchParams, context) {
+      const {
+        hasMore = true,
+        page,
+        siteId,
+      } = context;
+      if (!hasMore) {
+        return {
+          items: [],
+          hasMore: false,
+        };
+      }
+
+      const searchParams = {
+        ...baseSearchParams,
+        site: siteId,
+      };
+      const searchPage = page + 1;  // The StackExchange API pages are 1-indexed
+      const {
+        items,
+        has_more: hasMore,
+      } = await this.getItemsForPage(url, searchParams, searchPage);
+
+      return {
+        items,
+        hasMore,
+      };
     },
     _makeRequestConfig() {
       const authToken = this._authToken();
@@ -117,12 +167,27 @@ module.exports = {
       const url = this._answersForQuestionsUrl(questionIds);
       return this.getItems(url, searchParams);
     },
+    answersFromUsers(userIds, searchParams) {
+      const url = this._answersFromUsersUrl(userIds);
+      return this.getItems(url, searchParams);
+    },
     async *getItems(url, baseParams) {
       let page = 1;
       let hasMore = false;
       do {
         const data = await this.getItemsForPage(url, baseParams, page);
-        if (data.items.length === 0) {
+        const { items } = data;
+
+        if (items === undefined) {
+          console.warn(`
+            Unexpected response from ${url} (page ${page}):
+            "items" is undefined.
+            Query parameters: ${JSON.stringify(baseParams, null, 2)}.
+          `);
+          return;
+        }
+
+        if (items.length === 0) {
           console.log(`
             No new items found in ${url} for the following parameters:
             ${JSON.stringify(baseParams, null, 2)}
@@ -130,8 +195,8 @@ module.exports = {
           return;
         }
 
-        console.log(`Found ${data.items.length} new item(s) in ${url}`);
-        for (const item of data.items) {
+        console.log(`Found ${items.length} new item(s) in ${url}`);
+        for (const item of items) {
           yield item;
         }
         hasMore = data.has_more;
