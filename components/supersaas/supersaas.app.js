@@ -48,6 +48,10 @@ module.exports = {
       ));
     },
 
+    // TODO: Better error handling. Dylan suggested retries with a backoff
+    // algorithm, but that sounds a little overkill to me; but I guess we
+    // could at least remember failed hook destructions and retry on every
+    // activate/deactivate cycle?
     async destroyHooks(activeHooks) {
       const { axios } = this;
 
