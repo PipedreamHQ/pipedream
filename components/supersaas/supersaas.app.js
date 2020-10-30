@@ -3,7 +3,6 @@ const envConf = require('./envConf.js');
 module.exports = {
   type: 'app',
   app: 'supersaas',
-
   propDefinitions: {
     schedules: {
       type: 'string[]',
@@ -14,30 +13,24 @@ module.exports = {
       },
     },
   },
-
   methods: {
     async axios(path, opts = {}) {
       const { axios } = await require('@pipedreamhq/platform');
 
       return await axios(this, {
         url: `${envConf.urlPrefix}${path}`,
-
         ...opts,
-
         params: {
           account: this.$auth.account,
           api_key: this.$auth.api_key,
-
           ...opts.params || {},
         },
       });
     },
-
     async getSchedules() {
       const xs = await this.axios('/api/schedules.json');
       return xs.map(x => ({ value: x.id, label: x.name }));
     },
-
     async createHooks(hookParams) {
       const { axios } = this;
 
@@ -47,7 +40,6 @@ module.exports = {
         x => axios('/api/hooks', { method: 'POST', params: x }),
       ));
     },
-
     // TODO: Better error handling. Dylan suggested retries with a backoff
     // algorithm, but that sounds a little overkill to me; but I guess we
     // could at least remember failed hook destructions and retry on every
