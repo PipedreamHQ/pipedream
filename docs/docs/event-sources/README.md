@@ -1,18 +1,12 @@
 # What are Event Sources?
 
-**Event sources turn any API into an event stream. They can also turn any event stream into an API**.
+**Event sources turn any API into an event stream. They can also turn any event stream into a REST API**.
 
 Event sources run on Pipedream's infrastructure and collect data from services like Github, Stripe, the bitcoin blockchain, RSS feeds, and more. They emit new events produced by the service, which can trigger [Pipedream workflows](/workflows/), or which you can consume using Pipedream's [REST API](/api/rest/) or a [private, real-time SSE stream](/api/sse/).
 
 You can see a list of all event sources by visiting [https://pipedream.com/sources](https://pipedream.com/sources) and clicking **Create Source**.
 
 The code for sources is kept in the [`PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream). If you think a source can be improved, or you find a bug, please raise an issue or PR in that repo.
-
-::: warning
-Pipedream Event Sources are in preview, and we'd love your feedback on how you'd like to use them, and what we can improve. Please reach out on [Slack](https://pipedream.com/community) or raise an issue on our [Github repo](https://github.com/PipedreamHQ/pipedream) with any questions or suggestions.
-
-Since this is a preview release, the documentation below, the [REST API](/api/rest/), and the [CLI](/cli/reference/) are subject to change based on feedback.
-:::
 
 [[toc]]
 
@@ -76,7 +70,7 @@ You can also use event sources to run any Node code on a schedule, allowing you 
 
 You can run an event source that polls an RSS for new items and emits them in real time as formatted JSON.
 
-[**Learn more here**](https://rss.pipedream.com/).
+[**Create an RSS event source here**](https://pipedream.com/sources/new?app=rss&key=rss-new-item-in-feed).
 
 ## Limits
 
