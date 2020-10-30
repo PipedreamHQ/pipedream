@@ -1,4 +1,4 @@
-const intercom = require("../../intercom.app.js")
+const intercom = require("../../intercom.app.js");
 
 module.exports = {
   key: "intercom-tag-added-to-user",
@@ -18,23 +18,24 @@ module.exports = {
   },
   async run(event) {
     const data = {
-      query:  {
+      query: {
         field: "role",
         operator: "=",
-        value: "user"
-      }
-    }
-    
+        value: "user",
+      },
+    };
+
     const results = await this.intercom.searchContacts(data);
     for (const user of results) {
       if (user.tags.data.length > 0) {
         for (const tag of user.tags.data) {
-        this.$emit(tag, {
-          id: `${user.id}${tag.id}`,
-          summary: `Tag added to ${user.name}`,
-          ts: Date.now(),
-        });  
+          this.$emit(tag, {
+            id: `${user.id}${tag.id}`,
+            summary: `Tag added to ${user.name}`,
+            ts: Date.now(),
+          });
+        }
       }
     }
-  }
+  },
 };

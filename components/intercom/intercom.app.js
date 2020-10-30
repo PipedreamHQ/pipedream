@@ -51,6 +51,7 @@ module.exports = {
     },
     async getEvents(user_id, nextURL = null) {
       let results = null;
+      let since = null;
       const events = [];
       while (!results || results.data.pages.next) {
         if (results) nextURL = results.data.pages.next;
@@ -65,11 +66,10 @@ module.exports = {
           events.push(result);
         }
         if (results.data.pages.since)
-          let since = results.data.pages.since;
+          since = results.data.pages.since;
       }
-
       return { events, since };
-    },
+    },  
     async searchContacts(data, starting_after = null) {
       const config = {
         method: "POST",
@@ -84,10 +84,11 @@ module.exports = {
     async searchContacts(data) {
       let results = null;
       let starting_after = null;
+      let config = null;
       const contacts = [];
       while (!results || results.data.pages.next) {
         if (results) starting_after = results.data.pages.next.starting_after;
-        const config = {
+        config = {
           method: "POST",
           url: `${this._getBaseURL()}/contacts/search${starting_after ? "?starting_after=" + starting_after : ""}`,
           headers: this._getHeader(),
@@ -99,14 +100,15 @@ module.exports = {
         }
       }
       return contacts;
-    }
+    },
     async searchConversations(data) {
       let results = null;
       let starting_after = null;
+      let config = null;
       const conversations = [];
       while (!results || results.data.pages.next) {
         if (results) starting_after = results.data.pages.next.starting_after;
-        const config = {
+        config = {
           method: "POST",
           url: `${this._getBaseURL()}/conversations/search${starting_after ? "?starting_after=" + starting_after : ""}`,
           headers: this._getHeader(),
@@ -118,6 +120,6 @@ module.exports = {
         }
       }
       return conversations;
-    },
+    },  
   },
 };

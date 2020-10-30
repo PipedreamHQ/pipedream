@@ -2,9 +2,9 @@ const intercom = require("../../intercom.app.js");
 const get = require("lodash.get");
 
 module.exports = {
-  key: "intercom-new-admin-reply",
-  name: "New Reply From Admin",
-  description: "Emits an event each time an admin replies to a conversation.",
+  key: "intercom-new-user-reply",
+  name: "New Reply From User",
+  description: "Emits an event each time a user replies to a conversation.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -19,20 +19,20 @@ module.exports = {
   },
   async run(event) {
     const monthAgo = this.intercom.monthAgo();
-    let lastAdminReplyAt =
-      this.db.get("lastAdminReplyAt") || Math.floor(monthAgo / 1000);
-    lastAdminReplyAt = Math.floor(monthAgo / 1000);
+    let lastContactReplyAt =
+      this.db.get("lastContactReplyAt") || Math.floor(monthAgo / 1000);
+    lastContactReplyAt = Math.floor(monthAgo / 1000);
     const data = {
       query: {
-        field: "statistics.last_admin_reply_at",
+        field: "statistics.last_contact_reply_at",
         operator: ">",
-        value: lastAdminReplyAt,
+        value: lastContactReplyAt,
       },
     };
 
-    results = await this.intercom.searchConversations(data);
+    const results = await this.intercom.searchConversations(data);
     for (const conversation of results) {
-      if (conversation.statistics.last_admin_reply_at > lastAdminReplyAt)
+      if (conversation.statistics.last_contact_reply_at > lastContactReplyAt)
         lastAdminReplyAt = conversation.statistics.last_admin_reply_at;
       const conversationData = (
         await this.intercom.getConversation(conversation.id)
@@ -40,7 +40,7 @@ module.exports = {
       const total_count = conversationData.conversation_parts.total_count;
       const conversationBody = get(
         conversationData,
-        "conversation_parts.conversation_parts[total_count - 1].body"
+        `conversation_parts.conversation_parts[${total_count - 1}].body`
       );
       if (total_count > 0 && conversationBody) {
         // emit id & summary from last part/reply added
@@ -55,6 +55,6 @@ module.exports = {
       }
     }
 
-    this.db.set("lastAdminReplyAt", lastAdminReplyAt);
+    this.db.set("lastContactReplyAt", lastContactReplyAt);
   },
 };
