@@ -46,8 +46,6 @@ module.exports = {
   },
 
   async run(ev) {
-    // TODO: Authenticate requests? (see GitHub's HMAC signature approach)
-
     if (ev.body.event === 'edit' && !ev.body.deleted) {
       console.log('Ignoring:', ev.body.event, '(but ev.body.deleted === false)');
       return;

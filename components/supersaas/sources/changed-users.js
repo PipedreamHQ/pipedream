@@ -31,8 +31,6 @@ module.exports = {
   },
 
   async run(ev) {
-    // TODO: Authenticate requests? (see GitHub's HMAC signature approach)
-
     console.log('Emitting:', ev.body);
     this.$emit(ev.body);
   },
