@@ -3,7 +3,7 @@ const supersaas = require('../supersaas.app.js');
 module.exports = {
   key: 'supersaas-changed-users',
   name: 'New or changed users',
-  description: `This event source tracks new and changed user events and emits them.`,
+  description: `Emits an event for every new and changed user.`,
   version: '0.0.1',
 
   props: {

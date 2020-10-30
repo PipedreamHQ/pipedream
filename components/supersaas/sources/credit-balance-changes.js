@@ -3,7 +3,7 @@ const supersaas = require('../supersaas.app.js');
 module.exports = {
   key: 'supersaas-credit-balance-changes',
   name: 'Credit balance changes',
-  description: `This event source tracks credit balance change events from the selected schedules and emits them.`,
+  description: `Emits an event for every user credit balance changes for the selected schedules.`,
   version: '0.0.1',
 
   props: {

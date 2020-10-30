@@ -3,7 +3,7 @@ const supersaas = require('../supersaas.app.js');
 module.exports = {
   key: 'supersaas-changed-appointments',
   name: 'New or changed appointments',
-  description: `This event source tracks new and changed appointment events from the selected schedules and emits them.`,
+  description: `Emits an event for every changed appointments from the selected schedules.`,
   version: '0.0.1',
 
   props: {
