@@ -39,11 +39,11 @@ The maximum number of events Pipedream will queue per workflow depends on your a
 
 **IMPORTANT:** If the number of events emitted to a workflow exceeds the queue size, events will be lost. If that happens, an error message will be displayed in the event list of your workflow and your [global error workflow](/workflows/error-handling/global-error-workflow/) will be triggered.
 
+To learn more about how the feature works and technical details, check out our [engineering blog post](https://blog.pipedream.com/concurrency-controls-design/).
+
 ### Where Do I Manage Concurrency and Throttling?
 
 Concurrency and throttling can be managed in the **Execution Controls** section of your **Workflow Settings**. Event queues are currently supported for any workflow that is triggered by an event source. Event queues are not currently supported for native workflow triggers (native HTTP, cron, SDK and email).
-
-
 
 ![image-20201027120141750](./images/image-20201027120141750.png)
 
