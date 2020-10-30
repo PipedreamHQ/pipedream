@@ -1,3 +1,5 @@
+const dayjs = require('dayjs');
+const makeEventSummary = require('../utils/makeEventSummary.js');
 const supersaas = require('../supersaas.app.js');
 
 module.exports = {
@@ -27,7 +29,15 @@ module.exports = {
     },
   },
   async run(ev) {
-    console.log('Emitting:', ev.body);
-    this.$emit(ev.body);
+    const outEv = {
+      meta: {
+        summary: makeEventSummary(ev),
+        ts: dayjs(ev.body.created_on).valueOf(),
+      },
+      body: ev.body,
+    };
+
+    console.log('Emitting:', outEv);
+    this.$emit(outEv, outEv.meta);
   },
 };

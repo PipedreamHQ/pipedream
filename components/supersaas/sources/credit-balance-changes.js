@@ -1,3 +1,5 @@
+const dayjs = require('dayjs');
+const makeEventSummary = require('../utils/makeEventSummary.js');
 const supersaas = require('../supersaas.app.js');
 
 module.exports = {
@@ -5,14 +7,12 @@ module.exports = {
   name: 'Credit balance changes',
   description: `Emits an event for every user credit balance changes for the selected schedules.`,
   version: '0.0.1',
-
   props: {
     supersaas,
     schedules: { propDefinition: [supersaas, 'schedules'] },
     db: "$.service.db",
     http: '$.interface.http',
   },
-
   hooks: {
     async activate() {
       const { $auth } = this.supersaas;
@@ -24,13 +24,11 @@ module.exports = {
           parent_id: $auth.account,
           target_url: http.endpoint,
         },
-
         {
           event: 'P', // purchase
           parent_id: $auth.account,
           target_url: http.endpoint,
         },
-
         ...schedules.map(x => ({
           event: 'C', // change_appointment
           parent_id: Number(x),
@@ -44,14 +42,26 @@ module.exports = {
       this.db.set('activeHooks', []);
     },
   },
-
   async run(ev) {
-    if (ev.body.event === 'edit' && !ev.body.deleted) {
-      console.log('Ignoring:', ev.body.event, '(but ev.body.deleted === false)');
+    if (ev.body.event === 'create' && !ev.body.price) {
+      console.log('Ignoring:', ev.body.event, '(but !ev.body.price)');
       return;
     }
 
-    console.log('Emitting:', ev.body);
-    this.$emit(ev.body);
+    if (ev.body.event === 'edit' && !ev.body.deleted) {
+      console.log('Ignoring:', ev.body.event, '(but !ev.body.deleted)');
+      return;
+    }
+
+    const outEv = {
+      meta: {
+        summary: makeEventSummary(ev),
+        ts: dayjs(ev.body.created_on).valueOf(),
+      },
+      body: ev.body,
+    };
+
+    console.log('Emitting:', outEv);
+    this.$emit(outEv, outEv.meta);
   },
 };

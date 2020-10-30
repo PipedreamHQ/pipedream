@@ -47,7 +47,11 @@ module.exports = {
     async destroyHooks(activeHooks) {
       const { axios } = this;
 
-      console.log('Destroying hooks:', activeHooks);
+      console.log('Destroying hooks:', activeHooks || []);
+
+      if (!activeHooks || !activeHooks.length) {
+        return;
+      }
 
       return await Promise.all(activeHooks.map(x => axios('/api/hooks', {
         method: 'DELETE',

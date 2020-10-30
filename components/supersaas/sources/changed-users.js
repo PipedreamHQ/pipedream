@@ -1,3 +1,5 @@
+const dayjs = require('dayjs');
+const makeEventSummary = require('../utils/makeEventSummary');
 const supersaas = require('../supersaas.app.js');
 
 module.exports = {
@@ -5,13 +7,11 @@ module.exports = {
   name: 'New or changed users',
   description: `Emits an event for every new and changed user.`,
   version: '0.0.1',
-
   props: {
     supersaas,
     db: "$.service.db",
     http: '$.interface.http',
   },
-
   hooks: {
     async activate() {
       const { $auth } = this.supersaas;
@@ -23,15 +23,21 @@ module.exports = {
         target_url: http.endpoint,
       }]));
     },
-
     async deactivate() {
       await this.supersaas.destroyHooks(this.db.get('activeHooks') || []);
       this.db.set('activeHooks', []);
     },
   },
-
   async run(ev) {
-    console.log('Emitting:', ev.body);
-    this.$emit(ev.body);
+    const outEv = {
+      meta: {
+        summary: makeEventSummary(ev),
+        ts: dayjs(ev.body.created_on).valueOf(),
+      },
+      body: ev.body,
+    };
+
+    console.log('Emitting:', outEv);
+    this.$emit(outEv, outEv.meta);
   },
 };
