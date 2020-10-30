@@ -66,4 +66,10 @@ Working with nested JavaScript objects that have more than 256 nested objects wi
 
 Often, objects with this many nested objects result from a programming error that explodes the object in an unexpected way. Please confirm the code you're using to convert data into an object is correctly parsing the object.
 
+### Event Queue Full
+
+Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the maximum queue size, you may encounter an **Event Queue Full** error.
+
+If you need a higher limit, please [reach out to our team](/support/).
+
 <Footer />
