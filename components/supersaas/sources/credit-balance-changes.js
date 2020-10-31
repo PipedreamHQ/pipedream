@@ -43,6 +43,12 @@ module.exports = {
     },
   },
   async run(ev) {
+    // Ignore appointments created/deleted by admins (i.e. when email is null).
+    if (!ev.body.email) {
+      console.log('Ignoring:', ev.body.event, '(but !ev.body.email)');
+      return;
+    }
+
     if (ev.body.event === 'create' && !ev.body.price) {
       console.log('Ignoring:', ev.body.event, '(but !ev.body.price)');
       return;
