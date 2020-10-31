@@ -1,5 +1,6 @@
 const axios = require("axios");
 const parseLinkHeader = require("parse-link-header");
+const slugify = require("slugify");
 
 module.exports = {
   type: "app",
@@ -31,13 +32,10 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/organizations/`;
     },
-    _organizationObjectToOption(organization) {
-      const { name, slug } = organization;
-      const label = `${name} (${slug})`;
-      return {
-        label,
-        value: slug,
-      };
+    _integrationsEndpoint(integrationSlug) {
+      const baseUrl = this._apiUrl();
+      const url = `${baseUrl}/sentry-apps/`;
+      return integrationSlug ? `${url}/${integrationSlug}/` : url;
     },
     _authToken() {
       return this.$auth.auth_token;
@@ -50,6 +48,14 @@ module.exports = {
       };
       return {
         headers,
+      };
+    },
+    _organizationObjectToOption(organization) {
+      const { name, slug } = organization;
+      const label = `${name} (${slug})`;
+      return {
+        label,
+        value: slug,
       };
     },
     async _propDefinitionsOptions(url, params, { page, prevContext }) {
@@ -81,6 +87,45 @@ module.exports = {
         data,
         next,
       };
+    },
+    _baseIntegrationParams() {
+      return {
+        scopes: [
+          "event:read",
+        ],
+        events: [
+          "issue",
+        ],
+        isAlertable: true,
+        isInternal: true,
+        verifyInstall: false,
+      };
+    },
+    _formatIntegrationName(rawName) {
+      const options = {
+        remove: /[()]/g,
+        lower: true,
+      };
+      const enrichedRawName = `pd-${rawName}`;
+      return slugify(enrichedRawName, options).substring(0, 57);
+    },
+    async createIntegration(eventSourceName, organization, webhookUrl) {
+      const url = this._integrationsEndpoint();
+      const name = this._formatIntegrationName(eventSourceName);
+      const requestData = {
+        ...this._baseIntegrationParams(),
+        name,
+        organization,
+        webhookUrl,
+      };
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await axios.post(url, requestData, requestConfig);
+      return data;
+    },
+    async deleteIntegration(integrationSlug) {
+      const url = this._integrationsEndpoint(integrationSlug);
+      const requestConfig = this._makeRequestConfig();
+      await axios.delete(url, requestConfig);
     },
   },
 };

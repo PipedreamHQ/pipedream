@@ -1,8 +1,10 @@
 const sentry = require("../../sentry.app");
 
+const EVENT_SOURCE_NAME = "Issue Event (Instant)";
+
 module.exports = {
   key: "sentry-issue-events",
-  name: "Issue Event (Instant)",
+  name: EVENT_SOURCE_NAME,
   props: {
     db: "$.service.db",
     http: {
@@ -12,7 +14,24 @@ module.exports = {
     sentry,
     organizationSlug: { propDefinition: [sentry, "organizationSlug"] },
   },
+  hooks: {
+    async activate() {
+      const { slug: integrationSlug } = await this.sentry.createIntegration(
+        this.getEventSourceName(),
+        this.organizationSlug,
+        this.http.endpoint,
+      );
+      this.db.set("integrationSlug", integrationSlug);
+    },
+    async deactivate() {
+      const integrationSlug = this.db.get("integrationSlug");
+      await this.sentry.deleteIntegration(integrationSlug);
+    }
+  },
   methods: {
+    getEventSourceName() {
+      return EVENT_SOURCE_NAME;
+    },
     generateMeta(event) {
       const { body, headers } = event;
       const {
