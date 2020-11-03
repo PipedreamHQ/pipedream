@@ -540,20 +540,19 @@ POST /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_so
 
 ---
 
-`listener_id` **string**
-
-The ID of the component or workflow you'd like to receive events.
-
-[See the component endpoints](/api/rest/#components) for information on how to retrieve the ID of existing components. You can retrieve the ID of your workflow in your workflow's URL - it's the string `p_2gCPml` in `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
-
----
-
-`emitter_id` **string** (_optional_)
+`emitter_id` **string**
 
 The ID of the component emitting events. Events from this component trigger the receiving component / workflow.
 
 [See the component endpoints](/api/rest/#components) for information on how to retrieve the ID of existing components. You can retrieve the ID of your workflow in your workflow's URL - it's the string `p_2gCPml` in `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
 
+---
+
+`listener_id` **string**
+
+The ID of the component or workflow you'd like to receive events.
+
+[See the component endpoints](/api/rest/#components) for information on how to retrieve the ID of existing components. You can retrieve the ID of your workflow in your workflow's URL - it's the string `p_2gCPml` in `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
 **Example Request**
 
 You can configure workflow `p_abc123` to listen to events from the source `dc_def456` using the following command:

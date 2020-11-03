@@ -12,11 +12,15 @@ By default, any errors raised in a workflow are sent to the **Global Error Workf
 
 But the Global Error Workflow is just another workflow, and lives in your account. So you can modify it however you'd like. For example, you can send errors to Slack, or send critical issues to Pagerduty, or log all errors to a table in the [SQL service](/destinations/sql/) for later analysis.
 
-## Execution timeout limit
+## Execution Timeout Limit
 
 Workflows have a default [execution limit](/limits/#time-per-execution), which defines the time workflows can run for a single invocation until they're timed out.
 
 If your workflow times out, and needs to run for longer than the [default limit](/limits/#time-per-execution), you can change that limit here.
+
+## Concurrency and Throttling
+
+[Manage the concurrency and rate](/workflows/events/concurrency-and-throttling/) at which events from a source trigger your workflow code.
 
 ## Current checkpoint values
 
