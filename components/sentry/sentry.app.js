@@ -35,8 +35,8 @@ module.exports = {
     },
     _integrationsEndpoint(integrationSlug) {
       const baseUrl = this._apiUrl();
-      const url = `${baseUrl}/sentry-apps/`;
-      return integrationSlug ? `${url}/${integrationSlug}/` : url;
+      const url = `${baseUrl}/sentry-apps`;
+      return integrationSlug ? `${url}/${integrationSlug}/` : `${url}/`;
     },
     _authToken() {
       return this.$auth.auth_token;
@@ -127,6 +127,17 @@ module.exports = {
       const url = this._integrationsEndpoint(integrationSlug);
       const requestConfig = this._makeRequestConfig();
       await axios.delete(url, requestConfig);
+    },
+    async disableIntegration(integrationSlug) {
+      const url = this._integrationsEndpoint(integrationSlug);
+      const requestConfig = this._makeRequestConfig();
+      const requestData = {
+        events: null,
+        isAlertable: false,
+        name: "pipedream (disabled)",
+        webhookUrl: null,
+      };
+      await axios.put(url, requestData, requestConfig);
     },
     async getClientSecret(integrationSlug) {
       const url = this._integrationsEndpoint(integrationSlug);

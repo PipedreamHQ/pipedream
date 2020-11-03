@@ -28,8 +28,8 @@ module.exports = {
     },
     async deactivate() {
       const integrationSlug = this.db.get("integrationSlug");
-      await this.sentry.deleteIntegration(integrationSlug);
-    }
+      await this.sentry.disableIntegration(integrationSlug);
+    },
   },
   methods: {
     getEventSourceName() {
