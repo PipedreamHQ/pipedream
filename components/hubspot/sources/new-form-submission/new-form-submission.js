@@ -47,7 +47,6 @@ module.exports = {
     const lastRun = this.db.get("submittedAfter") || this.hubspot.monthAgo();
     const submittedAfter = new Date(lastRun);
 
-  //  if (this.forms.length < 1) return;
     const results = await this.hubspot.getFormSubmissions(this.forms, submittedAfter.getTime());
     for (const result of results) {
       let submittedAt = new Date(result.submittedAt);
