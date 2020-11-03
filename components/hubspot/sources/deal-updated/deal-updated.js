@@ -1,9 +1,9 @@
 const hubspot = require("../../hubspot.app.js");
 
 module.exports = {
-  key: "hubspot-contact-updated",
-  name: "Contact Updated",
-  description: "Emits an event each time a contact is updated.",
+  key: "hubspot-deal-updated",
+  name: "Deal Updated",
+  description: "Emits an event each time a deal is updated.",
   version: "0.0.1",
   props: {
     hubspot,
@@ -13,15 +13,6 @@ module.exports = {
       default: {
         intervalSeconds: 60 * 15,
       },
-    },
-  },
-  methods: {
-    generateMeta(contact, updatedAt) {
-      return {
-        id: `${contact.id}${updatedAt.getTime()}`,
-        summary: `${contact.properties.firstname} ${contact.properties.lastname}`,
-        ts: updatedAt.getTime(),
-      };
     },
   },
   async run(event) {
@@ -42,13 +33,17 @@ module.exports = {
     let total = 1;
 
     while (!done && count < total) {
-      let contacts = await this.hubspot.searchCRM(data, "contacts");
-      total = contacts.total;
-      if (contacts.paging) data.after = contacts.paging.next.after;
-      for (const contact of contacts.results) {
-        let updatedAt = new Date(contact.updatedAt);
+      let deals = await this.hubspot.searchCRM(data, "deals");
+      total = deals.total;
+      if (deals.paging) data.after = deals.paging.next.after;
+      for (const deal of deals.results) {
+        let updatedAt = new Date(deal.updatedAt);
         if (updatedAt.getTime() > updatedAfter.getTime()) {
-          this.$emit(contact, this.generateMeta(contact, updatedAt));
+          this.$emit(deal, {
+            id: deal.id,
+            summary: deal.properties.dealname,
+            ts: updatedAt.getTime(),
+          });
         } else {
           // don't need to continue if we've gotten to contacts already evaluated
           done = true;

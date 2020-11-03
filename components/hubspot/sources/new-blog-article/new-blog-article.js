@@ -19,27 +19,15 @@ module.exports = {
   async run(event) {
     const lastRun = this.db.get("createdAfter") || this.hubspot.monthAgo();
     const createdAfter = new Date(lastRun);
-    const params = {
-      limit: 100,
-      createdAfter: createdAfter.getTime(), // return entries created since event last ran
-    };
 
-    let total = 1;
-    let count = 0;
-
-    while (count < total) {
-      let results = await this.hubspot.getBlogPosts(params);
-      total = results.total;
-      if (results.paging) params.after = results.paging.next.after;
-      for (const blogpost of results.results) {
-        let createdAt = new Date(blogpost.created);
-        this.$emit(blogpost, {
-          id: blogpost.id,
-          summary: blogpost.name,
-          ts: createdAt.getTime(),
-        });
-        count++;
-      }
+    const results = await this.hubspot.getBlogPosts(createdAfter.getTimee());
+    for (const blogpost of results) {
+      let createdAt = new Date(blogpost.created);
+      this.$emit(blogpost, {
+        id: blogpost.id,
+        summary: blogpost.name,
+        ts: createdAt.getTime(),
+      });
     }
 
     this.db.set("createdAfter", Date.now());

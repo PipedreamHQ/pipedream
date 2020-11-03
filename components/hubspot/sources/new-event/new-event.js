@@ -19,7 +19,7 @@ module.exports = {
             value: "company",
           },
           {
-            label: "Conatcts",
+            label: "Contacts",
             value: "contact",
           },
           {
@@ -37,17 +37,12 @@ module.exports = {
       type: "string[]",
       label: "Object",
       optional: false,
-      async options({ page, prevContext }) {
-        let objectType, label;
+      async options() {
+        let objectType = null;
         if (this.objectType == "company") objectType = "companies";
-        else objectType = `${this.objectType}s`;
-        const params = {
-          limit: 100,
-        };
-        if (Object.keys(prevContext).length !== 0) params.next = prevContext;
-
-        const results = await this.hubspot.getObjects(objectType, params);
-        const options = results.results.map((result) => {
+          else objectType = `${this.objectType}s`;
+        const results = await this.hubspot.getObjects(objectType);
+        const options = results.map((result) => {
           if (objectType == "companies") label = result.properties.name;
           else if (objectType == "contacts")
             label = `${result.properties.firstname} ${result.properties.lastname}`;
@@ -55,11 +50,7 @@ module.exports = {
           else if (objectType == "tickets") label = result.properties.subject;
           return { label, value: JSON.stringify({ label, value: result.id }) };
         });
-        const after = results.paging ? results.paging.next.after : null;
-        return {
-          options,
-          context: { after },
-        };
+        return options;
       },
     },
     db: "$.service.db",
@@ -74,29 +65,13 @@ module.exports = {
     const lastRun = this.db.get("occurredAfter") || this.hubspot.monthAgo();
     const occurredAfter = new Date(lastRun);
 
-    for (let objectId of this.objectIds) {
-      objectId = JSON.parse(objectId);
-      const params = {
-        limit: 100,
-        objectType: this.objectType,
-        objectId: objectId.value,
-        occurredAfter,
-      };
-
-      let results = null;
-
-      while (!results || params.after) {
-        results = await this.hubspot.getEvents(params);
-        if (results.paging) params.after = results.paging.next.after;
-        else delete params.after;
-        for (const result of results.results) {
-          this.$emit(result, {
-            id: result.id,
-            summary: `${objectId.label} ${result.eventType}`,
-            ts: Date.now(),
-          });
-        }
-      }
+    const results = await this.hubspot.getEvents(this.objectIds, this.objectType, occurredAfter.getTime());
+    for (const result of results) {
+      this.$emit(result, {
+        id: result.id,
+        summary: `${result.label} ${result.eventType}`,
+        ts: Date.now(),
+      });
     }
 
     this.db.set("occurredAfter", Date.now());

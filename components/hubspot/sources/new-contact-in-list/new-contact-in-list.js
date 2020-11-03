@@ -12,24 +12,16 @@ module.exports = {
       type: "string[]",
       label: "Lists",
       optional: false,
-      async options({ page, prevContext }) {
-        const params = {
-          count: 100,
-          offset: Object.keys(prevContext).length != 0 ? prevContext.offset : 0,
-        };
-        const results = await this.hubspot.getLists(params);
-        const options = results.lists.map((result) => {
+      async options() {
+        const results = await this.hubspot.getLists();
+        const options = results.map((result) => {
           const label = result.name;
           return {
             label,
             value: JSON.stringify({ label, value: result.listId }),
           };
         });
-        let offset = params.offset + params.count;
-        return {
-          options,
-          context: { offset },
-        };
+        return options;
       },
     },
     db: "$.service.db",
@@ -50,22 +42,9 @@ module.exports = {
     },
   },
   async run(event) {
-    for (let list of this.lists) {
-      list = JSON.parse(list);
-      const params = {
-        count: 100,
-      };
-
-      let hasMore = true;
-
-      while (hasMore) {
-        let contacts = await this.hubspot.getListContacts(list.value, params);
-        hasMore = contacts["has-more"];
-        if (hasMore) params.vidOffset = contacts["vid-offset"];
-        for (const contact of contacts.contacts) {
-          this.$emit(contact, this.generateMeta(contact, list));
-        }
-      }
+    const contacts = await this.hubspot.getListContacts(this.lists);
+    for (const contact of contacts) {
+      this.$emit(contact, this.generateMeta(contact, contact.list));
     }
   },
 };

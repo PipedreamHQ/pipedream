@@ -18,30 +18,15 @@ module.exports = {
   },
   async run(event) {
     const createdAfter = new Date(this.hubspot.monthAgo());
-    const params = {
-      limit: 100,
-      startTimestamp: createdAfter.getTime(),
-    };
 
-    let hasMore = true;
-    let done = false;
-
-    while (hasMore && !done) {
-      let results = await this.hubspot.getEmailEvents(params);
-      hasMore = results.hasMore;
-      if (hasMore) params.offset = results.offset;
-      for (const emailevent of results.events) {
-        let createdAt = new Date(emailevent.created);
-        if (createdAt.getTime() > createdAfter.getTime()) {
-          this.$emit(emailevent, {
-            id: emailevent.id,
-            summary: `${emailevent.recipient} - ${emailevent.type}`,
-            ts: createdAt.getTime(),
-          });
-        } else {
-          done = true;
-        }
-      }
+    const results = await this.hubspot.getEmailEvents(createdAfter.getTime());
+    for (const emailEvent of results) {
+      let createdAt = new Date(emailEvent.created);
+      this.$emit(emailEvent, {
+        id: emailEvent.id,
+        summary: `${emailEvent.recipient} - ${emailEvent.type}`,
+        ts: createdAt.getTime(),
+      });
     }
   },
 };

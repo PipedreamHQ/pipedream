@@ -12,12 +12,8 @@ module.exports = {
       type: "string[]",
       label: "Form",
       optional: false,
-      async options({ page, prevContext }) {
-        const params = {
-          limit: 50,
-          offset: prevContext || 0,
-        };
-        const results = await this.hubspot.getForms(params);
+      async options() {
+        const results = await this.hubspot.getForms();
         const options = results.map((result) => {
           const label = result.name;
           return {
@@ -25,11 +21,7 @@ module.exports = {
             value: JSON.stringify({ label, value: result.guid }),
           };
         });
-        let offset = params.offset + params.limit;
-        return {
-          options,
-          context: { offset },
-        };
+        return options;
       },
     },
     db: "$.service.db",
@@ -54,29 +46,12 @@ module.exports = {
   async run(event) {
     const lastRun = this.db.get("submittedAfter") || this.hubspot.monthAgo();
     const submittedAfter = new Date(lastRun);
-    const params = {
-      limit: 50,
-    };
 
-    for (let form of this.forms) {
-      form = JSON.parse(form);
-      let results = null;
-      let done = false;
-      while ((!results || params.after != undefined) && !done) {
-        results = await this.hubspot.getFormSubmissions(form.value, params);
-        console.log(results);
-        for (const result of results.results) {
-          let submittedAt = new Date(result.submittedAt);
-          if (submittedAt.getTime() > submittedAfter.getTime()) {
-            this.$emit(result, this.generateMeta(form, result, submittedAt));
-          } else {
-            done = true; // don't need to continue if we've gotten to submissions already evaluated
-          }
-        }
-        if (results.paging) params.after = results.paging.next.after;
-        else delete params.after;
-      }
-      delete params.after;
+  //  if (this.forms.length < 1) return;
+    const results = await this.hubspot.getFormSubmissions(this.forms, submittedAfter.getTime());
+    for (const result of results) {
+      let submittedAt = new Date(result.submittedAt);
+      this.$emit(result, this.generateMeta(result.form, result, submittedAt));
     }
 
     this.db.set("submittedAfter", Date.now());

@@ -19,12 +19,8 @@ module.exports = {
   async run(event) {
     const yearFromNow = new Date();
     yearFromNow.setFullYear(yearFromNow.getFullYear() + 1);
-    params = {
-      startDate: Date.now(),
-      endDate: yearFromNow.getTime(),
-    };
 
-    const results = await this.hubspot.getCalendarTasks(params);
+    const results = await this.hubspot.getCalendarTasks(yearFromNow.getTime());
     for (const task of results) {
       this.$emit(task, {
         id: task.id,
