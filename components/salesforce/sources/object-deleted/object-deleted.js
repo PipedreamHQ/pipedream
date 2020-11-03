@@ -1,28 +1,32 @@
+const startCase = require("lodash/startCase");
+
 const common = require("../../common");
 
-const EVENT_SOURCE_NAME = "New Account (Instant)";
+const EVENT_SOURCE_NAME = "Object Deleted (Instant)";
 
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  key: "salesforce-new-account",
-  description: "Triggers when a new account is created",
+  key: "salesforce-object-deleted",
+  description: "Triggers when an object is deleted",
   version: "0.0.1",
   methods: {
     ...common.methods,
     generateMeta(data) {
       const {
-        New: newAccount,
+        Old: oldObject,
       } = data.body;
       const {
-        CreatedDate: createdDate,
+        LastModifiedDate: lastModifiedDate,
         Id: id,
-        Name: username,
-      } = newAccount;
-      const summary = `New account created: ${username}`;
-      const ts = +new Date(createdDate);
+        Name: name,
+      } = oldObject;
+      const entityType = startCase(this.getObjectType());
+      const summary = `${entityType} deleted: ${name}`;
+      const ts = Date.parse(lastModifiedDate);
+      const compositeId = `${id}-${ts}`;
       return {
-        id,
+        id: compositeId,
         summary,
         ts,
       };
@@ -32,11 +36,11 @@ module.exports = {
     },
     getEventTypes() {
       return [
-        "after insert",
+        "after delete",
       ];
     },
     getObjectType() {
-      return "Account";
+      return this.objectType;
     },
     getTriggerBody(triggerName, webhookClass) {
       const eventTypes = this.getEventTypes().join(", ");
@@ -44,14 +48,9 @@ module.exports = {
       const endpointUrl = this.http.endpoint;
       return `
         trigger ${triggerName} on ${objectType} (${eventTypes}) {
-            for (${objectType} item : Trigger.New) {
+            for (${objectType} item : Trigger.Old) {
                 final Map<String, ${objectType}> eventData = new Map<String, ${objectType}>();
-                eventData.put('New', item);
-
-                if (Trigger.OldMap != null) {
-                    final ${objectType} oldItem = Trigger.OldMap.get(item.Id);
-                    eventData.put('Old', oldItem);
-                }
+                eventData.put('Old', item);
                 String content = ${webhookClass}.jsonContent(eventData);
                 ${webhookClass}.callout('${endpointUrl}', content);
             }
