@@ -22,6 +22,9 @@ module.exports = {
         this.http.endpoint,
       );
       this.db.set("integrationSlug", integrationSlug);
+
+      const clientSecret = await this.sentry.getClientSecret(integrationSlug);
+      this.db.set("clientSecret", clientSecret);
     },
     async deactivate() {
       const integrationSlug = this.db.get("integrationSlug");
@@ -52,6 +55,14 @@ module.exports = {
     },
   },
   async run(event) {
+    const clientSecret = this.db.get("clientSecret");
+    if (!this.sentry.isValidSource(event, clientSecret)) {
+      this.http.respond({
+        statusCode: 404,
+      });
+      return;
+    }
+
     this.http.respond({
       statusCode: 200,
     });

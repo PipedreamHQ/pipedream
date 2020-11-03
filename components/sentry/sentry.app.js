@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { createHmac } = require("crypto");
 const parseLinkHeader = require("parse-link-header");
 const slugify = require("slugify");
 
@@ -126,6 +127,24 @@ module.exports = {
       const url = this._integrationsEndpoint(integrationSlug);
       const requestConfig = this._makeRequestConfig();
       await axios.delete(url, requestConfig);
+    },
+    async getClientSecret(integrationSlug) {
+      const url = this._integrationsEndpoint(integrationSlug);
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await axios.get(url, requestConfig);
+      return data.clientSecret;
+    },
+    isValidSource(event, clientSecret) {
+      const {
+        headers: {
+            "sentry-hook-signature": signature,
+        },
+        bodyRaw,
+      } = event;
+      const hmac = createHmac("sha256", clientSecret);
+      hmac.update(bodyRaw, "utf8");
+      const digest = hmac.digest("hex");
+      return digest === signature;
     },
   },
 };
