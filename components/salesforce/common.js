@@ -12,6 +12,7 @@ module.exports = {
       customResponse: true,
     },
     salesforce,
+    objectType: { propDefinition: [salesforce, "objectType"] },
   },
   hooks: {
     async activate() {

@@ -3,6 +3,34 @@ const axios = require("axios");
 module.exports = {
   type: "app",
   app: "salesforce_rest_api",
+  propDefinitions: {
+    objectType: {
+      type: "string",
+      label: "Object Type",
+      description: "The type of object for which to monitor events",
+      async options(context) {
+        const { page } = context;
+        if (page !== 0) {
+          return {
+            options: [],
+          };
+        }
+
+        const url = this._sObjectsApiUrl();
+        const requestConfig = this._makeRequestConfig();
+        const { data } = await axios.get(url, requestConfig);
+        const options = data.sobjects
+          .filter(sobject => sobject.triggerable)
+          .map(sobject => ({
+            label: sobject.label,
+            value: sobject.name,
+          }));
+        return {
+          options,
+        };
+      },
+    },
+  },
   methods: {
     _authToken() {
       return this.$auth.oauth_access_token;
@@ -32,6 +60,11 @@ module.exports = {
       const apiVersion = this._apiVersion();
       const url = `${baseUrl}/services/data/v${apiVersion}/tooling/sobjects/ApexTrigger`;
       return id ? `${url}/${id}` : url;
+    },
+    _sObjectsApiUrl() {
+      const baseUrl = this._baseApiUrl();
+      const apiVersion = this._apiVersion();
+      return `${baseUrl}/services/data/v${apiVersion}/sobjects`;
     },
     async getApiUrls() {
       const url = this._userApiUrl();

@@ -1,26 +1,29 @@
+const startCase = require("lodash/startCase");
+
 const common = require("../../common");
 
-const EVENT_SOURCE_NAME = "New Account (Instant)";
+const EVENT_SOURCE_NAME = "New Object (Instant)";
 
 module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
-  key: "salesforce-new-account",
-  description: "Triggers when a new account is created",
+  key: "salesforce-new-object",
+  description: "Emit an event when an object is created",
   version: "0.0.1",
   methods: {
     ...common.methods,
     generateMeta(data) {
       const {
-        New: newAccount,
+        New: newObject,
       } = data.body;
       const {
         CreatedDate: createdDate,
         Id: id,
-        Name: username,
-      } = newAccount;
-      const summary = `New account created: ${username}`;
-      const ts = +new Date(createdDate);
+        Name: name,
+      } = newObject;
+      const entityType = startCase(this.getObjectType()).toLowerCase();
+      const summary = `New ${entityType} created: ${name}`;
+      const ts = Date.parse(createdDate);
       return {
         id,
         summary,
@@ -36,7 +39,7 @@ module.exports = {
       ];
     },
     getObjectType() {
-      return "Account";
+      return this.objectType;
     },
     getTriggerBody(triggerName, webhookClass) {
       const eventTypes = this.getEventTypes().join(", ");
@@ -47,11 +50,6 @@ module.exports = {
             for (${objectType} item : Trigger.New) {
                 final Map<String, ${objectType}> eventData = new Map<String, ${objectType}>();
                 eventData.put('New', item);
-
-                if (Trigger.OldMap != null) {
-                    final ${objectType} oldItem = Trigger.OldMap.get(item.Id);
-                    eventData.put('Old', oldItem);
-                }
                 String content = ${webhookClass}.jsonContent(eventData);
                 ${webhookClass}.callout('${endpointUrl}', content);
             }
