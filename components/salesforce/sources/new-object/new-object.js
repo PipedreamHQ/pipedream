@@ -8,7 +8,7 @@ module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
   key: "salesforce-new-object",
-  description: "Triggers when a new object is created",
+  description: "Emit an event when an object is created",
   version: "0.0.1",
   methods: {
     ...common.methods,

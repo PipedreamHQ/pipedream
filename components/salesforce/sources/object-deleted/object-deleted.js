@@ -8,7 +8,7 @@ module.exports = {
   ...common,
   name: EVENT_SOURCE_NAME,
   key: "salesforce-object-deleted",
-  description: "Triggers when an object is deleted",
+  description: "Emit an event when an object is deleted",
   version: "0.0.1",
   methods: {
     ...common.methods,
