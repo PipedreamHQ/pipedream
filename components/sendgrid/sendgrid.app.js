@@ -1,4 +1,6 @@
+const retry = require("async-retry");
 const axios = require("axios");
+const get = require("lodash/get");
 const parseLinkHeader = require('parse-link-header');
 
 module.exports = {
@@ -10,6 +12,10 @@ module.exports = {
     },
     _apiUrl() {
       return "https://api.sendgrid.com/v3";
+    },
+    _contactsSearchUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/marketing/contacts/search`;
     },
     _makeRequestConfig() {
       const authToken = this._authToken();
@@ -46,8 +52,41 @@ module.exports = {
         query,
       };
       const requestConfig = this._makeRequestConfig();
-      const { data: { result } } = await axios.post(url, requestData, requestConfig);
-      return result;
+      const { data } = await axios.post(url, requestData, requestConfig);
+      return data;
+    },
+    async _withRetries(apiCall, retriableStatusCodes) {
+      const retryOpts = {
+        retries: 5,
+        factor: 2,
+      };
+      return retry(async (bail) => {
+        try {
+          return await apiCall();
+        } catch (err) {
+          const statusCode = get(err, ["response", "status"]);
+          if (!retriableStatusCodes.has(statusCode)) {
+            bail(`
+              Unexpected error (status code: ${statusCode}):
+              ${JSON.stringify(err, null, 2)}
+            `);
+          }
+          console.warn(`Temporary error: ${err.message}`);
+          throw err;
+        }
+      }, retryOpts);
+    },
+    async searchContacts(query) {
+      const url = this._contactsSearchUrl();
+      const searchParams = {
+        url,
+        query,
+      };
+      const retriableStatusCodes = new Set([408, 429]);
+      return this._withRetries(
+        async () => this._getAllItems(searchParams),
+        retriableStatusCodes,
+      );
     },
   },
 };

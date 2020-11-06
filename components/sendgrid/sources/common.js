@@ -13,11 +13,6 @@ module.exports = {
     },
     sendgrid,
   },
-  hooks: {
-    async activate() {
-      this.db.set("lastTimestamp", Date.now());
-    },
-  },
   methods: {
     slugifyEmail(email) {
       return email
@@ -44,12 +39,6 @@ module.exports = {
     },
   },
   async run(event) {
-    const lastTimestamp = this.db.get("lastTimestamp");
-    await this.processEvent(event, lastTimestamp);
-
-    // Transform the timer timestamp to milliseconds
-    // to be consistent with Node.js
-    const timestamp = event.timestamp * 1000;
-    this.db.set("lastTimestamp", timestamp);
+    await this.processEvent(event);
   },
 };
