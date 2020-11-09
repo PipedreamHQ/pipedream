@@ -1,16 +1,17 @@
 const stack_exchange = require('../../stack_exchange.app');
 
 module.exports = {
-  key: "stack_exchange-new-question-for-specific-keywords",
-  name: "New Question for Specific Keywords",
-  description: "Emits an event when a new question is posted and related to a set of specific keywords",
-  version: "0.0.1",
-  dedupe: "unique",
+  key: 'stack_exchange-new-question-for-specific-keywords',
+  name: 'New Question for Specific Keywords',
+  description:
+    'Emits an event when a new question is posted and related to a set of specific keywords',
+  version: '0.0.2',
+  dedupe: 'unique',
   props: {
     stack_exchange,
-    db: "$.service.db",
-    siteId: { propDefinition: [stack_exchange, "siteId"] },
-    keywords: { propDefinition: [stack_exchange, "keywords"] },
+    db: '$.service.db',
+    siteId: {propDefinition: [stack_exchange, 'siteId']},
+    keywords: {propDefinition: [stack_exchange, 'keywords']},
     timer: {
       type: '$.interface.timer',
       default: {
@@ -21,7 +22,7 @@ module.exports = {
   hooks: {
     async activate() {
       const fromDate = this._getCurrentEpoch();
-      this.db.set("fromDate", fromDate);
+      this.db.set('fromDate', fromDate);
     },
   },
   methods: {
@@ -30,11 +31,7 @@ module.exports = {
       return Math.floor(Date.now() / 1000);
     },
     generateMeta(data) {
-      const {
-        question_id: id,
-        creation_date: ts,
-        title,
-      } = data;
+      const {question_id: id, creation_date: ts, title} = data;
       const summary = `New question: ${title}`;
       return {
         id,
@@ -44,7 +41,7 @@ module.exports = {
     },
   },
   async run() {
-    const fromDate = this.db.get("fromDate");
+    const fromDate = this.db.get('fromDate');
     const toDate = this._getCurrentEpoch();
     const keywordsQuery = this.keywords.join(',');
     const searchParams = {
@@ -63,6 +60,6 @@ module.exports = {
       this.$emit(item, meta);
     }
 
-    this.db.set("fromDate", toDate);
+    this.db.set('fromDate', toDate);
   },
 };

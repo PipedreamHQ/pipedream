@@ -1,33 +1,34 @@
-const sentry = require("../../sentry.app");
+const sentry = require('../../sentry.app');
 
-const EVENT_SOURCE_NAME = "Issue Event (Instant)";
+const EVENT_SOURCE_NAME = 'Issue Event (Instant)';
 
 module.exports = {
-  key: "sentry-issue-events",
+  key: 'sentry-issue-events',
+  version: '0.0.1',
   name: EVENT_SOURCE_NAME,
   props: {
-    db: "$.service.db",
+    db: '$.service.db',
     http: {
-      type: "$.interface.http",
+      type: '$.interface.http',
       customResponse: true,
     },
     sentry,
-    organizationSlug: { propDefinition: [sentry, "organizationSlug"] },
+    organizationSlug: {propDefinition: [sentry, 'organizationSlug']},
   },
   hooks: {
     async activate() {
-      const { slug: integrationSlug } = await this.sentry.createIntegration(
+      const {slug: integrationSlug} = await this.sentry.createIntegration(
         this.getEventSourceName(),
         this.organizationSlug,
         this.http.endpoint,
       );
-      this.db.set("integrationSlug", integrationSlug);
+      this.db.set('integrationSlug', integrationSlug);
 
       const clientSecret = await this.sentry.getClientSecret(integrationSlug);
-      this.db.set("clientSecret", clientSecret);
+      this.db.set('clientSecret', clientSecret);
     },
     async deactivate() {
-      const integrationSlug = this.db.get("integrationSlug");
+      const integrationSlug = this.db.get('integrationSlug');
       await this.sentry.disableIntegration(integrationSlug);
     },
   },
@@ -36,16 +37,14 @@ module.exports = {
       return EVENT_SOURCE_NAME;
     },
     generateMeta(event) {
-      const { body, headers } = event;
+      const {body, headers} = event;
       const {
-        "request-id": id,
-        "sentry-hook-resource": resourceType,
-        "sentry-hook-timestamp": ts,
+        'request-id': id,
+        'sentry-hook-resource': resourceType,
+        'sentry-hook-timestamp': ts,
       } = headers;
-      const { action, data } = body;
-      const {
-        [resourceType]: resource,
-      } = data;
+      const {action, data} = body;
+      const {[resourceType]: resource} = data;
       const summary = `${resourceType} #${resource.id} ${action}`;
       return {
         id,
@@ -55,7 +54,7 @@ module.exports = {
     },
   },
   async run(event) {
-    const clientSecret = this.db.get("clientSecret");
+    const clientSecret = this.db.get('clientSecret');
     if (!this.sentry.isValidSource(event, clientSecret)) {
       this.http.respond({
         statusCode: 404,
@@ -67,7 +66,7 @@ module.exports = {
       statusCode: 200,
     });
 
-    const { body } = event;
+    const {body} = event;
     const meta = this.generateMeta(event);
     this.$emit(body, meta);
   },
