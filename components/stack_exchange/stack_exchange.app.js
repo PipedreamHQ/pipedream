@@ -141,12 +141,12 @@ module.exports = {
       const searchPage = page + 1;  // The StackExchange API pages are 1-indexed
       const {
         items,
-        has_more: hasMore,
+        has_more: nextPageHasMore,
       } = await this.getItemsForPage(url, searchParams, searchPage);
 
       return {
         items,
-        hasMore,
+        hasMore: nextPageHasMore,
       };
     },
     _makeRequestConfig() {
