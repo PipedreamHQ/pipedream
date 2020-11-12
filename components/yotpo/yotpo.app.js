@@ -25,7 +25,7 @@ module.exports = {
     async sendTestEvents() {
       const api = this.api().core
       const response = await api.post("/reviews/dynamic_create", {
-        "appkey": this.$aut.app_key,
+        "appkey": this.$auth.app_key,
         "domain": "http://www.pipedream.com",
         "sku": "10",
         "product_title": "Test Product",

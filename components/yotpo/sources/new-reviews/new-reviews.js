@@ -24,4 +24,4 @@ module.exports = {
   async run(event) {
     this.$emit(event)
   },
-}h
+}
