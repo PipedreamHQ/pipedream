@@ -1,5 +1,4 @@
 const axios = require("axios");
-const crypto = require("crypto");
 const get = require("lodash.get");
 const events = [
   { label: "Article Created", value: JSON.stringify({ filter: "Article", verb: "create" }) }, 
