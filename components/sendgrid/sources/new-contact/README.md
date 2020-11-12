@@ -190,10 +190,10 @@ cases when the search results return a number of new contacts higher that
 #### Example
 
 We'll go through an example to illustrate the approach detailed above. For
-simplicity, let's make the following assumptions:
+simplicity, let's make **the following assumptions**:
 
-- The search API returns a maximum of 2 records per call, which is also the
-  default value for the `limit` prop
+- The search API returns a maximum of 2 records per call, and the `limit` prop
+  is also set to 2
 - Timestamps are expressed in minutes
 - Time starts at `t = 0` (i.e. no contacts were created before that time)
 - The first execution of the event source happens at `t = 60`

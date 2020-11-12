@@ -1,4 +1,3 @@
-const last = require("lodash/last");
 const orderBy = require("lodash/orderBy");
 
 const common = require("../common");
@@ -7,7 +6,7 @@ module.exports = {
   ...common,
   key: "sendgrid-new-contact",
   name: "New Contact (Instant)",
-  description: "Emit and event when a new contact is created",
+  description: "Emit an event when a new contact is created",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -16,19 +15,14 @@ module.exports = {
       type: "integer",
       label: "Limit",
       description: "The maximum number of new contacts to process on each iteration (max. 50)",
+      min: 1,
+      max: 50,
       optional: true,
       default: 50,
     },
   },
   hooks: {
     async activate() {
-      if (this.limit <= 0 || this.limit > 50) {
-        throw new Error(`
-          Incorrect value for "limit" prop.
-          The value should be greater than 0 and no greater than 50.
-        `);
-      }
-
       const currentTimestamp = Date.now();
       const state = {
         processedItems: [],
