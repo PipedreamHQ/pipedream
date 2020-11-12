@@ -1,10 +1,11 @@
 const shopify = require("../../shopify.app.js");
 
 module.exports = {
-  key: "shopify-new-abandoned-cart",
-  name: "New Abandoned Cart",
-  description: "Emits an event each time a user abandons their cart.",
+  key: "shopify-new-order",
+  name: "New Order",
+  description: "Emits an event for each new order submitted to a store.",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     db: "$.service.db",
     timer: {
@@ -17,14 +18,16 @@ module.exports = {
   },
   async run() {
     const since_id = this.db.get("since_id") || null;
-    const results = await this.shopify.getAbandonedCheckouts(since_id);
-    for (const cart of results) {
-      this.$emit(cart, {
-        id: cart.id,
-        summary: cart.email,
+    let results = await this.shopify.getOrders("any", true, since_id);
+
+    for (const order of results) {
+      this.$emit(order, {
+        id: order.id,
+        summary: `Order ${order.name}`,
         ts: Date.now(),
       });
     }
+
     if (results[results.length - 1])
       this.db.set("since_id", results[results.length - 1].id);
   },
