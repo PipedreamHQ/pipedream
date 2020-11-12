@@ -1,0 +1,28 @@
+const common = require("../common");
+
+module.exports = {
+  ...common,
+  key: "webflow-new-form-submission",
+  name: "New Form Submission (Instant)",
+  description: "Emit an event when a new form is submitted",
+  dedupe: "unique",
+  methods: {
+    ...common.methods,
+    getWebhookTriggerType() {
+      return "form_submission";
+    },
+    generateMeta(data) {
+      const {
+        _id: id,
+        d: date,
+      } = data;
+      const summary = "New form submission";
+      const ts = this.dateIsoStringToTimestamp(date);
+      return {
+        id,
+        summary,
+        ts,
+      };
+    },
+  },
+};
