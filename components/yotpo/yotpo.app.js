@@ -22,26 +22,6 @@ module.exports = {
         }),
       }
     },
-    async sendTestEvents() {
-      const api = this.api().core
-      const response = await api.post("/reviews/dynamic_create", {
-        "appkey": this.$auth.app_key,
-        "domain": "http://www.pipedream.com",
-        "sku": "10",
-        "product_title": "Test Product",
-        "product_description": "Test product description.",
-        "product_url": "https://docs.pipedream.com/event-sources/#creating-event-sources",
-        "product_image_url": "https://docs.pipedream.com/pipedream.svg",
-        "display_name": "Test User",
-        "email": "test.user@pipedream.com",
-        "review_content": "This is the best product ever.",
-        "review_title": "It changed my life",
-        "review_score": 5,
-        "time_stamp": Date.now(),
-      })
-      const review = _get(response, "data.response.reviews.0")
-      console.log("Sent test event (review_create):", review || "No response when sending test event")
-    },
     async createWebhook(event_name = "review_create", url) {
       const api = this.api().dev
       const webhook = _get(await api.get("/webhooks"), "data.webhooks.webhooks", []).find(w => w.webhook_event_name == event_name)
