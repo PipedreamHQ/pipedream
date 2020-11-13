@@ -179,7 +179,7 @@ You'll see the message associated with the error in the Inspector and the code s
 
 ## Using secrets in code
 
-While the data you send through Pipedream workflows is private, all Pipedream workflows are public by default. It's critical you don't include secrets — API keys, tokens, or other sensitive values — directly in code steps.
+Workflow code is private by default, but [you can make a workflow public](/public-workflows/). In either case, we recommend you don't include secrets — API keys, tokens, or other sensitive values — directly in code steps.
 
 Pipedream supports [environment variables](/environment-variables/) for keeping secrets separate from code. Once you create an environment variable in Pipedream, you can reference it in any workflow using `process.env.VARIABLE_NAME`. The values of environment variables are private.
 

@@ -7,9 +7,7 @@ next: false
 
 **Environment variables** enable you to separate secrets and other data from your code.
 
-For example, you wouldn't want to include an API key in a code cell of a workflow. On the [Developer (free) tier](/pricing/#developer-tier), all workflow code is public by default, so anyone would be able to see your API key in plain sight. By referencing the value of an environment variable, instead, your public workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
-
-You can [make any workflow private](/workflows/managing/#workflow-visibility), but it's still recommended to never keep API keys or other sensitive data directly in your code, no matter where that code is stored.
+You should not include API keys or other sensitive data directly in your workflow's code. This is especially important if you [make your workflow public](/public-workflows/), since anyone would be able to see your API key in plain sight. By referencing the value of an environment variable, instead, your workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
 
 Environment variables are defined at the account-level, and can be referenced in code cells in any workflow.
 
