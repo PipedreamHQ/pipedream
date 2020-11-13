@@ -6,6 +6,28 @@ module.exports = {
     db: "$.service.db",
     http: "$.interface.http",
     webflow,
+    siteId: {
+      type: "string",
+      label: "Site",
+      description: "The site from which to listen events",
+      async options(actions) {
+        const { page } = actions;
+        if (page !== 0) {
+          return {
+            options: []
+          };
+        }
+
+        const sites = await this.webflow.listSites();
+        const options = sites.map(site => ({
+          label: site.name,
+          value: site._id,
+        }));
+        return {
+          options,
+        };
+      },
+    },
   },
   methods: {
     getWebhookTriggerType() {
@@ -35,14 +57,14 @@ module.exports = {
       const { endpoint } = this.http;
       const triggerType = this.getWebhookTriggerType();
       const filter = this.getWebhookFilter();
-      const {
-        _id: webhookId,
-      } = await this.webflow.createWebhook(endpoint, triggerType, filter);
+      const webhook = await this.webflow.createWebhook(
+        this.siteId, endpoint, triggerType, filter);
+      const { _id: webhookId } = webhook;
       this.db.set("webhookId", webhookId);
     },
     async deactivate() {
       const webhookId = this.db.get("webhookId");
-      await this.webflow.removeWebhook(webhookId);
+      await this.webflow.removeWebhook(this.siteId, webhookId);
     },
   },
   async run(event) {

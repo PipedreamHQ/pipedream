@@ -23,9 +23,12 @@ module.exports = {
       const sites = await apiClient.sites();
       return sites.shift();
     },
-    async createWebhook(url, triggerType, filter = {}) {
+    async listSites() {
       const apiClient = this._createApiClient();
-      const { _id: siteId } = await this._site(apiClient);
+      return apiClient.sites();
+    },
+    async createWebhook(siteId, url, triggerType, filter = {}) {
+      const apiClient = this._createApiClient();
       const params = {
         siteId,
         triggerType,
@@ -34,9 +37,8 @@ module.exports = {
       };
       return apiClient.createWebhook(params);
     },
-    async removeWebhook(webhookId) {
+    async removeWebhook(siteId, webhookId) {
       const apiClient = this._createApiClient();
-      const { _id: siteId } = await this._site(apiClient);
       const params = {
         siteId,
         webhookId,
