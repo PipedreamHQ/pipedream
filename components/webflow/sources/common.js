@@ -26,7 +26,7 @@ module.exports = {
     },
     processEvent(event) {
       const { body } = event;
-      const meta = this.generateMeta(event);
+      const meta = this.generateMeta(body);
       this.$emit(body, meta);
     },
   },
