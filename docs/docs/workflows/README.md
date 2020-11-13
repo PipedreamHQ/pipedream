@@ -16,7 +16,7 @@ Workflows make it easy to integrate your apps, data, and APIs — all with no s
 
 - Export values for each step and access them via the `steps` object.
 
-Workflow code is [public by default](/public-workflows/) so the community can discover and [copy it](/workflows/copy/). Your workflow execution and event data is **private**.
+Workflow code is private by default, but you can [make the code of any workflow public](/public-workflows/) so the community can discover and [copy it](/workflows/copy/). If you make the code of a workflow public, your workflow execution and event data will still remain **private**.
 
 ### Get started
 

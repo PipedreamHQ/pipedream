@@ -21,8 +21,6 @@ Read more about our plans and pricing options below.
 - [30 minutes (1,800,000 milliseconds) compute time per day](/limits/#compute-time-per-day)
 - [Other default limits on execution time, memory, and disk usage](/limits)
 
-On the Developer tier, your workflow code is public by default to encourage [sharing](/workflows/managing/#sharing-workflows). **Your workflow data, and the values of step parameters, remain private**. You can [make your workflow code private](/workflows/managing/#workflow-visibility) at any time. [Read more here](/public-workflows/).
-
 **To run any number of invocations, for any amount of time, [upgrade to the Professional tier](https://pipedream.com/pricing)**.
 
 ### Developer Tier Support options
