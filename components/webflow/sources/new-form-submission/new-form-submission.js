@@ -18,7 +18,7 @@ module.exports = {
         d: date,
       } = data;
       const summary = "New form submission";
-      const ts = this.dateIsoStringToTimestamp(date);
+      const ts = Date.parse(date);
       return {
         id,
         summary,

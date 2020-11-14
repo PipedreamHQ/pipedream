@@ -36,8 +36,8 @@ module.exports = {
     getWebhookFilter() {
       return {};
     },
-    dateIsoStringToTimestamp(date) {
-      return Math.floor(Date.parse(date) / 1000);
+    isEventRelevant(event) {
+      return true;
     },
     generateMeta(data) {
       return {
@@ -47,6 +47,10 @@ module.exports = {
       };
     },
     processEvent(event) {
+      if (!this.isEventRelevant(event)) {
+        return;
+      }
+
       const { body } = event;
       const meta = this.generateMeta(body);
       this.$emit(body, meta);
