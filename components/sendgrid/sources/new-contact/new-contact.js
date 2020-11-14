@@ -9,18 +9,6 @@ module.exports = {
   description: "Emit an event when a new contact is created",
   version: "0.0.1",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The maximum number of new contacts to process on each iteration (max. 50)",
-      min: 1,
-      max: 50,
-      optional: true,
-      default: 50,
-    },
-  },
   hooks: {
     async activate() {
       const currentTimestamp = Date.now();
@@ -123,11 +111,8 @@ module.exports = {
         return;
       }
 
-      // Limit the amount of items to process based on the
-      // **limit** parameter provided by the user, starting from
-      // the oldest record.
-      const itemsToProcess = orderBy(items, 'created_at')
-        .slice(0, this.limit);
+      // We process the searched records from oldest to newest.
+      const itemsToProcess = orderBy(items, 'created_at');
       itemsToProcess
         .forEach(item => {
           const meta = this.generateMeta({ item, eventTimestamp });
@@ -146,10 +131,11 @@ module.exports = {
         Date.parse(itemsToProcess[0].created_at),
       );
 
-      // If the expected remaining records to be returned by the
-      // next search is not enough to fill the **limit** quota,
-      // we need to extend the time range forward.
-      const newUpperTimestamp = contactCount < 2 * this.limit ? eventTimestamp : upperTimestamp;
+      // If the total contact count is less than 100, it means that during the
+      // next iteration the search results count will most likely be less than
+      // 50. In that case, if we extend the upper bound of the search time range
+      // we might be able to retrieve more records.
+      const newUpperTimestamp = contactCount < 100 ? eventTimestamp : upperTimestamp;
 
       // The list of processed items can grow indefinitely.
       // Since we don't want to keep track of every processed record

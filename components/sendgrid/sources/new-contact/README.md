@@ -34,10 +34,6 @@ this API key a nickname (optional), and click on **SAVE**.
    source.
 3. You'll be prompted to enter the time interval for the executions. The default
    value is 15 minutes.
-4. Next you'll be prompted to enter a **Limit** parameter. This parameter is
-   optional (with default value set to **50**). See the
-   [**Results Limits**](#results-limits) section for more information on how
-   this parameter works.
 
 ## Technical Details
 
@@ -76,9 +72,9 @@ Given existing limitations on the contact search API, this event source does not
 yield deterministic results:
 
 1. Records created in at a specific time in the past might not show up in the
-   search results immediately after being created. This is particuarly important
-   because there is no way to perfectly adjust the search time range to make
-   sure all possible records are covered.
+   search results immediately after being created. This is particularly
+   important because there is no way to perfectly adjust the search time range
+   to make sure all possible records are covered.
 2. The API returns a list of up to 50 records, and does not offer pagination.
    This means that if we perform a search limited to a specific time range, and
    more than 50 contacts were created during that time, we won't have full
@@ -181,19 +177,19 @@ This is accomplished by:
   extend the upper bound of the time range to try and retrieve more records next
   time).
 
-Users have the possibility to provide the number of new contacts to process
-within a single execution through the `limit` prop. This parameter is useful in
-cases when the search results return a number of new contacts higher that
-`limit`. Please note that the parameter is **optional** and its default value is
-**50** (which is the original limit imposed by the SendGrid API).
+_Please note that the maximum amount of processed records within a single
+iteration is **50**, which is the limit imposed by the SendGrid search API. The
+rationale behind that decision is that even though we could perform multiple
+searches within a single execution, it is more likely for records to appear in
+search results after some time has passed. Doing several searches in a row can
+push the API rate limits without much gain._
 
 #### Example
 
 We'll go through an example to illustrate the approach detailed above. For
 simplicity, let's make **the following assumptions**:
 
-- The search API returns a maximum of 2 records per call, and the `limit` prop
-  is also set to 2
+- The search API returns a maximum of 2 records per call
 - Timestamps are expressed in minutes
 - Time starts at `t = 0` (i.e. no contacts were created before that time)
 - The first execution of the event source happens at `t = 60`
@@ -360,8 +356,8 @@ The search results will now look like this:
 ```
 
 One thing to notice here is that the search results are ordered by `email` and
-not `created_at`. The event source does extract the earliest `N = limit` records
-and emits then in ascending order, from oldest to newest.
+not `created_at`. The event source sort them from oldest to newest before
+processing them.
 
 So the event source will now do the following:
 
