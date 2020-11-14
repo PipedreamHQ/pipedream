@@ -19,10 +19,6 @@ module.exports = {
       };
       return new Webflow(clientOpts);
     },
-    async _site(apiClient) {
-      const sites = await apiClient.sites();
-      return sites.shift();
-    },
     async listSites() {
       const apiClient = this._createApiClient();
       return apiClient.sites();
