@@ -17,10 +17,26 @@ module.exports = {
   hooks: {
     async activate() {
       const response = await this.telegram.createHook(this.http.endpoint, this.updateTypes);
+      console.log(response.data.description);
     },
     async deactivate() {
-      await this.telegram.deleteHook();
+      const response = await this.telegram.deleteHook();
+      console.log(response.data.description);
     },
+  },
+  methods: {
+    getMeta(body) {
+      let summary;
+      if (body.message.from)
+        summary = `Update from ${body.message.from.first_name} ${body.message.from.last_name}`;
+      else
+        summary = `Update ID ${body.update_id}`;
+      return {
+        id: body.update_id,
+        summary,
+        ts: Date.now()
+      }
+    }
   },
   async run(event) {
     if ((event.path).substring(1) !== this.telegram.$auth.token) {
@@ -33,10 +49,6 @@ module.exports = {
     if (!body) {
       return;
     }
-    this.$emit(body, {
-      id: `${body.update_id}`,
-      summary: `Update from ${body.message.from.first_name} ${body.message.from.last_name}`,
-      ts: Date.now(),
-    });
+    this.$emit(body, this.getMeta(body));
   },
 };
