@@ -3,11 +3,11 @@ prev: false
 next: false
 ---
 
-# Public Workflows, Private Data
+# Workflow Code and Data Visibility
 
-**By default, the workflows you create, and the steps within them, are public. The data you send to a workflow, and all logs and API responses we attach to steps, are private**.
+**By default, the workflows you create, and the steps within them, are private. The data you send to a workflow, and all logs and API responses we attach to steps, are also private**.
 
-You can make your workflow code private using the dropdown menu to the right of the **code** label at the top of your workflow:
+You can make your workflow code public using the dropdown menu to the right of the **code** label at the top of your workflow:
 
 <div>
 <img alt="Workflow visibility toggle" src="./images/toggle-workflow-visibility.png">
