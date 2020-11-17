@@ -1,7 +1,6 @@
-const retry = require("async-retry");
 const axios = require("axios");
 const get = require("lodash/get");
-const parseLinkHeader = require('parse-link-header');
+const retry = require("async-retry");
 
 module.exports = {
   type: "app",
@@ -26,25 +25,6 @@ module.exports = {
       return {
         headers,
       };
-    },
-    async *_getItems(opts) {
-      let { url } = opts;
-      const requestData = {
-        query: opts.query,
-      };
-      const requestConfig = this._makeRequestConfig();
-
-      do {
-        const { data, headers } = await axios.post(url, requestData, requestConfig);
-
-        const { result } = data;
-        for (const item of result) {
-          yield item;
-        }
-
-        const { next } = parseLinkHeader(headers);
-        url = next;
-      } while (url);
     },
     async _getAllItems(params) {
       const { url, query } = params;
