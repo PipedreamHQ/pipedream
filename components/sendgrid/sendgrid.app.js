@@ -16,6 +16,10 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/marketing/contacts/search`;
     },
+    _webhookSettingsUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/user/webhooks/event/settings`;
+    },
     _makeRequestConfig() {
       const authToken = this._authToken();
       const headers = {
@@ -48,7 +52,7 @@ module.exports = {
           if (!retriableStatusCodes.has(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
-              ${JSON.stringify(err, null, 2)}
+              ${JSON.stringify(err.response, null, 2)}
             `);
           }
           console.warn(`Temporary error: ${err.message}`);
@@ -65,6 +69,24 @@ module.exports = {
       const retriableStatusCodes = new Set([408, 429]);
       return this._withRetries(
         async () => this._getAllItems(searchParams),
+        retriableStatusCodes,
+      );
+    },
+    async getWebhookSettings() {
+      const url = this._webhookSettingsUrl();
+      const requestConfig = this._makeRequestConfig();
+      const retriableStatusCodes = new Set([408, 429]);
+      return this._withRetries(
+        async () => axios.get(url, requestConfig),
+        retriableStatusCodes,
+      );
+    },
+    async setWebhookSettings(webhookSettings) {
+      const url = this._webhookSettingsUrl();
+      const requestConfig = this._makeRequestConfig();
+      const retriableStatusCodes = new Set([408, 429]);
+      return this._withRetries(
+        async () => axios.patch(url, webhookSettings, requestConfig),
         retriableStatusCodes,
       );
     },
