@@ -10,8 +10,8 @@ module.exports = {
       type: "string",
       label: "Site",
       description: "The site from which to listen events",
-      async options(actions) {
-        const { page } = actions;
+      async options(context) {
+        const { page } = context;
         if (page !== 0) {
           return {
             options: []
