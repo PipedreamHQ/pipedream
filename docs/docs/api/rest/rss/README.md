@@ -31,7 +31,7 @@ curl https://api.pipedream.com/v1/components/registry/rss-new-item-in-feed \
 
 This returns information about the component, including a `configurable_props` section that lists the input you'll need to provide to create the source:
 
-```javascript
+```json
 "configurable_props": [
   {
     "name": "rss",
