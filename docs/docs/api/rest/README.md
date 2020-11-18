@@ -266,17 +266,25 @@ curl https://api.pipedream.com/v1/components \
 
 #### Get a component
 
-Retrieve a component by ID to determine its metadata and configurable props.
+Retrieve a component saved or published in your account using its saved component ID **or** key.
+
+This endpoint returns the component's metadata and configurable props.
 
 **Endpoint**
 
 ```
-GET /components/{id}
+GET /components/{key|id}
 ```
 
 **Parameters**
 
 ---
+
+`key` **string**
+
+The component key (identified by the `key` property within the component's source code) you'd like to fetch metadata for (example: `my-component`)
+
+**or**
 
 `id` **string**
 
@@ -287,7 +295,65 @@ The saved component ID you'd like to fetch metadata for (example: `sc_JDi8EB`)
 **Example Request**
 
 ```bash
-curl https://api.pipedream.com/v1/components/sc_JDi8EB \
+curl https://api.pipedream.com/v1/components/my-component \
+  -H "Authorization: Bearer <api_key>"
+```
+
+**Example Response**
+
+```json
+{
+  "data": {
+    "id": "sc_JDi8EB",
+    "code": "component code here",
+    "code_hash": "685c7a680d055eaf505b08d5d814feef9fabd516d5960837d2e0838d3e1c9ed1",
+    "name": "rss",
+    "version": "0.0.1",
+    "configurable_props": [
+      {
+        "name": "url",
+        "type": "string",
+        "label": "Feed URL",
+        "description": "Enter the URL for any public RSS feed."
+      },
+      {
+        "name": "timer",
+        "type": "$.interface.timer",
+        "default": {
+          "intervalSeconds": 900
+        }
+      }
+    ],
+    "created_at": 1588866900,
+    "updated_at": 1588866900
+  }
+}
+```
+
+#### Get a component from the global registry
+
+Pipedream operates a global registry of all public components (for example, for apps like Github, Google Calendar, and more). This endpoint returns the same data as the endpoint for [retrieving metadata on a component you own](#get-a-component), but allows you to fetch data for any globally-published component.
+
+**Endpoint**
+
+```
+GET /components/registry/{key}
+```
+
+**Parameters**
+
+---
+
+`key` **string**
+
+The component key (identified by the `key` property within the component's source code) you'd like to fetch metadata for (example: `my-component`)
+
+---
+
+**Example Request**
+
+```bash
+curl https://api.pipedream.com/v1/components/registry/github-new-repository \
   -H "Authorization: Bearer <api_key>"
 ```
 
