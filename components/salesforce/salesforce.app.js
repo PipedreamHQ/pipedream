@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { SalesforceClient } = require("salesforce-webhooks");
 
 module.exports = {
   type: "app",
@@ -55,6 +56,32 @@ module.exports = {
     _formatDateString(dateString) {
       // Remove milliseconds from date ISO string
       return dateString.replace(/\.[0-9]{3}/, "");
+    },
+    _getSalesforceClient() {
+      const clientOpts = {
+        apiVersion: this._apiVersion(),
+        authToken: this._authToken(),
+        instance: this._instance(),
+      };
+      return new SalesforceClient(clientOpts);
+    },
+    listAllowedSObjectTypes(eventType) {
+      const verbose = true;
+      return SalesforceClient.getAllowedSObjects(eventType, verbose);
+    },
+    async createWebhook(endpointUrl, sObjectType, event, secretToken) {
+      const client = this._getSalesforceClient();
+      const webhookOpts = {
+        endpointUrl,
+        sObjectType,
+        event,
+        secretToken,
+      };
+      return client.createWebhook(webhookOpts);
+    },
+    async deleteWebhook(webhookData) {
+      const client = this._getSalesforceClient();
+      return client.deleteWebhook(webhookData);
     },
     async listSObjectTypes() {
       const url = this._sObjectsApiUrl();
