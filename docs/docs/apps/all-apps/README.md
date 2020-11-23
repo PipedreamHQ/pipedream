@@ -12,6 +12,7 @@ If we don't have an integration for an app that you'd like to see, please [reque
   
 ## Apps
 
+- [Abstract API](https://www.abstractapi.com/)
 - [ActiveCampaign](https://www.activecampaign.com/)
 - [Acuity Scheduling](https://www.acuityscheduling.com/)
 - [AdRoll](https://adroll.com)
