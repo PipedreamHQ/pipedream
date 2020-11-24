@@ -143,6 +143,29 @@ const resp = await axios({
 });
 ```
 
+## Send a request with a secret or API key
+
+Most APIs require you authenticate HTTP requests with an API key or other token. **Please review the docs for your service to understand how they accept this data.**
+
+Here's an example showing an API key passed in an HTTP header:
+
+```javascript
+const axios = require("axios");
+
+// Make an HTTP GET request using axios
+const resp = await axios({
+  method: "POST",
+  url: `https://jsonplaceholder.typicode.com/posts`,
+  headers: {
+    "Content-Type": "application/json",
+    "X-API-Key": "123", // API KEY
+  },
+  data: {
+    name: "Luke",
+  },
+});
+```
+
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/send-an-http-request-with-headers-p_q6ClzO/edit).
 
 ## Send multiple HTTP requests using a loop
