@@ -2,7 +2,7 @@ const telegram = require("../../telegram.app.js");
 
 module.exports = {
   key: "telegram-channel-updates",
-  name: "Channel Updates",
+  name: "Channel Updates (Instant)",
   description: "Emits an event each time a channel message is created or updated.",
   version: "0.0.1",
   props: {

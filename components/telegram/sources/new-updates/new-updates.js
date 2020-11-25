@@ -2,7 +2,7 @@ const telegram = require("../../telegram.app.js");
 
 module.exports = {
   key: "telegram-new-updates",
-  name: "New Updates",
+  name: "New Updates (Instant)",
   description: "Emits an event for each new Telegram event.",
   version: "0.0.1",
   props: {
