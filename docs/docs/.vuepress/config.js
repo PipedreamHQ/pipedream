@@ -116,6 +116,7 @@ module.exports = {
           "/destinations/s3/",
           "/destinations/email/",
           "/destinations/sql/",
+          "/destinations/emit/",
           "/destinations/sse/",
         ],
       },

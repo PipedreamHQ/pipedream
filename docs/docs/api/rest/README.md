@@ -188,7 +188,7 @@ curl 'https://api.pipedream.com/v1/users/me' \
 
 ---
 
-Retrieve up to the last 100 events emitted from a workflow using `$send.emit()`.
+Retrieve up to the last 100 events emitted from a workflow using [`$send.emit()`](/destinations/emit/#emit-events).
 
 **Endpoint**
 
