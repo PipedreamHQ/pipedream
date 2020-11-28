@@ -33,6 +33,23 @@ module.exports = {
         children: ["/workflows/", "/your-first-workflow/"],
       },
       {
+        title: "Video Tutorials",
+        collapsable: false,
+        children: [
+          "/workflows/examples/send-http-request/",
+          "/workflows/examples/http-response/",
+          "/workflows/examples/trigger-workflow-on-saas-event/",
+          "/workflows/examples/cron-job/",
+          "/workflows/examples/send-yourself-email/",
+          "/workflows/examples/send-email-to-someone-else/",
+          "/workflows/examples/add-row-to-google-sheets/",
+          "/workflows/examples/add-multiple-rows-to-google-sheets/",
+          "/workflows/examples/send-slack-message/",
+          "/workflows/examples/send-discord-message/",
+          "/workflows/examples/add-record-to-airtable/",
+        ],
+      },
+      {
         title: "Event Sources",
         collapsable: false,
         children: ["/event-sources/", "/event-sources/logs/"],
