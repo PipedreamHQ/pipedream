@@ -15,7 +15,7 @@ Pipedream provides two ways to share code across workflows:
 2. In any workflow, you can `require` code provided by your package.
 
 ```javascript
-// require the random function
+// require the random function from this example package
 const { random } = require("@dylburger/pd");
 console.log(random());
 ```
@@ -32,6 +32,8 @@ function random() {
   return Math.random();
 }
 
+// Read https://www.sitepoint.com/understanding-module-exports-exports-node-js/
+// for more information on this syntax
 module.exports = {
   random,
 };
