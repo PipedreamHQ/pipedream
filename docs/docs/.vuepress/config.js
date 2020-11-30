@@ -66,6 +66,7 @@ module.exports = {
           "/workflows/steps/code/nodejs/working-with-files/",
           "/workflows/steps/actions/",
           "/workflows/steps/params/",
+          "/workflows/steps/code/nodejs/sharing-code/",
         ],
       },
       {
