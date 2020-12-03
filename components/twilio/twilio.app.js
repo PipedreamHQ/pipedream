@@ -22,9 +22,10 @@ module.exports = {
     },
     responseMessage: {
       type: "string",
+      optional: true,
       label: "SMS Response Message",
       description:
-        "The message you want to send in response to incoming messages",
+        "The message you want to send in response to incoming messages. Leave this blank if you don't need to issue a response.",
     },
   },
   methods: {

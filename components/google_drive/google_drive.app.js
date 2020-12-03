@@ -2,6 +2,7 @@ const axios = require("axios");
 const { google } = require("googleapis");
 
 const GOOGLE_DRIVE_UPDATE_TYPES = [
+  "add",
   "sync",
   "remove",
   "update",
@@ -28,8 +29,6 @@ module.exports = {
       label: "Types of updates",
       description:
         "The types of updates you want to watch for on these files. [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).",
-      // Everything from this doc except for "add", which is irrelevant
-      // since the files already exists:
       // https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events
       default: GOOGLE_DRIVE_UPDATE_TYPES,
       options: GOOGLE_DRIVE_UPDATE_TYPES,

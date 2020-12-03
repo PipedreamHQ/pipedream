@@ -7,7 +7,7 @@ module.exports = {
   name: "New Incoming SMS",
   description:
     "Configures a webhook in Twilio, tied to an incoming phone number, and emits an event each time an SMS is sent to that number",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     twilio,
@@ -45,13 +45,17 @@ module.exports = {
     const { body, headers } = event;
     const twiml = new MessagingResponse();
 
-    twiml.message(this.responseMessage);
+    // https://support.twilio.com/hc/en-us/articles/223134127-Receive-SMS-and-MMS-Messages-without-Responding
+    let responseBody = "<Response></Response>";
+    if (this.responseMessage) {
+      twiml.message(this.responseMessage);
+      responseBody = twiml.toString();
+    }
 
-    // Respond to the user with the message provided in the source's configuration
     this.http.respond({
       status: 200,
       headers: { "Content-Type": "text/xml" },
-      body: twiml.toString(),
+      body: responseBody,
     });
 
     const twilioSignature = headers["x-twilio-signature"];

@@ -166,7 +166,7 @@ module.exports = {
     API_BASE_URL: "https://api.pipedream.com/v1",
     SQL_API_BASE_URL: "https://rt.pipedream.com/sql",
     PAYLOAD_SIZE_LIMIT: "512KB",
-    EMAIL_PAYLOAD_SIZE_LIMIT: "256KB",
+    EMAIL_PAYLOAD_SIZE_LIMIT: "150KB",
     INSPECTOR_EVENT_LIMIT: "100",
     FUNCTION_PAYLOAD_LIMIT: "8MB",
     INSPECTOR_EVENT_EXPIRY_DAYS: "30",
