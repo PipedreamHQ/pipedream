@@ -2,11 +2,20 @@
 
 Events trigger workflow executions. The event that triggers your workflow depends on the trigger you select for your workflow:
 
-- [HTTP triggers](/workflows/steps/triggers/#http) execute your workflow on HTTP requests.
+- [HTTP triggers](/workflows/steps/triggers/#http) invoke your workflow on HTTP requests.
+- [Cron triggers](/workflows/steps/triggers/#cron-scheduler) invoke your workflow on a time schedule (e.g., on an interval).
+- [Email triggers](/workflows/steps/triggers/#email) invoke your workflow on inbound emails.
+- [App-based triggers](/workflows/steps/triggers/#app-based-triggers) invoke your workflow on events from apps like Twitter, Google Calendar, and more.
 
-- [Cron triggers](/workflows/steps/triggers/#cron-scheduler) execute your workflow on a time schedule (e.g., on an interval).
+[[toc]]
 
-- [Email triggers](/workflows/steps/triggers/#email) execute your workflow on inbound emails.
+## Examining incoming event data
+
+When you send an event to your workflow, you'll see it appear to the left of your workflow, in [the inspector](/workflows/events/inspect/#the-inspector)
+
+<div>
+<img width="400px" alt="The Inspector" src="./images/event-in-inspector.png">
+</div>
 
 ## Event format
 
