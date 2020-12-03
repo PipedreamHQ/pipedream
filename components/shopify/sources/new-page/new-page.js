@@ -17,8 +17,8 @@ module.exports = {
     shopify,
   },
   async run() {
-    const since_id = this.db.get("since_id") || null;
-    let results = await this.shopify.getPages(since_id);
+    const sinceId = this.db.get("since_id") || null;
+    let results = await this.shopify.getPages(sinceId);
 
     for (const page of results) {
       this.$emit(page, {

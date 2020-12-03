@@ -5,6 +5,7 @@ module.exports = {
   name: "New Abandoned Cart",
   description: "Emits an event each time a user abandons their cart.",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     db: "$.service.db",
     timer: {
@@ -16,8 +17,8 @@ module.exports = {
     shopify,
   },
   async run() {
-    const since_id = this.db.get("since_id") || null;
-    const results = await this.shopify.getAbandonedCheckouts(since_id);
+    const sinceId = this.db.get("since_id") || null;
+    const results = await this.shopify.getAbandonedCheckouts(sinceId);
     for (const cart of results) {
       this.$emit(cart, {
         id: cart.id,

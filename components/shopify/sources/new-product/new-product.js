@@ -5,6 +5,7 @@ module.exports = {
   name: "New Product",
   description: "Emits an event for each product added to a store.",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     db: "$.service.db",
     timer: {
@@ -16,8 +17,8 @@ module.exports = {
     shopify,
   },
   async run() {
-    const since_id = this.db.get("since_id") || null;
-    let results = await this.shopify.getProducts(since_id);
+    const sinceId = this.db.get("since_id") || null;
+    let results = await this.shopify.getProducts(sinceId);
 
     for (const product of results) {
       this.$emit(product, {

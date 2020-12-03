@@ -5,6 +5,7 @@ module.exports = {
   name: "New Events",
   description: "Emits an event for each new Shopify event.",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     db: "$.service.db",
     timer: {
@@ -30,16 +31,16 @@ module.exports = {
     },
   },
   async run() {
-    let since_id = this.db.get("since_id") || null;
+    let sinceId = this.db.get("since_id") || null;
     if (this.eventTypes.length === 0) {
       // if no event type is specified
       let results = await this.shopify.getEvents(since_id);
       this.emitEvents(results, "since_id");
     } else {
       for (const eventType of this.eventTypes) {
-        since_id = this.db.get(eventType) || since_id;
+        sinceId = this.db.get(eventType) || sinceId;
         let results = await this.shopify.getEvents(
-          since_id,
+          sinceId,
           JSON.parse(eventType).filter,
           JSON.parse(eventType).verb
         );

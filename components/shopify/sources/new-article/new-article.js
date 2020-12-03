@@ -5,6 +5,7 @@ module.exports = {
   name: "New Article",
   description: "Emits an event for each new article in a blog.",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     db: "$.service.db",
     timer: {
@@ -26,9 +27,9 @@ module.exports = {
     },
   },
   async run() {
-    for (const blog_id of this.blogIds) {
-      let since_id = this.db.get(blog_id) || null;
-      let results = await this.shopify.getArticles(blog_id, since_id);
+    for (const blogId of this.blogIds) {
+      let sinceId = this.db.get(blogId) || null;
+      let results = await this.shopify.getArticles(blogId, sinceId);
       for (const article of results) {
         this.$emit(article, {
           id: article.id,
@@ -37,7 +38,7 @@ module.exports = {
       });
     }
     if (results[results.length - 1])
-      this.db.set(blog_id, results[results.length - 1].id);
+      this.db.set(blogId, results[results.length - 1].id);
     }
   },
 };

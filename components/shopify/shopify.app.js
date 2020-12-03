@@ -83,7 +83,7 @@ module.exports = {
       monthAgo.setMonth(monthAgo.getMonth() - 1);
       return monthAgo;
     },
-    async getObjects(object_type, endpoint, use_created_at=false, since_id=null, params=null) {
+    async getObjects(objectType, endpoint, useCreatedAt=false, sinceId=null, params=null) {
       let hasMore = true;
       const objects = [];
       const config = {
@@ -93,9 +93,9 @@ module.exports = {
       };
       if (params)
         config.params = params;
-      if (since_id)
-        config.params = { since_id };
-      else if (use_created_at)  // if no since_id, get objects created within the last month
+      if (sinceId)
+        config.params = { sinceId };
+      else if (useCreatedAt)  // if no sinceId, get objects created within the last month
         config.params = { created_at_min: this._monthAgo() };
       while (hasMore) {
         let results = await axios(config);
@@ -105,39 +105,39 @@ module.exports = {
           config.url = link[0].substring(0, link[0].length - 1);
           delete config.params.created_at_min;
         } else hasMore = false;
-        for (const object of results.data[object_type]) {
+        for (const object of results.data[objectType]) {
           objects.push(object);
         }
       }
       return objects;
     },
-    async getAbandonedCheckouts(since_id) {
-      return await this.getObjects("checkouts", "checkouts.json", true, since_id);
+    async getAbandonedCheckouts(sinceId) {
+      return await this.getObjects("checkouts", "checkouts.json", true, sinceId);
     },
-    async getArticles(blog_id, since_id) {
-      return await this.getObjects("articles", `blogs/${blog_id}/articles.json`, true, since_id);
+    async getArticles(blogId, sinceId) {
+      return await this.getObjects("articles", `blogs/${blogId}/articles.json`, true, sinceId);
     },
     async getBlogs() {
       return await this.getObjects("blogs", "blogs.json");
     },
-    async getCustomers(since_id) {
-      return await this.getObjects("customers", "customers.json", true, since_id);
+    async getCustomers(sinceId) {
+      return await this.getObjects("customers", "customers.json", true, sinceId);
     },
-    async getEvents(since_id, filter=null, verb=null) {
+    async getEvents(sinceId, filter=null, verb=null) {
       const params = {
         filter,
         verb,
       }
-      return await this.getObjects("events", "events.json", true, since_id, params);
+      return await this.getObjects("events", "events.json", true, sinceId, params);
     },
-    async getOrders(fulfillment_status, use_created_at=false, since_id=null) {
-      return await this.getObjects("orders", `orders.json?status=any&fulfillment_status=${fulfillment_status}`, use_created_at, since_id);
+    async getOrders(fulfillmentStatus, useCreatedAt=false, sinceId=null) {
+      return await this.getObjects("orders", `orders.json?status=any&fulfillment_status=${fulfillmentStatus}`, useCreatedAt, sinceId);
     },
-    async getPages(since_id) {
-      return await this.getObjects("pages", "pages.json", true, since_id);
+    async getPages(sinceId) {
+      return await this.getObjects("pages", "pages.json", true, sinceId);
     },
-    async getProducts(since_id) {
-      return await this.getObjects("products", "products.json", true, since_id);
+    async getProducts(sinceId) {
+      return await this.getObjects("products", "products.json", true, sinceId);
     },
   },
 };
