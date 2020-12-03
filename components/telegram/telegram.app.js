@@ -48,7 +48,7 @@ module.exports = {
       };
       return await axios(config);  
     },
-    async deleteHook(hookId) {
+    async deleteHook() {
       const config = {
         method: "GET",
         url: `${await this._getBaseUrl()}/deleteWebhook`,

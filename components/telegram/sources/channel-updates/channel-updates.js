@@ -5,6 +5,7 @@ module.exports = {
   name: "Channel Updates (Instant)",
   description: "Emits an event each time a channel message is created or updated.",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     db: "$.service.db",
     http: {
@@ -16,11 +17,9 @@ module.exports = {
   hooks: {
     async activate() {
       const response = await this.telegram.createHook(this.http.endpoint, ['channel_post', 'edited_channel_post']);
-      console.log(response.data.description);
     },
     async deactivate() {
       const response = await this.telegram.deleteHook();
-      console.log(response.data.description);
     },
   },
   async run(event) {

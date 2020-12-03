@@ -5,6 +5,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description: "Emits an event for each new Telegram event.",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     db: "$.service.db",
     http: {
@@ -17,11 +18,9 @@ module.exports = {
   hooks: {
     async activate() {
       const response = await this.telegram.createHook(this.http.endpoint, this.updateTypes);
-      console.log(response.data.description);
     },
     async deactivate() {
       const response = await this.telegram.deleteHook();
-      console.log(response.data.description);
     },
   },
   methods: {
