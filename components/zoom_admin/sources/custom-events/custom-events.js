@@ -1,4 +1,4 @@
-const zoomAdmin = require('../../zoom_admin.app.js')
+const zoomAdmin = require("../../zoom_admin.app.js");
 
 module.exports = {
   key: "zoom_admin-custom-events",
@@ -31,6 +31,10 @@ module.exports = {
           "meeting.participant_jbh_joined",
           "meeting.participant_joined",
           "meeting.participant_left",
+          "meeting.participant_joined_waiting_room",
+          "meeting.participant_admitted",
+          "meeting.participant_put_in_waiting_room",
+          "meeting.participant_left_waiting_room",
           "recording.started",
           "recording.paused",
           "recording.resumed",

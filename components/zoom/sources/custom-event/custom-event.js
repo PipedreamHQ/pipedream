@@ -1,4 +1,4 @@
-const zoom = require('../../zoom.app.js')
+const zoom = require("../../zoom.app.js");
 
 module.exports = {
   key: "zoom-custom-events",
@@ -33,6 +33,10 @@ module.exports = {
           "meeting.participant_jbh_waiting",
           "meeting.participant_joined",
           "meeting.participant_left",
+          "meeting.participant_joined_waiting_room",
+          "meeting.participant_admitted",
+          "meeting.participant_put_in_waiting_room",
+          "meeting.participant_left_waiting_room",
           "recording.started",
           "recording.paused",
           "recording.resumed",
