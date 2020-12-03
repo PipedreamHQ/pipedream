@@ -34,7 +34,7 @@ module.exports = {
     let sinceId = this.db.get("since_id") || null;
     if (this.eventTypes.length === 0) {
       // if no event type is specified
-      let results = await this.shopify.getEvents(since_id);
+      let results = await this.shopify.getEvents(sinceId);
       this.emitEvents(results, "since_id");
     } else {
       for (const eventType of this.eventTypes) {
