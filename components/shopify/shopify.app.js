@@ -94,7 +94,9 @@ module.exports = {
       if (params)
         config.params = params;
       if (sinceId)
-        config.params = { sinceId };
+        config.params = { 
+          since_id: sinceId,
+        };
       else if (useCreatedAt)  // if no sinceId, get objects created within the last month
         config.params = { created_at_min: this._monthAgo() };
       while (hasMore) {
