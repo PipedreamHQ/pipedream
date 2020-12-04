@@ -194,15 +194,7 @@ Therefore, if your workflow is constantly sending events to a SQL Destination, y
 
 ## Running SQL queries from the UI
 
-### The SQL tab
-
-Each workflow has its own **SQL** tab, but **you can use that SQL editor to query data from across any workflow where you're using SQL Destinations**.
-
-Let's say you have one workflow that records new billing events from [Stripe](https://stripe.com/), and you're saving that to a table called `stripe_billing_events`. In another workflow, you're fetching customer data — the date they signed up, whether or not they have a subscription on your service, etc. — and saving that to a table called `stripe_customer_info`.
-
-**Using either SQL tab on either workflow, you can query and join data from across both tables**.
-
-You can execute any SQL included in the Presto [SQL dialect](#sql-dialect).
+Visit [https://pipedream.com/sql](https://pipedream.com/sql) to run SQL queries from the UI. The SQL Service uses the Presto [SQL dialect](#sql-dialect).
 
 You can query `STRUCT` fields — nested objects from the original JSON payload — using "dot notation". If you send an event like this to a SQL Destination:
 
@@ -227,6 +219,10 @@ you can query the `first_name` and `job` fields within the `person` object like 
 In general, you want to `SELECT struct_name.field_name`.
 
 This can be extended to more complex JSON with multiple levels of nested fields. To query a field two nested objects deep, for example, you can `SELECT struct_1.struct_2.field_name`.
+
+### Limits
+
+The SQL UI returns up to 999 records of results. You can [download the full result set](#downloading-your-results) or fetch the full results [from the API](#running-sql-queries-via-api).
 
 ### Keyboard Shortcuts
 
