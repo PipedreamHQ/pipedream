@@ -6,6 +6,7 @@ module.exports = {
   name: "New Form Submission (Instant)",
   description: "Emits an event for each new form submission.",
   version: "0.0.1",
+  dedupe: "unique",
   props: {
     formstack,
     db: "$.service.db",
@@ -17,15 +18,14 @@ module.exports = {
       const { id } = await this.formstack.createHook({
         id: this.formId,
         url: this.http.endpoint,
-      })
-      this.db.set("hookId", id);  
-      this.db.set("handshake_key", this.formstack.$auth.oauth_refresh_token);
+      });
+      this.db.set("hookId", id);
     },
     async deactivate() {
       await this.formstack.deleteHook({
         hookId: this.db.get("hookId"),
-      });  
-    },  
+      });
+    },
   },
   async run(event) {
     const body = get(event, "body");
@@ -34,14 +34,19 @@ module.exports = {
     }
 
     // verify incoming request
-    if (this.db.get("handshake_key") !== get(body, "HandshakeKey"))
+    if (
+      this.formstack.$auth.oauth_refresh_token !== get(body, "HandshakeKey")
+    ) {
+      console.log("HandshakeKey mismatch. Exiting.");
       return;
+    }
 
     const uniqueID = get(body, "UniqueID");
     if (!uniqueID) return;
+    delete body.HandshakeKey;
     this.$emit(body, {
       id: body.UniqueID,
-      summary: "New Form Submission",
+      summary: `New Form Submission ${body.UniqueID}`,
       ts: Date.now(),
     });
   },
