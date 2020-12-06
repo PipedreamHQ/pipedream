@@ -17,7 +17,7 @@ module.exports = {
   name: "New or Modified Files",
   description:
     "Emits a new event any time any file in your linked Google Drive is added, modified, or deleted",
-  version: "0.0.5",
+  version: "0.0.6",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
@@ -33,10 +33,10 @@ module.exports = {
     timer: {
       label: "Push notification renewal schedule",
       description:
-        "The Google Drive API requires occasionaly renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
+        "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 30,
+        intervalSeconds: 60 * 60 * 24,
       },
     },
   },
