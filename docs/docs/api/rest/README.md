@@ -846,6 +846,7 @@ POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_i
 The name of the event stream whose events you'd like to receive:
 
 - `$errors`: any errors thrown by workflows or sources are emitted to this stream
+- `default`: any events emitted by event sources are included in this stream
 - `$logs`: any logs produced by **event sources** are emitted to this stream
 
 ---
