@@ -150,6 +150,7 @@ module.exports = {
           "/apps/strava/",
           "/apps/twitter/",
           "/apps/zoho-books/",
+          "/apps/zoho-crm/",
           "/apps/zoom/",
         ],
       },
