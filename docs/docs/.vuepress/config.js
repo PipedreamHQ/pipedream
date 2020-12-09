@@ -32,7 +32,7 @@ module.exports = {
         collapsable: false,
         children: ["/workflows/", "/your-first-workflow/"],
       },
-      {
+      /* {
         title: "Video Tutorials",
         collapsable: false,
         children: [
@@ -48,7 +48,7 @@ module.exports = {
           "/workflows/examples/send-discord-message/",
           "/workflows/examples/add-record-to-airtable/",
         ],
-      },
+      }, */
       {
         title: "Event Sources",
         collapsable: false,

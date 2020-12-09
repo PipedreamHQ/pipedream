@@ -69,17 +69,18 @@ The following limits apply to [HTTP triggers](/workflows/steps/triggers/#http).
 
 ### HTTP Request Body Size
 
-**The body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`**.
+By default, the body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`.
 
 Your endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`.
 
-This limit **does not** apply to files uploaded as part of a `multipart/form-data` request - **you can upload files of any size in a form request and access them within your workflow**. See the docs on [Large File Support](/workflows/steps/triggers/#large-file-support) for more information.
+**Pipedream supports two different ways to bypass this limit**. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/limits).
 
-This limit cannot be raised.
+- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/steps/triggers/#sending-large-payloads).
+- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/steps/triggers/#large-file-support).
 
 ### QPS (Queries Per Second)
 
-Generally the rate of HTTP requests sent to an endpoint is quantified by QPS, or _queries per second_. A query in this context refers to an HTTP request.
+Generally the rate of HTTP requests sent to an endpoint is quantified by QPS, or _queries per second_. A query refers to an HTTP request.
 
 **You can send an average of 10 requests per second to your HTTP trigger**. Any requests that exceed that threshold may trigger rate limiting. If you're rate limited, we'll return a `429 Too Many Requests` response. If you control the application sending requests, you should retry the request with [exponential backoff](https://cloud.google.com/storage/docs/exponential-backoff) or a similar technique.
 

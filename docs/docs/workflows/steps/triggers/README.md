@@ -23,7 +23,7 @@ You can trigger a workflow on events from apps like Twitter, Google Calendar, an
 When you create a workflow, choose the opton to **Create Event Source** in the trigger step. Select your app, and you'll see a list of available sources. For Google Calendar, for example, you can run your workflow every time a new event is **added** to your calendar, each time an event **starts**, **ends**, and more:
 
 <div>
-<img alt="Google Calendar sources" width="300" src="./images/google-calendar-triggers.png">
+<img alt="Google Calendar sources" width="300px" src="./images/google-calendar-triggers.png">
 </div>
 
 Once you select your source, you'll be asked to connect any necessary accounts (for example, Google Calendar sources require you authorize Pipedream access to your Google account), and enter the values for any configuration settings tied to the source.
@@ -108,11 +108,81 @@ In this case, the `inferred_body_type` property of the `event` object will be se
 
 You can send any content, up to the [HTTP payload size limit](/limits/#http-request-body-size), as a part of the form request. The content of uploaded images or other binary files does not contribute to this limit — the contents of the file will be uploaded at a Pipedream URL you have access to within your source or workflow. See the section on [Large File Support](#large-file-support) for more detail.
 
+### Sending large payloads
+
+_If you're uploading files, like images or videos, you should use the [large file upload interface](#large-file-support), instead_.
+
+By default, the body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/event-sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
+
+```bash
+curl -d '{ "name": "Yoda" }' \
+  https://endpoint.m.pipedream.net\?pipedream_upload_body\=1
+
+curl -d '{ "name": "Yoda" }' \
+  -H "x-pd-upload-body: 1" \
+  https://endpoint.m.pipedream.net
+```
+
+In workflows, Pipedream saves the raw payload data in a file whose URL you can reference in the variable `steps.trigger.event.body.raw_body_url`.
+
+<div>
+<img alt="Raw body URL in event data" width="600px" src="./images/raw_body_url.png">
+</div>
+
+Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
+
+#### Example: Download the HTTP payload using the Send HTTP Request action
+
+_Note: you can only download payloads at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method\*\*. Otherwise, you may encounter a [Function Payload Limit Exceeded](/errors/#function-payload-limit-exceeded) error._
+
+You can download the HTTP payload using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-http-payload-p_6lC1ynx/edit).
+
+This will return the data in the variable `steps.send_http_request.$return_value`:
+
+<div>
+<img alt="HTTP response data" width="600px" src="./images/send_http_request_action.png">
+</div>
+
+#### Example: Download the HTTP payload to the `/tmp` directory
+
+[This workflow](https://pipedream.com/@dylburger/example-download-raw-body-to-tmp-p_YyCoqPb/edit) downloads the HTTP payload, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
+
+```javascript
+const stream = require("stream");
+const { promisify } = require("util");
+const fs = require("fs");
+const got = require("got");
+
+const pipeline = promisify(stream.pipeline);
+await pipeline(
+  got.stream(steps.trigger.event.body.raw_body_url),
+  fs.createWriteStream(`/tmp/raw_body`)
+);
+```
+
+You can [read this file](/workflows/steps/code/nodejs/working-with-files/#reading-a-file-from-tmp) in subsequent steps of your workflow.
+
+#### How the payload data is saved
+
+Your raw payload is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/). Pipedream generates a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
+
+#### Limits
+
+**You can upload payloads up to 5TB in size**. However, payloads that large may trigger [other Pipedream limits](/limits/). Please [reach out](/support/) with any specific questions or issues.
+
 ### Large File Support
+
+_This interface is best used for uploading large files, like images or videos. If you're sending JSON or other data directly in the HTTP payload, and encountering a **Request Entity Too Large** error, review the section above for [sending large payloads](#sending-large-payloads)_.
 
 You can upload any file to a [workflow](/workflows/) or an [event source](/event-sources/) by making a `multipart/form-data` HTTP request with the file as one of the form parts. **Pipedream saves that file to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/), generating a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes**. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
 
-This URL is provided in the event data that triggers your workflow / source, so you can download the file using that URL within your workflow, or pass the URL on to another third-party system for it to process.
+In workflows, these file URLs are provided in the `steps.trigger.event.body` variable, so you can download the file using the URL within your workflow, or pass the URL on to another third-party system for it to process.
+
+<div>
+<img alt="Raw file URL in event data" width="600px" src="./images/file-upload-urls.png">
+</div>
+
+Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
 
 #### Example: upload a file using `cURL`
 
