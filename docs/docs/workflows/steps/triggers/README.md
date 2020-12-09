@@ -133,7 +133,7 @@ Within your workflow, you can download the contents of this data using the **Sen
 
 #### Example: Download the HTTP payload using the Send HTTP Request action
 
-_Note: you can only download payloads at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method\*\*. Otherwise, you may encounter a [Function Payload Limit Exceeded](/errors/#function-payload-limit-exceeded) error._
+_Note: you can only download payloads at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/errors/#function-payload-limit-exceeded) error._
 
 You can download the HTTP payload using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-http-payload-p_6lC1ynx/edit).
 
@@ -463,6 +463,54 @@ As soon as you send an email to the workflow-specific address, Pipedream parses 
 
 [Read more about the shape of the email trigger event](/workflows/events/#email).
 
+### Sending large emails
+
+By default, you can send emails up to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}` in total size (content, headers, attachments). Emails over this size will be rejected, and you will not see them appear in your workflow.
+
+**You can send emails up to `30MB` in size by sending emails to `[YOUR EMAIL ENDPOINT]@upload.pipedream.net`**. If your workflow-specific email address is `endpoint@pipedream.net`, your "large email address" is `endpoint@upload.pipedream.net`.
+
+Emails delivered to this address are uploaded to a private URL you have access to within your worklow, at the variable `steps.trigger.event.mail.content_url`. You can download and parse the email within your workflow using that URL. This content contains the _raw_ email. Unlike the standard email interface, you must parse this email on your own - see the examples below.
+
+#### Example: Download the email using the Send HTTP Request action
+
+_Note: you can only download emails at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/errors/#function-payload-limit-exceeded) error._
+
+You can download the email using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-large-email-content-p_A2CQedw/edit).
+
+This workflow also parses the contents of the email and exposes it as a JavaScript object using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
+
+```javascript
+const simpleParser = require("mailparser").simpleParser;
+this.parsed = await simpleParser(steps.send_http_request.$return_value);
+```
+
+#### Example: Download the email to the `/tmp` directory, read it and parse it
+
+[This workflow](https://pipedream.com/@dylburger/example-download-large-email-content-to-tmp-p_KwC1YOn/edit) downloads the email, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory). Then it reads the same file (as an example), and parses it using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
+
+```javascript
+const stream = require("stream");
+const { promisify } = require("util");
+const fs = require("fs");
+const got = require("got");
+const simpleParser = require("mailparser").simpleParser;
+
+const pipeline = promisify(stream.pipeline);
+await pipeline(
+  got.stream(steps.trigger.event.mail.content_url),
+  fs.createWriteStream(`/tmp/raw_email`)
+);
+
+// Now read the file and parse its contents into the `parsed` variable
+// See https://nodemailer.com/extras/mailparser/ for parsing options
+const f = fs.readFileSync(`/tmp/raw_email`);
+this.parsed = await simpleParser(f);
+```
+
+#### How the email is saved
+
+Your email is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/). Pipedream generates a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
+
 ### Appending metadata to the incoming email address with `+data`
 
 Pipedream provides a way to append metadata to incoming emails by adding a `+` sign to the incoming email key, followed by any arbitrary string:
@@ -479,10 +527,6 @@ myemailaddr+unsubscribe@pipedream.net
 ```
 
 This allows you implement conditional logic in your workflow based on the data in that string.
-
-### Limitations
-
-See the [Email Trigger section of our Limits doc](/limits/#email-triggers) to learn more about the limits of the email trigger.
 
 ## SDK
 
