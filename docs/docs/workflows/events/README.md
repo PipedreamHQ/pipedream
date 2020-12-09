@@ -35,6 +35,24 @@ If you add steps to your workflow, you'll see that step's execution data (logs o
 
 Click on the event in the inspector again to de-select the event, returning to your workflow's code.
 
+## Copying references to event data
+
+When you're [examining event data](#examining-incoming-event-data), you'll commonly want to copy the name of the variable that points to the data you need to reference in another step.
+
+Hover over the property whose data you want to reference, and click the **Copy Path** button to its right:
+
+<div>
+<img width="400px" alt="Copy path GIF" src="./images/copy-path.gif">
+</div>
+
+## Copying the values of event data
+
+You can also copy the value of specific properties of your event data. Hover over the property whose data you want to copy, and click the **Copy Value** button to its right:
+
+<div>
+<img width="400px" alt="Copy value GIF" src="./images/copy-value.gif">
+</div>
+
 ## Event format
 
 When you send an event to your workflow, Pipedream takes the trigger data — for example, the HTTP payload, headers, etc. — and adds our own Pipedream metadata to it.
@@ -72,17 +90,17 @@ The specific shape of `event` varies with the trigger type:
 
 We use Amazon SES to receive emails for the email trigger. You can find the shape of the event in the [SES docs](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-notifications-contents.html).
 
-### `raw_event`
+## `steps.trigger.raw_event`
 
-In addition to the formatted object we expose in `event`, you have access to the raw, protocol-specific data from the event, as well.
+In addition to the formatted object we expose in `steps.trigger.event`, you have access to the raw, protocol-specific data from the event, as well.
 
 You can access this data in `steps.trigger.raw_event`. The contents also vary with the trigger type:
 
-- HTTP : scheme, URI, and base64-encoded raw payload.
+- HTTP : The base64-encoded representation of the raw payload, along with the full incoming URI.
 - Cron Scheduler : same as `event`.
 - Email : same as `event`.
 
-### `steps.trigger.context`
+## `steps.trigger.context`
 
 `steps.trigger.event` and `steps.trigger.raw_event` both contain your event's **data**. `steps.trigger.context` contains _metadata_ about the workflow and the invocation tied to this event.
 
@@ -98,9 +116,5 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 | `workflow_id`      |                                  The workflow ID                                   |
 
 You may notice other properties in `context`. These are used internally by Pipedream, and are subject to change.
-
-## Event observability
-
-Pipedream provides observability for the event that triggered your workflow, including into the trigger event and step-level workflow execution. Just [select an event from the inspector](/workflows/events/inspect/) to view its contents.
 
 <Footer />
