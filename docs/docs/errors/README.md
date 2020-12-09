@@ -48,11 +48,12 @@ Pipedream limits the number of events that can be processed by a given interface
 
 ### Request Entity Too Large
 
-Pipedream limits the size of certain incoming event payloads (for example, the size of [incoming HTTP payloads](/limits/#http-request-body-size) and [emails](/limits/#email-triggers)). If you exceed this interface-specific limit, you'll see a **Request Entity Too Large** error.
+By default, Pipedream limits the size of incoming HTTP payloads. If you exceed this limit, you'll see a **Request Entity Too Large** error.
 
-Pipedream supports a [large file upload interface](/workflows/steps/triggers/#large-file-support) that allows you to send data up to 5TB in size via `multipart/form-data` requests. If you control the source of the data and can send your data in this manner, it's an effective way to bypass the standard payload limits.
+Pipedream supports two different ways to bypass this limit. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/limits).
 
-Otherwise, [reach out to our team](/support/) to tell us more about your use case - we're hoping to increase these payload limits in the future.
+- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/steps/triggers/#sending-large-payloads).
+- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/steps/triggers/#large-file-support).
 
 ### Function Payload Limit Exceeded
 
