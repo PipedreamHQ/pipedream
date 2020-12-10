@@ -4,18 +4,15 @@ const common = require("../../common-instant");
 
 module.exports = {
   ...common,
-  name: "Object Deleted (Instant)",
+  name: "Object Deleted (Instant, of Selectable Type)",
   key: "salesforce-object-deleted-instant",
-  description: "Emit an event when an object is deleted",
+  description: `
+    Emit an event immediately after an object of arbitrary type
+    (selected as an input parameter by the user) is deleted
+  `,
   version: "0.0.1",
   methods: {
     ...common.methods,
-    isValidSObject(sobject) {
-      return (
-        sobject.triggerable &&
-        sobject.associateEntityType !== 'ChangeEvent'
-      );
-    },
     generateMeta(data) {
       const nameField = this.db.get("nameField");
       const {

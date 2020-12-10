@@ -4,9 +4,12 @@ const common = require("../../common-instant");
 
 module.exports = {
   ...common,
-  name: "New Object (Instant)",
+  name: "New Object (Instant, of Selectable Type)",
   key: "salesforce-new-object-instant",
-  description: "Emit an event when an object is created",
+  description: `
+    Emit an event immediately after an object of arbitrary type
+    (selected as an input parameter by the user) is created
+  `,
   version: "0.0.1",
   methods: {
     ...common.methods,
