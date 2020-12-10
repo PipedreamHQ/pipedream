@@ -203,5 +203,14 @@ module.exports = {
         );
       }
     },
+    async getFile(fileId) {
+      const drive = this.drive();
+      return (
+        await drive.files.get({
+          fileId,
+          fields: "*",
+        })
+      ).data;
+    },
   },
 };
