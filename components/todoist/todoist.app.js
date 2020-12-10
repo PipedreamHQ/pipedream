@@ -28,7 +28,6 @@ module.exports = {
       description: "Filter for events that match one or more projects. Leave this blank to emit results for any project.",
       optional: true,
       async options() {
-        // write any node code that returns a string[] or object[] (with label/value keys)
         return (await this.getProjects()).map(project => { 
           return { label: project.name, value: project.id } 
         }) 
@@ -74,8 +73,6 @@ module.exports = {
     * @returns {Boolean} Returns `true` if the `project_id` matches a value in the arrar or if the array is empty. Otherwise returns `false`.
     */
     async isProjectInList(project_id, selectedProjectIds) {
-      console.log(project_id)
-      console.log(selectedProjectIds)
       if (selectedProjectIds.length > 0) {
         if(selectedProjectIds.includes(project_id)) {
           return true

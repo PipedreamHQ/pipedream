@@ -1,7 +1,7 @@
 const todoist = require("../../todoist.app.js");
 
 module.exports = {
-  name: "Sync Resources",
+  name: "New Task",
   description: "Emit updates for your selected resources",
   version: "0.0.1",
   props: {
