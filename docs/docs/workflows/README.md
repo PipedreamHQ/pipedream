@@ -4,6 +4,8 @@ prev: false
 
 # What are workflows?
 
+[**Follow a guided tutorial to build your first workflow here**](https://pipedream.com/new?appcue=5ec1fd72-798f-4f32-b225-35b94315bf11).
+
 Workflows make it easy to integrate your apps, data, and APIs — all with no servers or infrastructure to manage!
 
 - Workflows are composed of code that is organized and executed as a sequence of linear [**steps**](/workflows/steps).

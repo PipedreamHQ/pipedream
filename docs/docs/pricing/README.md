@@ -147,3 +147,11 @@ Yes. You can retrieve your usage and billing metadata from the [/users/me](/api/
 You can cancel your plan in your [Billing and Usage Settings](https://pipedream.com/settings/billing). You will have access to your paid plan through the end of your current billing period. Pipedream does not prorate plans cancelled within a billing period.
 
 If you'd like to process your cancellation immediately, and downgrade to the free tier, please [reach out](/support).
+
+### How do I change the billing email / address tied to my invoice?
+
+Please email **billing@pipedream.com**.
+
+### How do I contact the Pipedream team?
+
+You can email **billing@pipedream.com** for any billing-related questions.
