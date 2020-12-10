@@ -4,7 +4,7 @@ const googleDrive = require("../../google_drive.app.js");
 
 module.exports = {
   key: "google_drive-new-files",
-  name: "New Files",
+  name: "New Files (Instant)",
   description:
     "Emits a new event any time a new file is added in your linked Google Drive",
   version: "0.0.1",
