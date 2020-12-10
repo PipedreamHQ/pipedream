@@ -4,10 +4,10 @@ const common = require("../../common");
 
 module.exports = {
   ...common,
-  name: "Object Updated (Of Selectable Type)",
+  name: "Object Updated (of Selectable Type)",
   key: "salesforce-object-updated",
   description: `
-    Emit an event when an object of arbitrary type
+    Emit an event (at regular intervals) when an object of arbitrary type
     (selected as an input parameter by the user) is updated
   `,
   version: "0.0.1",

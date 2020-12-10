@@ -4,10 +4,10 @@ const common = require("../../common");
 
 module.exports = {
   ...common,
-  name: "New Object (Of Selectable Type)",
+  name: "New Object (of Selectable Type)",
   key: "salesforce-new-object",
   description: `
-    Emit an event when an object of arbitrary type
+    Emit an event (at regular intervals) when an object of arbitrary type
     (selected as an input parameter by the user) is created
   `,
   version: "0.0.1",

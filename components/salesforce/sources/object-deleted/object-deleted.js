@@ -4,10 +4,10 @@ const common = require("../../common");
 
 module.exports = {
   ...common,
-  name: "Object Deleted (Of Selectable Type)",
+  name: "Object Deleted (of Selectable Type)",
   key: "salesforce-object-deleted",
   description: `
-    Emit an event when an object of arbitrary type
+    Emit an event (at regular intervals) when an object of arbitrary type
     (selected as an input parameter by the user) is deleted
   `,
   version: "0.0.1",
