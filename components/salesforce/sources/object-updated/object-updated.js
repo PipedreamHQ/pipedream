@@ -4,9 +4,12 @@ const common = require("../../common");
 
 module.exports = {
   ...common,
-  name: "Object Updated",
+  name: "Object Updated (Of Selectable Type)",
   key: "salesforce-object-updated",
-  description: "Emit an event when an object is updated",
+  description: `
+    Emit an event when an object of arbitrary type
+    (selected as an input parameter by the user) is updated
+  `,
   version: "0.0.1",
   methods: {
     ...common.methods,
@@ -38,7 +41,7 @@ module.exports = {
       } = await this.salesforce.getUpdatedForObjectType(this.objectType, startTimestamp, endTimestamp);
 
       // By the time we try to retrieve an item, it might've been deleted. This
-      // will cause `getSObject` to throw a 404 exception, which will reject it's
+      // will cause `getSObject` to throw a 404 exception, which will reject its
       // promise. Hence, we need to filter those items that we still in Salesforce
       // and exclude those that are not.
       const itemRetrievals = await Promise.allSettled(
