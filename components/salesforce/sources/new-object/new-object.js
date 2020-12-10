@@ -2,26 +2,34 @@ const startCase = require("lodash/startCase");
 
 const common = require("../../common");
 
-const EVENT_SOURCE_NAME = "New Object (Instant)";
-
 module.exports = {
   ...common,
-  name: EVENT_SOURCE_NAME,
+  name: "New Object (Of Selectable Type)",
   key: "salesforce-new-object",
-  description: "Emit an event when an object is created",
+  description: `
+    Emit an event when an object of arbitrary type
+    (selected as an input parameter by the user) is created
+  `,
   version: "0.0.1",
   methods: {
     ...common.methods,
-    generateMeta(data) {
-      const {
-        New: newObject,
-      } = data.body;
+    isItemRelevant(item, startTimestamp, endTimestamp) {
+      const startDate = Date.parse(startTimestamp);
+      const endDate = Date.parse(endTimestamp);
+      const createdDate = Date.parse(item.CreatedDate);
+      return (
+        startDate <= createdDate &&
+        endDate >= createdDate
+      );
+    },
+    generateMeta(item) {
+      const nameField = this.db.get("nameField");
       const {
         CreatedDate: createdDate,
         Id: id,
-        Name: name,
-      } = newObject;
-      const entityType = startCase(this.getObjectType()).toLowerCase();
+        [nameField]: name,
+      } = item;
+      const entityType = startCase(this.objectType);
       const summary = `New ${entityType} created: ${name}`;
       const ts = Date.parse(createdDate);
       return {
@@ -30,31 +38,33 @@ module.exports = {
         ts,
       };
     },
-    getEventSourceName() {
-      return EVENT_SOURCE_NAME
-    },
-    getEventTypes() {
-      return [
-        "after insert",
-      ];
-    },
-    getObjectType() {
-      return this.objectType;
-    },
-    getTriggerBody(triggerName, webhookClass) {
-      const eventTypes = this.getEventTypes().join(", ");
-      const objectType = this.getObjectType();
-      const endpointUrl = this.http.endpoint;
-      return `
-        trigger ${triggerName} on ${objectType} (${eventTypes}) {
-            for (${objectType} item : Trigger.New) {
-                final Map<String, ${objectType}> eventData = new Map<String, ${objectType}>();
-                eventData.put('New', item);
-                String content = ${webhookClass}.jsonContent(eventData);
-                ${webhookClass}.callout('${endpointUrl}', content);
-            }
-        }
-      `;
+    async processEvent(eventData) {
+      const {
+        startTimestamp,
+        endTimestamp,
+      } = eventData;
+      const {
+        ids,
+        latestDateCovered,
+      } = await this.salesforce.getUpdatedForObjectType(this.objectType, startTimestamp, endTimestamp);
+
+      // By the time we try to retrieve an item, it might've been deleted. This
+      // will cause `getSObject` to throw a 404 exception, which will reject its
+      // promise. Hence, we need to filter those items that we still in Salesforce
+      // and exclude those that are not.
+      const itemRetrievals = await Promise.allSettled(
+        ids.map(id => this.salesforce.getSObject(this.objectType, id))
+      );
+      itemRetrievals
+        .filter(result => result.status === "fulfilled")
+        .map(result => result.value)
+        .filter(item => this.isItemRelevant(item, startTimestamp, endTimestamp))
+        .forEach(item => {
+          const meta = this.generateMeta(item);
+          this.$emit(item, meta);
+        });
+
+      this.db.set("latestDateCovered", latestDateCovered);
     },
   },
 };

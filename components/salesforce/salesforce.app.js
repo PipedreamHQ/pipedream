@@ -3,34 +3,6 @@ const axios = require("axios");
 module.exports = {
   type: "app",
   app: "salesforce_rest_api",
-  propDefinitions: {
-    objectType: {
-      type: "string",
-      label: "Object Type",
-      description: "The type of object for which to monitor events",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return {
-            options: [],
-          };
-        }
-
-        const url = this._sObjectsApiUrl();
-        const requestConfig = this._makeRequestConfig();
-        const { data } = await axios.get(url, requestConfig);
-        const options = data.sobjects
-          .filter(sobject => sobject.triggerable)
-          .map(sobject => ({
-            label: sobject.label,
-            value: sobject.name,
-          }));
-        return {
-          options,
-        };
-      },
-    },
-  },
   methods: {
     _authToken() {
       return this.$auth.oauth_access_token;
@@ -49,37 +21,26 @@ module.exports = {
       const baseUrl = this._baseApiUrl();
       return `${baseUrl}/services/oauth2/userinfo`;
     },
-    _apexClassApiUrl(id) {
-      const baseUrl = this._baseApiUrl();
-      const apiVersion = this._apiVersion();
-      const url = `${baseUrl}/services/data/v${apiVersion}/tooling/sobjects/ApexClass`;
-      return id ? `${url}/${id}` : url;
-    },
-    _apexTriggerApiUrl(id) {
-      const baseUrl = this._baseApiUrl();
-      const apiVersion = this._apiVersion();
-      const url = `${baseUrl}/services/data/v${apiVersion}/tooling/sobjects/ApexTrigger`;
-      return id ? `${url}/${id}` : url;
-    },
     _sObjectsApiUrl() {
       const baseUrl = this._baseApiUrl();
       const apiVersion = this._apiVersion();
       return `${baseUrl}/services/data/v${apiVersion}/sobjects`;
     },
-    async getApiUrls() {
-      const url = this._userApiUrl();
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.get(url, requestConfig);
-      return Object
-        .entries(data.urls)
-        .reduce((accum, [urlType, rawUrl]) => {
-          const apiVersion = this._apiVersion();
-          const url = rawUrl.replace("{version}", apiVersion);
-          return {
-            ...accum,
-            [urlType]: url,
-          };
-        }, {});
+    _sObjectTypeDescriptionApiUrl(sObjectType) {
+      const baseUrl = this._sObjectsApiUrl();
+      return `${baseUrl}/${sObjectType}/describe`;
+    },
+    _sObjectTypeUpdatedApiUrl(sObjectType) {
+      const baseUrl = this._sObjectsApiUrl();
+      return `${baseUrl}/${sObjectType}/updated`;
+    },
+    _sObjectTypeDeletedApiUrl(sObjectType) {
+      const baseUrl = this._sObjectsApiUrl();
+      return `${baseUrl}/${sObjectType}/deleted`;
+    },
+    _sObjectDetailsApiUrl(sObjectType, id) {
+      const baseUrl = this._sObjectsApiUrl();
+      return `${baseUrl}/${sObjectType}/${id}`;
     },
     _makeRequestConfig() {
       const authToken = this._authToken();
@@ -91,112 +52,54 @@ module.exports = {
         headers,
       };
     },
-    _metadataMessage(body) {
-      const sessionId = this._authToken();
-      return `
-        <env:Envelope
-          xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        >
-          <env:Header>
-            <urn:SessionHeader xmlns:urn="http://soap.sforce.com/2006/04/metadata">
-              <urn:sessionId>${sessionId}</urn:sessionId>
-            </urn:SessionHeader>
-          </env:Header>
-          <env:Body>
-            ${body}
-          </env:Body>
-        </env:Envelope>
-      `;
+    _formatDateString(dateString) {
+      // Remove milliseconds from date ISO string
+      return dateString.replace(/\.[0-9]{3}/, "");
     },
-    _createRemoteSiteMessage(fullName, url) {
-      const body = `
-        <createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
-          <metadata xsi:type="RemoteSiteSetting">
-            <fullName>${fullName}</fullName>
-            <isActive>true</isActive>
-            <url>${url}</url>
-          </metadata>
-        </createMetadata>
-      `;
-      return this._metadataMessage(body);
+    async listSObjectTypes() {
+      const url = this._sObjectsApiUrl();
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await axios.get(url, requestConfig);
+      return data;
     },
-    _deleteRemoteSiteMessage(fullName) {
-      const body = `
-        <deleteMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
-          <metadataType>RemoteSiteSetting</metadataType>
-          <fullNames>${fullName}</fullNames>
-        </deleteMetadata>
-      `;
-      return this._metadataMessage(body);
+    async getNameFieldForObjectType(objectType) {
+      const url = this._sObjectTypeDescriptionApiUrl(objectType);
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await axios.get(url, requestConfig);
+      const nameField = data.fields.find(f => f.nameField);
+      return nameField !== undefined ? nameField.name : 'Id';
     },
-    async _postMetadataMessage(metadataApiUrl, message, soapAction) {
-      const baseRequestConfig = this._makeRequestConfig();
-      const headers = {
-        ...baseRequestConfig.headers,
-        "SOAPAction": soapAction,
-        "Content-Type": "text/xml",
+    async getSObject(objectType, id) {
+      const url = this._sObjectDetailsApiUrl(objectType, id);
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await axios.get(url, requestConfig);
+      return data;
+    },
+    async getUpdatedForObjectType(objectType, start, end) {
+      const url = this._sObjectTypeUpdatedApiUrl(objectType);
+      const params = {
+        start: this._formatDateString(start),
+        end: this._formatDateString(end),
       };
-      const responseType = "text/xml";
       const requestConfig = {
-        ...baseRequestConfig,
-        headers,
-        responseType,
+        ...this._makeRequestConfig(),
+        params,
       };
-      return axios.post(metadataApiUrl, message, requestConfig);
-    },
-    async createRemoteSite(metadataApiUrl, fullName, endpointUrl) {
-      const message = this._createRemoteSiteMessage(fullName, endpointUrl);
-      const soapAction = "RemoteSiteSetting";
-      return this._postMetadataMessage(metadataApiUrl, message, soapAction);
-    },
-    async deleteRemoteSite(metadataApiUrl, fullName) {
-      const message = this._deleteRemoteSiteMessage(fullName);
-      const soapAction = "RemoteSiteSetting";
-      return this._postMetadataMessage(metadataApiUrl, message, soapAction);
-    },
-    async createApexClass(name, body) {
-      // API docs: https://sforce.co/3e4rgt2
-      const url = this._apexClassApiUrl();
-      const apiVersion = this._apiVersion();
-      const requestData = {
-        apiVersion,
-        body,
-        name,
-      };
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.post(url, requestData, requestConfig);
-      console.log(`Created Apex Class: ${name} (ID: ${data.id})`);
-
+      const { data } = await axios.get(url, requestConfig);
       return data;
     },
-    async deleteApexClass(id) {
-      // API docs: https://sforce.co/3e4rgt2
-      const url = this._apexClassApiUrl(id);
-      const requestConfig = this._makeRequestConfig();
-      return axios.delete(url, requestConfig);
-    },
-    async createApexTrigger(name, body, tableEnumOrId) {
-      // API docs: https://sforce.co/34zeJdV
-      const url = this._apexTriggerApiUrl();
-      const apiVersion = this._apiVersion();
-      const requestData = {
-        apiVersion,
-        body,
-        name,
-        tableEnumOrId,
+    async getDeletedForObjectType(objectType, start, end) {
+      const url = this._sObjectTypeDeletedApiUrl(objectType);
+      const params = {
+        start: this._formatDateString(start),
+        end: this._formatDateString(end),
       };
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.post(url, requestData, requestConfig);
-      console.log(`Created Apex Trigger: ${name} (ID: ${data.id})`);
-
+      const requestConfig = {
+        ...this._makeRequestConfig(),
+        params,
+      };
+      const { data } = await axios.get(url, requestConfig);
       return data;
-    },
-    async deleteApexTrigger(id) {
-      // API docs: https://sforce.co/34zeJdV
-      const url = this._apexTriggerApiUrl(id);
-      const requestConfig = this._makeRequestConfig();
-      return axios.delete(url, requestConfig);
     },
   },
 };

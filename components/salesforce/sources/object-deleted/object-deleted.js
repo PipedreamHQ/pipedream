@@ -2,60 +2,50 @@ const startCase = require("lodash/startCase");
 
 const common = require("../../common");
 
-const EVENT_SOURCE_NAME = "Object Deleted (Instant)";
-
 module.exports = {
   ...common,
-  name: EVENT_SOURCE_NAME,
+  name: "Object Deleted (Of Selectable Type)",
   key: "salesforce-object-deleted",
-  description: "Emit an event when an object is deleted",
+  description: `
+    Emit an event when an object of arbitrary type
+    (selected as an input parameter by the user) is deleted
+  `,
   version: "0.0.1",
   methods: {
     ...common.methods,
-    generateMeta(data) {
+    generateMeta(item) {
       const {
-        Old: oldObject,
-      } = data.body;
-      const {
-        LastModifiedDate: lastModifiedDate,
-        Id: id,
-        Name: name,
-      } = oldObject;
-      const entityType = startCase(this.getObjectType());
-      const summary = `${entityType} deleted: ${name}`;
-      const ts = Date.parse(lastModifiedDate);
-      const compositeId = `${id}-${ts}`;
+        id,
+        deletedDate,
+      } = item;
+      const entityType = startCase(this.objectType);
+      const summary = `${entityType} deleted: ${id}`;
+      const ts = Date.parse(deletedDate);
       return {
-        id: compositeId,
+        id,
         summary,
         ts,
       };
     },
-    getEventSourceName() {
-      return EVENT_SOURCE_NAME
-    },
-    getEventTypes() {
-      return [
-        "after delete",
-      ];
-    },
-    getObjectType() {
-      return this.objectType;
-    },
-    getTriggerBody(triggerName, webhookClass) {
-      const eventTypes = this.getEventTypes().join(", ");
-      const objectType = this.getObjectType();
-      const endpointUrl = this.http.endpoint;
-      return `
-        trigger ${triggerName} on ${objectType} (${eventTypes}) {
-            for (${objectType} item : Trigger.Old) {
-                final Map<String, ${objectType}> eventData = new Map<String, ${objectType}>();
-                eventData.put('Old', item);
-                String content = ${webhookClass}.jsonContent(eventData);
-                ${webhookClass}.callout('${endpointUrl}', content);
-            }
-        }
-      `;
+    async processEvent(eventData) {
+      const {
+        startTimestamp,
+        endTimestamp,
+      } = eventData;
+      const {
+        deletedRecords,
+        latestDateCovered,
+      } = await this.salesforce.getDeletedForObjectType(this.objectType, startTimestamp, endTimestamp);
+
+      // When a record is deleted, the `getDeleted` API only shows the ID of the
+      // deleted item and the date in which it was deleted.
+      deletedRecords
+        .forEach(item => {
+          const meta = this.generateMeta(item);
+          this.$emit(item, meta);
+        });
+
+      this.db.set("latestDateCovered", latestDateCovered);
     },
   },
 };
