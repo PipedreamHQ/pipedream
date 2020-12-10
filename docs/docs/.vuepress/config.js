@@ -32,6 +32,23 @@ module.exports = {
         collapsable: false,
         children: ["/workflows/", "/your-first-workflow/"],
       },
+      /* {
+        title: "Video Tutorials",
+        collapsable: false,
+        children: [
+          "/workflows/examples/send-http-request/",
+          "/workflows/examples/http-response/",
+          "/workflows/examples/trigger-workflow-on-saas-event/",
+          "/workflows/examples/cron-job/",
+          "/workflows/examples/send-yourself-email/",
+          "/workflows/examples/send-email-to-someone-else/",
+          "/workflows/examples/add-row-to-google-sheets/",
+          "/workflows/examples/add-multiple-rows-to-google-sheets/",
+          "/workflows/examples/send-slack-message/",
+          "/workflows/examples/send-discord-message/",
+          "/workflows/examples/add-record-to-airtable/",
+        ],
+      }, */
       {
         title: "Event Sources",
         collapsable: false,
@@ -49,6 +66,7 @@ module.exports = {
           "/workflows/steps/code/nodejs/working-with-files/",
           "/workflows/steps/actions/",
           "/workflows/steps/params/",
+          "/workflows/steps/code/nodejs/sharing-code/",
         ],
       },
       {
@@ -116,6 +134,7 @@ module.exports = {
           "/destinations/s3/",
           "/destinations/email/",
           "/destinations/sql/",
+          "/destinations/emit/",
           "/destinations/sse/",
         ],
       },
@@ -131,6 +150,7 @@ module.exports = {
           "/apps/strava/",
           "/apps/twitter/",
           "/apps/zoho-books/",
+          "/apps/zoho-crm/",
           "/apps/zoom/",
         ],
       },

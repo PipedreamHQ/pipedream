@@ -38,7 +38,7 @@ You can view the events for a source in the sources UI, under the **EVENTS** sec
 
 You can also trigger a [Pipedream workflow](/workflows/) every time your source emits a new event. This lets you run workflows for every new tweet, every new item in an RSS feed, and more.
 
-Finally, you can consume events programmatically, outside the Pipedreram platform, in a few different ways:
+Finally, you can consume events programmatically, outside the Pipedream platform, in a few different ways:
 
 - In real-time, using the [SSE stream](/api/sse/) linked to your source
 - In real-time, via the CLI's [`pd events` command](/api/sse/#subscribe-to-new-events-using-the-pipedream-cli)
