@@ -6,7 +6,7 @@
 
 Pipedream is a low code, integration platform built for Node.js developers.  Pipedream makes it easy to connect apps and develop, execute and maintain event-driven workflows.
 
-<a href="http://tod.ly/3fMdryW"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" /></a>
+<a href="http://tod.ly/3fMdryW"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="35" /></a>
 
 **Key Features**:
 
