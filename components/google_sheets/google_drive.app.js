@@ -30,7 +30,7 @@ module.exports = {
       }
       return (await drive.changes.getStartPageToken(request)).data
         .startPageToken;
-    },  
+    },
     async listSheets(driveId, pageToken = null) {
       const drive = this.drive();
       let request;
@@ -107,22 +107,22 @@ module.exports = {
       );
       return { expiration, resourceId };
     },
-    async getModifiedSheets(pageToken, driveId, sheetIDs) {
+    async getModifiedSheet(pageToken, driveId, sheetID) {
       const { changedFiles, newStartPageToken } = await this.getChanges(
         pageToken,
         driveId
       );
-      const files = [];
-      for (const file of changedFiles) {
+      let file;
+      for (const changedFile of changedFiles) {
         if (
-          file.mimeType.includes("spreadsheet") &&
-          (!sheetIDs || sheetIDs.length == 0 || sheetIDs.includes(file.id))
+          changedFile.mimeType.includes("spreadsheet") &&
+          sheetID == changedFile.id
         ) {
-          files.push(file);
+          file = changedFile;
         }
       }
       return {
-        files,
+        file,
         pageToken: newStartPageToken,
       };
     },

@@ -7,7 +7,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     google_sheets,
@@ -24,16 +24,32 @@ module.exports = {
       },
     },
     drive: { propDefinition: [google_drive, "watchedDrive"] },
-    sheetIDs: {
-      type: "string[]",
-      label: "Sheets to watch for changes",
-      optional: true,
+    sheetID: {
+      type: "string",
+      label: "Spreadsheet to watch for changes",
       async options({ page, prevContext }) {
         const { nextPageToken } = prevContext;
         return await this.google_drive.listSheets(
           this.drive === "myDrive" ? null : this.drive,
           nextPageToken
         );
+      },
+    },
+    worksheetIDs: {
+      type: "string[]",
+      label: "Worksheets to watch for changes",
+      async options() {
+        const options = [];
+        const worksheets = (
+          await this.google_sheets.getSpreadsheet(this.sheetID)
+        ).sheets;
+        for (const sheet of worksheets) {
+          options.push({
+            label: sheet.properties.title,
+            value: sheet.properties.sheetId,
+          });
+        }
+        return options;
       },
     },
   },
@@ -92,7 +108,7 @@ module.exports = {
         id: `${spreadsheet.spreadsheetId}${
           sheet.properties.sheetId
         }${Date.now()}`,
-        summary: `${diff} rows added to ${spreadsheet.properties.title} - ${sheet.properties.title}`,
+        summary: `${diff} row(s) added to ${spreadsheet.properties.title} - ${sheet.properties.title}`,
         ts: Date.now(),
       };
     },
@@ -121,19 +137,16 @@ module.exports = {
     const { headers } = event;
     if (!headers) return;
 
-    let sheetIDs = this.sheetIDs || [];
     if (headers["x-goog-resource-state"] === "sync") {
       // initialize row counts
-      if (sheetIDs.length === 0) {
-        const sheets = (
-          await this.google_drive.listSheets(
-            this.drive === "myDrive" ? null : this.drive
-          )
-        ).options;
-        for (const s of sheets) sheetIDs.push(s.value);
-      }
-      const rowCounts = await this.google_sheets.getRowCounts(sheetIDs);
+      const rowCounts = await this.google_sheets.getRowCounts(this.sheetID);
       for (const sheetCount of rowCounts) {
+        if (
+          this.worksheetIDs.length > 0 &&
+          !this.worksheetIDs.includes(sheetCount.sheetId.toString())
+        ) {
+          continue;
+        }
         this.db.set(
           `${sheetCount.spreadsheetId}${sheetCount.sheetId}`,
           sheetCount.rows
@@ -144,21 +157,37 @@ module.exports = {
     ) {
       return;
     }
-    const { files, newPageToken } = await this.google_drive.getModifiedSheets(
+    const { file, newPageToken } = await this.google_drive.getModifiedSheet(
       pageToken,
       this.drive === "myDrive" ? null : this.drive,
-      sheetIDs
+      this.sheetID
     );
-    for (const file of files) {
+    if (file) {
       let spreadsheet = await this.google_sheets.getSpreadsheet(file.id);
       for (const sheet of spreadsheet.sheets) {
+        if (
+          this.worksheetIDs.length > 0 &&
+          !this.worksheetIDs.includes(sheet.properties.sheetId.toString())
+        ) {
+          continue;
+        }
         let oldRowCount = this.db.get(
           `${spreadsheet.spreadsheetId}${sheet.properties.sheetId}`
         );
-        let rowCount = sheet.properties.gridProperties.rowCount;
+        let rowCount = sheet.data[0].rowData.length;
         if (oldRowCount && rowCount > oldRowCount) {
           let diff = rowCount - oldRowCount;
-          this.$emit(sheet, this.getMeta(spreadsheet, sheet, diff));
+          let range = `${sheet.properties.title}!${
+            rowCount - (diff - 1)
+          }:${rowCount}`;
+          let newRowValues = await this.google_sheets.getSpreadsheetValues(
+            spreadsheet.spreadsheetId,
+            range
+          );
+          this.$emit(
+            { newRowValues, sheet },
+            this.getMeta(spreadsheet, sheet, diff)
+          );
         }
         this.db.set(
           `${spreadsheet.spreadsheetId}${sheet.properties.sheetId}`,

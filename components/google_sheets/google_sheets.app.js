@@ -26,37 +26,33 @@ module.exports = {
       };
       return (await sheets.spreadsheets.values.get(request)).data;
     },
-    async getRowCounts(sheetIds) {
+    async getRowCounts(spreadsheetId) {
       const sheets = this.sheets();
       const rowCounts = [];
-      for (const id of sheetIds) {
-        const spreadsheet = await this.getSpreadsheet(id);
-        for (const sheet of spreadsheet.sheets) {
-          rowCounts.push({
-            spreadsheetId: id,
-            sheetId: sheet.properties.sheetId,
-            rows: sheet.properties.gridProperties.rowCount,
-          });
-        }
+      const spreadsheet = await this.getSpreadsheet(spreadsheetId);
+      for (const sheet of spreadsheet.sheets) {
+        rowCounts.push({
+          spreadsheetId,
+          sheetId: sheet.properties.sheetId,
+          rows: sheet.data[0].rowData.length,
+        });
       }
       return rowCounts;
     },
-    // returns an array of the spreadsheet values for all sheets selected in props
-    async getSheetValues(sheetIds) {
+    // returns an array of the spreadsheet values for the spreadsheet selected
+    async getSheetValues(spreadsheetId) {
       const sheets = this.sheets();
       const sheetValues = [];
-      for (const id of sheetIds) {
-        const spreadsheet = await this.getSpreadsheet(id);
-        for (const sheet of spreadsheet.sheets) {
-          const newValues = (
-            await this.getSpreadsheetValues(id, sheet.properties.title)
-          ).values;
-          sheetValues.push({
-            spreadsheetId: id,
-            sheetId: sheet.properties.sheetId,
-            values: newValues,
-          });
-        }
+      const spreadsheet = await this.getSpreadsheet(spreadsheetId);
+      for (const sheet of spreadsheet.sheets) {
+        const newValues = (
+          await this.getSpreadsheetValues(spreadsheetId, sheet.properties.title)
+        ).values;
+        sheetValues.push({
+          spreadsheetId,
+          sheetId: sheet.properties.sheetId,
+          values: newValues,
+        });
       }
       return sheetValues;
     },

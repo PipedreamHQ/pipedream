@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     google_sheets,
@@ -24,16 +24,32 @@ module.exports = {
       },
     },
     drive: { propDefinition: [google_drive, "watchedDrive"] },
-    sheetIDs: {
-      type: "string[]",
-      label: "Sheets to watch for changes",
-      optional: true,
+    sheetID: {
+      type: "string",
+      label: "Spreadsheet to watch for changes",
       async options({ page, prevContext }) {
         const { nextPageToken } = prevContext;
         return await this.google_drive.listSheets(
           this.drive === "myDrive" ? null : this.drive,
           nextPageToken
         );
+      },
+    },
+    worksheetIDs: {
+      type: "string[]",
+      label: "Worksheets to watch for changes",
+      async options() {
+        const options = [];
+        const worksheets = (
+          await this.google_sheets.getSpreadsheet(this.sheetID)
+        ).sheets;
+        for (const sheet of worksheets) {
+          options.push({
+            label: sheet.properties.title,
+            value: sheet.properties.sheetId,
+          });
+        }
+        return options;
       },
     },
   },
@@ -112,9 +128,7 @@ module.exports = {
             ? oldValues[i][j]
             : "";
         if (newValue !== oldValue) {
-          if (typeof changes[`row ${i + 1}`] === "undefined")
-            changes[`row ${i + 1}`] = [];
-          changes[`row ${i + 1}`].push({
+          changes.push({
             cell: `${String.fromCharCode(j + 65)}:${i + 1}`,
             previous_value: oldValue,
             new_value: newValue,
@@ -125,10 +139,10 @@ module.exports = {
     },
     getRowCount(newValues, oldValues) {
       // set rowCount to the larger of previous rows or current rows
-      return rowCount =
+      return (rowCount =
         newValues.length > oldValues.length
           ? newValues.length
-          : oldValues.length;
+          : oldValues.length);
     },
     getColCount(newValues, oldValues, i) {
       let colCount = 0;
@@ -154,13 +168,13 @@ module.exports = {
       const oldValues =
         this.db.get(
           `${spreadsheet.spreadsheetId}${sheet.properties.sheetId}`
-        ) || null;  
+        ) || null;
       const currentValues = await this.google_sheets.getSpreadsheetValues(
         file.id,
         sheet.properties.title
-      ); 
+      );
       return { oldValues, currentValues };
-    },  
+    },
   },
   async run(event) {
     let subscription = this.db.get("subscription");
@@ -186,18 +200,9 @@ module.exports = {
     const { headers } = event;
     if (!headers) return;
 
-    let sheetIDs = this.sheetIDs || [];
     if (headers["x-goog-resource-state"] === "sync") {
       // initialize sheet values
-      if (sheetIDs.length === 0) {
-        const sheets = (
-          await this.google_drive.listSheets(
-            this.drive === "myDrive" ? null : this.drive
-          )
-        ).options;
-        for (const s of sheets) sheetIDs.push(s.value);
-      }
-      const sheetValues = await this.google_sheets.getSheetValues(sheetIDs);
+      const sheetValues = await this.google_sheets.getSheetValues(this.sheetID);
       for (const sheetVal of sheetValues) {
         this.db.set(
           `${sheetVal.spreadsheetId}${sheetVal.sheetId}`,
@@ -210,17 +215,27 @@ module.exports = {
       return;
     }
 
-    const { files, newPageToken } = await this.google_drive.getModifiedSheets(
+    const { file, newPageToken } = await this.google_drive.getModifiedSheet(
       pageToken,
       this.drive === "myDrive" ? null : this.drive,
-      sheetIDs
+      this.sheetID
     );
-    for (const file of files) {
+    if (file) {
       const spreadsheet = await this.google_sheets.getSpreadsheet(file.id);
       for (const sheet of spreadsheet.sheets) {
-        const { oldValues, currentValues } = await this.getValues(spreadsheet, sheet, file);
+        if (
+          this.worksheetIDs.length > 0 &&
+          !this.worksheetIDs.includes(sheet.properties.sheetId)
+        ) {
+          continue;
+        }
+        const { oldValues, currentValues } = await this.getValues(
+          spreadsheet,
+          sheet,
+          file
+        );
         const newValues = currentValues.values || [];
-        let changes = {};
+        let changes = [];
         // check if there are differences in the spreadsheet values
         if (
           oldValues &&
@@ -229,7 +244,13 @@ module.exports = {
           let rowCount = this.getRowCount(newValues, oldValues);
           for (let i = 0; i < rowCount; i++) {
             let colCount = this.getColCount(newValues, oldValues, i);
-            changes = this.getChanges(colCount, newValues, oldValues, changes, i);
+            changes = this.getChanges(
+              colCount,
+              newValues,
+              oldValues,
+              changes,
+              i
+            );
           }
           this.$emit(
             { sheet, currentValues, changes },
@@ -243,5 +264,5 @@ module.exports = {
       }
     }
     if (newPageToken) this.db.set("pageToken", newPageToken);
-  }, 
+  },
 };
