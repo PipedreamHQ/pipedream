@@ -7,7 +7,7 @@ module.exports = {
   key: "hacker_news-new-stories-by-keyword",
   name: "New Stories by Keyword",
   description: "Emit new stories that mention a specific keyword",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     hacker_news,
     timer: {
