@@ -10,14 +10,12 @@ module.exports = {
     Emit an event immediately after an object of arbitrary type
     (selected as an input parameter by the user) is deleted
   `,
-  version: "0.0.1",
+  version: "0.0.3",
   methods: {
     ...common.methods,
     generateMeta(data) {
       const nameField = this.db.get("nameField");
-      const {
-        Old: oldObject,
-      } = data.body;
+      const { Old: oldObject } = data.body;
       const {
         LastModifiedDate: lastModifiedDate,
         Id: id,

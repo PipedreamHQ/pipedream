@@ -10,7 +10,7 @@ module.exports = {
     Emit an event (at regular intervals) when an object of arbitrary type
     (selected as an input parameter by the user) is updated
   `,
-  version: "0.0.1",
+  version: "0.0.3",
   methods: {
     ...common.methods,
     generateMeta(item) {
@@ -31,26 +31,27 @@ module.exports = {
       };
     },
     async processEvent(eventData) {
-      const {
-        startTimestamp,
-        endTimestamp,
-      } = eventData;
+      const { startTimestamp, endTimestamp } = eventData;
       const {
         ids,
         latestDateCovered,
-      } = await this.salesforce.getUpdatedForObjectType(this.objectType, startTimestamp, endTimestamp);
+      } = await this.salesforce.getUpdatedForObjectType(
+        this.objectType,
+        startTimestamp,
+        endTimestamp
+      );
 
       // By the time we try to retrieve an item, it might've been deleted. This
       // will cause `getSObject` to throw a 404 exception, which will reject its
       // promise. Hence, we need to filter those items that we still in Salesforce
       // and exclude those that are not.
       const itemRetrievals = await Promise.allSettled(
-        ids.map(id => this.salesforce.getSObject(this.objectType, id))
+        ids.map((id) => this.salesforce.getSObject(this.objectType, id))
       );
       itemRetrievals
-        .filter(result => result.status === "fulfilled")
-        .map(result => result.value)
-        .forEach(item => {
+        .filter((result) => result.status === "fulfilled")
+        .map((result) => result.value)
+        .forEach((item) => {
           const meta = this.generateMeta(item);
           this.$emit(item, meta);
         });
