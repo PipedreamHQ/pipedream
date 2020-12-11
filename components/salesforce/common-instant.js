@@ -20,15 +20,20 @@ module.exports = {
         if (page !== 0) {
           // The list of allowed SObject types is static and exhaustively
           // provided through a single method call
-          return [];
+          return {
+            options: []
+          };
         }
 
         const eventType = this.getEventType();
         const supportedObjectTypes = this.salesforce.listAllowedSObjectTypes(eventType);
-        return supportedObjectTypes.map(i => ({
+        const options = supportedObjectTypes.map(i => ({
           label: i.label,
           value: i.name,
         }));
+        return {
+          options,
+        };
       },
     },
   },
