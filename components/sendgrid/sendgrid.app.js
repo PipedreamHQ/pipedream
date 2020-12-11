@@ -39,7 +39,10 @@ module.exports = {
       const { data } = await axios.post(url, requestData, requestConfig);
       return data;
     },
-    async _withRetries(apiCall, retriableStatusCodes) {
+    _isRetriableStatusCode(statusCode) {
+      [408, 429, 500].includes(statusCode);
+    },
+    async _withRetries(apiCall) {
       const retryOpts = {
         retries: 5,
         factor: 2,
@@ -49,7 +52,7 @@ module.exports = {
           return await apiCall();
         } catch (err) {
           const statusCode = get(err, ["response", "status"]);
-          if (!retriableStatusCodes.has(statusCode)) {
+          if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
               ${JSON.stringify(err.response, null, 2)}
@@ -66,28 +69,22 @@ module.exports = {
         url,
         query,
       };
-      const retriableStatusCodes = new Set([408, 429]);
       return this._withRetries(
-        async () => this._getAllItems(searchParams),
-        retriableStatusCodes,
+        () => this._getAllItems(searchParams),
       );
     },
     async getWebhookSettings() {
       const url = this._webhookSettingsUrl();
       const requestConfig = this._makeRequestConfig();
-      const retriableStatusCodes = new Set([408, 429]);
       return this._withRetries(
-        async () => axios.get(url, requestConfig),
-        retriableStatusCodes,
+        () => axios.get(url, requestConfig),
       );
     },
     async setWebhookSettings(webhookSettings) {
       const url = this._webhookSettingsUrl();
       const requestConfig = this._makeRequestConfig();
-      const retriableStatusCodes = new Set([408, 429]);
       return this._withRetries(
-        async () => axios.patch(url, webhookSettings, requestConfig),
-        retriableStatusCodes,
+        () => axios.patch(url, webhookSettings, requestConfig),
       );
     },
   },

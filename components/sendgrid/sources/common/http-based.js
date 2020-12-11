@@ -9,22 +9,30 @@ module.exports = {
   hooks: {
     ...base.hooks,
     async activate() {
-      const { enabled } = await this.sendgrid.getWebhookSettings();
-      if (enabled) {
+      const { endpoint: endpointUrl } = this.http;
+      const { enabled, url } = await this.sendgrid.getWebhookSettings();
+      if (enabled && endpointUrl !== url) {
         throw new Error(`
           Your account already has an active event webhook.
           Please verify and safely disable it before using this event source.
         `);
       }
 
-      const { endpoint: url } = this.http;
       const newWebhookSettings = {
-        enabled: true,
-        url,
         ...this._baseWebhookSettings(),
         ...this.webhookEventFlags(),
+        enabled: true,
+        url: endpointUrl,
       };
       await this.sendgrid.setWebhookSettings(newWebhookSettings);
+    },
+    async deactivate() {
+      const webhookSettings = {
+        ...this._baseWebhookSettings(),
+        enabled: false,
+        url: null,
+      };
+      await this.sendgrid.setWebhookSettings(webhookSettings);
     },
   },
   methods: {

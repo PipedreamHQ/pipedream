@@ -9,65 +9,32 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    processed: {
-      type: "boolean",
-      label: "Processed",
-      description: `
-        When set, an event will be emitted each time a message has been
-        received and is ready to be delivered
-      `,
-      default: true,
-    },
-    dropped: {
-      type: "boolean",
-      label: "Dropped",
-      description: `
-        If set, an event will be emitted each time a message has been
-        dropped, regardless of the reason (which is provided as part of
-        the emitted event)
-      `,
-      default: true,
-    },
-    delivered: {
-      type: "boolean",
-      label: "Delivered",
-      description: `
-        If set, an event will be emitted each time a message has been
-        successfully delivered to the receiving server
-      `,
-      default: true,
-    },
-    deferred: {
-      type: "boolean",
-      label: "Deferred",
-      description: `
-        When set, an event will be emitted if the receiving server
-        temporarily rejected the message
-      `,
-      default: true,
-    },
-    bounce: {
-      type: "boolean",
-      label: "Bounce",
-      description: `
-        When set, an event will be emitted if the receiving server could not
-        or would not accept mail to this recipient permanently.
-        If a recipient has previously unsubscribed from your emails,
-        the message is dropped.
-      `,
-      default: true,
+    eventTypes: {
+      type: "string[]",
+      label: "Delivery Event Types",
+      description: "The type of delivery events to listen to",
+      options(context) {
+        const { page } = context;
+        if (page !== 0) {
+          return {
+            options: [],
+          };
+        }
+
+        const options = require('./delivery-event-types');
+        return {
+          options,
+        };
+      }
     },
   },
   methods: {
     ...common.methods,
     webhookEventFlags() {
-      return {
-        processed: this.processed,
-        dropped: this.dropped,
-        delivered: this.delivered,
-        deferred: this.deferred,
-        bounce: this.bounce,
-      };
+      return this.eventTypes.reduce((accum, eventType) => ({
+        ...accum,
+        [eventType]: true,
+      }), {});
     },
     generateMeta(data) {
       const base = common.methods.generateMeta(data);
