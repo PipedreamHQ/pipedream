@@ -20,6 +20,10 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/user/webhooks/event/settings`;
     },
+    _setSignedWebhookUrl() {
+      const baseUrl = this._webhookSettingsUrl();
+      return `${baseUrl}/signed`;
+    },
     _makeRequestConfig() {
       const authToken = this._authToken();
       const headers = {
@@ -86,6 +90,23 @@ module.exports = {
       return this._withRetries(
         () => axios.patch(url, webhookSettings, requestConfig),
       );
+    },
+    async _setSignedWebhook(enabled) {
+      const url = this._setSignedWebhookUrl();
+      const requestData = {
+        enabled,
+      };
+      const requestConfig = this._makeRequestConfig();
+      return this._withRetries(
+        () => axios.patch(url, requestData, requestConfig),
+      );
+    },
+    async enableSignedWebhook() {
+      const { data } = await this._setSignedWebhook(true);
+      return data.public_key;
+    },
+    async disableSignedWebhook() {
+      return this._setSignedWebhook(false);
     },
   },
 };

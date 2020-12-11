@@ -1,10 +1,17 @@
+const {
+  EventWebhook,
+  EventWebhookHeader,
+} = require('@sendgrid/eventwebhook');
 const base = require("./base");
 
 module.exports = {
   ...base,
   props: {
     ...base.props,
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
   },
   hooks: {
     ...base.hooks,
@@ -19,60 +26,52 @@ module.exports = {
       }
 
       const newWebhookSettings = {
-        ...this._baseWebhookSettings(),
+        ...this.baseWebhookSettings(),
         ...this.webhookEventFlags(),
         enabled: true,
         url: endpointUrl,
       };
       await this.sendgrid.setWebhookSettings(newWebhookSettings);
+
+      const webhookPublicKey = await this.sendgrid.enableSignedWebhook();
+      this.db.set("webhookPublicKey", webhookPublicKey);
     },
     async deactivate() {
       const webhookSettings = {
-        ...this._baseWebhookSettings(),
+        ...this.baseWebhookSettings(),
         enabled: false,
         url: null,
       };
       await this.sendgrid.setWebhookSettings(webhookSettings);
+      await this.sendgrid.disableSignedWebhook();
     },
   },
   methods: {
     ...base.methods,
-    _baseWebhookSettings() {
-      // The list of events that a webhook can listen to. This method returns an
-      // exhaustive list of all such flags disabled, and each event source can
-      // then override the flags that are relevant to the event they handle.
-      //
-      // See the docs for more information:
-      // https://sendgrid.com/docs/api-reference/
-      return {
-        group_resubscribe: false,
-        delivered: false,
-        group_unsubscribe: false,
-        spam_report: false,
-        bounce: false,
-        deferred: false,
-        unsubscribe: false,
-        processed: false,
-        open: false,
-        click: false,
-        dropped: false,
-      };
-    },
-    webhookEventFlags() {
-      throw new Error('webhookEventFlags is not implemented');
-    },
-    generateMeta(data) {
+    _isValidSource(event) {
       const {
-        sg_event_id: id,
-        timestamp: ts,
-      } = data;
-      return {
-        id,
-        summary: "New event",
-        ts,
-      };
+        [EventWebhookHeader.SIGNATURE().toLowerCase()]: signature,
+        [EventWebhookHeader.TIMESTAMP().toLowerCase()]: timestamp,
+      } = event.headers;
+      const { bodyRaw: payload } = event;
+      const webhookPublicKey = this.db.get("webhookPublicKey");
+
+      const webhookHelper = new EventWebhook();
+      const ecdsaPublicKey = webhookHelper.convertPublicKeyToECDSA(webhookPublicKey);
+      return webhookHelper.verifySignature(ecdsaPublicKey, payload, signature, timestamp);
     },
     processEvent(event) {
+      if (!this._isValidSource(event)) {
+        this.http.respond({
+          status: 404,
+        });
+        return;
+      }
+
+      this.http.respond({
+        status: 200,
+      });
+
       const { body: events } = event;
       events.forEach(e => {
         const meta = this.generateMeta(e);
