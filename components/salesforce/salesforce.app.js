@@ -11,12 +11,25 @@ module.exports = {
     _instance() {
       return this.$auth.yourinstance;
     },
+    _instanceUrl() {
+      return this.$auth.instance_url;
+    },
+    _subdomain() {
+      return (
+        this._instance() ||
+        this._instanceUrl()
+          .replace('https://', '')
+          .replace('.salesforce.com', '')
+      );
+    },
     _apiVersion() {
       return "50.0";
     },
     _baseApiUrl() {
-      const instance = this._instance();
-      return `https://${instance}.salesforce.com`;
+      return (
+        this._instanceUrl() ||
+        `https://${this._subdomain()}.salesforce.com`
+      );
     },
     _userApiUrl() {
       const baseUrl = this._baseApiUrl();
@@ -61,7 +74,7 @@ module.exports = {
       const clientOpts = {
         apiVersion: this._apiVersion(),
         authToken: this._authToken(),
-        instance: this._instance(),
+        instance: this._subdomain(),
       };
       return new SalesforceClient(clientOpts);
     },
