@@ -1,6 +1,6 @@
 const orderBy = require("lodash/orderBy");
 
-const common = require("../common");
+const common = require("../common/timer-based");
 
 module.exports = {
   ...common,

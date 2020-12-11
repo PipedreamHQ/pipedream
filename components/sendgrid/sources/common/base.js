@@ -1,16 +1,10 @@
 const { v4: uuidv4 } = require("uuid");
 
-const sendgrid = require("../sendgrid.app");
+const sendgrid = require("../../sendgrid.app");
 
 module.exports = {
   props: {
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
     sendgrid,
   },
   methods: {
@@ -24,13 +18,10 @@ module.exports = {
       return date.toISOString();
     },
     generateMeta(data) {
-      const id = uuidv4();
-      const summary = 'New event';
-      const { timestamp: ts } = data;
       return {
-        id,
-        summary,
-        ts,
+        id: uuidv4(),
+        summary: "New event",
+        ts: Date.now(),
       };
     },
     processEvent(event) {
