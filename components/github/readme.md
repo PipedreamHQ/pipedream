@@ -6,14 +6,14 @@
 
 Pipedream is a low code, integration platform built for Node.js developers.  Pipedream makes it easy to connect apps and develop, execute and maintain event-driven workflows.
 
+<a href="http://tod.ly/3fMdryW"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" /></a>
+
 **Key Features**:
 
 - [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by a Github event
 - [Github Triggers](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from Github
 - Serverless - No server or cloud resources to manage
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
-
-<a href="http://tod.ly/3fMdryW"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
 ## Github API Event Sources
 
