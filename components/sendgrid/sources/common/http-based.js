@@ -63,7 +63,8 @@ module.exports = {
     processEvent(event) {
       if (!this._isValidSource(event)) {
         this.http.respond({
-          status: 404,
+          status: 400,
+          body: "Signature check failed",
         });
         return;
       }
