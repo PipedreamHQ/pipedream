@@ -767,7 +767,7 @@ DELETE /sources/{id}
 
 ## Subscriptions
 
-### Listen for events from another source
+### Listen for events from another source or workflow
 
 ---
 
@@ -825,7 +825,7 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
 
 You can use this endpoint to automatically receive events, like workflow errors, in another listening workflow or event source. Once you setup the auto-subscription, any new workflows or event sources you create will automatically deliver the specified events to the listener.
 
-Note: this will configure subscriptions for _new_ workflows and sources after the time you configure the subscription. To deliver events to your listener from _existing_ workflows or sources, use the [`POST /subscriptions` endpoint](#listen-for-events-from-another-source).
+Note: this will configure subscriptions for _new_ workflows and sources after the time you configure the subscription. To deliver events to your listener from _existing_ workflows or sources, use the [`POST /subscriptions` endpoint](#listen-for-events-from-another-source-or-workflow).
 
 **Currently, this feature is enabled only on the API. The Pipedream UI will not display the sources configured as listeners using this API**.
 
@@ -874,7 +874,7 @@ curl "https://api.pipedream.com/v1/auto_subscriptions?event_name=$errors&listene
 
 ---
 
-Use this endpoint to delete an existing subscription. This endpoint accepts the same parameters as the [`POST /subscriptions` endpoint](#listen-for-events-from-another-source) for creating subscriptions.
+Use this endpoint to delete an existing subscription. This endpoint accepts the same parameters as the [`POST /subscriptions` endpoint](#listen-for-events-from-another-source-or-workflow) for creating subscriptions.
 
 ---
 
