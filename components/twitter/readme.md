@@ -8,8 +8,8 @@ Integrate Twitter + 1000s of apps, remarkably fast. Connect apps and develop, ex
 
 **Key Features**:
 
-- [Twitter API Event Sources](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from Twitter
-- [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by a Github event
+- [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by a Twitter event
+- [Twitter API Event Sources](#twitter-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from Twitter
 - Serverless - No server or cloud resources to manage
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
