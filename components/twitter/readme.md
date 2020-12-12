@@ -1,10 +1,12 @@
-# Twitter API Integrations
+# Twitter API Integration Platform
 
-### Integrate Twitter and thousands of applications with Pipedream. Free for developers.
+### Pipedream is a low code, integration platform built for Node.js developers
 
 ---
 
-Pipedream is a serverless integration and compute platform. We provide a free, hosted platform that makes it easy to connect apps and develop, execute and maintain event-driven workflows.
+Integrate Twitter + 1000s of apps, remarkably fast. Connect apps and develop, execute and maintain event-driven workflows.
+
+<a href="http://tod.ly/2JJte7p"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
 
 **Key Features**:
 
