@@ -15,8 +15,6 @@ Integrate Twitter + 1000s of apps, remarkably fast. Connect apps and develop, ex
 - Serverless - No server or cloud resources to manage
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
-<a href="http://tod.ly/3fMdryW"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
-
 ## Twitter API Event Sources
 
 - [Search Twitter](https://pipedream.com/sources/new?app=twitter) - Triggers when a new tweet matches your search ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/search-twitter.js))
