@@ -13,22 +13,22 @@ Pipedream is a serverless integration and compute platform. We provide a free, h
 - Serverless - No server or cloud resources to manage
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
-<a href="http://tod.ly/31IFFFb"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
+<a href="https://pipedream.com/sources/new?app=zoom"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
 ## Zoom API Event Sources
 
-- [Custom Events](http://tod.ly/31IFFFb) - Build your own event source using one or multiple events ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/custom-event.js))
-- [Meeting Created](http://tod.ly/31IFFFb) - Emits an event each time a meeting is created where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-created.js))
-- [Meeting Deleted](http://tod.ly/31IFFFb) - Emits an event each time a meeting is deleted where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-deleted.js))
-- [Meeting Ended](http://tod.ly/31IFFFb) - Emits an event each time a meeting ends where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-ended.js))
-- [Meeting Started](http://tod.ly/31IFFFb) - Emits an event each time a meeting starts where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-started.js))
-- [Meeting Updated](http://tod.ly/31IFFFb) - Emits an event each time a meeting is updated where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-updated.js))
+- [Custom Events](https://pipedream.com/sources/new?app=zoom) - Build your own event source using one or multiple events ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/custom-event.js))
+- [Meeting Created](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting is created where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-created.js))
+- [Meeting Deleted](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting is deleted where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-deleted.js))
+- [Meeting Ended](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting ends where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-ended.js))
+- [Meeting Started](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting starts where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-started.js))
+- [Meeting Updated](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a meeting is updated where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/meeting-updated.js))
 - [Meeting Recording Completed](https://pipedream.com/sources?action=create&key=zoom-recording-completed&utm_source=github.com&utm_medium=referral&utm_campaign=zoom) - Emits an event each time a new recording completes for a meeting or webinar where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/recording-completed.js))
-- [Webinar Created](http://tod.ly/31IFFFb) - Emits an event each time a webinar is created where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-created.js))
-- [Webinar Deleted](http://tod.ly/31IFFFb) - Emits an event each time a webinar is deleted where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-deleted.js))
-- [Webinar Ended](http://tod.ly/31IFFFb) - Emits an event each time a webinar ends where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-ended.js))
-- [Webinar Started](http://tod.ly/31IFFFb) - Emits an event each time a webinar starts where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-started.js))
-- [Webinar Updated](http://tod.ly/31IFFFb) - Emits an event each time a webinar is updated where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-updated.js))
+- [Webinar Created](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar is created where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-created.js))
+- [Webinar Deleted](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar is deleted where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-deleted.js))
+- [Webinar Ended](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar ends where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-ended.js))
+- [Webinar Started](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar starts where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-started.js))
+- [Webinar Updated](https://pipedream.com/sources/new?app=zoom) - Emits an event each time a webinar is updated where you're the host ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/zoom/webinar-updated.js))
 
 Event sources can also be deployed via the [Pipedream CLI](https://docs.pipedream.com/cli/reference/). Once installed, you can deploy an event source by running:
 
