@@ -182,7 +182,7 @@ module.exports = {
         }
       }
       config.headers.authorization = authorization
-      return await axios(config)
+      return axios(config)
     },
     async getFollowers(screen_name) {
       return (await this._makeRequest({
@@ -192,6 +192,47 @@ module.exports = {
           stringify_ids: true,
         }
       })).data.ids
+    },
+    async *getAllFollowers(screenName) {
+      const url = `https://api.twitter.com/1.1/followers/ids.json?`;
+      const baseParams = {
+        screen_name: screenName,
+        stringify_ids: true,
+      };
+      const config = {
+        url,
+        params: baseParams,
+      };
+      const { data } = await this._makeRequest(config);
+      let {
+        ids,
+        next_cursor: nextCursor,
+        previous_cursor: prevCursor,
+      } = data;
+      while (nextCursor !== 0 || prevCursor === 0) {
+        for (const id of ids) {
+          yield id;
+        }
+
+        if (nextCursor === 0) {
+          return;
+        }
+
+        const params = {
+          ...baseParams,
+          cursor: nextCursor,
+        };
+        const config = {
+          url,
+          params,
+        };
+        const { data } = await this._makeRequest(config);
+        ({
+          ids,
+          next_cursor: nextCursor,
+          previous_cursor: prevCursor,
+        } = data);
+      }
     },
     async getLikedTweets(opts = {}) {
       const {
