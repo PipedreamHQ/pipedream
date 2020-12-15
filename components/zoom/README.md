@@ -53,7 +53,7 @@ You can copy [this example workflow](https://pipedream.com/@tod/use-http-request
 
 - [Save Zoom recordings to Amazon S3, then delete Zoom recording](https://pipedream.com/@dylburger/save-zoom-recordings-to-amazon-s3-p_PACKJG/readme)
 
-For a deeper introduction to Pipedream and event sources, see the [root `README` in this repo](/README.md), the [component API](/COMPONENT-API.md), or the [docs](http://docs.pipedream.com/apps/zoom/).
+For a deeper introduction to Pipedream and event sources, see the [root `README` in this repo](/README.md), the [component API](/COMPONENT-API.md), or the [docs](https://docs.pipedream.com/apps/zoom/).
 
 ## Other Popular API Integrations
 
