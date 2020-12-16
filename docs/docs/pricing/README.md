@@ -31,9 +31,9 @@ Users on the Developer Tier have access to community support, on Github Discussi
 
 The Professional tier includes all the features of the Developer tier. It also comes with the following benefits:
 
-- **You can run any number of invocations, for any amount of time**
-- [Email Support](https://pipedream.com/support)
-- All workflow code is **private** by default
+- **You have no daily invocations or compute time cap. You can run any number of invocations, for any amount of time**.
+- [Dedicated email or chat support](https://pipedream.com/support)
+- When using [concurrency and throttling controls](/workflows/events/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
 
 Pipedream will be adding more features to the Professional tier over time.
 
@@ -136,7 +136,7 @@ Please visit your [Stripe customer portal](https://pipedream.com/settings/billin
 
 ### How can I view my past invoices?
 
-Invoices are emailed to your email address. You can also visit your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1) to view past invoices.
+Invoices are emailed to your billing email address. You can also visit your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1) to view past invoices.
 
 ### Can I retrieve my billing information via API?
 
@@ -148,10 +148,10 @@ You can cancel your plan in your [Billing and Usage Settings](https://pipedream.
 
 If you'd like to process your cancellation immediately, and downgrade to the free tier, please [reach out](/support).
 
-### How do I change the billing email / address tied to my invoice?
+### How do I change the billing email / company details tied to my invoice?
 
-Please email **billing@pipedream.com**.
+You can update your billing information in your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1).
 
-### How do I contact the Pipedream team?
+### How do I contact the Pipedream team with other questions?
 
 You can email **billing@pipedream.com** for any billing-related questions.

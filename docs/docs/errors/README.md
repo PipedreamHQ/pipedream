@@ -69,8 +69,8 @@ Often, objects with this many nested objects result from a programming error tha
 
 ### Event Queue Full
 
-Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the maximum queue size, you may encounter an **Event Queue Full** error.
+Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the [maximum queue size](/workflows/events/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow), you may encounter an **Event Queue Full** error.
 
-If you need a higher limit, please [reach out to our team](/support/).
+[Professional Tier](/pricing/#professional-tier) users can [increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}}](/workflows/events/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow.
 
 <Footer />
