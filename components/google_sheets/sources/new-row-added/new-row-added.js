@@ -8,7 +8,6 @@ module.exports = {
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
   version: "0.0.2",
-  dedupe: "unique",
   props: {
     google_sheets,
     google_drive,
@@ -103,12 +102,12 @@ module.exports = {
     },
   },
   methods: {
-    getMeta(spreadsheet, sheet, diff) {
+    getMeta(spreadsheet, sheet) {
       return {
         id: `${spreadsheet.spreadsheetId}${
           sheet.properties.sheetId
         }${Date.now()}`,
-        summary: `${diff} row(s) added to ${spreadsheet.properties.title} - ${sheet.properties.title}`,
+        summary: `New row added to ${spreadsheet.properties.title} - ${sheet.properties.title}`,
         ts: Date.now(),
       };
     },
@@ -174,8 +173,8 @@ module.exports = {
         let oldRowCount = this.db.get(
           `${spreadsheet.spreadsheetId}${sheet.properties.sheetId}`
         );
-        let rowCount = sheet.data[0].rowData.length;
-        if (oldRowCount && rowCount > oldRowCount) {
+        let rowCount = sheet.data[0].rowData ? sheet.data[0].rowData.length : 0;
+        if (rowCount > oldRowCount) {
           let diff = rowCount - oldRowCount;
           let range = `${sheet.properties.title}!${
             rowCount - (diff - 1)
@@ -184,10 +183,9 @@ module.exports = {
             spreadsheet.spreadsheetId,
             range
           );
-          this.$emit(
-            { newRowValues, sheet },
-            this.getMeta(spreadsheet, sheet, diff)
-          );
+          for (const newRow of newRowValues.values) {
+            this.$emit({ newRow, sheet }, this.getMeta(spreadsheet, sheet));
+          }
         }
         this.db.set(
           `${spreadsheet.spreadsheetId}${sheet.properties.sheetId}`,

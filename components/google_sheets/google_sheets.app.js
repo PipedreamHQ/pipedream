@@ -34,7 +34,7 @@ module.exports = {
         rowCounts.push({
           spreadsheetId,
           sheetId: sheet.properties.sheetId,
-          rows: sheet.data[0].rowData.length,
+          rows: sheet.data[0].rowData ? sheet.data[0].rowData.length : 0,
         });
       }
       return rowCounts;
