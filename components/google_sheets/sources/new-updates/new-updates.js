@@ -105,11 +105,11 @@ module.exports = {
     },
   },
   methods: {
-    getMeta(spreadsheet, worksheet) {
+    getMeta(spreadsheet, worksheet, changes) {
       return {
         id: `${spreadsheet.spreadsheetId}${
           worksheet.properties.sheetId
-        }${Date.now()}`,
+        }${JSON.stringify(changes)}`,
         summary: `${spreadsheet.properties.title} - ${worksheet.properties.title}`,
         ts: Date.now(),
       };
