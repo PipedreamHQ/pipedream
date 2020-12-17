@@ -26,15 +26,15 @@ module.exports = {
       };
       return (await sheets.spreadsheets.values.get(request)).data;
     },
-    async getRowCounts(spreadsheetId) {
+    async getWorksheetRowCounts(spreadsheetId) {
       const sheets = this.sheets();
       const rowCounts = [];
       const spreadsheet = await this.getSpreadsheet(spreadsheetId);
-      for (const sheet of spreadsheet.sheets) {
+      for (const worksheet of spreadsheet.sheets) {
         rowCounts.push({
           spreadsheetId,
-          sheetId: sheet.properties.sheetId,
-          rows: sheet.data[0].rowData ? sheet.data[0].rowData.length : 0,
+          sheetId: worksheet.properties.sheetId,
+          rows: worksheet.data[0].rowData ? worksheet.data[0].rowData.length : 0,
         });
       }
       return rowCounts;
@@ -44,13 +44,13 @@ module.exports = {
       const sheets = this.sheets();
       const sheetValues = [];
       const spreadsheet = await this.getSpreadsheet(spreadsheetId);
-      for (const sheet of spreadsheet.sheets) {
+      for (const worksheet of spreadsheet.sheets) {
         const newValues = (
-          await this.getSpreadsheetValues(spreadsheetId, sheet.properties.title)
+          await this.getSpreadsheetValues(spreadsheetId, worksheet.properties.title)
         ).values;
         sheetValues.push({
           spreadsheetId,
-          sheetId: sheet.properties.sheetId,
+          sheetId: worksheet.properties.sheetId,
           values: newValues,
         });
       }

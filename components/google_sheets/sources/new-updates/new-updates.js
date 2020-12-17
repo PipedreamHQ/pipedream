@@ -43,10 +43,10 @@ module.exports = {
         const worksheets = (
           await this.google_sheets.getSpreadsheet(this.sheetID)
         ).sheets;
-        for (const sheet of worksheets) {
+        for (const worksheet of worksheets) {
           options.push({
-            label: sheet.properties.title,
-            value: sheet.properties.sheetId,
+            label: worksheet.properties.title,
+            value: worksheet.properties.sheetId,
           });
         }
         return options;
@@ -105,12 +105,12 @@ module.exports = {
     },
   },
   methods: {
-    getMeta(spreadsheet, sheet) {
+    getMeta(spreadsheet, worksheet) {
       return {
         id: `${spreadsheet.spreadsheetId}${
-          sheet.properties.sheetId
+          worksheet.properties.sheetId
         }${Date.now()}`,
-        summary: `${spreadsheet.properties.title} - ${sheet.properties.title}`,
+        summary: `${spreadsheet.properties.title} - ${worksheet.properties.title}`,
         ts: Date.now(),
       };
     },
@@ -164,14 +164,14 @@ module.exports = {
             : oldValues.length;
       return colCount;
     },
-    async getValues(spreadsheet, sheet, file) {
+    async getValues(spreadsheet, worksheet, file) {
       const oldValues =
         this.db.get(
-          `${spreadsheet.spreadsheetId}${sheet.properties.sheetId}`
+          `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`
         ) || null;
       const currentValues = await this.google_sheets.getSpreadsheetValues(
         file.id,
-        sheet.properties.title
+        worksheet.properties.title
       );
       return { oldValues, currentValues };
     },
@@ -220,49 +220,50 @@ module.exports = {
       this.drive === "myDrive" ? null : this.drive,
       this.sheetID
     );
-    if (file) {
-      const spreadsheet = await this.google_sheets.getSpreadsheet(file.id);
-      for (const sheet of spreadsheet.sheets) {
-        if (
-          this.worksheetIDs.length > 0 &&
-          !this.worksheetIDs.includes(sheet.properties.sheetId)
-        ) {
+    if (newPageToken) this.db.set("pageToken", newPageToken);
+
+    if (!file) return;
+
+    const spreadsheet = await this.google_sheets.getSpreadsheet(file.id);
+    for (const worksheet of spreadsheet.sheets) {
+      if (
+        this.worksheetIDs.length > 0 &&
+        !this.worksheetIDs.includes(worksheet.properties.sheetId.toString())
+      ) {
           continue;
-        }
-        const { oldValues, currentValues } = await this.getValues(
-          spreadsheet,
-          sheet,
-          file
-        );
-        const newValues = currentValues.values || [];
-        let changes = [];
-        // check if there are differences in the spreadsheet values
-        if (
-          oldValues &&
-          JSON.stringify(oldValues) !== JSON.stringify(currentValues.values)
-        ) {
-          let rowCount = this.getRowCount(newValues, oldValues);
-          for (let i = 0; i < rowCount; i++) {
-            let colCount = this.getColCount(newValues, oldValues, i);
-            changes = this.getChanges(
-              colCount,
-              newValues,
-              oldValues,
-              changes,
-              i
-            );
-          }
-          this.$emit(
-            { sheet, currentValues, changes },
-            this.getMeta(spreadsheet, sheet, changes)
+      }
+      const { oldValues, currentValues } = await this.getValues(
+        spreadsheet,
+        worksheet,
+        file
+      );
+      const newValues = currentValues.values || [];
+      let changes = [];
+      // check if there are differences in the spreadsheet values
+      if (
+        oldValues &&
+        JSON.stringify(oldValues) !== JSON.stringify(currentValues.values)
+      ) {
+        let rowCount = this.getRowCount(newValues, oldValues);
+        for (let i = 0; i < rowCount; i++) {
+          let colCount = this.getColCount(newValues, oldValues, i);
+          changes = this.getChanges(
+            colCount,
+            newValues,
+            oldValues,
+            changes,
+            i
           );
         }
-        this.db.set(
-          `${spreadsheet.spreadsheetId}${sheet.properties.sheetId}`,
-          newValues || []
+        this.$emit(
+          { worksheet, currentValues, changes },
+          this.getMeta(spreadsheet, worksheet, changes)
         );
       }
+      this.db.set(
+        `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`,
+        newValues || []
+      );
     }
-    if (newPageToken) this.db.set("pageToken", newPageToken);
   },
 };
