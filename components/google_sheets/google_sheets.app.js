@@ -1,9 +1,10 @@
 const { google } = require("googleapis");
+const google_drive = require("../google_drive/google_drive.app");
 
 module.exports = {
-  type: "app",
-  app: "google_sheets",
+  ...google_drive,
   methods: {
+    ...google_drive.methods,
     sheets() {
       const auth = new google.auth.OAuth2();
       auth.setCredentials({ access_token: this.$auth.oauth_access_token });
@@ -27,7 +28,6 @@ module.exports = {
       return (await sheets.spreadsheets.values.get(request)).data;
     },
     async getWorksheetRowCounts(spreadsheetId) {
-      const sheets = this.sheets();
       const rowCounts = [];
       const spreadsheet = await this.getSpreadsheet(spreadsheetId);
       for (const worksheet of spreadsheet.sheets) {
@@ -40,17 +40,24 @@ module.exports = {
       return rowCounts;
     },
     // returns an array of the spreadsheet values for the spreadsheet selected
-    async getSheetValues(spreadsheetId) {
-      const sheets = this.sheets();
+    async getSheetValues(spreadsheetId, worksheetIds) {
       const sheetValues = [];
       const spreadsheet = await this.getSpreadsheet(spreadsheetId);
       for (const worksheet of spreadsheet.sheets) {
+        const { sheetId } = worksheet.properties;
+        if (
+          Array.isArray(worksheetIds) &&
+          !worksheetIds.includes(sheetId)
+        ) {
+          continue;
+        }
+
         const newValues = (
           await this.getSpreadsheetValues(spreadsheetId, worksheet.properties.title)
         ).values;
         sheetValues.push({
           spreadsheetId,
-          sheetId: worksheet.properties.sheetId,
+          sheetId,
           values: newValues,
         });
       }
