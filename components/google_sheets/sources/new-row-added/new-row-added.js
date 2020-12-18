@@ -8,7 +8,6 @@ module.exports = {
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
   version: "0.0.2",
-  dedupe: "unique",
   props: {
     google_sheets,
     google_drive,
