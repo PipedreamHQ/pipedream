@@ -283,7 +283,7 @@ const response = await axios({
   data: {
     query: "SELECT COUNT(*) FROM your_table",
   }
-}
+})
 ```
 
 Some HTTP clients like `axios` automatically set a `Content-Type` header of `application/json` when you pass a JavaScript object in the `data` field, but you'll also need to ensure you set that header manually if necessary. For example, you'd make the same query above using `cURL` like so:
