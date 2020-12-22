@@ -221,6 +221,14 @@ Save the changes to your file (your component on Pipedream should automatically 
 
 ![source](/images/quickstart/hello-world-3.gif)
 
+**Note**: if you'd like to change the schedule of your deployed component, visit the **Configuration** tab in the Pipedream UI and change the schedule accordingly. Changing the value of `intervalSeconds` within the component's code will not change the schedule of the running instance of the component. You can also set one value as the default `intervalSeconds` in the component's code, but run
+
+```bash
+pd dev --prompt-all <your-file.js>
+```
+
+to set a different schedule than the default specified in the code.
+
 ### Invoke your code on HTTP requests
 
 Next, we'll update our component to run on HTTP requests instead of a timer. To do that, we'll just replace the `timer` interface with an `http` interface.
