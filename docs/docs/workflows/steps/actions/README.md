@@ -54,6 +54,40 @@ Actions have a title, a default [step name](/workflows/steps/#step-names), a des
 
 Actions are just code steps: you can write any Node.js code, [connect apps](https://docs.pipedream.com/connected-accounts/#connecting-accounts), [define params](https://docs.pipedream.com/workflows/steps/#passing-data-to-steps-step-parameters), and more. **Unlike normal code steps, actions can be used across workflows and shared with other users**. This reusability is powerful, and others benefit in huge ways from the actions you share.
 
+### Converting existing code steps to actions
+
+Often you'll have an existing code step that you want to convert to an action to reuse in other workflows. **There are a few restrictions Pipedream imposes on actions to promote reusability**.
+
+#### Replace references to `event` and `steps` with `params`
+
+When you convert a step to an action, you lose access to the variables `event` and `steps` within your code. Actions must receive all input from [`params`](/workflows/steps/params/) or [`auths`](/workflows/steps/code/auth/).
+
+Since actions can be used in any workflow, access to specific `event` data isn't guaranteed: for example, the shape of the `event` variable for the Cron and HTTP trigger is different. And since an action can be placed anywhere in a workflow, you can't ensure the action will have access to specific steps in the `steps` variable. Any user can rename a step, which would also break references to the `steps` variable in the action.
+
+For example, if you've written a code step that references the variable `event.body.name`:
+
+<div>
+<img alt="Normal code step with reference to event" width="400px" src="./images/normal-code-step.png">
+</div>
+
+you'll need to reference `params.name` when you convert your step to an action, instead. This will expose a [param](/workflows/steps/params/) where the user can enter _their_ specific reference to the variable that contains the name, which would be `event.body.name` or another variable entirely:
+
+<div>
+<img alt="action with reference to param" width="400px" src="./images/code-step-converted-to-action.png">
+</div>
+
+#### Replace references to `$checkpoint` with `this.$checkpoint`
+
+Code steps normally have access to [workflow state](/workflows/steps/code/state/#workflow-level-state-checkpoint) using the variable `$checkpoint`. But since actions run in different workflows, you don't know whether a user is referencing their own data in `$checkpoint`. References like this could delete a user's existing `$checkpoint` data:
+
+```javascript
+$checkpoint = {
+  newData: "newValue",
+};
+```
+
+Instead, replace `$checkpoint` references with [`this.$checkpoint`](/workflows/steps/code/state/#step-level-state-this-checkpoint). `this.$checkpoint` sets state **within a step**, so it's safe to use in actions.
+
 ### Save vs. Publish
 
 **Saving** an action makes the action available within any workflow in your account. Saving _does not_ make the action available to anyone else.
