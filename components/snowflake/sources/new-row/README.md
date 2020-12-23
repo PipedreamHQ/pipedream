@@ -13,15 +13,22 @@ with such a property so that this component can detect new rows.
 To set up your Snowflake credentials, go to the [Pipedream
 Apps](https://pipedream.com/apps) page, and click on the **CONNECT AN APP**
 button. Look for the **Snowflake** app, and click on it. Fill in every field
-required in the, and click on **SAVE**.
+required in the form, and click on **SAVE**.
 
 ## Usage
 
-1. Visit the [Pipedream Sources](https://pipedream.com/sources) page and click
-   **Create Source**.
-2. Select the **Snowflake** app and choose the **New Row** source.
+1. Visit the [source
+   page](https://pipedream.com/sources/new?key=snowflake-new-row)
+2. Select the Snowflake account to use (see [the previous
+   section](#prerequisites) for information on how to set it up)
 3. You'll be prompted to enter the time interval for the executions. The default
    value is 15 minutes.
+4. Select the target Snowflake table to scan
+5. Select the column in the target table to use as a unique key (see [the next
+   section](#technical-details) for more information)
+6. Select the _event size_ (i.e. the amount of records to be sent in a single
+   event). Select 1 (which is also the default value) if you prefer to send one
+   event per new row
 
 ## Technical Details
 

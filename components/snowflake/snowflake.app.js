@@ -11,7 +11,7 @@ module.exports = {
       }
 
       this.connection = snowflake.createConnection(this.$auth);
-      await promisify(this.connection.connect)();
+      await promisify(this.connection.connect).bind(this.connection)();
       return this.connection;
     },
     async getRows(statement) {

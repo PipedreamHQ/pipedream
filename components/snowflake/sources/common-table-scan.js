@@ -1,4 +1,3 @@
-const { isNil } = require("lodash");
 const snowflake = require("../snowflake.app");
 
 module.exports = {
@@ -51,7 +50,7 @@ module.exports = {
   hooks: {
     async activate() {
       let lastResultId = this.db.get("lastResultId");
-      if (isNil(lastResultId)) {
+      if (lastResultId === undefined) {
         lastResultId = await this._getLastId();
         this.db.set("lastResultId", lastResultId);
       }

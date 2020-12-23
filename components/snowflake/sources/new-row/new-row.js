@@ -27,7 +27,8 @@ module.exports = {
         rowCount,
         timestamp: ts,
       } = data;
-      const summary = `${rowCount} new rows`;
+      const entity = rowCount === 1 ? "row" : "rows";
+      const summary = `${rowCount} new ${entity}`;
       return {
         id,
         summary,
