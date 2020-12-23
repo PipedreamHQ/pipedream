@@ -176,7 +176,7 @@ curl 'https://api.pipedream.com/v1/users/me' \
 }
 ```
 
-### Get Current User's Subsriptions
+### Get Current User's Subscriptions
 
 ---
 
