@@ -36,17 +36,24 @@ module.exports = {
       };
     },
     async processEvent(lastResultId, event) {
-      const { timestamp } = event;
+      this.validateColumn(this.uniqueKey);
       const sqlText = `
         SELECT *
-        FROM ${this.tableName}
-        WHERE ${this.uniqueKey} > ${lastResultId}
-        ORDER BY ${this.uniqueKey}
+        FROM IDENTIFIER(:1)
+        WHERE ${this.uniqueKey} > :2
+        ORDER BY :3 ASC
       `;
+      const binds = [
+        this.tableName,
+        lastResultId,
+        this.uniqueKey,
+      ];
       const statement = {
         sqlText,
+        binds,
       };
 
+      const { timestamp } = event;
       return (this.eventSize === 1) ?
         this.processSingle(statement, timestamp) :
         this.processCollection(statement, timestamp);

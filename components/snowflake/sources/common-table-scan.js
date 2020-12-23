@@ -1,3 +1,4 @@
+const isString = require("lodash/isString");
 const snowflake = require("../snowflake.app");
 
 module.exports = {
@@ -61,15 +62,39 @@ module.exports = {
     },
   },
   methods: {
+    /**
+     * Utility method to make sure that a certain column exists in the target
+     * table. Useful for SQL query sanitizing.
+     *
+     * @param {string} columnNameToValidate The name of the column to validate
+     * for existence
+     */
+    async validateColumn(columnNameToValidate) {
+      if (!isString(columnNameToValidate)) {
+        throw new Error("columnNameToValidate must be a string");
+      }
+
+      const columns = await this.snowflake.listFieldsForTable(this.tableName);
+      const columnNames = columns.map(i => i.name);
+      if (!columnNames.includes(columnNameToValidate)) {
+        throw new Error(`Inexistent column: ${columnNameToValidate}`);
+      }
+    },
     async _getLastId() {
+      this.validateColumn(this.uniqueKey);
       const sqlText = `
         SELECT ${this.uniqueKey}
-        FROM ${this.tableName}
-        ORDER BY ${this.uniqueKey} DESC
+        FROM IDENTIFIER(:1)
+        ORDER BY :2 DESC
         LIMIT 1
       `;
+      const binds = [
+        this.tableName,
+        this.uniqueKey,
+      ];
       const statement = {
         sqlText,
+        binds,
       };
       const rowStream = await this.snowflake.getRows(statement);
       for await (const row of rowStream) {

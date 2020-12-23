@@ -44,9 +44,13 @@ module.exports = {
       return this.collectRows({ sqlText });
     },
     async listFieldsForTable(tableName) {
-      const sqlText = `DESCRIBE TABLE ${tableName}`;
+      const sqlText = "DESCRIBE TABLE IDENTIFIER(:1)";
+      const binds = [
+        tableName,
+      ];
       const statement = {
         sqlText,
+        binds,
       };
       return this.collectRows(statement);
     },
