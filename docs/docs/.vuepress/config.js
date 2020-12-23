@@ -151,6 +151,7 @@ module.exports = {
           "/apps/twitter/",
           "/apps/zoho-books/",
           "/apps/zoho-crm/",
+          "/apps/zoho-mail/",
           "/apps/zoom/",
         ],
       },
