@@ -38,6 +38,8 @@ module.exports = {
   hooks: {
     ...common.hooks,
     async activate() {
+      await this.validateColumn(this.uniqueKey);
+
       let lastResultId = this.db.get("lastResultId");
       if (lastResultId === undefined) {
         lastResultId = await this._getLastId();
@@ -98,7 +100,6 @@ module.exports = {
       };
     },
     async _getLastId() {
-      await this.validateColumn(this.uniqueKey);
       const sqlText = `
         SELECT ${this.uniqueKey}
         FROM IDENTIFIER(:1)

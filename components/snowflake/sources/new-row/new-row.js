@@ -9,7 +9,6 @@ module.exports = {
   methods: {
     ...common.methods,
     async getStatement(lastResultId) {
-      await this.validateColumn(this.uniqueKey);
       const sqlText = `
         SELECT *
         FROM IDENTIFIER(:1)
