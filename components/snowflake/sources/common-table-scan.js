@@ -1,16 +1,10 @@
 const isString = require("lodash/isString");
-const snowflake = require("../snowflake.app");
+const common = require("./common");
 
 module.exports = {
+  ...common,
   props: {
-    snowflake,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
+    ...common.props,
     tableName: {
       type: "string",
       label: "Table Name",
@@ -40,15 +34,9 @@ module.exports = {
         return options.map(i => i.name);
       },
     },
-    eventSize: {
-      type: "integer",
-      label: "Event Size",
-      description: "The number of rows to include in a single event (by default, emits 1 event per row)",
-      default: 1,
-      min: 1,
-    },
   },
   hooks: {
+    ...common.hooks,
     async activate() {
       let lastResultId = this.db.get("lastResultId");
       if (lastResultId === undefined) {
@@ -62,6 +50,7 @@ module.exports = {
     },
   },
   methods: {
+    ...common.methods,
     /**
      * Utility method to make sure that a certain column exists in the target
      * table. Useful for SQL query sanitizing.
@@ -80,12 +69,40 @@ module.exports = {
         throw new Error(`Inexistent column: ${columnNameToValidate}`);
       }
     },
+    generateMeta(data) {
+      const {
+        row: {
+          [this.uniqueKey]: id,
+        },
+        timestamp: ts,
+      } = data;
+      const summary = `New row: ${id}`;
+      return {
+        id,
+        summary,
+        ts,
+      };
+    },
+    generateMetaForCollection(data) {
+      const {
+        lastResultId: id,
+        rowCount,
+        timestamp: ts,
+      } = data;
+      const entity = rowCount === 1 ? "row" : "rows";
+      const summary = `${rowCount} new ${entity}`;
+      return {
+        id,
+        summary,
+        ts,
+      };
+    },
     async _getLastId() {
-      this.validateColumn(this.uniqueKey);
+      await this.validateColumn(this.uniqueKey);
       const sqlText = `
         SELECT ${this.uniqueKey}
         FROM IDENTIFIER(:1)
-        ORDER BY :2 DESC
+        ORDER BY ${this.uniqueKey} DESC
         LIMIT 1
       `;
       const binds = [
@@ -102,65 +119,17 @@ module.exports = {
       }
       return 0;
     },
-    async processCollection(statement, timestamp) {
-      let lastResultId;
-      let totalRowCount = 0;
-      const rowCollectionStream = this.snowflake.collectRowsPaginated(statement, this.eventSize);
-      for await (const rows of rowCollectionStream) {
-        const rowCount = rows.length;
-        if (rowCount <= 0) {
-          break;
-        }
-
-        lastResultId = rows[rowCount-1][this.uniqueKey];
-        totalRowCount += rowCount;
-        const meta = this.generateMetaForCollection({
-          lastResultId,
-          rowCount,
-          timestamp,
-        });
-        this.$emit({ rows }, meta);
-      }
-      return {
-        lastResultId,
-        rowCount: totalRowCount,
-      }
-    },
-    async processSingle(statement, timestamp) {
-      let lastResultId;
-      let rowCount = 0;
-      const rowStream = await this.snowflake.getRows(statement);
-      for await (const row of rowStream) {
-        const meta = this.generateMeta({
-          row,
-          timestamp,
-        });
-        this.$emit(row, meta);
-
-        lastResultId = row[this.uniqueKey];
-        ++rowCount;
-      }
-
-      return {
-        lastResultId,
-        rowCount,
-      };
-    },
-    generateMeta() {
-      throw new Error('generateMeta is not implemented');
-    },
-    generateMetaForCollection() {
-      throw new Error('generateMetaForCollection is not implemented');
-    },
-    processEvent() {
-      throw new Error('processEvent is not implemented');
-    },
   },
   async run(event) {
     const prevLastResultId = this.db.get("lastResultId");
+    const statement = await this.getStatement(prevLastResultId);
+
+    const { timestamp } = event;
     const {
       lastResultId = prevLastResultId,
-    } = await this.processEvent(prevLastResultId, event);
+    } = (this.eventSize === 1) ?
+      await this.processSingle(statement, timestamp) :
+      await this.processCollection(statement, timestamp);
     this.db.set("lastResultId", lastResultId);
   },
 };
