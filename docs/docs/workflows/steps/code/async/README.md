@@ -8,7 +8,7 @@ If you're not familiar with asynchronous programming concepts like [callback fun
 
 **Any asynchronous code within a Node.js code step must complete before the next step runs**. This ensures future steps have access to its data. If Pipedream detects that code is still running by the time the step completes, you'll see the following warning below the code step:
 
-> **This step was still trying to run code when the step ended. Make sure you await all Promises, or wrap callback functions in Promises.**
+> **This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.**
 
 As the warning notes, this often arises from one of two issues:
 
@@ -101,8 +101,18 @@ await new Promise((resolve, reject) => {
 });
 ```
 
+This is called "[promisification](https://javascript.info/promisify)".
+
+You can often promisify a function in one line using Node.js' [`util.promisify` function](https://2ality.com/2017/05/util-promisify.html).
+
 ### Other solutions
 
 Many functions that accept callbacks can also be "[promisified](https://javascript.info/promisify)": converted into a function that returns a Promise, and that you can `await`.
 
 If a specific library doesn't support Promises, you can often find an equivalent library that does support Promises. For example, many older HTTP clients like `request` didn't support Promises natively, but the community [published packages that wrapped it with a Promise-based interface](https://www.npmjs.com/package/request#promises--asyncawait) (note: `request` has been deprecated, this is just an example).
+
+## False positives
+
+This warning can also be a false positive. If you're successfully awaiting all Promises and running all async code synchronously, Pipedream could be throwing the warning in error. If you observe this, please [file a bug](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D+).
+
+Packages that make HTTP requests or read data from disk (for example) fail to resolve Promises at the right time, or at all. This means that Pipedream is correctly detecting that code is still running, but there's also no issue - the library successfully ran, but just failed to resolve the Promise. You can safely ignore the error if all relevant operations are truly succeeding.

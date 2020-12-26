@@ -59,7 +59,7 @@ async (event, steps) => {
 
 This communicates a couple of key concepts:
 
-- Any async code within a code step [**must** be run synchronously](#running-asynchronous-code), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
+- Any async code within a code step [**must** be run synchronously](/workflows/steps/code/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
 - Pipedream passes the variables `event` and `steps` to every code step. `event` is a read-only object that contains the data that triggered your event, for example the HTTP request sent to your workflow's endpoint. `steps` is also an object, and contains the [data exported from previous steps](/workflows/steps/#step-exports) in your workflow.
 
 If you're using [step parameters](/workflows/steps/#passing-data-to-steps-step-parameters) or [connect an account to a step](/connected-accounts/#from-a-code-step), you may notice two new parameters passed to the function signature, `params` and `auths`:

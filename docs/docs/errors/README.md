@@ -10,6 +10,14 @@ This doc reviews common errors you'll encounter, and how to troubleshoot them.
 
 [[toc]]
 
+## Warnings
+
+Pipedream displays warnings below steps in certain conditions. These warnings do not stop the execution of your workflow, but can signal an issue you should be aware of.
+
+### This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.
+
+See the reference on [running asynchronous code on Pipedream](/workflows/steps/code/async/).
+
 ## Pipedream Internal Errors
 
 Pipedream sets [limits](/limits/) on runtime, memory, and other execution-related properties. If you exceed these limits, you'll receive one of the errors below. [See the limits doc](/limits/) for details on specific limits.
