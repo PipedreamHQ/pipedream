@@ -107,8 +107,6 @@ You can often promisify a function in one line using Node.js' [`util.promisify` 
 
 ### Other solutions
 
-Many functions that accept callbacks can also be "[promisified](https://javascript.info/promisify)": converted into a function that returns a Promise, and that you can `await`.
-
 If a specific library doesn't support Promises, you can often find an equivalent library that does support Promises. For example, many older HTTP clients like `request` didn't support Promises natively, but the community [published packages that wrapped it with a Promise-based interface](https://www.npmjs.com/package/request#promises--asyncawait) (note: `request` has been deprecated, this is just an example).
 
 ## False positives
