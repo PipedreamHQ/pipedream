@@ -185,31 +185,6 @@ Pipedream supports [environment variables](/environment-variables/) for keeping 
 
 See the [Environment Variables](/environment-variables/) docs for more information.
 
-## Running asynchronous code
-
-If you're not familiar with asynchronous programming, or how to run asynchronous (async) code in JavaScript, see [this overview](https://eloquentjavascript.net/11_async.html) before reading on.
-
-On Pipedream, each code step is implicitly wrapped in its own [`async` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) declaration. **You should use the [`await` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await) to run any asynchronous operation synchronously — step-by-step — in a code step**, even if you don't need to process the results.
-
-You **should not** start an asynchronous operation that you do not `await`. Moreover, you should not expect [callback functions](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function) to run after the result of an asynchronous operation.
-
-In short, do this:
-
-```javascript
-const res = await runAsyncCode();
-```
-
-Not this:
-
-```javascript
-// This code may not finish by the time the workflow finishes
-runAsyncCode();
-```
-
-If you don't `await` async code, or you use callbacks, we'll move on to the next code step or finish the workflow completely before you're able to process the results, and your code will likely fail.
-
-We do our best to track open asynchronous operations, and will try to let you know when you forgot to add an `await` in the logs associated with your code step.
-
 ## Limitations of code steps
 
 Code steps operate within the [general constraints on workflows](/limits/#workflows). As long as you stay within those limits and abide by our [acceptable use policy](/limits/#acceptable-use), you can add any number of code steps in a workflow to do virtually anything you'd be able to do in Node.js.
