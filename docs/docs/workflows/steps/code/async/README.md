@@ -107,7 +107,7 @@ You can often promisify a function in one line using Node.js' [`util.promisify` 
 
 ### Other solutions
 
-If a specific library doesn't support Promises, you can often find an equivalent library that does support Promises. For example, many older HTTP clients like `request` didn't support Promises natively, but the community [published packages that wrapped it with a Promise-based interface](https://www.npmjs.com/package/request#promises--asyncawait) (note: `request` has been deprecated, this is just an example).
+If a specific library doesn't support Promises, you can often find an equivalent library that does. For example, many older HTTP clients like `request` didn't support Promises natively, but the community [published packages that wrapped it with a Promise-based interface](https://www.npmjs.com/package/request#promises--asyncawait) (note: `request` has been deprecated, this is just an example).
 
 ## False positives
 
