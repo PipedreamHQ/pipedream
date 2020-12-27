@@ -13,7 +13,7 @@ If you're not familiar with asynchronous programming concepts like [callback fun
 As the warning notes, this often arises from one of two issues:
 
 - You forgot to `await` a Promise. [All Promises must be awaited](#await-all-promises) within a step so they resolve before the step finishes.
-- You tried to run a callback function. Since callback functions run asynchronously, they typically will not finish before the step ends. [You can wrap your function in a Promise](#wrap-callback-functions-in-a-promise) to run it synchronously.
+- You tried to run a callback function. Since callback functions run asynchronously, they typically will not finish before the step ends. [You can wrap your function in a Promise](#wrap-callback-functions-in-a-promise) to make sure it resolves before the step finishes.
 
 ## Solutions
 
@@ -79,9 +79,7 @@ This is the callback function:
 };
 ```
 
-and **it will not run**. By running a callback function in this way, we're saying that we want the function to be run asynchronously. But on Pipedream, this code must be run _synchronously_ so it finishes by the time the step ends.
-
-**You can wrap this callback function in a Promise to run it synchronously**. Instead of running
+and **it will not run**. By running a callback function in this way, we're saying that we want the function to be run asynchronously. But on Pipedream, this code must finish by the time the step ends. **You can wrap this callback function in a Promise to make sure that happens**. Instead of running:
 
 ```javascript
 file.on("finish", () => {
@@ -108,6 +106,6 @@ If a specific library doesn't support Promises, you can often find an equivalent
 
 ## False positives
 
-This warning can also be a false positive. If you're successfully awaiting all Promises and running all async code synchronously, Pipedream could be throwing the warning in error. If you observe this, please [file a bug](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D+).
+This warning can also be a false positive. If you're successfully awaiting all Promises, Pipedream could be throwing the warning in error. If you observe this, please [file a bug](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D+).
 
 Packages that make HTTP requests or read data from disk (for example) fail to resolve Promises at the right time, or at all. This means that Pipedream is correctly detecting that code is still running, but there's also no issue - the library successfully ran, but just failed to resolve the Promise. You can safely ignore the error if all relevant operations are truly succeeding.
