@@ -59,7 +59,7 @@ async (event, steps) => {
 
 This communicates a couple of key concepts:
 
-- Any async code within a code step [**must** be run synchronously](#running-asynchronous-code), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
+- Any async code within a code step [**must** be run synchronously](/workflows/steps/code/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
 - Pipedream passes the variables `event` and `steps` to every code step. `event` is a read-only object that contains the data that triggered your event, for example the HTTP request sent to your workflow's endpoint. `steps` is also an object, and contains the [data exported from previous steps](/workflows/steps/#step-exports) in your workflow.
 
 If you're using [step parameters](/workflows/steps/#passing-data-to-steps-step-parameters) or [connect an account to a step](/connected-accounts/#from-a-code-step), you may notice two new parameters passed to the function signature, `params` and `auths`:
@@ -184,31 +184,6 @@ Workflow code is private by default, but [you can make a workflow public](/publi
 Pipedream supports [environment variables](/environment-variables/) for keeping secrets separate from code. Once you create an environment variable in Pipedream, you can reference it in any workflow using `process.env.VARIABLE_NAME`. The values of environment variables are private.
 
 See the [Environment Variables](/environment-variables/) docs for more information.
-
-## Running asynchronous code
-
-If you're not familiar with asynchronous programming, or how to run asynchronous (async) code in JavaScript, see [this overview](https://eloquentjavascript.net/11_async.html) before reading on.
-
-On Pipedream, each code step is implicitly wrapped in its own [`async` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) declaration. **You should use the [`await` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await) to run any asynchronous operation synchronously — step-by-step — in a code step**, even if you don't need to process the results.
-
-You **should not** start an asynchronous operation that you do not `await`. Moreover, you should not expect [callback functions](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function) to run after the result of an asynchronous operation.
-
-In short, do this:
-
-```javascript
-const res = await runAsyncCode();
-```
-
-Not this:
-
-```javascript
-// This code may not finish by the time the workflow finishes
-runAsyncCode();
-```
-
-If you don't `await` async code, or you use callbacks, we'll move on to the next code step or finish the workflow completely before you're able to process the results, and your code will likely fail.
-
-We do our best to track open asynchronous operations, and will try to let you know when you forgot to add an `await` in the logs associated with your code step.
 
 ## Limitations of code steps
 
