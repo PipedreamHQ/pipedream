@@ -12,7 +12,7 @@ If you're not familiar with asynchronous programming concepts like [callback fun
 
 As the warning notes, this often arises from one of two issues:
 
-- You forgot to `await` a Promise. [All Promises must be awaited](#await-all-promises) so they run synchronously.
+- You forgot to `await` a Promise. [All Promises must be awaited](#await-all-promises) within a step so they resolve before the step finishes.
 - You tried to run a callback function. Since callback functions run asynchronously, they typically will not finish before the step ends. [You can wrap your function in a Promise](#wrap-callback-functions-in-a-promise) to run it synchronously.
 
 ## Solutions
@@ -92,13 +92,10 @@ file.on("finish", () => {
 run:
 
 ```javascript
-await new Promise((resolve, reject) => {
-  file.on("finish", () => {
-    const stats = fs.statSync(this.filePath);
-    // When you're done, call resolve() to finish
-    resolve();
-  });
-});
+// Wait for PDF to finalize
+await new Promise((resolve) => file.on("finish", resolve));
+// Once done, get stats
+const stats = fs.statSync(this.filePath);
 ```
 
 This is called "[promisification](https://javascript.info/promisify)".
