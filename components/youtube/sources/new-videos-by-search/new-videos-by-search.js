@@ -19,7 +19,7 @@ module.exports = {
       label: "Maximum Results",
       description:
         "The maximum number of results to return. Should be divisible by 5 (ex. 5, 10, 15).",
-      default: 5,
+      default: 50,
     },
     db: "$.service.db",
     timer: {
