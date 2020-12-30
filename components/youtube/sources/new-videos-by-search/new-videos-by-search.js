@@ -5,7 +5,7 @@ module.exports = {
   name: "New Videos by Search",
   description:
     "Emits an event for each new YouTube video matching a search query.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     youtube,
