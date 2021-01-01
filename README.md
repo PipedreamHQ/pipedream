@@ -11,7 +11,7 @@ We provide a free, hosted platform that makes it easy to connect apps and develo
 
 **Key Features**:
 
-- [Event Sources](#event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from services (Github, Slack, Airtable, RSS & [more](https://pipedream.com/apps).
+- [Event Sources](#event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from services (Github, Slack, Airtable, RSS & [more](https://pipedream.com/apps)).
 - [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by an event (via event source, HTTP or timer)
 - [Actions](#actions) - Pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 300+ API integrations, for example: sending email, adding a row to a Google Sheet, and [more](https://pipedream.com/apps).
 - [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
