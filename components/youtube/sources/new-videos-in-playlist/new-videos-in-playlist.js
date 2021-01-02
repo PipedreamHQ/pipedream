@@ -4,7 +4,7 @@ module.exports = {
   key: "youtube-new-videos-in-playlist",
   name: "New Videos in Playlist",
   description: "Emits an event for each new Youtube video added to a Playlist.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     youtube,
@@ -25,12 +25,11 @@ module.exports = {
   async run(event) {
     let videos = [];
     let totalResults = 1;
-    let nextPageToken = null;
     let count = 0;
+    let nextPageToken = null;
     let results;
 
-    const now = new Date();
-    const monthAgo = now;
+    const monthAgo = new Date();
     monthAgo.setMonth(monthAgo.getMonth() - 1);
     const publishedAfter = this.db.get("publishedAfter") || monthAgo;
 
@@ -38,25 +37,30 @@ module.exports = {
       part: "contentDetails,id,snippet,status",
       playlistId: this.playlistId,
       pageToken: nextPageToken,
-      publishedAfter,
     };
+    console.log(params);
 
     while (count < totalResults) {
       params.pageToken = nextPageToken;
       results = await this.youtube.getPlaylistItems(params);
+      console.log(results.data);
+      console.log(results.data.items);
       totalResults = results.data.pageInfo.totalResults;
       nextPageToken = results.data.nextPageToken;
-      results.data.items.forEach(function (video) {
-        videos.push(video);
+      for (const video of results.data.items) {
+        const publishedAt = new Date(video.snippet.publishedAt);
+        if (publishedAt > new Date(publishedAfter)) {
+          videos.push(video);
+        }
         count++;
-      });
+      }
     }
 
-    this.db.set("publishedAfter", now);
+    this.db.set("publishedAfter", new Date());
 
     for (const video of videos) {
       this.$emit(video, {
-        id: video.id.videoId,
+        id: video.id,
         summary: video.snippet.title,
         ts: Date.now(),
       });
