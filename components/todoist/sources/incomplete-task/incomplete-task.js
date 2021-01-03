@@ -1,7 +1,6 @@
 const todoist = require("../../todoist.app.js");
 
 module.exports = {
-  key: "todoist-incomplete-task",
   name: "Incomplete Task",
   description: "Emit an event for each completed task",
   version: "0.0.1",

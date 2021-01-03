@@ -1,7 +1,6 @@
 const todoist = require("../../todoist.app.js");
 
 module.exports = {
-  key: "todoist-sync-resources",
   name: "Sync Resources",
   description: "Emit updates for your selected resources",
   version: "0.0.1",

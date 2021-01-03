@@ -1,7 +1,6 @@
 const todoist = require("../../todoist.app.js");
 
 module.exports = {
-  key: "todoist-new-project",
   name: "New Project",
   description: "Emit an event for each new project",
   version: "0.0.1",
