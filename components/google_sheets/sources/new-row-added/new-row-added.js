@@ -7,7 +7,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     google_sheets,
     google_drive,
@@ -138,7 +138,9 @@ module.exports = {
 
     if (headers["x-goog-resource-state"] === "sync") {
       // initialize row counts
-      const rowCounts = await this.google_sheets.getWorksheetRowCounts(this.sheetID);
+      const rowCounts = await this.google_sheets.getWorksheetRowCounts(
+        this.sheetID
+      );
       for (const worksheetCount of rowCounts) {
         if (
           this.worksheetIDs.length > 0 &&
@@ -176,7 +178,9 @@ module.exports = {
       let oldRowCount = this.db.get(
         `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`
       );
-      let rowCount = worksheet.data[0].rowData ? worksheet.data[0].rowData.length : 0;
+      let rowCount = worksheet.data[0].rowData
+        ? worksheet.data[0].rowData.length
+        : 0;
       if (rowCount <= oldRowCount) continue;
 
       let diff = rowCount - oldRowCount;
@@ -188,7 +192,10 @@ module.exports = {
         range
       );
       for (const newRow of newRowValues.values) {
-        this.$emit({ newRow, range, worksheet }, this.getMeta(spreadsheet, worksheet, newRow));
+        this.$emit(
+          { newRow, range, worksheet },
+          this.getMeta(spreadsheet, worksheet, newRow)
+        );
       }
 
       this.db.set(

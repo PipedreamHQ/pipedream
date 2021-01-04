@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     google_sheets,
@@ -230,7 +230,7 @@ module.exports = {
         this.worksheetIDs.length > 0 &&
         !this.worksheetIDs.includes(worksheet.properties.sheetId.toString())
       ) {
-          continue;
+        continue;
       }
       const { oldValues, currentValues } = await this.getValues(
         spreadsheet,
@@ -247,13 +247,7 @@ module.exports = {
         let rowCount = this.getRowCount(newValues, oldValues);
         for (let i = 0; i < rowCount; i++) {
           let colCount = this.getColCount(newValues, oldValues, i);
-          changes = this.getChanges(
-            colCount,
-            newValues,
-            oldValues,
-            changes,
-            i
-          );
+          changes = this.getChanges(colCount, newValues, oldValues, changes, i);
         }
         this.$emit(
           { worksheet, currentValues, changes },
