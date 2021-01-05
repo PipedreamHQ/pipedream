@@ -1,0 +1,29 @@
+{
+  "name": "pipedream",
+  "version": "0.2.1",
+  "description": "Pipedream Components",
+  "main": "index.js",
+  "directories": {
+    "lib": "components",
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PipedreamHQ/pipedream.git"
+  },
+  "keywords": [
+    "pipedream",
+    "integration",
+    "api"
+  ],
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PipedreamHQ/pipedream/issues"
+  },
+  "homepage": "https://github.com/PipedreamHQ/pipedream#readme"
+}
