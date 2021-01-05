@@ -43,7 +43,7 @@ When you link credentials to a specific source or workflow, the credentials are 
 
 No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/workflows/steps/#step-exports), you can always delete the data for that invocation from your source or workflow.
 
-You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/apps](https://pipedream.com/apps). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account - you must revoke that access wherever you manage OAuth grants in your third party application.
+You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account - you must revoke that access wherever you manage OAuth grants in your third party application.
 
 ## Execution Environment
 

@@ -16,6 +16,6 @@ You can revoke Pipedream's access to your Intercom account by uninstalling the a
 
 As soon as you do, any Pipedream workflows that connect to Intercom will immediately fail to work.
 
-You can delete any Intercom connected accounts in [your list of Pipedream Apps](https://pipedream.com/apps), as well.
+You can delete any Intercom connected accounts in [your list of Pipedream Accounts](https://pipedream.com/accounts), as well.
 
 <Footer />
