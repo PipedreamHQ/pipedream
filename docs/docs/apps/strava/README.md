@@ -18,8 +18,8 @@ You can also subscribe to a [private SSE stream](/api/sse/) that lets you listen
 
 Pipedream exposes event sources for each of the following events:
 
-|                                                                            Event (click to create source)                                                                            |         Description          |
-| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------: |
+|                                Event (click to create source)                                 |         Description          |
+| :-------------------------------------------------------------------------------------------: | :--------------------------: |
 | [`activity.created`](https://pipedream.com/sources?action=create&key=strava-activity-created) |      New activity added      |
 | [`activity.updated`](https://pipedream.com/sources?action=create&key=strava-activity-updated) | Activity title, type changed |
 | [`activity.deleted`](https://pipedream.com/sources?action=create&key=strava-activity-deleted) |       Activity deleted       |
@@ -49,7 +49,7 @@ You can revoke Pipedream's access to your Strava account by visiting your [Strav
 
 As soon as you do, any Pipedream workflows that connect to Strava will immediately fail to work.
 
-Once you've revoked Pipedream's access to your account from Stravfa, you can delete any Strava connected accounts in [your list of Pipedream Apps](https://pipedream.com/apps), as well.
+Once you've revoked Pipedream's access to your account from Strava, you can delete any Strava connected accounts in [your list of Pipedream Accounts](https://pipedream.com/accounts), as well.
 
 ## Strava Developer Docs
 

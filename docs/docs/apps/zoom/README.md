@@ -37,7 +37,7 @@ The [Zoom API docs on permissions](https://marketplace.zoom.us/docs/guides/autho
 ## Connecting to Zoom from Pipedream
 
 1. First, sign up for Pipedream at [https://pipedream.com](https://pipedream.com).
-2. Visit [https://pipedream.com/apps](https://pipedream.com/apps).
+2. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts).
 3. Click the button labeled **Click Here to Connect an App**.
 4. Search for "Zoom" and select either **Zoom** or **Zoom Admin** ([see the differences above](#zoom-vs-zoom-admin-app)):
 
@@ -211,7 +211,7 @@ You can revoke Pipedream's access to your Zoom account by visiting your [list of
 
 As soon as you do, any Pipedream workflows that connect to Zoom will immediately fail to work.
 
-You can delete any Zoom connected accounts in [your list of Pipedream Apps](https://pipedream.com/apps), as well.
+You can delete any Zoom connected accounts in [your list of Pipedream Accounts](https://pipedream.com/accounts), as well.
 
 ## Usage
 

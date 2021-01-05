@@ -62,7 +62,7 @@ If you've already connected an account for this app, you can also connect that w
 
 ## Managing Connected Account from Apps
 
-Visit [https://pipedream.com/apps](https://pipedream.com/apps) to see the list of accounts you've previously connected.
+Visit [https://pipedream.com/accounts](https://pipedream.com/accounts) to see the list of accounts you've previously connected.
 
 You can add or remove accounts from here, and see data associated with those connections: the scopes you've granted Pipedream access to, the number of workflows where you're using the account, and more.
 
