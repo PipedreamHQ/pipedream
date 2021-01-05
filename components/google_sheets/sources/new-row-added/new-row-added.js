@@ -76,6 +76,23 @@ module.exports = {
       // identifies the watched resource". This value is included in request headers
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
+
+      // Initialize row counts (used to keep track of new rows)
+      const rowCounts = await this.google_sheets.getWorksheetRowCounts(
+        this.sheetID
+      );
+      for (const worksheetCount of rowCounts) {
+        if (
+          this.worksheetIDs.length > 0 &&
+          !this.worksheetIDs.includes(worksheetCount.sheetId.toString())
+        ) {
+          continue;
+        }
+        this.db.set(
+          `${worksheetCount.spreadsheetId}${worksheetCount.sheetId}`,
+          worksheetCount.rows
+        );
+      }
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -136,28 +153,10 @@ module.exports = {
     const { headers } = event;
     if (!headers) return;
 
-    if (headers["x-goog-resource-state"] === "sync") {
-      // initialize row counts
-      const rowCounts = await this.google_sheets.getWorksheetRowCounts(
-        this.sheetID
-      );
-      for (const worksheetCount of rowCounts) {
-        if (
-          this.worksheetIDs.length > 0 &&
-          !this.worksheetIDs.includes(worksheetCount.sheetId.toString())
-        ) {
-          continue;
-        }
-        this.db.set(
-          `${worksheetCount.spreadsheetId}${worksheetCount.sheetId}`,
-          worksheetCount.rows
-        );
-      }
-    } else if (
-      !this.google_drive.checkHeaders(headers, subscription, channelID)
-    ) {
+    if (!this.google_drive.checkHeaders(headers, subscription, channelID)) {
       return;
     }
+
     const { file, newPageToken } = await this.google_drive.getModifiedSheet(
       pageToken,
       this.drive === "myDrive" ? null : this.drive,

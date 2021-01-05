@@ -77,6 +77,15 @@ module.exports = {
       // identifies the watched resource". This value is included in request headers
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
+
+      // initialize sheet values
+      const sheetValues = await this.google_sheets.getSheetValues(this.sheetID);
+      for (const sheetVal of sheetValues) {
+        this.db.set(
+          `${sheetVal.spreadsheetId}${sheetVal.sheetId}`,
+          sheetVal.values
+        );
+      }
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -200,18 +209,7 @@ module.exports = {
     const { headers } = event;
     if (!headers) return;
 
-    if (headers["x-goog-resource-state"] === "sync") {
-      // initialize sheet values
-      const sheetValues = await this.google_sheets.getSheetValues(this.sheetID);
-      for (const sheetVal of sheetValues) {
-        this.db.set(
-          `${sheetVal.spreadsheetId}${sheetVal.sheetId}`,
-          sheetVal.values
-        );
-      }
-    } else if (
-      !this.google_drive.checkHeaders(headers, subscription, channelID)
-    ) {
+    if (!this.google_drive.checkHeaders(headers, subscription, channelID)) {
       return;
     }
 
