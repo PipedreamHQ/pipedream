@@ -1,6 +1,7 @@
 const axios = require("axios");
 const { google } = require("googleapis");
 const google_drive = require("../google_drive/google_drive.app.js");
+const { uuid } = require("uuidv4");
 
 module.exports = {
   ...google_drive,
@@ -93,8 +94,19 @@ module.exports = {
       driveId
     ) {
       if (!subscription || !subscription.resourceId) {
-        return;
+        console.log("No subscription exists. Creating a new one");
+        const startPageToken = await this.getPageToken(
+          driveId === "myDrive" ? null : driveId
+        );
+        const { expiration, resourceId } = await this.watchDrive(
+          channelID || uuid(),
+          endpoint,
+          pageToken || startPageToken,
+          driveId === "myDrive" ? null : driveId
+        );
+        return { expiration, resourceId };
       }
+
       console.log(
         `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Renewing`
       );
@@ -103,7 +115,7 @@ module.exports = {
         channelID,
         endpoint,
         pageToken,
-        this.drive === "myDrive" ? null : this.drive
+        driveId === "myDrive" ? null : driveId
       );
       return { expiration, resourceId };
     },
