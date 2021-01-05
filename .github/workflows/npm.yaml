@@ -1,8 +1,8 @@
 on: 
   push:
     branches:
-      -master
-      -githubactions
+      - master
+      - githubactions
 
 
 jobs:
