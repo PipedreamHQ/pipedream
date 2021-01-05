@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     google_sheets,
@@ -20,7 +20,7 @@ module.exports = {
         "The Google Drive API requires occasionaly renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 30,
+        intervalSeconds: 60 * 60 * 6,
       },
     },
     drive: { propDefinition: [google_drive, "watchedDrive"] },
@@ -89,7 +89,7 @@ module.exports = {
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
-      const { resourceId } = this.db.get("subscription");
+      const subscription = this.db.get("subscription");
 
       // Reset DB state before anything else
       this.db.set("subscription", null);
@@ -103,14 +103,17 @@ module.exports = {
         return;
       }
 
-      if (!resourceId) {
+      if (!subscription || !subscription.resourceId) {
         console.log(
           "No resource ID found, cannot stop notifications for non-existent resource"
         );
         return;
       }
 
-      await this.google_drive.stopNotifications(channelID, resourceId);
+      await this.google_drive.stopNotifications(
+        channelID,
+        subscription.resourceId
+      );
     },
   },
   methods: {

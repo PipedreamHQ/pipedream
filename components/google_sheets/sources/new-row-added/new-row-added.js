@@ -7,7 +7,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     google_sheets,
     google_drive,
@@ -19,7 +19,7 @@ module.exports = {
         "The Google Drive API requires occasionaly renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 30,
+        intervalSeconds: 60 * 60 * 6,
       },
     },
     drive: { propDefinition: [google_drive, "watchedDrive"] },
