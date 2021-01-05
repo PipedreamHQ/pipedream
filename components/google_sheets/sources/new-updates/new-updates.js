@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     google_sheets,
@@ -77,6 +77,15 @@ module.exports = {
       // identifies the watched resource". This value is included in request headers
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
+
+      // initialize sheet values
+      const sheetValues = await this.google_sheets.getSheetValues(this.sheetID);
+      for (const sheetVal of sheetValues) {
+        this.db.set(
+          `${sheetVal.spreadsheetId}${sheetVal.sheetId}`,
+          sheetVal.values
+        );
+      }
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -200,18 +209,7 @@ module.exports = {
     const { headers } = event;
     if (!headers) return;
 
-    if (headers["x-goog-resource-state"] === "sync") {
-      // initialize sheet values
-      const sheetValues = await this.google_sheets.getSheetValues(this.sheetID);
-      for (const sheetVal of sheetValues) {
-        this.db.set(
-          `${sheetVal.spreadsheetId}${sheetVal.sheetId}`,
-          sheetVal.values
-        );
-      }
-    } else if (
-      !this.google_drive.checkHeaders(headers, subscription, channelID)
-    ) {
+    if (!this.google_drive.checkHeaders(headers, subscription, channelID)) {
       return;
     }
 
@@ -230,7 +228,7 @@ module.exports = {
         this.worksheetIDs.length > 0 &&
         !this.worksheetIDs.includes(worksheet.properties.sheetId.toString())
       ) {
-          continue;
+        continue;
       }
       const { oldValues, currentValues } = await this.getValues(
         spreadsheet,
@@ -247,13 +245,7 @@ module.exports = {
         let rowCount = this.getRowCount(newValues, oldValues);
         for (let i = 0; i < rowCount; i++) {
           let colCount = this.getColCount(newValues, oldValues, i);
-          changes = this.getChanges(
-            colCount,
-            newValues,
-            oldValues,
-            changes,
-            i
-          );
+          changes = this.getChanges(colCount, newValues, oldValues, changes, i);
         }
         this.$emit(
           { worksheet, currentValues, changes },

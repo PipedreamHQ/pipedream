@@ -84,7 +84,12 @@ module.exports = {
       const { changes, newStartPageToken } = (
         await drive.changes.list(changeRequest)
       ).data;
-      const changedFiles = changes.map((change) => change.file);
+
+      // Some changes do not include an associated file object. Return only those that do
+      const changedFiles = changes
+        .map((change) => change.file)
+        .filter((f) => typeof f === "object");
+
       return {
         changedFiles,
         newStartPageToken,

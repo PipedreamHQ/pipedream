@@ -7,7 +7,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     google_sheets,
     google_drive,
@@ -76,6 +76,23 @@ module.exports = {
       // identifies the watched resource". This value is included in request headers
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
+
+      // Initialize row counts (used to keep track of new rows)
+      const rowCounts = await this.google_sheets.getWorksheetRowCounts(
+        this.sheetID
+      );
+      for (const worksheetCount of rowCounts) {
+        if (
+          this.worksheetIDs.length > 0 &&
+          !this.worksheetIDs.includes(worksheetCount.sheetId.toString())
+        ) {
+          continue;
+        }
+        this.db.set(
+          `${worksheetCount.spreadsheetId}${worksheetCount.sheetId}`,
+          worksheetCount.rows
+        );
+      }
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -136,26 +153,10 @@ module.exports = {
     const { headers } = event;
     if (!headers) return;
 
-    if (headers["x-goog-resource-state"] === "sync") {
-      // initialize row counts
-      const rowCounts = await this.google_sheets.getWorksheetRowCounts(this.sheetID);
-      for (const worksheetCount of rowCounts) {
-        if (
-          this.worksheetIDs.length > 0 &&
-          !this.worksheetIDs.includes(worksheetCount.sheetId.toString())
-        ) {
-          continue;
-        }
-        this.db.set(
-          `${worksheetCount.spreadsheetId}${worksheetCount.sheetId}`,
-          worksheetCount.rows
-        );
-      }
-    } else if (
-      !this.google_drive.checkHeaders(headers, subscription, channelID)
-    ) {
+    if (!this.google_drive.checkHeaders(headers, subscription, channelID)) {
       return;
     }
+
     const { file, newPageToken } = await this.google_drive.getModifiedSheet(
       pageToken,
       this.drive === "myDrive" ? null : this.drive,
@@ -176,7 +177,9 @@ module.exports = {
       let oldRowCount = this.db.get(
         `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`
       );
-      let rowCount = worksheet.data[0].rowData ? worksheet.data[0].rowData.length : 0;
+      let rowCount = worksheet.data[0].rowData
+        ? worksheet.data[0].rowData.length
+        : 0;
       if (rowCount <= oldRowCount) continue;
 
       let diff = rowCount - oldRowCount;
@@ -188,7 +191,10 @@ module.exports = {
         range
       );
       for (const newRow of newRowValues.values) {
-        this.$emit({ newRow, range, worksheet }, this.getMeta(spreadsheet, worksheet, newRow));
+        this.$emit(
+          { newRow, range, worksheet },
+          this.getMeta(spreadsheet, worksheet, newRow)
+        );
       }
 
       this.db.set(
