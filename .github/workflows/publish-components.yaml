@@ -8,6 +8,8 @@ jobs:
     name: Publish Components to registry
     runs-on: ubuntu-latest
     steps:
+      - name: checkout code
+        uses: actions/checkout@v2
       - name: install pd
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
@@ -19,9 +21,6 @@ jobs:
           mkdir -p $HOME/.config/pipedream
           echo "api_key = $PD_API_KEY" > $HOME/.config/pipedream/config
           #./pd list components
-      - name: checkout code
-        uses: actions/checkout@v2
-
       - name: get changed files
         id: files
         uses: jitterbit/get-changed-files@v1
@@ -45,3 +44,6 @@ jobs:
               cat $added_modified_file
             fi
           done
+      - name: remove config
+        run: |
+          rm $HOME/.config/pipedream
