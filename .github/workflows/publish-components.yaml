@@ -30,6 +30,9 @@ jobs:
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
       - run: |
+          echo "env start"
+          env
+          echo "env end"
           echo "pd key?"
           echo $PD_API_KEY
           echo "pd key end?"
