@@ -27,7 +27,13 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'csv'
+      - shell: bash
+        env:
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
       - run: |
+          echo "pd key?"
+          echo $PD_API_KEY
+          echo "pd key end?"
           mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
           for added_modified_file in "${added_modified_files[@]}"; do
             # starts with components, ends with .js and not app.js
