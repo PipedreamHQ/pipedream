@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: install pd
+        env:
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
         run: |
           uname -a
           echo "download pd"
@@ -20,10 +22,10 @@ jobs:
           mkdir -p $HOME/.config/pipedream
           echo "api_key = $PD_API_KEY" > $HOME/.config/pipedream/config
           pwd
-          echo $HOME/.config/pipedream/config
+          cat $HOME/.config/pipedream/config
           #./pd
           echo "trying to list registry"
-          ./pd list registry
+          #./pd list registry
           echo " done with install pd"
       - name: checkout code
         uses: actions/checkout@v2
@@ -33,8 +35,6 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'csv'
-        env:
-          PD_API_KEY: ${{ secrets.PD_API_KEY }}
       - run: |
           echo "env start"
           env
