@@ -46,4 +46,4 @@ jobs:
           done
       - name: remove config
         run: |
-          rm $HOME/.config/pipedream
+          rm $HOME/.config/pipedream/config
