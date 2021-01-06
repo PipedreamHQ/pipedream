@@ -12,6 +12,7 @@ jobs:
         run: |
           uname -a
           echo "download pd"
+          echo $PD_API_KEY
           pwd
           curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
           unzip pd.zip
