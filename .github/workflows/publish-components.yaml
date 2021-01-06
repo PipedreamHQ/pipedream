@@ -12,21 +12,12 @@ jobs:
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
         run: |
-          uname -a
-          echo "download pd"
-          echo $PD_API_KEY
-          pwd
           curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
           unzip pd.zip
           ls -lh
           mkdir -p $HOME/.config/pipedream
           echo "api_key = $PD_API_KEY" > $HOME/.config/pipedream/config
-          pwd
-          cat $HOME/.config/pipedream/config
-          #./pd
-          echo "trying to list registry"
-          ./pd list components
-          echo " done with install pd"
+          #./pd list components
       - name: checkout code
         uses: actions/checkout@v2
 
@@ -36,19 +27,16 @@ jobs:
         with:
           format: 'csv'
       - run: |
-          echo "env start"
-          env
-          echo "env end"
-          echo "pd key?"
-          echo $PD_API_KEY
-          echo "pd key end?"
+          ./pd list components
           mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
           for added_modified_file in "${added_modified_files[@]}"; do
             # starts with components, ends with .js and not app.js
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
             then
               echo "${added_modified_file} will be added to the registry"
+              cat $added_modified_file
             else
               echo "${added_modified_file} will not be added to the registry"
+              cat $added_modified_file
             fi
           done
