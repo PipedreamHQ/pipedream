@@ -28,8 +28,8 @@ jobs:
         with:
           format: 'csv'
       - run: |
-        #curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
-        # unzip pd.zip
+          #curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
+          # unzip pd.zip
           pwd
           ls -lh
           ./pd list components
