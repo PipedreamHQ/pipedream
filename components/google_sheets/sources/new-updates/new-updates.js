@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     google_sheets,
@@ -190,11 +190,21 @@ module.exports = {
   },
   async run(event) {
     let subscription = this.db.get("subscription");
-    const channelID = this.db.get("channelID");
-    const pageToken = this.db.get("pageToken");
+    let channelID = this.db.get("channelID");
+    let pageToken = this.db.get("pageToken");
 
     // Component was invoked by timer
     if (event.interval_seconds) {
+      // Assume subscription, channelID, and pageToken may all be undefined at this point
+      // Handle their absence appropriately
+      channelID = channelID || uuid();
+
+      pageToken =
+        pageToken ||
+        (await this.google_drive.getPageToken(
+          this.drive === "myDrive" ? null : this.drive
+        ));
+
       const {
         expiration,
         resourceId,
@@ -206,6 +216,8 @@ module.exports = {
         this.drive
       );
       this.db.set("subscription", { expiration, resourceId });
+      this.db.set("pageToken", pageToken);
+      this.db.set("channelID", channelID);
       return;
     }
 
