@@ -25,7 +25,7 @@ jobs:
           cat $HOME/.config/pipedream/config
           #./pd
           echo "trying to list registry"
-          #./pd list registry
+          ./pd list components
           echo " done with install pd"
       - name: checkout code
         uses: actions/checkout@v2
