@@ -27,7 +27,6 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'csv'
-      - shell: bash
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
       - run: |
