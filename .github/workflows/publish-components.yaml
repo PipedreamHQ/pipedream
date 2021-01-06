@@ -17,7 +17,11 @@ jobs:
           curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
           unzip pd.zip
           ls -lh
+          mkdir -p .config/pipedream
+          echo "api_key = $PD_API_KEY" > .config/pipedream/config
           ./pd
+          echo "trying to list registry"
+          ./pd list registry
           echo " done with install pd"
       - name: checkout code
         uses: actions/checkout@v2
