@@ -22,4 +22,11 @@ jobs:
           mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
           for added_modified_file in "${added_modified_files[@]}"; do
             echo "Do something with this ${added_modified_file}."
+            # starts with components, ends with .js and not app.js
+            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
+            then
+              echo "${added_modified_file} should be added to registry"
+            else
+              echo "${added_modified_file} should NOT be added to registry"
+            fi
           done
