@@ -8,6 +8,16 @@ jobs:
     name: Publish Components to registry
     runs-on: ubuntu-latest
     steps:
+      - name: install pd
+        run: |
+          uname -a
+          echo "download pd"
+          pwd
+          curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
+          unzip pd.zip
+          ls -lh
+          ./pd
+          echo " done with install pd"
       - name: checkout code
         uses: actions/checkout@v2
 
@@ -17,16 +27,13 @@ jobs:
         with:
           format: 'csv'
       - run: |
-          echo "hello world"
-          echo "is mapfile there?"
           mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
           for added_modified_file in "${added_modified_files[@]}"; do
-            echo "Do something with this ${added_modified_file}."
             # starts with components, ends with .js and not app.js
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
             then
-              echo "${added_modified_file} should be added to registry"
+              echo "${added_modified_file} will be added to the registry"
             else
-              echo "${added_modified_file} should NOT be added to registry"
+              echo "${added_modified_file} will not be added to the registry"
             fi
           done
