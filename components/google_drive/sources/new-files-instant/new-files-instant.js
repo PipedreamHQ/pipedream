@@ -1,9 +1,8 @@
 const { uuid } = require("uuidv4");
-const includes = require("lodash.includes");
 const googleDrive = require("../../google_drive.app.js");
 
 module.exports = {
-  key: "google_drive-new-files",
+  key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description:
     "Emits a new event any time a new file is added in your linked Google Drive",
@@ -18,10 +17,9 @@ module.exports = {
       type: "string[]",
       label: "Folders",
       description: "The folders you want to watch for changes.",
-      async options({ page, prevContext }) {
+      async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         let results;
-        if (!this.drive) return [];
         if (this.drive === "myDrive") {
           results = await this.googleDrive.listFiles({
             pageToken: nextPageToken,
@@ -37,7 +35,6 @@ module.exports = {
             q: "mimeType = 'application/vnd.google-apps.folder'",
           });
         }
-        results.options.unshift({ label: "All Folders", value: "allFolders" });
         return results;
       },
     },
@@ -204,7 +201,7 @@ module.exports = {
     let inFolder = false;
     for (const file of changedFiles) {
       const fileInfo = await this.googleDrive.getFile(file.id);
-      if (this.folders.includes("allFolders")) inFolder = true;
+      if (this.folders.length === 0) inFolder = true;
       else {
         for (const folder of fileInfo.parents) {
           if (this.folders.includes(folder)) inFolder = true;
