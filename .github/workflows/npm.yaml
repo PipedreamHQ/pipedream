@@ -20,6 +20,7 @@ jobs:
       - run: npm whoami
       - name: install
         run: npm ci
+      - run: npm whoami
       - name: publish
         run: npx lerna publish from-package --yes
         env:
