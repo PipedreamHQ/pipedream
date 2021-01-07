@@ -17,6 +17,7 @@ jobs:
       - name: install
         run: npm ci
       - run: npm whoami
+        env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: publish
         run: npx lerna publish from-package --yes
