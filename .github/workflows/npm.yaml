@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - master
+      - lerna
 
 
 jobs:
@@ -11,7 +12,10 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 10
-      - uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+          node-version: 12
+      - name: install
+        run: npm install
+      - name: publish
+        run: npx lerna publish from-package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
