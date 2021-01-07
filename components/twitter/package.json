@@ -14,5 +14,9 @@
         "axios": "^0.21.1",
         "moment": "^2.29.1",
         "querystring": "^0.2.0"
+    },
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
     }
 }

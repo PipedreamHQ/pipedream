@@ -12,5 +12,9 @@
     "license": "MIT",
     "dependencies": {
         "webflow-api": "^0.5.0"
+    },
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
     }
 }

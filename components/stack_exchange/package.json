@@ -14,5 +14,9 @@
         "axios": "^0.21.1",
         "he": "^1.2.0",
         "lodash": "^4.17.20"
+    },
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
     }
 }
