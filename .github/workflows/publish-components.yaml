@@ -19,6 +19,8 @@ jobs:
           mkdir -p $HOME/.config/pipedream
           echo "api_key = $PD_API_KEY" > $HOME/.config/pipedream/config
           jq # does jq exist?
+          KEY=`./pd list published --json | jq -r ".[0].key"`
+          echo $KEY
       - name: get changed files
         id: files
         uses: jitterbit/get-changed-files@v1
