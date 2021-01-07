@@ -20,7 +20,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: publish
-        run: npx lerna --loglevel debug publish from-package --yes
+        run: npx lerna --loglevel debug publish from-package --yes --no-verify-access
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: debug lerna
