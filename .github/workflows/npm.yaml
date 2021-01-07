@@ -13,9 +13,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - name: setup npm
+        run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: install
         run: npm ci
       - name: publish
         run: npx lerna publish from-package --yes
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
