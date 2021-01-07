@@ -33,7 +33,8 @@ jobs:
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
             then
               echo "${added_modified_file} will be added to the registry"
-              KEY=`./pd publish ${added_modified_file} --json | jq -r \".key\"`
+              KEY=`./pd publish ${added_modified_file} --json | jq -r ".key"`
+              #KEY=`pd publish components/test/sources/new-requests/new-requests.js --json | jq -r ".key"`
               echo $KEY
               echo "key = ${KEY}"
               # TODO add component to registry
