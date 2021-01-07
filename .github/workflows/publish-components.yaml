@@ -26,6 +26,8 @@ jobs:
         with:
           format: 'csv'
       - name: iterate through changed files and publish and components to the registry
+        env:
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
         run: |
           mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
           for added_modified_file in "${added_modified_files[@]}"; do
@@ -34,10 +36,10 @@ jobs:
             then
               echo "${added_modified_file} will be added to the registry"
               KEY=`./pd publish ${added_modified_file} --json | jq -r ".key"`
-              #KEY=`pd publish components/test/sources/new-requests/new-requests.js --json | jq -r ".key"`
-              echo $KEY
               echo "key = ${KEY}"
               # TODO add component to registry
+              KEY=`pd publish components/test/sources/new-requests/new-requests.js --json | jq -r ".key"`
+              curl -v "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
             else
               echo "${added_modified_file} will not be added to the registry"
             fi
