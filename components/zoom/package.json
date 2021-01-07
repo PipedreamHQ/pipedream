@@ -1,0 +1,13 @@
+{
+    "name": "@pipedream/zoom",
+    "version": "0.1.0",
+    "description": "Pipedream Zoom Components",
+    "main": "zoom.app.js",
+    "keywords": [
+        "pipedream",
+        "zoom"
+    ],
+    "homepage": "https://pipedream.com/apps/zoom",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT"
+}

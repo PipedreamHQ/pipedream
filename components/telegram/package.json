@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/telegram",
+    "version": "0.1.0",
+    "description": "Pipedream Telegram Components",
+    "main": "telegram.app.js",
+    "keywords": [
+        "pipedream",
+        "telegram"
+    ],
+    "homepage": "https://pipedream.com/apps/telegram",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    }
+}

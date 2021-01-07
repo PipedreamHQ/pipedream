@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/strava",
+    "version": "0.1.0",
+    "description": "Pipedream Strava Components",
+    "main": "strava.app.js",
+    "keywords": [
+        "pipedream",
+        "strava"
+    ],
+    "homepage": "https://pipedream.com/apps/strava",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    }
+}

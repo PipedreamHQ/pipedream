@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/intercom",
+    "version": "0.1.0",
+    "description": "Pipedream Intercom Components",
+    "main": "intercom.app.js",
+    "keywords": [
+        "pipedream",
+        "intercom"
+    ],
+    "homepage": "https://pipedream.com/apps/intercom",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    }
+}

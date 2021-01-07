@@ -1,0 +1,17 @@
+{
+    "name": "@pipedream/google_drive",
+    "version": "0.1.0",
+    "description": "Pipedream Google_drive Components",
+    "main": "google_drive.app.js",
+    "keywords": [
+        "pipedream",
+        "google_drive"
+    ],
+    "homepage": "https://pipedream.com/apps/google_drive",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "googleapis": "^67.0.0"
+    }
+}

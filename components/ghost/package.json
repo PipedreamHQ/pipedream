@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/ghost",
+    "version": "0.1.0",
+    "description": "Pipedream Ghost Components",
+    "main": "ghost.app.js",
+    "keywords": [
+        "pipedream",
+        "ghost"
+    ],
+    "homepage": "https://pipedream.com/apps/ghost",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    }
+}

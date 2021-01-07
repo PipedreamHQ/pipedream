@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/webflow",
+    "version": "0.1.0",
+    "description": "Pipedream Webflow Components",
+    "main": "webflow.app.js",
+    "keywords": [
+        "pipedream",
+        "webflow"
+    ],
+    "homepage": "https://pipedream.com/apps/webflow",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "webflow-api": "^0.5.0"
+    }
+}

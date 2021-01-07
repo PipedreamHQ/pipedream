@@ -1,0 +1,13 @@
+{
+    "name": "@pipedream/npm",
+    "version": "0.1.0",
+    "description": "Pipedream Npm Components",
+    "main": "npm.app.js",
+    "keywords": [
+        "pipedream",
+        "npm"
+    ],
+    "homepage": "https://pipedream.com/apps/npm",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT"
+}

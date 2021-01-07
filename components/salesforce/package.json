@@ -1,0 +1,17 @@
+{
+    "name": "@pipedream/salesforce",
+    "version": "0.1.0",
+    "description": "Pipedream Salesforce Components",
+    "main": "salesforce.app.js",
+    "keywords": [
+        "pipedream",
+        "salesforce"
+    ],
+    "homepage": "https://pipedream.com/apps/salesforce",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "salesforce-webhooks": "^1.1.4"
+    }
+}

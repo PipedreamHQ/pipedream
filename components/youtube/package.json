@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/youtube",
+    "version": "0.1.0",
+    "description": "Pipedream Youtube Components",
+    "main": "youtube.app.js",
+    "keywords": [
+        "pipedream",
+        "youtube"
+    ],
+    "homepage": "https://pipedream.com/apps/youtube",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    }
+}

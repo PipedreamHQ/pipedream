@@ -1,0 +1,17 @@
+{
+    "name": "@pipedream/yotpo",
+    "version": "0.1.0",
+    "description": "Pipedream Yotpo Components",
+    "main": "yotpo.app.js",
+    "keywords": [
+        "pipedream",
+        "yotpo"
+    ],
+    "homepage": "https://pipedream.com/apps/yotpo",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "lodash.get": "^4.4.2"
+    }
+}

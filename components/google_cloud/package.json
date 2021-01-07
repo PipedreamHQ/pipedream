@@ -1,0 +1,13 @@
+{
+    "name": "@pipedream/google_cloud",
+    "version": "0.1.0",
+    "description": "Pipedream Google_cloud Components",
+    "main": "google_cloud.app.js",
+    "keywords": [
+        "pipedream",
+        "google_cloud"
+    ],
+    "homepage": "https://pipedream.com/apps/google_cloud",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT"
+}

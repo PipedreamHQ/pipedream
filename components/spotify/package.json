@@ -1,0 +1,13 @@
+{
+    "name": "@pipedream/spotify",
+    "version": "0.1.0",
+    "description": "Pipedream Spotify Components",
+    "main": "spotify.app.js",
+    "keywords": [
+        "pipedream",
+        "spotify"
+    ],
+    "homepage": "https://pipedream.com/apps/spotify",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT"
+}

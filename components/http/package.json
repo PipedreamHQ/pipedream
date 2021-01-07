@@ -1,0 +1,13 @@
+{
+    "name": "@pipedream/http",
+    "version": "0.1.0",
+    "description": "Pipedream Http Components",
+    "main": "http.app.js",
+    "keywords": [
+        "pipedream",
+        "http"
+    ],
+    "homepage": "https://pipedream.com/apps/http",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT"
+}

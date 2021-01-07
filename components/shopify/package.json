@@ -1,0 +1,17 @@
+{
+    "name": "@pipedream/shopify",
+    "version": "0.1.0",
+    "description": "Pipedream Shopify Components",
+    "main": "shopify.app.js",
+    "keywords": [
+        "pipedream",
+        "shopify"
+    ],
+    "homepage": "https://pipedream.com/apps/shopify",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "lodash.get": "^4.4.2"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "name": "@pipedream/gorgias",
+    "version": "0.1.0",
+    "description": "Pipedream Gorgias Components",
+    "main": "gorgias.app.js",
+    "keywords": [
+        "pipedream",
+        "gorgias"
+    ],
+    "homepage": "https://pipedream.com/apps/gorgias",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT"
+}

@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/yahoo_fantasy_sports",
+    "version": "0.1.0",
+    "description": "Pipedream Yahoo_fantasy_sports Components",
+    "main": "yahoo_fantasy_sports.app.js",
+    "keywords": [
+        "pipedream",
+        "yahoo_fantasy_sports"
+    ],
+    "homepage": "https://pipedream.com/apps/yahoo_fantasy_sports",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    }
+}

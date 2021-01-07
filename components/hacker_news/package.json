@@ -1,0 +1,13 @@
+{
+    "name": "@pipedream/hacker_news",
+    "version": "0.1.0",
+    "description": "Pipedream Hacker_news Components",
+    "main": "hacker_news.app.js",
+    "keywords": [
+        "pipedream",
+        "hacker_news"
+    ],
+    "homepage": "https://pipedream.com/apps/hacker_news",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT"
+}

@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/hubspot",
+    "version": "0.1.0",
+    "description": "Pipedream Hubspot Components",
+    "main": "hubspot.app.js",
+    "keywords": [
+        "pipedream",
+        "hubspot"
+    ],
+    "homepage": "https://pipedream.com/apps/hubspot",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    }
+}

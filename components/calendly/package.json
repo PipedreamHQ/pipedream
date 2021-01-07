@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/calendly",
+    "version": "0.1.0",
+    "description": "Pipedream Calendly Components",
+    "main": "calendly.app.js",
+    "keywords": [
+        "pipedream",
+        "calendly"
+    ],
+    "homepage": "https://pipedream.com/apps/calendly",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    }
+}

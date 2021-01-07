@@ -1,0 +1,13 @@
+{
+    "name": "@pipedream/airtable",
+    "version": "0.1.0",
+    "description": "Pipedream Airtable Components",
+    "main": "airtable.app.js",
+    "keywords": [
+        "pipedream",
+        "airtable"
+    ],
+    "homepage": "https://pipedream.com/apps/airtable",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT"
+}

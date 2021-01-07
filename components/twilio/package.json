@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/twilio",
+    "version": "0.1.0",
+    "description": "Pipedream Twilio Components",
+    "main": "twilio.app.js",
+    "keywords": [
+        "pipedream",
+        "twilio"
+    ],
+    "homepage": "https://pipedream.com/apps/twilio",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "twilio": "^3.54.2"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/bitbucket",
+    "version": "0.1.0",
+    "description": "Pipedream Bitbucket Components",
+    "main": "bitbucket.app.js",
+    "keywords": [
+        "pipedream",
+        "bitbucket"
+    ],
+    "homepage": "https://pipedream.com/apps/bitbucket",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    }
+}

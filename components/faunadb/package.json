@@ -1,0 +1,16 @@
+{
+    "name": "@pipedream/faunadb",
+    "version": "0.1.0",
+    "description": "Pipedream Faunadb Components",
+    "main": "faunadb.app.js",
+    "keywords": [
+        "pipedream",
+        "faunadb"
+    ],
+    "homepage": "https://pipedream.com/apps/faunadb",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "faunadb": "^4.0.0"
+    }
+}

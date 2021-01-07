@@ -1,0 +1,13 @@
+{
+    "name": "@pipedream/slack",
+    "version": "0.1.0",
+    "description": "Pipedream Slack Components",
+    "main": "slack.app.js",
+    "keywords": [
+        "pipedream",
+        "slack"
+    ],
+    "homepage": "https://pipedream.com/apps/slack",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT"
+}
