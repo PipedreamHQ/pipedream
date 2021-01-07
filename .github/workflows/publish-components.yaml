@@ -18,8 +18,7 @@ jobs:
           unzip pd.zip
           mkdir -p $HOME/.config/pipedream
           echo "api_key = $PD_API_KEY" > $HOME/.config/pipedream/config
-          #          jq # does jq exist?
-          KEY=`./pd list published --json | jq -r ".[0].key"`
+          #          jq # does jq exist?  KEY=`./pd list published --json | jq -r ".[0].key"`
           echo $KEY
       - name: get changed files
         id: files
@@ -34,10 +33,12 @@ jobs:
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
             then
               echo "${added_modified_file} will be added to the registry"
-              cat $added_modified_file
+              KEY=`./pd publish ${added_modified_file} --json | jq -r \".key\"`
+              echo $KEY
+              echo "key = ${KEY}"
+              # TODO add component to registry
             else
               echo "${added_modified_file} will not be added to the registry"
-              cat $added_modified_file
             fi
           done
       - name: remove config
