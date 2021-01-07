@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/strava",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "Pipedream Strava Components",
     "main": "strava.app.js",
     "keywords": [

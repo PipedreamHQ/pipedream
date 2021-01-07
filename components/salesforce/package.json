@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/salesforce",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "Pipedream Salesforce Components",
     "main": "salesforce.app.js",
     "keywords": [

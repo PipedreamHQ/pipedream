@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/webflow",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "Pipedream Webflow Components",
     "main": "webflow.app.js",
     "keywords": [
