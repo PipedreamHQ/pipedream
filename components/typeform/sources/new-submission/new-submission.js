@@ -1,5 +1,18 @@
 const typeform = require('../../typeform.app.js')
 const { uuid } = require("uuidv4")
+const { DateTime } = require('luxon')
+
+function parseIsoDate(isoDate) {
+  const dt = DateTime.fromISO(isoDate)
+  return {
+    isoDate,
+    date_time: dt.toFormat('yyyy-mm-dd hh:mm:ss a'),
+    date: dt.toFormat('yyyy-mm-dd'),
+    time: dt.toFormat('hh:mm:ss a'),
+    timezome: dt.zoneName,
+    epoch: dt.toMillis()
+  }
+}
 
 module.exports = {
   key: "typeform-new-submission",
@@ -21,7 +34,7 @@ module.exports = {
       const secret = this.generateSecret()
       this.db.set('secret', secret)
       let tag = this.db.get('tag')
-      if(!tag){
+      if (!tag){
         tag = uuid()
         this.db.set('tag', tag)
       }
@@ -52,9 +65,34 @@ module.exports = {
       }
     }
 
-    this.$emit(body, {
-      summary: JSON.stringify(body),
-      id: body.event_id,
+    let form_response_string = ``
+    const data = Object.assign({}, body.form_response)
+    data.form_response_parsed = {}
+    for (let i=0; i< body.form_response.answers.length; i++) {
+      const field = body.form_response.definition.fields[i]
+      const answer = body.form_response.answers[i]
+
+      let parsedAnswer
+      let value = answer[answer.type]
+      if (value.label) { parsedAnswer = value.label } 
+      else if (value.labels) { parsedAnswer = value.labels.join() } 
+      else if (value.choice) { parsedAnswer = value.choice } 
+      else if (value.choices) { parsedAnswer = value.choices.join() } 
+      else { parsedAnswer = value }
+      data.form_response_parsed[field.title] = parsedAnswer
+      form_response_string += `### ${field.title}\n${parsedAnswer}\n`
+    }
+    data.form_response_string = form_response_string
+    data.raw_webhook_event = body
+    if (data.landed_at) data.landed_at = parseIsoDate(data.landed_at)
+    if (data.submitted_at) data.submitted_at = parseIsoDate(data.submitted_at)
+    data.form_title = body.form_response.definition.title
+    delete data.answers
+    delete data.definition
+    
+    this.$emit(data, {
+      summary: JSON.stringify(data),
+      id: data.token,
     })
   },
 }
