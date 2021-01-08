@@ -24,6 +24,7 @@ jobs:
         with:
           format: 'csv'
       - name: Publish and add to registry components/*.js (that aren't .app.js files)
+        continue-on-error: true
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
         run: |
@@ -33,12 +34,13 @@ jobs:
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
             then
               echo "attempting to publish ${added_modified_file}"
-              PD_OUTPUT=`./pd publish ${added_modified_file} --json`
-              echo $PD_OUTPUT
+              #PD_OUTPUT=`./pd publish ${added_modified_file} --json`
+              ./pd publish ${added_modified_file} --json
+              #echo $PD_OUTPUT
               # check for error
-              KEY=`echo $PD_OUTPUT | jq -r ".key"`
-              echo "published ${KEY}"
-              echo "${KEY} will be added to the registry"
+              #KEY=`echo $PD_OUTPUT | jq -r ".key"`
+              #echo "published ${KEY}"
+              #echo "${KEY} will be added to the registry"
               #           curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
             else
               echo "${added_modified_file} will not be added to the registry"
