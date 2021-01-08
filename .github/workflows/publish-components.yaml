@@ -1,0 +1,47 @@
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  publish-components:
+    name: Publish Components to Pipedream Registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install pd cli
+        env:
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
+        run: |
+          curl -O https://cli.pipedream.com/linux/amd64/latest/pd.zip
+          unzip pd.zip
+          mkdir -p $HOME/.config/pipedream
+          echo "api_key = $PD_API_KEY" > $HOME/.config/pipedream/config
+      - name: Get Changed Files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'csv'
+      - name: Publish and add to registry components/*.js (that aren't .app.js files)
+        env:
+          PD_API_KEY: ${{ secrets.PD_API_KEY }}
+        run: |
+          mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
+          for added_modified_file in "${added_modified_files[@]}"; do
+            # starts with components, ends with .js and not app.js
+            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
+            then
+              echo "attempting to publish ${added_modified_file}"
+              KEY=`./pd publish ${added_modified_file} --json | jq -r ".key"`
+              echo "published ${KEY}"
+              echo "${KEY} will be added to the registry"
+              KEY=`pd publish components/test/sources/new-requests/new-requests.js --json | jq -r ".key"`
+              curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
+            else
+              echo "${added_modified_file} will not be added to the registry"
+            fi
+          done
+      - name: Remove pd cli config
+        run: |
+          rm $HOME/.config/pipedream/config
