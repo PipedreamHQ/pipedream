@@ -3,13 +3,14 @@ const { uuid } = require("uuidv4")
 const { DateTime } = require('luxon')
 
 function parseIsoDate(isoDate) {
+  const dt = DateTime.fromISO(isoDate)
   return {
     isoDate,
-    date_time: DateTime.fromISO(isoDate).toFormat('yyyy-mm-dd hh:mm:ss a'),
-    date: DateTime.fromISO(isoDate).toFormat('yyyy-mm-dd'),
-    time: DateTime.fromISO(isoDate).toFormat('hh:mm:ss a'),
-    timezome: DateTime.fromISO(isoDate).zoneName,
-    epoch: DateTime.fromISO(isoDate).toMillis()
+    date_time: dt.toFormat('yyyy-mm-dd hh:mm:ss a'),
+    date: dt.toFormat('yyyy-mm-dd'),
+    time: dt.toFormat('hh:mm:ss a'),
+    timezome: dt.zoneName,
+    epoch: dt.toMillis()
   }
 }
 
