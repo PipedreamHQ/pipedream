@@ -1,7 +1,7 @@
 on: 
   push:
     branches:
-      - master
+      - register-fixes
 
 jobs:
   publish-components:
@@ -36,7 +36,6 @@ jobs:
               KEY=`./pd publish ${added_modified_file} --json | jq -r ".key"`
               echo "published ${KEY}"
               echo "${KEY} will be added to the registry"
-              KEY=`pd publish components/test/sources/new-requests/new-requests.js --json | jq -r ".key"`
               curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
             else
               echo "${added_modified_file} will not be added to the registry"
