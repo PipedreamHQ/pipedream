@@ -1,0 +1,20 @@
+{
+    "name": "@pipedream/aws",
+    "version": "0.3.2",
+    "description": "Pipedream Aws Components",
+    "main": "aws.app.js",
+    "keywords": [
+        "pipedream",
+        "aws"
+    ],
+    "homepage": "https://pipedream.com/apps/aws",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "aws-sdk": "^2.824.0"
+    },
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
+    }
+}

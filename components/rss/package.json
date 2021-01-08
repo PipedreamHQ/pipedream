@@ -1,0 +1,17 @@
+{
+    "name": "@pipedream/rss",
+    "version": "0.3.2",
+    "description": "Pipedream Rss Components",
+    "main": "rss.app.js",
+    "keywords": [
+        "pipedream",
+        "rss"
+    ],
+    "homepage": "https://pipedream.com/apps/rss",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
+    }
+}
