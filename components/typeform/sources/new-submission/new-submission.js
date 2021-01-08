@@ -71,10 +71,10 @@ module.exports = {
       let answer
       let value = body.form_response.answers[i][body.form_response.answers[i].type]
       if (value.label) { answer = value.label } 
-        else if (value.labels) { answer = value.labels.join() } 
-        else if (value.choice) { answer = value.choice } 
-        else if (value.choices) { answer = value.choices.join() } 
-        else { answer = value }
+      else if (value.labels) { answer = value.labels.join() } 
+      else if (value.choice) { answer = value.choice } 
+      else if (value.choices) { answer = value.choices.join() } 
+      else { answer = value }
       data.form_response_parsed[body.form_response.definition.fields[i].title] = answer
       form_response_string = `${form_response_string}### ${body.form_response.definition.fields[i].title}
 ${answer}
