@@ -1,5 +1,17 @@
 const typeform = require('../../typeform.app.js')
 const { uuid } = require("uuidv4")
+const { DateTime } = require('luxon')
+
+function parseIsoDate(isoDate) {
+  return {
+    isoDate,
+    date_time: DateTime.fromISO(isoDate).toFormat('yyyy-mm-dd hh:mm:ss a'),
+    date: DateTime.fromISO(isoDate).toFormat('yyyy-mm-dd'),
+    time: DateTime.fromISO(isoDate).toFormat('hh:mm:ss a'),
+    timezome: DateTime.fromISO(isoDate).zoneName,
+    epoch: DateTime.fromISO(isoDate).toMillis()
+  }
+}
 
 module.exports = {
   key: "typeform-new-submission",
@@ -52,9 +64,33 @@ module.exports = {
       }
     }
 
-    this.$emit(body, {
-      summary: JSON.stringify(body),
-      id: body.event_id,
+    let form_response_string = ``
+    const data = Object.assign({}, body.form_response);
+    data.form_response_parsed = {};
+    for (let i=0; i< body.form_response.answers.length; i++) {
+      let answer
+      let value = body.form_response.answers[i][body.form_response.answers[i].type]
+      if (value.label) { answer = value.label } 
+        else if (value.labels) { answer = value.labels.join() } 
+        else if (value.choice) { answer = value.choice } 
+        else if (value.choices) { answer = value.choices.join() } 
+        else { answer = value }
+      data.form_response_parsed[body.form_response.definition.fields[i].title] = answer
+      form_response_string = `${form_response_string}### ${body.form_response.definition.fields[i].title}
+${answer}
+`
+    }
+    data.form_response_string = form_response_string
+    data.raw_webhook_event = body;
+    if(data.answers) delete data.answers;
+    if(data.definition) delete data.definition;
+    if(data.landed_at) data.landed_at = parseIsoDate(data.landed_at)
+    if(data.submitted_at) data.submitted_at = parseIsoDate(data.submitted_at)
+    data.form_title = body.form_response.definition.title
+
+    this.$emit(data, {
+      summary: JSON.stringify(data),
+      id: data.token,
     })
   },
 }
