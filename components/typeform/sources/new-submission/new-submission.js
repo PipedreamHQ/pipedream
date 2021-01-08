@@ -17,7 +17,7 @@ function parseIsoDate(isoDate) {
 module.exports = {
   key: "typeform-new-submission",
   name: "New Submission",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     typeform,
     formId: { propDefinition: [typeform, "formId"] },
