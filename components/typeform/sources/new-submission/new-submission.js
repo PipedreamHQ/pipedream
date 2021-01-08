@@ -68,26 +68,27 @@ module.exports = {
     const data = Object.assign({}, body.form_response)
     data.form_response_parsed = {}
     for (let i=0; i< body.form_response.answers.length; i++) {
-      let answer
-      let value = body.form_response.answers[i][body.form_response.answers[i].type]
-      if (value.label) { answer = value.label } 
-      else if (value.labels) { answer = value.labels.join() } 
-      else if (value.choice) { answer = value.choice } 
-      else if (value.choices) { answer = value.choices.join() } 
-      else { answer = value }
-      data.form_response_parsed[body.form_response.definition.fields[i].title] = answer
-      form_response_string = `${form_response_string}### ${body.form_response.definition.fields[i].title}
-${answer}
-`
+      const field = body.form_response.definition.fields[i]
+      const answer = body.form_response.answers[i]
+
+      let parsedAnswer
+      let value = answer[answer.type]
+      if (value.label) { parsedAnswer = value.label } 
+      else if (value.labels) { parsedAnswer = value.labels.join() } 
+      else if (value.choice) { parsedAnswer = value.choice } 
+      else if (value.choices) { parsedAnswer = value.choices.join() } 
+      else { parsedAnswer = value }
+      data.form_response_parsed[field.title] = parsedAnswer
+      form_response_string += `### ${field.title}\n${parsedAnswer}\n`
     }
     data.form_response_string = form_response_string
     data.raw_webhook_event = body
-    if (data.answers) delete data.answers
-    if (data.definition) delete data.definition
     if (data.landed_at) data.landed_at = parseIsoDate(data.landed_at)
     if (data.submitted_at) data.submitted_at = parseIsoDate(data.submitted_at)
     data.form_title = body.form_response.definition.title
-
+    delete data.answers
+    delete data.definition
+    
     this.$emit(data, {
       summary: JSON.stringify(data),
       id: data.token,
