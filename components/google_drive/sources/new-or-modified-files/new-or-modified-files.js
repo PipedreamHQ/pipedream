@@ -17,7 +17,7 @@ module.exports = {
   name: "New or Modified Files",
   description:
     "Emits a new event any time any file in your linked Google Drive is added, modified, or deleted",
-  version: "0.0.5",
+  version: "0.0.6",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
@@ -47,13 +47,16 @@ module.exports = {
 
       const channelID = this.db.get("channelID") || uuid();
 
-      const startPageToken = await this.googleDrive.getPageToken();
-      const { expiration, resourceId } = await this.googleDrive.watchDrive(
-        channelID,
-        this.http.endpoint,
+      const {
         startPageToken,
+        expiration,
+        resourceId,
+      } = await this.googleDrive.activateHook(
+        channelId,
+        this.http.endpoint,
         this.drive === "myDrive" ? null : this.drive
       );
+
       // We use and increment the pageToken as new changes arrive, in run()
       this.db.set("pageToken", startPageToken);
 
@@ -72,21 +75,7 @@ module.exports = {
       this.db.set("channelID", null);
       this.db.set("pageToken", null);
 
-      if (!channelID) {
-        console.log(
-          "Channel not found, cannot stop notifications for non-existent channel"
-        );
-        return;
-      }
-
-      if (!resourceId) {
-        console.log(
-          "No resource ID found, cannot stop notifications for non-existent resource"
-        );
-        return;
-      }
-
-      await this.googleDrive.stopNotifications(channelID, resourceId);
+      await this.googleDrive.deactivatHook(channelId, resourceId);
     },
   },
   async run(event) {
@@ -99,65 +88,26 @@ module.exports = {
 
     // Component was invoked by timer
     if (event.interval_seconds) {
-      if (!subscription || !subscription.resourceId) {
-        return;
-      }
-      console.log(
-        `Checking for resubscription on resource ${subscription.resourceId}`
+      const {
+        channelId,
+        pageToken,
+        expiration,
+        resourceId,
+      } = await this.googleDrive.invokedByTimer(
+        this.drive,
+        subscription,
+        this.http.endpoint
       );
-      // If the subscription for this resource will expire before the next run,
-      // stop the existing subscription and renew. Expiration is in ms.
-      if (
-        subscription.expiration <
-        +new Date() + event.interval_seconds * 1000
-      ) {
-        console.log(
-          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Renewing`
-        );
-        await this.googleDrive.stopNotifications(
-          channelID,
-          subscription.resourceId
-        );
-        const { expiration, resourceId } = await this.googleDrive.watchDrive(
-          channelID,
-          this.http.endpoint,
-          pageToken,
-          this.drive === "myDrive" ? null : this.drive
-        );
-        this.db.set("subscription", { expiration, resourceId });
-      }
+
+      this.db.set("subscription", { expiration, resourceId });
+      this.db.set("pageToken", pageToken);
+      this.db.set("channelID", channelID);
       return;
     }
 
     const { headers } = event;
 
-    if (headers["x-goog-resource-state"] === "sync") {
-      console.log("Sync notification, exiting early");
-      return;
-    }
-
-    if (
-      !headers["x-goog-resource-state"] ||
-      !headers["x-goog-resource-id"] ||
-      !headers["x-goog-resource-uri"] ||
-      !headers["x-goog-message-number"]
-    ) {
-      console.log("Request missing necessary headers: ", headers);
-      return;
-    }
-
-    const incomingChannelID = headers["x-goog-channel-id"];
-    if (incomingChannelID !== channelID) {
-      console.log(
-        `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`
-      );
-      return;
-    }
-
-    if (headers["x-goog-resource-id"] !== subscription.resourceId) {
-      console.log(
-        `Resource ID of ${resourceId} not currently being tracked. Exiting`
-      );
+    if (!this.googleDrive.checkHeaders(headers, subscription, channelID)) {
       return;
     }
 

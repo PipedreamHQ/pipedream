@@ -19,7 +19,7 @@ module.exports = {
       type: "string",
       label: "Drive",
       description: "The drive you want to watch for changes",
-      async options({ page, prevContext }) {
+      async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return await this.listDrives(nextPageToken);
       },
@@ -90,9 +90,17 @@ module.exports = {
         newStartPageToken,
       };
     },
-    async getPageToken() {
+    async getPageToken(driveId = null) {
       const drive = this.drive();
-      return (await drive.changes.getStartPageToken({})).data.startPageToken;
+      let request = {};
+      if (driveId) {
+        request = {
+          driveId,
+          supportsAllDrives: true,
+        };
+      }
+      return (await drive.changes.getStartPageToken(request)).data
+        .startPageToken;
     },
     async listDrives(pageToken) {
       const drive = this.drive();
@@ -211,6 +219,98 @@ module.exports = {
           fields: "*",
         })
       ).data;
+    },
+    async activateHook(channelId, url, drive) {
+      const startPageToken = await this.getPageToken();
+      const { expiration, resourceId } = await this.watchDrive(
+        channelID,
+        url,
+        startPageToken,
+        drive
+      );
+      return { startPageToken, expiration, resourceId };
+    },
+    async deactivateHook(channelId, resourceId) {
+      if (!channelID) {
+        console.log(
+          "Channel not found, cannot stop notifications for non-existent channel"
+        );
+        return;
+      }
+
+      if (!resourceId) {
+        console.log(
+          "No resource ID found, cannot stop notifications for non-existent resource"
+        );
+        return;
+      }
+
+      await this.stopNotifications(channelID, resourceId);
+    },
+    async invokedByTimer(drive, subscription, url) {
+      channelID = channelID || uuid();
+
+      pageToken =
+        pageToken ||
+        (await this.getPageToken(drive === "myDrive" ? null : drive));
+
+      const { expiration, resourceId } = await this.checkResubscription(
+        subscription,
+        channelID,
+        pageToken,
+        url,
+        drive
+      );
+
+      return { channelId, pageToken, expiration, resourceId };
+    },
+    async checkResubscription(
+      subscription,
+      channelID,
+      pageToken,
+      endpoint,
+      driveId
+    ) {
+      if (subscription && subscription.resourceId) {
+        console.log(
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`
+        );
+        await this.stopNotifications(channelID, subscription.resourceId);
+      }
+      const { expiration, resourceId } = await this.watchDrive(
+        channelID,
+        endpoint,
+        pageToken,
+        driveId === "myDrive" ? null : driveId
+      );
+      return { expiration, resourceId };
+    },
+    checkHeaders(headers, subscription, channelID) {
+      if (
+        !headers["x-goog-resource-state"] ||
+        !headers["x-goog-resource-id"] ||
+        !headers["x-goog-resource-uri"] ||
+        !headers["x-goog-message-number"]
+      ) {
+        console.log("Request missing necessary headers: ", headers);
+        return false;
+      }
+
+      const incomingChannelID = headers["x-goog-channel-id"];
+      if (incomingChannelID !== channelID) {
+        console.log(
+          `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`
+        );
+        return false;
+      }
+
+      if (headers["x-goog-resource-id"] !== subscription.resourceId) {
+        console.log(
+          `Resource ID of ${resourceId} not currently being tracked. Exiting`
+        );
+        return false;
+      }
+      return true;
     },
   },
 };

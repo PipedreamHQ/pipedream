@@ -55,13 +55,16 @@ module.exports = {
 
       const channelID = this.db.get("channelID") || uuid();
 
-      const startPageToken = await this.googleDrive.getPageToken();
-      const { expiration, resourceId } = await this.googleDrive.watchDrive(
-        channelID,
-        this.http.endpoint,
+      const {
         startPageToken,
+        expiration,
+        resourceId,
+      } = await this.googleDrive.activateHook(
+        channelId,
+        this.http.endpoint,
         this.drive === "myDrive" ? null : this.drive
       );
+
       // We use and increment the pageToken as new changes arrive, in run()
       this.db.set("pageToken", startPageToken);
 
@@ -80,21 +83,17 @@ module.exports = {
       this.db.set("channelID", null);
       this.db.set("pageToken", null);
 
-      if (!channelID) {
-        console.log(
-          "Channel not found, cannot stop notifications for non-existent channel"
-        );
-        return;
-      }
+      await this.googleDrive.deactivatHook(channelId, resourceId);
+    },
+  },
+  methods: {
+    shouldProcess(file) {
+      const watchedFolders = new Set(this.folders);
 
-      if (!resourceId) {
-        console.log(
-          "No resource ID found, cannot stop notifications for non-existent resource"
-        );
-        return;
-      }
-
-      await this.googleDrive.stopNotifications(channelID, resourceId);
+      return (
+        watchedFolders.size == 0 ||
+        file.parents.some((p) => watchedFolders.has(p))
+      );
     },
   },
   async run(event) {
@@ -102,84 +101,31 @@ module.exports = {
     // watch requests for specific files, or via HTTP request (the change payloads from Google)
 
     let subscription = this.db.get("subscription");
-    const channelID = this.db.get("channelID");
-    const pageToken = this.db.get("pageToken");
+    let channelID = this.db.get("channelID");
+    let pageToken = this.db.get("pageToken");
 
     // Component was invoked by timer
     if (event.interval_seconds) {
-      if (!subscription || !subscription.resourceId) {
-        return;
-      }
-      console.log(
-        `Checking for resubscription on resource ${subscription.resourceId}`
+      const {
+        channelId,
+        pageToken,
+        expiration,
+        resourceId,
+      } = await this.googleDrive.invokedByTimer(
+        this.drive,
+        subscription,
+        this.http.endpoint
       );
-      // If the subscription for this resource will expire before the next run,
-      // stop the existing subscription and renew. Expiration is in ms.
-      if (
-        subscription.expiration <
-        +new Date() + event.interval_seconds * 1000
-      ) {
-        console.log(
-          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Renewing`
-        );
-        await this.googleDrive.stopNotifications(
-          channelID,
-          subscription.resourceId
-        );
-        const { expiration, resourceId } = await this.googleDrive.watchDrive(
-          channelID,
-          this.http.endpoint,
-          pageToken,
-          this.drive === "myDrive" ? null : this.drive
-        );
-        this.db.set("subscription", { expiration, resourceId });
-      }
+
+      this.db.set("subscription", { expiration, resourceId });
+      this.db.set("pageToken", pageToken);
+      this.db.set("channelID", channelID);
       return;
     }
 
     const { headers } = event;
 
-    if (headers["x-goog-resource-state"] === "sync") {
-      console.log("Sync notification, exiting early");
-      return;
-    }
-
-    if (
-      !headers["x-goog-resource-state"] ||
-      !headers["x-goog-resource-id"] ||
-      !headers["x-goog-resource-uri"] ||
-      !headers["x-goog-message-number"]
-    ) {
-      console.log("Request missing necessary headers: ", headers);
-      return;
-    }
-
-    const incomingChannelID = headers["x-goog-channel-id"];
-    if (incomingChannelID !== channelID) {
-      console.log(
-        `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`
-      );
-      return;
-    }
-
-    if (headers["x-goog-resource-id"] !== subscription.resourceId) {
-      console.log(
-        `Resource ID of ${resourceId} not currently being tracked. Exiting`
-      );
-      return;
-    }
-
-    // We observed false positives where a single change to a document would trigger two changes:
-    // one to "properties" and another to "content,properties". But changes to properties
-    // alone are legitimate, most users just won't want this source to emit in those cases.
-    // If x-goog-changed is _only_ set to "properties", only move on if the user set the prop
-    if (
-      !this.watchForPropertiesChanges &&
-      headers["x-goog-changed"] === "properties"
-    ) {
-      console.log(
-        "Change to properties only, which this component is set to ignore. Exiting"
-      );
+    if (!this.googleDrive.checkHeaders(headers, subscription, channelID)) {
       return;
     }
 
@@ -193,30 +139,24 @@ module.exports = {
 
     this.db.set("pageToken", newStartPageToken);
 
-    // only get files created since the last logged file creation or within the last five minutes
-    const fiveMinutesAgo = new Date(Date.now() - 5 * 60000);
+    // only get files created since the last logged file creation or within the last hour
+    const hourAgo = new Date(Date.now() - 60 * 60000);
     const lastFileCreatedTime =
-      new Date(this.db.get("lastFileCreatedTime")) || fiveMinutesAgo;
+      new Date(this.db.get("lastFileCreatedTime")) || hourAgo;
     let maxCreatedTime = lastFileCreatedTime;
-    let inFolder = false;
+
     for (const file of changedFiles) {
       const fileInfo = await this.googleDrive.getFile(file.id);
-      if (this.folders.length === 0) inFolder = true;
-      else {
-        for (const folder of fileInfo.parents) {
-          if (this.folders.includes(folder)) inFolder = true;
-        }
-      }
       const createdTime = new Date(fileInfo.createdTime);
-      if (createdTime.getTime() > lastFileCreatedTime.getTime() && inFolder) {
-        this.$emit(fileInfo, {
-          summary: `New File ID: ${file.id}`,
-          id: file.id,
-          ts: createdTime.getTime(),
-        });
-      }
       if (createdTime.getTime() > maxCreatedTime.getTime())
         maxCreatedTime = createdTime;
+      if (!this.shouldProcess(fileInfo)) continue;
+      if (createdTime.getTime() <= lastFileCreatedTime.getTime()) continue;
+      this.$emit(fileInfo, {
+        summary: `New File ID: ${file.id}`,
+        id: file.id,
+        ts: createdTime.getTime(),
+      });
     }
 
     this.db.set("lastFileCreatedTime", maxCreatedTime);
