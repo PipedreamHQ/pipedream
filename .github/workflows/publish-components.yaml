@@ -26,7 +26,7 @@ jobs:
       - name: Publish and add to registry components/*.js (that aren't .app.js files)
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
-        shell: bash {0}
+        shell: bash {0} # don't fast fail
         run: |
           UNPUBLISHED=()
           mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
@@ -43,7 +43,8 @@ jobs:
                 echo $KEY
                 echo "published ${KEY}"
                 echo "${KEY} will be added to the registry"
-                #curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
+                CURL_OUTPUT=`curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'`
+                echo $CURL_OUTPUT
               else
                 ERROR=`echo $PD_OUTPUT | jq -r ".error"`
                 echo "there was an error: ${ERROR} with ${added_modified_file}"
