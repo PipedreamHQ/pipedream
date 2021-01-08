@@ -5,7 +5,7 @@ module.exports = {
   key: "auto-registry-test",
   name: "New Requests",
   description: "Get a URL and emit the full HTTP event on every request (including headers and query parameters). You can also configure the HTTP response code, body, and more.",
-  version: "0.0.4", //
+  version: "0.0.4", ///
   props: {
     http: {
       type: "$.interface.http",
