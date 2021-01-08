@@ -1,7 +1,7 @@
 on: 
   push:
     branches:
-      - master
+      - publish-test
 
 jobs:
   publish-components:
