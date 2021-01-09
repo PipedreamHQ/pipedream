@@ -10,7 +10,7 @@ module.exports = {
       default: {
         intervalSeconds: 60 * 5,
       },
-    }, 
+    },
     db: "$.service.db",
     selectProjects: { propDefinition: [todoist, "selectProjects"] },
   },
@@ -21,10 +21,12 @@ module.exports = {
       .filter(Array.isArray)
       .flat()
       .filter(this.isElementRelevant)
-      .filter(element => this.todoist.isProjectInList(element.project_id, this.selectProjects))
-      .forEach(element => {
+      .filter((element) =>
+        this.todoist.isProjectInList(element.project_id, this.selectProjects)
+      )
+      .forEach((element) => {
         const meta = this.generateMeta(element);
         this.$emit(element, meta);
       });
-  }
+  },
 };

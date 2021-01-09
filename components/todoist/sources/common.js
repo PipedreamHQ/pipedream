@@ -15,6 +15,6 @@ module.exports = {
         summary,
         ts,
       };
-    }
+    },
   },
 };

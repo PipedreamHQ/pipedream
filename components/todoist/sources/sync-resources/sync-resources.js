@@ -12,24 +12,27 @@ module.exports = {
     includeResourceTypes: { propDefinition: [todoist, "includeResourceTypes"] },
   },
   async run(event) {
-    let emitCount = 0
+    let emitCount = 0;
 
-    const syncResult = await this.todoist.syncResources(this.db, this.includeResourceTypes);
+    const syncResult = await this.todoist.syncResources(
+      this.db,
+      this.includeResourceTypes
+    );
 
     for (const property in syncResult) {
-      if(Array.isArray(syncResult[property])) {
-        syncResult[property].forEach(element => {
-          let data = {}
-          data.resource = property
-          data.data = element
+      if (Array.isArray(syncResult[property])) {
+        syncResult[property].forEach((element) => {
+          let data = {};
+          data.resource = property;
+          data.data = element;
           this.$emit(data, {
-            summary: property
-          })
-          emitCount++
-        })
+            summary: property,
+          });
+          emitCount++;
+        });
       }
-    }  
+    }
 
-    console.log(`Emitted ${emitCount} events.`)
+    console.log(`Emitted ${emitCount} events.`);
   },
 };
