@@ -1,5 +1,6 @@
 const axios = require('axios')
 const querystring = require('querystring')
+//const resourceTypes = require("./resource-types.json")
 const resourceTypes = ['labels','projects','items','notes','sections','filters','reminders','locations','user','live_notifications','collaborators','user_settings','notification_settings'].sort()
 
 module.exports = {
@@ -14,14 +15,7 @@ module.exports = {
         resourceTypes.unshift('all')
         return resourceTypes
       }, 
-    },
-    excludeResourceTypes: {
-      type: "string[]",
-      label: "Excluded Resource Type",
-      description: "Select one or more resources to exclude",
-      optional: true,
-      options: resourceTypes,
-    },
+    }, 
     selectProjects: {
       type: "integer[]",
       label: "Select Projects",
@@ -72,16 +66,11 @@ module.exports = {
     * @params {Array} selectedProjectIds - An array of Todoist project IDs
     * @returns {Boolean} Returns `true` if the `project_id` matches a value in the arrar or if the array is empty. Otherwise returns `false`.
     */
-    async isProjectInList(project_id, selectedProjectIds) {
-      if (selectedProjectIds.length > 0) {
-        if(selectedProjectIds.includes(project_id)) {
-          return true
-        } else {
-          return false
-        }
-      } else {
-        return true
-      }  
+    isProjectInList(projectId, selectedProjectIds) {
+      return (
+        selectedProjectIds.length === 0 ||
+        selectedProjectIds.includes(projectId)
+      );
     },
     /**
     * Public method to make a sync request.
@@ -107,6 +96,21 @@ module.exports = {
         path: `/rest/v1/projects`,
         method: 'GET',
       })).data
+    },
+    async syncItems(db) {
+      return await this.syncResources(db, ["items"]);
+    },
+    async syncProjects(db) {
+      return await this.syncResources(db, ["projects"]);
+    },
+    async syncResources(db, resourceTypes) {
+      const syncToken = db.get("syncToken") || '*';
+      const result = await this.sync({
+        resource_types: JSON.stringify(resourceTypes),
+        sync_token: syncToken,
+      });
+      db.set("syncToken", result.sync_token);
+      return result;
     },
   }
 }
