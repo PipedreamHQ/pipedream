@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/youtube",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Pipedream Youtube Components",
     "main": "youtube.app.js",
     "keywords": [

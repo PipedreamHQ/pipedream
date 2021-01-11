@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/ghost",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Pipedream Ghost Components",
     "main": "ghost.app.js",
     "keywords": [

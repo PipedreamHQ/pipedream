@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/zoom",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Pipedream Zoom Components",
     "main": "zoom.app.js",
     "keywords": [

@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/discord",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Pipedream Discord Components",
     "main": "discord.app.js",
     "keywords": [
