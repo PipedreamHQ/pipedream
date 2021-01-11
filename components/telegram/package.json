@@ -1,0 +1,20 @@
+{
+    "name": "@pipedream/telegram",
+    "version": "0.3.2",
+    "description": "Pipedream Telegram Components",
+    "main": "telegram.app.js",
+    "keywords": [
+        "pipedream",
+        "telegram"
+    ],
+    "homepage": "https://pipedream.com/apps/telegram",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1"
+    },
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
+    }
+}

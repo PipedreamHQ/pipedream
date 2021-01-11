@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - master
+      - lerna
 
 
 jobs:
@@ -11,7 +12,17 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 10
-      - uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: install
+        run: npm ci
+      - run: npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: publish
+        run: npx lerna --loglevel debug publish from-package --yes --no-verify-access
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: debug lerna
+        if: ${{ failure() }}
+        run: cat lerna-debug.log
