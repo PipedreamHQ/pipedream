@@ -1,4 +1,4 @@
-[
+module.exports = [
 	"collaborators",
 	"filters",
 	"items",

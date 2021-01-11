@@ -1,21 +1,6 @@
 const axios = require("axios");
 const querystring = require("querystring");
-//const resourceTypes = require("./resource-types.json")
-const resourceTypes = [
-  "labels",
-  "projects",
-  "items",
-  "notes",
-  "sections",
-  "filters",
-  "reminders",
-  "locations",
-  "user",
-  "live_notifications",
-  "collaborators",
-  "user_settings",
-  "notification_settings",
-].sort();
+const resourceTypes = require("./resource-types.js")
 
 module.exports = {
   type: "app",
