@@ -220,7 +220,7 @@ module.exports = {
         })
       ).data;
     },
-    async activateHook(channelId, url, drive) {
+    async activateHook(channelID, url, drive) {
       const startPageToken = await this.getPageToken();
       const { expiration, resourceId } = await this.watchDrive(
         channelID,
@@ -230,7 +230,7 @@ module.exports = {
       );
       return { startPageToken, expiration, resourceId };
     },
-    async deactivateHook(channelId, resourceId) {
+    async deactivateHook(channelID, resourceId) {
       if (!channelID) {
         console.log(
           "Channel not found, cannot stop notifications for non-existent channel"

@@ -17,6 +17,8 @@ module.exports = {
       type: "string[]",
       label: "Folders",
       description: "The folders you want to watch for changes.",
+      optional: true,
+      default: [],
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         let results;
@@ -60,7 +62,7 @@ module.exports = {
         expiration,
         resourceId,
       } = await this.googleDrive.activateHook(
-        channelId,
+        channelID,
         this.http.endpoint,
         this.drive === "myDrive" ? null : this.drive
       );
@@ -73,6 +75,9 @@ module.exports = {
       // identifies the watched resource". This value is included in request headers
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
+
+      const lastFileCreatedTime = this.db.get("lastFileCreatedTime") || Date.now();
+      this.db.set("lastFileCreatedTime", lastFileCreatedTime);
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -139,10 +144,7 @@ module.exports = {
 
     this.db.set("pageToken", newStartPageToken);
 
-    // only get files created since the last logged file creation or within the last hour
-    const hourAgo = new Date(Date.now() - 60 * 60000);
-    const lastFileCreatedTime =
-      new Date(this.db.get("lastFileCreatedTime")) || hourAgo;
+    const lastFileCreatedTime = new Date(this.db.get("lastFileCreatedTime"));
     let maxCreatedTime = lastFileCreatedTime;
 
     for (const file of changedFiles) {
