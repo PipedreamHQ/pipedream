@@ -70,7 +70,8 @@ jobs:
           jq -n --arg errors $ERRORS --arg published $PUBLISHED --arg unpublished $UNPUBLISHED '{ published: $published, unpublished: $unpublished, errors: $errors }' > results.json
           curl -H "Content-Type: application/json" -H "PD-FROM: publish-step" --data @results.json $ENDPOINT
           JSON=`cat results.json`
-          echo "::set-output name=json::${JSON}"
+          echo $JSON
+          #echo "::set-output name=json::{$JSON}"
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config
