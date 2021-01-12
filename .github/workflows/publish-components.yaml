@@ -34,7 +34,7 @@ jobs:
         run: |
           UNPUBLISHED=("UNPUBLISHED1","UNPUBLISHED2")
           PUBLISHED=("PUBLISHED1","PUBLISHED2")
-          ERRORS=("ERROR1",ERROR2")
+          ERRORS=("ERROR1","ERROR2")
           #mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
           added_modified_files=()
           for added_modified_file in "${added_modified_files[@]}"; do
@@ -67,10 +67,10 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # build json and curl
-          #          jq -n --arg errors $ERRORS --arg published $PUBLISHED --arg unpublished $UNPUBLISHED '{ published: $published, unpublished: $unpublished, errors: $errors }' > results.json
-          #curl -H "Content-Type: application/json" -H "PD-FROM: publish-step" --data @results.json $ENDPOINT
-          #JSON=`cat results.json`
-          #echo "::set-output name=json::${JSON}"
+          jq -n --arg errors $ERRORS --arg published $PUBLISHED --arg unpublished $UNPUBLISHED '{ published: $published, unpublished: $unpublished, errors: $errors }' > results.json
+          curl -H "Content-Type: application/json" -H "PD-FROM: publish-step" --data @results.json $ENDPOINT
+          JSON=`cat results.json`
+          echo "::set-output name=json::${JSON}"
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config
