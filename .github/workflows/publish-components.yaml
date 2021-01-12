@@ -1,7 +1,7 @@
 on: 
   push:
     branches:
-      - publish-test
+      - master
 
 jobs:
   publish-components:
@@ -32,11 +32,10 @@ jobs:
           ENDPOINT: ${{ secrets.ENDPOINT }}
         shell: bash {0} # don't fast fail
         run: |
-          UNPUBLISHED=("UNPUBLISHED1","UNPUBLISHED2")
-          PUBLISHED=("PUBLISHED1","PUBLISHED2")
-          ERRORS=("ERROR1","ERROR2")
-          #mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
-          added_modified_files=()
+          UNPUBLISHED=()
+          PUBLISHED=()
+          ERRORS=()
+          mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
           for added_modified_file in "${added_modified_files[@]}"; do
             # starts with components, ends with .js and not app.js
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
@@ -68,16 +67,7 @@ jobs:
           fi
           # build json and curl
           jq -n --arg errors $ERRORS --arg published $PUBLISHED --arg unpublished $UNPUBLISHED '{ published: $published, unpublished: $unpublished, errors: $errors }' > results.json
-          curl -H "Content-Type: application/json" -H "PD-FROM: publish-step" --data @results.json $ENDPOINT
-          JSON=`cat results.json`
-          echo $JSON
-          echo "::set-output name=json::{$JSON}"
+          curl -H "Content-Type: application/json" --data @results.json $ENDPOINT
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config
-      - name: send published notification
-        uses: joelwmale/webhook-action@master
-        with:
-          url : ${{ secrets.ENDPOINT }}
-          headers: '{"Content-Type: "application/json", "PD-FROM": "wh step" }'
-          body: ${{ steps.publish.outputs.json }}
