@@ -49,7 +49,7 @@ jobs:
                 KEY=`echo $PD_OUTPUT | jq -r ".key"`
                 echo "published ${KEY}"
                 echo "${KEY} will be added to the registry"
-                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
+                #                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
               else
                 ERROR=`echo $PD_OUTPUT | jq -r ".error"`
                 ERROR_MESSAGE="${ERROR} with ${added_modified_file}"
