@@ -22,7 +22,7 @@ module.exports = {
       propDefinition: [
         common.props.google_sheets,
         "worksheetIDs",
-        c => ({ sheetId: c.sheetId }),
+        c => ({ sheetId: c.sheetID }),
       ],
     },
   },
