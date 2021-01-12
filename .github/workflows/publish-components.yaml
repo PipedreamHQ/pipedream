@@ -45,12 +45,15 @@ jobs:
               PD_OUTPUT=`./pd publish ${added_modified_file} --json`
               if [ $? -eq 0 ]
               then
-                echo "where's the error now?"
+                KEY=`echo $PD_OUTPUT | jq -r ".key"`
+                echo "published ${KEY}"
+                echo "${KEY} will be added to the registry"
+                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
               else
                 ERROR=`echo $PD_OUTPUT | jq -r ".error"`
                 ERROR_MESSAGE="${ERROR} with ${added_modified_file}"
                 echo $ERROR_MESSAGE
-                ERRORS+=${ERROR_MESSAGE}
+                ERRORS+=${ERROR_MESSAGE}"
                 UNPUBLISHED+=${added_modified_file}
                 # add to array to spit out later
               fi
@@ -64,10 +67,10 @@ jobs:
             printf '%s\n' "${UNPUBLISHED[@]}"
           fi
           # build json and curl
-          jq -n --arg errors $ERRORS --arg published $PUBLISHED --arg unpublished $UNPUBLISHED '{ published: $published, unpublished: $unpublished, errors: $errors }' > results.json
-          curl -H "Content-Type: application/json" -H "PD-FROM: publish-step" --data @results.json $ENDPOINT
-          JSON=`cat results.json`
-          echo "::set-output name=json::${JSON}"
+          #          jq -n --arg errors $ERRORS --arg published $PUBLISHED --arg unpublished $UNPUBLISHED '{ published: $published, unpublished: $unpublished, errors: $errors }' > results.json
+          #curl -H "Content-Type: application/json" -H "PD-FROM: publish-step" --data @results.json $ENDPOINT
+          #JSON=`cat results.json`
+          #echo "::set-output name=json::${JSON}"
       - name: Remove pd cli config
         run: |
           rm $HOME/.config/pipedream/config
