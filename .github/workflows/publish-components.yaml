@@ -38,7 +38,6 @@ jobs:
           #mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
           added_modified_files=()
           for added_modified_file in "${added_modified_files[@]}"; do
-          #for added_modified_file in "${added_modified_files[@]}"; do
             # starts with components, ends with .js and not app.js
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
             then
@@ -49,12 +48,12 @@ jobs:
                 KEY=`echo $PD_OUTPUT | jq -r ".key"`
                 echo "published ${KEY}"
                 echo "${KEY} will be added to the registry"
-                #                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
+                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
               else
                 ERROR=`echo $PD_OUTPUT | jq -r ".error"`
                 ERROR_MESSAGE="${ERROR} with ${added_modified_file}"
                 echo $ERROR_MESSAGE
-                ERRORS+="${ERROR_MESSAGE}"
+                ERRORS+=${ERROR_MESSAGE}
                 UNPUBLISHED+=${added_modified_file}
                 # add to array to spit out later
               fi
