@@ -18,16 +18,13 @@ module.exports = {
       label: "Worksheets to watch for changes",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
-        return sheets.map(sheet => {
-          const {
-            title: label,
-            sheetId: value,
-          } = sheet.properties;
-          return {
-            label,
-            value,
-          };
-        });
+        return sheets
+          .map(({ properties }) => properties)
+          .filter(({ sheetType }) => sheetType === 'GRID')
+          .map(({ title, sheetId }) => ({
+            label: title,
+            value: sheetId,
+          }));
       },
     },
   },
@@ -53,11 +50,11 @@ module.exports = {
       }
       return this.listFiles(request);
     },
-    async getSpreadsheet(spreadsheetId) {
+    async getSpreadsheet(spreadsheetId, includeGridData = false) {
       const sheets = this.sheets();
       const request = {
         spreadsheetId,
-        includeGridData: true,
+        includeGridData,
       };
       return (await sheets.spreadsheets.get(request)).data;
     },
@@ -72,7 +69,7 @@ module.exports = {
     },
     async getWorksheetRowCounts(spreadsheetId) {
       const rowCounts = [];
-      const spreadsheet = await this.getSpreadsheet(spreadsheetId);
+      const spreadsheet = await this.getSpreadsheet(spreadsheetId, true);
       for (const worksheet of spreadsheet.sheets) {
         rowCounts.push({
           spreadsheetId,
@@ -84,27 +81,24 @@ module.exports = {
     },
     // returns an array of the spreadsheet values for the spreadsheet selected
     async getSheetValues(spreadsheetId, worksheetIds) {
-      const sheetValues = [];
-      const spreadsheet = await this.getSpreadsheet(spreadsheetId);
-      for (const worksheet of spreadsheet.sheets) {
-        const { sheetId } = worksheet.properties;
-        if (
-          Array.isArray(worksheetIds) &&
-          !worksheetIds.includes(sheetId)
-        ) {
-          continue;
-        }
-
-        const newValues = (
-          await this.getSpreadsheetValues(spreadsheetId, worksheet.properties.title)
-        ).values;
-        sheetValues.push({
-          spreadsheetId,
-          sheetId,
-          values: newValues,
-        });
-      }
-      return sheetValues;
+      const { sheets } = await this.getSpreadsheet(spreadsheetId);
+      const worksheetIdsSet = new Set(worksheetIds);
+      return Promise.all(
+        sheets
+          .map(({ properties: { sheetId, title } }) => ({
+            sheetId,
+            title,
+          }))
+          .filter(({ sheetId }) => worksheetIdsSet.has(sheetId.toString()))
+          .map(async ({ sheetId, title }) => {
+            const { values } = await this.getSpreadsheetValues(spreadsheetId, title);
+            return {
+              spreadsheetId,
+              sheetId,
+              values,
+            };
+          })
+      );
     },
   },
 };
