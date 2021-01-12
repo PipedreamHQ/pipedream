@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/stripe",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Pipedream Stripe Components",
     "main": "stripe.app.js",
     "keywords": [

@@ -79,6 +79,7 @@ module.exports = {
           "/workflows/events/replay/",
           "/workflows/events/test/",
           "/workflows/events/concurrency-and-throttling/",
+          "/workflows/events/cold-starts/",
         ],
       },
       {

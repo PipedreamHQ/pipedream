@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/ghost_admin",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Pipedream Ghost_admin Components",
     "main": "ghost_admin.app.js",
     "keywords": [
