@@ -7,8 +7,6 @@ jobs:
   publish-components:
     name: Publish Components to Pipedream Registry
     runs-on: ubuntu-latest
-    outputs:
-      json: ${{ steps.publish.outputs.json }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
