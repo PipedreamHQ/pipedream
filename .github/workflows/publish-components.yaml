@@ -53,7 +53,7 @@ jobs:
                 ERROR=`echo $PD_OUTPUT | jq -r ".error"`
                 ERROR_MESSAGE="${ERROR} with ${added_modified_file}"
                 echo $ERROR_MESSAGE
-                ERRORS+=${ERROR_MESSAGE}"
+                ERRORS+=${ERROR_MESSAGE}
                 UNPUBLISHED+=${added_modified_file}
                 # add to array to spit out later
               fi
