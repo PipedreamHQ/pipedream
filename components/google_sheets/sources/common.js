@@ -88,21 +88,6 @@ module.exports = {
         pageToken: newStartPageToken,
       };
     },
-    async listSheets(driveId, pageToken = null) {
-      const q = "mimeType='application/vnd.google-apps.spreadsheet'";
-      let request = { q };
-      if (driveId) {
-        request = {
-          ...request,
-          corpora: "drive",
-          driveId,
-          pageToken,
-          includeItemsFromAllDrives: true,
-          supportsAllDrives: true,
-        };
-      }
-      return this.google_sheets.listFiles(request);
-    },
     getDriveId() {
       return this.watchedDrive === "myDrive" ? null : this.watchedDrive;
     },

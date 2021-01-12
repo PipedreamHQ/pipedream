@@ -10,33 +10,20 @@ module.exports = {
   props: {
     ...common.props,
     sheetID: {
-      type: "string",
-      label: "Spreadsheet to watch for changes",
-      async options({ prevContext }) {
-        const { nextPageToken } = prevContext;
-        return this.listSheets(
-          this.getDriveId(),
-          nextPageToken,
-        );
-      },
+      propDefinition: [
+        common.props.google_sheets,
+        "sheetID",
+        c => ({
+          watchedDrive: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
+        }),
+      ],
     },
     worksheetIDs: {
-      type: "string[]",
-      label: "Worksheets to watch for changes",
-      async options() {
-        const sheetId = this.getSheetId();
-        const { sheets } = await this.google_sheets.getSpreadsheet(sheetId);
-        return sheets.map(sheet => {
-          const {
-            title: label,
-            sheetId: value,
-          } = sheet.properties;
-          return {
-            label,
-            value,
-          };
-        });
-      },
+      propDefinition: [
+        common.props.google_sheets,
+        "worksheetIDs",
+        c => ({ sheetId: c.sheetId }),
+      ],
     },
   },
   methods: {

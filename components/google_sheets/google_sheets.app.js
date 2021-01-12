@@ -3,12 +3,55 @@ const google_drive = require("../google_drive/google_drive.app");
 
 module.exports = {
   ...google_drive,
+  propDefinitions: {
+    ...google_drive.propDefinitions,
+    sheetID: {
+      type: "string",
+      label: "Spreadsheet to watch for changes",
+      async options({ prevContext, driveId }) {
+        const { nextPageToken } = prevContext;
+        return this.listSheets(driveId, nextPageToken);
+      },
+    },
+    worksheetIDs: {
+      type: "string[]",
+      label: "Worksheets to watch for changes",
+      async options({ sheetId }) {
+        const { sheets } = await this.getSpreadsheet(sheetId);
+        return sheets.map(sheet => {
+          const {
+            title: label,
+            sheetId: value,
+          } = sheet.properties;
+          return {
+            label,
+            value,
+          };
+        });
+      },
+    },
+  },
   methods: {
     ...google_drive.methods,
     sheets() {
       const auth = new google.auth.OAuth2();
       auth.setCredentials({ access_token: this.$auth.oauth_access_token });
       return google.sheets({ version: "v4", auth });
+    },
+    async listSheets(driveId, pageToken = null) {
+      const q = "mimeType='application/vnd.google-apps.spreadsheet'";
+      let request = { q };
+      if (driveId) {
+        request = {
+          ...request,
+          corpora: "drive",
+          driveId,
+          pageToken,
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      }
+      return this.listFiles(request);
     },
     async getSpreadsheet(spreadsheetId) {
       const sheets = this.sheets();
