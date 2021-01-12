@@ -93,24 +93,12 @@ module.exports = {
       endpoint,
       driveId
     ) {
-      if (!subscription || !subscription.resourceId) {
-        console.log("No subscription exists. Creating a new one");
-        const startPageToken = await this.getPageToken(
-          driveId === "myDrive" ? null : driveId
+      if (subscription && subscription.resourceId) {
+        console.log(
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`
         );
-        const { expiration, resourceId } = await this.watchDrive(
-          channelID || uuid(),
-          endpoint,
-          pageToken || startPageToken,
-          driveId === "myDrive" ? null : driveId
-        );
-        return { expiration, resourceId };
+        await this.stopNotifications(channelID, subscription.resourceId);
       }
-
-      console.log(
-        `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Renewing`
-      );
-      await this.stopNotifications(channelID, subscription.resourceId);
       const { expiration, resourceId } = await this.watchDrive(
         channelID,
         endpoint,

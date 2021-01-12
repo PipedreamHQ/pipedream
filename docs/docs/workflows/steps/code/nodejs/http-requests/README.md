@@ -53,7 +53,7 @@ const data = resp.data;
 Alternatively, you can access the data using [object destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring), which is equivalent to the above and preferred in modern JavaScript:
 
 ```javascript
-const { data } = resp.data;
+const { data } = resp;
 ```
 
 ## Send a `GET` request to fetch data
