@@ -77,6 +77,7 @@ jobs:
           rm $HOME/.config/pipedream/config
       - name: send published notification
         uses: joelwmale/webhook-action@master
-        url : ${{ secrets.ENDPOINT }}
-        headers: '{"Content-Type: "application/json", "PD-FROM": "wh step" }'
-        body: ${{ steps.publish.outputs.json }}
+        with:
+          url : ${{ secrets.ENDPOINT }}
+          headers: '{"Content-Type: "application/json", "PD-FROM": "wh step" }'
+          body: ${{ steps.publish.outputs.json }}
