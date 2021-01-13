@@ -63,89 +63,89 @@ module.exports = {
         );
       }
     },
-  },
-  async run(event) {
-    let subscription = this.db.get("subscription");
-    let channelID = this.db.get("channelID");
-    let pageToken = this.db.get("pageToken");
+    async processEvent(event) {
+      let subscription = this.db.get("subscription");
+      let channelID = this.db.get("channelID");
+      let pageToken = this.db.get("pageToken");
 
-    const driveId = this.getDriveId();
+      const driveId = this.getDriveId();
 
-    // Component was invoked by timer
-    if (event.interval_seconds) {
-      // Assume subscription, channelID, and pageToken may all be undefined at this point
-      // Handle their absence appropriately
-      channelID = channelID || uuid();
-      pageToken = pageToken || await this.google_sheets.getPageToken(driveId);
+      // Component was invoked by timer
+      if (event.interval_seconds) {
+        // Assume subscription, channelID, and pageToken may all be undefined at this point
+        // Handle their absence appropriately
+        channelID = channelID || uuid();
+        pageToken = pageToken || await this.google_sheets.getPageToken(driveId);
 
-      const {
-        expiration,
-        resourceId,
-      } = await this.google_sheets.checkResubscription(
-        subscription,
-        channelID,
-        pageToken,
-        this.http.endpoint,
-        this.watchedDrive,
-      );
-      this.db.set("subscription", { expiration, resourceId });
-      this.db.set("pageToken", pageToken);
-      this.db.set("channelID", channelID);
-      return;
-    }
-
-    const { headers } = event;
-    if (!headers) return;
-
-    if (!this.google_sheets.checkHeaders(headers, subscription, channelID)) {
-      return;
-    }
-
-    const sheetId = this.getSheetId();
-    const worksheetIds = this.getWorksheetIds();
-
-    const { file, newPageToken } = await this.getModifiedSheet(
-      pageToken,
-      driveId,
-      sheetId,
-    );
-    if (newPageToken) this.db.set("pageToken", newPageToken);
-
-    if (!file) return;
-
-    const spreadsheet = await this.google_sheets.getSpreadsheet(sheetId);
-    for (const worksheet of spreadsheet.sheets) {
-      const {
-        sheetId: worksheetId,
-        title: worksheetTitle,
-      } = worksheet.properties;
-      if (!worksheetIds.includes(worksheetId.toString())) {
-        continue;
-      }
-
-      const oldRowCount = this.db.get(`${sheetId}${worksheetId}`);
-      const rowCount = worksheet.data[0].rowData
-        ? worksheet.data[0].rowData.length
-        : 0;
-      this.db.set(`${sheetId}${worksheetId}`, rowCount);
-
-      if (rowCount <= oldRowCount) continue;
-
-      const diff = rowCount - oldRowCount;
-      const upperBound = rowCount;
-      const lowerBound = upperBound - (diff - 1);
-      const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
-      const newRowValues = await this.google_sheets.getSpreadsheetValues(
-        sheetId,
-        range,
-      );
-      for (const [index, newRow] of newRowValues.values.entries()) {
-        const rowNumber = lowerBound + index;
-        this.$emit(
-          { newRow, range, worksheet, rowNumber },
-          this.getMeta(spreadsheet, worksheet, rowNumber)
+        const {
+          expiration,
+          resourceId,
+        } = await this.google_sheets.checkResubscription(
+          subscription,
+          channelID,
+          pageToken,
+          this.http.endpoint,
+          this.watchedDrive,
         );
+        this.db.set("subscription", { expiration, resourceId });
+        this.db.set("pageToken", pageToken);
+        this.db.set("channelID", channelID);
+        return;
       }
-    }
+
+      const { headers } = event;
+      if (!headers) return;
+
+      if (!this.google_sheets.checkHeaders(headers, subscription, channelID)) {
+        return;
+      }
+
+      const sheetId = this.getSheetId();
+      const worksheetIds = this.getWorksheetIds();
+
+      const { file, newPageToken } = await this.getModifiedSheet(
+        pageToken,
+        driveId,
+        sheetId,
+      );
+      if (newPageToken) this.db.set("pageToken", newPageToken);
+
+      if (!file) return;
+
+      const spreadsheet = await this.google_sheets.getSpreadsheet(sheetId);
+      for (const worksheet of spreadsheet.sheets) {
+        const {
+          sheetId: worksheetId,
+          title: worksheetTitle,
+        } = worksheet.properties;
+        if (!worksheetIds.includes(worksheetId.toString())) {
+          continue;
+        }
+
+        const oldRowCount = this.db.get(`${sheetId}${worksheetId}`);
+        const rowCount = worksheet.data[0].rowData
+          ? worksheet.data[0].rowData.length
+          : 0;
+        this.db.set(`${sheetId}${worksheetId}`, rowCount);
+
+        if (rowCount <= oldRowCount) continue;
+
+        const diff = rowCount - oldRowCount;
+        const upperBound = rowCount;
+        const lowerBound = upperBound - (diff - 1);
+        const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
+        const newRowValues = await this.google_sheets.getSpreadsheetValues(
+          sheetId,
+          range,
+        );
+        for (const [index, newRow] of newRowValues.values.entries()) {
+          const rowNumber = lowerBound + index;
+          this.$emit(
+            { newRow, range, worksheet, rowNumber },
+            this.getMeta(spreadsheet, worksheet, rowNumber)
+          );
+        }
+      }
+    },
   },
 };

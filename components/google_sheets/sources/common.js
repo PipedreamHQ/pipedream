@@ -42,7 +42,7 @@ module.exports = {
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
 
-      await this.takeSheetSnapshot();
+      this.db.set("isInitialized", false);
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -71,6 +71,8 @@ module.exports = {
         channelID,
         subscription.resourceId
       );
+
+      this.db.set("isInitialized", false);
     },
   },
   methods: {
@@ -97,8 +99,26 @@ module.exports = {
     getWorksheetIds() {
       throw new Error("getWorksheetIds is not implemented");
     },
+    processEvent() {
+      throw new Error("processEvent is not implemented");
+    },
     takeSheetSnapshot() {
       throw new Error("takeSheetSnapshot is not implemented");
     },
   },
+  async run(event) {
+    const isInitialized = this.db.get("isInitialized");
+    if (!isInitialized) {
+      await this.takeSheetSnapshot();
+      this.db.set("isInitialized", true);
+    }
+
+    const { headers } = event;
+    if (headers["x-goog-resource-state"] === "sync") {
+      console.log("Sync notification, exiting early");
+      return;
+    }
+
+    return this.processEvent(event);
+  }
 };
