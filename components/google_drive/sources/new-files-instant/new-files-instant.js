@@ -6,7 +6,7 @@ module.exports = {
   name: "New Files (Instant)",
   description:
     "Emits a new event any time a new file is added in your linked Google Drive",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     googleDrive,
@@ -16,7 +16,7 @@ module.exports = {
     folders: {
       type: "string[]",
       label: "Folders",
-      description: "The folders you want to watch for changes.",
+      description: "(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
       optional: true,
       default: [],
       async options({ prevContext }) {
@@ -88,7 +88,7 @@ module.exports = {
       this.db.set("channelID", null);
       this.db.set("pageToken", null);
 
-      await this.googleDrive.deactivatHook(channelId, resourceId);
+      await this.googleDrive.deactivatHook(channelID, resourceId);
     },
   },
   methods: {
@@ -112,7 +112,7 @@ module.exports = {
     // Component was invoked by timer
     if (event.interval_seconds) {
       const {
-        channelId,
+        channelID,
         pageToken,
         expiration,
         resourceId,
