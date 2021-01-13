@@ -5,7 +5,7 @@ module.exports = {
   key: "google_calendar-new-calendar",
   name: "New Calendar",
   description: "Emit an event when a calendar is created.",
-  version: "0.0.1", ////
+  version: "0.0.1",
   props: {
     db: "$.service.db",
     googleCalendar,
