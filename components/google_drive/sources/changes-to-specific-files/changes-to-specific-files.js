@@ -30,9 +30,8 @@ module.exports = {
       label: "Files",
       description: "The files you want to watch for changes.",
       optional: true,
-      async options({ page, prevContext }) {
+      async options({ prevContext }) {
         const { nextPageToken } = prevContext;
-        if (!this.drive) return [];
         if (this.drive === "myDrive") {
           return await this.googleDrive.listFiles({ pageToken: nextPageToken });
         }
@@ -147,32 +146,7 @@ module.exports = {
 
     const { headers } = event;
 
-    if (headers["x-goog-resource-state"] === "sync") {
-      console.log("Sync notification, exiting early");
-      return;
-    }
-
-    if (
-      !headers["x-goog-resource-state"] ||
-      !headers["x-goog-resource-id"] ||
-      !headers["x-goog-resource-uri"] ||
-      !headers["x-goog-message-number"]
-    ) {
-      console.log("Request missing necessary headers: ", headers);
-      return;
-    }
-
-    const incomingChannelID = headers["x-goog-channel-id"];
-    if (incomingChannelID !== channelID) {
-      console.log(
-        `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`
-      );
-    }
-
-    if (!(headers["x-goog-resource-id"] in subscriptions)) {
-      console.log(
-        `Resource ID of ${resourceId} not currently being tracked. Exiting`
-      );
+    if (!this.googleDrive.checkHeaders(headers, subscription, channelID)) {
       return;
     }
 

@@ -1,34 +1,44 @@
-// This source processes changes to any files in a user's Google Drive,
-// implementing strategy enumerated in the Push Notifications API docs:
-// https://developers.google.com/drive/api/v3/push and here:
-// https://developers.google.com/drive/api/v3/manage-changes
-//
-// This source has two interfaces:
-//
-// 1) The HTTP requests tied to changes in the user's Google Drive
-// 2) A timer that runs on regular intervals, renewing the notification channel as needed
-
 const { uuid } = require("uuidv4");
-const includes = require("lodash.includes");
 const googleDrive = require("../../google_drive.app.js");
 
 module.exports = {
-  key: "google_drive-new-or-modified-files",
-  name: "New or Modified Files",
+  key: "google_drive-new-files-instant",
+  name: "New Files (Instant)",
   description:
-    "Emits a new event any time any file in your linked Google Drive is added, modified, or deleted",
-  version: "0.0.6",
-  // Dedupe events based on the "x-goog-message-number" header for the target channel:
-  // https://developers.google.com/drive/api/v3/push#making-watch-requests
+    "Emits a new event any time a new file is added in your linked Google Drive",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     googleDrive,
     db: "$.service.db",
     http: "$.interface.http",
     drive: { propDefinition: [googleDrive, "watchedDrive"] },
-    updateTypes: { propDefinition: [googleDrive, "updateTypes"] },
-    watchForPropertiesChanges: {
-      propDefinition: [googleDrive, "watchForPropertiesChanges"],
+    folders: {
+      type: "string[]",
+      label: "Folders",
+      description: "The folders you want to watch for changes.",
+      optional: true,
+      default: [],
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        let results;
+        if (this.drive === "myDrive") {
+          results = await this.googleDrive.listFiles({
+            pageToken: nextPageToken,
+            q: "mimeType = 'application/vnd.google-apps.folder'",
+          });
+        } else {
+          results = await this.googleDrive.listFiles({
+            pageToken: nextPageToken,
+            corpora: "drive",
+            driveId: this.drive,
+            includeItemsFromAllDrives: true,
+            supportsAllDrives: true,
+            q: "mimeType = 'application/vnd.google-apps.folder'",
+          });
+        }
+        return results;
+      },
     },
     timer: {
       label: "Push notification renewal schedule",
@@ -52,7 +62,7 @@ module.exports = {
         expiration,
         resourceId,
       } = await this.googleDrive.activateHook(
-        channelId,
+        channelID,
         this.http.endpoint,
         this.drive === "myDrive" ? null : this.drive
       );
@@ -65,6 +75,9 @@ module.exports = {
       // identifies the watched resource". This value is included in request headers
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
+
+      const lastFileCreatedTime = this.db.get("lastFileCreatedTime") || Date.now();
+      this.db.set("lastFileCreatedTime", lastFileCreatedTime);
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -78,13 +91,23 @@ module.exports = {
       await this.googleDrive.deactivatHook(channelId, resourceId);
     },
   },
+  methods: {
+    shouldProcess(file) {
+      const watchedFolders = new Set(this.folders);
+
+      return (
+        watchedFolders.size == 0 ||
+        file.parents.some((p) => watchedFolders.has(p))
+      );
+    },
+  },
   async run(event) {
     // This function is polymorphic: it can be triggered as a cron job, to make sure we renew
     // watch requests for specific files, or via HTTP request (the change payloads from Google)
 
     let subscription = this.db.get("subscription");
-    const channelID = this.db.get("channelID");
-    const pageToken = this.db.get("pageToken");
+    let channelID = this.db.get("channelID");
+    let pageToken = this.db.get("pageToken");
 
     // Component was invoked by timer
     if (event.interval_seconds) {
@@ -111,28 +134,6 @@ module.exports = {
       return;
     }
 
-    if (!includes(this.updateTypes, headers["x-goog-resource-state"])) {
-      console.log(
-        `Update type ${headers["x-goog-resource-state"]} not in list of updates to watch: `,
-        this.updateTypes
-      );
-      return;
-    }
-
-    // We observed false positives where a single change to a document would trigger two changes:
-    // one to "properties" and another to "content,properties". But changes to properties
-    // alone are legitimate, most users just won't want this source to emit in those cases.
-    // If x-goog-changed is _only_ set to "properties", only move on if the user set the prop
-    if (
-      !this.watchForPropertiesChanges &&
-      headers["x-goog-changed"] === "properties"
-    ) {
-      console.log(
-        "Change to properties only, which this component is set to ignore. Exiting"
-      );
-      return;
-    }
-
     const {
       changedFiles,
       newStartPageToken,
@@ -143,21 +144,23 @@ module.exports = {
 
     this.db.set("pageToken", newStartPageToken);
 
-    for (const file of changedFiles) {
-      console.log(file);
-      const eventToEmit = {
-        file,
-        change: {
-          state: headers["x-goog-resource-state"],
-          resourceURI: headers["x-goog-resource-uri"],
-          changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
-        },
-      };
+    const lastFileCreatedTime = new Date(this.db.get("lastFileCreatedTime"));
+    let maxCreatedTime = lastFileCreatedTime;
 
-      this.$emit(eventToEmit, {
-        summary: file.name,
-        id: headers["x-goog-message-number"],
+    for (const file of changedFiles) {
+      const fileInfo = await this.googleDrive.getFile(file.id);
+      const createdTime = new Date(fileInfo.createdTime);
+      if (createdTime.getTime() > maxCreatedTime.getTime())
+        maxCreatedTime = createdTime;
+      if (!this.shouldProcess(fileInfo)) continue;
+      if (createdTime.getTime() <= lastFileCreatedTime.getTime()) continue;
+      this.$emit(fileInfo, {
+        summary: `New File ID: ${file.id}`,
+        id: file.id,
+        ts: createdTime.getTime(),
       });
     }
+
+    this.db.set("lastFileCreatedTime", maxCreatedTime);
   },
 };
