@@ -17,7 +17,7 @@ module.exports = {
   name: "New or Modified Files",
   description:
     "Emits a new event any time any file in your linked Google Drive is added, modified, or deleted",
-  version: "0.0.7",
+  version: "0.0.8",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
@@ -52,7 +52,7 @@ module.exports = {
         expiration,
         resourceId,
       } = await this.googleDrive.activateHook(
-        channelId,
+        channelID,
         this.http.endpoint,
         this.drive === "myDrive" ? null : this.drive
       );
@@ -75,7 +75,7 @@ module.exports = {
       this.db.set("channelID", null);
       this.db.set("pageToken", null);
 
-      await this.googleDrive.deactivatHook(channelId, resourceId);
+      await this.googleDrive.deactivatHook(channelID, resourceId);
     },
   },
   async run(event) {
@@ -89,7 +89,7 @@ module.exports = {
     // Component was invoked by timer
     if (event.interval_seconds) {
       const {
-        channelId,
+        channelID,
         pageToken,
         expiration,
         resourceId,
