@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - master
+      - fix-publish-alerts
 
 jobs:
   publish-components:
