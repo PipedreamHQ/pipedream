@@ -4,15 +4,14 @@ const common = require("./common.js");
 module.exports = {
   ...common,
   props: {
-    todoist,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 5,
-      },
-    },
-    db: "$.service.db",
+    ...common.props,
     selectProjects: { propDefinition: [todoist, "selectProjects"] },
+  },
+  methods: {
+    ...common.methods,
+    isElementRelevant() {
+      return true;
+    },
   },
   async run(event) {
     const syncResult = await this.todoist.syncItems(this.db);
@@ -25,6 +24,7 @@ module.exports = {
         this.todoist.isProjectInList(element.project_id, this.selectProjects)
       )
       .forEach((element) => {
+        element.summary = `Task: ${element.id}`;
         const meta = this.generateMeta(element);
         this.$emit(element, meta);
       });
