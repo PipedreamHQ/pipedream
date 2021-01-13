@@ -125,7 +125,7 @@ module.exports = {
 
       if (headers["x-goog-resource-id"] !== subscription.resourceId) {
         console.log(
-          `Resource ID of ${resourceId} not currently being tracked. Exiting`
+          `Resource ID of ${subscription.resourceId} not currently being tracked. Exiting`
         );
         return false;
       }
