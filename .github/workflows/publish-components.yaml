@@ -74,6 +74,7 @@ jobs:
           ERRORS_ARG=$(join : ${ERRORS[@]})
           SKIPPED_ARG=$(join : ${SKIPPED[@]})
 
+          # curl with form
           curl -X POST -d "skipped=${SKIPPED_ARG}" -d "errors=${ERRORS_ARG}" -d "unpublished=${UNPUBLISHED_ARG}" -d "published=${PUBLISHED_ARG} $ENDPOINT
       - name: Remove pd cli config
         run: |
