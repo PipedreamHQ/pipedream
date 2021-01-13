@@ -1,38 +1,17 @@
-const pipefy = require("../../pipefy.app.js");
+const common = require("../common-polling.js");
 
 module.exports = {
+  ...common,
   name: "Card Expired",
   key: "pipefy-card-expired",
   description: "Emits an event each time a card becomes expired in a Pipe.",
   version: "0.0.1",
-  dedupe: "unique",
-  props: {
-    pipefy,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+  methods: {
+    isCardRelevant(node, due) {
+      return node.expired && !node.done;
     },
-    pipeId: {
-      type: "integer",
-      label: "Pipe ID",
-      description: "ID of the Pipe, found in the URL when viewing the Pipe.",
+    getEmitId(node) {
+      return `${node.id}${node.current_phase.id}`;
     },
-  },
-  async run() {
-    const cards = await this.pipefy.listCards(this.pipeId);
-    for (const edge of cards.edges) {
-      const { node } = edge;
-      const { due_date } = node;
-      const due = due_date ? new Date(due_date) : new Date();
-      if (!node.expired || node.done) continue;
-      this.$emit(node, {
-        id: `${node.id}${node.current_phase.id}`,
-        summary: node.title,
-        ts: due.getTime(),
-      });
-    }
   },
 };
