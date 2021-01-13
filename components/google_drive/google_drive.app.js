@@ -262,7 +262,7 @@ module.exports = {
         drive
       );
 
-      return { channelId, pageToken, expiration, resourceId };
+      return { channelID, pageToken, expiration, resourceId };
     },
     async checkResubscription(
       subscription,
