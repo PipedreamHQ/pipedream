@@ -16,7 +16,7 @@ module.exports = {
     folders: {
       type: "string[]",
       label: "Folders",
-      description: "(Optional) The folders you want to watch for changes. Leave blank to watch for any new folder in the Drive.",
+      description: "(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
       optional: true,
       default: [],
       async options({ prevContext }) {
