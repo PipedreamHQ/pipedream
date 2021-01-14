@@ -83,27 +83,27 @@ module.exports = {
     // watch requests for specific files, or via HTTP request (the change payloads from Google)
 
     let subscription = this.db.get("subscription");
-    let channelID = this.db.get("channelID");
-    let pageToken = this.db.get("pageToken");
+    const channelID = this.db.get("channelID");
+    const pageToken = this.db.get("pageToken");
 
     // Component was invoked by timer
     if (event.interval_seconds) {
-      let {
-        channelID,
-        pageToken,
+      const {
+        newChannelID,
+        newPageToken,
         expiration,
         resourceId,
       } = await this.googleDrive.invokedByTimer(
         this.drive,
         subscription,
         this.http.endpoint,
-        this.db.get("channelID"),
-        this.db.get("pageToken")
+        channelID,
+        pageToken
       );
 
       this.db.set("subscription", { expiration, resourceId });
-      this.db.set("pageToken", pageToken);
-      this.db.set("channelID", channelID);
+      this.db.set("pageToken", newPageToken);
+      this.db.set("channelID", newChannelID);
       return;
     }
 
