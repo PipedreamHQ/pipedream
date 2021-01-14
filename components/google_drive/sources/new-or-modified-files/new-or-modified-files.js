@@ -96,7 +96,8 @@ module.exports = {
       } = await this.googleDrive.invokedByTimer(
         this.drive,
         subscription,
-        this.http.endpoint
+        this.http.endpoint,
+        channelID
       );
 
       this.db.set("subscription", { expiration, resourceId });
