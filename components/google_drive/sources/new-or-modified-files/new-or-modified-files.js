@@ -75,7 +75,7 @@ module.exports = {
       this.db.set("channelID", null);
       this.db.set("pageToken", null);
 
-      await this.googleDrive.deactivatHook(channelID, resourceId);
+      await this.googleDrive.deactivateHook(channelID, resourceId);
     },
   },
   async run(event) {
@@ -89,19 +89,21 @@ module.exports = {
     // Component was invoked by timer
     if (event.interval_seconds) {
       const {
-        channelID,
-        pageToken,
+        newChannelID,
+        newPageToken,
         expiration,
         resourceId,
       } = await this.googleDrive.invokedByTimer(
         this.drive,
         subscription,
-        this.http.endpoint
+        this.http.endpoint,
+        channelID,
+        pageToken
       );
 
       this.db.set("subscription", { expiration, resourceId });
-      this.db.set("pageToken", pageToken);
-      this.db.set("channelID", channelID);
+      this.db.set("pageToken", newPageToken);
+      this.db.set("channelID", newChannelID);
       return;
     }
 
@@ -144,7 +146,6 @@ module.exports = {
     this.db.set("pageToken", newStartPageToken);
 
     for (const file of changedFiles) {
-      console.log(file);
       const eventToEmit = {
         file,
         change: {

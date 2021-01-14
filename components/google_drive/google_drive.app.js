@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { google } = require("googleapis");
+const { uuid } = require("uuidv4");
 
 const GOOGLE_DRIVE_UPDATE_TYPES = [
   "add",
@@ -252,22 +253,21 @@ module.exports = {
 
       await this.stopNotifications(channelID, resourceId);
     },
-    async invokedByTimer(drive, subscription, url) {
-      channelID = channelID || uuid();
-
-      pageToken =
+    async invokedByTimer(drive, subscription, url, channelID, pageToken) {
+      newChannelID = channelID || uuid();
+      newPageToken =
         pageToken ||
         (await this.getPageToken(drive === "myDrive" ? null : drive));
 
       const { expiration, resourceId } = await this.checkResubscription(
         subscription,
-        channelID,
-        pageToken,
+        newChannelID,
+        newPageToken,
         url,
         drive
       );
 
-      return { channelId, pageToken, expiration, resourceId };
+      return { newChannelID, newPageToken, expiration, resourceId };
     },
     async checkResubscription(
       subscription,
