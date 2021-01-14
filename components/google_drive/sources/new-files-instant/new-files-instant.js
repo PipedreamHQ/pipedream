@@ -88,7 +88,7 @@ module.exports = {
       this.db.set("channelID", null);
       this.db.set("pageToken", null);
 
-      await this.googleDrive.deactivatHook(channelID, resourceId);
+      await this.googleDrive.deactivateHook(channelID, resourceId);
     },
   },
   methods: {
@@ -111,7 +111,7 @@ module.exports = {
 
     // Component was invoked by timer
     if (event.interval_seconds) {
-      const {
+      let {
         channelID,
         pageToken,
         expiration,
@@ -120,7 +120,8 @@ module.exports = {
         this.drive,
         subscription,
         this.http.endpoint,
-        channelID,
+        this.db.get("channelID"),
+        this.db.get("pageToken")
       );
 
       this.db.set("subscription", { expiration, resourceId });

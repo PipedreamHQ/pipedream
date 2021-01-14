@@ -75,7 +75,7 @@ module.exports = {
       this.db.set("channelID", null);
       this.db.set("pageToken", null);
 
-      await this.googleDrive.deactivatHook(channelID, resourceId);
+      await this.googleDrive.deactivateHook(channelID, resourceId);
     },
   },
   async run(event) {
@@ -83,12 +83,12 @@ module.exports = {
     // watch requests for specific files, or via HTTP request (the change payloads from Google)
 
     let subscription = this.db.get("subscription");
-    const channelID = this.db.get("channelID");
-    const pageToken = this.db.get("pageToken");
+    let channelID = this.db.get("channelID");
+    let pageToken = this.db.get("pageToken");
 
     // Component was invoked by timer
     if (event.interval_seconds) {
-      const {
+      let {
         channelID,
         pageToken,
         expiration,
@@ -97,7 +97,8 @@ module.exports = {
         this.drive,
         subscription,
         this.http.endpoint,
-        channelID
+        this.db.get("channelID"),
+        this.db.get("pageToken")
       );
 
       this.db.set("subscription", { expiration, resourceId });
@@ -145,7 +146,6 @@ module.exports = {
     this.db.set("pageToken", newStartPageToken);
 
     for (const file of changedFiles) {
-      console.log(file);
       const eventToEmit = {
         file,
         change: {

@@ -247,7 +247,7 @@ module.exports = {
 
       await this.stopNotifications(channelID, resourceId);
     },
-    async invokedByTimer(drive, subscription, url, channelID) {
+    async invokedByTimer(drive, subscription, url, channelID, pageToken) {
       channelID = channelID || uuid();
 
       pageToken =
