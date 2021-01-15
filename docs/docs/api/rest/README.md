@@ -780,7 +780,7 @@ You can configure a source, or a workflow, to receive events from any number of 
 #### Endpoint
 
 ```
-POST /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_source_id}
+POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}listener_id={receiving_source_id}
 ```
 
 #### Parameters
@@ -797,6 +797,16 @@ The ID of the workflow or component emitting events. Events from this component 
 - `dc_*`: Listen to events from all event sources
 
 [See the component endpoints](/api/rest/#components) for information on how to retrieve the ID of existing components. You can retrieve the ID of your workflow in your workflow's URL - it's the string `p_2gCPml` in `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
+
+---
+
+`event_name` **string** (optional)
+
+The name of the event stream whose events you'd like to receive:
+
+- `$errors`: any errors thrown by workflows or sources are emitted to this stream
+- `default`: any events emitted by event sources (or from workflows, using `$send.emit()`) are included in this stream
+- `$logs`: any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -846,7 +856,7 @@ POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_i
 The name of the event stream whose events you'd like to receive:
 
 - `$errors`: any errors thrown by workflows or sources are emitted to this stream
-- `default`: any events emitted by event sources are included in this stream
+- `default`: any events emitted by event sources (or from workflows, using `$send.emit()`) are included in this stream
 - `$logs`: any logs produced by **event sources** are emitted to this stream
 
 ---

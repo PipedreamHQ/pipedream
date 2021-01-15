@@ -124,6 +124,7 @@ module.exports = {
           "/api/auth/",
           "/api/rest/",
           "/api/rest/rss/",
+          "/api/rest/workflow-errors/",
           "/api/sse/",
         ],
       },
