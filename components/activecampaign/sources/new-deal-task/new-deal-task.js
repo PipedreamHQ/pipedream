@@ -22,7 +22,7 @@ module.exports = {
       return {
         id: body["task[id]"],
         summary: `${body["task[title]"]} added to ${body["deal[title]"]}`,
-      }
+      };
     },
   },
 };

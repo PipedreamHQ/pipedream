@@ -14,9 +14,9 @@ module.exports = {
     },
     getMeta(body) {
       return {
-        id: `${body["contact[id]"]}${(new Date(body.date_time)).getTime()}`,
+        id: `${body["contact[id]"]}${new Date(body.date_time).getTime()}`,
         summary: body["contact[email]"],
-      }
+      };
     },
   },
 };

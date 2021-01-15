@@ -16,13 +16,16 @@ module.exports = {
       return ["subscriber_note"];
     },
     isRelevant(body) {
-      return this.contacts.length === 0 || this.contacts.includes(body["contact[id]"]);
+      return (
+        this.contacts.length === 0 ||
+        this.contacts.includes(body["contact[id]"])
+      );
     },
     getMeta(body) {
       return {
-        id: `${body["contact[id]"]}${(new Date(body.date_time)).getTime()}`,
+        id: `${body["contact[id]"]}${new Date(body.date_time).getTime()}`,
         summary: body.note,
-      }
+      };
     },
   },
 };

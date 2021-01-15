@@ -8,40 +8,43 @@ module.exports = {
     eventType: {
       type: "string",
       label: "Event Type",
-      description: "Emit events for the selected event type. See the official docs for more information on event types. https://developers.activecampaign.com/page/webhooks",
+      description:
+        "Emit events for the selected event type. See the official docs for more information on event types. https://developers.activecampaign.com/page/webhooks",
       async options({ page }) {
         if (page !== 0) {
           return [];
         }
         const results = await this.listWebhookEvents();
-        return results.webhookEvents.map(e => ({
+        return results.webhookEvents.map((e) => ({
           label: humanize(e),
           value: e,
         }));
-      }
+      },
     },
     sources: {
       type: "string[]",
       label: "Sources",
-      description: "The sources causing an event to occur. Leave blank to include all sources.",
+      description:
+        "The sources causing an event to occur. Leave blank to include all sources.",
       optional: true,
       default: [],
       options() {
-        return this.getAllSources()
-      }
+        return this.getAllSources();
+      },
     },
     automations: {
       type: "string[]",
       label: "Automations",
-      description: "Emit events for the selected webhooks only. Leave blank to watch all available webhooks.",
+      description:
+        "Emit events for the selected webhooks only. Leave blank to watch all available webhooks.",
       optional: true,
       default: [],
       async options({ prevContext }) {
         const { results, context } = await this._getNextOptions(
           this.listAutomations.bind(this),
-          prevContext,
+          prevContext
         );
-        const options = results.automations.map(a => ({
+        const options = results.automations.map((a) => ({
           label: a.name,
           value: a.id,
         }));
@@ -54,15 +57,16 @@ module.exports = {
     campaigns: {
       type: "string[]",
       label: "Campaigns",
-      description: "Watch the selected campaigns for updates. Leave blank to watch all available campaigns.",
+      description:
+        "Watch the selected campaigns for updates. Leave blank to watch all available campaigns.",
       optional: true,
       default: [],
       async options({ prevContext }) {
         const { results, context } = await this._getNextOptions(
           this.listCampaigns.bind(this),
-          prevContext,
+          prevContext
         );
-        const options = results.campaigns.map(c => ({
+        const options = results.campaigns.map((c) => ({
           label: c.name,
           value: c.id,
         }));
@@ -75,15 +79,16 @@ module.exports = {
     contacts: {
       type: "string[]",
       label: "Contacts",
-      description: "Watch the selected contacts for updates. Leave blank to watch all available contacts.",
+      description:
+        "Watch the selected contacts for updates. Leave blank to watch all available contacts.",
       optional: true,
       default: [],
       async options({ prevContext }) {
         const { results, context } = await this._getNextOptions(
           this.listContacts.bind(this),
-          prevContext,
+          prevContext
         );
-        const options = results.contacts.map(c => ({
+        const options = results.contacts.map((c) => ({
           label: c.email,
           value: c.id,
         }));
@@ -96,15 +101,16 @@ module.exports = {
     deals: {
       type: "string[]",
       label: "Deals",
-      description: "Watch the selected deals for updates. Leave blank to watch all available deals.",
+      description:
+        "Watch the selected deals for updates. Leave blank to watch all available deals.",
       optional: true,
       default: [],
       async options({ prevContext }) {
         const { results, context } = await this._getNextOptions(
           this.listDeals.bind(this),
-          prevContext,
+          prevContext
         );
-        const options = results.deals.map(d => ({
+        const options = results.deals.map((d) => ({
           label: d.title,
           value: d.id,
         }));
@@ -197,6 +203,6 @@ module.exports = {
     },
     async listWebhookEvents() {
       return (await this._makeGetRequest("/api/3/webhook/events")).data;
-    }
+    },
   },
 };

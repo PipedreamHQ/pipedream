@@ -22,7 +22,7 @@ module.exports = {
       return {
         id: body["deal[id]"],
         summary: body["note[text]"],
-      }
+      };
     },
   },
 };

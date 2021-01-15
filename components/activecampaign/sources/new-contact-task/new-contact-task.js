@@ -16,13 +16,16 @@ module.exports = {
       return ["contact_task_add"];
     },
     isRelevant(body) {
-      return this.contacts.length === 0 || this.contacts.includes(body["contact[id]"]);
+      return (
+        this.contacts.length === 0 ||
+        this.contacts.includes(body["contact[id]"])
+      );
     },
     getMeta(body) {
       return {
         id: body["task[id]"],
         summary: `${body["task[title]"]}`,
-      }
+      };
     },
   },
 };

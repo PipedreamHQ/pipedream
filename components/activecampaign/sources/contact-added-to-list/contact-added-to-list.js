@@ -13,11 +13,11 @@ module.exports = {
       return ["subscribe"];
     },
     async getMeta(body) {
-      const { list } = await (this.activecampaign.getList(body.list));
+      const { list } = await this.activecampaign.getList(body.list);
       return {
         id: `${body["contact[id]"]}${list.id}`,
         summary: `${body["contact[email]"]} added to ${list.name}`,
-      }
+      };
     },
   },
 };

@@ -21,7 +21,7 @@ module.exports = {
       return {
         id: body.date_time,
         summary: `${body.type} initiated by ${body.initiated_by}`,
-      }
+      };
     },
   },
 };

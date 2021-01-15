@@ -2,20 +2,23 @@ const activecampaign = require("../activecampaign.app.js");
 const common = require("./common.js");
 
 module.exports = {
-	...common,
-	props: {
-		...common.props,
-		http: "$.interface.http",
-		sources: { propDefinition: [activecampaign, "sources"] },
-	},
-	methods: {
-		isRelevant(body) {
-			return true;
-		}
-	},
+  ...common,
+  props: {
+    ...common.props,
+    http: "$.interface.http",
+    sources: { propDefinition: [activecampaign, "sources"] },
+  },
+  methods: {
+    isRelevant(body) {
+      return true;
+    },
+  },
   hooks: {
     async activate() {
-      const sources = this.sources.length > 0 ? this.sources : this.activecampaign.getAllSources();
+      const sources =
+        this.sources.length > 0
+          ? this.sources
+          : this.activecampaign.getAllSources();
       const hookData = await this.activecampaign.createHook(
         this.getEvents(),
         this.http.endpoint,
@@ -28,19 +31,19 @@ module.exports = {
     },
   },
   async run(event) {
-  	const { body } = event;
+    const { body } = event;
     if (!body) {
       return;
-  	}
+    }
 
-  	if (!this.isRelevant(body)) return;
+    if (!this.isRelevant(body)) return;
 
-  	const dateTime = new Date(body.date_time);
-  	const { id, summary } = await this.getMeta(body);
-  	this.$emit(body, {
+    const dateTime = new Date(body.date_time);
+    const { id, summary } = await this.getMeta(body);
+    this.$emit(body, {
       id,
       summary,
       ts: dateTime.getTime(),
     });
-  }
-}
+  },
+};

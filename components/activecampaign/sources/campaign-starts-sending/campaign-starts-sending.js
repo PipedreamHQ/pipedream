@@ -16,7 +16,7 @@ module.exports = {
       return {
         id: body["campaign[id]"],
         summary: body["campaign[name]"],
-      }
+      };
     },
   },
 };

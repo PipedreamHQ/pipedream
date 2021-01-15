@@ -14,9 +14,9 @@ module.exports = {
     },
     getMeta(body) {
       return {
-        id: `${body["deal[id]"]}${(new Date(body.date_time)).getTime()}`,
+        id: `${body["deal[id]"]}${new Date(body.date_time).getTime()}`,
         summary: body["deal[title]"],
-      }
+      };
     },
   },
 };

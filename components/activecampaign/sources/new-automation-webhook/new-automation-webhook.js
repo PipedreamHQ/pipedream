@@ -19,7 +19,10 @@ module.exports = {
   },
   methods: {
     isWatchedAutomation(automation) {
-      return this.automations.length === 0 || this.automations.includes(automation.id);
+      return (
+        this.automations.length === 0 ||
+        this.automations.includes(automation.id)
+      );
     },
     isAutomationRelevant(automation) {
       if (!this.isWatchedAutomation(automation)) return false;
@@ -33,17 +36,17 @@ module.exports = {
         id: `${automation.id}${automation.entered}`,
         summary: automation.name,
         ts: Date.now(),
-      }
-    }
+      };
+    },
   },
   async run() {
     let prevContext = { offset: 0 };
     let total = 1;
     let count = 0;
-    while(count < total) {
+    while (count < total) {
       const { results, context } = await this.activecampaign._getNextOptions(
         this.activecampaign.listAutomations.bind(this),
-        prevContext,
+        prevContext
       );
       prevContext = context;
       total = results.meta.total;
@@ -59,7 +62,7 @@ module.exports = {
           summary,
           ts,
         });
-      }  
+      }
     }
   },
 };
