@@ -1,31 +1,5 @@
 const axios = require("axios");
-const events = [
-  { value: "forward", label: "Campaign forwarded" },
-  { value: "open", label: "Campaign opened" },
-  { value: "share", label: "Campaign shared" },
-  { value: "sent", label: "Campaign starts sending" },
-  { value: "subscribe", label: "Contact added" },
-  { value: "subscriber_note", label: "Contact note added" },
-  { value: "contact_tag_added", label: "Contact tag added" },
-  { value: "contact_tag_removed", label: "Contact tag removed" },
-  { value: "unsubscribe", label: "Contact unsubscription" },
-  { value: "update", label: "Contact updated" },
-  { value: "deal_add", label: "Deal added" },
-  { value: "deal_note_add", label: "Deal note added" },
-  { value: "deal_pipeline_add", label: "Deal pipeline added" },
-  { value: "deal_stage_add", label: "Deal stage added" },
-  { value: "deal_task_add", label: "Deal task added" },
-  { value: "deal_task_complete", label: "Deal task completed" },
-  { value: "deal_tasktype_add", label: "Deal task type added" },
-  { value: "deal_update", label: "Deal updated" },
-  { value: "bounce", label: "Email bounces" },
-  { value: "reply", label: "Email replies" },
-  { value: "click", label: "Link clicked" },
-  { value: "list_add ", label: "List added" },
-  { value: "sms_reply", label: "SMS reply" },
-  { value: "sms_sent ", label: "SMS sent" },
-  { value: "sms_unsub", label: "SMS unsubscribe" },
-];
+const { humanize } = require("inflection");
 
 module.exports = {
   type: "app",
@@ -34,74 +8,109 @@ module.exports = {
     eventType: {
       type: "string",
       label: "Event Type",
-      description: "Emit events for the selected event type.",
-      options: events,
+      description: "Emit events for the selected event type. See the official docs for more information on event types. https://developers.activecampaign.com/page/webhooks",
+      async options({ page }) {
+        if (page !== 0) {
+          return [];
+        }
+        const results = await this.listWebhookEvents();
+        return results.webhookEvents.map(e => ({
+          label: humanize(e),
+          value: e,
+        }));
+      }
+    },
+    sources: {
+      type: "string[]",
+      label: "Sources",
+      description: "The sources causing an event to occur. Leave blank to include all sources.",
+      optional: true,
+      default: [],
+      options() {
+        return this.getAllSources()
+      }
     },
     automations: {
       type: "string[]",
       label: "Automations",
+      description: "Emit events for the selected webhooks only. Leave blank to watch all available webhooks.",
       optional: true,
-      async options({ page, prevContext }) {
-        const limit = 100;
-        let offset = prevContext.offset || 0;
-        const results = await this.listAutomations(limit, offset);
-        const options = [];
-        for (const automation of results.automations)
-          options.push({ label: automation.name, value: automation.id });
+      default: [],
+      async options({ prevContext }) {
+        const { results, context } = await this._getNextOptions(
+          this.listAutomations.bind(this),
+          prevContext,
+        );
+        const options = results.automations.map(a => ({
+          label: a.name,
+          value: a.id,
+        }));
         return {
           options,
-          context: { limit, offset: offset + limit },
+          context,
         };
       },
     },
     campaigns: {
       type: "string[]",
       label: "Campaigns",
+      description: "Watch the selected campaigns for updates. Leave blank to watch all available campaigns.",
       optional: true,
-      async options({ page, prevContext }) {
-        const limit = 100;
-        let offset = prevContext.offset || 0;
-        const results = await this.listCampaigns(limit, offset);
-        const options = [];
-        for (const campaign of results.campaigns)
-          options.push({ label: campaign.name, value: campaign.id });
+      default: [],
+      async options({ prevContext }) {
+        const { results, context } = await this._getNextOptions(
+          this.listCampaigns.bind(this),
+          prevContext,
+        );
+        const options = results.campaigns.map(c => ({
+          label: c.name,
+          value: c.id,
+        }));
         return {
           options,
-          context: { limit, offset: offset + limit },
+          context,
         };
       },
     },
     contacts: {
       type: "string[]",
       label: "Contacts",
+      description: "Watch the selected contacts for updates. Leave blank to watch all available contacts.",
       optional: true,
-      async options({ page, prevContext }) {
-        const limit = 100;
-        let offset = prevContext.offset || 0;
-        const results = await this.listContacts(limit, offset);
-        const options = [];
-        for (const contact of results.contacts)
-          options.push({ label: contact.email, value: contact.id });
+      default: [],
+      async options({ prevContext }) {
+        const { results, context } = await this._getNextOptions(
+          this.listContacts.bind(this),
+          prevContext,
+        );
+        const options = results.contacts.map(c => ({
+          label: c.email,
+          value: c.id,
+        }));
         return {
           options,
-          context: { limit, offset: offset + limit },
+          context,
         };
       },
     },
     deals: {
       type: "string[]",
       label: "Deals",
+      description: "Watch the selected deals for updates. Leave blank to watch all available deals.",
       optional: true,
-      async options({ page, prevContext }) {
-        const limit = 100;
-        let offset = prevContext.offset || 0;
-        const results = await this.listDeals(limit, offset);
-        const options = [];
-        for (const deal of results.deals)
-          options.push({ label: deal.title, value: deal.id });
+      default: [],
+      async options({ prevContext }) {
+        const { results, context } = await this._getNextOptions(
+          this.listDeals.bind(this),
+          prevContext,
+        );
+        const options = results.deals.map(d => ({
+          label: d.title,
+          value: d.id,
+        }));
         return {
           options,
-          context: { limit, offset: offset + limit },
+          context,
         };
       },
     },
@@ -111,13 +120,15 @@ module.exports = {
       return { "Api-Token": this.$auth.api_key };
     },
     async createHook(events, url, sources) {
+      const componentId = process.env.PD_COMPONENT;
+      const webhookName = `Pipedream Hook (${componentId})`;
       const config = {
         method: "POST",
         url: `${this.$auth.base_url}/api/3/webhooks`,
         headers: this._getHeaders(),
         data: {
           webhook: {
-            name: "Pipedream Hook",
+            name: webhookName,
             url,
             events,
             sources,
@@ -151,8 +162,20 @@ module.exports = {
       if (offset) config.params.offset = offset;
       return await axios(config);
     },
-    async getContactLists(limit, offset, url) {
-      return (await this._makeGetRequest("", limit, offset, {}, url)).data;
+    async _getNextOptions(optionsFn, prevContext) {
+      const limit = 100;
+      const { offset = 0 } = prevContext;
+      const results = await optionsFn(limit, offset);
+      const context = {
+        offset: offset + limit,
+      };
+      return {
+        results,
+        context,
+      };
+    },
+    getAllSources() {
+      return ["public", "admin", "api", "system"];
     },
     async getList(id) {
       return (await this._makeGetRequest(`/api/3/lists/${id}`)).data;
@@ -172,10 +195,8 @@ module.exports = {
     async listDeals(limit, offset) {
       return (await this._makeGetRequest("/api/3/deals", limit, offset)).data;
     },
-    async listTasks(limit, offset, params) {
-      return (
-        await this._makeGetRequest("/api/3/dealTasks", limit, offset, params)
-      ).data;
-    },
+    async listWebhookEvents() {
+      return (await this._makeGetRequest("/api/3/webhook/events")).data;
+    }
   },
 };

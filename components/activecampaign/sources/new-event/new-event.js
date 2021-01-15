@@ -1,40 +1,27 @@
 const activecampaign = require("../../activecampaign.app.js");
+const common = require("../common-webhook.js");
 
 module.exports = {
+  ...common,
   name: "New Event (Instant)",
   key: "activecampaign-new-event",
   description:
     "Emits an event for the specified event type from ActiveCampaign.",
   version: "0.0.1",
   props: {
-    activecampaign,
-    db: "$.service.db",
-    hhttp: "$.interface.http",
+    ...common.props,
     eventType: { propDefinition: [activecampaign, "eventType"] },
   },
-  hooks: {
-    async activate() {
-      const sources = ["public", "admin", "api", "system"]; // all available sources
-      const hookData = await this.activecampaign.createHook(
-        [this.eventType],
-        this.http.endpoint,
-        sources
-      );
-      this.db.set("hookId", hookData.webhook.id);
+  methods: {
+    ...common.methods,
+    getEvents() {
+      return [this.eventType];
     },
-    async deactivate() {
-      await this.activecampaign.deleteHook(this.db.get("hookId"));
+    getMeta(body) {
+      return {
+        id: body.date_time,
+        summary: `${body.type} initiated by ${body.initiated_by}`,
+      }
     },
-  },
-  async run(event) {
-    const { body } = event;
-    if (!body) {
-      return;
-    }
-    this.$emit(body, {
-      id: body.date_time,
-      summary: `${body.type} initiated by ${body.initiated_by}`,
-      ts: Date.now(),
-    });
   },
 };
