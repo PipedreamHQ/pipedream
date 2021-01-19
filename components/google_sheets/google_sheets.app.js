@@ -18,6 +18,10 @@ module.exports = {
       label: "Worksheets to watch for changes",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
+
+        // Only consider "grid" worksheets, which is the only supported use case
+        // at the moment. For more information, see the Google API docs:
+        // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/sheets#SheetType
         return sheets
           .map(({ properties }) => properties)
           .filter(({ sheetType }) => sheetType === 'GRID')
