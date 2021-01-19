@@ -126,9 +126,10 @@ module.exports = {
         const rowCount = worksheet.data[0].rowData
           ? worksheet.data[0].rowData.length
           : 0;
-        this.db.set(`${sheetId}${worksheetId}`, rowCount);
 
         if (rowCount <= oldRowCount) continue;
+
+        this.db.set(`${sheetId}${worksheetId}`, rowCount);
 
         const diff = rowCount - oldRowCount;
         const upperBound = rowCount;
