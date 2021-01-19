@@ -6,7 +6,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,
