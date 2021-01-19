@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { google } = require("googleapis");
+const { uuid } = require("uuidv4");
 
 const GOOGLE_DRIVE_UPDATE_TYPES = [
   "add",
@@ -297,22 +298,21 @@ module.exports = {
 
       await this.stopNotifications(channelID, resourceId);
     },
-    async invokedByTimer(drive, subscription, url) {
-      channelID = channelID || uuid();
-
-      pageToken =
+    async invokedByTimer(drive, subscription, url, channelID, pageToken) {
+      newChannelID = channelID || uuid();
+      newPageToken =
         pageToken ||
         (await this.getPageToken(drive === "myDrive" ? null : drive));
 
       const { expiration, resourceId } = await this.checkResubscription(
         subscription,
-        channelID,
-        pageToken,
+        newChannelID,
+        newPageToken,
         url,
         drive
       );
 
-      return { channelId, pageToken, expiration, resourceId };
+      return { newChannelID, newPageToken, expiration, resourceId };
     },
     async checkResubscription(
       subscription,
@@ -334,33 +334,6 @@ module.exports = {
         driveId === "myDrive" ? null : driveId
       );
       return { expiration, resourceId };
-    },
-    checkHeaders(headers, subscription, channelID) {
-      if (
-        !headers["x-goog-resource-state"] ||
-        !headers["x-goog-resource-id"] ||
-        !headers["x-goog-resource-uri"] ||
-        !headers["x-goog-message-number"]
-      ) {
-        console.log("Request missing necessary headers: ", headers);
-        return false;
-      }
-
-      const incomingChannelID = headers["x-goog-channel-id"];
-      if (incomingChannelID !== channelID) {
-        console.log(
-          `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`
-        );
-        return false;
-      }
-
-      if (headers["x-goog-resource-id"] !== subscription.resourceId) {
-        console.log(
-          `Resource ID of ${resourceId} not currently being tracked. Exiting`
-        );
-        return false;
-      }
-      return true;
     },
   },
 };
