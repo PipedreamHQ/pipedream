@@ -120,5 +120,5 @@ module.exports = {
     }
 
     return this.processEvent(event);
-  }
+  },
 };

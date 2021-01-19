@@ -1,4 +1,4 @@
-# REST API Example: Create an RSS source
+# REST API example: Create an RSS source
 
 Here, we'll walk through an example of how to create an RSS [event source](/event-sources/) and retrieve events from that source using the [REST API](/api/rest/).
 

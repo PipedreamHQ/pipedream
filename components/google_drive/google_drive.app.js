@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { google } = require("googleapis");
+const { uuid } = require("uuidv4");
 
 const GOOGLE_DRIVE_UPDATE_TYPES = [
   "add",
@@ -260,6 +261,79 @@ module.exports = {
           `Failed to stop channel ${id} for resource ${resourceId}: ${err}`
         );
       }
+    },
+    async getFile(fileId) {
+      const drive = this.drive();
+      return (
+        await drive.files.get({
+          fileId,
+          fields: "*",
+        })
+      ).data;
+    },
+    async activateHook(channelID, url, drive) {
+      const startPageToken = await this.getPageToken();
+      const { expiration, resourceId } = await this.watchDrive(
+        channelID,
+        url,
+        startPageToken,
+        drive
+      );
+      return { startPageToken, expiration, resourceId };
+    },
+    async deactivateHook(channelID, resourceId) {
+      if (!channelID) {
+        console.log(
+          "Channel not found, cannot stop notifications for non-existent channel"
+        );
+        return;
+      }
+
+      if (!resourceId) {
+        console.log(
+          "No resource ID found, cannot stop notifications for non-existent resource"
+        );
+        return;
+      }
+
+      await this.stopNotifications(channelID, resourceId);
+    },
+    async invokedByTimer(drive, subscription, url, channelID, pageToken) {
+      newChannelID = channelID || uuid();
+      newPageToken =
+        pageToken ||
+        (await this.getPageToken(drive === "myDrive" ? null : drive));
+
+      const { expiration, resourceId } = await this.checkResubscription(
+        subscription,
+        newChannelID,
+        newPageToken,
+        url,
+        drive
+      );
+
+      return { newChannelID, newPageToken, expiration, resourceId };
+    },
+    async checkResubscription(
+      subscription,
+      channelID,
+      pageToken,
+      endpoint,
+      driveId
+    ) {
+      if (subscription && subscription.resourceId) {
+        console.log(
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`
+        );
+        await this.stopNotifications(channelID, subscription.resourceId);
+      }
+      const { expiration, resourceId } = await this.watchDrive(
+        channelID,
+        endpoint,
+        pageToken,
+        driveId === "myDrive" ? null : driveId
+      );
+      return { expiration, resourceId };
     },
   },
 };
