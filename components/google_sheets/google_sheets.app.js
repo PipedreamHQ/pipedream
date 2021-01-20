@@ -82,7 +82,7 @@ module.exports = {
     async getWorksheetRowCounts(spreadsheetId) {
       const fields = [
         "sheets.properties.sheetId",
-        "sheets.properties.gridProperties",
+        "sheets.properties.gridProperties.rowCount",
       ];
       const { sheets } = await this.getSpreadsheet(spreadsheetId, fields);
       return sheets
