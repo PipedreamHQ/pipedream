@@ -38,12 +38,7 @@ module.exports = {
 
     if (!this.isRelevant(body)) return;
 
-    const dateTime = new Date(body.date_time);
-    const { id, summary } = await this.getMeta(body);
-    this.$emit(body, {
-      id,
-      summary,
-      ts: dateTime.getTime(),
-    });
+    const meta = await this.getMeta(body);
+    this.$emit(body, meta);
   },
 };

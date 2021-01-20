@@ -19,9 +19,12 @@ module.exports = {
       return this.deals.length === 0 || this.deals.includes(body["deal[id]"]);
     },
     getMeta(body) {
+      const { date_time: dateTimeIso } = body;
+      const ts = Date.parse(dateTimeIso);
       return {
         id: body["task[id]"],
         summary: `${body["task[title]"]} added to ${body["deal[title]"]}`,
+        ts
       };
     },
   },

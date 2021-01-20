@@ -14,9 +14,12 @@ module.exports = {
     },
     async getMeta(body) {
       const { list } = await this.activecampaign.getList(body.list);
+      const { date_time: dateTimeIso } = body;
+      const ts = Date.parse(dateTimeIso);
       return {
         id: `${body["contact[id]"]}${list.id}`,
         summary: `${body["contact[email]"]} added to ${list.name}`,
+        ts
       };
     },
   },

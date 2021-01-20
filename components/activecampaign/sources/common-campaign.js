@@ -15,9 +15,12 @@ module.exports = {
       );
     },
     getMeta(body) {
+      const { date_time: dateTimeIso } = body;
+      const ts = Date.parse(dateTimeIso);
       return {
         id: `${body["campaign[id]"]}${body["contact[id]"]}`,
         summary: `${body["contact[email]"]}, Campaign: ${body["campaign[name]"]}`,
+        ts
       };
     },
   },

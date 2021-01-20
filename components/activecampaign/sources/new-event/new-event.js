@@ -18,9 +18,12 @@ module.exports = {
       return [this.eventType];
     },
     getMeta(body) {
+      const { date_time: dateTimeIso } = body;
+      const ts = Date.parse(dateTimeIso);
       return {
         id: body.date_time,
         summary: `${body.type} initiated by ${body.initiated_by}`,
+        ts
       };
     },
   },

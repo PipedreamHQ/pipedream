@@ -22,9 +22,12 @@ module.exports = {
       );
     },
     getMeta(body) {
+      const { date_time: dateTimeIso } = body;
+      const ts = Date.parse(dateTimeIso);
       return {
         id: body["task[id]"],
         summary: `${body["task[title]"]}`,
+        ts
       };
     },
   },

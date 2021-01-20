@@ -13,9 +13,12 @@ module.exports = {
       return ["subscribe", "update"];
     },
     getMeta(body) {
+      const { date_time: dateTimeIso } = body;
+      const ts = Date.parse(dateTimeIso);
       return {
         id: `${body["contact[id]"]}${new Date(body.date_time).getTime()}`,
         summary: body["contact[email]"],
+        ts
       };
     },
   },
