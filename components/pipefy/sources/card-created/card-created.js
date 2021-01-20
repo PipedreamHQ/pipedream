@@ -13,7 +13,7 @@ module.exports = {
     },
     getMeta(card, cardData) {
       return {
-        body: card,
+        body: { card, cardData },
         id: card.id,
         summary: card.title,
       };

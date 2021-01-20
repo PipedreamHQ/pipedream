@@ -7,11 +7,25 @@ module.exports = {
   description: "Emits an event each time a card becomes late in a Pipe.",
   version: "0.0.1",
   methods: {
-    isCardRelevant(node, due) {
-      return node.late && !node.done;
+    isCardRelevant({ node }) {
+      return (
+        node.late && 
+        !node.done
+      );
     },
-    getEmitId(node) {
-      return `${node.id}${node.current_phase.id}`;
+    getMeta({ node, event }) {
+      const {
+        id: nodeId,
+        title: summary,
+        current_phase: { id: currentPhaseId },
+      } = node;
+      const id = `${nodeId}${currentPhaseId}`;
+      const { timestamp: ts } = event;
+      return {
+        id,
+        summary,
+        ts,
+      };
     },
   },
 };

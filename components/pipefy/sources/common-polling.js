@@ -11,18 +11,13 @@ module.exports = {
       },
     },
   },
-  async run() {
+  async run(event) {
     const cards = await this.pipefy.listCards(this.pipeId);
     for (const edge of cards.edges) {
       const { node } = edge;
-      const { due_date } = node;
-      const due = due_date ? new Date(due_date) : new Date();
-      if (!this.isCardRelevant(node, due)) continue;
-      this.$emit(node, {
-        id: this.getEmitId(node),
-        summary: node.title,
-        ts: due.getTime(),
-      });
+      if (!this.isCardRelevant({ node, event })) continue;
+      const meta = this.getMeta({ node, event });
+      this.$emit(node, meta);
     }
   },
 };

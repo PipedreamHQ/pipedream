@@ -7,15 +7,29 @@ module.exports = {
   description: "Emits an event each time a card becomes overdue in a Pipe.",
   version: "0.0.1",
   methods: {
-    isCardRelevant(node, due) {
+    isCardRelevant({ node, event }) {
+      const { timestamp: eventTimestamp } = event;
+      const eventDate = eventTimestamp * 1000;
+      const { due_date: dueDateIso } = node;
+      const dueDate = Date.parse(dueDateIso);
       return (
-        node.hasOwnProperty("due_date") &&
-        due.getTime() < Date.now() &&
+        dueDate < eventDate &&
         !node.done
       );
     },
-    getEmitId(node) {
-      return node.id;
-    },
+    getMeta({ node, event }) {
+      const {
+        id,
+        title: summary,
+        due_date: dueDate,
+      } = node;
+      const { timestamp: eventTimestamp } = event;
+      const ts = Date.parse(dueDate) || eventTimestamp;
+      return {
+        id,
+        summary,
+        ts,
+      };
+    }
   },
 };
