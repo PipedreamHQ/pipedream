@@ -44,6 +44,22 @@
     },
     { "source": "/notebook/sql/", "destination": "/destinations/sql/" },
     { "source": "/what-is-pipedream/", "destination": "/" },
-    { "source": "/support/", "destination": "https://pipedream.com/support" }
+    {
+      "source": "/apps/intercom",
+      "destination": "https://pipedream.com/apps/intercom"
+    },
+    {
+      "source": "/apps/zoho-books",
+      "destination": "https://pipedream.com/apps/zoho_books"
+    },
+    {
+      "source": "/apps/zoho-crm",
+      "destination": "https://pipedream.com/apps/zoho_crm"
+    },
+    {
+      "source": "/apps/zoho-mail",
+      "destination": "https://pipedream.com/apps/zoho_mail"
+    },
+    { "source": "/support", "destination": "https://pipedream.com/support" }
   ]
 }
