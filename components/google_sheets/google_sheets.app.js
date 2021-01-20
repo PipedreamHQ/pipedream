@@ -54,11 +54,11 @@ module.exports = {
       }
       return this.listFiles(request);
     },
-    async getSpreadsheet(spreadsheetId, includeGridData = false) {
+    async getSpreadsheet(spreadsheetId, fields = []) {
       const sheets = this.sheets();
       const request = {
         spreadsheetId,
-        includeGridData,
+        fields: fields.join(","),
       };
       return (await sheets.spreadsheets.get(request)).data;
     },
@@ -69,19 +69,32 @@ module.exports = {
         spreadsheetId,
         range,
       };
-      return (await sheets.spreadsheets.values.get(request)).data;
+      const { data } = await sheets.spreadsheets.values.get(request);
+
+      // If the range is only composed of empty rows, then the response will not
+      // contain the `values` attribute, so we set it to an empty array by
+      // default to keep the returned value consistent.
+      return {
+        values: [],
+        ...data,
+      };
     },
     async getWorksheetRowCounts(spreadsheetId) {
-      const rowCounts = [];
-      const spreadsheet = await this.getSpreadsheet(spreadsheetId, true);
-      for (const worksheet of spreadsheet.sheets) {
-        rowCounts.push({
+      const fields = [
+        "sheets.properties.sheetId",
+        "sheets.properties.gridProperties",
+      ];
+      const { sheets } = await this.getSpreadsheet(spreadsheetId, fields);
+      return sheets
+        .map(({ properties }) => properties)
+        .map(({
+          sheetId,
+          gridProperties: { rowCount },
+        }) => ({
           spreadsheetId,
-          sheetId: worksheet.properties.sheetId,
-          rows: worksheet.data[0].rowData ? worksheet.data[0].rowData.length : 0,
-        });
-      }
-      return rowCounts;
+          sheetId,
+          rowCount,
+        }));
     },
     // returns an array of the spreadsheet values for the spreadsheet selected
     async getSheetValues(spreadsheetId, worksheetIds) {
