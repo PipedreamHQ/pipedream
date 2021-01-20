@@ -160,18 +160,34 @@ curl 'https://api.pipedream.com/v1/users/me' \
 
 #### Example Response
 
+Free user:
+
 ```json
 {
   "data": {
-    "id": "u_aPmhl8",
+    "id": "u_abc123",
     "username": "dylburger",
     "email": "dylan@pipedream.com",
-    "admin": true,
     "api_key": "XXX",
     "daily_compute_time_quota": 95400000,
     "daily_compute_time_used": 8420300,
     "daily_invocations_quota": 27344,
     "daily_invocations_used": 24903
+  }
+}
+```
+
+Paid user:
+
+```json
+{
+  "data": {
+    "id": "u_abc123",
+    "username": "dylburger",
+    "email": "dylan@pipedream.com",
+    "billing_period_start_ts": 1610154978,
+    "billing_period_end_ts": 1612833378,
+    "billing_period_invocations": 12345
   }
 }
 ```
