@@ -1,32 +1,5 @@
+const events = require("./event-types.js");
 const axios = require("axios");
-const events = [
-  { label: "Workspace Added", value: `workspace_added` },
-  { label: "Workspace Updated", value: `workspace_updated` },
-  //  { label: "Workspace Deleted", value: `workspace_deleted` },
-  { label: "Workspace User Added", value: `workspace_user_added` },
-  { label: "Workspace User Updated", value: `workspace_user_updated` },
-  //  { label: "Workspace User Removed", value: `workspace_user_removed` },
-  { label: "Channel Added", value: `channel_added` },
-  { label: "Channel Updated", value: `channel_updated` },
-  //  { label: "Channel Deleted", value: `channel_deleted` },
-  { label: "Channel User Added", value: `channel_user_added` },
-  //  { label: "Channel User Updated", value: `channel_user_updated` },
-  { label: "Channel User Removed", value: `channel_user_removed` },
-  { label: "Thread Added", value: `thread_added` },
-  { label: "Thread Updated", value: `thread_updated` },
-  //  { label: "Thread Deleted", value: `thread_deleted` },
-  { label: "Comment Added", value: `comment_added` },
-  { label: "Comment Updated", value: `comment_updated` },
-  //  { label: "Comment Deleted", value: `comment_deleted` },
-  { label: "Message Added", value: `message_added` },
-  { label: "Message Updated", value: `message_updated` },
-  //  { label: "Message Deleted", value: `message_deleted` },
-  //  { label: "Group Added", value: `group_added` },
-  //  { label: "Group Updated", value: `group_updated` },
-  //  { label: "Group Deleted", value: `group_deleted` },
-  //  { label: "Group User Added", value: `group_user_added` },
-  //  { label: "Group User Removed", value: `group_user_removed` },
-];
 
 module.exports = {
   type: "app",
@@ -35,6 +8,7 @@ module.exports = {
     workspace: {
       type: "string",
       label: "Workspace",
+      description: "The workspace to watch for new events.",
       optional: true,
       async options() {
         const workspaces = await this.getWorkspaces();
@@ -49,6 +23,7 @@ module.exports = {
     channel: {
       type: "string",
       label: "Channel",
+      description: "The channel to watch for new events.",
       optional: true,
       async options(opts) {
         if (!opts.workspace)
@@ -65,6 +40,7 @@ module.exports = {
     thread: {
       type: "string",
       label: "Thread",
+      description: "The thread to watch for new events.",
       optional: true,
       async options(opts) {
         if (!opts.channel)
@@ -81,6 +57,7 @@ module.exports = {
     conversation: {
       type: "string",
       label: "Conversation",
+      description: "The conversation to watch for new messages.",
       optional: true,
       async options(opts) {
         if (!opts.workspace)
@@ -97,6 +74,7 @@ module.exports = {
     eventType: {
       type: "string",
       label: "Event Type",
+      description: "Watch for the selected event type.",
       options: events,
     },
   },
@@ -128,17 +106,7 @@ module.exports = {
       };
       return (await axios(config)).data;
     },
-    async createHook(target_url, event, params = null) {
-      const data = {
-        target_url,
-        event,
-      };
-      const { workspace, channel, thread, conversation } = params;
-      if (workspace) data.workspace_id = workspace;
-      if (channel && channel !== "none") data.channel_id = channel;
-      if (thread && thread !== "none") data.thread_id = thread;
-      if (conversation && conversation !== "none")
-        data.conversation_id = conversation;
+    async createHook(data) {
       return await this._makePostRequest("hooks/subscribe", data);
     },
     async deleteHook(target_url) {

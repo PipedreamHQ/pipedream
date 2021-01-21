@@ -1,21 +1,14 @@
 const twist = require("../../twist.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   name: "New Message (Instant)",
   version: "0.0.1",
   key: "twist-new-message",
-  description: "Emits an event for any new message in a Workspace",
-  dedupe: "unique",
+  description: "Emits an event for any new message in a workspace",
   props: {
-    twist,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    workspace: {
-      propDefinition: [twist, "workspace"],
-    },
+    ...common.props,
     conversation: {
       propDefinition: [
         twist,
@@ -24,30 +17,22 @@ module.exports = {
       ],
     },
   },
-  hooks: {
-    async activate() {
-      const params = {
-        workspace: this.workspace,
-        conversation: this.conversation,
+  methods: {
+    getHookActivationData() {
+      return {
+        target_url: this.http.endpoint,
+        event: "message_added",
+        workspace_id: this.workspace,
+        conversation_id: this.conversaion,
       };
-      await this.twist.createHook(this.http.endpoint, "message_added", params);
     },
-    async deactivate() {
-      await this.twist.deleteHook(this.http.endpoint);
+    getMeta(body) {
+      const { id, content, posted } = body;
+      return {
+        id,
+        summary: content,
+        ts: Date.parse(posted),
+      };
     },
-  },
-  async run(event) {
-    const { body } = event;
-    if (!body) return;
-
-    this.http.respond({
-      status: 200,
-    });
-
-    this.$emit(body, {
-      id: body.id,
-      summary: body.content,
-      ts: Date.now(),
-    });
   },
 };

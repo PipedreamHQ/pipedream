@@ -1,69 +1,41 @@
 const twist = require("../../twist.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   name: "New Event (Instant)",
   version: "0.0.1",
   key: "twist-new-event",
-  description: "Emits an event for any new updates in a Workspace",
+  description: "Emits an event for any new updates in a workspace",
   props: {
-    twist,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    workspace: {
-      propDefinition: [
-        twist,
-        "workspace",
-      ],
-    },
+    ...common.props,
     channel: {
-      propDefinition: [
-        twist,
-        "channel",
-        (c) => ({ workspace: c.workspace }),
-      ],
+      propDefinition: [twist, "channel", (c) => ({ workspace: c.workspace })],
     },
     thread: {
-      propDefinition: [
-        twist,
-        "thread",
-        (c) => ({ channel: c.channel }),
-      ],
+      propDefinition: [twist, "thread", (c) => ({ channel: c.channel })],
     },
     eventType: {
-      propDefinition: [
-        twist,
-        "eventType",
-      ],
+      propDefinition: [twist, "eventType"],
     },
   },
-  hooks: {
-    async activate() {
-      const params = {
-        workspace: this.workspace,
-        channel: this.channel,
-        thread: this.thread,
-      }
-      await this.twist.createHook(this.http.endpoint, this.eventType, params);
+  methods: {
+    getHookActivationData() {
+      return {
+        target_url: this.http.endpoint,
+        event: this.eventType,
+        workspace_id: this.workspace,
+        channel_id: this.channel,
+        thread_id: this.thread,
+      };
     },
-    async deactivate() {
-      await this.twist.deleteHook(this.http.endpoint);
+    getMeta(body) {
+      const { name, id, created } = body;
+      return {
+        id,
+        summary: name || "New Event",
+        ts: Date.parse(created),
+      };
     },
-  },
-  async run(event) {
-    const { body } = event;
-    if (!body) return;
-
-    this.http.respond({
-      status: 200,
-    });
-
-    this.$emit(body, {
-      id: body.id,
-      summary: body.name || "New Event",
-      ts: Date.now(),
-    });
   },
 };

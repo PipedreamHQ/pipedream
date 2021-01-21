@@ -1,21 +1,14 @@
 const twist = require("../../twist.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   name: "New Comment (Instant)",
   version: "0.0.1",
   key: "twist-new-comment",
-  description: "Emits an event for any new comment in a Workspace",
-  dedupe: "unique",
+  description: "Emits an event for any new comment in a workspace",
   props: {
-    twist,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    workspace: {
-      propDefinition: [twist, "workspace"],
-    },
+    ...common.props,
     channel: {
       propDefinition: [twist, "channel", (c) => ({ workspace: c.workspace })],
     },
@@ -23,31 +16,23 @@ module.exports = {
       propDefinition: [twist, "thread", (c) => ({ channel: c.channel })],
     },
   },
-  hooks: {
-    async activate() {
-      const params = {
-        workspace: this.workspace,
-        channel: this.channel,
-        thread: this.thread,
+  methods: {
+    getHookActivationData() {
+      return {
+        target_url: this.http.endpoint,
+        event: "comment_added",
+        workspace_id: this.workspace,
+        channel_id: this.channel,
+        thread_id: this.thread,
       };
-      await this.twist.createHook(this.http.endpoint, "comment_added", params);
     },
-    async deactivate() {
-      await this.twist.deleteHook(this.http.endpoint);
+    getMeta(body) {
+      const { id, content, posted } = body;
+      return {
+        id,
+        summary: content,
+        ts: Date.parse(posted),
+      };
     },
-  },
-  async run(event) {
-    const { body } = event;
-    if (!body) return;
-
-    this.http.respond({
-      status: 200,
-    });
-
-    this.$emit(body, {
-      id: body.id,
-      summary: body.content,
-      ts: Date.now(),
-    });
   },
 };

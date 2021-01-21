@@ -1,49 +1,34 @@
 const twist = require("../../twist.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   name: "New Thread (Instant)",
   version: "0.0.1",
   key: "twist-new-thread",
-  description: "Emits an event for any new thread in a Workspace",
-  dedupe: "unique",
+  description: "Emits an event for any new thread in a workspace",
   props: {
-    twist,
-    db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    workspace: {
-      propDefinition: [twist, "workspace"],
-    },
+    ...common.props,
     channel: {
       propDefinition: [twist, "channel", (c) => ({ workspace: c.workspace })],
     },
   },
-  hooks: {
-    async activate() {
-      const params = {
-        workspace: this.workspace,
-        channel: this.channel,
+  methods: {
+    getHookActivationData() {
+      return {
+        target_url: this.http.endpoint,
+        event: "thread_added",
+        workspace_id: this.workspace,
+        channel_id: this.channel,
       };
-      await this.twist.createHook(this.http.endpoint, "thread_added", params);
     },
-    async deactivate() {
-      await this.twist.deleteHook(this.http.endpoint);
+    getMeta(body) {
+      const { id, title, posted } = body;
+      return {
+        id,
+        summary: title,
+        ts: Date.parse(posted),
+      };
     },
-  },
-  async run(event) {
-    const { body } = event;
-    if (!body) return;
-
-    this.http.respond({
-      status: 200,
-    });
-
-    this.$emit(body, {
-      id: body.id,
-      summary: body.title,
-      ts: Date.now(),
-    });
   },
 };
