@@ -1,3 +1,7 @@
+// The Twist event types that can be subscribed to via webhook. 
+// The lines commented out are for event types listed in Twist's documentation,
+// but not yet available. Coming Soon!
+
 module.exports = [
   { label: "Workspace Added", value: `workspace_added` },
   { label: "Workspace Updated", value: `workspace_updated` },
