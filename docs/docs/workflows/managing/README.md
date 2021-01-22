@@ -97,15 +97,29 @@ Clicking the toggle deactivates your workflow:
 
 By default, inactive workflows are displayed on the list of workflows on the homepage. Active workflows appear with a green vertical bar to their left, inactive workflows with a grey bar. You can remove inactive workflows from the homepage by toggling the **Show inactive** checkbox at the top of that page.
 
+## Deleting Workflows
+
+You can delete a workflow by clicking on the ellipsis in the top-right corner of your workflow and selecting **Delete this workflow**:
+
+<div>
+<img alt="Delete workflow" width="300" src="./images/delete-workflow.png">
+</div>
+
+You can also delete multiple workflows at a time from your [list of workflows](https://pipedream.com/workflows).
+
+**Deleted workflows cannot be recovered**.
+
 ## Archiving Workflows
 
-Since running workflows is [free](/pricing/), we encourage you to create as many as you want to test new ideas and understand how the product works. After you create a workflow, you may no longer need it. **We support archiving workflows to remove them from your list of workflows on your homepage**.
+Instead of deleting a workflow completely, you can archive it. This deactivates the workflow but keeps its code, in case you need to examine it later.
 
 You can archive any workflow by clicking on the ellipsis in the top-right corner of your workflow and selecting **Archive this workflow**:
 
 <div>
-<img alt="Archive workflow" width="300" src="./images/archive-workflow.png">
+<img alt="Archive workflow" width="300" src="./images/delete-workflow.png">
 </div>
+
+You can also archive multiple workflows at a time from your [list of workflows](https://pipedream.com/workflows).
 
 Archived workflows do not appear in the list of workflows on your homepage by default.
 
