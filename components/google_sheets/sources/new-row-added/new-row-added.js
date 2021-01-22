@@ -6,7 +6,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -47,106 +47,75 @@ module.exports = {
     getWorksheetIds() {
       return this.worksheetIDs;
     },
+    async getRowCountsByWorksheetId() {
+      const sheetId = this.getSheetId();
+      const worksheetIds = new Set(this.getWorksheetIds());
+      const rowCounts = await this.google_sheets.getWorksheetRowCounts(sheetId);
+      return rowCounts
+        .map((rowCountData) => {
+          const { sheetId } = rowCountData;
+          const worksheetId = sheetId.toString();
+          return {
+            ...rowCountData,
+            worksheetId,
+          };
+        })
+        .filter(({ worksheetId }) => worksheetIds.has(worksheetId))
+        .reduce((accum, {
+          worksheetId,
+          rowCount,
+        }) => ({
+          ...accum,
+          [worksheetId]: rowCount,
+        }), {});
+    },
     async takeSheetSnapshot() {
       // Initialize row counts (used to keep track of new rows)
       const sheetId = this.getSheetId();
-      const worksheetIds = this.getWorksheetIds();
       const rowCounts = await this.google_sheets.getWorksheetRowCounts(sheetId);
       for (const worksheetCount of rowCounts) {
-        if (!worksheetIds.includes(worksheetCount.sheetId.toString())) {
+        if (!this.isWorksheetRelevant(worksheetCount.sheetId)) {
           continue;
         }
 
         this.db.set(
           `${worksheetCount.spreadsheetId}${worksheetCount.sheetId}`,
-          worksheetCount.rows,
+          worksheetCount.rowCount,
         );
       }
     },
-  },
-  async run(event) {
-    let subscription = this.db.get("subscription");
-    let channelID = this.db.get("channelID");
-    let pageToken = this.db.get("pageToken");
+    async processSpreadsheet(spreadsheet) {
+      const sheetId = this.getSheetId();
+      const rowCountsByWorksheetId = await this.getRowCountsByWorksheetId();
 
-    const driveId = this.getDriveId();
+      for (const worksheet of spreadsheet.sheets) {
+        const {
+          sheetId: worksheetId,
+          title: worksheetTitle,
+        } = worksheet.properties;
+        if (!this.isWorksheetRelevant(worksheetId)) {
+          continue;
+        }
 
-    // Component was invoked by timer
-    if (event.interval_seconds) {
-      // Assume subscription, channelID, and pageToken may all be undefined at this point
-      // Handle their absence appropriately
-      channelID = channelID || uuid();
-      pageToken = pageToken || await this.google_sheets.getPageToken(driveId);
+        const oldRowCount = this.db.get(`${sheetId}${worksheetId}`);
+        const rowCount = rowCountsByWorksheetId[worksheetId];
+        if (rowCount <= oldRowCount) continue;
 
-      const {
-        expiration,
-        resourceId,
-      } = await this.google_sheets.checkResubscription(
-        subscription,
-        channelID,
-        pageToken,
-        this.http.endpoint,
-        this.watchedDrive,
-      );
-      this.db.set("subscription", { expiration, resourceId });
-      this.db.set("pageToken", pageToken);
-      this.db.set("channelID", channelID);
-      return;
-    }
+        this.db.set(`${sheetId}${worksheetId}`, rowCount);
 
-    const { headers } = event;
-    if (!headers) return;
-
-    if (!this.google_sheets.checkHeaders(headers, subscription, channelID)) {
-      return;
-    }
-
-    const sheetId = this.getSheetId();
-    const worksheetIds = this.getWorksheetIds();
-
-    const { file, newPageToken } = await this.getModifiedSheet(
-      pageToken,
-      driveId,
-      sheetId,
-    );
-    if (newPageToken) this.db.set("pageToken", newPageToken);
-
-    if (!file) return;
-
-    const spreadsheet = await this.google_sheets.getSpreadsheet(sheetId);
-    for (const worksheet of spreadsheet.sheets) {
-      const {
-        sheetId: worksheetId,
-        title: worksheetTitle,
-      } = worksheet.properties;
-      if (!worksheetIds.includes(worksheetId.toString())) {
-        continue;
+        const diff = rowCount - oldRowCount;
+        const upperBound = rowCount;
+        const lowerBound = upperBound - (diff - 1);
+        const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
+        const newRowValues = await this.google_sheets.getSpreadsheetValues(sheetId, range);
+        for (const [index, newRow] of newRowValues.values.entries()) {
+          const rowNumber = lowerBound + index;
+          this.$emit(
+            { newRow, range, worksheet, rowNumber },
+            this.getMeta(spreadsheet, worksheet, rowNumber)
+          );
+        }
       }
-
-      const oldRowCount = this.db.get(`${sheetId}${worksheetId}`);
-      const rowCount = worksheet.data[0].rowData
-        ? worksheet.data[0].rowData.length
-        : 0;
-
-      if (rowCount <= oldRowCount) continue;
-
-      this.db.set(`${sheetId}${worksheetId}`, rowCount);
-
-      const diff = rowCount - oldRowCount;
-      const upperBound = rowCount;
-      const lowerBound = upperBound - (diff - 1);
-      const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
-      const newRowValues = await this.google_sheets.getSpreadsheetValues(
-        sheetId,
-        range,
-      );
-      for (const [index, newRow] of newRowValues.values.entries()) {
-        const rowNumber = lowerBound + index;
-        this.$emit(
-          { newRow, range, worksheet, rowNumber },
-          this.getMeta(spreadsheet, worksheet, rowNumber)
-        );
-      }
-    }
+    },
   },
 };

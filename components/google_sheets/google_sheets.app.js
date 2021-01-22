@@ -18,16 +18,17 @@ module.exports = {
       label: "Worksheets to watch for changes",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
-        return sheets.map(sheet => {
-          const {
-            title: label,
-            sheetId: value,
-          } = sheet.properties;
-          return {
-            label,
-            value,
-          };
-        });
+
+        // Only consider "grid" worksheets, which is the only supported use case
+        // at the moment. For more information, see the Google API docs:
+        // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/sheets#SheetType
+        return sheets
+          .map(({ properties }) => properties)
+          .filter(({ sheetType }) => sheetType === 'GRID')
+          .map(({ title, sheetId }) => ({
+            label: title,
+            value: sheetId,
+          }));
       },
     },
   },
@@ -53,11 +54,11 @@ module.exports = {
       }
       return this.listFiles(request);
     },
-    async getSpreadsheet(spreadsheetId) {
+    async getSpreadsheet(spreadsheetId, fields = []) {
       const sheets = this.sheets();
       const request = {
         spreadsheetId,
-        includeGridData: true,
+        fields: fields.join(","),
       };
       return (await sheets.spreadsheets.get(request)).data;
     },
@@ -68,43 +69,53 @@ module.exports = {
         spreadsheetId,
         range,
       };
-      return (await sheets.spreadsheets.values.get(request)).data;
+      const { data } = await sheets.spreadsheets.values.get(request);
+
+      // If the range is only composed of empty rows, then the response will not
+      // contain the `values` attribute, so we set it to an empty array by
+      // default to keep the returned value consistent.
+      return {
+        values: [],
+        ...data,
+      };
     },
     async getWorksheetRowCounts(spreadsheetId) {
-      const rowCounts = [];
-      const spreadsheet = await this.getSpreadsheet(spreadsheetId);
-      for (const worksheet of spreadsheet.sheets) {
-        rowCounts.push({
+      const fields = [
+        "sheets.properties.sheetId",
+        "sheets.properties.gridProperties.rowCount",
+      ];
+      const { sheets } = await this.getSpreadsheet(spreadsheetId, fields);
+      return sheets
+        .map(({ properties }) => properties)
+        .map(({
+          sheetId,
+          gridProperties: { rowCount },
+        }) => ({
           spreadsheetId,
-          sheetId: worksheet.properties.sheetId,
-          rows: worksheet.data[0].rowData ? worksheet.data[0].rowData.length : 0,
-        });
-      }
-      return rowCounts;
+          sheetId,
+          rowCount,
+        }));
     },
     // returns an array of the spreadsheet values for the spreadsheet selected
     async getSheetValues(spreadsheetId, worksheetIds) {
-      const sheetValues = [];
-      const spreadsheet = await this.getSpreadsheet(spreadsheetId);
-      for (const worksheet of spreadsheet.sheets) {
-        const { sheetId } = worksheet.properties;
-        if (
-          Array.isArray(worksheetIds) &&
-          !worksheetIds.includes(sheetId)
-        ) {
-          continue;
-        }
-
-        const newValues = (
-          await this.getSpreadsheetValues(spreadsheetId, worksheet.properties.title)
-        ).values;
-        sheetValues.push({
-          spreadsheetId,
-          sheetId,
-          values: newValues,
-        });
-      }
-      return sheetValues;
+      const { sheets } = await this.getSpreadsheet(spreadsheetId);
+      const worksheetIdsSet = new Set(worksheetIds);
+      return Promise.all(
+        sheets
+          .map(({ properties: { sheetId, title } }) => ({
+            sheetId,
+            title,
+          }))
+          .filter(({ sheetId }) => worksheetIdsSet.has(sheetId.toString()))
+          .map(async ({ sheetId, title }) => {
+            const { values } = await this.getSpreadsheetValues(spreadsheetId, title);
+            return {
+              spreadsheetId,
+              sheetId,
+              values,
+            };
+          })
+      );
     },
   },
 };

@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -87,10 +87,7 @@ module.exports = {
     },
     getRowCount(newValues, oldValues) {
       // set rowCount to the larger of previous rows or current rows
-      return (rowCount =
-        newValues.length > oldValues.length
-          ? newValues.length
-          : oldValues.length);
+      return Math.max(newValues.length, oldValues.length);
     },
     getColCount(newValues, oldValues, i) {
       let colCount = 0;
@@ -112,13 +109,14 @@ module.exports = {
             : oldValues.length;
       return colCount;
     },
-    async getContentDiff(spreadsheet, worksheet, file) {
+    async getContentDiff(spreadsheet, worksheet) {
+      const sheetId = this.getSheetId();
       const oldValues =
         this.db.get(
           `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`
         ) || null;
       const currentValues = await this.google_sheets.getSpreadsheetValues(
-        file.id,
+        sheetId,
         worksheet.properties.title
       );
       return { oldValues, currentValues };
@@ -129,7 +127,7 @@ module.exports = {
       const worksheetIds = this.getWorksheetIds();
       const sheetValues = await this.google_sheets.getSheetValues(sheetId, worksheetIds);
       for (const sheetVal of sheetValues) {
-        if (!worksheetIds.includes(sheetVal.sheetId.toString())) {
+        if (!this.isWorksheetRelevant(sheetVal.sheetId)) {
           continue;
         }
 
@@ -139,87 +137,36 @@ module.exports = {
         );
       }
     },
-  },
-  async run(event) {
-    let subscription = this.db.get("subscription");
-    let channelID = this.db.get("channelID");
-    let pageToken = this.db.get("pageToken");
-
-    const driveId = this.getDriveId();
-
-    // Component was invoked by timer
-    if (event.interval_seconds) {
-      // Assume subscription, channelID, and pageToken may all be undefined at this point
-      // Handle their absence appropriately
-      channelID = channelID || uuid();
-      pageToken = pageToken || await this.google_sheets.getPageToken(driveId);
-
-      const {
-        expiration,
-        resourceId,
-      } = await this.google_sheets.checkResubscription(
-        subscription,
-        channelID,
-        pageToken,
-        this.http.endpoint,
-        this.watchedDrive,
-      );
-      this.db.set("subscription", { expiration, resourceId });
-      this.db.set("pageToken", pageToken);
-      this.db.set("channelID", channelID);
-      return;
-    }
-
-    const { headers } = event;
-    if (!headers) return;
-
-    if (!this.google_sheets.checkHeaders(headers, subscription, channelID)) {
-      return;
-    }
-
-    const sheetId = this.getSheetId();
-    const worksheetIds = this.getWorksheetIds();
-
-    const { file, newPageToken } = await this.getModifiedSheet(
-      pageToken,
-      driveId,
-      sheetId,
-    );
-    if (newPageToken) this.db.set("pageToken", newPageToken);
-
-    if (!file) return;
-
-    const spreadsheet = await this.google_sheets.getSpreadsheet(file.id);
-    for (const worksheet of spreadsheet.sheets) {
-      if (
-        worksheetIds.length > 0 &&
-        !worksheetIds.includes(worksheet.properties.sheetId.toString())
-      ) {
-        continue;
-      }
-      const { oldValues, currentValues } = await this.getContentDiff(
-        spreadsheet,
-        worksheet,
-        file,
-      );
-      const newValues = currentValues.values || [];
-      let changes = [];
-      // check if there are differences in the spreadsheet values
-      if (JSON.stringify(oldValues) !== JSON.stringify(newValues)) {
-        let rowCount = this.getRowCount(newValues, oldValues);
-        for (let i = 0; i < rowCount; i++) {
-          let colCount = this.getColCount(newValues, oldValues, i);
-          changes = this.getContentChanges(colCount, newValues, oldValues, changes, i);
+    async processSpreadsheet(spreadsheet) {
+      for (const worksheet of spreadsheet.sheets) {
+        const { sheetId: worksheetId } = worksheet.properties;
+        if (!this.isWorksheetRelevant(worksheetId)) {
+          continue;
         }
-        this.$emit(
-          { worksheet, currentValues, changes },
-          this.getMeta(spreadsheet, worksheet, changes),
+
+        const { oldValues, currentValues } = await this.getContentDiff(
+          spreadsheet,
+          worksheet,
+        );
+        const newValues = currentValues.values || [];
+        let changes = [];
+        // check if there are differences in the spreadsheet values
+        if (JSON.stringify(oldValues) !== JSON.stringify(newValues)) {
+          let rowCount = this.getRowCount(newValues, oldValues);
+          for (let i = 0; i < rowCount; i++) {
+            let colCount = this.getColCount(newValues, oldValues, i);
+            changes = this.getContentChanges(colCount, newValues, oldValues, changes, i);
+          }
+          this.$emit(
+            { worksheet, currentValues, changes },
+            this.getMeta(spreadsheet, worksheet, changes),
+          );
+        }
+        this.db.set(
+          `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`,
+          newValues || [],
         );
       }
-      this.db.set(
-        `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`,
-        newValues || [],
-      );
-    }
+    },
   },
 };
