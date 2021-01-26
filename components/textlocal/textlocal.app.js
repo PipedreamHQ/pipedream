@@ -42,7 +42,6 @@ module.exports = {
       return id;
     },
     async *scanApiMessageHistory(lowerBoundMessageId) {
-      const limit = 100;
       let start = 0;
       let prevTotal;
       do {
@@ -50,7 +49,6 @@ module.exports = {
           messages,
           total,
         } = await this._getApiMessageHistory({
-          limit,
           start,
         });
         prevTotal = prevTotal ? prevTotal : total;
