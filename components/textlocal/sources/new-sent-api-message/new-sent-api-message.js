@@ -57,7 +57,6 @@ module.exports = {
 
     const messages = [];
     for await (const message of messageScan) {
-      console.log(message)
       messages.push(message);
     }
 
