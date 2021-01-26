@@ -142,6 +142,16 @@ The total size of `console.log()` statements, [step exports](/workflows/steps/#s
 
 This limit cannot be raised.
 
+## SQL Service
+
+You can create any number of tables in the SQL service, and store any number of records. However, there are a few limits you should be aware of
+
+- Events sent to a SQL Destination are stored for 30 days. After 30 days, the record is completely deleted. Records newer than 30 days (for example, data sent a day ago) will be retained, until that record is 30 days old, at which point it will be deleted. [Read more here](/destinations/sql/#data-retention).
+- Queries are limited to a runtime of 60 seconds.
+- You cannot issue a query that returns over `1GB` of data.
+
+[Read more about the SQL Service here](/destinations/sql/).
+
 ## Acceptable Use
 
 We ask that you abide by our [Acceptable Use](https://pipedream.com/terms/#b-acceptable-use) policy. In short this means: don't use Pipedream to break the law; don't abuse the platform; and don't use the platform to harm others.
