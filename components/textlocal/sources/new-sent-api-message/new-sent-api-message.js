@@ -1,7 +1,7 @@
 const textlocal = require("../../textlocal.app");
 
 module.exports = {
-  key: "new-sent-api-message",
+  key: "textlocal-new-sent-api-message",
   name: "New Sent API Message",
   version: "0.0.1",
   dedupe: "unique",
