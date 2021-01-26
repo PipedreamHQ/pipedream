@@ -38,6 +38,11 @@ module.exports = {
       const { messages } = await this._getApiMessageHistory({
         limit: 1,
       });
+      if (messages.length === 0) {
+        console.log("No messages sent so far");
+        return;
+      }
+
       const { id } = messages.shift();
       return id;
     },
