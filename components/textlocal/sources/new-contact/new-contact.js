@@ -33,7 +33,7 @@ module.exports = {
     ...common.methods,
     _isContactProcessed(contact) {
       const { number } = contact;
-      return this.db.get(number) || false;
+      return Boolean(this.db.get(number));
     },
     _markContactAsProcessed(contact) {
       const { number } = contact;
