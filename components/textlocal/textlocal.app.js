@@ -11,14 +11,17 @@ module.exports = {
       return this.$auth.api_key;
     },
     _apiMessageHistoryUrl() {
+      // API docs: https://api.txtlocal.com/docs/messagereporting/getapimessagehistory
       const baseUrl = this._apiUrl();
       return `${baseUrl}/get_history_api`;
     },
     _contactGroupsUrl() {
+      // API docs: https://api.txtlocal.com/docs/contactmanagement/getgroups
       const baseUrl = this._apiUrl();
       return `${baseUrl}/get_groups`;
     },
     _contactsUrl() {
+      // API docs: https://api.txtlocal.com/docs/contactmanagement/getcontacts
       const baseUrl = this._apiUrl();
       return `${baseUrl}/get_contacts`;
     },
@@ -42,6 +45,12 @@ module.exports = {
       const { data } = await axios.get(url, { params });
       return data;
     },
+    /**
+     * Get the ID of the latest message sent via the [Send
+     * SMS](https://api.txtlocal.com/docs/sendsms) API.
+     *
+     * @return {string} The message ID
+     */
     async getLatestMessageId() {
       const { messages } = await this._getApiMessageHistory({
         limit: 1,
@@ -54,6 +63,20 @@ module.exports = {
       const { id } = messages.shift();
       return id;
     },
+    /**
+     * This generator function scans the history of messages sent via the [Send
+     * SMS](https://api.txtlocal.com/docs/sendsms) API and yields each message
+     * separately.
+     *
+     * It accepts optional parameter `lowerBoundMessageId` that will stop the
+     * scan whenever it reaches a message with ID equal to the provided value of
+     * the parameter.
+     *
+     * @param {object}  options Options to customize the operation
+     * @param {string}  options.lowerBoundMessageId The ID of the message at
+     * which the scan should stop
+     * @yield {object}  The next message in the message history
+     */
     async *scanApiMessageHistory({ lowerBoundMessageId }) {
       let start = 0;
       let prevTotal;
@@ -78,6 +101,13 @@ module.exports = {
         prevTotal = total;
       } while (start < prevTotal);
     },
+    /**
+     * Retrieves the list of Contact Groups in the user's account, as provided
+     * by the [Get
+     * Groups](https://api.txtlocal.com/docs/contactmanagement/getgroups) API.
+     *
+     * @return {object} The response of the call to the Get Groups API
+     */
     async getContactGroups() {
       const url = this._contactGroupsUrl();
       const params = this._baseRequestParams();
@@ -99,6 +129,18 @@ module.exports = {
       const { data } = await axios.get(url, { params });
       return data;
     },
+    /**
+     * This generator function scans a specific contact group and yields each
+     * contact in such group separately.
+     *
+     * It requires a parameter `groupId` that identifies the contact group to
+     * scan.
+     *
+     * @param {object}  options Options to customize the operation
+     * @param {string}  options.groupId The ID of the contact group to scan for
+     * contacts
+     * @yield {object}  The next contact in the contact group
+     */
     async *scanContactGroup({ groupId }) {
       let start = 0;
       let prevNumContacts;

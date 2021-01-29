@@ -4,7 +4,7 @@ module.exports = {
 ...common,
   key: "textlocal-new-sent-api-message",
   name: "New Sent API Message",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   hooks: {
     ...common.hooks,

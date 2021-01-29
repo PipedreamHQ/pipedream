@@ -29,6 +29,12 @@ module.exports = {
       },
     },
   },
+  hooks: {
+    ...common.hooks,
+    deactivate() {
+      this.db.set("isInitialized", false);
+    },
+  },
   methods: {
     ...common.methods,
     _isContactProcessed(contact) {
