@@ -15,32 +15,19 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
     },
-    account: {
-      type: "string",
-      label: "Account",
-      optional: false,
-      async options() {
-        const results = await this.mercury.getAccounts();
-        const options = results.map((result) => {
-          const { name, id } = result;
-          return { label: name, value: id };
-        });
-        return options;
-      },
-    },
+    account: { propDefinition: [mercury, "account"] },
   },
   methods: {
     getMeta(transaction) {
-      const { id, counterpartyName, postedAt } = transaction;
-      const postedAtDate = new Date(postedAt);
-      const ts = postedAtDate.getTime();
-      const summary = counterpartyName;
+      const { id, counterpartyName: summary, postedAt } = transaction;
+      const ts = new Date(postedAt).getTime();
       return { id, summary, ts };
     },
   },
   async run(event) {
-    const lastRunTime =
-      new Date(this.db.get("lastRunTime")) || this.mercury.dayAgo();
+    const lastRunTime = this.db.get("lastRunTime")
+      ? new Date(this.db.get("lastRunTime"))
+      : this.mercury.daysAgo(1);
     const params = {
       limit: 100,
       offset: 0,
