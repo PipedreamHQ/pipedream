@@ -32,6 +32,11 @@ module.exports = {
         collapsable: false,
         children: ["/workflows/", "/your-first-workflow/"],
       },
+      {
+        title: "Examples",
+        collapsable: false,
+        children: ["/examples/adding-rows-to-google-sheets/"],
+      },
       /* {
         title: "Video Tutorials",
         collapsable: false,
