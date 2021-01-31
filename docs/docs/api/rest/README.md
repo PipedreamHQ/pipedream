@@ -133,259 +133,9 @@ The response from the request above will have a shape that looks like:
 
 Pipedream uses conventional HTTP response codes to indicate the success or failure of an API request. Codes in the **2xx** range indicate success. Codes in the **4xx** range indicate an error that failed (e.g., a required parameter was omitted). Codes in the **5xx** range indicate an error with Pipedream’s server.
 
-## Users
-
-### Get Current User Info
-
----
-
-Retrieve information on the authenticated user.
-
-#### Endpoint
-
-```
-GET /users/me
-```
-
-#### Parameters
-
-_No parameters_
-
-#### Example Request
-
-```
-curl 'https://api.pipedream.com/v1/users/me' \
-  -H 'Authorization: Bearer <api_key>'
-```
-
-#### Example Response
-
-Free user:
-
-```json
-{
-  "data": {
-    "id": "u_abc123",
-    "username": "dylburger",
-    "email": "dylan@pipedream.com",
-    "api_key": "XXX",
-    "daily_compute_time_quota": 95400000,
-    "daily_compute_time_used": 8420300,
-    "daily_invocations_quota": 27344,
-    "daily_invocations_used": 24903
-  }
-}
-```
-
-Paid user:
-
-```json
-{
-  "data": {
-    "id": "u_abc123",
-    "username": "dylburger",
-    "email": "dylan@pipedream.com",
-    "billing_period_start_ts": 1610154978,
-    "billing_period_end_ts": 1612833378,
-    "billing_period_invocations": 12345
-  }
-}
-```
-
-### Get Current User's Subscriptions
-
----
-
-Retrieve all the [subscriptions](#subscriptions) configured for the authenticated user.
-
-#### Endpoint
-
-```
-GET /users/me/subscriptions
-```
-
-#### Parameters
-
-_No parameters_
-
-#### Example Request
-
-```
-curl 'https://api.pipedream.com/v1/users/me/subscriptions' \
-  -H 'Authorization: Bearer <api_key>'
-```
-
-#### Example Response
-
-```json
-{
-  "data": [
-    {
-      "id": "sub_abc123",
-      "emitter_id": "dc_abc123",
-      "listener_id": "p_abc123",
-      "event_name": ""
-    },
-    {
-      "id": "sub_def456",
-      "emitter_id": "dc_def456",
-      "listener_id": "p_def456",
-      "event_name": ""
-    }
-  ]
-}
-```
-
-## Workflows
-
-### Get Workflow Emits
-
----
-
-Retrieve up to the last 100 events emitted from a workflow using [`$send.emit()`](/destinations/emit/#emit-events).
-
-#### Endpoint
-
-```
-GET /workflows/{workflow_id}/event_summaries
-```
-
-#### Notes and Examples
-
-The event data for events larger than `1KB` may get truncated in the response. If you're retrieving larger events, and need to see the full event data, pass `?expand=event`:
-
-```
-GET /workflows/{workflow_id}/event_summaries&expand=event
-```
-
-Pass `?limit=N` to retrieve the last **N** events:
-
-```
-GET /v1/workflows/{workflow_id}/event_summaries?expand=event&limit=1
-```
-
-#### Example Request
-
-```bash
-curl 'https://api.pipedream.com/v1/workflows/p_abc123/event_summaries?expand=event&limit=1' \
-  -H 'Authorization: Bearer <api_key>'
-```
-
-#### Example Response
-
-```json
-{
-  "page_info": {
-    "total_count": 1,
-    "start_cursor": "1606511826306-0",
-    "end_cursor": "1606511826306-0",
-    "count": 1
-  },
-  "data": [
-    {
-      "id": "1606511826306-0",
-      "indexed_at_ms": 1606511826306,
-      "event": {
-        "raw_event": {
-          "name": "Luke",
-          "title": "Jedi"
-        }
-      },
-      "metadata": {
-        "emit_id": "1ktF96gAMsLqdYSRWYL9KFS5QqW",
-        "name": "",
-        "emitter_id": "p_abc123"
-      }
-    }
-  ]
-}
-```
-
----
-
-### Get Workflow Errors
-
----
-
-Retrieve up to the last 100 events for a workflow that threw an error. The details of the error, along with the original event data, will be included
-
-#### Endpoint
-
-```
-GET /workflows/{workflow_id}/$errors/event_summaries
-```
-
-#### Notes and Examples
-
-The event data for events larger than `1KB` may get truncated in the response. If you're processing larger events, and need to see the full event data, pass `?expand=event`:
-
-```
-GET /workflows/{workflow_id}/$errors/event_summaries&expand=event
-```
-
-Pass `?limit=N` to retrieve the last **N** events:
-
-```
-GET /v1/workflows/{workflow_id}/$errors/event_summaries?expand=event&limit=1
-```
-
-#### Example Request
-
-```bash
-curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event&limit=1' \
-  -H 'Authorization: Bearer <api_key>'
-```
-
-#### Example Response
-
-```json
-{
-  "page_info": {
-    "total_count": 100,
-    "start_cursor": "1606370816223-0",
-    "end_cursor": "1606370816223-0",
-    "count": 1
-  },
-  "data": [
-    {
-      "id": "1606370816223-0",
-      "indexed_at_ms": 1606370816223,
-      "event": {
-        "original_event": {
-          "name": "Luke",
-          "title": "Jedi"
-        },
-        "original_context": {
-          "id": "1kodJIW7jVnKfvB2yp1OoPrtbFk",
-          "ts": "2020-11-26T06:06:44.652Z",
-          "workflow_id": "p_abc123",
-          "deployment_id": "d_abc123",
-          "source_type": "SDK",
-          "verified": false,
-          "owner_id": "u_abc123",
-          "platform_version": "3.1.20"
-        },
-        "error": {
-          "code": "InternalFailure",
-          "cellId": "c_abc123",
-          "ts": "2020-11-26T06:06:56.077Z",
-          "stack": "    at Request.extractError (/opt/ee/node_modules/aws-sdk/lib/protocol/query.js:50:29)\n    at Request.callListeners (/opt/ee/node_modules/aws-sdk/lib/sequential_executor.js:106:20)\n    at Request.emit (/opt/ee
-/node_modules/aws-sdk/lib/sequential_executor.js:78:10)\n    at Request.emit (/opt/ee/node_modules/aws-sdk/lib/request.js:688:14)\n    at Request.transition (/opt/ee/node_modules/aws-sdk/lib/request.js:22:10)\n    at AcceptorStateM
-achine.runTo (/opt/ee/node_modules/aws-sdk/lib/state_machine.js:14:12)\n    at global.null (/opt/ee/node_modules/aws-sdk/lib/state_machine.js:26:10)\n    at Request.null (/opt/ee/node_modules/aws-sdk/lib/request.js:38:9)\n    at Re
-quest.null (/opt/ee/node_modules/aws-sdk/lib/request.js:690:12)\n    at Request.callListeners (/opt/ee/node_modules/aws-sdk/lib/sequential_executor.js:116:18)\n"
-        }
-      },
-      "metadata": {
-        "emitter_id": "p_abc123",
-        "emit_id": "1kodKnAdWGeJyhqYbqyW6lEXVAo",
-        "name": "$errors"
-      }
-    }
-  ]
-}
-```
-
 ## Components
+
+Components are objects that represent the code for an [event source](#sources).
 
 ### Create a component
 
@@ -587,7 +337,115 @@ curl https://api.pipedream.com/v1/components/registry/github-new-repository \
 }
 ```
 
+## Events
+
+### Get Source Events
+
+---
+
+Retrieve up to the last 100 events emitted by a source.
+
+#### Endpoint
+
+```
+GET /sources/{id}/event_summaries
+```
+
+#### Notes and Examples
+
+The event data for events larger than `1KB` may get truncated in the response. If you're processing larger events, and need to see the full event data, pass `?expand=event`:
+
+```
+GET /sources/{id}/event_summaries?expand=event
+```
+
+Pass `?limit=N` to retrieve the last **N** events:
+
+```
+GET /sources/{id}/event_summaries?limit=10
+```
+
+### Delete source events
+
+---
+
+Deletes all events, or a specific set of events, tied to a source.
+
+By default, making a `DELETE` request to this endpoint deletes **all** events associated with a source. To delete a specific event, or a range of events, you can use the `start_id` and `end_id` parameters.
+
+These IDs can be retrieved by using the [`GET /sources/{id}/event_summaries` endpoint](/api/rest/#get-source-events), and are tied to the timestamp at which the event was emitted — e.g. `1589486981597-0`. They are therefore naturally ordered by time.
+
+#### Endpoint
+
+```
+DELETE /sources/{id}/events
+```
+
+#### Parameters
+
+---
+
+`start_id` **string**
+
+The event ID from which you'd like to start deleting events.
+
+If `start_id` is passed without `end_id`, the request will delete all events starting with and including this event ID. For example, if your source has 3 events:
+
+- `1589486981597-0`
+- `1589486981598-0`
+- `1589486981599-0`
+
+and you issue a `DELETE` request like so:
+
+```bash
+curl -X DELETE \
+  -H "Authorization: Bearer <api key>" \
+  "https://api.pipedream.com/v1/sources/dc_abc123/events?start_id=1589486981598-0"
+```
+
+The request will delete the **last two events**.
+
+---
+
+`end_id` **string**
+
+The event ID from which you'd like to end the range of deletion.
+
+If `end_id` is passed without `start_id`, the request will delete all events up to and including this event ID. For example, if your source has 3 events:
+
+- `1589486981597-0`
+- `1589486981598-0`
+- `1589486981599-0`
+
+and you issue a `DELETE` request like so:
+
+```bash
+curl -X DELETE \
+  -H "Authorization: Bearer <api key>" \
+  "https://api.pipedream.com/v1/sources/dc_abc123/events?end_id=1589486981598-0"
+```
+
+The request will delete the **first two events**.
+
+---
+
+#### Example Request
+
+You can delete a single event by passing its event ID in both the value of the `start_id` and `end_id` params:
+
+```bash
+curl -X DELETE \
+  -H "Authorization: Bearer <api key>" \
+  "https://api.pipedream.com/v1/sources/dc_abc123/events?start_id=1589486981598-0&end_id=1589486981598-0"
+```
+
+#### Example Response
+
+Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status code in response to any deletion requests.
+
 ## Sources
+
+Event sources run code to collect events from an API, or receive events via webhooks, emitting those events for use on Pipedream. Event sources can function as workflow triggers. [Read more here](/event-sources/).
 
 ### List Current User Sources
 
@@ -946,18 +804,157 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
   -H "Content-Type: application/json"
 ```
 
-## Events
+## Webhooks
 
-### Get Source Events
+Webhooks are URL endpoints you manage at an account-level. You can send events to these webhook URLs through [subscriptions](#subscriptions). For example, you can run an [event source](/event-sources) that listens for new tweets, and deliver those tweets directly to a webhook URL without running a workflow. [Read more here](/api/rest/webhooks).
 
----
+Think of webhooks like a **destination**. You can configure events to be delivered to a webhook. Pipedream sends the event to the `url` configured for the webhook. See the [create webhook docs](#create-a-webhook) for more information.
 
-Retrieve up to the last 100 events emitted by a source.
+### Create a webhook
+
+Creates a webhook pointing to a URL. Configure a [subscription](#subscriptions) to deliver events to this webhook.
 
 #### Endpoint
 
 ```
-GET /sources/{id}/event_summaries
+POST /webhooks?url={your_endpoint_url}
+```
+
+#### Parameters
+
+---
+
+`url` **string**
+
+The endpoint URL where you'd like to deliver events. Any events sent to this webhook object will be delivered to this endpoint URL.
+
+This URL **must** contain, at a minimum, a protocol — one of `http` or `https` — and hostname, but can specify resources or ports. For example, these URLs work:
+
+```
+https://example.com
+http://example.com
+https://example.com:12345/endpoint
+```
+
+but these do not:
+
+```
+# No protocol - needs http(s)://
+example.com
+
+# mysql protocol not supported. Must be an HTTP(S) endpoint
+mysql://user:pass@host:port
+```
+
+---
+
+#### Example Request
+
+You can create a webhook that delivers events to `https://endpoint.m.pipedream.net` using the following command:
+
+```bash
+curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net" \
+  -X POST \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
+#### Example Response
+
+The API response contains a webhook ID in `data.id` — the string that starts with `wh_` — which you can reference when creating [subscriptions](#subscriptions).
+
+```json
+{
+  "data": {
+    "id": "wh_abc123",
+    "user_id": "u_abc123",
+    "name": null,
+    "description": null,
+    "url": "https://endpoint.m.pipedream.net",
+    "active": true,
+    "created_at": 1611964025,
+    "updated_at": 1611964025
+  }
+}
+```
+
+## Workflows
+
+### Get Workflow Emits
+
+---
+
+Retrieve up to the last 100 events emitted from a workflow using [`$send.emit()`](/destinations/emit/#emit-events).
+
+#### Endpoint
+
+```
+GET /workflows/{workflow_id}/event_summaries
+```
+
+#### Notes and Examples
+
+The event data for events larger than `1KB` may get truncated in the response. If you're retrieving larger events, and need to see the full event data, pass `?expand=event`:
+
+```
+GET /workflows/{workflow_id}/event_summaries&expand=event
+```
+
+Pass `?limit=N` to retrieve the last **N** events:
+
+```
+GET /v1/workflows/{workflow_id}/event_summaries?expand=event&limit=1
+```
+
+#### Example Request
+
+```bash
+curl 'https://api.pipedream.com/v1/workflows/p_abc123/event_summaries?expand=event&limit=1' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 1,
+    "start_cursor": "1606511826306-0",
+    "end_cursor": "1606511826306-0",
+    "count": 1
+  },
+  "data": [
+    {
+      "id": "1606511826306-0",
+      "indexed_at_ms": 1606511826306,
+      "event": {
+        "raw_event": {
+          "name": "Luke",
+          "title": "Jedi"
+        }
+      },
+      "metadata": {
+        "emit_id": "1ktF96gAMsLqdYSRWYL9KFS5QqW",
+        "name": "",
+        "emitter_id": "p_abc123"
+      }
+    }
+  ]
+}
+```
+
+---
+
+### Get Workflow Errors
+
+---
+
+Retrieve up to the last 100 events for a workflow that threw an error. The details of the error, along with the original event data, will be included
+
+#### Endpoint
+
+```
+GET /workflows/{workflow_id}/$errors/event_summaries
 ```
 
 #### Notes and Examples
@@ -965,91 +962,172 @@ GET /sources/{id}/event_summaries
 The event data for events larger than `1KB` may get truncated in the response. If you're processing larger events, and need to see the full event data, pass `?expand=event`:
 
 ```
-GET /sources/{id}/event_summaries?expand=event
+GET /workflows/{workflow_id}/$errors/event_summaries&expand=event
 ```
 
 Pass `?limit=N` to retrieve the last **N** events:
 
 ```
-GET /sources/{id}/event_summaries?limit=10
+GET /v1/workflows/{workflow_id}/$errors/event_summaries?expand=event&limit=1
 ```
-
-### Delete source events
-
----
-
-Deletes all events, or a specific set of events, tied to a source.
-
-By default, making a `DELETE` request to this endpoint deletes **all** events associated with a source. To delete a specific event, or a range of events, you can use the `start_id` and `end_id` parameters.
-
-These IDs can be retrieved by using the [`GET /sources/{id}/event_summaries` endpoint](/api/rest/#get-source-events), and are tied to the timestamp at which the event was emitted — e.g. `1589486981597-0`. They are therefore naturally ordered by time.
-
-#### Endpoint
-
-```
-DELETE /sources/{id}/events
-```
-
-#### Parameters
-
----
-
-`start_id` **string**
-
-The event ID from which you'd like to start deleting events.
-
-If `start_id` is passed without `end_id`, the request will delete all events starting with and including this event ID. For example, if your source has 3 events:
-
-- `1589486981597-0`
-- `1589486981598-0`
-- `1589486981599-0`
-
-and you issue a `DELETE` request like so:
-
-```bash
-curl -X DELETE \
-  -H "Authorization: Bearer <api key>" \
-  "https://api.pipedream.com/v1/sources/dc_abc123/events?start_id=1589486981598-0"
-```
-
-The request will delete the **last two events**.
-
----
-
-`end_id` **string**
-
-The event ID from which you'd like to end the range of deletion.
-
-If `end_id` is passed without `start_id`, the request will delete all events up to and including this event ID. For example, if your source has 3 events:
-
-- `1589486981597-0`
-- `1589486981598-0`
-- `1589486981599-0`
-
-and you issue a `DELETE` request like so:
-
-```bash
-curl -X DELETE \
-  -H "Authorization: Bearer <api key>" \
-  "https://api.pipedream.com/v1/sources/dc_abc123/events?end_id=1589486981598-0"
-```
-
-The request will delete the **first two events**.
-
----
 
 #### Example Request
 
-You can delete a single event by passing its event ID in both the value of the `start_id` and `end_id` params:
-
 ```bash
-curl -X DELETE \
-  -H "Authorization: Bearer <api key>" \
-  "https://api.pipedream.com/v1/sources/dc_abc123/events?start_id=1589486981598-0&end_id=1589486981598-0"
+curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event&limit=1' \
+  -H 'Authorization: Bearer <api_key>'
 ```
 
 #### Example Response
 
-Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status code in response to any deletion requests.
+```json
+{
+  "page_info": {
+    "total_count": 100,
+    "start_cursor": "1606370816223-0",
+    "end_cursor": "1606370816223-0",
+    "count": 1
+  },
+  "data": [
+    {
+      "id": "1606370816223-0",
+      "indexed_at_ms": 1606370816223,
+      "event": {
+        "original_event": {
+          "name": "Luke",
+          "title": "Jedi"
+        },
+        "original_context": {
+          "id": "1kodJIW7jVnKfvB2yp1OoPrtbFk",
+          "ts": "2020-11-26T06:06:44.652Z",
+          "workflow_id": "p_abc123",
+          "deployment_id": "d_abc123",
+          "source_type": "SDK",
+          "verified": false,
+          "owner_id": "u_abc123",
+          "platform_version": "3.1.20"
+        },
+        "error": {
+          "code": "InternalFailure",
+          "cellId": "c_abc123",
+          "ts": "2020-11-26T06:06:56.077Z",
+          "stack": "    at Request.extractError (/opt/ee/node_modules/aws-sdk/lib/protocol/query.js:50:29)\n    at Request.callListeners (/opt/ee/node_modules/aws-sdk/lib/sequential_executor.js:106:20)\n    at Request.emit (/opt/ee
+/node_modules/aws-sdk/lib/sequential_executor.js:78:10)\n    at Request.emit (/opt/ee/node_modules/aws-sdk/lib/request.js:688:14)\n    at Request.transition (/opt/ee/node_modules/aws-sdk/lib/request.js:22:10)\n    at AcceptorStateM
+achine.runTo (/opt/ee/node_modules/aws-sdk/lib/state_machine.js:14:12)\n    at global.null (/opt/ee/node_modules/aws-sdk/lib/state_machine.js:26:10)\n    at Request.null (/opt/ee/node_modules/aws-sdk/lib/request.js:38:9)\n    at Re
+quest.null (/opt/ee/node_modules/aws-sdk/lib/request.js:690:12)\n    at Request.callListeners (/opt/ee/node_modules/aws-sdk/lib/sequential_executor.js:116:18)\n"
+        }
+      },
+      "metadata": {
+        "emitter_id": "p_abc123",
+        "emit_id": "1kodKnAdWGeJyhqYbqyW6lEXVAo",
+        "name": "$errors"
+      }
+    }
+  ]
+}
+```
+
+## Users
+
+### Get Current User Info
+
+---
+
+Retrieve information on the authenticated user.
+
+#### Endpoint
+
+```
+GET /users/me
+```
+
+#### Parameters
+
+_No parameters_
+
+#### Example Request
+
+```
+curl 'https://api.pipedream.com/v1/users/me' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+Free user:
+
+```json
+{
+  "data": {
+    "id": "u_abc123",
+    "username": "dylburger",
+    "email": "dylan@pipedream.com",
+    "api_key": "XXX",
+    "daily_compute_time_quota": 95400000,
+    "daily_compute_time_used": 8420300,
+    "daily_invocations_quota": 27344,
+    "daily_invocations_used": 24903
+  }
+}
+```
+
+Paid user:
+
+```json
+{
+  "data": {
+    "id": "u_abc123",
+    "username": "dylburger",
+    "email": "dylan@pipedream.com",
+    "billing_period_start_ts": 1610154978,
+    "billing_period_end_ts": 1612833378,
+    "billing_period_invocations": 12345
+  }
+}
+```
+
+### Get Current User's Subscriptions
+
+---
+
+Retrieve all the [subscriptions](#subscriptions) configured for the authenticated user.
+
+#### Endpoint
+
+```
+GET /users/me/subscriptions
+```
+
+#### Parameters
+
+_No parameters_
+
+#### Example Request
+
+```
+curl 'https://api.pipedream.com/v1/users/me/subscriptions' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sub_abc123",
+      "emitter_id": "dc_abc123",
+      "listener_id": "p_abc123",
+      "event_name": ""
+    },
+    {
+      "id": "sub_def456",
+      "emitter_id": "dc_def456",
+      "listener_id": "p_def456",
+      "event_name": ""
+    }
+  ]
+}
+```
 
 <Footer />

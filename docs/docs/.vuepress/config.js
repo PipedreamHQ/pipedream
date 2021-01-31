@@ -123,6 +123,7 @@ module.exports = {
           "/api/overview/",
           "/api/auth/",
           "/api/rest/",
+          "/api/rest/webhooks/",
           "/api/rest/rss/",
           "/api/rest/workflow-errors/",
           "/api/sse/",
