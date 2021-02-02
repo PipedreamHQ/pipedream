@@ -114,7 +114,10 @@ module.exports = {
       {
         title: "Examples",
         collapsable: false,
-        children: ["/examples/adding-rows-to-google-sheets/"],
+        children: [
+          "/examples/adding-rows-to-google-sheets/",
+          "/examples/waiting-to-execute-next-step-of-workflow/",
+        ],
       },
       {
         title: "CLI",
