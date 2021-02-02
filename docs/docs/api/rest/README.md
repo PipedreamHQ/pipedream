@@ -806,9 +806,11 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
 
 ## Webhooks
 
-Webhooks are URL endpoints you manage at an account-level. You can send events to these webhook URLs through [subscriptions](#subscriptions). For example, you can run an [event source](/event-sources) that listens for new tweets, and deliver those tweets directly to a webhook URL without running a workflow. [Read more here](/api/rest/webhooks).
+Pipedream supports webhooks as a way to deliver events to a endpoint you own. Webhooks are managed at an account-level, and you send data to these webhooks using [subscriptions](#subscriptions).
 
-Think of webhooks like a **destination**. You can configure events to be delivered to a webhook. Pipedream sends the event to the `url` configured for the webhook. See the [create webhook docs](#create-a-webhook) for more information.
+For example, you can run a Twitter [event source](/event-sources) that listens for new tweets. If you [subscribe](#subscriptions) the webhook to this source, Pipedream will deliver those tweets directly to your webhook's URL without running a workflow.
+
+[**See these tutorials**](/api/rest/webhooks) for examples.
 
 ### Create a webhook
 
@@ -817,7 +819,7 @@ Creates a webhook pointing to a URL. Configure a [subscription](#subscriptions) 
 #### Endpoint
 
 ```
-POST /webhooks?url={your_endpoint_url}
+POST /webhooks?url={your_endpoint_url}&name={name}&description={description}
 ```
 
 #### Parameters
@@ -848,12 +850,22 @@ mysql://user:pass@host:port
 
 ---
 
+`name` **string**
+
+The name you'd like to assign to this webhook, which will appear when [listing your webhooks](#get-current-user-s-webhooks).
+
+---
+
+`description` **string**
+
+The description you'd like to assign to this webhook, which will appear when [listing your webhooks](#get-current-user-s-webhooks).
+
 #### Example Request
 
 You can create a webhook that delivers events to `https://endpoint.m.pipedream.net` using the following command:
 
 ```bash
-curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net" \
+curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description \
   -X POST \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json"
@@ -861,7 +873,7 @@ curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net
 
 #### Example Response
 
-The API response contains a webhook ID in `data.id` — the string that starts with `wh_` — which you can reference when creating [subscriptions](#subscriptions).
+Successful API responses contain a webhook ID for the webhook that was created in `data.id` — the string that starts with `wh_` — which you can reference when creating [subscriptions](#subscriptions).
 
 ```json
 {
@@ -877,6 +889,10 @@ The API response contains a webhook ID in `data.id` — the string that starts w
   }
 }
 ```
+
+### List webhooks
+
+You can list webhooks you've created in your account using the [`/users/me/webhooks` endpoint](#get-current-user-s-webhooks)
 
 ## Workflows
 
@@ -1125,6 +1141,62 @@ curl 'https://api.pipedream.com/v1/users/me/subscriptions' \
       "emitter_id": "dc_def456",
       "listener_id": "p_def456",
       "event_name": ""
+    }
+  ]
+}
+```
+
+### Get Current User's Webhooks
+
+---
+
+Retrieve all the [webhooks](#webhooks) configured for the authenticated user.
+
+#### Endpoint
+
+```
+GET /users/me/webhooks
+```
+
+#### Parameters
+
+_No parameters_
+
+#### Example Request
+
+```
+curl 'https://api.pipedream.com/v1/users/me/webhooks' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 2,
+    "count": 2,
+    "start_cursor": "d2hfMjlsdUd6",
+    "end_cursor": "d2hfb3dHdWVv"
+  },
+  "data": [
+    {
+      "id": "wh_abc123",
+      "name": null,
+      "description": null,
+      "url": "https://endpoint.m.pipedream.net",
+      "active": true,
+      "created_at": 1611964025,
+      "updated_at": 1611964025
+    },
+    {
+      "id": "wh_def456",
+      "name": "Test webhook",
+      "description": "just a test",
+      "url": "https://endpoint2.m.pipedream.net",
+      "active": true,
+      "created_at": 1605835136,
+      "updated_at": 1605835136
     }
   ]
 }
