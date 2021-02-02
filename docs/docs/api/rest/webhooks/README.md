@@ -8,60 +8,80 @@ For example, you can run a Twitter [event source](/event-sources) that listens f
 
 ## Send events from an existing event source to a webhook
 
-1. Get the source's ID
-2. Create a webhook
-3. Create a subscription
-4. Trigger an event
+[Event sources](/event-sources) source data from a service / API, emitting events that can trigger Pipedream workflows. For example, you can run a Github event source that emits an event anytime someone stars your repo, triggering a workflow on each new star.
 
-## Forward events from a source to a webhook
-
-In this example, you'll learn how to use the REST API to:
-
-1. [Create an HTTP event source](#create-the-http-event-source)
-2. [Create a Pipedream webhook that points to your endpoint](#create-the-webhook)
-3. [Forward events emitted by this source to a webhook](#forward-events-to-your-webhook)
-
-This allows you to use Pipedream as a webhook proxy: Pipedream receives the initial webhook, logs it for examination, and forwards the HTTP payload to your endpoint:
+**You can also send the events emitted by an event source to a webhook**.
 
 <div>
-<img alt="Webhook proxy" src="./images/webhook-proxy.png">
+<img alt="Github stars to Pipedream" src="./images/webhook-proxy.png">
 </div>
 
-You can even configure the HTTP source to deliver events to multiple webhooks and sources:
+### Step 1 - retrieve the source's ID
 
-**TO DO**
+First, you'll need the ID of your source. You can visit [https://pipedream.com/sources](https://pipedream.com/sources), select a source, and copy its ID from the URL. It's the string that starts with `dc_`:
 
-### Create the HTTP event source
+<div>
+<img alt="Source ID" width="300px" src="./images/source-id.png">
+</div>
 
-Creating an HTTP event source generates a unique URL you can send any requests to. You can create this source using the [`POST /sources` endpoint](/api/rest/#create-a-source):
+You can also find the ID by running `pd list sources` using [the CLI](/cli/reference/#pd-list).
+
+### Step 2 - Create a webhook
+
+You can create a webhook using the [`POST /webhooks` endpoint](/api/rest/#create-a-webhook). The endpoint accepts 3 params:
+
+- `url`: the endpoint to which you'd like to deliver events
+- `name`: a name to assign to the webhook, for your own reference
+- `description`: a longer description
+
+You can make a request to this endpoint using `cURL`:
 
 ```bash
-curl https://api.pipedream.com/v1/sources \
-  -H "Authorization: Bearer XXX" -vvv \
-  -H "Content-Type: application/json" \
-  -d '{"key": "http-new-requests-payload-only", "name": "test-endpoint" }'
+curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description \
+  -X POST \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
 ```
 
-This will return the HTTP endpoint tied to the source
+Successful API responses contain a webhook ID in `data.id` — the string that starts with `wh_` — which you'll use in **Step 3**:
 
 ```json
 {
   "data": {
-    "id": "dc_3pulkPk",
-    "component_id": "sc_MeikZz",
-    "configured_props": {
-      "http": {
-        "endpoint_url": "https://endpoint.m.pipedream.net"
-      }
-    }
+    "id": "wh_abc123"
+    ...
   }
 }
 ```
 
-**TO DO**
+### Step 3 - Create a subscription
 
-### Create the webhook
+[Subscriptions](/api/rest/#subscriptions) allow you to deliver events from one Pipedream resource to another. In the langauge of subscriptions, the webhook will **listen** for events **emitted** by the event source.
 
-### Forward events to your webhook
+You can make a request to the [`POST /subscriptions` endpoint](/api/rest/#listen-for-events-from-another-source-or-workflow) to create this subscription. This endpoint requires two params:
+
+- `emitter_id`: the source ID from **Step 1**
+- `listener_id`: the webhook ID from **Step 2**
+
+You can make a request to this endpoint using `cURL`:
+
+```bash
+curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_abc123&listener_id=wh_abc123" \
+  -X POST \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
+If successful, this endpoint should return a `200 OK` with metadata on the subscription. You can also [list your subscriptions](/api/rest/#get-current-user-s-subscriptions) to confirm that it's active.
+
+### Step 4 - Trigger an event
+
+Trigger an event in your source (for example, send a tweet, star a Github repo, etc). You should see the event emitted by the source delivered to the webhook URL.
+
+## Extending these ideas
+
+You can configure _any_ events to be delivered to a webhook: events emitted by event source, or those [emitted by a workflow](/destinations/emit/).
+
+You can also configure an event to be delivered to _multiple_ webhooks by creating multiple webhooks / subscriptions.
 
 <Footer />
