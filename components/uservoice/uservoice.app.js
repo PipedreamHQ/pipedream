@@ -26,7 +26,7 @@ module.exports = {
       return this.$auth.subdomain;
     },
     // https://developer.uservoice.com/docs/api/v2/reference/#operation/ListNpsRatings
-    async listNPSRatings({ updated_after, maxResults }) {
+    async listNPSRatings({ updated_after, numSampleResults }) {
       const npsRatings = [];
       let cursor;
       do {
@@ -39,9 +39,9 @@ module.exports = {
           },
         });
         npsRatings.push(...(nps_ratings || []));
-        // When retrieving sample data, return early once we've fetched maxResults
-        if (maxResults && npsRatings.length >= maxResults) {
-          return maxResults.slice(0, maxResults);
+        // When retrieving sample data, return early once we've fetched numSampleResults
+        if (numSampleResults && npsRatings.length >= numSampleResults) {
+          return npsRatings.slice(0, numSampleResults);
         }
         cursor = pagination.cursor;
       } while (cursor);

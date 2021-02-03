@@ -24,7 +24,7 @@ module.exports = {
     async deploy() {
       // Emit up to 10 sample records on the first run
       this.emitWithMetadata(
-        await this.uservoice.listNPSRatings({ maxResults: 10 })
+        await this.uservoice.listNPSRatings({ numSampleResults: 10 })
       );
     },
   },
