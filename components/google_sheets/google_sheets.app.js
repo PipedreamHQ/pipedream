@@ -79,7 +79,15 @@ module.exports = {
         ...data,
       };
     },
-    async getWorksheetRowCounts(spreadsheetId) {
+    async getWorksheetRowCounts(spreadsheetId, worksheetIds) {
+      const values = await this.getSheetValues(spreadsheetId, worksheetIds);
+      return values
+        .map(({ values, worksheetId }) => ({
+          rowCount: values.length,
+          worksheetId,
+        }));
+    },
+    async getWorksheetLength(spreadsheetId) {
       const fields = [
         "sheets.properties.sheetId",
         "sheets.properties.gridProperties.rowCount",
@@ -92,8 +100,8 @@ module.exports = {
           gridProperties: { rowCount },
         }) => ({
           spreadsheetId,
-          sheetId,
-          rowCount,
+          worksheetId: sheetId,
+          worksheetLength: rowCount,
         }));
     },
     // returns an array of the spreadsheet values for the spreadsheet selected
@@ -111,8 +119,8 @@ module.exports = {
             const { values } = await this.getSpreadsheetValues(spreadsheetId, title);
             return {
               spreadsheetId,
-              sheetId,
               values,
+              worksheetId: sheetId,
             };
           })
       );

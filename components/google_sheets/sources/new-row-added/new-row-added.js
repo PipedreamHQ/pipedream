@@ -47,46 +47,46 @@ module.exports = {
     getWorksheetIds() {
       return this.worksheetIDs;
     },
-    async getRowCountsByWorksheetId() {
+    async getWorksheetLengthsById() {
       const sheetId = this.getSheetId();
       const worksheetIds = new Set(this.getWorksheetIds());
-      const rowCounts = await this.google_sheets.getWorksheetRowCounts(sheetId);
-      return rowCounts
-        .map((rowCountData) => {
-          const { sheetId } = rowCountData;
-          const worksheetId = sheetId.toString();
+      const worksheetLengths = await this.google_sheets.getWorksheetLength(sheetId);
+      return worksheetLengths
+        .map((worksheetLengthData) => {
+          const { worksheetId } = worksheetLengthData;
           return {
-            ...rowCountData,
-            worksheetId,
+            ...worksheetLengthData,
+            worksheetId: worksheetId.toString(),
           };
         })
         .filter(({ worksheetId }) => worksheetIds.has(worksheetId))
         .reduce((accum, {
           worksheetId,
-          rowCount,
+          worksheetLength,
         }) => ({
           ...accum,
-          [worksheetId]: rowCount,
+          [worksheetId]: worksheetLength,
         }), {});
     },
     async takeSheetSnapshot() {
       // Initialize row counts (used to keep track of new rows)
       const sheetId = this.getSheetId();
-      const rowCounts = await this.google_sheets.getWorksheetRowCounts(sheetId);
-      for (const worksheetCount of rowCounts) {
-        if (!this.isWorksheetRelevant(worksheetCount.sheetId)) {
-          continue;
-        }
-
-        this.db.set(
-          `${worksheetCount.spreadsheetId}${worksheetCount.sheetId}`,
-          worksheetCount.rowCount,
-        );
+      const worksheetIds = this.getWorksheetIds();
+      const worksheetRowCounts = await this.google_sheets.getWorksheetRowCounts(
+        sheetId,
+        worksheetIds,
+      );
+      for (const worksheetRowCount of worksheetRowCounts) {
+        const {
+          rowCount,
+          worksheetId
+        } = worksheetRowCount;
+        this.db.set(`${sheetId}${worksheetId}`, rowCount);
       }
     },
     async processSpreadsheet(spreadsheet) {
       const sheetId = this.getSheetId();
-      const rowCountsByWorksheetId = await this.getRowCountsByWorksheetId();
+      const worksheetLengthsById = await this.getWorksheetLengthsById();
 
       for (const worksheet of spreadsheet.sheets) {
         const {
@@ -98,16 +98,17 @@ module.exports = {
         }
 
         const oldRowCount = this.db.get(`${sheetId}${worksheetId}`);
-        const rowCount = rowCountsByWorksheetId[worksheetId];
-        if (rowCount <= oldRowCount) continue;
-
-        this.db.set(`${sheetId}${worksheetId}`, rowCount);
-
-        const diff = rowCount - oldRowCount;
-        const upperBound = rowCount;
-        const lowerBound = upperBound - (diff - 1);
+        const worksheetLength = worksheetLengthsById[worksheetId];
+        const lowerBound = oldRowCount + 1
+        const upperBound = worksheetLength;
         const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
         const newRowValues = await this.google_sheets.getSpreadsheetValues(sheetId, range);
+
+        const newRowCount = oldRowCount + newRowValues.values.length;
+        if (newRowCount <= oldRowCount) continue;
+
+        this.db.set(`${sheetId}${worksheetId}`, newRowCount);
+
         for (const [index, newRow] of newRowValues.values.entries()) {
           const rowNumber = lowerBound + index;
           this.$emit(
