@@ -127,14 +127,15 @@ module.exports = {
       const worksheetIds = this.getWorksheetIds();
       const sheetValues = await this.google_sheets.getSheetValues(sheetId, worksheetIds);
       for (const sheetVal of sheetValues) {
-        if (!this.isWorksheetRelevant(sheetVal.sheetId)) {
+        const {
+          values,
+          worksheetId,
+        } = sheetVal;
+        if (!this.isWorksheetRelevant(worksheetId)) {
           continue;
         }
 
-        this.db.set(
-          `${sheetVal.spreadsheetId}${sheetVal.sheetId}`,
-          sheetVal.values,
-        );
+        this.db.set(`${sheetId}${worksheetId}`, values);
       }
     },
     async processSpreadsheet(spreadsheet) {
