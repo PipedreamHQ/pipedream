@@ -137,13 +137,17 @@ On delete, Pipedream invokes the optional `Deactivate()` hook and deletes the co
 
 ## Hooks
 
-### Activate
+### `deploy`
 
-The `Activate()` hook is automatically invoked by Pipedream when a component is deployed or updated. A common use case for the activate hook is to automate webhook subscriptions, but you can run any valid code. To learn more about defining a custom `Activate()` hook, refer to the [API documentation](#hooks-1).
+The `deploy()` hook is automatically invoked by Pipedream when a component is deployed or updated. A common use case for the deploy hook is to create webhook subscriptions when the component is created, but you can run any valid code. To learn more about defining a custom `deploy()` hook, refer to the [API documentation](#hooks-1).
 
-### Deactivate
+### `activate`
 
-The `Deactivate()` hook is automatically invoked by Pipedream when a component is updated or deleted. A common use case for the deactivate hook is to automatically delete a webhook subscription when a component is deleted, but you can run any valid code. To learn more about defining a custom `Deactivate()` hook, refer to the [API documentation](#hooks-1).
+The `activate()` hook is automatically invoked by Pipedream when a component is deployed or updated. For example, this hook will be run when users update component props, so you can run code here that handles those changes. To learn more about defining a custom `activate()` hook, refer to the [API documentation](#hooks-1).
+
+### `deactivate`
+
+The `deactivate()` hook is automatically invoked by Pipedream when a component is updated or deleted. A common use case for the deactivate hook is to automatically delete a webhook subscription when a component is deleted, but you can run any valid code. To learn more about defining a custom `deactivate()` hook, refer to the [API documentation](#hooks-1).
 
 ## Management
 
@@ -758,6 +762,7 @@ const randomNum = this.random();
 
 ```javascript
 hooks: {
+  async deploy() {},
   async activate() {},
   async deactivate() {},
 },
