@@ -5,7 +5,7 @@ module.exports = {
   version: "0.0.1",
   key: "uservoice-new-nps-ratings",
   description:
-    "Emits new NPS ratings submitted through the UserVoice NPS widget. On first run, emits up to 10 sample, past NPS ratings.",
+    "Emits new NPS ratings submitted through the UserVoice NPS widget. On first run, emits up to 10 sample NPS ratings users have previously submitted.",
   dedupe: "unique",
   props: {
     uservoice,
