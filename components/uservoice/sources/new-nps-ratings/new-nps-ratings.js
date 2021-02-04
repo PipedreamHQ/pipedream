@@ -3,7 +3,7 @@ const NUM_SAMPLE_RESULTS = 10;
 
 module.exports = {
   name: "New NPS Ratings",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "uservoice-new-nps-ratings",
   description: `Emits new NPS ratings submitted through the UserVoice NPS widget. On first run, emits up to ${NUM_SAMPLE_RESULTS} sample NPS ratings users have previously submitted.`,
   dedupe: "unique",
@@ -12,7 +12,7 @@ module.exports = {
     timer: {
       label: "Polling schedule",
       description:
-        "Pipdream will poll the UserVoice API for new NPS ratings on this schedule",
+        "Pipedream will poll the UserVoice API for new NPS ratings on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // by default, run every 15 minutes
