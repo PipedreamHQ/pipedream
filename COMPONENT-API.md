@@ -765,6 +765,7 @@ hooks: {
 
 | Property     | Type     | Required? | Description                                           |
 | ------------ | -------- | --------- | ----------------------------------------------------- |
+| `deploy`     | `method` | optional  | Executed each time a component is deployed            |
 | `activate`   | `method` | optional  | Executed each time a component is deployed or updated |
 | `deactivate` | `method` | optional  | Executed each time a component is deactivated         |
 
