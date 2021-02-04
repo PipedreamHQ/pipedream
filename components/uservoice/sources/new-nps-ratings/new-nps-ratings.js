@@ -1,11 +1,11 @@
 const uservoice = require("../../uservoice.app.js");
+const NUM_SAMPLE_RESULTS = 10;
 
 module.exports = {
   name: "New NPS Ratings",
   version: "0.0.1",
   key: "uservoice-new-nps-ratings",
-  description:
-    "Emits new NPS ratings submitted through the UserVoice NPS widget. On first run, emits up to 10 sample NPS ratings users have previously submitted.",
+  description: `Emits new NPS ratings submitted through the UserVoice NPS widget. On first run, emits up to ${NUM_SAMPLE_RESULTS} sample NPS ratings users have previously submitted.`,
   dedupe: "unique",
   props: {
     uservoice,
@@ -22,10 +22,11 @@ module.exports = {
   },
   hooks: {
     async deploy() {
-      // Emit up to 10 sample records on the first run
-      this.emitWithMetadata(
-        await this.uservoice.listNPSRatings({ numSampleResults: 10 })
-      );
+      // Emit sample records on the first run
+      const { npsRatings } = await this.uservoice.listNPSRatings({
+        numSampleResults: NUM_SAMPLE_RESULTS,
+      });
+      this.emitWithMetadata(npsRatings);
     },
   },
   methods: {
@@ -42,11 +43,16 @@ module.exports = {
     },
   },
   async run() {
-    const now = new Date().toISOString();
-    const updated_after = this.db.get("updated_after") || now;
-    this.emitWithMetadata(
-      await this.uservoice.listNPSRatings({ updated_after })
-    );
-    this.db.set("updated_after", now);
+    let updated_after =
+      this.db.get("updated_after") || new Date().toISOString();
+    const { npsRatings, maxUpdatedAt } = await this.uservoice.listNPSRatings({
+      updated_after,
+    });
+    this.emitWithMetadata(npsRatings);
+
+    if (maxUpdatedAt) {
+      updated_after = maxUpdatedAt;
+    }
+    this.db.set("updated_after", updated_after);
   },
 };

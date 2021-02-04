@@ -46,7 +46,14 @@ module.exports = {
         cursor = pagination.cursor;
       } while (cursor);
 
-      return npsRatings;
+      // Calculate the ISO 8601 timestamp of the most recent record, if available
+      let maxUpdatedAt;
+      if (npsRatings.length) {
+        const dates = npsRatings.map((r) => new Date(r.updated_at));
+        maxUpdatedAt = new Date(Math.max.apply(null, dates)).toISOString();
+      }
+
+      return { npsRatings, maxUpdatedAt };
     },
   },
 };
