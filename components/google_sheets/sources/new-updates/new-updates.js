@@ -1,4 +1,4 @@
-const crypto = require("crypto")
+const crypto = require("crypto");
 const common = require("../common");
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -15,7 +15,7 @@ module.exports = {
       propDefinition: [
         common.props.google_sheets,
         "sheetID",
-        c => ({
+        (c) => ({
           watchedDrive: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
         }),
       ],
@@ -24,7 +24,7 @@ module.exports = {
       propDefinition: [
         common.props.google_sheets,
         "worksheetIDs",
-        c => ({ sheetId: c.sheetID }),
+        (c) => ({ sheetId: c.sheetID }),
       ],
     },
   },
@@ -37,9 +37,7 @@ module.exports = {
       } = worksheet.properties;
       const {
         spreadsheetId: sheetId,
-        properties: {
-          title: sheetTitle,
-        },
+        properties: { title: sheetTitle },
       } = spreadsheet;
 
       const changesHash = crypto
@@ -125,12 +123,12 @@ module.exports = {
       // Initialize sheet values
       const sheetId = this.getSheetId();
       const worksheetIds = this.getWorksheetIds();
-      const sheetValues = await this.google_sheets.getSheetValues(sheetId, worksheetIds);
+      const sheetValues = await this.google_sheets.getSheetValues(
+        sheetId,
+        worksheetIds
+      );
       for (const sheetVal of sheetValues) {
-        const {
-          values,
-          worksheetId,
-        } = sheetVal;
+        const { values, worksheetId } = sheetVal;
         if (!this.isWorksheetRelevant(worksheetId)) {
           continue;
         }
@@ -147,7 +145,7 @@ module.exports = {
 
         const { oldValues, currentValues } = await this.getContentDiff(
           spreadsheet,
-          worksheet,
+          worksheet
         );
         const newValues = currentValues.values || [];
         let changes = [];
@@ -156,16 +154,22 @@ module.exports = {
           let rowCount = this.getRowCount(newValues, oldValues);
           for (let i = 0; i < rowCount; i++) {
             let colCount = this.getColCount(newValues, oldValues, i);
-            changes = this.getContentChanges(colCount, newValues, oldValues, changes, i);
+            changes = this.getContentChanges(
+              colCount,
+              newValues,
+              oldValues,
+              changes,
+              i
+            );
           }
           this.$emit(
             { worksheet, currentValues, changes },
-            this.getMeta(spreadsheet, worksheet, changes),
+            this.getMeta(spreadsheet, worksheet, changes)
           );
         }
         this.db.set(
           `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`,
-          newValues || [],
+          newValues || []
         );
       }
     },

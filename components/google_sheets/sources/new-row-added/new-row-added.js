@@ -6,7 +6,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -14,7 +14,7 @@ module.exports = {
       propDefinition: [
         common.props.google_sheets,
         "sheetID",
-        c => ({
+        (c) => ({
           watchedDrive: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
         }),
       ],
@@ -23,7 +23,7 @@ module.exports = {
       propDefinition: [
         common.props.google_sheets,
         "worksheetIDs",
-        c => ({ sheetId: c.sheetID }),
+        (c) => ({ sheetId: c.sheetID }),
       ],
     },
   },
@@ -50,7 +50,9 @@ module.exports = {
     async getWorksheetLengthsById() {
       const sheetId = this.getSheetId();
       const worksheetIds = new Set(this.getWorksheetIds());
-      const worksheetLengths = await this.google_sheets.getWorksheetLength(sheetId);
+      const worksheetLengths = await this.google_sheets.getWorksheetLength(
+        sheetId
+      );
       return worksheetLengths
         .map((worksheetLengthData) => {
           const { worksheetId } = worksheetLengthData;
@@ -60,13 +62,13 @@ module.exports = {
           };
         })
         .filter(({ worksheetId }) => worksheetIds.has(worksheetId))
-        .reduce((accum, {
-          worksheetId,
-          worksheetLength,
-        }) => ({
-          ...accum,
-          [worksheetId]: worksheetLength,
-        }), {});
+        .reduce(
+          (accum, { worksheetId, worksheetLength }) => ({
+            ...accum,
+            [worksheetId]: worksheetLength,
+          }),
+          {}
+        );
     },
     async takeSheetSnapshot() {
       // Initialize row counts (used to keep track of new rows)
@@ -74,13 +76,10 @@ module.exports = {
       const worksheetIds = this.getWorksheetIds();
       const worksheetRowCounts = await this.google_sheets.getWorksheetRowCounts(
         sheetId,
-        worksheetIds,
+        worksheetIds
       );
       for (const worksheetRowCount of worksheetRowCounts) {
-        const {
-          rowCount,
-          worksheetId
-        } = worksheetRowCount;
+        const { rowCount, worksheetId } = worksheetRowCount;
         this.db.set(`${sheetId}${worksheetId}`, rowCount);
       }
     },
@@ -99,10 +98,13 @@ module.exports = {
 
         const oldRowCount = this.db.get(`${sheetId}${worksheetId}`);
         const worksheetLength = worksheetLengthsById[worksheetId];
-        const lowerBound = oldRowCount + 1
+        const lowerBound = oldRowCount + 1;
         const upperBound = worksheetLength;
         const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
-        const newRowValues = await this.google_sheets.getSpreadsheetValues(sheetId, range);
+        const newRowValues = await this.google_sheets.getSpreadsheetValues(
+          sheetId,
+          range
+        );
 
         const newRowCount = oldRowCount + newRowValues.values.length;
         if (newRowCount <= oldRowCount) continue;
