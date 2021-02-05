@@ -61,24 +61,24 @@ module.exports = {
     includeRetweets: {
       type: "string",
       label: "Retweets",
-      description: "Select whether to `include`, `exclude` or `only` include retweets in emitted events.",
+      description: "Select whether to **include**, **exclude** or **only include** retweets in emitted events.",
       optional: true,
       options: [
         { label: "Include", value: "include" },
         { label: "Exclude", value: "exclude" },
-        { label: "Only include retweets", value: "only" },
+        { label: "Only include retweets", value: "filter" },
       ],
       default: "include",
     },
     includeReplies: {
       type: "string",
       label: "Replies",
-      description: "Select whether to `include`, `exclude` or `only` include replies in emitted events.",
+      description: "Select whether to **include**, **exclude** or **only include** replies in emitted events.",
       optional: true,
       options: [
         { label: "Include", value: "include" },
         { label: "Exclude", value: "exclude" },
-        { label: "Only include replies", value: "only" },
+        { label: "Only include replies", value: "filter" },
       ],
       default: "include",
     },
@@ -96,9 +96,10 @@ module.exports = {
       optional: true,
     },
     lang: {
-      type: "string",
-      label: "Language",
-      description: "Restricts tweets to the given language. Language detection is best-effort.",
+      type: "string[]",
+      label: "Languages",
+      description: "Restricts tweets to the given languages. Language detection is best-effort. When unsure, leave blank.",
+      default: [],
       optional: true,
       async options(context) {
         const { page } = context;
@@ -119,7 +120,7 @@ module.exports = {
             value: code,
           };
         })
-      }
+      },
     },
     screen_name: {
       type: "string",
@@ -258,7 +259,7 @@ module.exports = {
       })).data
     },
     async search(opts = {}) {
-      const { q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id } = opts
+      const { q, since_id, tweet_mode, count, result_type, locale, geocode, max_id } = opts
       return (await this._makeRequest({
         url: `https://api.twitter.com/1.1/search/tweets.json`,
         params: {
@@ -268,7 +269,6 @@ module.exports = {
           tweet_mode,
           count,
           result_type,
-          lang,
           locale,
           geocode,
         }
@@ -328,26 +328,21 @@ module.exports = {
         locale,
         geocode,
         enrichTweets = true,
-        includeReplies = true,
-        includeRetweets = true,
+        includeReplies = "include",
+        includeRetweets = "include",
       } = opts
 
       let { q, max_id, since_id } = opts
       let min_id
 
-      if(includeReplies === 'exclude') {
-        q = `${q} -filter:replies`
-      } else if(includeReplies === 'only') {
-        q = `${q} filter:replies`
-      }
+      const langs = lang
+        .map(l => `lang:${l}`)
+        .join(" OR ")
+      q = `${q} ${langs}`
+      q = `${q} ${includeReplies}:replies`
+      q = `${q} ${includeRetweets}:nativeretweets`
 
-      if(includeRetweets === 'exclude') {
-        q = `${q} -filter:nativeretweets`
-      } else if(includeRetweets === 'only') {
-        q = `${q} filter:nativeretweets`
-      }
-
-      const response = await this.search({ q, since_id, tweet_mode, count, result_type, lang, locale, geocode, max_id })
+      const response = await this.search({ q, since_id, tweet_mode, count, result_type, locale, geocode, max_id })
 
       if(!response) {
         console.log(`Last request was not successful.`)
