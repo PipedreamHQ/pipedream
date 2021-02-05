@@ -72,7 +72,7 @@ module.exports = {
   },
   methods: {
     _getBaseUrl() {
-      return "https://sandbox.procore.com/rest/v1.0";
+      return "https://api.procore.com/rest/v1.0";
     },
     _getHeaders(companyId = null) {
       let headers = {
