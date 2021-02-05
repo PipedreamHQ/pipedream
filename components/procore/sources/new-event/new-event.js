@@ -10,11 +10,12 @@ module.exports = {
   props: {
     ...common.props,
     resourceName: { propDefinition: [procore, "resourceName"] },
-    eventType: { propDefinition: [procore, "eventType"] },
+    eventTypes: { propDefinition: [procore, "eventTypes"] },
   },
   methods: {
+    ...common.methods,
     getEventTypes() {
-      return [ this.eventType ];
+      return this.eventTypes;
     },
     getResourceName() {
       return this.resourceName;
@@ -23,12 +24,18 @@ module.exports = {
       return body;
     },
     getMeta(body) {
-      const { id, event_type } = body;
+      const {
+        id,
+        event_type: eventType,
+        resource_name: resourceName,
+        timestamp,
+      } = body;
+      const ts = new Date(timestamp).getTime();
       return {
         id,
-        summary: event_type,
-        ts: Date.now(),
-      }
-    }
+        summary: `${eventType} ${resourceName}`,
+        ts,
+      };
+    },
   },
 };

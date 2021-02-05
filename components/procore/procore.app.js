@@ -1,13 +1,16 @@
 const axios = require("axios");
 const eventTypes = [
-  { label: "Create", value: "create"},
-  { label: "Update", value: "update"},
-  { label: "Delete", value: "delete"},
+  { label: "Create", value: "create" },
+  { label: "Update", value: "update" },
+  { label: "Delete", value: "delete" },
 ];
 const resourceNames = [
+  "Budget View Snapshots",
+  "Change Events",
+  "Change Order Packages",
   "Projects",
   "Prime Contracts",
-  "Change Order Requests",
+  "Purchase Order Contracts",
   "RFIs",
   "Submittals",
 ];
@@ -19,13 +22,15 @@ module.exports = {
     company: {
       type: "integer",
       label: "Company",
+      description: "Select the company to watch for changes in.",
       async options({ page, prevContext }) {
         const limit = 100;
-        let offset = prevContext.offset || 0;
+        const { offset = 0 } = prevContext;
         const results = await this.listCompanies(limit, offset);
-        const options = [];
-        for (const company of results)
-          options.push({ label: company.name, value: company.id });
+        const options = results.map((c) => ({
+          label: c.name,
+          value: c.id,
+        }));
         return {
           options,
           context: { limit, offset: offset + limit },
@@ -33,15 +38,19 @@ module.exports = {
       },
     },
     project: {
-      type: "string",
+      type: "integer",
       label: "Project",
+      description:
+        "Select the project to watch for changes in. Leave blank for company-level resources (eg. Projects).",
+      optional: true,
       async options({ page, prevContext, company }) {
         const limit = 100;
-        let offset = prevContext.offset || 0;
+        const { offset = 0 } = prevContext;
         const results = await this.listProjects(company, limit, offset);
-        const options = [];
-        for (const project of results)
-          options.push({ label: project.name, value: project.id });
+        const options = results.map((p) => ({
+          label: p.name,
+          value: p.id,
+        }));
         return {
           options,
           context: { limit, offset: offset + limit, company },
@@ -51,98 +60,178 @@ module.exports = {
     resourceName: {
       type: "string",
       label: "Resource",
-      description:
-        "The type of resource on which to trigger events.",
+      description: "The type of resource on which to trigger events.",
       options: resourceNames,
     },
-    eventType: {
-      type: "string",
+    eventTypes: {
+      type: "string[]",
       label: "Event Type",
-      description:
-        "Only events of the selected event type will be emitted.",
+      description: "Only events of the selected event type will be emitted.",
       options: eventTypes,
     },
   },
   methods: {
     _getBaseUrl() {
-      return "https://api.procore.com/rest/v1.0";
+      return "https://sandbox.procore.com/rest/v1.0";
     },
-    _getHeaders(companyId=null) {
+    _getHeaders(companyId = null) {
       let headers = {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
       if (companyId) headers["Procore-Company-Id"] = companyId;
       return headers;
     },
-    async _makeGetRequest(endpoint, perPage=null, page=null, params={}, companyId=null) {
-      let config = {
-        method: "GET",
-        url: `${this._getBaseUrl()}/${endpoint}`,
-        headers: this._getHeaders(companyId),
-        params,
-      }
-      if (perPage) config.params.per_page = perPage;
-      if (page) config.params.page = page;
-      return (await axios(config)).data;
-    },
-    async _makePostRequest(endpoint, data={}, companyId=null) {
+    async _makeRequest(
+      method,
+      endpoint,
+      companyId = null,
+      params = null,
+      data = null
+    ) {
       const config = {
-        method: "POST",
+        method,
         url: `${this._getBaseUrl()}/${endpoint}`,
         headers: this._getHeaders(companyId),
-        data,
-      }
-      return (await axios(config)).data;
-    },
-    async _makeDeleteRequest(endpoint, companyId, projectId) {
-      const config = {
-        method: "DELETE",
-        url: `${this._getBaseUrl()}/${endpoint}`,
-        headers: this._getHeaders(companyId),
-        params: {
-          company_id: companyId,
-          project_id: projectId,
-        }
-      }
+      };
+      if (params) config.params = params;
+      else if (data) config.data = data;
       return (await axios(config)).data;
     },
     async createHook(destinationUrl, companyId, projectId) {
       const data = {
-        company_id: companyId,
-        project_id: projectId,
         hook: {
-          "api_version": "v1.0",
+          api_version: "v1.0",
           destination_url: destinationUrl,
-        }
-      }
-      return await this._makePostRequest("webhooks/hooks", data, companyId);
+        },
+      };
+      if (projectId) data.project_id = projectId;
+      else if (companyId) data.company_id = companyId;
+      return await this._makeRequest(
+        "POST",
+        "webhooks/hooks",
+        companyId,
+        null,
+        data
+      );
     },
-    async createHookTrigger(hookId, companyId, projectId, resourceName, eventType) {
+    async createHookTrigger(
+      hookId,
+      companyId,
+      projectId,
+      resourceName,
+      eventType
+    ) {
       const data = {
-        company_id: companyId,
-        project_id: projectId,
-        "api_version": "v1.0",
+        api_version: "v1.0",
         trigger: {
           resource_name: resourceName,
           event_type: eventType,
-        }
-      }
-      return await this._makePostRequest(`webhooks/hooks/${hookId}/triggers`, data, companyId);
+        },
+      };
+      if (projectId) data.project_id = projectId;
+      else if (companyId) data.company_id = companyId;
+      return await this._makeRequest(
+        "POST",
+        `webhooks/hooks/${hookId}/triggers`,
+        companyId,
+        null,
+        data
+      );
     },
     async deleteHook(id, companyId, projectId) {
-      return await this._makeDeleteRequest(`webhooks/hooks/${id}`, companyId, projectId);
+      const params = projectId
+        ? { project_id: projectId }
+        : { company_id: companyId };
+      return await this._makeRequest(
+        "DELETE",
+        `webhooks/hooks/${id}`,
+        companyId,
+        params
+      );
     },
     async deleteHookTrigger(hookId, triggerId, companyId, projectId) {
-      return await this._makeDeleteRequest(`webhooks/hooks/${hookId}/triggers/${triggerId}`, companyId, projectId);
+      const params = projectId
+        ? { project_id: projectId }
+        : { company_id: companyId };
+      return await this._makeRequest(
+        "DELETE",
+        `webhooks/hooks/${hookId}/triggers/${triggerId}`,
+        companyId,
+        params
+      );
     },
     async listCompanies(perPage, page) {
-      return await this._makeGetRequest("companies", perPage, page);
+      return await this._makeRequest("GET", "companies", null, {
+        per_page: perPage,
+        page,
+      });
     },
     async listProjects(companyId, perPage, page) {
-      return await this._makeGetRequest("projects", perPage, page, { company_id: companyId }, companyId);
+      return await this._makeRequest("GET", "projects", companyId, {
+        company_id: companyId,
+        per_page: perPage,
+        page,
+      });
+    },
+    async getBudgetViewSnapshot(
+      companyId,
+      projectId,
+      budgetViewSnapshotId,
+      perPage,
+      page
+    ) {
+      return await this._makeRequest(
+        "GET",
+        `budget_view_snapshots/${budgetViewSnapshotId}/detail_rows`,
+        companyId,
+        { project_id: projectId, per_page: perPage, page }
+      );
+    },
+    async getChangeEvent(companyId, projectId, changeEventId) {
+      return await this._makeRequest(
+        "GET",
+        `change_events/${changeEventId}`,
+        companyId,
+        { project_id: projectId }
+      );
+    },
+    async getChangeOrderPackage(companyId, projectId, changeOrderPackageId) {
+      return await this._makeRequest(
+        "GET",
+        `change_order_packages/${changeOrderPackageId}`,
+        companyId,
+        { project_id: projectId }
+      );
+    },
+    async getPrimeContract(companyId, projectId, primeContractId) {
+      return await this._makeRequest(
+        "GET",
+        `prime_contract/${primeContractId}`,
+        companyId,
+        { project_id: projectId }
+      );
+    },
+    async getPurchaseOrder(companyId, projectId, poId) {
+      return await this._makeRequest(
+        "GET",
+        `purchase_order_contracts/${poId}`,
+        companyId,
+        { project_id: projectId }
+      );
     },
     async getRFI(companyId, projectId, rfiId) {
-      return await this._makeGetRequest(`projects/${projectId}/rfis/${rfiId}`, null, null, {}, companyId);
-    }
+      return await this._makeRequest(
+        "GET",
+        `projects/${projectId}/rfis/${rfiId}`,
+        companyId
+      );
+    },
+    async getSubmittal(companyId, projectId, submittalId) {
+      return await this._makeRequest(
+        "GET",
+        `projects/${projectId}/submittals/${submittalId}`,
+        companyId
+      );
+    },
   },
 };
