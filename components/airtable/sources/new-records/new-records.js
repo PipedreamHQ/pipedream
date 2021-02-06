@@ -1,23 +1,18 @@
-const airtable = require('../../airtable.app.js')
 const moment = require('moment')
 const axios = require('axios')
 
+const common = require('../common')
+
 module.exports = {
+  ...common,
   name: "New Records",
   description: "Emit an event for each new record in a table",
   key: "airtable-new-records",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
-    db: "$.service.db",
-    airtable,
+    ...common.props,
     baseId: { type: "$.airtable.baseId", appProp: "airtable" },
     tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 5,
-      },
-    },
   },
   async run(event) {
     const config = {
@@ -28,12 +23,8 @@ module.exports = {
       },
     }
 
-    let maxTimestamp
-    const lastMaxTimestamp = this.db.get("lastMaxTimestamp")
-    if (lastMaxTimestamp) {
-      config.params.filterByFormula = `CREATED_TIME() > "${lastMaxTimestamp}"`
-      maxTimestamp = lastMaxTimestamp
-    }
+    const lastTimestamp = this.db.get("lastTimestamp")
+    config.params.filterByFormula = `CREATED_TIME() > "${lastTimestamp}"`
 
     const { data } = await axios(config)
 
@@ -49,6 +40,7 @@ module.exports = {
       viewId
     }
 
+    let maxTimestamp
     let recordCount = 0
     for (let record of data.records) {
       record.metadata = metadata
@@ -64,6 +56,6 @@ module.exports = {
       recordCount++
     }
     console.log(`Emitted ${recordCount} new records(s).`)
-    this.db.set("lastMaxTimestamp", maxTimestamp)
+    this.db.set("lastTimestamp", maxTimestamp)
   },
 }
