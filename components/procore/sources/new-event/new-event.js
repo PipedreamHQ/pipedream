@@ -14,7 +14,7 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    getEventTypes() {
+    getComponentEventTypes() {
       return this.eventTypes;
     },
     getResourceName() {

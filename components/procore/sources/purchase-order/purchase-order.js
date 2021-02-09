@@ -2,7 +2,7 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
-  name: "New or Updated Purchase Order (Instant)",
+  name: "Purchase Order Event (Instant)",
   key: "procore-purchase-order",
   description:
     "Emits an event each time a Purchase Order is created, updated, or deleted in a project.",
@@ -19,11 +19,11 @@ module.exports = {
         this.project,
         resourceId
       );
-      return { body, resource };
+      return { ...body, resource };
     },
-    getMeta({ body, resource }) {
+    getMeta({ id, event_type, timestamp, resource }) {
       const { title, id: purchaseOrderId } = resource;
-      const { id, event_type: eventType, timestamp } = body;
+      const eventType = event_type;
       const summary = title
         ? `${eventType} ${title}`
         : `${eventType} Purchase Order ID:${purchaseOrderId}`;

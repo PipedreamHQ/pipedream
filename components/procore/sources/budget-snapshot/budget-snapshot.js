@@ -2,7 +2,7 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
-  name: "New or Updated Budget Snapshot (Instant)",
+  name: "Budget Snapshot Event (Instant)",
   key: "procore-budget-snapshot",
   description:
     "Emits an event each time a Budget Snapshot is created, updated, or deleted in a project.",
@@ -30,9 +30,9 @@ module.exports = {
         total = resource.length;
         offset += limit;
       }
-      return { body, snapshotRows };
+      return { ...body, snapshotRows };
     },
-    getMeta({ body }) {
+    getMeta(body) {
       const {
         id,
         event_type: eventType,

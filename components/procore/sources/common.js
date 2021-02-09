@@ -12,8 +12,11 @@ module.exports = {
     },
   },
   methods: {
-    getEventTypes() {
-      return ["create", "update", "delete"];
+    getComponentEventTypes() {
+      return this.procore.getEventTypes();
+    },
+    getResourceName() {
+      throw new Error("getResourceName is not implemented");
     },
   },
   hooks: {
@@ -25,7 +28,7 @@ module.exports = {
       );
       this.db.set("hookId", hook.id);
       // create hook triggers
-      eventTypes = this.getEventTypes();
+      eventTypes = this.getComponentEventTypes();
       resourceName = this.getResourceName();
       const triggerIds = [];
       for (const eventType of eventTypes) {

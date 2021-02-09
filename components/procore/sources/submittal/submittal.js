@@ -3,7 +3,7 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
-  name: "New or Updated Submittal (Instant)",
+  name: "Submittal Event (Instant)",
   key: "procore-submittal",
   description:
     "Emits an event each time a Submittal is created, updated, or deleted in a project.",
@@ -20,11 +20,11 @@ module.exports = {
         this.project,
         resourceId
       );
-      return { body, resource };
+      return { ...body, resource };
     },
-    getMeta({ body, resource }) {
+    getMeta({ id, event_type, timestamp, resource }) {
       const { title, id: submittalId } = resource;
-      const { id, event_type: eventType, timestamp } = body;
+      const eventType = event_type;
       const summary = title
         ? `${eventType} ${title}`
         : `${eventType} Submittal ID:${submittalId}`;

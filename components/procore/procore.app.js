@@ -71,6 +71,9 @@ module.exports = {
     },
   },
   methods: {
+    getEventTypes() {
+      return eventTypes.map(({ value }) => value);
+    },
     _getBaseUrl() {
       return "https://api.procore.com/rest/v1.0";
     },

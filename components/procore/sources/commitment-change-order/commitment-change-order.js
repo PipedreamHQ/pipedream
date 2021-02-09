@@ -2,7 +2,7 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
-  name: "New or Updated Commitment Change Order (Instant)",
+  name: "Commitment Change Order Event (Instant)",
   key: "procore-commitment-change-order",
   description:
     "Emits an event each time a Commitment Change Order is created, updated, or deleted in a project.",
@@ -19,9 +19,9 @@ module.exports = {
         this.project,
         resourceId
       );
-      return { body, resource };
+      return { ...body, resource };
     },
-    getMeta({ body }) {
+    getMeta(body) {
       const {
         id,
         event_type: eventType,

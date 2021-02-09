@@ -2,7 +2,7 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
-  name: "New or Updated Prime Contract Change Order (Instant)",
+  name: "Prime Contract Change Order Event (Instant)",
   key: "procore-prime-contract-change-order",
   description:
     "Emits an event each time a Prime Contract Change Order is created, updated, or deleted in a project.",
@@ -19,9 +19,9 @@ module.exports = {
         this.project,
         resourceId
       );
-      return { body, resource };
+      return { ...body, resource };
     },
-    getMeta({ body }) {
+    getMeta(body) {
       const {
         id,
         event_type: eventType,
