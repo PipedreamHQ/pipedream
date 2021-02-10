@@ -87,7 +87,7 @@ module.exports = {
     },
     _apiUrl() {
       const {
-        base_url: baseUrl = "https://platform.devtest.ringcentral.com/restapi/v1.0",
+        base_url: baseUrl = "https://platform.ringcentral.com/restapi/v1.0",
       } = this.$auth;
       return baseUrl;
     },
@@ -155,8 +155,6 @@ module.exports = {
         ...this._makeRequestConfig(),
         params,
       };
-      console.log(url)
-      console.log(requestConfig)
       const { data } = await axios.get(url, requestConfig);
       return data;
     },
