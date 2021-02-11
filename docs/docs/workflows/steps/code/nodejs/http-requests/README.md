@@ -196,6 +196,73 @@ This sends each HTTP request _in sequence_, one after another, and returns an ar
 
 [Copy this workflow](https://pipedream.com/@dylburger/iterate-over-a-pipedream-step-export-sending-multiple-http-requests-p_ljCAPN/edit) and fill in your destination URL to see how this works. **This workflow iterates over the value of a Pipedream [step export](/workflows/steps/#step-exports)** - data returned from a previous step. Since you often want to iterate over data returned from a Pipedream action or other code step, this is a common use case.
 
+## Send a `multipart/form-data` request
+
+```javascript
+const axios = require("axios");
+const FormData = require("form-data");
+
+const formData = new FormData();
+formData.append("name", "Luke Skywalker");
+
+const headers = formData.getHeaders();
+const config = {
+  method: "POST",
+  url: params.url,
+  headers,
+  data: formData,
+};
+return await axios(config);
+```
+
+[Copy this workflow](https://pipedream.com/@dylburger/send-a-multipart-form-data-request-p_WxCQRyr/edit) to run this example.
+
+## Download a file to the `/tmp` directory
+
+This example shows you how to download a file to a file in [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
+
+```javascript
+const fs = require("fs");
+const got = require("got");
+const stream = require("stream");
+const { promisify } = require("util");
+
+// DOWNLOAD
+const pipeline = promisify(stream.pipeline);
+await pipeline(
+  got.stream(params.downloadURL),
+  fs.createWriteStream(params.filePath)
+);
+```
+
+[Copy this workflow](https://pipedream.com/@dylburger/download-a-file-from-a-url-to-tmp-p_pWCYA8y/edit) to run this example.
+
+## Upload a file from the `/tmp` directory
+
+This example shows you how to make a `multipart/form-data` request with a file as a form part. You can store and read any files from [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
+
+This can be especially helpful for uploading large files: it streams the file from disk, minimizing the memory the workflow uses when uploading the file.
+
+```javascript
+const axios = require("axios");
+const fs = require("fs");
+const FormData = require("form-data");
+
+const formData = new FormData();
+formData.append("file", fs.createReadStream(params.pathToYourFile));
+const headers = formData.getHeaders();
+
+const config = {
+  method: "POST",
+  url: params.url,
+  headers,
+  data: formData,
+};
+return await axios(config);
+```
+
+[Copy this workflow](https://pipedream.com/@dylburger/stream-a-file-upload-p_6lC1d2Z/edit) to run this example.
+
 ## Use an HTTP proxy to proxy requests through another host
 
 When you make HTTP requests to certain services, they might require you whitelist a set of IP addresses those requests come from. Often, this is to improve the security of the target service.

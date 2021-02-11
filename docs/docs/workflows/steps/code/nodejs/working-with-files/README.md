@@ -2,6 +2,8 @@
 
 You'll commonly need to work with files in a workflow, for example: downloading content from some service to upload to another. This doc explains how to work with files in Pipedream workflows and provides some sample code for common operations.
 
+[[toc]]
+
 ## The `/tmp` directory
 
 Within a workflow, you have full read-write access to the `/tmp` directory. You have `512 MB` of available space in `/tmp` to save any file.
@@ -37,6 +39,14 @@ const fs = require("fs");
 
 this.fileData = fs.readFileSync(`/tmp/myfile`).toString();
 ```
+
+## Download a file to `/tmp`
+
+[See this example](/workflows/steps/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory) to learn how to download a file to `/tmp`.
+
+## Upload a file from `/tmp`
+
+[See this example](/workflows/steps/code/nodejs/http-requests/#upload-a-file-from-the-tmp-directory) to learn how to upload a file from `/tmp` in an HTTP request.
 
 ## Download a file, uploading it in another `multipart/form-data` request
 
