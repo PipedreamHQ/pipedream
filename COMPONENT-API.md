@@ -139,7 +139,7 @@ On delete, Pipedream invokes the optional `Deactivate()` hook and deletes the co
 
 ### `deploy`
 
-The `deploy()` hook is automatically invoked by Pipedream when a component is deployed or updated. A common use case for the deploy hook is to create webhook subscriptions when the component is created, but you can run any valid code. To learn more about defining a custom `deploy()` hook, refer to the [API documentation](#hooks-1).
+The `deploy()` hook is automatically invoked by Pipedream when a component is deployed. A common use case for the deploy hook is to create webhook subscriptions when the component is created, but you can run any valid code. To learn more about defining a custom `deploy()` hook, refer to the [API documentation](#hooks-1).
 
 ### `activate`
 
