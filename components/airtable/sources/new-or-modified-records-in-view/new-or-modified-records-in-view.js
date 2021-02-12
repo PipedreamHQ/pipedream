@@ -11,7 +11,6 @@ module.exports = {
   version: "0.0.3",
   props: {
     ...common.props,
-    baseId: { type: "$.airtable.baseId", appProp: "airtable" },
     tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
     viewId: { type: "$.airtable.viewId", tableIdProp: "tableId" },
   },

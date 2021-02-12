@@ -18,7 +18,6 @@ module.exports = {
     "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
   props: {
     ...common.props,
-    baseId: { type: '$.airtable.baseId', appProp: 'airtable' },
     tableId: { type: '$.airtable.tableId', baseIdProp: 'baseId' },
   },
   async run(event) {

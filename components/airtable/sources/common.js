@@ -10,6 +10,7 @@ module.exports = {
         intervalSeconds: 60 * 5,
       },
     },
+    baseId: { type: "$.airtable.baseId", appProp: "airtable" },
   },
   hooks: {
     activate() {
