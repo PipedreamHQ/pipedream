@@ -1,24 +1,18 @@
-const airtable = require('../../airtable.app.js')
 const moment = require('moment')
 const axios = require('axios')
 
+const common = require('../common')
+
 module.exports = {
+  ...common,
   name: "New or Modified Records in View",
   description: "Emit an event for each new or modified record in a view",
   key: 'airtable-new-or-modified-records-in-view',
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
-    db: "$.service.db",
-    airtable,
-    baseId: { type: "$.airtable.baseId", appProp: "airtable" },
+    ...common.props,
     tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
     viewId: { type: "$.airtable.viewId", tableIdProp: "tableId" },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 5,
-      },
-    },
   },
   async run(event) {
     const config = {
@@ -31,12 +25,10 @@ module.exports = {
       },
     }
 
-    
+
     const lastTimestamp = this.db.get("lastTimestamp")
-    if (lastTimestamp) {
-      config.params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`
-    }
-    const timestamp = new Date().toISOString()
+    config.params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`
+
     const { data } = await axios(config)
 
     if (!data.records.length) {
@@ -69,6 +61,10 @@ module.exports = {
       })
     }
     console.log(`Emitted ${newRecords} new records(s) and ${modifiedRecords} modified record(s).`)
-    this.db.set("lastTimestamp", timestamp)
+
+    // We keep track of the timestamp of the current invocation
+    const { timestamp } = event
+    const formattedTimestamp = new Date(timestamp).toISOString()
+    this.db.set("lastTimestamp", formattedTimestamp)
   },
 }

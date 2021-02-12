@@ -1,7 +1,8 @@
-const airtable = require('../../airtable.app.js');
 const moment = require('moment');
 const axios = require('axios');
 const Bottleneck = require('bottleneck');
+
+const common = require('../common');
 
 const limiter = new Bottleneck({
   minTime: 200, // 5 requets per second
@@ -9,22 +10,15 @@ const limiter = new Bottleneck({
 const axiosRateLimiter = limiter.wrap(axios);
 
 module.exports = {
+  ...common,
   name: 'New, Modified or Deleted Records',
   key: 'airtable-new-modified-or-deleted-records',
-  version: '0.0.1',
+  version: '0.0.2',
   description:
     "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
   props: {
-    db: '$.service.db',
-    airtable,
-    baseId: { type: '$.airtable.baseId', appProp: 'airtable' },
+    ...common.props,
     tableId: { type: '$.airtable.tableId', baseIdProp: 'baseId' },
-    timer: {
-      type: '$.interface.timer',
-      default: {
-        intervalSeconds: 60 * 5,
-      },
-    },
   },
   async run(event) {
     const { baseId, tableId, viewId } = this;
@@ -42,13 +36,11 @@ module.exports = {
       },
     };
 
-    const lastTimestamp = this.db.get('lastTimestamp');
     const prevAllRecordIds = this.db.get('prevAllRecordIds');
 
-    if (lastTimestamp) {
-      config.params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`;
-    }
-    const timestamp = new Date().toISOString();
+    const lastTimestamp = this.db.get('lastTimestamp');
+    config.params.filterByFormula = `LAST_MODIFIED_TIME() > "${lastTimestamp}"`;
+
     const { data } = await axios(config);
 
     let allRecordIds = [],
@@ -113,6 +105,10 @@ module.exports = {
       `Emitted ${newRecordsCount} new records(s) and ${modifiedRecordsCount} modified record(s) and ${deletedRecordsCount} deleted records.`
     );
     this.db.set('prevAllRecordIds', allRecordIds);
-    this.db.set('lastTimestamp', timestamp);
+
+    // We keep track of the timestamp of the current invocation
+    const { timestamp } = event;
+    const formattedTimestamp = new Date(timestamp).toISOString();
+    this.db.set("lastTimestamp", formattedTimestamp);
   },
 };
