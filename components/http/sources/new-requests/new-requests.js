@@ -3,7 +3,7 @@ const http_app = require('../../http.app.js')
 // Core HTTP component
 module.exports = {
   key: "http-new-requests",
-  name: "New Requests",
+  name: "HTTP / Webhook Requests (Advanced)",
   description: "Get a URL and emit the full HTTP event on every request (including headers and query parameters). You can also configure the HTTP response code, body, and more.",
   version: "0.0.2",
   props: {
