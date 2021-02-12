@@ -2,15 +2,39 @@ const { google } = require("googleapis");
 const google_drive = require("../google_drive/google_drive.app");
 
 module.exports = {
-  ...google_drive,
+  type: "app",
+  app: "google_sheets",
   propDefinitions: {
     ...google_drive.propDefinitions,
+    cells: {
+      type: "string[]",
+      label: "Cells / Column Values",
+      description: "Use structured mode to enter individual cell values. Disable structured mode to pass an array with each element representing a cell/column value.",
+    },
+    range: {
+      type: "string",
+      label: "Range",
+      description: "The A1 notation of the values to retrieve. E.g., `A1:E5`",
+    },
+    rows: {
+      type: "any",
+      label: "Row Values",
+      description: 'Enter an array of arrays (e.g., `[["Row 1","Column 2",3],["Row 2","R2C2",true]]`). Each nested array should represent a row, with each element of the nested array representing a cell/column value. To pass data from another step, enter a reference using double curly brackets (e.g., `{{steps.mydata.$return_value}}`)',
+    },
     sheetID: {
       type: "string",
-      label: "Spreadsheet to watch for changes",
+      label: "Spreadsheet",
       async options({ prevContext, driveId }) {
         const { nextPageToken } = prevContext;
         return this.listSheets(driveId, nextPageToken);
+      },
+    },
+    sheetName: {
+      type: "string",
+      label: "Sheet Name",
+      async options({ sheetId }) {
+        const { sheets } = await this.getSpreadsheet(sheetId)
+        return sheets.map(sheet => sheet.properties.title)
       },
     },
     worksheetIDs: {
