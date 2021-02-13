@@ -18,19 +18,19 @@ module.exports = {
     },
     generateMeta(data) {
       const {
+        uuid: id,
         body: eventDetails,
         timestamp,
-        uuid: id,
       } = data;
+      const ts = Date.parse(timestamp);
+
       const {
         from: {
           phoneNumber: senderPhoneNumber,
         },
-      } = eventDetails.parties[0];
-
+      } = eventDetails;
       const maskedCallerNumber = this.getMaskedNumber(senderPhoneNumber);
       const summary = `New inbound SMS from ${maskedCallerNumber}`;
-      const ts = Date.parse(timestamp);
 
       return {
         id,

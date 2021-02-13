@@ -1,4 +1,6 @@
 const template = require("lodash/template");
+const { v4: uuid } = require("uuid");
+
 const base = require("./base");
 const notificationTypes = require("./notification-types");
 
@@ -15,17 +17,18 @@ module.exports = {
   hooks: {
     ...base.hooks,
     async activate() {
+      const verificationToken = this._getVerificationToken();
+      this.db.set("verificationToken", verificationToken);
+
       const opts = {
         address: this.http.endpoint,
         eventFilters: this._getEventFilters(),
+        verificationToken,
       };
       const {
         id: webhookId,
-        verificationToken,
       } = await this.ringcentral.createHook(opts);
-
       this.db.set("webhookId", webhookId);
-      this.db.set("verificationToken", verificationToken);
     },
     async deactivate() {
       const webhookId = this.db.get("webhookId");
@@ -46,10 +49,14 @@ module.exports = {
     },
     _getEventFilters() {
       const eventKeys = this.getSupportedNotificationTypes();
+      const propValues = this._getPropValues();
       return notificationTypes
         .filter(({ key }) => eventKeys.has(key))
         .map(({ filter }) => template(filter))
-        .map((templateFn) => templateFn(this._getPropValues()));
+        .map((templateFn) => templateFn(propValues));
+    },
+    _getVerificationToken() {
+      return uuid().replace(/-/g, "");
     },
     /**
      * Provides the set of notification types to which an HTTP-based event

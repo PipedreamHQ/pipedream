@@ -15,10 +15,13 @@ module.exports = {
       const {
         id,
         startTime: timestamp,
+        direction,
       } = data;
-
-      const summary = `New call recording`;
       const ts = Date.parse(timestamp);
+
+      const { phoneNumber } = direction === "Outbound" ? data.to : data.from;
+      const maskedPhoneNumber = this.getMaskedNumber(phoneNumber);
+      const summary = `New call recording (${maskedPhoneNumber})`;
 
       return {
         id,

@@ -1,5 +1,4 @@
 const axios = require("axios");
-const { v4: uuid } = require("uuid");
 
 module.exports = {
   type: "app",
@@ -182,6 +181,7 @@ module.exports = {
     async createHook({
       address,
       eventFilters,
+      verificationToken,
     }) {
       const url = this._subscriptionUrl();
       const requestConfig = this._makeRequestConfig();
@@ -189,7 +189,6 @@ module.exports = {
       // Details about the different webhook parameters can be found in the
       // RingCentral API docs:
       // https://developers.ringcentral.com/api-reference/Subscriptions/createSubscription
-      const verificationToken = uuid().replace(/-/g, "");
       const requestData = {
         eventFilters,
         deliveryMode: {
