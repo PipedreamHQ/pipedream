@@ -1,5 +1,9 @@
 module.exports = [
   {
+    English: "Undetected",
+    alpha2: "und",
+  },
+  {
     English: "Abkhazian",
     alpha2: "ab",
   },

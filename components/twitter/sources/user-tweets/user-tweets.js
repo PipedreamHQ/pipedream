@@ -4,13 +4,13 @@ const moment = require('moment')
 module.exports = {
   key: "twitter-user-tweets",
   name: "User Tweets",
-  description: "Emit new Tweets posted by a user", 
-  version: "0.0.1",
-  props: { 
+  description: "Emit new Tweets posted by a user",
+  version: "0.0.2",
+  props: {
     db: "$.service.db",
     twitter,
-    screen_name: { propDefinition: [twitter, "screen_name"] }, 
-    include_rts: { propDefinition: [twitter, "includeRetweets"] },
+    screen_name: { propDefinition: [twitter, "screen_name"] },
+    includeRetweets: { propDefinition: [twitter, "includeRetweets"] },
     includeReplies: { propDefinition: [twitter, "includeReplies"] },
     enrichTweets: { propDefinition: [twitter, "enrichTweets"] },
     count: { propDefinition: [twitter, "count"] },
@@ -20,28 +20,25 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
     },
-  }, 
+  },
   methods: {},
   async run(event) {
     const screen_name = this.screen_name //.replace('@','')
     const since_id = this.db.get("since_id")
-    const { enrichTweets, includeReplies, include_rts, count } = this
+    const { enrichTweets, count } = this
     let max_id
 
-    if(!includeReplies) {
-      exclude_replies = true
-    } else {
-      exclude_replies = false
-    }
+    const shouldExcludeReplies = this.includeReplies === "exclude"
+    const shouldIncludeRetweets = this.includeRetweets !== "exclude"
 
     const tweets = await this.twitter.getUserTimeline({
       screen_name,
-      enrichTweets, 
-      exclude_replies: !includeReplies,
-      include_rts, 
+      enrichTweets,
+      exclude_replies: shouldExcludeReplies,
+      include_rts: shouldIncludeRetweets,
       count,
       since_id,
-    }) 
+    })
 
     // emit array of tweet objects
     if(tweets.length > 0) {
