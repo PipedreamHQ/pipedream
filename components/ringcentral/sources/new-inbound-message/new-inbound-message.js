@@ -6,6 +6,7 @@ module.exports = {
   key: "ringcentral-new-inbound-message-event",
   name: "New Inbound Message Event (Instant)",
   description: "Emits an event for each status change of inbound messages of a specific type",
+  version: "0.0.1",
   props: {
     ...common.props,
     extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },

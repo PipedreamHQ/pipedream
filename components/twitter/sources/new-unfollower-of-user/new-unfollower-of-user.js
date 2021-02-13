@@ -8,7 +8,7 @@ module.exports = {
   version: "0.0.2",
   props: {
     ...common.props,
-    screen_name: { propDefinition: [common.twitter, "screen_name"] },
+    screen_name: { propDefinition: [common.props.twitter, "screen_name"] },
   },
   methods: {
     ...common.methods,

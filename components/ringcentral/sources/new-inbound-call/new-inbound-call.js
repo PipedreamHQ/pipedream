@@ -5,6 +5,7 @@ module.exports = {
   key: "ringcentral-new-inbound-call",
   name: "New Inbound Call (Instant)",
   description: "Emits an event on each incoming call",
+  version: "0.0.1",
   props: {
     ...common.props,
     extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },

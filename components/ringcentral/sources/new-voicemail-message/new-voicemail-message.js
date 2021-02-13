@@ -5,6 +5,7 @@ module.exports = {
   key: "ringcentral-new-voicemail-message",
   name: "New Voicemail Message (Instant)",
   description: "Emits an event when a new voicemail message is received",
+  version: "0.0.1",
   props: {
     ...common.props,
     extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },

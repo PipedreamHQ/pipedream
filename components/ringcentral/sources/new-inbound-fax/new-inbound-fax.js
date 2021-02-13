@@ -5,6 +5,7 @@ module.exports = {
   key: "ringcentral-new-inbound-fax",
   name: "New Inbound Fax (Instant)",
   description: "Emits an event on each incoming fax",
+  version: "0.0.1",
   props: {
     ...common.props,
     extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
