@@ -1,6 +1,6 @@
 module.exports = [
   {
-    English: "Undefined",
+    English: "Undetected",
     alpha2: "und",
   },
   {
