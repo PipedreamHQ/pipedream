@@ -11,8 +11,19 @@ module.exports = {
       options: [
         'GET',
         'POST',
+        'PUT',
+        'PATCH',
+        'DELETE',
+        'COPY',
         'HEAD',
-        'OPTIONS'
+        'OPTIONS',
+        'LINK',
+        'UNLINK',
+        'PURGE',
+        'LOCK',
+        'UNLOCK',
+        'PROPFIND',
+        'VIEW'
       ]
     },
     body: { 
