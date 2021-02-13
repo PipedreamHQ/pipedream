@@ -5,6 +5,7 @@ module.exports = {
   key: "ringcentral-new-inbound-sms",
   name: "New Inbound SMS (Instant)",
   description: "Emits an event on each incoming SMS",
+  version: "0.0.1",
   props: {
     ...common.props,
     extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },

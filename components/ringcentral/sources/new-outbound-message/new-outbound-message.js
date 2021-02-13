@@ -5,6 +5,7 @@ module.exports = {
   key: "ringcentral-new-outbound-message-event",
   name: "New Outbound Message Event (Instant)",
   description: "Emits an event for each outbound message status update",
+  version: "0.0.1",
   props: {
     ...common.props,
     extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },

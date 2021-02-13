@@ -6,6 +6,7 @@ module.exports = {
   key: "ringcentral-new-event",
   name: "New Event (Instant)",
   description: "Emits an event for each notification from RingCentral of a specified type",
+  version: "0.0.1",
   props: {
     ...common.props,
     extensionId: {

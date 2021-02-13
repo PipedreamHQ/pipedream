@@ -5,6 +5,7 @@ module.exports = {
   key: "ringcentral-missed-inbound-call",
   name: "Missed Inbound Call (Instant)",
   description: "Emits an event each time an incoming call is missed",
+  version: "0.0.1",
   props: {
     ...common.props,
     extensionId: { propDefinition: [common.props.ringcentral, "extensionId"] },
