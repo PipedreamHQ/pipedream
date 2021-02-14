@@ -11,8 +11,11 @@ module.exports = {
       options: [
         'GET',
         'POST',
+        'PUT',
+        'PATCH',
+        'DELETE',
         'HEAD',
-        'OPTIONS'
+        'OPTIONS',
       ]
     },
     body: { 
@@ -32,6 +35,8 @@ module.exports = {
     },
     auth: {
       type: "object",
+      label: "Basic Auth",
+      description: "To use HTTP basic auth, add `username` and `password` as keys and pass the respective values.",
       optional: true,
     },
     responseType: {

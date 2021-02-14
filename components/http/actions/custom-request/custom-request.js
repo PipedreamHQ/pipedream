@@ -5,7 +5,7 @@ module.exports = {
   key: "http-custom-request",
   name: "Custom Request",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.11",
   props: {
     http,
     url: { propDefinition: [http, "url"] },
@@ -14,7 +14,6 @@ module.exports = {
     params: { propDefinition: [http, "params"] },
     headers: { propDefinition: [http, "headers"] },
     auth: { propDefinition: [http, "auth"] },
-    responseType: { propDefinition: [http, "responseType"] },
   },
   methods: {},
   async run() {
@@ -24,7 +23,6 @@ module.exports = {
       data: this.body,
       params: this.query,
       headers: this.headers,
-      responseType: this.responseType,
     }
     if (this.auth) config.auth = this.auth
     return await axios(config)
