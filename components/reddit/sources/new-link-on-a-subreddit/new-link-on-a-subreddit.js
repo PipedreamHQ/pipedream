@@ -1,0 +1,64 @@
+const uservoice = require("../../reddit.app.js");
+
+module.exports = {
+    key: "new-link-on-a-subreddit",
+    name: "New Link on a subreddit",
+    description: "Emmits a new link submitted to a subreddit",
+    version: "0.0.1",	
+    props: {
+        reddit,
+        timer: {
+            label: "Polling schedule",
+            description: "Pipedream poll for new links and emit accordingly with this schedule.",
+            type: "$.interface.timer",
+            default: {
+            intervalSeconds: 60, // by default, run every 1 minute
+        },
+    },
+    db: "$.service.db",
+    },
+    hooks: {
+    async deploy() {
+
+        // Emmits all existing events for the first time.
+        this.emitMeInfo(me_info);
+
+        do{   
+            const reddit_things = await this.getNewSubredditLinks(null);
+            var after = reddit_things.data.data.after;
+            if(after){
+                last = reddit_things.data.data.children[reddit_things.data.data.children.length-1].data.name;
+            }
+            if(reddit_things.data.data.children.length>0){
+                reddit_things.data.data.children.forEach(reddit_link => {
+                    this.emitMeInfo(reddit_link);
+                });
+        }		    
+        }while(after);
+			this.db.set("after",response.data.data.after);		
+        },
+    },
+    methods: {
+        emitMeInfo(reddit_link) {
+                    
+            this.$emit(reddit_link, {
+                summary: reddit_link.data.name,
+            });
+
+        },
+    },
+    async run() {
+
+        let after = this.db.get("after");
+        const reddit_things = await this.getNewSubredditLinks(after);
+        var after = reddit_things.data.data.after;
+        if(after){
+            if(reddit_things.data.data.children.length>0){
+                reddit_things.data.data.children.forEach(reddit_link => {
+                    this.emitMeInfo(reddit_link);
+                });
+                this.db.set("after",after);
+            }                        
+        }                		
+    },
+};
