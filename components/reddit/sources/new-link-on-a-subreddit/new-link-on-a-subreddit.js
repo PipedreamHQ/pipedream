@@ -1,4 +1,4 @@
-const uservoice = require("../../reddit.app.js");
+const reddit = require("../../reddit.app.js");
 
 module.exports = {
     key: "new-link-on-a-subreddit",
@@ -35,7 +35,7 @@ module.exports = {
                 });
         }		    
         }while(after);
-			this.db.set("after",response.data.data.after);		
+			this.db.set("after",after);		
         },
     },
     methods: {
@@ -49,15 +49,15 @@ module.exports = {
     },
     async run() {
 
-        let after = this.db.get("after");
-        const reddit_things = await this.getNewSubredditLinks(after);
-        var after = reddit_things.data.data.after;
-        if(after){
+        let current_after = this.db.get("after");
+        const reddit_things = await this.getNewSubredditLinks(current_after);
+        var new_after = reddit_things.data.data.after;
+        if(new_after){
             if(reddit_things.data.data.children.length>0){
                 reddit_things.data.data.children.forEach(reddit_link => {
                     this.emitMeInfo(reddit_link);
                 });
-                this.db.set("after",after);
+                this.db.set("after",new_after);
             }                        
         }                		
     },
