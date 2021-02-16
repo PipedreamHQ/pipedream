@@ -60,6 +60,58 @@ module.exports = {
         })
       },
     },
+    order: {
+      type: "string",
+      optional: true,
+      options: [
+        {
+          label: "Descending",
+          value: "desc"
+        },
+        {
+          label: "Ascending",
+          value: "asc"
+        },
+      ]
+    },
+    per_page: {
+      type: "integer",
+      description: "Results per page (max `100`)",
+      optional: true,
+    },
+    page: {
+      type: "integer",
+      description: "Page number of the results to fetch.",
+      optional: true,
+    },
+    q: {
+      type: "string",
+      label: "Keywords",
+      description: "The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See [Searching code](https://help.github.com/articles/searching-code/) for a detailed list of qualifiers."
+    },
+    sortIssues: {
+      type: "string",
+      label: "Sort",
+      description: "",
+      optional: true,
+      options: [
+        {
+          label: 'Best Match (default)',
+          value: ''
+        },
+        'created',
+        'updated',
+        'comments', 
+        'reactions', 
+        'reactions-+1', 
+        'reactions--1', 
+        'reactions-smile', 
+        'reactions-thinking_face', 
+        'reactions-heart', 
+        'reactions-tada', 
+        'interactions'
+      ]
+    }
   },
   methods: {
     async _makeRequest(opts) {
