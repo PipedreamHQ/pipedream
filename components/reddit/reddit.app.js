@@ -33,10 +33,10 @@ module.exports = {
         return me;
       },
       
-  	  async getNewSubredditLinks(after_link){
+  	  async getNewSubredditLinks(after_link, subreddit){
  
         const newSubredditLinks = await this._makeRequest({
-            path: "/r/redditdev/new",
+            path: `/r/${subreddit}/new`,
 		    params: {
 		    	after:after_link
 		    },
