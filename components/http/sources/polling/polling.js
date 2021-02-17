@@ -41,6 +41,18 @@ module.exports = {
       description: "If you are enforcing uniqueness in the emits, optionally provide a key to use to dedupe emits (e.g., `id_str`). If **Enforce Uniqueness** is set to `false`, this field will be ignored.",
       optional: true,
     },
+    username: {
+      type: "string",
+      label: "HTTP Basic Auth: Username",
+      description: "If you are enforcing uniqueness in the emits, optionally provide a key to use to dedupe emits (e.g., `id_str`). If **Enforce Uniqueness** is set to `false`, this field will be ignored.",
+      optional: true,
+    },
+    password: {
+      type: "string",
+      label: "HTTP Basic Auth: Password",
+      description: "If you are enforcing uniqueness in the emits, optionally provide a key to use to dedupe emits (e.g., `id_str`). If **Enforce Uniqueness** is set to `false`, this field will be ignored.",
+      optional: true,
+    },
     //headers: { propDefinition: [http, "headers"] },
     //params: { propDefinition: [http, "params"] },
     //auth: { propDefinition: [http, "auth"] },
