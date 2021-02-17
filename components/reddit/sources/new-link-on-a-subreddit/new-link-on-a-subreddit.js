@@ -4,7 +4,7 @@ module.exports = {
     key: "new-link-on-a-subreddit",
     name: "New Link on a subreddit",
     description: "Emmits a new link submitted to a subreddit",
-    version: "0.0.1",	
+    version: "0.0.2",	
     props: {
         reddit,
         timer: {
@@ -13,18 +13,22 @@ module.exports = {
             type: "$.interface.timer",
             default: {
             intervalSeconds: 60, // by default, run every 1 minute
+            },
         },
-    },
-    db: "$.service.db",
-    },
+        subreddit: {
+            type: "string",
+            label: "Subreddit",
+            description: "Enter subreddit name to listen for new links.",
+        },         
+        db: "$.service.db"
+     },
     hooks: {
     async deploy() {
 
         // Emmits all existing events for the first time.
-        this.emitMeInfo(me_info);
 
         do{   
-            const reddit_things = await this.getNewSubredditLinks(null);
+            const reddit_things = await this.getNewSubredditLinks(null, this.subreddit);
             var after = reddit_things.data.data.after;
             if(after){
                 last = reddit_things.data.data.children[reddit_things.data.data.children.length-1].data.name;
@@ -50,7 +54,7 @@ module.exports = {
     async run() {
 
         let current_after = this.db.get("after");
-        const reddit_things = await this.getNewSubredditLinks(current_after);
+        const reddit_things = await this.getNewSubredditLinks(current_after,this.subreddit);
         var new_after = reddit_things.data.data.after;
         if(new_after){
             if(reddit_things.data.data.children.length>0){
