@@ -4,8 +4,8 @@ const http_app = require('../../http.app.js')
 module.exports = {
   key: "http-new-requests",
   name: "HTTP / Webhook Requests (Advanced)",
-  description: "Get a URL and emit the full HTTP event on every request (including headers and query parameters). You can also configure the HTTP response code, body, and more.",
-  version: "0.0.2",
+  description: "Get a Pipedream URL to catch, inspect and emit the full HTTP event on every request (including the body, method, headers, query parameters). Send payloads up to 512k or add `pipedream_upload_body=1` as a query parameter to send payloads up to 5 terabytes).",
+  version: "0.0.3",
   props: {
     http: {
       type: "$.interface.http",
@@ -14,7 +14,7 @@ module.exports = {
     emitBodyOnly: {
       type: "boolean",
       label: "Body Only",
-      description: "This source emits an event representing the full HTTP request by default. Select TRUE to emit the body only.",
+      description: "This source emits an event representing the full HTTP request by default. Select `TRUE` to emit the body only.",
       optional: true,
       default: false,
     },
@@ -39,9 +39,19 @@ module.exports = {
       optional: true,
       default: `{ "success": true }`,
     },
+    filterFaviconRequests: {
+      type: "boolean",
+      label: "Exclude Favicon Requests",
+      description: "Modern browsers make a request for `/favicon.ico` when a URL is loaded in the address bar. This source filters these requests out by default. Select `FALSE` to emit all requests received by this source, including those for `/favicon.ico`.",
+      optional: true,
+      default: true,
+    },
     http_app,
   },
   async run(event) {
+    // return to end execution on requests for favicon.ico
+    if (this.filterFaviconRequests && event.path === '/favicon.ico')  return
+
     const summary = `${event.method} ${event.path}`
 
     this.http.respond({
@@ -53,7 +63,7 @@ module.exports = {
     });
 
     if(this.emitBodyOnly) {
-      this.$emit(event.body, { summary })
+      this.$emit({ body: event.body }, { summary })
     } else {
       this.$emit(event, { summary })
     }

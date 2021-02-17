@@ -7,8 +7,8 @@ const flatted = require('flatted')
 
 module.exports = {
   key: "http-pollling",
-  name: "Polling",
-  description: "Poll a URL and emit events.",
+  name: "New Polled Event",
+  description: "Poll a URL and emit events. Customize the event payload (you may emit the entire body or individual array elements), the JSON path to the payload, emit uniqueness (and the key to identify unique emits), and more.",
   version: "0.0.2",
   props: {
     http,
