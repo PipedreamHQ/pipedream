@@ -1,11 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/dox",
+      "source": "/docs",
       "destination": "/"
     },
     {
-      "source": "/dox/(.*)",
+      "source": "/docs/(.*)",
       "destination": "/$1"
     }
   ],
