@@ -60,6 +60,7 @@
       "source": "/apps/zoho-mail",
       "destination": "https://pipedream.com/apps/zoho_mail"
     },
-    { "source": "/support", "destination": "https://pipedream.com/support" }
+    { "source": "/support", "destination": "https://pipedream.com/support" },
+    { "source": "/(.*)", "destination": "https://pipedream.com/docs/$1" }
   ]
 }
