@@ -6,6 +6,15 @@ module.exports = {
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
   description: "Pipedream Documentation - Integrate your apps, data and APIs",
   base: "/dox/",
+  plugins: [
+    [
+      "vuepress-plugin-canonical",
+      {
+        baseURL: "https://pipedream.com/docs/", // base url for your canonical link, optional, default: ''
+        stripExtension: true,
+      },
+    ],
+  ],
   themeConfig: {
     algolia: {
       apiKey: "1e23962724b59d018bdedc0f5a214ce5",

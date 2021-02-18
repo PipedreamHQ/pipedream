@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "inter-ui": "^3.10.0",
-    "vue-gtm": "^2.0.0"
+    "vue-gtm": "^2.0.0",
+    "vuepress-plugin-canonical": "^1.0.0"
   }
 }
