@@ -1,4 +1,14 @@
 {
+  "rewrites": [
+    {
+      "source": "/docs",
+      "destination": "/"
+    },
+    {
+      "source": "/docs/(.*)",
+      "destination": "/$1"
+    }
+  ],
   "redirects": [
     {
       "source": "/notebook/actions/",
