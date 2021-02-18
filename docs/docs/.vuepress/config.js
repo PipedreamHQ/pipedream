@@ -21,7 +21,7 @@ module.exports = {
     docsDir: "docs/docs",
     editLinks: true,
     // custom text for edit link. Defaults to "Edit this page"
-    editLinkText: "Help us improve this page! Submit an edit on Github",
+    editLinkText: "Help us improve this page. Submit an edit on Github",
     sidebar: [
       "/",
       ["/support/", "Support and Community"],
