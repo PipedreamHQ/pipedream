@@ -4,7 +4,7 @@ const webpack = require("webpack");
 module.exports = {
   title: "",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
-  description: "Pipedream Documentation - Integrate your apps, data and APIs",
+  description: "Pipedream Documentation - Connect APIs, remarkably fast",
   base: "/docs/",
   plugins: [
     [
