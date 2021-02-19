@@ -1,3 +1,5 @@
+const axios = require("axios");
+
 module.exports = {
   type: "app",
   app: "reddit",
@@ -15,18 +17,17 @@ module.exports = {
       const { path } = opts;
       delete opts.path;
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
-      return await require("@pipedreamhq/platform").axios(this, opts);
+      return (await axios(opts)).data;
     },
 
-    async getNewSubredditLinks(after_link, subreddit) {
-      const newSubredditLinks = await this._makeRequest({
+    async getNewSubredditLinks(after_link, subreddit, limit) {
+      return await await this._makeRequest({
         path: `/r/${subreddit}/new`,
         params: {
           after: after_link,
+          limit: limit || 100
         },
       });
-
-      return newSubredditLinks;
     },
   },
 };
