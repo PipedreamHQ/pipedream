@@ -41,7 +41,7 @@ export default ({
     { path: "/notebook/sql/", redirect: "/destinations/triggers/" },
     { path: "/what-is-pipedream/", redirect: "/" },
     {
-      path: "/apps/all-apps",
+      path: "/docs/apps/all-apps",
       redirect: "https://pipedream.com/apps",
     },
   ]);
