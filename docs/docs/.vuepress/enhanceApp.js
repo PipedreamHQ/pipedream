@@ -1,4 +1,3 @@
-import "inter-ui/inter-hinted.css";
 import VueGtm from "vue-gtm";
 
 export default ({
