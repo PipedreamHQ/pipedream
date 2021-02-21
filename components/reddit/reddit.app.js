@@ -20,12 +20,12 @@ module.exports = {
       return (await axios(opts)).data;
     },
 
-    async getNewSubredditLinks(after_link, subreddit, limit) {
+    async getNewSubredditLinks(before_link, subreddit, limit) {
       return await await this._makeRequest({
         path: `/r/${subreddit}/new`,
         params: {
-          after: after_link,
-          limit: limit || 100
+          before: before_link,
+          limit: limit || 100,
         },
       });
     },
