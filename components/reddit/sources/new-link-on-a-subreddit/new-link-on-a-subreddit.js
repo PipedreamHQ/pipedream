@@ -14,11 +14,10 @@ module.exports = {
       label: "Subreddit",
       description: "The subreddit you'd like to watch for new links.",
       default: "redditdev",
-    },    
+    },
     timer: {
       label: "Polling schedule",
-      description:
-        "Pipedream polls Reddit for new links on this schedule.",
+      description: "Pipedream polls Reddit for new links on this schedule.",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 10, // by default, run every 10 minute.
@@ -28,61 +27,58 @@ module.exports = {
   },
   hooks: {
     async deploy() {
-      // Emits 10 events on the first run during deploy.
-      let after = null;
+      // Emits 10 sample events on the first run during deploy.
+      let before = null;
 
       const reddit_things = await this.reddit.getNewSubredditLinks(
         null,
         this.subreddit,
         10
       );
-      
-      if (get(reddit_things, "data.after") !== undefined) {
-        after = reddit_things.data.after;
+
+      if (get(reddit_things, "data.children") !== undefined) {
         if (reddit_things.data.children.length > 0) {
+          before = reddit_things.data.children[0].data.name;
           reddit_things.data.children.forEach((reddit_link) => {
-            console.log(reddit_link.data.name);
             this.emitRedditEvent(reddit_link);
           });
         }
       }
 
-      this.db.set("after", after);
+      this.db.set("before", before);
     },
   },
   methods: {
-    emitRedditEvent(reddit_link) {
-      this.$emit(reddit_link, {
-        id: reddit_link.data.name,
-        summary: reddit_link.data.name,
+    emitRedditEvent(reddit_event) {
+      const { name: id, title: summary } = reddit_event.data;
+      this.$emit(reddit_event, {
+        id,
+        summary,
       });
     },
   },
   async run() {
-    console.log('running.. polling for new items');
-    const start_after = this.db.get("after");
-    let current_after = start_after;
-    let new_after = start_after;
+    const start_before = this.db.get("before");
+
     do {
       const reddit_things = await this.reddit.getNewSubredditLinks(
-        start_after,
+        start_before,
         this.subreddit
       );
 
-      current_after = get(reddit_things, "data.after");
-      if (current_after !== undefined) {
-        new_after = current_after;
-      }
+      const links_length = get(reddit_things, "data.children.length");
+      var links_pulled =
+        links_length !== null &&
+        links_length !== undefined &&
+        reddit_things.data.children.length > 0;
 
-      if (get(reddit_things, "data.children.length") !== undefined && reddit_things.data.children.length > 0) {   
+      if (links_pulled) {
+        const new_before = reddit_things.data.children[0].data.name;
+        this.db.set("before", new_before);
         reddit_things.data.children.forEach((reddit_link) => {
           this.emitRedditEvent(reddit_link);
-        });        
+        });
       }
-
-    } while (current_after);
-    this.db.set("after", new_after);    
-    
+    } while (links_pulled);
   },
 };
-
