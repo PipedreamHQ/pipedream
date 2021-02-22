@@ -1,10 +1,14 @@
 const shopify = require("../../shopify.app.js");
+const Bottleneck = require('bottleneck');
+const limiter = new Bottleneck({
+  minTime: 500
+});
 
 module.exports = {
   key: "shopify-new-event",
   name: "New Events",
   description: "Emits an event for each new Shopify event.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     db: "$.service.db",
@@ -25,27 +29,42 @@ module.exports = {
           summary: event.message,
           ts: Date.now(),
         });
-        if (results[results.length - 1])
-          this.db.set(eventType, results[results.length - 1].id);
       }
+      if (results[results.length - 1])
+        this.db.set(eventType, results[results.length - 1].id);
     },
+    async getEvents(eventType, sinceId) {
+      const results = await this.shopify.getEvents(
+        sinceId,
+        JSON.parse(eventType).filter,
+        JSON.parse(eventType).verb
+      );
+      return { results, eventType };
+    }
   },
   async run() {
     let sinceId = this.db.get("since_id") || null;
+
+    // if no event types have been specified, emit all events
     if (this.eventTypes.length === 0) {
       // if no event type is specified
-      let results = await this.shopify.getEvents(sinceId);
-      this.emitEvents(results, "since_id");
-    } else {
-      for (const eventType of this.eventTypes) {
-        sinceId = this.db.get(eventType) || sinceId;
-        let results = await this.shopify.getEvents(
-          sinceId,
-          JSON.parse(eventType).filter,
-          JSON.parse(eventType).verb
-        );
-        this.emitEvents(results, eventType);
+      const events = await this.shopify.getEvents(sinceId);
+      this.emitEvents(events, "since_id");
+      return;
+    } 
+    const throttledGetEvents = limiter.wrap(this.getEvents);
+    const allThePromises = this.eventTypes.map(eventType => {
+      sinceId = this.db.get(eventType) || sinceId;
+      return throttledGetEvents(eventType, sinceId);
+    });
+    try{
+      const results = await Promise.all(allThePromises);
+      for (const result of results) {
+        this.emitEvents(result.results, result.eventType);
       }
+    }
+    catch(err){
+      console.log(err);
     }
   },
 };
