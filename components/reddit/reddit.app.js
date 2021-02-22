@@ -1,4 +1,5 @@
 const axios = require("axios");
+const get = require("lodash.get");
 
 module.exports = {
   type: "app",
@@ -18,6 +19,30 @@ module.exports = {
       delete opts.path;
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return (await axios(opts)).data;
+    },
+    wereLinksPulled(reddit_things) {
+      const links_length = get(reddit_things, "data.children.length");
+      return (
+        links_length !== null &&
+        links_length !== undefined &&
+        reddit_things.data.children.length > 0
+      );
+    },
+
+    async getNewHotSubredditPosts(subreddit, g, show, sr_detail) {
+      let params = new Object();
+      if (show == "all") {
+        params["show"] = show;
+      }
+      params["g"] = g;
+      params["sr_detail"] = sr_detail;
+
+      return await await this._makeRequest({
+        path: `/r/${subreddit}/hot`,
+        params: {
+          limit: 10,
+        },
+      });
     },
 
     async getNewSubredditLinks(before_link, subreddit, limit) {
