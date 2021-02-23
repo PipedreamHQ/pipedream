@@ -5,7 +5,7 @@ module.exports = {
   key: "http-custom-request",
   name: "Custom Request",
   type: "action",
-  version: "0.0.11",
+  version: "0.0.12",
   props: {
     http,
     url: { propDefinition: [http, "url"] },
@@ -25,6 +25,6 @@ module.exports = {
       headers: this.headers,
     }
     if (this.auth) config.auth = this.auth
-    return await axios(config)
+    return (await axios(config)).data
   },
 }

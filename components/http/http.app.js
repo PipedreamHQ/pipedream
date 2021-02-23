@@ -25,18 +25,18 @@ module.exports = {
     },
     params: {
       type: "object",
-      description: "Add query parameters as key-value pairs",
+      description: "Add query parameters as key-value pairs. Disable structured mode to pass an object or reference to prior step exports in `{{...}}`.",
       optional: true,
     },
     headers: {
       type: "object",
-      description: "Add headers as key-value pairs",
+      description: "Add headers as key-value pairs.  Disable structured mode to pass an object or reference to prior step exports in `{{...}}`.",
       optional: true,
     },
     auth: {
-      type: "object",
+      type: "string",
       label: "Basic Auth",
-      description: "To use HTTP basic auth, add `username` and `password` as keys and pass the respective values.",
+      description: "To use HTTP basic authentication, add a username and password separated by `|` (e.g., `yourUsername|yourPassword123`).",
       optional: true,
     },
     responseType: {
@@ -49,6 +49,15 @@ module.exports = {
         'stream'
       ],
       optional: true,
+    }
+  },
+  methods: {
+    parseAuth(authString) {
+      const authArray = authString.split("|")
+      return {
+        username: authArray[0],
+        password: authArray[1]
+      }
     }
   }
 }

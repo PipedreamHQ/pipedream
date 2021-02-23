@@ -19,7 +19,7 @@ module.exports = {
     rows: {
       type: "any",
       label: "Row Values",
-      description: 'Enter an array of arrays (e.g., `[["Row 1","Column 2",3],["Row 2","R2C2",true]]`). Each nested array should represent a row, with each element of the nested array representing a cell/column value. To pass data from another step, enter a reference using double curly brackets (e.g., `{{steps.mydata.$return_value}}`)',
+      description: 'Enter an array of arrays or a reference to a previous step export enclosed in double-curly brackets `{{...}}` (e.g., `{{[["R1C1","R1C2"],["R2C1","R2C2"]]}}` or `{{steps.foo.$return_value}}`). Each nested array should represent a row, with each element of the nested array representing a cell/column value.',
     },
     sheetID: {
       type: "string",

@@ -5,7 +5,7 @@ module.exports = {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows to Sheet",
   description: "Add multiple rows of data to Google Sheets",
-  version: "0.0.7",
+  version: "0.0.12",
   type: "action",
   props: {
     googleSheets,

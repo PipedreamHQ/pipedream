@@ -5,7 +5,7 @@ module.exports = {
   key: "http-get-request",
   name: "GET Request",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.10",
   props: {
     http,
     url: { propDefinition: [http, "url"] },
@@ -21,7 +21,7 @@ module.exports = {
       params: this.query,
       headers: this.headers,
     }
-    if (this.auth) config.auth = this.auth
-    return await axios(config)
+    if (this.auth) config.auth = this.http.parseAuth(this.auth)
+    return (await axios(config)).data
   },
 }

@@ -2,14 +2,15 @@ const airtable = require('../../airtable.app.js')
 const axios = require('axios')
 
 module.exports = {  
-  key: "airtable-list-records",
-  name: "List Records",
+  key: "airtable-list-records-in-view",
+  name: "List Records in View",
   type: "action",
-  version: "0.0.23",
+  version: "0.0.1",
   props: {
     airtable,
     baseId: { type: "$.airtable.baseId", appProp: "airtable" },
     tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
+    viewId: { type: "$.airtable.viewId", tableIdProp: "tableId" },
     filterByFormula: { propDefinition: [airtable, "filterByFormula"]},
     maxRecords: {
       type: "integer",
@@ -37,6 +38,7 @@ module.exports = {
     const data = []
     const config = {}
 
+    config.view = this.viewId
     if (this.filterByFormula) { config.filterByFormula = this.filterByFormula }
     if (this.maxRecords) { config.maxRecords = this.maxRecords }
     if (this.sortFieldId && this.sortDirection) {

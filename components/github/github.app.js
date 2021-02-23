@@ -72,27 +72,36 @@ module.exports = {
           label: "Ascending",
           value: "asc"
         },
-      ]
+      ],
+      default: "desc",
     },
     per_page: {
       type: "integer",
       description: "Results per page (max `100`)",
       optional: true,
+      default: 100,
     },
     page: {
       type: "integer",
       description: "Page number of the results to fetch.",
       optional: true,
     },
+    paginate: {
+      type: "boolean",
+      label: "Auto-Paginate",
+      description: "By default, retrieve all matching search results across all result pages. Set to `false` to limit results to the first page.",
+      optional: true,
+      default: true,
+    },
     q: {
       type: "string",
       label: "Keywords",
-      description: "The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See [Searching code](https://help.github.com/articles/searching-code/) for a detailed list of qualifiers."
+      description: "Enter one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub (this field supports the same qualifiers as search on GitHub.com). To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See [Searching code](https://help.github.com/articles/searching-code/) for a detailed list of qualifiers."
     },
     sortIssues: {
       type: "string",
       label: "Sort",
-      description: "",
+      description: "Default is `Best Match`.",
       optional: true,
       options: [
         {
@@ -110,7 +119,7 @@ module.exports = {
         'reactions-heart', 
         'reactions-tada', 
         'interactions'
-      ]
+      ],
     }
   },
   methods: {

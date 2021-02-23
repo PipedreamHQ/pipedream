@@ -5,7 +5,7 @@ module.exports = {
   key: "http-post-request",
   name: "POST Request",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.7",
   props: {
     http,
     url: { propDefinition: [http, "url"] },
@@ -24,6 +24,6 @@ module.exports = {
       headers: this.headers,
     }
     if (this.auth) config.auth = this.auth
-    return await axios(config)
+    return (await axios(config)).data
   },
 }

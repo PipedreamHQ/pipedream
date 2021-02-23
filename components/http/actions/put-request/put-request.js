@@ -5,7 +5,7 @@ module.exports = {
   key: "http-put-request",
   name: "PUT Request",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     http,
     url: { propDefinition: [http, "url"] },
@@ -24,6 +24,6 @@ module.exports = {
       headers: this.headers,
     }
     if (this.auth) config.auth = this.auth
-    return await axios(config)
+    return (await axios(config)).data
   },
 }
