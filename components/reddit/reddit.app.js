@@ -4,6 +4,13 @@ const get = require("lodash.get");
 module.exports = {
   type: "app",
   app: "reddit",
+  propDefinitions: {
+	  subreddit: {
+	    type: "string",
+	    label: "Subreddit",
+	    description: "The subreddit you'd like to watch."
+	  },  
+	},
   methods: {
     _accessToken() {
       return this.$auth.oauth_access_token;
@@ -21,14 +28,9 @@ module.exports = {
       return (await axios(opts)).data;
     },
     wereLinksPulled(reddit_things) {
-      const links_length = get(reddit_things, "data.children.length");
-      return (
-        links_length !== null &&
-        links_length !== undefined &&
-        reddit_things.data.children.length > 0
-      );
+			const links = get(reddit_things, "data.children");
+			return links && links.length
     },
-
     async getNewHotSubredditPosts(subreddit, g, show, sr_detail) {
       let params = new Object();
       if (show == "all") {
@@ -37,20 +39,19 @@ module.exports = {
       params["g"] = g;
       params["sr_detail"] = sr_detail;
 
-      return await await this._makeRequest({
+      return await this._makeRequest({
         path: `/r/${subreddit}/hot`,
         params: {
           limit: 10,
         },
       });
     },
-
-    async getNewSubredditLinks(before_link, subreddit, limit) {
-      return await await this._makeRequest({
+    async getNewSubredditLinks(before_link, subreddit, limit = 100) {    	
+      return await this._makeRequest({
         path: `/r/${subreddit}/new`,
         params: {
           before: before_link,
-          limit: limit || 100,
+          limit,
         },
       });
     },
