@@ -1,5 +1,7 @@
 const shopify = require("../../shopify.app.js");
 const Bottleneck = require('bottleneck');
+// limiting requests to 2 per second per Shopify's API rate limit documentation
+// https://shopify.dev/concepts/about-apis/rate-limits
 const limiter = new Bottleneck({
   minTime: 500
 });
