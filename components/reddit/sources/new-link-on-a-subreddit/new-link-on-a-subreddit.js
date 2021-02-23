@@ -8,12 +8,7 @@ module.exports = {
   dedupe: "unique",
   props: {
     reddit,
-    subreddit: {
-      type: "string",
-      label: "Subreddit",
-      description: "The subreddit you'd like to watch for new links.",
-      default: "redditdev",
-    },
+    subreddit: { propDefinition: [reddit, "subreddit"] },  
     timer: {
       label: "Polling schedule",
       description: "Pipedream polls Reddit for new links on this schedule.",
@@ -29,16 +24,24 @@ module.exports = {
       // Emits 10 sample events on the first run during deploy.
       let before = null;
 
-      const reddit_things = await this.reddit.getNewSubredditLinks(
-        null,
-        this.subreddit,
-        10
-      );
+			try{
+	      var reddit_things = await this.reddit.getNewSubredditLinks(
+	        null,
+	        this.subreddit,        
+	        10
+	      );
+    	}catch (err) {
+			  if (err.response.status) {
+			    throw new Error(`We encountered a 404 error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`);
+			  }
+			  throw err;
+			}
 
       const links_pulled = this.reddit.wereLinksPulled(reddit_things);
       if (links_pulled) {
         before = reddit_things.data.children[0].data.name;
-        reddit_things.data.children.forEach((reddit_link) => {
+    	const ordered_reddit_things = reddit_things.data.children.reverse();
+        ordered_reddit_things.forEach((reddit_link) => {
           this.emitRedditEvent(reddit_link);
         });
       }
@@ -48,7 +51,8 @@ module.exports = {
   },
   methods: {
     emitRedditEvent(reddit_event) {
-      const { name: id, title: summary } = reddit_event.data;
+      var { name: id, title: summary } = reddit_event.data;
+      summary = new Date(reddit_event.data.created);
       this.$emit(reddit_event, {
         id,
         summary,
@@ -56,18 +60,19 @@ module.exports = {
     },
   },
   async run() {
-    const start_before = this.db.get("before");
+    const before = this.db.get("before");
     do {
       const reddit_things = await this.reddit.getNewSubredditLinks(
-        start_before,
-        this.subreddit
+        before,
+        this.subreddit        
       );
 
       var links_pulled = this.reddit.wereLinksPulled(reddit_things);
       if (links_pulled) {
-        const new_before = reddit_things.data.children[0].data.name;
-        this.db.set("before", new_before);
-        reddit_things.data.children.forEach((reddit_link) => {
+        const before = reddit_things.data.children[0].data.name;
+        this.db.set("before", before);
+    		const ordered_reddit_things = reddit_things.data.children.reverse();        
+        ordered_reddit_things.forEach((reddit_link) => {
           this.emitRedditEvent(reddit_link);
         });
       }
