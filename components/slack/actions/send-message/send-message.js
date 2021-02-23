@@ -5,7 +5,7 @@ module.exports = {
   key: "slack-send-message",
   name: "Send Message (Simple)",
   description: "Send a message to a channel, group or user",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     slack,
