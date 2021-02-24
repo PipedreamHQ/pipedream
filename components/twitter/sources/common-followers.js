@@ -1,7 +1,6 @@
 const twitter = require("../twitter.app");
 
 module.exports = {
-  dedupe: "unique",
   props: {
     db: "$.service.db",
     twitter,
@@ -14,24 +13,11 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      const followers = this.db.get("followers") || [];
-      if (followers.length > 0) {
-        console.log(`
-          Followers cache already set. Skipping initial provisioning.
-        `);
-        return;
-      }
-
-      const screenName = this.getScreenName();
-      const followerIds = this.twitter.getAllFollowers(screenName);
-      for await (const id of followerIds) {
-        followers.push(id);
-      }
-      this.db.set("followers", followers);
-      console.log(`
-        Provisioned followers cache: found ${followers.length} records
-      `);
+      await this.updateFollowersCache();
     },
+  },
+  deactivate() {
+    this.db.set("followers", null);
   },
   methods: {
     getScreenName() {
@@ -60,20 +46,30 @@ module.exports = {
         ts,
       };
     },
-    async pullFollowers() {
+    async updateFollowersCache() {
       const screenName = this.getScreenName();
       const followerIdsGen = this.twitter.getAllFollowers(screenName);
       const result = [];
       for await (const id of followerIdsGen) {
         result.push(id);
       }
+
+      this.db.set("followers", result);
+      console.log(`
+        Provisioned followers cache: found ${result.length} records
+      `);
+
       return result;
+    },
+    async getNewFollowers() {
+      const prevFollowers = this.db.get("followers");
+      const currFollowers = await this.updateFollowersCache();
+      const prevFollowersSet = new Set(prevFollowers);
+      return currFollowers.filter(cf => !prevFollowersSet.has(cf));
     },
     async getUnfollowers() {
       const prevFollowers = this.db.get("followers");
-      const currFollowers = await this.pullFollowers();
-      this.db.set("followers", currFollowers);
-
+      const currFollowers = await this.updateFollowersCache();
       const currFollowersSet = new Set(currFollowers);
       return prevFollowers.filter(pf => !currFollowersSet.has(pf));
     },
@@ -82,7 +78,9 @@ module.exports = {
     const { timestamp } = event;
     const relevantIds = await this.getRelevantIds();
     if (relevantIds.length <= 0) {
-      console.log('Follower data remains unchanged');
+      console.log(`
+        No changes in followers data for this event source to emit a new event
+      `);
       return;
     }
 
