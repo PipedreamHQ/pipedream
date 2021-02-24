@@ -5,7 +5,7 @@ module.exports = {
   key: "airtable-get-record",
   name: "Get Record by ID",
   description: "Get a record from a table by `record_id`.",
-  version: "0.0.1",
+  version: "0.0.6",
   type: "action",
   props: {
     airtable,
@@ -14,13 +14,8 @@ module.exports = {
     recordId: { propDefinition: [airtable, "recordId"] },
   },
   async run() { 
-    const config = {
-      method: "get",
-      url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}/${encodeURIComponent(this.recordId)}`,
-      headers: {
-        Authorization: `Bearer ${this.airtable.$auth.api_key}`,
-      },
-    }
-    return (await axios(config)).data
+    const Airtable = require('airtable');
+    const base = new Airtable({apiKey: this.airtable.$auth.api_key}).base(this.baseId);
+    return await base(this.tableId).find(this.recordId)
   },
 }

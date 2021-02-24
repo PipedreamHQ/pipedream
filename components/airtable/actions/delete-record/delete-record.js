@@ -2,22 +2,20 @@ const airtable=require('../../airtable.app.js')
 const axios = require('axios')
 
 module.exports = {
-  key: "airtable-create-single-record",
-  name: "Create single record",
-  description: "Create a record in a table.",
-  version: "0.0.11",
+  key: "airtable-delete-record",
+  name: "Delete Record by ID",
+  description: "Delete a record from a table by `record_id`.",
+  version: "0.0.4",
   type: "action",
   props: {
     airtable,
     baseId: {type: "$.airtable.baseId", appProp: 'airtable'},
     tableId: { type: '$.airtable.tableId', baseIdProp: 'baseId' },
-    record: { propDefinition: [airtable, "record"] },
+    recordId: { propDefinition: [airtable, "recordId"] },
   },
-  async run() {
+  async run() { 
     const Airtable = require('airtable');
     const base = new Airtable({apiKey: this.airtable.$auth.api_key}).base(this.baseId);
-    return (await base(this.tableId).create([{
-      fields: this.record
-    }]))[0]
+    return await base(this.tableId).destroy(this.recordId)
   },
 }

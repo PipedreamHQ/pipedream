@@ -1,13 +1,13 @@
 const airtable=require('../../airtable.app.js')
 const axios = require('axios')
 const chunk = require('lodash.chunk')
-
+const Airtable = require('airtable')
 
 module.exports = {
   key: "airtable-create-multiple-records",
   name: "Create Multiple Records",
   description: "Create multiple records in a table.",
-  version: "0.0.17",
+  version: "0.0.19",
   type: "action",
   props: {
     airtable,
@@ -17,18 +17,8 @@ module.exports = {
   },
   methods: {
     async addRecords(records) {
-      const data = { records }
-
-      const config = {
-        method: "post",
-        url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}`,
-        headers: {
-          Authorization: `Bearer ${this.airtable.$auth.api_key}`,
-        },
-        data,
-      }
-
-      return (await axios(config)).data.records
+      const base = new Airtable({apiKey: this.airtable.$auth.api_key}).base(this.baseId);
+      return await base(this.tableId).create(records)
     },
   },
   async run() {

@@ -5,7 +5,7 @@ module.exports = {
   key: "twitter-advanced-search",
   name: "Advanced Search",
   description: "Return Tweets that matches your search criteria.", 
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     db: "$.service.db",
@@ -47,27 +47,5 @@ module.exports = {
       count,
       limitFirstPage,
     })
-
-    /*
-    // return response
-    if(tweets.length > 0) {
-      tweets.sort(function(a, b){return a.id - b.id})
-
-      tweets.forEach(tweet => {
-        this.$emit(tweet, {
-          ts: moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf(),
-          summary: tweet.full_text || tweet.text,
-          id: tweet.id_str,
-        })
-
-        if (tweet.id_str > max_id || !max_id) {
-          max_id = tweet.id_str
-        }
-      })
-    }
-    if (max_id) {
-      this.db.set("since_id", max_id)
-    }
-    */
   },
 }

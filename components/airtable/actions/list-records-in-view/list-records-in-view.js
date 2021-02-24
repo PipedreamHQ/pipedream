@@ -5,32 +5,16 @@ module.exports = {
   key: "airtable-list-records-in-view",
   name: "List Records in View",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.7",
   props: {
     airtable,
     baseId: { type: "$.airtable.baseId", appProp: "airtable" },
     tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
     viewId: { type: "$.airtable.viewId", tableIdProp: "tableId" },
+    sortFieldId: { propDefinition: [airtable, "sortFieldId"] },
+    sortDirection: { propDefinition: [airtable, "sortDirection"] },
+    maxRecords: { propDefinition: [airtable, "maxRecords"] },
     filterByFormula: { propDefinition: [airtable, "filterByFormula"]},
-    maxRecords: {
-      type: "integer",
-      label: "Max Records",
-      description: "The maximum total number of records that will be returned in your requests. Leave blank to retrieve all records.",
-      optional: true,
-    },
-    // sortFieldId: { 
-    //   type: "$.airtable.fieldId",
-    //   tableIdProp: "tableId", 
-    // },
-    // sortDirection: { 
-    //   type: "string", 
-    //   label: "Sort Direction",
-    //   options: [
-    //     { label: "Descending", value: "desc", },
-    //     { label: "Ascending", value: "asc" }
-    //   ], 
-    //   optional: true
-    // },
   },
   async run() {
     var Airtable = require('airtable');

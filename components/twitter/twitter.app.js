@@ -451,7 +451,7 @@ module.exports = {
         max_id = response.min_id
       }
 
-      console.log(`Made ${totalRequests} requests to the Twitter API and returned ${tweets.length} tweets.`)
+      //console.log(`Made ${totalRequests} requests to the Twitter API and returned ${tweets.length} tweets.`)
 
       return tweets
     },
