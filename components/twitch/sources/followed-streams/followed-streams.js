@@ -14,11 +14,14 @@ module.exports = {
       const params = {
         from_id: authenticatedUserData[0].id,
       };
-      const topics = this.paginate(
+      const items = await this.paginate(
         this.twitch.getUserFollows.bind(this),
-        params,
-        "webhook"
+        params
       );
+      const topics = [];
+      for await (const item of items) {
+        topics.push(this.getTopicString(item));
+      }
       return topics;
     },
     getTopicString(followed) {

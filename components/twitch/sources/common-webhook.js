@@ -1,4 +1,5 @@
 const common = require("./common.js");
+const { v4: uuidv4 } = require("uuid");
 const subscriptionExpiration = 864000; // seconds until webhook subscription expires, maximum 10 days (864000 seconds)
 
 module.exports = {
@@ -12,7 +13,8 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: subscriptionExpiration,
+        // set timer to refresh subscription halfway until the expiration
+        intervalSeconds: subscriptionExpiration / 2,
       },
     },
   },
@@ -20,37 +22,44 @@ module.exports = {
     async activate() {
       const topics = await this.getTopics();
       this.db.set("topics", topics);
-      await this.subscribeToHooks(topics);
+      await this.manageHookForTopics("subscribe", topics);
     },
     async deactivate() {
       const topics = this.db.get("topics");
-      for (const topic of topics)
-        await this.twitch.manageHook(
-          "unsubscribe",
-          this.http.endpoint,
-          topic,
-          subscriptionExpiration
-        );
+      await this.manageHookForTopics("unsubscribe", topics);
     },
   },
   methods: {
     ...common.methods,
-    async subscribeToHooks(topics) {
+    async manageHookForTopics(mode, topics) {
+      const secretToken = uuidv4();
+      this.db.set("secretToken", secretToken);
       for (const topic of topics)
-        await this.twitch.manageHook(
-          "subscribe",
-          this.http.endpoint,
-          topic,
-          subscriptionExpiration
-        );
+        try {
+          await this.twitch.manageHook(
+            mode,
+            this.http.endpoint,
+            topic,
+            subscriptionExpiration,
+            secretToken
+          );
+        } catch (err) {
+          console.log(err);
+        }
     },
   },
   async run(event) {
-    const { query, body, headers, interval_seconds: intervalSeconds } = event;
+    const {
+      query,
+      body,
+      bodyRaw,
+      headers,
+      interval_seconds: intervalSeconds,
+    } = event;
 
     // if event was invoked by timer, renew the subscription
     if (intervalSeconds) {
-      await this.subscribeToHooks(this.db.get("topics"));
+      await this.manageHookForTopics("subscribe", this.db.get("topics"));
       return;
     }
 
@@ -66,7 +75,9 @@ module.exports = {
     if (!body) return;
 
     // verify that the incoming webhook request is valid
-    if (!this.twitch.verifyWebhookRequest(headers, body)) return;
+    const secretToken = this.db.get("secretToken");
+    if (!this.twitch.verifyWebhookRequest(headers, bodyRaw, secretToken))
+      return;
 
     const { data } = body;
     if (data.length === 0) return;

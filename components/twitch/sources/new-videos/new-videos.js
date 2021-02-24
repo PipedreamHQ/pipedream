@@ -32,21 +32,25 @@ module.exports = {
     // get the channels followed by the authenticated user
     const followedUsers = await this.paginate(
       this.twitch.getUserFollows.bind(this),
-      params,
-      "list"
+      params
     );
 
     // get and emit new videos from each followed user
-    for (const followed of followedUsers) {
-      await this.paginate(
+    let count = 0;
+    for await (const followed of followedUsers) {
+      const videos = await this.paginate(
         this.twitch.getVideos.bind(this),
         {
           user_id: followed.to_id,
           period: "day", // Period during which the video was created. Valid values: "all", "day", "week", "month".
         },
-        "polling",
         this.max
       );
+      for await (const video of videos) {
+        this.$emit(video, this.getMeta(video));
+        count++;
+        if (count >= this.max) return;
+      }
     }
   },
 };

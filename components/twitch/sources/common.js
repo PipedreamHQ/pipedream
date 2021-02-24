@@ -7,37 +7,42 @@ module.exports = {
     db: "$.service.db",
   },
   methods: {
-    async paginate(resourceFn, params, type, max = null) {
+    async *paginate(resourceFn, params, max = null) {
       const items = [];
       let done = false;
       let count = 0;
-      while (!done) {
-        const { data, pagination } = await resourceFn(params);
+      do {
+        const { data, pagination } = await this.retryFn(resourceFn, params);
         for (const item of data) {
-          // if called from webhook component, get topics to return
-          if (type == "webhook") {
-            items.push(this.getTopicString(item));
-          }
-          // if called from polling component, emit data
-          else if (type == "polling") {
-            this.$emit(item, this.getMeta(item));
-          }
-          // if type is list, return list of items
-          else if (type == "list") {
-            items.push(item);
-          }
+          yield item;
           count++;
           if (max && count >= max) {
-            done = true;
-            break;
+            return;
           }
         }
         // pass cursor to get next page of results; if no cursor, no more pages
         const { cursor } = pagination;
-        if (!cursor) done = true;
-        else params.after = cursor;
+        params.after = cursor;
+        done = !cursor;
+      } while (!done);
+    },
+    async retryFn(resourceFn, params, retries = 3, back0ff = null) {
+      try {
+        const response = await resourceFn(params);
+        if (response.status == 200) {
+          return response.data;
+        }
+        if (retries > 0) {
+          if (!backOff) backOff = response.headers["ratelimit-limit"];
+          setTimeout(() => {
+            return retryFn(resourceFn, params, retries - 1, backOff * 2);
+          }, backoff);
+        } else {
+          throw new Error(response);
+        }
+      } catch (err) {
+        console.log(err);
       }
-      return items;
     },
   },
 };

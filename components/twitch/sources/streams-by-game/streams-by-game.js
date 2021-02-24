@@ -39,8 +39,10 @@ module.exports = {
         game_id: gameData[0].id,
         language: this.language,
       },
-      "polling",
       this.max
     );
+    for await (const stream of streams) {
+      this.$emit(stream, this.getMeta(stream));
+    }
   },
 };

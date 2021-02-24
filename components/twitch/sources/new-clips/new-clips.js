@@ -32,15 +32,18 @@ module.exports = {
     }
 
     // get and emit new clips of the specified game
+    const params = {
+      game_id: gameData[0].id,
+      started_at: this.getLastEvent(this.db.get("lastEvent")),
+    };
     const clips = await this.paginate(
       this.twitch.getClips.bind(this),
-      {
-        game_id: gameData[0].id,
-        started_at: this.getLastEvent(this.db.get("lastEvent")),
-      },
-      "polling",
+      params,
       this.max
     );
+    for await (const clip of clips) {
+      this.$emit(clip, this.getMeta(clip));
+    }
 
     this.db.set("lastEvent", Date.now());
   },
