@@ -1,15 +1,16 @@
 const reddit = require("../../reddit.app.js");
-
 module.exports = {
-  key: "new-hot-spot-on-a-subreddit",
-  name: "New hot spot on a subreddit",
+  key: "new-hot-post-on-a-subreddit",
+  name: "New hot post on a subreddit",
   description:
     "Emits an event each time a new hot post is added to the top 10 items in a subreddit.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
     reddit,
-    subreddit: { propDefinition: [reddit, "subreddit"] },
+    subreddit: {
+      propDefinition: [reddit, "subreddit"],
+    },
     g: {
       type: "string",
       label: "Locale",
@@ -105,18 +106,21 @@ module.exports = {
         "US_SD",
       ],
       default: "GLOBAL",
+      optional: true,
     },
     show: {
       type: "string",
       label: "Show",
       description:
-        'If "all" is passed, filters such as "hide links that I have voted on" will be disabled.'
+        'If "all" is passed, filters such as "hide links that I have voted on" will be disabled.',
+      optional: true,
     },
     sr_detail: {
       type: "boolean",
       label: "Subreddit details?",
       description: "Expand details of the parent subreddit?",
-      default: false
+      default: false,
+      optional: true,
     },
     timer: {
       label: "Polling schedule",
@@ -128,25 +132,31 @@ module.exports = {
     },
   },
   hooks: {
-    async deploy() {    	
+    async deploy() {
       // Emits sample events on the first run during deploy.
-			try{
-	      var reddit_things = await this.reddit.getNewHotSubredditPosts(
-	      	this.subreddit,
-	        this.g,
-	        this.show,
-	        this.sr_detail
-	      );
-    	}catch (err) {
-			  if (err.response.status) {
-			    throw new Error(`We encountered a 404 error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`);
-			  }
-			  throw err;
-			}	      
-
+      try {
+        var reddit_things = await this.reddit.getNewHotSubredditPosts(
+          this.subreddit,
+          this.g,
+          this.show,
+          this.sr_detail,
+          10
+        );
+      } catch (err) {
+        if (
+          err &&
+          err.response &&
+          err.response.status &&
+          err.response.status === 404
+        ) {
+          throw new Error(`We encountered a 404 error trying to fetch links for ${this.subreddit}
+					. Please check the subreddit name and try again`);
+        }
+        throw err;
+      }
       const links_pulled = this.reddit.wereLinksPulled(reddit_things);
       if (links_pulled) {
-      	const ordered_reddit_things = reddit_things.data.children.reverse();
+        const ordered_reddit_things = reddit_things.data.children.reverse();
         ordered_reddit_things.forEach((reddit_link) => {
           this.emitRedditEvent(reddit_link);
         });
@@ -164,15 +174,15 @@ module.exports = {
   },
   async run() {
     const reddit_things = await this.reddit.getNewHotSubredditPosts(
-      this.subreddit,    
+      this.subreddit,
       this.g,
       this.show,
-      this.sr_detail
+      this.sr_detail,
+      10
     );
-
     const links_pulled = this.reddit.wereLinksPulled(reddit_things);
     if (links_pulled) {
-    	const ordered_reddit_things = reddit_things.data.children.reverse();
+      const ordered_reddit_things = reddit_things.data.children.reverse();
       ordered_reddit_things.forEach((reddit_link) => {
         this.emitRedditEvent(reddit_link);
       });
