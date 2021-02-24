@@ -15,12 +15,6 @@ module.exports = {
       description: "The type of users to generate events for",
       options: userTypes,
     },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 1, // 15 minutes
-      },
-    },
   },
   hooks: {
     async activate() {
