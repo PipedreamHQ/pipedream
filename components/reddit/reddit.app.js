@@ -8,7 +8,12 @@ module.exports = {
       type: "string",
       label: "Subreddit",
       description: "The subreddit you'd like to watch.",
-    }
+    },
+    username: {
+      type: "string",
+      label: "Subreddit",
+      description: "The username you'd like to watch.",
+    },
   },
   methods: {
     _accessToken() {
@@ -31,7 +36,7 @@ module.exports = {
       return links && links.length;
     },
     async getNewHotSubredditPosts(subreddit, g, show, sr_detail, limit = 100) {
-      let params = new Object();
+      const params = {};
       if (show == "all") {
         params["show"] = show;
       }
@@ -51,6 +56,41 @@ module.exports = {
           limit,
         },
       });
-    }
-  }
+    },
+    async getNewComments(
+      before_link,
+      username,
+      context,
+      show,
+      t,
+      sr_detail,
+      limit = 100
+    ) {
+      let params = new Object();
+      if (context) {
+        params["context"] = context;
+      }
+
+      if (show) {
+        params["show"] = context;
+      }
+
+      if (t) {
+        params["t"] = t;
+      }
+
+      if (t) {
+        params["t"] = t;
+      }
+      params["sr_detail"] = sr_detail;
+
+      return await this._makeRequest({
+        path: `/user/${username}/comments`,
+        params: {
+          before: before_link,
+          limit,
+        },
+      });
+    },
+  },
 };

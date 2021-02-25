@@ -1,7 +1,9 @@
 const reddit = require("../../reddit.app.js");
+const get = require("lodash.get");
+
 module.exports = {
-  key: "new-link-on-a-subreddit",
-  name: "New Link on a subreddit",
+  key: "new-links-on-a-subreddit",
+  name: "New Links on a subreddit",
   description: "Emits an event each time a new link is added to a subreddit",
   version: "0.0.1",
   dedupe: "unique",
@@ -32,13 +34,12 @@ module.exports = {
         );
       } catch (err) {
         if (
-          err &&
-          err.response &&
-          err.response.status &&
-          err.response.status === 404
+          get(err, "response.status") !== undefined &&
+          get(err, "response.status") !== null &&
+          err.response.status >= 400
         ) {
           throw new Error(
-            `We encountered a 404 error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`
+            `We encountered a 4xx error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`
           );
         }
         throw err;
@@ -56,10 +57,11 @@ module.exports = {
   },
   methods: {
     emitRedditEvent(reddit_event) {
-      var { name: id, title: summary } = reddit_event.data;
+      var { name: id, title: summary, created: ts } = reddit_event.data;
       this.$emit(reddit_event, {
         id,
         summary,
+        ts,
       });
     },
   },

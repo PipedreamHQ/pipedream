@@ -1,7 +1,8 @@
 const reddit = require("../../reddit.app.js");
+const get = require("lodash.get");
 module.exports = {
-  key: "new-hot-post-on-a-subreddit",
-  name: "New hot post on a subreddit",
+  key: "new-hot-posts-on-a-subreddit",
+  name: "New hot posts on a subreddit",
   description:
     "Emits an event each time a new hot post is added to the top 10 items in a subreddit.",
   version: "0.0.1",
@@ -144,13 +145,12 @@ module.exports = {
         );
       } catch (err) {
         if (
-          err &&
-          err.response &&
-          err.response.status &&
-          err.response.status === 404
+          get(err, "response.status") !== undefined &&
+          get(err, "response.status") !== null &&
+          err.response.status >= 400
         ) {
-          throw new Error(`We encountered a 404 error trying to fetch links for ${this.subreddit}
-					. Please check the subreddit name and try again`);
+          throw new Error(`
+            We encountered a 4xx error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`);
         }
         throw err;
       }
@@ -165,10 +165,11 @@ module.exports = {
   },
   methods: {
     emitRedditEvent(reddit_event) {
-      const { name: id, title: summary } = reddit_event.data;
+      const { name: id, title: summary, created: ts } = reddit_event.data;
       this.$emit(reddit_event, {
         id,
         summary,
+        ts,
       });
     },
   },
