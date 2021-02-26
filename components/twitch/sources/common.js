@@ -1,4 +1,6 @@
 const twitch = require("../twitch.app.js");
+const { promisify } = require("util");
+const pause = promisify((delay, fn) => setTimeout(fn, delay));
 
 module.exports = {
   dedupe: "unique",
@@ -26,22 +28,18 @@ module.exports = {
         done = !cursor;
       } while (!done);
     },
-    async retryFn(resourceFn, params, retries = 3, back0ff = null) {
+    async retryFn(resourceFn, params, retries = 3) {
+      let response;
       try {
-        const response = await resourceFn(params);
-        if (response.status == 200) {
-          return response.data;
-        }
-        if (retries > 0) {
-          if (!backOff) backOff = response.headers["ratelimit-limit"];
-          setTimeout(() => {
-            return retryFn(resourceFn, params, retries - 1, backOff * 2);
-          }, backoff);
-        } else {
-          throw new Error(response);
-        }
+        response = await resourceFn(params);
+        return response.data;
       } catch (err) {
-        console.log(err);
+        if (retries <= 1) {
+          throw new Error(err);
+        }
+        delay = response ? response.headers["ratelimit-limit"] : 500;
+        await pause(delay);
+        return await this.retryFn(resourceFn, params, retries - 1);
       }
     },
   },

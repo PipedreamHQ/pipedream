@@ -27,7 +27,7 @@ module.exports = {
   },
   async run() {
     const { data: gameData } = await this.twitch.getGames([this.game]);
-    if (!gameData) {
+    if (gameData.length == 0) {
       console.log(`No game found with the name ${this.game}`);
       return;
     }
