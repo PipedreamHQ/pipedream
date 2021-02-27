@@ -24,14 +24,18 @@ module.exports = {
       let done = false;
       while (!done) {
         const results = await resourceFn(params);
-        const { items } = results;
+        const { items } = results.data;
         for (const item of items) {
           yield item;
         }
         if (items.length < params.limit)
             done = true;
         params.offset += params.limit;
-        await new Promise(resolve => setTimeout(resolve, 500));
+        const { headers } = results;
+        if (headers & headers['Retry-After']) {
+          const delay = headers['Retry-After']*1000;
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
       }
     }
   },

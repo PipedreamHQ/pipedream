@@ -13,8 +13,8 @@ module.exports = {
       async options({ prevContext }) {
         const limit = 20;
         const offset = prevContext.offset ? prevContext.offset : 0;
-        const results = await this.getPlaylists({ limit, offset });
-        const options = results.items.map((playlist) => {
+        const { data } = await this.getPlaylists({ limit, offset });
+        const options = data.items.map((playlist) => {
           return { label: playlist.name, value: playlist.id };
         });
         return {
@@ -47,7 +47,7 @@ module.exports = {
       let response;
       try {
         response = await axios(config);
-        return response.data;
+        return response;
       } catch(err) {
         if (retries <= 1) {
           throw new Error(err);
