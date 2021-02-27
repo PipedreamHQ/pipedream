@@ -36,7 +36,7 @@ module.exports = {
     async _makeRequest(method, endpoint, params) {
       config = {
         method,
-        url: `${await this._getBaseUrl()}/${endpoint}`,
+        url: `${await this._getBaseUrl()}${endpoint}`,
         headers: await this._getHeaders(),
         params,
       };
@@ -53,21 +53,21 @@ module.exports = {
           throw new Error(err);
         }
         // if rate limit is exceeded, Retry-After will contain the # of seconds to wait before retrying
-        delay = (response && response.status == 429) ? (response.headers['Retry-After']*1000) : 500;
+        const delay = (response && response.status == 429) ? (response.headers['Retry-After']*1000) : 500;
         await pause(delay);
         return await this.retry(config, retries - 1);
       }
     },
     async getPlaylistItems(params) {
       const { playlistId } = params;
-      return await this._makeRequest("GET", `playlists/${playlistId}/tracks`, params);
+      return await this._makeRequest("GET", `/playlists/${playlistId}/tracks`, params);
     },
     async getPlaylists(params) {
-      return await this._makeRequest("GET", `me/playlists`, params);
+      return await this._makeRequest("GET", `/me/playlists`, params);
     },
 
     async getTracks(params) {
-      return await this._makeRequest("GET", `me/tracks`, params);
+      return await this._makeRequest("GET", `/me/tracks`, params);
     },
   },
 };
