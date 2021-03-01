@@ -4,8 +4,9 @@ const http = require('../../http.app.js')
 module.exports = {  
   key: "http-post-request",
   name: "POST Request",
+  description: "Make an HTTP `POST` request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
     http,
     url: { propDefinition: [http, "url"] },
@@ -23,7 +24,7 @@ module.exports = {
       params: this.query,
       headers: this.headers,
     }
-    if (this.auth) config.auth = this.auth
+    if (this.auth) config.auth = this.http.parseAuth(this.auth)
     return (await axios(config)).data
   },
 }

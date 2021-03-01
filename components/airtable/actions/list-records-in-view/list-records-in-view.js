@@ -4,8 +4,9 @@ const axios = require('axios')
 module.exports = {  
   key: "airtable-list-records-in-view",
   name: "List Records in View",
+  description: "Retrieve records in a view with automatic pagination. Optionally sort and filter results.",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.9",
   props: {
     airtable,
     baseId: { type: "$.airtable.baseId", appProp: "airtable" },

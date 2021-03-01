@@ -3,9 +3,9 @@ const axios = require('axios')
 
 module.exports = {
   name: 'Get Referring Domains',
-  description: "Get the referring domains that contain backlinks to the target.",
+  description: "Get the referring domains that contain backlinks to the target URL or domain.",
   key: "ahrefs-get-referring-domains",
-  version: '0.0.15',
+  version: '0.0.16',
   type: "action",
   props: {
     ahrefs,

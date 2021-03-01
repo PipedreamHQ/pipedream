@@ -2,10 +2,10 @@ const slack = require('../../slack.app.js')
 const { WebClient } = require('@slack/web-api')
 
 module.exports = {  
-  key: "slack-post-blocks",
-  name: "Post Message Using Block Kit",
-  description: "Send a message composed of Blocks to a channel, group or user",
-  version: "0.0.9",
+  key: "slack-send-block-kit-message",
+  name: "Send Message Using Block Kit",
+  description: "Send a message using Slack's Block Kit UI framework to a channel, group or user.",
+  version: "0.0.13",
   type: "action",
   props: {
     slack,

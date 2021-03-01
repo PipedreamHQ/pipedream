@@ -60,6 +60,35 @@ module.exports = {
         })
       },
     },
+    labelNames: {
+      type: "string[]",
+      label: "Labels",
+      async options({ page, repoFullName }) {
+        const labels = await this.getLabels({
+          page: page + 1, // pipedream page 0-indexed, github is 1
+          repoFullName,
+        })
+        return labels.map(label => {
+          return label.name
+        })
+      },
+    },
+    milestone: {
+      type: "string",
+      label: "Milestone",
+      async options({ page, repoFullName }) {
+        const milestones = await this.getMilestones({
+          page: page + 1, // pipedream page 0-indexed, github is 1
+          repoFullName,
+        })
+        return milestones.map(milestone => {
+          return {
+            label: milestone.title,
+            value: milestone.id,
+          }
+        })
+      },
+    },
     order: {
       type: "string",
       optional: true,
@@ -98,6 +127,11 @@ module.exports = {
       label: "Keywords",
       description: "Enter one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub (this field supports the same qualifiers as search on GitHub.com). To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See [Searching code](https://help.github.com/articles/searching-code/) for a detailed list of qualifiers."
     },
+    q_issues_and_pull_requests: {
+      type: "string",
+      label: "Keywords",
+      description: "Enter one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub (this field supports the same qualifiers as search on GitHub.com). To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/reference/search#constructing-a-search-query). See [Searching issues and pull requests](https://help.github.com/articles/searching-issues-and-pull-requests/) for a detailed list of qualifiers."
+    },
     sortIssues: {
       type: "string",
       label: "Sort",
@@ -120,7 +154,25 @@ module.exports = {
         'reactions-tada', 
         'interactions'
       ],
-    }
+      default: ''
+    },
+    issueAssignees: {
+      type: "string[]",
+      label: "Assignees",
+      description: "Optionally enter Github usernames to assign to this issue. Add one username per row or disable structured mode to pass an array of usernames in `{{...}}`. NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise.",
+      optional: true,
+    },
+    issueBody: {
+      type: "string",
+      label: "Body",
+      description: "Optionally add details describing the issue (this field supports [Github markdown](https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax)).",
+      optional: true,
+    },
+    issueTitle: {
+      type: "string",
+      label: "Title",
+      description: "The title of the issue.",
+    },
   },
   methods: {
     async _makeRequest(opts) {
@@ -170,6 +222,19 @@ module.exports = {
       } = opts
       return (await this._makeRequest({
         path: `/repos/${repoFullName}/labels`,
+        params: {
+          per_page: 100,
+          page,
+        },
+      })).data
+    },
+    async getMilestones(opts) {
+      const {
+        repoFullName,
+        page,
+      } = opts
+      return (await this._makeRequest({
+        path: `/repos/${repoFullName}/milestones`,
         params: {
           per_page: 100,
           page,

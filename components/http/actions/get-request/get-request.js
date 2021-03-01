@@ -4,8 +4,9 @@ const http = require('../../http.app.js')
 module.exports = {  
   key: "http-get-request",
   name: "GET Request",
+  description: "Make an HTTP `GET` request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.0.10",
+  version: "0.0.14",
   props: {
     http,
     url: { propDefinition: [http, "url"] },
@@ -22,6 +23,6 @@ module.exports = {
       headers: this.headers,
     }
     if (this.auth) config.auth = this.http.parseAuth(this.auth)
-    return (await axios(config)).data
+    return await axios(config)
   },
 }

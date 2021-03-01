@@ -84,6 +84,7 @@ module.exports = {
       label: "Send as User",
       description: "Optionally pass `TRUE` to post the message as the authed user, instead of as a bot. Defaults to `FALSE`.",
       //example: "true",
+      default: false,
       optional: true
     },
     mrkdwn: {
@@ -108,6 +109,7 @@ module.exports = {
     },
     icon_emoji: {
       type: "string",
+      label: "Icon (emoji)",
       description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
       //example: ":chart_with_upwards_trend:",
       optional: true
@@ -140,6 +142,7 @@ module.exports = {
     },
     icon_url: {
       type: "string",
+      label: "Icon (image URL)",
       description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
       //example: "http://lorempixel.com/48/48",
       optional: true

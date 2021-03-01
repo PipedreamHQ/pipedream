@@ -4,7 +4,8 @@ const { Octokit } = require('@octokit/rest')
 module.exports = {
   key: "github-get-repo",
   name: "Get Repo",
-  version: "0.0.1",
+  description: "Get details for a repo including the owner, description, metrics (e.g., forks, stars, watchers, issues) and more.",
+  version: "0.0.2",
   type: "action",
   props: {
     github,

@@ -2,13 +2,18 @@ const googleDocs = require("../../google_docs.app");
 
 module.exports = {
   key: "google_docs-append-text",
-  name: "Append Text to Existing Document",
-  version: "0.0.8",
+  name: "Append Text",
+  description: "Append text to an existing document",
+  version: "0.0.10",
   type: "action",
   props: {
     googleDocs,
     docId: { propDefinition: [googleDocs, "docId"] },
-    text: "string"
+    text: {
+      type: "string",
+      description: "Enter static text (e.g., `hello world`) or a reference to a string exported by a previous step (e.g., `{{steps.foo.$return_value}}`)."
+    
+    },
   }, 
   async run() {
     const docs = this.googleDocs.docs()

@@ -4,11 +4,12 @@ const { Octokit } = require('@octokit/rest')
 module.exports = {
   key: "github-search-issues-and-pull-requests",
   name: "Search Issues and Pull Requests",
-  version: "0.0.12",
+  description: "Find issues by state and keyword.",
+  version: "0.0.15",
   type: "action",
   props: {
     github,
-    q: { propDefinition: [github, "q"] },
+    q: { propDefinition: [github, "q_issues_and_pull_requests"] },
     sort: { propDefinition: [github, "sortIssues"] },
     order: { propDefinition: [github, "order"] },
     paginate: { propDefinition: [github, "paginate"] },

@@ -4,12 +4,23 @@ const { Octokit } = require('@octokit/rest')
 module.exports = {
   key: "github-create-issue",
   name: "Create Issue",
-  version: "0.0.2",
+  description: "Create a new issue in a Gihub repo.",
+  version: "0.0.13",
   type: "action",
   props: {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
-    title: "string",
+    title: { propDefinition: [github, "issueTitle"] },
+    body: { propDefinition: [github, "issueBody"] },
+    labels: { 
+      propDefinition: [github, "labelNames", c => ({ repoFullName: c.repoFullName })],
+      optional: true,
+    },
+    milestone: { 
+      propDefinition: [github, "milestone", c => ({ repoFullName: c.repoFullName })],
+      optional: true 
+    },
+    assignees: { propDefinition: [github, "issueAssignees"] },
   },
   async run() {
     const octokit = new Octokit({
@@ -20,6 +31,10 @@ module.exports = {
       owner: this.repoFullName.split("/")[0],
       repo: this.repoFullName.split("/")[1],
       title: this.title,
+      body: this.body,
+      labels: this.labels,
+      assignees: this.assignees,
+      milestone: this.milestone,
     })).data
   },
 }

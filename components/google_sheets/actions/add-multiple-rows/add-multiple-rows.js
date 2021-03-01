@@ -3,9 +3,9 @@ const axios = require('axios')
 
 module.exports = {
   key: "google_sheets-add-multiple-rows",
-  name: "Add Multiple Rows to Sheet",
-  description: "Add multiple rows of data to Google Sheets",
-  version: "0.0.12",
+  name: "Add Multiple Rows",
+  description: "Add multiple rows of data to Google Sheets.",
+  version: "0.0.16",
   type: "action",
   props: {
     googleSheets,
