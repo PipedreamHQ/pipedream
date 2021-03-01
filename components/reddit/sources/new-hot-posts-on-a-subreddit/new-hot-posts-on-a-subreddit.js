@@ -1,5 +1,4 @@
 const reddit = require("../../reddit.app.js");
-const get = require("lodash.get");
 module.exports = {
   key: "new-hot-posts-on-a-subreddit",
   name: "New hot posts on a subreddit",
@@ -110,16 +109,15 @@ module.exports = {
       optional: true,
     },
     show: {
-      type: "string",
-      label: "Show",
-      description:
-        'If "all" is passed, filters such as "hide links that I have voted on" will be disabled.',
-      optional: true,
+      type: "boolean",
+      label: "Show all posts (ignoring filters)?",
+      description: "If set to true, posts matching filters such us \"hide links that I have voted on\" will be included in the emitted event.",
+      default: false
     },
     sr_detail: {
       type: "boolean",
-      label: "Subreddit details?",
-      description: "Expand details of the parent subreddit?",
+      label: "Include Subreddit details?",
+      description: "If set to true, includes details on the subreddit in the emitted event.",
       default: false,
       optional: true,
     },
@@ -144,11 +142,7 @@ module.exports = {
           10
         );
       } catch (err) {
-        if (
-          get(err, "response.status") !== undefined &&
-          get(err, "response.status") !== null &&
-          err.response.status >= 400
-        ) {
+        if (did4xxErrorOccurred) {
           throw new Error(`
             We encountered a 4xx error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`);
         }
