@@ -5,7 +5,7 @@ module.exports = {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
   description: "Add multiple rows of data to Google Sheets.",
-  version: "0.0.16",
+  version: "0.0.22",
   type: "action",
   props: {
     googleSheets,
@@ -31,9 +31,13 @@ module.exports = {
   }, 
   async run() {
     const sheets = this.googleSheets.sheets()
-    const rows = this.rows
-    
+    let rows = this.rows
+      
     let inputValidated = true
+
+    if(!Array.isArray(rows)) {
+      rows = JSON.parse(this.rows)
+    }
 
     if (!rows || !rows.length || !Array.isArray(rows)) {
       inputValidated = false

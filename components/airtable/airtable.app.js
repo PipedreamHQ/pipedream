@@ -25,9 +25,9 @@ module.exports = {
       description: "Enter a [record ID](https://support.airtable.com/hc/en-us/articles/360051564873-Record-ID) (eg. `recxxxxxxx`).",   
     },
     records: {
-      type: "any",
+      type: "string",
       label: "Records",
-      description: 'Enter an array of objects or a reference to a previous step export enclosed in double-curly brackets `{{...}}` (e.g., `{{[{"field1":"value","field2":"value"},{"field1":"value","field2":"value"}]}}` or `{{steps.foo.$return_value}}`). Each object should represent a row with the column name as the key and the corresponding value. You can include all, some, or none of the fields.'
+      description: 'Enter an array of objects. Each object should represent a row with the column name as the key and the corresponding value. You can include all, some, or none of the fields. The most common usage is pass a reference to an array of objects exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also pass a string value that will `JSON.parse()` to an array of objects (e.g., `[{"foo":"bar","id":"{{steps.trigger.context.workflow_id}}"},{"foo":"baz","id":"value"}]`).'
     },
     sortDirection: { 
       type: "string", 

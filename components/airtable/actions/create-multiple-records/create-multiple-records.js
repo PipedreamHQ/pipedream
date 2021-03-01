@@ -6,8 +6,8 @@ const Airtable = require('airtable')
 module.exports = {
   key: "airtable-create-multiple-records",
   name: "Create Multiple Records",
-  description: "Create multiple records in a table.",
-  version: "0.0.19",
+  description: "Create one or more records in a table by passing an array of objects containing field names and values as key/value pairs.",
+  version: "0.0.22",
   type: "action",
   props: {
     airtable,
@@ -26,7 +26,13 @@ module.exports = {
     let response_records = []
     const BATCH_SIZE = 10; // Airtable API allows to update up to 10 rows per request.
 
-    this.records.forEach(record => { records.push({ fields: record }) })
+    let inputRecords = this.records
+
+    if(!Array.isArray(inputRecords)) {
+      inputRecords = JSON.parse(inputRecords)
+    }
+
+    inputRecords.forEach(record => { records.push({ fields: record }) })
     
     const records_sets = chunk(records, BATCH_SIZE)
     for (const records_set of records_sets) {        
