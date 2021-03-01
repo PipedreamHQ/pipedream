@@ -1,4 +1,10 @@
 const axios = require("axios");
+const Bottleneck = require('bottleneck');
+// limiting requests to 2 per second per Shopify's API rate limit documentation
+// https://shopify.dev/concepts/about-apis/rate-limits
+const limiter = new Bottleneck({
+  minTime: 500
+});
 const get = require("lodash.get");
 const events = [
   { label: "Article Created", value: JSON.stringify({ filter: "Article", verb: "create" }) }, 
@@ -83,29 +89,30 @@ module.exports = {
       monthAgo.setMonth(monthAgo.getMonth() - 1);
       return monthAgo;
     },
-    async getObjects(objectType, endpoint, useCreatedAt=false, sinceId=null, params=null) {
+    async getObjects(objectType, endpoint, useCreatedAt=false, sinceId=null, params={}) {
       let hasMore = true;
       const objects = [];
       const config = {
         method: "GET",
         url: `${this._getBaseURL()}/${endpoint}`,
         headers: this._getAuthHeader(),
+        params,
       };
-      if (params)
-        config.params = params;
       if (sinceId)
-        config.params = { 
-          since_id: sinceId,
-        };
-      else if (useCreatedAt)  // if no sinceId, get objects created within the last month
-        config.params = { created_at_min: this._monthAgo() };
+        config.params.since_id = sinceId;
+      // if no sinceId, get objects created within the last month
+      else if (useCreatedAt)
+        config.params.created_at_min = this._monthAgo();
+      // wrap the API request with Bottleneck to avoid exceeding Shopify's rate limit
+      const throttledGetObjectsData = limiter.wrap(this.getObjectsData);
       while (hasMore) {
-        let results = await axios(config);
+        const results = await throttledGetObjectsData(config);
         let link = get(results, "headers.link"); // get link to next page of results
         if (link && link.includes("next")) {
           link = /https.*\>/.exec(link);
           config.url = link[0].substring(0, link[0].length - 1);
-          delete config.params.created_at_min;
+          if (config.params.hasOwnProperty('created_at_min'))
+            delete config.params.created_at_min;
         } else hasMore = false;
         for (const object of results.data[objectType]) {
           objects.push(object);
@@ -113,6 +120,9 @@ module.exports = {
       }
       return objects;
     },
+    async getObjectsData(config) {
+      return await axios(config);
+    }, 
     async getAbandonedCheckouts(sinceId) {
       return await this.getObjects("checkouts", "checkouts.json", true, sinceId);
     },

@@ -765,7 +765,7 @@ Use this endpoint to delete an existing subscription. This endpoint accepts the 
 #### Endpoint
 
 ```
-DELETE /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_source_id}
+DELETE /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_source_id}&event_name={event_name}
 ```
 
 #### Parameters
@@ -790,6 +790,29 @@ The ID of the workflow or component emitting events. Events from this component 
 The ID of the component or workflow you'd like to receive events.
 
 [See the component endpoints](/api/rest/#components) for information on how to retrieve the ID of existing components. You can retrieve the ID of your workflow in your workflow's URL - it's the string `p_2gCPml` in `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
+
+---
+
+`event_name` **string**
+
+The name of the event stream tied to your subscription. **If you didn't specify an `event_name` when creating your subscription, pass `event_name=`**.
+
+You'll find the `event_name` that's tied to your subscription when [listing your subscriptions](#get-current-user-s-subscriptions):
+
+```javascript
+{
+  "id": "sub_abc123",
+  "emitter_id": "dc_abc123",
+  "listener_id": "dc_def456",
+  "event_name": "test"
+},
+{
+  "id": "sub_def456",
+  "emitter_id": "dc_abc123",
+  "listener_id": "wh_abc123",
+  "event_name": ""
+}
+```
 
 ---
 
