@@ -1,5 +1,4 @@
 const reddit = require("../../reddit.app.js");
-const get = require("lodash.get");
 
 module.exports = {
   key: "new-links-on-a-subreddit",
@@ -33,11 +32,7 @@ module.exports = {
           10
         );
       } catch (err) {
-        if (
-          get(err, "response.status") !== undefined &&
-          get(err, "response.status") !== null &&
-          err.response.status >= 400
-        ) {
+        if (did4xxErrorOccurred) {
           throw new Error(
             `We encountered a 4xx error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`
           );
@@ -67,6 +62,7 @@ module.exports = {
   },
   async run() {
     let before = this.db.get("before");
+
     do {
       const reddit_things = await this.reddit.getNewSubredditLinks(
         before,
@@ -82,5 +78,6 @@ module.exports = {
         });
       }
     } while (links_pulled);
+
   },
 };
