@@ -11,7 +11,7 @@ module.exports = {
     },
     username: {
       type: "string",
-      label: "Subreddit",
+      label: "Username",
       description: "The username you'd like to watch.",
     },
   },
@@ -35,10 +35,17 @@ module.exports = {
       const links = get(reddit_things, "data.children");
       return links && links.length;
     },
+    did4xxErrorOccurred(err) {
+      return (
+        get(err, "response.status") !== undefined &&
+        get(err, "response.status") !== null &&
+        err.response.status >= 400
+      );
+    },
     async getNewHotSubredditPosts(subreddit, g, show, sr_detail, limit = 100) {
       const params = {};
-      if (show == "all") {
-        params["show"] = show;
+      if (show) {
+        params["show"] = "all";
       }
       params["g"] = g;
       params["sr_detail"] = sr_detail;
@@ -57,39 +64,30 @@ module.exports = {
         },
       });
     },
-    async getNewComments(
-      before_link,
+    async getNewCommentsOrLinks(
+      before,
       username,
       context,
       show,
       t,
+      type,
       sr_detail,
       limit = 100
     ) {
-      let params = new Object();
-      if (context) {
-        params["context"] = context;
-      }
-
-      if (show) {
-        params["show"] = context;
-      }
-
-      if (t) {
-        params["t"] = t;
-      }
-
-      if (t) {
-        params["t"] = t;
-      }
-      params["sr_detail"] = sr_detail;
+      const params = {
+        before,
+        context,
+        show: "given",
+        sort: "new",
+        t,
+        type,
+        sr_detail,
+        limit,
+      };
 
       return await this._makeRequest({
         path: `/user/${username}/comments`,
-        params: {
-          before: before_link,
-          limit,
-        },
+        params,
       });
     },
   },
