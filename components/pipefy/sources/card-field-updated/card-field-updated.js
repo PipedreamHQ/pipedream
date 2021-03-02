@@ -5,7 +5,7 @@ module.exports = {
   name: "Card Field Updated (Instant)",
   key: "pipefy-card-field-updated",
   description: "Emits an event each time a card field is updated in a Pipe.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     getActions() {
