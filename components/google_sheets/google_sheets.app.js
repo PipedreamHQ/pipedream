@@ -19,7 +19,7 @@ module.exports = {
     rows: {
       type: "string",
       label: "Row Values",
-      description: 'Enter an array of arrays. Each nested array should represent a row, with each element of the nested array representing a cell/column value. The most common usage is pass a reference to an array of arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also pass a string value that will `JSON.parse()` to an array of arrays (e.g., `[["Foo","Bar"],["{{steps.trigger.context.workflow_id}}",12345]]`).',
+      description: 'Enter an array of arrays. Each nested array should represent a row, with each element of the nested array representing a cell/column value. The most common usage is pass a reference to an array of arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also pass a string value that will `JSON.parse()` to an array of arrays (e.g., `[["Foo",123],["Bar",456]]`).',
     },
     sheetID: {
       type: "string",

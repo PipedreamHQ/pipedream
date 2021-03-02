@@ -6,7 +6,7 @@ module.exports = {
   name: "PUT Request",
   description: "Make an HTTP `POST` request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.11",
   props: {
     http,
     url: { propDefinition: [http, "url"] },

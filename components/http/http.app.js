@@ -20,23 +20,23 @@ module.exports = {
     },
     body: { 
       type: "string",
-      description: "Enter a string or add an expression in curly brackets `{{...}}`. To reference data from an earlier step, enter it in curly brackets (e.g., `{{steps.foo.$return_value}}`).",
+      description: "Enter a static value or reference prior step exports via the `steps` object (e.g., `{{steps.foo.$return_value}}`).",
       optional: true,
     },
     params: {
       type: "object",
-      description: "Add query parameters as key-value pairs. Disable structured mode to pass an object or reference to prior step exports in `{{...}}`.",
+      description: "Add individual query parameters as key-value pairs or disable structured mode to pass multiple key-value pairs as an object.",
       optional: true,
     },
     headers: {
       type: "object",
-      description: "Add headers as key-value pairs.  Disable structured mode to pass an object or reference to prior step exports in `{{...}}`.",
+      description: "Add individual headers as key-value pairs or disable structured mode to pass multiple key-value pairs as an object.",
       optional: true,
     },
     auth: {
       type: "string",
       label: "Basic Auth",
-      description: "To use HTTP basic authentication, add a username and password separated by `|` (e.g., `yourUsername|yourPassword123`).",
+      description: "To use HTTP basic authentication, enter a username and password separated by `|` (e.g., `myUsername|myPassword`).",
       optional: true,
     },
     responseType: {

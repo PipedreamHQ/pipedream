@@ -6,7 +6,7 @@ module.exports = {
   name: "Custom Request",
   description: "Make an HTTP request using any `method` and `URL`. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.0.13",
+  version: "0.0.15",
   props: {
     http,
     url: { propDefinition: [http, "url"] },

@@ -6,7 +6,7 @@ module.exports = {
   name: "GET Request",
   description: "Make an HTTP `GET` request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.0.14",
+  version: "0.0.16",
   props: {
     http,
     url: { propDefinition: [http, "url"] },
