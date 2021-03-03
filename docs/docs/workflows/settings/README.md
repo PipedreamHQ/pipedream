@@ -6,6 +6,8 @@ You can control workflow-specific settings in the **Settings** header, just abov
 <img alt="Workflow settings" src="./images/workflow-settings.png">
 </div>
 
+[[toc]]
+
 ## Errors
 
 By default, any errors raised in a workflow are sent to the **Global Error Workflow**. This workflow sends you an email with the details of this error, once per error, per workflow, per 24-hour period.
@@ -25,3 +27,24 @@ If your workflow times out, and needs to run for longer than the [default limit]
 ## Current checkpoint values
 
 If you're using [`$checkpoint`](/workflows/steps/code/#workflow-level-state-checkpoint) or [`this.$checkpoint`](/workflows/steps/code/#step-level-state-this-checkpoint) to manage state in your workflow, you can view their values here. You can also modify the values or clear the whole contents of a given checkpoint.
+
+## Attachments
+
+Sometimes, you'll need to reference static files in your workflow, like a CSV. Files uploaded in the **Attachments** section can be referenced in your workflow using the `$attachments` object.
+
+For example, if you upload a file named `test.csv`, Pipedream will expose the _file path_ of the uploaded file at `$attachments["test.csv]`. You can read the contents of the file using `fs.readFileSync`:
+
+```javascript
+const fs = require("fs");
+
+const fileData = fs.readFileSync($attachments["test.csv"]).toString();
+console.log(fileData);
+```
+
+<div>
+<img alt="File attachment data" src="./images/attachment-file-data.png">
+</div>
+
+### Limits
+
+Each attachment is limited to `10MB` in size. The total size of all attachments within a single workflow cannot exceed `200MB`.
