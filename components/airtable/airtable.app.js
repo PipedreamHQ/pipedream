@@ -27,7 +27,7 @@ module.exports = {
     records: {
       type: "string",
       label: "Records",
-      description: 'Enter an array of objects. Each object should represent a row with the column name as the key and the corresponding value. You can include all, some, or none of the fields. The most common usage is pass a reference to an array of objects exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also pass a string value that will `JSON.parse()` to an array of objects (e.g., `[{"foo":"bar","id":123},{"foo":"baz","id":456}]`).'
+      description: 'Provide an array of objects. Each object should represent a new record with the column name as the key and the data to insert as the corresponding value (e.g., passing `[{"foo":"bar","id":123},{"foo":"baz","id":456}]` will create two records and with values added to the fields `foo` and `id`). The most common pattern is to reference an array of objects exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of objects.'
     },
     sortDirection: { 
       type: "string", 
