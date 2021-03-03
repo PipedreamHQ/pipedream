@@ -15,7 +15,7 @@ module.exports = {
     silentMode: {
       type: "boolean",
       label: "Return Empty Response",
-      description: "Set to `true` to return an empty response (HTTP `204 No Content`).",
+      description: "Set to `true` to return an empty response (HTTP `204 No Content`). Returns `{ success: true }` by default.",
       default: false,
       optional: true,
     },

@@ -3,7 +3,7 @@ const http_app = require('../../http.app.js')
 // Core HTTP component
 module.exports = {
   key: "http-new-requests",
-  name: "HTTP / Webhook Requests (Advanced)",
+  name: "Raw HTTP / Webhook Requests (Advanced)",
   description: "Get a Pipedream URL to catch, inspect and emit the full HTTP event on every request (including the body, method, headers, query parameters). Send payloads up to 512k or add `pipedream_upload_body=1` as a query parameter to send payloads up to 5 terabytes).",
   version: "0.0.3",
   props: {
