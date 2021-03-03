@@ -63,7 +63,8 @@ module.exports = {
     });
 
     if(this.emitBodyOnly) {
-      this.$emit({ body: event.body }, { summary })
+      const body = event.body
+      this.$emit({ body }, { summary })
     } else {
       this.$emit(event, { summary })
     }

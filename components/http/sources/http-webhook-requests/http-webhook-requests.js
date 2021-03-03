@@ -12,7 +12,7 @@ module.exports = {
       type: "$.interface.http",
       customResponse: true,
     },
-    silentMode: {
+    emptyResponse: {
       type: "boolean",
       label: "Return Empty Response",
       description: "Set to `true` to return an empty response (HTTP `204 No Content`). Returns `{ success: true }` by default.",
@@ -36,7 +36,7 @@ module.exports = {
 
     console.log(event)
     
-    if(this.silentMode) {
+    if(this.emptyResponse) {
       this.http.respond({
         status: 204,
       });
@@ -48,7 +48,7 @@ module.exports = {
     }
 
     // Emit the HTTP payload
-    this.$emit(body,{
+    this.$emit({ body },{
       summary: `${event.method.toUpperCase()} ${event.path}`,
     });
   }
