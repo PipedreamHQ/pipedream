@@ -234,7 +234,7 @@ module.exports = {
         }
       })).data.ids
     },
-    async *getAllFollowers(screenName) {
+    async *scanFollowerIds(screenName) {
       const url = `https://api.twitter.com/1.1/followers/ids.json?`;
       const baseParams = {
         screen_name: screenName,

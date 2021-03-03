@@ -13,13 +13,29 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      await this.updateFollowersCache();
+      await this.provisionFollowersCache();
     },
   },
   deactivate() {
     this.db.set("followers", null);
   },
   methods: {
+    /**
+     * This method returns the size of the internal cache used by the event
+     * source to keep track of the latest Twitter followers of the corresponding
+     * account.
+     *
+     * The size represents the maximum amount of entries/ID's that will be
+     * cached at any given time (or 0 for unlimited). Keep in mind that the
+     * Pipedream platform itself imposes size limits as well in terms of DB
+     * usage.
+     *
+     * @returns The maximum amount of Twitter followers entries to be cached at
+     * any given moment (or 0 for unlimited).
+     */
+    getFollowersCacheSize() {
+      return 0;
+    },
     getScreenName() {
       // When screen name is not explicitly provided, the Twitter API defaults
       // it to the user making the API request
@@ -46,30 +62,52 @@ module.exports = {
         ts,
       };
     },
-    async updateFollowersCache() {
+    async provisionFollowersCache() {
       const screenName = this.getScreenName();
-      const followerIdsGen = this.twitter.getAllFollowers(screenName);
+      const followerIdsGen = this.twitter.scanFollowerIds(screenName);
+      const maxFollowerListSize = Math.max(this.getFollowersCacheSize(), 0);
       const result = [];
       for await (const id of followerIdsGen) {
+        if (maxFollowerListSize !== 0 && maxFollowerListSize === result.length) {
+          break;
+        }
+
         result.push(id);
       }
 
-      this.db.set("followers", result);
-      console.log(`
-        Provisioned followers cache: found ${result.length} records
-      `);
-
+      this.setFollowersCache(result);
       return result;
     },
-    async getNewFollowers() {
-      const prevFollowers = this.db.get("followers");
-      const currFollowers = await this.updateFollowersCache();
-      const prevFollowersSet = new Set(prevFollowers);
-      return currFollowers.filter(cf => !prevFollowersSet.has(cf));
+    setFollowersCache(followers) {
+      const followersCacheSize = Math.max(this.getFollowersCacheSize(), 0);
+      const trimmedFollowers = followers.slice(0, followersCacheSize);
+      this.db.set("followers", trimmedFollowers);
+      console.log(`
+        Updated followers cache: ${trimmedFollowers.length} records
+      `);
+    },
+    /**
+     * This generator method scans the list of Twitter followers until it finds
+     * the ID of a follower that was already processed.
+     *
+     * @param {string[]} processedFollowerIds a list of the ID's of the most
+     * recent Twitter followers processed by the event source
+     * @yields the ID of a new Twitter follower
+     */
+    async *scanNewFollowers(processedFollowerIds = []) {
+      const processeedFollowerIdsSet = new Set(processedFollowerIds);
+      const screenName = this.getScreenName();
+      const followerIdsGen = this.twitter.scanFollowerIds(screenName);
+      for await (const id of followerIdsGen) {
+        if (processeedFollowerIdsSet.has(id)) {
+          break;
+        }
+        yield id;
+      }
     },
     async getUnfollowers() {
       const prevFollowers = this.db.get("followers");
-      const currFollowers = await this.updateFollowersCache();
+      const currFollowers = await this.provisionFollowersCache();
       const currFollowersSet = new Set(currFollowers);
       return prevFollowers.filter(pf => !currFollowersSet.has(pf));
     },
@@ -94,4 +132,4 @@ module.exports = {
       this.$emit(user, meta);
     });
   },
-}
+};
