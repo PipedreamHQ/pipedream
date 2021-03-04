@@ -1,5 +1,4 @@
 const reddit = require("../../reddit.app.js");
-
 module.exports = {
   key: "new-links-on-a-subreddit",
   name: "New Links on a subreddit",
