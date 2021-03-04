@@ -8,6 +8,21 @@ module.exports = {
       type: "string",
       label: "Subreddit",
       description: "The subreddit you'd like to watch.",
+      useQuery: true,
+      async options(context) {
+        const options = [];
+        let results = [];
+        results = await this.searchSubreddit(context.prevContext, context.query); 
+                        //eventually context.prevContext will hold Reddit's after, context.query the user entered value
+                        //for the prop
+        for (const form of results) {
+          options.push({ label: form.name, value: form.id });
+        }        
+        return {
+          options,
+          context: { prevContext: "1" }, //just sending a value in the prevContext object
+        };
+      },
     },
     username: {
       type: "string",
@@ -64,13 +79,11 @@ module.exports = {
         },
       });
     },
-    async getNewCommentsOrLinks(
+    async getNewUserLinks(
       before,
       username,
       context,
-      show,
       t,
-      type,
       sr_detail,
       limit = 100
     ) {
@@ -80,15 +93,65 @@ module.exports = {
         show: "given",
         sort: "new",
         t,
-        type,
+        type: "links",
         sr_detail,
         limit,
       };
+
+      return await this._makeRequest({
+        path: `/user/${username}/submitted`,
+        params,
+      });
+    },
+    async getNewUserComments(
+      before,
+      username,
+      context,
+      t,
+      sr_detail,
+      limit = 100
+    ) {
+      const params = {
+        before,
+        context,
+        show: "given",
+        sort: "new",
+        t,
+        type: "comments",
+        sr_detail,
+        limit,
+      };cd..
 
       return await this._makeRequest({
         path: `/user/${username}/comments`,
         params,
       });
     },
+    async searchSubreddit(after,query) {
+      const params = {
+        after,
+        limit: 100,
+        q: query,
+        show_users: false,
+        sort: "relevance",
+        sr_detail: false,
+        typeahead_active: false,
+      };
+
+      
+      return [{
+          name: `first ${query}`,
+          value: "-_-"
+        },
+        {
+          name: "second",
+          value: "-_-"
+        }];//I reduced the code to these contact value for I am getting a null error when pd dev,
+            //i expect to use query as a parameter for the Reddit API, and after for pagination when eeded
+      /*return await this._makeRequest({
+        path: `/subreddits/search`,
+        params,
+      });*/
+    },    
   },
 };
