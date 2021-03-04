@@ -6,7 +6,7 @@ module.exports = {
   name: "New Files (Instant)",
   description:
     "Emits a new event any time a new file is added in your linked Google Drive",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     googleDrive,
@@ -46,7 +46,7 @@ module.exports = {
         "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 60 * 24,
+        intervalSeconds: 60 * 30, // 30 minutes
       },
     },
   },
