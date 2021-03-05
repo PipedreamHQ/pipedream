@@ -119,13 +119,13 @@ module.exports = {
       );
       return { oldValues, currentValues };
     },
-    async takeSheetSnapshot() {
+    async takeSheetSnapshot(offset = 0) {
       // Initialize sheet values
       const sheetId = this.getSheetId();
       const worksheetIds = this.getWorksheetIds();
       const sheetValues = await this.google_sheets.getSheetValues(
         sheetId,
-        worksheetIds
+        worksheetIds,
       );
       for (const sheetVal of sheetValues) {
         const { values, worksheetId } = sheetVal;
@@ -133,7 +133,9 @@ module.exports = {
           continue;
         }
 
-        this.db.set(`${sheetId}${worksheetId}`, values);
+        const offsetLength = Math.max(values.length - offset, 0);
+        const offsetValues = values.slice(0, offsetLength);
+        this.db.set(`${sheetId}${worksheetId}`, offsetValues);
       }
     },
     async processSpreadsheet(spreadsheet) {

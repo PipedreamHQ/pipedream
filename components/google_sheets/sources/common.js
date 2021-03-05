@@ -16,6 +16,14 @@ module.exports = {
       },
     },
     watchedDrive: { propDefinition: [google_sheets, "watchedDrive"] },
+    initialEventCount: {
+      label: "Initial Event Count",
+      description: "The number of events to be emitted initially for each worksheet",
+      type: "integer",
+      min: 0,
+      default: 0,
+      optional: true,
+    },
   },
   hooks: {
     async activate() {
@@ -42,7 +50,7 @@ module.exports = {
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
 
-      this.db.set("isInitialized", false);
+      this._markComponentAsNotInitialized();
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -72,10 +80,36 @@ module.exports = {
         subscription.resourceId
       );
 
-      this.db.set("isInitialized", false);
+      this._markComponentAsNotInitialized();
     },
   },
   methods: {
+    // A component is considered executed after the very first time it is
+    // deployed and its `run` method is executed. After that, and throughout its
+    // lifetime, the component will always be considered as executed.
+    _wasComponentExecuted() {
+      return !!this.db.get("hasExecuted");
+    },
+    _markComponentAsExecuted() {
+      this.db.set("hasExecuted", true);
+    },
+    // A component is considered initialized after it is deployed and its `run`
+    // method is executed. In addition, the component is considered as
+    // uninitialized after it has been deactivated, and until it is initialized
+    // again.
+    _wasComponentInitialized() {
+      return !!this.db.get("isInitialized");
+    },
+    _markComponentAsInitialized() {
+      this.db.set("isInitialized", true);
+      this._markComponentAsExecuted();
+    },
+    _markComponentAsNotInitialized() {
+      this.db.set("isInitialized", false);
+    },
+    getInitialEventCount() {
+      return this._wasComponentExecuted() ? 0 : this.initialEventCount;
+    },
     async getModifiedSheet(pageToken, driveId, sheetID) {
       const {
         changedFiles,
@@ -163,15 +197,27 @@ module.exports = {
       this.db.set("pageToken", pageToken);
       this.db.set("channelID", channelID);
     },
+    /**
+     * This method scans the worksheets indicated by the user to retrieve the
+     * current row count of each one, and cache those values.
+     *
+     * @param {number} [offset] When present, the row count that gets cached
+     * will be reduced by this amount (useful for example to force an event
+     * source to interpret the last rows as new).
+     */
     takeSheetSnapshot() {
       throw new Error("takeSheetSnapshot is not implemented");
     },
   },
   async run(event) {
-    const isInitialized = this.db.get("isInitialized");
-    if (!isInitialized) {
-      await this.takeSheetSnapshot();
-      this.db.set("isInitialized", true);
+    if (!this._wasComponentInitialized()) {
+      await this.takeSheetSnapshot(this.getInitialEventCount());
+
+      const sheetId = this.getSheetId();
+      const spreadsheet = await this.google_sheets.getSpreadsheet(sheetId);
+      await this.processSpreadsheet(spreadsheet);
+
+      this._markComponentAsInitialized();
     }
 
     if (event.interval_seconds) {
