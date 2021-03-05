@@ -20,22 +20,33 @@ module.exports = {
       const hookIds = [];
       const events = this.getEvents();
       if (this.lists.length > 0) {
-        for (const list of this.lists) {
-          const { id } = await this.getHookData(
-            events,
-            this.http.endpoint,
-            sources,
-            list
-          );
-          hookIds.push(id);
+        try {
+          for (const list of this.lists) {
+            const { webhook } = await this.activecampaign.createHook(
+              events,
+              this.http.endpoint,
+              sources,
+              list
+            );
+            hookIds.push(webhook.id);
+          }
+        } catch (err) {
+          // if webhook creation fails, delete all hooks created so far
+          for (const id of hookIds) {
+            await this.activecampaign.deleteHook(id);
+          }
+          this.db.set("hookIds", []);
+          throw new Error(err);
         }
-      } else {
-        const { id } = await this.getHookData(
+      } 
+      // if no lists specified, create a webhook to watch all lists
+      else {
+        const { webhook } = await this.activecampaign.createHook(
           events,
           this.http.endpoint,
           sources
         );
-        hookIds.push(id);
+        hookIds.push(webhook.id);
       }
       this.db.set("hookIds", hookIds);
     },
@@ -48,15 +59,6 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    async getHookData(events, endpoint, sources, list) {
-      const { webhook } = await this.activecampaign.createHook(
-        events,
-        endpoint,
-        sources,
-        list
-      );
-      return webhook;
-    },
     getEvents() {
       return ["subscribe"];
     },
