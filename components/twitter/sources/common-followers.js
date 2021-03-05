@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   deactivate() {
-    this.db.set("followers", null);
+    this.clearFollowersCache();
   },
   methods: {
     /**
@@ -62,6 +62,12 @@ module.exports = {
         ts,
       };
     },
+    getFollowersCache() {
+      return this.db.get("followers");
+    },
+    clearFollowersCache() {
+      this.setFollowersCache([]);
+    },
     async provisionFollowersCache() {
       const screenName = this.getScreenName();
       const followerIdsGen = this.twitter.scanFollowerIds(screenName);
@@ -80,7 +86,9 @@ module.exports = {
     },
     setFollowersCache(followers) {
       const followersCacheSize = Math.max(this.getFollowersCacheSize(), 0);
-      const trimmedFollowers = followers.slice(0, followersCacheSize);
+      const trimmedFollowers = followersCacheSize !== 0
+        ? followers.slice(0, followersCacheSize)
+        : followers;
       this.db.set("followers", trimmedFollowers);
       console.log(`
         Updated followers cache: ${trimmedFollowers.length} records
@@ -106,7 +114,7 @@ module.exports = {
       }
     },
     async getUnfollowers() {
-      const prevFollowers = this.db.get("followers");
+      const prevFollowers = this.getFollowersCache();
       const currFollowers = await this.provisionFollowersCache();
       const currFollowersSet = new Set(currFollowers);
       return prevFollowers.filter(pf => !currFollowersSet.has(pf));

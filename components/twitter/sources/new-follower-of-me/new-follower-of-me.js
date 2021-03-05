@@ -19,14 +19,19 @@ module.exports = {
   },
   methods: {
     ...common.methods,
+    _wasComponentExecuted() {
+      return !!this.db.get("hasExecuted");
+    },
+    _markComponentAsExecuted() {
+      this.db.set("hasExecuted", true);
+    },
     getFollowersCacheSize() {
       return this.followersCacheSize;
     },
     async getRelevantIds() {
-      const isFirstExecution = !this.db.get("hasExecuted");
-      const mostRecentFollowers = this.db.get("followers");
-      if (isFirstExecution) {
-        this.db.set("hasExecuted", true);
+      const mostRecentFollowers = this.getFollowersCache();
+      if (!this._wasComponentExecuted()) {
+        this._markComponentAsExecuted();
 
         // The first time this event source is executed, it will emit an event
         // for the most recent followers.
