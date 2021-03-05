@@ -16,7 +16,7 @@ module.exports = {
   name: "Changes to Specific Files",
   description:
     "Watches for changes to specific files, emitting an event any time a change is made to one of those files",
-  version: "0.0.8",
+  version: "0.0.9",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
@@ -55,7 +55,7 @@ module.exports = {
         "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 60 * 24,
+        intervalSeconds: 60 * 30, // 30 minutes
       },
     },
   },

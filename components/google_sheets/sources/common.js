@@ -12,7 +12,7 @@ module.exports = {
         "The Google Drive API requires occasionally renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 60 * 6,
+        intervalSeconds: 60 * 30, // 30 minutes
       },
     },
     watchedDrive: { propDefinition: [google_sheets, "watchedDrive"] },
