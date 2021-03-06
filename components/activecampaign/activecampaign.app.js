@@ -120,12 +120,34 @@ module.exports = {
         };
       },
     },
+    lists: {
+      type: "string[]",
+      label: "Lists",
+      description:
+        "Watch the selected lists for updates. Leave blank to watch all available lists.",
+      optional: true,
+      default: [],
+      async options({ prevContext }) {
+        const { results, context } = await this._getNextOptions(
+          this.listLists.bind(this),
+          prevContext
+        );
+        const options = results.lists.map((d) => ({
+          label: d.name,
+          value: d.id,
+        }));
+        return {
+          options,
+          context,
+        };
+      },
+    },
   },
   methods: {
     _getHeaders() {
       return { "Api-Token": this.$auth.api_key };
     },
-    async createHook(events, url, sources) {
+    async createHook(events, url, sources, listid = null) {
       const componentId = process.env.PD_COMPONENT;
       const webhookName = `Pipedream Hook (${componentId})`;
       const config = {
@@ -138,6 +160,7 @@ module.exports = {
             url,
             events,
             sources,
+            listid,
           },
         },
       };
@@ -160,7 +183,7 @@ module.exports = {
     ) {
       const config = {
         method: "GET",
-        url: url || `${this.$auth.base_url}${endpoint}`,
+        url: url || `${this.$auth.base_url}/api/3/${endpoint}`,
         headers: this._getHeaders(),
         params,
       };
@@ -184,25 +207,25 @@ module.exports = {
       return ["public", "admin", "api", "system"];
     },
     async getList(id) {
-      return (await this._makeGetRequest(`/api/3/lists/${id}`)).data;
+      return (await this._makeGetRequest(`lists/${id}`)).data;
     },
     async listAutomations(limit, offset) {
-      return (await this._makeGetRequest("/api/3/automations", limit, offset))
-        .data;
+      return (await this._makeGetRequest("automations", limit, offset)).data;
     },
     async listCampaigns(limit, offset) {
-      return (await this._makeGetRequest("/api/3/campaigns", limit, offset))
-        .data;
+      return (await this._makeGetRequest("campaigns", limit, offset)).data;
     },
     async listContacts(limit, offset) {
-      return (await this._makeGetRequest("/api/3/contacts", limit, offset))
-        .data;
+      return (await this._makeGetRequest("contacts", limit, offset)).data;
     },
     async listDeals(limit, offset) {
-      return (await this._makeGetRequest("/api/3/deals", limit, offset)).data;
+      return (await this._makeGetRequest("deals", limit, offset)).data;
+    },
+    async listLists(limit, offset) {
+      return (await this._makeGetRequest("lists", limit, offset)).data;
     },
     async listWebhookEvents() {
-      return (await this._makeGetRequest("/api/3/webhook/events")).data;
+      return (await this._makeGetRequest("webhook/events")).data;
     },
   },
 };
