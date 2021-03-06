@@ -1,6 +1,15 @@
 const { v4: uuid } = require("uuid");
 const google_sheets = require("../google_sheets.app");
 
+/**
+ * The number of events that will be automatically sent whenever the event
+ * source is setup and deployed for the first time.
+ *
+ * Note that the event source could send less initial events than this if the
+ * associated worksheets do not contain enough data.
+ */
+const INITIAL_EVENT_COUNT = 10;
+
 module.exports = {
   props: {
     google_sheets,
@@ -16,14 +25,6 @@ module.exports = {
       },
     },
     watchedDrive: { propDefinition: [google_sheets, "watchedDrive"] },
-    initialEventCount: {
-      label: "Initial Event Count",
-      description: "The number of events to be emitted initially for each worksheet",
-      type: "integer",
-      min: 0,
-      default: 0,
-      optional: true,
-    },
   },
   hooks: {
     async activate() {
@@ -108,7 +109,7 @@ module.exports = {
       this.db.set("isInitialized", false);
     },
     getInitialEventCount() {
-      return this._wasComponentExecuted() ? 0 : this.initialEventCount;
+      return this._wasComponentExecuted() ? 0 : INITIAL_EVENT_COUNT;
     },
     async getModifiedSheet(pageToken, driveId, sheetID) {
       const {
