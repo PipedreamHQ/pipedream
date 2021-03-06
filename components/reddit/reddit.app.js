@@ -8,19 +8,19 @@ module.exports = {
       type: "string",
       label: "Subreddit",
       description: "The subreddit you'd like to watch.",
-      useQuery: true,
+     useQuery: true,
       async options(context) {
+        const q = context.query || 'biology'; //hardcoded to show that when user provides input on the prop
+                                              //the displayed options are filtered as per the query but 
+                                              //the async options method is not re-executed with query value
         const options = [];
-        let results = [];
-        results = await this.searchSubreddit(context.prevContext, context.query); 
-                        //eventually context.prevContext will hold Reddit's after, context.query the user entered value
-                        //for the prop
-        for (const form of results) {
-          options.push({ label: form.name, value: form.id });
+        let { results, after } = await this.searchSubreddit(context.prevContext, q); 
+        for (const subreddits of results) {
+          options.push({ label: subreddits.data.title, value: subreddits.data.name });
         }        
         return {
           options,
-          context: { prevContext: "1" }, //just sending a value in the prevContext object
+          context: { prevContext: after },
         };
       },
     },
@@ -120,16 +120,16 @@ module.exports = {
         type: "comments",
         sr_detail,
         limit,
-      };cd..
+      };
 
       return await this._makeRequest({
         path: `/user/${username}/comments`,
         params,
       });
     },
-    async searchSubreddit(after,query) {
+    async searchSubreddit(current_after,query) {
       const params = {
-        after,
+        after: current_after,
         limit: 100,
         q: query,
         show_users: false,
@@ -138,20 +138,16 @@ module.exports = {
         typeahead_active: false,
       };
 
-      
-      return [{
-          name: `first ${query}`,
-          value: "-_-"
-        },
-        {
-          name: "second",
-          value: "-_-"
-        }];//I reduced the code to these contact value for I am getting a null error when pd dev,
-            //i expect to use query as a parameter for the Reddit API, and after for pagination when eeded
-      /*return await this._makeRequest({
+      const resp = await this._makeRequest({
         path: `/subreddits/search`,
         params,
-      });*/
+      });
+
+      return {
+        results: resp.data.children,
+        after: resp.data.after,
+      };    
     },    
   },
 };
+ 	
