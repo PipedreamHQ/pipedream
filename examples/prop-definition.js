@@ -1,5 +1,6 @@
 const rss = {
   type: "app",
+  data: "",
   app: "rss",
   propDefinitions: {
     urlDef: {
