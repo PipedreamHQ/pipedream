@@ -43,8 +43,7 @@ module.exports = {
     validateEventAndEmit(event, eventName, key) {
       const { body, headers } = event;
       if (isEmpty(headers) || !headers["x-discourse-event-signature"]) {
-        console.log("Discourse signature header not present. Exiting");
-        return;
+        throw new Error("Discourse signature header not present. Exiting");
       }
 
       this.verifySignature(headers["x-discourse-event-signature"], body);

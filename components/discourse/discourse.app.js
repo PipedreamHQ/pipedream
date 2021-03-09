@@ -12,8 +12,12 @@ module.exports = {
       label: "Categories",
       description:
         "The Discourse categories you want to watch for changes. **Leave blank to watch all categories**.",
-      async options() {
+      async options({ page = 0 }) {
         // Categories endpoint does not implement pagination
+        if (page !== 0) {
+          return [];
+        }
+
         const categories = await this.listCategories();
         if (!categories.length) {
           return [];
@@ -105,12 +109,9 @@ module.exports = {
       );
     },
     async _makeRequest(opts) {
-      if (!opts.headers) {
-        opts.headers = {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        };
-      }
+      if (!opts.headers) opts.headers = {};
+      opts.headers["Accept"] = "application/json";
+      opts.headers["Content-Type"] = "application/json";
       opts.headers["Api-Username"] = this._apiUsername();
       opts.headers["Api-Key"] = this._apiKey();
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
