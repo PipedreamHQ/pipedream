@@ -3,6 +3,7 @@ const isEmpty = require("lodash.isempty");
 
 module.exports = {
   name: "New Users",
+  key: "disourse-new-users",
   version: "0.0.1",
   description:
     "Emits an event every time a new user is created on your instance",
