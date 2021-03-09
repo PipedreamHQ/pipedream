@@ -20,9 +20,11 @@ module.exports = {
     ...common.methods,
     generateMeta(post) {
       const { id, raw, created_at } = post;
+      const MAX_LENGTH = 40;
       return {
         id,
-        summary: raw.length > 40 ? `${raw.slice(0, 40)}...` : raw, // truncate long text
+        summary:
+          raw.length > MAX_LENGTH ? `${raw.slice(0, MAX_LENGTH)}...` : raw, // truncate long text
         ts: +new Date(created_at),
       };
     },
