@@ -3,6 +3,7 @@ const discourse = require("../../discourse.app");
 
 module.exports = {
   name: "New Topics",
+  key: "disourse-new-topics",
   version: "0.0.1",
   description:
     "Emits an event every time a new topic is posted to your chosen categories",
