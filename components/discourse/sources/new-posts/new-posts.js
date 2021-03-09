@@ -1,6 +1,5 @@
 const common = require("../../common");
 const discourse = require("../../discourse.app");
-const isEmpty = require("lodash.isempty");
 
 module.exports = {
   name: "New Posts",
@@ -14,6 +13,12 @@ module.exports = {
   },
   hooks: {
     ...common.hooks,
+    async deploy() {
+      const latestPosts = await this.discourse.getLatestPosts(this.categories);
+      for (const post of latestPosts) {
+        this.$emit(post, this.generateMeta(post));
+      }
+    },
     async activate() {
       await this.activate({
         category_ids: this.categories,
@@ -35,36 +40,6 @@ module.exports = {
     },
   },
   async run(event) {
-    const { body, headers, method } = event;
-
-    // TEST EVENTS
-    if (method === "GET" && !this.isComponentInitialized()) {
-      console.log("First time running event source - emitting test posts");
-      const latestPosts = await this.discourse.getLatestPosts(this.categories);
-      for (const post of latestPosts) {
-        this.$emit(post, this.generateMeta(post));
-      }
-      this.markComponentAsInitialized();
-      return;
-    }
-
-    if (isEmpty(headers) || !event.headers["x-discourse-event-signature"]) {
-      console.log("Discourse signature header not present. Exiting");
-      return;
-    }
-
-    this.verifySignature(
-      event.headers["x-discourse-event-signature"],
-      event.body
-    );
-
-    const eventName = "post_created";
-    if (headers["x-discourse-event"] !== eventName) {
-      console.log(`Not a ${eventName} event. Exiting`);
-      return;
-    }
-
-    const { post } = body;
-    this.$emit(post, this.generateMeta(post));
+    this.validateEventAndEmit(event, "post_created", "post");
   },
 };

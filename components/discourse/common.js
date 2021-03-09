@@ -1,6 +1,6 @@
-const axios = require("axios");
 const crypto = require("crypto");
 const discourse = require("./discourse.app");
+const isEmpty = require("lodash.isempty");
 
 module.exports = {
   props: {
@@ -26,19 +26,6 @@ module.exports = {
         ...webhookPayload,
       });
       this.db.set("hookID", id);
-
-      // Make a test request to the component's endpoint
-      // to trigger test emits
-      if (!this.isComponentInitialized()) {
-        try {
-          await axios({ url: this.http.endpoint });
-        } catch (err) {
-          console.log(`Failed to make test request to component: `, err);
-          // If the test request fails, mark the component as initialized.
-          // Otherwise, the first event will trigger the test event logic.
-          this.markComponentAsInitialized();
-        }
-      }
     },
     verifySignature(header, body) {
       const algo = "sha256";
@@ -50,21 +37,25 @@ module.exports = {
         );
       }
     },
-    isComponentInitialized() {
-      return this.db.get("isInitialized");
-    },
-    // Once the initialization code has been run for a component, we can
-    // mark is as initialized so that we don't run the code again.
-    markComponentAsInitialized() {
-      return this.db.set("isInitialized", true);
-    },
-    // Reset the component initialization state so that we run the necessary
-    // initialization code the next time the component is run.
-    unsetComponentInitialization() {
-      return this.db.set("isInitialized", false);
-    },
     generateMeta() {
       throw new Error("Generate meta is not implemented");
+    },
+    validateEventAndEmit(event, eventName, key) {
+      const { body, headers } = event;
+      if (isEmpty(headers) || !headers["x-discourse-event-signature"]) {
+        console.log("Discourse signature header not present. Exiting");
+        return;
+      }
+
+      this.verifySignature(headers["x-discourse-event-signature"], body);
+
+      if (headers["x-discourse-event"] !== eventName) {
+        console.log(`Not a ${eventName} event. Exiting`);
+        return;
+      }
+
+      const data = body[key];
+      this.$emit(data, this.generateMeta(data));
     },
   },
 };
