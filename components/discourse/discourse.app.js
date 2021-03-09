@@ -97,7 +97,7 @@ module.exports = {
     _apiKey() {
       return this.$auth.api_key;
     },
-    _filterOnCategories(data, categories) {
+    _filterOnCategories(data, categories = []) {
       // If no categories were passed, the user isn't
       // filtering on category, so we return all items
       if (!categories.length) {
