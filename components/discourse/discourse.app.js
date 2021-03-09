@@ -12,9 +12,21 @@ module.exports = {
       label: "Categories",
       description:
         "The Discourse categories you want to watch for changes. **Leave blank to watch all categories**.",
-      async options(context) {
+      async options() {
         // Categories endpoint does not implement pagination
-        return this._listCategories();
+        const categories = await this.listCategories();
+        if (!categories.length) {
+          return [];
+        }
+        const rawOptions = categories.map((c) => ({
+          label: c.name,
+          value: c.id,
+        }));
+        const options = sortBy(rawOptions, ["label"]);
+
+        return {
+          options,
+        };
       },
     },
     eventTypes: {
@@ -34,6 +46,21 @@ module.exports = {
           { value: 9, label: "Reviewable Event" },
           { value: 10, label: "Notification Event" },
           { value: 13, label: "Badge Grant Event" },
+        ];
+      },
+    },
+    // The following event names were retrieved from https://github.com/discourse/discourse/blob/master/spec/models/web_hook_spec.rb
+    postEvents: {
+      type: "string[]",
+      label: "Events", // used in the context of the Post sources, this name makes sense
+      description:
+        "The type of topic events you'd like to emit from this source",
+      options() {
+        return [
+          "post_created",
+          "post_edited",
+          "post_destroyed",
+          "post_recovered",
         ];
       },
     },
@@ -65,23 +92,17 @@ module.exports = {
     _apiKey() {
       return this.$auth.api_key;
     },
-    // Lists (id, name) of categories for async options
-    async _listCategories() {
-      const { data } = await this._makeRequest({ path: "/categories" });
-      const categories = get(data, "category_list.categories", []);
+    _filterOnCategories(data, categories) {
+      // If no categories were passed, the user isn't
+      // filtering on category, so we return all items
       if (!categories.length) {
-        return [];
+        return data;
       }
 
-      const rawOptions = categories.map((c) => ({
-        label: c.name,
-        value: c.id,
-      }));
-      const options = sortBy(rawOptions, ["label"]);
-
-      return {
-        options,
-      };
+      // No way to filter items by category via API, so we filter here
+      return data.filter(
+        (el) => el.category_id && categories.includes(el.category_id.toString())
+      );
     },
     async _makeRequest(opts) {
       if (!opts.headers) {
@@ -99,7 +120,7 @@ module.exports = {
       return await axios(opts);
     },
     generateSecret() {
-      return nanoid(12); // Discourse requires at least 12 bytes
+      return nanoid(12); // Discourse requires at least 12 bytes for secrets
     },
     // The Webhook API endpoints are not publicly documented, so were reverse
     // engineered from the Discourse code and HTTP requests from the admin UI.
@@ -134,24 +155,34 @@ module.exports = {
       return data.web_hook;
     },
     async deleteHook({ hookID }) {
-      return await this._makeRequest({
-        method: "DELETE",
-        path: `/admin/api/web_hooks/${hookID}`,
-      });
+      try {
+        return await this._makeRequest({
+          method: "DELETE",
+          path: `/admin/api/web_hooks/${hookID}`,
+        });
+      } catch (err) {
+        console.log("Failed to delete webhook: ", err);
+      }
     },
     // https://docs.discourse.org/#tag/Posts/paths/~1posts.json/get
-    async getLatestPosts() {
+    async getLatestPosts(categories) {
       const { data } = await this._makeRequest({
-        path: "/latest",
+        path: "/posts",
       });
-      return get(data, "latest_posts", []);
+      const posts = get(data, "latest_posts", []);
+      return this._filterOnCategories(posts, categories);
     },
     // https://docs.discourse.org/#tag/Topics/paths/~1latest.json/get
-    async getLatestTopics() {
+    async getLatestTopics(categories) {
       const { data } = await this._makeRequest({
         path: "/latest",
       });
-      return get(data, "topic_list.topics", []);
+      const topics = get(data, "topic_list.topics", []);
+      return this._filterOnCategories(topics, categories);
+    },
+    async listCategories() {
+      const { data } = await this._makeRequest({ path: "/categories" });
+      return get(data, "category_list.categories", []);
     },
   },
 };
