@@ -4,6 +4,8 @@ module.exports = {
   propDefinitions: {
     limit: {
       type: "integer",
+      description: "Number of results to return.",
+      default: 1000,
       optional: true,
     },
     mode: {
