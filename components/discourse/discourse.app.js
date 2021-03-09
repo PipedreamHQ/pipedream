@@ -10,6 +10,7 @@ module.exports = {
     categories: {
       type: "string[]",
       label: "Categories",
+      optional: true,
       description:
         "The Discourse categories you want to watch for changes. **Leave blank to watch all categories**.",
       async options({ page = 0 }) {
