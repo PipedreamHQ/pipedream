@@ -2,19 +2,17 @@ const common = require("../common-polling.js");
 
 module.exports = {
   ...common,
-  key: "github-new-security-alert",
-  name: "New Security Alert",
-  description:
-    "Emit an event when GitHub discovers a security vulnerability in one of your repositories",
-  version: "0.0.2",
+  key: "github-new-notification",
+  name: "New Notification",
+  description: "Emit an event when you receive a notification.",
+  version: "0.0.1",
   dedupe: "greatest",
   methods: {
-    ...common.methods,
     generateMeta(data) {
       const ts = new Date(data.updated_at).getTime();
       return {
         id: data.updated_at,
-        summary: data.subject.title,
+        summary: data.body,
         ts,
       };
     },
@@ -22,18 +20,24 @@ module.exports = {
   async run(event) {
     const since = this.db.get("since");
 
-    const notifications = await this.getFilteredNotifications(
-      { participating: false, since },
-      "security_alert"
-    );
+    const notifications = await this.github.getNotifications({
+      participating: true,
+      since,
+    });
 
     let maxDate = since;
     for (const notification of notifications) {
       if (!maxDate || new Date(notification.updated_at) > new Date(maxDate)) {
         maxDate = notification.updated_at;
       }
-      const meta = this.generateMeta(notification);
-      this.$emit(notification, meta);
+
+      if (notification.subject.latest_comment_url == null) continue;
+      const comment = await this.github.getUrl({
+        url: notification.subject.latest_comment_url,
+      });
+
+      const meta = this.generateMeta(comment);
+      this.$emit(comment, meta);
     }
 
     if (maxDate !== since) {

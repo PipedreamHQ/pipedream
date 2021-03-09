@@ -1,28 +1,30 @@
-const github = require("../../github.app.js");
+const github = require("../github.app.js");
 
 module.exports = {
-  key: "github-new-push",
-  name: "New Push",
-  description: "Emit an event on each new push to a repo",
-  version: "0.0.2",
   props: {
     github,
     repoFullName: { propDefinition: [github, "repoFullName"] },
     http: "$.interface.http",
     db: "$.service.db",
   },
+  dedupe: "unique",
   methods: {
-    generateSecret() {
-      return "" + Math.random();
+    emitEvent(body) {
+      const eventTypes = this.getEventTypes();
+      if (eventTypes.indexOf(body.action) > -1) {
+        const meta = this.generateMeta(body);
+        this.$emit(body, meta);
+      }
     },
   },
   hooks: {
     async activate() {
-      const secret = this.generateSecret();
+      const secret = await this.github.generateSecret();
+      const eventNames = this.getEventNames();
       const { id } = await this.github.createHook({
         repoFullName: this.repoFullName,
         endpoint: this.http.endpoint,
-        events: ["push"],
+        events: eventNames,
         secret,
       });
       this.db.set("hookId", id);
@@ -53,8 +55,6 @@ module.exports = {
       return;
     }
 
-    this.$emit(body, {
-      summary: JSON.stringify(body),
-    });
+    this.emitEvent(body);
   },
 };

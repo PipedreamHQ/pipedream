@@ -1,32 +1,41 @@
-const github = require("../../github.app.js");
+const common = require("../common-polling.js");
 
 module.exports = {
+  ...common,
   key: "github-new-repository",
   name: "New Repository",
   description: "Emit an event when a new repository is created",
-  version: "0.0.1",
-  props: {
-    github,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 5,
-      },
+  version: "0.0.2",
+  dedupe: "last",
+  methods: {
+    generateMeta(data) {
+      const ts = new Date(data.created_at).getTime();
+      return {
+        id: data.id,
+        summary: data.full_name,
+        ts,
+      };
     },
   },
-  dedupe: "last",
   async run(event) {
-    const repos = await this.github.getRepos({
-      sort: 'created',
-      direction: 'desc',
-    })
+    const since = this.db.get("since");
 
-    repos.forEach(repo => {
-      this.$emit(repo, {
-        summary: repo.full_name,
-        ts: repo.created_at && +new Date(repo.created_at),
-        id: repo.id,
-      })
-    })
+    const repos = await this.github.getRepos({
+      sort: "created",
+      direction: "desc",
+    });
+
+    let maxDate = since;
+    for (const repo of repos) {
+      if (!maxDate || new Date(repo.created_at) > new Date(maxDate)) {
+        maxDate = repo.created_at;
+      }
+      const meta = this.generateMeta(repo);
+      this.$emit(repo, meta);
+    }
+
+    if (maxDate !== since) {
+      this.db.set("since", maxDate);
+    }
   },
 };
