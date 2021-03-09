@@ -1,5 +1,4 @@
 const airtable=require('../../airtable.app.js')
-const axios = require('axios')
 
 module.exports = {
   key: "airtable-delete-record",

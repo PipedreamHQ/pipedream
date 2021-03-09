@@ -1,5 +1,4 @@
 const airtable=require('../../airtable.app.js')
-const axios = require('axios')
 const chunk = require('lodash.chunk')
 const Airtable = require('airtable')
 
