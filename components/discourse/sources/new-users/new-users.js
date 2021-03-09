@@ -2,29 +2,26 @@ const common = require("../../common");
 const isEmpty = require("lodash.isempty");
 
 module.exports = {
-  name: "New Posts",
+  name: "New Users",
   version: "0.0.1",
   description:
-    "Emits an event every time a new post is added to a topic in one of your chosen categories",
+    "Emits an event every time a new user is created on your instance",
   ...common,
   hooks: {
     ...common.hooks,
     async activate() {
       await this.activate({
-        category_ids: this.categories,
-        web_hook_event_type_ids: ["2"], // https://github.com/discourse/discourse/blob/master/app/models/web_hook_event_type.rb#L5
+        web_hook_event_type_ids: ["3"], // https://github.com/discourse/discourse/blob/master/app/models/web_hook_event_type.rb#L6
       });
     },
   },
   methods: {
     ...common.methods,
-    generateMeta(post) {
-      const { id, raw, created_at } = post;
-      const MAX_LENGTH = 40;
+    generateMeta(user) {
+      const { id, name: summary, created_at } = user;
       return {
         id,
-        summary:
-          raw.length > MAX_LENGTH ? `${raw.slice(0, MAX_LENGTH)}...` : raw, // truncate long text
+        summary,
         ts: +new Date(created_at),
       };
     },
@@ -34,10 +31,10 @@ module.exports = {
 
     // TEST EVENTS
     if (method === "GET" && !this.isComponentInitialized()) {
-      console.log("First time running event source - emitting test posts");
-      const latestPosts = await this.discourse.getLatestPosts(this.categories);
-      for (const post of latestPosts) {
-        this.$emit(post, this.generateMeta(post));
+      console.log("First time running event source - emitting test topics");
+      const users = await this.discourse.listUsers();
+      for (const user of users.slice(0, 10)) {
+        this.$emit(user, this.generateMeta(user));
       }
       this.markComponentAsInitialized();
       return;
@@ -53,13 +50,13 @@ module.exports = {
       event.body
     );
 
-    const eventName = "post_created";
+    const eventName = "user_created";
     if (headers["x-discourse-event"] !== eventName) {
       console.log(`Not a ${eventName} event. Exiting`);
       return;
     }
 
-    const { post } = body;
-    this.$emit(post, this.generateMeta(post));
+    const { user } = body;
+    this.$emit(user, this.generateMeta(user));
   },
 };

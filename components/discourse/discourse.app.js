@@ -184,5 +184,9 @@ module.exports = {
       const { data } = await this._makeRequest({ path: "/categories" });
       return get(data, "category_list.categories", []);
     },
+    async listUsers() {
+      const { data } = await this._makeRequest({ path: "/admin/users" });
+      return data;
+    },
   },
 };

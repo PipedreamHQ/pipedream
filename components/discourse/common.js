@@ -7,7 +7,6 @@ module.exports = {
     http: "$.interface.http",
     db: "$.service.db",
     discourse,
-    categories: { propDefinition: [discourse, "categories"] },
   },
   dedupe: "unique",
   hooks: {
