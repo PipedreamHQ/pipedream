@@ -21,4 +21,12 @@ module.exports = {
       this.db.set("lastTimestamp", null);
     },
   },
+  methods: {
+    updateLastTimestamp(event) {
+      const { timestamp } = event;
+      const timestampMillis = timestamp ? timestamp * 1000 : Date.now();
+      const formattedTimestamp = new Date(timestampMillis).toISOString();
+      this.db.set("lastTimestamp", formattedTimestamp);
+    },
+  },
 };

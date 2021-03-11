@@ -8,7 +8,7 @@ module.exports = {
   name: "New or Modified Records in View",
   description: "Emit an event for each new or modified record in a view",
   key: 'airtable-new-or-modified-records-in-view',
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ...common.props,
     tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
@@ -44,7 +44,7 @@ module.exports = {
     }
 
     let newRecords = 0, modifiedRecords = 0
-    for (let record of data.records) {
+    for (const record of data.records) {
       if(!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
         record.type = "new_record"
         newRecords++
@@ -63,8 +63,6 @@ module.exports = {
     console.log(`Emitted ${newRecords} new records(s) and ${modifiedRecords} modified record(s).`)
 
     // We keep track of the timestamp of the current invocation
-    const { timestamp } = event
-    const formattedTimestamp = new Date(timestamp).toISOString()
-    this.db.set("lastTimestamp", formattedTimestamp)
+    this.updateLastTimestamp(event);
   },
 }
