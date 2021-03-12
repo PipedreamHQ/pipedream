@@ -19,23 +19,14 @@ module.exports = {
       default: false,
       optional: true,
     },
-    filterFaviconRequests: {
-      type: "boolean",
-      label: "Exclude Favicon Requests",
-      description: "Modern browsers make a request for `/favicon.ico` when a URL is loaded in the address bar. This source filters these requests out by default. Select `FALSE` to emit all requests received by this source, including those for `/favicon.ico`.",
-      optional: true,
-      default: true,
-    },
     http_app,
   },
   async run(event) {
     // return to end execution on requests for favicon.ico
-    if (this.filterFaviconRequests && event.path === '/favicon.ico')  return
+    if (event.path === '/favicon.ico')  return
 
     const { body } = event;
 
-    console.log(event)
-    
     if(this.emptyResponse) {
       this.http.respond({
         status: 204,
