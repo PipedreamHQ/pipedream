@@ -4,7 +4,7 @@ const http_app = require('../../http.app.js')
 // Returns a 200 OK response, emits the HTTP payload as an event
 module.exports = {
   key: "http-new-requests-payload-only",
-  name: "HTTP / Webhook Requests (Simple)",
+  name: "HTTP / Webhook Requests",
   description: "Get a Pipedream URL to catch, inspect and emit the HTTP body on every request. Send payloads up to 512k or add `pipedream_upload_body=1` as a query parameter to send payloads up to 5 terabytes).",
   version: "0.0.3",
   props: {
