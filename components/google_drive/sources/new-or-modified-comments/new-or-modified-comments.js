@@ -148,11 +148,20 @@ module.exports = {
     for (const file of changedFiles) {
       const startModifiedTime = this.db.get(file.id) || null;
       let maxModifiedTime = startModifiedTime;
-      const comments = await this.googleDrive.listComments(file.id, startModifiedTime);
+      const comments = await this.googleDrive.listComments(
+        file.id,
+        startModifiedTime
+      );
       for (const comment of comments.comments) {
-        if (!maxModifiedTime || new Date(comment.modifiedTime) > new Date(maxModifiedTime))
+        if (
+          !maxModifiedTime ||
+          new Date(comment.modifiedTime) > new Date(maxModifiedTime)
+        )
           maxModifiedTime = comment.modifiedTime;
-        if (startModifiedTime && new Date(comment.modifiedTime) <= new Date(startModifiedTime))
+        if (
+          startModifiedTime &&
+          new Date(comment.modifiedTime) <= new Date(startModifiedTime)
+        )
           continue;
 
         const eventToEmit = {

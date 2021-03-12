@@ -3,8 +3,7 @@ const googleDrive = require("../../google_drive.app.js");
 module.exports = {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
-  description:
-    "Emits a new event any time a shared drive is created.",
+  description: "Emits a new event any time a shared drive is created.",
   version: "0.0.1",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -20,26 +19,26 @@ module.exports = {
     },
   },
   methods: {
-  	generateMeta(drive) {
-  		const ts = (new Date(drive.createdTime)).getTime();
-  		return {
-  			id: drive.id,
-  			summary: drive.name,
-  			ts
-  		}
-  	}
+    generateMeta(drive) {
+      const ts = new Date(drive.createdTime).getTime();
+      return {
+        id: drive.id,
+        summary: drive.name,
+        ts,
+      };
+    },
   },
   async run() {
-  	const driveIds = this.db.get("driveIds") || [];
-  	const { options: drives } = await this.googleDrive.listDrives(null); console.log(drives);
-  	for (const drive of drives) {
-  		if (driveIds.includes(drive.value) || drive.value == "myDrive")
-  			continue;
-  		driveIds.push(drive.value);
-  		const newDrive = await this.googleDrive.getDrive(drive.value);
-  		const meta = this.generateMeta(newDrive);
-  		this.$emit(newDrive, meta);
-  	}
-  	this.db.set("driveIds", driveIds);
-  }
-}
+    const driveIds = this.db.get("driveIds") || [];
+    const { options: drives } = await this.googleDrive.listDrives(null);
+    console.log(drives);
+    for (const drive of drives) {
+      if (driveIds.includes(drive.value) || drive.value == "myDrive") continue;
+      driveIds.push(drive.value);
+      const newDrive = await this.googleDrive.getDrive(drive.value);
+      const meta = this.generateMeta(newDrive);
+      this.$emit(newDrive, meta);
+    }
+    this.db.set("driveIds", driveIds);
+  },
+};

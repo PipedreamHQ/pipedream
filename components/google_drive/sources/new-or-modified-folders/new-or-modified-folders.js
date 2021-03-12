@@ -142,8 +142,9 @@ module.exports = {
       pageToken,
       this.drive === "myDrive" ? null : this.drive
     );
-    const files = changedFiles
-        .filter(file => file.mimeType.includes("folder"))
+    const files = changedFiles.filter((file) =>
+      file.mimeType.includes("folder")
+    );
 
     this.db.set("pageToken", newStartPageToken);
 
@@ -152,8 +153,7 @@ module.exports = {
       // to see if the folder has been modified.
       const modifiedTime = this.db.get(file.id) || null;
       const fileInfo = await this.googleDrive.getFile(file.id);
-      if (modifiedTime == fileInfo.modifiedTime)
-        continue;
+      if (modifiedTime == fileInfo.modifiedTime) continue;
       this.db.set(file.id, fileInfo.modifiedTime);
 
       const eventToEmit = {
