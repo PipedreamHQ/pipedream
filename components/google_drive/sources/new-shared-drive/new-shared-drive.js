@@ -31,7 +31,6 @@ module.exports = {
   async run() {
     const driveIds = this.db.get("driveIds") || [];
     const { options: drives } = await this.googleDrive.listDrives(null);
-    console.log(drives);
     for (const drive of drives) {
       if (driveIds.includes(drive.value) || drive.value == "myDrive") continue;
       driveIds.push(drive.value);
