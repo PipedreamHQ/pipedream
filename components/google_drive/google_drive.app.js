@@ -184,6 +184,16 @@ module.exports = {
         context: { nextPageToken },
       };
     },
+    async listComments(fileId, startModifiedTime=null) {
+      const drive = this.drive();
+      const opts = {
+        fileId,
+        fields: "*",
+      };
+      if (startModifiedTime)
+        opts.startModifiedTime = startModifiedTime;
+      return (await drive.comments.list(opts)).data; 
+    },
     _makeWatchRequestBody(id, address) {
       return {
         id, // the component-specific channel ID, a UUID
@@ -268,6 +278,14 @@ module.exports = {
         await drive.files.get({
           fileId,
           fields: "*",
+        })
+      ).data;
+    },
+    async getDrive(driveId) {
+      const drive = this.drive();
+      return (
+        await drive.drives.get({
+          driveId,
         })
       ).data;
     },
