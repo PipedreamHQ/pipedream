@@ -1,11 +1,11 @@
 const twitter = require('../../twitter.app.js')
 const moment = require('moment')
- 
-module.exports = { 
+
+module.exports = {
   key: "twitter-my-tweets",
   name: "My Tweets",
-  description: "Emit new Tweets you post to Twitter", 
-  version: "0.0.1",
+  description: "Emit new Tweets you post to Twitter",
+  version: "0.0.2",
   props: {
     db: "$.service.db",
     twitter,
@@ -32,7 +32,7 @@ module.exports = {
     const since_id = this.db.get("since_id")
     const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
     let q = from, max_id, limitFirstPage
-    
+
     // join "from" filter and search keywords
     if (this.q) {
       q += ` ${this.q}`
@@ -45,16 +45,16 @@ module.exports = {
     }
 
     // run paginated search
-    const tweets = await this.twitter.paginatedSearch({ 
-      q, 
-      since_id, 
-      lang, 
-      locale, 
-      geocode, 
-      result_type, 
-      enrichTweets, 
-      includeReplies, 
-      includeRetweets, 
+    const tweets = await this.twitter.paginatedSearch({
+      q,
+      since_id,
+      lang,
+      locale,
+      geocode,
+      result_type,
+      enrichTweets,
+      includeReplies,
+      includeRetweets,
       maxRequests,
       count,
       limitFirstPage,
@@ -75,7 +75,7 @@ module.exports = {
           max_id = tweet.id_str
         }
       })
-    } 
+    }
     if (max_id) {
       this.db.set("since_id", max_id)
     }

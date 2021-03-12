@@ -8,7 +8,7 @@ prev: false
 
 Workflows make it easy to integrate your apps, data, and APIs — all with no servers or infrastructure to manage!
 
-- Workflows are composed of code that is organized and executed as a sequence of linear [**steps**](/workflows/steps).
+- Workflows are composed of code that is organized and executed as a sequence of linear [**steps**](/docs/workflows/steps).
 
 - Trigger your workflow on any event (e.g., [HTTP requests](/workflows/steps/triggers/#http) or a [schedule](/workflows/steps/triggers/#cron-scheduler)).
 

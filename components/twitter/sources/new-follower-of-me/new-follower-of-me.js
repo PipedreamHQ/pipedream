@@ -1,10 +1,10 @@
 const twitter = require('../../twitter.app.js')
 
-module.exports = { 
+module.exports = {
   key: "twitter-new-follower-of-me",
-  name: "New Follower of Me", 
-  description: "Emit an event when a user follows you on Twitter", 
-  version: "0.0.1",
+  name: "New Follower of Me",
+  description: "Emit an event when a user follows you on Twitter",
+  version: "0.0.2",
   props: {
     db: "$.service.db",
     twitter,
@@ -15,7 +15,7 @@ module.exports = {
       },
     },
   },
-  async run(event) {     
+  async run(event) {
     const cached = this.db.get("followers") || []
     const activation = this.db.get("activation") || true
     let newFollowers = []
@@ -62,7 +62,7 @@ module.exports = {
 
       // set the checkpoint to the full set of followers from the last step
       this.db.set("followers", followers)
-      this.db.set("activation", false) 
+      this.db.set("activation", false)
     }
   },
 }
