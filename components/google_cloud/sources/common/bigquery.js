@@ -44,7 +44,7 @@ module.exports = {
       const scopes = [
         "https://www.googleapis.com/auth/bigquery",
         // Needed for datasets that were built from a Google Sheet
-        "https://www.googleapis.com/auth/drive",
+        "https://www.googleapis.com/auth/drive.readonly",
       ];
       const authOpts = {
         credentials,

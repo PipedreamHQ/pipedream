@@ -12,17 +12,23 @@ is the user's responsibility to customize the SQL query so that the amount of
 emitted events is bounded.
 
 Users can also provide a field/column name to use for de-duplication purposes.
-Depending
 
 ## Prerequisites
 
 To set up your BigQuery credentials, go to the [Pipedream
-Apps](https://pipedream.com/apps) page, and click on the **CONNECT AN APP**
-button. Look for the **Google Cloud** app, and click on it.
+Accounts](https://pipedream.com/accounts) page, and click on the **CONNECT AN
+APP** button. Look for the **Google Cloud** app, and click on it.
 
 The form contains a field called `key_json`, which should be filled with the
 contents of a JSON key file of a [GCP service
 account](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
+
+This event source will try to authenticate against Google Cloud using the
+provided credentials, and with the following scopes, so make sure that the
+service account has enough permissions:
+
+- `https://www.googleapis.com/auth/bigquery`
+- `https://www.googleapis.com/auth/drive.readonly`
 
 Please note that if the targeted data source from BigQuery requires special
 permissions, you must grant those permissions to the service account prior to

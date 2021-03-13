@@ -11,18 +11,25 @@ with such a property so that this component can detect new rows.
 ## Prerequisites
 
 To set up your BigQuery credentials, go to the [Pipedream
-Apps](https://pipedream.com/apps) page, and click on the **CONNECT AN APP**
-button. Look for the **Google Cloud** app, and click on it.
+Accounts](https://pipedream.com/accounts) page, and click on the **CONNECT AN
+APP** button. Look for the **Google Cloud** app, and click on it.
 
 The form contains a field called `key_json`, which should be filled with the
 contents of a JSON key file of a [GCP service
 account](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
 
+This event source will try to authenticate against Google Cloud using the
+provided credentials, and with the following scopes, so make sure that the
+service account has enough permissions:
+
+- `https://www.googleapis.com/auth/bigquery`
+- `https://www.googleapis.com/auth/drive.readonly`
+
 Please note that if the targeted data source from BigQuery requires special
 permissions, you must grant those permissions to the service account prior to
 creating this event source. For example, if the data source of the targeted
 BigQuery table is based from a Google Sheets spreadsheet, you must share that
-spreadsheet with the service account, and grant at least **View** access.
+spreadsheet with the service account with at least **View** access.
 
 After filling in every field required in the form, and click on **SAVE**.
 

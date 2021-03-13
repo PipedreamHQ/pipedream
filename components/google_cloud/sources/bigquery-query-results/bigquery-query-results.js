@@ -19,7 +19,11 @@ module.exports = {
     dedupeKey: {
       type: "string",
       label: "De-duplication Key",
-      description: "The name of a column in the result table to use for de-duplication",
+      description: `
+        The name of a column in the table to use for deduplication. See [the
+        docs](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_cloud/sources/bigquery-query-results#technical-details)
+        for more info.
+      `,
       optional: true,
     },
   },

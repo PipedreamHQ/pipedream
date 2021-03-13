@@ -33,7 +33,11 @@ module.exports = {
     uniqueKey: {
       type: "string",
       label: "Unique Key",
-      description: "The name of a column in the table to use for deduplication",
+      description: `
+        The name of a column in the table to use for deduplication. See [the
+        docs](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_cloud/sources/bigquery-new-row#technical-details)
+        for more info.
+      `,
       async options(context) {
         const { page } = context;
         if (page !== 0) {
@@ -92,7 +96,7 @@ module.exports = {
 
       const columnNames = await this._getColumnNames();
       if (!columnNames.includes(columnNameToValidate)) {
-        throw new Error(`Inexistent column: ${columnNameToValidate}`);
+        throw new Error(`Nonexistent column: ${columnNameToValidate}`);
       }
     },
     async _getColumnNames() {
