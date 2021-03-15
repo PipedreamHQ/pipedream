@@ -109,8 +109,9 @@ module.exports = {
         const results = await throttledGetObjectsData(config);
         let link = get(results, "headers.link"); // get link to next page of results
         if (link && link.includes("next")) {
-          link = /https.*\>/.exec(link);
-          config.url = link[0].substring(0, link[0].length - 1);
+          const links = link.match(/https.*?\>/g); // get all link matches in string
+          link = links[links.length-1]; // get last link in string. first link may be to "previous" instead of "next"
+          config.url = link.substring(0, link.length - 1);
           if (config.params.hasOwnProperty('created_at_min'))
             delete config.params.created_at_min;
         } else hasMore = false;
