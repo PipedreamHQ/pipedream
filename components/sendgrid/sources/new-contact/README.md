@@ -20,11 +20,11 @@ have premission to call the
 [search contacts](https://sendgrid.com/docs/API_Reference/api_v3.html) endpoint
 (in the **New Marketing Campaigns** category).
 
-To set up the SendGrid API Key, go to the
-[Pipedream Apps](https://pipedream.com/apps) page, and click on the
-**CONNECT AN APP** button. Look for the **Twilio SendGrid** app, and click on
-it. Under the `api_key` field, enter the API key you created in SendGrid. Give
-this API key a nickname (optional), and click on **SAVE**.
+To set up the SendGrid API Key, go to the [Pipedream
+Accounts](https://pipedream.com/accounts) page, and click on the **CONNECT AN
+APP** button. Look for the **Twilio SendGrid** app, and click on it. Under the
+`api_key` field, enter the API key you created in SendGrid. Give this API key a
+nickname (optional), and click on **SAVE**.
 
 ## Usage
 
@@ -235,14 +235,14 @@ and `c`), there are more records that fall within the search query parameters.
 
 Finally, the current event source execution will:
 
-1.  Emit an event for each one of these 2 records, ordered by `created_at` in
+1. Emit an event for each one of these 2 records, ordered by `created_at` in
     ascending order.
-2.  Keep track of their ID's so that they can be excluded from subsequent
+2. Keep track of their ID's so that they can be excluded from subsequent
     searches.
-3.  The lower bound will maintain the same value, since adjusting it will
+3. The lower bound will maintain the same value, since adjusting it will
     imply looking for records way in the past (which is not something we want
     to achieve in this event source).
-4.  The upper bound will also remain the same, since there
+4. The upper bound will also remain the same, since there
     are enough records to retrieve next so that we can emit enough events.
 
 **2nd execution:**
@@ -300,14 +300,14 @@ There's a couple of things to notice here:
 
 Keeping all this in mind, the current event source execution will:
 
-1.  Emit an event for each one of these 2 records, ordered by `created_at` in
+1. Emit an event for each one of these 2 records, ordered by `created_at` in
     ascending order (just like before).
-2.  Keep track of their ID's so that they can be excluded from subsequent
+2. Keep track of their ID's so that they can be excluded from subsequent
     searches. The new ID list is `["a", "b", "c", "d"]`.
-3.  The lower bound will maintain the same value, since adjusting it will
+3. The lower bound will maintain the same value, since adjusting it will
     imply looking for records way in the past (which is not something we want
     to achieve in this event source).
-4.  The upper bound will now be adjusted. This is because if we keep the same
+4. The upper bound will now be adjusted. This is because if we keep the same
     time range we're likely to retrieve only 1 contact the next time we do a
     search query (although, like mentioned before, this is not guaranteed). To
     make an attempt to retrieve more contacts, we set the upper limit of the
@@ -361,14 +361,14 @@ processing them.
 
 So the event source will now do the following:
 
-1.  Emit an event for each one of these 2 records, ordered by `created_at` in
+1. Emit an event for each one of these 2 records, ordered by `created_at` in
     ascending order (just like before).
-2.  Keep track of their ID's so that they can be excluded from subsequent
+2. Keep track of their ID's so that they can be excluded from subsequent
     searches. The new ID list is `["a", "b", "c", "d", "e", "f"]`.
-3.  In this case, we adjust the lower bound of the search time range to the
+3. In this case, we adjust the lower bound of the search time range to the
     timestamp of the earliest processed record (i.e. `t = 65` in this case, which
     corresponds to record `f`) minus the 30 minute offset. The new lower
     bound would be `t = 35`.
-4.  The upper bound will be adjusted just like in the previous execution. The
+4. The upper bound will be adjusted just like in the previous execution. The
     new upper limit of the next time range to `t = 90` (which is the current
     execution time).
