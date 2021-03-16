@@ -1,11 +1,6 @@
 const axios = require("axios");
-const Bottleneck = require('bottleneck');
-// limiting requests to 2 per second per Shopify's API rate limit documentation
-// https://shopify.dev/concepts/about-apis/rate-limits
-const limiter = new Bottleneck({
-  minTime: 500
-});
 const get = require("lodash.get");
+const Shopify = require("shopify-api-node");
 const events = [
   { label: "Article Created", value: JSON.stringify({ filter: "Article", verb: "create" }) }, 
   { label: "Article Destroyed", value: JSON.stringify({ filter: "Article", verb: "destroy" }) }, 
@@ -69,8 +64,7 @@ module.exports = {
       type: "string[]",
       label: "Event Types",
       optional: true,
-      description:
-        "Only emit events for the selected event types.",
+      description: "Only emit events for the selected event types.",
       options: events,
     },
   },
@@ -89,68 +83,65 @@ module.exports = {
       monthAgo.setMonth(monthAgo.getMonth() - 1);
       return monthAgo;
     },
-    async getObjects(objectType, endpoint, useCreatedAt=false, sinceId=null, params={}) {
-      let hasMore = true;
-      const objects = [];
-      const config = {
-        method: "GET",
-        url: `${this._getBaseURL()}/${endpoint}`,
-        headers: this._getAuthHeader(),
-        params,
-      };
-      if (sinceId)
-        config.params.since_id = sinceId;
+    getShopifyInstance() {
+      return new Shopify({
+        shopName: this.$auth.shop_id,
+        accessToken: this.$auth.oauth_access_token,
+        autoLimit: true,
+      });
+    },
+    getSinceParams(sinceId = false, useCreatedAt = false) {
+      if (sinceId) return { since_id: sinceId };
       // if no sinceId, get objects created within the last month
-      else if (useCreatedAt)
-        config.params.created_at_min = this._monthAgo();
-      // wrap the API request with Bottleneck to avoid exceeding Shopify's rate limit
-      const throttledGetObjectsData = limiter.wrap(this.getObjectsData);
-      while (hasMore) {
-        const results = await throttledGetObjectsData(config);
-        let link = get(results, "headers.link"); // get link to next page of results
-        if (link && link.includes("next")) {
-          const links = link.match(/https.*?\>/g); // get all link matches in string
-          link = links[links.length-1]; // get last link in string. first link may be to "previous" instead of "next"
-          config.url = link.substring(0, link.length - 1);
-          if (config.params.hasOwnProperty('created_at_min'))
-            delete config.params.created_at_min;
-        } else hasMore = false;
-        for (const object of results.data[objectType]) {
-          objects.push(object);
-        }
-      }
+      else if (useCreatedAt) return { created_at_min: this._monthAgo() };
+      return {};
+    },
+    async getObjects(objectType, params = {}, id = null) {
+      const shopify = this.getShopifyInstance();
+      let objects = [];
+      do {
+        const results = id
+          ? await shopify[objectType].list(id, params)
+          : await shopify[objectType].list(params);
+        objects = objects.concat(results);
+        params = results.nextPageParameters;
+      } while (params !== undefined);
       return objects;
     },
-    async getObjectsData(config) {
-      return await axios(config);
-    }, 
     async getAbandonedCheckouts(sinceId) {
-      return await this.getObjects("checkouts", "checkouts.json", true, sinceId);
+      let params = this.getSinceParams(sinceId, true);
+      return await this.getObjects("checkout", params);
     },
     async getArticles(blogId, sinceId) {
-      return await this.getObjects("articles", `blogs/${blogId}/articles.json`, true, sinceId);
+      let params = this.getSinceParams(sinceId, true);
+      return await this.getObjects("article", params, blogId);
     },
     async getBlogs() {
-      return await this.getObjects("blogs", "blogs.json");
+      return await this.getObjects("blog");
     },
     async getCustomers(sinceId) {
-      return await this.getObjects("customers", "customers.json", true, sinceId);
+      let params = this.getSinceParams(sinceId, true);
+      return await this.getObjects("customer", params);
     },
-    async getEvents(sinceId, filter=null, verb=null) {
-      const params = {
-        filter,
-        verb,
-      }
-      return await this.getObjects("events", "events.json", true, sinceId, params);
+    async getEvents(sinceId, filter = null, verb = null) {
+      let params = this.getSinceParams(sinceId, true);
+      params.filter = filter;
+      params.verb = verb;
+      return await this.getObjects("event", params);
     },
-    async getOrders(fulfillmentStatus, useCreatedAt=false, sinceId=null) {
-      return await this.getObjects("orders", `orders.json?status=any&fulfillment_status=${fulfillmentStatus}`, useCreatedAt, sinceId);
+    async getOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null) {
+      let params = this.getSinceParams(sinceId, useCreatedAt);
+      params.status = "any";
+      params.fulfillment_status = fulfillmentStatus;
+      return await this.getObjects("order", params);
     },
     async getPages(sinceId) {
-      return await this.getObjects("pages", "pages.json", true, sinceId);
+      let params = this.getSinceParams(sinceId, true);
+      return await this.getObjects("page", params);
     },
     async getProducts(sinceId) {
-      return await this.getObjects("products", "products.json", true, sinceId);
+      let params = this.getSinceParams(sinceId, true);
+      return await this.getObjects("product", params);
     },
   },
 };
