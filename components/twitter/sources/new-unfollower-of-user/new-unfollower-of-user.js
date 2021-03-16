@@ -1,22 +1,24 @@
-const common = require("../common-followers");
+const base = require("../new-unfollower-of-me/new-unfollower-of-me");
 
 module.exports = {
-  ...common,
+  ...base,
   key: "twitter-new-unfollower-of-user",
   name: "New Unfollower of User",
   description: "Emit an event when a specific user loses a follower on Twitter",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
-    ...common.props,
-    screen_name: { propDefinition: [common.props.twitter, "screen_name"] },
+    ...base.props,
+    screen_name: {
+      propDefinition: [
+        base.props.twitter,
+        "screen_name",
+      ], 
+    },
   },
   methods: {
-    ...common.methods,
+    ...base.methods,
     getScreenName() {
       return this.screen_name;
-    },
-    getRelevantIds() {
-      return this.getUnfollowers();
     },
   },
 };

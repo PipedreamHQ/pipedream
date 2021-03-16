@@ -1,6 +1,8 @@
 const axios = require('axios')
-const querystring = require('querystring')
+const get = require("lodash/get")
 const moment = require('moment')
+const querystring = require('querystring')
+const retry = require("async-retry")
 
 module.exports = {
   type: "app",
@@ -158,7 +160,42 @@ module.exports = {
         }
       })).data
     },
-    async _makeRequest(config, attempt = 0) {
+    _isRetriableStatusCode(statusCode) {
+      // Taken from the Twitter API docs:
+      // https://developer.twitter.com/en/docs/twitter-ads-api/response-codes
+      return [
+        423,  // LOCK_ACQUISITION_TIMEOUT
+        429,  // TOO_MANY_REQUESTS | TWEET_RATE_LIMIT_EXCEEDED
+        500,  // INTERNAL_ERROR
+        503,  // SERVICE_UNAVAILABLE | OVER_CAPACITY
+      ].includes(statusCode);
+    },
+    async _withRetries(apiCall) {
+      const retryOpts = {
+        retries: 2,
+        factor: 2,
+        minTimeout: 2000, // In milliseconds
+      };
+      return retry(async (bail, retryCount) => {
+        try {
+          return await apiCall();
+        } catch (err) {
+          const statusCode = get(err, ["response", "status"]);
+          if (!this._isRetriableStatusCode(statusCode)) {
+            return bail(new Error(`
+              Unexpected error (status code: ${statusCode}):
+              ${JSON.stringify(err.response, null, 2)}
+            `));
+          }
+
+          console.log(`
+            [Attempt #${retryCount}] Temporary error: ${err.message}
+          `);
+          throw err;
+        }
+      }, retryOpts);
+    },
+    async _makeRequest(config) {
       if (!config.headers) config.headers = {}
       if (config.params) {
         const query = querystring.stringify(config.params)
@@ -183,7 +220,10 @@ module.exports = {
         }
       }
       config.headers.authorization = authorization
-      return axios(config)
+
+      return this._withRetries(
+        () => axios(config),
+      );
     },
     async getFollowers(screen_name) {
       return (await this._makeRequest({
@@ -194,7 +234,7 @@ module.exports = {
         }
       })).data.ids
     },
-    async *getAllFollowers(screenName) {
+    async *scanFollowerIds(screenName) {
       const url = `https://api.twitter.com/1.1/followers/ids.json?`;
       const baseParams = {
         screen_name: screenName,
@@ -351,7 +391,7 @@ module.exports = {
         }
       }
 
-      for (let tweet of response.data.statuses) {
+      for (const tweet of response.data.statuses) {
         if ((!since_id || (since_id && tweet.id_str !== since_id)) && (!max_id || (max_id && tweet.id_str !== max_id))) {
           if (enrichTweets) {
             tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
