@@ -1,0 +1,124 @@
+const reddit = require("../../reddit.app.js");
+const get = require("lodash.get");
+module.exports = {
+  key: "new-comments-by-user",
+  name: "New comments by user",
+  description: "Emits an event each time a user posts a new comment.",
+  version: "0.0.1",
+  dedupe: "unique",
+  props: {
+    reddit,
+    username: { propDefinition: [reddit, "username"] },
+    context: {
+      type: "integer",
+      label: "context",
+      description: "an integer between 2 and 10"
+    },
+    t: {
+      type: "string",
+      label: "t",
+      description: "one of (hour, day, week, month, year, all)",
+      options: ["hour", "day", "week", "month", "year", "all"],
+    },
+    sr_detail: {
+      type: "boolean",
+      label: "Include Subreddit details?",
+      description: "If set to true, includes details on the subreddit in the emitted event.",
+      default: false
+    },
+    timer: {
+      label: "Polling schedule",
+      description:
+        "Pipedream polls Reddit on this schedule for new comments by the prop indicated user.",
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 30, // by default, run every 10 minute.
+      },
+    },
+    db: "$.service.db",
+  },
+  hooks: {
+    async deploy() {
+      // Emits sample events on the first run during deploy.          
+      try {
+        console.log("console message on deploy start");
+        var reddit_things = await this.reddit.getNewCommentsOrLinks(
+          null,
+          this.username,
+          this.context,
+          this.show,
+          this.t,
+          "comments",
+          this.sr_detail,
+          10
+        );
+      } catch (err) {
+        console.log("********************************************************************");
+        console.log("error thrown on start up error");
+        console.log("********************************************************************");
+        if (did4xxErrorOccurred) {
+          throw new Error(
+            `We encountered a 4xx error trying to fetch comments by ${this.username}. Please check the username and try again`
+          );
+        }
+        throw err;
+      }
+      console.log("console message, about to iterate items");
+      const comments_pulled = this.reddit.wereLinksPulled(reddit_things);
+      if (comments_pulled) {
+        console.log("items were ppulled");
+        const ordered_reddit_things = reddit_things.data.children.reverse();
+        ordered_reddit_things.forEach((reddit_comment) => {
+          this.emitRedditEvent(reddit_comment);
+        });
+      }else{
+        console.log("no zero items were ppulled");
+      }
+      console.log("console message on deploy finish");
+    },
+  },
+  methods: {
+    emitRedditEvent(reddit_event) {
+      const { name: id, body: summary, created: ts } = reddit_event.data;
+      this.$emit(reddit_event, {
+        id,
+        summary,
+        ts
+      });
+    },
+  },
+  async run() {
+
+      let before = this.db.get("before");
+      console.log("console message on run start");
+      do {
+        console.log("looping....");
+        const reddit_things = await this.reddit.getNewCommentsOrLinks(
+          null,
+          this.username,
+          this.context,
+          this.show,
+          this.t,
+          "comments",
+          this.sr_detail,
+          10
+        );
+
+        console.log("console message, about to iterate items");
+        var comments_pulled = this.reddit.wereLinksPulled(reddit_things);
+        if (comments_pulled) {
+          console.log("items were ppulled");
+          before = reddit_things.data.children[0].data.name;
+          this.db.set("before", before);
+          const ordered_reddit_things = reddit_things.data.children.reverse();
+          ordered_reddit_things.forEach((reddit_comment) => {
+            this.emitRedditEvent(reddit_comment);
+          });
+        }else{
+          console.log("no zero items were ppulled");
+        }
+
+      } while (comments_pulled);
+      console.log("console message on run finish");
+  },
+};

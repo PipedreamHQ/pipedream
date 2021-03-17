@@ -1,80 +1,103 @@
-const common = require("../common");
-const { reddit } = common.props;
-
+const reddit = require("../../reddit.app.js");
 module.exports = {
-  ...common,
   key: "new-links-by-user",
   name: "New links by user",
   description: "Emits an event each time a user posts a new link.",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
-    ...common.props,
+    reddit,
     username: { propDefinition: [reddit, "username"] },
-    numberOfParents: {
+    context: {
       type: "integer",
-      label: "Number of parents",
+      label: "context",
+      description: "an integer between 2 and 10",
+    },
+    t: {
+      type: "string",
+      label: "t",
+      description: "one of (hour, day, week, month, year, all)",
+      options: ["hour", "day", "week", "month", "year", "all"],
+    },
+    sr_detail: {
+      type: "boolean",
+      label: "Include Subreddit details?",
       description:
-        "The emitted events will contain the new comment plus the parents of said comment up to the number indicated in this property.",
-      optional: true,
-      min: 2,
-      max: 10,
-      default: 2,
+        "If set to true, includes details on the subreddit in the emitted event.",
+      default: false,
     },
-    timeFilter: { propDefinition: [reddit, "timeFilter"] },
-    includeSubredditDetails: {
-      propDefinition: [reddit, "includeSubredditDetails"],
+    timer: {
+      label: "Polling schedule",
+      description:
+        "Pipedream polls Reddit on this schedule for new links by the prop indicated user.",
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 10, // by default, run every 10 minute.
+      },
     },
+    db: "$.service.db",
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      var redditLinks = await this.reddit.getNewUserLinks(
-        null,
-        this.username,
-        this.numberOfParents,
-        this.timeFilter,
-        this.includeSubredditDetails,
-        10
-      );
-      const { children: links = [] } = redditLinks.data;
-      if (links.length === 0) {
-        console.log("No data available, skipping iteration");
-        return;
+      let before = null;
+      try {
+        var reddit_things = await this.reddit.getNewUserLinks(
+          null,
+          this.username,
+          this.context,
+          this.t,
+          this.sr_detail,
+          10
+        );
+      } catch (err) {
+        if (this.reddit.did4xxErrorOccurred(err)) {
+          throw new Error(
+            `We encountered a 4xx error trying to fetch links by ${this.username}. Please check the username and try again.`
+          );
+        }
+        throw err;
       }
-      const { name: before = this.db.get("before") } = links[0].data;
+      const reddit_links_pulled = this.reddit.wereThingsPulled(reddit_things);
+      if (reddit_links_pulled) {
+        before = reddit_things.data.children[0].data.name;
+        const ordered_reddit_things = reddit_things.data.children.reverse();
+        ordered_reddit_things.forEach((reddit_link) => {
+          this.emitRedditEvent(reddit_link);
+        });
+      }
       this.db.set("before", before);
-      links.reverse().forEach(this.emitRedditEvent);
-    }
+    },
   },
   methods: {
-    ...common.methods,
-    generateEventMetadata(redditEvent) {
-      return {
-        id: redditEvent.data.name,
-        summary: redditEvent.data.title,
-        ts: redditEvent.data.created,
-      };
-    }
+    emitRedditEvent(reddit_event) {
+      const { name: id, title: summary, created: ts } = reddit_event.data;
+      this.$emit(reddit_event, {
+        id,
+        summary,
+        ts,
+      });
+    },
   },
   async run() {
-    let redditLinks;
+    let before = this.db.get("before");
     do {
-      redditLinks = await this.reddit.getNewUserLinks(
-        this.db.get("before"),
+      const reddit_things = await this.reddit.getNewUserLinks(
+        before,
         this.username,
-        this.numberOfParents,
-        this.timeFilter,
-        this.includeSubredditDetails
+        this.context,
+        this.t,
+        this.sr_detail
       );
-      const { children: links = [] } = redditLinks.data;
-      if (links.length === 0) {
-        console.log("No data available, skipping iteration");
-        break;
+      var reddit_links_pulled = this.reddit.wereThingsPulled(reddit_things);
+      if (reddit_links_pulled) {
+        before = reddit_things.data.children[0].data.name;
+        this.db.set("before", before);
+        const ordered_reddit_things = reddit_things.data.children.reverse();
+        ordered_reddit_things.forEach((reddit_link) => {
+          this.emitRedditEvent(reddit_link);
+        });
       }
-      const { name: before = this.db.get("before") } = links[0].data;
-      this.db.set("before", before);
-      links.reverse().forEach(this.emitRedditEvent);
-    } while (redditLinks);
+    } while (reddit_links_pulled);
   },
 };
