@@ -7,6 +7,7 @@ module.exports = {
   name: "New Branch (Instant)",
   description: "Emit an event when a new branch is created",
   version: "0.0.3",
+  dedupe: "unique",
   methods: {
     getEventNames() {
       return ["create"];

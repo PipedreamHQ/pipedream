@@ -6,6 +6,7 @@ module.exports = {
   name: "New Fork (Instant)",
   description: "Emit an event when a new fork is created",
   version: "0.0.1",
+  dedupe: "unique",
   methods: {
     getEventNames() {
       return ["fork"];

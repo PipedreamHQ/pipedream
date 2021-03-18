@@ -18,11 +18,12 @@ module.exports = {
     },
   },
   async run(event) {
-    const since = this.db.get("since");
+    let since = this.db.get("since");
 
     const repos = await this.github.getRepos({
       sort: "created",
-      direction: "desc",
+      direction: "asc",
+      since,
     });
 
     let maxDate = since;
@@ -32,10 +33,9 @@ module.exports = {
       }
       const meta = this.generateMeta(repo);
       this.$emit(repo, meta);
+      since = repo.created_at;
     }
 
-    if (maxDate !== since) {
-      this.db.set("since", maxDate);
-    }
+    this.db.set("since", since);
   },
 };

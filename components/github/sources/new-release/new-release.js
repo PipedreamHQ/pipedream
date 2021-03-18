@@ -6,6 +6,7 @@ module.exports = {
   name: "New Release (Instant)",
   description: "Emit an event when a new release is published.",
   version: "0.0.1",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {

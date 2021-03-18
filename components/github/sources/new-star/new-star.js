@@ -6,6 +6,7 @@ module.exports = {
   name: "New Stars (Instant)",
   version: "0.0.3",
   description: "Emit an event when a repo is starred",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {

@@ -6,6 +6,7 @@ module.exports = {
   name: "New Label (Instant)",
   description: "Emit an event when a new label is created in a repo",
   version: "0.0.3",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {

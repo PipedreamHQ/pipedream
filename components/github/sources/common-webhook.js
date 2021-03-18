@@ -7,11 +7,10 @@ module.exports = {
     http: "$.interface.http",
     db: "$.service.db",
   },
-  dedupe: "unique",
   methods: {
     emitEvent(body) {
       const eventTypes = this.getEventTypes();
-      if (eventTypes.indexOf(body.action) > -1) {
+      if (eventTypes.includes(body.action)) {
         const meta = this.generateMeta(body);
         this.$emit(body, meta);
       }

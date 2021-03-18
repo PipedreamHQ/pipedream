@@ -17,12 +17,15 @@ module.exports = {
   name: "Updated Repository (Instant)",
   description: "Emit an event when an existing repository is updated.",
   version: "0.0.1",
+  dedupe: "unique",
   methods: {
     getEventNames() {
       return ["repository"];
     },
     generateMeta(data) {
-      const ts = new Date(data.repository.updated_at).getTime();
+      const ts = data.repository.updated_at
+        ? Date.parse(data.repository.updated_at)
+        : Date.parse(data.repository.created_at);
       return {
         id: `${data.repository.id}${ts}`,
         summary: `${data.repository.full_name} ${data.action} by ${data.sender.login}`,

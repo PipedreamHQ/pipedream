@@ -6,6 +6,7 @@ module.exports = {
   name: "New or Updated Pull Request (Instant)",
   description: "Emit an event when a pull request is opened or updated",
   version: "0.0.1",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
@@ -33,7 +34,9 @@ module.exports = {
       ];
     },
     generateMeta(data) {
-      const ts = new Date(data.pull_request.updated_at).getTime();
+      const ts = data.pull_request.updated_at
+        ? Date.parse(data.pull_request.updated_at)
+        : Date.parse(data.pull_request.created_at);
       return {
         id: `${data.pull_request.id}${ts}`,
         summary: `${data.pull_request.title} ${data.action} by ${data.sender.login}`,

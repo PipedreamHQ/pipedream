@@ -6,6 +6,7 @@ module.exports = {
   name: "New Project Card (Instant)",
   description: "Emit an event when a new project card is created",
   version: "0.0.3",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {

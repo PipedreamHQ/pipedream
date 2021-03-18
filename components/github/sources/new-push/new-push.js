@@ -6,7 +6,9 @@ module.exports = {
   name: "New Push",
   description: "Emit an event on each new push to a repo",
   version: "0.0.3",
+  dedupe: "unique",
   methods: {
+    ...common.methods,
     getEventNames() {
       return ["push"];
     },

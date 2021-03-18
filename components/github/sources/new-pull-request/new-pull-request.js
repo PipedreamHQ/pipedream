@@ -6,6 +6,7 @@ module.exports = {
   name: "New Pull Request (Instant)",
   description: "Emit an event when a new pull request is opened",
   version: "0.0.3",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {

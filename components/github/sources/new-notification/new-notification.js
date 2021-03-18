@@ -6,13 +6,13 @@ module.exports = {
   name: "New Notification",
   description: "Emit an event when you receive a notification.",
   version: "0.0.1",
-  dedupe: "greatest",
+  dedupe: "unique",
   methods: {
     generateMeta(data) {
       const ts = new Date(data.updated_at).getTime();
       return {
         id: data.updated_at,
-        summary: data.body,
+        summary: data.body || `Notification ID: ${data.id}`,
         ts,
       };
     },

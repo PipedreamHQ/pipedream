@@ -141,12 +141,13 @@ module.exports = {
     },
     async getRepos(opts = {}) {
       const { page, org } = opts;
+      delete opts.org;
       return (
         await this._makeRequest({
           path: org ? `/orgs/${org}/repos` : "/user/repos",
           params: {
+            ...opts,
             per_page: 100,
-            page,
           },
         })
       ).data;

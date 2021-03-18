@@ -7,6 +7,7 @@ module.exports = {
   description:
     "Emit an event when a milestone is created or updated in a repo.",
   version: "0.0.1",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
@@ -16,7 +17,9 @@ module.exports = {
       return ["created", "edited", "opened", "closed", "deleted"];
     },
     generateMeta(data) {
-      const ts = new Date(data.milestone.updated_at).getTime();
+      const ts = data.milestone.updated_at
+        ? Date.parse(data.milestone.updated_at)
+        : Date.parse(data.milestone.created_at);
       return {
         id: `${data.milestone.id}${ts}`,
         summary: `${data.milestone.title} ${data.action} by ${data.sender.login}`,

@@ -12,6 +12,7 @@ module.exports = {
     ...common.props,
     events: { propDefinition: [github, "events"] },
   },
+  dedupe: "unique",
   methods: {
     getEventNames() {
       return this.events;
