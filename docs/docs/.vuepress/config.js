@@ -175,9 +175,9 @@ module.exports = {
       "/limits/",
       "/new-feature-or-bug/",
       {
-        title: "Security",
+        title: "Privacy & Security",
         collapsable: false,
-        children: ["/security/", "/security/pgp-key/"],
+        children: ["/security/", "/security/pgp-key/", "/subprocessors/"],
       },
       "/status/",
     ],
