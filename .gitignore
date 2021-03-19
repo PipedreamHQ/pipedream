@@ -6,3 +6,5 @@ gh-md-toc
 node_modules
 
 .vercel
+.bak
+.ini

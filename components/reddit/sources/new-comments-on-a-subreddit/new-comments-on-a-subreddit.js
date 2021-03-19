@@ -1,5 +1,8 @@
-const reddit = require("../../reddit.app.js");
+const common = require("../../common");
+const { reddit } = common.props;
+
 module.exports = {
+  ...common,
   key: "new-comments-on-a-subreddit",
   name: "New comments on a subreddit",
   description:
@@ -34,23 +37,8 @@ module.exports = {
       default: 1,
       optional: true,
     },
-    sr_detail: {
-      type: "boolean",
-      label: "Include Subreddit details?",
-      description:
-        "If set to true, includes details on the subreddit in the emitted event.",
-      default: false,
-      optional: true,
-    },
-    timer: {
-      label: "Polling schedule",
-      description: "Pipedream polls Reddit for new hot posts on this schedule.",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 10, // by default, run every 10 minute.
-      },
-    },
-    db: "$.service.db",
+    sr_detail: { propDefinition: [reddit, "sr_detail"] },
+    ...common.props,
   },
   hooks: {
     async deploy() {
@@ -65,13 +53,13 @@ module.exports = {
           10
         );
       } catch (err) {
-        if (this.reddit.did4xxErrorOccurred(err)) {
+        if (common.methods.did4xxErrorOccur(err)) {
           throw new Error(`
             We encountered a 4xx error trying to fetch comments for ${this.subreddit}. Please check the subreddit name and try again.`);
         }
         throw err;
       }
-      const reddit_comments_pulled = this.reddit.wereThingsPulled(
+      const reddit_comments_pulled = common.methods.wereThingsPulled(
         reddit_comments
       );
       if (reddit_comments_pulled) {
@@ -83,13 +71,17 @@ module.exports = {
     },
   },
   methods: {
+    ...common.methods,
+    generateEventMetadata(reddit_event) {
+      return {
+        id: reddit_event.data.name,
+        summary: reddit_event.data.body,
+        ts: reddit_event.data.created,
+      };
+    },
     emitRedditEvent(reddit_event) {
-      const { name: id, body: summary, created: ts } = reddit_event.data;
-      this.$emit(reddit_event, {
-        id,
-        summary,
-        ts,
-      });
+      const emitRedditEventHandler = common.methods.emitRedditEvent.bind(this);
+      emitRedditEventHandler(reddit_event);
     },
   },
   async run() {
@@ -100,7 +92,9 @@ module.exports = {
       this.depth,
       this.sr_detail
     );
-    var reddit_comments_pulled = this.reddit.wereThingsPulled(reddit_comments);
+    var reddit_comments_pulled = common.methods.wereThingsPulled(
+      reddit_comments
+    );
     if (reddit_comments_pulled) {
       before = reddit_comments.data.children[0].data.name;
       this.db.set("before", before);
