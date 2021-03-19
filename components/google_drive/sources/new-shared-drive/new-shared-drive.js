@@ -1,4 +1,4 @@
-const googleDrive = require("../google_drive.app.js");
+const googleDrive = require("../../google_drive.app.js");
 
 module.exports = {
   key: "google_drive-new-shared-drive",
