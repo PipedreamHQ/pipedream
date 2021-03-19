@@ -1,6 +1,8 @@
-const reddit = require("../../reddit.app.js");
-//https://www.reddit.com/dev/api#GET_new
+const common = require("../../common");
+const { reddit } = common.props;
+
 module.exports = {
+  ...common,
   key: "new-links-on-a-subreddit",
   name: "New Links on a subreddit",
   description: "Emits an event each time a new link is added to a subreddit",
@@ -11,15 +13,7 @@ module.exports = {
     subreddit: {
       propDefinition: [reddit, "subreddit"],
     },
-    timer: {
-      label: "Polling schedule",
-      description: "Pipedream polls Reddit for new links on this schedule.",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 20, // by default, run every 10 minutes.
-      },
-    },
-    db: "$.service.db",
+    ...common.props,
   },
   hooks: {
     async deploy() {
@@ -32,14 +26,14 @@ module.exports = {
           10
         );
       } catch (err) {
-        if (this.reddit.did4xxErrorOccurred(err)) {
+        if (common.methods.did4xxErrorOccur(err)) {
           throw new Error(
             `We encountered a 4xx error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`
           );
         }
         throw err;
       }
-      const reddit_links_pulled = this.reddit.wereThingsPulled(reddit_links);
+      const reddit_links_pulled = common.methods.wereThingsPulled(reddit_links);
       if (reddit_links_pulled) {
         before = reddit_links.data.children[0].data.name;
         const ordered_reddit_links = reddit_links.data.children.reverse();
@@ -51,13 +45,17 @@ module.exports = {
     },
   },
   methods: {
+    ...common.methods,
+    generateEventMetadata(reddit_event) {
+      return {
+        id: reddit_event.data.name,
+        summary: reddit_event.data.title,
+        ts: reddit_event.data.created,
+      };
+    },
     emitRedditEvent(reddit_event) {
-      var { name: id, title: summary, created: ts } = reddit_event.data;
-      this.$emit(reddit_event, {
-        id,
-        summary,
-        ts,
-      });
+      const emitRedditEventHandler = common.methods.emitRedditEvent.bind(this);
+      emitRedditEventHandler(reddit_event);
     },
   },
   async run() {
@@ -68,7 +66,7 @@ module.exports = {
         before,
         this.subreddit
       );
-      var reddit_links_pulled = this.reddit.wereThingsPulled(reddit_links);
+      var reddit_links_pulled = common.methods.wereThingsPulled(reddit_links);
       if (reddit_links_pulled) {
         before = reddit_links.data.children[0].data.name;
         this.db.set("before", before);

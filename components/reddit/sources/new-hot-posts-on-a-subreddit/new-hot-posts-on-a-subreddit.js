@@ -1,6 +1,8 @@
-const reddit = require("../../reddit.app.js");
-//https://www.reddit.com/dev/api#GET_hot
+const common = require("../../common");
+const { reddit } = common.props;
+
 module.exports = {
+  ...common,
   key: "new-hot-posts-on-a-subreddit",
   name: "New hot posts on a subreddit",
   description:
@@ -118,22 +120,8 @@ module.exports = {
       default: false,
       optional: true,
     },
-    sr_detail: {
-      type: "boolean",
-      label: "Include Subreddit details?",
-      description:
-        "If set to true, includes details on the subreddit in the emitted event.",
-      default: false,
-      optional: true,
-    },
-    timer: {
-      label: "Polling schedule",
-      description: "Pipedream polls Reddit for new hot posts on this schedule.",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 20, // by default, run every 10 minute.
-      },
-    },
+    sr_detail: { propDefinition: [reddit, "sr_detail"] },
+    ...common.props,
   },
   hooks: {
     async deploy() {
@@ -147,13 +135,13 @@ module.exports = {
           10
         );
       } catch (err) {
-        if (this.reddit.did4xxErrorOccurred(err)) {
+        if (common.methods.did4xxErrorOccur(err)) {
           throw new Error(`
             We encountered a 4xx error trying to fetch hot posts for ${this.subreddit}. Please check the subreddit name and try again.`);
         }
         throw err;
       }
-      const hot_posts_pulled = this.reddit.wereThingsPulled(hot_posts);
+      const hot_posts_pulled = common.methods.wereThingsPulled(hot_posts);
       if (hot_posts_pulled) {
         const ordered_hot_posts = hot_posts.data.children.reverse();
         ordered_hot_posts.forEach((hot_post) => {
@@ -163,13 +151,17 @@ module.exports = {
     },
   },
   methods: {
+    ...common.methods,
+    generateEventMetadata(reddit_event) {
+      return {
+        id: reddit_event.data.name,
+        summary: reddit_event.data.title,
+        ts: reddit_event.data.created,
+      };
+    },
     emitRedditEvent(reddit_event) {
-      const { name: id, title: summary, created: ts } = reddit_event.data;
-      this.$emit(reddit_event, {
-        id,
-        summary,
-        ts,
-      });
+      const emitRedditEventHandler = common.methods.emitRedditEvent.bind(this);
+      emitRedditEventHandler(reddit_event);
     },
   },
   async run() {
@@ -180,7 +172,7 @@ module.exports = {
       this.sr_detail,
       10
     );
-    const hot_posts_pulled = this.reddit.wereThingsPulled(hot_posts);
+    const hot_posts_pulled = common.methods.wereThingsPulled(hot_posts);
     if (hot_posts_pulled) {
       const ordered_hot_posts = hot_posts.data.children.reverse();
       ordered_hot_posts.forEach((hot_post) => {
