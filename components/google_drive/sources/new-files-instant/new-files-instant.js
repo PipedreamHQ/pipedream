@@ -1,22 +1,22 @@
-const { uuid } = require("uuidv4");
+const { v4: uuid } = require("uuid");
 const googleDrive = require("../../google_drive.app.js");
+const common = require("../common-webhook.js");
 
 module.exports = {
+  ...common,
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description:
     "Emits a new event any time a new file is added in your linked Google Drive",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
-    googleDrive,
-    db: "$.service.db",
-    http: "$.interface.http",
-    drive: { propDefinition: [googleDrive, "watchedDrive"] },
+    ...common.props,
     folders: {
       type: "string[]",
       label: "Folders",
-      description: "(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
+      description:
+        "(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
       optional: true,
       default: [],
       async options({ prevContext }) {
@@ -40,17 +40,9 @@ module.exports = {
         return results;
       },
     },
-    timer: {
-      label: "Push notification renewal schedule",
-      description:
-        "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 30, // 30 minutes
-      },
-    },
   },
   hooks: {
+    ...common.hooks,
     async activate() {
       // Called when a component is created or updated. Handles all the logic
       // for starting and stopping watch notifications tied to the desired files.
@@ -76,7 +68,8 @@ module.exports = {
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
 
-      const lastFileCreatedTime = this.db.get("lastFileCreatedTime") || Date.now();
+      const lastFileCreatedTime =
+        this.db.get("lastFileCreatedTime") || Date.now();
       this.db.set("lastFileCreatedTime", lastFileCreatedTime);
     },
     async deactivate() {

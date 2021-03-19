@@ -7,24 +7,23 @@
 // 1) The HTTP requests tied to changes in the user's Google Drive
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
-const { uuid } = require("uuidv4");
-const includes = require("lodash.includes");
+const { v4: uuid } = require("uuid");
+const includes = require("lodash/includes");
 const googleDrive = require("../../google_drive.app.js");
+const common = require("../common-webhook.js");
 
 module.exports = {
+  ...common,
   key: "google_drive-changes-to-specific-files",
   name: "Changes to Specific Files",
   description:
     "Watches for changes to specific files, emitting an event any time a change is made to one of those files",
-  version: "0.0.9",
+  version: "0.0.10",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
   props: {
-    googleDrive,
-    db: "$.service.db",
-    http: "$.interface.http",
-    drive: { propDefinition: [googleDrive, "watchedDrive"] },
+    ...common.props,
     files: {
       type: "string[]",
       label: "Files",
@@ -49,17 +48,9 @@ module.exports = {
     watchForPropertiesChanges: {
       propDefinition: [googleDrive, "watchForPropertiesChanges"],
     },
-    timer: {
-      label: "Push notification renewal schedule",
-      description:
-        "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 30, // 30 minutes
-      },
-    },
   },
   hooks: {
+    ...common.hooks,
     async activate() {
       // Called when a componenent is created or updated. Handles all the logic
       // for starting and stopping watch notifications tied to the desired files.
@@ -146,7 +137,28 @@ module.exports = {
 
     const { headers } = event;
 
-    if (!this.googleDrive.checkHeaders(headers, subscription, channelID)) {
+    if (
+      !headers["x-goog-resource-state"] ||
+      !headers["x-goog-resource-id"] ||
+      !headers["x-goog-resource-uri"] ||
+      !headers["x-goog-message-number"]
+    ) {
+      console.log("Request missing necessary headers: ", headers);
+      return;
+    }
+
+    const incomingChannelID = headers["x-goog-channel-id"];
+    if (incomingChannelID !== channelID) {
+      console.log(
+        `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`
+      );
+      return;
+    }
+
+    if (!subscriptions.hasOwnProperty(headers["x-goog-resource-id"])) {
+      console.log(
+        `Resource ID of ${headers["x-goog-resource-id"]} not currently being tracked. Exiting`
+      );
       return;
     }
 

@@ -1,12 +1,10 @@
-const googleDrive = require("../../google_drive.app.js");
+const googleDrive = require("../google_drive.app.js");
 
 module.exports = {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
   version: "0.0.1",
-  // Dedupe events based on the "x-goog-message-number" header for the target channel:
-  // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
   props: {
     googleDrive,
