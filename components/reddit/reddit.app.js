@@ -1,5 +1,5 @@
 const axios = require("axios");
-const get = require("lodash.get");
+const get = require("lodash/get");
 
 module.exports = {
   type: "app",
