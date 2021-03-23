@@ -5,7 +5,7 @@ module.exports = {
   name: "Followed Streams (Instant)",
   key: "twitch-followed-streams",
   description: "Emits an event when a followed stream is live.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     async getTopics() {
@@ -27,8 +27,8 @@ module.exports = {
     getTopicString(followed) {
       return `streams?user_id=${followed.to_id}`;
     },
-    getMeta(data, headers) {
-      const { started_at: startedAt, title: summary } = data[0];
+    getMeta(item, headers) {
+      const { started_at: startedAt, title: summary } = item;
       const ts = new Date(startedAt).getTime();
       return {
         id: headers["twitch-notification-id"],
