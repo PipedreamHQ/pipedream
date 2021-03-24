@@ -25,9 +25,11 @@ Pipedream further secures access to AWS resources through a series of controls, 
 
 ## User Accounts, Authentication and Authorization
 
-When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account. Pipedream relies on these third-party identity providers for login, and therefore does not store passwords tied to your user account.
+When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account, or create an account directly with Pipedream.
 
-We recommend you configure two-factor authentication in your third party identity provider to further protect access to your Pipedream account.
+When you link your Pipedream login to an existing identity provider, Pipedream does not store any passwords tied to your user account — that information is secured with the identity provider. We recommend you configure two-factor authentication in the provider to further protect access to your Pipedream account.
+
+When you create an account on Pipedream directly, with a username and password, Pipedream implements best account security practices (for example: Pipedream hashes your password, and the hashed password is encrypted in our database, which resides in a private network accessible only to select Pipedream employees).
 
 ## Third party OAuth grants and API keys
 
@@ -54,6 +56,29 @@ Each version of a source or workflow is deployed to its own virtual machine. Thi
 ## Encryption of data in transit, TLS (SSL) Certificates
 
 When you use the Pipedream web application at [https://pipedream.com](https://pipedream.com), traffic between your client and Pipedream services is encrypted in transit. All Pipedream-managed certificates used to protect user data in transit are created using [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/). This eliminates the need for our employees to manage certificate private keys: these keys are managed and secured by Amazon.
+
+## Email Security
+
+Pipedream delivers emails to users for the purpose of email verification, error notifications, and more. Pipedream implements [SPF](https://en.wikipedia.org/wiki/Sender_Policy_Framework) and [DMARC](https://en.wikipedia.org/wiki/DMARC) DNS records to guard against email spoofing / forgery. You can review these records by using a DNS lookup tool like [`dig`](<https://en.wikipedia.org/wiki/Dig_(command)>):
+
+```bash
+# SPF
+dig pipedream.com TXT +short
+# DMARC
+dig _dmarc.pipedream.com TXT +short
+```
+
+## Incident Response
+
+Pipedream implements incident response best practices for identifying, documenting, resolving and communicating incidents. Pipedream publishes incident notifications to a status page at [status.pipedream.com](https://status.pipedream.com/) and to the [@PipedreamStatus Twitter account](https://twitter.com/pipedreamstatus).
+
+Pipedream notifies customers of any data breaches according to our [Data Protection Addendum](https://pipedream.com/dpa).
+
+## GDPR / Data Protection Addendum
+
+Pipedream is considered both a Controller and a Processor as defined by the GDPR. As a Processor, Pipedream implements policies and practices that secure the personal data you send to the platform, and includes a [Data Protection Addendum](https://pipedream.com/dpa) as part of our standard [Terms of Service](https://pipedream.com/terms).
+
+You can find a list of Pipedream subprocessors [here](/subprocessors/).
 
 ## Payment Processor
 
