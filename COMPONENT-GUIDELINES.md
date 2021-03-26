@@ -1,3 +1,5 @@
+[TOC]
+
 # Purpose
 
 This document defines guidelines and patterns developers should follow when building components for the Pipedream registry.
@@ -52,6 +54,20 @@ If you're ready to build a component for the Pipedream registry, we recommend st
 
 Finally, the target app must be integrated with Pipedream. You can explore all apps supported by Pipedream in the [marketplace](https://pipedream.com/explore). If your app is not listed, please [reach out](https://pipedream.com/community/c/dev/11).
 
+# Reference Components
+
+The following components may be used as models for developing compliant sources and actions.
+
+<u>Sources</u>
+
+- Webhook Source
+- Polling Source
+- Webhook + Polling Source
+
+<u>Actions</u>
+
+*Coming soon*
+
 # Guidelines & Patterns
 
 ## General
@@ -101,7 +117,7 @@ Whenever possible, reuse existing [prop definitions](https://github.com/Pipedrea
 
 > Note: while prop definitions are currently only reusable in other components, we intend to add further enhancements (e.g., prop specific validation logic) and surface them in the Pipedream UI in the future so users can add pre-defined inputs (with associated validation logic) to code steps.
 
-#### **Methods**
+#### Methods
 
 Whenever possible, reuse [methods](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#prop-definitions-example) defined in the app file. If you need to use an API for which a method is not defined and it may be used in future components, define a new method in the app file.
 
@@ -183,7 +199,7 @@ Avoid asking users to enter ID values. Use async options (with label/value defin
 
 Async options should also support [pagination](COMPONENT-API.md#async-options-example) (so users can navigate across multiple pages of options for long lists).
 
-### **Interface & Service Props**
+### Interface & Service Props
 
 In the interest of consistency, use the following naming patterns when defining interface and service props in source components:
 
