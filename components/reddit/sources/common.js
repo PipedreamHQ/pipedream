@@ -1,4 +1,5 @@
 const reddit = require("../reddit.app");
+const get = require("lodash/get");
 
 module.exports = {
   props: {
@@ -10,8 +11,8 @@ module.exports = {
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // by default, run every 15 minutes.
-      }
-    }
+      },
+    },
   },
   methods: {
     emitRedditEvent(redditEvent) {
