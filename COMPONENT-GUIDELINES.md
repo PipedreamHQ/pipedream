@@ -1,5 +1,3 @@
-[TOC]
-
 # Purpose
 
 This document defines guidelines and patterns developers should follow when building components for the Pipedream registry.
@@ -56,15 +54,19 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 # Reference Components
 
-The following components may be used as models for developing compliant sources and actions.
+The following components may be used as models for developing sources and actions for Pipedream's registry.
 
-<u>Sources</u>
+**Sources**
 
-- Webhook Source
-- Polling Source
-- Webhook + Polling Source
+| Name                                                         | App          | Type                                         |
+| ------------------------------------------------------------ | ------------ | -------------------------------------------- |
+| [New Card](components/trello/sources/new-card/new-card.js)   | Trello       | Webhook                                      |
+| [Search Mentions](components/twitter/sources/search-mentions/search-mentions.js) | Twitter      | Polling                                      |
+| [New or Modified Files](components/google_drive/sources/new-or-modified-files/new-or-modified-files.js) | Google Drive | Webhook + Polling                            |
+| [New Submission](components/jotform/sources/new-submission/new-submission.js) | Jotform      | Webhook (with no unique hook ID)             |
+| [New Stars](components/github/sources/new-star/new-star.js)  | Github       | Webhook (with extensive use of common files) |
 
-<u>Actions</u>
+**Actions**
 
 *Coming soon*
 
@@ -176,22 +178,29 @@ Include a description for a prop if it helps the user understand what they need 
 - Enclose sample input values in backticks (`)
 - Link descriptive text rather than displaying a full URL using markdown syntax. 
 
-<u>Examples</u>
+Examples:
 
 - The async option to select an Airtable Base is self-explanatory so includes no description:
-  **![img](https://lh4.googleusercontent.com/uFqQ2o8JEDtsyQmVMlF75rXUxuChMrPQelXFqCQ_0J71z3aXH63A2Dbi0rWt3pzZ_oGBVQ3nmxjT2uVDLSSGNC5MNv14g7-N1esUJ2i0TbotxhAlxeKBcnlJvZcVWLHXerz71yAd)**
 
-- The “Search Term” prop for Twitter includes a description that helps the user understand what values they can enter, with specific values highlighted using backticks and links to external content.![img](https://lh4.googleusercontent.com/-jNl4x0Dh3YrIxPttHCGyWrevIVmGCyfmlV1Zik2SyCjFJ_baAQEbsbiYrHkGI_Ybrk07ghIzeg4pkTtwdAnyxPNLG9iTLiC7tUEUwCWlWLumaA5T_FtbR7z1B_T3IYIsoGue-pr)
+  ![image-20210326151557417](images/image-20210326151557417.png)
+
+- The “Search Term” prop for Twitter includes a description that helps the user understand what values they can enter, with specific values highlighted using backticks and links to external content.
+  
+
+  ![image-20210326151706682](images/image-20210326151706682.png)
 
 ### Optional vs Required Props
 
 Use optional props whenever possible to minimize the input fields required to use a component. 
 
-For example, the Twitter search mentions source only requires that a user connect their account and enter a search term. The remaining fields are optional for users who want to filter the results, but they do not require any action to activate the source:![img](https://lh4.googleusercontent.com/dpqhB2HDXE3M3eTdw0G7MGJsItVg7J5mlRn6RIkqV0h1cwxS5FjyG3SdLxX3DbpBXhOuaN_tDrOMMhIdJ0ZB7U64DyhHMnncAAVpVglozlA2zIZTzu5fk72KsZqQ9o_nYG2dIp-l)
+For example, the Twitter search mentions source only requires that a user connect their account and enter a search term. The remaining fields are optional for users who want to filter the results, but they do not require any action to activate the source:
+
+
+![image-20210326151930885](images/image-20210326151930885.png)
 
 ### Default Values
 
-Use smart defaults for input fields. NOTE: the best default for a source doesn’t always map to the default recommended by the app. For example, Twitter defaults search results to an algorithm that balances recency and popularity. However, the best default for the use case on Pipedream is recency.
+Provide default values whenever possible. NOTE: the best default for a source doesn’t always map to the default recommended by the app. For example, Twitter defaults search results to an algorithm that balances recency and popularity. However, the best default for the use case on Pipedream is recency.
 
 ### Async Options
 
@@ -209,7 +218,7 @@ In the interest of consistency, use the following naming patterns when defining 
 | $.interface.timer | `timer`                            |
 | $.service.db      | `db`                               |
 
-## Source Specific Guidelines
+## Sources
 
 ### Webhook vs Polling Sources
 
@@ -250,7 +259,7 @@ When building a polling source, cache the most recently processed ID using $.ser
 
 Whenever possible, create methods in the app file to manage creating and deleting webhook subscriptions.
 
-| ** Description**                        | **Method Name** |
+| **Description**                         | **Method Name** |
 | --------------------------------------- | --------------- |
 | Method to create a webhook subscription | `createHook()`  |
 | Method to delete a webhook subscription | `deleteHook()`  |
@@ -268,3 +277,7 @@ Subscription webhook components should always validate the incoming event signat
 #### Shared Secrets
 
 If the source app supports shared secrets, implement support transparent to the end user. Generate and use a GUID for the shared secret value, save it to a $.service.db key, and use the saved value to validate incoming events. 
+
+## Actions
+
+Coming soon.
