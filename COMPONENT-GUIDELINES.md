@@ -1,19 +1,24 @@
+# Purpose
+
+This document defines guidelines and patterns developers should follow when building components for the Pipedream registry.
+
+Developers may create, deploy and share components that do not conform to these guidelines, but they will not be eligible to be listed in the curated registry (e.g., they may be hosted in a Github repo). If you develop a component that does not adhere to these guidelines, but you believe there is value to the broader community, please [reach out in our community forum](https://pipedream.com/community). We can either provide guidance to improve compliance or evaluate if an exception is warranted.
+
 # Overview
 
 [Pipedream](https://pipedream.com) is a low code integration platform that makes it easy to connect APIs remarkably fast. Users can select from thousands of customizable, open source components for hundreds of apps, and orchestrate their execution in workflows. Developers can [contribute](CONTRIBUTING.md) to these open source components on [Github](https://github.com/pipedreamhq/pipedream) by:
 
 - Creating new comonents (sources and actions)
-- Updating exisiting components (e.g., fix bugs, improve descriptions, documentation)
+- Updating exisiting components (e.g., fixing bugs, enhancing functionality)
+- Adding or updating metadata (e.g., descriptions, labels)
 
 Once a PR is merged to the `master` branch of the `pipedreamhq/pipedream` repo, the components are automatically registered and immediately become available to the 150k+ users of the Pipedream platform. 
 
-This document defines guidelines and patterns developers should follow when building components for the Pipedream registry.
+## Components
 
-# What are components?
+Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. They may use Pipedream managed auth for 300+ apps and use most npm packages with no `npm install` or `package.json` required. Pipedream currently supports two types of components — sources and actions.
 
-Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. Pipedream currently supports two types of components — sources and actions.
-
-**Sources:**
+### Sources
 
 - Emit events that can trigger Pipedream workflows (events may also be consumed outside of Pipedream via API)
 - Emitted event data can be inspected and referenced by steps in the target workflow
@@ -21,23 +26,22 @@ Components are [Node.js modules](COMPONENT-API.md#component-structure) that run 
 - Can be triggered on HTTP requests, timers, cron schedules, or manually
 - May store and retrieve state using the [built-in key-value store](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#db)
 
-**Actions:**
+### Actions
 
 - May be used as steps in workflows to perform common functions (e.g., get or modify data in an app)
 - Data returned by actions may be inspected and used in future workflow steps
 
-**All Components:**
+## Pipedream Registry
 
-- May use Pipedream managed auth for 300+ apps
-- Use most npm packages with no `npm install` or `package.json` required
+The Pipedream registry consists of sources and actions that have been curated for the community. Registered components are verified by Pipedream through the Github PR process, and:
 
-# Pipedream Registry
+- Can be trusted by end users
+- Follow consistent patterns for usability
+- Are supported by Pipedream if issues arise
 
-The Pipedream registry consists of sources and actions that have been curated for the community. Registered components are verified by Pipedream through the Github PR process and can be trusted, follow consistent patterns for usability, and are supported by Pipedream if issues arise. Registered components also appear in the Pipedream marketplace and are listed in Pipedream's UI when building workflows. Developers submitting components for inclusion in the registry must follow the guidelines and patterns outlined in this document.
+Registered components also appear in the Pipedream marketplace and are listed in Pipedream's UI when building workflows.
 
-Developers may create, deploy and share components that do conform to these guidelines, but they will not be eligible to be listed in the curated registry (e.g., they may be hosted in a non-Github repo); in the future, non-curated components will also be available for users to discover via Pipedream's marketplace. If you have a developed a source you wish to submit that does not conform to these guidelines, but you believe there is value to the broader community, please [reach out in our community forum](https://pipedream.com/community)!
-
-# Prerequisites
+## Prerequisites
 
 If you're ready to build a component for the Pipedream registry, we recommend starting with our [Quickstart Guide](QUICKSTART.md) and then reviewing the [Component API Reference](COMPONENT-API.md). You will also need the following:
 
@@ -52,9 +56,11 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 ## General
 
-### Target Use Case
+### Component Scope
 
 Create components to address specific use cases whenever possible. For example, when a user subscribes to a Github webhook to listen for “star” activity events can be generated when users star or unstar a repository. The “New Star” source filters events for only new star activity so the user doesn’t have to.
+
+There may be cases where it's valuable to create a generic component that provides users with broad lattitude (e.g., see the [custom webhook](components/github/sources/custom-webhook-events) event source for Github). However, as a general heuristic, we found that tightly scoped components are easier for users to understand and use.
 
 ### Required Metadata
 
@@ -62,24 +68,38 @@ Registry components require a unique key and version, and a friendly name and de
 
 ### Folder Structure
 
-Registry components are organized by app in the `components` [directory](/components) of the `pipedreamhq/pipedream` repo. 
+Registry components are organized by app in the `components` directory of the `pipedreamhq/pipedream` repo. 
+
+```
+/components
+	/[app_name_slug]
+		/[app_name_slug].app.js
+		/actions
+			/[action_name_slug]
+				/[action_name_slug].js
+		/sources
+			/[source_name_slug]
+				/[source_name_slug].js
+```
 
 - The name of each app folder corresponds with the name slug for each app
-- The app file is located in the root of the app folder
-- Components are located in the `sources` and `actions` subfolders
-- Each component should be organized in it's own subfolder (with the name of the folder and the name of the `js` file equivalent to the slugified component name). 
+- The app file should be in the root of the app folder (e.g., `../components/[app_slug]/[app_slug].app.js`)
+- Components for each app are organized into `/sources` and `/actions` subfolders
+- Each component should be placed in its own subfolder (with the name of the folder and the name of the `js` file equivalent to the slugified component name). For example, the path for the "Search Mentions" source for Twitter is `../components/twitter/sources/search-mentions/search-mentions.js`.
 
-Examples: [Twitter](components/twitter), [Airtable](components/airtable)
+You can explore examples in the [components directory](components).
 
 ## Promoting Reusability
 
 ### App Files
 
-App files contain components that declare the app and include prop definitions and methods that may be reused across components. In the future, users will also be able to add pre-defined props to code steps in Pipedream. If an app file does not exist for your app, please [reach out](https://pipedream.com/community/c/dev/11).
+App files contain components that declare the app and include prop definitions and methods that may be reused across components. App files should adhere to the following naming convention:  `[app_name_slug].app.js`. In the future, users will also be able to add pre-defined props to code steps in Pipedream. If an app file does not exist for your app, please [reach out](https://pipedream.com/community/c/dev/11).
 
 #### Prop Definitions 
 
-Whenever possible, reuse existing [prop definitions](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#prop-definitions-example). If specific elements (e.g., default value, optional/required state) for a prop definition does not fit with the current use case, those values can be overridden by redefining the values for specific keys in the source. If a prop definition does not exist and you are adding an app-specific prop that may be reused in future components, **add** it as a prop definition to the app file.
+Whenever possible, reuse existing [prop definitions](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#prop-definitions-example). If specific elements (e.g., default value, optional/required state) for a prop definition does not fit with the current use case, those values can be overridden by redefining the values for specific keys in the source. If a prop definition does not exist and you are adding an app-specific prop that may be reused in future components, add it as a prop definition to the app file. Prop definitions will also be surfaced for apps the Pipedream marketplace. 
+
+> Note: while prop definitions are currently only reusable in other components, we intend to add further enhancements (e.g., prop specific validation logic) and surface them in the Pipedream UI in the future so users can add pre-defined inputs (with associated validation logic) to code steps.
 
 #### **Methods**
 
@@ -115,19 +135,25 @@ async getLikedTweets(opts = {}) {
 
 #### Testing
 
-Pipedream does not currently support unit tests to validate that changes to app files are backwards compatible with existing components. Therefore, if you make changes to an app file that may impact other sources, you must currently test potentially impacted components to confirm their functionality is not negatively affected.
+Pipedream does not currently support unit tests to validate that changes to app files are backwards compatible with existing components. Therefore, if you make changes to an app file that may impact other sources, you must currently test potentially impacted components to confirm their functionality is not negatively affected. We expect to support a testing framework in the future.
 
-### Common Files
+### Common Files (optional)
 
-TBC
+An optional pattern to improve reusability is to use a `common` module to abstract elements that are used across to multiple components. The trade-off with this approach is that it increases complexity for end-users who have the option of customizing the code for components within Pipedream. When using this approach, the general pattern is:
+
+- The `.app.js` module contains the logic related to making the actual API calls (e.g. calling `axios.get`, encapsulate the API URL and token, etc).
+- The `common.js` module contains logic and structure that is not specific to any single component. Its structure is equivalent to a component, except that it doesn't define attributes such as `version`, `dedupe`, `key`, `name`, etc (those are specific to each component). It defines the main logic/flow and relies on calling its methods (which might not be implemented by this component) to get any necessary data that it needs. In OOP terms, it would be the equivalent of a base abstract class.
+- The component module of each action would inherit/extend the `common.js` component by setting additional attributes (e.g. `name`, `description`, `key`, etc) and potentially redifining any inherited methods.
+
+See [Google Drive](components/google_drive) for an example of this pattern. When using this approach, prop definitions should still be maintainted in the app file.
 
 ## Props
 
-### Label
+### Labels
 
 Use prop labels to customize the name of a prop or propDefinition (independent of the variable name in the code). The label should mirror the name users of an app are familiar with; i.e., it should mirror the equivalent label in the app’s UI. This applies to usage in labels, descriptions, etc. E.g., the Twitter API property for search keywords is “q”, but but label is set to “Search Term”.
 
-### Description
+### Descriptions
 
 Include a description for a prop if it helps the user understand what they need to do. Additionally, use markdown as appropriate to improve theh clarity of the description or instructions. When using markdown:
 
@@ -143,7 +169,9 @@ Include a description for a prop if it helps the user understand what they need 
 
 ### Optional vs Required Props
 
-Use optional fields whenever possible to minimize the input fields required to use a component. For example, the Twitter search mentions source only requires that a user connect their account and enter a search term. The remaining fields are optional for users who want to filter the results, but they do not require any action to activate the source:![img](https://lh4.googleusercontent.com/dpqhB2HDXE3M3eTdw0G7MGJsItVg7J5mlRn6RIkqV0h1cwxS5FjyG3SdLxX3DbpBXhOuaN_tDrOMMhIdJ0ZB7U64DyhHMnncAAVpVglozlA2zIZTzu5fk72KsZqQ9o_nYG2dIp-l)
+Use optional props whenever possible to minimize the input fields required to use a component. 
+
+For example, the Twitter search mentions source only requires that a user connect their account and enter a search term. The remaining fields are optional for users who want to filter the results, but they do not require any action to activate the source:![img](https://lh4.googleusercontent.com/dpqhB2HDXE3M3eTdw0G7MGJsItVg7J5mlRn6RIkqV0h1cwxS5FjyG3SdLxX3DbpBXhOuaN_tDrOMMhIdJ0ZB7U64DyhHMnncAAVpVglozlA2zIZTzu5fk72KsZqQ9o_nYG2dIp-l)
 
 ### Default Values
 
