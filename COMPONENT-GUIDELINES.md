@@ -1,28 +1,29 @@
 # Overview
 
-[Pipedream](https://pipedream.com) is a low code integration platform that makes it easy to connect APIs remarkably fast. The platform provides thousands of customizable, open source components for hundreds of apps that can be orchestrated in workflows. Developers can [contribute](CONTRIBUTING.md) to these open source components on [Github](https://github.com/pipedreamhq/pipedream):
+[Pipedream](https://pipedream.com) is a low code integration platform that makes it easy to connect APIs remarkably fast. Users can select from thousands of customizable, open source components for hundreds of apps, and orchestrate their execution in workflows. Developers can [contribute](CONTRIBUTING.md) to these open source components on [Github](https://github.com/pipedreamhq/pipedream) by:
 
-- Create new sources and actions
-- Update exisiting components (e.g., fix bugs, improve descriptions)
+- Creating new comonents (sources and actions)
+- Updating exisiting components (e.g., fix bugs, improve descriptions, documentation)
 
 Once a PR is merged to the `master` branch of the `pipedreamhq/pipedream` repo, the components are automatically registered and immediately become available to the 150k+ users of the Pipedream platform. 
 
-This document defines guidelines and patterns for components to be eligible to be added to the Pipedream registry.
+This document defines guidelines and patterns developers should follow when building components for the Pipedream registry.
 
 # What are components?
 
-Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. There are two types of components — **sources** and **actions**.
+Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. Pipedream currently supports two types of components — sources and actions.
 
 **Sources:**
 
 - Emit events that can trigger Pipedream workflows (events may also be consumed outside of Pipedream via API)
+- Emitted event data can be inspected and referenced by steps in the target workflow
 - Can use any of Pipedream's built-in deduping strategies
 - Can be triggered on HTTP requests, timers, cron schedules, or manually
-- Store and retrieve state using the [built-in key-value store](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#db)
+- May store and retrieve state using the [built-in key-value store](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#db)
 
 **Actions:**
 
-- May be used as steps in a workflow to perform actions (e.g., get or modify data in an app) on a workflow event 
+- May be used as steps in workflows to perform common functions (e.g., get or modify data in an app)
 - Data returned by actions may be inspected and used in future workflow steps
 
 **All Components:**
