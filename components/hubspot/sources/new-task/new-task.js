@@ -1,19 +1,21 @@
-const hubspot = require("../../hubspot.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "hubspot-new-task",
   name: "New Calendar Task",
   description: "Emits an event for each new task added.",
   version: "0.0.1",
   dedupe: "unique",
-  props: {
-    hubspot,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+  methods: {
+    ...common.methods,
+    generateMeta(task) {
+      const { id, name, eventType } = task;
+      return {
+        id,
+        summary: `${name} - ${eventType}`,
+        ts: Date.now(),
+      };
     },
   },
   async run(event) {
@@ -22,11 +24,8 @@ module.exports = {
 
     const results = await this.hubspot.getCalendarTasks(yearFromNow.getTime());
     for (const task of results) {
-      this.$emit(task, {
-        id: task.id,
-        summary: `${task.name} - ${task.eventType}`,
-        ts: Date.now(),
-      });
+      const meta = this.generateMeta(task);
+      this.$emit(task, meta);
     }
   },
 };

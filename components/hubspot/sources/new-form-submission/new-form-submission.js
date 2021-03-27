@@ -1,56 +1,50 @@
-const hubspot = require("../../hubspot.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emits an event for each new submission of a form.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    hubspot,
-    forms: {
-      type: "string[]",
-      label: "Form",
-      optional: false,
-      async options() {
-        const results = await this.hubspot.getForms();
-        const options = results.map((result) => {
-          const label = result.name;
-          return {
-            label,
-            value: JSON.stringify({ label, value: result.guid }),
-          };
-        });
-        return options;
-      },
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
+    ...common.props,
+    forms: { propDefinition: [common.props.hubspot, "forms"] },
   },
   methods: {
-    generateMeta(form, result, submittedAt) {
+    ...common.methods,
+    generateMeta(result) {
+      const { pageUrl, submittedAt: ts } = result;
+      const submitted = new Date(ts);
       return {
-        id: `${form.value}${result.submittedAt}`,
-        summary: `${
-          form.label
-        } submitted at ${submittedAt.toLocaleDateString()} ${submittedAt.toLocaleTimeString()}`,
-        ts: result.submittedAt,
+        id: `${pageUrl}${ts}`,
+        summary: `Form submitted at ${submitted.toLocaleDateString()} ${submitted.toLocaleTimeString()}`,
+        ts,
       };
+    },
+    emitEvent(result) {
+      const meta = this.generateMeta(result);
+      this.$emit(result, meta);
+    },
+    isRelevant(result, submittedAfter) {
+      return result.submittedAt > submittedAfter;
     },
   },
   async run(event) {
-    const lastRun = this.db.get("submittedAfter") || this.hubspot.monthAgo();
-    const submittedAfter = new Date(lastRun);
-
-    const results = await this.hubspot.getFormSubmissions(this.forms, submittedAfter.getTime());
-    for (const result of results) {
-      let submittedAt = new Date(result.submittedAt);
-      this.$emit(result, this.generateMeta(result.form, result, submittedAt));
+    const submittedAfter =
+      this.db.get("submittedAfter") || Date.parse(this.hubspot.monthAgo());
+    const params = {
+      limit: 50,
+    };
+    for (let form of this.forms) {
+      form = JSON.parse(form);
+      params.formId = form.value;
+      await this.paginate(
+        params,
+        this.hubspot.getFormSubmissions.bind(this),
+        "results",
+        submittedAfter
+      );
     }
 
     this.db.set("submittedAfter", Date.now());

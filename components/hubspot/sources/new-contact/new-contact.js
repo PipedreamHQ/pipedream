@@ -1,24 +1,42 @@
-const hubspot = require("../../hubspot.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "hubspot-new-contact",
   name: "New Contacts",
   description: "Emits an event for each new contact added.",
   version: "0.0.1",
   dedupe: "unique",
-  props: {
-    hubspot,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+  hooks: {
+    async deploy() {
+      // By default, only a limited set of properties are returned from the API.
+      // Get all possible contact properties to request for each contact.
+      const properties = await this.hubspot.createPropertiesArray();
+      this.db.set("properties", properties);
+    },
+  },
+  methods: {
+    ...common.methods,
+    generateMeta(contact) {
+      const { id, properties, createdAt } = contact;
+      const ts = Date.parse(createdAt);
+      return {
+        id,
+        summary: `${properties.firstname} ${properties.lastname}`,
+        ts,
+      };
+    },
+    emitEvent(contact) {
+      const meta = this.generateMeta(contact);
+      this.$emit(contact, meta);
+    },
+    isRelevant(contact, createdAfter) {
+      return Date.parse(contact.createdAt) > createdAfter;
     },
   },
   async run(event) {
-    const lastRun = this.db.get("createdAfter") || this.hubspot.monthAgo();
-    const createdAfter = new Date(lastRun);
+    const createdAfter =
+      this.db.get("createdAfter") || Date.parse(this.hubspot.monthAgo());
     const data = {
       limit: 100,
       sorts: [
@@ -27,31 +45,16 @@ module.exports = {
           direction: "DESCENDING",
         },
       ],
+      properties: this.db.get("properties"),
+      object: "contacts",
     };
 
-    let done = false;
-    let count = 0;
-    let total = 1;
-
-    while (!done && count < total) {
-      let contacts = await this.hubspot.searchCRM(data, "contacts");
-      total = contacts.total;
-      if (contacts.paging) data.after = contacts.paging.next.after;
-      for (const contact of contacts.results) {
-        let createdAt = new Date(contact.createdAt);
-        if (createdAt.getTime() > createdAfter.getTime()) {
-          this.$emit(contact, {
-            id: contact.id,
-            summary: `${contact.properties.firstname} ${contact.properties.lastname}`,
-            ts: createdAt.getTime(),
-          });
-        } else {
-          // don't need to continue if we've gotten to contacts already evaluated
-          done = true;
-        }
-        count++;
-      }
-    }
+    await this.paginate(
+      data,
+      this.hubspot.searchCRM.bind(this),
+      "results",
+      createdAfter
+    );
 
     this.db.set("createdAfter", Date.now());
   },
