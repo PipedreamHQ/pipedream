@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-new-company",
   name: "New Companies",
   description: "Emits an event for each new company added.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

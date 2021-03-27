@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-new-blog-article",
   name: "New Blog Posts",
   description: "Emits an event for each new blog post.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

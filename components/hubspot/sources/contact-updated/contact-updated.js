@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-contact-updated",
   name: "Contact Updated",
   description: "Emits an event each time a contact is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   hooks: {
     async deploy() {
       // By default, only a limited set of properties are returned from the API.

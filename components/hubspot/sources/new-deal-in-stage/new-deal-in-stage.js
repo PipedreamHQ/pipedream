@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emits an event for each new deal in a stage.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

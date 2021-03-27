@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emits an event for each new Hubspot email event.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

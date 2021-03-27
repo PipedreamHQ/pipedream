@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emits an event for each new engagement created.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

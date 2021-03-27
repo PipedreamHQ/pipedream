@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-new-contact-in-list",
   name: "New Contact in List",
   description: "Emits an event for each new contact in a list.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-new-task",
   name: "New Calendar Task",
   description: "Emits an event for each new task added.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

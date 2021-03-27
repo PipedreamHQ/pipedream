@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emits an event for each new Hubspot event.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

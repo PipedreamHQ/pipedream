@@ -5,7 +5,7 @@ module.exports = {
   key: "hubspot-new-contact",
   name: "New Contacts",
   description: "Emits an event for each new contact added.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     async deploy() {
