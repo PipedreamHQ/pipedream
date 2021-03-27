@@ -8,6 +8,8 @@ module.exports = {
     webinars: {
       type: "string[]",
       label: "Webinars",
+      description:
+        "Webinars you want to watch for new events. **Leave blank to watch all webinars**.",
       async options({ nextPageToken }) {
         const { webinars, next_page_token } = await this.listWebinars({
           nextPageToken,

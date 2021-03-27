@@ -3,7 +3,7 @@ const zoom_admin = require("../../zoom_admin.app");
 module.exports = {
   name: "New Panelists for Webinar",
   key: "zoom-admin-new-webinar-panelists",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emits an event every time a new panelist is added to a webinar",
   dedupe: "unique",
   props: {
@@ -34,7 +34,21 @@ module.exports = {
     async fetchAndEmitParticipants() {
       // This endpoint allows for no time filter, so we fetch all participants from
       // all configured webinars and let the deduper handle duplicates
-      for (webinarID of this.webinars) {
+      const webinars = this.webinars || [];
+      if (!this.webinars || !this.webinars.length) {
+        let nextPageToken;
+        do {
+          const resp = await this.zoom_admin.listWebinars({
+            nextPageToken,
+          });
+          for (const webinar of resp.webinars) {
+            webinars.push(webinar.id);
+          }
+          nextPageToken = resp.next_page_token;
+        } while (nextPageToken);
+      }
+
+      for (webinarID of webinars) {
         const { panelists } = await this.zoom_admin.listWebinarPanelists(
           webinarID
         );
