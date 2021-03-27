@@ -8,6 +8,7 @@ module.exports = {
     webinars: {
       type: "string[]",
       label: "Webinars",
+      optional: true,
       description:
         "Webinars you want to watch for new events. **Leave blank to watch all webinars**.",
       async options({ nextPageToken }) {

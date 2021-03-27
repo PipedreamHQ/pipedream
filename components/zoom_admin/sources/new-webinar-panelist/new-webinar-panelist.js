@@ -3,7 +3,7 @@ const zoom_admin = require("../../zoom_admin.app");
 module.exports = {
   name: "New Panelists for Webinar",
   key: "zoom-admin-new-webinar-panelists",
-  version: "0.0.3",
+  version: "0.0.4",
   description: "Emits an event every time a new panelist is added to a webinar",
   dedupe: "unique",
   props: {
