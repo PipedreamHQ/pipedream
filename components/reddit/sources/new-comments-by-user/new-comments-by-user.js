@@ -18,7 +18,7 @@ module.exports = {
         "The emitted events will contain the new comment plus the parents of said comment up to the number indicated in this property.",
       default: 2,
       min: 2,
-      max: 10
+      max: 10,
     },
     timeFilter: { propDefinition: [common.props.reddit, "timeFilter"] },
     includeSubredditDetails: {
@@ -28,25 +28,22 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      let before = null;
       var redditComments = await this.reddit.getNewUserComments(
-        before,
+        null,
         this.username,
         this.numberOfParents,
         this.timeFilter,
         this.includeSubredditDetails,
         10
       );
-      if (!redditComments) {
-        console.log("No data available, skipping emitting sample events");
+      const { children: comments = [] } = redditComments.data;
+      if (comments.length === 0) {
+        console.log("No data available, skipping itieration");
         return;
       }
-      before = redditComments[0].data.name;
-      const orderedRedditComments = redditComments.reverse();
-      orderedRedditComments.forEach((redditComment) => {
-        this.emitRedditEvent(redditComment);
-      });
+      const { name: before = this.db.get("before") } = comments[0].data;
       this.db.set("before", before);
+      comments.reverse().forEach(this.emitRedditEvent);
     },
   },
   methods: {
@@ -60,25 +57,22 @@ module.exports = {
     },
   },
   async run() {
-    let before = this.db.get("before");
     do {
       const redditComments = await this.reddit.getNewUserComments(
-        before,
+        this.db.get("before"),
         this.username,
         this.numberOfParents,
         this.timeFilter,
         this.includeSubredditDetails
       );
-      if (!redditComments) {
+      const { children: comments = [] } = redditComments.data;
+      if (comments.length === 0) {
         console.log("No data available, skipping itieration");
         break;
       }
-      before = redditComments[0].data.name;
-      const orderedRedditComments = redditComments.reverse();
-      orderedRedditComments.forEach((redditComment) => {
-        this.emitRedditEvent(redditComment);
-      });
+      const { name: before = this.db.get("before") } = comments[0].data;
       this.db.set("before", before);
+      comments.reverse().forEach(this.emitRedditEvent);
     } while (redditComments);
   },
 };
