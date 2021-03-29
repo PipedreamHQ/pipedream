@@ -65,15 +65,11 @@ module.exports = {
         // of panelists with the content of the panelist metadata,
         // to support change detection.
         const oldPanelists = this.db.get(webinarID) || {};
-        console.log("Old panelists: ", oldPanelists);
         const oldPanelistIDs = Object.keys(oldPanelists);
-        console.log("Old panelists IDs: ", oldPanelistIDs);
         const newPanelistIDs = panelists.map((p) => p.id);
-        console.log("New panelists IDs: ", newPanelistIDs);
 
         // DELETED PANELISTS
         const deletedPanelistIDs = difference(oldPanelistIDs, newPanelistIDs);
-        console.log("Deleted panelists IDs: ", deletedPanelistIDs);
 
         let eventType = "panelist.deleted";
         for (const panelistID of deletedPanelistIDs) {
@@ -86,7 +82,6 @@ module.exports = {
 
         // ADDED PANELISTS
         const addedPanelistIDs = difference(newPanelistIDs, oldPanelistIDs);
-        console.log("Added panelist IDs: ", addedPanelistIDs);
 
         const newPanelists = {};
         for (const panelist of panelists) {
