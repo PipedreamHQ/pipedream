@@ -34,7 +34,7 @@ module.exports = {
       type: "integer",
       label: "Depth",
       description:
-        'If set to 1, it will include, in the emitted event, only new comments that are direct children to the subreddit pointed by "subredditPost". Furthermore, "depth" determines the maximum depth of children, within the related subreddit comment tree, of new comments to be included in said emitted event.',
+        "If set to 1, it will include, in the emitted event, only new comments that are direct children to the subreddit pointed by \"subredditPost\". Furthermore, \"depth\" determines the maximum depth of children, within the related subreddit comment tree, of new comments to be included in said emitted event.",
       default: 1,
       optional: true,
     },
@@ -53,14 +53,12 @@ module.exports = {
         this.includeSubredditDetails,
         10
       );
-      if (!redditComments) {
-        console.log("No data available, skipping emitting sample events");
+      const { children: comments = [] } = redditComments.data;
+      if (comments.length === 0) {
+        console.log("No data available, skipping itieration");
         return;
       }
-      const orderedRedditComments = redditComments.reverse();
-      orderedRedditComments.forEach((redditComment) => {
-        this.emitRedditEvent(redditComment);
-      });
+      comments.reverse().forEach(this.emitRedditEvent);
     },
   },
   methods: {
@@ -81,13 +79,11 @@ module.exports = {
       this.depth,
       this.includeSubredditDetails
     );
-    if (!redditComments) {
+    const { children: comments = [] } = redditComments.data;
+    if (comments.length === 0) {
       console.log("No data available, skipping itieration");
       return;
     }
-    const orderedRedditComments = redditComments.reverse();
-    orderedRedditComments.forEach((redditComment) => {
-      this.emitRedditEvent(redditComment);
-    });
+    comments.reverse().forEach(this.emitRedditEvent);
   },
 };
