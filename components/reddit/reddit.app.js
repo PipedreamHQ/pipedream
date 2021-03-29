@@ -1,5 +1,6 @@
 const axios = require("axios");
 const get = require("lodash/get");
+const retry = require("async-retry");
 
 module.exports = {
   type: "app",
@@ -39,7 +40,7 @@ module.exports = {
       type: "boolean",
       label: "Include subreddit details?",
       description:
-        "If set to true, includes details on the subreddit in the emitted event.",
+        "If set to true, subreddit details will be expanded/included in the emitted event.",
       default: false,
       optional: true,
     },
@@ -64,37 +65,79 @@ module.exports = {
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return (await axios(opts)).data;
     },
+    _isRetriableStatusCode(statusCode) {
+      [408, 429, 500].includes(statusCode);
+    },
+    async _withRetries(apiCall) {
+      const retryOpts = {
+        retries: 5,
+        factor: 2,
+      };
+      return retry(async (bail) => {
+        try {
+          return await apiCall();
+        } catch (err) {
+          const statusCode = get(err, ["response", "status"]);
+          if (!this._isRetriableStatusCode(statusCode)) {
+            bail(`
+              Unexpected error (status code: ${statusCode}):
+              ${err.response}
+            `);
+          }
+          console.warn(`Temporary error: ${err.message}`);
+          throw err;
+        }
+      }, retryOpts);
+    },
+    /**
+    * This method retrieves the most recent new hot subreddit posts. The
+    * returned dataset contains at most `opts.limit` entries.
+    *
+    * @param {object}  opts options to customise the data retrieval
+    * @param {string}  opts.subreddit the subreddit from which to retrieve the
+    * hot posts
+    * @param {enum}    opts.region the region from where to retrieve the hot
+    * posts (e.g. `GLOBAL`, `US`, `AR`, etc.). See the `g` parameter in the
+    * docs for more information: https://www.reddit.com/dev/api/#GET_hot
+    * @param {boolean} [opts.excludeFilters=false] if set to `true`, filters
+    * such as "hide links that I have voted on" will be disabled
+    * @param {boolean} [opts.includeSubredditDetails=false] whether the
+    * subreddit details should be expanded/included or not
+    * @param {number}  [opts.limit=100] the maximum amount of posts to retrieve
+    */
     async getNewHotSubredditPosts(
       subreddit,
-      locale,
-      showAllPosts,
+      region,
+      excludeFilters,
       includeSubredditDetails,
       limit = 100
     ) {
       const params = {};
-      if (showAllPosts) {
+      if (excludeFilters) {
         params["show"] = "all";
       }
-      params["g"] = locale;
+      params["g"] = region;
       params["sr_detail"] = includeSubredditDetails;
       params["limit"] = limit;
-      const hotPosts = await this._makeRequest({
-        path: `/r/${subreddit}/hot`,
-        params,
-      });
-      const thingsPulled = this._wereThingsPulled(hotPosts);
-      return thingsPulled ? hotPosts.data.children : null;
+      return await this._withRetries(
+        () => this._makeRequest({
+          path: `/r/${subreddit}/hot`,
+          params,
+        })
+      );      
+
     },
     async getNewSubredditLinks(before, subreddit, limit = 100) {
-      const redditLinks = await this._makeRequest({
-        path: `/r/${subreddit}/new`,
-        params: {
-          before,
-          limit,
-        },
-      });
-      const thingsPulled = this._wereThingsPulled(redditLinks);
-      return thingsPulled ? redditLinks.data.children : null;
+      const params = {
+        before,
+        limit,
+      };
+      return await this._withRetries(
+        () => this._makeRequest({
+          path: `/r/${subreddit}/new`,
+          params,
+        })
+      );      
     },
     async getNewSubredditComments(
       subreddit,
@@ -104,22 +147,24 @@ module.exports = {
       includeSubredditDetails,
       limit = 100
     ) {
-      const [redditArticle, redditComments] = await this._makeRequest({
-        path: `/r/${subreddit}/comments/article`,
-        params: {
-          article: subredditPost,
-          context: numberOfParents,
-          depth,
-          limit,
-          sort: "new",
-          sr_detail: includeSubredditDetails,
-          theme: "default",
-          threaded: true,
-          trucate: 0,
-        },
-      });
-      const thingsPulled = this._wereThingsPulled(redditComments);
-      return thingsPulled ? redditComments.data.children : null;
+      const params = {
+        article: subredditPost,
+        context: numberOfParents,
+        depth,
+        limit,
+        sort: "new",
+        sr_detail: includeSubredditDetails,
+        theme: "default",
+        threaded: true,
+        trucate: 0,
+      };
+      const [redditArticle, redditComments] =  await this._withRetries(
+        () => this._makeRequest({
+          path: `/r/${subreddit}/comments/article`,
+          params,
+        })
+      );
+      return redditComments;
     },
     async getNewUserLinks(
       before,
@@ -139,12 +184,12 @@ module.exports = {
         sr_detail: includeSubredditDetails,
         limit,
       };
-      const redditLinks = await this._makeRequest({
-        path: `/user/${username}/submitted`,
-        params,
-      });
-      const thingsPulled = this._wereThingsPulled(redditLinks);
-      return thingsPulled ? redditLinks.data.children : null;
+      return await this._withRetries(
+        () => this._makeRequest({
+          path: `/user/${username}/submitted`,
+          params,
+        })
+      );
     },
     async getNewUserComments(
       before,
@@ -164,12 +209,12 @@ module.exports = {
         sr_detail: includeSubredditDetails,
         limit,
       };
-      const redditComments = await this._makeRequest({
-        path: `/user/${username}/comments`,
-        params,
-      });
-      const thingsPulled = this._wereThingsPulled(redditComments);
-      return thingsPulled ? redditComments.data.children : null;
+      return await this._withRetries(
+        () => this._makeRequest({
+          path: `/user/${username}/comments`,
+          params,
+        })
+      );
     },
     async searchSubreddits(after, query) {
       const params = {

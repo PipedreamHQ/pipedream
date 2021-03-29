@@ -1,5 +1,5 @@
 const common = require("../common");
-const localeData = require("./locale-data");
+const regionData = require("./region-data");
 const { reddit } = common.props;
 
 module.exports = {
@@ -15,20 +15,19 @@ module.exports = {
     subreddit: {
       propDefinition: [common.props.reddit, "subreddit"],
     },
-    locale: {
+    region: {
       type: "string",
-      label: "Locale",
+      label: "Region",
       description:
-        "Hot posts differ by region, and this refers to the locale you'd like to watch for hot posts.",
-      options: localeData,
+        "Hot posts differ by region, and this refers to the region you'd like to watch for hot posts.",
+      options: regionData,
       default: "GLOBAL",
       optional: false,
     },
-    showAllPosts: {
+    excludeFilters: {
       type: "boolean",
-      label: "Show all posts (ignoring filters)?",
-      description:
-        'If set to true, posts matching filters such us "hide links that I have voted on" will be included in the emitted event.',
+      label: "Exclude filters (Show all posts)?",
+      description: "If set to `true`, filters such as \"hide links that I have voted on\" will be disabled",
       default: false,
       optional: true,
     },
@@ -39,21 +38,19 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      var hotPosts = await this.reddit.getNewHotSubredditPosts(
+      var redditHotPosts = await this.reddit.getNewHotSubredditPosts(
         this.subreddit,
-        this.locale,
-        this.showAllPosts,
+        this.region,
+        this.excludeFilters,
         this.includeSubredditDetails,
         10
       );
-      if (!hotPosts) {
-        console.log("No data available, skipping emitting sample events");
+      const { children: hotPosts = [] } = redditHotPosts.data;
+      if (hotPosts.length === 0) {
+        console.log("No data available, skipping itieration");
         return;
       }
-      const orderedHotPosts = hotPosts.reverse();
-      orderedHotPosts.forEach((hotPost) => {
-        this.emitRedditEvent(hotPost);
-      });
+      hotPosts.reverse().forEach(this.emitRedditEvent);
     },
   },
   methods: {
@@ -66,22 +63,19 @@ module.exports = {
       };
     },
   },
-  async run() {
-    console.log("testing out the 500 error");
-    const hotPosts = await this.reddit.getNewHotSubredditPosts(
+  async run() {    
+    const redditHotPosts = await this.reddit.getNewHotSubredditPosts(
       this.subreddit,
-      this.locale,
-      this.showAllPosts,
+      this.region,
+      this.excludeFilters,
       this.includeSubredditDetails,
       10
     );
-    if (!hotPosts) {
+    const { children: hotPosts = [] } = redditHotPosts.data;
+    if (hotPosts.length === 0) {
       console.log("No data available, skipping itieration");
-    } else {
-      const orderedHotPosts = hotPosts.reverse();
-      orderedHotPosts.forEach((hotPost) => {
-        this.emitRedditEvent(hotPost);
-      });
+      return;
     }
+    hotPosts.reverse().forEach(this.emitRedditEvent);
   },
 };

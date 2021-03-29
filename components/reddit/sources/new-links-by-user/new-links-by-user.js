@@ -28,7 +28,6 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      let before = null;
       var redditLinks = await this.reddit.getNewUserLinks(
         null,
         this.username,
@@ -37,17 +36,15 @@ module.exports = {
         this.includeSubredditDetails,
         10
       );
-      if (!redditLinks) {
-        console.log("No data available, skipping emitting sample events");
+      const { children: links = [] } = redditLinks.data;
+      if (links.length === 0) {
+        console.log("No data available, skipping itieration");
         return;
-      }
-      before = redditLinks[0].data.name;
-      const orderedRedditLinks = redditLinks.reverse();
-      orderedRedditLinks.forEach((redditLink) => {
-        this.emitRedditEvent(redditLink);
-      });
+      }      
+      const { name: before = this.db.get("before") } = links[0].data;
       this.db.set("before", before);
-    },
+      links.reverse().forEach(this.emitRedditEvent);
+    },    
   },
   methods: {
     ...common.methods,
@@ -60,25 +57,22 @@ module.exports = {
     },
   },
   async run() {
-    let before = this.db.get("before");
     do {
       const redditLinks = await this.reddit.getNewUserLinks(
-        before,
+        this.db.get("before"),
         this.username,
         this.numberOfParents,
         this.timeFilter,
         this.includeSubredditDetails
       );
-      if (!redditLinks) {
+      const { children: links = [] } = redditLinks.data;
+      if (links.length === 0) {
         console.log("No data available, skipping itieration");
         break;
-      }
-      before = redditLinks[0].data.name;
+      }      
+      const { name: before = this.db.get("before") } = links[0].data;
       this.db.set("before", before);
-      const orderedRedditLinks = redditLinks.reverse();
-      orderedRedditLinks.forEach((redditLink) => {
-        this.emitRedditEvent(redditLink);
-      });
+      links.reverse().forEach(this.emitRedditEvent);
     } while (redditLinks);
   },
 };
