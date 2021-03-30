@@ -7,7 +7,7 @@ module.exports = {
   key: "twitch-streams-by-streamer",
   description:
     "Emits an event when a live stream starts from the streamers you specify.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     streamerLoginNames: { propDefinition: [twitch, "streamerLoginNames"] },
@@ -29,8 +29,8 @@ module.exports = {
       }
       return topics;
     },
-    getMeta(data, headers) {
-      const { started_at: startedAt, title: summary } = data[0];
+    getMeta(item, headers) {
+      const { started_at: startedAt, title: summary } = item;
       const ts = new Date(startedAt).getTime();
       return {
         id: headers["twitch-notification-id"],
