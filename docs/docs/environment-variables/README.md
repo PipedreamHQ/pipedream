@@ -9,39 +9,23 @@ next: false
 
 You should not include API keys or other sensitive data directly in your workflow's code. This is especially important if you [make your workflow public](/public-workflows/), since anyone would be able to see your API key in plain sight. By referencing the value of an environment variable, instead, your workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
 
-Environment variables are defined at the account-level, and can be referenced in code cells in any workflow.
+Environment variables are defined at the account-level, and can be referenced in [workflow code](/workflows/steps/code/) or [step params](/workflows/steps/params/).
 
 [[toc]]
 
 ## Creating, updating environment variables
 
-Environment variables are managed at the account-level. You can access your environment variables by clicking on the **Settings** link in the header of the app or by visiting <a href="https://pipedream.com/settings/env-vars">{{$site.themeConfig.PIPEDREAM_BASE_URL}}/settings/env-vars</a>
+Environment variables are managed at the account-level. You can access your environment variables at <a href="https://pipedream.com/settings/env-vars">{{$site.themeConfig.PIPEDREAM_BASE_URL}}/settings/env-vars</a>.
 
-If this is your first time adding an environment variable, you'll see a menu prompting you to add a new **Key** and associated **Value**:
+To add an environment variable, click the **New Environment Variable** button.
 
-<div>
-<img alt="Add a new env var" src="./images/add-new-env-var.png">
-</div>
+To edit an environment variable, click the **Reveal / Edit** button next to a specific variable.
 
-You can add another environment variable by clicking on the **+** button to the right of the text boxes, or remove it by clicking on the **-** button:
-
-<div>
-<img alt="Add or remove env var" src="./images/add-remove-env-var.png">
-</div>
-
-Any changes you make to environment variables — adding, removing, or updating one — must be saved for them to take effect. You'll see the green **Save** button appear in the footer of the page when you've made changes that need to be saved.
-
-Updates to environment variables will be made available to your workflows as soon as the save operation is complete — typically a few seconds after you click **Save**. So if you update the value of an environment variable in the UI, your workflow should automatically use that new value where it's referenced.
-
-There are some restrictions on the names and values of environment variables — see the [limits](#limits) section below. If you encounter these constraints, you'll typically see a helpful error message noting what the issue is:
-
-<div>
-<img alt="Error message" src="./images/env-var-error.png">
-</div>
+Updates to environment variables will be made available to your workflows as soon as the save operation is complete — typically a few seconds after you click **Save**. If you update the value of an environment variable in the UI, your workflow should automatically use that new value where it's referenced.
 
 ## Referencing environment variables in code
 
-In Node.js code cells, you can reference the value of any environment variable using the Node-provided object [`process.env`](https://nodejs.org/dist/latest-v10.x/docs/api/process.html#process_process_env). This object contains environment variables as key-value pairs.
+You can reference the value of any environment variable using the object [`process.env`](https://nodejs.org/dist/latest-v10.x/docs/api/process.html#process_process_env). This object contains environment variables as key-value pairs.
 
 For example, let's say you have an environment variable named `API_KEY`. You can reference its value using `process.env.API_KEY`:
 
@@ -59,18 +43,12 @@ Logging the value of any environment variables — for example, using `console.l
 
 ## Referencing environment variables in actions
 
-[Actions](/workflows/steps/actions/) are pre-built code steps that provide a form for passing [params](/workflows/steps/actions/) as input.
+[Actions](/workflows/steps/actions/) are pre-built code steps that provide a form for passing [params](/workflows/steps/params/) as input.
 
-Like in code steps, you can also reference the value of environment variables using `process.env.<VARIABLE NAME>`. When you start typing `process.env`, you'll see an auto-completed list of available environment variables. Select the correct one to save its value in the params form:
-
-<div>
-<img alt="Select an environment variable" src="https://res.cloudinary.com/pipedreamin/image/upload/v1585434743/docs/env-vars_cn6pwm.gif">
-</div>
-
-You can also see the list of available variables — environment variables, [data from previous steps](/workflows/steps/#step-exports), etc. — by clicking on the hamburger menu on the right of the input field:
+You can reference the value of environment variables using <code v-pre>{{process.env.YOUR_ENV_VAR}}</code>. You'll see a list of your environment variables in the [object explorer](/workflows/steps/params/#use-the-object-explorer):
 
 <div>
-<img width="200px" alt="Params form hamburger menu" src="./images/params-hamburger-menu.png">
+<img alt="Environment variables in the object explorer" width="300px" src="./images/env-vars-object-explorer.png">
 </div>
 
 ## Copying workflows that use environment variables
@@ -81,12 +59,8 @@ Reviewing the code ensures you have the necessary variables defined for the work
 
 ## Limits
 
-The value of any environment variable may be no longer than 256 characters.
+The value of any environment variable may be no longer than `64KB`.
 
-The names of environment variables must start with a letter. Following characters can use any alpha-numeric character or an underscore (`_`).
-
-Pipedream reserves environment variables that start with `PIPEDREAM_` for internal use. You cannot create an environment variable that begins with that prefix.
-
-The total size of both the names and values of your environment variables cannot exceed `64KB` in length.
+The names of environment variables must start with a letter or underscore. Pipedream also reserves environment variables that start with `PIPEDREAM_` for internal use. You cannot create an environment variable that begins with that prefix.
 
 <Footer />
