@@ -29,6 +29,7 @@ module.exports = {
     _isRelevant(directMessage) {
       return (
         directMessage.type === "message_create" &&
+        directMessage.message_create &&
         directMessage.message_create.sender_id != this._getAccountId()
       );
     },
@@ -42,14 +43,13 @@ module.exports = {
         created_timestamp: ts,
         message_create: { message_data: { text = "" } },
       } = data;
-      const maxTextLength = 12;
+      const maxTextLength = 16;
       const trimmedText = text.length > maxTextLength
         ? `${text.slice(0, maxTextLength)}...`
         : text;
-      const summary = `New message: ${trimmedText}`;
       return {
         id,
-        summary,
+        summary: trimmedText,
         ts,
       };
     },

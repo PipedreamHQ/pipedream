@@ -4,17 +4,6 @@ const TwitterV2 = require("twitter-v2");
 module.exports = {
   type: "app",
   app: "twitter_developer_app",
-  propDefinitions: {
-    count: {
-      type: "integer",
-      label: "Count (advanced)",
-      description: "The maximum number of tweets to return per API request (up to `100`)",
-      optional: true,
-      default: 100,
-      min: 1,
-      max: 100,
-    },
-  },
   methods: {
     _newClientV1() {
       return new TwitterV1({
