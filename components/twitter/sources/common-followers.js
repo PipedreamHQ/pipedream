@@ -136,6 +136,7 @@ module.exports = {
         timestamp,
         user,
       };
+      user.profile_url = user.profile_url = `https://twitter.com/${user.screen_name}/`
       const meta = this.generateMeta(data);
       this.$emit(user, meta);
     });

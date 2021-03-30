@@ -8,6 +8,7 @@ module.exports = {
   props: {
     twitter,
     screen_name: { propDefinition: [twitter, "screen_name"] },
+    enrichTweets: { propDefinition: [twitter, "enrichTweets"] },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -18,6 +19,7 @@ module.exports = {
   dedupe: "unique",
   async run(event) {
     (await this.twitter.getLikedTweets({ screen_name: this.screen_name })).reverse().forEach(tweet => {
+      if (this.enrichTweets) { tweet = this.twitter.enrichTweets(tweet) }
       this.$emit(tweet, {
         id: tweet.id_str,
         summary: tweet.full_text,
