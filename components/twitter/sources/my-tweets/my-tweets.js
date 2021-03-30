@@ -5,7 +5,7 @@ module.exports = {
   key: "twitter-my-tweets",
   name: "My Tweets",
   description: "Emit new Tweets you post to Twitter",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     db: "$.service.db",
     twitter,
