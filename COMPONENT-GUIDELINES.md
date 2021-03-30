@@ -52,6 +52,18 @@ If you're ready to build a component for the Pipedream registry, we recommend st
 
 Finally, the target app must be integrated with Pipedream. You can explore all apps supported by Pipedream in the [marketplace](https://pipedream.com/explore). If your app is not listed, please [reach out](https://pipedream.com/community/c/dev/11).
 
+## Process
+
+To create and submit a new or updated component to the Pipedream registry:
+
+1. Fork or branch the `pipedreamhq/pipedream` repo
+2. Develop and test a new or updated component that conforms to the guidelines in the document
+3. Create a PR for the Pipedream team to review and post a message in our [community forum](https://pipedream.com/community/c/dev/11)
+4. Address feedback provided by Pipedream
+5. Once Pipedream completes it review, the team will merge the PR to the `master` branch
+
+Looking for ideas? Check out [sources](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BSOURCE%5D+in%3Atitle) and [actions](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BACTION%5D+in%3Atitle+) requested by the community!
+
 # Reference Components
 
 The following components may be used as models for developing sources and actions for Pipedream's registry.
@@ -111,13 +123,11 @@ You can explore examples in the [components directory](components).
 
 ### App Files
 
-App files contain components that declare the app and include prop definitions and methods that may be reused across components. App files should adhere to the following naming convention:  `[app_name_slug].app.js`. In the future, users will also be able to add pre-defined props to code steps in Pipedream. If an app file does not exist for your app, please [reach out](https://pipedream.com/community/c/dev/11).
+App files contain components that declare the app and include prop definitions and methods that may be reused across components. App files should adhere to the following naming convention:  `[app_name_slug].app.js`. If an app file does not exist for your app, please [reach out](https://pipedream.com/community/c/dev/11).
 
 #### Prop Definitions 
 
 Whenever possible, reuse existing [prop definitions](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#prop-definitions-example). If specific elements (e.g., default value, optional/required state) for a prop definition does not fit with the current use case, those values can be overridden by redefining the values for specific keys in the source. If a prop definition does not exist and you are adding an app-specific prop that may be reused in future components, add it as a prop definition to the app file. Prop definitions will also be surfaced for apps the Pipedream marketplace. 
-
-> Note: while prop definitions are currently only reusable in other components, we intend to add further enhancements (e.g., prop specific validation logic) and surface them in the Pipedream UI in the future so users can add pre-defined inputs (with associated validation logic) to code steps.
 
 #### Methods
 
