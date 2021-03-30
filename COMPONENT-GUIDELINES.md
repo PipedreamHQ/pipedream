@@ -2,13 +2,13 @@
 
 This document defines guidelines and patterns developers should follow when building components for the Pipedream registry.
 
-Developers may create, deploy and share components that do not conform to these guidelines, but they will not be eligible to be listed in the curated registry (e.g., they may be hosted in a Github repo). If you develop a component that does not adhere to these guidelines, but you believe there is value to the broader community, please [reach out in our community forum](https://pipedream.com/community). We can either provide guidance to improve compliance or evaluate if an exception is warranted.
+Developers may create, deploy and share [components](#components) that do not conform to these guidelines, but they will not be eligible to be listed in the curated registry (e.g., they may be hosted in a Github repo). If you develop a component that does not adhere to these guidelines, but you believe there is value to the broader community, please [reach out in our community forum](https://pipedream.com/community/c/dev/11).
 
 # Overview
 
-[Pipedream](https://pipedream.com) is a low code integration platform that makes it easy to connect APIs remarkably fast. Users can select from thousands of customizable, open source components for hundreds of apps, and orchestrate their execution in workflows. Developers can [contribute](CONTRIBUTING.md) to these open source components on [Github](https://github.com/pipedreamhq/pipedream) by:
+[Pipedream](https://pipedream.com) is a low code integration platform that makes it easy to connect APIs remarkably fast. Users can select from thousands of customizable, open source components for hundreds of apps and orchestrate their execution in workflows. Developers can [contribute](CONTRIBUTING.md) to these open source components on [Github](https://github.com/pipedreamhq/pipedream) by:
 
-- Creating new comonents (sources and actions)
+- Creating new components (sources and actions)
 - Updating exisiting components (e.g., fixing bugs, enhancing functionality)
 - Adding or updating metadata (e.g., descriptions, labels)
 
@@ -16,7 +16,7 @@ Once a PR is merged to the `master` branch of the `pipedreamhq/pipedream` repo, 
 
 ## Components
 
-Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. They may use Pipedream managed auth for 300+ apps and use most npm packages with no `npm install` or `package.json` required. Pipedream currently supports two types of components — sources and actions.
+Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. They may use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) and [use most npm packages](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#using-npm-packages) with no `npm install` or `package.json` required. Pipedream currently supports two types of components — sources and actions.
 
 ### Sources
 
@@ -33,7 +33,7 @@ Components are [Node.js modules](COMPONENT-API.md#component-structure) that run 
 
 ## Pipedream Registry
 
-The Pipedream registry consists of sources and actions that have been curated for the community. Registered components are verified by Pipedream through the Github PR process, and:
+The Pipedream registry consists of sources and actions that have been curated for the community. Registered components are verified by Pipedream through the [Github PR process](#process) and:
 
 - Can be trusted by end users
 - Follow consistent patterns for usability
@@ -50,7 +50,7 @@ If you're ready to build a component for the Pipedream registry, we recommend st
 - Basic proficiency with Node.js or Javascript
 - Pipedream [CLI](https://pipedream.com/docs/cli/reference/)
 
-Finally, the target app must be integrated with Pipedream. You can explore all apps supported by Pipedream in the [marketplace](https://pipedream.com/explore). If your app is not listed, please [reach out](https://pipedream.com/community/c/dev/11).
+Finally, the target app must be integrated with Pipedream. You can explore all apps supported by Pipedream in the [marketplace](https://pipedream.com/explore). If your app is not listed, please [create a Github issue](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D) to request it and [reach out](https://pipedream.com/community/c/dev/11) to our team to let us know that you're blocked on source or action development.
 
 ## Process
 
@@ -60,7 +60,7 @@ To create and submit a new or updated component to the Pipedream registry:
 2. Develop and test a new or updated component that conforms to the guidelines in the document
 3. Create a PR for the Pipedream team to review and post a message in our [community forum](https://pipedream.com/community/c/dev/11)
 4. Address feedback provided by Pipedream
-5. Once Pipedream completes it review, the team will merge the PR to the `master` branch
+5. Once the review is complete and approved, Pipedream will merge the PR to the `master` branch
 
 Looking for ideas? Check out [sources](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BSOURCE%5D+in%3Atitle) and [actions](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BACTION%5D+in%3Atitle+) requested by the community!
 
@@ -88,7 +88,7 @@ The following components may be used as models for developing sources and action
 
 ### Component Scope
 
-Create components to address specific use cases whenever possible. For example, when a user subscribes to a Github webhook to listen for “star” activity events can be generated when users star or unstar a repository. The “New Star” source filters events for only new star activity so the user doesn’t have to.
+Create components to address specific use cases whenever possible. For example, when a user subscribes to a Github webhook to listen for “star” activity, events can be generated when users star or unstar a repository. The “New Star” source filters events for only new star activity so the user doesn’t have to.
 
 There may be cases where it's valuable to create a generic component that provides users with broad lattitude (e.g., see the [custom webhook](components/github/sources/custom-webhook-events) event source for Github). However, as a general heuristic, we found that tightly scoped components are easier for users to understand and use.
 
@@ -113,9 +113,9 @@ Registry components are organized by app in the `components` directory of the `p
 ```
 
 - The name of each app folder corresponds with the name slug for each app
-- The app file should be in the root of the app folder (e.g., `../components/[app_slug]/[app_slug].app.js`)
+- The app file should be in the root of the app folder (e.g., `/components/[app_slug]/[app_slug].app.js`)
 - Components for each app are organized into `/sources` and `/actions` subfolders
-- Each component should be placed in its own subfolder (with the name of the folder and the name of the `js` file equivalent to the slugified component name). For example, the path for the "Search Mentions" source for Twitter is `../components/twitter/sources/search-mentions/search-mentions.js`.
+- Each component should be placed in its own subfolder (with the name of the folder and the name of the `js` file equivalent to the slugified component name). For example, the path for the "Search Mentions" source for Twitter is `/components/twitter/sources/search-mentions/search-mentions.js`.
 
 You can explore examples in the [components directory](components).
 
@@ -131,9 +131,9 @@ Whenever possible, reuse existing [prop definitions](https://github.com/Pipedrea
 
 #### Methods
 
-Whenever possible, reuse [methods](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#prop-definitions-example) defined in the app file. If you need to use an API for which a method is not defined and it may be used in future components, define a new method in the app file.
+Whenever possible, reuse [methods](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#methods) defined in the app file. If you need to use an API for which a method is not defined and it may be used in future components, define a new method in the app file.
 
-Use the [JS Docs](https://jsdoc.app/about-getting-started.html) pattern for lightweight documentation of each method in the app file. Provide a description, and define @params and @returns block tags (with default values if applicable — e.g., `[foo=bar]`). This data will both help with reusability and will be surfaced in documention for apps in the Pipedream marketplace. For example:
+Use the [JS Docs](https://jsdoc.app/about-getting-started.html) pattern for lightweight documentation of each method in the app file. Provide a description and define @params and @returns block tags (with default values if applicable — e.g., `[foo=bar]`). This data will both help with reusability and will be surfaced in documention for apps in the Pipedream marketplace. For example:
 
 ```javascript
 /**
@@ -179,13 +179,13 @@ See [Google Drive](components/google_drive) for an example of this pattern. When
 
 ### Labels
 
-Use prop labels to customize the name of a prop or propDefinition (independent of the variable name in the code). The label should mirror the name users of an app are familiar with; i.e., it should mirror the equivalent label in the app’s UI. This applies to usage in labels, descriptions, etc. E.g., the Twitter API property for search keywords is “q”, but but label is set to “Search Term”.
+Use [prop](COMPONENT-API.md#user-input-props) labels to customize the name of a prop or propDefinition (independent of the variable name in the code). The label should mirror the name users of an app are familiar with; i.e., it should mirror the equivalent label in the app’s UI. This applies to usage in labels, descriptions, etc. E.g., the Twitter API property for search keywords is “q”, but but label is set to “Search Term”.
 
 ### Descriptions
 
-Include a description for a prop if it helps the user understand what they need to do. Additionally, use markdown as appropriate to improve theh clarity of the description or instructions. When using markdown:
+Include a description for a [prop](COMPONENT-API.md#user-input-props) if it helps the user understand what they need to do. Additionally, use markdown as appropriate to improve the clarity of the description or instructions. When using markdown:
 
-- Enclose sample input values in backticks (`)
+- Enclose sample input values in backticks (`` ` ``)
 - Link descriptive text rather than displaying a full URL using markdown syntax. 
 
 Examples:
@@ -201,7 +201,7 @@ Examples:
 
 ### Optional vs Required Props
 
-Use optional props whenever possible to minimize the input fields required to use a component. 
+Use optional [props](COMPONENT-API.md#user-input-props) whenever possible to minimize the input fields required to use a component. 
 
 For example, the Twitter search mentions source only requires that a user connect their account and enter a search term. The remaining fields are optional for users who want to filter the results, but they do not require any action to activate the source:
 
@@ -210,11 +210,11 @@ For example, the Twitter search mentions source only requires that a user connec
 
 ### Default Values
 
-Provide default values whenever possible. NOTE: the best default for a source doesn’t always map to the default recommended by the app. For example, Twitter defaults search results to an algorithm that balances recency and popularity. However, the best default for the use case on Pipedream is recency.
+Provide [default values](COMPONENT-API.md#user-input-props) whenever possible. NOTE: the best default for a source doesn’t always map to the default recommended by the app. For example, Twitter defaults search results to an algorithm that balances recency and popularity. However, the best default for the use case on Pipedream is recency.
 
 ### Async Options
 
-Avoid asking users to enter ID values. Use async options (with label/value definitions) so users can make selections from a drop down menu. For example, Todoist identifies projects by numeric IDs (e.g., 12345). The async option to select a project displays the name of the project as the label, so that’s the value the user sees when interacting with the source (e.g., “My Project”). The code referencing the selection receives the numeric ID (12345).
+Avoid asking users to enter ID values. Use [async options](COMPONENT-API.md#async-options-example) (with label/value definitions) so users can make selections from a drop down menu. For example, Todoist identifies projects by numeric IDs (e.g., 12345). The async option to select a project displays the name of the project as the label, so that’s the value the user sees when interacting with the source (e.g., “My Project”). The code referencing the selection receives the numeric ID (12345).
 
 Async options should also support [pagination](COMPONENT-API.md#async-options-example) (so users can navigate across multiple pages of options for long lists).
 
@@ -267,7 +267,7 @@ When building a polling source, cache the most recently processed ID using $.ser
 
 #### Helper Methods
 
-Whenever possible, create methods in the app file to manage creating and deleting webhook subscriptions.
+Whenever possible, create methods in the app file to manage [creating and deleting webhook subscriptions](COMPONENT-API.md#hooks).
 
 | **Description**                         | **Method Name** |
 | --------------------------------------- | --------------- |
@@ -276,9 +276,7 @@ Whenever possible, create methods in the app file to manage creating and deletin
 
 #### Storing the 3rd Party Webhook ID
 
-After subscribing to a webhook, save the ID for the hook returned by the 3rd party service to the $.service.db for a source using the key `hookId`. This ID will be referenced when managing or deleting the webhook.
-
-Note: some apps may not return a unique ID for the registered webhook (e.g., Jotform).
+After subscribing to a webhook, save the ID for the hook returned by the 3rd party service to the `$.service.db` for a source using the key `hookId`. This ID will be referenced when managing or deleting the webhook. Note: some apps may not return a unique ID for the registered webhook (e.g., Jotform).
 
 #### Signature Validation
 
@@ -286,7 +284,7 @@ Subscription webhook components should always validate the incoming event signat
 
 #### Shared Secrets
 
-If the source app supports shared secrets, implement support transparent to the end user. Generate and use a GUID for the shared secret value, save it to a $.service.db key, and use the saved value to validate incoming events. 
+If the source app supports shared secrets, implement support transparent to the end user. Generate and use a GUID for the shared secret value, save it to a `$.service.db` key, and use the saved value to validate incoming events. 
 
 ## Actions
 
