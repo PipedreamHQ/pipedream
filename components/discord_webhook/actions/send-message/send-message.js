@@ -3,9 +3,9 @@ const axios = require('axios')
 
 module.exports = {
   key: "discord_webhook-send-message",
-  name: "Send Message (Simple)",
+  name: "Send Message",
   description: "Send a simple message to a Discord channel.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     discordWebhook,

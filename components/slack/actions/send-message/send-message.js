@@ -3,9 +3,9 @@ const { WebClient } = require('@slack/web-api')
 
 module.exports = {  
   key: "slack-send-message",
-  name: "Send Message (Simple)",
+  name: "Send Message",
   description: "Send a message to a channel, group or user",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     slack,
