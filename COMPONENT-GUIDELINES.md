@@ -20,10 +20,10 @@ Components are [Node.js modules](COMPONENT-API.md#component-structure) that run 
 
 ### Sources
 
-- Emit events that can trigger Pipedream workflows (events may also be consumed outside of Pipedream via API)
-- Emitted event data can be inspected and referenced by steps in the target workflow
-- Can use any of Pipedream's built-in deduping strategies
-- Can be triggered on HTTP requests, timers, cron schedules, or manually
+- Emit events that can trigger Pipedream [workflows](https://pipedream.com/docs/workflows/) (events may also be consumed outside of Pipedream via [API](https://pipedream.com/docs/api/overview/))
+- Emitted event data can be inspected and referenced by [steps](https://pipedream.com/docs/workflows/steps/) in the target workflow
+- Can use any of Pipedream's built-in [deduping strategies](COMPONENT-API.md#dedupe-strategies)
+- Can be [triggered](COMPONENT-API.md#interface-props) on HTTP requests, timers, cron schedules, or manually
 - May store and retrieve state using the [built-in key-value store](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#db)
 
 ### Actions
@@ -274,9 +274,17 @@ Use built-in [deduping strategies](COMPONENT-API.md#dedupe-strategies) whenever 
 
 ### Polling Sources 
 
+#### Default Timer Interval 
+
+As a general heuristic, set the default timer interval to 15 minutes. However, you may set a custom interval (greater or less than 15 minutes) if appropriate for the specific source. Users may also override the default value at any time.
+
 #### Emit Events on First Run
 
-Polling sources should emit events on the first run. This helps users to know their source works when they activate it. This also provides users with events they can immediately use to support workflow development.
+Polling sources should emit events on the first run. This helps users to know their source works when they activate it. This also provides users with events they can immediately use to support workflow development. Do not emit multiple pages of results or more than 100 events on the first run (as a general heuristic, emit the first page of results returned by the API).
+
+#### Pagination
+
+Support pagination when appropriate to ensure that all new events are emitted for a source.
 
 #### Rate Limit Optimization
 
