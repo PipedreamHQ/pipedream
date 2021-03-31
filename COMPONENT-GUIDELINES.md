@@ -146,7 +146,7 @@ App files contain components that declare the app and include prop definitions a
 
 #### Prop Definitions 
 
-Whenever possible, reuse existing [prop definitions](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#prop-definitions-example). If specific elements (e.g., default value, optional/required state) for a prop definition does not fit with the current use case, those values can be overridden by redefining the values for specific keys in the source. If a prop definition does not exist and you are adding an app-specific prop that may be reused in future components, add it as a prop definition to the app file. Prop definitions will also be surfaced for apps the Pipedream marketplace. 
+Whenever possible, reuse existing [prop definitions](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#prop-definitions-example). If a prop definition does not exist and you are adding an app-specific prop that may be reused in future components, add it as a prop definition to the app file. Prop definitions will also be surfaced for apps the Pipedream marketplace. 
 
 #### Methods
 
@@ -239,7 +239,7 @@ Async options should also support [pagination](COMPONENT-API.md#async-options-ex
 
 ### Interface & Service Props
 
-In the interest of consistency, use the following naming patterns when defining interface and service props in source components:
+In the interest of consistency, use the following naming patterns when defining [interface](COMPONENT-API.md#interface-props) and [service](COMPONENT-API.md#service-props) props in source components:
 
 | Prop                | **Recommended Prop Variable Name** |
 | ------------------- | ---------------------------------- |
