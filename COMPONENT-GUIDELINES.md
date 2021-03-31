@@ -107,6 +107,12 @@ description: "Emits a new event any time a shared drive is created.",
 version: "0.0.1",
 ```
 
+### Component Key Pattern
+
+When publishing components to the Pipedream registry, the `key` must be unique across registry components and should follow the pattern:
+
+`app-name-slug`-`slugified-component-name`
+
 ### Folder Structure
 
 Registry components are organized by app in the `components` directory of the `pipedreamhq/pipedream` repo. 
