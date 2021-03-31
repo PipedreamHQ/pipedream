@@ -2,10 +2,10 @@ const slack = require('../../slack.app.js')
 const { WebClient } = require('@slack/web-api')
 
 module.exports = {  
-  key: "slack-send-message-advanced",
-  name: "Send Message (Advanced)",
-  description: "Send a message to a channel, group or user with advanced options",
-  version: "0.0.1",
+  key: "slack-send-custom-message",
+  name: "Send a Custom Message",
+  description: "Customize advanced setttings and send a message to a channel, group or user.",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,
