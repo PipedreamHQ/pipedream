@@ -294,9 +294,13 @@ If the service has a well-supported Node.js client library, it'll often build in
 
 ### Webhook Sources
 
+#### Hooks
+
+[Hooks]((COMPONENT-API.md#hooks)) are methods that are automatically invoked by Pipedream at different stages of the [component lifecycle](COMPONENT-API.md#component-lifecycle). Webhook subscriptions are typically created when components are instantiated or activated via the `activate()` hook, and deleted when components are deactivated or deleted via the `deactivate()` hook. 
+
 #### Helper Methods
 
-Whenever possible, create methods in the app file to manage [creating and deleting webhook subscriptions](COMPONENT-API.md#hooks).
+Whenever possible, create methods in the app file to manage [creating and deleting webhook subscriptions](COMPONENT-API.md#hooks).  
 
 | **Description**                         | **Method Name** |
 | --------------------------------------- | --------------- |
