@@ -5,7 +5,7 @@ module.exports = {
   key: "slack-send-block-kit-message",
   name: "Send Message Using Block Kit",
   description: "Send a message using Slack's Block Kit UI framework to a channel, group or user.",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "action",
   props: {
     slack,
