@@ -16,7 +16,7 @@ Once a PR is merged to the `master` branch of the `pipedreamhq/pipedream` repo, 
 
 ## Components
 
-Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. They may use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) and [use most npm packages](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#using-npm-packages) with no `npm install` or `package.json` required. Pipedream currently supports two types of components — sources and actions.
+Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. They may use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) and [use most npm packages](COMPONENT-API.md#using-npm-packages) with no `npm install` or `package.json` required. Pipedream currently supports two types of components — sources and actions.
 
 ### Sources
 
@@ -43,9 +43,13 @@ Registered components also appear in the Pipedream marketplace and are listed in
 
 ## Prerequisites
 
-If you're ready to build a component for the Pipedream registry, we recommend starting with our [Quickstart Guide](QUICKSTART.md) and then reviewing the [Component API Reference](COMPONENT-API.md). You will also need the following:
+**If you're new to Pipedream, we also recommend watching this [5 minute demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8).**
 
-- A free [Pipedream](https://pipedream.com) account
+If you're ready to build a component for the Pipedream registry, we recommend starting with our [Quickstart Guide](QUICKSTART.md) and then reviewing the [Component API Reference](COMPONENT-API.md).  
+
+You will also need the following:
+
+- A free [Pipedream](https://pipedream.com) account 
 - A free [Github](https://github.com) account
 - Basic proficiency with Node.js or Javascript
 - Pipedream [CLI](https://pipedream.com/docs/cli/reference/)
@@ -94,7 +98,14 @@ There may be cases where it's valuable to create a generic component that provid
 
 ### Required Metadata
 
-Registry components require a unique key and version, and a friendly name and description. Action components require a `type` field to be set to `action` (sources will require a type to be set in the future).
+Registry [components](COMPONENT-API.md#component-structure) require a unique `key` and `version`, and a friendly `name` and `description`. Action components require a `type` field to be set to `action` (sources will require a type to be set in the future).
+
+```javascript
+key: "google_drive-new-shared-drive",
+name: "New Shared Drive",
+description: "Emits a new event any time a shared drive is created.",
+version: "0.0.1",
+```
 
 ### Folder Structure
 
@@ -118,6 +129,14 @@ Registry components are organized by app in the `components` directory of the `p
 - Each component should be placed in its own subfolder (with the name of the folder and the name of the `js` file equivalent to the slugified component name). For example, the path for the "Search Mentions" source for Twitter is `/components/twitter/sources/search-mentions/search-mentions.js`.
 
 You can explore examples in the [components directory](components).
+
+### Using APIs vs Client Libraries
+
+Use If the app has a well-supported [Node.js client library](COMPONENT-API.md#using-npm-packages), that should be preferred to manually constructed API requests to reduce code and improve maintenance.
+
+### Capturing Sensitive Data
+
+If users are required to enter sensitive data, always use [secret](COMPONENT-API.md#general) props.
 
 ## Promoting Reusability
 
@@ -222,11 +241,11 @@ Async options should also support [pagination](COMPONENT-API.md#async-options-ex
 
 In the interest of consistency, use the following naming patterns when defining interface and service props in source components:
 
-| **Scenario**      | **Recommended Prop Variable Name** |
-| ----------------- | ---------------------------------- |
-| $.interface.http  | `http`                             |
-| $.interface.timer | `timer`                            |
-| $.service.db      | `db`                               |
+| Prop                | **Recommended Prop Variable Name** |
+| ------------------- | ---------------------------------- |
+| `$.interface.http`  | `http`                             |
+| `$.interface.timer` | `timer`                            |
+| `$.service.db`      | `db`                               |
 
 ## Sources
 
@@ -241,7 +260,7 @@ NOTE: Pipedream does not currently distinguish real-time event sources for end-u
 
 ### Source Description 
 
-Enter a short-description that provides more detail than the name alone. Typically starts with "Emit new". E.g., “Emit new Tweets that matches your search criteria”.
+Enter a short description that provides more detail than the name alone. Typically starts with "Emit new". E.g., “Emit new Tweets that matches your search criteria”.
 
 ### Emit a Summary
 
@@ -261,7 +280,9 @@ Polling sources should emit events on the first run. This helps users to know th
 
 #### Rate Limit Optimization
 
-When building a polling source, cache the most recently processed ID using $.service.db whenever the API accepts a “since_id” (or equivalent). Some apps (e.g., Github) do not count requests that do not return new results against a user’s API quota.
+When building a polling source, cache the most recently processed ID or timestamp using `$.service.db` whenever the API accepts a `since_id` or "since timestamp" (or equivalent). Some apps (e.g., Github) do not count requests that do not return new results against a user’s API quota. 
+
+If the service has a well-supported Node.js client library, it'll often build in retries for issues like rate limits, so using the client lib (when available) should be preferred. In the absence of that, [Bottleneck](https://www.npmjs.com/package/bottleneck) can be useful for managing rate limits. 429s should be handled with exponential backoff (instead of just letting the error bubble up).
 
 ### Webhook Sources
 
