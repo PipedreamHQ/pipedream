@@ -4,10 +4,102 @@ module.exports = {
   type: "app",
   app: "slack",
   propDefinitions: {
-    conversation: {
+    publicChannel: {
       type: "string",
       label: "Channel",
       //description: "Select one or more channels or DM conversations to monitor for new messages.",
+      async options({ prevContext }) {
+        let { types, cursor, userNames } = prevContext
+        if (types == null) {
+          const scopes = await this.scopes()
+          types = ["public_channel"]
+        }
+        const resp = await this.availableConversations(types.join(), cursor)
+        return {
+          options: resp.conversations.map((c) => {
+            if (c.is_im) {
+              return { label: `Direct messaging with: @${userNames[c.user]}`, value: c.id }
+            } else if (c.is_mpim) {
+              return { label: c.purpose.value, value: c.id }
+            } else {
+              return { label: `${c.name}`, value: c.id }
+            }
+          }),
+          context: { types, cursor: resp.cursor, userNames },
+        }
+      },
+    },
+    privateChannel: {
+      type: "string",
+      label: "Channel",
+      //description: "Select one or more channels or DM conversations to monitor for new messages.",
+      async options({ prevContext }) {
+        let { types, cursor, userNames } = prevContext
+        if (types == null) {
+          const scopes = await this.scopes()
+          types = ["private_channel"]
+        }
+        const resp = await this.availableConversations(types.join(), cursor)
+        return {
+          options: resp.conversations.map((c) => {
+            return { label: `${c.name}`, value: c.id }
+          }),
+          context: { types, cursor: resp.cursor, userNames },
+        }
+      },
+    },
+    user: {
+      type: "string",
+      label: "User",
+      //description: "Select one or more channels or DM conversations to monitor for new messages.",
+      async options({ prevContext }) {
+        let { types, cursor, userNames } = prevContext
+        if (types == null) {
+          const scopes = await this.scopes()
+          types = ["im"]
+          // TODO use paging
+          userNames = {}
+          for (const user of (await this.users()).users) {
+            userNames[user.id] = user.name
+          }
+        }
+        const resp = await this.availableConversations(types.join(), cursor)
+        return {
+          options: resp.conversations.map((c) => {
+            return { label: `@${userNames[c.user]}`, value: c.id }
+          }),
+          context: { types, cursor: resp.cursor, userNames },
+        }
+      },
+    },
+    group: {
+      type: "string",
+      label: "Group",
+      //description: "Select one or more channels or DM conversations to monitor for new messages.",
+      async options({ prevContext }) {
+        let { types, cursor, userNames } = prevContext
+        if (types == null) {
+          const scopes = await this.scopes()
+          types = ["mpim"]
+          // TODO use paging
+          userNames = {}
+          for (const user of (await this.users()).users) {
+            userNames[user.id] = user.name
+          }
+        }
+        const resp = await this.availableConversations(types.join(), cursor)
+        return {
+          options: resp.conversations.map((c) => {
+            return { label: c.purpose.value, value: c.id }
+          }),
+          context: { types, cursor: resp.cursor, userNames },
+        }
+      },
+    },
+    conversation: {
+      type: "string",
+      label: "Channel",
+      description: "Select a public or private channel, or a user or group to direct message (DM).",
       async options({ prevContext }) {
         let { types, cursor, userNames } = prevContext
         if (types == null) {
