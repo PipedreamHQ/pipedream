@@ -234,7 +234,7 @@ module.exports = {
       tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
       tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
       tweet.url = `https://twitter.com/${tweet.user.screen_name}/statuses/${tweet.id_str}`
-      if(tweet.user) { tweet.user.profile_url = `https://twitter.com/${tweet.user.screen_name}/` }
+      if(tweet.user) tweet.user.profile_url = `https://twitter.com/${tweet.user.screen_name}/`
       return tweet
     },
     async getFollowers(screen_name) {
