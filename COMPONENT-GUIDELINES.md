@@ -28,8 +28,8 @@ Components are [Node.js modules](COMPONENT-API.md#component-structure) that run 
 
 ### Actions
 
-- May be used as steps in workflows to perform common functions (e.g., get or modify data in an app)
-- Data returned by actions may be inspected and used in future workflow steps
+- May be used as [steps]((https://pipedream.com/docs/workflows/steps/)) in [workflows](https://pipedream.com/docs/workflows/) to perform common functions (e.g., get or modify data in an app)
+- [Data returned by actions](https://pipedream.com/docs/workflows/steps/#step-exports) may be inspected and used in future workflow steps
 
 ## Pipedream Registry
 
