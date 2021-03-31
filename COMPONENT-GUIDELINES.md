@@ -41,13 +41,13 @@ The Pipedream registry consists of sources and actions that have been curated fo
 
 Registered components also appear in the Pipedream marketplace and are listed in Pipedream's UI when building workflows.
 
-## Prerequisites
+# Getting Started
 
-**If you're new to Pipedream, we also recommend watching this [5 minute demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8).**
+**If you're new to Pipedream, we recommend watching this [5 minute demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8).**
 
 If you're ready to build a component for the Pipedream registry, we recommend starting with our [Quickstart Guide](QUICKSTART.md) and then reviewing the [Component API Reference](COMPONENT-API.md).  
 
-You will also need the following:
+## Prerequisites
 
 - A free [Pipedream](https://pipedream.com) account 
 - A free [Github](https://github.com) account
@@ -256,7 +256,7 @@ Create subscription webhooks sources (vs polling sources) whenever possible. Web
 ### Source Name
 
 Source name should be a singular, title-cased name and should start with "New" (unless emits are not limited to new items). Name should not be slugified and should not include the app name. 
-NOTE: Pipedream does not currently distinguish real-time event sources for end-users automatically. The current pattern to identify a real-time event source is to include “(Instant)” in the source name. This will change in the future. E.g., “New Search Mention” or “New Submission (Instant)”.
+NOTE: Pipedream does not currently distinguish real-time event sources for end-users automatically. The current pattern to identify a real-time event source is to include “(Instant)” in the source name. E.g., “New Search Mention” or “New Submission (Instant)”.
 
 ### Source Description 
 
@@ -270,7 +270,7 @@ If no sensible summary can be identified, submit the event payload in string for
 
 ### Deduping
 
-Use built-in deduping strategies whenever possible (unique, greatest, last) vs developing custom deduping code. Develop custom deduping code if the existing strategies do not support the requirements for a source.
+Use built-in [deduping strategies](COMPONENT-API.md#dedupe-strategies) whenever possible (`unique`, `greatest`, `last`) vs developing custom deduping code. Develop custom deduping code if the existing strategies do not support the requirements for a source.
 
 ### Polling Sources 
 
