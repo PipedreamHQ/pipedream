@@ -35,6 +35,8 @@ module.exports = {
       description:
         "If set to all, all existing links or comments, before applying dedupe strategy, will be considered to be emitted. Otherwise, the indicated time frame will be used for getting links or comments.",
       options: ["hour", "day", "week", "month", "year", "all"],
+      default: "all",
+      optional: true,
     },
     includeSubredditDetails: {
       type: "boolean",
@@ -51,10 +53,6 @@ module.exports = {
     },
     _apiUrl() {
       return `https://oauth.reddit.com`;
-    },
-    _wereThingsPulled(redditThings) {
-      const things = get(redditThings, "data.children");
-      return things && things.length;
     },
     async _makeRequest(opts) {
       if (!opts.headers) opts.headers = {};
@@ -90,21 +88,21 @@ module.exports = {
       }, retryOpts);
     },
     /**
-    * This method retrieves the most recent new hot subreddit posts. The
-    * returned dataset contains at most `opts.limit` entries.
-    *
-    * @param {object}  opts options to customise the data retrieval
-    * @param {string}  opts.subreddit the subreddit from which to retrieve the
-    * hot posts
-    * @param {enum}    opts.region the region from where to retrieve the hot
-    * posts (e.g. `GLOBAL`, `US`, `AR`, etc.). See the `g` parameter in the
-    * docs for more information: https://www.reddit.com/dev/api/#GET_hot
-    * @param {boolean} [opts.excludeFilters=false] if set to `true`, filters
-    * such as "hide links that I have voted on" will be disabled
-    * @param {boolean} [opts.includeSubredditDetails=false] whether the
-    * subreddit details should be expanded/included or not
-    * @param {number}  [opts.limit=100] the maximum amount of posts to retrieve
-    */
+     * This method retrieves the most recent new hot subreddit posts. The
+     * returned dataset contains at most `opts.limit` entries.
+     *
+     * @param {object}  opts options to customise the data retrieval
+     * @param {string}  opts.subreddit the subreddit from which to retrieve the
+     * hot posts
+     * @param {enum}    opts.region the region from where to retrieve the hot
+     * posts (e.g. `GLOBAL`, `US`, `AR`, etc.). See the `g` parameter in the
+     * docs for more information: https://www.reddit.com/dev/api/#GET_hot
+     * @param {boolean} [opts.excludeFilters=false] if set to `true`, filters
+     * such as "hide links that I have voted on" will be disabled
+     * @param {boolean} [opts.includeSubredditDetails=false] whether the
+     * subreddit details should be expanded/included or not
+     * @param {number}  [opts.limit=100] the maximum amount of posts to retrieve
+     */
     async getNewHotSubredditPosts(
       subreddit,
       region,
@@ -119,25 +117,24 @@ module.exports = {
       params["g"] = region;
       params["sr_detail"] = includeSubredditDetails;
       params["limit"] = limit;
-      return await this._withRetries(
-        () => this._makeRequest({
+      return await this._withRetries(() =>
+        this._makeRequest({
           path: `/r/${subreddit}/hot`,
           params,
         })
-      );      
-
+      );
     },
     async getNewSubredditLinks(before, subreddit, limit = 100) {
       const params = {
         before,
         limit,
       };
-      return await this._withRetries(
-        () => this._makeRequest({
+      return await this._withRetries(() =>
+        this._makeRequest({
           path: `/r/${subreddit}/new`,
           params,
         })
-      );      
+      );
     },
     async getNewSubredditComments(
       subreddit,
@@ -158,8 +155,8 @@ module.exports = {
         threaded: true,
         trucate: 0,
       };
-      const [redditArticle, redditComments] =  await this._withRetries(
-        () => this._makeRequest({
+      const [redditArticle, redditComments] = await this._withRetries(() =>
+        this._makeRequest({
           path: `/r/${subreddit}/comments/article`,
           params,
         })
@@ -184,8 +181,8 @@ module.exports = {
         sr_detail: includeSubredditDetails,
         limit,
       };
-      return await this._withRetries(
-        () => this._makeRequest({
+      return await this._withRetries(() =>
+        this._makeRequest({
           path: `/user/${username}/submitted`,
           params,
         })
@@ -209,14 +206,14 @@ module.exports = {
         sr_detail: includeSubredditDetails,
         limit,
       };
-      return await this._withRetries(
-        () => this._makeRequest({
+      return await this._withRetries(() =>
+        this._makeRequest({
           path: `/user/${username}/comments`,
           params,
         })
       );
     },
-    async searchSubreddits(after, query) {
+    async searchSubreddits(after, query = "") {
       const params = {
         after,
         limit: 100,
@@ -226,24 +223,24 @@ module.exports = {
         sr_detail: false,
         typeahead_active: false,
       };
-      const subreddits = await this._makeRequest({
-        path: `/subreddits/search`,
-        params,
-      });
-      const thingsPulled = this._wereThingsPulled(subreddits);
-      return thingsPulled ? subreddits.data.children : null;
+      const redditCommunities = await this._withRetries(() =>
+        this._makeRequest({
+          path: `/subreddits/search`,
+          params,
+        })
+      );
     },
     async getAllSearchSubredditsResults(query) {
-      let after = null;
       const results = [];
+      let after = null;
       do {
-        const subreddits = await this.searchSubreddits(after, query);
-        if (!subreddits) {
-          console.log("No data available, skipping itieration");
+        const redditCommunities = await this.searchSubreddits(after, query);
+        if (!redditCommunities) {
           break;
         }
-        after = subreddits[subreddits.length - 1].data.name;
-        subreddits.forEach((subreddit) => {
+        const { children: communities = [] } = redditCommunities.data;
+        after = communities[communities.length - 1].data.name;
+        communities.forEach((subreddit) => {
           const { title, name } = subreddit.data;
           results.push({
             title,

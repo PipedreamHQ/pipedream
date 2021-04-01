@@ -11,7 +11,7 @@ module.exports = {
   props: {
     ...common.props,
     subreddit: {
-      propDefinition: [common.props.reddit, "subreddit"],
+      propDefinition: [reddit, "subreddit"],
     },
   },
   hooks: {
@@ -24,9 +24,9 @@ module.exports = {
       );
       const { children: links = [] } = redditLinks.data;
       if (links.length === 0) {
-        console.log("No data available, skipping itieration");
+        console.log("No data available, skipping iteration");
         return;
-      }      
+      }
       const { name: before = this.db.get("before") } = links[0].data;
       this.db.set("before", before);
       links.reverse().forEach(this.emitRedditEvent);
@@ -43,16 +43,17 @@ module.exports = {
     },
   },
   async run() {
+    let redditLinks;
     do {
-      const redditLinks = await this.reddit.getNewSubredditLinks(
+      redditLinks = await this.reddit.getNewSubredditLinks(
         this.db.get("before"),
         this.subreddit
       );
       const { children: links = [] } = redditLinks.data;
       if (links.length === 0) {
-        console.log("No data available, skipping itieration");
+        console.log("No data available, skipping iteration");
         break;
-      }      
+      }
       const { name: before = this.db.get("before") } = links[0].data;
       this.db.set("before", before);
       links.reverse().forEach(this.emitRedditEvent);
