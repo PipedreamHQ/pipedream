@@ -28,7 +28,7 @@ Help us build an amazing product! Submit [feature requests](https://pipedream.co
 ## Request Apps
 Need an app we don’t support? [Request it](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=[APP])
 
-## Submit Updates Docs
+## Submit Updates to Docs
 See a gap or mistake in our [docs](https://github.com/PipedreamHQ/pipedream/tree/master/docs)? Create a PR to submit an update.
 
 ## Develop Sources and Actions
