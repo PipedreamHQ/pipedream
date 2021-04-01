@@ -1,5 +1,4 @@
 const reddit = require("../reddit.app");
-const get = require("lodash/get");
 
 module.exports = {
   props: {
@@ -18,6 +17,6 @@ module.exports = {
     emitRedditEvent(redditEvent) {
       const metadata = this.generateEventMetadata(redditEvent);
       this.$emit(redditEvent, metadata);
-    }
+    },
   },
 };

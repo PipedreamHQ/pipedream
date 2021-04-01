@@ -8,12 +8,13 @@ module.exports = {
   name: "New hot posts on a subreddit",
   description:
     "Emits an event each time a new hot post is added to the top 10 items in a subreddit.",
-  version: "0.0.1",
+  version: "0.0.22",
   dedupe: "unique",
+  type: "action",
   props: {
     ...common.props,
     subreddit: {
-      propDefinition: [common.props.reddit, "subreddit"],
+      propDefinition: [reddit, "subreddit"],
     },
     region: {
       type: "string",
@@ -22,12 +23,13 @@ module.exports = {
         "Hot posts differ by region, and this refers to the region you'd like to watch for hot posts.",
       options: regionData,
       default: "GLOBAL",
-      optional: false,
+      optional: true,
     },
     excludeFilters: {
       type: "boolean",
       label: "Exclude filters (Show all posts)?",
-      description: "If set to `true`, filters such as \"hide links that I have voted on\" will be disabled",
+      description:
+        'If set to `true`, filters such as "hide links that I have voted on" will be disabled',
       default: false,
       optional: true,
     },
@@ -47,7 +49,7 @@ module.exports = {
       );
       const { children: hotPosts = [] } = redditHotPosts.data;
       if (hotPosts.length === 0) {
-        console.log("No data available, skipping itieration");
+        console.log("No data available, skipping iteration");
         return;
       }
       hotPosts.reverse().forEach(this.emitRedditEvent);
@@ -63,7 +65,7 @@ module.exports = {
       };
     },
   },
-  async run() {    
+  async run() {
     const redditHotPosts = await this.reddit.getNewHotSubredditPosts(
       this.subreddit,
       this.region,
@@ -73,7 +75,7 @@ module.exports = {
     );
     const { children: hotPosts = [] } = redditHotPosts.data;
     if (hotPosts.length === 0) {
-      console.log("No data available, skipping itieration");
+      console.log("No data available, skipping iteration");
       return;
     }
     hotPosts.reverse().forEach(this.emitRedditEvent);
