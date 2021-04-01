@@ -2,7 +2,8 @@ const { google } = require("googleapis");
 const google_drive = require("../google_drive/google_drive.app");
 
 module.exports = {
-  ...google_drive,
+  type: "app",
+  app: "google_sheets",
   propDefinitions: {
     ...google_drive.propDefinitions,
     sheetID: {
