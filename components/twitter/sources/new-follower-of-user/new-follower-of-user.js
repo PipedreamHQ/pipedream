@@ -5,7 +5,7 @@ module.exports = {
   key: "twitter-new-follower-of-user",
   name: "New Follower of User",
   description: "Emit an event when a specific user gains a follower",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     ...base.props,
     screen_name: {
