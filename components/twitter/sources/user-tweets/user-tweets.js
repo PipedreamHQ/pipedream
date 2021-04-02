@@ -5,7 +5,7 @@ module.exports = {
   key: "twitter-user-tweets",
   name: "User Tweets",
   description: "Emit new Tweets posted by a user",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     ...base.props,
     screen_name: {
