@@ -13,7 +13,7 @@ module.exports = {
   ...common,
   name: 'New, Modified or Deleted Records',
   key: 'airtable-new-modified-or-deleted-records',
-  version: '0.0.2',
+  version: '0.0.3',
   description:
     "Emits an event each time a record is added, updated, or deleted in an Airtable table. Supports tables up to 10,000 records",
   props: {
@@ -49,7 +49,7 @@ module.exports = {
       deletedRecordsCount = 0;
 
     if (data.records) {
-      for (let record of data.records) {
+      for (const record of data.records) {
         if (!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
           record.type = 'new_record';
           newRecordsCount++;
@@ -84,12 +84,12 @@ module.exports = {
     }
 
     if (prevAllRecordIds) {
-      let deletedRecordIds = prevAllRecordIds.filter(
+      const deletedRecordIds = prevAllRecordIds.filter(
         prevRecord => !allRecordIds.includes(prevRecord)
       );
-      for (let recordID of deletedRecordIds) {
+      for (const recordID of deletedRecordIds) {
         deletedRecordsCount++;
-        deletedRecordObj = {
+        const deletedRecordObj = {
           metadata,
           type: "record_deleted",
           id: recordID
@@ -107,8 +107,6 @@ module.exports = {
     this.db.set('prevAllRecordIds', allRecordIds);
 
     // We keep track of the timestamp of the current invocation
-    const { timestamp } = event;
-    const formattedTimestamp = new Date(timestamp).toISOString();
-    this.db.set("lastTimestamp", formattedTimestamp);
+    this.updateLastTimestamp(event);
   },
 };

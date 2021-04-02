@@ -5,7 +5,7 @@ module.exports = {
   key: "twitter-search-mentions",
   name: "Search Mentions",
   description: "Emit new Tweets that matches your search criteria",
-  version: "0.0.2",
+  version: "0.0.4",
   props: {
     db: "$.service.db",
     twitter,
