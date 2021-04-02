@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.8",
+  version: "0.0.11",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -16,7 +16,7 @@ module.exports = {
         common.props.google_sheets,
         "sheetID",
         (c) => ({
-          watchedDrive: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
+          driveId: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
         }),
       ],
     },
@@ -119,13 +119,13 @@ module.exports = {
       );
       return { oldValues, currentValues };
     },
-    async takeSheetSnapshot() {
+    async takeSheetSnapshot(offset = 0) {
       // Initialize sheet values
       const sheetId = this.getSheetId();
       const worksheetIds = this.getWorksheetIds();
       const sheetValues = await this.google_sheets.getSheetValues(
         sheetId,
-        worksheetIds
+        worksheetIds,
       );
       for (const sheetVal of sheetValues) {
         const { values, worksheetId } = sheetVal;
@@ -133,7 +133,9 @@ module.exports = {
           continue;
         }
 
-        this.db.set(`${sheetId}${worksheetId}`, values);
+        const offsetLength = Math.max(values.length - offset, 0);
+        const offsetValues = values.slice(0, offsetLength);
+        this.db.set(`${sheetId}${worksheetId}`, offsetValues);
       }
     },
     async processSpreadsheet(spreadsheet) {

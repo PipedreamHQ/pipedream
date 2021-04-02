@@ -5,7 +5,7 @@ module.exports = {
   name: "New Follower (Instant)",
   key: "twitch-new-follower",
   description: "Emits an event when a new user follows your channel.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     async getTopics() {
@@ -13,8 +13,8 @@ module.exports = {
       const { data } = await this.twitch.getUsers();
       return [`users/follows?first=1&to_id=${data[0].id}`];
     },
-    getMeta(data, headers) {
-      const { followed_at: followedAt, from_name: summary } = data[0];
+    getMeta(item, headers) {
+      const { followed_at: followedAt, from_name: summary } = item;
       const ts = new Date(followedAt).getTime();
       return {
         id: headers["twitch-notification-id"],

@@ -6,7 +6,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.8",
+  version: "0.0.11",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -15,7 +15,7 @@ module.exports = {
         common.props.google_sheets,
         "sheetID",
         (c) => ({
-          watchedDrive: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
+          driveId: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
         }),
       ],
     },
@@ -70,17 +70,18 @@ module.exports = {
           {}
         );
     },
-    async takeSheetSnapshot() {
+    async takeSheetSnapshot(offset = 0) {
       // Initialize row counts (used to keep track of new rows)
       const sheetId = this.getSheetId();
       const worksheetIds = this.getWorksheetIds();
       const worksheetRowCounts = await this.google_sheets.getWorksheetRowCounts(
         sheetId,
-        worksheetIds
+        worksheetIds,
       );
       for (const worksheetRowCount of worksheetRowCounts) {
         const { rowCount, worksheetId } = worksheetRowCount;
-        this.db.set(`${sheetId}${worksheetId}`, rowCount);
+        const offsetRowCount = Math.max(rowCount - offset, 0);
+        this.db.set(`${sheetId}${worksheetId}`, offsetRowCount);
       }
     },
     async processSpreadsheet(spreadsheet) {

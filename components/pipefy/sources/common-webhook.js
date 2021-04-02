@@ -27,8 +27,11 @@ module.exports = {
         url: this.http.endpoint,
         actions: this.getActions(),
       };
-      const response = await this.pipefy.createHook(input);
-      this.db.set("hookId", response.webhook.id);
+      const { webhook } = await this.pipefy.createHook(input);
+      if (webhook)
+        this.db.set("hookId", webhook.id);
+      else
+        throw new Error("Could not create webhook. In order to create Pipefy triggers in Pipedream, you will need to be a Pipefy administrator.");
     },
     async deactivate() {
       await this.pipefy.deleteHook(this.db.get("hookId"));

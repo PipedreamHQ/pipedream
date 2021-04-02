@@ -13,11 +13,12 @@ The only pre-requisite to use this event source is for users to provide a valid
 [API key](https://api.txtlocal.com/docs/).
 
 To set up the TextLocal API Key, go to the [Pipedream
-Apps](https://pipedream.com/apps) page, and click on the **CONNECT AN APP**
-button. Look for the **TextLocal** app, and click on it. Under the `api_key`
-field, enter the API key corresponding to your TextLocal account (available in
-your [account's settings](https://control.txtlocal.co.uk/settings/apikeys/)).
-Give this API key a nickname (optional), and click on **SAVE**.
+Accounts](https://pipedream.com/accounts) page, and click on the **CONNECT AN
+APP** button. Look for the **TextLocal** app, and click on it. Under the
+`api_key` field, enter the API key corresponding to your TextLocal account
+(available in your [account's
+settings](https://control.txtlocal.co.uk/settings/apikeys/)). Give this API key
+a nickname (optional), and click on **SAVE**.
 
 ## Usage
 

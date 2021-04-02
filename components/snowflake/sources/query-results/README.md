@@ -18,9 +18,9 @@ Users can also provide a field/column name to use for de-duplication purposes.
 ## Prerequisites
 
 To set up your Snowflake credentials, go to the [Pipedream
-Apps](https://pipedream.com/apps) page, and click on the **CONNECT AN APP**
-button. Look for the **Snowflake** app, and click on it. Fill in every field
-required in the form, and click on **SAVE**.
+Accounts](https://pipedream.com/accounts) page, and click on the **CONNECT AN
+APP** button. Look for the **Snowflake** app, and click on it. Fill in every
+field required in the form, and click on **SAVE**.
 
 ## Usage
 
@@ -43,16 +43,18 @@ required in the form, and click on **SAVE**.
 
 As an example, let's assume the user provides `ID` as a de-duplication field,
 and it also provided the following query:
+
 ```sql
 SELECT * FROM MyTable
 ```
 
 The results for such query could be:
-```
-ID	FIRSTNAME	LASTNAME
-101	TestUser	One
-102	TestUser	Two
-103	TestUser	Three
+
+```csv
+ID    FIRSTNAME   LASTNAME
+101   TestUser    One
+102   TestUser    Two
+103   TestUser    Three
 ```
 
 The event source would issue 3 events with ID's set to `101`, `102` and `103`,

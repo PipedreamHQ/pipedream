@@ -1,55 +1,58 @@
-const github = require("../../github.app.js");
+const common = require("../common-polling.js");
 
 module.exports = {
+  ...common,
   key: "github-new-mention",
   name: "New Mention",
-  description: "Emit an event when you are @mentioned in a new commit, comment, issue or pull request",
-  version: "0.0.1",
-  props: {
-    github,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 5,
-      },
-    },
-    db: "$.service.db",
-  },
+  description:
+    "Emit an event when you are @mentioned in a new commit, comment, issue or pull request",
+  version: "0.0.2",
   hooks: {
     async activate() {
-      const user = await this.github.getUser()
-      this.db.set("login", user.login)
+      const user = await this.github.getUser();
+      this.db.set("login", user.login);
     },
   },
   dedupe: "greatest",
+  methods: {
+    ...common.methods,
+    generateMeta(data) {
+      const ts = new Date(data.updated_at).getTime();
+      return {
+        id: data.updated_at,
+        summary: data.body,
+        ts,
+      };
+    },
+  },
   async run(event) {
-    const since = this.db.get("since")
-    const login = this.db.get("login")
+    const since = this.db.get("since");
+    const login = this.db.get("login");
 
-    const notifications = await this.github.getNotifications({
-      participating: true,
-      since,
-    })
+    const mentions = await this.getFilteredNotifications(
+      { participating: true, since },
+      "mention"
+    );
 
-    const mentions = notifications.filter(notification => notification.reason === 'mention')
-    let maxDate = since
-    for(let i = 0; i < mentions.length; i++) {
-      if(!maxDate || new Date(mentions[i].updated_at) > new Date(maxDate)) {
-        maxDate = mentions[i].updated_at
+    let maxDate = since;
+    for (const mention of mentions) {
+      if (!maxDate || new Date(mention.updated_at) > new Date(maxDate)) {
+        maxDate = mention.updated_at;
       }
-      const comment = await this.github.getUrl({ url: mentions[i].subject.latest_comment_url })
+
+      if (mention.subject.latest_comment_url == null) continue;
+      const comment = await this.github.getUrl({
+        url: mention.subject.latest_comment_url,
+      });
 
       if (comment.body.indexOf(`@${login}`) > -1) {
-        this.$emit(comment, {
-          summary: comment.body,
-          ts: comment.updated_at && +new Date(comment.updated_at),
-          id: comment.updated_at && +new Date(comment.updated_at),
-        })
+        const meta = this.generateMeta(comment);
+        this.$emit(comment, meta);
       }
     }
 
     if (maxDate !== since) {
-      this.db.set("since", maxDate)
+      this.db.set("since", maxDate);
     }
   },
 };

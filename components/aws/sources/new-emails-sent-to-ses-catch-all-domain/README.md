@@ -42,7 +42,10 @@ The source subscribes to all emails delivered to a specific domain configured in
 
 Keep the AWS access key and secret key that AWS generates for this user for the next step.
 
-4. Visit [https://pipedream.com/apps](https://pipedream.com/apps) and click the button labeled **Click Here to Connect An App**. Search for "AWS" in the modal that appears, select the **AWS** app, and enter the access and secret key from the previous step.
+4. Visit the [Pipedream Accounts](https://pipedream.com/accounts) page and click
+   the button labeled **CONNECT AN APP**. Search for "AWS" in the modal that
+   appears, select the **AWS** app, and enter the access and secret key from the
+   previous step.
 
 ## Usage
 

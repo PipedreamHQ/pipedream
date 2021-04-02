@@ -8,7 +8,7 @@ module.exports = {
   name: "New Records in View",
   description: "Emit an event for each new record in a view",
   key: "airtable-new-records-in-view",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ...common.props,
     tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
@@ -45,7 +45,7 @@ module.exports = {
 
     let maxTimestamp
     let recordCount = 0
-    for (let record of data.records) {
+    for (const record of data.records) {
       record.metadata = metadata
 
       this.$emit(record, {

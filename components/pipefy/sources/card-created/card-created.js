@@ -5,7 +5,7 @@ module.exports = {
   name: "Card Created (Instant)",
   key: "pipefy-card-created",
   description: "Emits an event for each new card created in a Pipe.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     getActions() {

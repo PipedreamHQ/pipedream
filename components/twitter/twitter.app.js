@@ -1,6 +1,8 @@
 const axios = require('axios')
+const get = require("lodash/get")
+const { DateTime } = require("luxon")
 const querystring = require('querystring')
-const moment = require('moment')
+const retry = require("async-retry")
 
 module.exports = {
   type: "app",
@@ -85,7 +87,7 @@ module.exports = {
     enrichTweets: {
       type: "boolean",
       label: "Enrich Tweets",
-      description: "Enrich each tweet with epoch (milliseconds) and ISO8601 conversions of Twitter's `created_at` timestamp.",
+      description: "Enrich each Tweet with epoch (milliseconds) and ISO 8601 representations of Twitter's `created_at` timestamp, the Tweet URL, and the profile URL for the author.",
       optional: true,
       default: true,
     },
@@ -143,6 +145,18 @@ module.exports = {
         })
       },
     },
+    includeEntities: {
+      type: "boolean",
+      label: "Entities",
+      description: "The tweet 'entities' node will not be included when set to false",
+      default: false,
+    },
+    includeUserEntities: {
+      type: "boolean",
+      label: "User Entities",
+      description: "The user 'entities' node will not be included when set to false",
+      default: false,
+    },
   },
   methods: {
     async _getAuthorizationHeader({ data, method, url }) {
@@ -164,7 +178,43 @@ module.exports = {
         }
       })).data
     },
-    async _makeRequest(config, attempt = 0) {
+    _isRetriableStatusCode(statusCode) {
+      // Taken from the Twitter API docs:
+      // https://developer.twitter.com/en/docs/twitter-ads-api/response-codes
+      return [
+        423,  // LOCK_ACQUISITION_TIMEOUT
+        429,  // TOO_MANY_REQUESTS | TWEET_RATE_LIMIT_EXCEEDED
+        500,  // INTERNAL_ERROR
+        503,  // SERVICE_UNAVAILABLE | OVER_CAPACITY
+      ].includes(statusCode);
+    },
+    async _withRetries(apiCall) {
+      const retryOpts = {
+        retries: 2,
+        factor: 2,
+        minTimeout: 2000, // In milliseconds
+      };
+      return retry(async (bail, retryCount) => {
+        try {
+          return await apiCall();
+        } catch (err) {
+          const statusCode = get(err, ["response", "status"]);
+          if (!this._isRetriableStatusCode(statusCode)) {
+            const errData = get(err, ["response", "data"], {});
+            return bail(new Error(`
+              Unexpected error (status code: ${statusCode}):
+              ${JSON.stringify(errData, null, 2)}
+            `));
+          }
+
+          console.log(`
+            [Attempt #${retryCount}] Temporary error: ${err.message}
+          `);
+          throw err;
+        }
+      }, retryOpts);
+    },
+    async _makeRequest(config) {
       if (!config.headers) config.headers = {}
       if (config.params) {
         const query = querystring.stringify(config.params)
@@ -189,7 +239,28 @@ module.exports = {
         }
       }
       config.headers.authorization = authorization
-      return axios(config)
+
+      return this._withRetries(
+        () => axios(config),
+      );
+    },
+    parseDate(dateStr) {
+      // More info on the parsing tokens:
+      // https://moment.github.io/luxon/docs/manual/parsing.html#table-of-tokens
+      return DateTime.fromFormat(dateStr, "EEE MMM dd HH:mm:ss ZZZ yyyy")
+    },
+    /**
+    * Enrich a Tweet object with ISO 8601 and timestamp (in milliseconds) representations of the `created_at` date/time, Tweet URL and user profile URL.
+    * @params {Object} tweet - An object representing a single Tweet as returned by Twitter's API
+    * @returns {Object} An enriched Tweet object is returned.
+    */
+    enrichTweet(tweet) {
+      const parsedDate = this.parseDate(tweet.created_at)
+      tweet.created_at_timestamp = parsedDate.valueOf()
+      tweet.created_at_iso8601 = parsedDate.toISO()
+      tweet.url = `https://twitter.com/${tweet.user.screen_name}/statuses/${tweet.id_str}`
+      if(tweet.user) tweet.user.profile_url = `https://twitter.com/${tweet.user.screen_name}/`
+      return tweet
     },
     async getFollowers(screen_name) {
       return (await this._makeRequest({
@@ -200,7 +271,7 @@ module.exports = {
         }
       })).data.ids
     },
-    async *getAllFollowers(screenName) {
+    async *scanFollowerIds(screenName) {
       const url = `https://api.twitter.com/1.1/followers/ids.json?`;
       const baseParams = {
         screen_name: screenName,
@@ -240,6 +311,34 @@ module.exports = {
           previous_cursor: prevCursor,
         } = data);
       }
+    },
+    async getLists() {
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/lists/list.json`,
+      })).data
+    },
+    async getListTweets(opts = {}) {
+      const {
+        list_id,
+        count,
+        since_id = "1",
+        includeEntities = false,
+        includeRetweets = false,
+      } = opts;
+      const url = "https://api.twitter.com/1.1/lists/statuses.json?";
+      const params = {
+        list_id,
+        since_id,
+        count,
+        include_entities: includeEntities,
+        include_rts: includeRetweets,
+      };
+      const config = {
+        url,
+        params,
+      };
+      const { data } = await this._makeRequest(config);
+      return data;
     },
     async getLikedTweets(opts = {}) {
       const {
@@ -323,6 +422,47 @@ module.exports = {
         params,
       })).data
     },
+    async getRetweets(opts = {}) {
+      const {
+        id,
+        count = 100,
+        since_id = '1',
+      } = opts
+
+      const params = {
+        count,
+        trim_user: false,
+        since_id,
+      }
+
+      return (await this._makeRequest({
+        url: `https://api.twitter.com/1.1/statuses/retweets/${id}.json`,
+        method: 'get',
+        params,
+      })).data
+    },
+    async getRetweetsOfMe(opts = {}) {
+      const {
+        count = 100,
+        since_id = '1',
+        include_entities = false,
+        include_user_entities = false,
+      } = opts
+
+      const params = {
+        count,
+        since_id,
+        trim_user: false,
+        include_entities,
+        include_user_entities,
+      }
+
+      return (await this._makeRequest({
+        url: "https://api.twitter.com/1.1/statuses/retweets_of_me.json",
+        method: 'get',
+        params,
+      })).data
+    },
     async searchHelper(opts = {}) {
       const tweets = []
 
@@ -330,7 +470,7 @@ module.exports = {
         tweet_mode = 'extended',
         result_type,
         count = 100,
-        lang,
+        lang = [],
         locale,
         geocode,
         enrichTweets = true,
@@ -357,13 +497,13 @@ module.exports = {
         }
       }
 
-      for (let tweet of response.data.statuses) {
+      for (const tweet of response.data.statuses) {
         if ((!since_id || (since_id && tweet.id_str !== since_id)) && (!max_id || (max_id && tweet.id_str !== max_id))) {
           if (enrichTweets) {
-            tweet.created_at_timestamp = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf()
-            tweet.created_at_iso8601 = moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').toISOString()
+            tweets.push(this.enrichTweet(tweet))
+          } else {
+            tweets.push(tweet)
           }
-          tweets.push(tweet)
           if (!max_id || tweet.id_str > max_id) {
             max_id = tweet.id_str
             if(!min_id) {
