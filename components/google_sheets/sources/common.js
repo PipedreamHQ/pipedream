@@ -181,7 +181,7 @@ module.exports = {
      * This method scans the worksheets indicated by the user to retrieve the
      * current row count of each one, and cache those values.
      *
-     * @param {number} [offset] When present, the row count that gets cached
+     * @param {number} [offset=0] When present, the row count that gets cached
      * will be reduced by this amount (useful for example to force an event
      * source to interpret the last rows as new).
      */
