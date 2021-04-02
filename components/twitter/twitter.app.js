@@ -87,7 +87,7 @@ module.exports = {
     enrichTweets: {
       type: "boolean",
       label: "Enrich Tweets",
-      description: "Enrich each tweet with epoch (milliseconds) and ISO8601 conversions of Twitter's `created_at` timestamp.",
+      description: "Enrich each Tweet with epoch (milliseconds) and ISO 8601 representations of Twitter's `created_at` timestamp, the Tweet URL, and the profile URL for the author.",
       optional: true,
       default: true,
     },
@@ -242,6 +242,19 @@ module.exports = {
       // More info on the parsing tokens:
       // https://moment.github.io/luxon/docs/manual/parsing.html#table-of-tokens
       return DateTime.fromFormat(dateStr, "EEE MMM dd HH:mm:ss ZZZ yyyy")
+    },
+    /**
+    * Enrich a Tweet object with ISO 8601 and timestamp (in milliseconds) representations of the `created_at` date/time, Tweet URL and user profile URL.
+    * @params {Object} tweet - An object representing a single Tweet as returned by Twitter's API
+    * @returns {Object} An enriched Tweet object is returned.
+    */
+    enrichTweet(tweet) {
+      const parsedDate = this.parseDate(tweet.created_at)
+      tweet.created_at_timestamp = parsedDate.valueOf()
+      tweet.created_at_iso8601 = parsedDate.toISO()
+      tweet.url = `https://twitter.com/${tweet.user.screen_name}/statuses/${tweet.id_str}`
+      if(tweet.user) tweet.user.profile_url = `https://twitter.com/${tweet.user.screen_name}/`
+      return tweet
     },
     async getFollowers(screen_name) {
       return (await this._makeRequest({
@@ -481,11 +494,10 @@ module.exports = {
       for (const tweet of response.data.statuses) {
         if ((!since_id || (since_id && tweet.id_str !== since_id)) && (!max_id || (max_id && tweet.id_str !== max_id))) {
           if (enrichTweets) {
-            const parsedDate = this.parseDate(tweet.created_at)
-            tweet.created_at_timestamp = parsedDate.valueOf()
-            tweet.created_at_iso8601 = parsedDate.toISO()
+            tweets.push(this.enrichTweet(tweet))
+          } else {
+            tweets.push(tweet)
           }
-          tweets.push(tweet)
           if (!max_id || tweet.id_str > max_id) {
             max_id = tweet.id_str
             if(!min_id) {

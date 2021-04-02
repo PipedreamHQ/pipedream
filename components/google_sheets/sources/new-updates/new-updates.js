@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   props: {
     ...common.props,
