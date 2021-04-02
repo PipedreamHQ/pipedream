@@ -11,14 +11,6 @@ module.exports = {
     ...common.props,
     lists: { propDefinition: [common.props.hubspot, "lists"] },
   },
-  hooks: {
-    async deploy() {
-      // By default, only a limited set of properties are returned from the API.
-      // Get all possible contact properties to request for each contact.
-      const properties = await this.hubspot.createPropertiesArray();
-      this.db.set("properties", properties);
-    },
-  },
   methods: {
     ...common.methods,
     generateMeta(contact, list) {

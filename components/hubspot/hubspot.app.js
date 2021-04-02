@@ -9,10 +9,10 @@ module.exports = {
       label: "Lists",
       description: "Select the lists to watch for new contacts.",
       async options(prevContext) {
-        const { offset } = prevContext;
+        const { offset = 0 } = prevContext;
         const params = {
           count: 250,
-          offset: offset || 0,
+          offset,
         };
         const results = await this.getLists(params);
         const options = results.map((result) => {
@@ -96,7 +96,7 @@ module.exports = {
               label = properties.subject;
               break;
           }
-          return { label, value: JSON.stringify({ label, value: id }) };
+          return { label, value: id };
         });
         return options;
       },
@@ -152,9 +152,7 @@ module.exports = {
       };
       return (await axios(config)).data;
     },
-    async searchCRM(data) {
-      const { object } = data;
-      delete data.object;
+    async searchCRM({ object, ...data }) {
       const config = {
         method: "POST",
         url: `${this._getBaseURL()}/crm/v3/objects/${object}/search`,

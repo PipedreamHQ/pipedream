@@ -7,6 +7,7 @@ module.exports = {
   description: "Emits an event for each new deal in a stage.",
   version: "0.0.2",
   dedupe: "unique",
+  hooks: {},
   props: {
     ...common.props,
     stages: { propDefinition: [common.props.hubspot, "stages"] },
@@ -33,8 +34,7 @@ module.exports = {
     },
   },
   async run(event) {
-    const updatedAfter =
-      this.db.get("updatedAfter") || Date.parse(this.hubspot.monthAgo());
+    const updatedAfter = this._getAfter();
 
     for (let stage of this.stages) {
       stage = JSON.parse(stage);
@@ -65,6 +65,6 @@ module.exports = {
       );
     }
 
-    this.db.set("updatedAfter", Date.now());
+    this._setAfter(Date.now());
   },
 };

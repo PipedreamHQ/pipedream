@@ -18,6 +18,7 @@ module.exports = {
       ],
     },
   },
+  hooks: {},
   methods: {
     ...common.methods,
     generateMeta(result) {
@@ -28,24 +29,15 @@ module.exports = {
         ts: Date.now(),
       };
     },
-    emitEvent(result) {
-      const meta = this.generateMeta(result);
-      this.$emit(result, meta);
-    },
-    isRelevant(result, occurredAfter) {
-      return true;
-    },
   },
   async run(event) {
-    const occurredAfter =
-      this.db.get("occurredAfter") || Date.parse(this.hubspot.monthAgo());
+    const occurredAfter = this._getAfter();
 
-    for (let objectId of this.objectIds) {
-      objectId = JSON.parse(objectId);
+    for (const objectId of this.objectIds) {
       const params = {
         limit: 100,
         objectType: this.objectType,
-        objectId: objectId.value,
+        objectId,
         occurredAfter,
       };
 
@@ -57,6 +49,6 @@ module.exports = {
       );
     }
 
-    this.db.set("occurredAfter", Date.now());
+    this._setAfter(Date.now());
   },
 };

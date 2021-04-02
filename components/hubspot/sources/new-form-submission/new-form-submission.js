@@ -11,6 +11,7 @@ module.exports = {
     ...common.props,
     forms: { propDefinition: [common.props.hubspot, "forms"] },
   },
+  hooks: {},
   methods: {
     ...common.methods,
     generateMeta(result) {
@@ -22,31 +23,33 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(result) {
-      const meta = this.generateMeta(result);
-      this.$emit(result, meta);
-    },
     isRelevant(result, submittedAfter) {
       return result.submittedAt > submittedAfter;
     },
   },
   async run(event) {
-    const submittedAfter =
-      this.db.get("submittedAfter") || Date.parse(this.hubspot.monthAgo());
-    const params = {
+    const submittedAfter = this._getAfter();
+    const baseParams = {
       limit: 50,
     };
-    for (let form of this.forms) {
-      form = JSON.parse(form);
-      params.formId = form.value;
-      await this.paginate(
-        params,
-        this.hubspot.getFormSubmissions.bind(this),
-        "results",
-        submittedAfter
-      );
-    }
 
-    this.db.set("submittedAfter", Date.now());
+    await Promise.all(
+      this.forms
+        .map(JSON.parse)
+        .map(({ value }) => ({
+          ...baseParams,
+          formId: value,
+        }))
+        .map((params) =>
+          this.paginate(
+            params,
+            this.hubspot.getFormSubmissions.bind(this),
+            "results",
+            submittedAfter
+          )
+        )
+    );
+
+    this._setAfter(Date.now());
   },
 };

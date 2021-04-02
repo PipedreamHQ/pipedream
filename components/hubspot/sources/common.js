@@ -11,7 +11,21 @@ module.exports = {
       },
     },
   },
+  hooks: {
+    async deploy() {
+      // By default, only a limited set of properties are returned from the API.
+      // Get all possible contact properties to request for each contact.
+      const properties = await this.hubspot.createPropertiesArray();
+      this.db.set("properties", properties);
+    },
+  },
   methods: {
+    _getAfter() {
+      return this.db.get("after") || Date.parse(this.hubspot.monthAgo());
+    },
+    _setAfter(after) {
+      this.db.set("after", after);
+    },
     async paginate(params, resourceFn, resultType = null, after = null) {
       let results = null;
       let done = false;
@@ -48,6 +62,13 @@ module.exports = {
           if (this.isRelevant(item, after)) this.emitEvent(item);
         }
       }
+    },
+    emitEvent(result) {
+      const meta = this.generateMeta(result);
+      this.$emit(result, meta);
+    },
+    isRelevant(result, after) {
+      return true;
     },
   },
 };

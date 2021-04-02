@@ -6,6 +6,7 @@ module.exports = {
   name: "Deal Updated",
   description: "Emits an event each time a deal is updated.",
   version: "0.0.2",
+  hooks: {},
   methods: {
     ...common.methods,
     generateMeta(deal) {
@@ -17,22 +18,17 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(deal) {
-      const meta = this.generateMeta(deal);
-      this.$emit(deal, meta);
-    },
     isRelevant(deal, updatedAfter) {
       return Date.parse(deal.updatedAt) > updatedAfter;
     },
   },
   async run(event) {
-    const updatedAfter =
-      this.db.get("updatedAfter") || Date.parse(this.hubspot.monthAgo());
+    const updatedAfter = this._getAfter();
     const data = {
       limit: 100,
       sorts: [
         {
-          propertyName: "lastmodifieddate",
+          propertyName: "hs_lastmodifieddate",
           direction: "DESCENDING",
         },
       ],
@@ -44,6 +40,6 @@ module.exports = {
       "results",
       updatedAfter
     );
-    this.db.set("updatedAfter", Date.now());
+    this._setAfter(Date.now());
   },
 };

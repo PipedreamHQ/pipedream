@@ -6,14 +6,6 @@ module.exports = {
   name: "Contact Updated",
   description: "Emits an event each time a contact is updated.",
   version: "0.0.2",
-  hooks: {
-    async deploy() {
-      // By default, only a limited set of properties are returned from the API.
-      // Get all possible contact properties to request for each contact.
-      const properties = await this.hubspot.createPropertiesArray();
-      this.db.set("properties", properties);
-    },
-  },
   methods: {
     ...common.methods,
     generateMeta(contact) {
@@ -25,17 +17,12 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(contact) {
-      const meta = this.generateMeta(contact);
-      this.$emit(contact, meta);
-    },
     isRelevant(contact, updatedAfter) {
       return Date.parse(contact.updatedAt) > updatedAfter;
     },
   },
   async run(event) {
-    const updatedAfter =
-      this.db.get("updatedAfter") || Date.parse(this.hubspot.monthAgo());
+    const updatedAfter = this._getAfter();
     const data = {
       limit: 100,
       sorts: [
@@ -53,6 +40,6 @@ module.exports = {
       "results",
       updatedAfter
     );
-    this.db.set("updatedAfter", Date.now());
+    this._setAfter(Date.now());
   },
 };

@@ -7,6 +7,7 @@ module.exports = {
   description: "Emits an event for each new company added.",
   version: "0.0.2",
   dedupe: "unique",
+  hooks: {},
   methods: {
     ...common.methods,
     generateMeta(company) {
@@ -18,17 +19,12 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(company) {
-      const meta = this.generateMeta(company);
-      this.$emit(company, meta);
-    },
     isRelevant(company, createdAfter) {
       return Date.parse(company.createdAt) > createdAfter;
     },
   },
   async run(event) {
-    const createdAfter =
-      this.db.get("createdAfter") || Date.parse(this.hubspot.monthAgo());
+    const createdAfter = this._getAfter();
     const data = {
       limit: 100,
       sorts: [
@@ -47,6 +43,6 @@ module.exports = {
       createdAfter
     );
 
-    this.db.set("createdAfter", Date.now());
+    this._setAfter(Date.now());
   },
 };

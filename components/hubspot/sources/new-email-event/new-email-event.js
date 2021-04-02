@@ -7,6 +7,7 @@ module.exports = {
   description: "Emits an event for each new Hubspot email event.",
   version: "0.0.2",
   dedupe: "unique",
+  hooks: {},
   methods: {
     ...common.methods,
     generateMeta(emailEvent) {
@@ -18,16 +19,9 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(emailEvent) {
-      const meta = this.generateMeta(emailEvent);
-      this.$emit(emailEvent, meta);
-    },
-    isRelevant(emailEvent, createdAfter = null) {
-      return true;
-    },
   },
   async run(event) {
-    const startTimestamp = Date.parse(this.hubspot.monthAgo());
+    const startTimestamp = this._getAfter();
     const params = {
       limit: 100,
       startTimestamp,

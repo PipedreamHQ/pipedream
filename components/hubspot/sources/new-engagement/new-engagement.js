@@ -7,6 +7,7 @@ module.exports = {
   description: "Emits an event for each new engagement created.",
   version: "0.0.2",
   dedupe: "unique",
+  hooks: {},
   methods: {
     ...common.methods,
     generateMeta(engagement) {
@@ -18,16 +19,12 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(engagement) {
-      const meta = this.generateMeta(engagement);
-      this.$emit(engagement, meta);
-    },
     isRelevant(engagement, createdAfter) {
       return engagement.engagement.createdAt > createdAfter;
     },
   },
   async run(event) {
-    const createdAfter = Date.parse(this.hubspot.monthAgo());
+    const createdAfter = this._getAfter();
     const params = {
       limit: 250,
     };

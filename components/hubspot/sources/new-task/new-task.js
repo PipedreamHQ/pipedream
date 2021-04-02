@@ -7,6 +7,7 @@ module.exports = {
   description: "Emits an event for each new task added.",
   version: "0.0.2",
   dedupe: "unique",
+  hooks: {},
   methods: {
     ...common.methods,
     generateMeta(task) {

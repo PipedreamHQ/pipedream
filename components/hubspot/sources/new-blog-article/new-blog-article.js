@@ -7,6 +7,7 @@ module.exports = {
   description: "Emits an event for each new blog post.",
   version: "0.0.2",
   dedupe: "unique",
+  hooks: {},
   methods: {
     ...common.methods,
     generateMeta(blogpost) {
@@ -18,17 +19,9 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(blogpost) {
-      const meta = this.generateMeta(blogpost);
-      this.$emit(blogpost, meta);
-    },
-    isRelevant(blogpost, after) {
-      return true;
-    },
   },
   async run(event) {
-    const createdAfter =
-      this.db.get("createdAfter") || Date.parse(this.hubspot.monthAgo());
+    const createdAfter = this._getAfter();
     const params = {
       limit: 100,
       createdAfter, // return entries created since event last ran
@@ -40,6 +33,6 @@ module.exports = {
       "results"
     );
 
-    this.db.set("createdAfter", Date.now());
+    this._setAfter(Date.now());
   },
 };
