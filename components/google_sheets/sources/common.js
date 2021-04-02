@@ -27,6 +27,13 @@ module.exports = {
     watchedDrive: { propDefinition: [google_sheets, "watchedDrive"] },
   },
   hooks: {
+    async deploy() {
+      await this.takeSheetSnapshot(INITIAL_EVENT_COUNT);
+
+      const sheetId = this.getSheetId();
+      const spreadsheet = await this.google_sheets.getSpreadsheet(sheetId);
+      await this.processSpreadsheet(spreadsheet);
+    },
     async activate() {
       // Called when a component is created or updated. Handles all the logic
       // for starting and stopping watch notifications tied to the desired files.
@@ -51,7 +58,7 @@ module.exports = {
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
 
-      this._markComponentAsNotInitialized();
+      await this.takeSheetSnapshot();
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -80,37 +87,9 @@ module.exports = {
         channelID,
         subscription.resourceId
       );
-
-      this._markComponentAsNotInitialized();
     },
   },
   methods: {
-    // A component is considered executed after the very first time it is
-    // deployed and its `run` method is executed. After that, and throughout its
-    // lifetime, the component will always be considered as executed.
-    _wasComponentExecuted() {
-      return !!this.db.get("hasExecuted");
-    },
-    _markComponentAsExecuted() {
-      this.db.set("hasExecuted", true);
-    },
-    // A component is considered initialized after it is deployed and its `run`
-    // method is executed. In addition, the component is considered as
-    // uninitialized after it has been deactivated, and until it is initialized
-    // again.
-    _wasComponentInitialized() {
-      return !!this.db.get("isInitialized");
-    },
-    _markComponentAsInitialized() {
-      this.db.set("isInitialized", true);
-      this._markComponentAsExecuted();
-    },
-    _markComponentAsNotInitialized() {
-      this.db.set("isInitialized", false);
-    },
-    getInitialEventCount() {
-      return this._wasComponentExecuted() ? 0 : INITIAL_EVENT_COUNT;
-    },
     async getModifiedSheet(pageToken, driveId, sheetID) {
       const {
         changedFiles,
@@ -147,7 +126,7 @@ module.exports = {
       if (!file) {
         console.log("No sheets were modified");
         return;
-      };
+      }
 
       return this.google_sheets.getSpreadsheet(sheetId);
     },
@@ -211,16 +190,6 @@ module.exports = {
     },
   },
   async run(event) {
-    if (!this._wasComponentInitialized()) {
-      await this.takeSheetSnapshot(this.getInitialEventCount());
-
-      const sheetId = this.getSheetId();
-      const spreadsheet = await this.google_sheets.getSpreadsheet(sheetId);
-      await this.processSpreadsheet(spreadsheet);
-
-      this._markComponentAsInitialized();
-    }
-
     if (event.interval_seconds) {
       // Component was invoked by timer
       return this.renewSubscription();
