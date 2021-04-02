@@ -16,7 +16,7 @@ module.exports = {
         common.props.google_sheets,
         "sheetID",
         (c) => ({
-          watchedDrive: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
+          driveId: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
         }),
       ],
     },
@@ -63,12 +63,12 @@ module.exports = {
     getContentChanges(colCount, newValues, oldValues, changes, i) {
       // loop through comparing the values of each cell
       for (let j = 0; j < colCount; j++) {
-        let newValue =
+        const newValue =
           typeof newValues[i] !== "undefined" &&
           typeof newValues[i][j] !== "undefined"
             ? newValues[i][j]
             : "";
-        let oldValue =
+        const oldValue =
           typeof oldValues[i] !== "undefined" &&
           typeof oldValues[i][j] !== "undefined"
             ? oldValues[i][j]
@@ -153,9 +153,9 @@ module.exports = {
         let changes = [];
         // check if there are differences in the spreadsheet values
         if (JSON.stringify(oldValues) !== JSON.stringify(newValues)) {
-          let rowCount = this.getRowCount(newValues, oldValues);
+          const rowCount = this.getRowCount(newValues, oldValues);
           for (let i = 0; i < rowCount; i++) {
-            let colCount = this.getColCount(newValues, oldValues, i);
+            const colCount = this.getColCount(newValues, oldValues, i);
             changes = this.getContentChanges(
               colCount,
               newValues,
