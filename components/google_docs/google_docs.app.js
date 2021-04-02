@@ -3,7 +3,7 @@ const google_drive = require("../google_drive/google_drive.app");
 
 module.exports = {
   type: "app",
-  app: "google_drive",
+  app: "google_docs",
   propDefinitions: {
     ...google_drive.propDefinitions,
     docId: {

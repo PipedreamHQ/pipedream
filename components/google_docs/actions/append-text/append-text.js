@@ -4,7 +4,7 @@ module.exports = {
   key: "google_docs-append-text",
   name: "Append Text",
   description: "Append text to an existing document",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     googleDocs,
