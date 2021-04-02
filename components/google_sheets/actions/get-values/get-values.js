@@ -5,11 +5,26 @@ module.exports = {
   key: "google_sheets-get-values",
   name: "Get Values",
   description: "Get all values from a sheet.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     googleSheets,
-    sheetId: { propDefinition: [googleSheets, "sheetID"] },
+    drive: { 
+      propDefinition: [
+        googleSheets, 
+        "watchedDrive"
+      ],
+      description: "", 
+    },
+    sheetId: { 
+      propDefinition: [
+        googleSheets, 
+        "sheetID",
+        (c) => ({
+          driveId: c.drive === "myDrive" ? null : c.drive,
+        }),
+      ] 
+    },
     sheetName: { propDefinition: [googleSheets, "sheetName", (c) => ({ sheetId: c.sheetId })] },
   }, 
   async run() {

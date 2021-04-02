@@ -4,11 +4,26 @@ module.exports = {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "0.0.26",
+  version: "0.0.29",
   type: "action",
   props: {
     googleSheets,
-    sheetId: { propDefinition: [googleSheets, "sheetID"] },
+    drive: { 
+      propDefinition: [
+        googleSheets, 
+        "watchedDrive"
+      ],
+      description: "", 
+    },
+    sheetId: { 
+      propDefinition: [
+        googleSheets, 
+        "sheetID",
+        (c) => ({
+          driveId: c.drive === "myDrive" ? null : c.drive,
+        }),
+      ] 
+    },
     sheetName: { propDefinition: [googleSheets, "sheetName", (c) => ({ sheetId: c.sheetId })] },
     cells: { propDefinition: [googleSheets, "cells"] },
   }, 

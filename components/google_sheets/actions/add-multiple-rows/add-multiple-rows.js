@@ -5,15 +5,25 @@ module.exports = {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
   description: "Add multiple rows of data to Google Sheets.",
-  version: "0.0.25",
+  version: "0.0.27",
   type: "action",
   props: {
     googleSheets,
-    sheetId: {
+    drive: { 
       propDefinition: [
-        googleSheets,
-        "sheetID",
+        googleSheets, 
+        "watchedDrive"
       ],
+      description: "", 
+    },
+    sheetId: { 
+      propDefinition: [
+        googleSheets, 
+        "sheetID",
+        (c) => ({
+          driveId: c.drive === "myDrive" ? null : c.drive,
+        }),
+      ] 
     },
     sheetName: {
       propDefinition: [
