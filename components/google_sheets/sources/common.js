@@ -1,6 +1,15 @@
 const { v4: uuid } = require("uuid");
 const google_sheets = require("../google_sheets.app");
 
+/**
+ * The number of events that will be automatically sent whenever the event
+ * source is setup and deployed for the first time.
+ *
+ * Note that the event source could send less initial events than this if the
+ * associated worksheets do not contain enough data.
+ */
+const INITIAL_EVENT_COUNT = 10;
+
 module.exports = {
   props: {
     google_sheets,
@@ -18,6 +27,13 @@ module.exports = {
     watchedDrive: { propDefinition: [google_sheets, "watchedDrive"] },
   },
   hooks: {
+    async deploy() {
+      await this.takeSheetSnapshot(INITIAL_EVENT_COUNT);
+
+      const sheetId = this.getSheetId();
+      const spreadsheet = await this.google_sheets.getSpreadsheet(sheetId);
+      await this.processSpreadsheet(spreadsheet);
+    },
     async activate() {
       // Called when a component is created or updated. Handles all the logic
       // for starting and stopping watch notifications tied to the desired files.
@@ -42,7 +58,7 @@ module.exports = {
       this.db.set("subscription", { resourceId, expiration });
       this.db.set("channelID", channelID);
 
-      this.db.set("isInitialized", false);
+      await this.takeSheetSnapshot();
     },
     async deactivate() {
       const channelID = this.db.get("channelID");
@@ -71,8 +87,6 @@ module.exports = {
         channelID,
         subscription.resourceId
       );
-
-      this.db.set("isInitialized", false);
     },
   },
   methods: {
@@ -112,7 +126,7 @@ module.exports = {
       if (!file) {
         console.log("No sheets were modified");
         return;
-      };
+      }
 
       return this.google_sheets.getSpreadsheet(sheetId);
     },
@@ -163,17 +177,19 @@ module.exports = {
       this.db.set("pageToken", pageToken);
       this.db.set("channelID", channelID);
     },
+    /**
+     * This method scans the worksheets indicated by the user to retrieve the
+     * current row count of each one, and cache those values.
+     *
+     * @param {number} [offset=0] When present, the row count that gets cached
+     * will be reduced by this amount (useful for example to force an event
+     * source to interpret the last rows as new).
+     */
     takeSheetSnapshot() {
       throw new Error("takeSheetSnapshot is not implemented");
     },
   },
   async run(event) {
-    const isInitialized = this.db.get("isInitialized");
-    if (!isInitialized) {
-      await this.takeSheetSnapshot();
-      this.db.set("isInitialized", true);
-    }
-
     if (event.interval_seconds) {
       // Component was invoked by timer
       return this.renewSubscription();
