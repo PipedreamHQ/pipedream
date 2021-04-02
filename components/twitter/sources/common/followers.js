@@ -1,4 +1,4 @@
-const twitter = require("../twitter.app");
+const twitter = require("../../twitter.app");
 
 module.exports = {
   props: {
@@ -13,11 +13,11 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      await this.provisionFollowersCache();
+      await this._provisionFollowersCache();
     },
   },
   deactivate() {
-    this.clearFollowersCache();
+    this._clearFollowersCache();
   },
   methods: {
     /**
@@ -41,6 +41,16 @@ module.exports = {
       // it to the user making the API request
       return undefined;
     },
+    /**
+     * This function provides the list of relevant, follower-related, user ID's
+     * that are used by the event source to emit events. How each event source
+     * that implements it depends on the purpose of the event source itself. For
+     * example, an event source that emits an event for every new follower will
+     * implement this function in such a way that its result is a list of user
+     * ID's for each new follower detected.
+     *
+     * @returns the list of relevant user ID's for this event source to process
+     */
     getRelevantIds() {
       return [];
     },
@@ -62,13 +72,10 @@ module.exports = {
         ts,
       };
     },
-    getFollowersCache() {
-      return this.db.get("followers");
-    },
-    clearFollowersCache() {
+    _clearFollowersCache() {
       this.setFollowersCache([]);
     },
-    async provisionFollowersCache() {
+    async _provisionFollowersCache() {
       const screenName = this.getScreenName();
       const followerIdsGen = this.twitter.scanFollowerIds(screenName);
       const maxFollowerListSize = Math.max(this.getFollowersCacheSize(), 0);
@@ -83,6 +90,9 @@ module.exports = {
 
       this.setFollowersCache(result);
       return result;
+    },
+    getFollowersCache() {
+      return this.db.get("followers");
     },
     setFollowersCache(followers) {
       const followersCacheSize = Math.max(this.getFollowersCacheSize(), 0);
@@ -115,7 +125,7 @@ module.exports = {
     },
     async getUnfollowers() {
       const prevFollowers = this.getFollowersCache();
-      const currFollowers = await this.provisionFollowersCache();
+      const currFollowers = await this._provisionFollowersCache();
       const currFollowersSet = new Set(currFollowers);
       return prevFollowers.filter(pf => !currFollowersSet.has(pf));
     },

@@ -5,14 +5,14 @@ module.exports = {
   key: "twitter-new-unfollower-of-user",
   name: "New Unfollower of User",
   description: "Emit an event when a specific user loses a follower on Twitter",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ...base.props,
     screen_name: {
       propDefinition: [
         base.props.twitter,
         "screen_name",
-      ], 
+      ],
     },
   },
   methods: {

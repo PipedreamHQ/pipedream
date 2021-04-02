@@ -1,83 +1,102 @@
-const twitter = require('../../twitter.app.js')
-const moment = require('moment')
+const base = require("../common/tweets");
 
 module.exports = {
+  ...base,
   key: "twitter-my-tweets",
   name: "My Tweets",
   description: "Emit new Tweets you post to Twitter",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
-    db: "$.service.db",
-    twitter,
-    q: { propDefinition: [twitter, "keyword_filter"] },
-    result_type: { propDefinition: [twitter, "result_type"] },
-    includeRetweets: { propDefinition: [twitter, "includeRetweets"] },
-    includeReplies: { propDefinition: [twitter, "includeReplies"] },
-    lang: { propDefinition: [twitter, "lang"] },
-    locale: { propDefinition: [twitter, "locale"] },
-    geocode: { propDefinition: [twitter, "geocode"] },
-    enrichTweets: { propDefinition: [twitter, "enrichTweets"] },
-    count: { propDefinition: [twitter, "count"] },
-    maxRequests: { propDefinition: [twitter, "maxRequests"] },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+    ...base.props,
+    q: {
+      propDefinition: [
+        base.props.twitter,
+        "keyword_filter",
+      ],
+    },
+    result_type: {
+      propDefinition: [
+        base.props.twitter,
+        "result_type",
+      ],
+    },
+    includeRetweets: {
+      propDefinition: [
+        base.props.twitter,
+        "includeRetweets",
+      ],
+    },
+    includeReplies: {
+      propDefinition: [
+        base.props.twitter,
+        "includeReplies",
+      ],
+    },
+    lang: {
+      propDefinition: [
+        base.props.twitter,
+        "lang",
+      ],
+    },
+    locale: {
+      propDefinition: [
+        base.props.twitter,
+        "locale",
+      ],
+    },
+    geocode: {
+      propDefinition: [
+        base.props.twitter,
+        "geocode",
+      ],
+    },
+    enrichTweets: {
+      propDefinition: [
+        base.props.twitter,
+        "enrichTweets",
+      ],
     },
   },
-  async run(event) {
-    const account = await this.twitter.verifyCredentials()
-    const from = `from:${account.screen_name}`
-    const since_id = this.db.get("since_id")
-    const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
-    let q = from, max_id, limitFirstPage
+  methods: {
+    ...base.methods,
+    async getSearchQuery() {
+      const account = await this.twitter.verifyCredentials();
+      const from = `from:${account.screen_name}`;
+      return this.q
+        ? `${from} ${this.q}`
+        : from;
+    },
+    async retrieveTweets() {
+      const {
+        lang,
+        locale,
+        geocode,
+        result_type,
+        enrichTweets,
+        includeReplies,
+        includeRetweets,
+        maxRequests,
+        count,
+      } = this;
+      const since_id = this.getSinceId();
+      const limitFirstPage = !since_id;
+      const q = await this.getSearchQuery();
 
-    // join "from" filter and search keywords
-    if (this.q) {
-      q += ` ${this.q}`
-    }
-
-    if (!since_id) {
-      limitFirstPage = true
-    } else {
-      limitFirstPage = false
-    }
-
-    // run paginated search
-    const tweets = await this.twitter.paginatedSearch({
-      q,
-      since_id,
-      lang,
-      locale,
-      geocode,
-      result_type,
-      enrichTweets,
-      includeReplies,
-      includeRetweets,
-      maxRequests,
-      count,
-      limitFirstPage,
-    })
-
-    // emit array of tweet objects
-    if(tweets.length > 0) {
-      tweets.sort(function(a, b){return a.id - b.id})
-
-      tweets.forEach(tweet => {
-        this.$emit(tweet, {
-          ts: moment(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').valueOf(),
-          summary: tweet.full_text || tweet.text,
-          id: tweet.id_str,
-        })
-
-        if (tweet.id_str > max_id || !max_id) {
-          max_id = tweet.id_str
-        }
-      })
-    }
-    if (max_id) {
-      this.db.set("since_id", max_id)
-    }
+      // run paginated search
+      return this.twitter.paginatedSearch({
+        q,
+        since_id,
+        lang,
+        locale,
+        geocode,
+        result_type,
+        enrichTweets,
+        includeReplies,
+        includeRetweets,
+        maxRequests,
+        count,
+        limitFirstPage,
+      });
+    },
   },
-}
+};
