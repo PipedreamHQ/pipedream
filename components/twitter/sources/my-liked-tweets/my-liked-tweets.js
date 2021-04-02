@@ -4,7 +4,7 @@ module.exports = {
   key: "twitter-my-liked-tweets",
   name: "My Liked Tweets",
   description: "Emit new Tweets you like on Twitter",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     twitter,
     timer: {

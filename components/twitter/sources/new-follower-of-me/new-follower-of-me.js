@@ -1,11 +1,11 @@
-const common = require("../common-followers");
+const common = require("../common/followers");
 
 module.exports = {
   ...common,
   key: "twitter-new-follower-of-me",
   name: "New Follower of Me",
   description: "Emit an event when a user follows you on Twitter",
-  version: "0.0.4",
+  version: "0.0.6",
   props: {
     ...common.props,
     followersCacheSize: {

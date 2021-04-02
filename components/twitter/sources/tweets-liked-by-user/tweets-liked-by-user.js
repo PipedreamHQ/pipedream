@@ -4,7 +4,7 @@ module.exports = {
   key: "twitter-tweet-liked-by-user",
   name: "Tweet Liked by User",
   description: "Emit new Tweets liked by a specific user on Twitter",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     twitter,
     screen_name: { propDefinition: [twitter, "screen_name"] },
