@@ -1,32 +1,36 @@
-const hubspot = require("../../hubspot.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emits an event for each new Hubspot email event.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
-  props: {
-    hubspot,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+  hooks: {},
+  methods: {
+    ...common.methods,
+    generateMeta(emailEvent) {
+      const { id, recipient, type, created } = emailEvent;
+      const ts = Date.parse(created);
+      return {
+        id,
+        summary: `${recipient} - ${type}`,
+        ts,
+      };
     },
   },
   async run(event) {
-    const createdAfter = new Date(this.hubspot.monthAgo());
+    const startTimestamp = this._getAfter();
+    const params = {
+      limit: 100,
+      startTimestamp,
+    };
 
-    const results = await this.hubspot.getEmailEvents(createdAfter.getTime());
-    for (const emailEvent of results) {
-      let createdAt = new Date(emailEvent.created);
-      this.$emit(emailEvent, {
-        id: emailEvent.id,
-        summary: `${emailEvent.recipient} - ${emailEvent.type}`,
-        ts: createdAt.getTime(),
-      });
-    }
+    await this.paginateUsingHasMore(
+      params,
+      this.hubspot.getEmailEvents.bind(this),
+      "events"
+    );
   },
 };
