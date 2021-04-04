@@ -1,7 +1,7 @@
 on: 
   push:
     branches:
-      - actions
+      - master
 
 jobs:
   publish-components:
