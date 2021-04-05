@@ -98,8 +98,6 @@ module.exports = {
         before = links[0].data.name;
         links.forEach((link) => {
           const { title, id } = link.data;
-          console.log(title);
-          console.log(id);
           results.push({
             title,
             id,
