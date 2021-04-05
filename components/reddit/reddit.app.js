@@ -91,17 +91,17 @@ module.exports = {
      * This method retrieves the most recent new hot subreddit posts. The
      * returned dataset contains at most `opts.limit` entries.
      *
-     * @param {object}  opts options to customise the data retrieval
-     * @param {string}  opts.subreddit the subreddit from which to retrieve the
+     * @param {string}  subreddit the subreddit from which to retrieve the
      * hot posts
-     * @param {enum}    opts.region the region from where to retrieve the hot
+     * @param {enum}    region the region from where to retrieve the hot
      * posts (e.g. `GLOBAL`, `US`, `AR`, etc.). See the `g` parameter in the
      * docs for more information: https://www.reddit.com/dev/api/#GET_hot
-     * @param {boolean} [opts.excludeFilters=false] if set to `true`, filters
+     * @param {boolean} [excludeFilters=false] if set to `true`, filters
      * such as "hide links that I have voted on" will be disabled
-     * @param {boolean} [opts.includeSubredditDetails=false] whether the
+     * @param {boolean} [includeSubredditDetails=false] whether the
      * subreddit details should be expanded/included or not
-     * @param {number}  [opts.limit=100] the maximum amount of posts to retrieve
+     * @param {number}  [limit=100] the maximum amount of posts to retrieve
+     * @returns the list of new hot posts belonging to the specified subreddit
      */
     async getNewHotSubredditPosts(
       subreddit,
