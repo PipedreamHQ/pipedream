@@ -29,7 +29,7 @@ Users on the [Developer (free) tier](/pricing/#developer-tier) have a default qu
 
 **{{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}} invocations per day**
 
-across all workflows and event sources. **You are _not_ limited on invocations on paid plans like the [Professional tier](/pricing/#professional-tier)**.
+across all workflows and event sources. **You are _not_ limited on invocations on paid plans like the [Professional tier](/pricing/#professional-tier)**, but instead pay for usage.
 
 You can view your invocations usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
 
