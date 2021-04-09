@@ -15,43 +15,70 @@ module.exports = {
       description: "Search for new videos uploaded by the YouTube Username.",
     },
   },
+  hooks: {
+    ...common.hooks,
+    deploy() {
+      const channelIds = await this.getChannelIds();
+
+      const params = {
+        ...this._getBaseParams(),
+        maxResults = 10,
+      }
+
+      const lastPublished = await this.loopThroughChannels(channelIds, params);
+
+      if (lastPublished) 
+        this._setPublishedAfter(lastPublished);
+      else
+        this._setPublishedAfter(new Date());
+    }
+  },
   methods: {
     ...common.methods,
     getParams(channelId) {
       return {
-        part: "snippet",
-        type: "video",
-        order: "date",
         channelId,
       };
     },
+    async getChannelIds() {
+      const params = {
+        part: "id",
+        forUsername: this.username,
+      }
+      const channels = (await this.youtube.getChannels(channelParams)).data;
+      const channelIds = channels.items.map((channel) => {
+        return channel.id;
+      });
+      return channelIds;
+    },
+    async loopThroughChannels(channelIds, baseParams) {
+      let lastPublished;
+      for (const channelId of channelIds) {
+        const params = {
+          ...baseParams,
+          ...this.getParams(channelId),
+        };
+        const lastPublishedInChannel = await this.paginateVideos(params);
+        if (
+          !lastPublished ||
+          Date.parse(lastPublishedInChannel) > Date.parse(lastPublished)
+        )
+          lastPublished = lastPublishedInChannel;
+      }
+      return lastPublished;
+    }
   },
   async run(event) {
     let publishedAfter = this._getPublishedAfter();
-    let lastPublished;
+    const channelIds = await this.getChannelIds();
 
-    const channelParams = {
-      part: "id",
-      forUsername: this.username,
-    };
-
-    const channels = (await this.youtube.getChannels(channelParams)).data;
-    const channelIds = channels.items.map((channel) => {
-      return channel.id;
-    });
-
-    for (const channelId of channelIds) {
-      const params = this.getParams(channelId);
-      if (publishedAfter) params.publishedAfter = publishedAfter;
-      else params.maxResults = 10;
-      const lastPublishedInChannel = await this.paginateVideos(params);
-      if (
-        !lastPublished ||
-        Date.parse(lastPublishedInChannel) > Date.parse(lastPublished)
-      )
-        lastPublished = lastPublishedInChannel;
+    const params = {
+      ...this._getBaseParams(),
+      publishedAfter,
     }
 
-    if (lastPublished) this._setPublishedAfter(lastPublished);
+    const lastPublished = await this.loopThroughChannels(channelIds, params);
+    if (lastPublished)
+      this._setPublishedAfter(lastPublished);
   },
 };

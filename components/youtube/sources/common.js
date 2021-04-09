@@ -11,12 +11,44 @@ module.exports = {
       },
     },
   },
+  hooks: {
+    deploy() {
+      const params = {
+        ...this._getBaseParams(),
+        maxResults: 10,
+        ...this.getParams(),
+      };
+      publishedAfter = await this.paginateVideos(params);
+      if (publishedAfter) 
+        this._setPublishedAfter(publishedAfter);
+      else
+        this._setPublishedAfter(new Date());
+    }
+  },
   methods: {
     _getPublishedAfter() {
       return this.db.get("publishedAfter");
     },
     _setPublishedAfter(publishedAfter) {
       this.db.set("publishedAfter", publishedAfter);
+    },
+    _getBaseParams() {
+      return {
+        part: "snippet",
+        type: "video",
+        order: "date",
+      }
+    },
+    /**
+     * This method returns an object with specific parameters to be used when
+     * searching videos in YouTube. See the [API
+     * docs](https://developers.google.com/youtube/v3/docs/videos/list#parameters)
+     * for more information about what the accepted parameters are.
+     *
+     * @returns an object containing parameters for videos search
+     */
+    getParams() {
+      return {};
     },
     generateMeta(video) {
       const { id, snippet } = video;
@@ -30,8 +62,13 @@ module.exports = {
       const meta = this.generateMeta(result);
       this.$emit(result, meta);
     },
-    // paginate through results from getVideos(), emit each video, and return the
-    // most recent date that a video was published
+    /**
+     * Paginate through results from getVideos(), emit each video, and return the
+     * most recent date that a video was published.
+     *
+     * @param {object} params - The parameters to pass into getVideos().
+     * @returns a string of the most recent date that a video was published
+     */
     async paginateVideos(params) {
       let count = 0;
       let totalResults = 1;
@@ -56,15 +93,11 @@ module.exports = {
   },
   async run(event) {
     let publishedAfter = this._getPublishedAfter();
-    const componentParams = this.getParams();
     const params = {
-      ...componentParams,
-      part: "snippet",
-      type: "video",
-      order: "date",
+      ...this._getBaseParams(),
+      publishedAfter
+      ...this.getParams(),
     };
-    if (publishedAfter) params.publishedAfter = publishedAfter;
-    else params.maxResults = 10;
     publishedAfter = await this.paginateVideos(params);
     if (publishedAfter) this._setPublishedAfter(publishedAfter);
   },
