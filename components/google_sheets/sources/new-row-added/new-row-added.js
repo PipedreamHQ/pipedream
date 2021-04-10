@@ -6,7 +6,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.11",
+  version: "0.0.12",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -42,10 +42,18 @@ module.exports = {
       };
     },
     getSheetId() {
-      return this.sheetID;
+      // Temporary transformation to ensure the format of the data is the
+      // correct one. This will be fixed in the UI and backend, so that the data
+      // format is guaranteed to be the one indicated in the `type` field of the
+      // user prop.
+      return this.sheetID.toString();
     },
     getWorksheetIds() {
-      return this.worksheetIDs;
+      // Temporary transformation to ensure the format of the data is the
+      // correct one. This will be fixed in the UI and backend, so that the data
+      // format is guaranteed to be the one indicated in the `type` field of the
+      // user prop.
+      return this.worksheetIDs.map((i) => i.toString());
     },
     async getWorksheetLengthsById() {
       const sheetId = this.getSheetId();

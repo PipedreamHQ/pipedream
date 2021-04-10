@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.11",
+  version: "0.0.12",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -55,10 +55,18 @@ module.exports = {
       };
     },
     getSheetId() {
-      return this.sheetID;
+      // Temporary transformation to ensure the format of the data is the
+      // correct one. This will be fixed in the UI and backend, so that the data
+      // format is guaranteed to be the one indicated in the `type` field of the
+      // user prop.
+      return this.sheetID.toString();
     },
     getWorksheetIds() {
-      return this.worksheetIDs;
+      // Temporary transformation to ensure the format of the data is the
+      // correct one. This will be fixed in the UI and backend, so that the data
+      // format is guaranteed to be the one indicated in the `type` field of the
+      // user prop.
+      return this.worksheetIDs.map((i) => i.toString());
     },
     getContentChanges(colCount, newValues, oldValues, changes, i) {
       // loop through comparing the values of each cell
