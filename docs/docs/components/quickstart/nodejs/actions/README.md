@@ -53,10 +53,10 @@ See the [CLI reference](https://docs.pipedream.com/cli/reference/) for detailed 
 - Make a request to the Star Wars REST API
 - Reference the `name` field of the payload returned by the API in the return value
 
-**Poll for new Github issues (~10 mins)**
+**Use Managed Auth (~10 mins)**
 
-- Use Pipedream managed OAuth with Github's API to retrieve issues for a repo
-- Use the `greatest` deduping strategy to only emit new issues
+- Use Pipedream managed OAuth with Github's API (using the `octokit` npm package) 
+- Retrieve details for a repo and return them from the action
 
 ## hello world!
 
