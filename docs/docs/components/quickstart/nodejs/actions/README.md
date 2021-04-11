@@ -69,6 +69,7 @@ module.exports = {
   key: "action_demo",
   version: "0.0.1",
   type: "action",
+  props: {},
   async run() {
     return `hello world!`
   },
@@ -95,12 +96,15 @@ To test the action:
 2. Create a new workflow with a cron trigger (to simplify testing)
 3. Click the **+** button to add a step to your workflow
 4. You should see an option to select **My Actions** (the option only appears after you publish an action to your account; if you don't see it, confirm the publish step was successful). Click on **My Actions** and then **Action Demo** to add it to your workflow.
+   ![image-20210411165325045](image-20210411165325045.png)
 5. Deploy your workflow
 6. Click **RUN NOW** to execute your workflow and action
 
 You should see `hello world!` returned as the value for `steps.action_demo.$return_value`. 
 
-Keep the browser tab open. We'll return to this workflow in the rest of the examples.
+![image-20210411165443563](image-20210411165443563.png)
+
+Keep the browser tab open. We'll return to this workflow in the rest of the examples as we update the action.
 
 ## hello [name]!
 
@@ -109,28 +113,42 @@ Next, we'll update the same component to capture user input and go through the a
 First, add a string prop called `name` to the component.
 
 ```java
-props: {
-	name: "string",
-},
+module.exports = {
+  name: "Action Demo",
+  description: "This is a demo action",
+  key: "action_demo",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    name: "string",
+  },
+  async run() {
+    return `hello world!`
+  },
+}
 ```
 
 Next, update the `run()` function to reference `this.name` in the return value.
 
 ```javascript
-async run() {
-	return `hello ${this.name}!`
-},
+module.exports = {
+  name: "Action Demo",
+  description: "This is a demo action",
+  key: "action_demo",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    name: "string",
+  },
+  async run() {
+    return `hello ${this.name}!`
+  },
+}
 ```
 
 Finally, update the version to `0.0.2`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-version: "0.0.2",
-```
-
-Following is the updated component code.
-
-```java
 module.exports = {
   name: "Action Demo",
   description: "This is a demo action",
@@ -160,14 +178,13 @@ sc_Egip04  Action Demo                             0.0.2    just now            
 
 Next, let's update and run the action in the workflow from the previous example. 
 
-1. Hover over the action — you will see the following icon at the top right 
-   ![image-20210410223659322](image-20210410223659322.png)
+1. Hover over the action — you will see an update icon at the top right. Click the icon to update the action in the workflow to the latest version. If you don't see the icon, verify that the CLI successfully published the update.
 
-   Click that icon to update the action in the workflow to the latest version. 
+   ![image-20210411164514490](image-20210411164514490.png)
 
-2. Save the workflow to update the configuration form
-3. Enter a value for the `Name` input (e.g., `foo`)
-4. Deploy the workflow and click **RUN NOW**
+2. Enter a value for the `Name` input (e.g., `foo`). NOTE: you may need to save the workflow to update the configuration form.
+   ![image-20210411165053922](image-20210411165053922.png)
+3. Deploy the workflow and click **RUN NOW**
 
 You should see `hello foo!` (or the value you entered for `Name`) as the value returned by the step.
 
@@ -181,6 +198,20 @@ To use the `axios` package, just require it.
 
 ```javascript
 const axios = require("axios")
+
+module.exports = {
+  name: "Action Demo",
+  description: "This is a demo action",
+  key: "action_demo",
+  version: "0.0.2",
+  type: "action",
+  props: {
+    name: "string",
+  },
+  async run() {
+    return `hello ${this.name}!`
+  },
+}
 ```
 
 Then, update the `run()` method to:
@@ -189,17 +220,25 @@ Then, update the `run()` method to:
 - Reference the `name` field of the payload returned by the API
 
 ```javascript
-const response = await axios.get("https://swapi.dev/api/people/1/")
-return `hello ${response.data.name}!`
+const axios = require("axios")
+
+module.exports = {
+  name: "Action Demo",
+  description: "This is a demo action",
+  key: "action_demo",
+  version: "0.0.2",
+  type: "action",
+  props: {
+    name: "string",
+  },
+  async run() {
+    const response = await axios.get("https://swapi.dev/api/people/1/")
+		return `hello ${response.data.name}!`
+  },
+}
 ```
 
 Finally, update the version to `0.0.3`. If you fail to update the version, the CLI will throw an error.
-
-```javascript
-version: "0.0.3",
-```
-
-Following is the updated component code.
 
 ```javascript
 const axios = require("axios")
@@ -210,9 +249,12 @@ module.exports = {
   key: "action_demo",
   version: "0.0.3",
   type: "action",
+  props: {
+    name: "string",
+  },
   async run() {
     const response = await axios.get("https://swapi.dev/api/people/1/")
-    return `hello ${response.data.name}!`
+		return `hello ${response.data.name}!`
   },
 }
 ```
