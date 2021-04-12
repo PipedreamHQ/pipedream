@@ -9,7 +9,7 @@ module.exports = {
       label: "Channel",
       //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
-        let { types, cursor, userNames } = prevContext
+        let { types, cursor } = prevContext
         if (types == null) {
           const scopes = await this.scopes()
           types = ["public_channel"]
@@ -34,7 +34,7 @@ module.exports = {
       label: "Channel",
       //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
-        let { types, cursor, userNames } = prevContext
+        let { types, cursor } = prevContext
         if (types == null) {
           const scopes = await this.scopes()
           types = ["private_channel"]
