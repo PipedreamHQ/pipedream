@@ -16,12 +16,12 @@ module.exports = {
       description: "Search for new videos that match these keywords.",
     },
     maxResults: {
-      type: "integer",
-      label: "Maximum Results",
-      description:
-        "The maximum number of results to return. Should be divisible by 5 (ex. 5, 10, 15).",
-      default: 50,
+      propDefinition: [common.props.youtube, "maxResults"],
     },
+  },
+  hooks: {
+    ...common.hooks,
+    deploy() {},
   },
   methods: {
     ...common.methods,

@@ -17,21 +17,19 @@ module.exports = {
   },
   hooks: {
     ...common.hooks,
-    deploy() {
+    async deploy() {
       const channelIds = await this.getChannelIds();
 
       const params = {
         ...this._getBaseParams(),
-        maxResults = 10,
-      }
+        maxResults: 10,
+      };
 
       const lastPublished = await this.loopThroughChannels(channelIds, params);
 
-      if (lastPublished) 
-        this._setPublishedAfter(lastPublished);
-      else
-        this._setPublishedAfter(new Date());
-    }
+      if (lastPublished) this._setPublishedAfter(lastPublished);
+      else this._setPublishedAfter(new Date());
+    },
   },
   methods: {
     ...common.methods,
@@ -41,10 +39,10 @@ module.exports = {
       };
     },
     async getChannelIds() {
-      const params = {
+      const channelParams = {
         part: "id",
         forUsername: this.username,
-      }
+      };
       const channels = (await this.youtube.getChannels(channelParams)).data;
       const channelIds = channels.items.map((channel) => {
         return channel.id;
@@ -66,7 +64,7 @@ module.exports = {
           lastPublished = lastPublishedInChannel;
       }
       return lastPublished;
-    }
+    },
   },
   async run(event) {
     let publishedAfter = this._getPublishedAfter();
@@ -75,10 +73,9 @@ module.exports = {
     const params = {
       ...this._getBaseParams(),
       publishedAfter,
-    }
+    };
 
     const lastPublished = await this.loopThroughChannels(channelIds, params);
-    if (lastPublished)
-      this._setPublishedAfter(lastPublished);
+    if (lastPublished) this._setPublishedAfter(lastPublished);
   },
 };

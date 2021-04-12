@@ -3,6 +3,15 @@ const axios = require("axios");
 module.exports = {
   type: "app",
   app: "youtube_data_api",
+  propDefinitions: {
+    maxResults: {
+      type: "integer",
+      label: "Maximum Results",
+      description:
+        "The maximum number of results in a channel to return. Should be divisible by 5 (ex. 5, 10, 15).",
+      default: 20,
+    },
+  },
   methods: {
     _getBaseUrl() {
       return "https://www.googleapis.com/youtube/v3/";

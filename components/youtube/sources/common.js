@@ -12,18 +12,16 @@ module.exports = {
     },
   },
   hooks: {
-    deploy() {
+    async deploy() {
       const params = {
         ...this._getBaseParams(),
         maxResults: 10,
         ...this.getParams(),
       };
-      publishedAfter = await this.paginateVideos(params);
-      if (publishedAfter) 
-        this._setPublishedAfter(publishedAfter);
-      else
-        this._setPublishedAfter(new Date());
-    }
+      const publishedAfter = await this.paginateVideos(params);
+      if (publishedAfter) this._setPublishedAfter(publishedAfter);
+      else this._setPublishedAfter(new Date());
+    },
   },
   methods: {
     _getPublishedAfter() {
@@ -37,7 +35,7 @@ module.exports = {
         part: "snippet",
         type: "video",
         order: "date",
-      }
+      };
     },
     /**
      * This method returns an object with specific parameters to be used when
@@ -95,7 +93,7 @@ module.exports = {
     let publishedAfter = this._getPublishedAfter();
     const params = {
       ...this._getBaseParams(),
-      publishedAfter
+      publishedAfter,
       ...this.getParams(),
     };
     publishedAfter = await this.paginateVideos(params);

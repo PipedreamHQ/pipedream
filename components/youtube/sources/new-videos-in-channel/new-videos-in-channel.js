@@ -19,7 +19,7 @@ module.exports = {
     ...common.methods,
     getParams() {
       return {
-        channelId: this.chanelId,
+        channelId: this.channelId,
       };
     },
   },
