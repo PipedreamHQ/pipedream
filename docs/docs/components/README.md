@@ -1,4 +1,4 @@
-Component documentation is intended for a technical audience (including those interested in learning how to author and edit components). 
+This document is intended for a technical audience (including those interested in learning how to author and edit components). 
 
 **If you're new to Pipedream, we recommend watching this [5 minute demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8) and signing up for a [free account](https://pipedream.com/auth/signup) first.** 
 

@@ -1,3 +1,5 @@
+This document is intended for a technical audience (including those interested in learning how to author and edit components). 
+
 # Quickstart: Creating Pipedream Components
 
 After completing this quickstart, you will understand how to:

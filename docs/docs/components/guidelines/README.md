@@ -1,12 +1,12 @@
 # Purpose
 
-This document defines guidelines and patterns developers should follow when building components for the Pipedream registry.
+This document is intended for a technical audience (including those interested in learning how to author and edit components). It defines guidelines and patterns developers should follow when building components for the Pipedream registry.
 
 Developers may create, deploy and share [components](#components) that do not conform to these guidelines, but they will not be eligible to be listed in the curated registry (e.g., they may be hosted in a Github repo). If you develop a component that does not adhere to these guidelines, but you believe there is value to the broader community, please [reach out in our community forum](https://pipedream.com/community/c/dev/11).
 
 # Overview
 
-[Pipedream](https://pipedream.com) is a low code integration platform that makes it easy to connect APIs remarkably fast. Users can select from thousands of customizable, open source components for hundreds of apps and orchestrate their execution in workflows. Developers can [contribute](CONTRIBUTING.md) to these open source components on [Github](https://github.com/pipedreamhq/pipedream) by:
+[Pipedream](https://pipedream.com) is a low code integration platform that makes it easy to connect APIs remarkably fast. Users can select from thousands of customizable, open source components for hundreds of apps and orchestrate their execution in workflows. Developers can [contribute](/contributing) to these open source components on [Github](https://github.com/pipedreamhq/pipedream) by:
 
 - Creating new components (sources and actions)
 - Updating exisiting components (e.g., fixing bugs, enhancing functionality)
@@ -16,7 +16,7 @@ Once a PR is merged to the `master` branch of the `pipedreamhq/pipedream` repo, 
 
 ## Components
 
-Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. They may use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) and [use most npm packages](COMPONENT-API.md#using-npm-packages) with no `npm install` or `package.json` required. Pipedream currently supports two types of components — sources and actions.
+Components are [Node.js modules](../api#component-structure) that run on Pipedream's serverless infrastructure. They may use Pipedream managed auth for [300+ apps](/explore) and [use most npm packages](../api#using-npm-packages) with no `npm install` or `package.json` required. Pipedream currently supports two types of components — sources and actions.
 
 ### Sources
 
