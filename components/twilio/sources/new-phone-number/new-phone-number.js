@@ -18,7 +18,7 @@ module.exports = {
         id,
         summary,
         ts: Date.parse(dateCreated),
-      }
-    }
-  }
+      };
+    },
+  },
 };

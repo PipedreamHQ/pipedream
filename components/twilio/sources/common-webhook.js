@@ -81,7 +81,7 @@ module.exports = {
       });
     }
 
-    if (typeof body !== 'object')
+    if (typeof body !== "object")
       body = Object.fromEntries(new URLSearchParams(body));
 
     if (!this.isRelevant(body)) return;
@@ -89,5 +89,5 @@ module.exports = {
     if (!this.validateRequest(body, headers)) return;
 
     this.emitEvent(body, headers);
-  }
-}
+  },
+};

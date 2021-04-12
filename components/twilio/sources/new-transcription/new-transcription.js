@@ -18,7 +18,7 @@ module.exports = {
         id,
         summary: `New transcription ${id}`,
         ts: Date.parse(dateCreated),
-      }
-    }
+      };
+    },
   },
 };

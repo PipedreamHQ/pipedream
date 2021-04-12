@@ -19,12 +19,11 @@ module.exports = {
         id: headers["i-twilio-idempotency-token"],
         summary: `New call from ${body.From}`,
         ts: Date.now(),
-      }
+      };
     },
     isRelevant(body) {
-      if (body.CallStatus == "completed")
-        return true;
+      if (body.CallStatus == "completed") return true;
       return false;
-    }
+    },
   },
 };

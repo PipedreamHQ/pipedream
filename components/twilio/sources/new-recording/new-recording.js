@@ -18,7 +18,7 @@ module.exports = {
         id,
         summary: `New recording ${id}`,
         ts: Date.parse(dateCreated),
-      }
-    }
-  }
+      };
+    },
+  },
 };
