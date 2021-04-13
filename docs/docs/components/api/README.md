@@ -1,6 +1,6 @@
-# Reference: Pipedream Components
+# Component API
 
-This document was created to help developers author and use Pipedream components. Please raise an issue or PR in this repo if you notice something out-of-date.
+This document was created to help developers author and use Pipedream components.
 
 - [Overview](#overview)
   - [What is a component?](#what-is-a-component)

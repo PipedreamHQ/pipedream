@@ -1,12 +1,12 @@
-This document is intended for a technical audience (including those interested in learning how to author and edit components). 
-
-**If you're new to Pipedream, we recommend watching this [5 minute demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8) and signing up for a [free account](https://pipedream.com/auth/signup) first.** 
-
 # Overview
 
 Components are [Node.js modules](COMPONENT-API.md#component-structure) that run on Pipedream's serverless infrastructure. They may use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](COMPONENT-API.md#using-npm-packages) with no `npm install` or `package.json` required. 
 
 Pipedream currently supports two types of components — [sources](#sources) and [actions](#actions). You may explore curated components for popular apps in the [Pipedream Marketplace](https://pipedream.com/explore) or you can author and share your own.
+
+This document is intended for a technical audience (including those interested in learning how to author and edit components). 
+
+**If you're new to Pipedream, we recommend watching this [5 minute demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8) and signing up for a [free account](https://pipedream.com/auth/signup) first.** 
 
 ## Sources
 
