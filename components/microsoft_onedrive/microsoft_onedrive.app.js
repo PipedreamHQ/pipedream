@@ -173,7 +173,6 @@ module.exports = {
           $top: Math.max(pageSize, 1),
         },
       };
-      console.log(requestConfig);
       const { data } = await axios.get(url, requestConfig);
       return data["@odata.deltaLink"] || data["@odata.nextLink"];
     },
