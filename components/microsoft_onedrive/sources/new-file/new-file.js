@@ -55,8 +55,6 @@ module.exports = {
 
       const { createdDateTime } = driveItem;
       const createdTimestamp = Date.parse(createdDateTime);
-      const fullPath = `${driveItem.parentReference.path}/${driveItem.name}`;
-      console.log(`--->;${createdTimestamp};${this._getLastCreatedTimestamp()};${fullPath}`);
       if (createdTimestamp > this._getMaxCreatedTimestamp()) {
         this._setMaxCreatedTimestamp(createdTimestamp);
       }
