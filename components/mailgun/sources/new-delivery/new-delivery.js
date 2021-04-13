@@ -22,7 +22,7 @@ module.exports = {
       const ts = eventPayload.timestamp;
       return {
         id: `${eventPayload.id}${ts}`,
-        summary: `New Delivery: ${eventPayload.message.headers["message-id"]} by  ${eventPayload.envelope.sender}`,
+        summary: `New Delivery: ${eventPayload.message.headers["message-id"]} by ${eventPayload.envelope.sender}`,
         ts,
       };
     },
