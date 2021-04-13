@@ -4,7 +4,7 @@ module.exports = {
   key: "gitlab-new-issue",
   name: "New Issue (Instant)",
   description: "Emit an event when new issues are created in a project",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     gitlab,
