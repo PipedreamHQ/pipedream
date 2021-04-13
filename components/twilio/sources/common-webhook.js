@@ -73,7 +73,8 @@ module.exports = {
   async run(event) {
     let { body, headers } = event;
 
-    if (this.getResponseBody()) {
+    const responseBody = this.getResponseBody();
+    if (responseBody) {
       this.http.respond({
         status: 200,
         headers: { "Content-Type": "text/xml" },
