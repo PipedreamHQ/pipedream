@@ -49,17 +49,12 @@ module.exports = {
   methods: {
     isNewIssue(body) {
       const { previous } = body.changes.updated_at;
-      return previous === undefined;
+      return previous === undefined || previous === null;
     },
     generateMeta(data) {
       const { issue } = data;
       const { name, username } = data.user;
-      const {
-        id,
-        iid,
-        created_at,
-        title,
-      } = issue;
+      const { id, iid, created_at, title } = issue;
       const summary = `New issue by ${name} (${username}): #${iid} ${title}`;
       const ts = +new Date(created_at);
       return {
