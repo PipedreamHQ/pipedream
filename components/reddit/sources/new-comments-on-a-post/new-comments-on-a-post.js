@@ -3,8 +3,8 @@ const { reddit } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-comments-on-a-subreddit",
-  name: "New comments on a subreddit",
+  key: "new-comments-on-a-post",
+  name: "New comments on a post",
   description:
     "Emits an event each time a new comment is added to a subreddit.",
   version: "0.0.1",
@@ -16,9 +16,9 @@ module.exports = {
     },
     subredditPost: {
       type: "string",
-      label: "Post ID",
+      label: "Post",
       description:
-        "Pipedream will emit a new event when a comment is posted to the subreddit pointed by this ID36.",
+        "Pipedream will emit a new event when a comment is made on the selected post.",
       optional: false,
       async options() {
         const options = [];
@@ -57,7 +57,6 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      console.log(`Post ID: ${this.subredditPost}`);
       var redditComments = await this.reddit.getNewSubredditComments(
         this.subreddit,
         this.subredditPost,
