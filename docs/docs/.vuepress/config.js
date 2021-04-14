@@ -124,10 +124,11 @@ module.exports = {
         collapsable: false,
         children: [
           "/components/",
-          "/components/api/",
           "/components/quickstart/nodejs/actions/",
           "/components/quickstart/nodejs/sources/",
+          "/components/api/",
           "/components/guidelines/",
+          "/components/migrating/",
         ],
       },
       "/user-settings/",

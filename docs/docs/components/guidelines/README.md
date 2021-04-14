@@ -1,4 +1,4 @@
-# Purpose
+# Contributing to the Pipedream Registry
 
 This document is intended for a technical audience (including those interested in learning how to author and edit components). It defines guidelines and patterns developers should follow when building components for the Pipedream registry.
 

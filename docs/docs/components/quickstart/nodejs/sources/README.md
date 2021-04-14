@@ -1,8 +1,6 @@
-This document is intended for a technical audience (including those interested in learning how to author and edit components). 
+# Quickstart: Source Development
 
-# Quickstart: Creating Pipedream Components
-
-After completing this quickstart, you will understand how to:
+This document is intended for a technical audience (including those interested in learning how to author and edit components).  After completing this quickstart, you will understand how to:
 
 - Deploy components to Pipedream using the CLI
 - Invoke a component manually, or on a schedule or HTTP request
