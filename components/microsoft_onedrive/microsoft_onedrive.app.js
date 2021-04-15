@@ -44,9 +44,12 @@ module.exports = {
         headers,
       };
     },
-    async _withRetries(apiCall, isRequestRetriable) {
+    _withRetries(
+      apiCall,
+      isRequestRetriable = this._isStatusCodeRetriable.bind(this),
+    ) {
       const retryOpts = {
-        retries: 2,
+        retries: 5,
         factor: 2,
         minTimeout: 2000, // In milliseconds
       };
@@ -54,6 +57,7 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
+          console.log("lalala");
           if (!isRequestRetriable(err)) {
             const statusCode = get(err, [
               "response",
@@ -76,7 +80,18 @@ module.exports = {
         }
       }, retryOpts);
     },
-    _isCreateHookRequestRetriable(responseErr) {
+    _isStatusCodeRetriable(responseErr) {
+      const statusCode = get(responseErr, [
+        "response",
+        "status",
+      ]);
+      return [
+        401,
+        429,
+        502,
+      ].includes(statusCode);
+    },
+    _isHookRequestRetriable(responseErr) {
       // Sometimes an API call to create a webhook/subscription fails because
       // our component was unable to quickly validate the subscription. In those
       // cases, we want to retry the request since at this point the webhook is
@@ -91,7 +106,10 @@ module.exports = {
         "error",
         "message",
       ], "");
-      return errPattern.test(errMsg);
+      return (
+        errPattern.test(errMsg) ||
+        this._isStatusCodeRetriable(responseErr)
+      );
     },
     /**
      * This method creates a [OneDrive webhook](https://bit.ly/2PxfQ9j) to
@@ -121,7 +139,7 @@ module.exports = {
       const requestConfig = this._makeRequestConfig();
       const { data: { id: hookId } = {} } = await this._withRetries(
         () => axios.post(url, requestData, requestConfig),
-        this._isCreateHookRequestRetriable,
+        this._isHookRequestRetriable.bind(this),
       );
       return hookId;
     },
@@ -141,7 +159,10 @@ module.exports = {
         expirationDateTime,
       };
       const requestConfig = this._makeRequestConfig();
-      await axios.patch(url, requestData, requestConfig);
+      await this._withRetries(
+        () => axios.patch(url, requestData, requestConfig),
+        this._isHookRequestRetriable.bind(this),
+      );
     },
     /**
      * This method deletes an existing [OneDrive
@@ -152,7 +173,9 @@ module.exports = {
     async deleteHook(id) {
       const url = this._subscriptionsEndpoint(id);
       const requestConfig = this._makeRequestConfig();
-      await axios.delete(url, requestConfig);
+      await this._withRetries(
+        () => axios.delete(url, requestConfig),
+      );
     },
     /**
      * This method retrieves a [OneDrive Delta Link](https://bit.ly/3fNawcs) for
@@ -165,15 +188,20 @@ module.exports = {
      * docs](https://bit.ly/3sRzRpn))
      * @returns a [OneDrive Delta Link](https://bit.ly/3fNawcs)
      */
-    async getDeltaLink({ pageSize = 10 }) {
+    async getDeltaLink({ pageSize }) {
       const url = this._driveDeltaEndpoint();
+      const $top = pageSize
+        ? Math.max(pageSize, 1)
+        : undefined;
       const requestConfig = {
         ...this._makeRequestConfig(),
         params: {
-          $top: Math.max(pageSize, 1),
+          $top,
         },
       };
-      const { data } = await axios.get(url, requestConfig);
+      const { data } = await this._withRetries(
+        () => axios.get(url, requestConfig),
+      );
       return data["@odata.deltaLink"] || data["@odata.nextLink"];
     },
     /**
@@ -206,7 +234,9 @@ module.exports = {
       while (true) {
         // See the docs for more information on the format of the delta API
         // response: https://bit.ly/31I0wZP
-        const { data } = await axios.get(url, requestConfig);
+        const { data } = await this._withRetries(
+          () => axios.get(url, requestConfig),
+        );
         const {
           "@odata.nextLink": nextLink,
           "@odata.deltaLink": nextDeltaLink = deltaLink,

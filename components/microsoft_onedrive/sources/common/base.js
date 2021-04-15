@@ -48,6 +48,7 @@ module.exports = {
       }
     },
     async activate() {
+      console.log(this.microsoft_onedrive._authToken());
       await this._createNewSubscription();
       const deltaLink = await this.microsoft_onedrive.getLatestDeltaLink();
       this._setDeltaLink(deltaLink);
@@ -196,7 +197,7 @@ module.exports = {
       return;
     }
 
-    if (event.interval_seconds) {
+    if (event.interval_seconds || event.cron) {
       // Component was invoked by timer. When that happens, it means that it's
       // time to renew the webhook subscription, not that there are changes in
       // OneDrive to process.
