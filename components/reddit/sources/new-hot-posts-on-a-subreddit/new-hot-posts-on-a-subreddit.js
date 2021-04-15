@@ -8,7 +8,11 @@ module.exports = {
   name: "New hot posts on a subreddit",
   description:
     "Emits an event each time a new hot post is added to the top 10 items in a subreddit.",
+<<<<<<< HEAD
   version: "0.0.23",
+=======
+  version: "0.0.22",
+>>>>>>> 1401ed8e2bda700efa214869c741bf2a626596d8
   dedupe: "unique",
   type: "action",
   props: {

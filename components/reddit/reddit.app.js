@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1401ed8e2bda700efa214869c741bf2a626596d8
 const axios = require("axios");
 const get = require("lodash/get");
 const retry = require("async-retry");
@@ -253,6 +256,7 @@ module.exports = {
     },
   },
 };
+<<<<<<< HEAD
 =======
 module.exports = {
     type: "app", 	
@@ -304,3 +308,5 @@ module.exports = {
     },
   };
 >>>>>>> f27aed4... PR for initial feedback
+=======
+>>>>>>> 1401ed8e2bda700efa214869c741bf2a626596d8
