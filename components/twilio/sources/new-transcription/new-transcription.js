@@ -9,8 +9,8 @@ module.exports = {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getResourceFn() {
-      return this.twilio.listTranscriptions.bind(this);
+    async listResults(...args) {
+      return await this.twilio.listTranscriptions(...args);
     },
     generateMeta(transcription) {
       const { sid: id, dateCreated } = transcription;

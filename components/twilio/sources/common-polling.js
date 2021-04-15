@@ -24,19 +24,19 @@ module.exports = {
     },
   },
   async run(event) {
-    const resourceFn = this.getResourceFn();
-    let createdAfter = this._getCreatedAfter();
-    const params = {};
-    if (createdAfter) params.dateCreatedAfter = createdAfter;
-    const results = await resourceFn(params);
+    let dateCreatedAfter = this._getCreatedAfter();
+    const params = {
+      dateCreatedAfter,
+    };
+    const results = await this.listResults(params);
     for (const result of results) {
       this.emitEvent(result);
       if (
-        !createdAfter ||
-        Date.parse(result.dateCreated) > Date.parse(createdAfter)
+        !dateCreatedAfter ||
+        Date.parse(result.dateCreated) > Date.parse(dateCreatedAfter)
       )
-        createdAfter = result.dateCreated;
+        dateCreatedAfter = result.dateCreated;
     }
-    this._setCreatedAfter(createdAfter);
+    this._setCreatedAfter(dateCreatedAfter);
   },
 };

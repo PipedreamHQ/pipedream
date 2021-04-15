@@ -9,8 +9,8 @@ module.exports = {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getResourceFn() {
-      return this.twilio.listRecordings.bind(this);
+    async listResults(...args) {
+      return await this.twilio.listRecordings(...args);
     },
     generateMeta(recording) {
       const { sid: id, dateCreated } = recording;

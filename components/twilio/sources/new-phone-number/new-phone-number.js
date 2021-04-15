@@ -9,8 +9,8 @@ module.exports = {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getResourceFn() {
-      return this.twilio.listIncomingPhoneNumbers.bind(this);
+    async listResults(...args) {
+      return await this.twilio.listIncomingPhoneNumbers(...args);
     },
     generateMeta(number) {
       const { sid: id, friendlyName: summary, dateCreated } = number;

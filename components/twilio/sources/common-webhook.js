@@ -13,22 +13,14 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      const webhookFn = this.getWebhookFn();
-      console.log(
-        `Creating webhook for phone number ${this.incomingPhoneNumber}`
-      );
-      const createWebhookResp = await webhookFn(
+      const createWebhookResp = await this.setWebhook(
         this.incomingPhoneNumber,
         this.http.endpoint
       );
       console.log(createWebhookResp);
     },
     async deactivate() {
-      const webhookFn = this.getWebhookFn();
-      console.log(
-        `Removing webhook from phone number ${this.incomingPhoneNumber}`
-      );
-      const deleteWebhookResp = await webhookFn(
+      const deleteWebhookResp = await this.setWebhook(
         this.incomingPhoneNumber,
         "" // remove the webhook URL
       );
@@ -50,20 +42,13 @@ module.exports = {
       }
 
       /** See https://www.twilio.com/docs/usage/webhooks/webhooks-security */
-      if (
-        !twilioClient.validateRequest(
-          this.authToken,
-          twilioSignature,
-          /** This must match the incoming URL exactly, which contains a / */
-          `${this.http.endpoint}/`,
-          body
-        )
-      ) {
-        throw new Error(
-          "Computed Twilio signature doesn't match signature received in header"
-        );
-      }
-      return true;
+      return twilioClient.validateRequest(
+        this.authToken,
+        twilioSignature,
+        /** This must match the incoming URL exactly, which contains a / */
+        `${this.http.endpoint}/`,
+        body
+      );
     },
     emitEvent(body, headers) {
       const meta = this.generateMeta(body, headers);
@@ -85,9 +70,15 @@ module.exports = {
     if (typeof body !== "object")
       body = Object.fromEntries(new URLSearchParams(body));
 
-    if (!this.isRelevant(body)) return;
+    if (!this.isRelevant(body)) {
+      console.log("Event not relevant. Skipping...");
+      return;
+    }
 
-    if (!this.validateRequest(body, headers)) return;
+    if (!this.validateRequest(body, headers)) {
+      console.log("Event could not be validated. Skipping...");
+      return;
+    }
 
     this.emitEvent(body, headers);
   },

@@ -10,20 +10,23 @@ module.exports = {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getWebhookFn() {
-      return this.twilio.setIncomingCallWebhookURL.bind(this);
+    async setWebhook(...args) {
+      return await this.twilio.setIncomingCallWebhookURL(...args);
     },
     generateMeta(body, headers) {
       return {
         /** if Twilio retries a message, but we've already emitted, dedupe */
         id: headers["i-twilio-idempotency-token"],
-        summary: `New call from ${body.From}`,
+        summary: `New call from ${this.getMaskedNumber(body.From)}`,
         ts: Date.now(),
       };
     },
     isRelevant(body) {
-      if (body.CallStatus == "completed") return true;
-      return false;
+      return body.CallStatus == "completed";
+    },
+    getMaskedNumber(number) {
+      const { length: numberLength } = number;
+      return number.slice(numberLength - 4).padStart(numberLength, "#");
     },
   },
 };

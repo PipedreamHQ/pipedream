@@ -11,12 +11,14 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    responseMessage: { propDefinition: [common.props.twilio, "responseMessage"] },
-  }
+    responseMessage: {
+      propDefinition: [common.props.twilio, "responseMessage"],
+    },
+  },
   methods: {
     ...common.methods,
-    getWebhookFn() {
-      return this.twilio.setIncomingSMSWebhookURL.bind(this);
+    async setWebhook(...args) {
+      return await this.twilio.setIncomingSMSWebhookURL(...args);
     },
     getResponseBody() {
       const twiml = new MessagingResponse();
@@ -33,7 +35,7 @@ module.exports = {
         id: headers["i-twilio-idempotency-token"],
         summary: body.Body,
         ts: Date.now(),
-      }
+      };
     },
   },
 };
