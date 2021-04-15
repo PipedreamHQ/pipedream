@@ -1,13 +1,14 @@
-const youtube = require("../../youtube.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "youtube-new-videos-by-location",
   name: "New Videos by Location",
   description: "Emits an event for each new YouTube video tied to a location.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
-    youtube,
+    ...common.props,
     location: {
       type: "string",
       label: "Location",
@@ -20,57 +21,14 @@ module.exports = {
       description:
         "The parameter value must be a floating point number followed by a measurement unit. Valid measurement units are m, km, ft, and mi. For example, valid parameter values include 1500m, 5km, 10000ft, and 0.75mi. The API does not support locationRadius parameter values larger than 1000 kilometers.",
     },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
   },
-
-  async run(event) {
-    let videos = [];
-    let totalResults = 1;
-    let nextPageToken = null;
-    let count = 0;
-    let results;
-
-    const now = new Date();
-    const monthAgo = now;
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
-    const publishedAfter = this.db.get("publishedAfter") || monthAgo;
-
-    let params = {
-      part: "snippet",
-      type: "video",
-      location: this.location,
-      locationRadius: this.locationRadius,
-      pageToken: null,
-      publishedAfter,
-    };
-
-    while (count < totalResults) {
-      params.pageToken = nextPageToken;
-      results = await this.youtube.getVideos(params);
-      totalResults = results.data.pageInfo.totalResults;
-      nextPageToken = results.data.nextPageToken;
-      results.data.items.forEach(function (video) {
-        videos.push(video);
-        count++;
-      });
-      if (!nextPageToken) break;
-      if (!results.data.items || results.data.items.length < 1) break;
-    }
-
-    this.db.set("publishedAfter", now);
-
-    for (const video of videos) {
-      this.$emit(video, {
-        id: video.id.videoId,
-        summary: video.snippet.title,
-        ts: Date.now(),
-      });
-    }
+  methods: {
+    ...common.methods,
+    getParams() {
+      return {
+        location: this.location,
+        locationRadius: this.locationRadius,
+      };
+    },
   },
 };
