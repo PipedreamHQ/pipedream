@@ -108,7 +108,7 @@ module.exports = {
             name: domain.name,
           });
         });
-        skip = skip + 100;
+        skip += domains_set.items.length || 0;
       } while (domains_set.items.length);
       return results;
     },
