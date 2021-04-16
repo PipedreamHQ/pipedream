@@ -43,9 +43,8 @@ module.exports = {
       return `https://${subdomain}.mailgun.net`;
     },
     async _makeRequest(opts) {
-      const credentials = "api" + ":" + this._apiKey();
-      const credentialsBuffer = Buffer.from(credentials);
-      const base64Credentials = credentialsBuffer.toString("base64");
+      const credentials = `api:${this._apiKey()}`;
+      const base64Credentials = Buffer.from(credentials).toString("base64");
       if (!opts.headers) opts.headers = {};
       opts.headers.Authorization = `Basic ${base64Credentials}`;
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
