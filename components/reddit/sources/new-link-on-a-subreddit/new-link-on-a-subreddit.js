@@ -54,7 +54,7 @@ module.exports = {
     async run() {
 
         let current_after = this.db.get("after");
-        const reddit_things = await this.getNewSubredditLinks(current_after,this.subreddit);
+        const reddit_things = await this.getNewSubredditLinks(current_after);
         var new_after = reddit_things.data.data.after;
         if(new_after){
             if(reddit_things.data.data.children.length>0){
