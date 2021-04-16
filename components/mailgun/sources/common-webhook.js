@@ -69,12 +69,8 @@ module.exports = {
         webhookDetails.urls.length > 1
       ) {
         const currentWebhookUrls = webhookDetails.urls.slice();
-        const newWebhookUrls = [];
-        currentWebhookUrls.forEach((url) => {
-          if (!(url === this.http.endpoint)) {
-            newWebhookUrls.push(url);
-          }
-        });
+        const newWebhookUrls = currentWebhookUrls
+          .filter(url => url !== this.http.endpoint);
         await this.mailgun.updateWebhook(this.domain, webhookName, newWebhookUrls);
       } else {
         await this.mailgun.deleteWebhook(this.domain, webhookName);
