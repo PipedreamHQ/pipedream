@@ -37,7 +37,10 @@ module.exports = {
       return this.$auth.api_key;
     },
     _apiUrl() {
-      return `https://api.mailgun.net`; //TODO: How to handle base  URL for both Mailgun regions US, and EU.
+      const subdomain = this.baseRegion == "EU"
+        ? "api.eu"
+        : "api";
+      return `https://${subdomain}.mailgun.net`;
     },
     async _makeRequest(opts) {
       const credentials = "api" + ":" + this._apiKey();
