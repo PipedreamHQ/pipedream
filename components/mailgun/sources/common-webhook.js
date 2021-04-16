@@ -28,7 +28,7 @@ module.exports = {
     },
     emitEvent(eventWorkload) {
       const eventPayload = eventWorkload["event-data"];
-      if (eventTypes.indexOf(eventPayload.event) > -1) {
+      if (eventTypes.includes(eventPayload.event)) {
         const meta = this.generateMeta();
         this.$emit(eventPayload, meta);
       }
