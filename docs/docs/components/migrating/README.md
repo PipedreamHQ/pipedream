@@ -42,3 +42,142 @@ Actions you publish are now grouped under **My Actions** when adding a step to a
 # Getting Started
 
 If you’re ready to develop your first component action, we suggest starting with our Quickstart Guide and reviewing both our Component API reference and actions published to Pipedream’s Github repo.
+
+# Migration Example
+
+## Legacy Code Example
+
+Let's walk through an example. Following is code that retrieves information about a Github repo (this code assumes you've linked the Github app to your code step):
+
+```javascript
+const axios = require("axios")
+
+const config = {
+  url: `https://api.github.com/repos/${params.owner}/${params.repo}`,
+  headers: {
+    Authorization: `Bearer ${auths.github.oauth_access_token}`,
+  }
+}
+
+return (await axios(config)).data
+```
+
+And following is the associated JSON schema that defines metadata for the `params` inputs:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "owner": {
+      "type": "string",
+      "description": "Name of repository owner."
+    },
+    "repo": {
+      "type": "string",
+      "description": "Name of repository."
+    }
+  },
+  "required": [
+    "owner",
+    "repo"
+  ]
+}
+```
+
+## Converting into a Basic Component-Based Action
+
+To convert the code above into a component-based action, we need to:
+
+1. Link the Github app to the component using `props` so we can use Pipedream managed auth
+2. Define `props` for `owner` and `repo` so we can capture user input. The definition includes the the `type` and `description`. Additionally, `props` are required by default, so that doesn't need to be declared (set `optional` to `true` for optional `props`). This metadata was previously captured in the JSON schema.
+3. Replace references to `params` in the `run()` method. `props` are referenced via `this`. 
+4. Update the reference to the Github OAuth token from `auths.github.oauth_access_token` to `this.github.$auth.oauth_access_token` (note: `github` in this context references the name of the prop, not the name of the app; if the prop was named `gh` then the auth would be referenced via `this.gh.$auth.oauth_access_token`).
+
+```javascript
+const axios = require("axios")
+
+module.exports = {
+  type: "action",
+  name: "Get Repo Example",
+  key: "github_get-repo-example",
+  version: "0.0.1",
+  props: {
+  	github: {
+  		type: "app",
+  		app: "github",
+  	},
+    owner: {
+    	type: "string",
+    	description: "Name of repository owner.",
+  	},
+    repo: {
+      type: "string",
+      description: "Name of repository.",
+    }
+  },
+  async run() {
+    const config = {
+      url: `https://api.github.com/repos/${this.owner}/${this.repo}`,
+      headers: {
+        Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
+      }
+    }
+
+    return (await axios(config)).data
+  },
+}
+```
+
+## Advanced: Using Async Options
+
+Next, let's take the example one step further. Instead of asking users to enter the owner and repo name, let's use `async options` so users can select the repo from a drow-down menu. To do that, well:
+
+1. Remove the `owner` and `repo` props
+2. Add a `repoFullName` prop that makes a request to `https://api.github.com/user/repos` to retrieve a list of (paginated) repos
+3.  Update the `run()` function to use the `repoFullName` prop 
+
+```javascript
+const axios = require("axios")
+
+module.exports = {
+  type: "action",
+  name: "Get Repo Example",
+  key: "github_get-repo-example",
+  version: "0.0.2",
+  props: {
+  	github: {
+  		type: "app",
+  		app: "github",
+  	},
+    repoFullName: {
+      type: "string",
+      label: "Repo",
+      async options(page) {
+        const repos = (await axios({
+          url: "https://api.github.com/user/repos",
+          params: {
+            page,
+            per_page: 100,
+          },
+          headers: {
+            Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
+          }
+        })).data
+        return repos.map((repo) => repo.full_name);
+      },
+    },
+  },
+  async run() {
+    const config = {
+      url: `https://api.github.com/repos/${this.repoFullName}`,
+      headers: {
+        Authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
+      }
+    }
+    return (await axios(config)).data
+  },
+}
+```
+
+
+

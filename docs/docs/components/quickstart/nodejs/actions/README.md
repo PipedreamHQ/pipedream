@@ -1,5 +1,7 @@
 # Quickstart: Action Development
 
+## Overview
+
 This document is intended for a technical audience (including those interested in learning how to author and edit components). After completing this quickstart, you will understand the basic patterns to:
 
 - Develop actions using Pipedream's component model
@@ -19,7 +21,7 @@ We recommend that you execute the examples in order — each one builds on the 
   - [Use Managed Auth](#use-managed-auth-to-pull-data-from-github-10-mins)
 - [What's Next?](#whats-next)
 
-# Prerequisites
+## Prerequisites
 
 **Step 1.** Create a free account at [https://pipedream.com](https://pipedream.com). Just sign in with your Google or Github account.
 
@@ -33,7 +35,7 @@ pd login
 
 See the [CLI reference](https://docs.pipedream.com/cli/reference/) for detailed usage and examples beyond those covered below.
 
-# Quickstart Examples
+## Quickstart Examples
 
 **hello world! (~5 minutes)**
 
@@ -58,7 +60,7 @@ See the [CLI reference](https://docs.pipedream.com/cli/reference/) for detailed 
 - Use Pipedream managed OAuth with Github's API (using the `octokit` npm package) 
 - Retrieve details for a repo and return them from the action
 
-## hello world!
+### hello world!
 
 The following code represents a simple component that can be published as an action. When used in a workflow, it will export `hello world!` as the return value for the step.
 
@@ -106,7 +108,7 @@ You should see `hello world!` returned as the value for `steps.action_demo.$retu
 
 Keep the browser tab open. We'll return to this workflow in the rest of the examples as we update the action.
 
-## hello [name]!
+### hello [name]!
 
 Next, we'll update the same component to capture user input and go through the action update process. We'll include snippets for each instruction and the updated code for the entire component below.
 
@@ -188,7 +190,7 @@ Next, let's update and run the action in the workflow from the previous example.
 
 You should see `hello foo!` (or the value you entered for `Name`) as the value returned by the step.
 
-## Use an npm Package
+### Use an npm Package
 
 Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. In this example, we'll retrieve a name via the API so we can remove the `name` prop. Next, we'll update the 
 
@@ -273,7 +275,7 @@ sc_ZriKEn  Action Demo                             0.0.3    1 second ago        
 
 Follow the steps in the previous example to update and run the action in your workflow. You should see `hello Luke Skywalker!` as the return value for the step.
 
-## Use Managed Auth
+### Use Managed Auth
 
 For the last example, we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). First, remove `axios` and clear the `run()` function from the last example. Your code should look like this:
 
@@ -411,7 +413,7 @@ Select an existing account or connect a new one, and then deploy your workflow a
 
 ![image-20210411114522610](./image-20210411114522610.png)
 
-# What's Next?
+## What's Next?
 
 You're ready to start authoring and publishing actions on Pipedream! You can also check out the [detailed component reference](COMPONENT-API.md) at any time!
 

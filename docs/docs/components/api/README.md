@@ -67,9 +67,9 @@ This document was created to help developers author and use Pipedream components
     - [\$emit](#emit)
   - [Using npm packages](#using-npm-packages)
 
-# Overview
+## Overview
 
-## What is a component?
+### What is a component?
 
 Components are Node.js modules that run on Pipedream's serverless infrastructure.
 
@@ -80,7 +80,7 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 - Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
 
-## Quickstart
+### Quickstart
 
 To help you get started, we created a [step-by-step walkthrough](QUICKSTART.md) that demonstrates how to:
 
@@ -91,69 +91,69 @@ To help you get started, we created a [step-by-step walkthrough](QUICKSTART.md) 
 - Use Pipedream managed OAuth for an app
 - Use npm packages in components
 
-## Getting Started with the CLI
+### Getting Started with the CLI
 
 Several examples below use the CLI. To install it, [follow the instructions for your OS / architecture](https://docs.pipedream.com/cli/install/).
 
 See the [CLI reference](https://docs.pipedream.com/cli/reference/) for detailed usage and examples beyond those covered below.
 
-## Contributing
+### Contributing
 
 Deploy or contribute to curated open source components in Pipedream's Github repo. Or author, deploy and maintain your own via your standard CI/CD process.
 
-# Component Lifecycle
+## Component Lifecycle
 
-## States
+### States
 
 Pipedream components support `activate()` and `deactivate()` lifecycle hooks. The code for these hooks are defined within the component. Learn more about the [component structure](#component-structure) and [hook usage](#hooks).
 
-### Saved Component
+#### Saved Component
 
 A saved component is non-instantiated component code that has previously been deployed to Pipedream. Each saved component has a unique saved component ID. Saved components cannot be invoked directly — they must first be deployed.
 
-### Deployed Component
+#### Deployed Component
 
 A deployed component is an instance of a saved component that can be invoked. Deployed components can be active or inactive. On deploy, Pipedream instantiates a saved component and invokes the `Activate()` hook.
 
-### Deleted Component
+#### Deleted Component
 
 On delete, Pipedream invokes the `Deactivate()` hook and then deletes the deployed component instance.
 
-## Operations
+### Operations
 
-### Deploy
+#### Deploy
 
 On deploy, Pipedream creates an instance of a saved component and invokes the optional `Activate()` hook. A unique deployed component ID is generated for the component.
 
 You can deploy a component via the [CLI, UI or API](#management).
 
-### Update
+#### Update
 
 On update, Pipedream, invokes the optional `Deactivate()` hook, updates the code and props for a deployed component, and then invokes the optional `Activate()` hook. The deployed component ID is not changed by an update operation.
 
-### Delete
+#### Delete
 
 On delete, Pipedream invokes the optional `Deactivate()` hook and deletes the component instance.
 
-## Hooks
+### Hooks
 
-### `deploy`
+#### `deploy`
 
 The `deploy()` hook is automatically invoked by Pipedream when a component is deployed. A common use case for the deploy hook is to create webhook subscriptions when the component is created, but you can run any valid code. To learn more about defining a custom `deploy()` hook, refer to the [API documentation](#hooks-1).
 
-### `activate`
+#### `activate`
 
 The `activate()` hook is automatically invoked by Pipedream when a component is deployed or updated. For example, this hook will be run when users update component props, so you can run code here that handles those changes. To learn more about defining a custom `activate()` hook, refer to the [API documentation](#hooks-1).
 
-### `deactivate`
+#### `deactivate`
 
 The `deactivate()` hook is automatically invoked by Pipedream when a component is updated or deleted. A common use case for the deactivate hook is to automatically delete a webhook subscription when a component is deleted, but you can run any valid code. To learn more about defining a custom `deactivate()` hook, refer to the [API documentation](#hooks-1).
 
-## Management
+### Management
 
-### CLI
+#### CLI
 
-#### Development Mode
+##### Development Mode
 
 The easiest way to develop and iteratively test is to use the `pd dev` command to deploy a local file, attach to a component, and automatically update the component on each local save. To deploy a new component with `pd dev`, run:
 
@@ -167,9 +167,9 @@ To attach to an existing deployed component, run:
 pd dev [--dc <existing-deployed-component-id>] <file-or-name>
 ```
 
-#### Deploy
+##### Deploy
 
-##### From Local Code
+###### From Local Code
 
 To deploy a via CLI, use the `pd deploy` command.
 
@@ -183,7 +183,7 @@ E.g.,
 pd deploy my-component.js
 ```
 
-##### From Pipedream Github Repo
+###### From Pipedream Github Repo
 
 You can explore the components available to deploy in [Pipedream's Github repo](components).
 
@@ -197,7 +197,7 @@ E.g.,
 pd deploy http-new-requests
 ```
 
-##### From Any URL
+###### From Any URL
 
 ```bash
 pd deploy <url-to-raw-code>
@@ -209,21 +209,21 @@ E.g.,
 pd deploy https://raw.githubusercontent.com/PipedreamHQ/pipedream/master/components/http/http.js
 ```
 
-#### Update
+##### Update
 
 View the [CLI command reference](https://docs.pipedream.com/cli/reference/#command-reference).
 
-#### Delete
+##### Delete
 
 View the [CLI command reference](https://docs.pipedream.com/cli/reference/#command-reference).
 
-### UI
+#### UI
 
-#### Deploy
+##### Deploy
 
 You can find and deploy curated components at https://pipedream.com/sources/new, or you can deploy code via the UI using following URL patterns.
 
-##### From Pipedream Github Repo
+###### From Pipedream Github Repo
 
 ```bash
 https://pipedream.com/sources?action=create&key=<source-key>
@@ -235,7 +235,7 @@ E.g.,
 https://pipedream.com/sources?action=create&key=http-new-requests
 ```
 
-##### From Any URL
+###### From Any URL
 
 ```bash
 https://pipedream.com/sources?action=create&url=<url-encoded-url>
@@ -247,39 +247,39 @@ E.g.,
 https://pipedream.com/sources?action=create&url=https%3A%2F%2Fraw.githubusercontent.com%2FPipedreamHQ%2Fpipedream%2Fmaster%2Fcomponents%2Fhttp%2Fhttp.js
 ```
 
-#### Update
+##### Update
 
 You can update the code and props for a component from the configuration tab for a source in the Pipedream UI.
 
-#### Delete
+##### Delete
 
 You can delete a component via the UI at https://pipedream.com/sources.
 
-### API
+#### API
 
 See the [docs](https://docs.pipedream.com/api/rest/#operations).
 
-# Event Lifecycle
+## Event Lifecycle
 
 The event lifecycle applies to deployed components. Learn about the [component lifecycle](#component-lifecycle).
 
-## Diagram
+### Diagram
 
 ![./image-20200819210516311](images/image-20200819210516311.png)
 
-## Triggering Components
+### Triggering Components
 
 Components are triggered when you manually run them (e.g., via the **RUN NOW** button in the UI) or when one of their [interfaces](#interface-props) is triggered. Pipedream currently support **HTTP** and **timer** interfaces.
 
 When a component is triggered, the `run()` method of the component is executed. Standard output and errors are surfaced in the **logs** tab.
 
-## Emitting Events
+### Emitting Events
 
 Components can emit events via `this.$emit()`. If you define a dedupe strategy for a component, Pipedream automatically dedupes the events you emit.
 
 > **TIP:** if you want to use a dedupe strategy, be sure to pass an `id` for each event. Pipedream uses this value for deduping purposes.
 
-## Consuming Events
+### Consuming Events
 
 Pipedream makes it easy to consume events via:
 
@@ -288,19 +288,19 @@ Pipedream makes it easy to consume events via:
 - APIs
 - CLI
 
-### UI
+#### UI
 
 When you navigate to your source component in the UI, you will be able to select and inspect the most recent 100 events (i.e., an event bin). For example, if you send requests to a simple HTTP source, you will be able to inspect the events (i.e., a request bin).
 
-### Workflows
+#### Workflows
 
 Trigger hosted Node.js workflows on each event. Integrate with 300+ apps including Google Sheets, Discord, Slack, AWS, and more!
 
-### API
+#### API
 
 Events can be retrieved using the [REST API](https://docs.pipedream.com/api/rest/) or [SSE stream tied to your component](https://docs.pipedream.com/api/sse/). This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/rest/) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/api/sse/) to process them in real time.
 
-### CLI
+#### CLI
 
 Use the `pd events` command to retrieve the last 10 events via the CLI:
 
@@ -308,9 +308,9 @@ Use the `pd events` command to retrieve the last 10 events via the CLI:
 pd events -n 10 <source-name>
 ```
 
-# Component API
+## Component API
 
-## Component Structure
+### Component Structure
 
 Pipedream components export an object with the following properties:
 
@@ -344,7 +344,7 @@ module.exports = {
 | `dedupe`      | `string` | optional    | You may specify a dedupe strategy (`unique`, `greatest`, `last`) to be applied to emitted events |
 | `run`         | `method` | required    | Each time a component is invoked (for example, via HTTP request), its `run` method is called. The event that triggered the component is passed to `run`, so that you can access it within the method. Events are emitted using `this.$emit()`. |
 
-## Props
+### Props
 
 Props are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`).
 
@@ -355,11 +355,11 @@ Props are custom attributes you can register on a component. When a value is pas
 | [Service](#service-props)       | Attaches a Pipedream service to your component (e.g., a key-value database to maintain state) |
 | [App](#user-input-props)        | Enables managed auth for a component                                                          |
 
-### User Input Props
+#### User Input Props
 
 User input props allow components to accept input on deploy. When deploying a component, users will be prompted to enter values for these props, setting the behavior of the component accordingly.
 
-#### General
+##### General
 
 **Definition**
 
@@ -428,9 +428,9 @@ module.exports = {
 
 To see more examples, explore the curated components in Pipedream's Github repo.
 
-#### Advanced Configuration
+##### Advanced Configuration
 
-#### Async Options ([example](components/github/github.app.js))
+##### Async Options ([example](components/github/github.app.js))
 
 Async options allow users to select prop values that can be programmatically generated (e.g., based on a real-time API response).
 
@@ -470,7 +470,7 @@ module.exports = {
 };
 ```
 
-##### Prop Definitions ([example](components/github/new-commit.js))
+###### Prop Definitions ([example](components/github/new-commit.js))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 
@@ -523,7 +523,7 @@ module.exports = {
 };
 ```
 
-### Interface Props
+#### Interface Props
 
 Interface props are infrastructure abstractions provided by the Pipedream platform. They declare how a component is invoked — via HTTP request, run on a schedule, etc. — and therefore define the shape of the events it processes.
 
@@ -532,7 +532,7 @@ Interface props are infrastructure abstractions provided by the Pipedream platfo
 | [Timer](#timer) | Invoke your component on an interval (defaults to every hour) or based on a cron expression |
 | [HTTP](#http)   | Invoke your code on HTTP requests                                                           |
 
-### Timer
+#### Timer
 
 To use the timer interface, declare a prop whose value is the string `$.interface.timer`:
 
@@ -601,7 +601,7 @@ module.exports = {
 };
 ```
 
-#### HTTP
+##### HTTP
 
 To use the HTTP interface, declare a prop whose value is the string `$.interface.http`:
 
@@ -629,7 +629,7 @@ props: {
 | `event`                     | Returns an object representing the HTTP request (e.g., `{ method: 'POST', path: '/', query: {}, headers: {}, bodyRaw: '', body: {}, }`) | `run(event)`              | The shape of `event` corresponds with the the HTTP request you make to the endpoint generated by Pipedream for this interface |
 | `this.myPropName.respond()` | Returns an HTTP response to the client (e.g., `this.http.respond({status: 200})`).                                                      | n/a                       | `run()`                                                                                                                       |
 
-##### Responding to HTTP requests
+###### Responding to HTTP requests
 
 The HTTP interface exposes a `respond()` method that lets your component issue HTTP responses. You may run `this.http.respond()` to respond to the client from the `run()` method of a component.  In this case you should also pass the `customResponse: true` parameter to the prop.
 
@@ -639,7 +639,7 @@ The HTTP interface exposes a `respond()` method that lets your component issue H
 | `headers` | `object`                   | optional  | Return custom key-value pairs in the HTTP response                                                                             |
 | `body`    | `string` `object` `buffer` | optional  | Return a custom body in the HTTP response. This can be any string, object, or Buffer.                                          |
 
-##### HTTP Event Shape
+###### HTTP Event Shape
 
 Following is the shape of the event passed to the `run()` method of your component.
 
@@ -683,13 +683,13 @@ module.exports = {
 };
 ```
 
-### Service Props
+#### Service Props
 
 | Service | Description                                                                                           |
 | ------- | ----------------------------------------------------------------------------------------------------- |
 | _DB_    | Provides access to a simple, component-specific key-value store to maintain state across invocations. |
 
-#### DB
+##### DB
 
 **Definition**
 
@@ -706,7 +706,7 @@ props: {
 | `this.myPropName.get('key')`        | Method to get a previously set value for a key. Returns `undefined` if a key does not exist. | `run()` `hooks` `methods`             | Use the `set()` method to write values |
 | `this.myPropName.set('key', value)` | Method to set a value for a key. Values must be JSON serializable data.                      | Use the `get()` method to read values | `run()` `hooks` `methods`              |
 
-### App Props
+#### App Props
 
 **Definition**
 
@@ -739,7 +739,7 @@ props: {
 
 > **Note:** The specific `$auth` keys supported for each app will be published in the near future.
 
-## Methods
+### Methods
 
 You can define helper functions within the `methods` property of your component. You have access to these functions within the [`run` method](#run), or within other methods.
 
@@ -759,7 +759,7 @@ can be run like so:
 const randomNum = this.random();
 ```
 
-## Hooks
+### Hooks
 
 ```javascript
 hooks: {
@@ -775,7 +775,7 @@ hooks: {
 | `activate`   | `method` | optional  | Executed each time a component is deployed or updated |
 | `deactivate` | `method` | optional  | Executed each time a component is deactivated         |
 
-## Dedupe Strategies
+### Dedupe Strategies
 
 > **IMPORTANT:** To use a dedupe strategy, you must emit an `id` as part of the event metadata (dedupe strategies are applied to the submitted `id`)
 
@@ -785,7 +785,7 @@ hooks: {
 | `greatest` | Pipedream caches the largest `id` value (must be numeric). Only events with larger `id` values are emitted (and the cache is updated to match the new, largest value).                                                                                                                                                                                                   |
 | `last`     | Pipedream caches the ID associated with the last emitted event. When new events are emitted, only events after the matching `id` value will be emitted as events. If no `id` values match, then all events will be emitted.                                                                                                                                              |
 
-## Run
+### Run
 
 Each time a component is invoked (for example, via HTTP request), its `run` method is called.
 
@@ -811,7 +811,7 @@ If the `run` method emits events using `this.$emit`, you can access the events i
 pd events <deployed-component-name>
 ```
 
-### \$emit
+#### \$emit
 
 `this.$emit()` is a method in scope for the `run` method of a component
 
@@ -842,7 +842,7 @@ module.exports = {
 };
 ```
 
-## Using npm packages
+### Using npm packages
 
 To use an npm package in a component, just require it. There is no `package.json` or `npm install` required.
 
