@@ -1,69 +1,86 @@
-const youtube = require("../../youtube.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "youtube-new-videos-in-playlist",
   name: "New Videos in Playlist",
   description: "Emits an event for each new Youtube video added to a Playlist.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
+  hooks: {
+    ...common.hooks,
+    deploy() {},
+  },
   props: {
-    youtube,
+    ...common.props,
     playlistId: {
       type: "string",
       label: "Playlist ID",
       description: "The ID of the playlist to search for new videos in.",
     },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+    maxResults: {
+      propDefinition: [common.props.youtube, "maxResults"],
     },
   },
+  methods: {
+    ...common.methods,
+    generateMeta(video) {
+      const { id, snippet } = video;
+      return {
+        id,
+        summary: snippet.title,
+        ts: Date.parse(snippet.publishedAt),
+      };
+    },
+    getParams() {
+      return {
+        part: "contentDetails,id,snippet,status",
+        playlistId: this.playlistId,
+        maxResults: this.maxResults,
+      };
+    },
+    isRelevant(video, publishedAfter) {
+      if (!publishedAfter) return true;
+      const publishedAt = video.snippet.publishedAt;
+      return Date.parse(publishedAt) > Date.parse(publishedAfter);
+    },
+    async paginatePlaylistItems(params, publishedAfter = null) {
+      let totalResults = 1;
+      let count = 0;
+      let countEmitted = 0;
+      let lastPublished;
 
-  async run(event) {
-    let videos = [];
-    let totalResults = 1;
-    let count = 0;
-    let nextPageToken = null;
-    let results;
-
-    const monthAgo = new Date();
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
-    const publishedAfter = this.db.get("publishedAfter") || monthAgo;
-
-    let params = {
-      part: "contentDetails,id,snippet,status",
-      playlistId: this.playlistId,
-      pageToken: nextPageToken,
-    };
-    console.log(params);
-
-    while (count < totalResults) {
-      params.pageToken = nextPageToken;
-      results = await this.youtube.getPlaylistItems(params);
-      console.log(results.data);
-      console.log(results.data.items);
-      totalResults = results.data.pageInfo.totalResults;
-      nextPageToken = results.data.nextPageToken;
-      for (const video of results.data.items) {
-        const publishedAt = new Date(video.snippet.publishedAt);
-        if (publishedAt > new Date(publishedAfter)) {
-          videos.push(video);
+      while (count < totalResults && countEmitted < params.maxResults) {
+        const results = (await this.youtube.getPlaylistItems(params)).data;
+        totalResults = results.pageInfo.totalResults;
+        for (const video of results.items) {
+          if (this.isRelevant(video, publishedAfter)) {
+            if (
+              !lastPublished ||
+              Date.parse(video.snippet.publishedAt) > Date.parse(lastPublished)
+            )
+              lastPublished = video.snippet.publishedAt;
+            this.emitEvent(video);
+            countEmitted++;
+          }
+          count++;
         }
-        count++;
+        params.pageToken = results.nextPageToken;
       }
-    }
+      return lastPublished;
+    },
+  },
+  async run(event) {
+    const publishedAfter = this._getPublishedAfter();
+    const params = {
+      ...this.getParams(),
+    };
 
-    this.db.set("publishedAfter", new Date());
+    const lastPublished = await this.paginatePlaylistItems(
+      params,
+      publishedAfter
+    );
 
-    for (const video of videos) {
-      this.$emit(video, {
-        id: video.id,
-        summary: video.snippet.title,
-        ts: Date.now(),
-      });
-    }
+    if (lastPublished) this._setPublishedAfter(lastPublished);
   },
 };
