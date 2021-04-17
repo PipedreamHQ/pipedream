@@ -57,7 +57,6 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          console.log("lalala");
           if (!isRequestRetriable(err)) {
             const statusCode = get(err, [
               "response",
@@ -73,7 +72,7 @@ module.exports = {
             `));
           }
 
-          console.error(`
+          console.log(`
             [Attempt #${retryCount}] Temporary error: ${err.message}
           `);
           throw err;
@@ -86,7 +85,6 @@ module.exports = {
         "status",
       ]);
       return [
-        401,
         429,
         502,
       ].includes(statusCode);
