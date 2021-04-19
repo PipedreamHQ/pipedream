@@ -66,7 +66,6 @@ module.exports = {
       if (typeof lastResult == "string") query += `'${lastResult}'`;
       else query += lastResult;
       query += ` ORDER BY ${column} DESC`;
-      console.log(query);
       return await this.executeQuery(connection, query);
     },
     /**

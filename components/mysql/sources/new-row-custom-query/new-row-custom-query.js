@@ -28,7 +28,6 @@ module.exports = {
       const connection = await this.mysql.getConnection();
       let query = `SELECT * FROM ${this.table} ORDER BY ${this.column} DESC LIMIT 10`;
       query = this.createJoinQuery(query, this.column);
-      console.log(query);
       const rows = await this.mysql.executeQuery(connection, query);
       this._setLastResult(rows, this.column);
       this.iterateAndEmitEvents(rows);
