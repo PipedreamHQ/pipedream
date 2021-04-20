@@ -3,7 +3,7 @@ const dropbox = require("../../dropbox.app.js");
 module.exports = {
   key: "dropbox-new-folder",
   name: "New Folder",
-  version: "0.0.2",
+  version: "0.0.3",
   description:
     "Emits an event when a new folder is created. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {

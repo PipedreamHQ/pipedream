@@ -34,7 +34,6 @@ module.exports = {
       path = path === "/" || path === null ? "" : path;
       try {
         const sdk = this.sdk();
-        console.log(`Path: ${path}`);
         let files = await sdk.filesListFolder({ path, limit });
         if (files.result) {
           files = files.result;
