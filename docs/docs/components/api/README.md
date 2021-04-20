@@ -1,4 +1,4 @@
-# Component API
+# Component API Reference
 
 This document was created to help developers author and use Pipedream components.
 
@@ -75,14 +75,14 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 
 - Trigger Node.js on HTTP requests, timers, cron schedules, or manually
 - Emit data on each event to inspect it, trigger Pipedream hosted workflows or access it outside of Pipedream via API
-- Accept user input on deploy via [CLI](https://docs.pipedream.com/cli/reference/#pd-deploy), [API](https://docs.pipedream.com/api/rest/#overview), or [UI](https://pipedream.com/sources)
+- Accept user input on deploy via [CLI](/cli/reference/#pd-deploy), [API](/api/rest/#overview), or [UI](https://pipedream.com/sources)
 - Connect to 300+ apps using Pipedream managed auth
 - Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
 
 ### Quickstart
 
-To help you get started, we created a [step-by-step walkthrough](QUICKSTART.md) that demonstrates how to:
+To help you get started, we created a [step-by-step walkthrough](/components/quickstart/nodejs/sources/) that demonstrates how to:
 
 - Deploy components to Pipedream using the CLI
 - Invoke a component manually, or on a schedule or HTTP request
@@ -93,9 +93,9 @@ To help you get started, we created a [step-by-step walkthrough](QUICKSTART.md) 
 
 ### Getting Started with the CLI
 
-Several examples below use the CLI. To install it, [follow the instructions for your OS / architecture](https://docs.pipedream.com/cli/install/).
+Several examples below use the CLI. To install it, [follow the instructions for your OS / architecture](/cli/install/).
 
-See the [CLI reference](https://docs.pipedream.com/cli/reference/) for detailed usage and examples beyond those covered below.
+See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
 ### Contributing
 
@@ -185,7 +185,7 @@ pd deploy my-component.js
 
 ###### From Pipedream Github Repo
 
-You can explore the components available to deploy in [Pipedream's Github repo](components).
+You can explore the components available to deploy in [Pipedream's Github repo](https://github.com/pipedreamhq/pipedream/components).
 
 ```bash
 pd deploy <source-key>
@@ -211,11 +211,11 @@ pd deploy https://raw.githubusercontent.com/PipedreamHQ/pipedream/master/compone
 
 ##### Update
 
-View the [CLI command reference](https://docs.pipedream.com/cli/reference/#command-reference).
+View the [CLI command reference](/cli/reference/#command-reference).
 
 ##### Delete
 
-View the [CLI command reference](https://docs.pipedream.com/cli/reference/#command-reference).
+View the [CLI command reference](/cli/reference/#command-reference).
 
 #### UI
 
@@ -257,7 +257,7 @@ You can delete a component via the UI at https://pipedream.com/sources.
 
 #### API
 
-See the [docs](https://docs.pipedream.com/api/rest/#operations).
+See the [docs](/api/rest/#operations).
 
 ## Event Lifecycle
 
@@ -298,7 +298,7 @@ Trigger hosted Node.js workflows on each event. Integrate with 300+ apps includi
 
 #### API
 
-Events can be retrieved using the [REST API](https://docs.pipedream.com/api/rest/) or [SSE stream tied to your component](https://docs.pipedream.com/api/sse/). This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](https://docs.pipedream.com/api/rest/) to retrieve events in batch, and connect to the [SSE stream](https://docs.pipedream.com/api/sse/) to process them in real time.
+Events can be retrieved using the [REST API](/api/rest/) or [SSE stream tied to your component](/api/sse/). This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](/api/rest/) to retrieve events in batch, and connect to the [SSE stream](/api/sse/) to process them in real time.
 
 #### CLI
 
@@ -852,7 +852,7 @@ const myVariable = require("npmPackageName");
 
 When you deploy a component, Pipedream downloads these packages and bundles them with your deployment.
 
-Some packages — for example, packages like [Puppeteer](https://pptr.dev/), which includes large dependencies like Chromium — may not work on Pipedream. Please [reach out](https://docs.pipedream.com/support/) if you encounter a specific issue.
+Some packages — for example, packages like [Puppeteer](https://pptr.dev/), which includes large dependencies like Chromium — may not work on Pipedream. Please [reach out](https://pipedream.com/community) if you encounter a specific issue.
 
 By default, Pipedream pins the current version of the package to the component. For example, if you `require("axios")` and the current version of `axios` is `0.20.0`, Pipedream downloads that version of the package and also pins future updates to that version. When the component updates, Pipedream will always download version `0.20.0`. 
 

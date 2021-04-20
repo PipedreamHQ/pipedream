@@ -54,15 +54,15 @@ We recommend that you execute the examples in order — each one builds on the 
 
 **Step 1.** Create a free account at [https://pipedream.com](https://pipedream.com). Just sign in with your Google or Github account.
 
-**Step 2.** [Download and install the Pipedream CLI](https://docs.pipedream.com/cli/install/).
+**Step 2.** [Download and install the Pipedream CLI](/cli/install/).
 
-**Step 3.** Once the CLI is installed, [link your Pipedream account to the CLI](https://docs.pipedream.com/cli/login/#existing-pipedream-account):
+**Step 3.** Once the CLI is installed, [link your Pipedream account to the CLI](/cli/login/#existing-pipedream-account):
 
 ```bash
 pd login
 ```
 
-See the [CLI reference](https://docs.pipedream.com/cli/reference/) for detailed usage and examples beyond those covered below.
+See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
 # CLI Development Mode
 
@@ -74,7 +74,7 @@ If your `pd dev` session is terminated and you need to re-attach to a deployed c
 pd dev [--dc <existing-deployed-component-id>] <file-or-name>
 ```
 
-See the [CLI reference](https://docs.pipedream.com/cli/reference/) for detailed usage and examples beyond those covered below.
+See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
 # Hello World!
 
@@ -684,6 +684,6 @@ Save and reload your source in the Pipedream UI. You should now see a countdown 
 
 # What's Next?
 
-You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](COMPONENT-API.md) at any time!
+You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](../api/) at any time!
 
 If you have any questions or feedback, please join our [public Slack](https://pipedream.com/community).
