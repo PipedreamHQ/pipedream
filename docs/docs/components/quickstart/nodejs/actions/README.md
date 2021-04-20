@@ -12,7 +12,7 @@
 
 ## Overview
 
-This document is intended for developers who want to author and edit [Pipedream Actions](/components/). After completing this quickstart, you will understand the basic patterns to develop actions including how to:
+This document is intended for developers who want to author and edit [Pipedream Actions](/components/#actions). After completing this quickstart, you will understand the basic patterns to develop actions including how to:
 
 - Develop a Pipedream component
 - Publish private actions to Pipedream and use them in workflows

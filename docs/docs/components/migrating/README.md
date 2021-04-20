@@ -1,10 +1,13 @@
 # Migrating from Legacy Actions
 
+[TOC]
+
+## Overview
 This document is targeted at developers who created actions in Pipedream's UI prior to April 2021. The purpose is to help users migrate legacy actions to the new component model. There is no current timeline for the deprecation of legacy actions, but developers are encouraged to migrate to the new model. 
 
-# Key Changes
+## Key Changes
 
-There are some important differences between the coding patterns for Pipedream's component model and legacy actions.
+Following are the key changes to the development patterns for creating actions using Pipedream's component and legacy models.
 
 **User Input**
 
@@ -39,13 +42,13 @@ Async options allow users to select programmatically generated prop values (e.g.
 **Simplified Discovery**
 Actions you publish are now grouped under **My Actions** when adding a step to a workflow. NOTE: this option will appear in the workflow builder *after* you publish your first action.
 
-# Getting Started
+## Getting Started
 
 If you’re ready to develop your first component action, we suggest starting with our Quickstart Guide and reviewing both our Component API reference and actions published to Pipedream’s Github repo.
 
-# Migration Example
+## Migration Example
 
-## Legacy Code Example
+### Legacy Code Example
 
 Let's walk through an example. Following is code that retrieves information about a Github repo (this code assumes you've linked the Github app to your code step):
 
@@ -84,7 +87,7 @@ And following is the associated JSON schema that defines metadata for the `param
 }
 ```
 
-## Converting into a Basic Component-Based Action
+### Converting into a Basic Component-Based Action
 
 To convert the code above into a component-based action, we need to:
 
@@ -128,7 +131,7 @@ module.exports = {
 }
 ```
 
-## Advanced: Using Async Options
+### Advanced: Using Async Options
 
 Next, let's take the example one step further. Instead of asking users to enter the owner and repo name, let's use `async options` so users can select the repo from a drow-down menu. To do that, well:
 
