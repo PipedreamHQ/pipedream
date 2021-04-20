@@ -21,6 +21,8 @@ This document is intended for technical audiences interested in authoring and ed
 - Use npm packages
 - Use Pipedream managed auth for a 3rd party app
 
+> If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
+
 ## Prerequisites
 
 - Create a free account at [https://pipedream.com](https://pipedream.com)
