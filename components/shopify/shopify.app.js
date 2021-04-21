@@ -83,12 +83,22 @@ module.exports = {
       monthAgo.setMonth(monthAgo.getMonth() - 1);
       return monthAgo;
     },
+    dayAgo() {
+      const dayAgo = new Date();
+      dayAgo.setDate(dayAgo.getDate() - 1);
+      return dayAgo;
+    },
     getShopifyInstance() {
       return new Shopify({
         shopName: this.$auth.shop_id,
         accessToken: this.$auth.oauth_access_token,
         autoLimit: true,
+        apiVersion: '2021-04'
       });
+    },
+    async makeGraphQLRequest(query, variables) {
+      const shopify = this.getShopifyInstance();
+      return await shopify.graphql(query, variables);
     },
     getSinceParams(sinceId = false, useCreatedAt = false, updatedAfter = null) {
       let params = {};
