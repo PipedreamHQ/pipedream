@@ -131,8 +131,8 @@ module.exports = {
     async getBlogs() {
       return await this.getObjects("blog");
     },
-    async getCustomers(sinceId) {
-      let params = this.getSinceParams(sinceId, true);
+    async getCustomers(sinceId, updatedAfter) {
+      let params = this.getSinceParams(sinceId, true, updatedAfter);
       return await this.getObjects("customer", params);
     },
     async getEvents(sinceId, filter = null, verb = null) {
