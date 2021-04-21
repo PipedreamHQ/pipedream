@@ -12,7 +12,7 @@ module.exports = {
         const { database } = this.$auth;
         const connection = await this.getConnection();
         const tables = await this.listTables(connection);
-        await connection.end();
+        await this.closeConnection(connection);
         return tables.map((table) => {
           return table[`Tables_in_${database}`];
         });
@@ -42,6 +42,12 @@ module.exports = {
         user: username,
         password,
         database,
+      });
+    },
+    async closeConnection(connection) {
+      await connection.end();
+      await new Promise((resolve) => {
+        connection.connection.stream.on("close", resolve);
       });
     },
     async executeQuery(connection, query) {
@@ -88,7 +94,7 @@ module.exports = {
     async listColumnNames(table) {
       const connection = await this.getConnection();
       const columns = await this.listColumns(connection, table);
-      await connection.end();
+      await this.closeConnection(connection);
       return columns.map((column) => {
         return column.Field;
       });

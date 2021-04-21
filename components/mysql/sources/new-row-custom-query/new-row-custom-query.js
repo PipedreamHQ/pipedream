@@ -31,7 +31,8 @@ module.exports = {
       const rows = await this.mysql.executeQuery(connection, query);
       this._setLastResult(rows, this.column);
       this.iterateAndEmitEvents(rows);
-      await new Promise(resolve => { connection.connection.stream.on('close', resolve) });
+
+      await this.mysql.closeConnection(connection);
     },
   },
   methods: {

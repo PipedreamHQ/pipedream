@@ -26,7 +26,7 @@ module.exports = {
     async deploy() {
       const connection = await this.mysql.getConnection();
       await this.listMax10RowResults(connection, this.column);
-      await new Promise(resolve => { connection.connection.stream.on('close', resolve) });
+      await this.mysql.closeConnection(connection);
     },
   },
   methods: {

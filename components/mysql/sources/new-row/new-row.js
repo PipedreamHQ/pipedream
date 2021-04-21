@@ -32,7 +32,7 @@ module.exports = {
       this.db.set("column", column);
 
       await this.listMax10RowResults(connection, column);
-      await new Promise(resolve => { connection.connection.stream.on('close', resolve) });
+      await this.mysql.closeConnection(connection);
     },
   },
   methods: {
