@@ -90,11 +90,13 @@ module.exports = {
         autoLimit: true,
       });
     },
-    getSinceParams(sinceId = false, useCreatedAt = false) {
-      if (sinceId) return { since_id: sinceId };
-      // if no sinceId, get objects created within the last month
-      else if (useCreatedAt) return { created_at_min: this._monthAgo() };
-      return {};
+    getSinceParams(sinceId = false, useCreatedAt = false, updatedAfter = null) {
+      let params = {};
+      if (sinceId) params = { ...params, since_id: sinceId };
+      if (updatedAfter) params = { ...params, updated_at_min: updatedAfter };
+      // if no sinceId or updatedAfter, get objects created within the last month
+      if (!sinceId && !updatedAfter && useCreatedAt) return { created_at_min: this._monthAgo() };
+      return params;
     },
     async getObjects(objectType, params = {}, id = null) {
       const shopify = this.getShopifyInstance();
@@ -129,9 +131,9 @@ module.exports = {
       params.verb = verb;
       return await this.getObjects("event", params);
     },
-    async getOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null) {
-      let params = this.getSinceParams(sinceId, useCreatedAt);
-      params.status = "any";
+    async getOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null, updatedAfter = null, status = "any") {
+      let params = this.getSinceParams(sinceId, useCreatedAt, updatedAfter);
+      params.status = status;
       params.fulfillment_status = fulfillmentStatus;
       return await this.getObjects("order", params);
     },

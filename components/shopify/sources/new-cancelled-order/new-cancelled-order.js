@@ -1,0 +1,40 @@
+const shopify = require("../../shopify.app.js");
+
+module.exports = {
+  key: "shopify-new-cancelled-order",
+  name: "New Cancelled Order",
+  description: "Emits an event each time a new order is cancelled.",
+  version: "0.0.1",
+  dedupe: "unique",
+  props: {
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
+    shopify,
+  },
+  async run() {
+    const lastUpdatedAt = this.db.get("last_updated_at") || null;
+    let results = await this.shopify.getOrders(
+      "any",
+      true,
+      null,
+      lastUpdatedAt,
+      "cancelled"
+    );
+
+    for (const order of results) {
+      this.$emit(order, {
+        id: order.id,
+        summary: `Order ${order.name}`,
+        ts: Date.now(),
+      });
+    }
+
+    if (results[results.length - 1])
+      this.db.set("last_updated_at", results[results.length - 1].updated_at);
+  },
+};
