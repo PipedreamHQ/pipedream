@@ -26,13 +26,13 @@ module.exports = {
     async deploy() {
       const connection = await this.mysql.getConnection();
       await this.listMax10RowResults(connection, this.column);
-      await connection.end();
+      await new Promise(resolve => { connection.connection.stream.on('close', resolve) });
     },
   },
   methods: {
     ...common.methods,
     async listResults(connection) {
-      return await this.listRowResults(connection, this.column);
+      await this.listRowResults(connection, this.column);
     },
     generateMeta(row) {
       return {

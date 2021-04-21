@@ -58,8 +58,8 @@ module.exports = {
   async run(event) {
     const connection = await this.mysql.getConnection();
 
-    const results = await this.listResults(connection);
+    await this.listResults(connection);
 
-    await connection.end();
+    await new Promise(resolve => { connection.connection.stream.on('close', resolve) });
   },
 };

@@ -14,7 +14,8 @@ module.exports = {
   methods: {
     ...common.methods,
     async listResults(connection) {
-      return await this.mysql.listColumns(connection, this.table);
+      const columns = await this.mysql.listColumns(connection, this.table);
+      this.iterateAndEmitEvents(columns);
     },
     generateMeta(column) {
       const columnName = column.Field;

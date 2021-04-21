@@ -12,7 +12,7 @@ module.exports = {
         const { database } = this.$auth;
         const connection = await this.getConnection();
         const tables = await this.listTables(connection);
-        await connection.end();
+        connection.end();
         return tables.map((table) => {
           return table[`Tables_in_${database}`];
         });
@@ -88,7 +88,7 @@ module.exports = {
     async listColumnNames(table) {
       const connection = await this.getConnection();
       const columns = await this.listColumns(connection, table);
-      await connection.end();
+      connection.end();
       return columns.map((column) => {
         return column.Field;
       });

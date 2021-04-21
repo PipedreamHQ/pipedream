@@ -10,7 +10,8 @@ module.exports = {
   methods: {
     ...common.methods,
     async listResults(connection) {
-      return await this.mysql.listTables(connection);
+      const tables = await this.mysql.listTables(connection);
+      this.iterateAndEmitEvents(tables);
     },
     generateMeta(table) {
       const { database } = this.mysql.$auth;
