@@ -50,7 +50,6 @@ module.exports = {
       }
     },
     async activate() {
-      console.log(this.microsoft_onedrive._authToken());
       await this._createNewSubscription();
       const deltaLinkParams = this.getDeltaLinkParams();
       const deltaLink = await this.microsoft_onedrive.getLatestDeltaLink(deltaLinkParams);
