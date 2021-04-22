@@ -3,7 +3,7 @@ const get = require("lodash/get");
 const retry = require("async-retry");
 
 module.exports = {
-  type: "app",
+  type: "app",  
   app: "reddit",
   propDefinitions: {
     subreddit: {
@@ -213,7 +213,7 @@ module.exports = {
         })
       );
     },
-    async searchSubreddits(after, query = "") {
+    async searchSubreddits(after, query = "") {      
       const params = {
         after,
         limit: 100,
@@ -224,18 +224,21 @@ module.exports = {
         typeahead_active: false,
       };
       const redditCommunities = await this._withRetries(() =>
-        this._makeRequest({
+         this._makeRequest({
           path: `/subreddits/search`,
           params,
         })
       );
+      return redditCommunities;
     },
     async getAllSearchSubredditsResults(query) {
       const results = [];
       let after = null;
       do {
         const redditCommunities = await this.searchSubreddits(after, query);
-        if (!redditCommunities) {
+        if ((redditCommunities && redditCommunities.data && !redditCommunities.data.children.length)
+          || !redditCommunities
+          || !redditCommunities.data) {
           break;
         }
         const { children: communities = [] } = redditCommunities.data;
@@ -246,23 +249,9 @@ module.exports = {
             title,
             name,
           });
-        });
+        }); 
       } while (after);
       return results;
     },
   },
 };
-  	  async getNewSubredditLinks(after_link, subreddit){
- 
-        const newSubredditLinks = await this._makeRequest({
-            path: `/r/${subreddit}/new`,
-		    params: {
-		    	after:after_link
-		    },
-          });
-         
-  		return newSubredditLinks;
-
-        },
-    },
-  };
