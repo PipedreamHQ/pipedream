@@ -25,7 +25,10 @@ module.exports = {
     },
   },
   methods: {
-    generateMeta(body) {
+    generateMeta() {
+      throw new Error("generateMeta is not implemented");
+    },
+    generateInviteeMeta(body) {
       const eventId = get(body, "payload.event.uuid");
       const inviteeId = get(body, "payload.invitee.uuid");
       const summary = get(body, "payload.event_type.name");

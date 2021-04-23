@@ -12,5 +12,8 @@ module.exports = {
     getEvents() {
       return ["invitee.canceled"];
     },
+    generateMeta(body) {
+      return this.generateInviteeMeta(body);
+    },
   },
 };
