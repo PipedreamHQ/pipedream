@@ -42,6 +42,12 @@ module.exports = {
 
       let eventsToProcess = Math.max(MAX_INITIAL_EVENT_COUNT, 1);
       for await (const driveItem of itemsStream) {
+        if (driveItem.deleted) {
+          // We don't want to process items that were deleted from the drive
+          // since they no longer exist
+          continue;
+        }
+
         await this.processEvent(driveItem);
         if (--eventsToProcess <= 0) {
           break;
