@@ -410,7 +410,7 @@ module.exports = {
         );
         const {
           "@odata.nextLink": nextLink,
-          "@odata.deltaLink": nextDeltaLink = deltaLink,
+          "@odata.deltaLink": nextDeltaLink,
           "value": items,
         } = data;
         for (const item of items) {
@@ -421,7 +421,7 @@ module.exports = {
           return nextDeltaLink;
         }
 
-        url = nextLink || nextDeltaLink;
+        url = nextLink;
       }
     },
     /**

@@ -33,14 +33,13 @@ module.exports = {
   },
   hooks: {
     async deploy() {
-      const params = {
-        ...this.getDeltaLinkParams(),
-        pageSize: MAX_INITIAL_EVENT_COUNT,
-      };
+      const params = this.getDeltaLinkParams();
       const deltaLink = this.microsoft_onedrive.getDeltaLink(params);
       const itemsStream = this.microsoft_onedrive.scanDeltaItems(deltaLink);
 
-      console.log(`deltaLink=${deltaLink}`);
+      // We skip the first drive item, since it represents the root directory
+      await itemsStream.next();
+
       let eventsToProcess = Math.max(MAX_INITIAL_EVENT_COUNT, 1);
       for await (const driveItem of itemsStream) {
         await this.processEvent(driveItem);
