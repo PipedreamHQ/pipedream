@@ -45,10 +45,11 @@ module.exports = {
       });
     },
     async closeConnection(connection) {
-      await connection.end();
-      await new Promise((resolve) => {
+      const connection_closed = new Promise((resolve) => {
         connection.connection.stream.on("close", resolve);
       });
+      await connection.end();
+      await connection_closed;
     },
     async executeQuery(connection, query) {
       const results = await connection.execute(query);
