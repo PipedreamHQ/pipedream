@@ -1,59 +1,74 @@
 # Overview
 
-## What are components?
+- [What are Components?](#what-are-components-)
+- [Component Types](#component-types)
+  * [Sources](#sources)
+  * [Actions](#actions)
+- [Using Components](#using-components)
+- [Developing Components](#developing-components)
+  * [Prerequisites](#prerequisites)
+  * [Quickstart Guides](#quickstart-guides)
+  * [Component API Reference](#component-api-reference)
+- [Sharing Components](#sharing-components)
+  * [Verified Components](#verified-components)
+  * [Community Components](#community-components)
 
-Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They may use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required. 
+## What are Components?
 
-Pipedream currently supports two types of components — [sources](#sources) and [actions](#actions). You may explore curated components for popular apps in the [Pipedream Marketplace](https://pipedream.com/explore) or you can author and share your own.
+Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required. 
 
-This document is intended for a technical audience (including those interested in learning how to author and edit components). 
+Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [Github repo](https://github.com/pipedreamhq/pipedream/components) or you can author and share your own.
 
-**If you're new to Pipedream, we recommend watching this [5 minute demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8) and signing up for a [free account](https://pipedream.com/auth/signup) first.** 
+## Component Types
+
+Pipedream supports two types of components — [sources](#sources) and [actions](#actions).
+
 
 ### Sources
 
-Sources are specialized components that may be instantiated and emit events. They are most commonly used as workflow triggers. Events emitted by sources may also be consumed outside of Pipedream (via API or CLI) or simply inspected.
+Sources must be instantiated and run as independent resources on Pipedream. They are commonly used as workflow triggers (but can also be used as standalone serverless functions).
 
 **Capabilities**
 
-- Emit events that can trigger Pipedream [workflows](/workflows/) (events may also be consumed outside of Pipedream via [API](/api/overview/))
-- Emitted event data can be inspected and referenced by [steps](/workflows/steps/) in the target workflow
-- Can use any of Pipedream's built-in [deduping strategies](api/#dedupe-strategies)
+- Accept user input via `props`
 - Can be [triggered](api/#interface-props) on HTTP requests, timers, cron schedules, or manually
+- May be deployed and consumed via Pipedream's UI, CLI or API
+- May emit events that can be inspected, trigger Pipedream [workflows](/workflows/) and be consumed in your own app via [API](/api/overview/)
 - May store and retrieve state using the [built-in key-value store](api/#db) 
+- Can use any of Pipedream's built-in [deduping strategies](api/#dedupe-strategies)
 
 **Example**
 
-The Search Mentions source for Twitter is a component that will regularly poll the Twitter API for Tweets matching a search query and it will emit new Tweets as events. The component abstracts the need to understand the Twitter API and how to dedupe the results. 
+The Search Mentions source for Twitter is a component that will emit new Tweets atcing a search query as events. It does this by providing a configuration interface for users to connect their Twitter account and provide search keywords, and regularly polling the Twitter API for new results. The component abstracts the need to understand the Twitter API and how to dedupe the results. 
 
 ### Actions
 
-Actions are components that may be used as the step of a workflow. Unlike sources, actions cannot run on their own (outside of a workflow).
+Actions are components that may be used as steps in a workflow. Unlike sources, actions cannot run independently (outside of a workflow).
 
 **Capabilities**
 
-- May be used as [steps](/workflows/steps/) in [workflows](/workflows/) to perform common functions (e.g., get or modify data in an app)
-- [Data returned by actions](/workflows/steps/#step-exports) may be inspected and used in future workflow steps
+- Accept user input via `props`
+- May `return` JSON serializable data
 
 **Example**
 
 TBC
 
-## Use
+## Using Components
 
-All components may be instantiated or added to workflows via Pipedream's UI. Sources may also optionally be instantiated or consumed via CLI or API.
+Components may be instantiated or added to workflows via Pipedream's UI. 
 
-Instantiated components may be edited via the Pipedream UI. This capability allows power users to scaffold sources and actions and customize the code to their needs.
+- Sources may be instantiated and consumed via [UI](https://pipedream.com/sources/new), CLI or API
+- Actions may be added to [workflows](https://pipedream.com/new)
 
-**Sources**
-To customize code for a source, load your source in the Pipedream UI and navigate to the **Config** tab.
+## Developing Components
 
-**Actions**
-Coming soon!*
+Develop components locally using your preferred code editor (and maintain your code in your own Github repo) and deploy or publish using Pipedream's [CLI](/cli/reference/#pd-deploy). 
 
-## Develop
+- Sources may be deployed directly from local code or published to your account and instantiated via Pipedream's UI
+- Actions may only be published — published actions may be added to workflows via Pipedream's UI
 
-Components may currently be developed locally using your preferred code editor and deployed using Pipedream's [CLI](/cli/reference/#pd-deploy). You may develop sources and actions for your own private use (and maintain your code in your own Github repo) or you can share your components publicly. 
+Published components are only available to your own account by default. If published to a team account, the component (source or action) may be discovered and selected by any member of the team. 
 
 ### Prerequisites
 
@@ -73,7 +88,7 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](COMPONENT-API.md) and [examples on Github](https://github.com/pipedreamhq/pipedream/components) to learn more.
 
-## Share
+## Sharing Components
 
 Contribute to the Pipedream community by publishing and sharing new components, and contributing to the maintenance of existing ones.
 
