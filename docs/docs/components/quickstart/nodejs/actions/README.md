@@ -90,7 +90,7 @@ pd publish action.js
 
 The CLI will publish the component as an action in your account with the key `action_demo`. **The key must be unique across all components in your account (sources and actions). If it's not unique, the component with the matching key will be updated.**
 
-The CLI should output similar to this:
+The CLI output should look similar to this:
 
 ```
 sc_v4iaWB  Action Demo                             0.0.1    just now             action_demo
@@ -102,13 +102,13 @@ To test the action:
 2. Create a new workflow with a cron trigger (to simplify testing)
 3. Click the **+** button to add a step to your workflow
 4. You should see an option to select **My Actions** (the option only appears after you publish an action to your account; if you don't see it, confirm the publish step was successful). Click on **My Actions** and then **Action Demo** to add it to your workflow.
-   ![image-20210411165325045](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/components/image-20210411165325045_ia5sd5.png)
+   ![image-20210411165325045](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png)
 5. Deploy your workflow
 6. Click **RUN NOW** to execute your workflow and action
 
 You should see `hello world!` returned as the value for `steps.action_demo.$return_value`. 
 
-![image-20210411165443563](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/components/image-20210411165443563_d6drvo.png)
+![image-20210411165443563](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165443563_d6drvo.png)
 
 Keep the browser tab open. We'll return to this workflow in the rest of the examples as we update the action.
 
@@ -186,10 +186,10 @@ Next, let's update and run the action in the workflow from the previous example.
 
 1. Hover over the action — you will see an update icon at the top right. Click the icon to update the action in the workflow to the latest version. If you don't see the icon, verify that the CLI successfully published the update.
 
-   ![image-20210411164514490](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/components/image-20210411164514490_qghbzf.png)
+   ![image-20210411164514490](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411164514490_qghbzf.png)
 
 2. Enter a value for the `Name` input (e.g., `foo`). NOTE: you may need to save the workflow to update the configuration form.
-   ![image-20210411165053922](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/components/image-20210411165053922_pckn5y.png)
+   ![image-20210411165053922](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165053922_pckn5y.png)
 3. Deploy the workflow and click **RUN NOW**
 
 You should see `hello foo!` (or the value you entered for `Name`) as the value returned by the step.
@@ -244,6 +244,25 @@ module.exports = {
 }
 ```
 
+Next, remove the `name` from `props` since we're no longer using it.
+
+```javascript
+const axios = require("axios")
+
+module.exports = {
+  name: "Action Demo",
+  description: "This is a demo action",
+  key: "action_demo",
+  version: "0.0.2",
+  type: "action",
+  props: {},
+  async run() {
+    const response = await axios.get("https://swapi.dev/api/people/1/")
+		return `hello ${response.data.name}!`
+  },
+}
+```
+
 Finally, update the version to `0.0.3`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
@@ -255,9 +274,7 @@ module.exports = {
   key: "action_demo",
   version: "0.0.3",
   type: "action",
-  props: {
-    name: "string",
-  },
+  props: {},
   async run() {
     const response = await axios.get("https://swapi.dev/api/people/1/")
 		return `hello ${response.data.name}!`
@@ -411,11 +428,11 @@ sc_k3ia53  Action Demo                            0.0.4    just now             
 ```
 
 Follow the steps in the previous example to update the action in your workflow (you may need to save your workflow after refreshing the action). You should now see a prompt to connect your Github account to the step:
-![image-20210411114410883](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/components/image-20210411114410883_cngxm4.png)
+![image-20210411114410883](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411114410883_cngxm4.png)
 
 Select an existing account or connect a new one, and then deploy your workflow and click **RUN NOW**. You should see the results returned by the action:
 
-![image-20210411114522610](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/components/image-20210411114522610_dokk3b.png)
+![image-20210411114522610](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411114522610_dokk3b.png)
 
 ## What's Next?
 
