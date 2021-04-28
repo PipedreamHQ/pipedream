@@ -1,4 +1,4 @@
-# Migrating from Code Steps to Components
+# Migrating from Legacy Actions to Components
 
 - [Overview](#overview)
 - [Key Changes](#key-changes)
@@ -9,23 +9,21 @@
   * [Advanced: Using Async Options](#advanced--using-async-options)
 
 ## Overview
-This document is for developers who previously created actions in [Pipedream's UI](https://pipedream.com/actions). The purpose is to help users migrate exiting actions to the new component model. There is currently no timeline for the deprecation of actions developed in the UI, but developers are encouraged to migrate to the new model. 
+This document is for developers who previously created actions in [Pipedream's UI](https://pipedream.com/actions). The purpose is to help users migrate exiting actions to Pipedream's new [component model](/components). There is currently no deprecation timeline for actions developed in the UI, but developers are encouraged to migrate to the new model. 
 
 ## Key Changes
 
-Following are the key changes to the development pattern for creating actions using Pipedream's component and legacy models.
+Following are the key changes when migrating from developing actions in Pipedream's UI to components:
 
-**User Input**
+**`props` replace `params`** 
 
-Legacy actions supported capturing user input via `params`. `params` were used in code and the definition was derived. 
-
-The component model does not support `params`. You need to migrate `params` references to `props`. `props` must be explicitlly declared and defined prior to using them in code.
+The component model does not support `params`. You need to migrate `params` references to `props`. Unlike `params`, `props` must be explicitlly declared and defined prior to using them in code (in the old model, an input form was automatically generated when  `params` were used in code -- `params` were not explicitly declared).
 
 **Managed Auth**
 
-The model for linking an app to legacy actions as well as the syntax for referencing credentials is different with Pipedream components. Apps were linked to steps in Pipedream's UI, and credentials were referenced via the `auths` object.
+The model for linking an app to legacy actions as well as the syntax for referencing credentials is different with Pipedream components. In the old model, apps were linked to steps in Pipedream's workflow builder UI, and credentials were referenced via the `auths` object.
 
-The component model operates differently. Apps are defined as `props` and credentials are referenced as properties of the app. For example, to use managed auth for Github, the component `props` must contain a key (`gh` in this example) with an object with an app definition for the value:
+When using the component model, apps are defined as `props` and credentials are referenced as properties of the app. For example, to use managed auth for Github, the component `props` must contain a key (`gh` in the example below) with an app definition for the value (the app definition is an object):
 
 ```javascript
 gh: {
@@ -34,44 +32,43 @@ gh: {
 }
 ```
 
- The component's `run()` method can then reference the credentials for Github via `this.gh.$auth.oauth_access_token`.
+The component's `run()` method can then reference the credentials for Github via `this.gh.$auth.oauth_access_token`.
 
 **Develop locally and host on Github**
 Actions are no longer developed in Pipedream's UI. Develop actions locally using your preferred editor, publish to Pipedream via CLI and maintain the code in your own Github repo.
 
 **Update with a click**
-When you publish a new version of an action, you can update action instances with a click (updating legacy actions in workflows requires action steps to be deleted, re-added and re-configured).Getting Started
+When you publish a new version of an action, you can update actions used in workflows with a click (updating legacy actions in workflows requires action steps to be deleted, re-added and re-configured).
 
 **Support for Async Options**
-Async options allow users to select programmatically generated prop values (e.g., display a drop-down menu based on a real-time API response).
+Async options allow action authos to render a paginated drop down menu allowing users to select from vaues that are programatically generated. The most common use case is to populate the drop down based on results of an API request (e.g., to list Google Sheets in a user's drive).
 
 **Simplified Discovery**
 Actions you publish are now grouped under **My Actions** when adding a step to a workflow. NOTE: this option will appear in the workflow builder *after* you publish your first action.
 
 ## Getting Started
 
-If you’re ready to develop your first component action, we suggest starting with our Quickstart Guide and reviewing both our Component API reference and actions published to Pipedream’s Github repo.
+If you’re ready to develop your first action using Pipedream's component model, we suggest starting with our [quickstart guide](/components/quickstart/nodejs/actions/). Then review both our [component API reference](/components/api) and [actions published to Pipedream’s Github repo](https://github.com/pipedreamhq/pipedream/compnents).
 
 ## Migration Example
 
+Let's walk through an example that migrates code for a legacy action to a Pipedream component. 
+
 ### Legacy Code Example
 
-Let's walk through an example. Following is code that retrieves information about a Github repo (this code assumes you've linked the Github app to your code step):
+Following is the code for the legacy action to get a Github repo (Github was linked to this action via Pipedream's UI):
 
 ```javascript
-const axios = require("axios")
-
 const config = {
   url: `https://api.github.com/repos/${params.owner}/${params.repo}`,
   headers: {
     Authorization: `Bearer ${auths.github.oauth_access_token}`,
   }
 }
-
-return (await axios(config)).data
+return await require("@pipedreamhq/platform").axios(this, config)
 ```
 
-And following is the associated JSON schema that defines metadata for the `params` inputs:
+Also, following is the associated JSON schema that defines metadata for the `params` inputs:
 
 ```json
 {
@@ -93,14 +90,15 @@ And following is the associated JSON schema that defines metadata for the `param
 }
 ```
 
-### Converting into a Basic Component-Based Action
+### Converting to the Component Model
 
-To convert the code above into a component-based action, we need to:
+To convert the code above to the component model, we need to:
 
 1. Link the Github app to the component using `props` so we can use Pipedream managed auth
-2. Define `props` for `owner` and `repo` so we can capture user input. The definition includes the the `type` and `description`. Additionally, `props` are required by default, so that doesn't need to be declared (set `optional` to `true` for optional `props`). This metadata was previously captured in the JSON schema.
+2. Define `props` for `owner` and `repo` so we can capture user input. The definition for each prop includes the `type` and `description` metadata. Additionally, `props` are required by default, so that property doesn't need to be declared (set `optional` to `true` for optional `props`). This metadata was previously captured in the JSON schema.
 3. Replace references to `params` in the `run()` method. `props` are referenced via `this`. 
 4. Update the reference to the Github OAuth token from `auths.github.oauth_access_token` to `this.github.$auth.oauth_access_token` (note: `github` in this context references the name of the prop, not the name of the app; if the prop was named `gh` then the auth would be referenced via `this.gh.$auth.oauth_access_token`).
+5. Replace the `@pipedreamhq/platform`  npm package with the standard `axios` package
 
 ```javascript
 const axios = require("axios")
@@ -188,3 +186,6 @@ module.exports = {
 }
 ```
 
+### Publishing an Action
+
+In the old model, actions were published via Pipedream's UI. To learn how to publish component-based actions using Pipedream's CLI, review our [quickstart guide](/components/quickstart/nodejs/actions/).
