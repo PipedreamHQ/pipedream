@@ -21,7 +21,7 @@ This document is intended for developers who want to author and edit [Pipedream 
 - Use npm packages
 - Use Pipedream managed auth for a 3rd party app
 
-> If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
+> **NOTE:** If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
 
 ## Prerequisites
 
@@ -29,7 +29,7 @@ This document is intended for developers who want to author and edit [Pipedream 
 - Download and install the [Pipedream CLI](/cli/install/)
 - Once the CLI is installed, [link your Pipedream account](/cli/login/#existing-pipedream-account) to the CLI by running `pd login` in your terminal
 
-See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
+>  **NOTE:** See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
 ## Walkthrough
 
