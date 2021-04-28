@@ -4,7 +4,7 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 **Below, we'll review how to make HTTP requests using Node.js code on Pipedream.**
 
-We'll use the [`axios` HTTP client](https://github.com/axios/axios) in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
+We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
 
 If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/blog/working-with-webhooks/#webhooks-glossary-common-terms) for a helpful introduction.
 
@@ -331,3 +331,29 @@ if (!event.body.myImportantData) {
   $end("myImportantData not present in HTTP payload. Exiting");
 }
 ```
+
+## Stream a downloaded file directly to another URL
+
+Sometimes you need to upload a downloaded file directly to another service, without processing the downloaded file. You could [download the file](#download-a-file-to-the-tmp-directory) and then [upload it](#upload-a-file-from-the-tmp-directory) to the other URL, but these intermediate steps are unnecessary: you can just stream the download to the other service directly, without saving the file to disk.
+
+This method is especially effective for large files that exceed the [limits of the `/tmp` directory](/limits/#disk).
+
+[Copy this workflow](https://pipedream.com/@dylburger/stream-download-to-upload-p_5VCLoa1/edit) or paste this code into a [new Node.js code step](/workflows/steps/code/#adding-a-code-step):
+
+```javascript
+const stream = require("stream");
+const { promisify } = require("util");
+const fs = require("fs");
+const got = require("got");
+
+const pipeline = promisify(stream.pipeline);
+
+await pipeline(
+  got.stream(params.downloadURL),
+  got.stream.post(params.uploadURL)
+);
+```
+
+You'll be asked to provide the **Download URL** — the URL of the content you want to download — and the **Upload URL** — the place you want to upload the content to. `got` streams the content directly, downloading the file using a `GET` request and uploading it as a `POST` request.
+
+If you need to modify this behavior, [see the `got` Stream API](https://github.com/sindresorhus/got#gotstreamurl-options).

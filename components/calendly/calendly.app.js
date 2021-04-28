@@ -10,13 +10,13 @@ module.exports = {
       };
     },
     _getBaseURL() {
-      return "https://calendly.com/api/v1"
+      return "https://calendly.com/api/v1";
     },
     monthAgo() {
       const now = new Date();
       const monthAgo = new Date(now.getTime());
       monthAgo.setMonth(monthAgo.getMonth() - 1);
-      return monthAgo;
+      return Date.parse(monthAgo);
     },
     async getEventTypes() {
       return (
@@ -39,7 +39,7 @@ module.exports = {
         headers: this._getAuthHeader(),
         data,
       };
-      return (await axios(config));
+      return await axios(config);
     },
     async deleteHook(hookId) {
       const config = {

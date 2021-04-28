@@ -4,7 +4,7 @@ module.exports = {
   key: "gitlab-new-issue",
   name: "New Issue (Instant)",
   description: "Emit an event when new issues are created in a project",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     gitlab,
@@ -49,17 +49,12 @@ module.exports = {
   methods: {
     isNewIssue(body) {
       const { previous } = body.changes.updated_at;
-      return previous === undefined;
+      return previous === undefined || previous === null;
     },
     generateMeta(data) {
       const { issue } = data;
       const { name, username } = data.user;
-      const {
-        id,
-        iid,
-        created_at,
-        title,
-      } = issue;
+      const { id, iid, created_at, title } = issue;
       const summary = `New issue by ${name} (${username}): #${iid} ${title}`;
       const ts = +new Date(created_at);
       return {

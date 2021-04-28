@@ -29,7 +29,7 @@ Users on the [Developer (free) tier](/pricing/#developer-tier) have a default qu
 
 **{{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}} invocations per day**
 
-across all workflows and event sources. **You are _not_ limited on invocations on paid plans like the [Professional tier](/pricing/#professional-tier)**.
+across all workflows and event sources. **You are _not_ limited on invocations on paid plans like the [Professional tier](/pricing/#professional-tier)**, but instead pay for usage.
 
 You can view your invocations usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
 
@@ -86,7 +86,7 @@ Generally the rate of HTTP requests sent to an endpoint is quantified by QPS, or
 
 We'll also accept short bursts of traffic, as long as you remain close to an average of 10 QPS (e.g. sending a batch of 50 requests every 30 seconds should not trigger rate limiting).
 
-**This limit can be raised**. [Reach out to our team](/support/) to request an increase.
+**This limit can be raised for Professional, Teams, and Enterprise customers**. To request an increase, [reach out to our Support team](/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
 
 ## Email Triggers
 

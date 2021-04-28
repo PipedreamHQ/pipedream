@@ -1,5 +1,5 @@
-const Dropbox = require('dropbox').Dropbox
-const fetch = require('isomorphic-fetch')
+const Dropbox = require("dropbox").Dropbox;
+const fetch = require("isomorphic-fetch");
 
 module.exports = {
   type: "app",
@@ -12,7 +12,7 @@ module.exports = {
       optional: false,
       useQuery: true,
       async options({ query }) {
-        return await this.pathOptions(query)
+        return await this.pathOptions(query);
       },
     },
     recursive: {
@@ -25,93 +25,106 @@ module.exports = {
   },
   methods: {
     sdk() {
-      return new Dropbox({ accessToken: this.$auth.oauth_access_token, fetch })
+      return new Dropbox({ accessToken: this.$auth.oauth_access_token, fetch });
     },
     async pathOptions(path) {
-      const limit = 50
-      let options = []
-      let entries, has_more, cursor
-      path = (path == "/" ? "" : path)
+      const limit = 50;
+      let options = [];
+      let entries, has_more, cursor;
+      path = path === "/" || path === null ? "" : path;
       try {
-        const sdk = this.sdk()
-        let files = await sdk.filesListFolder({ path, limit })
+        const sdk = this.sdk();
+        let files = await sdk.filesListFolder({ path, limit });
         if (files.result) {
-          files = files.result
+          files = files.result;
         }
         do {
-          ({ entries, has_more, cursor } = files)
-          for(entry of entries) {
+          ({ entries, has_more, cursor } = files);
+          for (entry of entries) {
             if (entry[".tag"] == "folder") {
-              options.push(entry.path_display)
+              options.push(entry.path_display);
             }
           }
           // TODO break after a certain number of folders has been found??
           if (has_more) {
-            files = await sdk.filesListFolderContinue({ cursor })
+            files = await sdk.filesListFolderContinue({ cursor });
             if (files.result) {
-              files = files.result
+              files = files.result;
             }
           }
-        } while(has_more)
-        options = options.sort((a, b) => { return a.toLowerCase().localeCompare(b.toLowerCase()) })
+        } while (has_more);
+        options = options.sort((a, b) => {
+          return a.toLowerCase().localeCompare(b.toLowerCase());
+        });
         if (path) {
-          options.unshift(require("path").dirname(path))
+          options.unshift(require("path").dirname(path));
         }
-        options.unshift(path)
+        options.unshift(path);
       } catch (err) {
-        console.log(err)
-        throw(`Error connecting to Dropbox API to get directory listing for path: ${path}`)
+        console.log(err);
+        throw `Error connecting to Dropbox API to get directory listing for path: ${path}`;
       }
-      return { options }
+      const labeledOptions = options.map((opt) => {
+        if (opt === "") {
+          return { label: "/", value: "" };
+        }
+        return { label: opt, value: opt };
+      });
+      return { options: labeledOptions };
     },
     async initState(context) {
-      const { path, recursive, db } = context
+      const { path, recursive, db } = context;
       try {
-        let fixedPath = (path == "/" ? "" : path)
-        let response = await this.sdk().filesListFolderGetLatestCursor({ path: fixedPath, recursive })
+        let fixedPath = path == "/" ? "" : path;
+        let response = await this.sdk().filesListFolderGetLatestCursor({
+          path: fixedPath,
+          recursive,
+        });
         if (response.result) {
-          response = response.result
+          response = response.result;
         }
-        let { cursor } = response
-        const state = { path, recursive, cursor }
-        db.set("dropbox_state", state)
-        return state
-      } catch(err) {
-        console.log(err)
-        throw(`Error connecting to Dropbox API to get latest cursor for folder: ${path}${recursive ? " (recursive)" : ""}`)
+        let { cursor } = response;
+        const state = { path, recursive, cursor };
+        db.set("dropbox_state", state);
+        return state;
+      } catch (err) {
+        console.log(err);
+        throw `Error connecting to Dropbox API to get latest cursor for folder: ${path}${
+          recursive ? " (recursive)" : ""
+        }`;
       }
     },
     async getState(context) {
-      const { path, recursive, db } = context
-      let state = db.get("dropbox_state")
+      const { path, recursive, db } = context;
+      let state = db.get("dropbox_state");
       if (state == null || state.path != path || state.recursive != recursive) {
-        state = await this.initState(context)
+        state = await this.initState(context);
       }
-      return state
+      return state;
     },
     async getUpdates(context) {
-      let ret = []
-      const state = await this.getState(context)
+      let ret = [];
+      const state = await this.getState(context);
       if (state) {
         try {
-          const { dropbox, db } = context
-          let [cursor, has_more, entries] = [state.cursor, true, null]
-          while(has_more) {
-            let response = await this.sdk().filesListFolderContinue({ cursor })
+          const { dropbox, db } = context;
+          let [cursor, has_more, entries] = [state.cursor, true, null];
+          while (has_more) {
+            let response = await this.sdk().filesListFolderContinue({ cursor });
             if (response.result) {
-              response = response.result
+              response = response.result;
             }
-            ({ entries, cursor, has_more } = response)
-            ret = ret.concat(entries)
+            ({ entries, cursor, has_more } = response);
+            ret = ret.concat(entries);
           }
-          state.cursor = cursor
-          db.set("dropbox_state", state)
-        } catch(err) {
-          console.log(err)
-          throw(`Error connecting to Dropbox API to get list of updated files/folders for cursor: ${state.cursor}`)
+          state.cursor = cursor;
+          db.set("dropbox_state", state);
+        } catch (err) {
+          console.log(err);
+          throw `Error connecting to Dropbox API to get list of updated files/folders for cursor: ${state.cursor}`;
         }
       }
-      return ret
+      return ret;
     },
   },
-}
+};
