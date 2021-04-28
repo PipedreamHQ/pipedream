@@ -12,28 +12,22 @@
 
 ## Overview
 
-This document is intended for developers who want to author and edit [Pipedream Actions](/components/#actions). After completing this quickstart, you will understand the basic patterns to develop actions including how to:
+This document is intended for developers who want to author and edit [Pipedream Actions](/components/#actions). After completing this quickstart, you will understand the basic patterns for:
 
-- Develop a Pipedream component
-- Publish private actions to Pipedream and use them in workflows
-- Use props to capture user input
-- Update an action
-- Use npm packages
-- Use Pipedream managed auth for a 3rd party app
+- Developing Pipedream components
+- Publishing private actions and use them in workflows
+- Using props to capture user input
+- Updating an action
+- Using npm packages
+- Using Pipedream managed auth for a 3rd party app
 
 > If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
 
 ## Prerequisites
 
 - Create a free account at [https://pipedream.com](https://pipedream.com)
-
-- [Download and install the Pipedream CLI](/cli/install/)
-
-Once the CLI is installed, [link your Pipedream account to the CLI](/cli/login/#existing-pipedream-account):
-
-```bash
-pd login
-```
+- Download and install the [Pipedream CLI](/cli/install/)
+- Once the CLI is installed, [link your Pipedream account](/cli/login/#existing-pipedream-account) to the CLI by running `pd login` in your terminal
 
 See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
@@ -61,7 +55,7 @@ We recommend that you complete this walkthrough in order.
 
 **Use Managed Auth (~10 mins)**
 
-- Use Pipedream managed OAuth with Github's API (using the `octokit` npm package) 
+- Use Pipedream managed OAuth with Github's API and  the `octokit` npm package
 - Retrieve details for a repo and return them from the action
 
 ### hello world!
@@ -99,14 +93,23 @@ sc_v4iaWB  Action Demo                             0.0.1    just now            
 To test the action:
 
 1. Open Pipedream in your browser 
-2. Create a new workflow with a cron trigger (to simplify testing)
+
+2. Create a new workflow with a **Schedule** trigger
+
 3. Click the **+** button to add a step to your workflow
-4. You should see an option to select **My Actions** (the option only appears after you publish an action to your account; if you don't see it, confirm the publish step was successful). Click on **My Actions** and then **Action Demo** to add it to your workflow.
+
+4. Click on **My Actions** and then select the **Action Demo** action to add it to your workflow.
    ![image-20210411165325045](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png)
+   
+   ![select action](https://res.cloudinary.com/pipedreamin/image/upload/v1619574740/docs/components/select-action_1_xiu7tj.png)
+   
+   The **My Actions** option only appears after you publish an action to your account. If you don't see it, confirm the CLI successfully published the action. If you have any issues, please reach out for support at https://pipedream.com/community. 
+   
 5. Deploy your workflow
+
 6. Click **RUN NOW** to execute your workflow and action
 
-You should see `hello world!` returned as the value for `steps.action_demo.$return_value`. 
+You should see `hello world!` returned as the value for `steps.action_demo.$return_value`.
 
 ![image-20210411165443563](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165443563_d6drvo.png)
 
@@ -114,9 +117,7 @@ Keep the browser tab open. We'll return to this workflow in the rest of the exam
 
 ### hello [name]!
 
-Next, we'll update the same component to capture user input and go through the action update process. We'll include snippets for each instruction and the updated code for the entire component below.
-
-First, add a string prop called `name` to the component.
+Next, let's update the component to capture user input. First, add a `string` [prop](/components/api/#props) called `name` to the component.
 
 ```java
 module.exports = {
@@ -126,7 +127,10 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    name: "string",
+    name: {
+      type: "string",
+      label: "Name",
+    }
   },
   async run() {
     return `hello world!`
@@ -144,7 +148,10 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    name: "string",
+    name: {
+      type: "string",
+      label: "Name",
+    }
   },
   async run() {
     return `hello ${this.name}!`
@@ -162,7 +169,10 @@ module.exports = {
   version: "0.0.2",
   type: "action",
   props: {
-    name: "string",
+    name: {
+      type: "string",
+      label: "Name",
+    }
   },
   async run() {
     return `hello ${this.name}!`
@@ -182,7 +192,7 @@ The CLI will update the component with the key `action_demo` in your account. Yo
 sc_Egip04  Action Demo                             0.0.2    just now             action_demo
 ```
 
-Next, let's update and run the action in the workflow from the previous example. 
+Next, let's update and run the action in the workflow from the previous example.
 
 1. Hover over the action — you will see an update icon at the top right. Click the icon to update the action in the workflow to the latest version. If you don't see the icon, verify that the CLI successfully published the update.
 
@@ -212,7 +222,10 @@ module.exports = {
   version: "0.0.2",
   type: "action",
   props: {
-    name: "string",
+    name: {
+      type: "string",
+      label: "Name",
+    }
   },
   async run() {
     return `hello ${this.name}!`
@@ -235,7 +248,10 @@ module.exports = {
   version: "0.0.2",
   type: "action",
   props: {
-    name: "string",
+    name: {
+      type: "string",
+      label: "Name",
+    }
   },
   async run() {
     const response = await axios.get("https://swapi.dev/api/people/1/")
@@ -298,7 +314,7 @@ Follow the steps in the previous example to update and run the action in your wo
 
 ### Use Managed Auth
 
-For the last example, we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). First, remove `axios` and clear the `run()` function from the last example. Your code should look like this:
+For the last example, we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). First, remove the line that requires `axios` and clear the `run()` function from the last example. Your code should look like this:
 
 ```javascript
 module.exports = {
@@ -355,7 +371,7 @@ module.exports = {
 
 > **Note:** The value for the `app` property is the name slug for the app in Pipedream. This is not currently discoverable, but it will be in the near future on app pages in the [Pipedream Marketplace](https://pipedream.com/explore). For the time being, if you want to know how to reference an app, please reach out on our public Slack.
 
-Finally, we'll update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the app prop `this.github.$auth.oauth_access_token`. You can discover the auth tokens provided in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore). 
+Finally, update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the app prop `this.github.$auth.oauth_access_token`. You can discover the auth tokens provided in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore). 
 
 ```javascript
 const { Octokit } = require('@octokit/rest')
