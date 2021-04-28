@@ -3,7 +3,7 @@
 
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
-- [Examples](#examples)
+- [Walkthrough](#walkthrough)
   - [hello world!](#hello-world)
   - [hello [name]!](#hello-name)
   - [Use an npm Package](#use-an-npm-package)
@@ -37,9 +37,9 @@ pd login
 
 See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
 
-## Quickstart Examples
+## Walkthrough
 
-We recommend that you complete these examples in order.
+We recommend that you complete this walkthrough in order.
 
 **hello world! (~5 minutes)**
 
