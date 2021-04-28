@@ -77,7 +77,7 @@ module.exports = {
       label: "Group",
       //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
-        let { types, cursor, userNames } = prevContext
+        let { types, cursor } = prevContext
         if (types == null) {
           const scopes = await this.scopes()
           types = ["mpim"]
