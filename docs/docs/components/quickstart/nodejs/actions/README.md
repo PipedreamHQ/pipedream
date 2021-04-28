@@ -102,8 +102,6 @@ To test the action:
 4. Click on **My Actions** and then select the **Action Demo** action to add it to your workflow.
    ![image-20210411165325045](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165325045_ia5sd5.png)
    
-   ![select action](https://res.cloudinary.com/pipedreamin/image/upload/v1619574740/docs/components/select-action_1_xiu7tj.png)
-   
    > **NOTE:** The **My Actions** option only appears after you publish an action to your account. If you don't see it, confirm the CLI successfully published the action. If you have any issues, please reach out for support at https://pipedream.com/community. 
    
 5. Deploy your workflow
