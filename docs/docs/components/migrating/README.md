@@ -7,6 +7,7 @@
   * [Legacy Code Example](#legacy-code-example)
   * [Converting into a Basic Component-Based Action](#converting-into-a-basic-component-based-action)
   * [Advanced: Using Async Options](#advanced--using-async-options)
+  * [Publishing and Using Actions](#publishing-and-using-actions)
 
 ## Overview
 This document is for developers who previously created actions in [Pipedream's UI](https://pipedream.com/actions). The purpose is to help users migrate exiting actions to Pipedream's new [component model](/components). There is currently no deprecation timeline for actions developed in the UI, but developers are encouraged to migrate to the new model. 
@@ -186,6 +187,6 @@ module.exports = {
 }
 ```
 
-### Publishing and Using Action
+### Publishing and Using Actions
 
 In the old model, actions were published via Pipedream's UI. To learn how to publish component-based actions using Pipedream's CLI and use them in workflows, review our [quickstart guide](/components/quickstart/nodejs/actions/). To contribute actions to the Pipedream registry, review our [guidelines](/components/guidelines/).
