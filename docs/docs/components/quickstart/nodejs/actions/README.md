@@ -12,14 +12,14 @@
 
 ## Overview
 
-This document is intended for developers who want to author and edit [Pipedream Actions](/components/#actions). After completing this quickstart, you will understand the basic patterns for:
+This document is intended for developers who want to author and edit [Pipedream Actions](/components/#actions). After completing this quickstart, you'll understand how to:
 
-- Developing Pipedream components
-- Publishing private actions and use them in workflows
-- Using props to capture user input
-- Updating an action
-- Using npm packages
-- Using Pipedream managed auth for a 3rd party app
+- Develop Pipedream components
+- Publish private actions and use them in workflows
+- Use props to capture user input
+- Update an action
+- Use npm packages
+- Use Pipedream managed auth for a 3rd party app
 
 > If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
 

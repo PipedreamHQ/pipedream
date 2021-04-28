@@ -1,4 +1,4 @@
-# Migrating from Legacy Actions
+# Migrating from Code Steps to Components
 
 - [Overview](#overview)
 - [Key Changes](#key-changes)
@@ -9,15 +9,15 @@
   * [Advanced: Using Async Options](#advanced--using-async-options)
 
 ## Overview
-This document is targeted at developers who created actions in Pipedream's UI prior to April 2021. The purpose is to help users migrate legacy actions to the new component model. There is no current timeline for the deprecation of legacy actions, but developers are encouraged to migrate to the new model. 
+This document is for developers who previously created actions in [Pipedream's UI](https://pipedream.com/actions). The purpose is to help users migrate exiting actions to the new component model. There is currently no timeline for the deprecation of actions developed in the UI, but developers are encouraged to migrate to the new model. 
 
 ## Key Changes
 
-Following are the key changes to the development patterns for creating actions using Pipedream's component and legacy models.
+Following are the key changes to the development pattern for creating actions using Pipedream's component and legacy models.
 
 **User Input**
 
-Legacy actions supported user input via `params`. `params` were used in code and the definition was derived. 
+Legacy actions supported capturing user input via `params`. `params` were used in code and the definition was derived. 
 
 The component model does not support `params`. You need to migrate `params` references to `props`. `props` must be explicitlly declared and defined prior to using them in code.
 
