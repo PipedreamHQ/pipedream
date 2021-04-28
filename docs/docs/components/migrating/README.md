@@ -186,6 +186,6 @@ module.exports = {
 }
 ```
 
-### Publishing an Action
+### Publishing and Using Action
 
-In the old model, actions were published via Pipedream's UI. To learn how to publish component-based actions using Pipedream's CLI, review our [quickstart guide](/components/quickstart/nodejs/actions/).
+In the old model, actions were published via Pipedream's UI. To learn how to publish component-based actions using Pipedream's CLI and use them in workflows, review our [quickstart guide](/components/quickstart/nodejs/actions/).
