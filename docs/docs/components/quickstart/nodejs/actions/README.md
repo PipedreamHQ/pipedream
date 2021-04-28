@@ -33,13 +33,13 @@ This document is intended for developers who want to author and edit [Pipedream 
 
 ## Walkthrough
 
-We recommend that you complete this walkthrough in order.
+We recommend that you complete the examples below in order.
 
 **hello world! (~5 minutes)**
 
 - Develop a `hello world!` action
 - Publish it (private to your account) using the Pipedream CLI
-- Add it to a workflow and run
+- Add it to a workflow and run it
 
 **hello [name]! (~5 minutes)**
 
@@ -55,12 +55,13 @@ We recommend that you complete this walkthrough in order.
 
 **Use Managed Auth (~10 mins)**
 
-- Use Pipedream managed OAuth with Github's API and  the `octokit` npm package
+- Use Pipedream managed OAuth for Github with the `octokit` npm package
+- Connect your Github account to the action in a Pipedream workflow
 - Retrieve details for a repo and return them from the action
 
 ### hello world!
 
-The following code represents a simple component that can be published as an action. When used in a workflow, it will export `hello world!` as the return value for the step.
+The following code represents a simple component that can be published as an action ([learn more](/components/api) about the component structure). When used in a workflow, it will export `hello world!` as the return value for the step.
 
 ```javascript
 module.exports = {
@@ -76,13 +77,13 @@ module.exports = {
 }
 ```
 
-To use it, save the code to a local `.js` file (e.g., `action.js`) and run the following CLI command:
+To get started, save the code to a local `.js` file (e.g., `action.js`) and run the following CLI command:
 
 ```
 pd publish action.js
 ```
 
-The CLI will publish the component as an action in your account with the key `action_demo`. **The key must be unique across all components in your account (sources and actions). If it's not unique, the component with the matching key will be updated.**
+The CLI will publish the component as an action in your account with the key `action_demo`. **The key must be unique across all components in your account (sources and actions). If it's not unique, the existing component with the matching key will be updated.**
 
 The CLI output should look similar to this:
 
@@ -103,7 +104,7 @@ To test the action:
    
    ![select action](https://res.cloudinary.com/pipedreamin/image/upload/v1619574740/docs/components/select-action_1_xiu7tj.png)
    
-   The **My Actions** option only appears after you publish an action to your account. If you don't see it, confirm the CLI successfully published the action. If you have any issues, please reach out for support at https://pipedream.com/community. 
+   > **NOTE:** The **My Actions** option only appears after you publish an action to your account. If you don't see it, confirm the CLI successfully published the action. If you have any issues, please reach out for support at https://pipedream.com/community. 
    
 5. Deploy your workflow
 
@@ -117,7 +118,7 @@ Keep the browser tab open. We'll return to this workflow in the rest of the exam
 
 ### hello [name]!
 
-Next, let's update the component to capture user input. First, add a `string` [prop](/components/api/#props) called `name` to the component.
+Next, let's update the component to capture some user input. First, add a `string` [prop](/components/api/#props) called `name` to the component.
 
 ```java
 module.exports = {
@@ -159,7 +160,7 @@ module.exports = {
 }
 ```
 
-Finally, update the version to `0.0.2`. If you fail to update the version, the CLI will throw an error.
+Finally, update the component version to `0.0.2`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
 module.exports = {
@@ -186,19 +187,19 @@ Save the file and run the `pd publish` command again to update the action in you
 pd publish action.js
 ```
 
-The CLI will update the component with the key `action_demo` in your account. You should see something like this:
+The CLI will update the component in your account with the key `action_demo`. You should see something like this:
 
 ```
 sc_Egip04  Action Demo                             0.0.2    just now             action_demo
 ```
 
-Next, let's update and run the action in the workflow from the previous example.
+Next, let's update the action in the workflow from the previous example and run it.
 
-1. Hover over the action — you will see an update icon at the top right. Click the icon to update the action in the workflow to the latest version. If you don't see the icon, verify that the CLI successfully published the update.
+1. Hover over the action in your workflow — you should see an update icon at the top right. Click the icon to update the action to the latest version and then save the workflow. If you don't see the icon, verify that the CLI successfully published the update.
 
    ![image-20210411164514490](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411164514490_qghbzf.png)
 
-2. Enter a value for the `Name` input (e.g., `foo`). NOTE: you may need to save the workflow to update the configuration form.
+2. After saving the workflow, you should see an input field appear. Enter a value for the `Name` input (e.g., `foo`). 
    ![image-20210411165053922](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411165053922_pckn5y.png)
 3. Deploy the workflow and click **RUN NOW**
 
@@ -206,11 +207,7 @@ You should see `hello foo!` (or the value you entered for `Name`) as the value r
 
 ### Use an npm Package
 
-Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. In this example, we'll retrieve a name via the API so we can remove the `name` prop. Next, we'll update the 
-
-> **Note:** To use most npm packages on Pipedream, just require them — there is no `package.json` or `npm install` required.
-
-To use the `axios` package, just require it.
+Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. To use the `axios` package, just require it.
 
 ```javascript
 const axios = require("axios")
@@ -233,9 +230,11 @@ module.exports = {
 }
 ```
 
+> **Note:** To use most npm packages on Pipedream, just require them — there is no `package.json` or `npm install` required.
+
 Then, update the `run()` method to:
 
-- Make a request to the following endpoing for the Star Wars API: `https://swapi.dev/api/people/1/`
+- Make a request to the following endpoint for the Star Wars API: `https://swapi.dev/api/people/1/`
 - Reference the `name` field of the payload returned by the API
 
 ```javascript
@@ -260,7 +259,7 @@ module.exports = {
 }
 ```
 
-Next, remove the `name` from `props` since we're no longer using it.
+Next, remove the `name` prop since we're no longer using it.
 
 ```javascript
 const axios = require("axios")
@@ -304,7 +303,7 @@ Save the file and run the `pd publish` command again to update the action in you
 pd publish action.js
 ```
 
-The CLI will update the component with the key `action_demo` in your account. You should see something like this:
+The CLI will update the component in your account with the key `action_demo`. You should see something like this:
 
 ```
 sc_ZriKEn  Action Demo                             0.0.3    1 second ago         action_demo
@@ -329,7 +328,7 @@ module.exports = {
 }
 ```
 
-Next, let's require Github's `octokit` npm package at the top of the file:
+Next, require Github's `octokit` npm package
 
 ```javascript
 const { Octokit } = require('@octokit/rest')
@@ -346,7 +345,7 @@ module.exports = {
 }
 ```
 
-Then add an **app prop**, which will enable us to use Pipedream managed auth with this component. For this example, we'll add Github:
+Then add an [app prop](/components/api/#app-props) to use Pipedream managed auth with this component. For this example, we'll add an app prop for Github:
 
 ```javascript
 const { Octokit } = require('@octokit/rest')
@@ -371,7 +370,7 @@ module.exports = {
 
 > **Note:** The value for the `app` property is the name slug for the app in Pipedream. This is not currently discoverable, but it will be in the near future on app pages in the [Pipedream Marketplace](https://pipedream.com/explore). For the time being, if you want to know how to reference an app, please reach out on our public Slack.
 
-Finally, update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the app prop `this.github.$auth.oauth_access_token`. You can discover the auth tokens provided in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore). 
+Next, update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the `$auth` property of the app prop — `this.github.$auth.oauth_access_token`. You can discover how to reference auth tokens in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore). 
 
 ```javascript
 const { Octokit } = require('@octokit/rest')
@@ -437,13 +436,13 @@ Save the file and run the `pd publish` command again to update the action in you
 pd publish action.js
 ```
 
-The CLI will update the component with the key `action_demo` in your account. You should see something like this:
+The CLI will update the component in your account with the key `action_demo`. You should see something like this:
 
 ```
 sc_k3ia53  Action Demo                            0.0.4    just now             action_demo
 ```
 
-Follow the steps in the previous example to update the action in your workflow (you may need to save your workflow after refreshing the action). You should now see a prompt to connect your Github account to the step:
+Follow the steps in the earlier example to update the action in your workflow (you may need to save your workflow after refreshing the action). You should now see a prompt to connect your Github account to the step:
 ![image-20210411114410883](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411114410883_cngxm4.png)
 
 Select an existing account or connect a new one, and then deploy your workflow and click **RUN NOW**. You should see the results returned by the action:
