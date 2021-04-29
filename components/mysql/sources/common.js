@@ -45,11 +45,12 @@ module.exports = {
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);
     },
-    async listMax10RowResults(connection, column) {
-      const rows = await this.mysql.listMax10Rows(
+    async listTopRows(connection, column, maxCount = 10) {
+      const rows = await this.mysql.listMaxRows(
         connection,
         this.table,
-        column
+        column,
+        maxCount
       );
       this._setLastResult(rows, column);
       this.iterateAndEmitEvents(rows);
@@ -58,8 +59,12 @@ module.exports = {
   async run(event) {
     const connection = await this.mysql.getConnection();
 
-    await this.listResults(connection);
-
-    await this.mysql.closeConnection(connection);
+    try {
+      await this.listResults(connection);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      await this.mysql.closeConnection(connection);
+    }
   },
 };

@@ -9,13 +9,32 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
+    db: "$.service.db",
     table: { propDefinition: [common.props.mysql, "table"] },
   },
   methods: {
     ...common.methods,
+    _getPreviousColumns() {
+      return this.db.get("previousColumns");
+    },
+    _setPreviousColumns(previousColumns) {
+      this.db.set("previousColumns", previousColumns);
+    },
     async listResults(connection) {
-      const columns = await this.mysql.listColumns(connection, this.table);
+      let previousColumns = this._getPreviousColumns() || [];
+      const columns = await this.mysql.listNewColumns(
+        connection,
+        this.table,
+        previousColumns
+      );
       this.iterateAndEmitEvents(columns);
+
+      const columnNames = columns.map((column) => column.Field);
+      const newColumnNames = columnNames.filter(
+        (c) => !previousColumns.includes(c)
+      );
+      previousColumns = previousColumns.concat(newColumnNames);
+      this._setPreviousColumns(previousColumns);
     },
     generateMeta(column) {
       const columnName = column.Field;

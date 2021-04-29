@@ -45,21 +45,61 @@ module.exports = {
       });
     },
     async closeConnection(connection) {
-      const connection_closed = new Promise((resolve) => {
+      const connectionClosed = new Promise((resolve) => {
         connection.connection.stream.on("close", resolve);
       });
       await connection.end();
-      await connection_closed;
+      await connectionClosed;
     },
     async executeQuery(connection, query) {
       const results = await connection.execute(query);
       return results[0];
     },
     async listTables(connection) {
-      return await this.executeQuery(connection, "SHOW FULL TABLES");
+      const options = {
+        sql: "SHOW FULL TABLES",
+      };
+      return await this.executeQuery(connection, options);
+    },
+    async listBaseTables(connection, lastResult) {
+      const options = {
+        sql: `
+          SELECT * FROM INFORMATION_SCHEMA.TABLES 
+          WHERE TABLE_TYPE = 'BASE TABLE'
+          AND CREATE_TIME > ?
+          ORDER BY CREATE_TIME DESC
+        `,
+        values: [lastResult],
+      };
+      return await this.executeQuery(connection, options);
+    },
+    async listTopTables(connection, maxCount = 10) {
+      const options = {
+        sql: `
+          SELECT * FROM INFORMATION_SCHEMA.TABLES 
+          WHERE TABLE_TYPE = 'BASE TABLE'
+          ORDER BY CREATE_TIME DESC
+          LIMIT ?
+        `,
+        values: [maxCount],
+      };
+      return await this.executeQuery(connection, options);
     },
     async listColumns(connection, table) {
-      return await this.executeQuery(connection, `SHOW COLUMNS FROM ${table}`);
+      const options = {
+        sql: `SHOW COLUMNS FROM \`${table}\``,
+      };
+      return await this.executeQuery(connection, options);
+    },
+    async listNewColumns(connection, table, previousColumns) {
+      const options = {
+        sql: `
+          SHOW COLUMNS FROM \`${table}\`
+          WHERE Field NOT IN (?)
+        `,
+        values: [previousColumns.join()],
+      };
+      return await this.executeQuery(connection, options);
     },
     /**
      * Returns rows from a specified table.
@@ -69,11 +109,15 @@ module.exports = {
      * @param {string} lastResult - Maximum result in the specified table column that has been previously returned.
      */
     async listRows(connection, table, column, lastResult) {
-      let query = `SELECT * FROM ${table} WHERE ${column} > `;
-      if (typeof lastResult == "string") query += `'${lastResult}'`;
-      else query += lastResult;
-      query += ` ORDER BY ${column} DESC`;
-      return await this.executeQuery(connection, query);
+      const options = {
+        sql: `
+          SELECT * FROM \`${table}\`
+          WHERE \`${column}\` > ? 
+          ORDER BY \`${column}\` DESC
+        `,
+        values: [lastResult],
+      };
+      return await this.executeQuery(connection, options);
     },
     /**
      * Returns rows from a specified table. Used when lastResult has not yet been set. Returns a maximum of 10 results
@@ -82,23 +126,29 @@ module.exports = {
      * @param {string} table - Name of the table to search.
      * @param {string} column - Name of the table column to order by
      */
-    async listMax10Rows(connection, table, column) {
-      const query = `SELECT * FROM ${table} ORDER BY ${column} DESC LIMIT 10`;
-      return await this.executeQuery(connection, query);
+    async listMaxRows(connection, table, column, maxCount = 10) {
+      const options = {
+        sql: `
+          SELECT * FROM \`${table}\`
+          ORDER BY \`${column}\` DESC
+          LIMIT ?
+        `,
+        values: [maxCount],
+      };
+      return await this.executeQuery(connection, options);
     },
     async getPrimaryKey(connection, table) {
-      return await this.executeQuery(
-        connection,
-        `SHOW KEYS FROM ${table} WHERE Key_name = 'PRIMARY'`
-      );
+      const options = {
+        sql: `SHOW KEYS FROM ? WHERE Key_name = 'PRIMARY'`,
+        values: [table],
+      };
+      return await this.executeQuery(connection, options);
     },
     async listColumnNames(table) {
       const connection = await this.getConnection();
       const columns = await this.listColumns(connection, table);
       await this.closeConnection(connection);
-      return columns.map((column) => {
-        return column.Field;
-      });
+      return columns.map((column) => column.Field);
     },
   },
 };

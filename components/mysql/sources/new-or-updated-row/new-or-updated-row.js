@@ -25,7 +25,7 @@ module.exports = {
   hooks: {
     async deploy() {
       const connection = await this.mysql.getConnection();
-      await this.listMax10RowResults(connection, this.column);
+      await this.listTopRows(connection, this.column);
       await this.mysql.closeConnection(connection);
     },
   },

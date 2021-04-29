@@ -29,20 +29,26 @@ module.exports = {
         const keyData = await this.mysql.getPrimaryKey(connection, this.table);
         column = keyData[0].Column_name;
       }
-      this.db.set("column", column);
+      this._setColumn(column);
 
-      await this.listMax10RowResults(connection, column);
+      await this.listTopRows(connection, column);
       await this.mysql.closeConnection(connection);
     },
   },
   methods: {
     ...common.methods,
+    _getColumn() {
+      return this.db.get("column");
+    },
+    _setColumn(column) {
+      this.db.set("column", column);
+    },
     async listResults(connection) {
-      const column = this.db.get("column");
+      const column = this._getColumn();
       await this.listRowResults(connection, column);
     },
     iterateAndEmitEvents(rows) {
-      const column = this.db.get("column");
+      const column = this._getColumn();
       for (const row of rows) {
         const meta = this.generateMeta(row, column);
         this.$emit(row, meta);
