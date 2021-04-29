@@ -3,7 +3,7 @@ const dropbox = require("../../dropbox.app.js");
 module.exports = {
   key: "dropbox-new-or-modified-file-or-folder",
   name: "New or Modified File or Folder",
-  version: "0.0.3",
+  version: "0.0.4",
   description:
     "Emits an event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
@@ -35,11 +35,12 @@ module.exports = {
     },
   },
   async run(event) {
-    let updates = await this.dropbox.getUpdates(this);
+    const updates = await this.dropbox.getUpdates(this);
     for (update of updates) {
       if (update[".tag"] == "file") {
         if (this.includeMediaInfo) {
-          update = await this.dropbox.sdk().filesGetMetadata({
+          const dpx = await this.dropbox.sdk();
+          update = await dpx.filesGetMetadata({
             path: update.path_lower,
             include_media_info: true,
           });
@@ -48,7 +49,8 @@ module.exports = {
           }
         }
         if (this.includeLink) {
-          let response = await this.dropbox.sdk().filesGetTemporaryLink({
+          const dpx = await this.dropbox.sdk();
+          let response = await dpx.filesGetTemporaryLink({
             path: update.path_lower,
           });
           if (response.result) {
