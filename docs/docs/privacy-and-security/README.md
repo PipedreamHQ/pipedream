@@ -3,9 +3,11 @@ next: false
 prev: false
 ---
 
-# Security at Pipedream
+# Privacy and Security at Pipedream
 
-Pipedream is committed to the security of your data. Below, we outline how we handle specific data and what we do to secure it. This is not an exhaustive list of security practices, but an overview of key policies and procedures.
+Pipedream is committed to the privacy and security of your data. Below, we outline how we handle specific data and what we do to secure it. This is not an exhaustive list of practices, but an overview of key policies and procedures.
+
+It is also your responsibility as a customer to ensure you're securing your workflows and the data you send to them. See our [security best practices](/privacy-and-security/best-practices/) for more information.
 
 If you have any questions that aren't covered below, or if you'd like to report a suspected vulnerability, please contact us at <span style="font-weight: bold">security@pipedream.com</span>.
 
@@ -55,7 +57,9 @@ Each version of a source or workflow is deployed to its own virtual machine. Thi
 
 ## Encryption of data in transit, TLS (SSL) Certificates
 
-When you use the Pipedream web application at [https://pipedream.com](https://pipedream.com), traffic between your client and Pipedream services is encrypted in transit. All Pipedream-managed certificates used to protect user data in transit are created using [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/). This eliminates the need for our employees to manage certificate private keys: these keys are managed and secured by Amazon.
+When you use the Pipedream web application at [https://pipedream.com](https://pipedream.com), traffic between your client and Pipedream services is encrypted in transit. When you create an HTTP interface in Pipedream, the Pipedream UI defaults to displaying the HTTPS endpoint, which we recommend you use when sending HTTP traffic to Pipedream so that your data is encrypted in transit.
+
+All Pipedream-managed certificates used to protect user data in transit are created using [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/). This eliminates the need for our employees to manage certificate private keys: these keys are managed and secured by Amazon.
 
 ## Email Security
 

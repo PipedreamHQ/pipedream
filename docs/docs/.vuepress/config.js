@@ -177,7 +177,12 @@ module.exports = {
       {
         title: "Privacy & Security",
         collapsable: false,
-        children: ["/security/", "/security/pgp-key/", "/subprocessors/"],
+        children: [
+          "/privacy-and-security/",
+          "/privacy-and-security/best-practices/",
+          "/privacy-and-security/pgp-key/",
+          "/subprocessors/",
+        ],
       },
       "/status/",
     ],
