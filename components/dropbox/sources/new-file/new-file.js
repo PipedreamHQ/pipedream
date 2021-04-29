@@ -3,7 +3,7 @@ const dropbox = require("../../dropbox.app.js");
 module.exports = {
   key: "dropbox-new-file",
   name: "New File",
-  version: "0.0.3",
+  version: "0.0.4",
   description:
     "Emits an event when a new file is added to your account or a specific folder. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
@@ -31,7 +31,7 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      let startTime = new Date();
+      const startTime = new Date();
       await this.dropbox.initState(this);
       this.db.set("last_file_mod_time", startTime);
     },
@@ -39,14 +39,15 @@ module.exports = {
   async run(event) {
     const lastFileModTime = this.db.get("last_file_mod_time");
     let currFileModTime = "";
-    let updates = await this.dropbox.getUpdates(this);
+    const updates = await this.dropbox.getUpdates(this);
     for (update of updates) {
       if (update[".tag"] == "file") {
         if (update.server_modified > currFileModTime) {
           currFileModTime = update.server_modified;
         }
         try {
-          let revisions = await this.dropbox.sdk().filesListRevisions({
+          const dpx = await this.dropbox.sdk();
+          let revisions = await dpx.filesListRevisions({
             path: update.id,
             mode: { ".tag": "id" },
             limit: 10,
@@ -55,13 +56,14 @@ module.exports = {
             revisions = revisions.result;
           }
           if (revisions.entries.length > 1) {
-            let oldest = revisions.entries.pop();
+            const oldest = revisions.entries.pop();
             if (lastFileModTime && lastFileModTime >= oldest.client_modified) {
               continue;
             }
           }
           if (this.includeMediaInfo) {
-            update = await this.dropbox.sdk().filesGetMetadata({
+            const dpx = await this.dropbox.sdk();
+            update = await dpx.filesGetMetadata({
               path: update.path_lower,
               include_media_info: true,
             });
@@ -70,7 +72,8 @@ module.exports = {
             }
           }
           if (this.includeLink) {
-            let response = await this.dropbox.sdk().filesGetTemporaryLink({
+            const dpx = await this.dropbox.sdk();
+            let response = await dpx.filesGetTemporaryLink({
               path: update.path_lower,
             });
             if (response.result) {
