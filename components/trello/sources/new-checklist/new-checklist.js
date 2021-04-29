@@ -1,74 +1,34 @@
-const trello = require("../../trello.app.js");
-const get = require("lodash.get");
+const common = require("../common-webhook.js");
+const get = require("lodash/get");
 
 module.exports = {
+  ...common,
   key: "trello-new-checklist",
   name: "New Checklist (Instant)",
   description: "Emits an event for each new checklist added to a board.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
-    trello,
-    boardId: { propDefinition: [trello, "boardId"] },
-    db: "$.service.db",
-    http: "$.interface.http",
+    ...common.props,
+    board: { propDefinition: [common.props.trello, "board"] },
   },
-
-  hooks: {
-    async activate() {
-      let modelId = this.boardId;
-      if (!this.boardId) {
-        const member = await this.trello.getMember("me");
-        modelId = member.id;
-      }
-      const { id } = await this.trello.createHook({
-        id: modelId,
-        endpoint: this.http.endpoint,
-      });
-      this.db.set("hookId", id);
-      this.db.set("boardId", this.boardId);
+  methods: {
+    ...common.methods,
+    isCorrectEventType(event) {
+      const eventType = get(event, "body.action.type");
+      if (eventType !== "addChecklistToCard") return false;
+      return true;
     },
-    async deactivate() {
-      console.log(this.db.get("hookId"));
-      await this.trello.deleteHook({
-        hookId: this.db.get("hookId"),
-      });
+    async getResult(event) {
+      const checklistId = get(event, "body.action.data.checklist.id");
+      return await this.trello.getChecklist(checklistId);
     },
-  },
-
-  async run(event) {
-    // validate signature
-    if (
-      !this.trello.verifyTrelloWebhookRequest(
-        event,
-        this.http.endpoint
-      )
-    ) {
-      return;
-    }
-
-    const body = get(event, "body");
-    if (!body) {
-      return;
-    }
-
-    const eventType = get(body, "action.type");
-    if (eventType !== "addChecklistToCard") {
-      return;
-    }
-
-    const boardId = this.db.get("boardId");
-    const checklistId = get(body, "action.data.checklist.id");
-    const checklist = await this.trello.getChecklist(checklistId);
-
-    if (boardId && boardId !== checklist.idBoard) {
-      return;
-    }
-
-    this.$emit(checklist, {
-      id: checklist.id,
-      summary: checklist.name,
-      ts: Date.now(),
-    });
+    isRelevant({ result: checklist }) {
+      if (this.board && this.board !== checklist.idBoard) return false;
+      return true;
+    },
+    generateMeta(checklist) {
+      return this.generateCommonMeta(checklist);
+    },
   },
 };

@@ -1,75 +1,35 @@
-const trello = require("../../trello.app.js");
-const get = require("lodash.get");
+const common = require("../common-webhook.js");
+const get = require("lodash/get");
 
 module.exports = {
+  ...common,
   key: "trello-new-member-on-card",
   name: "New Member on Card (Instant)",
   description:
     "Emits an event for each card joined by the authenticated Trello user.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
-    trello,
-    boardId: { propDefinition: [trello, "boardId"] },
-    db: "$.service.db",
-    http: "$.interface.http",
+    ...common.props,
+    board: { propDefinition: [common.props.trello, "board"] },
   },
-
-  hooks: {
-    async activate() {
-      let modelId = this.boardId;
-      if (!this.boardId) {
-        const member = await this.trello.getMember("me");
-        modelId = member.id;
-      }
-      const { id } = await this.trello.createHook({
-        id: modelId,
-        endpoint: this.http.endpoint,
-      });
-      this.db.set("hookId", id);
-      this.db.set("boardId", this.boardId);
+  methods: {
+    ...common.methods,
+    isCorrectEventType(event) {
+      const eventType = get(event, "body.action.type");
+      if (eventType !== "addMemberToCard") return false;
+      return true;
     },
-    async deactivate() {
-      console.log(this.db.get("hookId"));
-      await this.trello.deleteHook({
-        hookId: this.db.get("hookId"),
-      });
+    async getResult(event) {
+      const cardId = get(event, "body.action.data.card.id");
+      return await this.trello.getCard(cardId);
     },
-  },
-
-  async run(event) {
-    // validate signature
-    if (
-      !this.trello.verifyTrelloWebhookRequest(
-        event,
-        this.http.endpoint
-      )
-    ) {
-      return;
-    }
-
-    const body = get(event, "body");
-    if (!body) {
-      return;
-    }
-
-    const eventType = get(body, "action.type");
-    if (eventType !== "addMemberToCard") {
-      return;
-    }
-
-    const boardId = this.db.get("boardId");
-    const cardId = get(body, "action.data.card.id");
-    const card = await this.trello.getCard(cardId);
-
-    if (boardId && boardId !== card.idBoard) {
-      return;
-    }
-
-    this.$emit(card, {
-      id: card.id,
-      summary: card.name,
-      ts: Date.now(),
-    });
+    isRelevant({ result: card }) {
+      if (this.boardId && this.boardId !== card.idBoard) return false;
+      return true;
+    },
+    generateMeta(card) {
+      return this.generateCommonMeta(card);
+    },
   },
 };

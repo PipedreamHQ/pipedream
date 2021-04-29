@@ -1,14 +1,15 @@
-const trello = require("../../trello.app.js");
+const common = require("../common-polling.js");
 
 module.exports = {
+  ...common,
   key: "trello-card-due-date-reminder",
   name: "Card Due Date Reminder",
   description: "Emits an event at a specified time before a card is due.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
-    trello,
-    boardId: { propDefinition: [trello, "boardId"] },
+    ...common.props,
+    board: { propDefinition: [common.props.trello, "board"] },
     timeBefore: {
       type: "integer",
       label: "Time Before",
@@ -29,36 +30,24 @@ module.exports = {
       },
       default: "Minutes",
     },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+  },
+  methods: {
+    ...common.methods,
+    generateMeta(card) {
+      return this.generateCommonMeta(card);
     },
   },
-
   async run(event) {
-    const cards = [];
-    let results = [];
-    let due, notifyAt;
-    const boardId = this.boardId ? this.boardId : "me";
-    const now = new Date();
+    const boardId = this.board ? this.board : "me";
+    const now = Date.now();
 
-    results = await this.trello.getCards(boardId);
-    for (const card of results) {
-      if (card.due) {
-        due = new Date(card.due);
-        notifyAt = new Date(
-          due.getTime() - this.timeBefore * this.timeBeforeUnit
-        );
-        if (notifyAt.getTime() <= now.getTime()) {
-          this.$emit(card, {
-            id: card.id,
-            summary: card.name,
-            ts: Date.now(),
-          });
-        }
+    const cards = await this.trello.getCards(boardId);
+    for (const card of cards) {
+      if (!card.due) continue;
+      const due = Date.parse(card.due);
+      const notifyAt = due - this.timeBefore * this.timeBeforeUnit;
+      if (notifyAt <= now) {
+        this.emitEvent(card);
       }
     }
   },

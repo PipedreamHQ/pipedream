@@ -1,45 +1,44 @@
-const trello = require("../../trello.app.js");
+const common = require("../common-polling.js");
 
 module.exports = {
+  ...common,
   key: "trello-new-notification",
   name: "New Notification",
   description:
     "Emits an event for each new Trello notification for the authenticated user.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
-  props: {
-    trello,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+  methods: {
+    ...common.methods,
+    _getLastNotificationId() {
+      return this.db.get("lastNotificationId") || null;
+    },
+    _setLastNotificationId(notifications) {
+      this.db.set(
+        "lastNotificationId",
+        notifications[notifications.length - 1].id
+      );
+    },
+    generateMeta({ id, type, date, data }) {
+      return {
+        id,
+        summary: `${type} : ${data.card.name}`,
+        ts: Date.parse(date),
+      };
     },
   },
-
   async run(event) {
-    let notificationDate;
-    const since = this.db.get("lastNotificationId") || null;
+    const since = this._getLastNotificationId();
     const params = {
       since,
     };
 
     const notifications = await this.trello.getNotifications("me", params);
 
-    if (notifications.length > 0)
-      this.db.set(
-        "lastNotificationId",
-        notifications[notifications.length - 1].id
-      );
+    if (notifications.length > 0) this._setLastNotificationId(notifications);
 
     for (const notification of notifications) {
-      notificationDate = new Date(notification.date);
-      this.$emit(notification, {
-        id: notification.id,
-        summary: `${notification.type} : ${notification.data.card.name}`,
-        ts: notificationDate.getTime(),
-      });
+      this.emitEvent(notification);
     }
   },
 };

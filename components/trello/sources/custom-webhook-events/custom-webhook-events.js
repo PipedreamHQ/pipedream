@@ -1,72 +1,64 @@
-const trello = require("../../trello.app.js");
-const get = require("lodash.get");
+const common = require("../common-webhook.js");
+const get = require("lodash/get");
 
 module.exports = {
+  ...common,
   key: "trello-custom-webhook-events",
-  name: "Custom Webhook Events",
-  description: "Emit events for activity matching a board, event types, lists and/or cards.",
-  version: "0.0.3",
+  name: "Custom Webhook Events (Instant)",
+  description:
+    "Emit events for activity matching a board, event types, lists and/or cards.",
+  version: "0.0.4",
   props: {
-    db: "$.service.db",
-    http: "$.interface.http",
-    trello,
-    boardId: { propDefinition: [trello, "boardId"] },
-    eventTypes: { propDefinition: [trello, "eventTypes"] },
-    listIds: {
-      propDefinition: [trello, "listIds", (c) => ({ boardId: c.boardId })],
+    ...common.props,
+    board: { propDefinition: [common.props.trello, "board"] },
+    eventTypes: { propDefinition: [common.props.trello, "eventTypes"] },
+    lists: {
+      propDefinition: [
+        common.props.trello,
+        "lists",
+        (c) => ({ board: c.board }),
+      ],
     },
-    cardIds: {
-      propDefinition: [trello, "cardIds", (c) => ({ boardId: c.boardId })],
-    },
-  },
-  hooks: {
-    async activate() {
-      console.log(`board: ${this.boardId}`);
-      const { id } = await this.trello.createHook({
-        id: this.boardId,
-        endpoint: this.http.endpoint,
-      });
-      this.db.set("hookId", id);
-      this.db.set("eventTypes", this.eventTypes);
-      this.db.set("listIds", this.listIds);
-      this.db.set("cardIds", this.cardIds);
-    },
-    async deactivate() {
-      console.log(this.db.get("hookId"));
-      await this.trello.deleteHook({
-        hookId: this.db.get("hookId"),
-      });
+    cards: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({ board: c.board }),
+      ],
     },
   },
-  async run(event) {
-    // validate signature
-    if (
-      !this.trello.verifyTrelloWebhookRequest(
-        event,
-        this.http.endpoint
+  methods: {
+    ...common.methods,
+    isCorrectEventType(event) {
+      const eventType = get(event, "body.action.type");
+      if (
+        this.eventTypes &&
+        this.eventTypes.length > 0 &&
+        !this.eventTypes.includes(eventType)
       )
-    ) {
-      return;
-    }
+        return false;
+      return true;
+    },
+    async getResult(event) {
+      return event.body;
+    },
+    isRelevant({ result: body, event }) {
+      const listId = get(body, "action.data.list.id");
+      const cardId = get(body, "action.data.card.id");
 
-    const body = get(event, "body");
-    if (!body) {
-      return;
-    }
-    const eventTypes = this.db.get("eventTypes");
-    const listIds = this.db.get("listIds");
-    const cardIds = this.db.get("cardIds");
-
-    const eventType = get(body, "action.type");
-    const listId = get(body, "action.data.list.id");
-    const cardId = get(body, "action.data.card.id");
-
-    if (eventTypes && eventTypes.length > 0 && !eventTypes.includes(eventType)) return;
-    if (listIds && listIds.length > 0 && !listIds.includes(card.idList)) return;
-    if (cardIds && cardIds.length > 0 && !cardIds.includes(card.id)) return;
-
-    this.$emit(body, {
-      summary: eventType,
-    });
+      if (this.lists && this.lists.length > 0 && !this.lists.includes(listId))
+        return false;
+      if (this.cards && this.cards.length > 0 && !this.cards.includes(cardId))
+        return false;
+      return true;
+    },
+    generateMeta({ action }) {
+      const { id, type: summary, date } = action;
+      return {
+        id,
+        summary,
+        ts: Date.parse(date),
+      };
+    },
   },
 };
