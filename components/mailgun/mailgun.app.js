@@ -31,6 +31,14 @@ module.exports = {
       default: "US",
       options: ["US", "EU"],
     },
+    timer: {
+      label: "Polling schedule",
+      description: "Pipedream polls Reddit for events on this schedule.",
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 120 , // by default, run every 15 minutes.
+      },
+    }
   },
   methods: {
     _apiKey() {
@@ -50,6 +58,7 @@ module.exports = {
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
       const { path } = opts;
       delete opts.path;
+      console.log(`[_makeRequest]${path}`);
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return (await axios(opts)).data;
     },
@@ -151,5 +160,41 @@ module.exports = {
         })
       );
     },
-  },
+    /*
+    async getMailgunEvents(mailgunDomain,nextId = null){
+      const nextPathPart = nextId ? `/${nextId}`:"";
+      return await this._makeRequest({
+          path: `v3/${mailgunDomain}/events${nextPathPart}`,
+          params: {
+            limit: 300
+          }
+        });
+    },
+    */
+    async getMailgunEvents(mailgunDomain,nextId = null){
+      const nextPathPart = nextId ? `/${nextId}`:"";
+      const mailgun = require('mailgun-js')({ apiKey: this._apiKey(), domain: mailgunDomain });
+      return mailgunEvents = await mailgun.get(
+        `/${mailgunDomain}/events${nextPathPart}`,
+        { "limit": 300}
+        );
+    },
+    async getMailgunLists(page, limit = 100,address = null){
+      let params = {
+        page,
+        limit
+      };
+      if(address){
+        params["address"] = address;
+      }
+      return await this._makeRequest({
+          path: `v3/lists/pages`,
+          params
+        });
+    },
+    printSomething(){
+      console.log(`[print something]`);
+      return "print something";
+    },
+  }
 };

@@ -3,10 +3,10 @@ const { mailgun } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-delivery",
-  name: "New delivery",
+  key: "new-complain",
+  name: "New complain",
   description:
-    "Emit an event when an email is sent and accepted by the recipient email server.",
+    "Emit an event when the email recipient clicked on the spam complaint button within their email client. Feedback loops enable the notification to be received by Mailgun.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -16,13 +16,13 @@ module.exports = {
   methods: {
     ...common.methods,
     getEventName() {
-      return ["delivered"];
+      return ["complained"];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
-      return {
+      return { 
         id: `${eventPayload.id}${ts}`,
-        summary: `New Delivery: ${eventPayload.message.headers["message-id"]} by ${eventPayload.envelope.sender}`,
+        summary: `New Complain on message id: ${eventPayload.message.headers["message-id"]} by ${eventPayload.recipient}`,
         ts,
       };
     },
