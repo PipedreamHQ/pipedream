@@ -1,0 +1,151 @@
+
+swagger: "3.0"
+
+paths:
+  /cancel:
+    post:
+      summary: Cancel a scheduled task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelScheduledTaskRequest'
+      responses:
+        '200':
+          description: Canceled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '500':
+          description: Cancellation failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+  /schedule:
+    post:
+      summary: Schedule a new task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTaskScheduleRequest'
+      responses:
+        '200':
+          description: Scheduled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewTaskScheduleResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '500':
+          description: Scheduling failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+
+components:
+  schemas:
+    BasicResponse:
+      type: object
+      description: >-
+        A basic response that contains a descriptive message
+      properties:
+        msg:
+          type: string
+          description: >-
+            A message describing the outcome of the operation
+      required:
+        - msg
+    ErrorsResponse:
+      type: object
+      description: Response containing a list of error messages
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+            description: An error message
+          minItems: 1
+      required:
+        - errors
+    CancelScheduledTaskRequest:
+      type: object
+      description: >-
+        Information to cancel a scheduled execution of a task
+      properties:
+        executionArn:
+          type: string
+          description: >-
+            An existing execution ARN of a Step Functions state machine
+        secret:
+          type: string
+          description: >-
+            If configured, all requests must provide this field with the exact
+            same value as the one used as part of the event source configuration
+      required:
+        - executionArn
+    NewTaskScheduleRequest:
+      type: object
+      description: >-
+        Information to schedule a new execution of a task
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: >-
+            An ISO-8601 string detailing the date at which the newly scheduled
+            task will get executed
+        message:
+          type:
+            anyOf:
+              - string
+              - object
+          description: >-
+            Any object or string that the task should send back to the event
+            source
+        secret:
+          type: string
+          description: >-
+            If configured, all requests must provide this field with the exact
+            same value as the one used as part of the event source configuration
+      required:
+        - timestamp
+        - message
+    NewTaskScheduleResponse:
+      type: object
+      description: >-
+        Details about a successfully scheduled task
+      properties:
+        msg:
+          type: object
+          properties:
+            executionArn:
+              type: string
+              description: The ARN of the scheduled execution
+            timestamp:
+              type: string
+              format: date-time
+              description: >-
+                An ISO-8601 string detailing the date at which the newly
+                scheduled task will get executed
+          required:
+            - executionArn
+            - timestamp
+      required:
+        - msg
