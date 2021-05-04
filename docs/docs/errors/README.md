@@ -44,9 +44,9 @@ Currently, you can raise the execution limit of a workflow in your [workflow's s
 
 Pipedream [limits the default memory](/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error.
 
-This can happen for a variety of reasons. Normally, it can occur when you try to load a large file or object into a variable / memory. Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](https://github.com/sindresorhus/got#streams).
+This can happen for a variety of reasons. Normally, it can occur when you try to load a large file or object into a variable / memory. Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](/workflows/steps/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).
 
-**This limit can be raised**. [Reach out to our team](/support/) to request an increase.
+**You can raise the memory of your workflow [in your workflow's Settings](/workflows/settings/#memory)**.
 
 ### Rate Limit Exceeded
 

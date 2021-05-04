@@ -7,9 +7,9 @@ prev: false
 
 Pipedream is committed to the privacy and security of your data. Below, we outline how we handle specific data and what we do to secure it. This is not an exhaustive list of practices, but an overview of key policies and procedures.
 
-It is also your responsibility as a customer to ensure you're securing your workflows and the data you send to them. See our [security best practices](/privacy-and-security/best-practices/) for more information.
+It is also your responsibility as a customer to ensure you're securing your workflows' code and data. See our [security best practices](/privacy-and-security/best-practices/) for more information.
 
-If you have any questions that aren't covered below, or if you'd like to report a suspected vulnerability, please contact us at <span style="font-weight: bold">security@pipedream.com</span>.
+If you have any questions related to data privacy, please email <span style="font-weight: bold">privacy@pipedream.com</span>. If you have any security-related questions, or if you'd like to report a suspected vulnerability, please email <span style="font-weight: bold">security@pipedream.com</span>.
 
 [[toc]]
 
@@ -33,7 +33,7 @@ When you link your Pipedream login to an existing identity provider, Pipedream d
 
 When you create an account on Pipedream directly, with a username and password, Pipedream implements best account security practices (for example: Pipedream hashes your password, and the hashed password is encrypted in our database, which resides in a private network accessible only to select Pipedream employees).
 
-## Third party OAuth grants and API keys
+## Third party OAuth grants, API keys, and environment variables
 
 When you link an account from a third party application, you may be asked to either authorize a Pipedream OAuth application access to your account, or provide an API key or other credentials. This section describes how we handle these grants and keys.
 
@@ -41,13 +41,13 @@ When a third party application supports an [OAuth integration](https://oauth.net
 
 Some third party applications do not provide an OAuth interface. To access these services, you must provide the required authorization mechanism (often an API key). As a best practice, if your application provides such functionality, Pipedream recommends you limit that API key's access to only the resources you need access to within Pipedream.
 
-Pipedream encrypts all OAuth grants and key-based credentials at rest in our production database. That database resides in a private network. Backups of that database are encrypted. The key used to encrypt this database is managed by [AWS KMS](https://aws.amazon.com/kms/) and controlled by Pipedream. KMS keys are 256 bit in length and use the Advanced Encryption Standard (AES) in Galois/Counter Mode (GCM). Access to administer these keys is limited to specific members of our team. Keys are automatically rotated once a year. KMS has achieved SOC 1, 2, 3, and ISO 9001, 27001, 27017, 27018 compliance. Copies of these certifications are available from Amazon on request.
+Pipedream encrypts all OAuth grants, key-based credentials, and environment variables at rest in our production database. That database resides in a private network. Backups of that database are encrypted. The key used to encrypt this database is managed by [AWS KMS](https://aws.amazon.com/kms/) and controlled by Pipedream. KMS keys are 256 bit in length and use the Advanced Encryption Standard (AES) in Galois/Counter Mode (GCM). Access to administer these keys is limited to specific members of our team. Keys are automatically rotated once a year. KMS has achieved SOC 1, 2, 3, and ISO 9001, 27001, 27017, 27018 compliance. Copies of these certifications are available from Amazon on request.
 
 When you link credentials to a specific source or workflow, the credentials are loaded into that program's [execution environment](#execution-environment), which runs in its own virtual machine, with access to RAM and disk isolated from other users' code.
 
 No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/workflows/steps/#step-exports), you can always delete the data for that invocation from your source or workflow.
 
-You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account - you must revoke that access wherever you manage OAuth grants in your third party application.
+You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account. You must revoke that access wherever you manage OAuth grants in your third party application.
 
 ## Execution Environment
 
