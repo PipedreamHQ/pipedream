@@ -1,5 +1,6 @@
 const axios = require("axios");
 const get = require("lodash/get");
+const moment = require("moment");
 const retry = require("async-retry");
 
 module.exports = {
@@ -15,10 +16,7 @@ module.exports = {
         const options = [];
         const results = await this.getAllDomains();
         for (const domains of results) {
-          options.push({
-            label: domains.name,
-            value: domains.name,
-          });
+          options.push(domains.name);
         }
         return options;
       },
@@ -36,35 +34,43 @@ module.exports = {
       description: "Pipedream polls Reddit for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 120 , // by default, run every 15 minutes.
+        intervalSeconds: 60 * 2, // by default, run every 15 minutes.
       },
-    }
+    },
   },
   methods: {
+    mailgun(apiKey, domain, host) {
+      return require("mailgun-js")({ apiKey, domain, host });
+    },
     _apiKey() {
       return this.$auth.api_key;
     },
-    _apiUrl() {
-      const subdomain = this.baseRegion == "EU"
-        ? "api.eu"
-        : "api";
-      return `https://${subdomain}.mailgun.net`;
+    _apiHost() {
+      const subdomain = this.baseRegion == "EU" ? "api.eu" : "api";
+      return `${subdomain}.mailgun.net`;
     },
     async _makeRequest(opts) {
-      const credentials = `api:${this._apiKey()}`;
-      const base64Credentials = Buffer.from(credentials).toString("base64");
-      if (!opts.headers) opts.headers = {};
-      opts.headers.Authorization = `Basic ${base64Credentials}`;
-      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
-      const { path } = opts;
-      delete opts.path;
-      console.log(`[_makeRequest]${path}`);
-      opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
-      return (await axios(opts)).data;
+      const mailgun = this.mailgun(
+        this._apiKey(),
+        opts.domain,
+        this._apiHost()
+      );
+      switch (opts.method) {
+        case "get":
+          return mailgun.get(opts.path, opts.params);
+        case "post":
+          return mailgun.post(opts.path, opts.params);
+        case "put":
+          return mailgun.put(opts.path, opts.params);
+        case "delete":
+          return mailgun.delete(opts.path, opts.params);
+        default:
+          return;
+      }
     },
     _isRetriableStatusCode(statusCode) {
       [402, 429, 500, 502, 503, 504].includes(statusCode);
-      //TODO: Remove this comment. For code review purposes, I am linking to Mailgun's HTTP status code returned: https://documentation.mailgun.com/en/latest/api-intro.html?highlight=502#status-codes Errro 408, common in other Pipedream retries documentedly not returned by Mailgun, so it was not included.
+      //More info on  Mailgun HTTP response codes: https://documentation.mailgun.com/en/latest/api-intro.html?highlight=502#status-codes
     },
     async _withRetries(apiCall, allow404 = false) {
       const retryOpts = {
@@ -90,7 +96,8 @@ module.exports = {
     async getDomains(skip) {
       return await this._withRetries(() =>
         this._makeRequest({
-          path: `/v3/domains`,
+          method: "get",
+          path: `/domains`,
           params: {
             skip,
           },
@@ -100,8 +107,8 @@ module.exports = {
     async getWebhookDetails(mailgunDomain, webhookName) {
       const webhooks = await this._withRetries(() =>
         this._makeRequest({
-          path: `/v3/domains/${mailgunDomain}/webhooks`,
           method: "get",
+          path: `/domains/${mailgunDomain}/webhooks`,
         })
       );
       return get(webhooks, `webhooks.${webhookName}`);
@@ -125,7 +132,7 @@ module.exports = {
       return await this._withRetries(() =>
         this._makeRequest({
           method: "post",
-          path: `v3/domains/${mailgunDomain}/webhooks`,
+          path: `/domains/${mailgunDomain}/webhooks`,
           params: {
             domain: mailgunDomain,
             url: webhookUrl,
@@ -135,20 +142,14 @@ module.exports = {
       );
     },
     async updateWebhook(mailgunDomain, webhookName, webhookUrls) {
-      const FormData = require("form-data");
-      data = new FormData();
-      data.append("domain", mailgunDomain);
-      data.append("webhookname", webhookName);
-      webhookUrls.forEach((url) => {
-        data.append("url", url);
-      });
       const opts = {
         method: "put",
-        headers: {
-          "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+        path: `/domains/${mailgunDomain}/webhooks/${webhookName}`,
+        params: {
+          domain: mailgunDomain,
+          webhookname: webhookName,
+          url: webhookUrls,
         },
-        path: `v3/domains/${mailgunDomain}/webhooks/${webhookName}`,
-        data,
       };
       return await this._withRetries(() => this._makeRequest(opts));
     },
@@ -156,45 +157,36 @@ module.exports = {
       return await this._withRetries(() =>
         this._makeRequest({
           method: "delete",
-          path: `v3/domains/${mailgunDomain}/webhooks/${webhookName}`,
+          path: `/domains/${mailgunDomain}/webhooks/${webhookName}`,
         })
       );
     },
-    /*
-    async getMailgunEvents(mailgunDomain,nextId = null){
-      const nextPathPart = nextId ? `/${nextId}`:"";
+    async getMailgunEvents(mailgunDomain, nextId = null, limit = 300) {
+      const nextPathPart = nextId ? `/${nextId}` : "";
+      const begin = moment().subtract(1, "days").unix();
       return await this._makeRequest({
-          path: `v3/${mailgunDomain}/events${nextPathPart}`,
-          params: {
-            limit: 300
-          }
-        });
+        method: "get",
+        path: `/${mailgunDomain}/events${nextPathPart}`,
+        params: {
+          begin,
+          ascending: "yes",
+          limit,
+        },
+      });
     },
-    */
-    async getMailgunEvents(mailgunDomain,nextId = null){
-      const nextPathPart = nextId ? `/${nextId}`:"";
-      const mailgun = require('mailgun-js')({ apiKey: this._apiKey(), domain: mailgunDomain });
-      return mailgunEvents = await mailgun.get(
-        `/${mailgunDomain}/events${nextPathPart}`,
-        { "limit": 300}
-        );
-    },
-    async getMailgunLists(page, limit = 100,address = null){
+    async getMailgunLists(page, limit = 100, address = null) {
       let params = {
         page,
-        limit
+        limit,
       };
-      if(address){
+      if (address) {
         params["address"] = address;
       }
       return await this._makeRequest({
-          path: `v3/lists/pages`,
-          params
-        });
+        method: "get",
+        path: "/lists/pages",
+        params,
+      });
     },
-    printSomething(){
-      console.log(`[print something]`);
-      return "print something";
-    },
-  }
+  },
 };

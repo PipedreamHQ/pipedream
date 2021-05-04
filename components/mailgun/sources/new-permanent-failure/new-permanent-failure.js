@@ -20,10 +20,10 @@ module.exports = {
     },
     getEventType() {
       return "failed";
-    },        
+    },
     getEventSubtype() {
       return "permanent";
-    },    
+    },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
       return {
@@ -35,11 +35,13 @@ module.exports = {
     emitEvent(eventWorkload) {
       const eventType = this.getEventType();
       const eventSubtype = this.getEventSubtype();
-      if (eventType.includes(eventWorkload.event)
-      && eventSubtype.includes(eventWorkload.severity)) {
+      if (
+        eventType.includes(eventWorkload.event) &&
+        eventSubtype.includes(eventWorkload.severity)
+      ) {
         const meta = this.generateMeta(eventWorkload);
         this.$emit(eventWorkload, meta);
       }
-    },    
+    },
   },
 };

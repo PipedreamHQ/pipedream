@@ -13,32 +13,30 @@ module.exports = {
   props: {
     ...common.props,
     baseRegion: { propDefinition: [mailgun, "baseRegion"] },
-    timer:  { propDefinition: [mailgun, "timer"] },
+    timer: { propDefinition: [mailgun, "timer"] },
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-        const mailgunLists = await this.mailgun.getMailgunLists("first",10);
-        console.log(JSON.stringify(mailgunLists));
-        const { items: mailgunListItems = [] } = mailgunLists;
-        console.log(mailgunListItems.length);
-        if (mailgunListItems.length === 0) {
-          console.log("No data available, skipping iteration");
-          return;
-        }
-        mailgunListItems.forEach(this.emitEvent);
-        this.db.set("next", mailgunLists.paging.last);
+      const mailgunLists = await this.mailgun.getMailgunLists("last", 5);
+      if (!mailgunLists || mailgunLists.items.length === 0) {
+        console.log("No data available, skipping iteration");
+        return;
+      }
+      const { items: mailgunListItems = [] } = mailgunLists;
+      mailgunListItems.forEach(this.emitEvent);
+      this.db.set("next", mailgunLists.paging.next);
     },
   },
   methods: {
     ...common.methods,
     generateMeta(eventPayload) {
-        const ts = moment(eventPayload.created_at).unix();
-        return {
-            id: ts,
-            summary: `A new mailing list "${eventPayload.name}" has been created.`,
-            ts,
-        };
+      const ts = moment(eventPayload.created_at).unix();
+      return {
+        id: `${ts}`,
+        summary: `A new mailing list "${eventPayload.name}" has been created.`,
+        ts,
+      };
     },
     emitEvent(eventPayload) {
       const meta = this.generateMeta(eventPayload);
@@ -49,24 +47,21 @@ module.exports = {
     let mailgunLists;
     let next = null;
     let address = null;
-    let page = "next";
-    do{
-        next = this.db.get("next");
-        if(next){
-          const nextUrlParams = new URLSearchParams(next);
-          address = nextUrlParams.get("address");
-          if(!address){
-            page = "last";
-          }
-        }
-        mailgunLists = await this.mailgun.getMailgunLists(page,100,address);
-        if (mailgunLists.items.length === 0) {
-          this.db.set("next", mailgunLists.paging.last);
-          console.log("No data available, skipping iteration");
-          break;
-        }
-        mailgunLists.items.forEach(this.emitEvent);
-        this.db.set("next", mailgunLists.paging.next);
-    }while(mailgunLists.items.length > 0);
+    let page = "first";
+    do {
+      if (next) {
+        const nextUrlParams = new URLSearchParams(next);
+        address = nextUrlParams.get("address");
+        page = "next";
+      }
+      mailgunLists = await this.mailgun.getMailgunLists(page, 5, address);
+      if (!mailgunLists || mailgunLists.items.length === 0) {
+        console.log("No data available, skipping iteration");
+        break;
+      }
+      mailgunLists.items.forEach(this.emitEvent);
+      this.db.set("next", mailgunLists.paging.next);
+      next = this.db.get("next");
+    } while (mailgunLists.items.length > 0);
   },
 };

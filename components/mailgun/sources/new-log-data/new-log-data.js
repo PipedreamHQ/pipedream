@@ -1,5 +1,4 @@
 const common = require("../common-webhook");
-const moment = require("moment");
 const { mailgun } = common.props;
 
 module.exports = {
@@ -7,26 +6,38 @@ module.exports = {
   key: "new-log-data",
   name: "New log data",
   description:
-    "Emit an event when new data is logged in Mailgun's Control Panel. Occurs for most   actions within the associated Mailgun account.",
+    "Emit an event when new data is logged in Mailgun's Control Panel. Occurs for most actions within the associated Mailgun account.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    ...common.props,
+    mailgun,
     domain: { propDefinition: [mailgun, "domain"] },
     baseRegion: { propDefinition: [mailgun, "baseRegion"] },
-    timer:  { propDefinition: [mailgun, "timer"] },
+    timer: { propDefinition: [mailgun, "timer"] },
+    db: "$.service.db",
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      const mailgunEvents = await this.mailgun.getMailgunEvents(this.domain,null);
+      let mailgunEvents = await this.mailgun.getMailgunEvents(
+        this.domain,
+        null,
+        10
+      );
       if (mailgunEvents.items.length === 0) {
-        console.log("No data available, skipping iteration");
+        console.log(`No data available, skipping iteration`);
         return;
       }
       mailgunEvents.items.forEach(this.emitEvent);
-      console.log(mailgunEvents.items.length);
-      this.db.set("next", mailgunEvents.paging.last);
+      const last = new String(mailgunEvents.paging.last);
+      let idxSlash = last.lastIndexOf("/");
+      let lastUrlPart = last.substring(idxSlash + 1);
+      mailgunEvents = await this.mailgun.getMailgunEvents(
+        this.domain,
+        lastUrlPart,
+        10
+      );
+      this.db.set("next", mailgunEvents.paging.next);
     },
   },
   methods: {
@@ -47,21 +58,24 @@ module.exports = {
   async run() {
     let next = this.db.get("next");
     let mailgunEvents = null;
-    do{
-        let nextUrlPart = "";
-        if(next){
-          const idxSlash = next.lastIndexOf("/");
-          nextUrlPart = next.substring(idxSlash+1);
-        }
-        mailgunEvents = await this.mailgun.getMailgunEvents(this.domain,nextUrlPart);
-        console.log(mailgunEvents.items.length);
-        if (mailgunEvents.items.length === 0) {
-          this.db.set("next", mailgunEvents.paging.last);
-          console.log(`No data available, skipping iteration`);
-          break;
-        }
-        this.db.set("next", mailgunEvents.paging.next);
-        mailgunEvents.items.forEach(this.emitEvent);
-      }while(mailgunEvents.items.length > 0);
+    do {
+      let nextUrlPart = "";
+      if (next) {
+        const idxSlash = next.lastIndexOf("/");
+        nextUrlPart = next.substring(idxSlash + 1);
+      }
+      mailgunEvents = await this.mailgun.getMailgunEvents(
+        this.domain,
+        nextUrlPart,
+        10
+      );
+      if (mailgunEvents.items.length === 0) {
+        console.log(`No data available, skipping iteration`);
+        break;
+      }
+      this.db.set("next", mailgunEvents.paging.next);
+      next = mailgunEvents.paging.next;
+      mailgunEvents.items.forEach(this.emitEvent);
+    } while (mailgunEvents.items.length > 0);
   },
 };

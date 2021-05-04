@@ -8,11 +8,11 @@ module.exports = {
       secret: true,
       label: "Mailgun webhook signing key",
       description:
-        "Your Mailgun webhook signing key, found [in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under Settings on the left-hand nav and then in API Keys look for webhook signing key. Required to compute the authentication signature of events.",
+        "Your Mailgun webhook signing key, found [in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under Settings on the left-hand nav and then in API Keys look for webhook signing key. Required to compute the authentication signature of events.",
       default: "key-1b219a1a57f665a8321f9d3860dbf538",
     },
     http: "$.interface.http",
-    db: "$.service.db",    
+    db: "$.service.db",
   },
   methods: {
     verify(signingKey, timestamp, token, signature) {
@@ -23,62 +23,75 @@ module.exports = {
         .digest("hex");
       return encodedToken === signature;
     },
-    emitEvent(eventWorkload) {
-      const eventPayload = eventWorkload["event-data"];
+    emitEvent(eventPayload) {
+      const eventTypes = this.getEventType();
       if (eventTypes.includes(eventPayload.event)) {
-        const meta = this.generateMeta();
+        const meta = this.generateMeta(eventPayload);
         this.$emit(eventPayload, meta);
       }
     },
   },
   hooks: {
     async activate() {
-      const webhookName = this.getEventName();
-      const webhookDetails = await this.mailgun.getWebhookDetails(
-        this.domain,
-        webhookName
-      );
-      if (webhookDetails && webhookDetails.urls) {
-        const newWebhookUrls = webhookDetails.urls.slice();
-        newWebhookUrls.push(this.http.endpoint);
-        const updated = await this.mailgun.updateWebhook(
+      const webhookNames = this.getEventName();
+      for (let i = 0; i < webhookNames.length; i++) {
+        const webhookName = webhookNames[i];
+        const webhookDetails = await this.mailgun.getWebhookDetails(
           this.domain,
-          webhookName,
-          newWebhookUrls
+          webhookName
         );
-      } else {
-        await this.mailgun.createWebhook(
-          this.domain,
-          webhookName,
-          this.http.endpoint
-        );
+        if (webhookDetails && webhookDetails.urls) {
+          const newWebhookUrls = webhookDetails.urls.slice();
+          newWebhookUrls.push(this.http.endpoint);
+          await this.mailgun.updateWebhook(
+            this.domain,
+            webhookName,
+            newWebhookUrls
+          );
+        } else {
+          await this.mailgun.createWebhook(
+            this.domain,
+            webhookName,
+            this.http.endpoint
+          );
+        }
       }
     },
     async deactivate() {
-      const webhookName = this.getEventName();
-      const webhookDetails = await this.mailgun.getWebhookDetails(
-        this.domain,
-        webhookName
-      );
-      if (
-        webhookDetails &&
-        webhookDetails.urls &&
-        webhookDetails.urls.length > 1
-      ) {
-        const currentWebhookUrls = webhookDetails.urls.slice();
-        const newWebhookUrls = currentWebhookUrls
-          .filter(url => url !== this.http.endpoint);
-        await this.mailgun.updateWebhook(this.domain, webhookName, newWebhookUrls);
-      } else {
-        await this.mailgun.deleteWebhook(this.domain, webhookName);
+      const webhookNames = this.getEventName();
+      for (let i = 0; i < webhookNames.length; i++) {
+        const webhookName = webhookNames[i];
+        const webhookDetails = await this.mailgun.getWebhookDetails(
+          this.domain,
+          webhookName
+        );
+        if (
+          webhookDetails &&
+          webhookDetails.urls &&
+          webhookDetails.urls.length > 1
+        ) {
+          const currentWebhookUrls = webhookDetails.urls.slice();
+          const newWebhookUrls = currentWebhookUrls.filter(
+            (url) => url !== this.http.endpoint
+          );
+          await this.mailgun.updateWebhook(
+            this.domain,
+            webhookName,
+            newWebhookUrls
+          );
+        } else {
+          await this.mailgun.deleteWebhook(this.domain, webhookName);
+        }
       }
     },
   },
   async run(eventWorkload) {
-    const { timestamp, token, signature } = eventWorkload.signature;
-    const eventPayload = eventWorkload["event-data"];
-    if (!verify(this.webhookSigningKey, timestamp, token, signature)) {
-      throw new Error("signature mismatch");
+    const { timestamp, token, signature } = eventWorkload.body.signature;
+    const eventPayload = eventWorkload.body["event-data"];
+    if (!this.verify(this.webhookSigningKey, timestamp, token, signature)) {
+      this.http.respond({ status: 404 });
+      console.log("Invalid event. Skipping...");
+      return;
     }
     this.emitEvent(eventPayload);
   },

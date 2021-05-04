@@ -16,11 +16,14 @@ module.exports = {
   methods: {
     ...common.methods,
     getEventName() {
-      return ["OPENED"];
+      return ["opened"];
+    },
+    getEventType() {
+      return "OPENED";
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
-      return { 
+      return {
         id: `${eventPayload.id}${ts}`,
         summary: `New Open on message id: ${eventPayload.message.headers["message-id"]} by ${eventPayload.recipient}`,
         ts,

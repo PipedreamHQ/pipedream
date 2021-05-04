@@ -16,11 +16,11 @@ module.exports = {
   methods: {
     ...common.methods,
     getEventName() {
-      return ["permanent_fail","temporary_fail"];
+      return ["permanent_fail", "temporary_fail"];
     },
     getEventType() {
       return "failed";
-    },        
+    },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
       return {
@@ -31,10 +31,10 @@ module.exports = {
     },
     emitEvent(eventWorkload) {
       const eventType = this.getEventType();
-      if (eventType.includes(eventWorkload.event)){
+      if (eventType.includes(eventWorkload.event)) {
         const meta = this.generateMeta(eventWorkload);
         this.$emit(eventWorkload, meta);
       }
-    },    
+    },
   },
 };

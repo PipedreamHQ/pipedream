@@ -16,7 +16,10 @@ module.exports = {
   methods: {
     ...common.methods,
     getEventName() {
-      return ["CLICKED"];
+      return ["clicked"];
+    },
+    getEventType() {
+      return "CLICKED";
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;

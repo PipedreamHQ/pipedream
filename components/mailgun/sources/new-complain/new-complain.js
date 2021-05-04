@@ -18,9 +18,12 @@ module.exports = {
     getEventName() {
       return ["complained"];
     },
+    getEventType() {
+      return "complained";
+    },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
-      return { 
+      return {
         id: `${eventPayload.id}${ts}`,
         summary: `New Complain on message id: ${eventPayload.message.headers["message-id"]} by ${eventPayload.recipient}`,
         ts,

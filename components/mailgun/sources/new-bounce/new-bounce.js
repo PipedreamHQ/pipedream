@@ -20,7 +20,7 @@ module.exports = {
     },
     getEventType() {
       return "bounced";
-    },            
+    },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
       return {
@@ -29,24 +29,22 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(eventPayload) {      
+    emitEvent(eventPayload) {
       const eventTypes = this.getEventType();
-      console.log(eventPayload.event);
       if (eventTypes.includes(eventPayload.event)) {
         const meta = this.generateMeta(eventPayload);
         this.$emit(eventPayload, meta);
       }
-    },        
+    },
   },
   async run(eventRawData) {
     const eventWorkload = eventRawData.body;
     const { timestamp, token, signature } = eventWorkload;
-    console.log(timestamp);
-    console.log(token);
-    console.log(signature);
     if (!this.verify(this.webhookSigningKey, timestamp, token, signature)) {
-      throw new Error("signature mismatch");
+      this.http.respond({ status: 404 });
+      console.log("Invalid event. Skipping...");
+      return;
     }
     this.emitEvent(eventWorkload);
-  },  
+  },
 };

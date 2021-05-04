@@ -18,6 +18,9 @@ module.exports = {
     getEventName() {
       return ["delivered"];
     },
+    getEventType() {
+      return "delivered";
+    },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
       return {
