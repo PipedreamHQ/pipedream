@@ -8,8 +8,7 @@ module.exports = {
       secret: true,
       label: "Mailgun webhook signing key",
       description:
-        "Your Mailgun webhook signing key, found [in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under Settings on the left-hand nav and then in API Keys look for webhook signing key. Required to compute the authentication signature of events.",
-      default: "key-1b219a1a57f665a8321f9d3860dbf538",
+        "Your Mailgun webhook signing key, found [in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under Settings on the left-hand nav and then in API Keys look for webhook signing key. Required to compute the authentication signature of events."
     },
     http: "$.interface.http",
     db: "$.service.db",
