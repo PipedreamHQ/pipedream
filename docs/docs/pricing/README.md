@@ -74,6 +74,8 @@ Moreover, if you have a workflow triggered by a cron job running once a minute f
 
 If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
 
+Your workflow's [memory settings](/workflows/settings/#memory) also impact the number of invocations you're charged for each workflow execution. [Read more here](#how-does-workflow-memory-affect-billable-invocations).
+
 ### Compute Time
 
 Pipedream calculates **compute time** as the total time your workflow or event source runs user code.
@@ -107,6 +109,10 @@ Pipedream increments the count of invocations by one for each incoming event, re
 Moreover, if you have a workflow triggered by a cron job running once a minute for the entire day, that will incur 1,440 invocations (60 minute \* 24 hours). For cron-triggered workflows or event sources, remember that you can always reduce the frequency to reduce your invocations.
 
 If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
+
+### How does workflow memory affect billable invocations?
+
+Pipedream charges invocations proportional to the memory configuration. If you run your workflow at the default memory of `{{$site.themeConfig.MEMORY_LIMIT}}`, you are charged one invocation each time your workflow executes. But if you configure your workflow with `1024MB` of memory, for example, you're charged **four** invocations, since you're using `4x` the default memory.
 
 ### Are there any limits on paid tiers?
 
