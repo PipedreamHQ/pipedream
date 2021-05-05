@@ -236,9 +236,12 @@ module.exports = {
       let after = null;
       do {
         const redditCommunities = await this.searchSubreddits(after, query);
-        if ((redditCommunities && redditCommunities.data && !redditCommunities.data.children.length)
-          || !redditCommunities
-          || !redditCommunities.data) {
+        const isNewDataAvailable = get(redditCommunities, [
+          "data",
+          "children",
+          "length",
+        ]);
+        if (!isNewDataAvailable) {
           break;
         }
         const { children: communities = [] } = redditCommunities.data;
