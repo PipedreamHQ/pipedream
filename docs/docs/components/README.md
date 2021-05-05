@@ -1,17 +1,6 @@
 # Overview
 
-- [What are Components?](#what-are-components-)
-- [Component Types](#component-types)
-  * [Sources](#sources)
-  * [Actions](#actions)
-- [Using Components](#using-components)
-- [Developing Components](#developing-components)
-  * [Prerequisites](#prerequisites)
-  * [Quickstart Guides](#quickstart-guides)
-  * [Component API Reference](#component-api-reference)
-- [Sharing Components](#sharing-components)
-  * [Verified Components](#verified-components)
-  * [Community Components](#community-components)
+[[toc]]
 
 ## What are Components?
 
