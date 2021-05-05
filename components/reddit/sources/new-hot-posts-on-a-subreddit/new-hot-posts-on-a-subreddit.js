@@ -4,7 +4,6 @@ const { reddit } = common.props;
 
 module.exports = {
   ...common,
-  type: "action",
   key: "new-hot-posts-on-a-subreddit",
   name: "New hot posts on a subreddit",
   description:
