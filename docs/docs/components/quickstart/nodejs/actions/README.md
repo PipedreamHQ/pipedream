@@ -2,15 +2,6 @@
 
 [[toc]]
 
-- [Overview](#overview)
-- [Prerequisites](#prerequisites)
-- [Walkthrough](#walkthrough)
-  - [hello world!](#hello-world)
-  - [hello [name]!](#hello-name)
-  - [Use an npm Package](#use-an-npm-package)
-  - [Use Managed Auth](#use-managed-auth-to-pull-data-from-github-10-mins)
-- [What's Next?](#whats-next)
-
 ## Overview
 
 This document is intended for developers who want to author and edit [Pipedream Actions](/components/#actions). After completing this quickstart, you'll understand how to:

@@ -2,15 +2,6 @@
 
 [[toc]]
 
-- [Overview](#overview)
-- [Key Changes](#key-changes)
-- [Getting Started](#getting-started)
-- [Migration Example](#migration-example)
-  * [Legacy Code Example](#legacy-code-example)
-  * [Converting into a Basic Component-Based Action](#converting-into-a-basic-component-based-action)
-  * [Advanced: Using Async Options](#advanced--using-async-options)
-  * [Publishing and Using Actions](#publishing-and-using-actions)
-
 ## Overview
 This document is for developers who created legacy actions in [Pipedream's UI](https://pipedream.com/actions). The purpose is to help users migrate legacy actions to Pipedream's new [component model](/components). There is currently no deprecation timeline for legacy actions, but developers are encouraged to migrate to the new model. 
 

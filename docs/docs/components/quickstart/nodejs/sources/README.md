@@ -13,24 +13,6 @@ We recommend that you execute the examples in order — each one builds on the 
 
 [[toc]]
 
-- [Quickstart Examples](#quickstart-examples)
-- [Prerequisites](#prerequisites)
-- [CLI Development Mode](#cli-development-mode)
-- [Hello World!](#hello-world)
-  - [Maintain state across invocations](#maintain-state-across-invocations)
-  - [Invoke your code on a schedule](#invoke-your-code-on-a-schedule)
-  - [Invoke your code on HTTP requests](#invoke-your-code-on-http-requests)
-- [Emit new RSS items on a schedule (~10 mins)](#emit-new-rss-items-on-a-schedule-10-mins)
-  - [Emit items in an RSS Feed](#emit-items-in-an-rss-feed)
-  - [Add an optional summary for each emitted event](#add-an-optional-summary-for-each-emitted-event)
-  - [Only Emit New Items in the RSS Feed](#only-emit-new-items-in-the-rss-feed)
-  - [Add a timer interface to invoke the component on a schedule](#add-a-timer-interface-to-invoke-the-component-on-a-schedule)
-- [Use managed auth to pull data from Github (~10 mins)](#use-managed-auth-to-pull-data-from-github-10-mins)
-  - [Get issues for a repo](#get-issues-for-a-repo)
-  - [Dedupe the events](#dedupe-the-events)
-  - [Add a timer to run on a schedule](#add-a-timer-to-run-on-a-schedule)
-- [What's Next?](#whats-next)
-
 # Quickstart Examples
 
 **Hello World! (~10 minutes)**
