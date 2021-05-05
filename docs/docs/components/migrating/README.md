@@ -102,12 +102,12 @@ module.exports = {
   version: "0.0.1",
   props: {
   	github: {
-  		type: "app",
-  		app: "github",
+  	  type: "app",
+  	  app: "github",
   	},
     owner: {
-    	type: "string",
-    	description: "Name of repository owner.",
+      type: "string",
+      description: "Name of repository owner.",
   	},
     repo: {
       type: "string",
@@ -145,8 +145,8 @@ module.exports = {
   version: "0.0.2",
   props: {
   	github: {
-  		type: "app",
-  		app: "github",
+  	  type: "app",
+  	  app: "github",
   	},
     repoFullName: {
       type: "string",
