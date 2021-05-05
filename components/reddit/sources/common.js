@@ -17,6 +17,6 @@ module.exports = {
     emitRedditEvent(redditEvent) {
       const metadata = this.generateEventMetadata(redditEvent);
       this.$emit(redditEvent, metadata);
-    },
+    }
   },
 };

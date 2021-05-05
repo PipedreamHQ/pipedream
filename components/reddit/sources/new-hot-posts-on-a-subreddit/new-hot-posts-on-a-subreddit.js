@@ -4,13 +4,13 @@ const { reddit } = common.props;
 
 module.exports = {
   ...common,
+  type: "action",
   key: "new-hot-posts-on-a-subreddit",
   name: "New hot posts on a subreddit",
   description:
     "Emits an event each time a new hot post is added to the top 10 items in a subreddit.",
-  version: "0.0.23",
+  version: "0.0.1",
   dedupe: "unique",
-  type: "action",
   props: {
     ...common.props,
     subreddit: {
@@ -63,7 +63,7 @@ module.exports = {
         summary: redditEvent.data.title,
         ts: redditEvent.data.created,
       };
-    },
+    }
   },
   async run() {
     const redditHotPosts = await this.reddit.getNewHotSubredditPosts(

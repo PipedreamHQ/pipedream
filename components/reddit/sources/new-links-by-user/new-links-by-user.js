@@ -55,7 +55,7 @@ module.exports = {
         summary: redditEvent.data.title,
         ts: redditEvent.data.created,
       };
-    },
+    }
   },
   async run() {
     let redditLinks;
