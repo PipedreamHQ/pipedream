@@ -19,7 +19,7 @@ Read more about our plans and pricing options below.
 
 - [{{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}} invocations per day](/limits/#daily-invocations)
 - [30 minutes (1,800,000 milliseconds) compute time per day](/limits/#compute-time-per-day)
-- [Other default limits on execution time, memory, and disk usage](/limits)
+- [Other default limits on execution time, memory, and disk usage](/limits/)
 
 **To run any number of invocations, for any amount of time, [upgrade to the Professional tier](https://pipedream.com/pricing)**.
 
