@@ -2,6 +2,8 @@
 
 This document was created to help developers author and use Pipedream components.
 
+[[toc]]
+
 - [Overview](#overview)
   - [What is a component?](#what-is-a-component)
   - [Quickstart](#quickstart)

@@ -21,14 +21,14 @@ Sources must be instantiated and they run as independent resources on Pipedream.
 
 - Accept user input on deploy via `props`
 - [Trigger](api/#interface-props) on HTTP requests, timers, cron schedules, or manually
-- Emit events that can be inspected, trigger Pipedream [workflows](/workflows/) and be consumed in your own app via [API](/api/overview/)
+- Emit events that can be inspected, trigger Pipedream [workflows](/workflows/) and that can be consumed in your own app via [API](/api/overview/)
 - Store and retrieve state using the [built-in key-value store](api/#db) 
 - Use any of Pipedream's built-in [deduping strategies](api/#dedupe-strategies)
 - Deploy via Pipedream's UI, CLI or API
 
 **Example**
 
-The Search Mentions source for Twitter is a pre-built component in Pipedream's registry that can be deployed in seconds and emits new Tweets that match a search query. After a user configures and deploys it, the deployed component polls the Twitter API for new results. When new results are found, each new result is emitted as an event that may be inspected and used to trigger a workflow.
+The [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.js) source for Twitter is a pre-built component in Pipedream's registry that can be deployed in seconds and emits new Tweets that match a search query. After a user configures and deploys it, the deployed component polls the Twitter API for new results. When new results are found, each new result is emitted as an event that may be inspected and used to trigger a workflow.
 
 ### Actions
 
@@ -75,7 +75,7 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 ### Component API Reference
 
-After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](COMPONENT-API.md) and [examples on Github](https://github.com/pipedreamhq/pipedream/components) to learn more.
+After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api) and [examples on Github](https://github.com/pipedreamhq/pipedream/components) to learn more.
 
 ## Sharing Components
 

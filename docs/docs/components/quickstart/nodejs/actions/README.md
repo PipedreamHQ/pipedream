@@ -1,5 +1,6 @@
 # Quickstart: Action Development
 
+[[toc]]
 
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
