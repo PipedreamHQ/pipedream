@@ -381,7 +381,7 @@ module.exports = {
     }
   },
   async run() {
-  	const octokit = new Octokit({
+    const octokit = new Octokit({
       auth: this.github.$auth.oauth_access_token
     })
     
