@@ -13,7 +13,10 @@ This document is intended for developers who want to author and edit [Pipedream 
 - Use npm packages
 - Use Pipedream managed auth for a 3rd party app
 
-> **NOTE:** If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
+
+::: tip
+If you previously developed actions using Pipedream's UI, we recommend reviewing our [migration guide](/components/migrating/) after completing this quickstart.
+:::
 
 ## Prerequisites
 
@@ -220,7 +223,9 @@ module.exports = {
 }
 ```
 
-> **Note:** To use most npm packages on Pipedream, just require them — there is no `package.json` or `npm install` required.
+::: tip
+To use most npm packages on Pipedream, just `require` them — there is no `package.json` or `npm install` required.
+:::
 
 Then, update the `run()` method to:
 
@@ -244,7 +249,7 @@ module.exports = {
   },
   async run() {
     const response = await axios.get("https://swapi.dev/api/people/1/")
-		return `hello ${response.data.name}!`
+    return `hello ${response.data.name}!`
   },
 }
 ```
@@ -263,7 +268,7 @@ module.exports = {
   props: {},
   async run() {
     const response = await axios.get("https://swapi.dev/api/people/1/")
-		return `hello ${response.data.name}!`
+    return `hello ${response.data.name}!`
   },
 }
 ```
@@ -329,9 +334,7 @@ module.exports = {
   key: "action_demo",
   version: "0.0.3",
   type: "action",
-  async run() {
-  	
-  },
+  async run() {},
 }
 ```
 
@@ -358,7 +361,9 @@ module.exports = {
 }
 ```
 
-> **Note:** The value for the `app` property is the name slug for the app in Pipedream. This is not currently discoverable, but it will be in the near future on app pages in the [Pipedream Marketplace](https://pipedream.com/explore). For the time being, if you want to know how to reference an app, please reach out on our public Slack.
+::: tip
+The value for the `app` property is the name slug for the app in Pipedream. This is not currently discoverable, but it will be in the near future on app pages in the [Pipedream Marketplace](https://pipedream.com/explore). For the time being, if you want to know how to reference an app, please please [reach out](https://pipedream.com/community).
+:::
 
 Next, update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the `$auth` property of the app prop — `this.github.$auth.oauth_access_token`. You can discover how to reference auth tokens in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore). 
 
