@@ -317,9 +317,7 @@ module.exports = {
   key: "action_demo",
   version: "0.0.3",
   type: "action",
-  async run() {
-    
-  },
+  async run() {},
 }
 ```
 
