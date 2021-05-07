@@ -290,7 +290,7 @@ If you need to issue an HTTP response in the middle of a workflow, see the secti
 You can issue an HTTP response within a worklow, and continue the rest of the workflow execution, by setting the `immediate` property to `true`:
 
 ```javascript
-$respond({
+await $respond({
   immediate: true,
   status: 200,
   headers: { "my-custom-header": "value" },
