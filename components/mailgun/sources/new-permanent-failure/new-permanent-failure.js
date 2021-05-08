@@ -3,7 +3,7 @@ const { mailgun } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-permanent-failure",
+  key: "mailgun-new-permanent-failure",
   name: "New permanent failure",
   description:
     "Emit an event when an email can't be delivered to the recipient email server due to a permanent mailbox error such as non-existent mailbox.",
@@ -19,10 +19,10 @@ module.exports = {
       return ["permanent_fail"];
     },
     getEventType() {
-      return "failed";
+      return ["failed"];
     },
     getEventSubtype() {
-      return "permanent";
+      return ["permanent"];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;

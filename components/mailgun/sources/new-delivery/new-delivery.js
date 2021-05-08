@@ -19,7 +19,7 @@ module.exports = {
       return ["delivered"];
     },
     getEventType() {
-      return "delivered";
+      return ["delivered"];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;

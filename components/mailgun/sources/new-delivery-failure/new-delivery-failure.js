@@ -3,7 +3,7 @@ const { mailgun } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-delivery-failure",
+  key: "mailgun-new-delivery-failure",
   name: "New delivery failure",
   description:
     "Emit an event when an email can't be delivered to the recipient email server.",
@@ -19,7 +19,7 @@ module.exports = {
       return ["permanent_fail", "temporary_fail"];
     },
     getEventType() {
-      return "failed";
+      return ["failed"];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;

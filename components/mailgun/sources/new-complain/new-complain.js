@@ -19,7 +19,7 @@ module.exports = {
       return ["complained"];
     },
     getEventType() {
-      return "complained";
+      return ["complained"];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;

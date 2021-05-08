@@ -11,8 +11,7 @@ module.exports = {
       type: "string",
       label: "domain",
       description: "Domain used to send and receive email.",
-      async options(context) {
-        const q = context.query;
+      async options() {
         const options = [];
         const results = await this.getAllDomains();
         for (const domains of results) {
@@ -39,7 +38,7 @@ module.exports = {
     },
   },
   methods: {
-    mailgun(apiKey, domain, host) {
+    _mailgun(apiKey, domain, host) {
       return require("mailgun-js")({ apiKey, domain, host });
     },
     _apiKey() {
@@ -50,20 +49,17 @@ module.exports = {
       return `${subdomain}.mailgun.net`;
     },
     async _makeRequest(opts) {
-      const mailgun = this.mailgun(
-        this._apiKey(),
-        opts.domain,
-        this._apiHost()
-      );
-      switch (opts.method) {
-        case "get":
-          return mailgun.get(opts.path, opts.params);
-        case "post":
-          return mailgun.post(opts.path, opts.params);
-        case "put":
-          return mailgun.put(opts.path, opts.params);
-        case "delete":
-          return mailgun.delete(opts.path, opts.params);
+      const { domain, method, path, params } = opts;
+      const mailgun = this._mailgun(this._apiKey(), domain, this._apiHost());
+      switch (method) {
+        case "GET":
+          return mailgun.get(path, params);
+        case "POST":
+          return mailgun.post(path, params);
+        case "PUT":
+          return mailgun.put(path, params);
+        case "DELETE":
+          return mailgun.delete(path, params);
         default:
           return;
       }
@@ -93,10 +89,15 @@ module.exports = {
         }
       }, retryOpts);
     },
+    /**
+     * Get a list of domains under the connected Mailgun account.
+     * @params {Integer} skip - Number of records to skip (0 by default).
+     * @returns {total_count: integer, items: array} Object with the total count of domains in the Mailgun account, and the items array with the domain records. Records are queried in batches of 100 records each.
+     */
     async getDomains(skip) {
       return await this._withRetries(() =>
         this._makeRequest({
-          method: "get",
+          method: "GET",
           path: `/domains`,
           params: {
             skip,
@@ -104,15 +105,25 @@ module.exports = {
         })
       );
     },
+    /**
+     * Get details of an specific webhook in a given domain.
+     * @params {String} mailgunDomain - Name of the Mailgun domain where the webhook is located.
+     * @params {String} webhookName - Name of the webhook to get details of.
+     * @returns {urls: array} Object with an array of the urls subscribed to the specified webhook.
+     */
     async getWebhookDetails(mailgunDomain, webhookName) {
       const webhooks = await this._withRetries(() =>
         this._makeRequest({
-          method: "get",
+          method: "GET",
           path: `/domains/${mailgunDomain}/webhooks`,
         })
       );
       return get(webhooks, `webhooks.${webhookName}`);
     },
+    /**
+     * Get a list with the entire set of domains under the connected Mailgun account.
+     * @returns {Array} Array with the entire set of domains under the connected Mailgun account.
+     */
     async getAllDomains() {
       let domains_set;
       const results = [];
@@ -128,10 +139,17 @@ module.exports = {
       } while (domains_set.items.length);
       return results;
     },
+    /**
+     * Creates a new webhook under a given domain.
+     * @params {String} mailgunDomain - Name of the Mailgun domain where the webhook will be created under.
+     * @params {String} webhookName - Name of the webhook to create. Must be one of the webhook names listed in the Mailgun API documentation, webhooks: [https://documentation.mailgun.com/en/latest/api-webhooks.html#webhooks]
+     * @params {String} webhookUrl - URL listening for the webhook event. May be repeated up to 3 times.
+     * @returns {message: string, webhook: { urls: Array }} An object with the result message of the request and a webhook object wrapping a one item array with the provided url of the webhook.
+     */
     async createWebhook(mailgunDomain, webhookName, webhookUrl) {
       return await this._withRetries(() =>
         this._makeRequest({
-          method: "post",
+          method: "POST",
           path: `/domains/${mailgunDomain}/webhooks`,
           params: {
             domain: mailgunDomain,
@@ -141,9 +159,16 @@ module.exports = {
         })
       );
     },
+    /**
+     * Updates a webhook existing under a given domain.
+     * @params {String} mailgunDomain - Name of the Mailgun domain where the webhook to update is located.
+     * @params {String} webhookName - Name of the webhook to update. Must be one of the webhook names listed in the Mailgun API documentation, webhooks: [https://documentation.mailgun.com/en/latest/api-webhooks.html#webhooks]
+     * @params {String} webhookUrl - URL listening for the webhook event. May be repeated up to 3 times.
+     * @returns {message: string, webhook: { urls: Array }} An object with the result message of the request and a webhook object wrapping an array with the updated urls of webhook.
+     */
     async updateWebhook(mailgunDomain, webhookName, webhookUrls) {
       const opts = {
-        method: "put",
+        method: "PUT",
         path: `/domains/${mailgunDomain}/webhooks/${webhookName}`,
         params: {
           domain: mailgunDomain,
@@ -153,19 +178,32 @@ module.exports = {
       };
       return await this._withRetries(() => this._makeRequest(opts));
     },
+    /**
+     * Deletes a webhook under a given domain.
+     * @params {String} mailgunDomain - Name of the Mailgun domain where the webhook to delete is located.
+     * @params {String} webhookName - Name of the webhook to delete. Must be one of the webhook names listed in the Mailgun API documentation, webhooks: [https://documentation.mailgun.com/en/latest/api-webhooks.html#webhooks]
+     * @returns {message: string, webhook: { urls: Array }} An object with the result message of the request and a webhook object wrapping an array with the urls that were related to the webhook.
+     */
     async deleteWebhook(mailgunDomain, webhookName) {
       return await this._withRetries(() =>
         this._makeRequest({
-          method: "delete",
+          method: "DELETE",
           path: `/domains/${mailgunDomain}/webhooks/${webhookName}`,
         })
       );
     },
+    /**
+     * Get a list of Mailgun event under a given domain occured
+     * @params {String} mailgunDomain - Name of the Mailgun domain where the events are located.
+     * @params {String} [nextId = null] - The index of the next page with events to return.
+     * @params {Integer} [limit = 300] - The max number of event entries to return on each page.
+     * @returns {items: Array, paging: Object } An object with an array of event items, and a paging object to enable pagination over the events matched by the request query.
+     */
     async getMailgunEvents(mailgunDomain, nextId = null, limit = 300) {
       const nextPathPart = nextId ? `/${nextId}` : "";
       const begin = moment().subtract(1, "days").unix();
       return await this._makeRequest({
-        method: "get",
+        method: "GET",
         path: `/${mailgunDomain}/events${nextPathPart}`,
         params: {
           begin,
@@ -174,6 +212,13 @@ module.exports = {
         },
       });
     },
+    /**
+     * Get a list of mailing lists available under the connected Mailgun account
+     * @params {String} page - Name of the Mailgun domain where the events are located.
+     * @params {Integer} [limit = 100] - Max number of mailing list entries to return on each page.
+     * @params {String} [address = null] - Email address of the last mailing list in the previous page.
+     * @returns {items: Array, paging: Object } An object with an array of mailing list items, and a paging object to enable pagination over all available mailing lists.
+     */
     async getMailgunLists(page, limit = 100, address = null) {
       let params = {
         page,
@@ -183,7 +228,7 @@ module.exports = {
         params["address"] = address;
       }
       return await this._makeRequest({
-        method: "get",
+        method: "GET",
         path: "/lists/pages",
         params,
       });
