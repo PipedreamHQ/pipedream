@@ -3,10 +3,10 @@ const { mailgun } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-bounce",
-  name: "New bounce",
+  key: "mailgun-new-bounce",
+  name: "New Bounce",
   description:
-    "Emit an event when the email recipient who could not be reached.",
+    "Emit an event when the email recipient could not be reached.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -19,13 +19,13 @@ module.exports = {
       return ["bounce"];
     },
     getEventType() {
-      return "bounced";
+      return ["bounced"];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
       return {
         id: `${eventPayload["X-Mailgun-Sid"]}${ts}`,
-        summary: `New Bounce on message id: ${eventPayload["Message-Id"]} by ${eventPayload.recipient}`,
+        summary: eventPayload.recipient,
         ts,
       };
     },
@@ -37,8 +37,8 @@ module.exports = {
       }
     },
   },
-  async run(eventRawData) {
-    const eventWorkload = eventRawData.body;
+  async run(event) {
+    const eventWorkload = event.body;
     const { timestamp, token, signature } = eventWorkload;
     if (!this.verify(this.webhookSigningKey, timestamp, token, signature)) {
       this.http.respond({ status: 404 });
