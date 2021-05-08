@@ -3,7 +3,7 @@ const { mailgun } = common.props;
 
 module.exports = {
   ...common,
-  key: "mailgun-new-temporary-failure",
+  key: "new-temporary-failure",
   name: "New-temporary-failure",
   description:
     "Emit an event when an email can't be delivered to the recipient email server due to a temporary mailbox error such as an ESP block. ESP is the Email Service Provider managing the recipient email server.",
@@ -19,7 +19,7 @@ module.exports = {
       return ["temporary_fail"];
     },
     getEventType() {
-      return ["failed"];
+      return "failed";
     },
     getEventSubtype() {
       return "temporary";

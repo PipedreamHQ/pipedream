@@ -1,5 +1,4 @@
 const mailgun = require("../mailgun.app");
-const get = require("lodash/get");
 
 module.exports = {
   props: {
@@ -9,19 +8,12 @@ module.exports = {
       secret: true,
       label: "Mailgun webhook signing key",
       description:
-        "Your Mailgun webhook signing key, found [in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under Settings on the left-hand nav and then in API Keys look for webhook signing key. Required to compute the authentication signature of events.",
-      default: "key-1b219a1a57f665a8321f9d3860dbf538",
+        "Your Mailgun webhook signing key, found [in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under Settings on the left-hand nav and then in API Keys look for webhook signing key. Required to compute the authentication signature of events."
     },
     http: "$.interface.http",
     db: "$.service.db",
   },
   methods: {
-    getEventName() {
-      throw new Error("getEventName is not implemented");
-    },
-    getEventType() {
-      throw new Error("getEventType is not implemented");
-    },
     verify(signingKey, timestamp, token, signature) {
       const crypto = require("crypto");
       const encodedToken = crypto
@@ -41,13 +33,14 @@ module.exports = {
   hooks: {
     async activate() {
       const webhookNames = this.getEventName();
-      for (const webhookName of webhookNames) {
+      for (let i = 0; i < webhookNames.length; i++) {
+        const webhookName = webhookNames[i];
         const webhookDetails = await this.mailgun.getWebhookDetails(
           this.domain,
           webhookName
         );
-        const newWebhookUrls = get(webhookDetails, "urls", []);
-        if (newWebhookUrls.length) {
+        if (webhookDetails && webhookDetails.urls) {
+          const newWebhookUrls = webhookDetails.urls.slice();
           newWebhookUrls.push(this.http.endpoint);
           await this.mailgun.updateWebhook(
             this.domain,
@@ -65,13 +58,18 @@ module.exports = {
     },
     async deactivate() {
       const webhookNames = this.getEventName();
-      for (const webhookName of webhookNames) {
+      for (let i = 0; i < webhookNames.length; i++) {
+        const webhookName = webhookNames[i];
         const webhookDetails = await this.mailgun.getWebhookDetails(
           this.domain,
           webhookName
         );
-        const currentWebhookUrls = get(webhookDetails, "urls", []);
-        if (currentWebhookUrls.length > 1) {
+        if (
+          webhookDetails &&
+          webhookDetails.urls &&
+          webhookDetails.urls.length > 1
+        ) {
+          const currentWebhookUrls = webhookDetails.urls.slice();
           const newWebhookUrls = currentWebhookUrls.filter(
             (url) => url !== this.http.endpoint
           );
@@ -86,14 +84,9 @@ module.exports = {
       }
     },
   },
-  async run(event) {
-    const hasSignature  = get(event, ['body', 'signature'])
-    if (!hasSignature) {
-      console.log("No signature present in event")
-      return;
-    }
-    const { timestamp, token, signature } = event.body.signature;
-    const eventPayload = event.body["event-data"];
+  async run(eventWorkload) {
+    const { timestamp, token, signature } = eventWorkload.body.signature;
+    const eventPayload = eventWorkload.body["event-data"];
     if (!this.verify(this.webhookSigningKey, timestamp, token, signature)) {
       this.http.respond({ status: 404 });
       console.log("Invalid event. Skipping...");

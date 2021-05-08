@@ -1,9 +1,10 @@
 const common = require("../common-webhook");
+const moment = require("moment");
 const { mailgun } = common.props;
 
 module.exports = {
   ...common,
-  key: "mailgun-new-mailing-list",
+  key: "new-mailing-list",
   name: "New mailing list",
   description:
     "Emit an event when a new mailing list is added to the associated Mailgun account.",
@@ -30,7 +31,7 @@ module.exports = {
   methods: {
     ...common.methods,
     generateMeta(eventPayload) {
-      const ts = +new Date(eventPayload.created_at);
+      const ts = moment(eventPayload.created_at).unix();
       return {
         id: `${ts}`,
         summary: `A new mailing list "${eventPayload.name}" has been created.`,
