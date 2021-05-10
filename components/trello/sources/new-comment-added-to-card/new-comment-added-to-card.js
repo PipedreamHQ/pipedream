@@ -23,22 +23,20 @@ module.exports = {
     ...common.methods,
     isCorrectEventType(event) {
       const eventType = get(event, "body.action.type");
-      if (eventType !== "commentCard") return false;
-      return true;
+      return eventType === "commentCard";
     },
     async getResult(event) {
       const cardId = get(event, "body.action.data.card.id");
-      return await this.trello.getCard(cardId);
-    },
-    isRelevant({ result: card, event }) {
       const comment = get(event, "body.action.data.text");
       /** Record comment to use in generateMeta() */
       this.db.set("comment", comment);
-
-      if (this.board && this.board !== card.idBoard) return false;
-      if (this.cards && this.cards.length > 0 && !this.cards.includes(card.id))
-        return false;
-      return true;
+      return await this.trello.getCard(cardId);
+    },
+    isRelevant({ result: card, event }) {
+      return (
+        (!this.board || this.board === card.idBoard) &&
+        (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
+      );
     },
     generateMeta({ id }) {
       const comment = this.db.get("comment");

@@ -15,8 +15,7 @@ module.exports = {
     ...common.methods,
     isCorrectEventType(event) {
       const eventType = get(event, "body.action.type");
-      if (eventType !== "addAttachmentToCard") return false;
-      return true;
+      return eventType === "addAttachmentToCard";
     },
     async getResult(event) {
       const cardId = get(event, "body.action.data.card.id");
@@ -25,11 +24,7 @@ module.exports = {
     },
     isRelevant({ event }) {
       const boardId = get(event, "body.action.data.board.id");
-      if (this.board && this.board !== boardId) return false;
-      return true;
-    },
-    generateMeta(attachment) {
-      return this.generateCommonMeta(attachment);
+      return !this.board || this.board === boardId;
     },
   },
 };

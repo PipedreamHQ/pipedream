@@ -23,8 +23,7 @@ module.exports = {
     ...common.methods,
     isCorrectEventType(event) {
       const eventType = get(event, "body.action.type");
-      if (eventType !== "createCard") return false;
-      return true;
+      return eventType === "createCard";
     },
     async getResult(event) {
       const cardId = get(event, "body.action.data.card.id");
@@ -32,16 +31,12 @@ module.exports = {
     },
     isRelevant({ result: card }) {
       if (this.board && this.board !== card.idBoard) return false;
-      if (
-        this.lists &&
-        this.lists.length > 0 &&
-        !this.lists.includes(card.idList)
-      )
-        return false;
-      return true;
-    },
-    generateMeta(card) {
-      return this.generateCommonMeta(card);
+      return (
+        (!this.board || this.board === card.idBoard) &&
+        (!this.lists ||
+          this.lists.length === 0 ||
+          this.lists.includes(card.idList))
+      );
     },
   },
 };

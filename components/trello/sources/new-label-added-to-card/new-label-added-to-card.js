@@ -29,30 +29,25 @@ module.exports = {
     ...common.methods,
     isCorrectEventType(event) {
       const eventType = get(event, "body.action.type");
-      if (eventType !== "addLabelToCard") return false;
-      return true;
+      return eventType === "addLabelToCard";
     },
     async getResult(event) {
       const cardId = get(event, "body.action.data.card.id");
-      return await this.trello.getCard(cardId);
-    },
-    isRelevant({ result: card, event }) {
       const labelName = get(event, "body.action.data.label.name");
       const labelColor = get(event, "body.action.data.label.color");
       /** Record labelName & labelColor to use in generateMeta() */
       this.db.set("labelName", labelName);
       this.db.set("labelColor", labelColor);
-
-      if (this.board && this.board !== card.idBoard) return false;
-      if (
-        this.lists &&
-        this.lists.length > 0 &&
-        !this.lists.includes(card.idList)
-      )
-        return false;
-      if (this.cards && this.cards.length > 0 && !this.cards.includes(card.id))
-        return false;
-      return true;
+      return await this.trello.getCard(cardId);
+    },
+    isRelevant({ result: card, event }) {
+      return (
+        (!this.board || this.board === card.idBoard) &&
+        (!this.lists ||
+          this.lists.length === 0 ||
+          this.lists.includes(card.idList)) &&
+        (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
+      );
     },
     generateMeta({ id, name }) {
       const labelName = this.db.get("labelName");

@@ -13,11 +13,8 @@ module.exports = {
     _getLastNotificationId() {
       return this.db.get("lastNotificationId") || null;
     },
-    _setLastNotificationId(notifications) {
-      this.db.set(
-        "lastNotificationId",
-        notifications[notifications.length - 1].id
-      );
+    _setLastNotificationId(lastNotificationId) {
+      this.db.set("lastNotificationId", lastNotificationId);
     },
     generateMeta({ id, type, date, data }) {
       return {
@@ -35,7 +32,13 @@ module.exports = {
 
     const notifications = await this.trello.getNotifications("me", params);
 
-    if (notifications.length > 0) this._setLastNotificationId(notifications);
+    const { length: notificationCount = 0 } = notifications;
+    if (notificationCount <= 0) {
+      console.log("No notifications to process");
+      return;
+    }
+    const { id } = notifications[notificationCount - 1];
+    this._setLastNotificationId(id);
 
     for (const notification of notifications) {
       this.emitEvent(notification);

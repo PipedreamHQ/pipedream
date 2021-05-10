@@ -9,7 +9,10 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [common.props.trello, "board"],
+      default: "me",
+    },
     timeBefore: {
       type: "integer",
       label: "Time Before",
@@ -33,13 +36,21 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    generateMeta(card) {
-      return this.generateCommonMeta(card);
+    generateMeta({ id, name: summary }, now) {
+      return {
+        id,
+        summary,
+        ts: now,
+      };
+    },
+    emitEvent(card, now) {
+      const meta = this.generateMeta(card, now);
+      this.$emit(card, meta);
     },
   },
   async run(event) {
-    const boardId = this.board ? this.board : "me";
-    const now = Date.now();
+    const boardId = this.board;
+    const now = event.timestamp * 1000;
 
     const cards = await this.trello.getCards(boardId);
     for (const card of cards) {
@@ -47,7 +58,7 @@ module.exports = {
       const due = Date.parse(card.due);
       const notifyAt = due - this.timeBefore * this.timeBeforeUnit;
       if (notifyAt <= now) {
-        this.emitEvent(card);
+        this.emitEvent(card, now);
       }
     }
   },

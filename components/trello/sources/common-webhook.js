@@ -23,36 +23,49 @@ module.exports = {
   },
   methods: {
     ...common.methods,
+    /**
+     * Returns the ID of the current board selected. If no board is selected, returns
+     * the id of the authenticated user.
+     */
     async getModelId() {
       if (this.board) return this.board;
       const member = await this.trello.getMember("me");
       return member.id;
     },
+    /**
+     * Verifies that the event received was sent from Trello.
+     * @param {object} event - The event returned from a webhook
+     */
     verifyEvent(event) {
-      /** validate signature */
-      if (!this.trello.verifyTrelloWebhookRequest(event, this.http.endpoint)) {
-        return false;
-      }
-      const body = get(event, "body");
-      return body;
+      return (
+        this.trello.verifyTrelloWebhookRequest(event, this.http.endpoint) &&
+        event.body !== undefined
+      );
     },
-    isCorrectEventType(event) {
+    /**
+     * Default isCorrectEventType. Used in components to verify that the event received is
+     * of the type that the component is watching for.
+     */
+    isCorrectEventType() {
       return true;
     },
-    isRelevant({ result }) {
+    /**
+     * Default isRelevant. Used in components to verify that the event received matches the
+     * board, list and/or card specified in the component's props.
+     */
+    isRelevant() {
       return true;
     },
   },
   async run(event) {
-    if (!this.verifyEvent(event)) return;
-    console.log("event verified");
+    if (!this.verifyEvent(event)) {
+      console.log("The event failed the verification. Skipping...");
+      return;
+    }
     if (!this.isCorrectEventType(event)) return;
-    console.log("is correct event type");
 
     const result = await this.getResult(event);
-    console.log("got result");
     if (!this.isRelevant({ result, event })) return;
-    console.log("event is relevant");
 
     this.emitEvent(result);
   },

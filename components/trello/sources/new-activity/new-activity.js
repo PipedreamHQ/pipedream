@@ -18,8 +18,7 @@ module.exports = {
     },
     isRelevant({ event }) {
       const boardId = get(event, "body.action.data.board.id");
-      if (this.board && this.board !== boardId) return false;
-      return true;
+      return !this.board || this.board === boardId;
     },
     generateMeta({ action }) {
       const { id, type: summary, date } = action;

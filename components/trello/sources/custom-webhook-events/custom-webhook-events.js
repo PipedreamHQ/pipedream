@@ -31,13 +31,11 @@ module.exports = {
     ...common.methods,
     isCorrectEventType(event) {
       const eventType = get(event, "body.action.type");
-      if (
-        this.eventTypes &&
-        this.eventTypes.length > 0 &&
-        !this.eventTypes.includes(eventType)
-      )
-        return false;
-      return true;
+      return (
+        !this.eventTypes ||
+        this.eventTypes.length === 0 ||
+        this.eventTypes.includes(eventType)
+      );
     },
     async getResult(event) {
       return event.body;
@@ -46,11 +44,12 @@ module.exports = {
       const listId = get(body, "action.data.list.id");
       const cardId = get(body, "action.data.card.id");
 
-      if (this.lists && this.lists.length > 0 && !this.lists.includes(listId))
-        return false;
-      if (this.cards && this.cards.length > 0 && !this.cards.includes(cardId))
-        return false;
-      return true;
+      return (
+        (!this.lists ||
+          this.lists.length === 0 ||
+          this.lists.includes(listId)) &&
+        (!this.cards || this.cards.length === 0 || this.cards.includes(cardId))
+      );
     },
     generateMeta({ action }) {
       const { id, type: summary, date } = action;

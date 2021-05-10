@@ -22,21 +22,17 @@ module.exports = {
     ...common.methods,
     isCorrectEventType(event) {
       const eventType = get(event, "body.action.type");
-      if (eventType !== "updateCard") return false;
-      return true;
+      return eventType === "updateCard";
     },
     async getResult(event) {
       const cardId = get(event, "body.action.data.card.id");
       return await this.trello.getCard(cardId);
     },
     isRelevant({ result: card }) {
-      if (this.board && this.board !== card.idBoard) return false;
-      if (this.cards && this.cards.length > 0 && !this.cards.includes(card.id))
-        return false;
-      return true;
-    },
-    generateMeta(card) {
-      return this.generateCommonMeta(card);
+      return (
+        (!this.board || this.board === card.idBoard) &&
+        (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
+      );
     },
   },
 };

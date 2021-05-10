@@ -12,15 +12,11 @@ module.exports = {
     ...common.methods,
     isCorrectEventType(event) {
       const eventType = get(event, "body.action.type");
-      if (eventType !== "createBoard") return false;
-      return true;
+      return eventType === "createBoard";
     },
     async getResult(event) {
       const boardId = get(event, "body.action.data.board.id");
       return await this.trello.getBoard(boardId);
-    },
-    generateMeta(board) {
-      return this.generateCommonMeta(board);
     },
   },
 };

@@ -25,30 +25,26 @@ module.exports = {
         event,
         "body.action.display.translationKey"
       );
-      if (eventTranslationKey !== "action_move_card_from_list_to_list")
-        return false;
-      return true;
+      return eventTranslationKey === "action_move_card_from_list_to_list";
     },
     async getResult(event) {
       const cardId = get(event, "body.action.data.card.id");
+      const listAfter = get(event, "body.action.data.listAfter.name");
+      /** Record listAfter to use in generateMeta() */
+      this.db.set("listAfter", listAfter);
       return await this.trello.getCard(cardId);
     },
     isRelevant({ result: card, event }) {
-      const listAfter = get(event, "body.action.data.listAfter.name");
       const listIdAfter = get(event, "body.action.data.listAfter.id");
       const listIdBefore = get(event, "body.action.data.listBefore.id");
-      /** Record listAfter to use in generateMeta() */
-      this.db.set("listAfter", listAfter);
 
-      if (this.board && this.board !== card.idBoard) return false;
-      if (
-        this.lists &&
-        this.lists.length > 0 &&
-        !this.lists.includes(listIdBefore) &&
-        !this.lists.includes(listIdAfter)
-      )
-        return false;
-      return true;
+      return (
+        (!this.board || this.board === card.idBoard) &&
+        (!this.lists ||
+          this.lists.length === 0 ||
+          this.lists.includes(listIdAfter) ||
+          this.lists.includes(listIdBefore))
+      );
     },
     generateMeta({ id, name }) {
       const listAfter = this.db.get("listAfter");
