@@ -3,7 +3,7 @@ const get = require("lodash/get");
 const retry = require("async-retry");
 
 module.exports = {
-  type: "app",  
+  type: "app",
   app: "reddit",
   propDefinitions: {
     subreddit: {
@@ -213,7 +213,7 @@ module.exports = {
         })
       );
     },
-    async searchSubreddits(after, query = "") {      
+    async searchSubreddits(after, query = "") {
       const params = {
         after,
         limit: 100,
@@ -224,7 +224,7 @@ module.exports = {
         typeahead_active: false,
       };
       const redditCommunities = await this._withRetries(() =>
-         this._makeRequest({
+        this._makeRequest({
           path: `/subreddits/search`,
           params,
         })
@@ -252,7 +252,7 @@ module.exports = {
             title,
             name,
           });
-        }); 
+        });
       } while (after);
       return results;
     },
