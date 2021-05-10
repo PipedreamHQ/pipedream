@@ -4,7 +4,7 @@ const { mailgun } = common.props;
 module.exports = {
   ...common,
   key: "mailgun-new-log-data",
-  name: "New log data",
+  name: "New Log Data",
   description:
     "Emit an event when new data is logged in Mailgun's Control Panel. Occurs for most actions within the associated Mailgun account.",
   version: "0.0.1",

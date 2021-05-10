@@ -4,7 +4,7 @@ const { mailgun } = common.props;
 module.exports = {
   ...common,
   key: "mailgun-new-unsubscribe",
-  name: "New unsubscribe",
+  name: "New Unsubscribe",
   description:
     "Emit an event when the email recipient clicked on the unsubscribe link. Unsubscribe tracking must be enabled in the Mailgun control panel. See more at the Mailgun User's Manual [Tracking Messages](https://documentation.mailgun.com/en/latest/user_manual.html#tracking-messages) section",
   version: "0.0.1",

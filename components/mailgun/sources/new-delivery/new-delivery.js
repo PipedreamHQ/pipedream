@@ -3,8 +3,8 @@ const { mailgun } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-delivery",
-  name: "New delivery",
+  key: "mailgun-new-delivery",
+  name: "New Delivery",
   description:
     "Emit an event when an email is sent and accepted by the recipient email server.",
   version: "0.0.1",

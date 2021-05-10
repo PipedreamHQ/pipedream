@@ -3,8 +3,8 @@ const { mailgun } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-complain",
-  name: "New complain",
+  key: "mailgun-new-complain",
+  name: "New Complain",
   description:
     "Emit an event when the email recipient clicked on the spam complaint button within their email client. Feedback loops enable the notification to be received by Mailgun.",
   version: "0.0.1",

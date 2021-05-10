@@ -4,7 +4,7 @@ const { mailgun } = common.props;
 module.exports = {
   ...common,
   key: "mailgun-new-mailing-list",
-  name: "New mailing list",
+  name: "New Mailing List",
   description:
     "Emit an event when a new mailing list is added to the associated Mailgun account.",
   version: "0.0.1",

@@ -4,7 +4,7 @@ const { mailgun } = common.props;
 module.exports = {
   ...common,
   key: "mailgun-new-delivery-failure",
-  name: "New delivery failure",
+  name: "New Delivery Failure",
   description:
     "Emit an event when an email can't be delivered to the recipient email server.",
   version: "0.0.1",
