@@ -71,7 +71,7 @@ module.exports = {
         return;
       }
       comments.reverse().forEach(this.emitRedditEvent);
-    },
+    }
   },
   methods: {
     ...common.methods,
