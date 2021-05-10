@@ -45,7 +45,7 @@ module.exports = {
       const { name: before = this.db.get("before") } = comments[0].data;
       this.db.set("before", before);
       comments.reverse().forEach(this.emitRedditEvent);
-    },
+    }
   },
   methods: {
     ...common.methods,

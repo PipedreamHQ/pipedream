@@ -30,7 +30,7 @@ module.exports = {
       const { name: before = this.db.get("before") } = links[0].data;
       this.db.set("before", before);
       links.reverse().forEach(this.emitRedditEvent);
-    },
+    }
   },
   methods: {
     ...common.methods,

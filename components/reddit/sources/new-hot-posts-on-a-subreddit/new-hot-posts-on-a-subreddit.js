@@ -52,7 +52,7 @@ module.exports = {
         return;
       }
       hotPosts.reverse().forEach(this.emitRedditEvent);
-    },
+    }
   },
   methods: {
     ...common.methods,
