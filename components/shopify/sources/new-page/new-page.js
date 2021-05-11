@@ -4,7 +4,7 @@ module.exports = {
   key: "shopify-new-page",
   name: "New Page",
   description: "Emits an event for each new page published.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",
