@@ -5,7 +5,7 @@ module.exports = {
   ...common,
   props: {
     ...common.props,
-    //  http: "$.interface.http",
+    http: "$.interface.http",
   },
   hooks: {
     ...common.hooks,
