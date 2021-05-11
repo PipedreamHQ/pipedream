@@ -1,4 +1,4 @@
-const common = require("../common-webhook.js");
+const common = require("../common/webhook.js");
 
 module.exports = {
   ...common,

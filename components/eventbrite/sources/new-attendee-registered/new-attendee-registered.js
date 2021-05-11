@@ -1,4 +1,4 @@
-const common = require("../common-webhook.js");
+const common = require("../common/webhook.js");
 
 module.exports = {
   ...common,
@@ -14,11 +14,15 @@ module.exports = {
     },
     async getData(order) {
       const { id: orderId, event_id: eventId } = order;
-      const attendees = await this.paginate(
+      const attendeeStream = await this.resourceStream(
         this.eventbrite.getOrderAttendees.bind(this),
         "attendees",
         orderId
       );
+      const attendees = [];
+      for await (const attendee of attendeeStream) {
+        attendees.push(attendee);
+      }
       const event = await this.eventbrite.getEvent(eventId, {
         expand: "ticket_classes",
       });

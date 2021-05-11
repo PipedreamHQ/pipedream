@@ -1,4 +1,4 @@
-const common = require("../common-webhook.js");
+const common = require("../common/event.js");
 
 module.exports = {
   ...common,
@@ -14,9 +14,6 @@ module.exports = {
     },
     async getData(event) {
       return event;
-    },
-    generateMeta(event) {
-      return this.generateEventMeta(event);
     },
   },
 };

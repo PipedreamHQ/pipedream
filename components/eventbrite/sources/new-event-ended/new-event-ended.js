@@ -1,4 +1,4 @@
-const common = require("../common.js");
+const common = require("../common/event.js");
 
 module.exports = {
   ...common,
@@ -17,6 +17,7 @@ module.exports = {
     },
   },
   hooks: {
+    ...common.hooks,
     async deploy() {
       const params = {
         orgId: this.organization,
@@ -24,21 +25,17 @@ module.exports = {
           status: "ended,completed",
         },
       };
-      const events = await this.paginate(
+      const eventStream = await this.resourceStream(
         this.eventbrite.listEvents.bind(this),
         "events",
         params
       );
-      for (const event of events) {
+      for await (const event of eventStream) {
         this.emitEvent(event);
       }
     },
-  },
-  methods: {
-    ...common.methods,
-    generateMeta(event) {
-      return this.generateEventMeta(event);
-    },
+    activate() {},
+    deactivate() {},
   },
   async run(event) {
     const params = {
@@ -47,12 +44,12 @@ module.exports = {
         status: "ended,completed",
       },
     };
-    const events = await this.paginate(
+    const eventStream = await this.resourceStream(
       this.eventbrite.listEvents.bind(this),
       "events",
       params
     );
-    for (const newEvent of events) {
+    for await (const newEvent of eventStream) {
       this.emitEvent(newEvent);
     }
   },

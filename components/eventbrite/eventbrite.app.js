@@ -9,10 +9,10 @@ module.exports = {
       label: "Organization",
       async options({ prevContext }) {
         const {
-          prevHasMore: hasMore,
+          prevHasMore: hasMore = false,
           prevContinuation: continuation,
         } = prevContext;
-        const params = prevContext && hasMore ? { continuation } : null;
+        const params = hasMore ? { continuation } : null;
         const { organizations, pagination } = await this.listMyOrganizations(
           params
         );
@@ -48,11 +48,11 @@ module.exports = {
       endpoint,
       params = null,
       data = null,
-      url = null
+      url = `${this._getBaseUrl()}${endpoint}`
     ) {
       const config = {
         method,
-        url: url || `${this._getBaseUrl()}${endpoint}`,
+        url,
         headers: this._getHeaders(),
         params,
         data,
