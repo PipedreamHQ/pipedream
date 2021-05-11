@@ -1,4 +1,8 @@
-# Actions
+# Actions (legacy)
+
+::: danger
+There is a new version of Pipedream Actions available.  Legacy Actions will be deprecated.  Get started with our [quickstart](/components/quickstart/nodejs/actions/) for new actions or learn how to [migrate](/components/migrating/) legacy actions.
+:::
 
 Actions are reusable [code](/workflows/steps/code/) steps that integrate your apps, data and APIs. For example, you can send HTTP requests to an external service using the [HTTP action](/destinations/http/), or use actions to send data to Slack, [Amazon S3](/destinations/s3/), and more. You can use thousands of actions across 100+ apps today.
 
