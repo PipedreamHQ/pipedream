@@ -24,8 +24,28 @@ module.exports = {
     },
   },
   methods: {
-    sdk() {
-      return new Dropbox({ accessToken: this.$auth.oauth_access_token, fetch });
+    async sdk() {
+      const baseClientOpts = {
+        accessToken: this.$auth.oauth_access_token,
+        fetch,
+      };
+
+      // In order to properly set the [root
+      // path](https://www.dropbox.com/developers/reference/path-root-header-modes)
+      // to use in every API request we first need to extract some information
+      // from the authenticated user's account, for which we need to create a
+      // client and issue an API request.
+      const dpx = new Dropbox(baseClientOpts);
+      const { result } = await dpx.usersGetCurrentAccount();
+
+      const pathRoot = JSON.stringify({
+        ".tag": "root",
+        "root": result.root_info.root_namespace_id,
+      });
+      return new Dropbox({
+        ...baseClientOpts,
+        pathRoot,
+      });
     },
     async pathOptions(path) {
       const limit = 50;
@@ -33,8 +53,8 @@ module.exports = {
       let entries, has_more, cursor;
       path = path === "/" || path === null ? "" : path;
       try {
-        const sdk = this.sdk();
-        let files = await sdk.filesListFolder({ path, limit });
+        const dpx = await this.sdk();
+        let files = await dpx.filesListFolder({ path, limit });
         if (files.result) {
           files = files.result;
         }
@@ -47,7 +67,7 @@ module.exports = {
           }
           // TODO break after a certain number of folders has been found??
           if (has_more) {
-            files = await sdk.filesListFolderContinue({ cursor });
+            files = await dpx.filesListFolderContinue({ cursor });
             if (files.result) {
               files = files.result;
             }
@@ -75,15 +95,16 @@ module.exports = {
     async initState(context) {
       const { path, recursive, db } = context;
       try {
-        let fixedPath = path == "/" ? "" : path;
-        let response = await this.sdk().filesListFolderGetLatestCursor({
+        const fixedPath = path == "/" ? "" : path;
+        const dpx = await this.sdk();
+        let response = await dpx.filesListFolderGetLatestCursor({
           path: fixedPath,
           recursive,
         });
         if (response.result) {
           response = response.result;
         }
-        let { cursor } = response;
+        const { cursor } = response;
         const state = { path, recursive, cursor };
         db.set("dropbox_state", state);
         return state;
@@ -107,10 +128,11 @@ module.exports = {
       const state = await this.getState(context);
       if (state) {
         try {
-          const { dropbox, db } = context;
+          const { db } = context;
           let [cursor, has_more, entries] = [state.cursor, true, null];
           while (has_more) {
-            let response = await this.sdk().filesListFolderContinue({ cursor });
+            const dpx = await this.sdk();
+            let response = await dpx.filesListFolderContinue({ cursor });
             if (response.result) {
               response = response.result;
             }
