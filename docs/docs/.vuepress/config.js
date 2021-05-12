@@ -119,6 +119,18 @@ module.exports = {
           "/environment-variables/",
         ],
       },
+      {
+        title: "Components",
+        collapsable: false,
+        children: [
+          "/components/",
+          "/components/quickstart/nodejs/actions/",
+          "/components/quickstart/nodejs/sources/",
+          "/components/api/",
+          "/components/guidelines/",
+          "/components/migrating/",
+        ],
+      },
       "/user-settings/",
       {
         title: "Examples",
