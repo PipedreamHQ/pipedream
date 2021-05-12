@@ -6,7 +6,7 @@ module.exports = {
   key: "new-links-on-a-subreddit",
   name: "New Links on a subreddit",
   description: "Emits an event each time a new link is added to a subreddit",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
