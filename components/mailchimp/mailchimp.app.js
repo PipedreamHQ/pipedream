@@ -11,13 +11,14 @@ module.exports = {
       label: "server",
       description:
         "The Mailchimp server of the connected account. Found when logging into the Mailchimp account and looking at the URL on a browser. E.g. for https://us19.admin.mailchimp.com/; the us19 part is the server prefix.",
+      optional: false
     },
     timer: {
       label: "Polling schedule",
       description: "Pipedream polls Reddit for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 120, // by default, run every 15 minutes.
+        intervalSeconds: 60*15, // by default, run every 15 minutes.
       },
     },
   },
@@ -27,14 +28,6 @@ module.exports = {
     },
     _mailchimp(server) {
       const mailchimp = require("@mailchimp/mailchimp_marketing");
-      mailchimp.setConfig({
-        accessToken: this._authToken(),
-        server,
-      });
-      return mailchimp;
-    },
-    _mailchimpTrx(server) {
-      const mailchimp = require("@mailchimp/mailchimp_transactional");
       mailchimp.setConfig({
         accessToken: this._authToken(),
         server,
@@ -97,16 +90,14 @@ module.exports = {
         )
       );
     },
-    async getMailgunEvents(mailgunDomain, nextId = null) {
-      const nextPathPart = nextId ? `/${nextId}` : "";
-      const mailgun = require("mailgun-js")({
-        apiKey: this._apiKey(),
-        domain: mailgunDomain,
-      });
-      return (mailgunEvents = await mailgun.get(
-        `/${mailgunDomain}/events${nextPathPart}`,
-        { limit: 300 }
-      ));
+    async getMailchimpAudienceLists(server, count, offset, before_date_created){
+      const mailchimp = this._mailchimp(server);
+      return await this._withRetries(() =>
+         mailchimp.lists.getAllLists( {count
+            ,offset
+            ,before_date_created
+        })
+      );
     },
     printSomething() {
       console.log(`[print something]`);
