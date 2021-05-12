@@ -186,7 +186,7 @@ sc_Egip04  Action Demo                             0.0.2    just now            
 
 Next, let's update the action in the workflow from the previous example and run it.
 
-1. Hover over the action in your workflow — you should see an update icon at the top right. Click the icon to update the action to the latest version and then save the workflow. If you don't see the icon, verify that the CLI successfully published the update.
+1. Hover over the action in your workflow — you should see an update icon at the top right. Click the icon to update the action to the latest version and then save the workflow. If you don't see the icon, verify that the CLI successfully published the update or try refreshing the page.
 
    ![image-20210411164514490](https://res.cloudinary.com/pipedreamin/image/upload/v1618550730/docs/components/image-20210411164514490_qghbzf.png)
 
