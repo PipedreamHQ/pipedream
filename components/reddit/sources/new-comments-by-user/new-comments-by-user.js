@@ -6,7 +6,7 @@ module.exports = {
   key: "new-comments-by-user",
   name: "New comments by user",
   description: "Emits an event each time a user posts a new comment.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
