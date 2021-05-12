@@ -4,7 +4,7 @@ module.exports = {
   key: "shopify-new-order",
   name: "New Order",
   description: "Emits an event for each new order submitted to a store.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",
