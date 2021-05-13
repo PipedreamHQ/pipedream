@@ -1,17 +1,22 @@
-const common = require('../common');
+const common = require("../common");
 
 module.exports = {
   ...common,
-  key: 'google_sheets-new-spreadsheet',
-  name: 'New Spreadsheet (Instant)',
-  description: 'Emits an event each time a new spreadsheet is created in a drive.',
-  version: '0.0.1',
-  dedupe: 'unique',
+  key: "google_sheets-new-spreadsheet",
+  name: "New Spreadsheet (Instant)",
+  description:
+    "Emits an event each time a new spreadsheet is created in a drive.",
+  version: "0.0.1",
+  dedupe: "unique",
   props: {
     ...common.props,
     folders: {
-      propDefinition: [ common.props.google_sheets, 'folders', c => ({ driveId: c.watchedDrive })],
-    }
+      propDefinition: [
+        common.props.google_sheets,
+        "folders",
+        (c) => ({ driveId: c.watchedDrive }),
+      ],
+    },
   },
   hooks: {
     ...common.hooks,
@@ -40,7 +45,7 @@ module.exports = {
       this._setPageToken(newStartPageToken);
 
       const file = changedFiles
-        .filter(file => file.mimeType.includes("spreadsheet"))
+        .filter((file) => file.mimeType.includes("spreadsheet"))
         .shift();
       if (file && this.shouldProcess(file)) return file;
     },
@@ -50,10 +55,9 @@ module.exports = {
 
       const fileInfo = await this.google_sheets.getFile(file.id);
       const createdTime = Date.parse(fileInfo.createdTime);
-      if (createdTime > maxCreatedTime)
-        maxCreatedTime = createdTime;
+      if (createdTime > maxCreatedTime) maxCreatedTime = createdTime;
       if (createdTime <= lastFileCreatedTime) return;
-        
+
       const meta = this.generateMeta(file, createdTime);
       this.$emit(fileInfo, meta);
 
@@ -67,13 +71,12 @@ module.exports = {
       };
     },
     _getLastFileCreatedTime() {
-      return this.db.get('lastFileCreatedTime');
+      return this.db.get("lastFileCreatedTime");
     },
     _setLastFileCreatedTime(lastFileCreatedTime) {
-      this.db.set('lastFileCreatedTime', lastFileCreatedTime);
+      this.db.set("lastFileCreatedTime", lastFileCreatedTime);
     },
-    takeSheetSnapshot() {
-    },
+    takeSheetSnapshot() {},
   },
   async run(event) {
     if (event.interval_seconds) {
@@ -88,5 +91,5 @@ module.exports = {
 
     const spreadsheet = await this.getSpreadsheetToProcess(event);
     await this.processSpreadsheet(spreadsheet);
-  }
+  },
 };

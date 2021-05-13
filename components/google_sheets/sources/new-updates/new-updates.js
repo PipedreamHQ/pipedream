@@ -126,14 +126,20 @@ module.exports = {
     async takeSheetSnapshot(offset = 0) {
       // Initialize sheet values
       const sheetId = this.getSheetId();
-      const worksheetIds = (this.getWorksheetIds().length === 0) ? await this.getAllWorksheetIds(sheetId) : this.getWorksheetIds();
+      const worksheetIds =
+        this.getWorksheetIds().length === 0
+          ? await this.getAllWorksheetIds(sheetId)
+          : this.getWorksheetIds();
       const sheetValues = await this.google_sheets.getSheetValues(
         sheetId,
         worksheetIds
       );
       for (const sheetVal of sheetValues) {
         const { values, worksheetId } = sheetVal;
-        if (this.worksheetIDs.length && !this.isWorksheetRelevant(worksheetId)) {
+        if (
+          this.worksheetIDs.length &&
+          !this.isWorksheetRelevant(worksheetId)
+        ) {
           continue;
         }
 
@@ -145,7 +151,10 @@ module.exports = {
     async processSpreadsheet(spreadsheet) {
       for (const worksheet of spreadsheet.sheets) {
         const { sheetId: worksheetId } = worksheet.properties;
-        if (this.worksheetIDs.length && !this.isWorksheetRelevant(worksheetId)) {
+        if (
+          this.worksheetIDs.length &&
+          !this.isWorksheetRelevant(worksheetId)
+        ) {
           continue;
         }
 

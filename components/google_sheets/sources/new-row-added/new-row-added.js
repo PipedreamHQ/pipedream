@@ -49,7 +49,10 @@ module.exports = {
     },
     async getWorksheetLengthsById() {
       const sheetId = this.getSheetId();
-      const relevantWorksheets = (this.getWorksheetIds().length === 0) ? await this.getAllWorksheetIds(sheetId) : this.getWorksheetIds();
+      const relevantWorksheets =
+        this.getWorksheetIds().length === 0
+          ? await this.getAllWorksheetIds(sheetId)
+          : this.getWorksheetIds();
       const worksheetIds = new Set(relevantWorksheets);
       const worksheetLengths = await this.google_sheets.getWorksheetLength(
         sheetId
@@ -76,7 +79,10 @@ module.exports = {
      */
     async takeSheetSnapshot(offset = 0) {
       const sheetId = this.getSheetId();
-      const worksheetIds = (this.getWorksheetIds().length === 0) ? await this.getAllWorksheetIds(sheetId) : this.getWorksheetIds();
+      const worksheetIds =
+        this.getWorksheetIds().length === 0
+          ? await this.getAllWorksheetIds(sheetId)
+          : this.getWorksheetIds();
       const worksheetRowCounts = await this.google_sheets.getWorksheetRowCounts(
         sheetId,
         worksheetIds
@@ -96,7 +102,10 @@ module.exports = {
           sheetId: worksheetId,
           title: worksheetTitle,
         } = worksheet.properties;
-        if (this.worksheetIDs.length && !this.isWorksheetRelevant(worksheetId)) {
+        if (
+          this.worksheetIDs.length &&
+          !this.isWorksheetRelevant(worksheetId)
+        ) {
           continue;
         }
 

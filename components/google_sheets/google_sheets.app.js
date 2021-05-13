@@ -6,12 +6,37 @@ module.exports = {
   app: "google_sheets",
   propDefinitions: {
     ...google_drive.propDefinitions,
+    cells: {
+      type: "string[]",
+      label: "Cells / Column Values",
+      description:
+        "Use structured mode to enter individual cell values. Disable structured mode to pass an array with each element representing a cell/column value.",
+    },
+    range: {
+      type: "string",
+      label: "Range",
+      description: "The A1 notation of the values to retrieve. E.g., `A1:E5`",
+    },
+    rows: {
+      type: "string",
+      label: "Row Values",
+      description:
+        'Provide an array of arrays. Each nested array should represent a row, with each element of the nested array representing a cell/column value (e.g., passing `[["Foo",1,2],["Bar",3,4]]` will insert two rows of data with three columns each). The most common pattern is to reference an array of arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of arrays.',
+    },
     sheetID: {
       type: "string",
       label: "Spreadsheet to watch for changes",
       async options({ prevContext, driveId }) {
         const { nextPageToken } = prevContext;
         return this.listSheets(driveId, nextPageToken);
+      },
+    },
+    sheetName: {
+      type: "string",
+      label: "Sheet Name",
+      async options({ sheetId }) {
+        const { sheets } = await this.getSpreadsheet(sheetId);
+        return sheets.map((sheet) => sheet.properties.title);
       },
     },
     worksheetIDs: {
