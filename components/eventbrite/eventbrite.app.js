@@ -33,6 +33,11 @@ module.exports = {
         };
       },
     },
+    eventId: {
+      type: "integer",
+      label: "Event ID",
+      description: "Enter the ID of an event",
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -89,8 +94,20 @@ module.exports = {
     async getOrderAttendees(orderId) {
       return await this._makeRequest("GET", `orders/${orderId}/attendees/`);
     },
-    async getEventAttendees(eventId) {
-      return await this._makeRequest("GET", `events/${eventId}/attendees/`);
+    async getEventAttendees(eventId, params = null) {
+      return await this._makeRequest(
+        "GET",
+        `events/${eventId}/attendees/`,
+        params
+      );
+    },
+    async createEvent(orgId, data) {
+      return await this._makeRequest(
+        "POST",
+        `organizations/${orgId}/events/`,
+        null,
+        data
+      );
     },
   },
 };
