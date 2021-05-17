@@ -11,14 +11,13 @@ module.exports = {
       label: "server",
       description:
         "The Mailchimp server of the connected account. Found when logging into the Mailchimp account and looking at the URL on a browser. E.g. for https://us19.admin.mailchimp.com/; the us19 part is the server prefix.",
-      optional: false
     },
     timer: {
       label: "Polling schedule",
       description: "Pipedream polls Reddit for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60*15, // by default, run every 15 minutes.
+        intervalSeconds: 60, // by default, run every 15 minutes.
       },
     },
   },
@@ -33,19 +32,6 @@ module.exports = {
         server,
       });
       return mailchimp;
-    },
-    //#region
-    async _makeRequest(opts) {
-      const credentials = `api:${this._apiKey()}`;
-      const base64Credentials = Buffer.from(credentials).toString("base64");
-      if (!opts.headers) opts.headers = {};
-      opts.headers.Authorization = `Basic ${base64Credentials}`;
-      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
-      const { path } = opts;
-      delete opts.path;
-      console.log(`[_makeRequest]${path}`);
-      opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
-      return (await axios(opts)).data;
     },
     async _withRetries(apiCall, allow404 = false) {
       const retryOpts = {
@@ -68,40 +54,164 @@ module.exports = {
         }
       }, retryOpts);
     },
-    //#endregion
-    async createWebhook(server,listId, webhookUrl, events, sources) {
-      const mailchimp = this._mailchimp(server);
-      return await this._withRetries(
-        () =>
-           mailchimp.lists.createListWebhook(listId, {
-            url: webhookUrl,
-            events,
-            sources,
-          })
-      );
+    _statusIsSent(status) {
+      return ["status"].includes(status);
     },
-    //Space for updateWbehook
-    async deleteWebhook(server,listId,webhookId) {
+    async createWebhook(server, listId, webhookUrl, events, sources) {
       const mailchimp = this._mailchimp(server);
       return await this._withRetries(() =>
-        mailchimp.lists.deleteListWebhook(
-          listId,
-          webhookId
-        )
-      );
-    },
-    async getMailchimpAudienceLists(server, count, offset, before_date_created){
-      const mailchimp = this._mailchimp(server);
-      return await this._withRetries(() =>
-         mailchimp.lists.getAllLists( {count
-            ,offset
-            ,before_date_created
+        mailchimp.lists.createListWebhook(listId, {
+          url: webhookUrl,
+          events,
+          sources,
         })
       );
     },
-    printSomething() {
-      console.log(`[print something]`);
-      return "print something";
+    async deleteWebhook(server, listId, webhookId) {
+      const mailchimp = this._mailchimp(server);
+      return await this._withRetries(() =>
+        mailchimp.lists.deleteListWebhook(listId, webhookId)
+      );
+    },
+    async getMailchimpAudienceLists(
+      server,
+      count,
+      offset,
+      beforeDateCreated,
+      sinceDateCreated
+    ) {
+      const mailchimp = this._mailchimp(server);
+      return await this._withRetries(() =>
+        mailchimp.lists.getAllLists({
+          count,
+          offset,
+          beforeDateCreated,
+          sinceDateCreated,
+          sortField: "date_created",
+          sortDir: "DESC",
+        })
+      );
+    },
+    async getMailchimpCampaigns(
+      server,
+      count,
+      offset,
+      status,
+      beforeDate,
+      sinceDate
+    ) {
+      let opts = { count, offset, status, sortDir: "DESC" };
+      if (this._statusIsSent(status)) {
+        opts.beforeSendTime = beforeDate;
+        opts.sinceSendTime = sinceDate;
+        opts.sortField = "send_time";
+      } else {
+        opts.beforeCreateTime = beforeDate;
+        opts.sinceCreateTime = sinceDate;
+        opts.sortField = "create_time";
+      }
+      const mailchimp = this._mailchimp(server);
+      return await this._withRetries(() => mailchimp.campaigns.list(opts));
+    },
+    async getSegmentMembersList(
+      server,
+      listId,
+      segmentId,
+      count,
+      offset,
+      includeTransactional
+    ) {
+      const mailchimp = this._mailchimp(server);
+      return await this._withRetries(() =>
+        mailchimp.lists.getSegmentMembersList(listId, segmentId, {
+          count,
+          offset,
+          includeTransactional,
+          includeUnsubscribed: false,
+        })
+      );
+    },
+    async getAllFiles(
+      server,
+      count,
+      offset,
+      type = null,
+      beforeCreatedAt,
+      sinceCreatedAt
+    ) {
+      const mailchimp = this._mailchimp(server);
+      return await this._withRetries(() =>
+        mailchimp.fileManager.files({
+          count,
+          offset,
+          type,
+          beforeCreatedAt,
+          sinceCreatedAt,
+        })
+      );
+    },
+    async getAllStoreCustomers(server, storeId, count, offset) {
+      const mailchimp = this._mailchimp(server);
+      return await this._withRetries(() =>
+        mailchimp.ecommerce.getAllStoreCustomers(storeId, {
+          count,
+          offset,
+        })
+      );
+    },
+    async getAllOrders(
+      server,
+      storeId = null,
+      count,
+      offset,
+      campaignId,
+      outreachId,
+      customerId,
+      hasOutreach
+    ) {
+      const opts = {
+        count,
+        offset,
+        campaignId,
+        outreachId,
+        customerId,
+        hasOutreach,
+      };
+      const mailchimp = this._mailchimp(server);
+      if (storeId) {
+        return await this._withRetries(() =>
+          mailchimp.ecommerce.getStoreOrders(storeId, opts)
+        );
+      }
+      return await this._withRetries(() => mailchimp.ecommerce.orders(opts));
+    },
+    async getMailchimpCampaignInfo(server, campaignId) {
+      const mailchimp = this._mailchimp(server);
+      return await this._withRetries(() => mailchimp.campaigns.get(campaignId));
+    },
+    async getAudienceSegments(
+      server,
+      listId,
+      count,
+      offset,
+      sinceCreatedAt,
+      beforeCreatedAt,
+      sinceUpdatedAt,
+      beforeUpdatedAt
+    ) {
+      let opts = { count, offset };
+      if (sinceCreatedAt && beforeCreatedAt) {
+        opts.sinceCreatedAt = sinceCreatedAt;
+        opts.beforeCreatedAt = beforeCreatedAt;
+      } else {
+        opts.sinceUpdatedAt = sinceUpdatedAt;
+        opts.beforeUpdatedAt = beforeUpdatedAt;
+      }
+      console.log(JSON.stringify(opts));
+      const mailchimp = this._mailchimp(server);
+      return await this._withRetries(() =>
+        mailchimp.lists.listSegments(listId, opts)
+      );
     },
   },
 };

@@ -6,7 +6,7 @@ module.exports = {
   key: "mailchimp-new-or-updated-subscriber",
   name: "New Or Updated Subscriber",
   description:
-    "Emit an event when a subscriber is added or updated in an audience list.",
+    "Emit an event when a subscriber is added or updated (on profile, or email address change) in an audience list.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -15,7 +15,7 @@ module.exports = {
       type: "string",
       label: "Audience List Id",
       description:
-        "The unique ID of the audience list you'd like to watch for new subscribers.",
+        "The unique ID of the audience list you'd like to watch for new and updated subscribers.",
     },
     server: { propDefinition: [mailchimp, "server"] },
   },

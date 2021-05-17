@@ -47,9 +47,8 @@ module.exports = {
       eventsCfg.subscribedEvents = {};
       eventsCfg.eventSources = {};
       eventsCfg.subscribedEvents.subscribe = eventName.includes("subscribe");
-      eventsCfg.subscribedEvents.unsubscribe = eventName.includes(
-        "unsubscribe"
-      );
+      eventsCfg.subscribedEvents.unsubscribe =
+        eventName.includes("unsubscribe");
       eventsCfg.subscribedEvents.profile = eventName.includes("profile");
       eventsCfg.subscribedEvents.cleaned = eventName.includes("cleaned");
       eventsCfg.subscribedEvents.upemail = eventName.includes("upemail");

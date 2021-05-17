@@ -5,8 +5,7 @@ module.exports = {
   ...common,
   key: "mailchimp-new-subscriber",
   name: "New Subscriber",
-  description:
-    "Emit an event when a subscriber is added to an audience list.",
+  description: "Emit an event when a subscriber is added to an audience list.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -14,7 +13,8 @@ module.exports = {
     listId: {
       type: "string",
       label: "Audience List Id",
-      description: "The unique ID of the audience list you'd like to watch for new subscribers."
+      description:
+        "The unique ID of the audience list you'd like to watch for new subscribers.",
     },
     server: { propDefinition: [mailchimp, "server"] },
   },

@@ -14,7 +14,8 @@ module.exports = {
     listId: {
       type: "string",
       label: "Audience List Id",
-      description: "The unique ID of the audience list you'd like to watch for new unsubscribers."
+      description:
+        "The unique ID of the audience list you'd like to watch for new unsubscribers.",
     },
     server: { propDefinition: [mailchimp, "server"] },
   },
