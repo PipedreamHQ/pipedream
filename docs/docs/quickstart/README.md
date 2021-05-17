@@ -270,6 +270,19 @@ return response.data
 
 
 
+Following is the complete code:
+
+```javascript
+const axios = require('axios')
+
+const response = await axios({
+  method: "GET",
+  url: "http://api.open-notify.org/iss-now.json"
+})
+
+return response.data
+```
+
 Finally, let's rename our step from `steps.nodejs_1` to `steps.get_request` so we don't need to modify the last step of our workflow. Your workflow should now look like this:
 
 ![image-20210516213201525](image-20210516213201525.png)
