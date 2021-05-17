@@ -32,13 +32,20 @@ Modify the first example to use data passed in GET and POST requesets.
 - First, pass a name as a query parameter and return it in the response
 - Next, POST a JSON payload with a name and return it in the response
 
-**Use an npm package and pass data between steps (~5 minutes)**
+**Make an HTTP request from a workflow (~5 minutes)**
 
 We'll modify our HTTP triggered workflow one more time to:
 
-- Use the `moment` npm package to format the event timestamp
-- Export the formatted timestamp from a code step so it can be used in a later step
-- Add a code step to return the data exported by the previous step in the HTTP response
+- Use the **GET Request** action to make an HTTP request to an API endpoint
+- Test and inspect the step exports 
+- Update the workflow response to return data exported by the HTTP request step
+
+**Use an npm package (~5 minutes)**
+
+Replace the GET Request action with code using an npm package
+
+- Use the `axios` npm package in a code step
+- Rename the step
 
 **Email yourself on new items in an RSS feed (~5 minutes)**
 
@@ -268,8 +275,6 @@ Finally, let's `return` the data from the API to export it from the step (only e
 return response.data
 ```
 
-
-
 Following is the complete code:
 
 ```javascript
@@ -292,6 +297,54 @@ Next, click the **Deploy** button, and then load the endpoint URL in your browse
 ![image-20210516213527109](image-20210516213527109.png)
 
 When you're done with this quickstart, test out other popular npm packages like `moment`, `loadash`, `luxon` and more!
+
+### Email yourself on new items in an RSS feed
+
+For the next example, create a new workflow and search for the **RSS** app
+
+![image-20210516235511476](image-20210516235511476.png)
+
+Click on **RSS** and thenselect the **New item in feed** trigger:
+
+![image-20210516235609560](image-20210516235609560.png)
+
+For this example, let's use the feed of CNN's top stories. Add `http://rss.cnn.com/rss/cnn_topstories.rss` as the **Feed URL**. You can optionally customize the **Timer** (it controls how often to check for new items in the feed) and the **Name**. 
+
+![image-20210517001147611](image-20210517001147611.png) 
+
+Next, click **Create Source**. Pipedream will instantiate the source and retrieve recent items from the RSS feed. You can use these events to help you build your workflow (you can expand the drop down menu to select a different event to help you build your workflow).
+
+![image-20210517002158566](image-20210517002158566.png)
+
+Next, click **Send Test Event** to export the event for the trigger.
+
+![image-20210517002427147](image-20210517002427147.png)
+
+Next, select the **Send Yourself an Email** action from the step selection menu.
+
+![image-20210517002515704](image-20210517002515704.png)
+
+To configure the action:
+
+- Set **Subject** to `New Item in Feed: {{steps.trigger.event.title}}`
+- Set **Text** to `{{steps.trigger.event.description}}`
+- Add the optional **Html** field and set it to `{{steps.trigger.event.description}}`
+
+![image-20210517002850288](image-20210517002850288.png)
+
+Finally, click **Deploy** and click **Send Test Event** in the trigger again to run the workflow.
+
+![image-20210517003047680](image-20210517003047680.png)
+
+Pipedream will send an email to the email address registered for your Pipedream account:
+
+![image-20210517003138966](image-20210517003138966.png)
+
+Finally, to automatically run the workflow whenever a new item is detected in the RSS feed, enable the trigger.
+
+![image-20210517003247789](image-20210517003247789.png)
+
+
 
 
 
