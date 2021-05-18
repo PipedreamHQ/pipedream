@@ -413,3 +413,7 @@ When you check Google Sheets you should see the values entered in the sheet:
 
 ![image-20210517195548983](image-20210517195548983.png)
 
+Finally, add a workflow title, configure the schedule and click **Deploy**. Your workflow will now run automatically.
+
+![image-20210517195924673](image-20210517195924673.png) 
+
