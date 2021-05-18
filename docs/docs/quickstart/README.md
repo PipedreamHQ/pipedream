@@ -2,6 +2,8 @@
 
 ## Overview
 
+### About
+
 After completing this quickstart, you'll understand the basic patterns for developing Pipedream workflows including how to:
 
 - Trigger workflows on HTTP requests, schedules and app events (including new items in an RSS feed and new mentions on Twitter) 
@@ -59,7 +61,7 @@ This guide will cover the following examples. We recommend that you complete the
 - Format the Tweet using Slack Block Kit
 - Post the formatted message to a Slack channel
 
-## Prerequisites
+### Prerequisites
 
 At minimum, create a free account at [https://pipedream.com](https://pipedream.com). To complete all the examples, you'll also need accounts for:
 
@@ -67,7 +69,7 @@ At minimum, create a free account at [https://pipedream.com](https://pipedream.c
 - Slack
 - Twitter 
 
-## Getting Started 
+### Getting Started 
 
 Create a new workflow by clicking the **New** button on https://pipedream.com/workflows:
 
@@ -335,25 +337,25 @@ For the next example, we'll:
 
 First, create a Google Sheet with the labels `Latitude`, `Longitude`, `Timestamp`, `Date`, and `Time` in the first row:
 
-![image-20210517195215566](image-20210517195215566.png)  
+![image-20210517195215566](./image-20210517195215566.png)  
 
 Then create a new workflow and select the **Schedule** trigger:
 
-![image-20210517172354755](image-20210517172354755.png)
+![image-20210517172354755](./image-20210517172354755.png)
 
 Next, add an action for the **HTTP / Webhook** app to make a **GET Request**:
 
-![image-20210517172720517](image-20210517172720517.png)
+![image-20210517172720517](./image-20210517172720517.png)
 
 Then set the **URL** to  `http://api.open-notify.org/iss-now.json`. Similar to our earlier example, this will get the position of the International Space Station (ISS) on each workflow invocation.
 
 Next, update the name of the **GET Request ** action step to `steps.get_iss_position`. Then **Deploy** your changes and click **Run Now**.
 
-![image-20210517191311655](image-20210517191311655.png)
+![image-20210517191311655](./image-20210517191311655.png)
 
 Looking at the result for `steps.get_request`, we can see that the `timestamp` field returned by the API is not a friendly, human-readable date/time. 
 
-![image-20210517191337820](image-20210517191337820.png)
+![image-20210517191337820](./image-20210517191337820.png)
 
 Let's use the `luxon` npm package to generate one. Based on a quick Google Search, the datetime format expected by Google Sheets is `yyyy-MM-dd HH:mm:ss`. 
 
@@ -367,23 +369,23 @@ return DateTime.fromSeconds(steps.get_iss_position.$return_value.timestamp).toFo
 
 Let's also go ahead and change the name of the code step to `steps.format_datetime`
 
-![image-20210517191454552](image-20210517191454552.png)
+![image-20210517191454552](./image-20210517191454552.png)
 
 **Deploy** your changes and click **Run Now** to test your code. You should see a human-readable date/time as the return value for `steps.format_datetime`.
 
-![image-20210517191613816](image-20210517191613816.png)
+![image-20210517191613816](./image-20210517191613816.png)
 
 Next click the **+** button to add a new step to the end of your workflow and select the **Google Sheets** app:
 
-![image-20210517191755712](image-20210517191755712.png)
+![image-20210517191755712](./image-20210517191755712.png)
 
 Select the **Add Single Row** action:
 
-![image-20210517191836381](image-20210517191836381.png)
+![image-20210517191836381](./image-20210517191836381.png)
 
 To configure the step, first connect your Google Sheets account. When you click on **Connect Google Sheets** Pipedream will open a popup window where you can sign in to connect your account. When you, Pipdream will secure store an OAuth token that allows actions to make API requests on your behalf (uou can also use these tokens yourself to authenticate API requests for your authenticated apps in code steps):
 
-![image-20210517193714356](image-20210517193714356.png)
+![image-20210517193714356](./image-20210517193714356.png)
 
 When prompted by Google, allow Pipedream access:
 
@@ -391,31 +393,31 @@ When prompted by Google, allow Pipedream access:
 
 Next, select your **Drive**, **Spreadsheet** and **Sheet Name** from the drop down menus.
 
-![image-20210517193836076](image-20210517193836076.png)
+![image-20210517193836076](./image-20210517193836076.png)
 
 Then let's configure the cells / column values. First, we'll use the object explorer to select a value. The object explorer is automatically loaded whenever you focus in an action input. You can expand any item and then select the reference you want to insert.
 
-![image-20210517194614780](image-20210517194614780.png)
+![image-20210517194614780](./image-20210517194614780.png)
 
 Another option is to explore the exports for a step and click on the **Copy Path** link. Then paste the reference into the action input.
 
-![image-20210517194853448](image-20210517194853448.png)
+![image-20210517194853448](./image-20210517194853448.png)
 
 The final option is to use autocomplete — add double braces `{{ }}` and start typing between them to get autocomplete the same way you do in code steps. Since we want to add four columns of data with the latitude, longitude, timestamp and the formatted date time (in that order), your fully configured step should look like this:
 
-![image-20210517195139556](image-20210517195139556.png)
+![image-20210517195139556](./image-20210517195139556.png)
 
 Next, **Deploy** your changes and click **Run Now**. Your workflow should execute successfully:
 
-![](image-20210517195416793.png)
+![](./image-20210517195416793.png)
 
 When you check Google Sheets you should see the values entered in the sheet:
 
-![image-20210517195548983](image-20210517195548983.png)
+![image-20210517195548983](./image-20210517195548983.png)
 
 Finally, add a workflow title, configure the schedule and click **Deploy**. Your workflow will now run automatically.
 
-![image-20210517195924673](image-20210517195924673.png) 
+![image-20210517195924673](./image-20210517195924673.png) 
 
 ## Write Code with Github Managed Auth 
 
@@ -423,27 +425,27 @@ In the previous example, we used Pipedream managed auth in an action. You can al
 
 For our last quickstart example, let's use Pipedream managed auth to connect to the Github API. First, create a new workflow with a **Schedule** trigger.
 
-![image-20210517202200678](image-20210517202200678.png)
+![image-20210517202200678](./image-20210517202200678.png)
 
 Next, click the **+** button and select the Github app:
 
-![image-20210517202243362](image-20210517202243362.png)
+![image-20210517202243362](./image-20210517202243362.png)
 
 This time, instead of selecting an action, select **Run Node.js with GitHub**:
 
-![image-20210517202352166](image-20210517202352166.png)
+![image-20210517202352166](./image-20210517202352166.png)
 
 Pipedream will add a code step scaffolded with a simple API request — you just need to connect your account, deploy the workflow, and run it. Click the **Connect GitHub** button and follow the steps in the popup window to connect your Github account:
 
-![image-20210517202502976](image-20210517202502976.png)
+![image-20210517202502976](./image-20210517202502976.png)
 
 When your account is connected, it will be listed for the step. **Deploy** your changes and click **Run Now**:
 
-![image-20210517202551571](image-20210517202551571.png)
+![image-20210517202551571](./image-20210517202551571.png)
 
 You will see the response from GitHub's API exported from the step.
 
-![image-20210517202732984](image-20210517202732984.png)
+![image-20210517202732984](./image-20210517202732984.png)
 
 Next, let's modify the code to create a repository named `Quickstart Test`. We can update the code based on GitHub's documentation for their REST API at https://docs.github.com/en/rest/reference/repos#create-a-repository-for-the-authenticated-user. Based on the documentation, we need to modify the URL path, change the method to `POST` and add a payload with a `name` parameter. Following is the updated code:
 
@@ -462,8 +464,8 @@ return await require("@pipedreamhq/platform").axios(this, {
 
 **Deploy** and run the workflow. When you inspect the return value for `steps.github` you should see the API response indicate the repo was created:
 
-![image-20210517203328796](image-20210517203328796.png)
+![image-20210517203328796](./image-20210517203328796.png)
 
 You can then go to GitHub to confirm the repo was created in your account:
 
-![image-20210517203416665](image-20210517203416665.png)
+![image-20210517203416665](./image-20210517203416665.png)
