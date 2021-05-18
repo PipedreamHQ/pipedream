@@ -3,7 +3,7 @@
 [[toc]]
 
 ## Overview
-This document is for developers who created legacy actions in [Pipedream's UI](https://pipedream.com/actions). The purpose is to help users migrate legacy actions to Pipedream's new [component model](/components). 
+This document is for developers who created legacy actions in [Pipedream's UI](https://pipedream.com/actions). The purpose is to help users migrate legacy actions to Pipedream's new [component model](/components/). 
 
 ## Key Changes
 
