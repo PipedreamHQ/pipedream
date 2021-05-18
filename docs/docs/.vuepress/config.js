@@ -33,7 +33,7 @@ module.exports = {
     editLinkText: "Help us improve this page! Submit an edit on Github",
     sidebar: [
       "/",
-      ["/support/", "Support and Community"],
+      ["https://pipedream.com/support", "Support and Community"],
       "/sign-up/",
       "/pricing/",
       {
