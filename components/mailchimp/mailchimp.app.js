@@ -298,7 +298,6 @@ module.exports = {
         opts.sinceUpdatedAt = sinceUpdatedAt;
         opts.beforeUpdatedAt = beforeUpdatedAt;
       }
-      console.log(JSON.stringify(opts));
       const mailchimp = this._mailchimp(server);
       return await this._withRetries(() =>
         mailchimp.lists.listSegments(listId, opts)
