@@ -37,6 +37,14 @@ module.exports = {
       }
     },
   },
+  /**
+   * The run method in the mailgun-new-bounce source is overriding the definition from the
+   * common-webhook file because the Mailgun API ultimately sends a different data structure when
+   * reporting email bouncing events. In new Mailgun API endpoints signature and event-data are
+   * wrapped inside separated object, for mailgun-new-bounce the signature and event data are
+   * inside the same object. Worth noting is that the Mailgun API endpoint for mailgun-new-bounce
+   * is deprecated.
+   * */
   async run(event) {
     const eventWorkload = event.body;
     const { timestamp, token, signature } = eventWorkload;
