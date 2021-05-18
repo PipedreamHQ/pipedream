@@ -3,25 +3,37 @@ prev: false
 next: false
 ---
 
-# What is Pipedream?
+# Overview
 
-Pipedream is an integration platform for developers to build and run [workflows](/workflows/) that integrate apps and data.
+## What is Pipedream?
 
-- Develop any workflow, based on any [trigger](workflows/steps/triggers/).
-- Workflows are code, which you can run for [free](/pricing/).
-- Workflows run serverlessly: you manage no infrastructure of your own.
+Pipedream makes it easy to connect APIs, remarkably fast so you can: 
 
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1611342232/docs/pipedream_workflow_diagram_etqerj.png" width="400px" >
+- Stop writing boilerplate code, struggling with authentication and managing infrastructure
+- Start connecting APIs with code-level control when you need it — and no code when you don't
 
-### Quickstart
+Watch a demo (4 min):
 
-If you're new to Pipedream, we recommend starting with this [5 minute tutorial](https://pipedream.com/new?tutorial=1) to learn how to:
+<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1612919959/homepage/workflow-demo_ks64up.png">
 
-- Trigger a workflow on HTTP requests
-- Retrieve data from an API using Node.js and npm modules
-- Deploy and test your changes
+## Getting Started
 
-If you want to skip the tutorial, just [sign in](/sign-up/) to get started for free. If you have any questions or feedback, [join us on Slack](https://pipedream.com/community/) or [reach out](/support/).
+If you're new to Pipedream, we recommend starting with our quickstart to learn the basic patterns for workflow development including how to:
+
+- Trigger workflows on HTTP requests, schedules and app events (including new items in an RSS feed and new mentions on Twitter)
+- Return a custom response from your workflow on HTTP requests
+- Use npm packages and export data from Node.js code steps
+- Pass data between workflow steps
+- Use actions to send yourself an email, add data to Google Sheets and send a message to Slack
+
+## Advanced Features
+
+## Contributing
+
+blah
+
+
+### Benefits
 
 ### No servers or infrastructure to manage
 
