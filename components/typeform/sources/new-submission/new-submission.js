@@ -9,7 +9,7 @@ function parseIsoDate(isoDate) {
     date_time: dt.toFormat('yyyy-mm-dd hh:mm:ss a'),
     date: dt.toFormat('yyyy-mm-dd'),
     time: dt.toFormat('hh:mm:ss a'),
-    timezome: dt.zoneName,
+    timezone: dt.zoneName,
     epoch: dt.toMillis()
   }
 }
