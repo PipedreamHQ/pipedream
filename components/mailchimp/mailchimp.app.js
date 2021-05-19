@@ -14,10 +14,10 @@ module.exports = {
     },
     timer: {
       label: "Polling schedule",
-      description: "Pipedream polls Reddit for events on this schedule.",
+      description: "Pipedream polls Mailchimp for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60*15, // by default, run every 15 minutes.
+        intervalSeconds: 60, // by default, run every 15 minutes.
       },
     },
   },
@@ -245,13 +245,14 @@ module.exports = {
       const opts = {
         count,
         offset,
-        campaignId,
-        outreachId,
-        customerId,
-        hasOutreach,
+        campaignId: campaignId === "" ? null:campaignId,
+        outreachId: outreachId === "" ? null:outreachId,
+        customerId: customerId === "" ? null:customerId,
+        hasOutreach: ["Both"].includes(hasOutreach) ? null: hasOutreach,
       };
+      console.log(JSON.stringify(opts));
       const mailchimp = this._mailchimp(server);
-      if (storeId) {
+      if (storeId === "") {
         return await this._withRetries(() =>
           mailchimp.ecommerce.getStoreOrders(storeId, opts)
         );

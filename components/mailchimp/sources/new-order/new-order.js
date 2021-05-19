@@ -41,11 +41,12 @@ module.exports = {
       optional: true,
     },
     hasOutreach: {
-      type: "boolean",
+      type: "string",
       label: "Has Outreach?",
       description:
         "Watch only for new orders that have an outreach attached. For example, an email campaign or Facebook ad.",
-      optional: true,
+      options: ["Yes","No","Both"],
+      default: "Both"
     },
     timer: { propDefinition: [mailchimp, "timer"] },
     db: "$.service.db",
@@ -63,6 +64,7 @@ module.exports = {
         this.customerId,
         this.hasOutreach
       );
+      console.log(this.hasOutreach);
       const { orders: mailchimpOrders = [] } = mailchimpOrdersInfo;
       if (!mailchimpOrders.length) {
         console.log("No data available, skipping iteration");
@@ -77,7 +79,7 @@ module.exports = {
       const ts = +new Date(eventPayload.created_at);
       return {
         id: eventPayload.id,
-        summary: `New customer "${eventPayload.first_name} ${eventPayload.last_name}" was added to your store. `,
+        summary: `A new order has been submitted.`,
         ts,
       };
     },
