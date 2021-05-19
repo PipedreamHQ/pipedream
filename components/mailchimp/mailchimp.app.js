@@ -250,7 +250,6 @@ module.exports = {
         customerId: customerId === "" ? null:customerId,
         hasOutreach: ["Both"].includes(hasOutreach) ? null: hasOutreach,
       };
-      console.log(JSON.stringify(opts));
       const mailchimp = this._mailchimp(server);
       if (storeId === "") {
         return await this._withRetries(() =>
