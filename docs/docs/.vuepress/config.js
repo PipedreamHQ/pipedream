@@ -42,10 +42,11 @@ module.exports = {
           "/quickstart/hello-name/",
           "/quickstart/make-http-request/",
           "/quickstart/using-npm-packages/",
-          "/quickstart/email-yourself/",
           "/quickstart/add-data-to-google-sheets/",
           "/quickstart/use-managed-auth-in-code/",
+          "/quickstart/email-yourself/",
           "/quickstart/bringing-it-all-together/",
+          "/quickstart/whats-next/",
         ],
       },
       {

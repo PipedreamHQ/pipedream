@@ -10,21 +10,9 @@ Pipedream will launch the workfow builder:
 
 ![image-20210516191619202](../images/image-20210516191619202.png)
 
-Following is a map and explanation of the screen layout:
+Following is an explanation of the builder layout:
 
-![image-20210516120407658](../images/image-20210516120407658.png)
-
-**Pipedream Navigation:** Navigate between different sections of the Pipedream app (workflows, sources, accounts, settings, etc). You can collapse and expand this section using the arrow at the top left.
-
-**Workflow Header:** Name your workflow, view metadata and manage sharing settings.
-
-**Event List:** Events that trigger your workflow will be listed here (both test and live events). Select events to view the results of the execution in the *Workflow Builder* section.
-
-**Canvas**: This is the section where you will build your workflow and view execution resuts.
-
-**Workflow Tabs**: After saving or depoying your workflow, you will be able to switch between the builder, readme and settings for your workflow.
-
-**Contextual Help**: Expand this tab to view contextual help for the current step.
+![image-20210518181827110](./image-20210518181827110.png)
 
 To create an HTTP or webhook triggered workflow, select the **HTTP API** trigger. 
 
