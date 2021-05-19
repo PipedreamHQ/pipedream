@@ -6,7 +6,7 @@ module.exports = {
   name: "PUT Request",
   description: "Make an HTTP `POST` request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.0.11",
+  version: "0.0.12",
   props: {
     http,
     url: { propDefinition: [http, "url"] },
@@ -21,7 +21,7 @@ module.exports = {
       url: this.url,
       method: "PUT",
       data: this.body,
-      params: this.query,
+      params: this.params,
       headers: this.headers,
     }
     if (this.auth) config.auth = this.http.parseAuth(this.auth)
