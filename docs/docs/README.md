@@ -20,9 +20,11 @@ Watch a demo (4 min):
 
 Pipedream provides a serverless runtime environment where you can run workflows to connect APIs:
 
-- Workflows are composed of code that is organized and executed as a sequence of linear [**steps**](/docs/workflows/steps).
-- Add steps to run Node.js [code](/workflows/steps/code/) (using virtually any [`npm`](/workflows/steps/code/#using-npm-packages) package) with Pipedream managed authentication for hundreds of APIs, or use [pre-built, open source "no code" actions](/workflows/steps/actions/).
+- Workflows are composed of a sequence of linear [**steps**](/docs/workflows/steps).
+- Add steps to run Node.js [code](/workflows/steps/code/) (and use any [`npm`](/workflows/steps/code/#using-npm-packages) package) or use [pre-built, open source actions](/workflows/steps/actions/).
 - Workflows can be triggered on HTTP requests, schedules, events from hundreds of apps and more.
+
+Pipedream also provides easy to use services to authenticate hundreds of APIs, maintain state between workflow invocations, activate event queues to manage the rate and concurrency of workflow executions, work with large files up to 5TB and more!
 
 ## Getting Started
 
@@ -35,7 +37,7 @@ We recommend starting with our quickstart to learn the basic patterns for develo
 - Use actions to send yourself an email, add data to Google Sheets and send a message to Slack
 - Write custom code with Pipedream managed auth to authenticate any API request
 
-## Explore Integrations
+## Integrations
 
 Hundreds of apps are already integrated with Pipedream. Explore APIs, triggers, actions and more in the [marketplace](https://pipedream.com/explore).
 

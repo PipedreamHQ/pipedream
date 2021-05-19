@@ -33,10 +33,24 @@ module.exports = {
     editLinkText: "Help us improve this page! Submit an edit on Github",
     sidebar: [
       "/",
-      "/quickstart/",
+      {
+        title: "Quickstart",
+        collapsable: false,
+        children: [
+          "/quickstart/",
+          "/quickstart/hello-world/",
+          "/quickstart/hello-name/",
+          "/quickstart/make-http-request/",
+          "/quickstart/using-npm-packages/",
+          "/quickstart/email-yourself/",
+          "/quickstart/add-data-to-google-sheets/",
+          "/quickstart/use-managed-auth-in-code/",
+          "/quickstart/bringing-it-all-together/",
+        ],
+      },
       {
         title: "Workflows",
-        collapsable: true,
+        collapsable: false,
         children: [
           "/workflows/", 
           "/your-first-workflow/",
