@@ -1,6 +1,6 @@
 # Pipedream 101
 
-After completing this quickstart, you'll understand the basic patterns for developing Pipedream workflows including how to:
+Learn the basic patterns for developing Pipedream workflows, including how to:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 
@@ -9,6 +9,9 @@ After completing this quickstart, you'll understand the basic patterns for devel
 - Use actions to send yourself an email and add data to Google Sheets
 - Use Pipedream managed auth in Node.js code steps with the Github API
 
+The initial examples will cover basic concepts as we build up to a real-world use case to post richly formatted Tweets to Slack:
+
+![image-20210518194229746](./images/image-20210518194229746.png)
 
 ## Examples
 
@@ -31,30 +34,35 @@ This guide will cover the following examples.
 - First, pass a name as a query parameter and return it in the response
 - Next, POST a JSON payload with a name and return it in the response
 
-**Make an HTTP request from a workflow (~5 minutes)**
+**[Make outbound HTTP requests!](/quickstart/make-http-request/) (~5 minutes)**
 
 - Use the **GET Request** action to make an HTTP request to an API endpoint
 - Test and inspect the step exports 
 - Update the workflow response to return data exported by the HTTP request step
 
-**Use an npm package (~5 minutes)**
+**[Use npm packages](/quickstart/using-npm-packages/) (~5 minutes)**
 
 - Replace the GET Request action with code using an npm package
 - Use the `axios` npm package in a code step
 - Rename the step
 
-**Email yourself on new items in an RSS feed (~5 minutes)**
-
-- Trigger our workflow on new items in an RSS feed
-- Use an action to send an email to the account registered with Pipedream
-
-**Get data from an API on a schedule and add to Google Sheets (~5 minutes)**
+**[Insert data into Google Sheets](/quickstart/add-data-to-google-sheets/) (~5 minutes)**
 
 - Create a workflow triggered on a schedule
 - Use the `axios` npm package to get data from an API
 - Save data returned from the API to Google Sheets
 
-**Search Twitter and post richly formatted messages to Slack (~5 minutes)**
+**[Use managed auth in code](/quickstart/use-managed-auth-in-code/) (~5 minutes)**
+
+- TBC
+- TBC
+
+**[Email yourself on new items in an RSS feed](/quickstart/email-yourself/) (~5 minutes)**
+
+- Trigger our workflow on new items in an RSS feed
+- Use an action to send an email to the account registered with Pipedream
+
+**[Real-world Twitter -> Slack](/quickstart/bringing-it-all-together/) (~5 minutes)**
 
 - Create a workflow triggered on new Twitter mentions 
 - Format the Tweet using Slack Block Kit
@@ -65,5 +73,6 @@ This guide will cover the following examples.
 At minimum, create a free account at [https://pipedream.com](https://pipedream.com). To complete all the examples, you'll also need accounts for:
 
 - Google Sheets
+- Github
 - Slack
-- Twitter 
+- Twitter

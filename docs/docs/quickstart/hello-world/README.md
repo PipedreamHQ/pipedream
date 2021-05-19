@@ -12,7 +12,7 @@ Pipedream will launch the workfow builder:
 
 Following is an explanation of the builder layout:
 
-![image-20210518181827110](./image-20210518181827110.png)
+![image-20210518181827110](../images/image-20210518181827110.png)
 
 To create an HTTP or webhook triggered workflow, select the **HTTP API** trigger. 
 
