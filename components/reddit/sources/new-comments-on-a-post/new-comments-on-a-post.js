@@ -7,7 +7,7 @@ module.exports = {
   name: "New comments on a post",
   description:
     "Emits an event each time a new comment is added to a subreddit.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -71,7 +71,7 @@ module.exports = {
         return;
       }
       comments.reverse().forEach(this.emitRedditEvent);
-    },
+    }
   },
   methods: {
     ...common.methods,
@@ -120,5 +120,5 @@ module.exports = {
       return;
     }
     comments.reverse().forEach(this.emitRedditEvent);
-  },
+  }
 };

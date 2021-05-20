@@ -6,7 +6,7 @@ module.exports = {
   key: "new-links-by-user",
   name: "New links by user",
   description: "Emits an event each time a user posts a new link.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -45,7 +45,7 @@ module.exports = {
       const { name: before = this.db.get("before") } = links[0].data;
       this.db.set("before", before);
       links.reverse().forEach(this.emitRedditEvent);
-    },
+    }
   },
   methods: {
     ...common.methods,
@@ -55,7 +55,7 @@ module.exports = {
         summary: redditEvent.data.title,
         ts: redditEvent.data.created,
       };
-    },
+    }
   },
   async run() {
     let redditLinks;
