@@ -3,8 +3,6 @@ const sortBy = require("lodash.sortby");
 const axios = require("axios");
 const { nanoid } = require("nanoid");
 
-const a = 3;
-
 module.exports = {
   type: "app",
   app: "discourse",
@@ -29,7 +27,9 @@ module.exports = {
           label: c.name,
           value: c.id,
         }));
-        const options = sortBy(rawOptions, ["label"]); 
+        const options = sortBy(rawOptions, [
+          "label",
+        ]);
 
         return {
           options,
@@ -135,7 +135,7 @@ module.exports = {
 
       // No way to filter items by category via API, so we filter here
       return data.filter(
-        (el) => el.category_id && categories.includes(el.category_id.toString())
+        (el) => el.category_id && categories.includes(el.category_id.toString()),
       );
     },
     async _makeRequest(opts) {
@@ -147,7 +147,9 @@ module.exports = {
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
       const { path } = opts;
       delete opts.path;
-      opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
+      opts.url = `${this._apiUrl()}${path[0] === "/"
+        ? ""
+        : "/"}${path}`;
       return await axios(opts);
     },
     generateSecret() {
