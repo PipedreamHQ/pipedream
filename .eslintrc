@@ -18,6 +18,7 @@
     },
     {
       "files": [
+        "**/*.app.js",
         "**/sources/**/*.js"
       ],
       "parserOptions": {
