@@ -5,20 +5,25 @@ const rss = {
     urlDef: {
       type: "string",
       label: "RSS URL",
-      description: "Enter a URL for an RSS feed."
+      description: "Enter a URL for an RSS feed.",
     },
-  }
-}
+  },
+};
 
 module.exports = {
-  name: 'Prop Definition Example',
-  description: `This component captures an RSS URL and logs it`,
-  version: '0.1',
+  name: "Prop Definition Example",
+  description: "This component captures an RSS URL and logs it",
+  version: "0.1",
   props: {
     rss,
-    url: { propDefinition: [rss, "urlDef"] },
+    url: {
+      propDefinition: [
+        rss,
+        "urlDef",
+      ],
+    },
   },
   async run() {
-      console.log(this.url)
-  }, 
-}
+    console.log(this.url);
+  },
+};
