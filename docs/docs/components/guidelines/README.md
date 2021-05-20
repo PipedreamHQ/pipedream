@@ -282,19 +282,19 @@ module.exports = {
      *
      * @params {Object} opts - An object representing the configuration options
      * for this method
-     * @params {String} opts.screen_name - The user's Twitter screen name (e.g.,
+     * @params {String} opts.screenName - The user's Twitter screen name (e.g.,
      * `pipedream`)
      * @params {String} [opts.count=200] - The maximum number of Tweets to
      * return
-     * @params {String} [opts.tweet_mode=extended] - Use the default of
+     * @params {String} [opts.tweetMode=extended] - Use the default of
      * `extended` to return non-trucated Tweets
      * @returns {Array} Array of most recent Tweets liked by the specified user
      */
     async getLikedTweets(opts = {}) {
       const {
-        screen_name: screenName,
+        screenName,
         count = 200,
-        tweet_mode: tweetMode = "extended",
+        tweetMode = "extended",
       } = opts;
       const { data } = await this._makeRequest({
         url: "https://api.twitter.com/1.1/favorites/list.json",
