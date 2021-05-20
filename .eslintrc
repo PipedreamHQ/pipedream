@@ -37,7 +37,12 @@
       "error",
       "always"
     ],
-    "camelcase": "error",
+    "camelcase": [
+      "error",
+      {
+        "properties": "never"
+      }
+    ],
     "comma-dangle": [
       "error",
       "always-multiline"
