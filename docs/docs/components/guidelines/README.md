@@ -120,9 +120,12 @@ run the following commands at the root of the project:
 3. Optionally, you can automatically fix any linter issues by running the
    following command:
 
-   ```bash
+   ```shell
    npx eslint --fix components/foo
    ```
+
+   Keep in mind that not all issues can be automatically fixed by the linter
+   since they could alter the behaviour of the code.
 
 ### Process
 
