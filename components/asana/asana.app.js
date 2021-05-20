@@ -2,7 +2,7 @@ const axios = require("axios");
 const crypto = require("crypto");
 
 module.exports = {
-  type: "app",
+  type: 'app',
   app: "asana",
   propDefinitions: {
     workspaceId: {
