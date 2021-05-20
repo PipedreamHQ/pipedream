@@ -110,17 +110,18 @@ run the following commands at the root of the project:
    npm ci
    ```
 
-2. To run the linter checks:
+2. To run the linter checks against your code (assuming that your changes are
+   located at `components/foo` for example):
 
    ```shell
-   npm run lint
+   npx eslint components/foo
    ```
 
 3. Optionally, you can automatically fix any linter issues by running the
    following command:
 
    ```bash
-   npm run lint:format
+   npx eslint --fix components/foo
    ```
 
 ### Process
