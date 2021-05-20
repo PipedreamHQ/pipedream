@@ -26,6 +26,12 @@ jobs:
           # within `super-linter`
           fetch-depth: 0
 
+      - name: Install Dependencies
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+        run: npm ci
+
       - name: Lint Code Base
         uses: github/super-linter@v3
         env:
