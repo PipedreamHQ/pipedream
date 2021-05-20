@@ -1,4 +1,4 @@
-name: Lint Code Base
+name: Pull Request Checks
 
 #
 # Documentation:
@@ -14,7 +14,7 @@ on:
       - master
 
 jobs:
-  build:
+  lint:
     name: Lint Code Base
     runs-on: ubuntu-latest
 
