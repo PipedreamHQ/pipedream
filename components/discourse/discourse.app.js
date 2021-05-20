@@ -3,6 +3,8 @@ const sortBy = require("lodash.sortby");
 const axios = require("axios");
 const { nanoid } = require("nanoid");
 
+const a = 3;
+
 module.exports = {
   type: "app",
   app: "discourse",
@@ -27,7 +29,7 @@ module.exports = {
           label: c.name,
           value: c.id,
         }));
-        const options = sortBy(rawOptions, ["label"]);
+        const options = sortBy(rawOptions, ["label"]); 
 
         return {
           options,
@@ -42,15 +44,42 @@ module.exports = {
       options() {
         // https://github.com/discourse/discourse/blob/master/app/models/web_hook_event_type.rb
         return [
-          { value: 1, label: "Topic Event" },
-          { value: 2, label: "Post Event" },
-          { value: 3, label: "User Event" },
-          { value: 4, label: "Group Event" },
-          { value: 5, label: "Category Event" },
-          { value: 6, label: "Tag Event" },
-          { value: 9, label: "Reviewable Event" },
-          { value: 10, label: "Notification Event" },
-          { value: 13, label: "Badge Grant Event" },
+          {
+            value: 1,
+            label: "Topic Event",
+          },
+          {
+            value: 2,
+            label: "Post Event",
+          },
+          {
+            value: 3,
+            label: "User Event",
+          },
+          {
+            value: 4,
+            label: "Group Event",
+          },
+          {
+            value: 5,
+            label: "Category Event",
+          },
+          {
+            value: 6,
+            label: "Tag Event",
+          },
+          {
+            value: 9,
+            label: "Reviewable Event",
+          },
+          {
+            value: 10,
+            label: "Notification Event",
+          },
+          {
+            value: 13,
+            label: "Badge Grant Event",
+          },
         ];
       },
     },
@@ -183,11 +212,15 @@ module.exports = {
       return this._filterOnCategories(topics, categories);
     },
     async listCategories() {
-      const { data } = await this._makeRequest({ path: "/categories" });
+      const { data } = await this._makeRequest({
+        path: "/categories",
+      });
       return get(data, "category_list.categories", []);
     },
     async listUsers() {
-      const { data } = await this._makeRequest({ path: "/admin/users" });
+      const { data } = await this._makeRequest({
+        path: "/admin/users",
+      });
       return data;
     },
   },
