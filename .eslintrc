@@ -15,6 +15,14 @@
         "*.json"
       ],
       "parser": "jsonc-eslint-parser"
+    },
+    {
+      "files": [
+        "**/sources/**/*.js"
+      ],
+      "parserOptions": {
+        "ecmaVersion": 10
+      }
     }
   ],
   "parserOptions": {
