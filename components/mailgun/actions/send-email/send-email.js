@@ -26,26 +26,13 @@ module.exports = {
     },
     replyTo: {
       type: "string",
-      label: "Reply-To",
-      description: "Sender reply email address",
-      optional: true,
+      label: "Reply Email",
+      description: "Sender Reply-To email address",
     },
     to: {
       type: "string[]",
-      label: "To",
+      label: "To Email",
       description: "Recipient email address(es)",
-    },
-    cc: {
-      type: "string[]",
-      label: "CC",
-      description: "Copy email address(es)",
-      optional: true,
-    },
-    bcc: {
-      type: "string[]",
-      label: "BCC",
-      description: "Blind copy email address(es)",
-      optional: true,
     },
     subject: {
       type: "string",
@@ -54,31 +41,30 @@ module.exports = {
     },
     text: {
       type: "string",
-      label: "Message Body (text)",
+      label: "Text",
+      description: "Message body (plain text)",
     },
     html: {
       type: "string",
-      label: "Message Body (HTML)",
-      optional: true,
+      label: "HTML",
+      description: "Message body (HTML)",
     },
     testMode: {
       type: "boolean",
-      label: "Send in test mode?",
       default: true,
-      description: "Enables sending in test mode. For more information, see the [Mailgun API documentation](https://documentation.mailgun.com/en/latest/api-sending.html#sending)",
+      description: "Enables sending in test mode",
     },
     dkim: {
       type: "boolean",
-      label: "Use DKIM?",
+      label: "DKIM",
       default: true,
-      description: "Enables or disables DKIM signatures. For more information, see the [Mailgun API documentation](https://documentation.mailgun.com/en/latest/api-sending.html#sending)",
+      description: "Enables or disables DKIM signatures",
       optional: true,
     },
     tracking: {
       type: "boolean",
-      label: "Use Tracking?",
       default: true,
-      description: "Enables or disables tracking. For more information, see the [Mailgun API documentation](https://documentation.mailgun.com/en/latest/api-sending.html#sending)",
+      description: "Enables or disables tracking",
       optional: true,
     },
     haltOnError: {
@@ -92,17 +78,13 @@ module.exports = {
     try {
       const msg = {
         "from": `${this.fromName} <${this.from}>`,
+        "h:Reply-To": this.replyTo,
         "to": this.to,
-        "cc": this.cc,
-        "bcc": this.bcc,
         "subject": this.subject,
         "text": this.text,
         "html": this.html,
         "o:testmode": this.testMode,
       };
-      if (this.replyTo) {
-        msg["h:Reply-To"] = this.replyTo;
-      }
       if (this.dkim !== null) {
         msg["o:dkim"] = this.dkim
           ? "yes"
