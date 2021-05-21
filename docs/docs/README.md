@@ -7,35 +7,51 @@ next: false
 
 ## What is Pipedream?
 
-Pipedream is a low code integration platform for developers. We make it easy to connect APIs, remarkably fast so you can: 
+Pipedream is a low code platform to connect APIs, remarkably fast. 
 
-- Stop writing boilerplate code, struggling with authentication and managing infrastructure
-- Start connecting APIs with code-level control when you need it — and no code when you don't
+1. Connect your OAuth and key-based API accounts in seconds.
+2. Use connected accounts to authenticate APIs in Node.js code steps or no-code building blocks.
+3. Compose steps into workflows triggered on HTTP requests, schedules, app events and more.
 
-Watch a demo (4 min):
+Pipedream also simplifies common integration challenges including inpection and debugging, state management, execution rate and concurrency management, secure sharing of credentials and more!
 
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1612919959/homepage/workflow-demo_ks64up.png">
+With Pipedream, you can stop writing boilerplate code, struggling with authentication and managing infrastructure, and start connecting APIs with code-level control when you need it — and no code when you don't. Watch a demo (4 min):
+
+<!--Pipedream is a low code integration platform for developers. We make it easy to connect APIs remarkably fast so you can stop writing boilerplate code, struggling with authentication and managing infrastructure, and start connecting APIs with code-level control when you need it — and no code when you don't.-->
+
+
+![image-20210520194929461](./image-20210520194929461.png)
+
+<!--img src="https://res.cloudinary.com/pipedreamin/image/upload/v1612919959/homepage/workflow-demo_ks64up.png"-->
+
+<!--
+Trusted by developers from startups to Fortune 500 companies:
+
+![logos](https://res.cloudinary.com/pipedreamin/image/upload/v1612919944/homepage/logos_kcbviz.png)
 
 ## How Pipedream Works
 
-Pipedream provides a serverless runtime environment where you can run workflows to connect APIs:
+Pipedream provides a serverless platform to build and run workflows that connect APIs:
 
-- Workflows are composed of a sequence of linear [**steps**](/docs/workflows/steps).
-- Add steps to run Node.js [code](/workflows/steps/code/) (and use any [`npm`](/workflows/steps/code/#using-npm-packages) package) or use [pre-built, open source actions](/workflows/steps/actions/).
-- Workflows can be triggered on HTTP requests, schedules, events from hundreds of apps and more.
+- Connect your OAuth and key-based API accounts in seconds
+- Use connected accounts to auth APIs in code steps or in "no code" building blocks
+- Compose steps into workflows and trigger on HTTP requests, schedules or app events
 
-Pipedream also provides easy to use services to authenticate hundreds of APIs, maintain state between workflow invocations, activate event queues to manage the rate and concurrency of workflow executions, work with large files up to 5TB and more!
+Pipedream also provides easy to use services to solve common serverless and integration challenges including state management, execution rate and concurrency controls, large file support (up to 5TB) and more! 
+
+Watch a demo (4 mins):
+
+-->
 
 ## Getting Started
 
-We recommend starting with our quickstart to learn the basic patterns for developing Pipedream workflows including how to:
+We recommend starting with our quickstart to learn the basic patterns to develop Pipedream workflows, including how to:
 
 - Trigger workflows on HTTP requests, schedules and app events
-- Return a custom response from your workflow on HTTP requests
-- Use npm packages and export data from Node.js code steps
-- Pass data between workflow steps
+- Return a custom response from your workflow on HTTP requests 
 - Use actions to send yourself an email, add data to Google Sheets and send a message to Slack
-- Write custom code with Pipedream managed auth to authenticate any API request
+- Use npm packages, data exports, and connected accounts in Node.js code steps
+- Pass data between workflow steps
 
 ## Integrations
 
@@ -43,14 +59,10 @@ Hundreds of apps are already integrated with Pipedream. Explore APIs, triggers, 
 
 ## Open Source on Github
 
-Contribute to Pipedream's registry of open source components  by:
-
-- Creating new comonents (sources and actions)
-- Updating exisiting components (e.g., fixing bugs, enhancing functionality)
-- Adding or updating metadata (e.g., descriptions, labels)
+Contribute to Pipedream's registry of open source components on GitHub.
 
 
-## Community
+## Contributing
 
 Our hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to improve the value of the product for the entire community.
 
@@ -64,7 +76,7 @@ Our hope is that by providing a generous free tier, you will not only get value 
 
 ## Getting Help
 
-If you have any questions, feedback, or ideas for how we could improve the platform, please [reach out in our community forum](https://pipedream.com/community).
+If you have any questions or feedback, please [reach out in our community forum](https://pipedream.com/community).
 
 
 

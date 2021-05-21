@@ -1,6 +1,6 @@
-# Real-world Twitter -> Slack
+# 8. Real-world Twitter -> Slack
 
-For the last example in this quickstart, we'll use many of the patterns you've learned so far to solve a real use case.
+For the last example in this quickstart, we'll use many of the patterns covered in earlier examples to solve a real-world use case.
 
 - Trigger a workflow anytime [`@pipedream`](https://twitter.com/pipedream) is mentioned on Twitter
 - Use Node.js and npm to format a message using Slack Block Kit

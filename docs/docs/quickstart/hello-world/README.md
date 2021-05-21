@@ -1,4 +1,4 @@
-# hello world!
+# 1. hello world!
 
 In this first example, we'll create an HTTP triggered workflow that will return a custom response on each HTTP request.
 
@@ -10,7 +10,7 @@ Pipedream will launch the workfow builder:
 
 ![image-20210516191619202](../images/image-20210516191619202.png)
 
-Following is an explanation of the builder layout:
+Following is an brief overview of the screen layout:
 
 ![image-20210518181827110](../images/image-20210518181827110.png)
 
@@ -31,7 +31,9 @@ Any requests you make to the endpoint URL will trigger your workflow. To test it
 
 When you return to your workflow, you'll see the requests appear in the event list (events appear in real-time — you don't need to refresh the page). 
 
->  **NOTE:** When you look at the event list, you may see multiple requests — that's because modern browsers automatically request `favicon.ico` when you load a URL.
+::: tip
+You may see multiple events appear in the event list each time you load the endpoint URL in a web browsers's address bar. That happens because modern browsers automatically request `favicon.ico` when you load a URL.
+:::
 
 ![image-20210516194042181](../images/image-20210516194042181.png)
 

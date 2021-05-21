@@ -1,4 +1,4 @@
-# What's Next?
+# Next Steps
 
 Now that you've completed the quickstart for workflows, learn how to:
 

@@ -35,7 +35,7 @@ module.exports = {
       "/",
       {
         title: "Quickstart",
-        collapsable: false,
+        collapsable: true,
         children: [
           "/quickstart/",
           "/quickstart/hello-world/",
@@ -45,8 +45,8 @@ module.exports = {
           "/quickstart/add-data-to-google-sheets/",
           "/quickstart/use-managed-auth-in-code/",
           "/quickstart/email-yourself/",
-          "/quickstart/bringing-it-all-together/",
-          "/quickstart/whats-next/",
+          "/quickstart/real-world-example/",
+          "/quickstart/next-steps/",
         ],
       },
       {

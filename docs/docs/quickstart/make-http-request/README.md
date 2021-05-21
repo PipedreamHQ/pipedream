@@ -1,4 +1,4 @@
-# Make outbound HTTP requests
+# 3. Make outbound HTTP requests
 
 So far, we've focused on catching inbound HTTP requests and manipulating the response. Next, let's review how easy it is to make an outbound HTTP request from a workflow. 
 

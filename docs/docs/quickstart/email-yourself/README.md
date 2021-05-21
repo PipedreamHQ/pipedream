@@ -1,4 +1,4 @@
-# Email yourself on new RSS items
+# 7. Email yourself on new RSS items
 
 For the next example, create a new workflow and search for the **RSS** app
 

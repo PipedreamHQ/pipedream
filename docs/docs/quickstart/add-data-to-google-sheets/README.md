@@ -1,4 +1,4 @@
-# Insert data into Google Sheets
+# 5. Insert data into Google Sheets
 
 For the next example, we'll:
 

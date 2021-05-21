@@ -1,4 +1,4 @@
-# hello ${name}!
+# 2. hello ${name}!
 
 Next, let's modify the previous example so we can pass a name on HTTP requests that is returned in the HTTP response. To do that, we'll pass a name as a query parameter when loading the endpoint URL.
 
