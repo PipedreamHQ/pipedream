@@ -73,7 +73,7 @@ module.exports = {
       result = result.sort((a, b) => {
         let aDate = new Date(a.isoDate);
         let bDate = new Date(b.isoDate);
-		return bDate - aDate;
+        return bDate - aDate;
       });
     }
 
