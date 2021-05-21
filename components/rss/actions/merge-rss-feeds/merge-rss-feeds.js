@@ -4,7 +4,7 @@ module.exports = {
   name: "Merge RSS Feeds",
   description: "Retrieve multiple RSS feeds and return a merged array of items sorted by date.",
   key: "rss-merge-rss-feeds",
-  version: "0.2.1",
+  version: "0.2.9",
   type: "action",
   props: {
 	feeds: {
@@ -16,7 +16,7 @@ module.exports = {
 		type:"boolean",
 		optional:true,
 		default:true,
-		description:"If true, all items are returned in a date sorted array. If false, each feed is returned as one result in the array."
+		description:"If `true`, all items are returned in a date sorted array. If `false`, each feed is returned as one result in the array."
 	},
 	rss: {
 		type: "app",
@@ -25,16 +25,9 @@ module.exports = {
   },
   async run() {
 
-	const getFeeds = async function(url) {
-		return new Promise((resolve, reject) => {
-			let parser = new Parser();
-			resolve(parser.parseURL(url));
-		})
-	}
-
 	/*
 	If merge is true, its an array of feed items where each item has a .feed
-	property with info on the feed. A bit repititve. It's sorted by date.
+	property with info on the feed. A bit repetitve. It's sorted by date.
 
 	If merge is false, each array item is an object with:
 
@@ -45,16 +38,13 @@ module.exports = {
 	*/
 	let result = [];
 
-	let requests = [];
-	for(let i=0; i < this.feeds.length; i++) {
-		requests.push(getFeeds(this.feeds[i]));
-	}
+	let parser = new Parser();
+	const requests = this.feeds.map(feed => parser.parseURL(feed));
 
-	let results = await Promise.all(requests);
+	const results = await Promise.all(requests);
 
-	for(let i=0; i < results.length; i++) {
-		let feedResult = results[i];
-		let feed = {
+	for(const feedResult of results) {
+		const feed = {
 			title: feedResult.title, 
 			description: feedResult.description, 
 			lastBuildDate: feedResult.lastBuildDate, 
@@ -83,9 +73,12 @@ module.exports = {
 		result = result.sort((a,b) => {
 			let aDate = new Date(a.isoDate);
 			let bDate = new Date(b.isoDate);
+			/*
 			if(aDate < bDate) return 1;
 			if(aDate > bDate) return -1;
 			return 0;
+			*/
+			return aDate - bDate;
 		});
 	} 
 
