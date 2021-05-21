@@ -67,10 +67,13 @@ module.exports = {
     overwrite: {
       type: "boolean",
       label: "Overwrite?",
+      default: false,
+      description: "Whether to overwrite the specified fields if the subscriber already exists. Only the fields specified will be overwritten. For more information, see the [Ongage API documentation](https://ongage.atlassian.net/wiki/spaces/HELP/pages/1004175381/Contacts+API+Methods#ContactsAPIMethods-Description.3)",
     },
     haltOnError: {
       type: "boolean",
       label: "Halt on error?",
+      default: true,
     },
     email: {
       type: "string",
