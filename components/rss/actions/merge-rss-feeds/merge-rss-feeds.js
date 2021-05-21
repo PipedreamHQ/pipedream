@@ -73,12 +73,9 @@ module.exports = {
 		result = result.sort((a,b) => {
 			let aDate = new Date(a.isoDate);
 			let bDate = new Date(b.isoDate);
-			/*
 			if(aDate < bDate) return 1;
 			if(aDate > bDate) return -1;
 			return 0;
-			*/
-			return aDate - bDate;
 		});
 	} 
 
