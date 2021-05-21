@@ -1,20 +1,30 @@
-const ongage = require('../../ongage.app.js');
+const ongage = require("../../ongage.app.js");
 
 module.exports = {
-  key: 'ongage-find-subscriber',
-  name: 'Ongage Find Subscriber',
-  description: 'Find a list subscriber in Ongage.',
-  version: '0.0.2',
-  type: 'action',
+  key: "ongage-find-subscriber",
+  name: "Ongage Find Subscriber",
+  description: "Find a list subscriber in Ongage.",
+  version: "0.0.2",
+  type: "action",
   props: {
     ongage,
-    email: { propDefinition: [ongage, 'email'] },
-    haltOnError: { propDefinition: [ongage, 'haltOnError'] }
+    email: {
+      propDefinition: [
+        ongage,
+        "email",
+      ],
+    },
+    haltOnError: {
+      propDefinition: [
+        ongage,
+        "haltOnError",
+      ],
+    },
   },
   async run () {
     try {
       return await this.ongage.findSubscriber(
-        this.email
+        this.email,
       );
     } catch (err) {
       if (this.haltOnError) {
@@ -25,5 +35,5 @@ module.exports = {
       }
       return err;
     }
-  }
+  },
 };

@@ -1,18 +1,45 @@
-const ongage = require('../../ongage.app.js');
+const ongage = require("../../ongage.app.js");
 
 module.exports = {
-  key: 'ongage-subscribe',
-  name: 'Ongage Subscribe',
-  description: 'Subscribe to a list in Ongage.',
-  version: '0.0.9',
-  type: 'action',
+  key: "ongage-subscribe",
+  name: "Ongage Subscribe",
+  description: "Subscribe to a list in Ongage.",
+  version: "0.0.9",
+  type: "action",
   props: {
     ongage,
-    listId: { propDefinition: [ongage, 'listId'], optional: true },
-    email: { propDefinition: [ongage, 'email'] },
-    fields: { propDefinition: [ongage, 'fields'], optional: true },
-    overwrite: { propDefinition: [ongage, 'overwrite'] },
-    haltOnError: { propDefinition: [ongage, 'haltOnError'] },
+    listId: {
+      propDefinition: [
+        ongage,
+        "listId",
+      ],
+      optional: true,
+    },
+    email: {
+      propDefinition: [
+        ongage,
+        "email",
+      ],
+    },
+    fields: {
+      propDefinition: [
+        ongage,
+        "fields",
+      ],
+      optional: true,
+    },
+    overwrite: {
+      propDefinition: [
+        ongage,
+        "overwrite",
+      ],
+    },
+    haltOnError: {
+      propDefinition: [
+        ongage,
+        "haltOnError",
+      ],
+    },
   },
   async run () {
     try {
@@ -20,7 +47,7 @@ module.exports = {
         this.listId,
         this.email,
         this.fields,
-        this.overwrite
+        this.overwrite,
       );
     } catch (err) {
       if (this.haltOnError) {
@@ -31,5 +58,5 @@ module.exports = {
       }
       return err;
     }
-  }
+  },
 };
