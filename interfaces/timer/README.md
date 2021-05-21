@@ -11,13 +11,7 @@ In this `README`, you'll learn how to [run any Node.js code on a schedule](#runn
 
 **Watch [this short video](https://www.youtube.com/watch?v=PwjVR0dj-Hk&amp=) or step through the commands below**.
 
-Install the Pipedream CLI:
-
-```bash
-curl https://cli.pipedream.com/install | sh
-```
-
-Create a file with a single `console.log()` statement:
+[Install the Pipedream CLI](https://docs.pipedream.com/cli/install/), then create a file with a single `console.log()` statement:
 
 ```bash
 echo 'console.log("Hello, world")' > cronjob.js
@@ -47,6 +41,8 @@ pd delete cronjob-js
 
 <!--ts-->
 
+- [Quickstart](#quickstart)
+- [Reference](#reference)
 - [Overview](#overview)
 - [Running code on a schedule](#running-code-on-a-schedule)
   - [Run local Node code](#run-local-node-code)
@@ -103,9 +99,9 @@ You can use components to:
 - Operate a [lightweight HTTP server](https://github.com/PipedreamHQ/pipedream/tree/master/interfaces/http#quickstart)
 - Create [event sources](https://docs.pipedream.com/event-sources/) that collect data from services like Github or Stripe.
 
-Components come with a [built-in key-value store](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#servicedb), an interface for passing input via [props](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/), [CLI](https://docs.pipedream.com/cli/reference/), or [UI](https://pipedream.com/sources).
+Components come with a [built-in key-value store](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#db), an interface for passing input via [props](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#props), and more. You deploy and manage components using Pipedream's [REST API](https://docs.pipedream.com/api/rest/), [CLI](https://docs.pipedream.com/cli/reference/), or [UI](https://pipedream.com/sources).
 
-[Components can emit events](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#thisemit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow. Components that emit events are called [**event sources**](https://docs.pipedream.com/event-sources/).
+[Components can emit events](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#emit), which can be retrieved programmatically via [CLI](https://docs.pipedream.com/cli/reference/), [API](https://docs.pipedream.com/api/rest/) or [SSE](https://docs.pipedream.com/api/sse/). They can also trigger [Pipedream workflows](https://docs.pipedream.com/workflows/) on every event. For example, you can process items from an RSS feed and access the items via REST API, or trigger code to run on every new item using the SSE interface or a workflow. Components that emit events are called [**event sources**](https://docs.pipedream.com/event-sources/).
 
 ## Running code on a schedule
 
@@ -116,11 +112,7 @@ You can run code from a few different sources:
 - [Deploy your own component from scratch](#create-your-own-component)
 - [Send an HTTP request to a URL to trigger external code](#send-an-http-request)
 
-In the examples below, you'll use the [Pipedream CLI](https://docs.pipedream.com/cli/reference/) to deploy scheduled jobs. This is the simplest way to interact with Pipedream while you're learning. Install the Pipedream CLI before you begin:
-
-```bash
-curl https://cli.pipedream.com/install | sh
-```
+In the examples below, you'll use the [Pipedream CLI](https://docs.pipedream.com/cli/reference/) to deploy scheduled jobs. This is the simplest way to interact with Pipedream while you're learning. [Install the Pipedream CLI](https://docs.pipedream.com/cli/install/) before you begin.
 
 You can also deploy components using the [Pipedream UI](https://pipedream.com/sources) or [REST API](https://docs.pipedream.com/api/rest/#create-a-source).
 
@@ -148,7 +140,7 @@ pd deploy --timer --frequency 30m --run job.js  # Runs every 30 minutes
 pd deploy --timer --frequency 2h --run job.js   # Runs every 2 hours
 ```
 
-When you run the command above, **Pipedream generates a component from the code in `job.js`**, placing it into the component's [`run` method](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#run-method). Then, the CLI deploys that component to Pipedream's infrastructure and runs it at the schedule you specified.
+When you run the command above, **Pipedream generates a component from the code in `job.js`**, placing it into the component's [`run` method](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#run). Then, the CLI deploys that component to Pipedream's infrastructure and runs it at the schedule you specified.
 
 You can view the component code in the **Configuration** tab tied to that component in the [Pipedream UI](https://pipedream.com), or by running
 
@@ -351,7 +343,7 @@ You can also create a scheduled job using the [REST API](https://docs.pipedream.
 
 You can deploy a new component by sending a POST request to the `/sources` endpoint. This accepts two parameters:
 
-- `component_code`: the code for the [Pipedream component](#overview). You'll need to [create your own component](#create-your-own-component), with your code in the [run method](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#run-method), then include the full component code in this property.
+- `component_code`: the code for the [Pipedream component](#overview). You'll need to [create your own component](#create-your-own-component), with your code in the [run method](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#run), then include the full component code in this property.
 - `name`: the name you'd like to attach to the deployed component
 
 The [`examples/create-component/api-payload.json` file](examples/create-component/api-payload.json) contains a sample payload, with a component that prints a single `console.log` statement once a minute. You can deploy this component using this `cURL` command:
@@ -400,7 +392,7 @@ pd logs <component-name>
 
 ## Consuming event data from your own app, outside Pipedream
 
-Components can **emit** data that you can access from any application. Within your [`run` method](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#run-method), pass the data you'd like to emit to the `this.$emit` function:
+Components can **emit** data that you can access from any application. Within your [`run` method](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#run), pass the data you'd like to emit to the `this.$emit` function:
 
 ```javascript
 this.$emit({
