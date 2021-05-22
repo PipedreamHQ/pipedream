@@ -35,14 +35,12 @@ module.exports = {
       };
     },
     async _makeRequest(opts) {
-      console.log(`input request options: ${JSON.stringify(opts)}`);
       if (!opts.headers) opts.headers = {};
       opts.headers.authorization = `Bearer ${this._authToken()}`;
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
       const { path } = opts;
       delete opts.path;
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
-      console.log(`input request options: ${JSON.stringify(opts)}`);
       return (await axios(opts)).data;
     },
     async _getAllItems(params) {
