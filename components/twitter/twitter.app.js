@@ -124,6 +124,12 @@ module.exports = {
         })
       },
     },
+    since_id: {
+      type: "string",
+      label: "Since ID",
+      description: "Returns results with an ID greater than (that is, more recent than) the specified ID. There are limits to the number of Tweets which can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available.",
+      optional: true,
+    },
     screen_name: {
       type: "string",
       label: "Screen Name",
@@ -580,7 +586,7 @@ module.exports = {
         max_id = response.min_id
       }
 
-      console.log(`Made ${totalRequests} requests to the Twitter API and returned ${tweets.length} tweets.`)
+      //console.log(`Made ${totalRequests} requests to the Twitter API and returned ${tweets.length} tweets.`)
 
       return tweets
     },

@@ -4,7 +4,7 @@ module.exports = {
   key: "shopify-new-abandoned-cart",
   name: "New Abandoned Cart",
   description: "Emits an event each time a user abandons their cart.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",

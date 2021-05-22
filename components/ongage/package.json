@@ -1,0 +1,20 @@
+{
+    "name": "@pipedream/ongage",
+    "version": "0.0.4",
+    "description": "Pipedream Ongage Components",
+    "main": "ongage.app.js",
+    "keywords": [
+        "pipedream",
+        "ongage"
+    ],
+    "homepage": "https://pipedream.com/apps/ongage",
+    "author": "Jonathon Hill <jonathon@compwright.com> (https://compwright.com/)",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "ongage": "^1.1.6"
+    }
+}
