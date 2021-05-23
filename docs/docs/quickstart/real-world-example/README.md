@@ -1,4 +1,4 @@
-# 8. Real-world Twitter -> Slack
+# Real-world Twitter -> Slack
 
 For the last example in this quickstart, we'll use many of the patterns covered in earlier examples to solve a real-world use case.
 

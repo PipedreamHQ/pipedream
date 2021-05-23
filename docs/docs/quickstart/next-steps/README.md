@@ -1,4 +1,4 @@
-# Next Steps
+# Beyond the Basics
 
 Now that you've completed the quickstart for workflows, learn how to:
 
@@ -6,7 +6,9 @@ Now that you've completed the quickstart for workflows, learn how to:
 - Manage the execution rate and concurrency of workflow executions
 - Trigger workflows with large data files up to 5TB
 - Use a bastion host to connect to resources behind a firewall
-- Work with the file system in Node.js steps
+- Work with the file system in Node.js 
+- Develop custom sources and actions
+- Contribute to the Pipedream registry
 
 Check out the rest of the docs to learn that and more!
 

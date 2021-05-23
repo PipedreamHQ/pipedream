@@ -1,4 +1,4 @@
-# 4. Use any npm package
+# Use any npm package
 
 Next, let's replace the **GET request** action with a code step that uses the `axios` npm package. The result of the workflow will be the same, but this will introduce you to the pattern for using npm packages in code steps.
 

@@ -1,8 +1,13 @@
-# 1. hello world!
+# hello world!
 
-In this first example, we'll create an HTTP triggered workflow that will return a custom response on each HTTP request.
+In this first example, we'll create an HTTP triggered workflow and return a custom response of `hello world!` on each HTTP request. In order to do that, we'll:
 
-First, create a new workflow by clicking the **New** button on https://pipedream.com/workflows:
+1. Create a new workflow and learn about the builder layout
+2. Generate a unique endpoint URL to trigger the workflow
+3. Send HTTP requests to the workflow and inspect them
+4. Add a custom response to return "hello world!" on each HTTP request
+
+First, create a new workflow by clicking the **New** button from [https://pipedream.com/workflows:](https://pipedream.com/workflows)
 
 ![image-20210516114638660](../images/image-20210516114638660.png)
 
@@ -20,7 +25,7 @@ To create an HTTP or webhook triggered workflow, select the **HTTP API** trigger
 
 Your workflow will automatically deploy and Pipedream will generate a unique endpiont URL.
 
-![image-20210516191658770](../images/image-20210516191658770.png)
+![image-20210522170118664](./image-20210522170118664.png)
 
 Any requests you make to the endpoint URL will trigger your workflow. To test it out:
 
@@ -37,11 +42,11 @@ You may see multiple events appear in the event list each time you load the endp
 
 ![image-20210516194042181](../images/image-20210516194042181.png)
 
-When you select an event from the list, the data associated with that event will appear below each of the steps in your workflow. For the trigger, that means details related to the inbound request (e.g., URL, HTTP method, body, headers, etc) will appear. This data can also be referenced by steps in your workflow via the `steps` object. For example, to reference the HTTP body, you would access via `steps.trigger.event.body`.
+When you select an event from the list, the data associated with that event will appear below each of the steps in your workflow. For the trigger, that means details related to the inbound request (e.g., the URL, method, body, headers, query parameters) can be inspected. This data can also be referenced by steps in your workflow via the `steps` object. For example, to reference the HTTP body, you would reference `steps.trigger.event.body`.
 
 ![[video-to-gif output image]](https://im2.ezgif.com/tmp/ezgif-2-a8d29ac088cc.gif)
 
-Let's write some simple code to return a custom response using Pipedream's `$respond()` function. First, click on **Run Node.js code** to add a code step.
+Next, let's write some simple code to return a custom response using Pipedream's `$respond()` function. First, click on **Run Node.js code** to add a code step (if the step selection menu is not expanded, click the **+** button below the trigger step).
 
 ![image-20210516194513122](../images/image-20210516194513122.png) 
 
@@ -49,7 +54,7 @@ Pipedream will add a code step to your workflow.
 
 ![image-20210516194534525](../images/image-20210516194534525.png)
 
-You can write any Node.js and include any npm package (just `require` it — there's no `npm install` required). For this example, add the following code to return a custom response:
+You can write any Node.js and include any npm package, but we'll cover that in a later part of this gide. For this example, just add the following code to return a custom response of `hello world!`:
 
 ```javascript
 await $respond({
@@ -59,14 +64,14 @@ await $respond({
 })
 ```
 
-![image-20210516194630638](../images/image-20210516194630638.png)
-
-Then click the deploy button so your workflow changes will run in production on each new event:
+Then click the **Deploy** button so your changes will run when your workflow is triggered by a new event.
 
 ![image-20210516194654143](../images/image-20210516194654143.png)
 
-Then reload the tab where you previously loaded the endpoint URL — you the response should change to `hello world!`.
+The deploy should complete in about 1-2 seconds. Then reload the endpoint URL in your browser — you the response should change to `hello world!`.
 
 ![image-20210516192801116](../images/image-20210516192801116.png)
 
-Congratulations! You've built your first serverless workflow!
+Congratulations! You just built your first serverless workflow! 
+
+**Next, let's pass data in the HTTP request and use it to customize the workflow response. [Take me to the next example &rarr;](../hello-name/)**
