@@ -38,15 +38,15 @@ Any requests you make to the endpoint URL will trigger your workflow. To test it
 
 When you return to your workflow, you'll see the requests appear in the event list (events appear in real-time — you don't need to refresh the page). 
 
-**IMPORTANT:** You may see multiple events appear in the event list each time you load the endpoint URL in a web browsers's address bar. That happens because modern browsers automatically request a `favicon.ico` resource when you load a URL. We'll update our workflow to handle this case in a later section of the quickstart.
-
 ![image-20210516194042181](../images/image-20210516194042181.png)
+
+**IMPORTANT:** You may see multiple events appear in the event list each time you load the endpoint URL in a web browsers's address bar. That happens because modern browsers automatically request a `favicon.ico` resource when you load a URL. We'll update our workflow to handle this case in a later section of the quickstart.
 
 When you select an event from the list, the data associated with that event will appear below each of the steps in your workflow. For the trigger, that means details related to the inbound request (e.g., the URL, method, body, headers, query parameters) can be inspected. This data can also be referenced by steps in your workflow via the `steps` object (for example, to use the trigger event in a later step you can reference `steps.trigger.event` — we'll cover this in the next example). 
 
 ![select_event](./select_event.gif)
 
-Next, let's write some simple code to return a custom response using Pipedream's `$respond()` function. First, click on **Run Node.js code** to add a code step (if the step selection menu is not expanded, click the **+** button below the trigger step).
+Next, we'll use Pipedream's `$respond()` function to return a custom response from the workflow. First, click on **Run Node.js code** to add a code step (if the step menu is not expanded, click the **+** button below the trigger step).
 
 ![image-20210516194513122](../images/image-20210516194513122.png) 
 
@@ -54,7 +54,7 @@ Pipedream will add a code step to your workflow.
 
 ![image-20210516194534525](../images/image-20210516194534525.png)
 
-You can write any Node.js and include any npm package (we'll cover that in a later part of this guide). For this example, just add the following code to return a custom response of `hello world!`:
+You can write any Node.js code that is supported in `async` Javascript functions and use any npm package (we'll cover npm in a later part of this guide). For this example, just add the following code to return a custom response of `hello world!`:
 
 ```javascript
 await $respond({
@@ -64,13 +64,13 @@ await $respond({
 })
 ```
 
-Then click **Deploy** so your changes will run when your workflow is triggered by a new event.
+Then click **Deploy** to run your changes on each new event.
 
 ![image-20210523180059549](./image-20210523180059549.png)
 
 The deploy should complete in about 1-2 seconds. Then reload the endpoint URL in your browser — you the response should change to `hello world!`.
 
-![image-20210516192801116](../images/image-20210516192801116.png)
+![hello_world](./hello_world-1823450.gif)
 
 Congratulations! You just built your first serverless workflow! 
 

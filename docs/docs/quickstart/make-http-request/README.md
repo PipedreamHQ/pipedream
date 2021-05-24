@@ -16,7 +16,7 @@ Next, click on the **HTTP / Webhook** app:
 
 ![image-20210516204148639](../images/image-20210516204148639.png)
 
-Then select **GET Request** (to make an HTTP GET request):
+Then select **GET Request** (to make an HTTP `GET` request):
 
 ![image-20210516204229156](../images/image-20210516204229156.png)
 
@@ -28,11 +28,11 @@ Finally, click **Deploy** and then hit the **Send Test Event** button in the tri
 
 ![image-20210516210434021](../images/image-20210516210434021.png)
 
-Select the event that's generated on the in the event list to inspect the execution. The response from the **GET Request** action is exported as `steps.get_request.$return_value` (exported data can be referenced in future steps). Expand the `iss_position` key to see the `lattitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution
+Select the event that's generated on the in the event list to inspect the execution. The response from the **GET Request** action is exported as `steps.get_request.$return_value` (exported data can be referenced in future steps). Expand the `iss_position` key to see the `lattitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution:
 
 ![image-20210516210735882](../images/image-20210516210735882.png)
 
-Next, let's update the response to return the `lattitude` and `longitude` returned by the API as the HTTP response for the workflow. To do that, replace the current value for the `body` parameter in the `$respond()` function and set it to `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
+Next, update the response to return the `lattitude` and `longitude` returned by the API as the HTTP response for the workflow. To do that, replace the current value for the `body` parameter in the `$respond()` function and set it to `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
 
 ```javascript
 await $respond({
@@ -46,5 +46,7 @@ await $respond({
 
 Finally, click **Deploy** and then reload the URL in your web browser.`hello foo!` should be replaced by the JSON representing the ISS position. Each time you load the URL, the updated position will be returned.
 
-![image-20210516211633575](../images/image-20210516211633575.png)
+![iss_position](./iss_position-1824870.gif)
+
+**Next, we'll replace the GET Request action with a code step and use the `axios` npm package to get the ISS position.** [Take me to the next example &rarr;](../using-npm-packages/) 
 

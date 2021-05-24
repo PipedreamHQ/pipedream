@@ -31,8 +31,8 @@ Next, click the **Deploy** button:
 ![image-20210516200708453](../images/image-20210516200708453.png)
 
 Finally, reload the URL in your browser:
-![image-20210516200957262](../images/image-20210516200957262.png)
+![image-20210516200957262](./hello_name.gif)
 
 Your workflow will now return `hello foo!` instead of `hello world!`. You can change the value you're passing for the name to test further.
 
-**Next, we'll add an action to this workflow to make an HTTP request to a simple API, and we'll return the payload in our workflow's HTTP response.** [Take me to the next example $rarr;](../make-http-request/) 
+**Next, we'll add an action to this workflow to make an HTTP request and retrieve data from a simple API, and we'll return the payload in our workflow's HTTP response.** [Take me to the next example &rarr;](../make-http-request/) 
