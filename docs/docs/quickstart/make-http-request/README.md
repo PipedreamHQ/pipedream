@@ -1,6 +1,6 @@
 # Make outbound HTTP requests
 
-So far, we've focused on catching inbound HTTP requests and manipulating the response. Next, let's review how easy it is to make an outbound HTTP request from a workflow. 
+In the previous examples, we focused on catching inbound HTTP requests and manipulating the response. Next, we'll use an action step to make an outbound request from our workflow. 
 
 This example will take  **2 - 3 minutes** and will cover how to:
 

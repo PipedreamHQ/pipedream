@@ -1,5 +1,10 @@
 # Email yourself on new RSS items
 
+This example will take  **2 - 3 minutes** and will cover how to:
+
+- Trigger a workflow on new items in an RSS feed
+- Use an action to send an email to the account registered for your Pipedream account
+
 For the next example, create a new workflow and search for the **RSS** app
 
 ![image-20210516235511476](../images/image-20210516235511476.png)

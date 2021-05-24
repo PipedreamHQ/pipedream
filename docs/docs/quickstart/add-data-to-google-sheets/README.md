@@ -30,7 +30,7 @@ Click the **+** button to add a new step after `steps.get_iss_position` and sele
 
 ![image-20210522184732672](./image-20210522184732672.png)
 
-Then add the following code to convert the timestamp to a date time and export it from the code step:
+Then add the following code to convert the timestamp to a Google Sheets compatible date/time and export it from the code step:
 
 ```javascript
 const { DateTime } = require('luxon')

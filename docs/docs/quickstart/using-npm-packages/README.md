@@ -1,22 +1,27 @@
 # Use any npm package
 
-Next, let's replace the **GET request** action with a code step that uses the `axios` npm package. The result of the workflow will be the same, but this will introduce you to the pattern for using npm packages in code steps.
+Next, we'll replace the **GET request** action with a code step that uses the `axios` npm package.
 
-First, delete the **GET request** step from your workflow by clicking the **X** buttton at the top right of the step.
+This example will take **2 - 3 minutes** and will cover how to:
+
+- Delete a step
+- Use an npm pacakge in a code step
+
+First, delete `steps.get_request` by clicking the **X** buttton at the top right of the step.
 
 ![image-20210516212047297](../images/image-20210516212047297.png)
 
-Next, click the **+** button and add another Node.js code step (select the **Run Node.js code** option in the right column of the step selector). Your workflow should look like this:
+Next, click the **+** button and add a **Run Node.js code** step between `steps.trigger` and `steps.nodejs`. Pipedream will add a new step called `steps.nodejs_1`:
 
 ![image-20210516212506585](../images/image-20210516212506585.png)
 
-Next, let's `require` the `axios` npm package — there's no `npm install` or `package.json` required. Pipedream will automatically install any npm packages you `require`. The first line of code in the step should look like this:
+Next, `require` the `axios` npm package in `steps.nodejs_1` — there's no `npm install` or `package.json` required. Pipedream will automatically install any npm packages you `require`.
 
 ```javascript
 const axios = require('axios')
 ```
 
-Next, let's make a `GET` request to the open-notify.org API to get the latest position of the ISS (when writing code, remember to `await` all promises):
+Next, use `axios` to make a `GET` request to the open-notify.org API to get the latest position of the ISS (when writing code, remember to `await` all promises):
 
 ```javascript
 const response = await axios({
@@ -25,7 +30,7 @@ const response = await axios({
 })
 ```
 
-Finally, let's `return` the data from the API to export it from the step (only exported data can be inspected in the builder and be referenced in later workflow steps). The data we want to export is in the `data` key of the the `axios` response:
+Finally, `return` the API response to export it from the step (only exported data can be inspected in the builder and be referenced in later workflow steps). The data we want to export is in the `data` key of the the `axios` response:
 
 ```javascript
 return response.data
@@ -44,12 +49,12 @@ const response = await axios({
 return response.data
 ```
 
-Finally, let's rename our step from `steps.nodejs_1` to `steps.get_request` so we don't need to modify the last step of our workflow. Your workflow should now look like this:
+Finally, rename our step from `steps.nodejs_1` to `steps.get_request` so you don't need to modify the last step of the workflow (which refrences `steps.get_request.$return_value`). Your workflow should now look like this:
 
 ![image-20210516213201525](../images/image-20210516213201525.png)
 
-Next, click the **Deploy** button, and then load the endpoint URL in your browser again. You should continue to see the ISS position returned. Next, return to your workflow and select the event that corresponds with your most recent test. You should see your `steps.get_request` code step output the same result as the **GET Request** action you just replaced.
+Next, **Deploy** your changes and load the endpoint URL in your browser again. You should continue to see the ISS position returned. Return to your workflow and select the event that corresponds with your most recent test. You should see your `steps.get_request` code step output the ISS position similar to the **GET Request** action you just replaced.
 
 ![image-20210516213527109](../images/image-20210516213527109.png)
 
-When you're done with this quickstart, test out other popular npm packages like `moment`, `loadash`, `luxon` and more!
+**Next, we'll transform data returned by the ISS API and save it to Google Sheets.** [Take me to the next example &rarr;](../add-data-to-google-sheets/) 

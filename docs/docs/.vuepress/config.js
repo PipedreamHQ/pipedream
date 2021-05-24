@@ -45,6 +45,7 @@ module.exports = {
           "/quickstart/add-data-to-google-sheets/",
           "/quickstart/end-workflow-early/",
           "/quickstart/use-managed-auth-in-code/",
+          "/quickstart/run-workflow-on-a-schedule/",
           "/quickstart/email-yourself/",
           "/quickstart/real-world-example/",
           "/quickstart/next-steps/",

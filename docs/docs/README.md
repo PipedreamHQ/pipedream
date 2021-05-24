@@ -101,7 +101,7 @@ Our community uses Pipedream for a wide variety of use cases.
 
 ## Open Source
 
-Hundreds of apps are already integrated with Pipedream. Explore APIs, triggers, actions and more in the [marketplace](https://pipedream.com/explore) Contribute to Pipedream's registry of open source components on GitHub.
+Pipedream maintains an open source registry of source and action components on GitHub. Re-use these components in workflows so you don't need to write boilerplate code for common API integrations. Use existing components as scaffolding to customize and publish your own. Or create a PR contribute new or enhanced components via GitHub.
 
 ## Contributing
 
