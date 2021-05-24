@@ -10,7 +10,7 @@ module.exports = {
     airtable,
     baseId: {
       type: "$.airtable.baseId",
-      appProp: "airtable"
+      appProp: "airtable",
     },
     tableId: {
       type: "$.airtable.tableId",
@@ -24,7 +24,7 @@ module.exports = {
     },
     typecast: {
       type: "boolean",
-      description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. Automatic conversion is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources."
+      description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. Automatic conversion is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
     },
   },
   async run() {
@@ -36,13 +36,13 @@ module.exports = {
     const args = [
       [
         {
-          fields: this.record
-        }
+          fields: this.record,
+        },
       ],
       {
-        typecast: this.typecast
-      }
+        typecast: this.typecast,
+      },
     ];
     return (await table.create(...args))[0];
   },
-}
+};
