@@ -6,35 +6,35 @@ For our next quickstart example, let's use Pipedream managed auth to connect to 
 
 First, expand the step selector right before `steps.respond`.
 
-![image-20210522193850085](image-20210522193850085.png)
+![image-20210522193850085](./image-20210522193850085.png)
 
 Select the **Google Sheet** app and selec the **Run Node.js with Google Sheets** action:
 
-![image-20210522194158974](image-20210522194158974.png)
+![image-20210522194158974](./image-20210522194158974.png)
 
 This will add a code step scaffolded to use the Google Sheets API. 
 
-![image-20210522194314155](image-20210522194314155.png)
+![image-20210522194314155](./image-20210522194314155.png)
 
 Select the account you used in the previous step (to save data to Google Sheets). We're going to retrieve data from that sheet in just a moment. 
 
-![image-20210522194503418](image-20210522194503418.png)
+![image-20210522194503418](./image-20210522194503418.png)
 
 That's all you need to do to use scaffolded code steps for most apps. To test it out, **Deploy** the workflow and **Replay** the last non-favicon event (since we're not focused on the response right now). Select the event and scroll to the step — you will see the results from Google's API exported from the step.
 
-![image-20210522201843491](image-20210522201843491.png)
+![image-20210522201843491](./image-20210522201843491.png)
 
 Next, let's customize the API request to get the data we want. Let's use it to get all the data points we added to Google Sheets so we can return them all in our workflow response. Since Pipedream exposes the standard Google API OAuth token, we can make any standard requests to the Google API so we just need to find the API endpoint we need in Google's docs. Based on the documentation at https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get we need to make a `GET` request to `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}`. 
 
-![image-20210522195448627](image-20210522195448627.png)
+![image-20210522195448627](./image-20210522195448627.png)
 
 To do that, we simply need to modify the code that Pipedream scaffolded. First, replace the test URL of `https://www.googleapis.com/oauth2/v1/userinfo` with `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}`
 
-![image-20210522195720596](image-20210522195720596.png)
+![image-20210522195720596](./image-20210522195720596.png)
 
 Next, we need to replace `{spreadsheetId}` and `{range}` with values. You can get these manually, but since we added a row to Google Sheets, we can get this from the exports for `steps.add_single_row`. 
 
-![image-20210522202219154](image-20210522202219154.png)
+![image-20210522202219154](./image-20210522202219154.png)
 
 First, add a `$` before both `{spreadsheetId}` and `{range}` to convert the references to template literals (since the URL in enclosed in backticks, that allows us to write Node.js between the braces `{...}`). 
 
@@ -60,15 +60,15 @@ return await require("@pipedreamhq/platform").axios(this, {
 
 And here is a screenshot of the step in the workflow:
 
-![image-20210522203008456](image-20210522203008456.png)
+![image-20210522203008456](./image-20210522203008456.png)
 
 When you're ready, **Deploy** and test your workflow again. If you select the event and expand the return value for `steps.google_sheets` you'll see the headers and data.
 
-![image-20210522203106865](image-20210522203106865.png)
+![image-20210522203106865](./image-20210522203106865.png)
 
 While we can update our response to return this data, let's add one last step to transform it from an array to an array objects, with each object containing key-values (using the header row for the keys). Since we can easily transform data using Node.js, we can write the code if we know it, or we can search Google for snippets that we can adapt. In this case, a quick Google Search turns up a [Stack Overflow post](https://stackoverflow.com/questions/58050534/javascript-make-a-key-value-data-structure-from-2-dimensional-arrayheader-row) with sample code that we can easily adapt.
 
-![image-20210522200959041](image-20210522200959041.png)
+![image-20210522200959041](./image-20210522200959041.png)
 
 Here is the code from the post:
 
@@ -112,11 +112,11 @@ function rowsToObjects(headers, rows){
 
 Let's add a **Run Node.js code** step between `steps.google_sheets` and `steps.respond` and name it `steps.transform`. Then add the code above.
 
-![image-20210522204739040](image-20210522204739040.png)
+![image-20210522204739040](./image-20210522204739040.png)
 
 Then **Deploy** and test your workflow to validate the step returns the data you expect.
 
-![image-20210522204853636](image-20210522204853636.png)
+![image-20210522204853636](./image-20210522204853636.png)
 
 Finally, update `steps.respond` to return `steps.transform.$return_value` as the body of the HTTP response.
 
@@ -128,10 +128,10 @@ await $respond({
 })
 ```
 
-![image-20210522205017670](image-20210522205017670.png)
+![image-20210522205017670](./image-20210522205017670.png)
 
 Finally, deploy and load the endpoint URL for your workflow in a browser. You should see the data from Google Sheets with the positions you recorded for the ISS (including the most recent position recorded when you hit the endpoint) returned as your workflow response:
 
-![image-20210522205250181](image-20210522205250181.png)
+![image-20210522205250181](./image-20210522205250181.png)
 
 And this was all done without exposing any API keys on the client side.

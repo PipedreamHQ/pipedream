@@ -1,13 +1,15 @@
 # hello world!
 
-In this first example, we'll create an HTTP triggered workflow and return a custom response of `hello world!` on each HTTP request. In order to do that, we'll:
+First, let's create an HTTP triggered workflow and return a response of `hello world!`. 
 
-1. Create a new workflow and learn about the builder layout
+This example will take **2 - 3 minutes**. It will introduce you to the builder layout and cover how to:
+
+1. Create a new workflow
 2. Generate a unique endpoint URL to trigger the workflow
 3. Send HTTP requests to the workflow and inspect them
-4. Add a custom response to return "hello world!" on each HTTP request
+4. Add a custom response to return `hello world!` on each HTTP request
 
-First, create a new workflow by clicking the **New** button from [https://pipedream.com/workflows:](https://pipedream.com/workflows)
+First, create a new workflow by clicking the **New** button from [https://pipedream.com/workflows](https://pipedream.com/workflows):
 
 ![image-20210516114638660](../images/image-20210516114638660.png)
 
@@ -36,15 +38,13 @@ Any requests you make to the endpoint URL will trigger your workflow. To test it
 
 When you return to your workflow, you'll see the requests appear in the event list (events appear in real-time — you don't need to refresh the page). 
 
-::: tip
-You may see multiple events appear in the event list each time you load the endpoint URL in a web browsers's address bar. That happens because modern browsers automatically request `favicon.ico` when you load a URL.
-:::
+**IMPORTANT:** You may see multiple events appear in the event list each time you load the endpoint URL in a web browsers's address bar. That happens because modern browsers automatically request a `favicon.ico` resource when you load a URL. We'll update our workflow to handle this case in a later section of the quickstart.
 
 ![image-20210516194042181](../images/image-20210516194042181.png)
 
-When you select an event from the list, the data associated with that event will appear below each of the steps in your workflow. For the trigger, that means details related to the inbound request (e.g., the URL, method, body, headers, query parameters) can be inspected. This data can also be referenced by steps in your workflow via the `steps` object. For example, to reference the HTTP body, you would reference `steps.trigger.event.body`.
+When you select an event from the list, the data associated with that event will appear below each of the steps in your workflow. For the trigger, that means details related to the inbound request (e.g., the URL, method, body, headers, query parameters) can be inspected. This data can also be referenced by steps in your workflow via the `steps` object (for example, to use the trigger event in a later step you can reference `steps.trigger.event` — we'll cover this in the next example). 
 
-![[video-to-gif output image]](https://im2.ezgif.com/tmp/ezgif-2-a8d29ac088cc.gif)
+![select_event](./select_event.gif)
 
 Next, let's write some simple code to return a custom response using Pipedream's `$respond()` function. First, click on **Run Node.js code** to add a code step (if the step selection menu is not expanded, click the **+** button below the trigger step).
 
@@ -54,19 +54,19 @@ Pipedream will add a code step to your workflow.
 
 ![image-20210516194534525](../images/image-20210516194534525.png)
 
-You can write any Node.js and include any npm package, but we'll cover that in a later part of this gide. For this example, just add the following code to return a custom response of `hello world!`:
+You can write any Node.js and include any npm package (we'll cover that in a later part of this guide). For this example, just add the following code to return a custom response of `hello world!`:
 
 ```javascript
 await $respond({
   status: 200,
   immediate: true,
-  body: "hello world!"
+  body: `hello world!`
 })
 ```
 
-Then click the **Deploy** button so your changes will run when your workflow is triggered by a new event.
+Then click **Deploy** so your changes will run when your workflow is triggered by a new event.
 
-![image-20210516194654143](../images/image-20210516194654143.png)
+![image-20210523180059549](./image-20210523180059549.png)
 
 The deploy should complete in about 1-2 seconds. Then reload the endpoint URL in your browser — you the response should change to `hello world!`.
 

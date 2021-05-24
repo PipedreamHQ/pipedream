@@ -2,7 +2,13 @@
 
 So far, we've focused on catching inbound HTTP requests and manipulating the response. Next, let's review how easy it is to make an outbound HTTP request from a workflow. 
 
-For this example, we'll continue to modify the same workflow as in the previous examples. Click on the **+** sign between the trigger and code steps to bring up the menu to add a step.
+This example will take  **2 - 3 minutes** and will cover how to:
+
+- Use the **GET Request** action to make an HTTP request from your workflow
+- Test the workflow and inspect the step exports
+- Return data exported by the **GET Request** step in the custom HTTP response
+
+First, click on the **+** sign between the trigger and code steps to bring up the step menu.
 
 ![image-20210516204038767](../images/image-20210516204038767.png)
 
@@ -14,19 +20,19 @@ Then select **GET Request** (to make an HTTP GET request):
 
 ![image-20210516204229156](../images/image-20210516204229156.png)
 
-Next, enter `http://api.open-notify.org/iss-now.json` as the URL. This URL is a free API provided by http://open-notify.org  to return the current position of the International Space Station (ISS). It does not require any authentication to use it.
+Next, enter `http://api.open-notify.org/iss-now.json` as the URL. This URL is a free API provided by open-notify.org  to return the current position of the International Space Station (ISS). It does not require any authentication.
 
 ![image-20210516210136157](../images/image-20210516210136157.png)
 
-Finally, click **Deploy** and then hit the **Send Test Event** button in the trigger to run the workflow so we can test our change.
+Finally, click **Deploy** and then hit the **Send Test Event** button in the trigger to run the workflow so we can test our change (we don't need to make a live request from our web browser since we're not validating the workflow response with this test).
 
 ![image-20210516210434021](../images/image-20210516210434021.png)
 
-Select the event that's generated on the in the event list to inspect the execution. The response from the URL is exported from the step as `$return_value` and can be inspected and referenced in future steps. Expand the `iss_position` key to see the `lattitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution
+Select the event that's generated on the in the event list to inspect the execution. The response from the **GET Request** action is exported as `steps.get_request.$return_value` (exported data can be referenced in future steps). Expand the `iss_position` key to see the `lattitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution
 
 ![image-20210516210735882](../images/image-20210516210735882.png)
 
-Next, let's update the code step with our custom response and replace `hello ${steps.trigger.event.query.name}!` with the `lattitude` and `longitude` returned by the API. To do that, we'll set body to `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
+Next, let's update the response to return the `lattitude` and `longitude` returned by the API as the HTTP response for the workflow. To do that, replace the current value for the `body` parameter in the `$respond()` function and set it to `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
 
 ```javascript
 await $respond({

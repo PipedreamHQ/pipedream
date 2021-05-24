@@ -1,15 +1,18 @@
 # Introduction
 
-Complete this guide to learn the basic patterns for developing Pipedream workflows:
+Complete this guide to learn the basic patterns to develop Pipedream workflows:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 
 - Use connected accounts in actions and code steps
-- Combine code steps and no code actions in workflows and pass data between steps
+- Pass data between code steps and no code actions
 - Use npm packages in Node.js code steps
-- Add a step with Node.js scaffolding for an app
+- Scaffold an API request in Node.js
+- End workflow execution early
 
-This guide starts with simple examples to introduce basic concepts and builds up to a real-world use case to post richly formatted Tweets to Slack. We strongly recommend that you complete the examples in order. 
+This guide starts with simple examples to introduce basic concepts and builds up to a real-world use case to post richly formatted Tweets to Slack. 
+
+**Most examples build on progress made in earlier ones, so we strongly recommend that you complete the examples in order.**
 
 <!--![image-20210518194229746](./images/image-20210518194229746.png)-->
 
@@ -18,14 +21,14 @@ This guide starts with simple examples to introduce basic concepts and builds up
 3. [Make outbound HTTP requests!](/quickstart/make-http-request/) (~5 minutes)
 4. [Use npm packages](/quickstart/using-npm-packages/) (~5 minutes)
 5. [Insert data into Google Sheets](/quickstart/add-data-to-google-sheets/) (~5 minutes)
-6. [End Workflow Execution Early](/quickstart/end-workflow-early/) (~5 minutes)
+6. [End workflow execution early](/quickstart/end-workflow-early/) (~5 minutes)
 7. [Use managed auth in code](/quickstart/use-managed-auth-in-code/) (~5 minutes)
 8. [Email yourself on new items in an RSS feed](/quickstart/email-yourself/) (~5 minutes)
 9. [Real-world Twitter -> Slack](/quickstart/real-world-example/) (~5 minutes)
 
 If you don't have a Pipedream account, create one for free at [https://pipedream.com](https://pipedream.com).
 
-Ready to get started? [Take me to the first example &rarr;](/quickstart/hello-world/)
+**Ready to get started? [Take me to the first example &rarr;](/quickstart/hello-world/)**
 
 <!--
 After you're done, explore Pipedream's [advanced capabilities](/quickstart/next-steps/) to build even more powerful workflows!

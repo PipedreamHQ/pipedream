@@ -13,9 +13,9 @@ Pipedream is a serverless platform to connect APIs at scale, remarkably fast.
 2. Use connected accounts in Node.js code steps or no-code building blocks.
 3. Build and run workflows triggered on HTTP requests, schedules, app events and more.
 
-Pipedream also makes it easy to test and validate your integrations, scaffold API requests for any app, maintain state between executions, manage execution rate and concurrency and more. 
+<!--Pipedream also makes it easy to test and validate your integrations, scaffold API requests for any app, maintain state between executions, manage execution rate and concurrency and more. -->
 
-Watch a 4-minute demo:
+Watch a 4-minute demo or go to our [quickstart guide](/quickstart/):
 
 <!--With Pipedream, you can stop writing boilerplate code, struggling with authentication and managing infrastructure, and start connecting APIs with code-level control when you need it — and no code when you don't. -->
 
@@ -53,7 +53,7 @@ Watch a demo (4 mins):
 
 If you or your team work with APIs and don't want to write boilerplate code, struggle with authentication and manage infrastructure, then Pipedream is for you. We make it easy to connect APIs with code-level control when you need it — and no code when you don't. 
 
-Users with a working knowledge of Node.js or Javascript will get the most value from Pipedream (Python, Typescript and other languages are coming soon, along with GitHub integration).
+Developers with a working knowledge of Node.js or Javascript will get the most value from Pipedream (Python, Typescript. and GitHub integration are coming soon).
 
 <!--
 Pipedream is trusted by 150k+ developers from startups to Fortune 500 companies:
@@ -63,16 +63,21 @@ Pipedream is trusted by 150k+ developers from startups to Fortune 500 companies:
 
 ## Getting Started
 
-We recommend completing our [quickstart guide](/quickstart/) to learn the basic patterns for developing Pipedream workflows:
+We recommend starting with our [quickstart guide](/quickstart/)
+ 
+Learn the basic patterns to develop workflows:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 
 - Use connected accounts in actions and code steps
-- Combine code steps and no code actions in workflows and pass data between steps
+- Pass data between code steps and no code actions
 - Use npm packages in Node.js code steps
-- Scaffold a code step to integrate with an app using Node.js
+- Scaffold an API request in Node.js
+- End workflow execution early
 
-Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or committment. As your needs grow, it's easy to upgrade to [paid plans](https://pipiedream.com/pricing) to run without limits for individuals, teams and enterprises.
+Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or committment. As your needs grow, it's easy to upgrade to paid plans to run without limits for individuals, teams and enterprises.
+
+[Get Started &rarr;](/quickstart/)
 
 ## Use Cases
 
@@ -80,16 +85,17 @@ Pipdream supports use cases from protototype to production and is trusted by 150
 
 ![logos](https://res.cloudinary.com/pipedreamin/image/upload/v1612919944/homepage/logos_kcbviz.png)
 
-The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) for running at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart. 
+The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) to use at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart. 
 
 Our community uses Pipedream for a wide variety of use cases.
 
 - API orchestration and automation
 - Database automations (learn about [connecting to resources behind a firewall](/workflows/steps/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host))
-- Notification workflows
+- Connecting SaaS apps
+- Notification management
 - Rate limiting, request smoothing
 - Event queuing and concurrency management
-- Backends for apps (e.g., mobile, JAMstack)
+- Mobile and JAMstack backends
 - Webhook inspection and routing
 - Prototyping and demos
 
