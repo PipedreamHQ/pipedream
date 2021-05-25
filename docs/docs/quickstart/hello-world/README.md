@@ -25,7 +25,7 @@ To create an HTTP or webhook triggered workflow, select the **HTTP API** trigger
 
 Your workflow will automatically deploy and Pipedream will generate a unique endpiont URL.
 
-![image-20210522170118664](./image-20210522170118664.png)
+![image-20210522170118664](../images/image-20210522170118664.png)
 
 Any requests you make to the endpoint URL will trigger your workflow. To test it out:
 
@@ -42,7 +42,7 @@ When you return to your workflow, you'll see the requests appear in the event li
 
 When you select an event from the list, the data associated with that event will appear below each of the steps in your workflow. For the trigger, that means details related to the inbound request (e.g., the URL, method, body, headers, query parameters) can be inspected. This data can also be referenced by steps in your workflow via the `steps` object (for example, to use the trigger event in a later step you can reference `steps.trigger.event` — we'll cover this in the next example). 
 
-![select_event](./select_event.gif)
+![select_event](../images/select_event.gif)
 
 Next, let's use Pipedream's `$respond()` function to return a custom response from the workflow. First, click on **Run Node.js code** to add a code step (if the step menu is not expanded, click the **+** button below the trigger step).
 
@@ -64,11 +64,11 @@ await $respond({
 
 Then click **Deploy** to run your changes on each new event.
 
-![image-20210523180059549](./image-20210523180059549.png)
+![image-20210523180059549](../images/image-20210523180059549.png)
 
 The deploy should complete in about 1-2 seconds. Then reload the endpoint URL in your browser — the response should change to `hello world!`.
 
-![hello_world](./hello_world-1823450.gif)
+![hello_world](../images/hello_world-1823450.gif)
 
 Congratulations! You just built your first serverless workflow! 
 

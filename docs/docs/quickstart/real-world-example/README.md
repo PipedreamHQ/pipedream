@@ -349,7 +349,7 @@ Finally, turn on your trigger to run it on every event emitted by the source:
 
 To test out your workflow, post a Tweet mentioning `@pipedream` — or [click here to use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20).
 
-![image-20210524211931799](./image-20210524211931799.png)
+![image-20210524211931799](../images/image-20210524211931799.png)
 
 Your workflow will be triggered the next time your trigger runs (every 15 minutes by default, but you can manage your source and customize the interval from https://pipedream.com/sources/).
 

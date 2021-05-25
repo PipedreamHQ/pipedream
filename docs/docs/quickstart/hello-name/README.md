@@ -8,7 +8,7 @@ Next, let's pass a name in each HTTP request and return it in the workflow respo
 
 First, modify the endpoint URL you loaded in your browser to trigger your workflow and add `?name=foo` to the end (e.g., `https://ENDPOINT-ID.m.pipedream.net/?name=foo`). Then load it to make another request to your workflow. You should still see `hello world!` returned as the response from your workflow.
 
-![image-20210523180958937](./image-20210523180958937.png)
+![image-20210523180958937](../images/image-20210523180958937.png)
 
 Return to Pipedream and select the event you just generated from the event list. You should now see `{1}` next to the `query` field indicating it has nested values. Expand it to inspect the query parameter and value for the request. 
 
@@ -32,7 +32,7 @@ await $respond({
 
 Finally, **Deploy** and reload the URL in your browser:
 
-![image-20210516200957262](./hello_name.gif)
+![image-20210516200957262](../images/hello_name.gif)
 
 Your workflow will now return `hello foo!` (or whatever value you pass to `name`) instead of `hello world!`.
 

@@ -44,7 +44,7 @@ await $respond({
 
 Finally, **Deploy** and reload the endpoint for your workflow in your web browser. `hello foo!` should be replaced by the JSON representing the ISS position. Each time you load the endpoint the most recent position will be returned.
 
-![iss_position](./iss_position-1824870.gif)
+![iss_position](../images/iss_position-1824870.gif)
 
 **Next, let's replace the GET Request action with a code step and use the `axios` npm package to get the position of the ISS.** [Take me to the next example &rarr;](../using-npm-packages/) 
 
