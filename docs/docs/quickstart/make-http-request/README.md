@@ -1,12 +1,10 @@
 # Make outbound HTTP requests
 
-In the previous examples, we focused on catching inbound HTTP requests and manipulating the response. Next, we'll use an action step to make an outbound request from our workflow. 
-
-This example will take  **2 - 3 minutes** and will cover how to:
+In the previous examples, we focused on catching inbound HTTP requests and manipulating the workflow response. Next, let's add an action step to make an outbound request from our workflow. This example builds on the workflow created in [previous sections](/quickstart/) and will cover how to:
 
 - Use the **GET Request** action to make an HTTP request from your workflow
-- Test the workflow and inspect the step exports
-- Return data exported by the **GET Request** step in the custom HTTP response
+- Use the **Send Test Event** button to test the workflow
+- Inspect the action exports and pass them to another step
 
 First, click on the **+** sign between the trigger and code steps to bring up the step menu.
 
@@ -32,7 +30,7 @@ Select the event that's generated on the in the event list to inspect the execut
 
 ![image-20210516210735882](../images/image-20210516210735882.png)
 
-Next, update the response to return the `lattitude` and `longitude` returned by the API as the HTTP response for the workflow. To do that, replace the current value for the `body` parameter in the `$respond()` function and set it to `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
+Next, let's update `$respond()` in `steps.nodejs` to respond with the `lattitude` and `longitude` returned by the API. To do that, replace the current value for the `body` parameter with `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
 
 ```javascript
 await $respond({
@@ -44,9 +42,9 @@ await $respond({
 
 ![image-20210516211333394](../images/image-20210516211333394.png)
 
-Finally, click **Deploy** and then reload the URL in your web browser.`hello foo!` should be replaced by the JSON representing the ISS position. Each time you load the URL, the updated position will be returned.
+Finally, **Deploy** and reload the endpoint for your workflow in your web browser. `hello foo!` should be replaced by the JSON representing the ISS position. Each time you load the endpoint the most recent position will be returned.
 
 ![iss_position](./iss_position-1824870.gif)
 
-**Next, we'll replace the GET Request action with a code step and use the `axios` npm package to get the ISS position.** [Take me to the next example &rarr;](../using-npm-packages/) 
+**Next, let's replace the GET Request action with a code step and use the `axios` npm package to get the position of the ISS.** [Take me to the next example &rarr;](../using-npm-packages/) 
 

@@ -7,7 +7,7 @@ next: false
 
 ## What is Pipedream?
 
-Pipedream is a serverless platform to connect APIs at scale, remarkably fast. 
+Pipedream is a production scale serverless platform to connect APIs, remarkably fast. 
 
 1. Connect OAuth and key-based API accounts in seconds.
 2. Use connected accounts in Node.js code steps or no-code building blocks.
@@ -15,7 +15,7 @@ Pipedream is a serverless platform to connect APIs at scale, remarkably fast.
 
 <!--Pipedream also makes it easy to test and validate your integrations, scaffold API requests for any app, maintain state between executions, manage execution rate and concurrency and more. -->
 
-Watch a 4-minute demo or go to our [quickstart guide](/quickstart/):
+Watch a 4-minute demo or review our [quickstart guide](/quickstart/):
 
 <!--With Pipedream, you can stop writing boilerplate code, struggling with authentication and managing infrastructure, and start connecting APIs with code-level control when you need it — and no code when you don't. -->
 
@@ -63,9 +63,7 @@ Pipedream is trusted by 150k+ developers from startups to Fortune 500 companies:
 
 ## Getting Started
 
-We recommend starting with our [quickstart guide](/quickstart/)
- 
-Learn the basic patterns to develop workflows:
+We recommend starting with our [quickstart guide](/quickstart/) to learn basic workflow development patterns:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 
@@ -75,7 +73,7 @@ Learn the basic patterns to develop workflows:
 - Scaffold an API request in Node.js
 - End workflow execution early
 
-Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or committment. As your needs grow, it's easy to upgrade to paid plans to run without limits for individuals, teams and enterprises.
+Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or committment. As your needs grow, it's easy to upgrade to paid plans to run without limits for individuals, teams (in alpha) and enterprises.
 
 [Get Started &rarr;](/quickstart/)
 
@@ -87,21 +85,21 @@ Pipdream supports use cases from protototype to production and is trusted by 150
 
 The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) to use at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart. 
 
-Our community uses Pipedream for a wide variety of use cases.
+Our community uses Pipedream for a wide variety of use cases including:
 
 - API orchestration and automation
 - Database automations (learn about [connecting to resources behind a firewall](/workflows/steps/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host))
 - Connecting SaaS apps
-- Notification management
+- Custom notifications and alerting
+- Mobile and JAMstack backends
 - Rate limiting, request smoothing
 - Event queuing and concurrency management
-- Mobile and JAMstack backends
 - Webhook inspection and routing
 - Prototyping and demos
 
 ## Open Source
 
-Pipedream maintains an open source registry of source and action components on GitHub. Re-use these components in workflows so you don't need to write boilerplate code for common API integrations. Use existing components as scaffolding to customize and publish your own. Or create a PR contribute new or enhanced components via GitHub.
+Pipedream maintains an open source registry of source and action components on GitHub. Reuse these components in workflows so you don't need to write boilerplate code for common API integrations. Or use existing components as scaffolding to customize and publish your own. You can also create a PR contribute new or enhanced components via GitHub.
 
 ## Contributing
 

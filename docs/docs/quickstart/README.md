@@ -1,6 +1,6 @@
 # Introduction
 
-It typically takes take 15 - 30 minutes to complete this guide. After that, you'll understand the basic patterns for workflow development:
+It typically takes take 15 - 30 minutes to complete this guide and learn the basic patterns for workflow development:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 
@@ -10,13 +10,17 @@ It typically takes take 15 - 30 minutes to complete this guide. After that, you'
 - Scaffold an API request in Node.js
 - End workflow execution early
 
-This guide starts with simple examples to introduce basic concepts and builds up to a real-world use case to post richly formatted Tweets to Slack. Most examples build on progress made in earlier ones, so we strongly recommend that you complete them in order.
+::: tip
+If you need help completing the examples in the quickstart, search our public community at [https://pipdedream.com/commmunity](https://pipdedream.com/commmunity) or post a new question.
+:::
+
+This guide starts with simple examples to introduce basic concepts and builds up to a real-world use case to post richly formatted Tweets to Slack. **Most examples build on progress made in earlier ones, so we strongly recommend that you complete them in order**.
 
 <!--![image-20210518194229746](./images/image-20210518194229746.png)-->
 
 1. [hello world!](/quickstart/hello-world/)
 2. [hello ${name}!](/quickstart/hello-name/)
-3. [Make outbound HTTP requests!](/quickstart/make-http-request/) 
+3. [Make outbound HTTP requests](/quickstart/make-http-request/) 
 4. [Use npm packages](/quickstart/using-npm-packages/) 
 5. [Insert data into Google Sheets](/quickstart/add-data-to-google-sheets/) 
 6. [End workflow execution early](/quickstart/end-workflow-early/) 

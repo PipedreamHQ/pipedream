@@ -1,18 +1,14 @@
 # End workflow early
 
-For the next example, we'll:
+Next, let's update our workflow to filter out `favicon.ico` requests. This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to use the `$end()` function to end a workflow execution early.
 
-Workflows typically run until they reach the last step. However, there are cases when we want to end the workflow execution early, and not continue on with additional steps.
+In the last example, two rows were added to Google Sheets when we loaded the endpoint URL in our browser. That's because modern web browsers automatically make a request for a `favicon.com` file. While this is an artifact of loading the workflow's endpoint in our browser, it provides a good opportunity to demonstrate `$end()`.
 
-Pipedream provides an easy way to do that using the `$end()` function.
-
-In our last example, two rows were added to Google Sheets when we loaded the endpoint URL in our browser. That's because modern web browsers make a request for a favicon. While this is an artifact because we loaded the URL in our browser, it provides a good opportunity to demonstrate `$end()`.
-
-First, select an event that lists the request for `favicon.ico`:
+First, select an event that represents a `favicon.ico` request:
 
 ![image-20210522191836155](./image-20210522191836155.png)
 
-Next, add a **Run Node.js code** step immediately after the trigger and change the name from `steps.nodejs` to `steps.filter_favicon_requests`. Then let's add code to conditionally end the workflow execution if the request URL contains the text `favicon.ico`. We can also pass a reason for ending the execution to the `$end()` function as a string. For this example, we'll pass the value `favicon.ico request`.
+Next, add a **Run Node.js code** step immediately after the trigger and change the name from `steps.nodejs` to `steps.filter_favicon_requests`. Then add code to conditionally end the workflow execution if the request URL contains the string `favicon.ico`. We can also pass a reason for ending the execution to the `$end()` function. For this example, we'll pass the value `favicon.ico request`.
 
 ```javascript
 if(steps.trigger.event.url.includes('favicon.ico')) {
@@ -24,7 +20,7 @@ Your workflow should look like this:
 
 ![image-20210522192422418](./image-20210522192422418.png)
 
-Next, **Deploy** your workflow and load the endpoint URL in your browser. While 2 events will still appear in the event list, you'll see that one of them indicates that `$end()` was invoked along with the reason we defined. Additionally, no steps after `steps.filter_favicon_requests` were executed.
+Next, **Deploy** your workflow and load the endpoint URL in your browser to trigger your workflow. While 2 events will still appear in the event list, you'll see that one of them indicates that `$end()` was invoked along with the reason we defined. Additionally, no steps after `steps.filter_favicon_requests` were executed.
 
 ![image-20210522192712379](./image-20210522192712379.png)
 
@@ -35,3 +31,5 @@ Finally, if you select the event that was not ended early, you will see it succe
 Additionally, the data for that row should match the data returned to your endpoint.
 
 ![image-20210522192856091](./image-20210522192856091.png)
+
+**Next, let's use a connected account in a code step to authenticate a Google Sheets API request. [Take me to the next example &rarr;](../use-managed-auth-in-code/)**
