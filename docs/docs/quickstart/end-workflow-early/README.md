@@ -16,15 +16,13 @@ if(steps.trigger.event.url.includes('favicon.ico')) {
 }
 ```
 
-Your workflow should look like this:
-
 ![image-20210522192422418](./image-20210522192422418.png)
 
 Next, **Deploy** your workflow and load the endpoint URL in your browser to trigger your workflow. While 2 events will still appear in the event list, you'll see that one of them indicates that `$end()` was invoked along with the reason we defined. Additionally, no steps after `steps.filter_favicon_requests` were executed.
 
 ![image-20210522192712379](./image-20210522192712379.png)
 
-Finally, if you select the event that was not ended early, you will see it successfully executed. And when you load Google Sheets, you should only see a single new row added:
+Finally, if you select the event that did **not** invoke `$end()`, you will see it successfully executed. And when you load Google Sheets, you should only see a single new row added:
 
 ![image-20210522192945948](./image-20210522192945948.png)
 

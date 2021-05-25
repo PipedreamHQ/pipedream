@@ -30,17 +30,17 @@ Next, let's customize the API request to retrieve all the ISS positions we added
 
 ![image-20210522195448627](./image-20210522195448627.png)
 
-All we need to do is modify the scaffolded code. First, replace the test URL of `https://www.googleapis.com/oauth2/v1/userinfo` with `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}`
+All we need to do is modify the scaffolded code. First, replace the scaffolded URL of `https://www.googleapis.com/oauth2/v1/userinfo` with `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}`
 
 ![image-20210522195720596](./image-20210522195720596.png)
 
-Next, we need to replace `{spreadsheetId}` and `{range}` with the actual values. You can get these manually, but since we added a row to Google Sheets, we can get this from the exports for `steps.add_single_row`. 
+Next, we need to replace `{spreadsheetId}` and `{range}` with the actual values. Since we added a row to Google Sheets, we can get this from the exports for `steps.add_single_row`. 
 
 ![image-20210522202219154](./image-20210522202219154.png)
 
 1. Add a `$` before both `{spreadsheetId}` and `{range}` to convert the references to template literals (since the URL in enclosed in backticks, we can write code between `${...}`).  
 2. Replace `spreadsheetId` with `steps.add_single_row.$return_value.spreadsheetId`. 
-3. Since we want to get all the values in the sheet, we can use Javascript's `split()` function to replace `range` with the value to the left of the exclamation mark in `steps.add_single_row.$return_value.updatedRange` (i.e., we only want to pass the value `Sheet1`). I.e., enter `steps.add_single_row.$return_value.updatedRange.split("!")[0]`.
+3. Since we want to get all the values in the sheet, we can use Javascript's `split()` function to replace `range` with the value to the left of the exclamation mark in `steps.add_single_row.$return_value.updatedRange` (i.e., we only want to pass the value `Sheet1`). To do that, enter `steps.add_single_row.$return_value.updatedRange.split("!")[0]`.
 
 Here's the final code for the step:
 
@@ -53,36 +53,17 @@ return await require("@pipedreamhq/platform").axios(this, {
 })
 ```
 
-And here is a screenshot of the step in the workflow:
-
 ![image-20210522203008456](./image-20210522203008456.png)
 
-When you're ready, **Deploy** and test your workflow again. If you select the event and expand the return value for `steps.google_sheets` you'll see the headers and data.
+When you're ready, **Deploy** and test your workflow again. If you select the event and expand the return value for `steps.google_sheets` you'll see the headers and data from the Google Sheet.
 
 ![image-20210522203106865](./image-20210522203106865.png)
 
-While we can update our response to return this data, let's add one more code step to transform it from an array of arrays to an array of objects (using the header values for the keys). Since we can easily transform data using Node.js, we can write the code if we know it or we can search Google for snippets to adapt. In this case, a quick Google Search turns up a [Stack Overflow post](https://stackoverflow.com/questions/58050534/javascript-make-a-key-value-data-structure-from-2-dimensional-arrayheader-row) with sample code we can reuse.
+While we can update our response to return this data, let's add one more code step to transform it from an array of arrays to an array of objects (using the header values for the keys). Since we can easily transform data using Node.js, we can write the code if we know it or we can search Google for snippets to adapt. In this case, a quick Google Search turns up a [Stack Overflow post](https://stackoverflow.com/questions/58050534/javascript-make-a-key-value-data-structure-from-2-dimensional-arrayheader-row) with sample code we can use as a starting point.
 
 ![image-20210522200959041](./image-20210522200959041.png)
 
-Here is the code from the post:
-
-```javascript
-const headers = ['a', 'b', 'c'];
-const rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-const result = rowsToObjects(headers, rows) 
-console.log(result);
-// [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}, {a: 7, b: 8, c: 9}];
-
-function rowsToObjects(headers, rows){
-  return rows.reduce((acc, e, idx) =>  {
-     acc.push(headers.reduce((r, h, i)=> {r[h] = e[i]; return r; }, {}))
-     return acc;
-  }, []);
-}
-```
-
-Let's make the following modifications to that code snippet:
+Let's modify the code from that post:
 
 1. Set `headers` to the the first array element of `steps.google_sheets.$return_value.values`
 2. Set `rows` to the remainder of the array (i.e., the elements with the data)
@@ -125,7 +106,7 @@ await $respond({
 
 ![image-20210522205017670](./image-20210522205017670.png)
 
-Finally, **Deploy** and load the endpoint URL for your workflow in a browser. You should see the data from Google Sheets with all the positions you recorded for the ISS (including the most recent position recorded when you hit the endpoint) returned as your workflow response:
+Finally, **Deploy** and load the endpoint URL for your workflow in a browser. You should see the data from Google Sheets with all the positions you recorded for the ISS returned as your workflow response (including the most recent position recorded when you loaded the endpoint):
 
 ![image-20210522205250181](./image-20210522205250181.png)
 

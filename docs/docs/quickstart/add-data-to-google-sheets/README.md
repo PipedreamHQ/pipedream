@@ -14,7 +14,7 @@ Next, let's change the names of our last two steps to better reflect their purpo
 
 ![image-20210522184133106](./image-20210522184133106.png)
 
-Then, change `steps.nodejs` to `steps.respond`. You also need to update the code in this step that references `steps.get_request.$return_value.iss_position` to `steps.get_iss_position.$return_value.iss_position`.
+Then, change `steps.nodejs` to `steps.respond`. You also need to update the code in this step that references  `steps.get_request` — the other step you just renamed. You need to update the reference to `steps.get_iss_position`.
 
 ![image-20210522184332393](./image-20210522184332393.png)
 
@@ -30,11 +30,11 @@ await $respond({
 
 Then **Deploy** and make a request to your workflow endpoint to validate your changes. 
 
-Next, select the most recent event and inspect the exports for `steps.get_iss_position`. You can see that the `timestamp` field returned by the API is not a friendly, human-readable date/time:
+Next, select the most recent event and inspect the exports for `steps.get_iss_position`. We can see that the `timestamp` field returned by the API is not a friendly, human-readable date/time:
 
 ![image-20210522184612723](./image-20210522184612723.png)
 
-Let's fix that by using the `luxon` npm package to transform the timestamp into a value that is human-readable and that Google Sheets will interpret as a date/time. Based on a quick Google Search, the date/time format expected by Google Sheets is `yyyy-MM-dd HH:mm:ss`. 
+Let's fix that by using the `luxon` npm package to transform the timestamp into a value that is human-readable — and one that Google Sheets will interpret as a date/time. Based on a quick Google Search, the date/time format expected by Google Sheets is `yyyy-MM-dd HH:mm:ss`. 
 
 Click the **+** button to add a new step after `steps.get_iss_position` and select **Run Node.js code**. 
 
@@ -48,17 +48,17 @@ const { DateTime } = require('luxon')
 return DateTime.fromSeconds(steps.get_iss_position.$return_value.timestamp).toFormat('yyyy-MM-dd HH:mm:ss');
 ```
 
-Let's also change the name of the step to `steps.format_datetime`
+Let's also change the name of the code step to `steps.format_datetime`
 
 ![image-20210522184923138](./image-20210522184923138.png)
 
-**Deploy** your changes test your changes (load the endpoint URL or use the **Replay Event** or **Send Test Event** buttons). <!--![image-20210522185223356](./image-20210522185223356.png)-->
+**Deploy** and test your changes (load the endpoint URL or use the **Replay Event** or **Send Test Event** buttons). <!--![image-20210522185223356](./image-20210522185223356.png)-->
 
 Next, select the most recent event. You should see a human-readable date/time as the return value for `steps.format_datetime` (in GMT).
 
 ![image-20210522185342988](./image-20210522185342988.png)
 
-Next click the **+** button to add a new step after `steps.format_datetime` and select the **Google Sheets** app:
+Then click the **+** button to add a new step after `steps.format_datetime` and select the **Google Sheets** app:
 
 ![image-20210522185534859](./image-20210522185534859.png)
 
@@ -74,13 +74,13 @@ When prompted by Google, allow Pipedream access:
 
 <img src="../images/image-20210517181653424.png" alt="image-20210517181653424" style="zoom:25%;" />
 
-After you connect your account, Pipdream will securely store an authorization token that you can use in actions and code steps to authenticate API requests (we'll cover how to use this token in code steps later in this guide). If you connect an OAuth account (like Google Sheets), then Pipedream will automatically refresh the token without further action (key-based APIs do not require background refresh).
+After you connect your account, Pipdream will securely store an authorization token that you can use in actions and code steps to authenticate API requests for Google Sheets (we'll cover how to use this token in code steps later in this guide). If you connect an OAuth account (like Google Sheets), then Pipedream will automatically refresh the token without further action from you.
 
 Next, select your **Drive**, **Spreadsheet** and **Sheet Name** from the drop down menus.
 
 ![image-20210522185924043](./image-20210522185924043.png)
 
-NNext, let's configure the cells / column values. First, we'll use the object explorer to select a value. The object explorer is automatically loaded whenever you focus in an action input. You can expand any item and then select the reference you want to insert.
+Next, let's configure the cells / column values. First, we'll use the object explorer to select a value. The object explorer is automatically loaded whenever you focus in an action input. You can expand any item and then select the reference you want to insert.
 
 ![image-20210522190008330](./image-20210522190008330.png)
 

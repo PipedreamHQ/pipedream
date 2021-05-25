@@ -3,7 +3,7 @@
 For the last example in this quickstart, we'll use many of the patterns covered in [earlier examples](/quickstart) to solve a real-world use case and will cover how to:
 
 - Trigger a workflow anytime [`@pipedream`](https://twitter.com/pipedream) is mentioned on Twitter
-- Format a message based on the Tweet data using Node.js and Slack Block Kit
+- Construct a message in Node.js using Slack Block Kit
 - Use an action to post the formatted message to a Slack channel
 
 <!--
@@ -36,11 +36,10 @@ Use the drop down menu to select the event to help you build your workflow. Here
 
 ![image-20210518191509099](../images/image-20210518191509099.png)
 
-Based on a review of the event, we want to include the following data in our Slack message:
+Let's include the following data from the trigger event in our Slack message:
 
 - Tweet text
 - Tweet Language
-- Tweet Type (Original Tweet, Reply, Retweet)
 - Tweet URL
 - Image (if present in the Tweet)
 - Tweet timestamp
@@ -48,24 +47,26 @@ Based on a review of the event, we want to include the following data in our Sla
 - Metadata for the user (number of followers, location and description)
 - Link to the workflow that generated the Slack message (so it's easy to get to if we need to make changes in the future)
 
-Let's use Slack's Block Kit Builder to create a [JSON message template with placeholder values](https://app.slack.com/block-kit-builder/TD5JFTFRQ#%7B%22blocks%22:%5B%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22*%3Chttps://twitter.com/nraboy/statuses/1392985537083019267%7CNew%20Mention%3E%20by%20%3Chttps://twitter.com/nraboy/%7Cnraboy%3E%20(Thu%20May%2013%2023:30:07%20+0000%202021):*%5Cn%3E%20Tomorrow%20(05/14)%20at%207PM%20PT,%20we%20have%20a%20serverless%20filled%20night%20at%20the%20Tracy%20Developer%20Meetup.%20RSVP%20to%20participate%20and%20learn%20from%20the%20one%20and%20only%20Raymond%20Camden!%20https://t.co/FFXBRemv5s%20cc%20@raymondcamden%20@pipedream%20@workvine209%20https://t.co/gYLut18lqC%5Cn%22%7D,%22accessory%22:%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/profile_images/1035554704988594178/stN0QpgC_normal.jpg%22,%22alt_text%22:%22Profile%20picture%22%7D%7D,%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/media/E1Tg9mAXMAEwFQF.jpg%22,%22alt_text%22:%22Tweet%20Image%22%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22mrkdwn%22,%22text%22:%22*User:*%20nraboy%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Followers:*%204.6k%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Location:*%20Tracy,%20CA%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Language:*%20English%20(en)%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Description:*%20Pok%C3%A9mon%20Trainer%20%7C%20Developer%20Relations%20at%20@MongoDB%20%7C%20Author%20on%20The%20Polyglot%20Developer%20%7C%20Organizer%20of%20the%20Tracy%20Developer%20Meetup%20%7C%20@Mail_gun%20Maverick%22%7D%5D%7D,%7B%22type%22:%22actions%22,%22elements%22:%5B%7B%22type%22:%22button%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22View%20on%20Twitter%22,%22emoji%22:true%7D,%22url%22:%22https://twitter.com/nraboy/statuses/1392985537083019267%22%7D%5D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22mrkdwn%22,%22text%22:%22Sent%20via%20%3Chttps://pipedream.com/@/p_OKCYGM3%7CPipedream%3E%22%7D%5D%7D,%7B%22type%22:%22divider%22%7D%5D%7D). Next, we'll use a code step to replace the placeholder values with dynamic references to the event data that triggers the workflow.  
+We can use Slack's Block Kit Builder to create a [JSON message template with placeholder values](https://app.slack.com/block-kit-builder/TD5JFTFRQ#%7B%22blocks%22:%5B%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22*%3Chttps://twitter.com/nraboy/statuses/1392985537083019267%7CNew%20Mention%3E%20by%20%3Chttps://twitter.com/nraboy/%7Cnraboy%3E%20(Thu%20May%2013%2023:30:07%20+0000%202021):*%5Cn%3E%20Tomorrow%20(05/14)%20at%207PM%20PT,%20we%20have%20a%20serverless%20filled%20night%20at%20the%20Tracy%20Developer%20Meetup.%20RSVP%20to%20participate%20and%20learn%20from%20the%20one%20and%20only%20Raymond%20Camden!%20https://t.co/FFXBRemv5s%20cc%20@raymondcamden%20@pipedream%20@workvine209%20https://t.co/gYLut18lqC%5Cn%22%7D,%22accessory%22:%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/profile_images/1035554704988594178/stN0QpgC_normal.jpg%22,%22alt_text%22:%22Profile%20picture%22%7D%7D,%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/media/E1Tg9mAXMAEwFQF.jpg%22,%22alt_text%22:%22Tweet%20Image%22%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22mrkdwn%22,%22text%22:%22*User:*%20nraboy%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Followers:*%204.6k%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Location:*%20Tracy,%20CA%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Language:*%20English%20(en)%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Description:*%20Pok%C3%A9mon%20Trainer%20%7C%20Developer%20Relations%20at%20@MongoDB%20%7C%20Author%20on%20The%20Polyglot%20Developer%20%7C%20Organizer%20of%20the%20Tracy%20Developer%20Meetup%20%7C%20@Mail_gun%20Maverick%22%7D%5D%7D,%7B%22type%22:%22actions%22,%22elements%22:%5B%7B%22type%22:%22button%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22View%20on%20Twitter%22,%22emoji%22:true%7D,%22url%22:%22https://twitter.com/nraboy/statuses/1392985537083019267%22%7D%5D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22mrkdwn%22,%22text%22:%22Sent%20via%20%3Chttps://pipedream.com/@/p_OKCYGM3%7CPipedream%3E%22%7D%5D%7D,%7B%22type%22:%22divider%22%7D%5D%7D). Next, we'll use a code step to replace the placeholder values with dynamic references to the event data that triggers the workflow.
 
 ![image-20210519012640800](../images/image-20210519012640800.png)
 
-The action we will use accepts the array of blocks, so we'll extract that and export a populated array from our code step (i.e., we don't need to generate the entire JSON payload).
+ The action we will use accepts the array of blocks, so we'll extract that and export a populated array from our code step (i.e., we don't need to generate the entire JSON payload).
 
 Add a step to **Run Node.js code** and name it `steps.generate_slack_blocks`. 
 
 ![image-20210518201050946](../images/image-20210518201050946.png)
 
-Next, let's add the npm packages we need — we'll use the `iso-639-1`  package to convert the language code provided by Twitter into a human readable name, and we'll use `lodash` to help with value extraction.
+Next, we'll walk through the code step by step — the complete code for `steps.generate_slack_blocks` can be found below if you want to skip ahead.
+
+First, `require` the npm packages we need — we'll use the `iso-639-1`  package to convert the language code provided by Twitter into a human readable name, and we'll use `lodash` to help us extract values.
 
 ```javascript
 const ISO6391 = require('iso-639-1')
 const _ = require('lodash') 
 ```
 
-Next, let's define functions that we'll use. First, add a function to generate the language name or return `Unknown`:
+Next, we'll define two functions to help us construct the message. First, we'll add a function to return the language name or `Unknown`:
 
 ```javascript
 // Return a friendly language name for ISO language codes
@@ -75,7 +76,7 @@ function getLanguageName(isocode) {
 }
 ```
 
-Next, let's add a function to format the number of followers for a user (we can reuse this function we found via Google search on [Stack Overflow](https://stackoverflow.com/questions/9461621/format-a-number-as-2-5k-if-a-thousand-or-more-otherwise-900)).
+Next, we'll add a function to format the number of followers for a user (we can reuse this function we found via Google search on [Stack Overflow](https://stackoverflow.com/questions/9461621/format-a-number-as-2-5k-if-a-thousand-or-more-otherwise-900)).
 
 ```javascript
 // Format numbers over 1000
@@ -84,7 +85,7 @@ function kFormatter(num) {
 }
 ```
 
-Next, let's format the Tweet text `steps.trigger.event.full_text` using Slack's quote formatting. Since Tweets can contain line breaks, we'll handing that as well:
+Next, let's format the Tweet text `steps.trigger.event.full_text` using Slack's quote formatting. Since Tweets can contain line breaks, we need to hande that case as well:
 
 ```javascript
 // Format the Tweet as a quoted Slack message
@@ -93,7 +94,7 @@ steps.trigger.event.full_text.split('\n').forEach(line => quotedMessage = quoted
 
 ```
 
-Next, let's extract some values to make our message generation easier:
+Next, let's extract some values to make our message generation easier. We'll use `lodash` to extract values from keys that may not be present for some events (and set a default if missing).
 
 ```javascript
 // Define metadata to include in the Slack message
@@ -103,7 +104,7 @@ const mediaUrl = _.get(steps, 'trigger.event.extended_entities.media[0].media_ur
 const mediaType = _.get(steps, 'trigger.event.extended_entities.media[0].type', '')
 ```
 
-Then, we'll start building the Slack Blocks:
+Then, we'll start populating the Slack Blocks template:
 
 ```javascript
 // Format the message as Slack blocks
@@ -201,7 +202,7 @@ blocks.push({
 })
 ```
 
-Finally, we'll return the array we assigned to `blocks`:
+Finally, we'll return the array of blocks:
 
 ```javascript
 return blocks
@@ -325,7 +326,12 @@ Then, scroll or search to find the **Send Message Using Block Kit** action:
 
 ![image-20210518203402871](../images/image-20210518203402871.png)
 
-Configure the step:
+To configure the step:
+
+1. Connect your Slack account
+2. Select the channel where you want to post the message
+3. Set the **Blocks** field to <code v-pre>{{steps.generate_slack_blocks.$return_value}}</code>
+4. Set the **Notification Text** field to <code v-pre>{{{steps.trigger.event.full_text}}</code> (if you don't provide **Notification Text**, Slack's new message alerts may be blank or may not work)
 
 ![image-20210518204014823](../images/image-20210518204014823.png)
 
@@ -341,8 +347,10 @@ Finally, turn on your trigger to run it on every event emitted by the source:
 
 ![image-20210518210047896](../images/image-20210518210047896.png)
 
-To test out your workflow, post a Tweet mentioning `@pipedream` — or [use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart%20https%3A%2F%2Fpipedream.com%2Fquickstart).
+To test out your workflow, post a Tweet mentioning `@pipedream` — or [click here to use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20).
 
-<img src="../images/image-20210518211005339.png" alt="image-20210518211005339" style="zoom:33%;" />
+![image-20210524211931799](./image-20210524211931799.png)
 
 Your workflow will be triggered the next time your trigger runs (every 15 minutes by default, but you can manage your source and customize the interval from https://pipedream.com/sources/).
+
+**Congratulations! You've completed the quickstart and you're ready to start building workflows on Pipedream!** Want to go beyond the basics and use advanced features like state management, concurreny and execution rate management and more? [Beyond the Basics &rarr;](/quickstart/next-steps/)

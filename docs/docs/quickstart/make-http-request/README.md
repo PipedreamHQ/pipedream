@@ -26,11 +26,11 @@ Finally, click **Deploy** and then hit the **Send Test Event** button in the tri
 
 ![image-20210516210434021](../images/image-20210516210434021.png)
 
-Select the new event from the event list to inspect the execution. The response from the **GET Request** action should be exported as `steps.get_request.$return_value`. Expand the `iss_position` key to see the `lattitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution:
+Select the new event from the event list to inspect the execution. The response from the **GET Request** action should be exported as `steps.get_request.$return_value`. Expand the `iss_position` key to inspect the `lattitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution:
 
 ![image-20210516210735882](../images/image-20210516210735882.png)
 
-Next, let's update `$respond()` in `steps.nodejs` to respond with the object returned from the API that contains the `lattitude` and `longitude` of the ISS. To do that, replace the current value for the `body` parameter with `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
+Next, let's update `$respond()` in `steps.nodejs` to respond with the `iss_position` object. To do that, replace the current value for the `body` parameter with `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
 
 ```javascript
 await $respond({

@@ -1,6 +1,6 @@
 # Introduction
 
-It typically takes about 15 - 30 minutes to complete this guide and learn the basic patterns for workflow development:
+It typically takes about 20 - 30 minutes to complete this guide. After completing it, you will understand how to:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 
@@ -9,6 +9,8 @@ It typically takes about 15 - 30 minutes to complete this guide and learn the ba
 - Use npm packages in Node.js code steps
 - Scaffold an API request in Node.js
 - End workflow execution early
+
+If you don't have a Pipedream account, create one for free at [https://pipedream.com](https://pipedream.com) before getting started (no credit card required).
 
 ::: tip
 If you need help completing the examples in the quickstart, search our public community at [https://pipdedream.com/commmunity](https://pipdedream.com/commmunity) or post a new question.
@@ -28,8 +30,6 @@ This guide starts with simple examples to introduce basic concepts and builds up
 8. [Run a workflow on a schedule](/quickstart/run-workflow-on-a-schedule/) 
 9. [Email yourself on new items in an RSS feed](/quickstart/email-yourself/) 
 10. [Real-world Twitter -> Slack](/quickstart/real-world-example/) 
-
-If you don't have a Pipedream account, create one for free at [https://pipedream.com](https://pipedream.com).
 
 **Ready to get started? [Take me to the first example &rarr;](/quickstart/hello-world/)**
 
