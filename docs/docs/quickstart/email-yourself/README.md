@@ -31,9 +31,9 @@ Next, select the **Send Yourself an Email** action from the step selection menu.
 
 To configure the action:
 
-- Set **Subject** to <code v-pre>New Item in Feed: {steps.trigger.event.title}</code>
-- Set **Text** to <code v-pre>{steps.trigger.event.description}</code>
-- Add the optional **Html** field and set it to <code v-pre>{steps.trigger.event.description}</code>
+- Set **Subject** to <code v-pre>New Item in Feed: {{steps.trigger.event.title}}</code>
+- Set **Text** to <code v-pre>{{steps.trigger.event.description}}</code>
+- Add the optional **Html** field and set it to <code v-pre>{{steps.trigger.event.description}}</code>
 
 ![image-20210517002850288](../images/image-20210517002850288.png)
 

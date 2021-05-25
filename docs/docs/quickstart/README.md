@@ -1,6 +1,6 @@
 # Introduction
 
-It typically takes about 20 - 30 minutes to complete this guide. After completing it, you will understand how to:
+It typically takes about 30 - 40 minutes to complete this guide. After completing it, you will understand how to:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 

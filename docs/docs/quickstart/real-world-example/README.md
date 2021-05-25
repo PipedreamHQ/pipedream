@@ -331,7 +331,7 @@ To configure the step:
 1. Connect your Slack account
 2. Select the channel where you want to post the message
 3. Set the **Blocks** field to <code v-pre>{{steps.generate_slack_blocks.$return_value}}</code>
-4. Set the **Notification Text** field to <code v-pre>{{{steps.trigger.event.full_text}}</code> (if you don't provide **Notification Text**, Slack's new message alerts may be blank or may not work)
+4. Set the **Notification Text** field to <code v-pre>{{steps.trigger.event.full_text}}</code> (if you don't provide **Notification Text**, Slack's new message alerts may be blank or may not work)
 
 ![image-20210518204014823](../images/image-20210518204014823.png)
 

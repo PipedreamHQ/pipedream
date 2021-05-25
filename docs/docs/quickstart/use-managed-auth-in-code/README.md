@@ -100,7 +100,7 @@ Next, update `steps.respond` to return `steps.transform.$return_value` as the bo
 await $respond({
   status: 200,
   immediate: true,
-  body: steps.get_iss_position.$return_value.iss_position
+  body: steps.transform.$return_value
 })
 ```
 
