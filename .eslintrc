@@ -36,6 +36,8 @@
   ],
   "root": true,
   "rules": {
+    "arrow-parens": "error",
+    "arrow-spacing": "error",
     "array-bracket-newline": [
       "error",
       {
