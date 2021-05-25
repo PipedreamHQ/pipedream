@@ -1,15 +1,15 @@
 # Email yourself on new RSS items
 
-This example will take  **2 - 3 minutes** and will cover how to:
+Next, let's create a workflow triggered on app events. This example builds on concepts covered in [previous sections](/quickstart/) and will cover how to:
 
 - Trigger a workflow on new items in an RSS feed
 - Use an action to send an email to the account registered for your Pipedream account
 
-For the next example, create a new workflow and search for the **RSS** app
+First, create a new workflow and search for the **RSS** app and select it:
 
 ![image-20210516235511476](../images/image-20210516235511476.png)
 
-Click on **RSS** and thenselect the **New item in feed** trigger:
+Then select the **New item in feed** trigger:
 
 ![image-20210516235609560](../images/image-20210516235609560.png)
 
@@ -48,3 +48,5 @@ Pipedream will send an email to the email address registered for your Pipedream 
 Finally, to automatically run the workflow whenever a new item is detected in the RSS feed, enable the trigger.
 
 ![image-20210517003247789](../images/image-20210517003247789.png)
+
+**For the final example of this guide, we'll address a real-world use case to post richly formatted Tweets to Slack. [Take me to the last example &rarr;](../real-world-example/)**

@@ -1,6 +1,6 @@
 # Introduction
 
-It typically takes take 15 - 30 minutes to complete this guide and learn the basic patterns for workflow development:
+It typically takes about 15 - 30 minutes to complete this guide and learn the basic patterns for workflow development:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 

@@ -1,10 +1,8 @@
 # Real-world Twitter -> Slack
 
-For the last example in this quickstart, we'll use many of the patterns covered in earlier examples to solve a real-world use case.
+For the last example in this quickstart, we'll use many of the patterns covered in [earlier examples](/quickstart) to solve a real-world use case and will cover how to:
 
-This example will take  **2 - 3 minutes** and will cover how to:
-
-- Create a workflow triggered on new Twitter mentions 
+- Trigger a workflow anytime [`@pipedream`](https://twitter.com/pipedream) is mentioned on Twitter
 - Format a message based on the Tweet data using Node.js and Slack Block Kit
 - Use an action to post the formatted message to a Slack channel
 

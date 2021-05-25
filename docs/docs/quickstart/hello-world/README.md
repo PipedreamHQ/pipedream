@@ -52,7 +52,7 @@ Pipedream will add a code step to your workflow.
 
 ![image-20210516194534525](../images/image-20210516194534525.png)
 
-You can write any Node.js code that is supported in `async` Javascript functions and use any npm package (we'll cover npm in a later part of this guide). For this example, just add the following code to return a custom response of `hello world!`:
+You can write any Node.js code that is supported in `async` Javascript functions and use any npm package (we'll cover npm in a later part of this guide). For this example, add the following code to return a custom response of `hello world!`:
 
 ```javascript
 await $respond({
@@ -66,7 +66,7 @@ Then click **Deploy** to run your changes on each new event.
 
 ![image-20210523180059549](./image-20210523180059549.png)
 
-The deploy should complete in about 1-2 seconds. Then reload the endpoint URL in your browser — you the response should change to `hello world!`.
+The deploy should complete in about 1-2 seconds. Then reload the endpoint URL in your browser — the response should change to `hello world!`.
 
 ![hello_world](./hello_world-1823450.gif)
 

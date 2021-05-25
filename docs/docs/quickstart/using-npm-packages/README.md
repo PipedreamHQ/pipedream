@@ -13,7 +13,7 @@ Next, click the **+** button and add a **Run Node.js code** step between `steps.
 
 ![image-20210516212506585](../images/image-20210516212506585.png)
 
-Next, let's add code to `steps.nodejs_1` to get the position of ISS using the `axios` npm package. To do that, simply `require` it — there's no `npm install` or `package.json` required (Pipedream automatically installs any npm package you `require`).
+Next, we'll add code to `steps.nodejs_1` to get the position of ISS using the `axios` npm package. To do that, simply `require` it — there's no `npm install` or `package.json` required (Pipedream automatically installs any npm package you `require`).
 
 ```javascript
 const axios = require('axios')

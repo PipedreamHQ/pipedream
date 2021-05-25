@@ -6,7 +6,7 @@ In the previous examples, we focused on catching inbound HTTP requests and manip
 - Use the **Send Test Event** button to test the workflow
 - Inspect the action exports and pass them to another step
 
-First, click on the **+** sign between the trigger and code steps to bring up the step menu.
+First, click on the **+** sign between the trigger and code steps to add a step.
 
 ![image-20210516204038767](../images/image-20210516204038767.png)
 
@@ -18,7 +18,7 @@ Then select **GET Request** (to make an HTTP `GET` request):
 
 ![image-20210516204229156](../images/image-20210516204229156.png)
 
-Next, enter `http://api.open-notify.org/iss-now.json` as the URL. This URL is a free API provided by open-notify.org  to return the current position of the International Space Station (ISS). It does not require any authentication.
+Next, enter `http://api.open-notify.org/iss-now.json` in the **URL** field. This URL is a free API provided by open-notify.org  to return the current position of the International Space Station (ISS). It does not require any authentication.
 
 ![image-20210516210136157](../images/image-20210516210136157.png)
 
@@ -26,11 +26,11 @@ Finally, click **Deploy** and then hit the **Send Test Event** button in the tri
 
 ![image-20210516210434021](../images/image-20210516210434021.png)
 
-Select the event that's generated on the in the event list to inspect the execution. The response from the **GET Request** action is exported as `steps.get_request.$return_value` (exported data can be referenced in future steps). Expand the `iss_position` key to see the `lattitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution:
+Select the new event from the event list to inspect the execution. The response from the **GET Request** action should be exported as `steps.get_request.$return_value`. Expand the `iss_position` key to see the `lattitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution:
 
 ![image-20210516210735882](../images/image-20210516210735882.png)
 
-Next, let's update `$respond()` in `steps.nodejs` to respond with the `lattitude` and `longitude` returned by the API. To do that, replace the current value for the `body` parameter with `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
+Next, let's update `$respond()` in `steps.nodejs` to respond with the object returned from the API that contains the `lattitude` and `longitude` of the ISS. To do that, replace the current value for the `body` parameter with `steps.get_request.$return_value.iss_position` (with no quotes or backticks):
 
 ```javascript
 await $respond({
