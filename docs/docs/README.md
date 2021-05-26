@@ -51,7 +51,7 @@ Watch a demo (4 mins):
 
 ## Is Pipedream for me?
 
-We make it easy to connect APIs with code-level control when you need it — and no code when you don't. If you and your team wants to stop writing boilerplate code, struggling with authentication and managing infrastructure for API integrations, then Pipedream is for you. 
+We make it easy to connect APIs with code-level control when you need it — and no code when you don't. If you and your team want to stop writing boilerplate code, struggling with authentication and managing infrastructure for API integrations, then Pipedream is for you. 
 
 Developers with a working knowledge of Node.js or Javascript will get the most value from Pipedream (Python, Typescript. and GitHub integration are coming soon).
 
