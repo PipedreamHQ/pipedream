@@ -82,13 +82,16 @@ module.exports = {
   },
   async run(event) {
     // refresh the authorization token if it will expire before the next run
-    const { timestamp, interval_seconds: intervalSeconds } = event;
+    const {
+      timestamp,
+      interval_seconds: intervalSeconds,
+    } = event;
     if (intervalSeconds) {
       const intervalMs = 1000 * intervalSeconds;
       const nextRun = (timestamp * 1000) + intervalMs;
       const expires = this._getExpires("expires");
       if (expires <= nextRun) {
-        const refreshToken = this._getRefreshToken('refreshToken');
+        const refreshToken = this._getRefreshToken("refreshToken");
         const {
           id_token: newToken,
           refresh_token: newRefreshToken,
