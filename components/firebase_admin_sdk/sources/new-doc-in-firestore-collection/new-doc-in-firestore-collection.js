@@ -58,13 +58,14 @@ module.exports = {
     _setExpires(expires) {
       this.db.set("expires", expires);
     },
-    getExpiresTime(expires) {
-      return Date.now() + expires * 1000;
+    getExpiresTime(expires, timestamp = null) {
+      if (timestamp) return (timestamp * 1000) + (expires * 1000);
+      else return Date.now() + expires * 1000;
     },
-    setTokenInfo(token, refreshToken, expires) {
+    setTokenInfo(token, refreshToken, expires, timestamp = null) {
       this._setToken(token);
       this._setRefreshToken(refreshToken);
-      this._setExpires(this.getExpiresTime(expires));
+      this._setExpires(this.getExpiresTime(expires, timestamp));
     },
     generateMeta({ document }) {
       const {
@@ -79,21 +80,28 @@ module.exports = {
       };
     },
   },
-  async run() {
-    const expires = this._getExpires("expires");
-    if (expires <= Date.now()) {
-      const {
-        id_token: idToken,
-        refresh_token: refreshToken,
-        expires_in: expiresIn,
-      } = await this.firebase.refreshToken(this.apiKey);
-      this.setTokenInfo(idToken, refreshToken, expiresIn);
+  async run(event) {
+    // refresh the authorization token if it will expire before the next run
+    const { timestamp, interval_seconds: intervalSeconds } = event;
+    if (intervalSeconds) {
+      const intervalMs = 1000 * intervalSeconds;
+      const nextRun = (timestamp * 1000) + intervalMs;
+      const expires = this._getExpires("expires");
+      if (expires <= nextRun) {
+        const refreshToken = this._getRefreshToken('refreshToken');
+        const {
+          id_token: newToken,
+          refresh_token: newRefreshToken,
+          expires_in: expiresIn,
+        } = await this.firebase.refreshToken(this.apiKey, refreshToken);
+        this.setTokenInfo(newToken, newRefreshToken, expiresIn, timestamp);
+      }
     }
 
+    const token = this._getToken();
     const { projectId } = this.firebase.$auth;
     const parent = `projects/${projectId}/databases/(default)/documents`;
     const structuredQuery = JSON.parse(this.query);
-    const token = this._getToken();
 
     const queryResults = await this.firebase.runQuery(
       token,
