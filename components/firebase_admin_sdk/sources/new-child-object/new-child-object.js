@@ -45,10 +45,13 @@ module.exports = {
       });
     });
 
-    for (const [key, value] of Object.entries(children)) {
+    for (const [
+      key,
+      value
+    ] of Object.entries(children)) {
       const meta = this.generateMeta(key, timestamp);
       const child = {
-        key: value 
+        key: value,
       };
       this.$emit(child, meta);
     }

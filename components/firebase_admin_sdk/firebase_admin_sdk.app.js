@@ -127,7 +127,7 @@ module.exports = {
      * Returns an array of the documents returned from the structured query.
      * @param {string} token - Bearer token for use in request header
      * @param {string} parent - The parent resource name
-     * @param {string} structuredQuery - A structured query in the format specified in 
+     * @param {string} structuredQuery - A structured query in the format specified in
      * this documentation:
      * https://cloud.google.com/firestore/docs/reference/rest/v1/StructuredQuery
      */
