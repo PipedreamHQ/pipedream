@@ -10,7 +10,11 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    path: { propDefinition: [common.props.firebase, "path"] },
+    path: { 
+      propDefinition: [
+        common.props.firebase, "path"
+      ] 
+    },
   },
   methods: {
     ...common.methods,
@@ -38,7 +42,7 @@ module.exports = {
         children = snapshot.val();
         resolve();
       });
-    });  
+    });
 
     for (const [key, value] of Object.entries(children)) {
       const meta = this.generateMeta(key, timestamp);

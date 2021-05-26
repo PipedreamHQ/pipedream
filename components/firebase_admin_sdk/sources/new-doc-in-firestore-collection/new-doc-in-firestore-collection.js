@@ -10,14 +10,26 @@ module.exports = {
   props: {
     ...common.props,
     db: "$.service.db",
-    apiKey: { propDefinition: [common.props.firebase, "apiKey"] },
-    query: { propDefinition: [common.props.firebase, "query"] },
+    apiKey: { 
+      propDefinition: [
+        common.props.firebase, "apiKey"
+      ] 
+    },
+    query: { 
+      propDefinition: [
+        common.props.firebase, "query"
+      ] 
+    },
   },
   hooks: {
     ...common.hooks,
     async deploy() {
       await this.firebase.initializeApp();
-      const { idToken, refreshToken, expiresIn } = await this.firebase.getToken(
+      const { 
+        idToken, 
+        refreshToken, 
+        expiresIn,
+      } = await this.firebase.getToken(
         this.apiKey
       );
       this.setTokenInfo(idToken, refreshToken, expiresIn);
@@ -53,7 +65,10 @@ module.exports = {
       this._setExpires(this.getExpiresTime(expires));
     },
     generateMeta({ document }) {
-      const { name, createTime } = document;
+      const { 
+        name, 
+        createTime 
+      } = document;
       const id = name.substring(name.lastIndexOf("/") + 1);
       return {
         id,
@@ -62,15 +77,15 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const expires = this._getExpires("expires");
-    if (expires <= Date.now) {
+    if (expires <= Date.now()) {
       const {
         id_token: idToken,
         refresh_token: refreshToken,
         expires_in: expiresIn,
       } = await this.firebase.refreshToken(this.apiKey);
-      this.setTokenInfo(token, refreshToken, expiresIn);
+      this.setTokenInfo(idToken, refreshToken, expiresIn);
     }
 
     const { projectId } = this.firebase.$auth;
@@ -81,7 +96,7 @@ module.exports = {
     const queryResults = await this.firebase.runQuery(
       token,
       parent,
-      structuredQuery
+      structuredQuery,
     );
 
     for (const result of queryResults) {

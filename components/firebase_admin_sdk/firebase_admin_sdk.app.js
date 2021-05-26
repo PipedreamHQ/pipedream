@@ -29,7 +29,11 @@ module.exports = {
      * Creates and initializes a Firebase app instance.
      */
     async initializeApp() {
-      const { projectId, clientEmail, privateKey } = this.$auth;
+      const { 
+        projectId, 
+        clientEmail, 
+        privateKey 
+      } = this.$auth;
       const formattedPrivateKey = privateKey.replace(/\\n/g, "\n");
       return await admin.initializeApp({
         credential: admin.credential.cert({
@@ -57,8 +61,11 @@ module.exports = {
       const defaultHeader = {
         "Content-Type": "applicaton/json",
       };
-      const headers = token
-        ? { ...defaultHeader, Authorization: `Bearer ${token}` }
+      const headers = token ? 
+        { 
+          ...defaultHeader, 
+          Authorization: `Bearer ${token}` 
+        } 
         : defaultHeader;
       return headers;
     },
@@ -73,10 +80,11 @@ module.exports = {
     },
     /**
      * Retrieves a Bearer token for use with the Firebase REST API.
-     * @param {string} apiKey - the Web API Key, which is obtained from the project settings page in the admin console
+     * @param {string} apiKey - the Web API Key, which is obtained from the project 
+     * settings page in the admin console
      */
     async getToken(apiKey) {
-      const { projectId, clientEmail, privateKey } = this.$auth;
+      const { clientEmail } = this.$auth;
       let newCustomToken;
       await admin
         .auth()
@@ -94,13 +102,15 @@ module.exports = {
       return await this._makeRequest(
         "POST",
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${apiKey}`,
-        data
+        data,
       );
     },
     /**
      * Exchanges a refresh Token for a new Bearer token for use with the Firebase REST API.
-     * @param {string} apiKey - the Web API Key, which is obtained from the project settings page in the admin console
-     * @param {string} refreshToken - the refreshToken previously retrieved in the function getToken(apiKey).
+     * @param {string} apiKey - the Web API Key, which is obtained from the project settings 
+     * page in the admin console
+     * @param {string} refreshToken - the refreshToken previously retrieved in the function 
+     * getToken(apiKey).
      */
     async refreshToken(apiKey, refreshToken) {
       const data = {
@@ -110,7 +120,7 @@ module.exports = {
       return await this._makeRequest(
         "POST",
         `https://securetoken.googleapis.com/v1/token?key=${apiKey}`,
-        data
+        data,
       );
     },
     /**
