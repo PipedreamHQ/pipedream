@@ -2,41 +2,44 @@
 
 In a previous example, we connected our Google Sheets account and used it in a no code action. In this example, let's use the same connected account to authenticate a Google Sheets API request in a code step. This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to:
 
-1. Scaffold an API request for an app in Node.js
-2. Customize scaffolded code based on the API docs for an app
-3. Use a connected account in a code step
+[[toc]]
+
+### Scaffold an API request for an app in Node.js
 
 First, expand the step selector right before `steps.respond`.
 
-![image-20210522193850085](../images/image-20210522193850085.png)
+![image-20210525184626570](./image-20210525184626570.png)
 
 Select the **Google Sheet** app and select the **Run Node.js with Google Sheets** action:
 
-![image-20210522194158974](../images/image-20210522194158974.png)
+![image-20210525184659283](./image-20210525184659283.png)
 
 This will add a code step scaffolded to use the Google Sheets API. 
 
-![image-20210522194314155](../images/image-20210522194314155.png)
+![image-20210525184735774](./image-20210525184735774.png)
 
+### Use a connected account in a code step
 Let's test the scaffolded code. First, select the same account you used in the previous step (to save data to Google Sheets). It needs to be the same account because we're going to retrieve data from that sheet in just a moment. 
 
-![image-20210522194503418](../images/image-20210522194503418.png)
+![select-account](./select-account.gif)
 
-Then **Deploy** the workflow and **Replay** the last successful event (if you replay a `facicon.ico` request the workflow will end early and this step won't run). Select the event to inspect the exports for this step — you should see the results from Google's `/userinfo` API.
+Then **Deploy** the workflow and **Replay** the last successful event (if you replay a `favicon.ico` request the workflow will end early and this step won't run). Select the event to inspect the exports for this step — you should see the results from Google's `/userinfo` API.
 
-![image-20210522201843491](../images/image-20210522201843491.png)
+![image-20210525185209154](./image-20210525185209154.png)
+
+### Use standard API docs to customize scaffolded code
 
 Next, let's customize the API request to retrieve all the ISS positions we added to Google Sheets in our previous tests so we can return them in our workflow response. Based on a quick Google search, we can find the details we need in [Google's developer documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get). We need to make a `GET` request to `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}`. 
 
-![image-20210522195448627](../images/image-20210522195448627.png)
+![image-20210522195448627](./image-20210522195448627.png)
 
 All we need to do is modify the scaffolded code. First, replace the scaffolded URL of `https://www.googleapis.com/oauth2/v1/userinfo` with `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}`
 
-![image-20210522195720596](../images/image-20210522195720596.png)
+![image-20210522195720596](./image-20210522195720596.png)
 
 Next, we need to replace `{spreadsheetId}` and `{range}` with the actual values. Since we added a row to Google Sheets, we can get this from the exports for `steps.add_single_row`. 
 
-![image-20210522202219154](../images/image-20210522202219154.png)
+![image-20210525185600151](./image-20210525185600151.png)
 
 1. Add a `$` before both `{spreadsheetId}` and `{range}` to convert the references to template literals (since the URL in enclosed in backticks, we can write code between `${...}`).  
 2. Replace `spreadsheetId` with `steps.add_single_row.$return_value.spreadsheetId`. 
@@ -53,15 +56,17 @@ return await require("@pipedreamhq/platform").axios(this, {
 })
 ```
 
-![image-20210522203008456](../images/image-20210522203008456.png)
+![image-20210525185700814](./image-20210525185700814.png)
 
 When you're ready, **Deploy** and test your workflow again. If you select the event and expand the return value for `steps.google_sheets` you'll see the headers and data from the Google Sheet.
 
-![image-20210522203106865](../images/image-20210522203106865.png)
+![image-20210525185811243](./image-20210525185811243.png)
+
+### Use a code snippet from Stack Overflow to transform the API response
 
 While we can update our response to return this data, let's add one more code step to transform it from an array of arrays to an array of objects (using the header values for the keys). Since we can easily transform data using Node.js, we can write the code if we know it or we can search Google for snippets to adapt. In this case, a quick Google Search turns up a [Stack Overflow post](https://stackoverflow.com/questions/58050534/javascript-make-a-key-value-data-structure-from-2-dimensional-arrayheader-row) with sample code we can use as a starting point.
 
-![image-20210522200959041](../images/image-20210522200959041.png)
+![image-20210522200959041](./image-20210522200959041.png)
 
 Let's modify the code from that post:
 
@@ -88,11 +93,11 @@ function rowsToObjects(headers, rows){
 
 Add a **Run Node.js code** step between `steps.google_sheets` and `steps.respond` and name it `steps.transform`. Then add the code above.
 
-![image-20210522204739040](../images/image-20210522204739040.png)
+![image-20210525185923633](./image-20210525185923633.png)
 
 Next, **Deploy** and test your workflow to validate the step returns the data you expect.
 
-![image-20210522204853636](../images/image-20210522204853636.png)
+![image-20210525190008161](./image-20210525190008161.png)
 
 Next, update `steps.respond` to return `steps.transform.$return_value` as the body of the HTTP response.
 
@@ -104,12 +109,13 @@ await $respond({
 })
 ```
 
-![image-20210522205017670](../images/image-20210522205017670.png)
+![image-20210525190105053](./image-20210525190105053.png)
 
 Finally, **Deploy** and load the endpoint URL for your workflow in a browser. You should see the data from Google Sheets with all the positions you recorded for the ISS returned as your workflow response (including the most recent position recorded when you loaded the endpoint):
 
-![image-20210522205250181](../images/image-20210522205250181.png)
+![image-20210525190356903](./image-20210525190356903.png)
 
 This was all done without exposing any API keys on the client side.
 
 **Next, we'll run a simple workflow on a schedule to keep this serverless workflow "warm". [Take me to the next example &rarr;](../run-workflow-on-a-schedule/)**
+

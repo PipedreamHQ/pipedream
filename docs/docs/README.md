@@ -51,7 +51,7 @@ Watch a demo (4 mins):
 
 ## Is Pipedream for me?
 
-If you or your team work with APIs and don't want to write boilerplate code, struggle with authentication and manage infrastructure, then Pipedream is for you. We make it easy to connect APIs with code-level control when you need it — and no code when you don't. 
+We make it easy to connect APIs with code-level control when you need it — and no code when you don't. If you and your team wants to stop writing boilerplate code, struggling with authentication and managing infrastructure for API integrations, then Pipedream is for you. 
 
 Developers with a working knowledge of Node.js or Javascript will get the most value from Pipedream (Python, Typescript. and GitHub integration are coming soon).
 
@@ -63,7 +63,7 @@ Pipedream is trusted by 150k+ developers from startups to Fortune 500 companies:
 
 ## Getting Started
 
-We recommend starting with our [quickstart guide](/quickstart/) to learn basic workflow development patterns:
+Sign up for a [free account (no credit card required)](https://pipedream.com/auth/signup) and complete our [quickstart guide](/quickstart/) to learn the basic patterns for workflow development:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 
@@ -85,11 +85,11 @@ Pipdream supports use cases from protototype to production and is trusted by 150
 
 The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) to use at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart. 
 
-Our community uses Pipedream for a wide variety of use cases including:
+Our [community](https://pipedream.com/community) uses Pipedream for a wide variety of use cases including:
 
-- API orchestration and automation
-- Database automations (learn about [connecting to resources behind a firewall](/workflows/steps/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host))
 - Connecting SaaS apps
+- General API orchestration and automation
+- Database automations (learn about [connecting to resources behind a firewall](/workflows/steps/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host))
 - Custom notifications and alerting
 - Mobile and JAMstack backends
 - Rate limiting, request smoothing
@@ -103,7 +103,7 @@ Pipedream maintains an open source registry of source and action components on G
 
 ## Contributing
 
-Our hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform including:
+We hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform including:
 
 - Contributing open source components to our registry or sharing via your own Github repo
 - Ask and answer questions in our [public community](https://pipedream.com/community/)

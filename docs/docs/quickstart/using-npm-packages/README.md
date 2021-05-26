@@ -2,18 +2,25 @@
 
 Next, let's replace the **GET Request** action with a code step that uses the `axios` npm package. This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to:
 
-- Delete a step
-- Use an npm pacakge in a code step
+[[toc]]
+
+### Delete a step
 
 First, delete `steps.get_request` by clicking the **X** buttton at the top right of the step.
 
-![image-20210516212047297](../images/image-20210516212047297.png)
+![image-20210525175501367](./image-20210525175501367.png)
 
-Next, click the **+** button and add a **Run Node.js code** step between `steps.trigger` and `steps.nodejs`. Pipedream will add a new step called `steps.nodejs_1`:
+### Use an npm package in a code step
 
-![image-20210516212506585](../images/image-20210516212506585.png)
+Let's replace the action with a code step. Next, click the **+** button and add a **Run Node.js code** step between `steps.trigger` and `steps.respond`. Pipedream will add a new step called `steps.nodejs`.
 
-Next, we'll add code to `steps.nodejs_1` to get the position of ISS using the `axios` npm package. To do that, simply `require` it — there's no `npm install` or `package.json` required (Pipedream automatically installs any npm package you `require`).
+![image-20210525175626293](./image-20210525175626293.png)
+
+Next, rename the step from `steps.nodejs` to `steps.get_iss_position` (since we're replacing the **GET Request** action and `steps.get_iss_position.$return_value.iss_position` is referenced in the `$respond()` function of the last step):
+
+![rename-nodejs](./rename-nodejs.gif)
+
+Next, we'll add code to `steps.get_iss_position` to get the position of ISS using the `axios` npm package. To do that, simply `require` it — there's no `npm install` or `package.json` required (Pipedream automatically installs any npm package you `require`).
 
 ```javascript
 const axios = require('axios')
@@ -47,12 +54,12 @@ const response = await axios({
 return response.data
 ```
 
-Next, rename the step from `steps.nodejs_1` to `steps.get_request` (since we're replacing the **GET Request** action and `steps.get_request.$return_value.iss_position` is referenced in the `$respond()` function of the last step):
+Next, **Deploy** your changes and reload the endpoint URL in your browser. You should continue to see the latest ISS position returned. 
 
-![image-20210516213201525](../images/image-20210516213201525.png)
+![reload-iss-position](./reload-iss-position.gif)
 
-Next, **Deploy** your changes and reload the endpoint URL in your browser. You should continue to see the latest ISS position returned. Return to your workflow and select the event that corresponds with your most recent test. You should see the `steps.get_request` code step output the ISS position similar to the **GET Request** action you just replaced.
+Return to your workflow and select the event that corresponds with your most recent test. You should see the `steps.get_request` code step output the ISS position similar to the **GET Request** action you just replaced.
 
-![image-20210516213527109](../images/image-20210516213527109.png)
+![image-20210525181057299](./image-20210525181057299.png)
 
 **Next, let's transform data returned by the ISS API and save it to Google Sheets.** [Take me to the next example &rarr;](../add-data-to-google-sheets/) 

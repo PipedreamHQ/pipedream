@@ -1,6 +1,6 @@
 # Introduction
 
-It typically takes about 30 - 40 minutes to complete this guide. After completing it, you will understand how to:
+Sign up for a [free Pipedream account (no credit card required)](https://pipedream.com/auth/signup) and complete this quickstart guide to learn the basic patterns for workflow development:
 
 - Trigger workflows on HTTP requests, schedules and app events
 - Return a custom response from your workflow on HTTP requests 
@@ -10,16 +10,15 @@ It typically takes about 30 - 40 minutes to complete this guide. After completin
 - Scaffold an API request in Node.js
 - End workflow execution early
 
-If you don't have a Pipedream account, create one for free at [https://pipedream.com](https://pipedream.com) before getting started (no credit card required).
-
-::: tip
-If you need help completing the examples in the quickstart, search our public community at [https://pipdedream.com/commmunity](https://pipdedream.com/commmunity) or post a new question.
-:::
-
-This guide starts with simple examples to introduce basic concepts and builds up to a real-world use case to post richly formatted Tweets to Slack. **Most examples build on progress made in earlier ones, so we strongly recommend that you complete them in order**.
+<!--This guide [starts with simple examples](/quickstart/hello-world) to cover basic Pipedream concepts and builds up to a [real-world use case](/quickstart/real-world-example/) to post richly formatted Tweets to Slack.-->
 
 <!--![image-20210518194229746](./images/image-20210518194229746.png)-->
 
+ Most examples in this guide build on the same workflow, so we strongly recommend that you complete them in order.
+
+<!--![image-20210518194229746](./images/image-20210518194229746.png)-->
+
+<!--
 1. [hello world!](/quickstart/hello-world/)
 2. [hello ${name}!](/quickstart/hello-name/)
 3. [Make outbound HTTP requests](/quickstart/make-http-request/) 
@@ -30,8 +29,24 @@ This guide starts with simple examples to introduce basic concepts and builds up
 8. [Run a workflow on a schedule](/quickstart/run-workflow-on-a-schedule/) 
 9. [Email yourself on new items in an RSS feed](/quickstart/email-yourself/) 
 10. [Real-world Twitter -> Slack](/quickstart/real-world-example/) 
+-->
 
-**Ready to get started? [Take me to the first example &rarr;](/quickstart/hello-world/)**
+<p style="text-align:center;">
+<a href="/quickstart/hello-world/"><img src="./image-20210525103725779.png"></a>
+</p>
+
+::: tip
+After you complete this guide and understand the basics, explore [advanced features](/quickstart/next-steps/) like state management, concurrency and execution rate controls and more.
+:::
+
+<!--**Ready to get started? [`hello world!` &rarr;](/quickstart/hello-world/)**-->
+
+<!--
+
+::: tip
+If you need help completing the examples in the quickstart, search our public community at [https://pipdedream.com/commmunity](https://pipdedream.com/commmunity) or post a new question.
+:::
+-->
 
 <!--
 After you're done, explore Pipedream's [advanced capabilities](/quickstart/next-steps/) to build even more powerful workflows!

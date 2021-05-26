@@ -2,37 +2,39 @@
 
 Next, let run a workflow on a schedule to keep our HTTP triggered workflow "warm". This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to:
 
-1. Create a workflow using the schedule trigger
-2. Run a scheduled workflow manually to test it
-3. Configure a schedule
+[[toc]]
 
 For context, it's common for serverless functions that have not been recently invoked to go "cold". "Cold" functions take about 500 milliseconds longer to run than "warm" functions. For many applications, this intermittent latency is insignificant. However, we'll demonstrate how to use a scheduled workflow to to keep our HTTP-triggered workflow "warm" by invoking it every 3 minutes. 
 
-First, create a new workflow and select the **Schedule** trigger (we'll modify the HTTP triggered workflow in a moment, **so it's best to create this workflow in a separate tab**):
+### Create a workflow using the schedule trigger
 
-![image-20210523214546723](../images/image-20210523214546723.png)
+First, create a new workflow. Then name it `Schedule Quickstart` and select the **Schedule** trigger (we'll modify the HTTP triggered workflow in a moment, **so it's best to create this workflow in a separate tab**):
+
+![image-20210525190912450](./image-20210525190912450.png)
 
 Next, add a step, select the **HTTP / Webhook** app and the **GET Request** action.
 
-![image-20210523215011598](../images/image-20210523215011598.png)
+![image-20210525190953091](./image-20210525190953091.png)
 
 Enter the endpoint URL for the workflow you built in the previous examples and add `/keepwarm` to the path (e.g., `https://YOUR-ENDPOINT-ID.m.pipedream.net/keepwarm`).
 
-![image-20210523215442060](../images/image-20210523215442060.png)
+![image-20210525191155803](./image-20210525191155803.png)
+
+### Run a scheduled workflow manually to test it
 
  Next, **Deploy** and click **Run Now** to test your workflow.
 
-![image-20210523215512573](../images/image-20210523215512573.png)
+![image-20210525191406036](./image-20210525191406036.png)
 
 When it runs, you'll notice that `steps.get_request` returned an array of objects. That means the HTTP workflow ran end-to-end — including getting the latest ISS position and adding it to Google Sheets:
 
-![image-20210523220307523](../images/image-20210523220307523.png)
+![image-20210525191520789](./image-20210525191520789.png)
 
 However, we don't want that to happen on our `/keepwarm` invocations. Let's fix that by adding a `$end()` statement to the HTTP workflow. 
 
 Return to our HTTP triggered workflow, select the most recent event and expand `steps.trigger.raw_event`. The `uri` for the request should be `/keepwarm`. 
 
-![image-20210523220812279](../images/image-20210523220812279.png)
+![image-20210525191622270](./image-20210525191622270.png)
 
 Let's use that field for our filter. When requests are made to the `/keepwarm` path, let's respond with an HTTP `204` no content response and end the workflow invocation.
 
@@ -46,19 +48,21 @@ if(steps.trigger.raw_event.uri === '/keepwarm') {
 }
 ```
 
-![image-20210523221012339](../images/image-20210523221012339.png)
+![image-20210525191725278](./image-20210525191725278.png)
 
 **Deploy** the HTTP workflow, return to the scheduled workflow and click **Run Now** again. This time, no content should be returned from `steps.get_request`:
 
-![image-20210523221235362](../images/image-20210523221235362.png)
+![image-20210525191829397](./image-20210525191829397.png)
 
 If you check the HTTP workflow, you should see the workflow execution ended at `steps.filter_keepwarm`:
 
-![image-20210523221403231](../images/image-20210523221403231.png)
+![image-20210525191854260](./image-20210525191854260.png)
+
+### Configure a schedule
 
 Finally, return to the scheduled workflow, schedule it to run on an inverval of every 3 minutes, and **Deploy** to update the workflow:
 
-![image-20210523221542187](../images/image-20210523221542187.png)
+![image-20210525191935400](./image-20210525191935400.png)
 
 Your scheduled workflow will now run every 3 minutes — 24 hours a day, 7 days a week.
 
