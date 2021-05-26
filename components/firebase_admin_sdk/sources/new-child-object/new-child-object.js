@@ -47,7 +47,7 @@ module.exports = {
 
     for (const [
       key,
-      value
+      value,
     ] of Object.entries(children)) {
       const meta = this.generateMeta(key, timestamp);
       const child = {
