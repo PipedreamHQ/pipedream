@@ -29,10 +29,10 @@ module.exports = {
      * Creates and initializes a Firebase app instance.
      */
     async initializeApp() {
-      const { 
-        projectId, 
-        clientEmail, 
-        privateKey 
+      const {
+        projectId,
+        clientEmail,
+        privateKey,
       } = this.$auth;
       const formattedPrivateKey = privateKey.replace(/\\n/g, "\n");
       return await admin.initializeApp({
@@ -61,11 +61,11 @@ module.exports = {
       const defaultHeader = {
         "Content-Type": "applicaton/json",
       };
-      const headers = token ? 
-        { 
-          ...defaultHeader, 
-          Authorization: `Bearer ${token}` 
-        } 
+      const headers = token ?
+        {
+          ...defaultHeader,
+          Authorization: `Bearer ${token}`,
+        }
         : defaultHeader;
       return headers;
     },
@@ -80,7 +80,7 @@ module.exports = {
     },
     /**
      * Retrieves a Bearer token for use with the Firebase REST API.
-     * @param {string} apiKey - the Web API Key, which is obtained from the project 
+     * @param {string} apiKey - the Web API Key, which is obtained from the project
      * settings page in the admin console
      */
     async getToken(apiKey) {
@@ -107,9 +107,9 @@ module.exports = {
     },
     /**
      * Exchanges a refresh Token for a new Bearer token for use with the Firebase REST API.
-     * @param {string} apiKey - the Web API Key, which is obtained from the project settings 
+     * @param {string} apiKey - the Web API Key, which is obtained from the project settings
      * page in the admin console
-     * @param {string} refreshToken - the refreshToken previously retrieved in the function 
+     * @param {string} refreshToken - the refreshToken previously retrieved in the function
      * getToken(apiKey).
      */
     async refreshToken(apiKey, refreshToken) {
@@ -127,7 +127,8 @@ module.exports = {
      * Returns an array of the documents returned from the structured query.
      * @param {string} token - Bearer token for use in request header
      * @param {string} parent - The parent resource name
-     * @param {string} structuredQuery - A structured query in the format specified in this documentation:
+     * @param {string} structuredQuery - A structured query in the format specified in 
+     * this documentation:
      * https://cloud.google.com/firestore/docs/reference/rest/v1/StructuredQuery
      */
     async runQuery(token, parent, structuredQuery) {
@@ -138,7 +139,7 @@ module.exports = {
         "POST",
         `https://firestore.googleapis.com/v1/${parent}:runQuery`,
         data,
-        token
+        token,
       );
     },
   },

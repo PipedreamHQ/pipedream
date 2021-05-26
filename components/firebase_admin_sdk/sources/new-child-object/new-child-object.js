@@ -10,10 +10,11 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    path: { 
+    path: {
       propDefinition: [
-        common.props.firebase, "path"
-      ] 
+        common.props.firebase,
+        "path",
+      ],
     },
   },
   methods: {
@@ -46,7 +47,9 @@ module.exports = {
 
     for (const [key, value] of Object.entries(children)) {
       const meta = this.generateMeta(key, timestamp);
-      const child = { key: value };
+      const child = {
+        key: value 
+      };
       this.$emit(child, meta);
     }
   },

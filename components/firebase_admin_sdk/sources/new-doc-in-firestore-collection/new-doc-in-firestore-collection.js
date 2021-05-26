@@ -10,27 +10,29 @@ module.exports = {
   props: {
     ...common.props,
     db: "$.service.db",
-    apiKey: { 
+    apiKey: {
       propDefinition: [
-        common.props.firebase, "apiKey"
-      ] 
+        common.props.firebase,
+        "apiKey",
+      ],
     },
-    query: { 
+    query: {
       propDefinition: [
-        common.props.firebase, "query"
-      ] 
+        common.props.firebase,
+        "query",
+      ],
     },
   },
   hooks: {
     ...common.hooks,
     async deploy() {
       await this.firebase.initializeApp();
-      const { 
-        idToken, 
-        refreshToken, 
+      const {
+        idToken,
+        refreshToken,
         expiresIn,
       } = await this.firebase.getToken(
-        this.apiKey
+        this.apiKey,
       );
       this.setTokenInfo(idToken, refreshToken, expiresIn);
       await this.firebase.deleteApp();
@@ -65,9 +67,9 @@ module.exports = {
       this._setExpires(this.getExpiresTime(expires));
     },
     generateMeta({ document }) {
-      const { 
-        name, 
-        createTime 
+      const {
+        name,
+        createTime,
       } = document;
       const id = name.substring(name.lastIndexOf("/") + 1);
       return {
