@@ -8,31 +8,31 @@ For context, it's common for serverless functions that have not been recently in
 
 ### Create a workflow using the schedule trigger
 
-First, create a new workflow. Then name it `Schedule Quickstart` and select the **Schedule** trigger (we'll modify the HTTP triggered workflow in a moment, **so it's best to create this workflow in a separate tab**):
+First, create a new workflow. Then name it `Schedule Quickstart` and select the **Schedule** trigger (we'll modify the HTTP triggered workflow in a moment, **so we recommend creating this workflow in a separate tab**):
 
 ![image-20210525190912450](./image-20210525190912450.png)
 
-Next, add a step, select the **HTTP / Webhook** app and the **GET Request** action.
+Next, expand the step menu and select the **GET Request** action in the **HTTP / Webhook** app.
 
 ![image-20210525190953091](./image-20210525190953091.png)
 
-Enter the endpoint URL for the workflow you built in the previous examples and add `/keepwarm` to the path (e.g., `https://YOUR-ENDPOINT-ID.m.pipedream.net/keepwarm`).
+Enter the endpoint URL to trigger the workflow you built in the previous examples and add `/keepwarm` to the path (e.g., `https://YOUR-ENDPOINT-ID.m.pipedream.net/keepwarm`).
 
 ![image-20210525191155803](./image-20210525191155803.png)
 
 ### Run a scheduled workflow manually to test it
 
- Next, **Deploy** and click **Run Now** to test your workflow.
+Next, **Deploy** and click **Run Now** to test your workflow.
 
 ![image-20210525191406036](./image-20210525191406036.png)
 
-When it runs, you'll notice that `steps.get_request` returned an array of objects. That means the HTTP workflow ran end-to-end — including getting the latest ISS position and adding it to Google Sheets:
+When you inspect the execution, you'll notice that `steps.get_request` returned an array of objects. That means the HTTP workflow ran end-to-end — including getting the latest ISS position and adding it to Google Sheets:
 
 ![image-20210525191520789](./image-20210525191520789.png)
 
 However, we don't want that to happen on our `/keepwarm` invocations. Let's fix that by adding a `$end()` statement to the HTTP workflow. 
 
-Return to our HTTP triggered workflow, select the most recent event and expand `steps.trigger.raw_event`. The `uri` for the request should be `/keepwarm`. 
+Switch back to your HTTP triggered workflow, select the most recent event and expand `steps.trigger.raw_event`. The `uri` for the request should be `/keepwarm`. 
 
 ![image-20210525191622270](./image-20210525191622270.png)
 
@@ -60,10 +60,14 @@ If you check the HTTP workflow, you should see the workflow execution ended at `
 
 ### Configure a schedule
 
-Finally, return to the scheduled workflow, schedule it to run on an inverval of every 3 minutes, and **Deploy** to update the workflow:
+Finally, return to the scheduled workflow, configure it to run every 3 minutes, and **Deploy** to update trigger configuration:
 
 ![image-20210525191935400](./image-20210525191935400.png)
 
 Your scheduled workflow will now run every 3 minutes — 24 hours a day, 7 days a week.
 
-**Next, we'll create a workflow using an app trigger to run a workflow every time there is a new item in an RSS feed.** [Take me to the next example &rarr;](../email-yourself/) 
+**Next, we'll create a workflow using an app trigger to run a workflow every time there is a new item in an RSS feed.**
+
+<p style="text-align:center;">
+<a href="/quickstart/email-yourself/"><img src="../next.png"></a>
+</p>

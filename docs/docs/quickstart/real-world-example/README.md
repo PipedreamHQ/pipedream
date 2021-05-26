@@ -1,8 +1,10 @@
 # Real-world Twitter -> Slack
 
-For the last example in this quickstart, we'll use many of the patterns covered in [earlier examples](/quickstart) to solve a real-world use case and will cover how to:
+For the last example in this quickstart, we'll use many of the patterns introduced in [earlier examples](/quickstart) to solve a real-world use case and will cover how to:
 
-[[toc]]
+- [Trigger a workflow anytime @pipedream is mentioned on Twitter](#trigger-a-workflow-anytime-pipedream-https-twitter-com-pipedream-is-mentioned-on-twitter)
+- [Construct a message in Node.js using Slack Block Kit](#construct-a-message-in-node-js-using-slack-block-kit)
+- [Use an action to post the formatted message to a Slack channel](#use-an-action-to-post-the-formatted-message-to-a-slack-channel)
 
 Following is an example of a Tweet that we'll richly format and post to Slack:
 
@@ -47,13 +49,164 @@ We can use Slack's Block Kit Builder to create a [JSON message template with pla
 
 ![image-20210519012640800](./image-20210519012640800.png)
 
- The action we will use accepts the array of blocks, so we'll extract that and export a populated array from our code step (i.e., we don't need to generate the entire JSON payload).
+ The action we will use accepts the array of blocks, so let's extract that and export a populated array from our code step (i.e., we don't need to generate the entire JSON payload).
 
 Add a step to **Run Node.js code** and name it `steps.generate_slack_blocks`. 
 
 ![image-20210518201050946](./image-20210518201050946.png)
 
-Next, we'll walk through the code step by step — the complete code for `steps.generate_slack_blocks` can be found below if you want to skip ahead.
+Next, add the following code to `steps.generate_slack_blocks` (a step by step explanation of this code is in the [appendix](#appendix-code-breakdown)):
+
+```javascript
+const ISO6391 = require('iso-639-1')
+const _ = require('lodash') 
+
+// Return a friendly language name for ISO language codes
+function getLanguageName(isocode) {
+  try { return ISO6391.getName(isocode) } 
+	catch (err) { return 'Unknown' }
+}
+
+// Format numbers over 1000
+function kFormatter(num) {
+    return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
+}
+
+// Format the Tweet as a quoted Slack message
+let quotedMessage = ''
+steps.trigger.event.full_text.split('\n').forEach(line => quotedMessage = quotedMessage + '> ' + line + '\n' )
+
+// Define metadata to include in the Slack message
+const tweetUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/statuses/${steps.trigger.event.id_str}`
+const userUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/`
+const mediaUrl = _.get(steps, 'trigger.event.extended_entities.media[0].media_url_https', '')
+const mediaType = _.get(steps, 'trigger.event.extended_entities.media[0].type', '')
+
+// Format the message as Slack blocks
+// https://api.slack.com/block-kit
+const blocks = []
+blocks.push({
+	"type": "section",
+	"text": {
+		"type": "mrkdwn",
+		"text": `*<${tweetUrl}|New Mention> by <${userUrl}|${steps.trigger.event.user.screen_name}> (${steps.trigger.event.created_at}):*\n${quotedMessage}`
+	},
+		"accessory": {
+			"type": "image",
+			"image_url": steps.trigger.event.user.profile_image_url_https,
+			"alt_text": "Profile picture"
+		}
+})
+
+if(mediaUrl !== '' && mediaType === 'photo') {
+	blocks.push({
+		"type": "image",
+		"image_url": mediaUrl,
+		"alt_text": "Tweet Image"
+	})
+}
+
+blocks.push({
+	"type": "context",
+	"elements": [
+		{
+			"type": "mrkdwn",
+			"text": `*User:* ${steps.trigger.event.user.screen_name}`
+		},
+		{
+			"type": "mrkdwn",
+			"text": `*Followers:* ${kFormatter(steps.trigger.event.user.followers_count)}`
+		},
+		{
+			"type": "mrkdwn",
+			"text": `*Location:* ${steps.trigger.event.user.location}`
+		},
+		{
+			"type": "mrkdwn",
+			"text": `*Language:* ${getLanguageName(steps.trigger.event.lang)} (${steps.trigger.event.lang})`
+		},
+		{
+			"type": "mrkdwn",
+			"text": `*Description:* ${steps.trigger.event.user.description}`
+		}
+	]
+},
+{
+	"type": "actions",
+	"elements": [
+		{
+			"type": "button",
+			"text": {
+				"type": "plain_text",
+				"text": "View on Twitter",
+				"emoji": true
+			},
+			"url": tweetUrl
+		}
+	]
+},
+{
+	"type": "context",
+	"elements": [
+		{
+			"type": "mrkdwn",
+			"text": `Sent via <https://pipedream.com/@/${steps.trigger.context.workflow_id}|Pipedream>`
+		}
+	]
+},
+{
+	"type": "divider"
+})
+
+return blocks
+```
+
+**Deploy** your workflow and send a test event. It should execute successfully and `steps.generate_slack_blocks` should return an array of Slack Blocks with 6 elements:
+
+![image-20210518203135105](./image-20210518203135105.png)
+
+### Use an action to post the formatted message to a Slack channel
+
+Next, click **+** to add a step and select the **Slack** app:
+
+![image-20210525194859085](./image-20210525194859085.png)
+
+Then, scroll or search to find the **Send Message Using Block Kit** action:
+
+![image-20210518203402871](./image-20210518203402871.png)
+
+To configure the step:
+
+1. Connect your Slack account
+2. Select the channel where you want to post the message
+3. Set the **Blocks** field to <code v-pre>{{steps.generate_slack_blocks.$return_value}}</code>
+4. Set the **Notification Text** field to <code v-pre>{{steps.trigger.event.full_text}}</code> (if you don't provide **Notification Text**, Slack's new message alerts may be blank or may not work)
+
+![image-20210518204014823](./image-20210518204014823.png)
+
+Then **Deploy** and send a test event to your workflow.
+
+![image-20210518204100063](./image-20210518204100063.png)
+
+A formatted message should be posted to Slack:
+
+![image-20210518204801812](./image-20210518204801812.png)
+
+Finally, turn on your trigger to run it on every new matching Tweet:
+
+![image-20210518210047896](./image-20210518210047896.png)
+
+To test out your workflow, post a Tweet mentioning `@pipedream` — or [click here to use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20).
+
+![image-20210524211931799](./image-20210524211931799.png)
+
+Your workflow will be triggered the next time the Twitter source runs (every 15 minutes by default, but you can manage your source and customize the interval).
+
+<p style="text-align:center;">
+<a href="/quickstart/next-steps/"><img src="../next.png"></a>
+</p>
+
+### APPENDIX: Code Breakdown
 
 First, `require` the npm packages we need — we'll use the `iso-639-1`  package to convert the language code provided by Twitter into a human readable name, and we'll use `lodash` to help us extract values.
 
@@ -203,152 +356,3 @@ Finally, we'll return the array of blocks:
 ```javascript
 return blocks
 ```
-
-Here is the final, complete code:
-
-```javascript
-const ISO6391 = require('iso-639-1')
-const _ = require('lodash') 
-
-// Return a friendly language name for ISO language codes
-function getLanguageName(isocode) {
-  try { return ISO6391.getName(isocode) } 
-	catch (err) { return 'Unknown' }
-}
-
-// Format numbers over 1000
-function kFormatter(num) {
-    return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
-}
-
-// Format the Tweet as a quoted Slack message
-let quotedMessage = ''
-steps.trigger.event.full_text.split('\n').forEach(line => quotedMessage = quotedMessage + '> ' + line + '\n' )
-
-// Define metadata to include in the Slack message
-const tweetUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/statuses/${steps.trigger.event.id_str}`
-const userUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/`
-const mediaUrl = _.get(steps, 'trigger.event.extended_entities.media[0].media_url_https', '')
-const mediaType = _.get(steps, 'trigger.event.extended_entities.media[0].type', '')
-
-// Format the message as Slack blocks
-// https://api.slack.com/block-kit
-const blocks = []
-blocks.push({
-	"type": "section",
-	"text": {
-		"type": "mrkdwn",
-		"text": `*<${tweetUrl}|New Mention> by <${userUrl}|${steps.trigger.event.user.screen_name}> (${steps.trigger.event.created_at}):*\n${quotedMessage}`
-	},
-		"accessory": {
-			"type": "image",
-			"image_url": steps.trigger.event.user.profile_image_url_https,
-			"alt_text": "Profile picture"
-		}
-})
-
-if(mediaUrl !== '' && mediaType === 'photo') {
-	blocks.push({
-		"type": "image",
-		"image_url": mediaUrl,
-		"alt_text": "Tweet Image"
-	})
-}
-
-blocks.push({
-	"type": "context",
-	"elements": [
-		{
-			"type": "mrkdwn",
-			"text": `*User:* ${steps.trigger.event.user.screen_name}`
-		},
-		{
-			"type": "mrkdwn",
-			"text": `*Followers:* ${kFormatter(steps.trigger.event.user.followers_count)}`
-		},
-		{
-			"type": "mrkdwn",
-			"text": `*Location:* ${steps.trigger.event.user.location}`
-		},
-		{
-			"type": "mrkdwn",
-			"text": `*Language:* ${getLanguageName(steps.trigger.event.lang)} (${steps.trigger.event.lang})`
-		},
-		{
-			"type": "mrkdwn",
-			"text": `*Description:* ${steps.trigger.event.user.description}`
-		}
-	]
-},
-{
-	"type": "actions",
-	"elements": [
-		{
-			"type": "button",
-			"text": {
-				"type": "plain_text",
-				"text": "View on Twitter",
-				"emoji": true
-			},
-			"url": tweetUrl
-		}
-	]
-},
-{
-	"type": "context",
-	"elements": [
-		{
-			"type": "mrkdwn",
-			"text": `Sent via <https://pipedream.com/@/${steps.trigger.context.workflow_id}|Pipedream>`
-		}
-	]
-},
-{
-	"type": "divider"
-})
-
-return blocks
-```
-
-**Deploy** your workflow and send a test event. It should execute successfully and `steps.generate_slack_blocks` should return an array of Slack Blocks with 6 elements:
-
-![image-20210518203135105](./image-20210518203135105.png)
-
-### Use an action to post the formatted message to a Slack channel
-
-Next, click **+** to add a step and select the **Slack** app:
-
-![image-20210525194859085](./image-20210525194859085.png)
-
-Then, scroll or search to find the **Send Message Using Block Kit** action:
-
-![image-20210518203402871](./image-20210518203402871.png)
-
-To configure the step:
-
-1. Connect your Slack account
-2. Select the channel where you want to post the message
-3. Set the **Blocks** field to <code v-pre>{{steps.generate_slack_blocks.$return_value}}</code>
-4. Set the **Notification Text** field to <code v-pre>{{steps.trigger.event.full_text}}</code> (if you don't provide **Notification Text**, Slack's new message alerts may be blank or may not work)
-
-![image-20210518204014823](./image-20210518204014823.png)
-
-Then **Deploy** and send a test event to your workflow.
-
-![image-20210518204100063](./image-20210518204100063.png)
-
-A formatted message should be posted to Slack:
-
-![image-20210518204801812](./image-20210518204801812.png)
-
-Finally, turn on your trigger to run it on every event emitted by the source:
-
-![image-20210518210047896](./image-20210518210047896.png)
-
-To test out your workflow, post a Tweet mentioning `@pipedream` — or [click here to use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20).
-
-![image-20210524211931799](./image-20210524211931799.png)
-
-Your workflow will be triggered the next time your trigger runs (every 15 minutes by default, but you can manage your source and customize the interval from https://pipedream.com/sources/).
-
-**Congratulations! You've completed the quickstart and you're ready to start building workflows on Pipedream!** Want to go beyond the basics and use advanced features like state management, concurreny and execution rate management and more? [Beyond the Basics &rarr;](/quickstart/next-steps/)

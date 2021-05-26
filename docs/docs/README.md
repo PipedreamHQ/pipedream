@@ -73,9 +73,12 @@ Sign up for a [free account (no credit card required)](https://pipedream.com/aut
 - Scaffold an API request in Node.js
 - End workflow execution early
 
+<!--
+<p style="text-align:center;">
+<a href="/quickstart/hello-world/"><img src="./quickstart/get-started.png"></a>
+</p>
+-->
 Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or committment. As your needs grow, it's easy to upgrade to paid plans to run without limits for individuals, teams (in alpha) and enterprises.
-
-[Get Started &rarr;](/quickstart/)
 
 ## Use Cases
 
@@ -83,7 +86,7 @@ Pipdream supports use cases from protototype to production and is trusted by 150
 
 ![logos](https://res.cloudinary.com/pipedreamin/image/upload/v1612919944/homepage/logos_kcbviz.png)
 
-The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) to use at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart. 
+The platform processes billions of events and is built and [priced](https://pipedream.com/pricing/) for use at scale. [Our team](https://pipedream.com/about) has built internet scale applications and managed data pipelines in excess of 10 million events per second (EPS) at startups and high-growth environments like BrightRoll, Yahoo!, Affirm and Instacart. 
 
 Our [community](https://pipedream.com/community) uses Pipedream for a wide variety of use cases including:
 
@@ -99,17 +102,17 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 ## Open Source
 
-Pipedream maintains an open source registry of source and action components on GitHub. Reuse these components in workflows so you don't need to write boilerplate code for common API integrations. Or use existing components as scaffolding to customize and publish your own. You can also create a PR contribute new or enhanced components via GitHub.
+Pipedream maintains an [open source component registry](https://github.com/pipedreamhq/pipedream/) on GitHub. Reuse these components in workflows so you don't need to write boilerplate code for common API integrations. Or use existing components as scaffolding to customize and publish your own. You can also [create a PR contribute new or enhanced components](/components/guidelines/#process) via GitHub.
 
 ## Contributing
 
-We hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform including:
+We hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform by:
 
-- Contributing open source components to our registry or sharing via your own Github repo
-- Ask and answer questions in our [public community](https://pipedream.com/community/)
-- Report bugs and request features that will help us build a better product
-- Follow us on [Twitter](https://twitter.com/pipedream), star our [Github repo](https://github.com/PipedreamHQ/pipedream) and subscribe to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)
-- Recommend us to your friends and colleagues
+- [Contributing](/components/guidelines/) open source components to our [registry](https://github.com/pipedreamhq/pipedream.) or sharing via your own Github repo
+- Asking and answering questions in our [public community](https://pipedream.com/community/)
+- Reporting bugs and requesting features that will help us build a better product
+- Following us on [Twitter](https://twitter.com/pipedream), staring our [Github repo](https://github.com/PipedreamHQ/pipedream) and subscribing to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)
+- Recommending us to your friends and colleagues
 
 Learn about [all the ways you can contribute](https://pipedream.com/contributing).
 

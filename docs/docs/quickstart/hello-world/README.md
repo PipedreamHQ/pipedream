@@ -37,15 +37,13 @@ Any requests you make to the endpoint URL will trigger your workflow. To test it
 
 ![image-20210525161201979](./image-20210525161201979.png)
 
-When you return to your workflow, you'll see the requests appear in the event list (events appear in real-time — you don't need to refresh the page). 
+When you return to your workflow, you'll see the requests in the event list (events appear in real-time — you don't need to refresh the page). 
 
 ![image-20210525161233808](./image-20210525161233808.png)
 
 **IMPORTANT:** You may see multiple events appear in the event list each time you load the endpoint URL in a web browsers's address bar. That happens because modern browsers automatically request a `favicon.ico` resource when you load a URL. We'll update our workflow to handle this case in a later section of the quickstart.
 
-When you select an event from the list, the data associated with that event will appear below each of the steps in your workflow. For the trigger, that means details related to the inbound request (e.g., the URL, method, body, headers, query parameters) can be inspected. This data can also be referenced by steps in your workflow via the `steps` object (for example, to use the trigger event in a later step you can reference `steps.trigger.event` — we'll cover this in the next example). 
-
-Click on an event again to de-select it.
+Select an event from the list to inspect the associated exports and logs (click on an event again to de-select it). The HTTP trigger exports  data including the `url` invoked, `method`, `body`, `headers`, `query parameters` and more. This data can also be referenced by steps in your workflow via the `steps` object (for example, to use the trigger event in a later step you can reference `steps.trigger.event` — we'll cover this in the next example). 
 
 ![inspect-events](./inspect-events.gif)
 
@@ -87,4 +85,8 @@ Finally, give your workflow a friendly name like `HTTP Quickstart`.
 
 Congratulations! You just built your first serverless workflow! 
 
-**Next, let's pass data in the HTTP request and use it to customize the workflow response. [Take me to the next example &rarr;](../hello-name/)**
+**Next, let's pass data in the HTTP request and use it to customize the workflow response.**
+
+<p style="text-align:center;">
+<a href="/quickstart/hello-name/"><img src="../next.png"></a>
+</p>

@@ -22,7 +22,7 @@ If you don't see any query data, check the `url` parameter in the `steps.trigger
 
 ### Customize the HTTP response using data sent to the workflow
 
-Next, let's incorporate this data into the workflow response. Expand the code section of `steps.nodejs` if it's collapsed. Then modify the value for the `body` parameter of the `$respond()` function and replace `world` with `${steps.trigger.event.query.name}` to reference the name we're passing to the trigger:
+Next, let's incorporate this data into the workflow response. Expand the code section of `steps.respond` if it's collapsed. Then modify the value for the `body` parameter of the `$respond()` function and replace `world` with `${steps.trigger.event.query.name}` to reference the name we're passing to the trigger:
 
 ```javascript
 await $respond({
@@ -40,4 +40,8 @@ Finally, **Deploy** and reload the URL in your browser:
 
 Your workflow will now return `hello foo!` (or whatever value you pass to `name`) instead of `hello world!`.
 
-**Next, let's add an action to make an HTTP request from this workflow.** [Take me to the next example &rarr;](../make-http-request/) 
+**Next, let's add an action to make an HTTP request from this workflow.**
+
+<p style="text-align:center;">
+<a href="/quickstart/make-http-request/"><img src="../next.png"></a>
+</p>

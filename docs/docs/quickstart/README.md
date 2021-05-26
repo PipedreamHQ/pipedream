@@ -32,13 +32,16 @@ Sign up for a [free Pipedream account (no credit card required)](https://pipedre
 -->
 
 <p style="text-align:center;">
-<a href="/quickstart/hello-world/"><img src="./image-20210525103725779.png"></a>
+<a href="/quickstart/hello-world/"><img src="./get-started.png"></a>
 </p>
 
+*After you complete this guide and understand the basics, explore [advanced features](/quickstart/next-steps/) like state management, concurrency and execution rate controls and more.*
+
+<!--
 ::: tip
 After you complete this guide and understand the basics, explore [advanced features](/quickstart/next-steps/) like state management, concurrency and execution rate controls and more.
 :::
-
+-->
 <!--**Ready to get started? [`hello world!` &rarr;](/quickstart/hello-world/)**-->
 
 <!--

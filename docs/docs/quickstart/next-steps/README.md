@@ -1,6 +1,9 @@
 # Beyond the Basics
 
-Now that you've completed the quickstart for workflows, learn how to:
+**Congratulations! You've completed the quickstart and you're ready to start building workflows on Pipedream!** 
+
+Check out the rest of the docs if you want to learn more about Pipedream's advanced capabilities to:
+
 
 - Maintain state between workflow executions 
 - Manage the execution rate and concurrency of workflow executions
@@ -9,8 +12,6 @@ Now that you've completed the quickstart for workflows, learn how to:
 - Work with the file system in Node.js 
 - Develop custom sources and actions
 - Contribute to the Pipedream registry
-
-Check out the rest of the docs to learn that and more!
 
 Also, be sure to check out the quickstarts for actions and sources (develop locally, push to Pipedream via CLI, and maintain your code in your own Github repo).
 

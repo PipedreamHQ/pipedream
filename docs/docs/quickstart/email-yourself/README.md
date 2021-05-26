@@ -1,6 +1,6 @@
 # Email yourself on new RSS items
 
-Next, let's create a workflow triggered on app events. This example builds on concepts covered in [previous sections](/quickstart/) and will cover how to:
+Next, let's create a workflow triggered on app events. This example builds on concepts introduced in [previous sections](/quickstart/) and will cover how to:
 
 [[toc]]
 
@@ -18,7 +18,7 @@ For this example, let's use the feed of BBC's top stories. Add `http://feeds.bbc
 
 ![image-20210525193800859](./image-20210525193800859.png) 
 
-Next, click **Create Source**. Pipedream will instantiate the source and retrieve recent items from the RSS feed. You can use these events to help you build your workflow (you can expand the drop down menu to select a different event to help you build your workflow).
+Next, click **Create Source**. Pipedream will instantiate the source and retrieve recent items from the RSS feed. You can use these events to help you build your workflow (you can expand the drop down menu to select a different event).
 
 ![image-20210525193936495](./image-20210525193936495.png)
 
@@ -47,7 +47,7 @@ Pipedream will send an email to the email address registered for your Pipedream 
 
 ![image-20210525194431592](./image-20210525194431592.png)
 
-### Run your workflow on new app events
+### Activate the trigger to run your workflow on new app events
 
 Finally, to automatically run the workflow whenever a new item is detected in the RSS feed, enable the trigger.
 
@@ -55,3 +55,6 @@ Finally, to automatically run the workflow whenever a new item is detected in th
 
 **For the final example of this guide, we'll address a real-world use case to post richly formatted Tweets to Slack. [Take me to the last example &rarr;](../real-world-example/)**
 
+<p style="text-align:center;">
+<a href="/quickstart/real-world-example/"><img src="../next.png"></a>
+</p>
