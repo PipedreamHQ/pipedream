@@ -1,79 +1,54 @@
-const hubspot = require("../../hubspot.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emits an event for each new Hubspot event.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
-    hubspot,
-    objectType: {
-      type: "string",
-      label: "Object Type",
-      optional: false,
-      async options(opts) {
-        return [
-          {
-            label: "Companies",
-            value: "company",
-          },
-          {
-            label: "Contacts",
-            value: "contact",
-          },
-          {
-            label: "Deals",
-            value: "deal",
-          },
-          {
-            label: "Tickets",
-            value: "ticket",
-          },
-        ];
-      },
-    },
+    ...common.props,
+    objectType: { propDefinition: [common.props.hubspot, "objectType"] },
     objectIds: {
-      type: "string[]",
-      label: "Object",
-      optional: false,
-      async options() {
-        let objectType = null;
-        if (this.objectType == "company") objectType = "companies";
-          else objectType = `${this.objectType}s`;
-        const results = await this.hubspot.getObjects(objectType);
-        const options = results.map((result) => {
-          if (objectType == "companies") label = result.properties.name;
-          else if (objectType == "contacts")
-            label = `${result.properties.firstname} ${result.properties.lastname}`;
-          else if (objectType == "deals") label = result.properties.dealname;
-          else if (objectType == "tickets") label = result.properties.subject;
-          return { label, value: JSON.stringify({ label, value: result.id }) };
-        });
-        return options;
-      },
+      propDefinition: [
+        common.props.hubspot,
+        "objectIds",
+        (c) => ({ objectType: c.objectType }),
+      ],
     },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+  },
+  hooks: {},
+  methods: {
+    ...common.methods,
+    generateMeta(result) {
+      const { id, eventType } = result;
+      return {
+        id,
+        summary: eventType,
+        ts: Date.now(),
+      };
     },
   },
   async run(event) {
-    const lastRun = this.db.get("occurredAfter") || this.hubspot.monthAgo();
-    const occurredAfter = new Date(lastRun);
+    const occurredAfter = this._getAfter();
 
-    const results = await this.hubspot.getEvents(this.objectIds, this.objectType, occurredAfter.getTime());
-    for (const result of results) {
-      this.$emit(result, {
-        id: result.id,
-        summary: `${result.label} ${result.eventType}`,
-        ts: Date.now(),
-      });
+    for (const objectId of this.objectIds) {
+      const params = {
+        limit: 100,
+        objectType: this.objectType,
+        objectId,
+        occurredAfter,
+      };
+
+      await this.paginate(
+        params,
+        this.hubspot.getEvents.bind(this),
+        "results",
+        occurredAfter
+      );
     }
 
-    this.db.set("occurredAfter", Date.now());
+    this._setAfter(Date.now());
   },
 };

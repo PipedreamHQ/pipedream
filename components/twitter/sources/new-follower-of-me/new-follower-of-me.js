@@ -1,68 +1,62 @@
-const twitter = require('../../twitter.app.js')
+const common = require("../common/followers");
 
 module.exports = {
+  ...common,
   key: "twitter-new-follower-of-me",
   name: "New Follower of Me",
   description: "Emit an event when a user follows you on Twitter",
-  version: "0.0.2",
+  version: "0.0.6",
   props: {
-    db: "$.service.db",
-    twitter,
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+    ...common.props,
+    followersCacheSize: {
+      type: "integer",
+      label: "Followers Cache Size",
+      description: "The maximum amount of follower ID's that will be cached at any given time",
+      min: 10,
+      max: 100,
+      default: 100,
     },
   },
-  async run(event) {
-    const cached = this.db.get("followers") || []
-    const activation = this.db.get("activation") || true
-    let newFollowers = []
-    const followers = (await this.twitter.getFollowers())
-    const latest = [...followers]
-    if (JSON.stringify(latest) === JSON.stringify(cached)) {
-      console.log('No new followers')
-    } else {
-      let lastDeleted
-      let lastGapIndex
-      for (let i = 0; i < cached.length; i++) {
-        if(latest.includes(cached[i])) {
-          delete latest[latest.indexOf(cached[i])]
-          if (i - 1 !== lastDeleted) {
-            //new gap detected
-            lastGapIndex = i
-          }
-          lastDeleted = i
-        }
+  methods: {
+    ...common.methods,
+    _wasComponentExecuted() {
+      return !!this.db.get("hasExecuted");
+    },
+    _markComponentAsExecuted() {
+      this.db.set("hasExecuted", true);
+    },
+    getFollowersCacheSize() {
+      return this.followersCacheSize;
+    },
+    async getRelevantIds() {
+      const mostRecentFollowers = this.getFollowersCache();
+      if (!this._wasComponentExecuted()) {
+        this._markComponentAsExecuted();
+
+        // The first time this event source is executed, it will emit an event
+        // for the most recent followers.
+        // We reverse the list of new followers so that the event source emits the
+        // events for each follower in the same order that the followers followed
+        // the account, from least to most recent.
+        return mostRecentFollowers.reverse();
       }
 
-      if (lastGapIndex >= 0) {
-        latest.length = lastGapIndex + 1
+      const newFollowersGen = this.scanNewFollowers(mostRecentFollowers);
+      const newFollowers = [];
+      for await (const id of newFollowersGen) {
+        newFollowers.push(id);
       }
 
-      // filter out any deleted elements
-      newFollowers = latest.filter(() => true)
+      const followersCache = [
+        ...newFollowers,
+        ...mostRecentFollowers,
+      ];
+      this.setFollowersCache(followersCache);
 
-      // emit up to the most recent 100 followers on the first execution to use for test events
-      if (activation && newFollowers.length > 100) {
-        newFollowers = newFollowers.slice(0, 100)
-      }
-
-      if (newFollowers.length > 0) {
-        (await this.twitter.lookupUsers(newFollowers)).reverse().forEach(user => {
-          this.$emit(user,{
-            summary: user.screen_name,
-            id: user.id_str,
-          })
-        })
-      } else {
-        console.log('No new followers')
-      }
-
-      // set the checkpoint to the full set of followers from the last step
-      this.db.set("followers", followers)
-      this.db.set("activation", false)
-    }
+      // We reverse the list of new followers so that the event source emits the
+      // events for each follower in the same order that the followers followed
+      // the account, from least to most recent.
+      return newFollowers.reverse();
+    },
   },
-}
+};

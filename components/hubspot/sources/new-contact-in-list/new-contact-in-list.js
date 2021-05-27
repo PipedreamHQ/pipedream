@@ -1,50 +1,52 @@
-const hubspot = require("../../hubspot.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "hubspot-new-contact-in-list",
   name: "New Contact in List",
   description: "Emits an event for each new contact in a list.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
-    hubspot,
-    lists: {
-      type: "string[]",
-      label: "Lists",
-      optional: false,
-      async options() {
-        const results = await this.hubspot.getLists();
-        const options = results.map((result) => {
-          const label = result.name;
-          return {
-            label,
-            value: JSON.stringify({ label, value: result.listId }),
-          };
-        });
-        return options;
-      },
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
+    ...common.props,
+    lists: { propDefinition: [common.props.hubspot, "lists"] },
   },
   methods: {
+    ...common.methods,
     generateMeta(contact, list) {
+      const { vid, properties } = contact;
+      const { value, label } = list;
       return {
-        id: `${contact.vid}${list.value}`,
-        summary: `${contact.properties.firstname.value} ${contact.properties.lastname.value} added to ${list.label}`,
+        id: `${vid}${value}`,
+        summary: `${properties.firstname.value} ${properties.lastname.value} added to ${label}`,
         ts: Date.now(),
       };
     },
+    async emitEvent(contact, properties, list) {
+      const contactInfo = await this.hubspot.getContact(
+        contact.vid,
+        properties
+      );
+      const meta = this.generateMeta(contact, list);
+      this.$emit({ contact, contactInfo }, meta);
+    },
   },
   async run(event) {
-    const contacts = await this.hubspot.getListContacts(this.lists);
-    for (const contact of contacts) {
-      this.$emit(contact, this.generateMeta(contact, contact.list));
+    const properties = this.db.get("properties");
+    for (let list of this.lists) {
+      list = JSON.parse(list);
+      const params = {
+        count: 100,
+      };
+      let hasMore = true;
+      while (hasMore) {
+        const results = await this.hubspot.getListContacts(params, list.value);
+        hasMore = results["has-more"];
+        if (hasMore) params.vidOffset = results["vid-offset"];
+        for (const contact of results.contacts) {
+          await this.emitEvent(contact, properties, list);
+        }
+      }
     }
   },
 };

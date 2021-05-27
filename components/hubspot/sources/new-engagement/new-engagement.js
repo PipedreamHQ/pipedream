@@ -1,35 +1,39 @@
-const hubspot = require("../../hubspot.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emits an event for each new engagement created.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
-  props: {
-    hubspot,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+  hooks: {},
+  methods: {
+    ...common.methods,
+    generateMeta(engagement) {
+      const { id, type, createdAt } = engagement.engagement;
+      const ts = Date.parse(createdAt);
+      return {
+        id,
+        summary: type,
+        ts,
+      };
+    },
+    isRelevant(engagement, createdAfter) {
+      return engagement.engagement.createdAt > createdAfter;
     },
   },
   async run(event) {
-    const lastRun = this.db.get("createdAfter") || this.hubspot.monthAgo();
-    const createdAfter = new Date(lastRun);
+    const createdAfter = this._getAfter();
+    const params = {
+      limit: 250,
+    };
 
-    const results = await this.hubspot.getEngagements(createdAfter.getTime());
-    for (const result of results) {
-      let createdAt = new Date(result.engagement.createdAt);
-      this.$emit(result, {
-        id: result.engagement.id,
-        summary: result.engagement.type,
-        ts: result.engagement.createdAt,
-      });
-    }
-
-    this.db.set("createdAfter", Date.now());
+    await this.paginateUsingHasMore(
+      params,
+      this.hubspot.getEngagements.bind(this),
+      "results",
+      createdAfter
+    );
   },
 };

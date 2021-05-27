@@ -1,60 +1,33 @@
 const github = require("../../github.app.js");
+const common = require("../common-webhook.js");
 
 module.exports = {
+  ...common,
   key: "github-custom-events",
   name: "Custom Webhook Events",
-  description: "Subscribe to one or more event types and emit an event on each webhook request",
-  version: "0.0.2",
+  description:
+    "Subscribe to one or more event types and emit an event on each webhook request",
+  version: "0.0.3",
   props: {
-    github,
-    repoFullName: { propDefinition: [github, "repoFullName"] },
+    ...common.props,
     events: { propDefinition: [github, "events"] },
-    http: "$.interface.http",
-    db: "$.service.db",
   },
+  dedupe: "unique",
   methods: {
-    generateSecret() {
-      return "" + Math.random();
+    getEventNames() {
+      return this.events;
     },
-  },
-  hooks: {
-    async activate() {
-      const secret = this.generateSecret();
-      const { id } = await this.github.createHook({
-        repoFullName: this.repoFullName,
-        endpoint: this.http.endpoint,
-        events: this.events,
-        secret,
-      });
-      this.db.set("hookId", id);
-      this.db.set("secret", secret);
+    generateMeta(data) {
+      const ts = Date.now();
+      return {
+        id: `${data.repository.id}${ts}`,
+        summary: `${data.action} event by ${data.sender.login}`,
+        ts,
+      };
     },
-    async deactivate() {
-      await this.github.deleteHook({
-        repoFullName: this.repoFullName,
-        hookId: this.db.get("hookId"),
-      });
+    emitEvent(body) {
+      const meta = this.generateMeta(body);
+      this.$emit(body, meta);
     },
-  },
-  async run(event) {
-    const { body, headers } = event;
-    if (headers["X-Hub-Signature"]) {
-      const crypto = require("crypto");
-      const algo = "sha1";
-      const hmac = crypto.createHmac(algo, this.db.get("secret"));
-      hmac.update(body, "utf-8");
-      if (headers["X-Hub-Signature"] !== `${algo}=${hmac.digest("hex")}`) {
-        throw new Error("signature mismatch");
-      }
-    }
-
-    if ("zen" in body) {
-      console.log("Zen event to confirm subscription, nothing to emit");
-      return;
-    }
-
-    this.$emit(body, {
-      summary: JSON.stringify(body),
-    });
   },
 };

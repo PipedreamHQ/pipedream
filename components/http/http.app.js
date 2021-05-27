@@ -33,7 +33,7 @@ module.exports = {
     },
     params: {
       type: "object",
-      description: "Add query parameters as key-value pairs",
+      description: "Add individual query parameters as key-value pairs or disable structured mode to pass multiple key-value pairs as an object.",
       optional: true,
     },
     headers: {

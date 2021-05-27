@@ -11,9 +11,9 @@ with such a property so that this component can detect new rows.
 ## Prerequisites
 
 To set up your Snowflake credentials, go to the [Pipedream
-Apps](https://pipedream.com/apps) page, and click on the **CONNECT AN APP**
-button. Look for the **Snowflake** app, and click on it. Fill in every field
-required in the form, and click on **SAVE**.
+Accounts](https://pipedream.com/accounts) page, and click on the **CONNECT AN
+APP** button. Look for the **Snowflake** app, and click on it. Fill in every
+field required in the form, and click on **SAVE**.
 
 ## Usage
 

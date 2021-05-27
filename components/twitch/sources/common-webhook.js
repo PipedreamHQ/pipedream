@@ -82,7 +82,9 @@ module.exports = {
     const { data } = body;
     if (data.length === 0) return;
 
-    const meta = this.getMeta(data, headers);
-    this.$emit(data, meta);
+    for (const item of data) {
+      const meta = this.getMeta(item, headers);
+      this.$emit(item, meta);
+    }
   },
 };

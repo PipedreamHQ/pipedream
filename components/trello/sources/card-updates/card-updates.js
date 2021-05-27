@@ -1,77 +1,38 @@
-const trello = require("../../trello.app.js");
-const get = require("lodash.get");
+const common = require("../common-webhook.js");
+const get = require("lodash/get");
 
 module.exports = {
+  ...common,
   key: "trello-card-updates",
   name: "Card Updates (Instant)",
   description: "Emits an event for each update to a Trello card.",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
-    trello,
-    boardId: { propDefinition: [trello, "boardId"] },
-    cardIds: {
-      propDefinition: [trello, "cardIds", (c) => ({ boardId: c.boardId })],
-    },
-    db: "$.service.db",
-    http: "$.interface.http",
-  },
-
-  hooks: {
-    async activate() {
-      let modelId = this.boardId;
-      if (!this.boardId) {
-        const member = await this.trello.getMember("me");
-        modelId = member.id;
-      }
-      const { id } = await this.trello.createHook({
-        id: modelId,
-        endpoint: this.http.endpoint,
-      });
-      this.db.set("hookId", id);
-      this.db.set("boardId", this.boardId);
-      this.db.set("cardIds", this.cardIds);
-    },
-    async deactivate() {
-      console.log(this.db.get("hookId"));
-      await this.trello.deleteHook({
-        hookId: this.db.get("hookId"),
-      });
+    ...common.props,
+    board: { propDefinition: [common.props.trello, "board"] },
+    cards: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({ board: c.board }),
+      ],
     },
   },
-
-  async run(event) {
-    // validate signature
-    if (
-      !this.trello.verifyTrelloWebhookRequest(
-        event,
-        this.http.endpoint
-      )
-    ) {
-      return;
-    }
-
-    const body = get(event, "body");
-    if (!body) {
-      return;
-    }
-
-    const eventType = get(body, "action.type");
-    if (eventType !== "updateCard") {
-      return;
-    }
-
-    const cardId = get(body, "action.data.card.id");
-    const boardId = this.db.get("boardId");
-    const cardIds = this.db.get("cardIds");
-    const card = await this.trello.getCard(cardId);
-
-    if (boardId && boardId !== card.idBoard) return;
-    if (cardIds && cardIds.length > 0 && !cardIds.includes(card.id)) return;
-
-    this.$emit(card, {
-      id: card.id,
-      summary: card.name,
-      ts: Date.now(),
-    });
+  methods: {
+    ...common.methods,
+    isCorrectEventType(event) {
+      const eventType = get(event, "body.action.type");
+      return eventType === "updateCard";
+    },
+    async getResult(event) {
+      const cardId = get(event, "body.action.data.card.id");
+      return await this.trello.getCard(cardId);
+    },
+    isRelevant({ result: card }) {
+      return (
+        (!this.board || this.board === card.idBoard) &&
+        (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
+      );
+    },
   },
 };

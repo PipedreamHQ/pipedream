@@ -86,8 +86,4 @@ When you make an HTTP request using `$send.http()`, the traffic will come from o
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble sending HTTP requests to your target service, please check to ensure this list matches your firewall rules.
 
-## Acceptable Use
-
-Do not use Pipedream to send HTTP requests to a service you do not own or operate. We take abuse of the service seriously and will terminate workflows or accounts found to be in violation of our [Acceptable Use policy](https://pipedream.com/terms#b-acceptable-use). If you have any questions about this policy or anything else, please [reach out](/support/).
-
 <Footer />

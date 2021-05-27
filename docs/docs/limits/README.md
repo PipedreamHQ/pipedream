@@ -29,7 +29,7 @@ Users on the [Developer (free) tier](/pricing/#developer-tier) have a default qu
 
 **{{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}} invocations per day**
 
-across all workflows and event sources. **You are _not_ limited on invocations on paid plans like the [Professional tier](/pricing/#professional-tier)**.
+across all workflows and event sources. **You are _not_ limited on invocations on paid plans like the [Professional tier](/pricing/#professional-tier)**, but instead pay for usage.
 
 You can view your invocations usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
 
@@ -73,7 +73,7 @@ By default, the body of HTTP requests sent to a source or workflow is limited to
 
 Your endpoint will issue a `413 Payload Too Large` status code when the body of your request exceeds `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`.
 
-**Pipedream supports two different ways to bypass this limit**. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/limits).
+**Pipedream supports two different ways to bypass this limit**. Both of these interfaces support uploading data up to `5TB`, though you may encounter other platform limits.
 
 - You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/steps/triggers/#sending-large-payloads).
 - You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/steps/triggers/#large-file-support).
@@ -86,13 +86,13 @@ Generally the rate of HTTP requests sent to an endpoint is quantified by QPS, or
 
 We'll also accept short bursts of traffic, as long as you remain close to an average of 10 QPS (e.g. sending a batch of 50 requests every 30 seconds should not trigger rate limiting).
 
-**This limit can be raised**. [Reach out to our team](/support/) to request an increase.
+**This limit can be raised for Professional, Teams, and Enterprise customers**. To request an increase, [reach out to our Support team](/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
 
 ## Email Triggers
 
 Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also apply to [email triggers](/workflows/steps/triggers/#email).
 
-The only limit that differs between email and HTTP triggers is the payload size: the body of HTTP requests is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`, where the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}`\*\* on the default interface.
+The only limit that differs between email and HTTP triggers is the payload size: the body of HTTP requests is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`, where the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}` on the default interface.
 
 **However, you can send emails up to `30MB` in size using the address `[YOUR EMAIL ENDPOINT]@upload.pipedream.net`**. [Read more here](/workflows/steps/triggers/#sending-large-emails).
 
@@ -100,9 +100,9 @@ This `30MB` limit cannot be raised.
 
 ## Memory
 
-**You should expect to have access to at least `192 MB` of memory for your code and libraries** during workflow or event source execution.
+By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}}`.
 
-If this quota isn't sufficient for you use case, [reach out to our team](/support/) so we can learn more.
+**Pipedream charges invocations proportional to your memory configuration**. [Read more here](/pricing/#how-does-workflow-memory-affect-billable-invocations).
 
 ## Disk
 

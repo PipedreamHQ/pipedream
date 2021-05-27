@@ -1,52 +1,44 @@
-const hubspot = require("../../hubspot.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emits an event for each new deal in a stage.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
+  hooks: {},
   props: {
-    hubspot,
-    stages: {
-      type: "string[]",
-      label: "Stages",
-      optional: false,
-      async options() {
-        const results = await this.hubspot.getDealStages();
-        const options = results.results[0].stages.map((result) => {
-          const label = result.label;
-          return {
-            label,
-            value: JSON.stringify({ label, value: result.stageId }),
-          };
-        });
-        return options;
-      },
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
+    ...common.props,
+    stages: { propDefinition: [common.props.hubspot, "stages"] },
   },
   methods: {
-    generateMeta(deal, stage, updatedAt) {
+    ...common.methods,
+    generateMeta(deal, stage) {
+      const { id, properties, updatedAt } = deal;
+      const { label } = stage;
+      const ts = Date.parse(updatedAt);
       return {
-        id: `${deal.id}${deal.properties.dealstage}`,
-        summary: `${deal.properties.dealname} ${stage.label}`,
-        ts: updatedAt.getTime(),
+        id: `${id}${properties.dealstage}`,
+        summary: `${properties.dealname} ${label}`,
+        ts,
       };
+    },
+    emitEvent(deal) {
+      const stage = this.db.get("stage");
+      const meta = this.generateMeta(deal, stage);
+      this.$emit(deal, meta);
+    },
+    isRelevant(deal, updatedAfter) {
+      return Date.parse(deal.updatedAt) > updatedAfter;
     },
   },
   async run(event) {
-    const lastRun = this.db.get("updatedAfter") || this.hubspot.monthAgo();
-    const updatedAfter = new Date(lastRun);
+    const updatedAfter = this._getAfter();
 
     for (let stage of this.stages) {
       stage = JSON.parse(stage);
+      this.db.set("stage", stage);
       const data = {
         limit: 100,
         filters: [
@@ -58,34 +50,21 @@ module.exports = {
         ],
         sorts: [
           {
-            propertyName: "hs_lastmodifieddate",
+            propertyName: "lastmodifieddate",
             direction: "DESCENDING",
           },
         ],
+        object: "deals",
       };
 
-      let done = false;
-      let count = 0;
-      let total = 1;
-
-      while (!done && count < total) {
-        let deals = await this.hubspot.searchCRM(data, "deals");
-        total = deals.total;
-        if (deals.paging) data.after = deals.paging.next.after;
-        else delete data.after;
-        for (const deal of deals.results) {
-          let updatedAt = new Date(deal.updatedAt);
-          if (updatedAt.getTime() > updatedAfter.getTime()) {
-            this.$emit(deal, this.generateMeta(deal, stage, updatedAt));
-          } else {
-            // don't need to continue if we've gotten to deals already evaluated
-            done = true;
-          }
-          count++;
-        }
-      }
+      await this.paginate(
+        data,
+        this.hubspot.searchCRM.bind(this),
+        "results",
+        updatedAfter
+      );
     }
 
-    this.db.set("updatedAfter", Date.now());
+    this._setAfter(Date.now());
   },
 };

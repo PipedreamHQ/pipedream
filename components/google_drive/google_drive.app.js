@@ -98,10 +98,12 @@ module.exports = {
     },
     async getPageToken(driveId) {
       const drive = this.drive();
-      const request = driveId ? {
-        driveId,
-        supportsAllDrives: true,
-      } : {};
+      const request = driveId
+        ? {
+            driveId,
+            supportsAllDrives: true,
+          }
+        : {};
       const { data } = await drive.changes.getStartPageToken(request);
       return data.startPageToken;
     },
@@ -183,6 +185,15 @@ module.exports = {
         options,
         context: { nextPageToken },
       };
+    },
+    async listComments(fileId, startModifiedTime = null) {
+      const drive = this.drive();
+      const opts = {
+        fileId,
+        fields: "*",
+      };
+      if (startModifiedTime) opts.startModifiedTime = startModifiedTime;
+      return (await drive.comments.list(opts)).data;
     },
     _makeWatchRequestBody(id, address) {
       return {
@@ -268,6 +279,14 @@ module.exports = {
         await drive.files.get({
           fileId,
           fields: "*",
+        })
+      ).data;
+    },
+    async getDrive(driveId) {
+      const drive = this.drive();
+      return (
+        await drive.drives.get({
+          driveId,
         })
       ).data;
     },

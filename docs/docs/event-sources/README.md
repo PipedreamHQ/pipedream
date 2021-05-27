@@ -1,14 +1,27 @@
 # What are Event Sources?
 
-**Event sources turn any API into an event stream. They can also turn any event stream into a REST API**.
+Event sources operate primarily as workflow triggers. When you add a new app-based [trigger](/workflows/steps/triggers/) to your workflow, you're creating an event source.
 
-Event sources run on Pipedream's infrastructure and collect data from services like Github, Stripe, the bitcoin blockchain, RSS feeds, and more. They emit new events produced by the service, which can trigger [Pipedream workflows](/workflows/), or which you can consume using Pipedream's [REST API](/api/rest/) or a [private, real-time SSE stream](/api/sse/).
+<div>
+<img alt="New-app-based trigger" width="600px" src="./images/app-based-trigger.png">
+</div>
 
-You can see a list of all event sources by visiting [https://pipedream.com/sources](https://pipedream.com/sources) and clicking the **New +** button at the top right corner of the screen.
+Event sources run as their own resources, separate from workflows, for two reasons:
 
-The code for sources is kept in the [`PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream). If you think a source can be improved, or you find a bug, please raise an issue or PR in that repo.
+- A single event sources can trigger more than one workflow. If you have a data source that you want to run _multiple_ workflows, you can create an event source once and use it as the trigger for each workflow.
+- If you need to consume events emitted by event sources in your own application, you don't need to run a workflow: you can use Pipedream's [REST API](/api/rest/) or a [private, real-time SSE stream](/api/sse/) to access the event data directly.
+
+You can view your event sources at [https://pipedream.com/sources](https://pipedream.com/sources). Here, you'll see the events a specific source has emitted, as well as the logs and configuration for that source.
 
 [[toc]]
+
+## How do event sources work?
+
+Event sources collect data from apps or service like Github, Twitter, and Google Calendar, then **emit** this data as individual events. These events trigger linked workflows, and [can be retrieved using the API or SSE interfaces](#consuming-events-from-sources).
+
+If the service supports webhooks or another mechanism for real-time data delivery, the event source uses it. For example, Google Sheets supports webhooks, which allows Google Sheets event sources to emit updates instantly.
+
+If a service doesn't support real-time event delivery, Pipedream polls the API for updates every few minutes, emitting events as the API produces them. For example, Airtable doesn't support webhooks, so we poll their API for new records added to a table.
 
 ## Creating event sources
 
@@ -34,7 +47,7 @@ Once you've created a source, you can use it to trigger [Pipedream workflows](/w
 
 ## Consuming events from sources
 
-You can view the events for a source in the sources UI, under the **EVENTS** section of that source.
+You can view the events for a source in the sources UI, under the **Events** section of that source.
 
 You can also trigger a [Pipedream workflow](/workflows/) every time your source emits a new event. This lets you run workflows for every new tweet, every new item in an RSS feed, and more.
 
@@ -72,8 +85,14 @@ You can run an event source that polls an RSS for new items and emits them in re
 
 [**Create an RSS event source here**](https://pipedream.com/sources/new?app=rss&key=rss-new-item-in-feed).
 
+## Publishing a new event source, or modifying an existing source
+
+Anyone can create an event source or edit an existing one. The code for all event sources is public, and kept in the [`PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream). [Read this quickstart](https://github.com/PipedreamHQ/pipedream/blob/master/QUICKSTART.md) and see the [event source API docs](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md) to learn more about the source development process.
+
+You can chat about source development with the Pipedream team in the `#contribute` channel of our [public Slack](https://join.slack.com/t/pipedream-users/shared_invite/zt-ernlymsn-UHfPg~Dfp08uGkAd8dpkww), and in the `#dev` topic in the [Pipedream community](https://pipedream.com/community/c/dev/11).
+
 ## Limits
 
-Event sources are subject to the [same limits as Pipedream workflows](/limits).
+Event sources are subject to the [same limits as Pipedream workflows](/limits/).
 
 <Footer />
