@@ -6,9 +6,6 @@ name: Pull Request Checks
 #
 
 on:
-  push:
-    branches-ignore:
-      - master
   pull_request:
     branches:
       - master
