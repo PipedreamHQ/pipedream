@@ -1,4 +1,4 @@
-const http_app = require('../../http.app.js')
+const httpApp = require("../../http.app");
 
 // Core HTTP component
 module.exports = {
@@ -23,21 +23,21 @@ module.exports = {
       label: "Response Status Code",
       description: "The status code to return in the HTTP response.",
       optional: true,
-      default: '200',
+      default: "200",
     },
     resContentType: {
       type: "string",
       label: "Response Content-Type",
       description: "The content-type of the body returned in the HTTP response.",
       optional: true,
-      default: `application/json`,
+      default: "application/json",
     },
     resBody: {
       type: "string",
       label: "Response Body",
       description: "The body to return in the HTTP response.",
       optional: true,
-      default: `{ "success": true }`,
+      default: "{ \"success\": true }",
     },
     filterFaviconRequests: {
       type: "boolean",
@@ -46,13 +46,13 @@ module.exports = {
       optional: true,
       default: true,
     },
-    http_app,
+    http_app: httpApp,
   },
   async run(event) {
     // return to end execution on requests for favicon.ico
-    if (this.filterFaviconRequests && event.path === '/favicon.ico')  return
+    if (this.filterFaviconRequests && event.path === "/favicon.ico")  return;
 
-    const summary = `${event.method} ${event.path}`
+    const summary = `${event.method} ${event.path}`;
 
     this.http.respond({
       status: this.resStatusCode,
@@ -62,11 +62,17 @@ module.exports = {
       },
     });
 
-    if(this.emitBodyOnly) {
-      const body = event.body
-      this.$emit({ body }, { summary })
+    if (this.emitBodyOnly) {
+      const body = event.body;
+      this.$emit({
+        body,
+      }, {
+        summary,
+      });
     } else {
-      this.$emit(event, { summary })
+      this.$emit(event, {
+        summary,
+      });
     }
-  }
-}
+  },
+};

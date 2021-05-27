@@ -1,4 +1,4 @@
-const http_app = require('../../http.app.js')
+const httpApp = require("../../http.app");
 
 // Core HTTP component
 // Returns a 200 OK response, emits the HTTP payload as an event
@@ -19,28 +19,32 @@ module.exports = {
       default: false,
       optional: true,
     },
-    http_app,
+    http_app: httpApp,
   },
   async run(event) {
     // return to end execution on requests for favicon.ico
-    if (event.path === '/favicon.ico')  return
+    if (event.path === "/favicon.ico")  return;
 
     const { body } = event;
 
-    if(this.emptyResponse) {
+    if (this.emptyResponse) {
       this.http.respond({
         status: 204,
       });
     } else {
       this.http.respond({
         status: 200,
-        body: { success: true }
+        body: {
+          success: true,
+        },
       });
     }
 
     // Emit the HTTP payload
-    this.$emit({ body },{
+    this.$emit({
+      body,
+    }, {
       summary: `${event.method.toUpperCase()} ${event.path}`,
     });
-  }
+  },
 };

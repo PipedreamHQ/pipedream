@@ -1,6 +1,6 @@
 module.exports = {
-  type: 'app',
-  app: 'http',
+  type: "app",
+  app: "http",
   propDefinitions: {
     url: {
       type: "string",
@@ -9,24 +9,24 @@ module.exports = {
     method: {
       type: "string",
       options: [
-        'GET',
-        'POST',
-        'PUT',
-        'PATCH',
-        'DELETE',
-        'COPY',
-        'HEAD',
-        'OPTIONS',
-        'LINK',
-        'UNLINK',
-        'PURGE',
-        'LOCK',
-        'UNLOCK',
-        'PROPFIND',
-        'VIEW'
-      ]
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "COPY",
+        "HEAD",
+        "OPTIONS",
+        "LINK",
+        "UNLINK",
+        "PURGE",
+        "LOCK",
+        "UNLOCK",
+        "PROPFIND",
+        "VIEW",
+      ],
     },
-    body: { 
+    body: {
       type: "string",
       description: "Enter a string or add an expression in curly brackets `{{...}}`. To reference data from an earlier step, enter it in curly brackets (e.g., `{{steps.foo.$return_value}}`).",
       optional: true,
@@ -48,13 +48,13 @@ module.exports = {
     responseType: {
       type: "string",
       options: [
-        'json',
-        'arraybuffer',
-        'document',
-        'text',
-        'stream'
+        "json",
+        "arraybuffer",
+        "document",
+        "text",
+        "stream",
       ],
       optional: true,
-    }
-  }
-}
+    },
+  },
+};
