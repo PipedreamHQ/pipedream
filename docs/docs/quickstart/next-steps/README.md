@@ -1,8 +1,6 @@
 # Beyond the Basics
 
-**Congratulations! You've completed the quickstart and you're ready to start building workflows on Pipedream!** 
-
-Check out the rest of the docs if you want to learn more about Pipedream's advanced capabilities to:
+Now that you've got the basics of workflow development, check out the rest of the docs to learn about Pipedream's advanced capabilities:
 
 
 - Maintain state between workflow executions 

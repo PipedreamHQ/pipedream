@@ -5,7 +5,6 @@ For the last example in this quickstart, we'll use many of the patterns introduc
 - [Trigger a workflow anytime @pipedream is mentioned on Twitter](#trigger-a-workflow-anytime-pipedream-https-twitter-com-pipedream-is-mentioned-on-twitter)
 - [Construct a message in Node.js using Slack Block Kit](#construct-a-message-in-node-js-using-slack-block-kit)
 - [Use an action to post the formatted message to a Slack channel](#use-an-action-to-post-the-formatted-message-to-a-slack-channel)
-- [Run a live test](#run-a-live-test)
 
 Following is an example of a Tweet that we'll richly format and post to Slack:
 
@@ -59,38 +58,37 @@ Add a step to **Run Node.js code** and name it `steps.generate_slack_blocks`.
 Next, add the following code to `steps.generate_slack_blocks` (a step by step explanation of this code is in the [appendix](#appendix-code-breakdown)):
 
 ```javascript
-// Require iso-639-1 to convert language codes into human readable names
+// We'll use iso-639-1 to convert Twitter's language code into a human readable name
 const ISO6391 = require('iso-639-1')
 
-// Require lodash to help extract values from intermittent fields in the Tweet object
+// We'll use lodash to help us extract values and set defaults for select fields
 const _ = require('lodash') 
 
-// Function to return a friendly language name (or "Unknown") for ISO language codes
+// Return a friendly language name for ISO language codes (or "Unknown")
 function getLanguageName(isocode) {
   try { return ISO6391.getName(isocode) } 
 	catch (err) { return 'Unknown' }
 }
 
-// Function to format numbers over 1000 -- from Stack Overflow https://stackoverflow.com/questions/9461621/format-a-number-as-2-5k-if-a-thousand-or-more-otherwise-900
+// Format numbers over 1000 -- from Stack Overflow https://stackoverflow.com/questions/9461621/format-a-number-as-2-5k-if-a-thousand-or-more-otherwise-900
 function kFormatter(num) {
     return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
 }
 
-// Format the Tweet (including line breaks) as a quoted Slack message
+// Format the Tweet as a quoted Slack message
 let quotedMessage = ''
 steps.trigger.event.full_text.split('\n').forEach(line => {
 	quotedMessage = quotedMessage + '> ' + line + '\n' 
 })
 
-// Construct URLs to reference in the formatted message
+// Define metadata to include in the Slack message — use lodash to extract values from keys that may not be present for some events (and set a default if missing).
 const tweetUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/statuses/${steps.trigger.event.id_str}`
 const userUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/`
+const mediaUrl = _.get(steps, 'trigger.event.extended_entities.media[0].media_url_https', '')
+const mediaType = _.get(steps, 'trigger.event.extended_entities.media[0].type', '')
 
-// Use lodash to get media data (these fields are not always present)
-const mediaUrl = _.get(steps, 'trigger.event.extended_entities.media[0].media_url_https')
-const mediaType = _.get(steps, 'trigger.event.extended_entities.media[0].type')
-
-// Format the message as Slack blocks - https://api.slack.com/block-kit
+// Format the message as Slack blocks
+// https://api.slack.com/block-kit
 const blocks = []
 blocks.push({
 	"type": "section",
@@ -105,8 +103,8 @@ blocks.push({
 		}
 })
 
-// If the Tweet contains a photo add it to the message
-if(mediaUrl && mediaType === 'photo') {
+// If the Tweet contains a photo we'll add it to the message
+if(mediaUrl !== '' && mediaType === 'photo') {
 	blocks.push({
 		"type": "image",
 		"image_url": mediaUrl,
@@ -114,7 +112,7 @@ if(mediaUrl && mediaType === 'photo') {
 	})
 }
 
-// Populate the context elements, button and footer
+// Populate data in the context elements
 blocks.push({
 	"type": "context",
 	"elements": [
@@ -201,42 +199,167 @@ A formatted message should be posted to Slack:
 
 ![image-20210518204801812](./image-20210518204801812.png)
 
-# Run a live test
-
-To run a live test, first turn on your trigger to run it on every new matching Tweet:
+Finally, turn on your trigger to run it on every new matching Tweet:
 
 ![image-20210518210047896](./image-20210518210047896.png)
 
-Next, post a Tweet mentioning `@pipedream` — **click Post Tweet below to use our pre-written Tweet with an image** (this image will be included in your formatted Slack message):
+To test out your workflow, post a Tweet mentioning `@pipedream` — or [click here to use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20).
 
-<p style="text-align:center;">
-<!--a href="https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20" target="_blank"--><img src="./post-tweet-content.png"><img src="./post-tweet.png"><!--/a-->
-</p>
-<!--
- or [use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20).
-<a href="https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20" target="_blank"><img src="./image-20210524211931799.png"></a>
--->
+![image-20210524211931799](./image-20210524211931799.png)
 
-Your workflow will be triggered the next time the Twitter source runs (every 15 minutes by default). You can also trigger your source manually. Click on **Edit code and configuration** in your trigger step:
-
-![image-20210526180913701](./image-20210526180913701.png)
-
-This will bring up the code and configuration for the source (which you can edit). Click on the **Events** tab:
-
-![image-20210526181036217](./image-20210526181036217.png)
-
-Finally, click on **Run Now**
-
-![image-20210526181111074](./image-20210526181111074.png)
-
-Your source will run and emit new Tweets. Each new Tweet will trigger your workflow. Messages should be posted to Slack, and you can return to the workflow to inspect the events.
-
-**Congratulations! You completed the quickstart and you're ready to start building workflows on Pipedream!** Click **Next** to learn about Pipedream's advanced features including state management, concurrency and execution rate controls and more.
+Your workflow will be triggered the next time the Twitter source runs (every 15 minutes by default, but you can manage your source and customize the interval).
 
 <p style="text-align:center;">
 <a href="/quickstart/next-steps/"><img src="../next.png"></a>
 </p>
 
-<!--
-*If you want to check out Raymond Camden's presentation **Building Serverless Worlkflows with Pipedream**, which is highlighted in the examples above, you can check it out at [https://www.youtube.com/watch?v=iizTlpEi4Z8](https://www.youtube.com/watch?v=iizTlpEi4Z8)*
--->
+### APPENDIX: Code Breakdown
+
+First, `require` the npm packages we need — we'll use the `iso-639-1`  package to convert the language code provided by Twitter into a human readable name, and we'll use `lodash` to help us extract values.
+
+```javascript
+const ISO6391 = require('iso-639-1')
+const _ = require('lodash') 
+```
+
+Next, we'll define two functions to help us construct the message. First, we'll add a function to return the language name or `Unknown`:
+
+```javascript
+// Return a friendly language name for ISO language codes
+function getLanguageName(isocode) {
+  try { return ISO6391.getName(isocode) } 
+	catch (err) { return 'Unknown' }
+}
+```
+
+Next, we'll add a function to format the number of followers for a user (we can reuse this function we found via Google search on [Stack Overflow](https://stackoverflow.com/questions/9461621/format-a-number-as-2-5k-if-a-thousand-or-more-otherwise-900)).
+
+```javascript
+// Format numbers over 1000
+function kFormatter(num) {
+    return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
+}
+```
+
+Next, let's format the Tweet text `steps.trigger.event.full_text` using Slack's quote formatting. Since Tweets can contain line breaks, we need to hande that case as well:
+
+```javascript
+// Format the Tweet as a quoted Slack message
+let quotedMessage = ''
+steps.trigger.event.full_text.split('\n').forEach(line => quotedMessage = quotedMessage + '> ' + line + '\n' )
+
+```
+
+Next, let's extract some values to make our message generation easier. We'll use `lodash` to extract values from keys that may not be present for some events (and set a default if missing).
+
+```javascript
+// Define metadata to include in the Slack message
+const tweetUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/statuses/${steps.trigger.event.id_str}`
+const userUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/`
+const mediaUrl = _.get(steps, 'trigger.event.extended_entities.media[0].media_url_https', '')
+const mediaType = _.get(steps, 'trigger.event.extended_entities.media[0].type', '')
+```
+
+Then, we'll start populating the Slack Blocks template:
+
+```javascript
+// Format the message as Slack blocks
+// https://api.slack.com/block-kit
+const blocks = []
+blocks.push({
+	"type": "section",
+	"text": {
+		"type": "mrkdwn",
+		"text": `*<${tweetUrl}|New Mention> by <${userUrl}|${steps.trigger.event.user.screen_name}> (${steps.trigger.event.created_at}):*\n${quotedMessage}`
+	},
+		"accessory": {
+			"type": "image",
+			"image_url": steps.trigger.event.user.profile_image_url_https,
+			"alt_text": "Profile picture"
+		}
+})
+```
+
+Next, if the Tweet contains a photo we'll add it to the message:
+
+```javascript
+if(mediaUrl !== '' && mediaType === 'photo') {
+	blocks.push({
+		"type": "image",
+		"image_url": mediaUrl,
+		"alt_text": "Tweet Image"
+	})
+}
+```
+
+Next, we'll populate the data in the message context elements...
+
+```javascript
+blocks.push({
+	"type": "context",
+	"elements": [
+		{
+			"type": "mrkdwn",
+			"text": `*User:* ${steps.trigger.event.user.screen_name}`
+		},
+		{
+			"type": "mrkdwn",
+			"text": `*Followers:* ${kFormatter(steps.trigger.event.user.followers_count)}`
+		},
+		{
+			"type": "mrkdwn",
+			"text": `*Location:* ${steps.trigger.event.user.location}`
+		},
+		{
+			"type": "mrkdwn",
+			"text": `*Language:* ${getLanguageName(steps.trigger.event.lang)} (${steps.trigger.event.lang})`
+		},
+		{
+			"type": "mrkdwn",
+			"text": `*Description:* ${steps.trigger.event.user.description}`
+		}
+	]
+},
+```
+
+...add the Tweet URL to the action button...
+
+```javascript
+{
+	"type": "actions",
+	"elements": [
+		{
+			"type": "button",
+			"text": {
+				"type": "plain_text",
+				"text": "View on Twitter",
+				"emoji": true
+			},
+			"url": tweetUrl
+		}
+	]
+},
+```
+
+...and add the workflow ID by referencing `steps.trigger.context.workflow_id`:
+
+```javascript
+{
+	"type": "context",
+	"elements": [
+		{
+			"type": "mrkdwn",
+			"text": `Sent via <https://pipedream.com/@/${steps.trigger.context.workflow_id}|Pipedream>`
+		}
+	]
+},
+{
+	"type": "divider"
+})
+```
+
+Finally, we'll return the array of blocks:
+
+```javascript
+return blocks
+```
