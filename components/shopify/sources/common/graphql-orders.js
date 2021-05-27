@@ -23,6 +23,12 @@ module.exports = {
     _dateToISOStringWithoutMs(date) {
       return date.toISOString().split(".")[0] + "Z";
     },
+    _getCursor() {
+      return this.db.get("cursor") || null;
+    },
+    _setCursor(cursor) {
+      this.db.set("cursor", cursor);
+    },
     async getOrders(params = {}) {
       const {
         first = 3,
@@ -488,7 +494,7 @@ module.exports = {
   },
 
   async run() {
-    const cursor = this.db.get("cursor") || null;
+    const cursor = this._getCursor();
 
     // If there is no cursor yet, get orders updated_at after 1 day ago
     const updatedAfter = cursor
@@ -517,7 +523,7 @@ module.exports = {
       hasNextPage = data.orders.pageInfo.hasNextPage;
       // Set cursor in db after each request in case execution time is exceeded
       if (cursor !== after) {
-        this.db.set("cursor", after);
+        this._setCursor(after);
       }
     }
   },

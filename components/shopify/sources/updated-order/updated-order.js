@@ -16,8 +16,16 @@ module.exports = {
     },
     shopify,
   },
+  methods: {
+    _getLastUpdatedDate() {
+      return this.db.get("last_updated_at") || null;
+    },
+    _setLastUpdatedDate(date) {
+      this.db.set("last_updated_at", date);
+    },
+  },
   async run() {
-    const lastUpdatedAt = this.db.get("last_updated_at") || null;
+    const lastUpdatedAt = this._getLastUpdatedDate();
     let results = await this.shopify.getOrders(
       "any",
       true,
@@ -34,7 +42,8 @@ module.exports = {
       });
     }
 
-    if (results[results.length - 1])
-      this.db.set("last_updated_id", results[results.length - 1].updated_at);
+    if (results[results.length - 1]) {
+      this._setLastUpdatedDate(results[results.length - 1].updated_at);
+    }
   },
 };
