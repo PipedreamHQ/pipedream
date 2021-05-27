@@ -29,11 +29,11 @@ module.exports = {
     let results = await this.shopify.getCustomers(null, lastUpdatedAt);
 
     for (const customer of results) {
-      const dedupeId = `${customer.id}-${customer.updated_at}`;
+      const id = `${customer.id}-${customer.updated_at}`;
       this.$emit(customer, {
-        id: dedupeId,
-        summary: `${customer.first_name} ${customer.last_name}`,
-        ts: Date.now(),
+        id,
+        summary: `Customer updated: ${customer.id}`,
+        ts: Date.parse(customer.updated_at),
       });
     }
 

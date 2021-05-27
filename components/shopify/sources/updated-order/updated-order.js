@@ -34,11 +34,11 @@ module.exports = {
     );
 
     for (const order of results) {
-      const dedupeId = `${order.id}-${order.updated_at}`;
+      const id = `${order.id}-${order.updated_at}`;
       this.$emit(order, {
-        id: dedupeId,
-        summary: `Order ${order.name}`,
-        ts: Date.now(),
+        id,
+        summary: `Order updated: ${order.name}`,
+        ts: Date.parse(order.updated_at),
       });
     }
 

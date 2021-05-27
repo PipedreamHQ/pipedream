@@ -37,6 +37,14 @@ module.exports = {
       return true;
     },
 
+    generateMeta(order) {
+      return {
+        id: order.id,
+        summary: `Order paid: ${order.name}`,
+        ts: Date.parse(order.updatedAt),
+      };
+    },
+
     getParams() {
       return {
         query: "financial_status:paid",

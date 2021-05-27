@@ -482,7 +482,7 @@ module.exports = {
       return {
         id: order.id,
         summary: `Order ${order.name}`,
-        ts: Date.now(),
+        ts: Date.parse(order.updatedAt),
       };
     },
 

@@ -37,8 +37,8 @@ module.exports = {
     for (const order of results) {
       this.$emit(order, {
         id: order.id,
-        summary: `Order ${order.name}`,
-        ts: Date.now(),
+        summary: `Order cancelled: ${order.name}`,
+        ts: Date.parse(order.updated_at),
       });
     }
 
