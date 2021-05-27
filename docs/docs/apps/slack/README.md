@@ -8,12 +8,12 @@ The Pipedream Slack app is not a typical app. You don't interact with it directl
 
 ## Installing the Pipedream app
 
-You can install the Pipedream Slack app in the [Apps](https://pipedream.com/apps) section of your account, or directly in a workflow
+You can install the Pipedream Slack app in the [Accounts](https://pipedream.com/accounts) section of your account, or directly in a workflow
 
-### Apps
+### Accounts
 
-1. Visit [https://pipedream.com/apps](https://pipedream.com/apps).
-2. Click on the **Click Here To Connect An App** button in the top-left.
+1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts).
+2. Click on the **Click Here To Connect An App** button in the top-right.
 3. Search for "Slack" among the list of apps, and select it.
 4. This will open a new window asking you to allow Pipedream access to your Slack workspace. Choose the right workspace where you'd like to install the app, then click **Allow**.
 5. That's it! You can now use this Slack account in any [actions](#workflow-actions), or [link it to any code step](/connected-accounts/#connecting-accounts).

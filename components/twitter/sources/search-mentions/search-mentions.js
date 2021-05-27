@@ -1,11 +1,11 @@
 const twitter = require('../../twitter.app.js')
 const moment = require('moment')
- 
+
 module.exports = {
   key: "twitter-search-mentions",
   name: "Search Mentions",
-  description: "Emit new Tweets that matches your search criteria", 
-  version: "0.0.1",
+  description: "Emit new Tweets that matches your search criteria",
+  version: "0.0.5",
   props: {
     db: "$.service.db",
     twitter,
@@ -24,8 +24,8 @@ module.exports = {
       default: {
         intervalSeconds: 60 * 15,
       },
-    }, 
-  }, 
+    },
+  },
   async run(event) {
     const since_id = this.db.get("since_id")
     const { lang, locale, geocode, result_type, enrichTweets, includeReplies, includeRetweets, maxRequests, count } = this
@@ -36,18 +36,18 @@ module.exports = {
     } else {
       limitFirstPage = false
     }
- 
+
     // run paginated search
-    const tweets = await this.twitter.paginatedSearch({ 
-      q, 
-      since_id, 
-      lang, 
-      locale, 
-      geocode, 
-      result_type, 
-      enrichTweets, 
-      includeReplies, 
-      includeRetweets, 
+    const tweets = await this.twitter.paginatedSearch({
+      q,
+      since_id,
+      lang,
+      locale,
+      geocode,
+      result_type,
+      enrichTweets,
+      includeReplies,
+      includeRetweets,
       maxRequests,
       count,
       limitFirstPage,

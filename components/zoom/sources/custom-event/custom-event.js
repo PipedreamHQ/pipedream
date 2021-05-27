@@ -1,11 +1,11 @@
-const zoom = require('../../zoom.app.js')
+const zoom = require("../../zoom.app.js");
 
 module.exports = {
   key: "zoom-custom-events",
   name: "Custom Events",
   description:
     "Listen for any events tied to your Zoom user or resources you own",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     zoom,
     eventNameOptions: {
@@ -33,6 +33,10 @@ module.exports = {
           "meeting.participant_jbh_waiting",
           "meeting.participant_joined",
           "meeting.participant_left",
+          "meeting.participant_joined_waiting_room",
+          "meeting.participant_admitted",
+          "meeting.participant_put_in_waiting_room",
+          "meeting.participant_left_waiting_room",
           "recording.started",
           "recording.paused",
           "recording.resumed",

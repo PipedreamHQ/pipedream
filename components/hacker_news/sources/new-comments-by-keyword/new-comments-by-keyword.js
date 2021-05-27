@@ -8,7 +8,7 @@ module.exports = {
   name: "New Comments by Keyword",
   description: "Emit new comments that mention a specific keyword",
   app: "hacker_news",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     hacker_news,
     timer: {
@@ -49,7 +49,11 @@ module.exports = {
       if (seenKeysMap[key]) continue
       seenKeys.unshift(key)
       seenKeysMap[key] = true // just in case of dupes
-      this.$emit(item)
+      this.$emit(item, {
+        id: this.itemKey(item),
+        summary: item.title,
+        ts: item.pubdate && +new Date(item.pubdate), 
+      })
     }
     if (seenKeys.length) {
       // XXX restrict by byte size instead of el size

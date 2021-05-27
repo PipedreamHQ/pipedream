@@ -1,10 +1,10 @@
 const twitter = require('../../twitter.app.js')
 
-module.exports = { 
+module.exports = {
   key: "twitter-tweet-liked-by-user",
   name: "Tweet Liked by User",
-  description: "Emit new Tweets liked by a specific user on Twitter", 
-  version: "0.0.1",
+  description: "Emit new Tweets liked by a specific user on Twitter",
+  version: "0.0.5",
   props: {
     twitter,
     screen_name: { propDefinition: [twitter, "screen_name"] },
@@ -16,9 +16,9 @@ module.exports = {
     },
   },
   dedupe: "unique",
-  async run(event) {     
+  async run(event) {
     (await this.twitter.getLikedTweets({ screen_name: this.screen_name })).reverse().forEach(tweet => {
-      this.$emit(tweet, {
+      this.$emit(this.twitter.enrichTweet(tweet), {
         id: tweet.id_str,
         summary: tweet.full_text,
       })

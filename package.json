@@ -1,0 +1,38 @@
+{
+  "name": "pipedream",
+  "version": "0.2.2",
+  "description": "Pipedream Components",
+  "keywords": [
+    "pipedream",
+    "integration",
+    "api"
+  ],
+  "homepage": "https://github.com/PipedreamHQ/pipedream#readme",
+  "bugs": {
+    "url": "https://github.com/PipedreamHQ/pipedream/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PipedreamHQ/pipedream.git"
+  },
+  "license": "MIT",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com)",
+  "main": "index.js",
+  "directories": {
+    "lib": "components",
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
+    "lint": "eslint .",
+    "lint:format": "npm run lint --fix"
+  },
+  "devDependencies": {
+    "eslint": "^7.26.0",
+    "eslint-plugin-jsonc": "^1.2.1",
+    "eslint-plugin-putout": "^6.13.1",
+    "lerna": "^3.22.1",
+    "putout": "^12.4.0"
+  }
+}

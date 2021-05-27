@@ -1,52 +1,36 @@
-const youtube = require("../../youtube.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "youtube-new-videos",
   name: "New Videos",
   description: "Emits an event for each new Youtube video the user posts.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
-    youtube,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+    ...common.props,
+    maxResults: {
+      propDefinition: [common.props.youtube, "maxResults"],
     },
   },
-
+  hooks: {
+    ...common.hooks,
+    deploy() {},
+  },
+  methods: {
+    ...common.methods,
+    getParams() {
+      return {
+        forMine: true,
+        maxResults: this.maxResults,
+      };
+    },
+  },
   async run(event) {
-    let videos = [];
-    let totalResults = 1;
-    let nextPageToken = null;
-    let count = 0;
-    let results;
-    let params = {
-      part: "snippet",
-      type: "video",
-      forMine: true,
-      pageToken: null,
+    const params = {
+      ...this._getBaseParams(),
+      ...this.getParams(),
     };
-
-    while (count < totalResults) {
-      params.pageToken = nextPageToken;
-      results = await this.youtube.getVideos(params);
-      totalResults = results.data.pageInfo.totalResults;
-      nextPageToken = results.data.nextPageToken;
-      results.data.items.forEach(function (video) {
-        videos.push(video);
-        count++;
-      });
-    }
-
-    for (const video of videos) {
-      this.$emit(video, {
-        id: video.id.videoId,
-        summary: video.snippet.title,
-        ts: Date.now(),
-      });
-    }
+    await this.paginateVideos(params);
   },
 };

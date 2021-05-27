@@ -19,9 +19,7 @@ Read more about our plans and pricing options below.
 
 - [{{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}} invocations per day](/limits/#daily-invocations)
 - [30 minutes (1,800,000 milliseconds) compute time per day](/limits/#compute-time-per-day)
-- [Other default limits on execution time, memory, and disk usage](/limits)
-
-On the Developer tier, your workflow code is public by default to encourage [sharing](/workflows/managing/#sharing-workflows). **Your workflow data, and the values of step parameters, remain private**. You can [make your workflow code private](/workflows/managing/#workflow-visibility) at any time. [Read more here](/public-workflows/).
+- [Other default limits on execution time, memory, and disk usage](/limits/)
 
 **To run any number of invocations, for any amount of time, [upgrade to the Professional tier](https://pipedream.com/pricing)**.
 
@@ -33,9 +31,9 @@ Users on the Developer Tier have access to community support, on Github Discussi
 
 The Professional tier includes all the features of the Developer tier. It also comes with the following benefits:
 
-- **You can run any number of invocations, for any amount of time**
-- [Email Support](https://pipedream.com/support)
-- All workflow code is **private** by default
+- **You have no daily invocations or compute time cap. You can run any number of invocations, for any amount of time**.
+- [Dedicated email or chat support](https://pipedream.com/support)
+- When using [concurrency and throttling controls](/workflows/events/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
 
 Pipedream will be adding more features to the Professional tier over time.
 
@@ -45,12 +43,12 @@ You can upgrade to the Professional Tier from your [Billing and Usage Settings](
 
 ### Professional Tier Pricing
 
-Invocations on the Professional tier are priced at **\${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation, with a minimum monthly charge of \$10/month**. In other words, when you upgrade to the Professional tier, you pay \$10 per month for an initial set of 100,000 invocations, which you can use at any time during that month. If you use more than 100,000 invocations during that month, you'll be billed \${{$site.themeConfig.PRICE_PER_INVOCATION}} for each extra invocation.
+Invocations on the Professional tier are priced at **\${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation, with a minimum monthly charge of \$10/month**. In other words, when you upgrade to the Professional tier, you pay \$10 per month for an initial set of {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations, which you can use at any time during that month. If you use more than {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations during that month, you'll be billed \${{$site.themeConfig.PRICE_PER_INVOCATION}} for each extra invocation.
 
-For example, if you run 300,000 invocations during a given [billing period](#billing-period) (roughly one month), you'll be charged a total of \$30:
+For example, if you run 100,000 invocations during a given [billing period](#billing-period) (roughly one month), you'll be charged a total of \$20:
 
-- \$10 for the minimum monthly charge (yields 100,000 [base invocations](#base-invocations-quota) that you can use at any time during that month), paid at the start of your billing period.
-- \$20 for the 200,000 [additional billable invocations](#additional-billable-invocations), paid at the start of the next billing period.
+- \$10 for the minimum monthly charge (yields {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} [base invocations](#base-invocations-quota) that you can use at any time during that month), paid at the start of your billing period.
+- \$10 for the 50,000 [additional billable invocations](#additional-billable-invocations), paid at the start of the next billing period.
 
 See [when we invoice](#when-am-i-invoiced-billed-for-paid-plans) for more information on your billing schedule.
 
@@ -76,6 +74,8 @@ Moreover, if you have a workflow triggered by a cron job running once a minute f
 
 If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
 
+Your workflow's [memory settings](/workflows/settings/#memory) also impact the number of invocations you're charged for each workflow execution. [Read more here](#how-does-workflow-memory-affect-billable-invocations).
+
 ### Compute Time
 
 Pipedream calculates **compute time** as the total time your workflow or event source runs user code.
@@ -92,7 +92,7 @@ Your invoices are tied to your billing period. [Read more about invoicing / bill
 
 ### Base Invocations Quota
 
-If you sign up for the [Professional tier](#professional-tier), you pay \$10 at the start of each [billing period](#billing-period). This minimum monthly charge grants you a base of 100,000 you can use for the rest of your billing period. If you have been granted any additional invocation quota increases by Pipedream, that is added to your 100,000 base invocations. **This total is called the base invocations quota**.
+If you sign up for the [Professional tier](#professional-tier), you pay \$10 at the start of each [billing period](#billing-period). This minimum monthly charge grants you a base of {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} you can use for the rest of your billing period. If you have been granted any additional invocation quota increases by Pipedream, that is added to your {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} base invocations. **This total is called the base invocations quota**.
 
 ### Additional Billable Invocations
 
@@ -110,6 +110,10 @@ Moreover, if you have a workflow triggered by a cron job running once a minute f
 
 If an event emitted by an event source triggers a single workflow, that will count as **two** invocations: one for the source, and one for the workflow. In other words, source and workflow execution is distinct: each counts invocations on its own.
 
+### How does workflow memory affect billable invocations?
+
+Pipedream charges invocations proportional to the memory configuration. If you run your workflow at the default memory of `{{$site.themeConfig.MEMORY_LIMIT}}`, you are charged one invocation each time your workflow executes. But if you configure your workflow with `1024MB` of memory, for example, you're charged **four** invocations, since you're using `4x` the default memory.
+
 ### Are there any limits on paid tiers?
 
 **You can run any number of invocations, for any amount of compute time**, on paid tiers. [Other platform limits](/limits/) apply.
@@ -120,7 +124,7 @@ When you upgrade to the Professional tier, Stripe will immediately charge your p
 
 If you accrue any [additional billable invocations](#additional-billable-invocations), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next \$10 monthly minimum, is charged at the start of the _next_ billing period.
 
-For example, if you sign up for a paid plan on January 1st, you're immediately charged \$10. If you run 300,000 invocations in January, you'd use the 100,000 invocations tied to this \$10 payment, and you'd accrue 200,000 additional billable invocations, for a total cost of \$20. That \$20 charge would be added to your next invoice, around Feb 1st, along with the \$10 monthly minimum charge for the billing period starting Feb 1st.
+For example, if you sign up for a paid plan on January 1st, you're immediately charged \$10. If you run 100,000 invocations in January, you'd use the {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations tied to this \$10 payment, and you'd accrue 50,000 additional billable invocations, for a total cost of \$20. That \$20 charge would be added to your next invoice, around Feb 1st, along with the \$10 monthly minimum charge for the billing period starting Feb 1st.
 
 ### How does Pipedream secure my credit card data?
 
@@ -138,7 +142,7 @@ Please visit your [Stripe customer portal](https://pipedream.com/settings/billin
 
 ### How can I view my past invoices?
 
-Invoices are emailed to your email address. You can also visit your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1) to view past invoices.
+Invoices are emailed to your billing email address. You can also visit your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1) to view past invoices.
 
 ### Can I retrieve my billing information via API?
 
@@ -149,3 +153,11 @@ Yes. You can retrieve your usage and billing metadata from the [/users/me](/api/
 You can cancel your plan in your [Billing and Usage Settings](https://pipedream.com/settings/billing). You will have access to your paid plan through the end of your current billing period. Pipedream does not prorate plans cancelled within a billing period.
 
 If you'd like to process your cancellation immediately, and downgrade to the free tier, please [reach out](/support).
+
+### How do I change the billing email / company details tied to my invoice?
+
+You can update your billing information in your [Stripe customer portal](https://pipedream.com/settings/billing?rtsbp=1).
+
+### How do I contact the Pipedream team with other questions?
+
+You can email **billing@pipedream.com** for any billing-related questions.

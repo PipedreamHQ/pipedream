@@ -6,7 +6,7 @@
       <NavLink v-else :item="item" />
     </div>
 
-    <a href="https://pipedream.com" target="_blank" rel="noopener">
+    <a href="https://pipedream.com">
       <img
         class="navbar-icons"
         src="https://res.cloudinary.com/pipedreamin/image/upload/v1597038956/docs/HzP2Yhq8_400x400_1_sqhs70.jpg"

@@ -10,6 +10,14 @@ This doc reviews common errors you'll encounter, and how to troubleshoot them.
 
 [[toc]]
 
+## Warnings
+
+Pipedream displays warnings below steps in certain conditions. These warnings do not stop the execution of your workflow, but can signal an issue you should be aware of.
+
+### This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.
+
+See the reference on [running asynchronous code on Pipedream](/workflows/steps/code/async/).
+
 ## Pipedream Internal Errors
 
 Pipedream sets [limits](/limits/) on runtime, memory, and other execution-related properties. If you exceed these limits, you'll receive one of the errors below. [See the limits doc](/limits/) for details on specific limits.
@@ -36,9 +44,9 @@ Currently, you can raise the execution limit of a workflow in your [workflow's s
 
 Pipedream [limits the default memory](/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error.
 
-This can happen for a variety of reasons. Normally, it can occur when you try to load a large file or object into a variable / memory. Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](https://github.com/sindresorhus/got#streams).
+This can happen for a variety of reasons. Normally, it can occur when you try to load a large file or object into a variable / memory. Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](/workflows/steps/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).
 
-**This limit can be raised**. [Reach out to our team](/support/) to request an increase.
+**You can raise the memory of your workflow [in your workflow's Settings](/workflows/settings/#memory)**.
 
 ### Rate Limit Exceeded
 
@@ -48,11 +56,12 @@ Pipedream limits the number of events that can be processed by a given interface
 
 ### Request Entity Too Large
 
-Pipedream limits the size of certain incoming event payloads (for example, the size of [incoming HTTP payloads](/limits/#http-request-body-size) and [emails](/limits/#email-triggers)). If you exceed this interface-specific limit, you'll see a **Request Entity Too Large** error.
+By default, Pipedream limits the size of incoming HTTP payloads. If you exceed this limit, you'll see a **Request Entity Too Large** error.
 
-Pipedream supports a [large file upload interface](/workflows/steps/triggers/#large-file-support) that allows you to send data up to 5TB in size via `multipart/form-data` requests. If you control the source of the data and can send your data in this manner, it's an effective way to bypass the standard payload limits.
+Pipedream supports two different ways to bypass this limit. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/limits/).
 
-Otherwise, [reach out to our team](/support/) to tell us more about your use case - we're hoping to increase these payload limits in the future.
+- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/steps/triggers/#sending-large-payloads).
+- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/steps/triggers/#large-file-support).
 
 ### Function Payload Limit Exceeded
 
@@ -65,5 +74,11 @@ Often, this occurs when you pass large data between steps using [step exports](/
 Working with nested JavaScript objects that have more than 256 nested objects will trigger a **JSON Nested Property Limit Exceeded** error.
 
 Often, objects with this many nested objects result from a programming error that explodes the object in an unexpected way. Please confirm the code you're using to convert data into an object is correctly parsing the object.
+
+### Event Queue Full
+
+Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the [maximum queue size](/workflows/events/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow), you may encounter an **Event Queue Full** error.
+
+[Professional Tier](/pricing/#professional-tier) users can [increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}}](/workflows/events/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow.
 
 <Footer />

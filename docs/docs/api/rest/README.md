@@ -4,7 +4,8 @@
 
 ## Overview
 
-Use REST APIs to create and manage sources and source events. Workflow development and management is not currently supported via API.
+Use the REST API to create and manage sources, workflows and source events.
+Workflow development and management is not currently supported via the API.
 
 ## Base URL
 
@@ -12,15 +13,18 @@ The base URL for all requests is **{{$site.themeConfig.API_BASE_URL}}** .
 
 ## Authentication
 
-Pipedream uses [Bearer Authentication](https://oauth.net/2/bearer-tokens/) to authorize your access to the API. When you make API requests, pass an `Authorization` header of the following format:
+You authenticate to the REST API using your [Pipedream API
+key](/api/auth/#pipedream-api-key). When you make API requests, pass an
+`Authorization` header of the following format:
 
-```
+```text
 Authorization: Bearer <api key>
 ```
 
-For example, here's how you can use `cURL` to fetch profile information for the authenticated user:
+For example, here's how you can use `cURL` to fetch profile information for the
+authenticated user:
 
-```bash
+```shell
 curl 'https://api.pipedream.com/v1/users/me' \
   -H 'Authorization: Bearer <api_key>'
 ```
@@ -31,9 +35,10 @@ Learn more about [API authentication](/api/auth)
 
 The `Authorization` header is required on all endpoints for authentication.
 
-`POST` or `PUT` requests that accept JSON payloads also require a `Content-Type` header set to `application/json`. For example:
+`POST` or `PUT` requests that accept JSON payloads also require a `Content-Type`
+header set to `application/json`. For example:
 
-```bash
+```shell
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
@@ -42,13 +47,16 @@ curl https://api.pipedream.com/v1/components \
 
 ## Common Parameters
 
-The following parameters can be passed to any endpoint. They can be included as query string params for `GET` requests, or in the body of the payload of `POST` requests.
+The following parameters can be passed to any endpoint. They can be included as
+query string params for `GET` requests, or in the body of the payload of `POST`
+requests.
 
 ---
 
 `include` **string**
 
-The fields in the API response you'd like to include (defaults to all fields). Pass as a string of comma-separated values:
+The fields in the API response you'd like to include (defaults to all fields).
+Pass as a string of comma-separated values:
 
 `comma,separated,fields,to,include`
 
@@ -56,7 +64,8 @@ The fields in the API response you'd like to include (defaults to all fields). P
 
 `exclude` **string**
 
-The fields in the API response you'd like to _exclude_ (defaults to none, including all fields). Pass as a string of comma-separated values:
+The fields in the API response you'd like to _exclude_ (defaults to none,
+including all fields). Pass as a string of comma-separated values:
 
 `comma,separated,fields,to,include`
 
@@ -64,7 +73,11 @@ The fields in the API response you'd like to _exclude_ (defaults to none, includ
 
 ## Pagination
 
-Most API endpoints below support pagination, **with a default page size of 10 items**. You can vary the size of pages, and set a `before` or `after` cursor on the results, using the following parameters. They can be included as query string params for `GET` requests, or in the body of the payload of `POST` requests.
+Most API endpoints below support pagination, **with a default page size of 10
+items**. You can vary the size of pages, and set a `before` or `after` cursor on
+the results, using the following parameters. They can be included as query
+string params for `GET` requests, or in the body of the payload of `POST`
+requests.
 
 ---
 
@@ -94,16 +107,17 @@ Cursor strings are returned with all paginated responses.
 
 ---
 
-**Example Paginated Request**
+### Example Paginated Request
 
-This request fetches a page of 5 sources in the authenticated account, after a specific cursor (returned with a previous request):
+This request fetches a page of 5 sources in the authenticated account, after a
+specific cursor (returned with a previous request):
 
-```bash
+```shell
 curl https://api.pipedream.com/v1/users/me/sources\?limit\=3\&after\=ZGNfSzB1QWVl \
   -H "Authorization: Bearer <api key>"
 ```
 
-**Example Paginated Response**
+### Example Paginated Response
 
 The response from the request above will have a shape that looks like:
 
@@ -131,80 +145,39 @@ The response from the request above will have a shape that looks like:
 
 ## Errors
 
-Pipedream uses conventional HTTP response codes to indicate the success or failure of an API request. Codes in the **2xx** range indicate success. Codes in the **4xx** range indicate an error that failed (e.g., a required parameter was omitted). Codes in the **5xx** range indicate an error with Pipedream’s server.
+Pipedream uses conventional HTTP response codes to indicate the success or
+failure of an API request. Codes in the **2xx** range indicate success. Codes in
+the **4xx** range indicate an error that failed (e.g., a required parameter was
+omitted). Codes in the **5xx** range indicate an error with Pipedream’s server.
 
-## Operations
+## Components
 
-### Users
+Components are objects that represent the code for an [event source](#sources).
 
----
-
-#### Get Current User Info
-
----
-
-Retrieve information on the authenticated user.
-
-**Endpoint**
-
-```
-GET /users/me
-```
-
-**Parameters**
-
-_No parameters_
-
-**Example Request**
-
-```
-curl 'https://api.pipedream.com/v1/users/me' \
-  -H 'Authorization: Bearer <api_key>'
-```
-
-**Example Response**
-
-```json
-{
-  "data": {
-    "id": "u_aPmhl8",
-    "username": "dylburger",
-    "email": "dylan@pipedream.com",
-    "admin": true,
-    "api_key": "XXX",
-    "daily_compute_time_quota": 95400000,
-    "daily_compute_time_used": 8420300,
-    "daily_invocations_quota": 27344,
-    "daily_invocations_used": 24903
-  }
-}
-```
-
-### Components
+### Create a component
 
 ---
 
-#### Create a component
+Before you can create a source using the REST API, you must first create a
+**component** - the code for the source.
 
----
+This route returns the components `id`, `code`, `configurable_props`, and other
+metadata you'll need to [deploy a source](#create-a-source) from this component.
 
-Before you can create a source using the REST API, you must first create a **component** - the code for the source.
+#### Endpoint
 
-This route returns the components `id`, `code`, `configurable_props`, and other metadata you'll need to [deploy a source](#create-a-source) from this component.
-
-**Endpoint**
-
-```
+```text
 POST /components
 ```
 
-**Parameters**
+#### Parameters
 
 ---
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+The full code for a [Pipedream
+component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
 
 ---
 
@@ -212,24 +185,27 @@ The full code for a [Pipedream component](https://github.com/PipedreamHQ/pipedre
 
 A reference to the URL where the component is hosted.
 
-For example, to create an RSS component, pass `https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+For example, to create an RSS component, pass
+`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
 
 ---
 
-One of `component_code` _or_ `component_url` is required. If both are present, `component_code` is preferred and `component_url` will be used only as metadata to identify the location of the code.
+One of `component_code` _or_ `component_url` is required. If both are present,
+`component_code` is preferred and `component_url` will be used only as metadata
+to identify the location of the code.
 
-**Example Request**
+#### Example Request
 
 Here's an example of how to create an RSS component from a Github URL:
 
-```bash
+```shell
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
   -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
 ```
 
-**Example Response**
+#### Example Response
 
 ```json
 {
@@ -260,19 +236,29 @@ curl https://api.pipedream.com/v1/components \
 }
 ```
 
-#### Get a component
+### Get a component
 
-Retrieve a component by ID to determine its metadata and configurable props.
+Retrieve a component saved or published in your account using its saved
+component ID **or** key.
 
-**Endpoint**
+This endpoint returns the component's metadata and configurable props.
 
+#### Endpoint
+
+```text
+GET /components/{key|id}
 ```
-GET /components/{id}
-```
 
-**Parameters**
+#### Parameters
 
 ---
+
+`key` **string**
+
+The component key (identified by the `key` property within the component's
+source code) you'd like to fetch metadata for (example: `my-component`)
+
+**or**
 
 `id` **string**
 
@@ -280,14 +266,14 @@ The saved component ID you'd like to fetch metadata for (example: `sc_JDi8EB`)
 
 ---
 
-**Example Request**
+#### Example Request
 
-```bash
-curl https://api.pipedream.com/v1/components/sc_JDi8EB \
+```shell
+curl https://api.pipedream.com/v1/components/my-component \
   -H "Authorization: Bearer <api_key>"
 ```
 
-**Example Response**
+#### Example Response
 
 ```json
 {
@@ -318,32 +304,215 @@ curl https://api.pipedream.com/v1/components/sc_JDi8EB \
 }
 ```
 
-### Sources
+### Get a component from the global registry
 
----
+Pipedream operates a global registry of all public components (for example, for
+apps like Github, Google Calendar, and more). This endpoint returns the same
+data as the endpoint for [retrieving metadata on a component you
+own](#get-a-component), but allows you to fetch data for any globally-published
+component.
 
-#### List Current User Sources
+#### Endpoint
 
----
-
-**Endpoint**
-
+```text
+GET /components/registry/{key}
 ```
+
+#### Parameters
+
+---
+
+`key` **string**
+
+The component key (identified by the `key` property within the component's
+source code) you'd like to fetch metadata for (example: `my-component`)
+
+---
+
+#### Example Request
+
+```shell
+curl https://api.pipedream.com/v1/components/registry/github-new-repository \
+  -H "Authorization: Bearer <api_key>"
+```
+
+#### Example Response
+
+```json
+{
+  "data": {
+    "id": "sc_JDi8EB",
+    "code": "component code here",
+    "code_hash": "685c7a680d055eaf505b08d5d814feef9fabd516d5960837d2e0838d3e1c9ed1",
+    "name": "rss",
+    "version": "0.0.1",
+    "configurable_props": [
+      {
+        "name": "url",
+        "type": "string",
+        "label": "Feed URL",
+        "description": "Enter the URL for any public RSS feed."
+      },
+      {
+        "name": "timer",
+        "type": "$.interface.timer",
+        "default": {
+          "intervalSeconds": 900
+        }
+      }
+    ],
+    "created_at": 1588866900,
+    "updated_at": 1588866900
+  }
+}
+```
+
+## Events
+
+### Get Source Events
+
+---
+
+Retrieve up to the last 100 events emitted by a source.
+
+#### Endpoint
+
+```text
+GET /sources/{id}/event_summaries
+```
+
+#### Notes and Examples
+
+The event data for events larger than `1KB` may get truncated in the response.
+If you're processing larger events, and need to see the full event data, pass
+`?expand=event`:
+
+```text
+GET /sources/{id}/event_summaries?expand=event
+```
+
+Pass `?limit=N` to retrieve the last **N** events:
+
+```text
+GET /sources/{id}/event_summaries?limit=10
+```
+
+### Delete source events
+
+---
+
+Deletes all events, or a specific set of events, tied to a source.
+
+By default, making a `DELETE` request to this endpoint deletes **all** events
+associated with a source. To delete a specific event, or a range of events, you
+can use the `start_id` and `end_id` parameters.
+
+These IDs can be retrieved by using the [`GET /sources/{id}/event_summaries`
+endpoint](/api/rest/#get-source-events), and are tied to the timestamp at which
+the event was emitted — e.g. `1589486981597-0`. They are therefore naturally
+ordered by time.
+
+#### Endpoint
+
+```text
+DELETE /sources/{id}/events
+```
+
+#### Parameters
+
+---
+
+`start_id` **string**
+
+The event ID from which you'd like to start deleting events.
+
+If `start_id` is passed without `end_id`, the request will delete all events
+starting with and including this event ID. For example, if your source has 3
+events:
+
+- `1589486981597-0`
+- `1589486981598-0`
+- `1589486981599-0`
+
+and you issue a `DELETE` request like so:
+
+```shell
+curl -X DELETE \
+  -H "Authorization: Bearer <api key>" \
+  "https://api.pipedream.com/v1/sources/dc_abc123/events?start_id=1589486981598-0"
+```
+
+The request will delete the **last two events**.
+
+---
+
+`end_id` **string**
+
+The event ID from which you'd like to end the range of deletion.
+
+If `end_id` is passed without `start_id`, the request will delete all events up
+to and including this event ID. For example, if your source has 3 events:
+
+- `1589486981597-0`
+- `1589486981598-0`
+- `1589486981599-0`
+
+and you issue a `DELETE` request like so:
+
+```shell
+curl -X DELETE \
+  -H "Authorization: Bearer <api key>" \
+  "https://api.pipedream.com/v1/sources/dc_abc123/events?end_id=1589486981598-0"
+```
+
+The request will delete the **first two events**.
+
+---
+
+#### Example Request
+
+You can delete a single event by passing its event ID in both the value of the
+`start_id` and `end_id` params:
+
+```shell
+curl -X DELETE \
+  -H "Authorization: Bearer <api key>" \
+  "https://api.pipedream.com/v1/sources/dc_abc123/events?start_id=1589486981598-0&end_id=1589486981598-0"
+```
+
+#### Example Response
+
+Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
+code in response to any deletion requests.
+
+## Sources
+
+Event sources run code to collect events from an API, or receive events via
+webhooks, emitting those events for use on Pipedream. Event sources can function
+as workflow triggers. [Read more here](/event-sources/).
+
+### List Current User Sources
+
+---
+
+#### Endpoint
+
+```text
 GET /users/me/sources/
 ```
 
-**Parameters**
+#### Parameters
 
 _No parameters_
 
-**Example Request**
+#### Example Request
 
-```bash
+```shell
 curl 'https://api.pipedream.com/v1/users/me/sources' \
   -H 'Authorization: Bearer <api_key>'
 ```
 
-**Example Response**
+#### Example Response
 
 ```json
 {
@@ -371,29 +540,31 @@ curl 'https://api.pipedream.com/v1/users/me/sources' \
   ]
 ```
 
-#### Create a Source
+### Create a Source
 
 ---
 
-**Endpoint**
+#### Endpoint
 
-```
+```text
 POST /sources/
 ```
 
-**Parameters**
+#### Parameters
 
 ---
 
 `component_id` **string** (_optional_)
 
-The ID of a component previously created in your account. [See the component endpoints](/api/rest/#components) for informtion on how to retrieve this ID.
+The ID of a component previously created in your account. [See the component
+endpoints](/api/rest/#components) for informtion on how to retrieve this ID.
 
 ---
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+The full code for a [Pipedream
+component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
 
 ---
 
@@ -401,11 +572,14 @@ The full code for a [Pipedream component](https://github.com/PipedreamHQ/pipedre
 
 A reference to the URL where the component is hosted.
 
-For example, to create an RSS component, pass `https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+For example, to create an RSS component, pass
+`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
 
 ---
 
-One of `component_id`, `component_code`, or `component_url` is required. If all are present, `component_id` is preferred and `component_url` will be used only as metadata to identify the location of the code.
+One of `component_id`, `component_code`, or `component_url` is required. If all
+are present, `component_id` is preferred and `component_url` will be used only
+as metadata to identify the location of the code.
 
 ---
 
@@ -413,18 +587,20 @@ One of `component_id`, `component_code`, or `component_url` is required. If all 
 
 The name of the source.
 
-If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure) of the component used to create the source.
+If absent, this defaults to using the [name
+slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure)
+of the component used to create the source.
 
-**Example Request**
+#### Example Request
 
-```bash
+```shell
 curl https://api.pipedream.com/v1/sources \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
   -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
 
-**Example Response**
+#### Example Response
 
 Example response from creating an RSS source that runs once a minute:
 
@@ -452,29 +628,31 @@ Example response from creating an RSS source that runs once a minute:
 
 ---
 
-#### Update a source
+### Update a source
 
 ---
 
-**Endpoint**
+#### Endpoint
 
-```
+```text
 PUT /sources/{id}
 ```
 
-**Parameters**
+#### Parameters
 
 ---
 
 `component_id` **string** (_optional_)
 
-The ID of a component previously created in your account. [See the component endpoints](/api/rest/#components) for information on how to retrieve this ID.
+The ID of a component previously created in your account. [See the component
+endpoints](/api/rest/#components) for information on how to retrieve this ID.
 
 ---
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+The full code for a [Pipedream
+component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
 
 ---
 
@@ -482,11 +660,14 @@ The full code for a [Pipedream component](https://github.com/PipedreamHQ/pipedre
 
 A reference to the URL where the component is hosted.
 
-For example, to create an RSS component, pass `https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+For example, to create an RSS component, pass
+`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
 
 ---
 
-One of `component_id`, `component_code`, or `component_url` is required. If all are present, `component_id` is preferred and `component_url` will be used only as metadata to identify the location of the code.
+One of `component_id`, `component_code`, or `component_url` is required. If all
+are present, `component_id` is preferred and `component_url` will be used only
+as metadata to identify the location of the code.
 
 ---
 
@@ -494,45 +675,82 @@ One of `component_id`, `component_code`, or `component_url` is required. If all 
 
 The name of the source.
 
-If absent, this defaults to using the [name slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure) of the component used to create the source.
+If absent, this defaults to using the [name
+slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure)
+of the component used to create the source.
 
 ---
 
 `active` **boolean** (_optional_)
 
-The active state of a component. To disable a component, set to `false`. To enable a component, set to `true`.
+The active state of a component. To disable a component, set to `false`. To
+enable a component, set to `true`.
 
 Default: `true`.
 
-#### Delete a source
+### Delete a source
 
 ---
 
-**Endpoint**
+#### Endpoint
 
 ```
 DELETE /sources/{id}
 ```
 
-### Subscriptions
+## Subscriptions
 
-#### Listen for events from another source
-
----
-
-You can configure a source, or a workflow, to receive events from any number of other sources. For example, if you want a single workflow to run on 10 different RSS sources, you can configure the workflow to _listen_ for events from those 10 sources.
-
-**Currently, this feature is enabled only on the API. The Pipedream UI will not display the sources configured as listeners using this API**.
+### Listen for events from another source or workflow
 
 ---
 
-**Endpoint**
+You can configure a source, or a workflow, to receive events from any number of
+other workflows or sources. For example, if you want a single workflow to run on
+10 different RSS sources, you can configure the workflow to _listen_ for events
+from those 10 sources.
+
+**Currently, this feature is enabled only on the API. The Pipedream UI will not
+display the sources configured as listeners using this API**.
+
+---
+
+#### Endpoint
 
 ```
-POST /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_source_id}
+POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}listener_id={receiving_source_id}
 ```
 
-**Parameters**
+#### Parameters
+
+---
+
+`emitter_id` **string**
+
+The ID of the workflow or component emitting events. Events from this component
+trigger the receiving component / workflow.
+
+`emitter_id` also accepts glob patterns that allow you to subscribe to _all_
+workflows or components:
+
+- `p_*`: Listen to events from all workflows
+- `dc_*`: Listen to events from all event sources
+
+[See the component endpoints](/api/rest/#components) for information on how to
+retrieve the ID of existing components. You can retrieve the ID of your workflow
+in your workflow's URL - it's the string `p_2gCPml` in
+`https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
+
+---
+
+`event_name` **string** (optional)
+
+The name of the event stream whose events you'd like to receive:
+
+- `$errors`: any errors thrown by workflows or sources are emitted to this
+  stream
+- `default`: any events emitted by event sources (or from workflows, using
+  `$send.emit()`) are included in this stream
+- `$logs`: any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -540,133 +758,593 @@ POST /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_so
 
 The ID of the component or workflow you'd like to receive events.
 
-[See the component endpoints](/api/rest/#components) for information on how to retrieve the ID of existing components. You can retrieve the ID of your workflow in your workflow's URL - it's the string `p_2gCPml` in `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
+[See the component endpoints](/api/rest/#components) for information on how to
+retrieve the ID of existing components. You can retrieve the ID of your workflow
+in your workflow's URL - it's the string `p_2gCPml` in
+`https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
 
 ---
 
-`emitter_id` **string** (_optional_)
+#### Example Request
 
-The ID of the component emitting events. Events from this component trigger the receiving component / workflow.
+You can configure workflow `p_abc123` to listen to events from the source
+`dc_def456` using the following command:
 
-[See the component endpoints](/api/rest/#components) for information on how to retrieve the ID of existing components. You can retrieve the ID of your workflow in your workflow's URL - it's the string `p_2gCPml` in `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
-
-**Example Request**
-
-You can configure workflow `p_abc123` to listen to events from the source `dc_def456` using the following command:
-
-```bash
+```shell
 curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_id=p_abc123" \
   -X POST \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json"
 ```
 
-### Events
+### Automatically subscribe a listener to events from new workflows / sources
 
 ---
 
-#### Get Source Events
+You can use this endpoint to automatically receive events, like workflow errors,
+in another listening workflow or event source. Once you setup the
+auto-subscription, any new workflows or event sources you create will
+automatically deliver the specified events to the listener.
+
+Note: this will configure subscriptions for _new_ workflows and sources after
+the time you configure the subscription. To deliver events to your listener from
+_existing_ workflows or sources, use the [`POST /subscriptions`
+endpoint](#listen-for-events-from-another-source-or-workflow).
+
+**Currently, this feature is enabled only on the API. The Pipedream UI will not
+display the sources configured as listeners using this API**.
 
 ---
 
-Retrieve up to the last 100 events emitted by a source.
+#### Endpoint
 
-**Endpoint**
-
-```
-GET /sources/{id}/event_summaries
+```text
+POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_id}
 ```
 
-**Notes and Examples**
+#### Parameters
 
-The event data for events larger than `1KB` may get truncated in the response. If you're processing larger events, and need to see the full event data, pass `?expand=event`:
+---
 
+`event_name` **string**
+
+The name of the event stream whose events you'd like to receive:
+
+- `$errors`: any errors thrown by workflows or sources are emitted to this
+  stream
+- `default`: any events emitted by event sources (or from workflows, using
+  `$send.emit()`) are included in this stream
+- `$logs`: any logs produced by **event sources** are emitted to this stream
+
+---
+
+`listener_id` **string**
+
+The ID of the component or workflow you'd like to receive events.
+
+[See the component endpoints](/api/rest/#components) for information on how to
+retrieve the ID of existing components. You can retrieve the ID of your workflow
+in your workflow's URL - it's the string `p_2gCPml` in
+`https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
+
+---
+
+#### Example Request
+
+You can configure workflow `p_abc123` to listen to events from the source
+`dc_def456` using the following command:
+
+```shell
+curl "https://api.pipedream.com/v1/auto_subscriptions?event_name=$errors&listener_id=p_abc123" \
+  -X POST \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
 ```
-GET /sources/{id}/event_summaries?expand=event
+
+### Delete a subscription
+
+---
+
+Use this endpoint to delete an existing subscription. This endpoint accepts the
+same parameters as the [`POST /subscriptions`
+endpoint](#listen-for-events-from-another-source-or-workflow) for creating
+subscriptions.
+
+---
+
+#### Endpoint
+
+```text
+DELETE /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_source_id}&event_name={event_name}
+```
+
+#### Parameters
+
+---
+
+`emitter_id` **string**
+
+The ID of the workflow or component emitting events. Events from this component
+trigger the receiving component / workflow.
+
+`emitter_id` also accepts glob patterns that allow you to subscribe to _all_
+workflows or components:
+
+- `p_*`: Listen to events from all workflows
+- `dc_*`: Listen to events from all event sources
+
+[See the component endpoints](/api/rest/#components) for information on how to
+retrieve the ID of existing components. You can retrieve the ID of your workflow
+in your workflow's URL - it's the string `p_2gCPml` in
+`https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
+
+---
+
+`listener_id` **string**
+
+The ID of the component or workflow you'd like to receive events.
+
+[See the component endpoints](/api/rest/#components) for information on how to
+retrieve the ID of existing components. You can retrieve the ID of your workflow
+in your workflow's URL - it's the string `p_2gCPml` in
+`https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
+
+---
+
+`event_name` **string**
+
+The name of the event stream tied to your subscription. **If you didn't specify
+an `event_name` when creating your subscription, pass `event_name=`**.
+
+You'll find the `event_name` that's tied to your subscription when [listing your
+subscriptions](#get-current-user-s-subscriptions):
+
+```javascript
+{
+  "id": "sub_abc123",
+  "emitter_id": "dc_abc123",
+  "listener_id": "dc_def456",
+  "event_name": "test"
+},
+{
+  "id": "sub_def456",
+  "emitter_id": "dc_abc123",
+  "listener_id": "wh_abc123",
+  "event_name": ""
+}
+```
+
+---
+
+#### Example Request
+
+You can delete a subscription you configured for workflow `p_abc123` to listen
+to events from the source `dc_def456` using the following command:
+
+```shell
+curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_id=p_abc123" \
+  -X DELETE \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
+## Webhooks
+
+Pipedream supports webhooks as a way to deliver events to a endpoint you own.
+Webhooks are managed at an account-level, and you send data to these webhooks
+using [subscriptions](#subscriptions).
+
+For example, you can run a Twitter [event source](/event-sources) that listens
+for new tweets. If you [subscribe](#subscriptions) the webhook to this source,
+Pipedream will deliver those tweets directly to your webhook's URL without
+running a workflow.
+
+[**See these tutorials**](/api/rest/webhooks) for examples.
+
+### Create a webhook
+
+Creates a webhook pointing to a URL. Configure a [subscription](#subscriptions)
+to deliver events to this webhook.
+
+#### Endpoint
+
+```text
+POST /webhooks?url={your_endpoint_url}&name={name}&description={description}
+```
+
+#### Parameters
+
+---
+
+`url` **string**
+
+The endpoint URL where you'd like to deliver events. Any events sent to this
+webhook object will be delivered to this endpoint URL.
+
+This URL **must** contain, at a minimum, a protocol — one of `http` or `https` —
+and hostname, but can specify resources or ports. For example, these URLs work:
+
+```text
+https://example.com
+http://example.com
+https://example.com:12345/endpoint
+```
+
+but these do not:
+
+```text
+# No protocol - needs http(s)://
+example.com
+
+# mysql protocol not supported. Must be an HTTP(S) endpoint
+mysql://user:pass@host:port
+```
+
+---
+
+`name` **string**
+
+The name you'd like to assign to this webhook, which will appear when [listing
+your webhooks](#get-current-user-s-webhooks).
+
+---
+
+`description` **string**
+
+The description you'd like to assign to this webhook, which will appear when
+[listing your webhooks](#get-current-user-s-webhooks).
+
+#### Example Request
+
+You can create a webhook that delivers events to
+`https://endpoint.m.pipedream.net` using the following command:
+
+```shell
+curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description \
+  -X POST \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json"
+```
+
+#### Example Response
+
+Successful API responses contain a webhook ID for the webhook that was created
+in `data.id` — the string that starts with `wh_` — which you can reference when
+creating [subscriptions](#subscriptions).
+
+```json
+{
+  "data": {
+    "id": "wh_abc123",
+    "user_id": "u_abc123",
+    "name": null,
+    "description": null,
+    "url": "https://endpoint.m.pipedream.net",
+    "active": true,
+    "created_at": 1611964025,
+    "updated_at": 1611964025
+  }
+}
+```
+
+### List webhooks
+
+You can list webhooks you've created in your account using the
+[`/users/me/webhooks` endpoint](#get-current-user-s-webhooks)
+
+## Workflows
+
+### Get Workflow Emits
+
+---
+
+Retrieve up to the last 100 events emitted from a workflow using
+[`$send.emit()`](/destinations/emit/#emit-events).
+
+#### Endpoint
+
+```text
+GET /workflows/{workflow_id}/event_summaries
+```
+
+#### Notes and Examples
+
+The event data for events larger than `1KB` may get truncated in the response.
+If you're retrieving larger events, and need to see the full event data, pass
+`?expand=event`:
+
+```text
+GET /workflows/{workflow_id}/event_summaries&expand=event
 ```
 
 Pass `?limit=N` to retrieve the last **N** events:
 
-```
-GET /sources/{id}/event_summaries?limit=10
+```text
+GET /v1/workflows/{workflow_id}/event_summaries?expand=event&limit=1
 ```
 
-#### Delete source events
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/workflows/p_abc123/event_summaries?expand=event&limit=1' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 1,
+    "start_cursor": "1606511826306-0",
+    "end_cursor": "1606511826306-0",
+    "count": 1
+  },
+  "data": [
+    {
+      "id": "1606511826306-0",
+      "indexed_at_ms": 1606511826306,
+      "event": {
+        "raw_event": {
+          "name": "Luke",
+          "title": "Jedi"
+        }
+      },
+      "metadata": {
+        "emit_id": "1ktF96gAMsLqdYSRWYL9KFS5QqW",
+        "name": "",
+        "emitter_id": "p_abc123"
+      }
+    }
+  ]
+}
+```
 
 ---
 
-Deletes all events, or a specific set of events, tied to a source.
-
-By default, making a `DELETE` request to this endpoint deletes **all** events associated with a source. To delete a specific event, or a range of events, you can use the `start_id` and `end_id` parameters.
-
-These IDs can be retrieved by using the [`GET /sources/{id}/event_summaries` endpoint](/api/rest/#get-source-events), and are tied to the timestamp at which the event was emitted — e.g. `1589486981597-0`. They are therefore naturally ordered by time.
-
-**Endpoint**
-
-```
-DELETE /sources/{id}/events
-```
-
-**Parameters**
+### Get Workflow Errors
 
 ---
 
-`start_id` **string**
+Retrieve up to the last 100 events for a workflow that threw an error. The
+details of the error, along with the original event data, will be included
 
-The event ID from which you'd like to start deleting events.
+#### Endpoint
 
-If `start_id` is passed without `end_id`, the request will delete all events starting with and including this event ID. For example, if your source has 3 events:
-
-- `1589486981597-0`
-- `1589486981598-0`
-- `1589486981599-0`
-
-and you issue a `DELETE` request like so:
-
-```bash
-curl -X DELETE \
-  -H "Authorization: Bearer <api key>" \
-  "https://api.pipedream.com/v1/sources/dc_abc123/events?start_id=1589486981598-0"
+```text
+GET /workflows/{workflow_id}/$errors/event_summaries
 ```
 
-The request will delete the **last two events**.
+#### Notes and Examples
+
+The event data for events larger than `1KB` may get truncated in the response.
+If you're processing larger events, and need to see the full event data, pass
+`?expand=event`:
+
+```text
+GET /workflows/{workflow_id}/$errors/event_summaries&expand=event
+```
+
+Pass `?limit=N` to retrieve the last **N** events:
+
+```text
+GET /v1/workflows/{workflow_id}/$errors/event_summaries?expand=event&limit=1
+```
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event&limit=1' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 100,
+    "start_cursor": "1606370816223-0",
+    "end_cursor": "1606370816223-0",
+    "count": 1
+  },
+  "data": [
+    {
+      "id": "1606370816223-0",
+      "indexed_at_ms": 1606370816223,
+      "event": {
+        "original_event": {
+          "name": "Luke",
+          "title": "Jedi"
+        },
+        "original_context": {
+          "id": "1kodJIW7jVnKfvB2yp1OoPrtbFk",
+          "ts": "2020-11-26T06:06:44.652Z",
+          "workflow_id": "p_abc123",
+          "deployment_id": "d_abc123",
+          "source_type": "SDK",
+          "verified": false,
+          "owner_id": "u_abc123",
+          "platform_version": "3.1.20"
+        },
+        "error": {
+          "code": "InternalFailure",
+          "cellId": "c_abc123",
+          "ts": "2020-11-26T06:06:56.077Z",
+          "stack": "    at Request.extractError (/opt/ee/node_modules/aws-sdk/lib/protocol/query.js:50:29)\n    at Request.callListeners (/opt/ee/node_modules/aws-sdk/lib/sequential_executor.js:106:20)\n    at Request.emit (/opt/ee
+/node_modules/aws-sdk/lib/sequential_executor.js:78:10)\n    at Request.emit (/opt/ee/node_modules/aws-sdk/lib/request.js:688:14)\n    at Request.transition (/opt/ee/node_modules/aws-sdk/lib/request.js:22:10)\n    at AcceptorStateM
+achine.runTo (/opt/ee/node_modules/aws-sdk/lib/state_machine.js:14:12)\n    at global.null (/opt/ee/node_modules/aws-sdk/lib/state_machine.js:26:10)\n    at Request.null (/opt/ee/node_modules/aws-sdk/lib/request.js:38:9)\n    at Re
+quest.null (/opt/ee/node_modules/aws-sdk/lib/request.js:690:12)\n    at Request.callListeners (/opt/ee/node_modules/aws-sdk/lib/sequential_executor.js:116:18)\n"
+        }
+      },
+      "metadata": {
+        "emitter_id": "p_abc123",
+        "emit_id": "1kodKnAdWGeJyhqYbqyW6lEXVAo",
+        "name": "$errors"
+      }
+    }
+  ]
+}
+```
+
+## Users
+
+### Get Current User Info
 
 ---
 
-`end_id` **string**
+Retrieve information on the authenticated user.
 
-The event ID from which you'd like to end the range of deletion.
+#### Endpoint
 
-If `end_id` is passed without `start_id`, the request will delete all events up to and including this event ID. For example, if your source has 3 events:
-
-- `1589486981597-0`
-- `1589486981598-0`
-- `1589486981599-0`
-
-and you issue a `DELETE` request like so:
-
-```bash
-curl -X DELETE \
-  -H "Authorization: Bearer <api key>" \
-  "https://api.pipedream.com/v1/sources/dc_abc123/events?end_id=1589486981598-0"
+```text
+GET /users/me
 ```
 
-The request will delete the **first two events**.
+#### Parameters
+
+_No parameters_
+
+#### Example Request
+
+```text
+curl 'https://api.pipedream.com/v1/users/me' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+Free user:
+
+```json
+{
+  "data": {
+    "id": "u_abc123",
+    "username": "dylburger",
+    "email": "dylan@pipedream.com",
+    "api_key": "XXX",
+    "daily_compute_time_quota": 95400000,
+    "daily_compute_time_used": 8420300,
+    "daily_invocations_quota": 27344,
+    "daily_invocations_used": 24903
+  }
+}
+```
+
+Paid user:
+
+```json
+{
+  "data": {
+    "id": "u_abc123",
+    "username": "dylburger",
+    "email": "dylan@pipedream.com",
+    "billing_period_start_ts": 1610154978,
+    "billing_period_end_ts": 1612833378,
+    "billing_period_invocations": 12345
+  }
+}
+```
+
+### Get Current User's Subscriptions
 
 ---
 
-**Example Request**
+Retrieve all the [subscriptions](#subscriptions) configured for the
+authenticated user.
 
-You can delete a single event by passing its event ID in both the value of the `start_id` and `end_id` params:
+#### Endpoint
 
-```bash
-curl -X DELETE \
-  -H "Authorization: Bearer <api key>" \
-  "https://api.pipedream.com/v1/sources/dc_abc123/events?start_id=1589486981598-0&end_id=1589486981598-0"
+```text
+GET /users/me/subscriptions
 ```
 
-**Example Response**
+#### Parameters
 
-Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status code in response to any deletion requests.
+_No parameters_
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/users/me/subscriptions' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sub_abc123",
+      "emitter_id": "dc_abc123",
+      "listener_id": "p_abc123",
+      "event_name": ""
+    },
+    {
+      "id": "sub_def456",
+      "emitter_id": "dc_def456",
+      "listener_id": "p_def456",
+      "event_name": ""
+    }
+  ]
+}
+```
+
+### Get Current User's Webhooks
+
+---
+
+Retrieve all the [webhooks](#webhooks) configured for the authenticated user.
+
+#### Endpoint
+
+```text
+GET /users/me/webhooks
+```
+
+#### Parameters
+
+_No parameters_
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/users/me/webhooks' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 2,
+    "count": 2,
+    "start_cursor": "d2hfMjlsdUd6",
+    "end_cursor": "d2hfb3dHdWVv"
+  },
+  "data": [
+    {
+      "id": "wh_abc123",
+      "name": null,
+      "description": null,
+      "url": "https://endpoint.m.pipedream.net",
+      "active": true,
+      "created_at": 1611964025,
+      "updated_at": 1611964025
+    },
+    {
+      "id": "wh_def456",
+      "name": "Test webhook",
+      "description": "just a test",
+      "url": "https://endpoint2.m.pipedream.net",
+      "active": true,
+      "created_at": 1605835136,
+      "updated_at": 1605835136
+    }
+  ]
+}
+```
 
 <Footer />

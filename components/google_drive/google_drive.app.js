@@ -1,7 +1,9 @@
 const axios = require("axios");
 const { google } = require("googleapis");
+const { uuid } = require("uuidv4");
 
 const GOOGLE_DRIVE_UPDATE_TYPES = [
+  "add",
   "sync",
   "remove",
   "update",
@@ -18,9 +20,9 @@ module.exports = {
       type: "string",
       label: "Drive",
       description: "The drive you want to watch for changes",
-      async options({ page, prevContext }) {
+      async options({ prevContext }) {
         const { nextPageToken } = prevContext;
-        return await this.listDrives(nextPageToken);
+        return this.listDrives(nextPageToken);
       },
     },
     updateTypes: {
@@ -28,8 +30,6 @@ module.exports = {
       label: "Types of updates",
       description:
         "The types of updates you want to watch for on these files. [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).",
-      // Everything from this doc except for "add", which is irrelevant
-      // since the files already exists:
       // https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events
       default: GOOGLE_DRIVE_UPDATE_TYPES,
       options: GOOGLE_DRIVE_UPDATE_TYPES,
@@ -85,15 +85,75 @@ module.exports = {
       const { changes, newStartPageToken } = (
         await drive.changes.list(changeRequest)
       ).data;
-      const changedFiles = changes.map((change) => change.file);
+
+      // Some changes do not include an associated file object. Return only those that do
+      const changedFiles = changes
+        .map((change) => change.file)
+        .filter((f) => typeof f === "object");
+
       return {
         changedFiles,
         newStartPageToken,
       };
     },
-    async getPageToken() {
+    async getPageToken(driveId) {
       const drive = this.drive();
-      return (await drive.changes.getStartPageToken({})).data.startPageToken;
+      const request = driveId
+        ? {
+            driveId,
+            supportsAllDrives: true,
+          }
+        : {};
+      const { data } = await drive.changes.getStartPageToken(request);
+      return data.startPageToken;
+    },
+    checkHeaders(headers, subscription, channelID) {
+      if (
+        !headers["x-goog-resource-state"] ||
+        !headers["x-goog-resource-id"] ||
+        !headers["x-goog-resource-uri"] ||
+        !headers["x-goog-message-number"]
+      ) {
+        console.log("Request missing necessary headers: ", headers);
+        return false;
+      }
+
+      const incomingChannelID = headers["x-goog-channel-id"];
+      if (incomingChannelID !== channelID) {
+        console.log(
+          `Channel ID of ${incomingChannelID} not equal to deployed component channel of ${channelID}`
+        );
+        return false;
+      }
+
+      if (headers["x-goog-resource-id"] !== subscription.resourceId) {
+        console.log(
+          `Resource ID of ${subscription.resourceId} not currently being tracked. Exiting`
+        );
+        return false;
+      }
+      return true;
+    },
+    async checkResubscription(
+      subscription,
+      channelID,
+      pageToken,
+      endpoint,
+      driveId
+    ) {
+      if (subscription && subscription.resourceId) {
+        console.log(
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`
+        );
+        await this.stopNotifications(channelID, subscription.resourceId);
+      }
+      const { expiration, resourceId } = await this.watchDrive(
+        channelID,
+        endpoint,
+        pageToken,
+        driveId === "myDrive" ? null : driveId
+      );
+      return { expiration, resourceId };
     },
     async listDrives(pageToken) {
       const drive = this.drive();
@@ -125,6 +185,15 @@ module.exports = {
         options,
         context: { nextPageToken },
       };
+    },
+    async listComments(fileId, startModifiedTime = null) {
+      const drive = this.drive();
+      const opts = {
+        fileId,
+        fields: "*",
+      };
+      if (startModifiedTime) opts.startModifiedTime = startModifiedTime;
+      return (await drive.comments.list(opts)).data;
     },
     _makeWatchRequestBody(id, address) {
       return {
@@ -203,6 +272,87 @@ module.exports = {
           `Failed to stop channel ${id} for resource ${resourceId}: ${err}`
         );
       }
+    },
+    async getFile(fileId) {
+      const drive = this.drive();
+      return (
+        await drive.files.get({
+          fileId,
+          fields: "*",
+        })
+      ).data;
+    },
+    async getDrive(driveId) {
+      const drive = this.drive();
+      return (
+        await drive.drives.get({
+          driveId,
+        })
+      ).data;
+    },
+    async activateHook(channelID, url, drive) {
+      const startPageToken = await this.getPageToken();
+      const { expiration, resourceId } = await this.watchDrive(
+        channelID,
+        url,
+        startPageToken,
+        drive
+      );
+      return { startPageToken, expiration, resourceId };
+    },
+    async deactivateHook(channelID, resourceId) {
+      if (!channelID) {
+        console.log(
+          "Channel not found, cannot stop notifications for non-existent channel"
+        );
+        return;
+      }
+
+      if (!resourceId) {
+        console.log(
+          "No resource ID found, cannot stop notifications for non-existent resource"
+        );
+        return;
+      }
+
+      await this.stopNotifications(channelID, resourceId);
+    },
+    async invokedByTimer(drive, subscription, url, channelID, pageToken) {
+      newChannelID = channelID || uuid();
+      newPageToken =
+        pageToken ||
+        (await this.getPageToken(drive === "myDrive" ? null : drive));
+
+      const { expiration, resourceId } = await this.checkResubscription(
+        subscription,
+        newChannelID,
+        newPageToken,
+        url,
+        drive
+      );
+
+      return { newChannelID, newPageToken, expiration, resourceId };
+    },
+    async checkResubscription(
+      subscription,
+      channelID,
+      pageToken,
+      endpoint,
+      driveId
+    ) {
+      if (subscription && subscription.resourceId) {
+        console.log(
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`
+        );
+        await this.stopNotifications(channelID, subscription.resourceId);
+      }
+      const { expiration, resourceId } = await this.watchDrive(
+        channelID,
+        endpoint,
+        pageToken,
+        driveId === "myDrive" ? null : driveId
+      );
+      return { expiration, resourceId };
     },
   },
 };

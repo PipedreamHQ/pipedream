@@ -1,10 +1,10 @@
 const twitter = require('../../twitter.app.js')
 
-module.exports = { 
+module.exports = {
   key: "twitter-new-trends-by-geo",
-  name: "New Trends by Geo", 
-  description: "Emit an event when a new topic is trending on Twitter in a specific geographic location", 
-  version: "0.0.1",
+  name: "New Trends by Geo",
+  description: "Emit an event when a new topic is trending on Twitter in a specific geographic location",
+  version: "0.0.4",
   props: {
     twitter,
     trendLocation: { propDefinition: [twitter, "trendLocation"] },
@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   dedupe: "unique",
-  async run(event) {     
+  async run(event) {
     const response = (await this.twitter.getTrends()).forEach(geo => {
       geo.trends.reverse().forEach(trend => {
         this.$emit(trend, {

@@ -1,84 +1,81 @@
-const youtube = require("../../youtube.app.js");
+const common = require("../common.js");
 
 module.exports = {
+  ...common,
   key: "youtube-new-videos-by-username",
   name: "New Videos by Username",
   description: "Emits an event for each new Youtube video tied to a username.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
-    youtube,
+    ...common.props,
     username: {
       type: "string",
       label: "Username",
       description: "Search for new videos uploaded by the YouTube Username.",
     },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
   },
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      const channelIds = await this.getChannelIds();
 
-  async run(event) {
-    let videos = [];
-    let channelIds = [];
-    let totalResults;
-    let nextPageToken;
-    let count;
-    let results;
-
-    const now = new Date();
-    const monthAgo = now;
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
-    const publishedAfter = this.db.get("publishedAfter") || monthAgo;
-
-    let params = {
-      part: "id",
-      forUsername: this.username,
-    };
-
-    channels = await this.youtube.getChannels(params);
-    channels.data.items.forEach(function (channel) {
-      channelIds.push(channel.id);
-    });
-
-    for (const channelId of channelIds) {
-      count = 0;
-      totalResults = 1;
-      nextPageToken = null;
-      params = {
-        part: "snippet",
-        type: "video",
-        channelId: this.channelId,
-        pageToken: null,
-        publishedAfter,
+      const params = {
+        ...this._getBaseParams(),
+        maxResults: 10,
       };
 
-      while (count < totalResults) {
-        params.pageToken = nextPageToken;
-        results = await this.youtube.getVideos(params);
-        totalResults = results.data.pageInfo.totalResults;
-        nextPageToken = results.data.nextPageToken;
-        results.data.items.forEach(function (video) {
-          videos.push(video);
-          count++;
-        });
-        if (!nextPageToken) break;
-        if (!results.data.items || results.data.items.length < 1) break;
-      }
-    }
+      const lastPublished = await this.loopThroughChannels(channelIds, params);
 
-    this.db.set("publishedAfter", now);
-
-    for (const video of videos) {
-      this.$emit(video, {
-        id: video.id.videoId,
-        summary: video.snippet.title,
-        ts: Date.now(),
+      if (lastPublished) this._setPublishedAfter(lastPublished);
+      else this._setPublishedAfter(new Date());
+    },
+  },
+  methods: {
+    ...common.methods,
+    getParams(channelId) {
+      return {
+        channelId,
+      };
+    },
+    async getChannelIds() {
+      const channelParams = {
+        part: "id",
+        forUsername: this.username,
+      };
+      const channels = (await this.youtube.getChannels(channelParams)).data;
+      const channelIds = channels.items.map((channel) => {
+        return channel.id;
       });
-    }
+      return channelIds;
+    },
+    async loopThroughChannels(channelIds, baseParams) {
+      let lastPublished;
+      for (const channelId of channelIds) {
+        const params = {
+          ...baseParams,
+          ...this.getParams(channelId),
+        };
+        const lastPublishedInChannel = await this.paginateVideos(params);
+        if (
+          !lastPublished ||
+          Date.parse(lastPublishedInChannel) > Date.parse(lastPublished)
+        )
+          lastPublished = lastPublishedInChannel;
+      }
+      return lastPublished;
+    },
+  },
+  async run(event) {
+    let publishedAfter = this._getPublishedAfter();
+    const channelIds = await this.getChannelIds();
+
+    const params = {
+      ...this._getBaseParams(),
+      publishedAfter,
+    };
+
+    const lastPublished = await this.loopThroughChannels(channelIds, params);
+    if (lastPublished) this._setPublishedAfter(lastPublished);
   },
 };
