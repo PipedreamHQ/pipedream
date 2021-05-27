@@ -1,5 +1,6 @@
 const shopify = require("../../shopify.app.js");
 const Bottleneck = require("bottleneck");
+const { dateToISOStringWithoutMs } = require("../common/utils");
 // limiting requests to 1 per 4 seconds
 // the GraphQL Admin API standard limit (avg) is about 50 points/second,
 // the orders query uses between about 130 and 950 points, and typically closer to 150
@@ -20,9 +21,6 @@ module.exports = {
     shopify,
   },
   methods: {
-    _dateToISOStringWithoutMs(date) {
-      return date.toISOString().split(".")[0] + "Z";
-    },
     _getCursor() {
       return this.db.get("cursor") || null;
     },
@@ -497,9 +495,10 @@ module.exports = {
     const cursor = this._getCursor();
 
     // If there is no cursor yet, get orders updated_at after 1 day ago
+    // The Shopify GraphQL Admin API does not accept date ISO strings that include milliseconds
     const updatedAfter = cursor
       ? null
-      : this._dateToISOStringWithoutMs(this.shopify.dayAgo()); // (remove millis to match Shopify dates)
+      : dateToISOStringWithoutMs(this.shopify.dayAgo());
 
     // Paginate orders
     const throttledGetOrders = limiter.wrap(this.getOrders);
