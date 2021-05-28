@@ -8,11 +8,7 @@ module.exports = {
       secret: true,
       label: "Mailgun webhook signing key",
       description:
-<<<<<<< HEAD
         "Your Mailgun webhook signing key, found [in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under Settings on the left-hand nav and then in API Keys look for webhook signing key. Required to compute the authentication signature of events.",
-=======
-        "Your Mailgun webhook signing key, found [in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under Settings on the left-hand nav and then in API Keys look for webhook signing key. Required to compute the authentication signature of events.",
->>>>>>> bc54bd8... common webhooks, new delievery source
     },
     http: "$.interface.http",
     db: "$.service.db",
@@ -28,11 +24,7 @@ module.exports = {
     },
     emitEvent(eventWorkload) {
       const eventPayload = eventWorkload["event-data"];
-<<<<<<< HEAD
       if (eventTypes.includes(eventPayload.event)) {
-=======
-      if (eventTypes.indexOf(eventPayload.event) > -1) {
->>>>>>> bc54bd8... common webhooks, new delievery source
         const meta = this.generateMeta();
         this.$emit(eventPayload, meta);
       }
@@ -73,17 +65,8 @@ module.exports = {
         webhookDetails.urls.length > 1
       ) {
         const currentWebhookUrls = webhookDetails.urls.slice();
-<<<<<<< HEAD
         const newWebhookUrls = currentWebhookUrls
           .filter(url => url !== this.http.endpoint);
-=======
-        const newWebhookUrls = [];
-        currentWebhookUrls.forEach((url) => {
-          if (!(url === this.http.endpoint)) {
-            newWebhookUrls.push(url);
-          }
-        });
->>>>>>> bc54bd8... common webhooks, new delievery source
         await this.mailgun.updateWebhook(this.domain, webhookName, newWebhookUrls);
       } else {
         await this.mailgun.deleteWebhook(this.domain, webhookName);
@@ -98,8 +81,4 @@ module.exports = {
     }
     this.emitEvent(eventPayload);
   },
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> bc54bd8... common webhooks, new delievery source
