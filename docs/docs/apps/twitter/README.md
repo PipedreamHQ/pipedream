@@ -88,7 +88,7 @@ Pipedream [event sources](/event-sources) emit Twitter events — tweets, follo
 
 Create a new Twitter event source at [https://pipedream.com/sources](https://pipedream.com/sources), or by clicking on any of the links below:
 
-- [Search mentions for a keyword, user, hashtag, and more](https://pipedream.com/sources?action=create&url=https%3A%2F%2Fgithub.com%2FPipedreamHQ%2Fpipedream%2Fblob%2Fmaster%2Fcomponents%2Ftwitter%2Fsearch-twitter.js&app=twitter)
+- [Search mentions for a keyword, user, hashtag, and more](https://pipedream.com/sources?action=create&key=twitter-search-mentions&app=twitter)
 
 When you create a Pipedream workflow, you can also [create an event source in the trigger step](/workflows/steps/triggers/#app-based-triggers) directly.
 

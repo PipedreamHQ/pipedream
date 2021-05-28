@@ -20,7 +20,7 @@ Before you can use the ServiceNow REST API from a workflow, you need to configur
 <img alt="ServiceNow OAuth validator app config" src="./images/oauth-validator-config.png">
 </div>
 
-5. Visit [https://pipedream.com/apps](https://pipedream.com/apps), and click the button labeled **Click Here to Connect An App** in the top-right. In the modal that appears, search for **ServiceNow** and select it. You'll be prompted to enter the client ID and client secret from **Step 2** above, as well as the name of your instance. The instance name is the _host_ portion of your instance's URL: that is, the `dev98042` in `https://dev98042.service-now.com/`.
+5. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts), and click the button labeled **Click Here to Connect An App** in the top-right. In the modal that appears, search for **ServiceNow** and select it. You'll be prompted to enter the client ID and client secret from **Step 2** above, as well as the name of your instance. The instance name is the _host_ portion of your instance's URL: that is, the `dev98042` in `https://dev98042.service-now.com/`.
 
 <div>
 <img alt="Pipedream app config" width="600" src="./images/pipedream-app-config.png">

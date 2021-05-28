@@ -31,7 +31,7 @@ $send.http({
 });
 ```
 
-**Destination delivery is asynchronous**: the HTTP requests are sent after your workflow finishes. This means **you cannot write code that operates on the HTTP response**. The benefit of using `$send.http()`, though, is that these HTTP requests also don't count against your workflow quota.
+**Destination delivery is asynchronous**: the HTTP requests are sent after your workflow finishes. This means **you cannot write code that operates on the HTTP response**. The benefit of using `$send.http()`, though, is that these HTTP requests also don't count against your [compute time quota](/limits/#compute-time-per-day) on the [free tier](/pricing/#developer-tier).
 
 If you iterate over an array of values and send an HTTP request for each:
 
@@ -85,9 +85,5 @@ When you make an HTTP request using `$send.http()`, the traffic will come from o
 <<< @/docs/snippets/public-node-ips.txt
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble sending HTTP requests to your target service, please check to ensure this list matches your firewall rules.
-
-## Acceptable Use
-
-Do not use Pipedream to send HTTP requests to a service you do not own or operate. We take abuse of the service seriously and will terminate workflows or accounts found to be in violation of our [Acceptable Use policy](https://pipedream.com/terms#b-acceptable-use). If you have any questions about this policy or anything else, please [reach out](/support/).
 
 <Footer />

@@ -4,8 +4,17 @@ const webpack = require("webpack");
 module.exports = {
   title: "",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
-  description: "Pipedream Documentation - Integrate your apps, data and APIs",
-  base: "/",
+  description: "Pipedream Documentation - Connect APIs, remarkably fast",
+  base: "/docs/",
+  plugins: [
+    [
+      "vuepress-plugin-canonical",
+      {
+        baseURL: "https://pipedream.com/docs", // base url for your canonical link, optional, default: ''
+        stripExtension: true,
+      },
+    ],
+  ],
   themeConfig: {
     algolia: {
       apiKey: "1e23962724b59d018bdedc0f5a214ce5",
@@ -24,12 +33,35 @@ module.exports = {
     editLinkText: "Help us improve this page! Submit an edit on Github",
     sidebar: [
       "/",
-      "/support/",
+      ["https://pipedream.com/support", "Support and Community"],
       "/sign-up/",
+      "/pricing/",
       {
         title: "Getting Started",
         collapsable: false,
         children: ["/workflows/", "/your-first-workflow/"],
+      },
+      /* {
+        title: "Video Tutorials",
+        collapsable: false,
+        children: [
+          "/workflows/examples/send-http-request/",
+          "/workflows/examples/http-response/",
+          "/workflows/examples/trigger-workflow-on-saas-event/",
+          "/workflows/examples/cron-job/",
+          "/workflows/examples/send-yourself-email/",
+          "/workflows/examples/send-email-to-someone-else/",
+          "/workflows/examples/add-row-to-google-sheets/",
+          "/workflows/examples/add-multiple-rows-to-google-sheets/",
+          "/workflows/examples/send-slack-message/",
+          "/workflows/examples/send-discord-message/",
+          "/workflows/examples/add-record-to-airtable/",
+        ],
+      }, */
+      {
+        title: "Event Sources",
+        collapsable: false,
+        children: ["/event-sources/", "/event-sources/logs/"],
       },
       {
         title: "Workflow Steps",
@@ -43,6 +75,8 @@ module.exports = {
           "/workflows/steps/code/nodejs/working-with-files/",
           "/workflows/steps/actions/",
           "/workflows/steps/params/",
+          "/workflows/steps/code/nodejs/sharing-code/",
+          "/workflows/steps/code/async/",
         ],
       },
       {
@@ -53,6 +87,8 @@ module.exports = {
           "/workflows/events/inspect/",
           "/workflows/events/replay/",
           "/workflows/events/test/",
+          "/workflows/events/concurrency-and-throttling/",
+          "/workflows/events/cold-starts/",
         ],
       },
       {
@@ -84,9 +120,25 @@ module.exports = {
         ],
       },
       {
-        title: "Event Sources",
+        title: "Components",
         collapsable: false,
-        children: ["/event-sources/", "/event-sources/logs/"],
+        children: [
+          "/components/",
+          "/components/quickstart/nodejs/actions/",
+          "/components/quickstart/nodejs/sources/",
+          "/components/api/",
+          "/components/guidelines/",
+          "/components/migrating/",
+        ],
+      },
+      "/user-settings/",
+      {
+        title: "Examples",
+        collapsable: false,
+        children: [
+          "/examples/adding-rows-to-google-sheets/",
+          "/examples/waiting-to-execute-next-step-of-workflow/",
+        ],
       },
       {
         title: "CLI",
@@ -100,7 +152,9 @@ module.exports = {
           "/api/overview/",
           "/api/auth/",
           "/api/rest/",
+          "/api/rest/webhooks/",
           "/api/rest/rss/",
+          "/api/rest/workflow-errors/",
           "/api/sse/",
         ],
       },
@@ -113,6 +167,7 @@ module.exports = {
           "/destinations/s3/",
           "/destinations/email/",
           "/destinations/sql/",
+          "/destinations/emit/",
           "/destinations/sse/",
         ],
       },
@@ -122,21 +177,24 @@ module.exports = {
         children: [
           "/apps/all-apps/",
           "/apps/discord/",
-          "/apps/intercom/",
           "/apps/servicenow/",
           "/apps/slack/",
+          "/apps/strava/",
           "/apps/twitter/",
-          "/apps/zoho-books/",
           "/apps/zoom/",
         ],
       },
-      "/pricing/",
       "/limits/",
       "/new-feature-or-bug/",
       {
-        title: "Security",
+        title: "Privacy & Security",
         collapsable: false,
-        children: ["/security/", "/security/pgp-key/"],
+        children: [
+          "/privacy-and-security/",
+          "/privacy-and-security/best-practices/",
+          "/privacy-and-security/pgp-key/",
+          "/subprocessors/",
+        ],
       },
       "/status/",
     ],
@@ -144,10 +202,18 @@ module.exports = {
     API_BASE_URL: "https://api.pipedream.com/v1",
     SQL_API_BASE_URL: "https://rt.pipedream.com/sql",
     PAYLOAD_SIZE_LIMIT: "512KB",
-    EMAIL_PAYLOAD_SIZE_LIMIT: "256KB",
+    MEMORY_LIMIT: "256MB",
+    MEMORY_ABSOLUTE_LIMIT: "10GB",
+    EMAIL_PAYLOAD_SIZE_LIMIT: "150KB",
     INSPECTOR_EVENT_LIMIT: "100",
     FUNCTION_PAYLOAD_LIMIT: "8MB",
     INSPECTOR_EVENT_EXPIRY_DAYS: "30",
-    NODE_VERSION: "10",
+    DAILY_INVOCATIONS_LIMIT: "333",
+    PRICE_PER_INVOCATION: "0.0002",
+    FREE_MONTHLY_INVOCATIONS: "10,000",
+    PRO_MONTHLY_INVOCATIONS: "50,000",
+    DEFAULT_WORKFLOW_QUEUE_SIZE: "100",
+    MAX_WORKFLOW_QUEUE_SIZE: "10,000",
+    NODE_VERSION: "14",
   },
 };

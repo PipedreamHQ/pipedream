@@ -1,0 +1,1 @@
+This content has moved to https://pipedream.com/docs/components/guidelines/

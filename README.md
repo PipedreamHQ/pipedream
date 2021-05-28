@@ -11,9 +11,9 @@ We provide a free, hosted platform that makes it easy to connect apps and develo
 
 **Key Features**:
 
-- [Event Sources](#event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from services (Github, Slack, Airtable, RSS & more)
+- [Event Sources](#event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from services (Github, Slack, Airtable, RSS & [more](https://pipedream.com/apps)).
 - [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by an event (via event source, HTTP or timer)
-- [Actions](#actions) - Pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 300+ API integrations, for example: sending email, adding a row to a Google Sheet, and more.
+- [Actions](#actions) - Pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 300+ API integrations, for example: sending email, adding a row to a Google Sheet, and [more](https://pipedream.com/apps).
 - [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
 - Serverless - No server or cloud resources to manage
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
@@ -43,7 +43,7 @@ module.exports = {
 };
 ```
 
-<a href="http://tod.ly/2UNkcs3"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
+<a href="https://pipedream.com/sources/new?app=http"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
 Popular Event Sources:
 
@@ -155,7 +155,7 @@ Pipedream supports the following destinations today:
 
 ## Pricing
 
-Pipedream is currently free, subject to the [limits noted below](#limits). Paid tiers for higher volumes are coming soon.
+Pipedream has a [generous free tier](https://docs.pipedream.com/pricing/#developer-tier). You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](https://docs.pipedream.com/pricing/#professional-tier).
 
 If you exceed any of these limits, please [reach out](https://docs.pipedream.com/support/).
 
