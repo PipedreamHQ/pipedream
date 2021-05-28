@@ -10,7 +10,7 @@ module.exports = {
   key: "shopify-new-event",
   name: "New Events",
   description: "Emits an event for each new Shopify event.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",

@@ -58,6 +58,10 @@
       "source": "/docs/notebook/sources/",
       "destination": "/workflows/steps/triggers/"
     },
+    {
+      "source": "/docs/security/",
+      "destination": "/docs/privacy-and-security/"
+    },
     { "source": "/docs/notebook/sql/", "destination": "/destinations/sql/" },
     { "source": "/docs/what-is-pipedream/", "destination": "/" },
     {

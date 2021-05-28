@@ -1,0 +1,21 @@
+{
+    "name": "@pipedream/mailgun",
+    "version": "0.0.1",
+    "description": "Pipedream Mailgun Components",
+    "main": "mailgun.app.js",
+    "keywords": [
+        "pipedream",
+        "mailgun"
+    ],
+    "homepage": "https://pipedream.com/apps/mailgun",
+    "author": "Jonathon Hill <jonathon@compwright.com> (https://compwright.com/)",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "form-data": "^4.0.0",
+        "mailgun.js": "^3.3.2"
+    }
+}

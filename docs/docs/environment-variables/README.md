@@ -59,6 +59,8 @@ Reviewing the code ensures you have the necessary variables defined for the work
 
 ## Limits
 
+Currently, **environment variables are only exposed in Pipedream workflows, [not event sources](https://github.com/PipedreamHQ/pipedream/issues/583)**.
+
 The value of any environment variable may be no longer than `64KB`.
 
 The names of environment variables must start with a letter or underscore. Pipedream also reserves environment variables that start with `PIPEDREAM_` for internal use. You cannot create an environment variable that begins with that prefix.

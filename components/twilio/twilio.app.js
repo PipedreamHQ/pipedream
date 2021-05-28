@@ -11,6 +11,22 @@ module.exports = {
       description:
         "Your Twilio auth token, found [in your Twilio console](https://www.twilio.com/console). Required for validating Twilio events.",
     },
+    body: {
+      type: 'string',
+      label: 'Message Body',
+      description: 'The text of the message you want to send, limited to 1600 characters.'
+    },
+    from: {
+      type: "string",
+      label: "From",
+      async options() {
+        const client = this.getClient();
+        const numbers = await client.incomingPhoneNumbers.list();
+        return numbers.map((number) => {
+          return number.friendlyName
+        });
+      },
+    },
     incomingPhoneNumber: {
       type: "string",
       label: "Incoming Phone Number",
@@ -23,12 +39,23 @@ module.exports = {
         });
       },
     },
+    mediaUrl: {
+      type: 'string[]',
+      label: 'Media URL',
+      description: 'The URL of the media you wish to send out with the message. The media size limit is `5MB`. You may provide up to 10 media URLs per message.',
+      optional: true
+    },
     responseMessage: {
       type: "string",
       optional: true,
       label: "Response Message",
       description:
         "The message you want to send in response to incoming messages. Leave this blank if you don't need to issue a response.",
+    },
+    to: {
+      type: 'string',
+      label: 'To',
+      description: 'The destination phone number in E.164 format. Format with a `+` and country code (e.g., `+16175551212`).'
     },
   },
   methods: {

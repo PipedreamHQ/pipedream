@@ -33,7 +33,7 @@ module.exports = {
     editLinkText: "Help us improve this page! Submit an edit on Github",
     sidebar: [
       "/",
-      ["/support/", "Support and Community"],
+      ["https://pipedream.com/support", "Support and Community"],
       "/sign-up/",
       "/pricing/",
       {
@@ -119,6 +119,18 @@ module.exports = {
           "/environment-variables/",
         ],
       },
+      {
+        title: "Components",
+        collapsable: false,
+        children: [
+          "/components/",
+          "/components/quickstart/nodejs/actions/",
+          "/components/quickstart/nodejs/sources/",
+          "/components/api/",
+          "/components/guidelines/",
+          "/components/migrating/",
+        ],
+      },
       "/user-settings/",
       {
         title: "Examples",
@@ -177,7 +189,12 @@ module.exports = {
       {
         title: "Privacy & Security",
         collapsable: false,
-        children: ["/security/", "/security/pgp-key/", "/subprocessors/"],
+        children: [
+          "/privacy-and-security/",
+          "/privacy-and-security/best-practices/",
+          "/privacy-and-security/pgp-key/",
+          "/subprocessors/",
+        ],
       },
       "/status/",
     ],
@@ -185,6 +202,8 @@ module.exports = {
     API_BASE_URL: "https://api.pipedream.com/v1",
     SQL_API_BASE_URL: "https://rt.pipedream.com/sql",
     PAYLOAD_SIZE_LIMIT: "512KB",
+    MEMORY_LIMIT: "256MB",
+    MEMORY_ABSOLUTE_LIMIT: "10GB",
     EMAIL_PAYLOAD_SIZE_LIMIT: "150KB",
     INSPECTOR_EVENT_LIMIT: "100",
     FUNCTION_PAYLOAD_LIMIT: "8MB",
