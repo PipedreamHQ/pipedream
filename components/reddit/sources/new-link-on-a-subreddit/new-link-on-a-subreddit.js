@@ -39,7 +39,11 @@ module.exports = {
                 });
         }
         }while(after);
+<<<<<<< HEAD
 			this.db.set("after",after);
+=======
+			this.db.set("after",after);		
+>>>>>>> 725fe1d... Fixed as per comments.
         },
     },
     methods: {
@@ -53,7 +57,11 @@ module.exports = {
     async run() {
 
         let current_after = this.db.get("after");
+<<<<<<< HEAD
         const reddit_things = await this.getNewSubredditLinks(current_after,this.subreddit);
+=======
+        const reddit_things = await this.getNewSubredditLinks(current_after);
+>>>>>>> 725fe1d... Fixed as per comments.
         var new_after = reddit_things.data.data.after;
         if(new_after){
             if(reddit_things.data.data.children.length>0){
@@ -61,7 +69,12 @@ module.exports = {
                     this.emitMeInfo(reddit_link);
                 });
                 this.db.set("after",new_after);
+<<<<<<< HEAD
             }
         }
+=======
+            }                        
+        }                		
+>>>>>>> 725fe1d... Fixed as per comments.
     },
 };
