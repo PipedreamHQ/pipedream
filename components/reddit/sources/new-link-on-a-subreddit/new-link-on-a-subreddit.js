@@ -44,7 +44,6 @@ module.exports = {
     },
     methods: {
         emitMeInfo(reddit_link) {
-
             this.$emit(reddit_link, {
                 summary: reddit_link.data.name,
             });

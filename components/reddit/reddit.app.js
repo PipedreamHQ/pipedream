@@ -289,10 +289,17 @@ module.exports = {
         return me;
       },
       
+<<<<<<< HEAD
   	  async getNewSubredditLinks(after_link, subreddit){
  
         const newSubredditLinks = await this._makeRequest({
             path: `/r/${subreddit}/new`,
+=======
+  	  async getNewSubredditLinks(after_link){
+ 
+        const newSubredditLinks = await this._makeRequest({
+            path: "/r/redditdev/new",
+>>>>>>> 2876951... PR for initial feedback
 		    params: {
 		    	after:after_link
 		    },
