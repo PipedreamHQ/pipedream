@@ -66,7 +66,7 @@ module.exports = {
       }).base(baseId);
     },
     raiseFormattedError(err) {
-      throw Error(`${err.error} - ${err.statusCode} - ${err.message}`);
+      throw Error(`${err.error} - ${err.statusCode} - ${err.message}`);
     },
     validateRecordID(recordID) {
       if (!recordID) {
