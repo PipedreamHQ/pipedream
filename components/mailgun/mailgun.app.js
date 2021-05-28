@@ -31,6 +31,7 @@ module.exports = {
       default: "US",
       options: ["US", "EU"],
     },
+<<<<<<< HEAD
     timer: {
       label: "Polling schedule",
       description: "Pipedream polls Reddit for events on this schedule.",
@@ -39,12 +40,15 @@ module.exports = {
         intervalSeconds: 120 , // by default, run every 15 minutes.
       },
     }
+=======
+>>>>>>> bc54bd8... common webhooks, new delievery source
   },
   methods: {
     _apiKey() {
       return this.$auth.api_key;
     },
     _apiUrl() {
+<<<<<<< HEAD
       const subdomain = this.baseRegion == "EU"
         ? "api.eu"
         : "api";
@@ -53,12 +57,23 @@ module.exports = {
     async _makeRequest(opts) {
       const credentials = `api:${this._apiKey()}`;
       const base64Credentials = Buffer.from(credentials).toString("base64");
+=======
+      return `https://api.mailgun.net`; //TODO: How to handle base URL for both Mailgun regions US, and EU.
+    },
+    async _makeRequest(opts) {
+      const credentials = "api" + ":" + this._apiKey();
+      const credentialsBuffer = Buffer.from(credentials);
+      const base64Credentials = credentialsBuffer.toString("base64");
+>>>>>>> bc54bd8... common webhooks, new delievery source
       if (!opts.headers) opts.headers = {};
       opts.headers.Authorization = `Basic ${base64Credentials}`;
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
       const { path } = opts;
       delete opts.path;
+<<<<<<< HEAD
       console.log(`[_makeRequest]${path}`);
+=======
+>>>>>>> bc54bd8... common webhooks, new delievery source
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return (await axios(opts)).data;
     },
@@ -117,7 +132,11 @@ module.exports = {
             name: domain.name,
           });
         });
+<<<<<<< HEAD
         skip += domains_set.items.length || 0;
+=======
+        skip = skip + 100;
+>>>>>>> bc54bd8... common webhooks, new delievery source
       } while (domains_set.items.length);
       return results;
     },
@@ -160,6 +179,7 @@ module.exports = {
         })
       );
     },
+<<<<<<< HEAD
     /*
     async getMailgunEvents(mailgunDomain,nextId = null){
       const nextPathPart = nextId ? `/${nextId}`:"";
@@ -198,3 +218,7 @@ module.exports = {
     },
   }
 };
+=======
+  },
+};
+>>>>>>> bc54bd8... common webhooks, new delievery source
