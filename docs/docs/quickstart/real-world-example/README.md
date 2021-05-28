@@ -56,7 +56,7 @@ Add a step to **Run Node.js code** and name it `steps.generate_slack_blocks`.
 
 ![image-20210518201050946](./image-20210518201050946.png)
 
-Next, add the following code to `steps.generate_slack_blocks` (a step by step explanation of this code is in the [appendix](#appendix-code-breakdown)):
+Next, add the following code to `steps.generate_slack_blocks`:
 
 ```javascript
 // Require iso-639-1 to convert language codes into human readable names
@@ -170,7 +170,7 @@ blocks.push({
 return blocks
 ```
 
-**Deploy** your workflow and send a test event. It should execute successfully and `steps.generate_slack_blocks` should return an array of Slack Blocks with 6 elements:
+**Deploy** your workflow and send a test event. It should execute successfully and `steps.generate_slack_blocks` should return an array of Slack Blocks:
 
 ![image-20210518203135105](./image-20210518203135105.png)
 
