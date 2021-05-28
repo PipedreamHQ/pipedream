@@ -7,7 +7,12 @@ module.exports = {
   dedupe: "unique",
   props: {
     vercel,
-    projectName: { propDefinition: [vercel, "projectName"] },
+    projectName: {
+      propDefinition: [
+        vercel,
+        "projectName",
+      ],
+    },
     http: "$.interface.http",
     db: "$.service.db",
   },
@@ -27,7 +32,7 @@ module.exports = {
       const { hookId } = await this.vercel.createHook(opts);
       console.log(
         `Created "deployment-ready" webhook for project ${this.projectName}.
-        (Hook ID: ${hookId}, endpoint: ${hookParams.url})`
+        (Hook ID: ${hookId}, endpoint: ${hookParams.url})`,
       );
       this.db.set("hookId", hookId);
     },
@@ -39,14 +44,17 @@ module.exports = {
       await this.vercel.deleteHook(opts);
       console.log(
         `Deleted webhook for project ${this.projectName}.
-        (Hook ID: ${hookId})`
+        (Hook ID: ${hookId})`,
       );
     },
   },
   methods: {
     generateMeta(body) {
       const { createdAt } = body;
-      const { deploymentId, name } = body.payload;
+      const {
+        deploymentId,
+        name,
+      } = body.payload;
       const summary = `Deployment ready: ${name}`;
       return {
         id: deploymentId,

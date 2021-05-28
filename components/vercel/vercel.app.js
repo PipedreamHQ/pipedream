@@ -15,9 +15,12 @@ module.exports = {
           from,
         };
 
-        const { data, next } = await this._propDefinitionsOptions(url, params, context);
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url, params, context);
 
-        const options = data.map(project => project.name);
+        const options = data.map((project) => project.name);
         return {
           options,
           context: {
@@ -44,7 +47,7 @@ module.exports = {
       return `${baseUrl}/v4/projects/`;
     },
     _authToken() {
-      return this.$auth.oauth_access_token
+      return this.$auth.oauth_access_token;
     },
     _makeRequestConfig() {
       const authToken = this._authToken();
@@ -63,12 +66,17 @@ module.exports = {
         params,
       };
       const { data } = await axios.get(url, requestConfig);
-      const { projects, pagination } = data;
+      const {
+        projects,
+        pagination,
+      } = data;
 
       // When retrieving items from subsequent pages, the Vercel API
       // response has as its first element the same one that was provided
       // as the last element in the previous page.
-      const effectiveData = page !== 0 ? projects.slice(1) : projects;
+      const effectiveData = page !== 0
+        ? projects.slice(1)
+        : projects;
 
       return {
         data: effectiveData,
@@ -76,7 +84,10 @@ module.exports = {
       };
     },
     async createHook(opts) {
-      const { projectName, hookParams } = opts;
+      const {
+        projectName,
+        hookParams,
+      } = opts;
       const url = this._hooksEndpointUrl();
       const name = `Pipedream - Hook for project ${projectName}`;
       const requestData = {
@@ -101,8 +112,11 @@ module.exports = {
       // under an account.
       // As a consequence, we need to make sure we're only capturing and
       // processing the events related to this particualr project.
-      const { body, projectName } = opts;
-      const { name } = body.payload
+      const {
+        body,
+        projectName,
+      } = opts;
+      const { name } = body.payload;
       return projectName === name;
     },
   },
