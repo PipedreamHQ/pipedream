@@ -4,7 +4,7 @@ module.exports = {
     key: "new-link-on-a-subreddit",
     name: "New Link on a subreddit",
     description: "Emmits a new link submitted to a subreddit",
-    version: "0.0.2",	
+    version: "0.0.2",
     props: {
         reddit,
         timer: {
@@ -19,7 +19,7 @@ module.exports = {
             type: "string",
             label: "Subreddit",
             description: "Enter subreddit name to listen for new links.",
-        },         
+        },
         db: "$.service.db"
      },
     hooks: {
@@ -27,7 +27,7 @@ module.exports = {
 
         // Emmits all existing events for the first time.
 
-        do{   
+        do{
             const reddit_things = await this.getNewSubredditLinks(null, this.subreddit);
             var after = reddit_things.data.data.after;
             if(after){
@@ -37,14 +37,14 @@ module.exports = {
                 reddit_things.data.data.children.forEach(reddit_link => {
                     this.emitMeInfo(reddit_link);
                 });
-        }		    
+        }
         }while(after);
-			this.db.set("after",after);		
+			this.db.set("after",after);
         },
     },
     methods: {
         emitMeInfo(reddit_link) {
-                    
+
             this.$emit(reddit_link, {
                 summary: reddit_link.data.name,
             });
@@ -62,7 +62,7 @@ module.exports = {
                     this.emitMeInfo(reddit_link);
                 });
                 this.db.set("after",new_after);
-            }                        
-        }                		
+            }
+        }
     },
 };
