@@ -1,0 +1,17 @@
+{
+    "name": "@pipedream/snowflake",
+    "version": "0.3.3",
+    "description": "Pipedream Snowflake Components",
+    "main": "snowflake.app.js",
+    "keywords": [
+        "pipedream",
+        "snowflake"
+    ],
+    "homepage": "https://pipedream.com/apps/snowflake",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
+    }
+}

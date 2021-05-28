@@ -37,7 +37,7 @@ Run through the [quickstart](#quickstart) to create your first source.
 [Install the Pipedream CLI](https://docs.pipedream.com/cli/reference/#installing-the-cli), then run:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd deploy http-new-requests
 ```
 
 This deploys an [HTTP event source](#what-are-http-event-sources) and creates a unique endpoint URL you can send any HTTP requests to:
@@ -165,7 +165,7 @@ Sometimes, you might not care about the HTTP metadata, and just want to retrieve
 To deploy this source, run:
 
 ```bash
-pd deploy https://github.com/PipedreamHQ/pipedream/blob/master/interfaces/http/http-payload-only.js
+pd deploy http-new-requests-payload-only
 ```
 
 ### Return a custom HTTP status code

@@ -1,0 +1,21 @@
+{
+    "name": "@pipedream/github",
+    "version": "0.3.3",
+    "description": "Pipedream Github Components",
+    "main": "github.app.js",
+    "keywords": [
+        "pipedream",
+        "github"
+    ],
+    "homepage": "https://pipedream.com/apps/github",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "@octokit/webhooks-definitions": "^3.29.0",
+        "axios": "^0.21.1"
+    },
+    "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+    "publishConfig": {
+        "access": "public"
+    }
+}

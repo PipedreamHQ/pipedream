@@ -1,4 +1,3 @@
-import "inter-ui/inter-hinted.css";
 import VueGtm from "vue-gtm";
 
 export default ({
@@ -40,5 +39,9 @@ export default ({
     { path: "/notebook/sources/", redirect: "/workflows/steps/triggers/" },
     { path: "/notebook/sql/", redirect: "/destinations/triggers/" },
     { path: "/what-is-pipedream/", redirect: "/" },
+    {
+      path: "/docs/apps/all-apps",
+      redirect: "https://pipedream.com/apps",
+    },
   ]);
 };

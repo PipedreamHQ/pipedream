@@ -1,37 +1,37 @@
-# Github API Integrations
+# Github API Integration Platform
 
-### Integrate Github and thousands of applications with Pipedream. Free for developers.
+### Pipedream is a low code, integration platform built for Node.js developers
 
 ---
 
-Pipedream is a serverless integration and compute platform. We provide a free, hosted platform that makes it easy to connect apps and develop, execute and maintain event-driven workflows.
+Integrate Github + 1000s of apps, remarkably fast. Connect apps and develop, execute and maintain event-driven workflows.
+
+<a href="https://pipedream.com/auth/login?r=%2Fapps%2Fgithub&utm_source=github.com&utm_medium=referral&utm_campaign=repo"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
 
 **Key Features**:
 
-- [Github API Event Sources](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from Github
 - [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by a Github event
+- [Github Triggers](#github-api-event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from Github
 - Serverless - No server or cloud resources to manage
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
-<a href="http://tod.ly/3fMdryW"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
-
 ## Github API Event Sources
 
-- [Custom Events](http://tod.ly/3fMdryW) - Build your own event source using one or multiple events ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/custom-events.js))
-- [New Branch](http://tod.ly/3fMdryW) - Triggered when a new branch is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-branch.js))
-- [New Commit](http://tod.ly/3fMdryW) - Triggered when a new commit comment is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-commit.js))
-- [New Commit Comment](http://tod.ly/3fMdryW) - Triggered when a new comment on a commit is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-commit-comment.js))
-- [New Issue](http://tod.ly/3fMdryW) - Triggered when a new issue is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-issue.js))
-- [New Label](http://tod.ly/3fMdryW) - Triggered when a new label is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-label.js))
-- [New Mention](http://tod.ly/3fMdryW) - Triggers when your username is mentioned in a Commit, Comment, Issue or Pull Request. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-mention.js))
-- [New Milestone](http://tod.ly/3fMdryW) - Triggered when a new milestone is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-milestone.js))
-- [New Project Card](http://tod.ly/3fMdryW) - Triggered when a new project card is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-project-card.js))
-- [New Pull Request](http://tod.ly/3fMdryW) - Triggered when a new pull request is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-pull-request.js))
-- [New Push](http://tod.ly/3fMdryW) - Triggered when a new push is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/push-event.js))
-- [New Repository](http://tod.ly/3fMdryW) - Triggered when a new repository is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-repository.js))
-- [New Review Request](http://tod.ly/3fMdryW) - Triggered when a new review request is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-review-request.js))
-- [New Security Alert](http://tod.ly/3fMdryW) - Triggered when a new security alert is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-security-alert.js))
-- [New Stars](http://tod.ly/3fMdryW) - Triggered when a new star is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-star.js))
+- [Custom Events](https://pipedream.com/sources/new?app=github) - Build your own event source using one or multiple events ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/custom-events.js))
+- [New Branch](https://pipedream.com/sources/new?app=github) - Triggered when a new branch is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-branch.js))
+- [New Commit](https://pipedream.com/sources/new?app=github) - Triggered when a new commit comment is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-commit.js))
+- [New Commit Comment](https://pipedream.com/sources/new?app=github) - Triggered when a new comment on a commit is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-commit-comment.js))
+- [New Issue](https://pipedream.com/sources/new?app=github) - Triggered when a new issue is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-issue.js))
+- [New Label](https://pipedream.com/sources/new?app=github) - Triggered when a new label is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-label.js))
+- [New Mention](https://pipedream.com/sources/new?app=github) - Triggers when your username is mentioned in a Commit, Comment, Issue or Pull Request. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-mention.js))
+- [New Milestone](https://pipedream.com/sources/new?app=github) - Triggered when a new milestone is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-milestone.js))
+- [New Project Card](https://pipedream.com/sources/new?app=github) - Triggered when a new project card is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-project-card.js))
+- [New Pull Request](https://pipedream.com/sources/new?app=github) - Triggered when a new pull request is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-pull-request.js))
+- [New Push](https://pipedream.com/sources/new?app=github) - Triggered when a new push is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/push-event.js))
+- [New Repository](https://pipedream.com/sources/new?app=github) - Triggered when a new repository is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-repository.js))
+- [New Review Request](https://pipedream.com/sources/new?app=github) - Triggered when a new review request is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-review-request.js))
+- [New Security Alert](https://pipedream.com/sources/new?app=github) - Triggered when a new security alert is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-security-alert.js))
+- [New Stars](https://pipedream.com/sources/new?app=github) - Triggered when a new star is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-star.js))
 
 Event sources can also be deployed via the [Pipedream CLI](https://docs.pipedream.com/cli/reference/). Once installed, you can deploy an event source by running:
 

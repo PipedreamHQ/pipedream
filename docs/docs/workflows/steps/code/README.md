@@ -10,13 +10,13 @@ Code steps are optional, but common. If the data received by your source needs n
 
 ## Language Support
 
-Today, Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/dist/latest-v10.x/docs/api/).
+Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/dist/latest-v10.x/docs/api/).
 
 It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or the URL of the page**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
 
 **Anything you can do with Node.js, you can do in a workflow**. This includes using most of [npm's 400,000 packages](#using-npm-packages).
 
-If you'd like to see another, specific language supported, please [let us know on Slack](https://pipedream.com/community).
+If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).
 
 JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2019#technology-_-programming-scripting-and-markup-languages) [languages](https://github.blog/2018-11-15-state-of-the-octoverse-top-programming-languages/) in the world, with a thriving community and [extensive package ecosystem](https://www.npmjs.com). If you work on websites and know JavaScript well, Pipedream makes you a full stack engineer. If you've never used JavaScript, see the [resources below](#new-to-javascript).
 
@@ -59,7 +59,7 @@ async (event, steps) => {
 
 This communicates a couple of key concepts:
 
-- Any async code within a code step [**must** be run synchronously](#running-asynchronous-code), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
+- Any async code within a code step [**must** be run synchronously](/workflows/steps/code/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
 - Pipedream passes the variables `event` and `steps` to every code step. `event` is a read-only object that contains the data that triggered your event, for example the HTTP request sent to your workflow's endpoint. `steps` is also an object, and contains the [data exported from previous steps](/workflows/steps/#step-exports) in your workflow.
 
 If you're using [step parameters](/workflows/steps/#passing-data-to-steps-step-parameters) or [connect an account to a step](/connected-accounts/#from-a-code-step), you may notice two new parameters passed to the function signature, `params` and `auths`:
@@ -131,8 +131,9 @@ See the docs on [workflow state](/workflows/steps/code/state/).
 
 ## `$end`
 
-Sometimes you want to end your workflow early. For example:
+Sometimes you want to end your workflow early, or otherwise stop or cancel the execution or a workflow under certain conditions. For example:
 
+- You may want to end your workflow early if you don't receive all the fields you expect in the event data.
 - You only want to run your workflow for 5% of all events sent to your source.
 - You only want to run your workflow for users in the United States. If you receive a request from outside the U.S., you don't want the rest of the code in your workflow to run.
 - You may use the `user_id` contained in the event to look up information in an external API. If you can't find data in the API tied to that user, you don't want to proceed.
@@ -178,36 +179,11 @@ You'll see the message associated with the error in the Inspector and the code s
 
 ## Using secrets in code
 
-While the data you send through Pipedream workflows is private, all Pipedream workflows are public by default. It's critical you don't include secrets — API keys, tokens, or other sensitive values — directly in code steps.
+Workflow code is private by default, but [you can make a workflow public](/public-workflows/). In either case, we recommend you don't include secrets — API keys, tokens, or other sensitive values — directly in code steps.
 
 Pipedream supports [environment variables](/environment-variables/) for keeping secrets separate from code. Once you create an environment variable in Pipedream, you can reference it in any workflow using `process.env.VARIABLE_NAME`. The values of environment variables are private.
 
 See the [Environment Variables](/environment-variables/) docs for more information.
-
-## Running asynchronous code
-
-If you're not familiar with asynchronous programming, or how to run asynchronous (async) code in JavaScript, see [this overview](https://eloquentjavascript.net/11_async.html) before reading on.
-
-On Pipedream, each code step is implicitly wrapped in its own [`async` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) declaration. **You should use the [`await` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await) to run any asynchronous operation synchronously — step-by-step — in a code step**, even if you don't need to process the results.
-
-You **should not** start an asynchronous operation that you do not `await`. Moreover, you should not expect [callback functions](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function) to run after the result of an asynchronous operation.
-
-In short, do this:
-
-```javascript
-const res = await runAsyncCode();
-```
-
-Not this:
-
-```javascript
-// This code may not finish by the time the workflow finishes
-runAsyncCode();
-```
-
-If you don't `await` async code, or you use callbacks, we'll move on to the next code step or finish the workflow completely before you're able to process the results, and your code will likely fail.
-
-We do our best to track open asynchronous operations, and will try to let you know when you forgot to add an `await` in the logs associated with your code step.
 
 ## Limitations of code steps
 

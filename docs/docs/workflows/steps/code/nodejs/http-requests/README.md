@@ -4,7 +4,7 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 **Below, we'll review how to make HTTP requests using Node.js code on Pipedream.**
 
-We'll use the [`axios` HTTP client](https://github.com/axios/axios) in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
+We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
 
 If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/blog/working-with-webhooks/#webhooks-glossary-common-terms) for a helpful introduction.
 
@@ -27,7 +27,7 @@ You make HTTP requests by passing a [JavaScript object](https://developer.mozill
 }
 ```
 
-`axios` returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises), which is just a fancy way of saying that it makes the HTTP request in the background (asynchronously) while the rest of your code runs. On Pipedream, [all asynchronous code must be run synchronously](https://docs.pipedream.com/workflows/steps/code/#running-asynchronous-code), which means you'll need to wait for the HTTP request to finish before moving on to the next step. You do this by adding an `await` in front of the call to `axios`.
+`axios` returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises), which is just a fancy way of saying that it makes the HTTP request in the background (asynchronously) while the rest of your code runs. On Pipedream, [all asynchronous code must be run synchronously](/workflows/steps/code/async/), which means you'll need to wait for the HTTP request to finish before moving on to the next step. You do this by adding an `await` in front of the call to `axios`.
 
 **Putting all of this together, here's how to make a basic HTTP request on Pipedream:**
 
@@ -53,7 +53,7 @@ const data = resp.data;
 Alternatively, you can access the data using [object destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Object_destructuring), which is equivalent to the above and preferred in modern JavaScript:
 
 ```javascript
-const { data } = resp.data;
+const { data } = resp;
 ```
 
 ## Send a `GET` request to fetch data
@@ -82,7 +82,7 @@ POST sample JSON to [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a 
 ```javascript
 const axios = require("axios");
 
-// Make an HTTP GET request using axios
+// Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
   url: `https://jsonplaceholder.typicode.com/posts`
@@ -143,7 +143,125 @@ const resp = await axios({
 });
 ```
 
+## Send a request with a secret or API key
+
+Most APIs require you authenticate HTTP requests with an API key or other token. **Please review the docs for your service to understand how they accept this data.**
+
+Here's an example showing an API key passed in an HTTP header:
+
+```javascript
+const axios = require("axios");
+
+// Make an HTTP GET request using axios
+const resp = await axios({
+  method: "POST",
+  url: `https://jsonplaceholder.typicode.com/posts`,
+  headers: {
+    "Content-Type": "application/json",
+    "X-API-Key": "123", // API KEY
+  },
+  data: {
+    name: "Luke",
+  },
+});
+```
+
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/send-an-http-request-with-headers-p_q6ClzO/edit).
+
+## Send multiple HTTP requests using a loop
+
+There are many ways to make multiple HTTP requests. This code shows you a simple example that sends the numbers `1`, `2`, and `3` in the body of an HTTP POST request:
+
+```javascript
+const axios = require("axios");
+
+// We'll store each response and return them in this array
+const responses = [];
+
+for (const num of [1, 2, 3]) {
+  const resp = await axios({
+    method: "POST",
+    url: params.url,
+    data: {
+      num, // Will send the current value of num in the loop
+    },
+  });
+  responses.push(resp.data);
+}
+
+return responses;
+```
+
+This sends each HTTP request _in sequence_, one after another, and returns an array of response data returned from the URL to which you send the POST request.
+
+[Copy this workflow](https://pipedream.com/@dylburger/iterate-over-a-pipedream-step-export-sending-multiple-http-requests-p_ljCAPN/edit) and fill in your destination URL to see how this works. **This workflow iterates over the value of a Pipedream [step export](/workflows/steps/#step-exports)** - data returned from a previous step. Since you often want to iterate over data returned from a Pipedream action or other code step, this is a common use case.
+
+## Send a `multipart/form-data` request
+
+```javascript
+const axios = require("axios");
+const FormData = require("form-data");
+
+const formData = new FormData();
+formData.append("name", "Luke Skywalker");
+
+const headers = formData.getHeaders();
+const config = {
+  method: "POST",
+  url: params.url,
+  headers,
+  data: formData,
+};
+return await axios(config);
+```
+
+[Copy this workflow](https://pipedream.com/@dylburger/send-a-multipart-form-data-request-p_WxCQRyr/edit) to run this example.
+
+## Download a file to the `/tmp` directory
+
+This example shows you how to download a file to a file in [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
+
+```javascript
+const fs = require("fs");
+const got = require("got");
+const stream = require("stream");
+const { promisify } = require("util");
+
+// DOWNLOAD
+const pipeline = promisify(stream.pipeline);
+await pipeline(
+  got.stream(params.downloadURL),
+  fs.createWriteStream(params.filePath)
+);
+```
+
+[Copy this workflow](https://pipedream.com/@dylburger/download-a-file-from-a-url-to-tmp-p_pWCYA8y/edit) to run this example.
+
+## Upload a file from the `/tmp` directory
+
+This example shows you how to make a `multipart/form-data` request with a file as a form part. You can store and read any files from [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
+
+This can be especially helpful for uploading large files: it streams the file from disk, minimizing the memory the workflow uses when uploading the file.
+
+```javascript
+const axios = require("axios");
+const fs = require("fs");
+const FormData = require("form-data");
+
+const formData = new FormData();
+formData.append("file", fs.createReadStream(params.pathToYourFile));
+const headers = formData.getHeaders();
+
+const config = {
+  method: "POST",
+  url: params.url,
+  headers,
+  data: formData,
+};
+return await axios(config);
+```
+
+[Copy this workflow](https://pipedream.com/@dylburger/stream-a-file-upload-p_6lC1d2Z/edit) to run this example.
 
 ## Use an HTTP proxy to proxy requests through another host
 
@@ -213,3 +331,29 @@ if (!event.body.myImportantData) {
   $end("myImportantData not present in HTTP payload. Exiting");
 }
 ```
+
+## Stream a downloaded file directly to another URL
+
+Sometimes you need to upload a downloaded file directly to another service, without processing the downloaded file. You could [download the file](#download-a-file-to-the-tmp-directory) and then [upload it](#upload-a-file-from-the-tmp-directory) to the other URL, but these intermediate steps are unnecessary: you can just stream the download to the other service directly, without saving the file to disk.
+
+This method is especially effective for large files that exceed the [limits of the `/tmp` directory](/limits/#disk).
+
+[Copy this workflow](https://pipedream.com/@dylburger/stream-download-to-upload-p_5VCLoa1/edit) or paste this code into a [new Node.js code step](/workflows/steps/code/#adding-a-code-step):
+
+```javascript
+const stream = require("stream");
+const { promisify } = require("util");
+const fs = require("fs");
+const got = require("got");
+
+const pipeline = promisify(stream.pipeline);
+
+await pipeline(
+  got.stream(params.downloadURL),
+  got.stream.post(params.uploadURL)
+);
+```
+
+You'll be asked to provide the **Download URL** — the URL of the content you want to download — and the **Upload URL** — the place you want to upload the content to. `got` streams the content directly, downloading the file using a `GET` request and uploading it as a `POST` request.
+
+If you need to modify this behavior, [see the `got` Stream API](https://github.com/sindresorhus/got#gotstreamurl-options).
