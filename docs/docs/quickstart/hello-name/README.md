@@ -4,6 +4,10 @@ Next, let's pass a name in each HTTP request and return it in the workflow respo
 
 [[toc]]
 
+::: tip
+If you didn't complete the previous example, we recommend you start from the [beginning of this guide](/quickstart/). If you still want to start here, [copy this workflow](https://pipedream.com/@gettingstarted/quickstart-hello-world-p_2gCWpmk/) and then follow the instructions below. If you have any issues completing this example, you can [view, copy and run a completed version](https://pipedream.com/@gettingstarted/quickstart-hello-name-p_WxCqxbR).
+:::
+
 ### Pass data to an HTTP triggered workflow via query parameters
 
 First, modify the endpoint URL you loaded in your browser to trigger your workflow and add `?name=foo` to the end (e.g., `https://ENDPOINT-ID.m.pipedream.net/?name=foo`). Then load it to make another request to your workflow. You should still see `hello world!` returned as the response from your workflow.

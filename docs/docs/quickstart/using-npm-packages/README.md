@@ -4,6 +4,10 @@ Next, let's replace the **GET Request** action with a code step that uses the `a
 
 [[toc]]
 
+::: tip
+If you didn't complete the previous examples, we recommend you start from the [beginning of this guide](/quickstart/). If you still want to start here, [copy this workflow](https://pipedream.com/@gettingstarted/quickstart-make-outbound-http-requests-p_6lCQOLo) and then follow the instructions below. If you have any issues completing this example, you can [view, copy and run a completed version](https://pipedream.com/@gettingstarted/quickstart-use-any-npm-package-p_pWCg5BP).
+:::
+
 ### Delete a step
 
 First, delete `steps.get_request` by clicking the **X** buttton at the top right of the step.

@@ -11,6 +11,10 @@ Following is an example of a Tweet that we'll richly format and post to Slack:
 
 ![image-20210518194229746](./image-20210518194229746.png)
 
+::: tip
+If you didn't complete the previous examples, we recommend you start from the [beginning of this guide](/quickstart/) to learn the basics of workflow development. If you have any issues completing this example, you can [view, copy and run a completed version](https://pipedream.com/@gettingstarted/quickstart-real-world-twitter-slack-p_n1Co2dO).
+:::
+
 ### Trigger a workflow anytime [`@pipedream`](https://twitter.com/pipedream) is mentioned on Twitter
 
 First, create a new workflow and select the **Twitter** app:

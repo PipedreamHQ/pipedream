@@ -4,6 +4,10 @@ In a previous example, we connected our Google Sheets account and used it in a n
 
 [[toc]]
 
+::: tip
+If you didn't complete the previous examples, we recommend you start from the [beginning of this guide](/quickstart/). If you still want to start here, [copy this workflow](https://pipedream.com/@gettingstarted/quickstart-end-workflow-early-p_RRCgNRQ) and then follow the instructions below. If you have any issues completing this example, you can [view, copy and run a completed version](https://pipedream.com/@gettingstarted/quickstart-use-connected-accounts-in-code-p_ezCVLgy).
+:::
+
 ### Scaffold an API request for an app in Node.js
 
 First, expand the step selector right before `steps.respond`.

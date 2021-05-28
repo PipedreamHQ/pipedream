@@ -4,6 +4,10 @@ In the previous examples, we focused on catching inbound HTTP requests and manip
 
 [[toc]]
 
+::: tip
+If you didn't complete the previous examples, we recommend you start from the [beginning of this guide](/quickstart/). If you still want to start here, [copy this workflow](https://pipedream.com/@gettingstarted/quickstart-hello-name-p_WxCqxbR) and then follow the instructions below. If you have any issues completing this example, you can [view, copy and run a completed version](https://pipedream.com/@gettingstarted/quickstart-make-outbound-http-requests-p_6lCQOLo).
+:::
+
 ### Use a pre-built action to make an HTTP request from your workflow
 
 First, click on the **+** sign between the two workflow to open the step menu.

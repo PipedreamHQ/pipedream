@@ -4,6 +4,11 @@ Next, let's create a workflow triggered on app events. This example builds on co
 
 [[toc]]
 
+::: tip
+If you didn't complete the previous examples, we recommend you start from the [beginning of this guide](/quickstart/) to learn the basics of workflow development. If you have any issues completing this example, you can [view, copy and run a completed version](https://pipedream.com/@gettingstarted/quickstart-email-yourself-on-new-rss-items-p_5VCKggW).
+:::
+
+
 ### Trigger a workflow on new items in an RSS feed
 
 First, create a new workflow and search for the **RSS** app and select it:

@@ -4,6 +4,10 @@ Next, let's transform data returned by the ISS API and save it to Google Sheets.
 
 [[toc]]
 
+::: tip
+If you didn't complete the previous examples, we recommend you start from the [beginning of this guide](/quickstart/). If you still want to start here, [copy this workflow](https://pipedream.com/@gettingstarted/quickstart-use-any-npm-package-p_pWCg5BP) and then follow the instructions below. If you have any issues completing this example, you can [view, copy and run a completed version](https://pipedream.com/@gettingstarted/quickstart-insert-data-into-google-sheets-p_KwCAR9z).
+:::
+
 ### Set up a Google Sheet for this example
 
 First, create a Google Sheet with the columns `Latitude`, `Longitude`, `Timestamp`, and `Date/Time` in the first row:

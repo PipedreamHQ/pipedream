@@ -4,6 +4,10 @@ Next, let run a workflow on a schedule to keep our HTTP triggered workflow "warm
 
 [[toc]]
 
+::: tip
+If you didn't complete the previous examples, we recommend you start from the [beginning of this guide](/quickstart/). If you still want to start here, [copy this workflow](https://pipedream.com/@gettingstarted/quickstart-use-connected-accounts-in-code-p_ezCVLgy) and then follow the instructions below. If you have any issues completing this example, you can view, copy and run completed versions: [Scheduled Workflow](https://pipedream.com/@gettingstarted/quickstart-run-workflow-on-a-schedule-1-2-p_n1Co22e), [Updated HTTP Triggered Workflow](https://pipedream.com/@gettingstarted/quickstart-run-workflow-on-a-schedule-2-2-p_NMCBZZ7).
+:::
+
 For context, it's common for serverless functions that have not been recently invoked to go "cold". "Cold" functions take about 500 milliseconds longer to run than "warm" functions. For many applications, this intermittent latency is insignificant. However, we'll demonstrate how to use a scheduled workflow to to keep our HTTP-triggered workflow "warm" by invoking it every 3 minutes. 
 
 ### Create a workflow using the schedule trigger

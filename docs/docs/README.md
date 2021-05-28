@@ -102,7 +102,7 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 ## Open Source
 
-Pipedream maintains an [open source component registry](https://github.com/pipedreamhq/pipedream/) on GitHub. Reuse these components in workflows so you don't need to write boilerplate code for common API integrations. Or use existing components as scaffolding to customize and publish your own. You can also [create a PR contribute new or enhanced components](/components/guidelines/#process) via GitHub.
+Pipedream maintains an [open source component registry](https://github.com/pipedreamhq/pipedream/) on GitHub. Reuse these components in workflows so you don't need to write boilerplate code for common API integrations, or use existing components as scaffolding to customize and publish your own. You can also [create a PR contribute new or enhanced components](/components/guidelines/#process) via GitHub.
 
 ## Contributing
 
@@ -110,7 +110,7 @@ We hope is that by providing a generous free tier, you will not only get value f
 
 - [Contributing](/components/guidelines/) open source components to our [registry](https://github.com/pipedreamhq/pipedream.) or sharing via your own Github repo
 - Asking and answering questions in our [public community](https://pipedream.com/community/)
-- Reporting bugs and requesting features that will help us build a better product
+- [Reporting bugs](https://pipedream.com/community/c/bugs/9) and [requesting features](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+) that help us build a better product
 - Following us on [Twitter](https://twitter.com/pipedream), staring our [Github repo](https://github.com/PipedreamHQ/pipedream) and subscribing to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)
 - Recommending us to your friends and colleagues
 
