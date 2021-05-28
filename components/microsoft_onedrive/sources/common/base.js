@@ -1,4 +1,4 @@
-const microsoft_onedrive = require("../../microsoft_onedrive.app");
+const onedrive = require("../../microsoft_onedrive.app");
 const {
   MAX_INITIAL_EVENT_COUNT,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
@@ -7,7 +7,7 @@ const { toSingleLineString } = require("./utils");
 
 module.exports = {
   props: {
-    microsoft_onedrive,
+    onedrive,
     db: "$.service.db",
     http: {
       type: "$.interface.http",
@@ -28,8 +28,8 @@ module.exports = {
   hooks: {
     async deploy() {
       const params = this.getDeltaLinkParams();
-      const deltaLink = this.microsoft_onedrive.getDeltaLink(params);
-      const itemsStream = this.microsoft_onedrive.scanDeltaItems(deltaLink);
+      const deltaLink = this.onedrive.getDeltaLink(params);
+      const itemsStream = this.onedrive.scanDeltaItems(deltaLink);
 
       // We skip the first drive item, since it represents the root directory
       await itemsStream.next();
@@ -52,7 +52,7 @@ module.exports = {
     async activate() {
       await this._createNewSubscription();
       const deltaLinkParams = this.getDeltaLinkParams();
-      const deltaLink = await this.microsoft_onedrive.getLatestDeltaLink(deltaLinkParams);
+      const deltaLink = await this.onedrive.getLatestDeltaLink(deltaLinkParams);
       this._setDeltaLink(deltaLink);
     },
     async deactivate() {
@@ -69,7 +69,7 @@ module.exports = {
       const hookOpts = {
         expirationDateTime: this._getNextExpirationDateTime(),
       };
-      const hookId = await this.microsoft_onedrive.createHook(this.http.endpoint, hookOpts);
+      const hookId = await this.onedrive.createHook(this.http.endpoint, hookOpts);
       this._setHookId(hookId);
     },
     _renewSubscription() {
@@ -77,11 +77,11 @@ module.exports = {
         expirationDateTime: this._getNextExpirationDateTime(),
       };
       const hookId = this._getHookId();
-      return this.microsoft_onedrive.updateHook(hookId, hookOpts);
+      return this.onedrive.updateHook(hookId, hookOpts);
     },
     async _deactivateSubscription() {
       const hookId = this._getHookId();
-      await this.microsoft_onedrive.deleteHook(hookId);
+      await this.onedrive.deleteHook(hookId);
       this._setHookId(null);
     },
     _getHookId() {
@@ -110,7 +110,7 @@ module.exports = {
       });
     },
     async _processEventsFromDeltaLink(deltaLink) {
-      const itemsStream = this.microsoft_onedrive.scanDeltaItems(deltaLink);
+      const itemsStream = this.onedrive.scanDeltaItems(deltaLink);
 
       while (true) {
         // We iterate through the `itemsStream` generator using explicit calls to
@@ -146,7 +146,7 @@ module.exports = {
     /**
      * The purpose of this method is for the different OneDrive event sources to
      * parameterize the OneDrive Delta Link to use. These parameters will be
-     * forwarded to the `microsoft_onedrive.getLatestDeltaLink` method.
+     * forwarded to the `onedrive.getLatestDeltaLink` method.
      *
      * @returns an object containing options/parameters to use when querying the
      * OneDrive API for a Delta Link
