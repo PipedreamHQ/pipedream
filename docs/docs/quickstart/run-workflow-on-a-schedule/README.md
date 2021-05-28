@@ -20,7 +20,7 @@ Enter the endpoint URL to trigger the workflow you built in the previous example
 
 ![image-20210525191155803](./image-20210525191155803.png)
 
-### Run a scheduled workflow manually to test it
+### Test a scheduled workflow
 
 Next, **Deploy** and click **Run Now** to test your workflow.
 

@@ -28,7 +28,7 @@ Your workflow will automatically deploy and Pipedream will generate a unique end
 
 ![image-20210525161122066](./image-20210525161122066.png)
 
-### Send HTTP requests to the workflow and inspect them
+### Send HTTP requests to your workflow
 
 Any requests you make to the endpoint URL will trigger your workflow. To test it out:
 
@@ -42,6 +42,8 @@ When you return to your workflow, you'll see the requests in the event list (eve
 ![image-20210525161233808](./image-20210525161233808.png)
 
 **IMPORTANT:** You may see multiple events appear in the event list each time you load the endpoint URL in a web browsers's address bar. That happens because modern browsers automatically request a `favicon.ico` resource when you load a URL. We'll update our workflow to handle this case in a later section of the quickstart.
+
+### Inspect workflow events
 
 Select an event from the list to inspect the associated exports and logs (click on an event again to de-select it). The HTTP trigger exports  data including the `url` invoked, `method`, `body`, `headers`, `query parameters` and more. This data can also be referenced by steps in your workflow via the `steps` object (for example, to use the trigger event in a later step you can reference `steps.trigger.event` — we'll cover this in the next example). 
 
