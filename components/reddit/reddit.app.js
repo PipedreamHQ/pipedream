@@ -1,11 +1,7 @@
 const axios = require("axios");
-<<<<<<< HEAD
 const get = require("lodash/get");
 const retry = require("async-retry");
 
-=======
-const get = require("lodash.get");
->>>>>>> 768c8ee... Corrected an issue with pagination. Further refactorization for placements of parameters. Updated props to be optional to reflect this nature.
 module.exports = {
   type: "app",
   app: "reddit",
@@ -14,7 +10,6 @@ module.exports = {
       type: "string",
       label: "Subreddit",
       description: "The subreddit you'd like to watch.",
-<<<<<<< HEAD
       useQuery: true,
       async options(context) {
         const q = context.query;
@@ -51,9 +46,6 @@ module.exports = {
       default: false,
       optional: true,
     },
-=======
-    }
->>>>>>> 768c8ee... Corrected an issue with pagination. Further refactorization for placements of parameters. Updated props to be optional to reflect this nature.
   },
   methods: {
     _accessToken() {
@@ -71,7 +63,6 @@ module.exports = {
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return (await axios(opts)).data;
     },
-<<<<<<< HEAD
     _isRetriableStatusCode(statusCode) {
       [408, 429, 500].includes(statusCode);
     },
@@ -260,33 +251,4 @@ module.exports = {
       return results;
     },
   },
-=======
-    wereLinksPulled(reddit_things) {
-      const links = get(reddit_things, "data.children");
-      return links && links.length;
-    },
-    async getNewHotSubredditPosts(subreddit, g, show, sr_detail, limit = 100) {
-      let params = new Object();
-      if (show == "all") {
-        params["show"] = show;
-      }
-      params["g"] = g;
-      params["sr_detail"] = sr_detail;
-      params["limit"] = limit;
-      return await this._makeRequest({
-        path: `/r/${subreddit}/hot`,
-        params,
-      });
-    },
-    async getNewSubredditLinks(before_link, subreddit, limit = 100) {
-      return await this._makeRequest({
-        path: `/r/${subreddit}/new`,
-        params: {
-          before: before_link,
-          limit,
-        },
-      });
-    }
-  }
->>>>>>> 768c8ee... Corrected an issue with pagination. Further refactorization for placements of parameters. Updated props to be optional to reflect this nature.
 };
