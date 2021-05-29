@@ -55,7 +55,7 @@ module.exports = {
         summary: redditEvent.data.body,
         ts: redditEvent.data.created,
       };
-    },
+    }
   },
   async run() {
     let redditComments;

@@ -120,5 +120,5 @@ module.exports = {
       return;
     }
     comments.reverse().forEach(this.emitRedditEvent);
-  },
+  }
 };
