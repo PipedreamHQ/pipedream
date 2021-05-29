@@ -5,7 +5,7 @@ module.exports = {
   key: "airtable-update-record",
   name: "Update record",
   description: "Update a single record in a table by Record ID.",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
@@ -33,7 +33,7 @@ module.exports = {
         },
       ]))[0];
     } catch (err) {
-      this.airtable.raiseFormattedError(err);
+      this.airtable.throwFormattedError(err);
     }
   },
 };

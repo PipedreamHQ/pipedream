@@ -65,12 +65,12 @@ module.exports = {
         apiKey: this.apiKey(),
       }).base(baseId);
     },
-    raiseFormattedError(err) {
+    throwFormattedError(err) {
       throw Error(`${err.error} - ${err.statusCode} - ${err.message}`);
     },
     validateRecordID(recordID) {
       if (!recordID) {
-        throw new Error("Record ID blank. Please pass a valid record ID");
+        throw new Error("Airtable record ID blank. Please pass a valid record ID");
       }
     },
   },

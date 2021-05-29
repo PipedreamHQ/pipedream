@@ -5,7 +5,7 @@ module.exports = {
   key: "airtable-get-record",
   name: "Get Record",
   description: "Get a record from a table by record ID.",
-  version: "0.0.8",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
@@ -22,7 +22,7 @@ module.exports = {
     try {
       return await base(this.tableId).find(this.recordId);
     } catch (err) {
-      this.airtable.raiseFormattedError(err);
+      this.airtable.throwFormattedError(err);
     }
   },
 };
