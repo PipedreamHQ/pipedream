@@ -255,7 +255,7 @@ module.exports = {
 };
 =======
 module.exports = {
-    type: "app", 	
+    type: "app",
     app: "reddit",
     methods: {
       _accessToken() {
@@ -275,7 +275,7 @@ module.exports = {
       },
       // https://www.reddit.com/dev/api#GET_api_v1_me
       async getMeInfo() {
-  
+
           const me = await this._makeRequest({
             path: "/api/v1/me",
             params: {
@@ -284,27 +284,34 @@ module.exports = {
               updated_after,
             },
           });
-  
-  
+
+
         return me;
       },
-      
+
+<<<<<<< HEAD
 <<<<<<< HEAD
   	  async getNewSubredditLinks(after_link, subreddit){
- 
+
         const newSubredditLinks = await this._makeRequest({
             path: `/r/${subreddit}/new`,
 =======
   	  async getNewSubredditLinks(after_link){
- 
+
         const newSubredditLinks = await this._makeRequest({
             path: "/r/redditdev/new",
 >>>>>>> 2876951... PR for initial feedback
+=======
+  	  async getNewSubredditLinks(after_link, subreddit){
+
+        const newSubredditLinks = await this._makeRequest({
+            path: `/r/${subreddit}/new`,
+>>>>>>> 3b7c991... Added an input prop for reddit.
 		    params: {
 		    	after:after_link
 		    },
           });
-         
+
   		return newSubredditLinks;
 
         },
