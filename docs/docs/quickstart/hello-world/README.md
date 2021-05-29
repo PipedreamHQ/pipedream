@@ -5,7 +5,7 @@ First, let's create an HTTP triggered workflow and return a response of `hello w
 [[toc]]
 
 ::: tip
-If you have any issues completing this example, you can [view, copy and run a completed workflow](https://pipedream.com/@gettingstarted/quickstart-hello-world-p_2gCWpmk/).
+If you have any issues completing this example, you can [view, copy and run a completed version](https://pipedream.com/@gettingstarted/quickstart-hello-world-p_2gCWpmk/).
 :::
 
 ### Create a new workflow
