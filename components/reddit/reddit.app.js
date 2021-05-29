@@ -1,6 +1,5 @@
 const axios = require("axios");
-const get = require("lodash/get");
-const retry = require("async-retry");
+const get = require("lodash.get");
 
 module.exports = {
   type: "app",
@@ -10,8 +9,6 @@ module.exports = {
       type: "string",
       label: "Subreddit",
       description: "The subreddit you'd like to watch.",
-      optional: false,
-      /* #region  subreddit prop's async options method     */
       useQuery: true,
       async options(context) {
         const q = context.query;
@@ -25,27 +22,23 @@ module.exports = {
         }
         return options;
       },
-      /* #endregion */
     },
     username: {
       type: "string",
       label: "Username",
       description: "The username you'd like to watch.",
     },
-    timeFilter: {
+    t: {
       type: "string",
-      label: "Time filter",
-      description:
-        "If set to all, all existing links or comments, before applying dedupe strategy, will be considered to be emitted. Otherwise, the indicated time frame will be used for getting links or comments.",
+      label: "t",
+      description: "one of (hour, day, week, month, year, all)",
       options: ["hour", "day", "week", "month", "year", "all"],
-      default: "all",
-      optional: true,
     },
-    includeSubredditDetails: {
+    sr_detail: {
       type: "boolean",
-      label: "Include subreddit details?",
+      label: "Include Subreddit details?",
       description:
-        "If set to true, subreddit details will be expanded/included in the emitted event.",
+        "If set to true, includes details on the subreddit in the emitted event.",
       default: false,
       optional: true,
     },
@@ -65,17 +58,6 @@ module.exports = {
       delete opts.path;
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return (await axios(opts)).data;
-    },
-    wereThingsPulled(reddit_things) {
-      const things = get(reddit_things, "data.children");
-      return things && things.length;
-    },
-    did4xxErrorOccurred(err) {
-      return (
-        get(err, "response.status") !== undefined &&
-        get(err, "response.status") !== null &&
-        err.response.status >= 400
-      );
     },
     async getNewHotSubredditPosts(subreddit, g, show, sr_detail, limit = 100) {
       const params = {};
@@ -186,17 +168,18 @@ module.exports = {
       });
     },
     async getAllSearchSubredditsResults(query) {
-      var after = null;
-      var results = [];
+      let after = null;
+      const results = [];
       do {
         const reddit_things = await this.searchSubreddits(after, query);
         if (reddit_things && reddit_things.data) {
           after = reddit_things.data.after;
-          if (reddit_things.data.children.length > 0) {
+          if (reddit_things.data.children.length) {
             reddit_things.data.children.forEach((reddit_link) => {
+              const { title, name } = reddit_link.data;
               results.push({
-                title: reddit_link.data.title,
-                name: reddit_link.data.name,
+                title,
+                name,
               });
             });
           }
