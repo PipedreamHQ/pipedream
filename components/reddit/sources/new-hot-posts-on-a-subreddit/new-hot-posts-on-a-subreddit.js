@@ -1,4 +1,5 @@
-const common = require("../../common");
+const common = require("../common");
+const localeData = require("./locale-data");
 const { reddit } = common.props;
 
 module.exports = {
@@ -7,25 +8,24 @@ module.exports = {
   name: "New hot posts on a subreddit",
   description:
     "Emits an event each time a new hot post is added to the top 10 items in a subreddit.",
-  version: "0.0.21",
-  type: "action",
+  version: "0.0.1",
   dedupe: "unique",
   type: "action",
   props: {
     ...common.props,
     subreddit: {
-      propDefinition: [reddit, "subreddit"],
+      propDefinition: [common.props.reddit, "subreddit"],
     },
-    region: {
+    locale: {
       type: "string",
       label: "Region",
       description:
-        "Hot posts differ by region, and this refers to the region you'd like to watch for hot posts.",
-      options: regionData,
+        "Hot posts differ by region, and this refers to the locale you'd like to watch for hot posts.",
+      options: localeData,
       default: "GLOBAL",
       optional: false,
     },
-    show: {
+    showAllPosts: {
       type: "boolean",
       label: "Show all posts (ignoring filters)?",
       description:
@@ -33,64 +33,55 @@ module.exports = {
       default: false,
       optional: true,
     },
-    sr_detail: { propDefinition: [reddit, "sr_detail"] },
-    ...common.props,
+    includeSubredditDetails: {
+      propDefinition: [reddit, "includeSubredditDetails"],
+    },
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      try {
-        var hot_posts = await this.reddit.getNewHotSubredditPosts(
-          this.subreddit,
-          this.g,
-          this.show,
-          this.sr_detail,
-          10
-        );
-      } catch (err) {
-        if (common.methods.did4xxErrorOccur(err)) {
-          throw new Error(`
-            We encountered a 4xx error trying to fetch hot posts for ${this.subreddit}. Please check the subreddit name and try again.`);
-        }
-        throw err;
+      var hotPosts = await this.reddit.getNewHotSubredditPosts(
+        this.subreddit,
+        this.locale,
+        this.showAllPosts,
+        this.includeSubredditDetails,
+        10
+      );
+      if (!hotPosts) {
+        console.log("No data available, skipping emitting sample events");
+        return;
       }
-      const hot_posts_pulled = common.methods.wereThingsPulled(hot_posts);
-      if (hot_posts_pulled) {
-        const ordered_hot_posts = hot_posts.data.children.reverse();
-        ordered_hot_posts.forEach((hot_post) => {
-          this.emitRedditEvent(hot_post);
-        });
-      }
-      hotPosts.reverse().forEach(this.emitRedditEvent);
+      const orderedHotPosts = hotPosts.reverse();
+      orderedHotPosts.forEach((hotPost) => {
+        this.emitRedditEvent(hotPost);
+      });
     },
   },
   methods: {
     ...common.methods,
-    generateEventMetadata(reddit_event) {
+    generateEventMetadata(redditEvent) {
       return {
-        id: reddit_event.data.name,
-        summary: reddit_event.data.title,
-        ts: reddit_event.data.created,
+        id: redditEvent.data.name,
+        summary: redditEvent.data.title,
+        ts: redditEvent.data.created,
       };
-    },
-    emitRedditEvent(reddit_event) {
-      const emitRedditEventHandler = common.methods.emitRedditEvent.bind(this);
-      emitRedditEventHandler(reddit_event);
     },
   },
   async run() {
-    const hot_posts = await this.reddit.getNewHotSubredditPosts(
+    console.log("testing out the 500 error");
+    const hotPosts = await this.reddit.getNewHotSubredditPosts(
       this.subreddit,
-      this.region,
-      this.excludeFilters,
+      this.locale,
+      this.showAllPosts,
       this.includeSubredditDetails,
       10
     );
-    const hot_posts_pulled = common.methods.wereThingsPulled(hot_posts);
-    if (hot_posts_pulled) {
-      const ordered_hot_posts = hot_posts.data.children.reverse();
-      ordered_hot_posts.forEach((hot_post) => {
-        this.emitRedditEvent(hot_post);
+    if (!hotPosts) {
+      console.log("No data available, skipping itieration");
+    } else {
+      const orderedHotPosts = hotPosts.reverse();
+      orderedHotPosts.forEach((hotPost) => {
+        this.emitRedditEvent(hotPost);
       });
     }
     hotPosts.reverse().forEach(this.emitRedditEvent);
