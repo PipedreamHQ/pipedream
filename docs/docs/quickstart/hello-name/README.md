@@ -12,13 +12,13 @@ If you didn't complete the previous example, we recommend you start from the [be
 
 First, modify the endpoint URL you loaded in your browser to trigger your workflow and add `?name=foo` to the end (e.g., `https://ENDPOINT-ID.m.pipedream.net/?name=foo`). Then load it to make another request to your workflow. You should still see `hello world!` returned as the response from your workflow.
 
-![name-foo](./name-foo.gif)
+![name-foo](./images/name-foo.gif)
 
 ### Inspect the query data sent to the workflow
 
 Return to Pipedream and select the event you just generated from the event list. You should now see `{1}` next to the `query` field indicating it has nested values. Expand it to inspect the query parameter and value for the request. 
 
-![image-20210525170616605](./image-20210525170616605.png)
+![image-20210525170616605](./images/image-20210525170616605.png)
 
 ::: tip
 If you don't see any query data, check the `url` parameter in the `steps.trigger.event` observation to make sure you didn't select the event associated with the browser's `favicon.ico` request.
@@ -36,11 +36,11 @@ await $respond({
 })
 ```
 
-![image-20210525170745094](./image-20210525170745094.png)
+![image-20210525170745094](./images/image-20210525170745094.png)
 
 Finally, **Deploy** and reload the URL in your browser:
 
-![hello-name](./hello-name.gif)
+![hello-name](./images/hello-name.gif)
 
 Your workflow will now return `hello foo!` (or whatever value you pass to `name`) instead of `hello world!`.
 

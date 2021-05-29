@@ -11,7 +11,7 @@ In the last example, two rows were added to Google Sheets when we loaded the end
 
 First, select an event that represents a `favicon.ico` request:
 
-![image-20210525184158904](./image-20210525184158904.png)
+![image-20210525184158904](./images/image-20210525184158904.png)
 
 Next, add a **Run Node.js code** step immediately after the trigger and change the name from `steps.nodejs` to `steps.filter_favicon_requests`. Then add code to conditionally end the workflow execution if `steps.trigger.event.url` contains the string `favicon.ico`. We can also pass a reason for ending the execution to the `$end()` function. For this example, we'll pass the value `favicon.ico request`.
 
@@ -21,19 +21,19 @@ if(steps.trigger.event.url.includes('favicon.ico')) {
 }
 ```
 
-![image-20210525184256769](./image-20210525184256769.png)
+![image-20210525184256769](./images/image-20210525184256769.png)
 
 Next, **Deploy** your workflow and load the endpoint URL in your browser to trigger your workflow. While 2 events will still appear in the event list, you'll see that one of them indicates that `$end()` was invoked along with the reason we defined. Additionally, no steps after `steps.filter_favicon_requests` were executed for that event.
 
-![image-20210525184412763](./image-20210525184412763.png)
+![image-20210525184412763](./images/image-20210525184412763.png)
 
 Next, if you select the event that did **not** invoke `$end()`, you will see it successfully executed the entire workflow. And when you load Google Sheets, you should only see a single new row added:
 
-![image-20210525184446575](./image-20210525184446575.png)
+![image-20210525184446575](./images/image-20210525184446575.png)
 
 Finally, the data for that row will match the data returned to your endpoint.
 
-![image-20210525184509990](./image-20210525184509990.png)
+![image-20210525184509990](./images/image-20210525184509990.png)
 
 **Next, let's use a connected account in a code step to authenticate a Google Sheets API request.**
 

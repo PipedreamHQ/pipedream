@@ -12,17 +12,17 @@ If you didn't complete the previous examples, we recommend you start from the [b
 
 First, delete `steps.get_request` by clicking the **X** buttton at the top right of the step.
 
-![image-20210525175501367](./image-20210525175501367.png)
+![image-20210525175501367](./images/image-20210525175501367.png)
 
 ### Use an npm package in a code step
 
 Let's replace the action with a code step. Next, click the **+** button and add a **Run Node.js code** step to the spot where the action used to be (between the two other steps).
 
-![image-20210525175626293](./image-20210525175626293.png)
+![image-20210525175626293](./images/image-20210525175626293.png)
 
 Next, rename the step from `steps.nodejs` to `steps.get_iss_position`. Since we're replicating the behvior of the action we just deleted, the step name needs to be identical so the reference in `steps.respond` continues to work.
 
-![rename-nodejs](./rename-nodejs.gif)
+![rename-nodejs](./images/rename-nodejs.gif)
 
 Next, add the following code to `steps.get_iss_position` to get the position of ISS using the `axios` npm package (more details below): 
 
@@ -68,11 +68,11 @@ return response.data
 
 Next, **Deploy** your changes and reload the endpoint URL in your browser. You should continue to see the latest ISS position returned. 
 
-![reload-iss-position](./reload-iss-position.gif)
+![reload-iss-position](./images/reload-iss-position.gif)
 
 Return to your workflow and select the event that corresponds with your most recent test. You should see the `steps.get_request` code step output the ISS position similar to the **GET Request** action you just replaced.
 
-![image-20210525181057299](./image-20210525181057299.png)
+![image-20210525181057299](./images/image-20210525181057299.png)
 
 **Next, let's transform data returned by the ISS API and save it to Google Sheets.** 
 
