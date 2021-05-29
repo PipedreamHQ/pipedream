@@ -10,21 +10,22 @@ module.exports = {
       type: "string",
       label: "Subreddit",
       description: "The subreddit you'd like to watch.",
-     useQuery: true,
+      optional: false,
+      /* #region  subreddit prop's async options method     */
+      useQuery: true,
       async options(context) {
-        const q = context.query || 'biology'; //hardcoded to show that when user provides input on the prop
-                                              //the displayed options are filtered as per the query but
-                                              //the async options method is not re-executed with query value
+        const q = context.query;
         const options = [];
-        let { results, after } = await this.searchSubreddit(context.prevContext, q);
-        for (const subreddits of results) {
-          options.push({ label: subreddits.data.title, value: subreddits.data.name });
+        const results = await this.getAllSearchSubredditsResults(q);
+        for (const subreddit of results) {
+          options.push({
+            label: subreddit.title,
+            value: subreddit.name,
+          });
         }
-        return {
-          options,
-          context: { prevContext: after },
-        };
+        return options;
       },
+      /* #endregion */
     },
     username: {
       type: "string",
@@ -65,29 +66,9 @@ module.exports = {
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return (await axios(opts)).data;
     },
-    _isRetriableStatusCode(statusCode) {
-      [408, 429, 500].includes(statusCode);
-    },
-    async _withRetries(apiCall) {
-      const retryOpts = {
-        retries: 5,
-        factor: 2,
-      };
-      return retry(async (bail) => {
-        try {
-          return await apiCall();
-        } catch (err) {
-          const statusCode = get(err, ["response", "status"]);
-          if (!this._isRetriableStatusCode(statusCode)) {
-            bail(`
-              Unexpected error (status code: ${statusCode}):
-              ${err.response}
-            `);
-          }
-          console.warn(`Temporary error: ${err.message}`);
-          throw err;
-        }
-      }, retryOpts);
+    wereThingsPulled(reddit_things) {
+      const things = get(reddit_things, "data.children");
+      return things && things.length;
     },
     did4xxErrorOccurred(err) {
       return (
@@ -117,6 +98,30 @@ module.exports = {
           limit,
         },
       });
+    },
+    async getNewSubredditComments(
+      subreddit,
+      subreddit_id36,
+      context,
+      depth,
+      sr_detail,
+      limit = 100
+    ) {
+      const resp = await this._makeRequest({
+        path: `/r/${subreddit}/comments/article`,
+        params: {
+          article: subreddit_id36,
+          context,
+          depth,
+          limit,
+          sort: "new",
+          sr_detail,
+          theme: "default",
+          threaded: true,
+          trucate: 0,
+        },
+      });
+      return resp[1];
     },
     async getNewUserLinks(
       before,
@@ -160,15 +165,14 @@ module.exports = {
         sr_detail,
         limit,
       };
-
       return await this._makeRequest({
         path: `/user/${username}/comments`,
         params,
       });
     },
-    async searchSubreddit(current_after,query) {
+    async searchSubreddits(after_link, query) {
       const params = {
-        after: current_after,
+        after: after_link,
         limit: 100,
         q: query,
         show_users: false,
@@ -176,16 +180,29 @@ module.exports = {
         sr_detail: false,
         typeahead_active: false,
       };
-
-      const resp = await this._makeRequest({
+      return await this._makeRequest({
         path: `/subreddits/search`,
         params,
       });
-
-      return {
-        results: resp.data.children,
-        after: resp.data.after,
-      };
+    },
+    async getAllSearchSubredditsResults(query) {
+      var after = null;
+      var results = [];
+      do {
+        const reddit_things = await this.searchSubreddits(after, query);
+        if (reddit_things && reddit_things.data) {
+          after = reddit_things.data.after;
+          if (reddit_things.data.children.length > 0) {
+            reddit_things.data.children.forEach((reddit_link) => {
+              results.push({
+                title: reddit_link.data.title,
+                name: reddit_link.data.name,
+              });
+            });
+          }
+        }
+      } while (after);
+      return results;
     },
   },
 };
