@@ -1,5 +1,4 @@
 const reddit = require("../../reddit.app.js");
-
 module.exports = {
   ...common,
   key: "new-link-on-a-subreddit",
