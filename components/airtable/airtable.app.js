@@ -1,4 +1,5 @@
 const Airtable = require("airtable");
+const isEmpty = require("lodash/isEmpty");
 
 module.exports = {
   type: "app",
@@ -67,6 +68,17 @@ module.exports = {
     },
     throwFormattedError(err) {
       throw Error(`${err.error} - ${err.statusCode} - ${err.message}`);
+    },
+    validateRecord(record) {
+      if (typeof record !== "object") {
+        throw new Error("Airtable record isn't an object");
+      }
+      if (Array.isArray(record)) {
+        throw new Error("Airtable record is an array. Please pass an object, instead.");
+      }
+      if (isEmpty(record)) {
+        throw new Error("Airtable record data is empty");
+      }
     },
     validateRecordID(recordID) {
       if (!recordID) {
