@@ -1,5 +1,4 @@
 const reddit = require("../../reddit.app.js");
-const get = require("lodash.get");
 
 module.exports = {
     key: "new-link-on-a-subreddit",
