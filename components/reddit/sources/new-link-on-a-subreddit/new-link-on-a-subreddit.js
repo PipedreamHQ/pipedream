@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 const reddit = require("../../reddit.app.js");
 =======
 const uservoice = require("../../reddit.app.js");
 >>>>>>> f27aed4... PR for initial feedback
+=======
+const reddit = require("../../reddit.app.js");
+>>>>>>> 64ff950... Fixed as per comments.
 
 module.exports = {
     key: "new-link-on-a-subreddit",
@@ -66,8 +70,12 @@ module.exports = {
 =======
         }		    
         }while(after);
+<<<<<<< HEAD
 			this.db.set("after",response.data.data.after);		
 >>>>>>> f27aed4... PR for initial feedback
+=======
+			this.db.set("after",after);		
+>>>>>>> 64ff950... Fixed as per comments.
         },
     },
     methods: {
@@ -85,6 +93,7 @@ module.exports = {
     async run() {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         let current_after = this.db.get("after");
         const reddit_things = await this.getNewSubredditLinks(current_after,this.subreddit);
         var new_after = reddit_things.data.data.after;
@@ -95,16 +104,26 @@ module.exports = {
         var after = reddit_things.data.data.after;
         if(after){
 >>>>>>> f27aed4... PR for initial feedback
+=======
+        let current_after = this.db.get("after");
+        const reddit_things = await this.getNewSubredditLinks(current_after);
+        var new_after = reddit_things.data.data.after;
+        if(new_after){
+>>>>>>> 64ff950... Fixed as per comments.
             if(reddit_things.data.data.children.length>0){
                 reddit_things.data.data.children.forEach(reddit_link => {
                     this.emitMeInfo(reddit_link);
                 });
+<<<<<<< HEAD
 <<<<<<< HEAD
                 this.db.set("after",new_after);
             }
         }
 =======
                 this.db.set("after",after);
+=======
+                this.db.set("after",new_after);
+>>>>>>> 64ff950... Fixed as per comments.
             }                        
         }                		
 >>>>>>> f27aed4... PR for initial feedback
