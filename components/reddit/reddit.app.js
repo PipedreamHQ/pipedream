@@ -87,168 +87,60 @@ module.exports = {
         }
       }, retryOpts);
     },
-    /**
-     * This method retrieves the most recent new hot subreddit posts. The
-     * returned dataset contains at most `opts.limit` entries.
-     *
-     * @param {string}  subreddit the subreddit from which to retrieve the
-     * hot posts
-     * @param {enum}    region the region from where to retrieve the hot
-     * posts (e.g. `GLOBAL`, `US`, `AR`, etc.). See the `g` parameter in the
-     * docs for more information: https://www.reddit.com/dev/api/#GET_hot
-     * @param {boolean} [excludeFilters=false] if set to `true`, filters
-     * such as "hide links that I have voted on" will be disabled
-     * @param {boolean} [includeSubredditDetails=false] whether the
-     * subreddit details should be expanded/included or not
-     * @param {number}  [limit=100] the maximum amount of posts to retrieve
-     * @returns the list of new hot posts belonging to the specified subreddit
-     */
-    async getNewHotSubredditPosts(
-      subreddit,
-      region,
-      excludeFilters,
-      includeSubredditDetails,
-      limit = 100
-    ) {
+    did4xxErrorOccurred(err) {
+      return (
+        get(err, "response.status") !== undefined &&
+        get(err, "response.status") !== null &&
+        err.response.status >= 400
+      );
+    },
+    async getNewHotSubredditPosts(subreddit, g, show, sr_detail, limit = 100) {
       const params = {};
-      if (excludeFilters) {
+      if (show) {
         params["show"] = "all";
       }
       params["g"] = region;
       params["sr_detail"] = includeSubredditDetails;
       params["limit"] = limit;
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/r/${subreddit}/hot`,
-          params,
-        })
-      );
+      return await this._makeRequest({
+        path: `/r/${subreddit}/hot`,
+        params,
+      });
     },
-    async getNewSubredditLinks(before, subreddit, limit = 100) {
-      const params = {
-        before,
-        limit,
-      };
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/r/${subreddit}/new`,
-          params,
-        })
-      );
+    async getNewSubredditLinks(before_link, subreddit, limit = 100) {
+      return await this._makeRequest({
+        path: `/r/${subreddit}/new`,
+        params: {
+          before: before_link,
+          limit,
+        },
+      });
     },
-    async getNewSubredditComments(
-      subreddit,
-      subredditPost,
-      numberOfParents,
-      depth,
-      includeSubredditDetails,
-      limit = 100
-    ) {
-      const params = {
-        article: subredditPost,
-        context: numberOfParents,
-        depth,
-        limit,
-        sort: "new",
-        sr_detail: includeSubredditDetails,
-        theme: "default",
-        threaded: true,
-        trucate: 0,
-      };
-      const [redditArticle, redditComments] = await this._withRetries(() =>
-        this._makeRequest({
-          path: `/r/${subreddit}/comments/article`,
-          params,
-        })
-      );
-      return redditComments;
-    },
-    async getNewUserLinks(
+    async getNewCommentsOrLinks(
       before,
       username,
-      numberOfParents,
-      timeFilter,
-      includeSubredditDetails,
+      context,
+      show,
+      t,
+      type,
+      sr_detail,
       limit = 100
     ) {
       const params = {
         before,
-        context: numberOfParents,
+        context,
         show: "given",
         sort: "new",
-        t: timeFilter,
-        type: "links",
-        sr_detail: includeSubredditDetails,
+        t,
+        type,
+        sr_detail,
         limit,
       };
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/user/${username}/submitted`,
-          params,
-        })
-      );
-    },
-    async getNewUserComments(
-      before,
-      username,
-      numberOfParents,
-      timeFilter,
-      includeSubredditDetails,
-      limit = 100
-    ) {
-      const params = {
-        before,
-        context: numberOfParents,
-        show: "given",
-        sort: "new",
-        t: timeFilter,
-        type: "comments",
-        sr_detail: includeSubredditDetails,
-        limit,
-      };
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/user/${username}/comments`,
-          params,
-        })
-      );
-    },
-    async searchSubreddits(after, query = "") {
-      const params = {
-        after,
-        limit: 100,
-        q: query,
-        show_users: false,
-        sort: "relevance",
-        sr_detail: false,
-        typeahead_active: false,
-      };
-      const redditCommunities = await this._withRetries(() =>
-        this._makeRequest({
-          path: `/subreddits/search`,
-          params,
-        })
-      );
-    },
-    async getAllSearchSubredditsResults(query) {
-      const results = [];
-      let after = null;
-      do {
-        const redditCommunities = await this.searchSubreddits(after, query);
-        if (!redditCommunities) {
-          break;
-        }
-        const { children: communities = [] } = redditCommunities.data;
-        after = communities[communities.length - 1].data.name;
-        communities.forEach((subreddit) => {
-          const { title, name } = subreddit.data;
-          results.push({
-            title,
-            name,
-          });
-        });
-      } while (after);
-      return results;
+
+      return await this._makeRequest({
+        path: `/user/${username}/comments`,
+        params,
+      });
     },
   },
 };

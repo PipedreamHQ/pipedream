@@ -1,5 +1,4 @@
-const common = require("../common");
-const { reddit } = common.props;
+const reddit = require("../../reddit.app.js");
 
 module.exports = {
   ...common,
@@ -34,11 +33,7 @@ module.exports = {
           10
         );
       } catch (err) {
-        if (
-          get(err, "response.status") !== undefined &&
-          get(err, "response.status") !== null &&
-          err.response.status >= 400
-        ) {
+        if (did4xxErrorOccurred) {
           throw new Error(
             `We encountered a 4xx error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`
           );
@@ -68,6 +63,7 @@ module.exports = {
   },
   async run() {
     let before = this.db.get("before");
+
     do {
       const reddit_things = await this.reddit.getNewSubredditLinks(
         before,
@@ -82,6 +78,7 @@ module.exports = {
           this.emitRedditEvent(reddit_link);
         });
       }
-    }while(links_pulled);
+    } while (links_pulled);
+
   },
 };
