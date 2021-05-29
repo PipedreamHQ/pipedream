@@ -4,22 +4,17 @@ module.exports = {
   key: "new-hot-spot-on-a-subreddit",
   name: "New hot spot on a subreddit",
   description:
-    "Emits an event each time a new host post is added to the top 10 a subreddit.",
+    "Emits an event each time a new hot post is added to the top 10 items in a subreddit.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
     reddit,
-    subreddit: {
-      type: "string",
-      label: "Subreddit",
-      description: "The subreddit you'd like to watch for new hot posts.",
-      default: "redditdev",
-    },
+    subreddit: { propDefinition: [reddit, "subreddit"] },
     g: {
       type: "string",
-      label: "g",
+      label: "Locale",
       description:
-        "Reddit's culture localization on which you'd like to watch for new hot posts.",
+        "Hot posts differ by region, and this refers to the locale you'd like to watch for hot posts. Refers to the g param in the Reddit API.",
       options: [
         "GLOBAL",
         "US",
@@ -113,21 +108,15 @@ module.exports = {
     },
     show: {
       type: "string",
-      label: "show",
+      label: "Show",
       description:
-        'If "all" is passed, filters such as "hide links that I have voted on" will be disabled.',
-      async options() {
-        return ["none", "all"];
-      }, //QUESTION: How can I have a "null" option, just added the method to "sense" how it is
-      //use dynamic options on a prop. I guess hardcoding and processing the input before making
-      //the call.
+        'If "all" is passed, filters such as "hide links that I have voted on" will be disabled.'
     },
     sr_detail: {
-      type: "string",
-      label: "sr_detail",
-      description: "The subreddit you'd like to watch for new hot posts.",
-      options: ["true", "false"],
-      default: "false",
+      type: "boolean",
+      label: "Subreddit details?",
+      description: "Expand details of the parent subreddit?",
+      default: false
     },
     timer: {
       label: "Polling schedule",
@@ -135,23 +124,30 @@ module.exports = {
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 10, // by default, run every 10 minute.
-        // test value
       },
     },
   },
   hooks: {
-    async deploy() {
+    async deploy() {    	
       // Emits sample events on the first run during deploy.
-      const reddit_things = await this.reddit.getNewHotSubredditPosts(
-        this.subreddit,
-        this.g,
-        this.show,
-        this.sr_detail
-      );
+			try{
+	      var reddit_things = await this.reddit.getNewHotSubredditPosts(
+	      	this.subreddit,
+	        this.g,
+	        this.show,
+	        this.sr_detail
+	      );
+    	}catch (err) {
+			  if (err.response.status) {
+			    throw new Error(`We encountered a 404 error trying to fetch links for ${this.subreddit}. Please check the subreddit name and try again`);
+			  }
+			  throw err;
+			}	      
 
       const links_pulled = this.reddit.wereLinksPulled(reddit_things);
       if (links_pulled) {
-        reddit_things.data.children.forEach((reddit_link) => {
+      	const ordered_reddit_things = reddit_things.data.children.reverse();
+        ordered_reddit_things.forEach((reddit_link) => {
           this.emitRedditEvent(reddit_link);
         });
       }
@@ -168,7 +164,7 @@ module.exports = {
   },
   async run() {
     const reddit_things = await this.reddit.getNewHotSubredditPosts(
-      this.subreddit,
+      this.subreddit,    
       this.g,
       this.show,
       this.sr_detail
@@ -176,7 +172,8 @@ module.exports = {
 
     const links_pulled = this.reddit.wereLinksPulled(reddit_things);
     if (links_pulled) {
-      reddit_things.data.children.forEach((reddit_link) => {
+    	const ordered_reddit_things = reddit_things.data.children.reverse();
+      ordered_reddit_things.forEach((reddit_link) => {
         this.emitRedditEvent(reddit_link);
       });
     }
