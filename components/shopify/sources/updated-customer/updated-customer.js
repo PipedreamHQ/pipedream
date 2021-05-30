@@ -4,7 +4,7 @@ module.exports = {
   key: "shopify-updated-customer",
   name: "Updated Customer",
   description: "Emits an event each time a customer's information is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     db: "$.service.db",

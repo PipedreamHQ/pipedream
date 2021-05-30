@@ -13,7 +13,7 @@ module.exports = {
   key: "shopify-new-paid-order",
   name: "New Paid Order",
   description: "Emits an event each time a new order is paid.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     db: "$.service.db",
