@@ -1,6 +1,9 @@
 const axios = require("axios");
 const get = require("lodash.get");
 const Shopify = require("shopify-api-node");
+const toPath = require("lodash/toPath");
+const retry = require("async-retry")
+
 const events = [
   { label: "Article Created", value: JSON.stringify({ filter: "Article", verb: "create" }) }, 
   { label: "Article Destroyed", value: JSON.stringify({ filter: "Article", verb: "destroy" }) }, 
@@ -54,6 +57,98 @@ module.exports = {
       monthAgo.setMonth(monthAgo.getMonth() - 1);
       return monthAgo;
     },
+    _jsonPathToGraphQl(path) {
+      return toPath(path).reduceRight(
+        (accum, item) => accum
+          ? `${item} { ${accum} }`
+          : item,
+      );
+    },
+    /**
+     * Returns if an error code represents a retriable error.
+     * @callback isRetriableErrCode
+     * @param {string} errCode The error code
+     * @returns {boolean} If the error code is retriable
+     */
+    /**
+     * Returns if a GraphQL error code represents a retriable error.
+     * @type {isRetriableErrCode}
+     */
+    _isRetriableGraphQLErrCode(errCode) {
+      return errCode === 'THROTTLED';
+    },
+    /**
+     * Options for handling error objects returned by API calls.
+     * @typedef {Object} ErrorOptions
+     * @property {(string|number)[]|string} errCodePath Path to the status/error
+     * code in the error object
+     * @property {(string|number)[]|string} errDataPath Path to the error data
+     * in the error object
+     * @property {isRetriableErrCode} isRetriableErrCode Function that returns if
+     * the error code is retriable
+     */
+    /**
+     * Returns options for handling GraphQL error objects.
+     * @returns {ErrorOptions} The options
+     */
+    _graphQLErrOpts() {
+      // Shopify GraphQL requests are throttled if queries exceed point limit.
+      // See https://shopify.dev/concepts/about-apis/rate-limits
+      // GraphQL err: { extensions: { code='THROTTLED' }, response: { body: { errors: [] } } }
+      return {
+        errCodePath: ["extensions", "code"],
+        errDataPath: ["response", "body", "errors", '0'],
+        isRetriableErrCode: this._isRetriableGraphQLErrCode,
+      }
+    },
+    /**
+     * 
+     * @param {function} apiCall The function that makes the API request
+     * @param {object} opts Options for retrying the API call
+     * @param {ErrorOptions} opts.errOpts Options for handling errors thrown by the API call
+     * @param {object} opts.retryOpts Options for async-retry. See
+     * https://www.npmjs.com/package/async-retry
+     * @returns {Promise} A promise that resolves to the return value of the apiCall
+     */
+    async _withRetries(apiCall, opts = {}) {
+      const {
+        errOpts: {
+          errCodePath,
+          errDataPath,
+          isRetriableErrCode,
+        } = this._graphQLErrOpts(),
+        retryOpts = {
+          retries: 5,
+          factor: 2,
+          minTimeout: 2000, // In milliseconds
+        }
+      } = opts;
+      return retry(async (bail, retryCount) => {
+        try {
+          return await apiCall();
+        } catch (err) {
+          const errCode = get(err, errCodePath);
+          if (!isRetriableErrCode(errCode)) {
+            const errData = get(err, errDataPath, {});
+            return bail(new Error(`
+              Unexpected error (error code: ${errCode}):
+              ${JSON.stringify(errData, null, 2)}
+            `));
+          }
+
+          console.log(`
+            [Attempt #${retryCount}] Temporary error: ${err.message}
+          `);
+          throw err;
+        }
+      }, retryOpts);
+    },
+    _makeGraphQlRequest(query, variables = {}) {
+      const shopifyClient = this.getShopifyInstance();
+      return this._withRetries(
+        () => shopifyClient.graphql(query, variables),
+      );
+    },
     dayAgo() {
       const dayAgo = new Date();
       dayAgo.setDate(dayAgo.getDate() - 1);
@@ -64,18 +159,13 @@ module.exports = {
         shopName: this.$auth.shop_id,
         accessToken: this.$auth.oauth_access_token,
         autoLimit: true,
-        apiVersion: '2021-04'
       });
-    },
-    async makeGraphQLRequest(query, variables) {
-      const shopify = this.getShopifyInstance();
-      return await shopify.graphql(query, variables);
     },
     getSinceParams(sinceId = false, useCreatedAt = false, updatedAfter = null) {
       let params = {};
       if (sinceId) params = { ...params, since_id: sinceId };
       if (updatedAfter) params = { ...params, updated_at_min: updatedAfter };
-      // if no sinceId or updatedAfter, get objects created within the last month
+      // If no sinceId or updatedAfter, get objects created within the last month
       if (!sinceId && !updatedAfter && useCreatedAt) return { created_at_min: this._monthAgo() };
       return params;
     },
@@ -118,6 +208,17 @@ module.exports = {
       params.fulfillment_status = fulfillmentStatus;
       return await this.getObjects("order", params);
     },
+    getOrdersById(ids = []) {
+      if (ids.length === 0) {
+        return Promise.resolve([]);
+      }
+      const params = {
+        ids: ids.join(','),
+        status: "any",
+        limit: 100,
+      };
+      return this.getObjects("order", params);
+    },
     async getPages(sinceId) {
       let params = this.getSinceParams(sinceId, true);
       return await this.getObjects("page", params);
@@ -125,6 +226,58 @@ module.exports = {
     async getProducts(sinceId) {
       let params = this.getSinceParams(sinceId, true);
       return await this.getObjects("product", params);
+    },
+    async *queryOrders(opts = {}) {
+      const {
+        sortKey = "UPDATED_AT",
+        filter = "",
+        fields = [],
+      } = opts;
+      const nodeFields = [
+        "id",
+        ...fields.map(this._jsonPathToGraphQl),
+      ].join("\n");
+      const query = `
+        query orders($after: String, $filter: String, $sortKey: OrderSortKeys) {
+          orders(after: $after, first: 100, query: $filter, sortKey: $sortKey) {
+            pageInfo {
+              hasNextPage
+            }
+            edges {
+              cursor
+              node {
+                ${nodeFields}
+              }
+            }
+          }
+        }
+      `;
+
+      let { prevCursor: after = null } = opts;
+      while (true) {
+        const variables = {
+          after,
+          filter,
+          sortKey,
+        };
+        const { orders } = await this._makeGraphQlRequest(query, variables);
+        const { edges = [] } = orders;
+        for (const edge of edges) {
+          const {
+            node: order,
+            cursor,
+          } = edge;
+          yield {
+            order,
+            cursor,
+          };
+          after = cursor;
+        }
+
+        if (!orders.pageInfo.hasNextPage) {
+          return;
+        }
+      }
     },
   },
 };

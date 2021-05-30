@@ -1,23 +1,67 @@
-// Uses Shopify GraphQL API rather than REST to get Order Transactions in the same request as Orders
-// Order Transaction created_at dates are used to determine if an order's update was from being paid
-// to avoid duped orders if there are more than 100 orders between updates of a paid order
-const common = require("../common/graphql-orders.js");
+const shopify = require("../../shopify.app.js");
+const { dateToISOStringWithoutMs } = require("../common/utils");
+// Uses Shopify GraphQL API to get Order Transactions (`created_at`) in the same request as Orders (`updated_at`)
+// Order Transaction `created_at` dates are used to determine if a `PAID` Order's update was from being paid
+// to avoid duped orders if there are more than 100 orders between updates of a `PAID` Order
+// Data from GraphQL request is used to generate list of relevant Order IDs
+// Relevent Orders are requested via Shopify REST API using list of relevant Order IDs
+
+const DEFAULT_TIMER_INTERVAL_SECONDS = 60 * 5; // 5 minutes
+const MIN_ALLOWED_TRANSACT_TO_ORDER_UPDATE_MS = 1000 * 30 * 1; // 30 seconds (from testing, an Order (financial_status:=PAID) seems to be updated within 15s of the Transaction)
 
 module.exports = {
-  ...common,
   key: "shopify-new-paid-order",
   name: "New Paid Order",
   description: "Emits an event each time a new order is paid.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    ...common.props,
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_TIMER_INTERVAL_SECONDS,
+      },
+    },
+    shopify,
   },
   methods: {
-    ...common.methods,
+    _getPrevCursor() {
+      return this.db.get("prevCursor") || null;
+    },
+    _setPrevCursor(prevCursor) {
+      this.db.set("prevCursor", prevCursor);
+    },
+    /**
+     * Returns the allowed time interval between Order Transaction and Order
+     * update where the Order update can still be considered the result of
+     * becoming 'paid'.
+     *
+     * @returns {number} The number of milliseconds after a Transaction is created
+     */
+    _getAllowedTransactToOrderUpdateMs() {
+      return Math.max(
+        MIN_ALLOWED_TRANSACT_TO_ORDER_UPDATE_MS,
+        2 * DEFAULT_TIMER_INTERVAL_SECONDS * 1000
+      );
+    },
+    getQueryFields() {
+      // See https://shopify.dev/docs/admin-api/graphql/reference/orders/order
+      // With these fields, queries cost up to 202 points
+      return [
+        "updatedAt",
+        "name",
+        "legacyResourceId", // The ID of the corresponding resource (Order) in the REST Admin API.
+        "transactions.createdAt",
+      ];
+    },
+    getQueryFilter({ updatedAt = null }) {
+      return `financial_status:paid updated_at:>${updatedAt}`;
+    },
     isRelevant(order) {
-      // Don't emit if order was updated long after last transaction (update not cause by order being paid)
+      // Don't emit if Order was updated long after last Transaction (update not cause by order being paid)
       let lastTransactionDate = null;
+      // Iterate over Order Transactions to get date of most recent Transaction
       for (const transaction of order.transactions) {
         const transactionDate = Date.parse(transaction.createdAt);
         if (!lastTransactionDate || transactionDate - lastTransactionDate > 0) {
@@ -29,9 +73,17 @@ module.exports = {
       }
       const timeFromTransactToOrderUpdate =
         Date.parse(order.updatedAt) - lastTransactionDate;
-      // If the order was updated long after the last transaction, assume becoming 'paid' was not the cause of update
-      // allow 5 minutes between transaction and order update
-      if (timeFromTransactToOrderUpdate > 1000 * 60 * 5) {
+      // If the Order was updated long after the last Transaction, assume becoming 'paid' was not the cause of update
+      // Allow at least 2x the timer interval (2 * 5min) after an Order Transaction for Order updates to be considered 'paid' updates
+      // If 2x the timer interval isn't allowed, some Orders that are updated from a Transaction and then one or more times
+      // between polling requests could be considered not 'paid' by the update
+      // (because time from Order Transaction `created_at` to Order `updated_at` would be too large)
+      // The larger interval could cause Orders updated multiple times within the interval to be considered 'paid' twice,
+      // but those Order events would be deduped if there are fewer than 100 paid Orders in 2x timer inverval
+      if (
+        timeFromTransactToOrderUpdate >
+        this._getAllowedTransactToOrderUpdateMs()
+      ) {
         return false;
       }
       return true;
@@ -41,15 +93,41 @@ module.exports = {
       return {
         id: order.id,
         summary: `Order paid: ${order.name}`,
-        ts: Date.parse(order.updatedAt),
+        ts: Date.parse(order.updated_at),
       };
     },
+  },
 
-    getParams() {
-      return {
-        query: "financial_status:paid",
-        sortKey: "UPDATED_AT",
-      };
-    },
+  async run() {
+    const prevCursor = this._getPrevCursor();
+    const queryOrderOpts = {
+      fields: this.getQueryFields(),
+      filter: this.getQueryFilter({
+        // If there is no cursor yet, get orders updated_at after 1 day ago
+        // The Shopify GraphQL Admin API does not accept date ISO strings that include milliseconds
+        updatedAt: prevCursor
+          ? null
+          : dateToISOStringWithoutMs(this.shopify.dayAgo()),
+      }),
+      prevCursor,
+    };
+    const orderStream = this.shopify.queryOrders(queryOrderOpts);
+    const relevantOrderIds = [];
+    for await (const orderInfo of orderStream) {
+      const { order, cursor } = orderInfo;
+
+      if (this.isRelevant(order)) {
+        relevantOrderIds.push(order.legacyResourceId);
+      }
+
+      this._setPrevCursor(cursor);
+    }
+
+    const relevantOrders = await this.shopify.getOrdersById(relevantOrderIds);
+
+    relevantOrders.forEach((order) => {
+      const meta = this.generateMeta(order);
+      this.$emit(order, meta);
+    });
   },
 };
