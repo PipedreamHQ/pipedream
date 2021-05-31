@@ -53,7 +53,7 @@ Watch a demo (4 mins):
 
 We make it easy to connect APIs with code-level control when you need it — and no code when you don't. If you and your team want to stop writing boilerplate code, struggling with authentication and managing infrastructure for API integrations, then Pipedream is for you. 
 
-Developers with a working knowledge of Node.js or Javascript will get the most value from Pipedream (Python, Typescript. and GitHub integration are coming soon).
+Developers with a working knowledge of Node.js or Javascript will get the most value from Pipedream (Python, TypeScript, and GitHub integration are coming soon).
 
 <!--
 Pipedream is trusted by 150k+ developers from startups to Fortune 500 companies:
@@ -82,7 +82,7 @@ Pipedream offers a generous free tier (no credit card required) so you can test 
 
 ## Use Cases
 
-Pipdream supports use cases from protototype to production and is trusted by 150k+ developers from startups to Fortune 500 companies:
+Pipedream supports use cases from protototype to production and is trusted by 150k+ developers from startups to Fortune 500 companies:
 
 ![logos](https://res.cloudinary.com/pipedreamin/image/upload/v1612919944/homepage/logos_kcbviz.png)
 
@@ -92,11 +92,11 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 - Connecting SaaS apps
 - General API orchestration and automation
-- Database automations (learn about [connecting to resources behind a firewall](/workflows/steps/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host))
+- Database automations ([reach out](https://pipedream.com/community) to learn about connecting to resources behind a firewall)
 - Custom notifications and alerting
 - Mobile and JAMstack backends
 - Rate limiting, request smoothing
-- Event queuing and concurrency management
+- Event queueing and concurrency management
 - Webhook inspection and routing
 - Prototyping and demos
 
@@ -108,10 +108,10 @@ Pipedream maintains an [open source component registry](https://github.com/piped
 
 We hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform by:
 
-- [Contributing](/components/guidelines/) open source components to our [registry](https://github.com/pipedreamhq/pipedream.) or sharing via your own Github repo
+- [Contributing](/components/guidelines/) open source components to our [registry](https://github.com/pipedreamhq/pipedream.) or sharing via your own GitHub repo
 - Asking and answering questions in our [public community](https://pipedream.com/community/)
 - [Reporting bugs](https://pipedream.com/community/c/bugs/9) and [requesting features](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+) that help us build a better product
-- Following us on [Twitter](https://twitter.com/pipedream), starring our [Github repo](https://github.com/PipedreamHQ/pipedream) and subscribing to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)
+- Following us on [Twitter](https://twitter.com/pipedream), starring our [GitHub repo](https://github.com/PipedreamHQ/pipedream) and subscribing to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)
 - Recommending us to your friends and colleagues
 
 Learn about [all the ways you can contribute](https://pipedream.com/contributing).
@@ -119,35 +119,3 @@ Learn about [all the ways you can contribute](https://pipedream.com/contributing
 ## Getting Help
 
 If you have any questions or feedback, please [reach out in our community forum](https://pipedream.com/community).
-
-
-
-<!--
-### Benefits
-
-### No servers or infrastructure to manage
-
-In other tools, you typically have to setup infrastructure to process events — typically you setup an HTTP endpoint, then run a script on a container, or have to manage a serverless function. This takes time to write and maintain.
-
-Pipedream is purpose-built for running workflows on event data, so we take care of the infrastructure and boilerplate configuration for you. **Pipedream lets you focus on _what_ you want done, and we take care of _how_ to do it for you.**
-
-### Run any Node code
-
-Write Node.js [code](/workflows/steps/code/) and require npm packages. `event` contains your trigger event data. Exported step data, along with standard output, appears under each code step for inline observability.
-
-### Iterate quickly with inline observability, automatic versioning and instant deploys
-
-See events and debug execution details in real time. Output, errors, timing, and return values appear below each step. Time travel to previous versions of code, at the time the event occurred.
-
-### Connect to APIs without writing any code
-
-[Actions](/workflows/steps/actions/) are pre-defined code steps built by the Pipedream community. Send a message to Slack or Discord, store data in S3 or Snowflake, and more, all without writing any code.
-
-### Auth made easy
-
-Auth apps once, connect to those apps in any workflow. Pipedream supports OAuth and key-based auth, and handles the OAuth flow and token refresh for you. Just link accounts to steps and reference the relevant auth info in code.
-
-### It's free
-
-The Pipedream team believes anyone should be able to run simple, low-volume workflows at no cost. **Pipedream offers a [generous free tier](/pricing/#developer-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](/pricing/#professional-tier).
--->
