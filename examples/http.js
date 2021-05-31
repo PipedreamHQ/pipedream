@@ -11,12 +11,12 @@ module.exports = {
     this.http.respond({
       status: 200,
       body: {
-        'msg': 'hello world!'
+        "msg": "hello world!",
       },
       headers: {
         "content-type": "application/json",
       },
     });
-    console.log(event)
-  }
-}
+    console.log(event);
+  },
+};

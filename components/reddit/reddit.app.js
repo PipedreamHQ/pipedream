@@ -229,13 +229,19 @@ module.exports = {
           params,
         })
       );
+      return redditCommunities;
     },
     async getAllSearchSubredditsResults(query) {
       const results = [];
       let after = null;
       do {
         const redditCommunities = await this.searchSubreddits(after, query);
-        if (!redditCommunities) {
+        const isNewDataAvailable = get(redditCommunities, [
+          "data",
+          "children",
+          "length",
+        ]);
+        if (!isNewDataAvailable) {
           break;
         }
         const { children: communities = [] } = redditCommunities.data;

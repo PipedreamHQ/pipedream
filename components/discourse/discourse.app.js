@@ -27,7 +27,9 @@ module.exports = {
           label: c.name,
           value: c.id,
         }));
-        const options = sortBy(rawOptions, ["label"]);
+        const options = sortBy(rawOptions, [
+          "label",
+        ]);
 
         return {
           options,
@@ -42,15 +44,42 @@ module.exports = {
       options() {
         // https://github.com/discourse/discourse/blob/master/app/models/web_hook_event_type.rb
         return [
-          { value: 1, label: "Topic Event" },
-          { value: 2, label: "Post Event" },
-          { value: 3, label: "User Event" },
-          { value: 4, label: "Group Event" },
-          { value: 5, label: "Category Event" },
-          { value: 6, label: "Tag Event" },
-          { value: 9, label: "Reviewable Event" },
-          { value: 10, label: "Notification Event" },
-          { value: 13, label: "Badge Grant Event" },
+          {
+            value: 1,
+            label: "Topic Event",
+          },
+          {
+            value: 2,
+            label: "Post Event",
+          },
+          {
+            value: 3,
+            label: "User Event",
+          },
+          {
+            value: 4,
+            label: "Group Event",
+          },
+          {
+            value: 5,
+            label: "Category Event",
+          },
+          {
+            value: 6,
+            label: "Tag Event",
+          },
+          {
+            value: 9,
+            label: "Reviewable Event",
+          },
+          {
+            value: 10,
+            label: "Notification Event",
+          },
+          {
+            value: 13,
+            label: "Badge Grant Event",
+          },
         ];
       },
     },
@@ -106,7 +135,7 @@ module.exports = {
 
       // No way to filter items by category via API, so we filter here
       return data.filter(
-        (el) => el.category_id && categories.includes(el.category_id.toString())
+        (el) => el.category_id && categories.includes(el.category_id.toString()),
       );
     },
     async _makeRequest(opts) {
@@ -118,7 +147,9 @@ module.exports = {
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
       const { path } = opts;
       delete opts.path;
-      opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
+      opts.url = `${this._apiUrl()}${path[0] === "/"
+        ? ""
+        : "/"}${path}`;
       return await axios(opts);
     },
     generateSecret() {
@@ -183,11 +214,15 @@ module.exports = {
       return this._filterOnCategories(topics, categories);
     },
     async listCategories() {
-      const { data } = await this._makeRequest({ path: "/categories" });
+      const { data } = await this._makeRequest({
+        path: "/categories",
+      });
       return get(data, "category_list.categories", []);
     },
     async listUsers() {
-      const { data } = await this._makeRequest({ path: "/admin/users" });
+      const { data } = await this._makeRequest({
+        path: "/admin/users",
+      });
       return data;
     },
   },

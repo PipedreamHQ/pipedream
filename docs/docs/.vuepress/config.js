@@ -346,7 +346,7 @@ module.exports = {
           "/subprocessors/",
         ],
       },
-      ["/support/", "Support and Community"],
+      ["https://pipedream.com/support", "Support and Community"],
       "/sign-up/",
       "/pricing/",
       "/status/",
