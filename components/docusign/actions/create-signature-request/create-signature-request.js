@@ -4,7 +4,7 @@ module.exports = {
   key: "docusign-create-signature-request",
   name: "Create Signature Request",
   description: "Creates a signature request from a template",
-  version: "0.0.01",
+  version: "0.0.1",
   type: "action",
   props: {
     docusign,
@@ -73,6 +73,6 @@ module.exports = {
       emailSubject: this.emailSubject,
     };
     if (this.emailBlurb) data.emailBlurb = this.emailBlurb;
-    return await this.docusign.createEnvelope(baseUri, this.account, data);
+    return await this.docusign.createEnvelope(baseUri, data);
   },
 };

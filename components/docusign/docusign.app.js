@@ -7,7 +7,6 @@ module.exports = {
     account: {
       type: "string",
       label: "Account",
-      description: "",
       async options() {
         const { accounts } = await this.getUserInfo();
         return accounts.map((account) => {
@@ -21,12 +20,10 @@ module.exports = {
     template: {
       type: "string",
       label: "Template",
-      description: "",
       async options({ account }) {
         const baseUri = await this.getBaseUri(account);
         const { envelopeTemplates } = await this.listTemplates(
           baseUri,
-          account,
         );
         return envelopeTemplates.map((template) => {
           return {
@@ -39,7 +36,7 @@ module.exports = {
     role: {
       type: "string",
       label: "Recipient Role",
-      description: "",
+      description: "Choose role as defined on template or use a custom value",
       async options({
         account,
         template,
@@ -47,7 +44,6 @@ module.exports = {
         const baseUri = await this.getBaseUri(account);
         const { signers } = await this.listTemplateRecipients(
           baseUri,
-          account,
           template,
         );
         return signers.map((signer) => {
@@ -104,24 +100,24 @@ module.exports = {
       const { accounts } = await this.getUserInfo();
       const account = accounts.find((a) => a.account_id === accountId);
       const { base_uri: baseUri } = account;
-      return baseUri;
+      return `${baseUri}/restapi/v2.1/accounts/${accountId}/`;
     },
-    async listTemplates(baseUri, accountId) {
+    async listTemplates(baseUri) {
       return await this._makeRequest(
         "GET",
-        `${baseUri}/restapi/v2.1/accounts/${accountId}/templates`,
+        `${baseUri}templates`,
       );
     },
-    async listTemplateRecipients(baseUri, accountId, templateId) {
+    async listTemplateRecipients(baseUri, templateId) {
       return await this._makeRequest(
         "GET",
-        `${baseUri}/restapi/v2.1/accounts/${accountId}/templates/${templateId}/recipients`,
+        `${baseUri}templates/${templateId}/recipients`,
       );
     },
-    async createEnvelope(baseUri, accountId, data) {
+    async createEnvelope(baseUri, data) {
       return await this._makeRequest(
         "POST",
-        `${baseUri}/restapi/v2.1/accounts/${accountId}/envelopes`,
+        `${baseUri}envelopes`,
         data,
       );
     },
