@@ -48,7 +48,7 @@ module.exports = {
     recipientEmail: {
       propDefinition: [
         docusign,
-        "recipientEmail"
+        "recipientEmail",
       ],
     },
     recipientName: {
