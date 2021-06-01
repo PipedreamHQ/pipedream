@@ -538,6 +538,7 @@ curl 'https://api.pipedream.com/v1/users/me/sources' \
       "name_slug": "test"
     }
   ]
+}
 ```
 
 ### Create a Source
@@ -716,7 +717,7 @@ display the sources configured as listeners using this API**.
 
 #### Endpoint
 
-```
+```text
 POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}listener_id={receiving_source_id}
 ```
 
@@ -1000,7 +1001,7 @@ You can create a webhook that delivers events to
 `https://endpoint.m.pipedream.net` using the following command:
 
 ```shell
-curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description \
+curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description" \
   -X POST \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json"
