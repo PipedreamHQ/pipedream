@@ -4,7 +4,7 @@ module.exports = {
   key: "docusign-create-signature-request",
   name: "Create Signature Request",
   description: "Creates a signature request from a template",
-  version: "0.0.56",
+  version: "0.0.01",
   type: "action",
   props: {
     docusign,
