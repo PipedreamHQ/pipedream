@@ -147,7 +147,12 @@
       "error",
       "consistent"
     ],
-    "quotes": "error",
+    "quotes": [
+      "error",
+      {
+        "avoidEscape": true
+      }
+    ],
     "semi": "error",
     "space-before-blocks": [
       "error",
