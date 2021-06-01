@@ -6,7 +6,7 @@ supported by AWS services:
 - **Directly related**: event sources that emit events whenever an AWS service
   experiences changes that the user is interested in watching. For example, an
   e-mail received by AWS SES (Simple Email Service).
-- **Supported**: event sources that are not dependant on watching events that
+- **Supported**: event sources that are not dependent on watching events that
   happen within an AWS service itself, but their logic relies on certain
   infrastructure running on AWS. An example of this is the **New Scheduled
   Tasks** event source, which relies on AWS Step Functions to schedule events
