@@ -9,8 +9,14 @@ module.exports = {
       label: "AWS Region",
       description: "The AWS region string where you'd like to create your SNS topic",
       type: "string",
-      options: awsRegions,
       default: "us-east-1",
+      options({ page = 0 }) {
+        if (page !== 0) {
+          return [];
+        }
+
+        return this._getAvailableRegions();
+      },
     },
   },
   methods: {
@@ -22,7 +28,8 @@ module.exports = {
      *
      * @param {string} region - The AWS region to which the AWS SDK will
      * connect. This string should be an acceptable value by the AWS SDK, which
-     * you can find in the ${@linkcode ./regions.js regions.js} file.
+     * you can find in the ${@linkcode ./regions.js regions.js} file, as well as
+     * by calling the EC2 `DescribeRegions` API.
      * @returns A new configured instance of the AWS SDK
      */
     sdk(region) {
@@ -39,6 +46,30 @@ module.exports = {
         region,
       });
       return AWS;
+    },
+    async _getAvailableRegions() {
+      let awsResponse;
+      try {
+        awsResponse = await this
+          ._getEc2Client()
+          .describeRegions()
+          .promise();
+      } catch (error) {
+        // Retrieval of available regions can fail if the registered account
+        // does not have enough permissions to call the EC2 `DescribeRegions`
+        // API. In that case, we default to the static list of regions.
+        console.log(`Could not retrieve available regions from AWS: ${error}`);
+        return awsRegions;
+      }
+
+      return awsResponse
+        .Regions
+        .map((regionInfo) => regionInfo.RegionName)
+        .sort();
+    },
+    _getEc2Client(region = "us-east-1") {
+      const AWS = this.sdk(region);
+      return new AWS.EC2();
     },
     _getIamClient(region) {
       const AWS = this.sdk(region);
