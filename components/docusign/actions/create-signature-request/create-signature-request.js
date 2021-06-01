@@ -9,22 +9,54 @@ module.exports = {
   props: {
     docusign,
     account: {
-      propDefinition: [docusign, "account"],
+      propDefinition: [
+        docusign,
+        "account",
+      ],
     },
     template: {
-      propDefinition: [docusign, "template", (c) => ({ account: c.account })],
+      propDefinition: [
+        docusign,
+        "template",
+        (c) => ({
+          account: c.account,
+        }),
+      ],
     },
     role: {
       propDefinition: [
         docusign,
         "role",
-        (c) => ({ account: c.account, template: c.template }),
+        (c) => ({
+          account: c.account,
+          template: c.template,
+        }),
       ],
     },
-    emailSubject: { propDefinition: [docusign, "emailSubject"] },
-    emailBlurb: { propDefinition: [docusign, "emailBlurb"] },
-    recipientEmail: { propDefinition: [docusign, "recipientEmail"] },
-    recipientName: { propDefinition: [docusign, "recipientName"] },
+    emailSubject: {
+      propDefinition: [
+        docusign,
+        "emailSubject",
+      ],
+    },
+    emailBlurb: {
+      propDefinition: [
+        docusign,
+        "emailBlurb",
+      ],
+    },
+    recipientEmail: {
+      propDefinition: [
+        docusign,
+        "recipientEmail"
+      ],
+    },
+    recipientName: {
+      propDefinition: [
+        docusign,
+        "recipientName",
+      ],
+    },
   },
   async run() {
     const baseUri = await this.docusign.getBaseUri(this.account);

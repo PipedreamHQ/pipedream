@@ -26,7 +26,7 @@ module.exports = {
         const baseUri = await this.getBaseUri(account);
         const { envelopeTemplates } = await this.listTemplates(
           baseUri,
-          account
+          account,
         );
         return envelopeTemplates.map((template) => {
           return {
@@ -40,12 +40,15 @@ module.exports = {
       type: "string",
       label: "Recipient Role",
       description: "",
-      async options({ account, template }) {
+      async options({
+        account,
+        template,
+      }) {
         const baseUri = await this.getBaseUri(account);
         const { signers } = await this.listTemplateRecipients(
           baseUri,
           account,
-          template
+          template,
         );
         return signers.map((signer) => {
           return signer.roleName;
@@ -77,7 +80,7 @@ module.exports = {
   methods: {
     _getHeaders() {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
       };
     },
@@ -94,7 +97,7 @@ module.exports = {
     async getUserInfo() {
       return await this._makeRequest(
         "GET",
-        "https://account-d.docusign.com/oauth/userinfo"
+        "https://account-d.docusign.com/oauth/userinfo",
       );
     },
     async getBaseUri(accountId) {
@@ -106,20 +109,20 @@ module.exports = {
     async listTemplates(baseUri, accountId) {
       return await this._makeRequest(
         "GET",
-        `${baseUri}/restapi/v2.1/accounts/${accountId}/templates`
+        `${baseUri}/restapi/v2.1/accounts/${accountId}/templates`,
       );
     },
     async listTemplateRecipients(baseUri, accountId, templateId) {
       return await this._makeRequest(
         "GET",
-        `${baseUri}/restapi/v2.1/accounts/${accountId}/templates/${templateId}/recipients`
+        `${baseUri}/restapi/v2.1/accounts/${accountId}/templates/${templateId}/recipients`,
       );
     },
     async createEnvelope(baseUri, accountId, data) {
       return await this._makeRequest(
         "POST",
         `${baseUri}/restapi/v2.1/accounts/${accountId}/envelopes`,
-        data
+        data,
       );
     },
   },
