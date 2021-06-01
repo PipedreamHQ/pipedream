@@ -3,7 +3,7 @@
 [[toc]]
 
 ## Overview
-This document is for developers who created legacy actions in [Pipedream's UI](https://pipedream.com/actions). The purpose is to help users migrate legacy actions to Pipedream's new [component model](/components). 
+This document is for developers who created legacy actions in [Pipedream's UI](https://pipedream.com/actions). The purpose is to help users migrate legacy actions to Pipedream's new [component model](/components/). 
 
 ## Key Changes
 
@@ -40,7 +40,7 @@ Actions you publish are now grouped under **My Actions** when adding a step to a
 
 ## Getting Started
 
-Ready to develop your first component action? We recommend starting with our [quickstart guide](/components/quickstart/nodejs/actions/). Then review both our [component API reference](/components/api) and [actions published to Pipedream’s GitHub repo](https://github.com/pipedreamhq/pipedream/compnents).
+Ready to develop your first component action? We recommend starting with our [quickstart guide](/components/quickstart/nodejs/actions/). Then review both our [component API reference](/components/api/) and [actions published to Pipedream’s GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 
 ## Migration Example
 
