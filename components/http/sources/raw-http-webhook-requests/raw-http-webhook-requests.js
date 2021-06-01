@@ -37,7 +37,7 @@ module.exports = {
       label: "Response Body",
       description: "The body to return in the HTTP response.",
       optional: true,
-      default: "{ \"success\": true }",
+      default: `{ "success": true }`,
     },
     filterFaviconRequests: {
       type: "boolean",
