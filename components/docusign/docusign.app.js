@@ -33,24 +33,6 @@ module.exports = {
         });
       },
     },
-    role: {
-      type: "string",
-      label: "Recipient Role",
-      description: "Choose role as defined on template or use a custom value",
-      async options({
-        account,
-        template,
-      }) {
-        const baseUri = await this.getBaseUri(account);
-        const { signers } = await this.listTemplateRecipients(
-          baseUri,
-          template,
-        );
-        return signers.map((signer) => {
-          return signer.roleName;
-        });
-      },
-    },
     emailSubject: {
       type: "string",
       label: "Email Subject",
@@ -71,6 +53,24 @@ module.exports = {
       type: "string",
       label: "Recipient Name",
       description: "The full name of the recipient",
+    },
+    role: {
+      type: "string",
+      label: "Recipient Role",
+      description: "Choose role as defined on template or use a custom value",
+      async options({
+        account,
+        template,
+      }) {
+        const baseUri = await this.getBaseUri(account);
+        const { signers } = await this.listTemplateRecipients(
+          baseUri,
+          template,
+        );
+        return signers.map((signer) => {
+          return signer.roleName;
+        });
+      },
     },
   },
   methods: {
