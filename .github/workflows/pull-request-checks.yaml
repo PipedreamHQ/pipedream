@@ -18,10 +18,19 @@ jobs:
     - uses: actions/checkout@master
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
+    - id: md_changed_files
+      run: |
+        files=''; for f in "${arr[@]}"; do
+          ext="${f##*.}"
+          if [ $ext = "md" ]; then
+            files="${f} ${files}"
+          fi;
+        done
+        echo '::set-output name=files::${files}'
     - uses: rojopolis/spellcheck-github-actions@0.14.0
       name: Spellcheck
       with:
-        source_files: ${{ steps.changed_files.outputs.all }}
+        source_files: ${{ steps.md_changed_files.outputs.files }}
         task_name: Markdown
   lint:
     name: Lint Code Base
