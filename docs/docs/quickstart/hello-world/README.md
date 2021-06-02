@@ -20,7 +20,7 @@ Pipedream will launch the workflow builder:
 
 Following is an brief overview of the screen layout:
 
-![image-20210518181827110](./images/image-20210518181827110.png)
+![image-20210518181827110](./images/builder_overview.png)
 
 ### Generate a unique endpoint URL to trigger the workflow
 
