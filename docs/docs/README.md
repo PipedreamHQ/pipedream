@@ -102,7 +102,7 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 ## Open Source
 
-Pipedream maintains an [open source component registry](https://github.com/pipedreamhq/pipedream/) on GitHub. Reuse these components in workflows so you don't need to write boilerplate code for common API integrations, or use existing components as scaffolding to customize or publish your own. You can also [create a PR contribute new or enhanced components](/components/guidelines/#process) via GitHub.
+Pipedream maintains an [open source component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR contribute new or enhanced components](/components/guidelines/#process) via GitHub.
 
 ## Contributing
 
