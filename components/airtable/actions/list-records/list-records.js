@@ -65,9 +65,7 @@ module.exports = {
     })
       .eachPage(function page(records, fetchNextPage) {
       // This function (`page`) will get called for each page of records.
-        records.forEach(function(record) {
-          data.push(record._rawJson);
-        });
+        data.push(...records.map((record) => record._rawJson));
 
         // To fetch the next page of records, call `fetchNextPage`.
         // If there are more records, `page` will get called again.
