@@ -81,7 +81,7 @@ module.exports = {
       if (!data.records.length || data.records.length === 0) return;
       allRecordIds = [
         ...allRecordIds,
-        ...data.records.map(record => record.id),
+        ...data.records.map((record) => record.id),
       ];
       if (data.offset) {
         config.params.offset = data.offset;
@@ -92,7 +92,7 @@ module.exports = {
 
     if (prevAllRecordIds) {
       const deletedRecordIds = prevAllRecordIds.filter(
-        prevRecord => !allRecordIds.includes(prevRecord),
+        (prevRecord) => !allRecordIds.includes(prevRecord),
       );
       for (const recordID of deletedRecordIds) {
         deletedRecordsCount++;
