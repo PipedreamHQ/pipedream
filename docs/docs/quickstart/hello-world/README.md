@@ -94,5 +94,5 @@ Congratulations! You just built your first serverless workflow!
 **Next, let's pass data in the HTTP request and use it to customize the workflow response.**
 
 <p style="text-align:center;">
-<a href="/quickstart/hello-name/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/hello-name/')"><img src="../next.png"></a>
 </p>

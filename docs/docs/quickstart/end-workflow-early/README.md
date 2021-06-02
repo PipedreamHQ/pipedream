@@ -1,6 +1,6 @@
 # End workflow early
 
-Next, let's update our workflow to filter out `favicon.ico` requests. This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to use the `$end()` function to end a workflow execution early.
+Next, let's update our workflow to filter out `favicon.ico` requests. This example builds on the workflow created in [previous sections](/quickstart/) and will cover how to use the `$end()` function to end a workflow execution early.
 
 ::: tip
 If you didn't complete the previous examples, we recommend you start from the [beginning of this guide](/quickstart/). If you still want to start here, [copy this workflow](https://pipedream.com/@gettingstarted/quickstart-insert-data-into-google-sheets-p_KwCAR9z) and then follow the instructions below. If you have any issues completing this example, you can [view, copy and run a completed version](https://pipedream.com/@gettingstarted/quickstart-end-workflow-early-p_RRCgNRQ).
@@ -38,5 +38,5 @@ Finally, the data for that row will match the data returned to your endpoint.
 **Next, let's use a connected account in a code step to authenticate a Google Sheets API request.**
 
 <p style="text-align:center;">
-<a href="/quickstart/use-managed-auth-in-code/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/use-managed-auth-in-code/')"><img src="../next.png"></a>
 </p>

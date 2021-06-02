@@ -81,10 +81,10 @@ function kFormatter(num) {
 }
 
 // Format the Tweet (including line breaks) as a quoted Slack message
-let quotedMessage = ''
-steps.trigger.event.full_text.split('\n').forEach(line => {
-	quotedMessage = quotedMessage + '> ' + line + '\n' 
-})
+const quotedMessage = steps.trigger.event.full_text
+	.split('\n')
+	.map(line => `> ${line}`)
+	.join('\n')
 
 // Construct URLs to reference in the formatted message
 const tweetUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/statuses/${steps.trigger.event.id_str}`
@@ -94,8 +94,8 @@ const userUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/`
 Use lodash to get the URL for an image representing the media since 
 this object is not always present; `trigger.event.entities` will be present
 when media — photos, animated GIFs or videos — are attached to the Tweet. 
-The `entities` object should always containt a photo, "even in cases of 
-a video and GIF being attached to Tweet."
+This object should always containt a photo, "even in cases of a video 
+and GIF being attached to Tweet."
 https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities
 */
 const mediaUrl = _.get(steps, 'trigger.event.entities.media[0].media_url_https')
@@ -247,9 +247,5 @@ Your source will run and emit new Tweets. Each new Tweet will trigger your workf
 **Congratulations! You completed the quickstart and you're ready to start building workflows on Pipedream!** Click **Next** to learn about Pipedream's advanced features including state management, concurrency and execution rate controls and more.
 
 <p style="text-align:center;">
-<a href="/quickstart/next-steps/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/next-steps/')"><img src="../next.png"></a>
 </p>
-
-<!--
-*If you want to check out Raymond Camden's presentation **Building Serverless Worlkflows with Pipedream**, which is highlighted in the examples above, you can check it out at [https://www.youtube.com/watch?v=iizTlpEi4Z8](https://www.youtube.com/watch?v=iizTlpEi4Z8)*
--->

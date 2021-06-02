@@ -1,6 +1,6 @@
 # Use any npm package
 
-Next, let's replace the **GET Request** action with a code step that uses the `axios` npm package. This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to:
+Next, let's replace the **GET Request** action with a code step that uses the `axios` npm package. This example builds on the workflow created in [previous sections](/quickstart/) and will cover how to:
 
 [[toc]]
 
@@ -10,7 +10,7 @@ If you didn't complete the previous examples, we recommend you start from the [b
 
 ### Delete a step
 
-First, delete `steps.get_request` by clicking the **X** buttton at the top right of the step.
+First, delete `steps.get_iss_position` by clicking the **X** buttton at the top right of the step.
 
 ![image-20210525175501367](./images/image-20210525175501367.png)
 
@@ -47,12 +47,12 @@ Next, **Deploy** your changes and reload the endpoint URL in your browser. You s
 
 ![reload-iss-position](./images/reload-iss-position.gif)
 
-Return to your workflow and select the event that corresponds with your most recent test. You should see the `steps.get_request` code step output the ISS position similar to the **GET Request** action you just replaced.
+Return to your workflow and select the event that corresponds with your most recent test. You should see the `steps.get_iss_position` code step output the ISS position similar to the **GET Request** action you just replaced.
 
 ![image-20210525181057299](./images/image-20210525181057299.png)
 
 **Next, let's transform data returned by the ISS API and save it to Google Sheets.** 
 
 <p style="text-align:center;">
-<a href="/quickstart/add-data-to-google-sheets/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/add-data-to-google-sheets/')"><img src="../next.png"></a>
 </p>

@@ -1,6 +1,6 @@
 # Next Steps
 
-Now that you understand the basics of workflow development, start building your own workflows and check out the rest of the docs to learn about Pipedream's advanced capabilities:
+Now that you understand the basics, start building workflows to connect APIs and and check out the rest of the docs to learn about Pipedream's advanced capabilities:
 
 
 - [Maintain state](/workflows/steps/code/state/) between workflow executions 
@@ -13,4 +13,6 @@ Now that you understand the basics of workflow development, start building your 
 
 Also, be sure to check out the quickstarts for [actions](/components/quickstart/nodejs/actions/) and [sources](/components/quickstart/nodejs/actions/) (develop locally, push to Pipedream via [CLI](/cli/), and maintain your code in your own GitHub repo).
 
-Finally, explore Pipedream's [integrations marketplace](https://pipedream.com/explore) and learn how you can [contribute](https://pipedream.com/contribute) to the community! 
+Finally, explore Pipedream's [integrations marketplace](https://pipedream.com/explore) and learn how you can [contribute](https://pipedream.com/contributing) to the community! 
+
+If you have any questions, please [reach out in our community forum](https://pipedream.com/community/).

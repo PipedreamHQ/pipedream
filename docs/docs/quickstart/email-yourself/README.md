@@ -61,5 +61,5 @@ Finally, to automatically run the workflow whenever a new item is detected in th
 **For the final example of this guide, we'll address a real-world use case to post richly-formatted Tweets to Slack. [Take me to the last example &rarr;](../real-world-example/)**
 
 <p style="text-align:center;">
-<a href="/quickstart/real-world-example/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/real-world-example/')"><img src="../next.png"></a>
 </p>

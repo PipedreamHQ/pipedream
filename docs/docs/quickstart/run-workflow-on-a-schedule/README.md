@@ -1,6 +1,6 @@
 # Run workflow on a schedule
 
-Next, let's run a workflow on a schedule to keep our HTTP triggered workflow "warm" ([learn more](https://pipedream.com/docs/workflows/events/cold-starts/) about "cold starts" and the value of keeping workflows "warm"). **Note:** Most use cases do not require keeping a workflow "warm" — we're using the example to demonstrate how to use the **Schedule** trigger. This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to:
+Next, let's run a workflow on a schedule to keep our HTTP triggered workflow "warm" ([learn more](https://pipedream.com/docs/workflows/events/cold-starts/) about "cold starts" and the value of keeping workflows "warm"). **Note:** Most use cases do not require keeping a workflow "warm" — we're using the example to demonstrate how to use the **Schedule** trigger. This example builds on the workflow created in [previous sections](/quickstart/) and will cover how to:
 
 [[toc]]
 
@@ -71,5 +71,5 @@ Your scheduled workflow will now run every 15 minutes — 24 hours a day, 7 day
 **Next, we'll create a workflow using an app trigger to run a workflow every time there is a new item in an RSS feed.**
 
 <p style="text-align:center;">
-<a href="/quickstart/email-yourself/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/email-yourself/')"><img src="../next.png"></a>
 </p>

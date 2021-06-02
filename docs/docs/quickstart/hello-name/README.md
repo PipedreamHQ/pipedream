@@ -47,5 +47,5 @@ Your workflow will now return `hello foo!` (or whatever value you pass to `name`
 **Next, let's add an action to make an HTTP request from this workflow.**
 
 <p style="text-align:center;">
-<a href="/quickstart/make-http-request/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/make-http-request/')"><img src="../next.png"></a>
 </p>

@@ -1,6 +1,6 @@
 # Use connected accounts in code
 
-In a previous example, we connected our Google Sheets account and used it in a no code action. In this example, let's use the same connected account to authenticate a Google Sheets API request in code to retrieve the full contents of our sheet. Then we'll transform the data and return it in our workflow response. This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to:
+In a previous example, we connected our Google Sheets account and used it in a no code action. In this example, let's use the same connected account to authenticate a Google Sheets API request in code to retrieve the full contents of our sheet. Then we'll transform the data and return it in our workflow response. This example builds on the workflow created in [previous sections](/quickstart/) and will cover how to:
 
 [[toc]]
 
@@ -27,7 +27,7 @@ Next, let's test the scaffolded code. First, select the same account you used in
 
 ![select-account](./images/select-account.gif)
 
-Then **Deploy** the workflow and test your workflow (either load the endpoint or click **Send Test Event**). Select an event that executed this step to inspect the exports — you should see the response from Google's `/userinfo` API.
+Then **Deploy** and test your workflow (either load the endpoint or click **Send Test Event**). Select an event that executed this step to inspect the exports — you should see the response from Google's `/userinfo` API.
 
 ![image-20210525185209154](./images/image-20210525185209154.png)
 
@@ -120,5 +120,5 @@ This was all done without exposing any API keys on the client side.
 **Next, we'll run a simple workflow on a schedule to keep this serverless workflow "warm".**
 
 <p style="text-align:center;">
-<a href="/quickstart/run-workflow-on-a-schedule/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/run-workflow-on-a-schedule/')"><img src="../next.png"></a>
 </p>

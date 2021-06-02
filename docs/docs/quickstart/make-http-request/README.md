@@ -61,5 +61,5 @@ Finally, **Deploy** and reload the endpoint for your workflow in your web browse
 **Next, let's replace the GET Request action with a code step and use the `axios` npm package to get the position of the ISS.** 
 
 <p style="text-align:center;">
-<a href="/quickstart/using-npm-packages/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/using-npm-packages/')"><img src="../next.png"></a>
 </p>

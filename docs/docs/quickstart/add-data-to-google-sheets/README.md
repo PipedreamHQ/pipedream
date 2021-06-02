@@ -1,6 +1,6 @@
 # Insert data into Google Sheets
 
-Next, let's transform data returned by the ISS API and save it to Google Sheets. This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to:
+Next, let's transform data returned by the ISS API and save it to Google Sheets. This example builds on the workflow created in [previous sections](/quickstart/) and will cover how to:
 
 [[toc]]
 
@@ -15,7 +15,7 @@ First, create a Google Sheet with the columns `Latitude`, `Longitude`, `Timestam
 ![image-20210517195215566](./images/image-20210517195215566.png)  
 
 ### Transform a timestamp using the `luxon` npm package
-Next, select a most recent event and inspect the exports for `steps.get_iss_position`. We can see that the `timestamp` field returned by the API is not a friendly, human-readable date/time:
+Next, select a recent event and inspect the exports for `steps.get_iss_position`. We can see that the `timestamp` field returned by the API is not a friendly, human-readable date/time:
 
 ![image-20210525181359535](./images/image-20210525181359535.png)
 
@@ -69,7 +69,7 @@ Then select your **Drive**, **Spreadsheet** and **Sheet Name** from the drop dow
 
 ### Pass exports from a previous step to an action
 
-Next, let's configure the cells / column values (always remember that you can pass data from previous steps to a later step).
+Next, let's configure the cells / column values using exports from previous steps.
 
 First, let's use the object explorer to select a value. The object explorer is automatically loaded whenever you focus in an action input. You can expand any item and then select the reference you want to insert.
 
@@ -79,7 +79,7 @@ Another option is to explore the exports for a step and click on the **Copy Path
 
 ![image-20210525182402438](./images/image-20210525182402438.png)
 
-The final option is to use autocomplete — add double braces `{{ }}` and start typing between them to get autocomplete the same way you do in code steps. 
+The final option is to use autocomplete — add double braces <code v-pre>{{ }}</code> and start typing between them to get autocomplete the same way you do in code steps. 
 
 ![autocomplete](./images/autocomplete.gif)
 
@@ -116,5 +116,5 @@ Finally, when you check Google Sheet you should see data about the ISS position.
 **If you loaded the URL in your web browser, you'll actually see two events. We'll fix that in the next example.**
 
 <p style="text-align:center;">
-<a href="/quickstart/end-workflow-early/"><img src="../next.png"></a>
+<a :href="$withBase('/quickstart/end-workflow-early/')"><img src="../next.png"></a>
 </p>
