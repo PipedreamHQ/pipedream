@@ -26,7 +26,7 @@ jobs:
             files="${f} ${files}"
           fi;
         done
-        echo '::set-output name=files::${files}'
+        echo "::set-output name=files::${files}"
     - uses: rojopolis/spellcheck-github-actions@0.14.0
       name: Spellcheck
       with:
