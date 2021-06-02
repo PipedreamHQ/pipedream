@@ -7,8 +7,6 @@
 
 Pipedream is a serverless integration and compute platform.
 
-Hello, wrld.
-
 We provide a free, hosted platform that makes it easy to connect apps and develop, execute and maintain event-driven workflows. The platform has over 300 fully integrated applications with managed authentication and support for over 1M npm packages.
 
 **Key Features**:
