@@ -27,8 +27,6 @@ jobs:
           fi;
         done
         echo "files=${files}" >> $GITHUB_ENV
-    - id: echo_files
-      run: echo "${{ env.files }}"
     - uses: rojopolis/spellcheck-github-actions@0.14.0
       name: Spellcheck
       with:
