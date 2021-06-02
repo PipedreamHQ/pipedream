@@ -44,9 +44,9 @@ module.exports = {
       inputRecords = JSON.parse(inputRecords);
     }
 
-    inputRecords.forEach(record => { records.push({
-      fields: record,
-    }); });
+    const records = inputRecords.map((fields) => ({
+      fields,
+    }));
 
     const recordsSets = chunk(records, BATCH_SIZE);
     for (const recordsSet of recordsSets) {
