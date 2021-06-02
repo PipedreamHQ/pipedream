@@ -23,16 +23,6 @@ module.exports = {
         }),
       ],
     },
-    role: {
-      propDefinition: [
-        docusign,
-        "role",
-        (c) => ({
-          account: c.account,
-          template: c.template,
-        }),
-      ],
-    },
     emailSubject: {
       propDefinition: [
         docusign,
@@ -57,6 +47,16 @@ module.exports = {
         "recipientName",
       ],
     },
+    role: {
+      propDefinition: [
+        docusign,
+        "role",
+        (c) => ({
+          account: c.account,
+          template: c.template,
+        }),
+      ],
+    },
   },
   async run() {
     const baseUri = await this.docusign.getBaseUri(this.account);
@@ -73,6 +73,10 @@ module.exports = {
       emailSubject: this.emailSubject,
     };
     if (this.emailBlurb) data.emailBlurb = this.emailBlurb;
-    return await this.docusign.createEnvelope(baseUri, data);
+    try {
+      return await this.docusign.createEnvelope(baseUri, data);
+    } catch (err) {
+      throw new Error(err.message);
+    }
   },
 };
