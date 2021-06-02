@@ -26,7 +26,7 @@ jobs:
             files="${f} ${files}"
           fi;
         done
-        echo "::set-output name=files::${files}"
+        echo ::set-output name=files::${files}
     - id: echo_files
       run: echo ${{ steps.md_changed_files.outputs.files }}
     - uses: rojopolis/spellcheck-github-actions@0.14.0
