@@ -27,12 +27,13 @@ jobs:
           fi;
         done
         echo ::set-output name=files::${files}
+        echo "files=${files}" >> $MD_FILES
     - id: echo_files
-      run: echo ${{ steps.md_changed_files.outputs.files }}
+      run: echo $MD_FILES
     - uses: rojopolis/spellcheck-github-actions@0.14.0
       name: Spellcheck
       with:
-        source_files: ${{ steps.md_changed_files.outputs.files }}
+        source_files: $MD_FILES
         task_name: Markdown
   lint:
     name: Lint Code Base
