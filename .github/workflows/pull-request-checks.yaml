@@ -20,7 +20,7 @@ jobs:
       id: changed_files
     - id: md_changed_files
       run: |
-        files=''; for f in "${arr[@]}"; do
+        files=''; for f in "${steps.changed_files.outputs.all[@]}"; do
           ext="${f##*.}"
           if [ $ext = "md" ]; then
             files="${f} ${files}"
@@ -28,11 +28,11 @@ jobs:
         done
         echo "files=${files}" >> $GITHUB_ENV
     - id: echo_files
-      run: echo "{{ $env.files }}"
+      run: echo "${{ env.files }}"
     - uses: rojopolis/spellcheck-github-actions@0.14.0
       name: Spellcheck
       with:
-        source_files: {{ $env.files }}
+        source_files: ${{ env.files }}
         task_name: Markdown
   lint:
     name: Lint Code Base
