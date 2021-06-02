@@ -20,7 +20,7 @@ jobs:
       id: changed_files
     - id: md_changed_files
       run: |
-        files=''; for f in `cat ${{ steps.changed_files.outputs.all }}`; do
+        files=''; for f in ${{ steps.changed_files.outputs.all }}; do
           ext="${f##*.}"
           if [ $ext = "md" ]; then
             files="${f} ${files}"
