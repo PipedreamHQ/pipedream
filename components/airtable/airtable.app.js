@@ -1,3 +1,5 @@
+const Airtable = require("airtable");
+
 module.exports = {
   type: "app",
   app: "airtable",
@@ -52,6 +54,25 @@ module.exports = {
       label: "Sort: Field",
       description: "Optionally select a field to sort results. To sort by multiple fields, use the `Filter by Forumla` field.",
       optional: true,
+    },
+    typecast: {
+      type: "boolean",
+      description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. Automatic conversion is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
+    },
+  },
+  methods: {
+    // Return a new instance of the Airtable client, base client, or table client
+    api (baseId = null, tableId = null) {
+      let api = new Airtable({
+        apiKey: this.$auth.api_key,
+      });
+      if (baseId) {
+        api = api.base(baseId);
+      }
+      if (tableId) {
+        api = api(tableId);
+      }
+      return api;
     },
   },
 };

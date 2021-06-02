@@ -1,6 +1,7 @@
 const airtable = require("../../airtable.app.js");
 const chunk = require("lodash.chunk");
-const Airtable = require("airtable");
+
+const BATCH_SIZE = 10; // Airtable API allows to update up to 10 rows per request.
 
 module.exports = {
   key: "airtable-create-multiple-records",
@@ -24,35 +25,31 @@ module.exports = {
         "records",
       ],
     },
-  },
-  methods: {
-    async addRecords(records) {
-      const base = new Airtable({
-        apiKey: this.airtable.$auth.api_key,
-      }).base(this.baseId);
-      return await base(this.tableId).create(records);
+    typecast: {
+      propDefinition: [
+        airtable,
+        "typecast",
+      ],
     },
   },
   async run() {
-    const records = [];
-    let responseRecords = [];
-    const BATCH_SIZE = 10; // Airtable API allows to update up to 10 rows per request.
+    const table = this.airtable.api(this.baseId, this.tableId);
 
-    let inputRecords = this.records;
-
-    if (!Array.isArray(inputRecords)) {
-      inputRecords = JSON.parse(inputRecords);
+    let data = this.records;
+    if (!Array.isArray(data)) {
+      data = JSON.parse(data);
     }
-
-    const records = inputRecords.map((fields) => ({
+    data = data.map((fields) => ({
       fields,
     }));
 
-    const recordsSets = chunk(records, BATCH_SIZE);
-    for (const recordsSet of recordsSets) {
-      responseRecords = responseRecords.concat((await this.addRecords(recordsSet)));
-    }
+    const params = {
+      typecast: this.typecast,
+    };
 
-    return responseRecords;
+    const requests = chunk(data, BATCH_SIZE)
+      .map((data) => table.create(data, params));
+
+    return await Promise.all(requests);
   },
 };

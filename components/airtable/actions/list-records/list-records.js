@@ -42,15 +42,15 @@ module.exports = {
     },
   },
   async run() {
-    const Airtable = require("airtable");
-    const base = new Airtable({
-      apiKey: this.airtable.$auth.api_key,
-    }).base(this.baseId);
-    const data = [];
-    const config = {};
+    const table = this.airtable.api(this.baseId, this.tableId);
 
-    if (this.filterByFormula) { config.filterByFormula = this.filterByFormula; }
-    if (this.maxRecords) { config.maxRecords = this.maxRecords; }
+    const config = {};
+    if (this.filterByFormula) {
+      config.filterByFormula = this.filterByFormula;
+    }
+    if (this.maxRecords) {
+      config.maxRecords = this.maxRecords;
+    }
     if (this.sortFieldId && this.sortDirection) {
       config.sort = [
         {
@@ -60,19 +60,8 @@ module.exports = {
       ];
     }
 
-    await base(this.tableId).select({
-      ...config,
-    })
-      .eachPage(function page(records, fetchNextPage) {
-      // This function (`page`) will get called for each page of records.
-        data.push(...records.map((record) => record._rawJson));
+    const data = await table.select(config).all();
 
-        // To fetch the next page of records, call `fetchNextPage`.
-        // If there are more records, `page` will get called again.
-        // If there are no more records, `done` will get called.
-        fetchNextPage();
-      });
-
-    return data;
+    return data.map((record) => record._rawJson);
   },
 };

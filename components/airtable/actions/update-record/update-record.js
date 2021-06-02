@@ -30,15 +30,19 @@ module.exports = {
     },
   },
   async run() {
-    const Airtable = require("airtable");
-    const base = new Airtable({
-      apiKey: this.airtable.$auth.api_key,
-    }).base(this.baseId);
-    return (await base(this.tableId).update([
+    const table = this.airtable.api(this.baseId, this.tableId);
+
+    const data = [
       {
         id: this.recordId,
         fields: this.record,
       },
-    ]))[0];
+    ];
+
+    const [
+      response,
+    ] = await table.update(data);
+
+    return response;
   },
 };
