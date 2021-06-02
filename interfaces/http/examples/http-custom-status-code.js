@@ -7,14 +7,17 @@ module.exports = {
       type: "$.interface.http",
       customResponse: true,
     },
-    status: "string"
+    status: "string",
   },
   async run(event) {
     this.http.respond({
-      status: this.status
+      status: this.status,
     });
     // Emit the status and the HTTP event, which contains
     // the HTTP payload, headers, and more
-    this.$emit({ status: this.status, event });
-  }
+    this.$emit({
+      status: this.status,
+      event,
+    });
+  },
 };
