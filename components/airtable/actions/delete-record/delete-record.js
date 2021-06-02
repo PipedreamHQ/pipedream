@@ -1,20 +1,28 @@
-const airtable=require('../../airtable.app.js')
+const airtable = require("../../airtable.app.js");
+const common = require("../common.js");
 
 module.exports = {
   key: "airtable-delete-record",
   name: "Delete Record",
-  description: "Delete a record from a table by `record_id`.",
-  version: "0.0.5",
+  description: "Delete a record from a table by record ID.",
+  version: "0.1.0",
   type: "action",
   props: {
-    airtable,
-    baseId: {type: "$.airtable.baseId", appProp: 'airtable'},
-    tableId: { type: '$.airtable.tableId', baseIdProp: 'baseId' },
-    recordId: { propDefinition: [airtable, "recordId"] },
+    ...common.props,
+    recordId: {
+      propDefinition: [
+        airtable,
+        "recordId",
+      ],
+    },
   },
-  async run() { 
-    const Airtable = require('airtable');
-    const base = new Airtable({apiKey: this.airtable.$auth.api_key}).base(this.baseId);
-    return await base(this.tableId).destroy(this.recordId)
+  async run() {
+    this.airtable.validateRecordID(this.recordId);
+    const base = this.airtable.base(this.baseId);
+    try {
+      return await base(this.tableId).destroy(this.recordId);
+    } catch (err) {
+      this.airtable.throwFormattedError(err);
+    }
   },
-}
+};
