@@ -5,7 +5,7 @@ module.exports = {
   name: "List Records",
   description: "Retrieve records from a table with automatic pagination. Optionally sort and filter results.",
   type: "action",
-  version: "0.0.32",
+  version: "0.0.33",
   props: {
     airtable,
     baseId: {

@@ -4,7 +4,7 @@ module.exports = {
   key: "airtable-update-record",
   name: "Update record",
   description: "Update a record in a table by `record_id`.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     airtable,

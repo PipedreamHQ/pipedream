@@ -4,7 +4,7 @@ module.exports = {
   key: "airtable-get-record",
   name: "Get Record",
   description: "Get a record from a table by `record_id`.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     airtable,

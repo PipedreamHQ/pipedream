@@ -7,7 +7,7 @@ module.exports = {
   key: "airtable-create-multiple-records",
   name: "Create Multiple Records",
   description: "Create one or more records in a table by passing an array of objects containing field names and values as key/value pairs.",
-  version: "0.0.29",
+  version: "0.0.30",
   type: "action",
   props: {
     airtable,
