@@ -56,36 +56,9 @@ return await require("@pipedreamhq/platform").axios(this, {
 
 Here are more details about the changes we made in the code above (you can also skip this and move on to deploying and testing the update): 
 
-1. Add a `$` before both `{spreadsheetId}` and `{range}` to convert the references to template literals (since the URL in enclosed in backticks, we can write code between `${...}`).  
+1. Add a `$` before both `{spreadsheetId}` and `{range}` to convert the references to [template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) (since the URL in enclosed in backticks, we can write code between `${...}`).  
 2. Replace `spreadsheetId` with `steps.add_single_row.$return_value.spreadsheetId`. 
 3. Since we want to get all the values in the sheet, we can use Javascript's `split()` function to replace `range` with the value to the left of the exclamation mark in `steps.add_single_row.$return_value.updatedRange` (i.e., we only want to pass the value `Sheet1`). To do that, we can reference `steps.add_single_row.$return_value.updatedRange.split("!")[0]`.
-
-
-<!--
-All we need to do is modify the scaffolded code. First, replace the scaffolded URL of `https://www.googleapis.com/oauth2/v1/userinfo` with `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}`
-
-![image-20210522195720596](./images/image-20210522195720596.png)
-
-
-Next, we need to replace `{spreadsheetId}` and `{range}` with the actual values. Since we added a row to Google Sheets, we can get this from the exports for `steps.add_single_row`. 
-
-![image-20210525185600151](./images/image-20210525185600151.png)
-
-1. Add a `$` before both `{spreadsheetId}` and `{range}` to convert the references to template literals (since the URL in enclosed in backticks, we can write code between `${...}`).  
-2. Replace `spreadsheetId` with `steps.add_single_row.$return_value.spreadsheetId`. 
-3. Since we want to get all the values in the sheet, we can use Javascript's `split()` function to replace `range` with the value to the left of the exclamation mark in `steps.add_single_row.$return_value.updatedRange` (i.e., we only want to pass the value `Sheet1`). To do that, enter `steps.add_single_row.$return_value.updatedRange.split("!")[0]`.
-
-Here's the final code for the step:
-
-```javascript
-return await require("@pipedreamhq/platform").axios(this, {
-  url: `https://sheets.googleapis.com/v4/spreadsheets/${steps.add_single_row.$return_value.spreadsheetId}/values/${steps.add_single_row.$return_value.updatedRange.split("!")[0]}`,
-  headers: {
-    Authorization: `Bearer ${auths.google_sheets.oauth_access_token}`,
-  },
-})
-```
--->
 
 When you're ready, **Deploy** and test your workflow again. If you select the event and expand the return value for `steps.google_sheets` you'll see the headers and data from the Google Sheet.
 

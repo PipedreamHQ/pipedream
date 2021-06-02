@@ -20,7 +20,7 @@ Let's replace the action with a code step. Next, click the **+** button and add 
 
 ![image-20210525175626293](./images/image-20210525175626293.png)
 
-Next, rename the step from `steps.nodejs` to `steps.get_iss_position`. Since we're replicating the behvior of the action we just deleted, the step name needs to be identical so the reference in `steps.respond` continues to work.
+Next, rename the step from `steps.nodejs` to `steps.get_iss_position`. Since we're replicating the behavior of the action we just deleted, the step name needs to be identical so the reference in `steps.respond` continues to work.
 
 ![rename-nodejs](./images/rename-nodejs.gif)
 
@@ -40,31 +40,8 @@ return response.data
 Following is an explanation of what's happening in the code:
 
 1. First, we `require` the `axios` npm pacakge to use it. There's no `npm install` or `package.json` required. Pipedream automatically installs any npm package you `require`.
-2. We use `axios` to make a `GET` request to the open-notify.org API to get the latest position of the ISS (always remember to `await` promises).
-3. Finally, we `return` the API response to export it from the step. Data must be exported to inspected it and reference it in later workflow steps. We return `response.data` since the data we want to export is in the `data` key of the the `axios` response.
-
-<!--
-```javascript
-const axios = require('axios')
-```
-
-Next, use `axios` to make a `GET` request to the open-notify.org API to get the latest position of the ISS (always remember to `await` promises):
-
-```javascript
-const response = await axios({
-  method: "GET",
-  url: "http://api.open-notify.org/iss-now.json"
-})
-```
-
-Next, `return` the API response to export it from the step. You must export data to inspected it and reference it in later workflow steps. The data we want to export is in the `data` key of the the `axios` response:
-
-```javascript
-return response.data
-```
--->
-
-
+2. We use `axios` to make a `GET` request to the open-notify.org API to get the latest position of the ISS ([always remember to `await` promises](https://pipedream.com/docs/workflows/steps/code/async/)).
+3. Finally, we `return` the API response to export it from the step. Data must be exported to inspect it and reference it in later workflow steps. We return `response.data` since the data we want to export is in the `data` key of the the `axios` response.
 
 Next, **Deploy** your changes and reload the endpoint URL in your browser. You should continue to see the latest ISS position returned. 
 

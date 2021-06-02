@@ -7,7 +7,7 @@ If you didn't complete the previous examples, we recommend you start from the [b
 :::
 
 
-In the last example, two rows were added to Google Sheets when we loaded the endpoint URL in our browser. That's because modern web browsers automatically make a request for a `favicon.com` file. While this is an artifact of loading the workflow's endpoint in our browser, it provides a good opportunity to demonstrate `$end()`.
+In the last example, two rows were added to Google Sheets when we loaded the endpoint URL in our browser. That's because modern web browsers automatically make a request for a [`favicon.ico`](https://en.wikipedia.org/wiki/Favicon) file. While this is an artifact of loading the workflow's endpoint in our browser, it provides a good opportunity to demonstrate `$end()`.
 
 First, select an event that represents a `favicon.ico` request:
 
@@ -16,7 +16,7 @@ First, select an event that represents a `favicon.ico` request:
 Next, add a **Run Node.js code** step immediately after the trigger and change the name from `steps.nodejs` to `steps.filter_favicon_requests`. Then add code to conditionally end the workflow execution if `steps.trigger.event.url` contains the string `favicon.ico`. We can also pass a reason for ending the execution to the `$end()` function. For this example, we'll pass the value `favicon.ico request`.
 
 ```javascript
-if(steps.trigger.event.url.includes('favicon.ico')) {
+if (steps.trigger.event.url.endsWith("/favicon.ico")){
   $end("favicon.ico request")
 }
 ```

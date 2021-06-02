@@ -1,6 +1,6 @@
 # Real-world Twitter -> Slack
 
-For the last example in this quickstart, we'll use many of the patterns introduced in [earlier examples](/quickstart) to solve a real-world use case and will cover how to:
+For the last example in this quickstart, we'll use many of the patterns introduced in [earlier examples](/quickstart/) to solve a real-world use case and will cover how to:
 
 - [Trigger a workflow anytime @pipedream is mentioned on Twitter](#trigger-a-workflow-anytime-pipedream-https-twitter-com-pipedream-is-mentioned-on-twitter)
 - [Construct a message in Node.js using Slack Block Kit](#construct-a-message-in-node-js-using-slack-block-kit)
@@ -33,7 +33,7 @@ To complete the trigger setup, add an optional name (e.g., `Pipedream Mentions`)
 
 ![image-20210518191055978](./images/image-20210518191055978.png)
 
-Use the drop down menu to select the event to help you build your workflow. Here we've selected a recent Tweet that includes an image (so we can incorporate that into our Slack message).
+Use the drop-down menu to select the event to help you build your workflow. Here we've selected a recent Tweet that includes an image (so we can incorporate that into our Slack message).
 
 ![image-20210518191509099](./images/image-20210518191509099.png)
 
@@ -44,7 +44,7 @@ Let's include the following data from the trigger event in our Slack message:
 - Tweet text
 - Tweet Language
 - Tweet URL
-- Image (if present in the Tweet)
+- Image (if the Tweet included an image, video or animated GIF)
 - Tweet timestamp
 - Screen name and profile picture of the user
 - Metadata for the user (number of followers, location and description)
@@ -54,7 +54,7 @@ We can use Slack's Block Kit Builder to create a [JSON message template with pla
 
 ![image-20210519012640800](./images/image-20210519012640800.png)
 
- The action we will use accepts the array of blocks, so let's extract that and export a populated array from our code step (i.e., we don't need to generate the entire JSON payload).
+The action we will use accepts the array of blocks, so let's extract that and export a populated array from our code step (i.e., we don't need to generate the entire JSON payload).
 
 Add a step to **Run Node.js code** and name it `steps.generate_slack_blocks`. 
 
@@ -75,7 +75,7 @@ function getLanguageName(isocode) {
 	catch (err) { return 'Unknown' }
 }
 
-// Function to format numbers over 1000 -- from Stack Overflow https://stackoverflow.com/questions/9461621/format-a-number-as-2-5k-if-a-thousand-or-more-otherwise-900
+// Function to format numbers over 1000 from Stack Overflow https://stackoverflow.com/questions/9461621/format-a-number-as-2-5k-if-a-thousand-or-more-otherwise-900
 function kFormatter(num) {
     return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
 }
@@ -90,9 +90,16 @@ steps.trigger.event.full_text.split('\n').forEach(line => {
 const tweetUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/statuses/${steps.trigger.event.id_str}`
 const userUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/`
 
-// Use lodash to get media data (these fields are not always present)
-const mediaUrl = _.get(steps, 'trigger.event.extended_entities.media[0].media_url_https')
-const mediaType = _.get(steps, 'trigger.event.extended_entities.media[0].type')
+/* 
+Use lodash to get the URL for an image representing the media since 
+this object is not always present; `trigger.event.entities` will be present
+when media — photos, animated GIFs or videos — are attached to the Tweet. 
+The `entities` object should always containt a photo, "even in cases of 
+a video and GIF being attached to Tweet."
+https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities
+*/
+const mediaUrl = _.get(steps, 'trigger.event.entities.media[0].media_url_https')
+const mediaType = _.get(steps, 'trigger.event.entities.media[0].type')
 
 // Format the message as Slack blocks - https://api.slack.com/block-kit
 const blocks = []
@@ -108,6 +115,8 @@ blocks.push({
 			"alt_text": "Profile picture"
 		}
 })
+
+console.log(mediaType)
 
 // If the Tweet contains a photo add it to the message
 if(mediaUrl && mediaType === 'photo') {
@@ -207,14 +216,14 @@ A formatted message should be posted to Slack:
 
 # Run a live test
 
-To run a live test, first turn on your trigger to run it on every new matching Tweet:
+To run a live test, first turn on your trigger to run the workflow on every new matching Tweet:
 
 ![image-20210518210047896](./images/image-20210518210047896.png)
 
 Next, post a Tweet mentioning `@pipedream` — **click Post Tweet below to use our pre-written Tweet with an image** (this image will be included in your formatted Slack message):
 
 <p style="text-align:center;">
-<!--a href="https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20" target="_blank"--><img src="./images/post-tweet-content.png"><img src="./images/post-tweet.png"><!--/a-->
+<a href="https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20Try%20for%20free%20at%20https%3A%2F%2Fpipedream.com%2Fquickstart%2F%20and%20learn%20to%20connect%20APIs%2C%20remarkably%20fast!" target="_blank"><img src="./images/post-tweet-content.png"> <img src="./images/post-tweet.png"></a>
 </p>
 <!--
  or [use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20).

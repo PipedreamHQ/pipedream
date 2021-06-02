@@ -1,6 +1,6 @@
 # hello world!
 
-First, let's create an HTTP triggered workflow and return a response of `hello world!`. This example will cover how to:
+First, let's create an HTTP-triggered workflow and return a response of `hello world!`. This example will cover how to:
 
 [[toc]]
 
@@ -14,7 +14,7 @@ First, create a new workflow by clicking **New** from [https://pipedream.com/wor
 
 ![image-20210516114638660](./images/image-20210516114638660.png)
 
-Pipedream will launch the workfow builder:
+Pipedream will launch the workflow builder:
 
 ![image-20210516191619202](./images/image-20210516191619202.png)
 
@@ -24,11 +24,11 @@ Following is an brief overview of the screen layout:
 
 ### Generate a unique endpoint URL to trigger the workflow
 
-To create an HTTP or webhook triggered workflow, select the **HTTP API** trigger. 
+To create an HTTP or webhook-triggered workflow, select the **HTTP API** trigger. 
 
 ![image-20210516191641863](./images/image-20210516191641863.png)
 
-Your workflow will automatically deploy and Pipedream will generate a unique endpiont URL.
+Your workflow will automatically deploy and Pipedream will generate a unique endpoint URL.
 
 ![image-20210525161122066](./images/image-20210525161122066.png)
 
@@ -49,7 +49,7 @@ When you return to your workflow, you'll see the requests in the event list (eve
 
 ### Inspect workflow events
 
-Select an event from the list to inspect the associated exports and logs (click on an event again to de-select it). The HTTP trigger exports  data including the `url` invoked, `method`, `body`, `headers`, `query parameters` and more. This data can also be referenced by steps in your workflow via the `steps` object (for example, to use the trigger event in a later step you can reference `steps.trigger.event` — we'll cover this in the next example). 
+Select an event from the list to inspect the associated exports and logs (click on an event again to de-select it). The HTTP trigger exports data including the `url` invoked, `method`, `body`, `headers`, `query parameters` and more. This data can also be referenced by steps in your workflow via the `steps` object (for example, to use the trigger event in a later step you can reference `steps.trigger.event` — we'll cover this in the next example). 
 
 ![inspect-events](./images/inspect-events.gif)
 

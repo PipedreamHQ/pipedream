@@ -48,7 +48,7 @@ Finally, click **Deploy** and click **Send Test Event** in the trigger again to 
 
 ![image-20210525194340766](./images/image-20210525194340766.png)
 
-Pipedream will send an email to the email address registered for your Pipedream account:
+Pipedream will send an email to the address asociatd with your Pipedream account:
 
 ![image-20210525194431592](./images/image-20210525194431592.png)
 
@@ -58,7 +58,7 @@ Finally, to automatically run the workflow whenever a new item is detected in th
 
 ![image-20210525194508356](./images/image-20210525194508356.png)
 
-**For the final example of this guide, we'll address a real-world use case to post richly formatted Tweets to Slack. [Take me to the last example &rarr;](../real-world-example/)**
+**For the final example of this guide, we'll address a real-world use case to post richly-formatted Tweets to Slack. [Take me to the last example &rarr;](../real-world-example/)**
 
 <p style="text-align:center;">
 <a href="/quickstart/real-world-example/"><img src="../next.png"></a>

@@ -1,6 +1,6 @@
 # Make outbound HTTP requests
 
-In the previous examples, we focused on catching inbound HTTP requests and manipulating the workflow response. Next, let's add an action step to make an outbound request from our workflow — we'll get data from a simple HTTP API and return the response from our worklow. This example builds on the workflow created in [previous sections](/quickstart/) and will cover how to:
+In the previous examples, we focused on catching inbound HTTP requests and manipulating the workflow response. Next, let's add an action step to make an outbound request from our workflow — we'll get data from a simple HTTP API and return the response from our workflow. This example builds on the workflow created in [previous sections](/quickstart/) and will cover how to:
 
 [[toc]]
 
@@ -10,7 +10,7 @@ If you didn't complete the previous examples, we recommend you start from the [b
 
 ### Use a pre-built action to make an HTTP request from your workflow
 
-First, click on the **+** sign between the two workflow to open the step menu.
+First, click on the **+** sign between the two steps to open the step menu.
 
 ![image-20210525171237467](./images/image-20210525171237467.png)
 
@@ -36,7 +36,7 @@ Finally, click **Deploy** and then hit the **Send Test Event** button in the tri
 
 ### Inspect the exports for the action step
 
-Select the new event from the list to inspect the execution. The response from the **GET Request** action should be exported as `steps.get_iss_position.$return_value`. Expand the `iss_position` key to inspect the `lattitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution:
+Select the new event from the list to inspect the execution. The response from the **GET Request** action should be exported as `steps.get_iss_position.$return_value`. Expand the `iss_position` key to inspect the `latitude` and `longitude` returned by the API. If you run the workflow again, you'll see the position change for each execution:
 
 ![image-20210525171711647](./images/image-20210525171711647.png)
 

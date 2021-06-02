@@ -1,14 +1,12 @@
 # Run workflow on a schedule
 
-Next, let run a workflow on a schedule to keep our HTTP triggered workflow "warm". This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to:
+Next, let's run a workflow on a schedule to keep our HTTP triggered workflow "warm" ([learn more](https://pipedream.com/docs/workflows/events/cold-starts/) about "cold starts" and the value of keeping workflows "warm"). **Note:** Most use cases do not require keeping a workflow "warm" — we're using the example to demonstrate how to use the **Schedule** trigger. This example builds on the workflow created in [previous sections](/quickstart/hello-world/) and will cover how to:
 
 [[toc]]
 
 ::: tip
 If you didn't complete the previous examples, we recommend you start from the [beginning of this guide](/quickstart/). If you still want to start here, [copy this workflow](https://pipedream.com/@gettingstarted/quickstart-use-connected-accounts-in-code-p_ezCVLgy) and then follow the instructions below. If you have any issues completing this example, you can view, copy and run completed versions: [Scheduled Workflow](https://pipedream.com/@gettingstarted/quickstart-run-workflow-on-a-schedule-1-2-p_n1Co22e), [Updated HTTP Triggered Workflow](https://pipedream.com/@gettingstarted/quickstart-run-workflow-on-a-schedule-2-2-p_NMCBZZ7).
 :::
-
-For context, it's common for serverless functions that have not been recently invoked to go "cold". "Cold" functions take about 500 milliseconds longer to run than "warm" functions. For many applications, this intermittent latency is insignificant. However, we'll demonstrate how to use a scheduled workflow to to keep our HTTP-triggered workflow "warm" by invoking it every 3 minutes. 
 
 ### Create a workflow using the schedule trigger
 
@@ -64,11 +62,11 @@ If you check the HTTP workflow, you should see the workflow execution ended at `
 
 ### Configure a schedule
 
-Finally, return to the scheduled workflow, configure it to run every 3 minutes, and **Deploy** to update trigger configuration:
+Finally, return to the scheduled workflow, configure it to run every 15 minutes, and **Deploy** to update trigger configuration:
 
 ![image-20210525191935400](./images/image-20210525191935400.png)
 
-Your scheduled workflow will now run every 3 minutes — 24 hours a day, 7 days a week.
+Your scheduled workflow will now run every 15 minutes — 24 hours a day, 7 days a week.
 
 **Next, we'll create a workflow using an app trigger to run a workflow every time there is a new item in an RSS feed.**
 

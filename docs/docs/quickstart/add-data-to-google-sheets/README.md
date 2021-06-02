@@ -10,12 +10,11 @@ If you didn't complete the previous examples, we recommend you start from the [b
 
 ### Set up a Google Sheet for this example
 
-First, create a Google Sheet with the columns `Latitude`, `Longitude`, `Timestamp`, and `Date/Time` in the first row:
+First, create a Google Sheet with the columns `Latitude`, `Longitude`, `Timestamp`, and `Date/Time` in the first row (or make a copy of [our sample Google Sheet](https://docs.google.com/spreadsheets/d/1ArKQhQ6EO1uaDZ2WyIU-aMBMQnsJXU9TbKIvFM_q1dY/edit)):
 
 ![image-20210517195215566](./images/image-20210517195215566.png)  
 
 ### Transform a timestamp using the `luxon` npm package
-x
 Next, select a most recent event and inspect the exports for `steps.get_iss_position`. We can see that the `timestamp` field returned by the API is not a friendly, human-readable date/time:
 
 ![image-20210525181359535](./images/image-20210525181359535.png)
@@ -34,7 +33,7 @@ const { DateTime } = require('luxon')
 return DateTime.fromSeconds(steps.get_iss_position.$return_value.timestamp).toFormat('yyyy-MM-dd HH:mm:ss');
 ```
 
-Then udpate the name of the code step to `steps.format_datetime`
+Then update the name of the code step to `steps.format_datetime`:
 
 ![image-20210525181543435](./images/image-20210525181543435.png)
 
