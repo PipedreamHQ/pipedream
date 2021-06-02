@@ -10,7 +10,7 @@ Sign up for a [free Pipedream account (no credit card required)](https://pipedre
 - Scaffold an API request in Node.js
 - End workflow execution early
 
-This guide [starts with simple examples](/quickstart/hello-world) to cover basic Pipedream concepts and builds up to a [real-world use case](/quickstart/real-world-example/) to post richly-formatted Tweets to Slack. Many examples in this guide build on the same workflow, so we recommend that you complete them in order.
+This guide [starts with simple examples](/quickstart/hello-world/) to cover basic Pipedream concepts and builds up to a [real-world use case](/quickstart/real-world-example/) to post richly-formatted Tweets to Slack. Many examples in this guide build on the same workflow, so we recommend that you complete them in order.
 
 <p style="text-align:center;">
 <a :href="$withBase('/quickstart/hello-world/')"><img src="./get-started.png"></a>
