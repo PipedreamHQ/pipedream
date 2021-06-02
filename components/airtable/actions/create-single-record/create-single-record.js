@@ -5,6 +5,7 @@ module.exports = {
   name: "Create single record",
   description: "Create a record in a table.",
   version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     airtable,
