@@ -33,16 +33,17 @@ module.exports = {
       apiKey: this.airtable.$auth.api_key,
     });
     const table = a.base(this.baseId)(this.tableId);
-    const args = [
-      [
-        {
-          fields: this.record,
-        },
-      ],
+    const recordsData = [
       {
-        typecast: this.typecast,
+        fields: this.record,
       },
     ];
-    return (await table.create(...args))[0];
+    const params = {
+      typecast: this.typecast,
+    };
+    const [
+      createdRecord,
+    ] = await table.create(recordsData, params);
+    return createdRecord;
   },
 };
