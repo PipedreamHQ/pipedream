@@ -1,22 +1,32 @@
-const airtable=require('../../airtable.app.js')
+const airtable = require("../../airtable.app.js");
+const common = require("../common.js");
 
 module.exports = {
   key: "airtable-create-single-record",
   name: "Create single record",
-  description: "Create a record in a table.",
-  version: "0.0.11",
+  description: "Adds a record to a table.",
+  version: "0.1.0",
   type: "action",
   props: {
-    airtable,
-    baseId: {type: "$.airtable.baseId", appProp: 'airtable'},
-    tableId: { type: '$.airtable.tableId', baseIdProp: 'baseId' },
-    record: { propDefinition: [airtable, "record"] },
+    ...common.props,
+    record: {
+      propDefinition: [
+        airtable,
+        "record",
+      ],
+    },
   },
   async run() {
-    const Airtable = require('airtable');
-    const base = new Airtable({apiKey: this.airtable.$auth.api_key}).base(this.baseId);
-    return (await base(this.tableId).create([{
-      fields: this.record
-    }]))[0]
+    this.airtable.validateRecord(this.record);
+    const base = this.airtable.base(this.baseId);
+    try {
+      return (await base(this.tableId).create([
+        {
+          fields: this.record,
+        },
+      ]))[0];
+    } catch (err) {
+      this.airtable.throwFormattedError(err);
+    }
   },
-}
+};
