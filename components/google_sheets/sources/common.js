@@ -153,7 +153,10 @@ module.exports = {
 
       const driveId = this.getDriveId();
       const sheetId = this.getSheetId();
-      const { file, newPageToken } = await this.getModifiedSheet(
+      const {
+        file,
+        newPageToken,
+      } = await this.getModifiedSheet(
         pageToken,
         driveId,
         sheetId,
@@ -213,7 +216,7 @@ module.exports = {
 
       this._setSubscription({
         expiration,
-        resourceId
+        resourceId,
       });
       this._setPageToken(pageToken);
       this._setChannelID(channelID);

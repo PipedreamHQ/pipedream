@@ -145,7 +145,7 @@ module.exports = {
       );
       return {
         oldValues,
-        currentValues
+        currentValues,
       };
     },
     async takeSheetSnapshot(offset = 0) {
@@ -212,7 +212,7 @@ module.exports = {
             {
               worksheet,
               currentValues,
-              changes
+              changes,
             },
             this.getMeta(spreadsheet, worksheet, changes),
           );

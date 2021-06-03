@@ -26,7 +26,7 @@ module.exports = {
         common.props.google_sheets,
         "worksheetIDs",
         (c) => ({
-          sheetId: c.sheetID
+          sheetId: c.sheetID,
         }),
       ],
     },
@@ -91,7 +91,7 @@ module.exports = {
         .reduce(
           (accum, {
             worksheetId,
-            worksheetLength
+            worksheetLength,
           }) => ({
             ...accum,
             [worksheetId]: worksheetLength,
@@ -115,7 +115,7 @@ module.exports = {
       for (const worksheetRowCount of worksheetRowCounts) {
         const {
           rowCount,
-          worksheetId
+          worksheetId,
         } = worksheetRowCount;
         const offsetRowCount = Math.max(rowCount - offset, 0);
         this._setRowCount(`${sheetId}${worksheetId}`, offsetRowCount);
@@ -162,7 +162,7 @@ module.exports = {
               newRow,
               range,
               worksheet,
-              rowNumber
+              rowNumber,
             },
             this.getMeta(spreadsheet, worksheet, rowNumber),
           );
