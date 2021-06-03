@@ -1,11 +1,11 @@
 const { google } = require("googleapis");
-const google_drive = require("../google_drive/google_drive.app");
+const googleDrive = require("../google_drive/google_drive.app");
 
 module.exports = {
-  ...google_drive,
+  ...googleDrive,
   app: "google_sheets",
   propDefinitions: {
-    ...google_drive.propDefinitions,
+    ...googleDrive.propDefinitions,
     cells: {
       type: "string[]",
       label: "Cells / Column Values",
@@ -26,7 +26,10 @@ module.exports = {
     sheetID: {
       type: "string",
       label: "Spreadsheet to watch for changes",
-      async options({ prevContext, driveId }) {
+      async options({
+        prevContext,
+        driveId,
+      }) {
         const { nextPageToken } = prevContext;
         return this.listSheets(driveId, nextPageToken);
       },
@@ -51,7 +54,10 @@ module.exports = {
         return sheets
           .map(({ properties }) => properties)
           .filter(({ sheetType }) => sheetType === "GRID")
-          .map(({ title, sheetId }) => ({
+          .map(({
+            title,
+            sheetId,
+          }) => ({
             label: title,
             value: sheetId,
           }));
@@ -59,15 +65,22 @@ module.exports = {
     },
   },
   methods: {
-    ...google_drive.methods,
+    ...googleDrive.methods,
     sheets() {
       const auth = new google.auth.OAuth2();
-      auth.setCredentials({ access_token: this.$auth.oauth_access_token });
-      return google.sheets({ version: "v4", auth });
+      auth.setCredentials({
+        access_token: this.$auth.oauth_access_token,
+      });
+      return google.sheets({
+        version: "v4",
+        auth,
+      });
     },
     async listSheets(driveId, pageToken = null) {
       const q = "mimeType='application/vnd.google-apps.spreadsheet'";
-      let request = { q };
+      let request = {
+        q,
+      };
       if (driveId) {
         request = {
           ...request,
@@ -112,7 +125,10 @@ module.exports = {
     },
     async getWorksheetRowCounts(spreadsheetId, worksheetIds) {
       const values = await this.getSheetValues(spreadsheetId, worksheetIds);
-      return values.map(({ values, worksheetId }) => ({
+      return values.map(({
+        values,
+        worksheetId,
+      }) => ({
         rowCount: values.length,
         worksheetId,
       }));
@@ -125,7 +141,12 @@ module.exports = {
       const { sheets } = await this.getSpreadsheet(spreadsheetId, fields);
       return sheets
         .map(({ properties }) => properties)
-        .map(({ sheetId, gridProperties: { rowCount } }) => ({
+        .map(({
+          sheetId,
+          gridProperties: {
+            rowCount,
+          },
+        }) => ({
           spreadsheetId,
           worksheetId: sheetId,
           worksheetLength: rowCount,
@@ -144,22 +165,30 @@ module.exports = {
       const worksheetIdsSet = new Set(worksheetIds);
       return Promise.all(
         sheets
-          .map(({ properties: { sheetId, title } }) => ({
+          .map(({
+            properties: {
+              sheetId,
+              title,
+            },
+          }) => ({
             sheetId,
             title,
           }))
           .filter(({ sheetId }) => worksheetIdsSet.has(sheetId.toString()))
-          .map(async ({ sheetId, title }) => {
+          .map(async ({
+            sheetId,
+            title,
+          }) => {
             const { values } = await this.getSpreadsheetValues(
               spreadsheetId,
-              title
+              title,
             );
             return {
               spreadsheetId,
               values,
               worksheetId: sheetId,
             };
-          })
+          }),
       );
     },
   },

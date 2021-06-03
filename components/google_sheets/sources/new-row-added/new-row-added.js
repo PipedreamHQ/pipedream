@@ -15,7 +15,9 @@ module.exports = {
         common.props.google_sheets,
         "sheetID",
         (c) => ({
-          driveId: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
+          driveId: c.watchedDrive === "myDrive" ?
+            null :
+            c.watchedDrive,
         }),
       ],
     },
@@ -23,7 +25,9 @@ module.exports = {
       propDefinition: [
         common.props.google_sheets,
         "worksheetIDs",
-        (c) => ({ sheetId: c.sheetID }),
+        (c) => ({
+          sheetId: c.sheetID
+        }),
       ],
     },
   },
@@ -73,7 +77,7 @@ module.exports = {
           : this.getWorksheetIds();
       const worksheetIds = new Set(relevantWorksheets);
       const worksheetLengths = await this.google_sheets.getWorksheetLength(
-        sheetId
+        sheetId,
       );
       return worksheetLengths
         .map((worksheetLengthData) => {
@@ -85,11 +89,14 @@ module.exports = {
         })
         .filter(({ worksheetId }) => worksheetIds.has(worksheetId))
         .reduce(
-          (accum, { worksheetId, worksheetLength }) => ({
+          (accum, {
+            worksheetId,
+            worksheetLength
+          }) => ({
             ...accum,
             [worksheetId]: worksheetLength,
           }),
-          {}
+          {},
         );
     },
     /**
@@ -103,10 +110,13 @@ module.exports = {
           : this.getWorksheetIds();
       const worksheetRowCounts = await this.google_sheets.getWorksheetRowCounts(
         sheetId,
-        worksheetIds
+        worksheetIds,
       );
       for (const worksheetRowCount of worksheetRowCounts) {
-        const { rowCount, worksheetId } = worksheetRowCount;
+        const {
+          rowCount,
+          worksheetId
+        } = worksheetRowCount;
         const offsetRowCount = Math.max(rowCount - offset, 0);
         this._setRowCount(`${sheetId}${worksheetId}`, offsetRowCount);
       }
@@ -134,7 +144,7 @@ module.exports = {
         const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
         const newRowValues = await this.google_sheets.getSpreadsheetValues(
           sheetId,
-          range
+          range,
         );
 
         const newRowCount = oldRowCount + newRowValues.values.length;
@@ -142,11 +152,19 @@ module.exports = {
 
         this._setRowCount(`${sheetId}${worksheetId}`, newRowCount);
 
-        for (const [index, newRow] of newRowValues.values.entries()) {
+        for (const [
+          index,
+          newRow,
+        ] of newRowValues.values.entries()) {
           const rowNumber = lowerBound + index;
           this.$emit(
-            { newRow, range, worksheet, rowNumber },
-            this.getMeta(spreadsheet, worksheet, rowNumber)
+            {
+              newRow,
+              range,
+              worksheet,
+              rowNumber
+            },
+            this.getMeta(spreadsheet, worksheet, rowNumber),
           );
         }
       }

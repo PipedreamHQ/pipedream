@@ -16,7 +16,9 @@ module.exports = {
         common.props.google_sheets,
         "sheetID",
         (c) => ({
-          driveId: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
+          driveId: c.watchedDrive === "myDrive" ?
+            null :
+            c.watchedDrive,
         }),
       ],
     },
@@ -24,7 +26,9 @@ module.exports = {
       propDefinition: [
         common.props.google_sheets,
         "worksheetIDs",
-        (c) => ({ sheetId: c.sheetID }),
+        (c) => ({
+          sheetId: c.sheetID,
+        }),
       ],
     },
   },
@@ -133,13 +137,16 @@ module.exports = {
       const sheetId = this.getSheetId();
       const oldValues =
         this._getSheetValues(
-          `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`
+          `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`,
         ) || null;
       const currentValues = await this.google_sheets.getSpreadsheetValues(
         sheetId,
-        worksheet.properties.title
+        worksheet.properties.title,
       );
-      return { oldValues, currentValues };
+      return {
+        oldValues,
+        currentValues
+      };
     },
     async takeSheetSnapshot(offset = 0) {
       // Initialize sheet values
@@ -150,10 +157,13 @@ module.exports = {
           : this.getWorksheetIds();
       const sheetValues = await this.google_sheets.getSheetValues(
         sheetId,
-        worksheetIds
+        worksheetIds,
       );
       for (const sheetVal of sheetValues) {
-        const { values, worksheetId } = sheetVal;
+        const {
+          values,
+          worksheetId,
+        } = sheetVal;
         if (
           this.worksheetIDs.length &&
           !this.isWorksheetRelevant(worksheetId)
@@ -176,9 +186,12 @@ module.exports = {
           continue;
         }
 
-        const { oldValues, currentValues } = await this.getContentDiff(
+        const {
+          oldValues,
+          currentValues,
+        } = await this.getContentDiff(
           spreadsheet,
-          worksheet
+          worksheet,
         );
         const newValues = currentValues.values || [];
         let changes = [];
@@ -192,17 +205,21 @@ module.exports = {
               newValues,
               oldValues,
               changes,
-              i
+              i,
             );
           }
           this.$emit(
-            { worksheet, currentValues, changes },
-            this.getMeta(spreadsheet, worksheet, changes)
+            {
+              worksheet,
+              currentValues,
+              changes
+            },
+            this.getMeta(spreadsheet, worksheet, changes),
           );
         }
         this._setSheetValues(
           `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`,
-          newValues || []
+          newValues || [],
         );
       }
     },

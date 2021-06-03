@@ -15,7 +15,9 @@ module.exports = {
         common.props.google_sheets,
         "sheetID",
         (c) => ({
-          driveId: c.watchedDrive === "myDrive" ? null : c.watchedDrive,
+          driveId: c.watchedDrive === "myDrive" ?
+            null :
+            c.watchedDrive,
         }),
       ],
     },
@@ -23,7 +25,9 @@ module.exports = {
   hooks: {
     ...common.hooks,
     async deploy() {
-      await this.processSpreadsheet({ spreadsheetId: this.sheetID });
+      await this.processSpreadsheet({
+        spreadsheetId: this.sheetID,
+      });
     },
   },
   methods: {
@@ -45,14 +49,14 @@ module.exports = {
       return this.sheetID.toString();
     },
     _getWorksheetIds() {
-      return this.db.get('worksheetIds');
+      return this.db.get("worksheetIds");
     },
     _setWorksheetIds(worksheetIds) {
-      this.db.set('worksheetIds', worksheetIds);
+      this.db.set("worksheetIds", worksheetIds);
     },
     async processSpreadsheet({ spreadsheetId }) {
       const { sheets: worksheets } = await this.google_sheets.getSpreadsheet(
-        spreadsheetId
+        spreadsheetId,
       );
       let worksheetIds = this._getWorksheetIds() || [];
       for (const worksheet of worksheets) {
