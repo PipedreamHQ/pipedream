@@ -1,14 +1,34 @@
 const shopify = require("../../shopify.app.js");
 const { dateToISOStringWithoutMs } = require("../common/utils");
-// Uses Shopify GraphQL API to get Order Transactions (`created_at`) in the same request as Orders (`updated_at`)
-// Order Transaction `created_at` dates are used to determine if a `PAID` Order's update was from being paid
-// to avoid duped orders if there are more than 100 orders between updates of a `PAID` Order
-// Data from GraphQL request is used to generate list of relevant Order IDs
-// Relevent Orders are requested via Shopify REST API using list of relevant Order IDs
 
-const DEFAULT_TIMER_INTERVAL_SECONDS = 60 * 5; // 5 minutes
-const MIN_ALLOWED_TRANSACT_TO_ORDER_UPDATE_MS = 1000 * 30 * 1; // 30 seconds (from testing, an Order (financial_status:=PAID) seems to be updated within 15s of the Transaction)
+/**
+ * The component's run timer.
+ * @constant {number}
+ * @default 300 (5 minutes)
+ */
+const DEFAULT_TIMER_INTERVAL_SECONDS = 60 * 5;
 
+/**
+ * The minimum time interval from Order Transaction to Order update where the
+ * Order update will be considered the result of the Transaction.
+ * Note: From testing, an Order (`financial_status:=PAID`) seems to be updated
+ * within 15s of the Transaction.
+ * @constant {number}
+ * @default 30000 (30 seconds)
+ */
+const MIN_ALLOWED_TRANSACT_TO_ORDER_UPDATE_MS = 1000 * 30 * 1;
+
+/**
+ * Uses Shopify GraphQL API to get Order Transactions (`created_at`) in the same
+ * request as Orders (`updated_at`). Order Transaction `created_at` dates are
+ * used to determine if a `PAID` Order's update was from being paid - to avoid
+ * duped orders if there are more than 100 orders between updates of a `PAID`
+ * Order.
+ *
+ * Data from GraphQL request is used to generate list of relevant Order IDs.
+ * Relevent Orders are requested via Shopify REST API using list of relevant
+ * Order IDs.
+ */
 module.exports = {
   key: "shopify-new-paid-order",
   name: "New Paid Order",
@@ -45,9 +65,41 @@ module.exports = {
         2 * DEFAULT_TIMER_INTERVAL_SECONDS * 1000
       );
     },
+    /**
+     * Gets the fields to include in a GraphQL query.
+     *
+     * To get the query fields for an Orders query like this,
+     * @example
+     * {
+     *   orders {
+     *     edges {
+     *       node {
+     *         updatedAt
+     *         name
+     *         legacyResourceId
+     *         transactions {
+     *           createdAt
+     *         }
+     *       }
+     *     }
+     *   }
+     * }
+     * the function would look like this:
+     * @example
+     * function getQueryFields() {
+     *   return [
+     *     "updatedAt",
+     *     "name",
+     *     "legacyResourceId",
+     *     "transactions.createdAt",
+     *   ];
+     * }
+     *
+     * @returns {string[]} The GraphQL query fields
+     */
     getQueryFields() {
       // See https://shopify.dev/docs/admin-api/graphql/reference/orders/order
-      // With these fields, queries cost up to 202 points
+      // With these fields and a limit of 100, queries cost up to 202 points
       return [
         "updatedAt",
         "name",
@@ -55,6 +107,13 @@ module.exports = {
         "transactions.createdAt",
       ];
     },
+    /**
+     * Gets the filter string to be used in a GraphQL query.
+     * @param {object} opts Options for creating the query filter
+     * @param {string} [opts.updatedAt=null] The minimum `updated_at` time to
+     * allow in queried resources
+     * @returns The query filter string
+     */
     getQueryFilter({ updatedAt = null }) {
       return `financial_status:paid updated_at:>${updatedAt}`;
     },
@@ -80,13 +139,10 @@ module.exports = {
       // (because time from Order Transaction `created_at` to Order `updated_at` would be too large)
       // The larger interval could cause Orders updated multiple times within the interval to be considered 'paid' twice,
       // but those Order events would be deduped if there are fewer than 100 paid Orders in 2x timer inverval
-      if (
-        timeFromTransactToOrderUpdate >
+      return (
+        timeFromTransactToOrderUpdate <
         this._getAllowedTransactToOrderUpdateMs()
-      ) {
-        return false;
-      }
-      return true;
+      );
     },
 
     generateMeta(order) {

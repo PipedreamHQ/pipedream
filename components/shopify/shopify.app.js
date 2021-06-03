@@ -208,16 +208,16 @@ module.exports = {
       params.fulfillment_status = fulfillmentStatus;
       return await this.getObjects("order", params);
     },
-    getOrdersById(ids = []) {
+    async getOrdersById(ids = []) {
       if (ids.length === 0) {
-        return Promise.resolve([]);
+        return [];
       }
       const params = {
         ids: ids.join(','),
         status: "any",
         limit: 100,
       };
-      return this.getObjects("order", params);
+      return await this.getObjects("order", params);
     },
     async getPages(sinceId) {
       let params = this.getSinceParams(sinceId, true);
