@@ -2,6 +2,8 @@ const airtable = require("../../airtable.app.js");
 const chunk = require("lodash.chunk");
 const common = require("../common.js");
 
+const BATCH_SIZE = 10; // The Airtable API allows us to update up to 10 rows per request.
+
 module.exports = {
   key: "airtable-create-multiple-records",
   name: "Create Multiple Records",
@@ -16,40 +18,37 @@ module.exports = {
         "records",
       ],
     },
-  },
-  methods: {
-    async addRecords(records) {
-      const base = this.airtable.base(this.baseId);
-      return await base(this.tableId).create(records);
+    typecast: {
+      propDefinition: [
+        airtable,
+        "typecast",
+      ],
     },
   },
   async run() {
-    let responseRecords = [];
-    const BATCH_SIZE = 10; // The Airtable API allows us to update up to 10 rows per request.
+    const table = this.airtable.base(this.baseId)(this.tableId);
 
-    let inputRecords = this.records;
-
-    if (!Array.isArray(inputRecords)) {
-      inputRecords = JSON.parse(inputRecords);
+    let data = this.records;
+    if (!Array.isArray(data)) {
+      data = JSON.parse(data);
     }
-
-    if (!inputRecords.length) {
+    data = data.map((fields) => ({
+      fields,
+    }));
+    if (!data.length) {
       throw new Error("No Airtable record data passed to step. Please pass at least one record");
     }
 
-    const records = inputRecords.map((record) => ({
-      fields: record,
-    }));
+    const params = {
+      typecast: this.typecast,
+    };
 
-    const chunkedRecords = chunk(records, BATCH_SIZE);
-    for (const chunk of chunkedRecords) {
-      try {
-        responseRecords = responseRecords.concat((await this.addRecords(chunk)));
-      } catch (err) {
-        this.airtable.throwFormattedError(err);
-      }
+    try {
+      const requests = chunk(data, BATCH_SIZE)
+        .map((data) => table.create(data, params));
+      return await Promise.all(requests);
+    } catch (err) {
+      this.airtable.throwFormattedError(err);
     }
-
-    return responseRecords;
   },
 };

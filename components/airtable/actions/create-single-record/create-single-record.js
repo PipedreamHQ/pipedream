@@ -15,16 +15,33 @@ module.exports = {
         "record",
       ],
     },
+    typecast: {
+      propDefinition: [
+        airtable,
+        "typecast",
+      ],
+    },
   },
   async run() {
+    const table = this.airtable.base(this.baseId)(this.tableId);
+
     this.airtable.validateRecord(this.record);
-    const base = this.airtable.base(this.baseId);
+
+    const data = [
+      {
+        fields: this.record,
+      },
+    ];
+
+    const params = {
+      typecast: this.typecast,
+    };
+
     try {
-      return (await base(this.tableId).create([
-        {
-          fields: this.record,
-        },
-      ]))[0];
+      const [
+        response,
+      ] = await table.create(data, params);
+      return response;
     } catch (err) {
       this.airtable.throwFormattedError(err);
     }
