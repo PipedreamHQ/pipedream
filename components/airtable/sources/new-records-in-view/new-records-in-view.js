@@ -1,7 +1,7 @@
-const moment = require('moment')
-const axios = require('axios')
+const moment = require("moment");
+const axios = require("axios");
 
-const common = require('../common')
+const common = require("../common");
 
 module.exports = {
   ...common,
@@ -11,10 +11,16 @@ module.exports = {
   version: "0.0.4",
   props: {
     ...common.props,
-    tableId: { type: "$.airtable.tableId", baseIdProp: "baseId" },
-    viewId: { type: "$.airtable.viewId", tableIdProp: "tableId" },
+    tableId: {
+      type: "$.airtable.tableId",
+      baseIdProp: "baseId",
+    },
+    viewId: {
+      type: "$.airtable.viewId",
+      tableIdProp: "tableId",
+    },
   },
-  async run(event) {
+  async run() {
     const config = {
       url: `https://api.airtable.com/v0/${encodeURIComponent(this.baseId)}/${encodeURIComponent(this.tableId)}`,
       params: {
@@ -23,42 +29,45 @@ module.exports = {
       headers: {
         Authorization: `Bearer ${this.airtable.$auth.api_key}`,
       },
-    }
+    };
 
-    const lastTimestamp = this.db.get("lastTimestamp")
-    config.params.filterByFormula = `CREATED_TIME() > "${lastTimestamp}"`
+    const lastTimestamp = this.db.get("lastTimestamp");
+    config.params.filterByFormula = `CREATED_TIME() > "${lastTimestamp}"`;
 
-    const { data } = await axios(config)
+    const { data } = await axios(config);
 
     if (!data.records.length) {
-      console.log(`No new records.`)
-      return
+      console.log("No new records.");
+      return;
     }
 
-    const { baseId, tableId, viewId } = this
+    const {
+      baseId,
+      tableId,
+      viewId,
+    } = this;
     const metadata = {
       baseId,
       tableId,
-      viewId
-    }
+      viewId,
+    };
 
-
-    let maxTimestamp
-    let recordCount = 0
+    let maxTimestamp;
+    let recordCount = 0;
     for (const record of data.records) {
-      record.metadata = metadata
+      record.metadata = metadata;
 
       this.$emit(record, {
         ts: moment(record.createdTime).valueOf(),
         summary: JSON.stringify(record.fields),
         id: record.id,
-      })
+      });
       if (!maxTimestamp || moment(record.createdTime).valueOf() > moment(maxTimestamp).valueOf()) {
-        maxTimestamp = record.createdTime
+        maxTimestamp = record.createdTime;
       }
-      recordCount++
+      recordCount++;
     }
-    console.log(`Emitted ${recordCount} new records(s).`)
-    this.db.set("lastTimestamp", maxTimestamp)
+    console.log(`Emitted ${recordCount} new records(s).`);
+    this.db.set("lastTimestamp", maxTimestamp);
   },
-}
+};
