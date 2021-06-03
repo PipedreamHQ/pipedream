@@ -4,20 +4,10 @@ module.exports = {
   type: "app",
   app: "cliniko",
   propDefinitions: {
-    contactId: {
-      type: "integer",
-      label: "Contact ID",
-      description: "Enter a unique contact ID.",
-    },
     patientId: {
       type: "integer",
       label: "Patient ID",
       description: "Enter a unique patient ID.",
-    },
-    practitionerId: {
-      type: "string",
-      label: "Practitioner ID",
-      description: "Enter a unique practitioner ID.",
     },
   },
   methods: {
