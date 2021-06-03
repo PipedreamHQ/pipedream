@@ -1,5 +1,5 @@
 const Airtable = require("airtable");
-const isEmpty = require("lodash/isEmpty");
+const isEmpty = require("lodash.isempty");
 
 module.exports = {
   type: "app",

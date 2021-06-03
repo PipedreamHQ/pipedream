@@ -13,5 +13,13 @@
     "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
     "publishConfig": {
         "access": "public"
+    },
+    "dependencies": {
+        "airtable": "^0.11.1",
+        "axios": "^0.21.1",
+        "bottleneck": "^2.19.5",
+        "lodash.chunk": "^4.2.0",
+        "lodash.isempty": "^4.4.0",
+        "moment": "^2.29.1"
     }
 }
