@@ -33,7 +33,7 @@ module.exports = {
   key: "shopify-new-paid-order",
   name: "New Paid Order",
   description: "Emits an event each time a new order is paid.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     db: "$.service.db",
@@ -118,7 +118,8 @@ module.exports = {
       return `financial_status:paid updated_at:>${updatedAt}`;
     },
     isRelevant(order) {
-      // Don't emit if Order was updated long after last Transaction (update not cause by order being paid)
+      // Don't emit if Order was updated long after last Transaction (update not
+      // caused by order being paid)
       let lastTransactionDate = null;
       // Iterate over Order Transactions to get date of most recent Transaction
       for (const transaction of order.transactions) {
@@ -132,13 +133,18 @@ module.exports = {
       }
       const timeFromTransactToOrderUpdate =
         Date.parse(order.updatedAt) - lastTransactionDate;
-      // If the Order was updated long after the last Transaction, assume becoming 'paid' was not the cause of update
-      // Allow at least 2x the timer interval (2 * 5min) after an Order Transaction for Order updates to be considered 'paid' updates
-      // If 2x the timer interval isn't allowed, some Orders that are updated from a Transaction and then one or more times
-      // between polling requests could be considered not 'paid' by the update
-      // (because time from Order Transaction `created_at` to Order `updated_at` would be too large)
-      // The larger interval could cause Orders updated multiple times within the interval to be considered 'paid' twice,
-      // but those Order events would be deduped if there are fewer than 100 paid Orders in 2x timer inverval
+      // - If the Order was updated long after the last Transaction, assume
+      // becoming 'paid' was not the cause of update.
+      // - Allow at least 2x the timer interval (2 * 5min) after an Order
+      // Transaction for Order updates to be considered 'paid' updates.
+      // - If 2x the timer interval isn't allowed, some Orders that are updated
+      // from a Transaction and then one or more times between polling requests
+      // could be considered not 'paid' by the update (because time from Order
+      // Transaction `created_at` to Order `updated_at` would be too large).
+      // - The larger interval could cause Orders updated multiple times within
+      // the interval to be considered 'paid' twice, but those Order events
+      // would be deduped if there are fewer than 100 paid Orders in 2x timer
+      // inverval.
       return (
         timeFromTransactToOrderUpdate <
         this._getAllowedTransactToOrderUpdateMs()
