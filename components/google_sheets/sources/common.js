@@ -109,24 +109,6 @@ module.exports = {
     _setPageToken(pageToken) {
       this.db.set("pageToken", pageToken);
     },
-    /**
-     * Temporary transformation to ensure the format of the data is the
-     * correct one. This will be fixed in the UI and backend, so that the data
-     * format is guaranteed to be the one indicated in the `type` field of the
-     * user prop.
-     */
-    getSheetId() {
-      return this.sheetID.toString();
-    },
-    /**
-     * Temporary transformation to ensure the format of the data is the
-     * correct one. This will be fixed in the UI and backend, so that the data
-     * format is guaranteed to be the one indicated in the `type` field of the
-     * user prop.
-     */
-    getWorksheetIds() {
-      return this.worksheetIDs.map((i) => i.toString());
-    },
     async getAllWorksheetIds(sheetID) {
       const { sheets } = await this.google_sheets.getSpreadsheet(sheetID);
       return sheets
@@ -176,6 +158,12 @@ module.exports = {
     },
     getDriveId() {
       return this.watchedDrive === "myDrive" ? null : this.watchedDrive;
+    },
+    getSheetId() {
+      throw new Error("getSheetId is not implemented");
+    },
+    getWorksheetIds() {
+      throw new Error("getWorksheetIds is not implemented");
     },
     isEventRelevant(event) {
       const { headers } = event;
@@ -243,6 +231,6 @@ module.exports = {
       return;
     }
     
-    return await this.processSpreadsheet(spreadsheet);
+    return this.processSpreadsheet(spreadsheet);
   },
 };

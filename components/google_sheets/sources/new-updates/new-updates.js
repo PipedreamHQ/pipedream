@@ -54,6 +54,24 @@ module.exports = {
         ts,
       };
     },
+    /**
+     * Temporary transformation to ensure the format of the data is the
+     * correct one. This will be fixed in the UI and backend, so that the data
+     * format is guaranteed to be the one indicated in the `type` field of the
+     * user prop.
+     */
+    getSheetId() {
+      return this.sheetID.toString();
+    },
+    /**
+     * Temporary transformation to ensure the format of the data is the
+     * correct one. This will be fixed in the UI and backend, so that the data
+     * format is guaranteed to be the one indicated in the `type` field of the
+     * user prop.
+     */
+    getWorksheetIds() {
+      return this.worksheetIDs.map((i) => i.toString());
+    },
     _getSheetValues(id) {
       return this.db.get(id);
     },

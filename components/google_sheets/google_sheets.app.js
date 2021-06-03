@@ -57,32 +57,6 @@ module.exports = {
           }));
       },
     },
-    folders: {
-      type: "string[]",
-      label: "Folders",
-      description:
-        "(Optional) The folders you want to watch for changes. Leave blank to watch for any new spreadsheet in the Drive.",
-      async options({ prevContext, driveId }) {
-        const { nextPageToken } = prevContext;
-        let results;
-        if (driveId === "myDrive") {
-          results = await this.listFiles({
-            pageToken: nextPageToken,
-            q: "mimeType = 'application/vnd.google-apps.folder'",
-          });
-        } else {
-          results = await this.listFiles({
-            pageToken: nextPageToken,
-            corpora: "drive",
-            driveId,
-            includeItemsFromAllDrives: true,
-            supportsAllDrives: true,
-            q: "mimeType = 'application/vnd.google-apps.folder'",
-          });
-        }
-        return results;
-      },
-    },
   },
   methods: {
     ...google_drive.methods,
@@ -119,8 +93,10 @@ module.exports = {
      * only composed of empty rows, then the response will not contain the `values`
      * attribute, so we set it to an empty array by default to keep the returned
      * value consistent.
-     * @param {string} title - The title of the book.
-     * @param {string} author - The author of the book.
+     * @returns {Object} An object containing a `values` attribute containing the list
+     * of values in the specified cell range (or an empty list in the case of empty cells)
+     * @param {string} spreadsheetId - Id of the spreadsheet.
+     * @param {string} range - Spreadsheet range in A1 notation.
      */
     async getSpreadsheetValues(spreadsheetId, range) {
       const sheets = this.sheets();
@@ -157,6 +133,8 @@ module.exports = {
     },
     /**
      * Returns an array of the spreadsheet values for the spreadsheet selected.
+     * @returns {array} An array of objects containing a `values` attribute along with
+     * the respective spreadsheet and worksheet Ids for each of the specified worksheets
      * @param {string} spreadsheetId - Id of the spreadsheet to get values from
      * @param {string} worksheetIds - Ids of the worksheets within the spreadsheet
      * to get values from.
