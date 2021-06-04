@@ -58,6 +58,10 @@ Finally, **Deploy** and reload the endpoint for your workflow in your web browse
 
 ![get-iss-position](./images/get-iss-position.gif)
 
+::: tip
+If you get an error, make sure you renamed the **GET Request** action to `steps.get_iss_position`
+:::
+
 **Next, let's replace the GET Request action with a code step and use the `axios` npm package to get the position of the ISS.** 
 
 <p style="text-align:center;">

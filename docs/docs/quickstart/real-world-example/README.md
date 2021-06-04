@@ -223,7 +223,7 @@ To run a live test, first turn on your trigger to run the workflow on every new 
 Next, post a Tweet mentioning `@pipedream` — **click Post Tweet below to use our pre-written Tweet with an image** (this image will be included in your formatted Slack message):
 
 <p style="text-align:center;">
-<a href="https://twitter.com/intent/tweet?text=I%27m%20testing%20my%20%40pipedream%20workflow!%20Try%20for%20free%20at%20https%3A%2F%2Fpipedream.com%2Fquickstart%2F%20and%20learn%20to%20connect%20APIs%20with%20code%20level%20control%20when%20you%20need%20it%2C%20and%20no%20code%20when%20you%20don%27t!" target="_blank"><img src="./images/post-tweet-content.png"> <img src="./images/post-tweet.png"></a>
+<a href="https://twitter.com/intent/tweet?text=I%27m%20testing%20my%20%40pipedream%20workflow!%20Try%20for%20free%20at%20https%3A%2F%2Fpipedream.com%2Fquickstart%2F%20and%20learn%20to%20connect%20APIs%20with%20code%20level%20control%20when%20you%20need%20it%2C%20and%20no%20code%20when%20you%20don%27t!%20pic.twitter.com%2F3kLOEdPMQ1" target="_blank"><img src="./images/post-tweet-content.png"> <img src="./images/post-tweet.png"></a>
 </p>
 <!--
  or [use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20).
