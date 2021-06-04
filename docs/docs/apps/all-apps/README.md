@@ -1,6 +1,6 @@
 # List of Integrated Apps
 
-Below you'll find a list of all the apps that have built-in integrations to Pipedream. Since you can [write any Node.js code](/workflows/steps/code/) on Pipedream, and pass API keys or credentials using [environment variables](/environment-variables/), you can connect to virtually any service, so this list isn't exhaustive.
+Below you'll find a list of all the apps that have built-in integrations to Pipedream. Since you can [write any Node.js code](/workflows/steps/code/) on Pipedream, and pass API keys or credentials using [environment variables](/environment-variables/), you can connect to virtually any service, so this list isn't exhaustive. 
 
 But Pipedream-integrated apps provide a few benefits:
 

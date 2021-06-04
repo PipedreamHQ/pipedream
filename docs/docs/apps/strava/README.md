@@ -41,7 +41,7 @@ If you're having an issue you can't solve with these docs, [get support here](ht
 
 ### Event Delay
 
-The Pipedream team has observed intermittent delays between the time an event occurs in Strava and the time it's received by Pipedream. This delay can last 15 minutes or more. If you trigger a new event in Strava and are not seeing the event emitted by your Pipedream source, wait for at least 30 minutes.
+The Pipedream team has observed intermittent delays between the time an event occurs in Strava and the time it's received by Pipedream. This delay can last 15 minutes or more. If you trigger a new event in Strava and are not seeing the event emitted by your Pipedream source, wait for at least 30 minutes. 
 
 ## Removing Pipedream's access to your Strava account
 

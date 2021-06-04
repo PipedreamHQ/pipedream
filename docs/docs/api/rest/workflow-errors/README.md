@@ -94,7 +94,7 @@ curl 'https://api.pipedream.com/v1/subscriptions?emitter_id=p_workflow1&listener
 
 **You will not see this second, error trigger appear in the Pipedream UI for workflow #2**. The Pipedream UI only lists the original, HTTP trigger, but you can [list your subscriptions](/api/rest/#get-current-user-s-subscriptions) using the REST API.
 
-4. Trigger an error from workflow #1. You can do this manually by adding a new Node.js code step and running:
+4. Trigger an error from workflow #1. You can do this manually by adding a new Node.js code step and running: 
 
 ```javascript
 throw new Error("test");

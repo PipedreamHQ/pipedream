@@ -9,7 +9,7 @@ This document is intended for a technical audience (including those interested i
 - Use Pipedream managed OAuth for an app
 - Use npm packages in components
 
-We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples.
+We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples. 
 
 [[toc]]
 

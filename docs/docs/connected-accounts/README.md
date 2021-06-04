@@ -8,7 +8,7 @@ For example, you can connect to Slack from Pipedream (via their OAuth integratio
 <img alt="Slack code step using access token" width="500" src="./images/slack-token.png">
 </div>
 
-Let's review how all of this works below.
+Let's review how all of this works below. 
 
 [[toc]]
 

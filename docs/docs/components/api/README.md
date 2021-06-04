@@ -345,7 +345,7 @@ props: {
 
 **Example**
 
-Following is a basic example that demonstrates how to capture user input via a prop and emit it on each event.
+Following is a basic example that demonstrates how to capture user input via a prop and emit it on each event. 
 
 ```javascript
 module.exports = {

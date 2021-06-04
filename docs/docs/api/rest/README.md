@@ -5,7 +5,7 @@
 ## Overview
 
 Use the REST API to create and manage sources, workflows and source events.
-Workflow development and management is not currently supported via the API.
+Workflow development and management is not currently supported via the API. 
 
 ## Base URL
 

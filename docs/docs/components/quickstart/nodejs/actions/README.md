@@ -11,7 +11,7 @@ This document is intended for developers who want to author and edit [Pipedream 
 - Use props to capture user input
 - Update an action
 - Use npm packages
-- Use Pipedream managed auth for a 3rd party app
+- Use Pipedream managed auth for a 3rd party app 
 
 
 ::: tip

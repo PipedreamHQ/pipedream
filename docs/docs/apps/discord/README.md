@@ -4,7 +4,7 @@
 <img style="display: inline-block;" src="./images/discord_plus_pipedream.png" alt="Discord" width="200px">
 </div>
 
-Pipedream supports two [Discord](https://discordapp.com) integrations:
+Pipedream supports two [Discord](https://discordapp.com) integrations: 
 
 - [Discord Webhook](#discord-webhook)
 - [Discord Bot](#discord-bot)

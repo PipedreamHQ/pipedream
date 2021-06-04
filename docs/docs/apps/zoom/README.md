@@ -8,7 +8,7 @@ Pipedream is fully programmable - you can write [any Node.js code](/workflows/st
 
 ## Overview
 
-**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Zoom API**. Just [create a new workflow](https://pipedream.com/new), then add pre-built Zoom [actions](/workflows/steps/actions/) (create a meeting, send a chat message, etc.) or [write your own Node code](/workflows/steps/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc).
+**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Zoom API**. Just [create a new workflow](https://pipedream.com/new), then add pre-built Zoom [actions](/workflows/steps/actions/) (create a meeting, send a chat message, etc.) or [write your own Node code](/workflows/steps/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc). 
 
 <img src="./images/workflow.png" width="500px" alt="How Pipedream works" style="margin-left: auto; margin-right: auto; display: block;"/>
 

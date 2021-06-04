@@ -9,7 +9,7 @@ This document is for developers who created legacy actions in [Pipedream's UI](h
 
 **Capture user input via `props` instead of `params`** 
 
-The component model does not support `params`. You need to migrate `params` references to [`props`](/components/api/#props). Unlike `params`, `props` must be explicitly declared and defined prior to using them in code (in the old model, an input form was automatically generated when `params` were used in code — `params` were not explicitly declared).
+The component model does not support `params`. You need to migrate `params` references to [`props`](/components/api/#props). Unlike `params`, `props` must be explicitly declared and defined prior to using them in code (in the old model, an input form was automatically generated when `params` were used in code — `params` were not explicitly declared). 
 
 **Declare app `props` to use managed auth**
 
