@@ -33,3 +33,5 @@ txt
 wordlist
 PySpelling
 yml
+README
+prebuilt
