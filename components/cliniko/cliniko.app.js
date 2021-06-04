@@ -33,7 +33,7 @@ module.exports = {
       // See https://github.com/redguava/cliniko-api#identifying-your-application.
       const headers = {
         "Accept": "application/json",
-        "User-Agent": "Pipedream (cliniko@pipedream.com)",
+        "User-Agent": "Pipedream (support@pipedream.com)",
       };
       return {
         url,
