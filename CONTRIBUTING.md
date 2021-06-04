@@ -35,8 +35,8 @@ See a gap or mistake in our [docs](https://github.com/PipedreamHQ/pipedream/tree
 
 [Contribute](COMPONENT-GUIDELINES.md) to Pipedream's registry of open source components by:
 
-- Creating new comonents (sources and actions)
-- Updating exisiting components (e.g., fixing bugs, enhancing functionality)
+- Creating new components (sources and actions)
+- Updating existing components (e.g., fixing bugs, enhancing functionality)
 - Adding or updating metadata (e.g., descriptions, labels)
 
 ## The Pull Request process
