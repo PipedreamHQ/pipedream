@@ -33,11 +33,26 @@ module.exports = {
     editLinkText: "Help us improve this page! Submit an edit on Github",
     sidebar: [
       "/",
-      ["https://pipedream.com/support", "Support and Community"],
-      "/sign-up/",
-      "/pricing/",
       {
-        title: "Getting Started",
+        title: "Quickstart",
+        collapsable: false,
+        children: [
+          "/quickstart/",
+          "/quickstart/hello-world/",
+          "/quickstart/hello-name/",
+          "/quickstart/make-http-request/",
+          "/quickstart/using-npm-packages/",
+          "/quickstart/add-data-to-google-sheets/",
+          "/quickstart/end-workflow-early/",
+          "/quickstart/use-managed-auth-in-code/",
+          "/quickstart/run-workflow-on-a-schedule/",
+          "/quickstart/email-yourself/",
+          "/quickstart/real-world-example/",
+          "/quickstart/next-steps/",
+        ],
+      },
+      /*{
+        title: "Workflows",
         collapsable: false,
         children: ["/workflows/", "/your-first-workflow/"],
       },
@@ -59,14 +74,19 @@ module.exports = {
         ],
       }, */
       {
-        title: "Event Sources",
-        collapsable: false,
-        children: ["/event-sources/", "/event-sources/logs/"],
-      },
-      {
-        title: "Workflow Steps",
+        title: "Connecting Apps",
         collapsable: false,
         children: [
+          "/apps/all-apps/",
+          "/connected-accounts/",
+          "/workflows/steps/code/auth/",
+        ],
+      },
+      {
+        title: "Workflows",
+        collapsable: false,
+        children: [
+          "/workflows/",
           "/workflows/steps/",
           "/workflows/steps/triggers/",
           "/workflows/steps/code/",
@@ -92,23 +112,6 @@ module.exports = {
         ],
       },
       {
-        title: "Connecting to Apps",
-        collapsable: false,
-        children: [
-          "/apps/all-apps/",
-          "/connected-accounts/",
-          "/workflows/steps/code/auth/",
-        ],
-      },
-      {
-        title: "Errors",
-        collapsable: false,
-        children: [
-          "/errors/",
-          "/workflows/error-handling/global-error-workflow/",
-        ],
-      },
-      {
         title: "Managing Workflows",
         collapsable: false,
         children: [
@@ -118,6 +121,19 @@ module.exports = {
           "/public-workflows/",
           "/environment-variables/",
         ],
+      },
+      {
+        title: "Managing Errors",
+        collapsable: false,
+        children: [
+          "/errors/",
+          "/workflows/error-handling/global-error-workflow/",
+        ],
+      },
+      {
+        title: "Event Sources",
+        collapsable: false,
+        children: ["/event-sources/", "/event-sources/logs/"],
       },
       {
         title: "Components",
@@ -184,6 +200,140 @@ module.exports = {
           "/apps/zoom/",
         ],
       },
+      /*{
+        title: "Workflows",
+        collapsable: false,
+        children: [
+          "/workflows/", 
+          "/your-first-workflow/",
+          "/workflows/steps/",
+          "/workflows/steps/triggers/",
+          "/workflows/steps/code/",
+          "/workflows/steps/code/state/",
+          "/workflows/steps/code/nodejs/http-requests/",
+          "/workflows/steps/code/nodejs/working-with-files/",
+          "/workflows/steps/actions/",
+          "/workflows/steps/params/",
+          "/workflows/steps/code/nodejs/sharing-code/",
+          "/workflows/steps/code/async/",
+          "/workflows/events/",
+          "/workflows/events/inspect/",
+          "/workflows/events/replay/",
+          "/workflows/events/test/",
+          "/workflows/events/concurrency-and-throttling/",
+          "/workflows/events/cold-starts/",
+          "/workflows/copy/",
+          "/workflows/managing/",
+          "/workflows/settings/",
+          "/public-workflows/",
+          "/environment-variables/",
+        ],
+      },
+      /* {
+        title: "Video Tutorials",
+        collapsable: false,
+        children: [
+          "/workflows/examples/send-http-request/",
+          "/workflows/examples/http-response/",
+          "/workflows/examples/trigger-workflow-on-saas-event/",
+          "/workflows/examples/cron-job/",
+          "/workflows/examples/send-yourself-email/",
+          "/workflows/examples/send-email-to-someone-else/",
+          "/workflows/examples/add-row-to-google-sheets/",
+          "/workflows/examples/add-multiple-rows-to-google-sheets/",
+          "/workflows/examples/send-slack-message/",
+          "/workflows/examples/send-discord-message/",
+          "/workflows/examples/add-record-to-airtable/",
+        ],
+      }, */
+      /*
+      {
+        title: "Event Sources",
+        collapsable: false,
+        children: ["/event-sources/", "/event-sources/logs/"],
+      },
+      {
+        title: "Connecting to Apps",
+        collapsable: false,
+        children: [
+          "/apps/all-apps/",
+          "/connected-accounts/",
+          "/workflows/steps/code/auth/",
+        ],
+      },
+      {
+        title: "Errors",
+        collapsable: false,
+        children: [
+          "/errors/",
+          "/workflows/error-handling/global-error-workflow/",
+        ],
+      },
+      {
+        title: "Components",
+        collapsable: false,
+        children: [
+          "/components/",
+          "/components/quickstart/nodejs/actions/",
+          "/components/quickstart/nodejs/sources/",
+          "/components/api/",
+          "/components/guidelines/",
+          "/components/migrating/",
+        ],
+      },
+      "/user-settings/",
+      {
+        title: "Examples",
+        collapsable: false,
+        children: [
+          "/examples/adding-rows-to-google-sheets/",
+          "/examples/waiting-to-execute-next-step-of-workflow/",
+        ],
+      },
+      {
+        title: "CLI",
+        collapsable: false,
+        children: ["/cli/install/", "/cli/login/", "/cli/reference/"],
+      },
+      {
+        title: "APIs",
+        collapsable: false,
+        children: [
+          "/api/overview/",
+          "/api/auth/",
+          "/api/rest/",
+          "/api/rest/webhooks/",
+          "/api/rest/rss/",
+          "/api/rest/workflow-errors/",
+          "/api/sse/",
+        ],
+      },
+      {
+        title: "Destinations",
+        collapsable: false,
+        children: [
+          "/destinations/",
+          "/destinations/http/",
+          "/destinations/s3/",
+          "/destinations/email/",
+          "/destinations/sql/",
+          "/destinations/emit/",
+          "/destinations/sse/",
+        ],
+      },
+      {
+        title: "Integrations",
+        collapsable: false,
+        children: [
+          "/apps/all-apps/",
+          "/apps/discord/",
+          "/apps/servicenow/",
+          "/apps/slack/",
+          "/apps/strava/",
+          "/apps/twitter/",
+          "/apps/zoom/",
+        ],
+      },*/
       "/limits/",
       "/new-feature-or-bug/",
       {
@@ -196,6 +346,9 @@ module.exports = {
           "/subprocessors/",
         ],
       },
+      ["https://pipedream.com/support", "Support and Community"],
+      "/sign-up/",
+      "/pricing/",
       "/status/",
     ],
     PIPEDREAM_BASE_URL: "https://pipedream.com",
