@@ -23,7 +23,7 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 
 ### Adding a Destination using Actions
 
-The simplest way to send data to a Destination is using one of our pre-built [Actions](/workflows/steps/actions/). Just add the relevant Action, enter the required values, and send data to your workflow!
+The simplest way to send data to a Destination is using one of our prebuilt [Actions](/workflows/steps/actions/). Just add the relevant Action, enter the required values, and send data to your workflow!
 
 For example, you can use the [Send HTTP Request Action](/destinations/http/) to send an HTTP request from a workflow. First, add a new Action to your workflow by clicking on the + button between any two steps.
 

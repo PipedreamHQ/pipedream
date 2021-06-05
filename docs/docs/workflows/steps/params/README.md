@@ -48,7 +48,7 @@ To paste a reference from a step export, find the reference you want to use, cli
 
 ### Basic Params
 
-Basic params support simple values or, expressions in <code v-pre>{{...}}</code>. You can enter expressions by copying the path from step observability, using the object explorer below the params input, or by manually entering a value within <code v-pre>{{...}}</code> (Pipedream provides autocomplete for the objects in scope, but you can also enter a value that is not supported by autocomplete).
+Basic params support simple values or, expressions in <code v-pre>{{...}}</code>. You can enter expressions by copying the path from step observability, using the object explorer below the params input, or by manually entering a value within <code v-pre>{{...}}</code> (Pipedream provides auto-complete for the objects in scope, but you can also enter a value that is not supported by auto-complete).
 
 | Type        | Structured                                                   |
 | ----------- | ------------------------------------------------------------ |
