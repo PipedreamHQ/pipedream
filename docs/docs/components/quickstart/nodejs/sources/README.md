@@ -609,7 +609,7 @@ module.exports = {
 };
 ```
 
-Save, load the Pipedrem UI, and click **RUN NOW**. You should see 30 issues emitted, now with summaries. When you click **RUN NOW** again, only new issues will be emitted (if there are any).
+Save, load the Pipedream UI, and click **RUN NOW**. You should see 30 issues emitted, now with summaries. When you click **RUN NOW** again, only new issues will be emitted (if there are any).
 
 ## Add a timer to run on a schedule
 
