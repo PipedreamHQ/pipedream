@@ -6,7 +6,7 @@ Pipedream implements a range of [privacy and security measures](/privacy-and-sec
 
 ## Keep your workflow private
 
-By default, all workflow code is private. But [you can make that code public](/public-workflows/) when developing tutorials or examples to share with others. Public workflows can be useful in this context. In all other cases, we recommend you keep your workflow private.
+By default, all workflow code is private. But [you can make that code public](/public-workflows/) when developing tutorials or examples to share with others. Public workflows can be useful in this context. In all other cases, we recommend you keep your workflow private. 
 
 If you only need to share your workflow with specific people, [you can share your workflow with specific collaborators](#share-your-workflow-only-with-trusted-collaborators).
 
@@ -43,7 +43,7 @@ This pattern is typical for protecting workflows: add the authentication logic i
 
 ## Validate signatures for incoming events, where available
 
-Many apps pass a **signature** with event data delivered via wehbooks (or other push delivery systems). The signature is an opaque value computed from the incoming event data and a secret that only you and the app know. When you receive the event, you can validate the signature by computing it yourself and comparing it to the signature sent by the app. If the two values match, it verifies that the app sent the data, and not some third party.
+Many apps pass a **signature** with event data delivered via webhooks (or other push delivery systems). The signature is an opaque value computed from the incoming event data and a secret that only you and the app know. When you receive the event, you can validate the signature by computing it yourself and comparing it to the signature sent by the app. If the two values match, it verifies that the app sent the data, and not some third party.
 
 Signatures are specific to the app sending the data, and the app should provide instructions for signature validation. **Not all apps compute signatures, but when they do, you should always verify them**.
 
@@ -53,7 +53,7 @@ See [Stripe's signature docs](https://stripe.com/docs/webhooks/signatures) for a
 
 ## Audit code or packages you use within a workflow
 
-Pipedream workflows are just code. Pipedream provides pre-built triggers and actions that facilitate common use cases, but these are written and run as code within your workflow. You can examine and modify this code in any way you'd like.
+Pipedream workflows are just code. Pipedream provides prebuilt triggers and actions that facilitate common use cases, but these are written and run as code within your workflow. You can examine and modify this code in any way you'd like.
 
 This also means that you can audit the code for any triggers or actions you use in your workflow. We encourage this as a best practice. Even code authored by Pipedream can be improved, and if you notice a vulnerability or other issue, you can submit a patch or raise an issue [in our GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 

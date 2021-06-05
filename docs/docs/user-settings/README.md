@@ -10,7 +10,7 @@ You'll find your Pipedream username, email, and other basic account details in y
 
 ### Changing your username
 
-You can change your Pipedream username by editing the **Username** field in your Account Settings.
+You can change your Pipedream username by editing the **Username** field in your Account Settings. 
 
 Existing workflow URLs that contain your old username will continue to resolve to the correct workflow. However, links to your public profile with your old username (for example, [https://pipedream.com/@old-username](https://pipedream.com/@old-username)) will no longer resolve.
 

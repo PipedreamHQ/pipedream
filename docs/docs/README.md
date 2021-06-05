@@ -7,7 +7,7 @@ next: false
 
 ## What is Pipedream?
 
-Pipedream is a production-scale serverless platform to connect APIs, remarkably fast. 
+Pipedream is a production-scale serverless platform to connect APIs, remarkably fast.
 
 1. Connect OAuth and key-based API accounts in seconds.
 2. Use connected accounts in Node.js code steps or no-code building blocks.
@@ -78,11 +78,11 @@ Sign up for a [free account (no credit card required)](https://pipedream.com/aut
 <a href="/quickstart/hello-world/"><img src="./quickstart/get-started.png"></a>
 </p>
 -->
-Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or committment. As your needs grow, it's easy to upgrade to paid plans to run without limits for individuals, teams (in alpha) and enterprises.
+Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or commitment. As your needs grow, it's easy to upgrade to paid plans to run without limits for individuals, teams (in alpha) and enterprises.
 
 ## Use Cases
 
-Pipedream supports use cases from protototype to production and is trusted by 150k+ developers from startups to Fortune 500 companies:
+Pipedream supports use cases from prototype to production and is trusted by 150k+ developers from startups to Fortune 500 companies:
 
 ![logos](https://res.cloudinary.com/pipedreamin/image/upload/v1612919944/homepage/logos_kcbviz.png)
 

@@ -60,6 +60,6 @@ lkjsdflkjsdflkjsdflk
 Files in repository contain spelling errors
 ```
 
-Some technical words aren't in an English dictionary. If the spellchecker fails on a real word, please add it on its own line in the `.wordlist.txt` file.
+Some technical words (like Pipedream or JavaScript) aren't in an English dictionary. If the spellchecker fails on a real word, please add it to the `.wordlist.txt` file.
 
 The spellchecker configuration can be found in `.spellcheck.yml`. The spellchecking is handled by [this GitHub action](https://github.com/rojopolis/spellcheck-github-actions), which uses [PySpelling](https://facelessuser.github.io/pyspelling/).

@@ -12,7 +12,7 @@ The Pipedream CLI currently allows you to work with [event sources](/event-sourc
 
 Run `pd` to see a list of all commands with basic usage info, or run `pd help <command>` to display help docs for a specific command.
 
-We've also documented each command below, with usage examples for each.
+We've also documented each command below, with usage examples for each. 
 
 ### General Notes
 

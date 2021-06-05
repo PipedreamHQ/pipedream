@@ -4,7 +4,7 @@
 
 For example, HTTP triggers expose a URL where you can send any HTTP requests. We'll run your workflow on each request. The Cron Scheduler trigger runs your workflow on a schedule.
 
-Today, we support the following triggers:
+Today, we support the following triggers: 
 
 - [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
 - [HTTP](#http)
@@ -20,7 +20,7 @@ In the future we plan to support triggers for SQL, AMQP, and more. If there's a 
 
 You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources).
 
-When you create a workflow, choose the opton to **Create Event Source** in the trigger step. Select your app, and you'll see a list of available sources. For Google Calendar, for example, you can run your workflow every time a new event is **added** to your calendar, each time an event **starts**, **ends**, and more:
+When you create a workflow, choose the option to **Create Event Source** in the trigger step. Select your app, and you'll see a list of available sources. For Google Calendar, for example, you can run your workflow every time a new event is **added** to your calendar, each time an event **starts**, **ends**, and more:
 
 <div>
 <img alt="Google Calendar sources" width="300px" src="./images/google-calendar-triggers.png">
@@ -287,7 +287,7 @@ If you need to issue an HTTP response in the middle of a workflow, see the secti
 
 #### Returning a response immediately
 
-You can issue an HTTP response within a worklow, and continue the rest of the workflow execution, by setting the `immediate` property to `true`:
+You can issue an HTTP response within a workflow, and continue the rest of the workflow execution, by setting the `immediate` property to `true`:
 
 ```javascript
 await $respond({
@@ -469,7 +469,7 @@ By default, you can send emails up to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LI
 
 **You can send emails up to `30MB` in size by sending emails to `[YOUR EMAIL ENDPOINT]@upload.pipedream.net`**. If your workflow-specific email address is `endpoint@pipedream.net`, your "large email address" is `endpoint@upload.pipedream.net`.
 
-Emails delivered to this address are uploaded to a private URL you have access to within your worklow, at the variable `steps.trigger.event.mail.content_url`. You can download and parse the email within your workflow using that URL. This content contains the _raw_ email. Unlike the standard email interface, you must parse this email on your own - see the examples below.
+Emails delivered to this address are uploaded to a private URL you have access to within your workflow, at the variable `steps.trigger.event.mail.content_url`. You can download and parse the email within your workflow using that URL. This content contains the _raw_ email. Unlike the standard email interface, you must parse this email on your own - see the examples below.
 
 #### Example: Download the email using the Send HTTP Request action
 

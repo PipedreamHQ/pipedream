@@ -1,6 +1,6 @@
 # What are events?
 
-Events trigger workflow executions. The event that triggers your workflow depends on the trigger you select for your workflow:
+Events trigger workflow executions. The event that triggers your workflow depends on the trigger you select for your workflow: 
 
 - [HTTP triggers](/workflows/steps/triggers/#http) invoke your workflow on HTTP requests.
 - [Cron triggers](/workflows/steps/triggers/#cron-scheduler) invoke your workflow on a time schedule (e.g., on an interval).
