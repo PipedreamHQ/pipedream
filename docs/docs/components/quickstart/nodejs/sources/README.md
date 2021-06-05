@@ -670,4 +670,4 @@ Save and reload your source in the Pipedream UI. You should now see a countdown 
 
 You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](../api/) at any time!
 
-If you have any questions or feedback, please join our [public Slack](https://pipedream.com/community).
+If you have any questions or feedback, please join our [public Slack](https://pipedream.com/support).

@@ -127,7 +127,7 @@ But HTTP sources provide more advanced functionality. You can:
 
 Below, you'll find instructions for deploying HTTP sources to solve specific use cases.
 
-If you've built a component you think others would find valuable, please submit a pull request to this repo. If you have questions about the [component API](/COMPONENT-API.md) or any part of the Pipedream platform, you can raise an issue in this repo or [chat us on Slack](https://pipedream.com/community).
+If you've built a component you think others would find valuable, please submit a pull request to this repo. If you have questions about the [component API](/COMPONENT-API.md) or any part of the Pipedream platform, you can raise an issue in this repo or [join our community](https://pipedream.com/community).
 
 ### Emit only the HTTP payload instead of the whole event
 
