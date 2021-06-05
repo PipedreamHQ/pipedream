@@ -7,7 +7,7 @@ next: false
 
 ## What is Pipedream?
 
-Pipedream is a production-scale serverless platform to connect APIs, remarkably fast. 
+Pipedream is a production-scale serverless platform to connect APIs, remarkably fast.
 
 1. Connect OAuth and key-based API accounts in seconds.
 2. Use connected accounts in Node.js code steps or no-code building blocks.

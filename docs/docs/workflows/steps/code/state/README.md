@@ -1,6 +1,6 @@
 # Workflow state
 
-Sometimes you need to save state in one invocation of a workflow and read it the next time your workflow runs. For example, you might need to keep track of the last ID of the item you processed, or the last timestamp you ran a job, so you can pull new data the next time.
+Sometimes you need to save state in one invocation of a workflow and read it the next time your workflow runs. For example, you might need to keep track of the last ID of the item you processed, or the last timestamp you ran a job, so you can pull new data the next time. 
 
 On Pipedream, you can save and read state in two ways:
 

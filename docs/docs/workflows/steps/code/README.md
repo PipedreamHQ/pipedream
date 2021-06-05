@@ -1,6 +1,6 @@
 # Code
 
-Often, you'll want to modify events in a highly custom way. You may need to look up additional metadata about the event, parse raw data into more meaningful fields, or end the execution of a workflow early under some conditions. Code steps let you do this and more.
+Often, you'll want to modify events in a highly custom way. You may need to look up additional metadata about the event, parse raw data into more meaningful fields, or end the execution of a workflow early under some conditions. Code steps let you do this and more. 
 
 Code steps currently let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/dist/latest-v10.x/docs/api/errors.html#errors_errors) (JavaScript) code, using JavaScript's extensive [npm](https://www.npmjs.com/) package ecosystem within your code. Virtually anything you can do in Node.js, you can do in a code step.
 

@@ -1,6 +1,6 @@
 # Example: Add Rows to Google Sheets
 
-Here, you'll find examples of how to add your data to Google Sheets. Each example has a workflow you can copy, with sample Node.js code.
+Here, you'll find examples of how to add your data to Google Sheets. Each example has a workflow you can copy, with sample Node.js code. 
 
 [[toc]]
 

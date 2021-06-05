@@ -2,7 +2,7 @@
 
 The global error workflow allows you to run code in response to errors from any workflow. We believe code gives you full control over how you handle errors, and where you send them.
 
-When you sign up for Pipedream, this workflow is automatically created for you. You can access it from your workflow dashboard, by clicking on the **Error Workflow** label:
+When you sign up for Pipedream, this workflow is automatically created for you. You can access it from your workflow dashboard, by clicking on the **Error Workflow** label: 
 
 <div>
 <img width="150" alt="global error workflow" src="./images/global-error-workflow.png">

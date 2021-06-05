@@ -1,6 +1,6 @@
 # Emit events
 
-Like [event sources](/event-sources/), workflows can emit events. These events can trigger other workflows, or be consumed using Pipedream's [REST API](/api/rest/#get-workflow-emits).
+Like [event sources](/event-sources/), workflows can emit events. These events can trigger other workflows, or be consumed using Pipedream's [REST API](/api/rest/#get-workflow-emits). 
 
 [[toc]]
 

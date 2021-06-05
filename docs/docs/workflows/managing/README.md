@@ -4,7 +4,7 @@
 
 ## Editing Title and Description
 
-When you create a workflow, you can edit the **Title** and **Description** near the top. We also present some helpful information — the workflow's author, the current version, and visibility state of the code and data, and when the workflow was last updated:
+When you create a workflow, you can edit the **Title** and **Description** near the top. We also present some helpful information — the workflow's author, the current version, and visibility state of the code and data, and when the workflow was last updated: 
 
 <div>
 <img alt="Pipeline title and description" src="./images/pipeline.png">

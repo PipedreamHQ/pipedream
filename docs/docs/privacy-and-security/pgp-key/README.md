@@ -5,7 +5,7 @@ prev: false
 
 # PGP Key
 
-If you'd like to encrypt sensitive information in communications to Pipedream, use this PGP key.
+If you'd like to encrypt sensitive information in communications to Pipedream, use this PGP key. 
 
 - Key ID: `3C85BC49602873EB`
 - Fingerprint: `E0AD ABAC 0597 5F51 8BF5 3ECC 3C85 BC49 6028 73EB`

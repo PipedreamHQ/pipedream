@@ -6,7 +6,7 @@ Pipedream implements a range of [privacy and security measures](/privacy-and-sec
 
 ## Keep your workflow private
 
-By default, all workflow code is private. But [you can make that code public](/public-workflows/) when developing tutorials or examples to share with others. Public workflows can be useful in this context. In all other cases, we recommend you keep your workflow private.
+By default, all workflow code is private. But [you can make that code public](/public-workflows/) when developing tutorials or examples to share with others. Public workflows can be useful in this context. In all other cases, we recommend you keep your workflow private. 
 
 If you only need to share your workflow with specific people, [you can share your workflow with specific collaborators](#share-your-workflow-only-with-trusted-collaborators).
 

@@ -4,7 +4,7 @@
 
 For example, HTTP triggers expose a URL where you can send any HTTP requests. We'll run your workflow on each request. The Cron Scheduler trigger runs your workflow on a schedule.
 
-Today, we support the following triggers:
+Today, we support the following triggers: 
 
 - [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
 - [HTTP](#http)

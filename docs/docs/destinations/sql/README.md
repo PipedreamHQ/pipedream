@@ -2,7 +2,7 @@
 
 Pipedream operates a hosted data warehouse as a [Destination](/destinations/) you can send events to from a workflow. You can run SQL on any JSON you send here. We call this the **SQL Service**.
 
-Using the SQL Service is simple:
+Using the SQL Service is simple: 
 
 1. [Send data to the SQL Service from a workflow](#adding-a-sql-destination)
 2. [Run SQL on that data](https://pipedream.com/sql)

@@ -8,7 +8,7 @@ If you're not familiar with asynchronous programming concepts like [callback fun
 
 **Any asynchronous code within a Node.js code step must complete before the next step runs**. This ensures future steps have access to its data. If Pipedream detects that code is still running by the time the step completes, you'll see the following warning below the code step:
 
-> **This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.**
+> **This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.** 
 
 As the warning notes, this often arises from one of two issues:
 
