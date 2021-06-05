@@ -166,7 +166,7 @@ return steps.sample_data.$return_value.data.map((character) => [
 ]);
 ```
 
-3. In the **Add Multiple Rows to Sheet** step, you can reference the data from the `steps.format_data` step by turning structed mode `off` and selecting the data in the object explorer:
+3. In the **Add Multiple Rows to Sheet** step, you can reference the data from the `steps.format_data` step by turning structured mode `off` and selecting the data in the object explorer:
 
 <div>
 <img alt="Reference array from previous step" src="./images/reference-array-from-previous-step.gif">

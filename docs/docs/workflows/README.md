@@ -12,7 +12,7 @@ Workflows make it easy to integrate your apps, data, and APIs — all with no s
 
 - Trigger your workflow on any event (e.g., [HTTP requests](/workflows/steps/triggers/#http) or a [schedule](/workflows/steps/triggers/#cron-scheduler)).
 
-- Add steps to run Node.js [code](/workflows/steps/code/) (using virtually any [`npm`](/workflows/steps/code/#using-npm-packages) package) and [pre-built actions](/workflows/steps/actions/).
+- Add steps to run Node.js [code](/workflows/steps/code/) (using virtually any [`npm`](/workflows/steps/code/#using-npm-packages) package) and [prebuilt actions](/workflows/steps/actions/).
 
 - Steps are executed in the order they appear in your workflow.
 

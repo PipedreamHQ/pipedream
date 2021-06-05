@@ -32,7 +32,7 @@ When you click into a params input, an object explorer expands below the input. 
 
 ### Manually enter or edit an expression
 
-To manually enter or edit an expression, just enter or edit a value between double curly braces <code v-pre>{{...}}</code>. Pipedream provides autocomplete support as soon as you type <code v-pre>{{</code>.
+To manually enter or edit an expression, just enter or edit a value between double curly braces <code v-pre>{{...}}</code>. Pipedream provides auto-complete support as soon as you type <code v-pre>{{</code>.
 
 ![img](./images/params-autocomplete-7031289.gif)
 

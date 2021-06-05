@@ -108,7 +108,7 @@ Otherwise, if you haven't linked an app to the action, it'll show up under the *
 
 Actions are versioned: each time you publish a change, it increments the minor version number (actions have semantic versions of the form `[major].[minor]`).
 
-For example, publishing an action for the first time cuts a `0.1` version of that action. All users will have access to verison `0.1` of your action.
+For example, publishing an action for the first time cuts a `0.1` version of that action. All users will have access to version `0.1` of your action.
 
 If you want to make a change, you can edit and save your action, and those changes will be available only to your account. Once you're ready to ship the new version, click **Publish** again. Now,
 

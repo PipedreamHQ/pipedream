@@ -53,7 +53,7 @@ You can delete your OAuth grants or key-based credentials at any time by visitin
 
 The **execution environment** refers to the environment in which your sources, workflows, and other Pipedream code is executed.
 
-Each version of a source or workflow is deployed to its own virtual machine. This means your execution environment has its own RAM and disk, isolated from other users's environments. You can read more about the details of the virtualization and isolation mechanisms used to secure your execution environment [here](https://firecracker-microvm.github.io/).
+Each version of a source or workflow is deployed to its own virtual machine. This means your execution environment has its own RAM and disk, isolated from other users' environments. You can read more about the details of the virtualization and isolation mechanisms used to secure your execution environment [here](https://firecracker-microvm.github.io/).
 
 ## Encryption of data in transit, TLS (SSL) Certificates
 

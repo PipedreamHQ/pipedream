@@ -43,7 +43,7 @@ Code steps support syntax highlighting and automatic indentation.
 
 ## Passing parameters to code steps
 
-You can make code steps reusable by allowing them to accept parameters. Instead of harcoding the values of variables within the code itself, you can pass them to the code step as arguments or parameters, instead.
+You can make code steps reusable by allowing them to accept parameters. Instead of hard-coding the values of variables within the code itself, you can pass them to the code step as arguments or parameters, instead.
 
 [Read more about using step parameters here](/workflows/steps/#passing-data-to-steps-step-parameters).
 

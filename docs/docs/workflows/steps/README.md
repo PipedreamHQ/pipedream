@@ -2,7 +2,7 @@
 
 Steps are the building blocks you use to create workflows. You can easily combine multiple steps into a workflow to integrate your apps, data and APIs: 
 
-- Steps include triggers, code and pre-built actions.
+- Steps include triggers, code and prebuilt actions.
 
 - Steps are executed linearly, in the order they appear in your workflow.
 

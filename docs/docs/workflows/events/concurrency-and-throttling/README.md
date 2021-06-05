@@ -47,9 +47,9 @@ Concurrency and throttling can be managed in the **Execution Controls** section 
 
 ![image-20201027120141750](./images/image-20201027120141750.png)
 
-### Managing Event Concurency
+### Managing Event Concurrency
 
-Concurrency controls define how many events can be executed in parallel. To enforce serialized, in-order execution, limit concurency to `1` worker. This guarantees that each event will only be processed once the execution for the previous event is complete.
+Concurrency controls define how many events can be executed in parallel. To enforce serialized, in-order execution, limit concurrency to `1` worker. This guarantees that each event will only be processed once the execution for the previous event is complete.
 
 To execute events in parallel, increase the number of workers (the number of workers defines the maximum number of concurrent events that may be processed), or disable concurrency controls for unlimited parallelization.
 
@@ -75,7 +75,7 @@ The conditions for both concurrency and throttling must be met in order for a ne
 
 ### Pausing Workflow Execution
 
-To stop the queue from invoking your worklow, throttle workflow execution and set the limit to `0`.
+To stop the queue from invoking your workflow, throttle workflow execution and set the limit to `0`.
 
 ### Increasing the queue size for a workflow
 
