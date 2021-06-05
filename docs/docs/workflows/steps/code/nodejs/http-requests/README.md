@@ -284,13 +284,13 @@ const config = {
 const resp = await axios.request(config);
 ```
 
-**If you don't have access to an HTTP proxy, [reach out to our team](/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
+**If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/make-an-http-request-through-a-proxy-p_ezC6RD/edit).
 
 ## IP addresses for HTTP requests made from Pipedream workflows
 
-By default, HTTP requests made from Pipedream can come from a large range of IP addresses. **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
+By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/workflows/networking/). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
 
 - [Use an HTTP proxy to proxy requests](#use-an-http-proxy-to-proxy-requests-through-another-host)
 - If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
