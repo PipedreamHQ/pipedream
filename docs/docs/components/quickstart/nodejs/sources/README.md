@@ -76,7 +76,7 @@ module.exports = {
 
 To deploy and run it, save the code to a local `.js` file (e.g., `source.js`) and run the following CLI command:
 
-```
+```bash
 pd dev source.js
 ```
 
@@ -84,8 +84,8 @@ The CLI will deploy your code in development mode (the CLI will attach to the de
 
 You should see the following output:
 
-```
-~/code/pipedream/source demo:$ pd dev source.js
+```bash
+$ pd dev source.js
 watch:add     | source.js
 Configuring props...
 Deploying...
@@ -286,7 +286,7 @@ Return to the Pipedream UI and refresh the page. Instead of the countdown timer,
 ```
 curl -d '{ "message": "hello world!" }' \
   -H "Content-Type: application/json" \
-  "INSERT-YOUR-ENDPONT-URL-HERE"
+  "INSERT-YOUR-ENDPOINT-URL-HERE"
 ```
 
 ![source](./images/quickstart/hello-world-4.gif)
@@ -551,7 +551,7 @@ module.exports = {
 };
 ```
 
-Next save your changes and go to the terminal where you ran `pd dev` **— follow the CLI prompts to select a connected account for Github (or connect a new one)**. Then load the Pipedrem UI, and click **RUN NOW**. Your component should emit 30 issues.
+Next save your changes and go to the terminal where you ran `pd dev` **— follow the CLI prompts to select a connected account for Github (or connect a new one)**. Then load the Pipedream UI, and click **RUN NOW**. Your component should emit 30 issues.
 
 ## Dedupe the events
 
@@ -613,7 +613,7 @@ Save, load the Pipedrem UI, and click **RUN NOW**. You should see 30 issues emit
 
 ## Add a timer to run on a schedule
 
-As the final step of this walkthrough, we'll update our component to check for new issues every 15 minutes. To do that, we'll add a timer prop.
+As the final step of this walk-through, we'll update our component to check for new issues every 15 minutes. To do that, we'll add a timer prop.
 
 ```javascript
 timer: {

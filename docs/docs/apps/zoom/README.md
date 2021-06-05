@@ -56,7 +56,7 @@ This will open up a new window prompting you to authorize Pipedream's access to 
 
 Event sources can trigger workflows, running custom code each time an event occurs in Zoom. For example, to run a workflow each time a meeting ends, you can create a **Meeting Ended** source. This source emits an event as soon as a meeting ends in your account, which can trigger a workflow that pulls participant stats, emails those participants a survey, or anything else you'd like.
 
-There are two categoies of Zoom event sources:
+There are two categories of Zoom event sources:
 
 - [Event-specific sources](#event-specific-sources) listen for a _specific_ Zoom event (**Meeting Created**, **Recording Completed**, etc). Event-specific sources exist only for the most common Zoom events, but you can [request another source here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=new-source.md&title=%5BTRIGGER%5D).
 - The [Custom Events source](#zoom-custom-events-source) allows you to listen for _any_ event from Zoom, and even lets you listen for _multiple_ events at the same time. For example, if you want to run a workflow on both **Meeting Started** and **Webinar Started** events, you can create a custom source that listens for them both, and use that event source as your workflow's trigger.
@@ -65,8 +65,8 @@ There are two categoies of Zoom event sources:
 
 1. Visit [https://pipedream.com/sources](https://pipedream.com/sources).
 2. Click the **Create Source** button.
-3. In the **Select an App** dropdown, select either **Zoom** or **Zoom Admin** ([see the difference above](#zoom-vs-zoom-admin-app)).
-4. In the **Select a Source** dropdown, you can either choose from the list of sources tied to a [specific event](#event-specific-sources) (**Meeting Created**, **Recording Completed**, etc.), or create an event source that listens for _any_ Zoom event by selecting the [**Zoom Custom Events** or **Zoom Admin Custom Events** source](#zoom-custom-events-source).
+3. In the **Select an App** drop-down, select either **Zoom** or **Zoom Admin** ([see the difference above](#zoom-vs-zoom-admin-app)).
+4. In the **Select a Source** drop-down, you can either choose from the list of sources tied to a [specific event](#event-specific-sources) (**Meeting Created**, **Recording Completed**, etc.), or create an event source that listens for _any_ Zoom event by selecting the [**Zoom Custom Events** or **Zoom Admin Custom Events** source](#zoom-custom-events-source).
 
 <img src="./images/zoom-sources-list.png" alt="List of Zoom event sources" />
 

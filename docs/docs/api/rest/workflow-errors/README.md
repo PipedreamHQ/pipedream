@@ -52,10 +52,7 @@ By including the `expand=event` query string param, Pipedream will return the fu
           "code": "InternalFailure",
           "cellId": "c_abc123",
           "ts": "2020-11-26T06:06:56.077Z",
-          "stack": "    at Request.extractError (/opt/ee/node_modules/aws-sdk/lib/protocol/query.js:50:29)\n    at Request.callListeners (/opt/ee/node_modules/aws-sdk/lib/sequential_executor.js:106:20)\n    at Request.emit (/opt/ee
-/node_modules/aws-sdk/lib/sequential_executor.js:78:10)\n    at Request.emit (/opt/ee/node_modules/aws-sdk/lib/request.js:688:14)\n    at Request.transition (/opt/ee/node_modules/aws-sdk/lib/request.js:22:10)\n    at AcceptorStateM
-achine.runTo (/opt/ee/node_modules/aws-sdk/lib/state_machine.js:14:12)\n    at global.null (/opt/ee/node_modules/aws-sdk/lib/state_machine.js:26:10)\n    at Request.null (/opt/ee/node_modules/aws-sdk/lib/request.js:38:9)\n    at Re
-quest.null (/opt/ee/node_modules/aws-sdk/lib/request.js:690:12)\n    at Request.callListeners (/opt/ee/node_modules/aws-sdk/lib/sequential_executor.js:116:18)\n"
+          "stack": "    at Request.extractError ..."
         }
       },
       "metadata": {

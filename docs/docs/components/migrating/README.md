@@ -33,7 +33,7 @@ Actions are no longer developed in Pipedream's UI. Develop actions locally using
 When you publish a new version of an action, you can update actions used in workflows with a click (updating legacy actions in workflows requires action steps to be deleted, re-added and re-configured).
 
 **Support for async options**
-Async options allow action authors to render a paginated drop down menu allowing users to select from values that are programatically generated. The most common use case is to populate the drop down based on results of an API request (e.g., to list Google Sheets in a user's drive).
+Async options allow action authors to render a paginated drop down menu allowing users to select from values that are programmatically-generated. The most common use case is to populate the drop down based on results of an API request (e.g., to list Google Sheets in a user's drive).
 
 **Simplified discovery**
 Actions you publish are now grouped under **My Actions** when adding a step to a workflow. NOTE: this option will appear in the workflow builder *after* you publish your first action.
@@ -129,7 +129,7 @@ module.exports = {
 
 ### Advanced: Using Async Options
 
-Next, let's take the example one step further. Instead of asking users to enter the owner and repo name, let's use `async options` so users can select the repo from a drow-down menu. To do that, we'll:
+Next, let's take the example one step further. Instead of asking users to enter the owner and repo name, let's use `async options` so users can select the repo from a drop-down menu. To do that, we'll:
 
 1. Remove the `owner` and `repo` props
 2. Add a `repoFullName` prop that makes a request to `https://api.github.com/user/repos` to retrieve a list of (paginated) repos

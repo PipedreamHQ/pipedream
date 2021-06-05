@@ -31,7 +31,7 @@ You can [connect the Twitter app to any code step](/connected-accounts/#from-a-c
 
 ### Limitations on `@` mentions
 
-Twitter's [Automation Rules](https://help.twitter.com/en/rules-and-policies/twitter-automation) forbids replies or mentions in certain circumstances. For example, you cannot `@` mention users in an unsolicted way. Because of these limitations, **Pipedream prevents the use of `@` mentions when posting tweets**.
+Twitter's [Automation Rules](https://help.twitter.com/en/rules-and-policies/twitter-automation) forbids replies or mentions in certain circumstances. For example, you cannot `@` mention users in an unsolicited way. Because of these limitations, **Pipedream prevents the use of `@` mentions when posting tweets**.
 
 If you attempt to post tweets with `@` mentions using the **Post Tweet** action, the action will remove the `@` and post the remaining text of the tweet.
 

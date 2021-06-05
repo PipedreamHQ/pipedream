@@ -74,7 +74,7 @@ module.exports = {
 
 To get started, save the code to a local `.js` file (e.g., `action.js`) and run the following CLI command:
 
-```
+```bash
 pd publish action.js
 ```
 
@@ -82,13 +82,13 @@ The CLI will publish the component as an action in your account with the key `ac
 
 The CLI output should look similar to this:
 
-```
+```bash
 sc_v4iaWB  Action Demo                             0.0.1    just now             action_demo
 ```
 
 To test the action:
 
-1. Open Pipedream in your browser 
+1. Open Pipedream in your browser
 
 2. Create a new workflow with a **Schedule** trigger
 
@@ -174,13 +174,13 @@ module.exports = {
 
 Save the file and run the `pd publish` command again to update the action in your account.
 
-```
+```bash
 pd publish action.js
 ```
 
 The CLI will update the component in your account with the key `action_demo`. You should see something like this:
 
-```
+```bash
 sc_Egip04  Action Demo                             0.0.2    just now             action_demo
 ```
 
@@ -292,13 +292,13 @@ module.exports = {
 
 Save the file and run the `pd publish` command again to update the action in your account.
 
-```
+```bash
 pd publish action.js
 ```
 
 The CLI will update the component in your account with the key `action_demo`. You should see something like this:
 
-```
+```bash
 sc_ZriKEn  Action Demo                             0.0.3    1 second ago         action_demo
 ```
 

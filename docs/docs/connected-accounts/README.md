@@ -22,7 +22,7 @@ If we don't support a service you need, please [open a request on Github](/new-f
 
 ### From an action
 
-Pre-built actions that connect to a specific service will require you connect your account for that service below the action:
+Prebuilt actions that connect to a specific service will require you connect your account for that service below the action:
 
 <div>
 <img alt="Connect Slack account" width="350" src="./images/slack-connect-account.png">
