@@ -82,7 +82,8 @@ module.exports = {
     },
     async _makeRequest(method, url, data = null, params = null) {
       if (params) {
-        const queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
+        const queryString = Object.keys(params).map((key) => key + "=" + params[key])
+          .join("&");
         url = `${url}?${queryString}`;
       }
       const config = {

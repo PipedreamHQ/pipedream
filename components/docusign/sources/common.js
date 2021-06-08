@@ -19,10 +19,10 @@ module.exports = {
   },
   methods: {
   	_getBaseUri() {
-  		return this.db.get('baseUri');
+  		return this.db.get("baseUri");
   	},
   	_setBaseUri(baseUri) {
-  		this.db.set('baseUri', baseUri);
+  		this.db.set("baseUri", baseUri);
   	},
     monthAgo() {
       const monthAgo = new Date();

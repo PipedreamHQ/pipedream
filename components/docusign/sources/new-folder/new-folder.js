@@ -1,7 +1,7 @@
 const common = require("../common.js");
 
 module.exports = {
-	...common,
+  ...common,
   key: "docusign-new-folder",
   name: "New Folder",
   description: "Emits an event when a new folder is created",
@@ -10,22 +10,24 @@ module.exports = {
   methods: {
   	...common.methods,
   	_getFolderIds() {
-  		return this.db.get('folderIds');
+  		return this.db.get("folderIds");
   	},
   	_setFolderIds(folderIds) {
-  		this.db.set('folderIds', folderIds);
+  		this.db.set("folderIds", folderIds);
   	},
   	processFolder(folderIds, folder, ts) {
-			if (this.isRelevant(folderIds, folder.folderId)) {
-				this.emitEvent(folder, ts);
-				folderIds.push(folder.folderId);
-			}
-			return folderIds;
+      if (this.isRelevant(folderIds, folder.folderId)) {
+        this.emitEvent(folder, ts);
+        folderIds.push(folder.folderId);
+      }
+      return folderIds;
   	},
   	isRelevant(folderIds, id) {
   		return !folderIds.includes(id);
   	},
-  	generateMeta({ folderId: id, name: summary }, ts) {
+  	generateMeta({
+      folderId: id, name: summary,
+    }, ts) {
   		return {
   			id,
   			summary,
@@ -44,19 +46,24 @@ module.exports = {
   		include_items: true,
   	};
   	do {
-  		const { folders = [], nextUri, endPosition } = await this.docusign.listFolders(baseUri, params);
+  		const {
+        folders = [],
+        nextUri,
+        endPosition,
+      } = await this.docusign.listFolders(baseUri,
+        params);
   		if (nextUri) params.start_position += endPosition + 1;
   		else done = true;
 
   		for (const folder of folders) {
-				if (folder.hasSubFolders == 'true') {
-					for (const subfolder of folder.folders) {
-						folderIds = this.processFolder(folderIds, subfolder, ts);
-					}
-				}
+        if (folder.hasSubFolders == "true") {
+          for (const subfolder of folder.folders) {
+            folderIds = this.processFolder(folderIds, subfolder, ts);
+          }
+        }
   			folderIds = this.processFolder(folderIds, folder, ts);
   		}
-  	} while (!done)
+  	} while (!done);
   	this._setFolderIds(folderIds);
-  }
+  },
 };
