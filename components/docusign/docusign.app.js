@@ -81,12 +81,15 @@ module.exports = {
       };
     },
     async _makeRequest(method, url, data = null, params = null) {
+      if (params) {
+        const queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
+        url = `${url}?${queryString}`;
+      }
       const config = {
         method,
         url,
         headers: this._getHeaders(),
         data,
-        params,
       };
       return (await axios(config)).data;
     },
@@ -119,6 +122,22 @@ module.exports = {
         "POST",
         `${baseUri}envelopes`,
         data,
+      );
+    },
+    async listFolders(baseUri, params) {
+      return await this._makeRequest(
+        "GET",
+        `${baseUri}folders`,
+        null,
+        params,
+      );
+    },
+    async listEnvelopes(baseUri, params) {
+      return await this._makeRequest (
+        "GET",
+        `${baseUri}envelopes`,
+        null,
+        params,
       );
     },
   },
