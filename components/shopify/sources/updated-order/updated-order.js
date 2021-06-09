@@ -30,7 +30,7 @@ module.exports = {
       "any",
       true,
       null,
-      lastUpdatedAt
+      lastUpdatedAt,
     );
 
     for (const order of results) {

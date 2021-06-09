@@ -62,7 +62,7 @@ module.exports = {
     _getAllowedTransactToOrderUpdateMs() {
       return Math.max(
         MIN_ALLOWED_TRANSACT_TO_ORDER_UPDATE_MS,
-        2 * DEFAULT_TIMER_INTERVAL_SECONDS * 1000
+        2 * DEFAULT_TIMER_INTERVAL_SECONDS * 1000,
       );
     },
     /**
@@ -176,7 +176,10 @@ module.exports = {
     const orderStream = this.shopify.queryOrders(queryOrderOpts);
     const relevantOrderIds = [];
     for await (const orderInfo of orderStream) {
-      const { order, cursor } = orderInfo;
+      const {
+        order,
+        cursor,
+      } = orderInfo;
 
       if (this.isRelevant(order)) {
         relevantOrderIds.push(order.legacyResourceId);

@@ -31,7 +31,7 @@ module.exports = {
       true,
       null,
       lastUpdatedAt,
-      "cancelled"
+      "cancelled",
     );
 
     for (const order of results) {
