@@ -118,7 +118,7 @@ You can also deploy components using the [Pipedream UI](https://pipedream.com/so
 
 ### Run local Node code
 
-Create a local file, `job.js`, that contains the following Node codde:
+Create a local file, `job.js`, that contains the following Node code:
 
 ```javascript
 console.log("Hello, world");
