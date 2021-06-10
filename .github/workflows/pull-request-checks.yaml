@@ -30,10 +30,9 @@ jobs:
           fi
         done
 
-        # Setting the list of files to include at least one entry, since
-        # otherwise the spellcheck action might not work properly if no markdown
-        # files are part of the changed files.
-        echo "files=${files:-README.md}" >> $GITHUB_ENV
+        # Exiting early if no markdown files are part of the PR
+        [ -z "$files" ] && exit 0
+        echo "files=${files}" >> $GITHUB_ENV
     - uses: rojopolis/spellcheck-github-actions@0.14.0
       name: Spellcheck
       with:
