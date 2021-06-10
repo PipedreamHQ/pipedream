@@ -2,8 +2,8 @@
 
 Pipedream facilitates access to the Twitter API and Twitter events in two ways:
 
-- Within [Pipedream workflows](/workflows), you can use [pre-built actions](/workflows/steps/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom Node.js code](/workflows/steps/code/) that interacts with the Twitter API.
-- You can also _trigger_ Pipedream workflows on new tweets, new followers, and other Twitter events. This allows you to run custom code in response to these events.
+- Within [Pipedream workflows](/workflows), you can use [prebuilt actions](/workflows/steps/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom Node.js code](/workflows/steps/code/) that interacts with the Twitter API.
+- You can also _trigger_ Pipedream workflows on new tweets, new followers, and other Twitter events. This allows you to run custom code in response to these events. 
 
 [[toc]]
 
@@ -11,7 +11,7 @@ Pipedream facilitates access to the Twitter API and Twitter events in two ways:
 
 ### Pipedream's built-in Twitter app and actions
 
-Pipedream provides a **Twitter** OAuth app for interacting with the Twitter API. To use this app, [add a new step](/workflows/steps/) to your workflow, search for "Twitter", and select the Twitter app from the list. This will display a list of [pre-built actions](/workflows/steps/actions/) (for example, **Post Tweet**, **Search Twitter**) associated with Twitter:
+Pipedream provides a **Twitter** OAuth app for interacting with the Twitter API. To use this app, [add a new step](/workflows/steps/) to your workflow, search for "Twitter", and select the Twitter app from the list. This will display a list of [prebuilt actions](/workflows/steps/actions/) (for example, **Post Tweet**, **Search Twitter**) associated with Twitter:
 
 <div>
 <img alt="Twitter app / actions" width="600" src="./images/twitter-app-actions.png">
@@ -31,7 +31,7 @@ You can [connect the Twitter app to any code step](/connected-accounts/#from-a-c
 
 ### Limitations on `@` mentions
 
-Twitter's [Automation Rules](https://help.twitter.com/en/rules-and-policies/twitter-automation) forbids replies or mentions in certain circumstances. For example, you cannot `@` mention users in an unsolicted way. Because of these limitations, **Pipedream prevents the use of `@` mentions when posting tweets**.
+Twitter's [Automation Rules](https://help.twitter.com/en/rules-and-policies/twitter-automation) forbids replies or mentions in certain circumstances. For example, you cannot `@` mention users in an unsolicited way. Because of these limitations, **Pipedream prevents the use of `@` mentions when posting tweets**.
 
 If you attempt to post tweets with `@` mentions using the **Post Tweet** action, the action will remove the `@` and post the remaining text of the tweet.
 

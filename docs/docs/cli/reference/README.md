@@ -2,12 +2,6 @@
 
 The Pipedream CLI currently allows you to work with [event sources](/event-sources/) and their associated events. If you'd like to see support for managing [workflows](/workflows/), please +1 [this issue on Github](https://github.com/PipedreamHQ/pipedream/issues/220).
 
-::: warning PREVIEW RELEASE
-This is an early version of the CLI, and we'd love your feedback on what we can improve. Please reach out on [Slack](https://pipedream.com/community) or raise an issue on our [Github repo](https://github.com/PipedreamHQ/pipedream) with any questions or suggestions.
-
-Since this is a preview release, the commands you see below, and the [REST API](/api/rest/), are subject to change based on feedback.
-:::
-
 [[toc]]
 
 ## Installing the CLI
@@ -18,7 +12,7 @@ Since this is a preview release, the commands you see below, and the [REST API](
 
 Run `pd` to see a list of all commands with basic usage info, or run `pd help <command>` to display help docs for a specific command.
 
-We've also documented each command below, with usage examples for each.
+We've also documented each command below, with usage examples for each. 
 
 ### General Notes
 

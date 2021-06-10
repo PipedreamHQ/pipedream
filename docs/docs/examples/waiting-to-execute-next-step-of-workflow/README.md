@@ -2,7 +2,7 @@
 
 At a certain point in a workflow, you may want to delay a step from running for some period of time. For example, if you've built a workflow to process new user sign ups on your site, you may want to wait one day to send the user an email asking them for feedback.
 
-Pipdream doesn't yet provide a built-in step to pause / delay a specific workflow step, but [we're tracking that here](https://github.com/PipedreamHQ/pipedream/issues/187). **This guide shows you a workaround for implementing this delay behavior**.
+Pipedream doesn't yet provide a built-in step to pause / delay a specific workflow step, but [we're tracking that here](https://github.com/PipedreamHQ/pipedream/issues/187). **This guide shows you a workaround for implementing this delay behavior**. 
 
 [[toc]]
 

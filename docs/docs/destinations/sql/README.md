@@ -2,7 +2,7 @@
 
 Pipedream operates a hosted data warehouse as a [Destination](/destinations/) you can send events to from a workflow. You can run SQL on any JSON you send here. We call this the **SQL Service**.
 
-Using the SQL Service is simple:
+Using the SQL Service is simple: 
 
 1. [Send data to the SQL Service from a workflow](#adding-a-sql-destination)
 2. [Run SQL on that data](https://pipedream.com/sql)
@@ -244,7 +244,7 @@ Results for most queries will be downloaded as CSVs. The results of some queries
 
 Different databases and query engines support a large variety of SQL statements and functions. A function that works in one database may not be supported on another. The SQL supported on one platform vs. another is referred to as a [**SQL dialect**](https://www.oreilly.com/library/view/sql-in-a/9780596155322/ch01s03.html).
 
-You can run any SQL supported by [Presto v0.172](https://prestodb.github.io/docs/0.172/functions.html) on our SQL service, except for [a subset of queries we prevent](#sql-queries-we-prevent). This should include all the standard SQL you're used to — `SELECT` statments, aggregation functions, joins, and more — in addition to some Presto-specific functions you may have to learn for more advanced use cases.
+You can run any SQL supported by [Presto v0.172](https://prestodb.github.io/docs/0.172/functions.html) on our SQL service, except for [a subset of queries we prevent](#sql-queries-we-prevent). This should include all the standard SQL you're used to — `SELECT` statements, aggregation functions, joins, and more — in addition to some Presto-specific functions you may have to learn for more advanced use cases.
 
 ### SQL queries we prevent
 
@@ -297,7 +297,7 @@ curl -H 'Authorization: Bearer PIPEDREAM_API_KEY' \
 
 The SQL API returns a JSON string that contains metadata on column names, and an array of arrays containing your results and their data types.
 
-The [same limits](#query-limits) governining SQL queries made in the UI apply to queries made using the API.
+The [same limits](#query-limits) governing SQL queries made in the UI apply to queries made using the API.
 
 ## Running SQL queries from a workflow
 
@@ -314,11 +314,11 @@ In a workflow, there are two actions you can use to run SQL queries, both found 
 
 [This workflow](https://pipedream.com/@dylburger/send-results-of-pipedream-sql-query-to-google-sheets-p_YyCD6r/edit) shows an example of how to send the results of a query to Google Sheets, for example.
 
-The [same limits](#query-limits) governining SQL queries made in the UI apply to workflows. Additionally, to support longer queries, you may need to extend the [default execution timeout](/workflows/settings/#execution-timeout-limit) in your workflow's settings.
+The [same limits](#query-limits) governing SQL queries made in the UI apply to workflows. Additionally, to support longer queries, you may need to extend the [default execution timeout](/workflows/settings/#execution-timeout-limit) in your workflow's settings.
 
 ## Triggering workflows on scheduled SQL queries
 
-Just like you can trigger workflows on [HTTP requests](/workflows/steps/triggers/#http) or [cron jobs](/workflows/steps/triggers/#cron-scheduler), you can trigger a workflow from the results of a scheduled SQL query using the [Scheduled SQL Source](https://github.com/PipedreamHQ/pipedream/blob/master/components/pipedream/sql/README.md).
+Just like you can trigger workflows on [HTTP requests](/workflows/steps/triggers/#http) or [cron jobs](/workflows/steps/triggers/#schedule), you can trigger a workflow from the results of a scheduled SQL query using the [Scheduled SQL Source](https://github.com/PipedreamHQ/pipedream/blob/master/components/pipedream/sql/README.md).
 
 For example, you can schedule a query to run once a day, emitting the results to one or more workflows to send the results to Slack, S3, and more.
 

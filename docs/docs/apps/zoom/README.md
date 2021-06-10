@@ -1,6 +1,6 @@
 # Zoom
 
-Pipedream provides a serverless programming platform for building event-driven [workflows](/workflows/) that integrate apps. Pipedream comes with [pre-built actions](/workflows/steps/actions/) for interacting with the Zoom API, and allows you to listen for Zoom events in your account and trigger code when they happen.
+Pipedream provides a serverless programming platform for building event-driven [workflows](/workflows/) that integrate apps. Pipedream comes with [prebuilt actions](/workflows/steps/actions/) for interacting with the Zoom API, and allows you to listen for Zoom events in your account and trigger code when they happen.
 
 Pipedream is fully programmable - you can write [any Node.js code](/workflows/steps/code/) to control your workflows - but also fully-managed: Pipedream runs your code, so you don't have to manage any infrastructure and can focus on your workflow's logic.
 
@@ -8,7 +8,7 @@ Pipedream is fully programmable - you can write [any Node.js code](/workflows/st
 
 ## Overview
 
-**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Zoom API**. Just [create a new workflow](https://pipedream.com/new), then add pre-built Zoom [actions](/workflows/steps/actions/) (create a meeting, send a chat message, etc.) or [write your own Node code](/workflows/steps/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc).
+**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Zoom API**. Just [create a new workflow](https://pipedream.com/new), then add prebuilt Zoom [actions](/workflows/steps/actions/) (create a meeting, send a chat message, etc.) or [write your own Node code](/workflows/steps/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc). 
 
 <img src="./images/workflow.png" width="500px" alt="How Pipedream works" style="margin-left: auto; margin-right: auto; display: block;"/>
 
@@ -45,7 +45,7 @@ The [Zoom API docs on permissions](https://marketplace.zoom.us/docs/guides/autho
 
 This will open up a new window prompting you to authorize Pipedream's access to your Zoom account. Once you authorize access, you should see your Zoom account listed among your apps.
 
-5. [Create a new workflow](https://pipedream.com/new), [add a new step](/workflows/steps/), search for "Zoom" or "Zoom Admin". Once you've selected either app, you can choose to either "Run Node.js code" or select one of the pre-built actions for performing common API operations.
+5. [Create a new workflow](https://pipedream.com/new), [add a new step](/workflows/steps/), search for "Zoom" or "Zoom Admin". Once you've selected either app, you can choose to either "Run Node.js code" or select one of the prebuilt actions for performing common API operations.
 6. At this stage, you'll be asked to link the Zoom account you connected above, authorizing the request to the Zoom API with your credentials:
 
 <img src="./images/connect-zoom-account.png" alt="Connect Zoom Account" width="500px;" />
@@ -56,7 +56,7 @@ This will open up a new window prompting you to authorize Pipedream's access to 
 
 Event sources can trigger workflows, running custom code each time an event occurs in Zoom. For example, to run a workflow each time a meeting ends, you can create a **Meeting Ended** source. This source emits an event as soon as a meeting ends in your account, which can trigger a workflow that pulls participant stats, emails those participants a survey, or anything else you'd like.
 
-There are two categoies of Zoom event sources:
+There are two categories of Zoom event sources:
 
 - [Event-specific sources](#event-specific-sources) listen for a _specific_ Zoom event (**Meeting Created**, **Recording Completed**, etc). Event-specific sources exist only for the most common Zoom events, but you can [request another source here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=new-source.md&title=%5BTRIGGER%5D).
 - The [Custom Events source](#zoom-custom-events-source) allows you to listen for _any_ event from Zoom, and even lets you listen for _multiple_ events at the same time. For example, if you want to run a workflow on both **Meeting Started** and **Webinar Started** events, you can create a custom source that listens for them both, and use that event source as your workflow's trigger.
@@ -65,8 +65,8 @@ There are two categoies of Zoom event sources:
 
 1. Visit [https://pipedream.com/sources](https://pipedream.com/sources).
 2. Click the **Create Source** button.
-3. In the **Select an App** dropdown, select either **Zoom** or **Zoom Admin** ([see the difference above](#zoom-vs-zoom-admin-app)).
-4. In the **Select a Source** dropdown, you can either choose from the list of sources tied to a [specific event](#event-specific-sources) (**Meeting Created**, **Recording Completed**, etc.), or create an event source that listens for _any_ Zoom event by selecting the [**Zoom Custom Events** or **Zoom Admin Custom Events** source](#zoom-custom-events-source).
+3. In the **Select an App** drop-down, select either **Zoom** or **Zoom Admin** ([see the difference above](#zoom-vs-zoom-admin-app)).
+4. In the **Select a Source** drop-down, you can either choose from the list of sources tied to a [specific event](#event-specific-sources) (**Meeting Created**, **Recording Completed**, etc.), or create an event source that listens for _any_ Zoom event by selecting the [**Zoom Custom Events** or **Zoom Admin Custom Events** source](#zoom-custom-events-source).
 
 <img src="./images/zoom-sources-list.png" alt="List of Zoom event sources" />
 
@@ -91,9 +91,9 @@ If you can't find the source you're looking for, you can use the [Zoom Custom Ev
 
 The **Zoom Custom Events** or **Zoom Admin Custom Events** source allows you to listen for _any_ event from Zoom, and even lets you listen for _multiple_ events at the same time.
 
-For example, if you want to run a workflow on both **Meeting Started** and **Webinar Started** events, you can create a custom source that listens for them both, and use that event source as your workflow's trigger. Just create the **Zoom Custom Events** source and select `meeting.started` and `webinar.started` from the list of events in the **Zoom Events** dropdown:
+For example, if you want to run a workflow on both **Meeting Started** and **Webinar Started** events, you can create a custom source that listens for them both, and use that event source as your workflow's trigger. Just create the **Zoom Custom Events** source and select `meeting.started` and `webinar.started` from the list of events in the **Zoom Events** drop-:down:
 
-<img src="./images/zoom-events-dropdown.png" alt="Zoom Events dropdown" />
+<img src="./images/zoom-events-dropdown.png" alt="Zoom Events drop-down" />
 
 #### List of Custom Events
 

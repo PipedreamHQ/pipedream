@@ -4,10 +4,10 @@ Pipedream allows you to connect to the [Intercom REST API](https://developers.in
 
 ## Connecting to Intercom from Pipedream
 
-1. First, sign up for Pipedream at [https://pipedream.com](https://pipedream.com).
+1. First, sign up for Pipedream at [https://pipedream.com](https://pipedream.com). 
 2. [Create a new workflow](https://pipedream.com/new).
 3. Select a [trigger](/workflows/steps/triggers/) for your workflow (for example, HTTP or Cron).
-4. [Add a new step](/workflows/steps/) and search for "Intercom". This will display [actions](/workflows/steps/actions/) associated with the Intercom app. You can choose to either "Run Node.js code with Intercom" or select one of the pre-built actions for performing common API operations.
+4. [Add a new step](/workflows/steps/) and search for "Intercom". This will display [actions](/workflows/steps/actions/) associated with the Intercom app. You can choose to either "Run Node.js code with Intercom" or select one of the prebuilt actions for performing common API operations.
 5. Once you've added a step, press the **Connect Account** button near the top. If this is your first time authorizing Pipedream's access to your Intercom account, you'll be prompted to accept that access, and Pipedream will store the authorization grant to enable the workflow to access the Intercom API. If you've already linked an Intercom account via Pipedream, pressing **Connect Account** will list any existing accounts you've linked.
 
 ## Removing Pipedream's access to your Intercom account
