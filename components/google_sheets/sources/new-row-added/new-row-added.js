@@ -6,13 +6,13 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.14",
+  version: "0.0.15",
   dedupe: "unique",
   props: {
     ...common.props,
     sheetID: {
       propDefinition: [
-        common.props.google_sheets,
+        common.props.googleSheets,
         "sheetID",
         (c) => ({
           driveId: c.watchedDrive === "myDrive" ?
@@ -23,7 +23,7 @@ module.exports = {
     },
     worksheetIDs: {
       propDefinition: [
-        common.props.google_sheets,
+        common.props.googleSheets,
         "worksheetIDs",
         (c) => ({
           sheetId: c.sheetID,
@@ -76,7 +76,7 @@ module.exports = {
           ? await this.getAllWorksheetIds(sheetId)
           : this.getWorksheetIds();
       const worksheetIds = new Set(relevantWorksheets);
-      const worksheetLengths = await this.google_sheets.getWorksheetLength(
+      const worksheetLengths = await this.googleSheets.getWorksheetLength(
         sheetId,
       );
       return worksheetLengths
@@ -108,7 +108,7 @@ module.exports = {
         this.getWorksheetIds().length === 0
           ? await this.getAllWorksheetIds(sheetId)
           : this.getWorksheetIds();
-      const worksheetRowCounts = await this.google_sheets.getWorksheetRowCounts(
+      const worksheetRowCounts = await this.googleSheets.getWorksheetRowCounts(
         sheetId,
         worksheetIds,
       );
@@ -142,7 +142,7 @@ module.exports = {
         const lowerBound = oldRowCount + 1;
         const upperBound = worksheetLength;
         const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
-        const newRowValues = await this.google_sheets.getSpreadsheetValues(
+        const newRowValues = await this.googleSheets.getSpreadsheetValues(
           sheetId,
           range,
         );

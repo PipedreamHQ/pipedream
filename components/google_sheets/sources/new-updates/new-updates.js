@@ -7,13 +7,13 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.14",
+  version: "0.0.15",
   dedupe: "unique",
   props: {
     ...common.props,
     sheetID: {
       propDefinition: [
-        common.props.google_sheets,
+        common.props.googleSheets,
         "sheetID",
         (c) => ({
           driveId: c.watchedDrive === "myDrive" ?
@@ -24,7 +24,7 @@ module.exports = {
     },
     worksheetIDs: {
       propDefinition: [
-        common.props.google_sheets,
+        common.props.googleSheets,
         "worksheetIDs",
         (c) => ({
           sheetId: c.sheetID,
@@ -139,7 +139,7 @@ module.exports = {
         this._getSheetValues(
           `${spreadsheet.spreadsheetId}${worksheet.properties.sheetId}`,
         ) || null;
-      const currentValues = await this.google_sheets.getSpreadsheetValues(
+      const currentValues = await this.googleSheets.getSpreadsheetValues(
         sheetId,
         worksheet.properties.title,
       );
@@ -155,7 +155,7 @@ module.exports = {
         this.getWorksheetIds().length === 0
           ? await this.getAllWorksheetIds(sheetId)
           : this.getWorksheetIds();
-      const sheetValues = await this.google_sheets.getSheetValues(
+      const sheetValues = await this.googleSheets.getSheetValues(
         sheetId,
         worksheetIds,
       );
