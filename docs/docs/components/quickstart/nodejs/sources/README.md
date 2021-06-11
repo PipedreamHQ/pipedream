@@ -9,7 +9,7 @@ This document is intended for a technical audience (including those interested i
 - Use Pipedream managed OAuth for an app
 - Use npm packages in components
 
-We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples.
+We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples. 
 
 [[toc]]
 
@@ -76,7 +76,7 @@ module.exports = {
 
 To deploy and run it, save the code to a local `.js` file (e.g., `source.js`) and run the following CLI command:
 
-```
+```bash
 pd dev source.js
 ```
 
@@ -84,8 +84,8 @@ The CLI will deploy your code in development mode (the CLI will attach to the de
 
 You should see the following output:
 
-```
-~/code/pipedream/source demo:$ pd dev source.js
+```bash
+$ pd dev source.js
 watch:add     | source.js
 Configuring props...
 Deploying...
@@ -286,7 +286,7 @@ Return to the Pipedream UI and refresh the page. Instead of the countdown timer,
 ```
 curl -d '{ "message": "hello world!" }' \
   -H "Content-Type: application/json" \
-  "INSERT-YOUR-ENDPONT-URL-HERE"
+  "INSERT-YOUR-ENDPOINT-URL-HERE"
 ```
 
 ![source](./images/quickstart/hello-world-4.gif)
@@ -551,7 +551,7 @@ module.exports = {
 };
 ```
 
-Next save your changes and go to the terminal where you ran `pd dev` **— follow the CLI prompts to select a connected account for Github (or connect a new one)**. Then load the Pipedrem UI, and click **RUN NOW**. Your component should emit 30 issues.
+Next save your changes and go to the terminal where you ran `pd dev` **— follow the CLI prompts to select a connected account for Github (or connect a new one)**. Then load the Pipedream UI, and click **RUN NOW**. Your component should emit 30 issues.
 
 ## Dedupe the events
 
@@ -609,11 +609,11 @@ module.exports = {
 };
 ```
 
-Save, load the Pipedrem UI, and click **RUN NOW**. You should see 30 issues emitted, now with summaries. When you click **RUN NOW** again, only new issues will be emitted (if there are any).
+Save, load the Pipedream UI, and click **RUN NOW**. You should see 30 issues emitted, now with summaries. When you click **RUN NOW** again, only new issues will be emitted (if there are any).
 
 ## Add a timer to run on a schedule
 
-As the final step of this walkthrough, we'll update our component to check for new issues every 15 minutes. To do that, we'll add a timer prop.
+As the final step of this walk-through, we'll update our component to check for new issues every 15 minutes. To do that, we'll add a timer prop.
 
 ```javascript
 timer: {
@@ -670,4 +670,4 @@ Save and reload your source in the Pipedream UI. You should now see a countdown 
 
 You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](../api/) at any time!
 
-If you have any questions or feedback, please join our [public Slack](https://pipedream.com/community).
+If you have any questions or feedback, please join our [public Slack](https://pipedream.com/support).

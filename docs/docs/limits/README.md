@@ -5,7 +5,7 @@ next: false
 
 # Limits
 
-Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You'll receive an [error](/errors/) if you encounter these limits.
+Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You'll receive an [error](/errors/) if you encounter these limits. 
 
 Some of these limits apply only on the free tier. For example, Pipedream limits the daily number of invocations and execution time you can use on the free tier. **On paid tiers, you can run an unlimited number of invocations, for any amount of execution time**.
 

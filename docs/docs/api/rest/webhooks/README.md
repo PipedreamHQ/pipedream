@@ -2,7 +2,7 @@
 
 Pipedream supports webhooks as a way to deliver events to a endpoint you own. Webhooks are managed at an account-level, and you send data to these webhooks using [subscriptions](#subscriptions).
 
-For example, you can run a Twitter [event source](/event-sources) that listens for new tweets. If you [subscribe](#subscriptions) the webhook to this source, Pipedream will deliver those tweets directly to your webhook's URL without running a workflow.
+For example, you can run a Twitter [event source](/event-sources) that listens for new tweets. If you [subscribe](#subscriptions) the webhook to this source, Pipedream will deliver those tweets directly to your webhook's URL without running a workflow. 
 
 [[toc]]
 
@@ -56,7 +56,7 @@ Successful API responses contain a webhook ID in `data.id` — the string that s
 
 ### Step 3 - Create a subscription
 
-[Subscriptions](/api/rest/#subscriptions) allow you to deliver events from one Pipedream resource to another. In the langauge of subscriptions, the webhook will **listen** for events **emitted** by the event source.
+[Subscriptions](/api/rest/#subscriptions) allow you to deliver events from one Pipedream resource to another. In the language of subscriptions, the webhook will **listen** for events **emitted** by the event source.
 
 You can make a request to the [`POST /subscriptions` endpoint](/api/rest/#listen-for-events-from-another-source-or-workflow) to create this subscription. This endpoint requires two params:
 

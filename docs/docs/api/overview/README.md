@@ -1,6 +1,6 @@
 # API Overview
 
-Pipedream currently offers [REST](/api/rest/) and [Server-sent Events (SSE)](/api/sse/) APIs.
+Pipedream currently offers [REST](/api/rest/) and [Server-sent Events (SSE)](/api/sse/) APIs. 
 
 - Use the [REST API](/api/rest/) to create and manage sources, workflows, and
   events
