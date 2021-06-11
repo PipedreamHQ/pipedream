@@ -1,5 +1,5 @@
-const airtable = require("../../airtable.app.js");
 const chunk = require("lodash.chunk");
+const airtable = require("../../airtable.app.js");
 const common = require("../common.js");
 
 const BATCH_SIZE = 10; // The Airtable API allows us to update up to 10 rows per request.
@@ -43,12 +43,15 @@ module.exports = {
       typecast: this.typecast,
     };
 
-    try {
-      const requests = chunk(data, BATCH_SIZE)
-        .map((data) => table.create(data, params));
-      return await Promise.all(requests);
-    } catch (err) {
-      this.airtable.throwFormattedError(err);
+    const responses = [];
+    for (const c of chunk(data, BATCH_SIZE)) {
+      try {
+        responses.push(...(await table.create(c, params)));
+      } catch (err) {
+        this.airtable.throwFormattedError(err);
+      }
     }
+
+    return responses;
   },
 };
