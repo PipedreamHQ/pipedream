@@ -12,13 +12,26 @@ module.exports = {
           prevHasMore: hasMore = false,
           prevContinuation: continuation,
         } = prevContext;
-        const params = hasMore ? { continuation } : null;
-        const { organizations, pagination } = await this.listMyOrganizations(
-          params
+        const params = hasMore
+          ? {
+            continuation,
+          }
+          : null;
+        const {
+          organizations,
+          pagination,
+        } = await this.listMyOrganizations(
+          params,
         );
         const options = organizations.map((org) => {
-          const { name, id } = org;
-          return { label: name, value: id };
+          const {
+            name,
+            id,
+          } = org;
+          return {
+            label: name,
+            value: id,
+          };
         });
         const {
           has_more_items: prevHasMore,
@@ -53,7 +66,7 @@ module.exports = {
       endpoint,
       params = null,
       data = null,
-      url = `${this._getBaseUrl()}${endpoint}`
+      url = `${this._getBaseUrl()}${endpoint}`,
     ) {
       const config = {
         method,
@@ -69,7 +82,7 @@ module.exports = {
         "POST",
         `organizations/${orgId}/webhooks/`,
         null,
-        data
+        data,
       );
     },
     async deleteHook(hookId) {
@@ -78,11 +91,16 @@ module.exports = {
     async listMyOrganizations(params) {
       return await this._makeRequest("GET", "users/me/organizations", params);
     },
-    async listEvents({ orgId, params }) {
+    async listEvents(
+      {
+        orgId,
+        params,
+      },
+    ) {
       return await this._makeRequest(
         "GET",
         `organizations/${orgId}/events/`,
-        params
+        params,
       );
     },
     async getResource(url) {
@@ -98,7 +116,7 @@ module.exports = {
       return await this._makeRequest(
         "GET",
         `events/${eventId}/attendees/`,
-        params
+        params,
       );
     },
     async createEvent(orgId, data) {
@@ -106,7 +124,7 @@ module.exports = {
         "POST",
         `organizations/${orgId}/events/`,
         null,
-        data
+        data,
       );
     },
   },

@@ -8,17 +8,22 @@ module.exports = {
   type: "action",
   props: {
     eventbrite,
-    eventId: { propDefinition: [eventbrite, "eventId"] },
+    eventId: {
+      propDefinition: [
+        eventbrite,
+        "eventId",
+      ],
+    },
   },
   methods: {
     async *attendeeStream(params = {}) {
       let hasMoreItems;
       do {
         const {
-          ["attendees"]: items,
+          attendees,
           pagination = {},
         } = await this.eventbrite.getEventAttendees(this.eventId, params);
-        for (const attendee of items) {
+        for (const attendee of attendees) {
           yield attendee;
         }
 

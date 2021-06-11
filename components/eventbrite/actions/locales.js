@@ -1,30 +1,114 @@
 module.exports = [
-  "de_AT",
-  "de_CH",
-  "de_DE",
-  "en_AU",
-  "en_CA",
-  "en_DK",
-  "en_FI",
-  "en_GB",
-  "en_KH",
-  "en_IE",
-  "en_IN",
-  "en_NZ",
-  "en_SE",
-  "en_US",
-  "es_AR",
-  "es_CL",
-  "es_CO",
-  "es_ES",
-  "fr_BE",
-  "fr_CA",
-  "fr_CH",
-  "fr_FR",
-  "hi_IN",
-  "it_IT",
-  "nl_BE",
-  "nl_NL",
-  "pt_BR",
-  "pt_PT",
+  {
+    label: "German (Austria)",
+    value: "de_AT",
+  },
+  {
+    label: "German (Switzerland)",
+    value: "de_CH",
+  },
+  {
+    label: "German (Germany)",
+    value: "de_DE",
+  },
+  {
+    label: "English (Australia)",
+    value: "en_AU",
+  },
+  {
+    label: "English (Canada)",
+    value: "en_CA",
+  },
+  {
+    label: "English (Denmark)",
+    value: "en_DK",
+  },
+  {
+    label: "English (Finland)",
+    value: "en_FI",
+  },
+  {
+    label: "English (United Kingdom)",
+    value: "en_GB",
+  },
+  {
+    label: "English (Hong Kong)",
+    value: "en_KH",
+  },
+  {
+    label: "English (Ireland)",
+    value: "en_IE",
+  },
+  {
+    label: "English (India)",
+    value: "en_IN",
+  },
+  {
+    label: "English (New Zealand)",
+    value: "en_NZ",
+  },
+  {
+    label: "English (Sweden)",
+    value: "en_SE",
+  },
+  {
+    label: "English (U.S.A.)",
+    value: "en_US",
+  },
+  {
+    label: "Spanish (Argentina)",
+    value: "es_AR",
+  },
+  {
+    label: "Spanish (Chile)",
+    value: "es_CL",
+  },
+  {
+    label: "Spanish (Colombia)",
+    value: "es_CO",
+  },
+  {
+    label: "Spanish (Spain)",
+    value: "es_ES",
+  },
+  {
+    label: "French (Belgium)",
+    value: "fr_BE",
+  },
+  {
+    label: "French (Canada)",
+    value: "fr_CA",
+  },
+  {
+    label: "German (Switzerland)",
+    value: "fr_CH",
+  },
+  {
+    label: "French (France)",
+    value: "fr_FR",
+  },
+  {
+    label: "Hindi (India)",
+    value: "hi_IN",
+  },
+  {
+    label: "Italian (Italy)",
+    value: "it_IT",
+  },
+  {
+    label: "Dutch (Belgium)",
+    value: "nl_BE",
+  },
+  {
+    label: "Dutch (Netherlands)",
+    value: "nl_NL",
+  },
+  {
+    label: "Portuguese (Brazil)",
+    value: "pt_BR",
+  },
+  {
+    label: "Portuguese (Portugal)",
+    value: "pt_PT",
+  },
 ];

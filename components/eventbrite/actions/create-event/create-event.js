@@ -9,7 +9,12 @@ module.exports = {
   type: "action",
   props: {
     eventbrite,
-    organization: { propDefinition: [eventbrite, "organization"] },
+    organization: {
+      propDefinition: [
+        eventbrite,
+        "organization",
+      ],
+    },
     name: {
       type: "string",
       label: "Name",
@@ -26,13 +31,13 @@ module.exports = {
       type: "string",
       label: "Timezone",
       description: "The timezone",
-      default: "America/Los_Angeles",
+      default: "UTC",
     },
     startTime: {
       type: "string",
       label: "Start Time",
       description:
-        "The event start time relative to UTC. (Ex. 2018-05-12T02:00:00Z)",
+        "The event start time relative to UTC. (Ex. 2018-05-12T02:00:00Z).",
     },
     endTime: {
       type: "string",
@@ -43,13 +48,13 @@ module.exports = {
     hideStartDate: {
       type: "boolean",
       label: "Hide Start Date",
-      description: "Whether the start date should be hidden",
+      description: "Whether the start date should be hidden. Defaults to false if left blank.",
       optional: true,
     },
     hideEndDate: {
       type: "boolean",
       label: "Hide End Date",
-      description: "Whether the end date should be hidden",
+      description: "Whether the end date should be hidden. Defaults to false if left blank.",
       optional: true,
     },
     currency: {
@@ -61,7 +66,7 @@ module.exports = {
     onlineEvent: {
       type: "boolean",
       label: "Online Event",
-      description: "If this event doesn't have a venue and is only held online",
+      description: "If this event doesn't have a venue and is only held online. Defaults to false if left blank.",
       optional: true,
     },
     organizerId: {
@@ -103,26 +108,26 @@ module.exports = {
     listed: {
       type: "boolean",
       label: "Listed",
-      description: "Is this event publicly searchable on Eventbrite?",
+      description: "Is this event publicly searchable on Eventbrite? Defaults to true.",
       default: true,
     },
     shareable: {
       type: "boolean",
       label: "Shareable",
-      description: "Can this event show social sharing buttons?",
+      description: "Can this event show social sharing buttons? Defaults to false if left blank.",
       optional: true,
     },
     inviteOnly: {
       type: "boolean",
       label: "Invite Only",
-      description: "Can only people with invites see the event page?",
+      description: "Can only people with invites see the event page?. Defaults to false if left blank.",
       optional: true,
     },
     showRemaining: {
       type: "boolean",
       label: "Show Remaining",
       description:
-        "If the remaining number of tickets is publicly visible on the event page",
+        "If the remaining number of tickets is publicly visible on the event page. Defaults to false if left blank.",
       optional: true,
     },
     password: {
@@ -140,35 +145,35 @@ module.exports = {
     isReservedSeating: {
       type: "boolean",
       label: "Is Reserved Seating",
-      description: "If the event is reserved seating",
+      description: "If the event is reserved seating. Defaults to false if left blank.",
       optional: true,
     },
     isSeries: {
       type: "boolean",
       label: "Is Series",
       description:
-        "If the event is part of a series. Specifying this attribute as True during event creation will always designate the event as a series parent, never as a series occurrence. Series occurrences must be created through the schedules API and cannot be created using the events API.",
+        "If the event is part of a series. Specifying this attribute as True during event creation will always designate the event as a series parent, never as a series occurrence. Series occurrences must be created through the schedules API and cannot be created using the events API. Defaults to false if left blank.",
       optional: true,
     },
     showPickASeat: {
       type: "boolean",
       label: "Show Pick A Seat",
       description:
-        "For reserved seating event, if attendees can pick their seats.",
+        "For reserved seating event, if attendees can pick their seats. Defaults to false if left blank.",
       optional: true,
     },
     showSeatmapThumbnail: {
       type: "boolean",
       label: "Show Seatmap Thumbnail",
       description:
-        "For reserved seating event, if venue map thumbnail visible on the event page.",
+        "For reserved seating event, if venue map thumbnail visible on the event page. Defaults to false if left blank.",
       optional: true,
     },
     showColorsInSeatmapThumbnail: {
       type: "boolean",
       label: "Show Colors In Seatmap Thumbnail",
       description:
-        "For reserved seating event, if venue map thumbnail should have colors on the event page.",
+        "For reserved seating event, if venue map thumbnail should have colors on the event page. Defaults to false if left blank.",
       optional: true,
     },
     source: {
@@ -180,7 +185,7 @@ module.exports = {
     locale: {
       type: "string",
       label: "Locale",
-      description: "Indicates event language on Event's listing page",
+      description: "Indicates event language on Event's listing page. Language options from Eventbrite documentation: https://www.eventbrite.com/platform/api#/reference/event/retrieve/create-an-event",
       options: locales,
       default: "en_US",
     },
@@ -209,10 +214,10 @@ module.exports = {
         venue_id: this.venueId,
         format_id: this.formatId,
         category_id: this.categoryId,
-        subcategory_id: this.subcategory_id,
+        subcategory_id: this.subcategoryId,
         listed: this.listed,
         shareable: this.shareable,
-        invite_only: this.invite_only,
+        invite_only: this.inviteOnly,
         show_remaining: this.showRemaining,
         password: this.password,
         capacity: this.capacity,
