@@ -8,7 +8,7 @@ module.exports = {
   name: "New Records",
   description: "Emit an event for each new record in a table",
   key: "airtable-new-records",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     ...common.props,
     tableId: {

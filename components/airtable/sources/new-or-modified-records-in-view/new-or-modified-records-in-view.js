@@ -8,7 +8,7 @@ module.exports = {
   name: "New or Modified Records in View",
   description: "Emit an event for each new or modified record in a view",
   key: "airtable-new-or-modified-records-in-view",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     ...common.props,
     tableId: {
