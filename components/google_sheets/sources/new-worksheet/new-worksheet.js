@@ -6,13 +6,13 @@ module.exports = {
   name: "New Worksheet (Instant)",
   description:
     "Emits an event each time a new worksheet is created in a spreadsheet.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
     sheetID: {
       propDefinition: [
-        common.props.google_sheets,
+        common.props.googleSheets,
         "sheetID",
         (c) => ({
           driveId: c.watchedDrive === "myDrive" ?
@@ -55,7 +55,7 @@ module.exports = {
       this.db.set("worksheetIds", worksheetIds);
     },
     async processSpreadsheet({ spreadsheetId }) {
-      const { sheets: worksheets } = await this.google_sheets.getSpreadsheet(
+      const { sheets: worksheets } = await this.googleSheets.getSpreadsheet(
         spreadsheetId,
       );
       let worksheetIds = this._getWorksheetIds() || [];

@@ -6,7 +6,7 @@ module.exports = {
   name: "New Spreadsheet (Instant)",
   description:
     "Emits an event each time a new spreadsheet is created in a drive.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...newFilesInstant.props,
   },
