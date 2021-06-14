@@ -1,4 +1,6 @@
 const axios = require("axios");
+/* timezone-list: https://www.npmjs.com/package/timezones-list */
+const timezones = require("timezones-list");
 
 module.exports = {
   type: "app",
@@ -51,6 +53,24 @@ module.exports = {
       label: "Event ID",
       description: "Enter the ID of an event",
     },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "The timezone",
+      default: "UTC",
+      async options() {
+        timezones.unshift({
+          label: "UTC (GMT+00:00)",
+          tzCode: "UTC",
+        });
+        return timezones.map(({
+          label, tzCode,
+        }) => ({
+          label,
+          value: tzCode,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -58,7 +78,8 @@ module.exports = {
     },
     _getHeaders() {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Content-Type": "application/json",
       };
     },
     async _makeRequest(

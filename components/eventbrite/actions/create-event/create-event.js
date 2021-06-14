@@ -28,10 +28,10 @@ module.exports = {
       optional: true,
     },
     timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "The timezone",
-      default: "UTC",
+      propDefinition: [
+        eventbrite,
+        "timezone",
+      ],
     },
     startTime: {
       type: "string",
@@ -191,6 +191,12 @@ module.exports = {
     },
   },
   async run() {
+    /* convert start and end time to UTC in case time was entered with timezone offset */
+    const startTime = (new Date(this.startTime)).toISOString()
+      .split(".")[0] + "Z";
+    const endTime = (new Date(this.endTime)).toISOString()
+      .split(".")[0] + "Z";
+
     let data = {
       event: {
         name: {
@@ -199,11 +205,11 @@ module.exports = {
         summary: this.summary,
         start: {
           timezone: this.timezone,
-          utc: this.startTime,
+          utc: startTime,
         },
         end: {
           timezone: this.timezone,
-          utc: this.endTime,
+          utc: endTime,
         },
         hide_start_date: this.hideStartDate,
         hide_end_date: this.hideEndDate,
