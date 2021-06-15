@@ -2,7 +2,7 @@ const sendgrid = require("../../sendgrid.app");
 
 module.exports = {
   key: "sendgrid-send-an-email",
-  name: "Send An Email",
+  name: "Send an Email",
   description: "Sends an email.",
   version: "0.0.35",
   type: "action",
