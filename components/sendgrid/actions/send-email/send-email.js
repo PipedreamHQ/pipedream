@@ -3,7 +3,7 @@ const sendgrid = require("../../sendgrid.app");
 module.exports = {
   key: "sendgrid-send-an-email",
   name: "Send an Email",
-  description: "Sends an email.",
+  description: "This action sends a personalized e-mail to the specified recipients",
   version: "0.0.35",
   type: "action",
   props: {
