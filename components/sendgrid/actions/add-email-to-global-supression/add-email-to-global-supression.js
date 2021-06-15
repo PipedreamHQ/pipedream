@@ -14,7 +14,6 @@ module.exports = {
       label: "Recipient Emails",
       description:
         'A JSON-based array of email addresses to be added to the global suppressions group. Example `["email1@example.com","email2@example.com"]`',
-      optional: true,
     },
   },
   async run() {
