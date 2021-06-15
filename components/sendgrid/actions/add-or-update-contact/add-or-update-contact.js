@@ -26,7 +26,14 @@ module.exports = {
     if (!this.contacts) {
       throw new Error("Must provide contacts parameter.");
     }
-    const listIds = this.listIds ? JSON.parse(this.listIds) : null;
+    if (!this.listIds) {
+      throw new Error("Must provide listIds parameter");
+    }
+    
+    const listIds = JSON.parse(this.listIds);
+    if (!Array.isArray(listIds)) {
+      throw new Error("The listIds parameter is not an array");
+    }
     const contacts = JSON.parse(this.contacts);
     return await this.sendgrid.addOrUpdateContacts({
       list_ids: listIds,
