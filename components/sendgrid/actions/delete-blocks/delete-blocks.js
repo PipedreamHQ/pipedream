@@ -24,7 +24,7 @@ module.exports = {
     },
   },
   async run() {
-    const deleteAll = this.deleteAll ? this.deleteAll : null;
+    const deleteAll = !!this.deleteAll;
     const emails = this.emails ? JSON.parse(this.emails) : null;
     return await this.sendgrid.deleteBlocks(deleteAll, emails);
   },
