@@ -29,7 +29,7 @@ module.exports = {
     headers: {
       type: "object",
       label: "Headers",
-      description: "Headers to send in the request.",
+      description: "Headers to send in the request. Authorization headers will already be included.",
       optional: true
     },
     requestBody: {
