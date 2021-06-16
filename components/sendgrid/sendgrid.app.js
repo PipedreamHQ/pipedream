@@ -274,14 +274,22 @@ module.exports = {
       );
     },
     async makeAnAPICall(method, path, headers, data) {
-      const url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
+      const cleanedPath = path
+        .replace(/^\/*/, "")
+        .replace(/\/*$/, "");
+      const url = `${this._apiUrl()}/${cleanedPath}`;
+      const { headers: baseHeaders } = this._makeRequestConfig();
       const config = {
         method,
         url,
-        headers,
+        headers: {
+          ...baseRequestHeaders,
+          headers,
+        },
         data,
       };
-      return (await this._withRetries(() => axios(config))).data;
+      const { data } = await this._withRetries(() => axios(config));
+      return data;
     },
     async removeContactFromList(id, contactIds) {
       return await this._withRetries(() =>
