@@ -17,7 +17,7 @@ module.exports = {
     source: {
       type: "string",
       label: "Source",
-      description: "A one-word classifier for this validation.",
+      description: "An optional indicator of the email address's source. You may include this if you are capturing email addresses from multiple locations.",
       optional: true,
     },
   },
