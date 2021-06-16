@@ -12,6 +12,13 @@ module.exports = {
       type: "string",
       label: "Request Method",
       description: "Http method to use in the request.",
+      options: [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+      ],
     },
     relativeUrl: {
       type: "string",
