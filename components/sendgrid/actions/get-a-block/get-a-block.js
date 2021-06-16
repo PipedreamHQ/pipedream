@@ -2,7 +2,7 @@ const sendgrid = require("../../sendgrid.app");
 
 module.exports = {
   key: "sendgrid-get-a-block",
-  name: "Get A Block",
+  name: "Get a Block",
   description: "Gets a specific block.",
   version: "0.0.6",
   type: "action",
