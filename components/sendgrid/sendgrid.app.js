@@ -225,16 +225,29 @@ module.exports = {
         })
       );
     },
-    async getAllContactLists(pageSize, pageToken) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/marketing/lists`,
-          params: {
-            page_size: pageSize,
-            page_token: pageToken,
-          },
-        })
-      );
+    async *getAllContactLists(maxItems) {
+      let url = `${this._apiUrl()}/marketing/lists`;
+
+      while (url && maxItems > 0) {    
+        const params = {
+          page_size: Math.min(maxItems, 1000),
+        };
+        const requestConfig = {
+          ...this._makeRequestConfig(),
+          params,
+        };
+        const { data } = this._withRetries(
+          () => axios.get(url, requestConfig),
+        );
+
+        const contactLists = data.result.slice(0, maxItems);
+        for (const contactList of contactLists) {
+          yield contactList
+        }
+
+        maxItems -= contactLists.length;
+        url = data._metadata.next;
+      }
     },
     async getAllRecipients(page, pageSize) {
       return await this._withRetries(() =>
