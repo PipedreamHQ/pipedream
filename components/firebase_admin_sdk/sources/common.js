@@ -10,12 +10,14 @@ module.exports = {
       },
     },
   },
-  hooks: {
-    async activate() {
-      await this.firebase.initializeApp();
+  methods: {
+    processEvent() {
+      throw new Error("processEvent is not implemented");
     },
-    async deactivate() {
-      await this.firebase.deleteApp();
-    },
+  },
+  async run(event) {
+    await this.firebase.initializeApp();
+    await this.processEvent(event);
+    this.firebase.deleteApp();
   },
 };

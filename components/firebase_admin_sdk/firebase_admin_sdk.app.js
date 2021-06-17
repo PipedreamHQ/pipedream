@@ -1,5 +1,6 @@
 const admin = require("firebase-admin");
 const axios = require("axios");
+let tokens;
 
 module.exports = {
   type: "app",
@@ -47,9 +48,8 @@ module.exports = {
     /**
      * Renders this app instance unusable and frees the resources of all associated services.
      */
-    async deleteApp() {
-      const app = admin.app();
-      await app.delete();
+    deleteApp() {
+      return this.getApp().delete();
     },
     /**
      * Retrieves the default Firebase app instance.
@@ -57,24 +57,25 @@ module.exports = {
     getApp() {
       return admin.app();
     },
-    _getHeaders(token = null) {
+    _getHeaders(withAuth) {
       const defaultHeader = {
         "Content-Type": "applicaton/json",
       };
-      const headers = token ?
-        {
+      const headers = withAuth
+        ? {
           ...defaultHeader,
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${tokens.token}`,
         }
         : defaultHeader;
       return headers;
     },
-    async _makeRequest(method, url, data, token = null) {
+    async _makeRequest(method, url, data, params = {}, withAuth = true) {
       const config = {
         method,
         url,
-        headers: this._getHeaders(token),
+        headers: this._getHeaders(withAuth),
         data,
+        params,
       };
       return (await axios(config)).data;
     },
@@ -82,16 +83,13 @@ module.exports = {
      * Retrieves a Bearer token for use with the Firebase REST API.
      * @param {string} apiKey - the Web API Key, which is obtained from the project
      * settings page in the admin console
+     * @returns {object} returns an object containing a new token and refresh token
      */
-    async getToken(apiKey) {
+    async _getToken(apiKey) {
       const { clientEmail } = this.$auth;
-      let newCustomToken;
-      await admin
+      const newCustomToken = await admin
         .auth()
         .createCustomToken(clientEmail)
-        .then((customToken) => {
-          newCustomToken = customToken;
-        })
         .catch((error) => {
           console.log("Error creating custom token:", error);
         });
@@ -99,39 +97,80 @@ module.exports = {
         token: newCustomToken,
         returnSecureToken: true,
       };
+      const params = {
+        key: apiKey,
+      };
       return await this._makeRequest(
         "POST",
-        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${apiKey}`,
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken",
         data,
+        params,
+        false,
       );
     },
     /**
      * Exchanges a refresh Token for a new Bearer token for use with the Firebase REST API.
      * @param {string} apiKey - the Web API Key, which is obtained from the project settings
      * page in the admin console
-     * @param {string} refreshToken - the refreshToken previously retrieved in the function
-     * getToken(apiKey).
+     * @returns {object} returns an object containing a new token and refresh token
      */
-    async refreshToken(apiKey, refreshToken) {
+    async _refreshToken(apiKey) {
       const data = {
         grant_type: "refresh_token",
-        refresh_token: refreshToken,
+        refresh_token: tokens.refreshToken,
+      };
+      const params = {
+        key: apiKey,
       };
       return await this._makeRequest(
         "POST",
-        `https://securetoken.googleapis.com/v1/token?key=${apiKey}`,
+        "https://securetoken.googleapis.com/v1/token",
         data,
+        params,
+        false,
       );
     },
     /**
-     * Returns an array of the documents returned from the structured query.
-     * @param {string} token - Bearer token for use in request header
-     * @param {string} parent - The parent resource name
+     * Gets a new brand new token or exchanges the refresh token for a new Bearer token
+     * for use with the Firebase REST API.
+     * @param {string} apiKey - the Web API Key, which is obtained from the project settings
+     * page in the admin console
+     */
+    async _getFreshTokens(apiKey) {
+      if (tokens) {
+        const {
+          id_token: it,
+          refresh_token: rt,
+        } = await this._refreshToken(apiKey);
+        tokens = {
+          token: it,
+          refreshToken: rt,
+        };
+        return;
+      }
+      const {
+        idToken,
+        refreshToken,
+      } = await this._getToken(
+        apiKey,
+      );
+      tokens = {
+        token: idToken,
+        refreshToken,
+      };
+    },
+    /**
      * @param {string} structuredQuery - A structured query in the format specified in
      * this documentation:
      * https://cloud.google.com/firestore/docs/reference/rest/v1/StructuredQuery
+     * @param {string} apiKey - the Web API Key, which is obtained from the project settings
+     * page in the admin console
+     * @returns {array} an array of the documents returned from the structured query
      */
-    async runQuery(token, parent, structuredQuery) {
+    async runQuery(structuredQuery, apiKey) {
+      await this._getFreshTokens(apiKey);
+      const { projectId } = this.$auth;
+      const parent = `projects/${projectId}/databases/(default)/documents`;
       const data = {
         structuredQuery,
       };
@@ -139,7 +178,8 @@ module.exports = {
         "POST",
         `https://firestore.googleapis.com/v1/${parent}:runQuery`,
         data,
-        token,
+        null,
+        true,
       );
     },
   },

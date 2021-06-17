@@ -19,41 +19,29 @@ module.exports = {
   },
   methods: {
     ...common.methods,
+    async processEvent(event) {
+      const { timestamp } = event;
+      const ref = this.firebase.getApp().database()
+        .ref(this.path);
+      const snapshot = await ref.get();
+      const children = snapshot.val() || {};
+      for (const [
+        key,
+        value,
+      ] of Object.entries(children)) {
+        const meta = this.generateMeta(key, timestamp);
+        const child = {
+          [key]: value,
+        };
+        this.$emit(child, meta);
+      }
+    },
     generateMeta(key, timestamp) {
       return {
         id: key,
-        summary: key,
+        summary: `New child object: ${key}`,
         ts: timestamp,
       };
     },
-  },
-  async run(event) {
-    const { timestamp } = event;
-    const app = this.firebase.getApp();
-
-    const ref = app.database().ref(this.path);
-
-    // Comment left in for review.
-    // ref.get() returns a promise, but awaiting it results in the error:
-    // "Pipedream detected that component was still running code..."
-    // Suggestions for  how to resove it?
-    let children;
-    await new Promise((resolve) => {
-      ref.get().then(function (snapshot) {
-        children = snapshot.val();
-        resolve();
-      });
-    });
-
-    for (const [
-      key,
-      value,
-    ] of Object.entries(children)) {
-      const meta = this.generateMeta(key, timestamp);
-      const child = {
-        key: value,
-      };
-      this.$emit(child, meta);
-    }
   },
 };
