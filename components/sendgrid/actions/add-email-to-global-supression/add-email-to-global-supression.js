@@ -1,26 +1,38 @@
 const sendgrid = require("../../sendgrid.app");
+var validate = require("validate.js");
 
 module.exports = {
   key: "sendgrid-add-email-to-global-supression",
   name: "Add Email To Global Supression",
   description:
     "Allows you to add one or more email addresses to the global suppressions group.",
-  version: "0.0.7",
+  version: "0.0.1",
   type: "action",
   props: {
     sendgrid,
     recipientEmails: {
-      type: "string",
+      type: "object",
       label: "Recipient Emails",
       description:
-        'A JSON-based array of email addresses to be added to the global suppressions group. Example `["email1@example.com","email2@example.com"]`',
+        'An array of email addresses to be added to the global suppressions group. Example `["email1@example.com","email2@example.com"]`',
     },
   },
   async run() {
-    if (!this.recipientEmails) {
-      throw new Error("Must provide recipientEmails parameter.");
+    const constraints = {
+      recipientEmails: {
+        presence: true,
+        type: "array",
+      },
+    };
+    const validationResult = validate(
+      { recipientEmails: this.recipientEmails },
+      constraints
+    );
+    if (validationResult) {
+      const validationResultKeys = Object.keys(validationResult);
+      let validationMessages = validationResult[validationResultKeys[0]];
+      throw new Error(validationMessages);
     }
-    const recipientEmails = JSON.parse(this.recipientEmails);
-    return await this.sendgrid.addEmailToGlobalSupression(recipientEmails);
+    return await this.sendgrid.addEmailToGlobalSupression(this.recipientEmails);
   },
 };

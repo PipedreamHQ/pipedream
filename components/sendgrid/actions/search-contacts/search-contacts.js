@@ -4,7 +4,7 @@ module.exports = {
   key: "sendgrid-search-contacts",
   name: "Search Contacts",
   description: "Searches contacts with a SGQL query.",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     sendgrid,
@@ -16,11 +16,16 @@ module.exports = {
     },
   },
   async run() {
-    if (!this.query) {
-      throw new Error("Must provide query parameter.");
+    const validate = require("validate.js");
+    const constraints = {
+      query: {
+        presence: true,
+      },
+    };
+    const validationResult = validate({ query: this.query }, constraints);
+    if (validationResult) {
+      throw new Error(validationResult.query);
     }
-    return await this.sendgrid.searchContacts({
-      query: this.query,
-    });
+    return await this.sendgrid.searchContacts(this.query);
   },
 };

@@ -1,18 +1,20 @@
 const sendgrid = require("../../sendgrid.app");
+const validate = require("validate.js");
 
 module.exports = {
   key: "sendgrid-send-an-email",
   name: "Send an Email",
-  description: "This action sends a personalized e-mail to the specified recipients",
-  version: "0.0.35",
+  description:
+    "This action sends a personalized e-mail to the specified recipients",
+  version: "0.0.1",
   type: "action",
   props: {
     sendgrid,
     personalizations: {
-      type: "string",
+      type: "object",
       label: "Personalizations",
       description:
-        'A JSON-based array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled. See our [Personalizations documentation](https://sendgrid.com/docs/for-developers/sending-email/personalizations/) for details. maxItems: 1000. Example: `[{"to":[{"email":"email@email.com","name":"Example"}],"subject":"Mail Personalization Sample"}]`',
+        'An array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled. See our [Personalizations documentation](https://sendgrid.com/docs/for-developers/sending-email/personalizations/) for details. maxItems: 1000. Example: `[{to:[{email:"email@email.com",name:"Example"}],subject:"Mail Personalization Sample"}]`',
     },
     fromEmail: {
       type: "string",
@@ -47,16 +49,16 @@ module.exports = {
         "The global or `message level` subject of your email. This may be overridden by subject lines set in personalizations.",
     },
     content: {
-      type: "string",
+      type: "object",
       label: "Content",
       description:
-        'A JSON-based array where you can specify the content of your email. You can include multiple  of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Example: `[{"type":"text/plain","value":"Plain text content."}]`',
+        'An array where you can specify the content of your email. You can include multiple  of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Example: `[{type:"text/plain",value:"Plain text content."}]`',
     },
     attachments: {
-      type: "string",
+      type: "object",
       label: "Attachments",
       description:
-        'A JSON-based array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Example: `[{"content":"aGV5","type":"text/plain","filename":"sample.txt"}]`',
+        'An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Example: `[{content:"aGV5",type:"text/plain",filename:"sample.txt"}]`',
       optional: true,
     },
     templateId: {
@@ -70,14 +72,14 @@ module.exports = {
       type: "object",
       label: "Headers",
       description:
-        "An array of objects where you can specify any attachments you want to include.",
+        "An array of key/value pairs allowing you to specify handling instructions for your email. You may not overwrite the following headers: `x-sg-id`, `x-sg-eid`, `received`, `dkim-signature`, `Content-Type`, `Content-Transfer-Encoding`, `To`, `From`, `Subject`, `Reply-To`, `CC`, `BCC`",
       optional: true,
     },
     categories: {
-      type: "string",
+      type: "object",
       label: "Categories",
       description:
-        'A JSON-based array of category names for this message. Each category name may not exceed 255 characters. Example: `["category1","category2"]`',
+        'An array of category names for this message. Each category name may not exceed 255 characters. Example: `["category1","category2"]`',
       optional: true,
     },
     customArgs: {
@@ -130,36 +132,68 @@ module.exports = {
     },
   },
   async run() {
-    if (
-      !this.personalizations ||
-      !this.fromEmail ||
-      !this.subject ||
-      !this.content
-    ) {
-      throw new Error(
-        "Must provide personalizations, fromEmail, subject, and content parameters."
-      );
+    const constraints = {
+      personalizations: {
+        presence: true,
+        type: "array",
+      },
+      fromEmail: {
+        presence: true,
+        email: true,
+      },
+      replyToEmail: {
+        email: true,
+      },
+      subject: {
+        presence: true,
+      },
+      content: {
+        presence: true,
+        type: "array",
+      },
+      attachments: { type: "array" },
+      categories: { type: "array" },
+    };
+    const validationResult = validate(
+      {
+        personalizations: this.personalizations,
+        fromEmail: this.fromEmail,
+        replyToEmail: this.replyToEmail,
+        subject: this.subject,
+        content: this.content,
+        attachments: this.attachments,
+        categories: this.categories,
+      },
+      constraints
+    );
+    if (validationResult) {
+      let validationResultKeys = Object.keys(validationResult);
+      let validationMessages;
+      if (validationResultKeys.length == 1) {
+        validationMessages = validationResult[validationResultKeys[0]];
+      } else {
+        validationMessages =
+          "Parameters validation failed with the following errors:\t";
+        validationResultKeys.forEach(
+          (validationResultKey) =>
+            (validationMessages += `${validationResult[validationResultKey]}\t`)
+        );
+      }
+      throw new Error(validationMessages);
     }
-    const personalizations = JSON.parse(this.personalizations);
-    const content = JSON.parse(this.content);
-    const attachments = this.attachments ? JSON.parse(this.attachments) : null;
-    const categories = this.categories ? JSON.parse(this.categories) : null;
-    const replyTo = this.replyToEmail
-      ? { email: this.replyToEmail, name: this.replyToName }
-      : null;
     const config = {
-      personalizations,
+      personalizations: this.personalizations,
       from: {
         email: this.fromEmail,
         name: this.fromName,
       },
-      reply_to: replyTo,
+      reply_to: this.replyTo,
       subject: this.subject,
-      content,
-      attachments,
+      content: this.content,
+      attachments: this.attachments,
       template_id: this.templateId,
       headers: this.headers,
-      categories,
+      categories: this.categories,
       custom_args: this.customArgs,
       send_at: this.sendAt,
       batch_id: this.batchId,

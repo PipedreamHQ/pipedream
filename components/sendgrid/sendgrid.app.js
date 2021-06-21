@@ -12,9 +12,41 @@ module.exports = {
     _apiUrl() {
       return "https://api.sendgrid.com/v3";
     },
+    _emailValidationsUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/validations/email`;
+    },
+    _contactListUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/marketing/lists`;
+    },
     _contactsSearchUrl() {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/marketing/contacts/search`;
+    },
+    _contactsUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/marketing/contacts`;
+    },
+    _asmGlobalSupressionsUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/asm/suppressions/global`;
+    },
+    _globalSupressionsUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/suppression/unsubscribes`;
+    },
+    _sendMailUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/mail/send`;
+    },
+    _supressionBlocksUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/suppression/blocks`;
+    },
+    _supressionBouncesUrl() {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/suppression/bounces`;
     },
     _webhookSettingsUrl() {
       const baseUrl = this._apiUrl();
@@ -77,14 +109,6 @@ module.exports = {
         }
       }, retryOpts);
     },
-    async searchContacts(query) {
-      const url = this._contactsSearchUrl();
-      const searchParams = {
-        url,
-        query,
-      };
-      return this._withRetries(() => this._getAllItems(searchParams));
-    },
     async getWebhookSettings() {
       const url = this._webhookSettingsUrl();
       const requestConfig = this._makeRequestConfig();
@@ -115,120 +139,144 @@ module.exports = {
       return this._setSignedWebhook(false);
     },
     async addEmailToGlobalSupression(recipientEmails) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "POST",
-          path: `/asm/suppressions/global`,
-          data: {
-            recipient_emails: recipientEmails,
-          },
-        })
+      const url = this._asmGlobalSupressionsUrl();
+      const requestData = {
+        recipient_emails: recipientEmails,
+      };
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await this._withRetries(() =>
+        axios.post(url, requestData, requestConfig)
       );
+      return data;
     },
-    async addOrUpdateContacts(params) {
+    async addOrUpdateContacts(requestData) {
+      /*
+      //Not working, but same url/requestData works on Postman
+      const url = this._contactsUrl();
+      const requestConfig = this._makeRequestConfig();
+      //----------------------------------------------------//
+        let debugData = {};
+        debugData.body = requestData;
+        debugData.url = url;
+        const { data: debug } = axios.post(
+          "https://enwlyu79unm9933.m.pipedream.net",
+          debugData
+        );
+      //----------------------------------------------------//
+      const { data } = await this._withRetries(() =>  axios.put(url, requestData, requestConfig));
+      return data;
+      */
       return await this._withRetries(() =>
         this._makeRequest({
           method: "PUT",
           path: `/marketing/contacts`,
-          data: params,
+          data: requestData,
         })
       );
     },
     async createContactList(name) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "POST",
-          path: `/marketing/lists`,
-          data: {
-            name,
-          },
-        })
+      const url = this._contactListUrl();
+      const requestData = {
+        name,
+      };
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await this._withRetries(() =>
+        axios.post(url, requestData, requestConfig)
       );
+      return data;
     },
     async deleteBlocks(deleteAll, emails) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "DELETE",
-          path: `/suppression/blocks`,
-          data: {
-            delete_all: deleteAll,
-            emails,
-          },
-        })
-      );
+      const requestConfig = this._makeRequestConfig();
+      requestConfig.method = "DELETE";
+      requestConfig.url = this._supressionBlocksUrl();
+      if (deleteAll) {
+        requestConfig.data = {
+          delete_all: deleteAll,
+        };
+      } else {
+        requestConfig.data = {
+          emails,
+        };
+      }
+      const { data } = await this._withRetries(() => axios(requestConfig));
+      return data;
     },
     async deleteBounces(deleteAll, emails) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "DELETE",
-          path: `/suppression/bounces`,
-          data: {
-            delete_all: deleteAll,
-            emails,
-          },
-        })
-      );
+      const requestConfig = this._makeRequestConfig();
+      requestConfig.method = "DELETE";
+      requestConfig.url = this._supressionBouncesUrl();
+      if (deleteAll) {
+        requestConfig.data = {
+          delete_all: deleteAll,
+        };
+      } else {
+        requestConfig.data = {
+          emails,
+        };
+      }
+      const { data } = await this._withRetries(() => axios(requestConfig));
+      return data;
     },
     async deleteContacts(deleteAllContacts, ids) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "DELETE",
-          path: `/marketing/contacts`,
-          params: {
-            delete_all_contacts: deleteAllContacts,
-            ids,
-          },
-        })
-      );
+      const requestConfig = this._makeRequestConfig();
+      requestConfig.method = "DELETE";
+      requestConfig.url = this._contactsUrl();
+      requestConfig.params = {
+        delete_all_contacts: deleteAllContacts,
+        ids,
+      };
+      const { data } = await this._withRetries(() => axios(requestConfig));
+      return data;
     },
     async deleteGlobalSupression(email) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "DELETE",
-          path: `/asm/suppressions/global/${email}`,
-        })
+      const requestConfig = this._makeRequestConfig();
+      const url = `${this._asmGlobalSupressionsUrl()}/${email}`;
+      const { data } = await this._withRetries(() =>
+        axios.delete(url, requestConfig)
       );
+      return data;
     },
     async deleteList(id, deleteContacts) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "DELETE",
-          path: `/marketing/lists/${id}`,
-          params: {
-            delete_contacts: deleteContacts,
-          },
-        })
-      );
+      const requestConfig = this._makeRequestConfig();
+      requestConfig.method = "DELETE";
+      requestConfig.url = `${this._contactListUrl()}/${id}`;
+      requestConfig.params = {
+        delete_contacts: deleteContacts,
+      };
+      const { data } = await this._withRetries(() => axios(requestConfig));
+      return data;
     },
     async getBlock(email) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/suppression/blocks/${email}`,
-        })
+      const requestConfig = this._makeRequestConfig();
+      const url = `${this._supressionBlocksUrl()}/${email}`;
+      const { data } = await this._withRetries(() =>
+        axios.get(url, requestConfig)
       );
+      return data;
     },
     async getGlobalSupression(email) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/asm/suppressions/global/${email}`,
-        })
+      const requestConfig = this._makeRequestConfig();
+      const url = `${this._asmGlobalSupressionsUrl()}/${email}`;
+      const { data } = await this._withRetries(() =>
+        axios.get(url, requestConfig)
       );
+      return data;
     },
     async getAllBounces(startTime, endTime) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/suppression/bounces`,
-          params: {
-            start_time: startTime,
-            end_time: endTime,
-          },
-        })
+      const requestConfig = this._makeRequestConfig();
+      requestConfig.params = {
+        start_time: startTime,
+        end_time: endTime,
+      };
+      const url = this._supressionBouncesUrl();
+      const { data } = await this._withRetries(() =>
+        axios.get(url, requestConfig)
       );
+      return data;
     },
     async *getAllContactLists(maxItems) {
-      let url = `${this._apiUrl()}/marketing/lists`;
-
-      while (url && maxItems > 0) {    
+      let url = this._contactListUrl();
+      while (url && maxItems > 0) {
         const params = {
           page_size: Math.min(maxItems, 1000),
         };
@@ -236,111 +284,124 @@ module.exports = {
           ...this._makeRequestConfig(),
           params,
         };
-        const { data } = this._withRetries(
-          () => axios.get(url, requestConfig),
+        const { data } = await this._withRetries(() =>
+          axios.get(url, requestConfig)
         );
-
         const contactLists = data.result.slice(0, maxItems);
         for (const contactList of contactLists) {
-          yield contactList
+          yield contactList;
         }
-
         maxItems -= contactLists.length;
         url = data._metadata.next;
       }
     },
-    async getAllRecipients(page, pageSize) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/contactdb/recipients`,
-          params: {
-            page: page,
-            page_size: pageSize,
-          },
-        })
-      );
+    async *listBlocks(startTime, endTime, maxItems) {
+      const url = this._supressionBlocksUrl();
+      let offset = 0;
+      while (maxItems > 0) {
+        const params = {
+          start_time: startTime,
+          end_time: endTime,
+          limit: Math.min(maxItems, 1000),
+          offset: offset,
+        };
+        const requestConfig = {
+          ...this._makeRequestConfig(),
+          params,
+        };
+        const { data } = await this._withRetries(() =>
+          axios.get(url, requestConfig)
+        );
+        if (!data.length) {
+          return;
+        }
+        const blocks = data.slice(0, maxItems);
+        for (const block of blocks) {
+          yield block;
+        }
+        maxItems -= blocks.length;
+        offset += blocks.length;
+      }
     },
-    async listBlocks(startTime, endTime, limit, offset) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/suppression/blocks`,
-          params: {
-            start_time: startTime,
-            end_time: endTime,
-            limit,
-            offset,
-          },
-        })
-      );
+    async *listGlobalSupressions(startTime, endTime, maxItems) {
+      const url = this._globalSupressionsUrl();
+      let offset = 0;
+      while (maxItems > 0) {
+        const params = {
+          start_time: startTime,
+          end_time: endTime,
+          limit: Math.min(maxItems, 1000),
+          offset: offset,
+        };
+        const requestConfig = {
+          ...this._makeRequestConfig(),
+          params,
+        };
+        const { data } = await this._withRetries(() =>
+          axios.get(url, requestConfig)
+        );
+        if (!data.length) {
+          return;
+        }
+        const globalSupressions = data.slice(0, maxItems);
+        for (const globalSupression of globalSupressions) {
+          yield globalSupression;
+        }
+        maxItems -= globalSupressions.length;
+        offset += globalSupressions.length;
+      }
     },
-    async listGlobalSupressions(startTime, endTime, limit, offset) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: `/suppression/unsubscribes`,
-          params: {
-            start_time: startTime,
-            end_time: endTime,
-            limit,
-            offset,
-          },
-        })
-      );
-    },
-    async makeAnAPICall(method, path, headers, data) {
-      const cleanedPath = path
-        .replace(/^\/*/, "")
-        .replace(/\/*$/, "");
+    async makeAnAPICall(method, path, headers, body) {
+      const cleanedPath = path.replace(/^\/*/, "").replace(/\/*$/, "");
       const url = `${this._apiUrl()}/${cleanedPath}`;
       const { headers: baseHeaders } = this._makeRequestConfig();
       const config = {
         method,
         url,
         headers: {
-          ...baseRequestHeaders,
+          ...baseHeaders,
           headers,
         },
-        data,
+        data: body,
       };
-      const { data } = await this._withRetries(() => axios(config));
+      const { data } = await this._withRetries(() => axios.request(config));
       return data;
     },
     async removeContactFromList(id, contactIds) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "DELETE",
-          path: `/marketing/lists/${id}/contacts`,
-          params: {
-            contact_ids: contactIds,
-          },
-        })
+      const url = `${this._contactListUrl()}/${id}/contacts`;
+      const requestConfig = this._makeRequestConfig();
+      requestConfig.params = { contactIds };
+      const { data } = await this._withRetries(() =>
+        axios.delete(url, requestConfig)
+      );
+      return data;
+    },
+    async searchContacts(query) {
+      const requestConfig = {
+        method: "POST",
+        url: this._contactsSearchUrl(),
+        ...this._makeRequestConfig(),
+        data: {
+          query,
+        },
+      };
+      const { data } = await this._withRetries(() => axios(requestConfig));
+      return data;
+    },
+    async sendEmail(requestData) {
+      const url = this._sendMailUrl();
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await this._withRetries(() =>
+        axios.post(url, requestData, requestConfig)
       );
     },
-    async searchContacts(params) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "POST",
-          path: `/marketing/contacts/search`,
-          data: params,
-        })
+    async validateEmail(requestData) {
+      const url = this._emailValidationsUrl();
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await this._withRetries(() =>
+        axios.post(url, requestData, requestConfig)
       );
-    },
-    async sendEmail(params) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "post",
-          path: `/mail/send`,
-          data: params,
-        })
-      );
-    },
-    async validateEmail(params) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "POST",
-          path: `/validations/email`,
-          data: params,
-        })
-      );
+      return data;
     },
   },
 };

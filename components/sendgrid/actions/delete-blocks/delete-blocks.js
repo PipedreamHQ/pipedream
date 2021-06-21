@@ -1,10 +1,11 @@
 const sendgrid = require("../../sendgrid.app");
+const validate = require("validate.js");
 
 module.exports = {
   key: "sendgrid-delete-blocks",
   name: "Delete Blocks",
   description: "Allows you to delete all email addresses on your blocks list.",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     sendgrid,
@@ -19,13 +20,21 @@ module.exports = {
       type: "string",
       label: "Emails",
       description:
-        'A JSON-based array of the specific blocked email addresses that you want to delete. Example: `["email1@example.com","email2@example.com"]`',
+        'An array of the specific blocked email addresses that you want to delete. Example: `["email1@example.com","email2@example.com"]`',
       optional: true,
     },
   },
   async run() {
+    const constraints = {
+      emails: {
+        type: "array",
+      },
+    };
+    const validationResult = validate({ emails: this.emails }, constraints);
+    if (validationResult) {
+      throw new Error(validationResult.emails);
+    }
     const deleteAll = !!this.deleteAll;
-    const emails = this.emails ? JSON.parse(this.emails) : null;
-    return await this.sendgrid.deleteBlocks(deleteAll, emails);
+    return await this.sendgrid.deleteBlocks(deleteAll, this.emails);
   },
 };

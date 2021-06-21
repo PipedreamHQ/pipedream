@@ -1,10 +1,11 @@
 const sendgrid = require("../../sendgrid.app");
+const validate = require("validate.js");
 
 module.exports = {
   key: "sendgrid-create-contact-list",
   name: "Create Contact List",
   description: "Allows you to create a new contact list.",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   props: {
     sendgrid,
@@ -15,8 +16,15 @@ module.exports = {
     },
   },
   async run() {
-    if (!this.name) {
-      throw new Error("Must provide name parameter.");
+    const constraints = {
+      name: {
+        presence: true,
+        length: { maximum: 100 },
+      },
+    };
+    const validationResult = validate({ name: this.name }, constraints);
+    if (validationResult) {
+      throw new Error(validationResult.name);
     }
     return await this.sendgrid.createContactList(this.name);
   },

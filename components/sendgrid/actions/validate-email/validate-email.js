@@ -5,7 +5,7 @@ module.exports = {
   name: "Validate Email",
   description:
     "Validates an email address. This action requires a Sendgrid's Pro or Premier plan.",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     sendgrid,
@@ -17,13 +17,22 @@ module.exports = {
     source: {
       type: "string",
       label: "Source",
-      description: "An optional indicator of the email address's source. You may include this if you are capturing email addresses from multiple locations.",
+      description:
+        "An optional indicator of the email address's source. You may include this if you are capturing email addresses from multiple locations.",
       optional: true,
     },
   },
   async run() {
-    if (!this.email) {
-      throw new Error("Must provide email parameter.");
+    const validate = require("validate.js");
+    const constraints = {
+      email: {
+        presence: true,
+        email: true,
+      },
+    };
+    const validationResult = validate({ email: this.email }, constraints);
+    if (validationResult) {
+      throw new Error(validationResult.email);
     }
     return await this.sendgrid.validateEmail({
       email: this.email,
