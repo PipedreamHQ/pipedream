@@ -20,36 +20,6 @@ module.exports = {
       label: "Record Id",
       description:
         "Unique identifier of the record associated to the Lead you'd like to convert.",
-        async options() {
-          const options = [];
-          const leads = [];
-          let page = 1;
-          let results;
-          do {
-            results = await this.zoho_crm.listModules(
-              "Leads",
-              "asc",
-              "id,Full_Name,Email",
-              page
-            );
-            const hasPageResults = get(results, ["data", "length"]);
-            if (!hasPageResults) {
-              console.log("No data available, skipping iteration");
-              break;
-            }
-            results.data.forEach((account) => leads.push(account));
-            if (results.info.more_records) {
-              page = results.info.page + 1;
-            }
-          } while (results.info.more_records);
-          for (const lead of leads) {
-            options.push({
-              label: `${lead.Full_Name} (${lead.Email})`,
-              value: lead.id,
-            });
-          }
-          return options;
-        },
     },
     overwrite: {
       type: "boolean",
@@ -78,36 +48,6 @@ module.exports = {
       description:
         "Use this key to associate an account with the lead being converted. Pass the unique and valid account ID.",
       optional: true,
-      async options() {
-        const options = [];
-        const accounts = [];
-        let page = 1;
-        let results;
-        do {
-          results = await this.zoho_crm.listModules(
-            "Accounts",
-            "asc",
-            "id,Account_Number,Account_Name,Account_Type",
-            page
-          );
-          const hasPageResults = get(results, ["data", "length"]);
-          if (!hasPageResults) {
-            console.log("No data available, skipping iteration");
-            break;
-          }
-          results.data.forEach((account) => accounts.push(account));
-          if (results.info.more_records) {
-            page = results.info.page + 1;
-          }
-        } while (results.info.more_records);
-        for (const account of accounts) {
-          options.push({
-            label: `${account.Account_Number} - ${account.Account_Name} (${account.Account_Type})`,
-            value: account.id,
-          });
-        }
-        return options;
-      },
     },
     contacts: {
       type: "string",
@@ -115,36 +55,6 @@ module.exports = {
       description:
         "Use this key to associate a contact with the lead being converted. Pass the unique and valid contact ID.",
       optional: true,
-      async options() {
-        const options = [];
-        const contacts = [];
-        let page = 1;
-        let results;
-        do {
-          results = await this.zoho_crm.listModules(
-            "Contacts",
-            "asc",
-            "id,Full_Name,Title",
-            page
-          );
-          const hasPageResults = get(results, ["data", "length"]);
-          if (!hasPageResults) {
-            console.log("No data available, skipping iteration");
-            break;
-          }
-          results.data.forEach((contact) => contacts.push(contact));
-          if (results.info.more_records) {
-            page = results.info.page + 1;
-          }
-        } while (results.info.more_records);
-        for (const contact of contacts) {
-          options.push({
-            label: `${contact.Full_Name} - ${contact.Title}`,
-            value: contact.id,
-          });
-        }
-        return options;
-      },
     },
     users: {
       type: "string",
@@ -152,31 +62,6 @@ module.exports = {
       description:
         "Use this key to assign record owner for the new contact and account. Pass the unique and valid user ID.",
       optional: true,
-      async options() {
-        const options = [];
-        const users = [];
-        let page = 1;
-        let results;
-        do {
-          results = await this.zoho_crm.listUsers("AllUsers", page);
-          const hasPageResults = get(results, ["users", "length"]);
-          if (!hasPageResults) {
-            console.log("No data available, skipping iteration");
-            break;
-          }
-          results.users.forEach((user) => users.push(user));
-          if (results.info.more_records) {
-            page = results.info.page + 1;
-          }
-        } while (results.info.more_records);
-        for (const user of users) {
-          options.push({
-            label: `${user.full_name} (${user.email})`,
-            value: user.id,
-          });
-        }
-        return options;
-      },
     },
     deals: {
       type: "object",
