@@ -1,20 +1,14 @@
 const zoho_crm = require("../../zoho_crm.app");
-const get = require("lodash/get");
+const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-convert-lead",
   name: "Convert Lead",
   description: "Converts a lead into a contact or an account.",
-  version: "0.0.30",
+  version: "0.0.41",
   type: "action",
   props: {
     zoho_crm,
-    /*timer: {
-        type: "$.interface.timer",
-        default: {
-          intervalSeconds: 60 * 15, // 15 minutes
-        },
-      },*/
     recordId: {
       type: "string",
       label: "Record Id",
@@ -67,7 +61,7 @@ module.exports = {
       type: "object",
       label: "Deals",
       description:
-        'Use this key to create a deal for the newly created Account. The "Deal_Name", "Closing_Date", and "Stage" are default mandatory keys to be passed as part of the parameter  object structure.',
+        'Use this key to create a deal for the newly created Account. The "Deal_Name", "Closing_Date", and "Stage" are default mandatory keys to be passed as part of the recordId  object structure.',
       optional: true,
     },
     carryOverTags: {
@@ -79,16 +73,27 @@ module.exports = {
     },
   },
   async run() {
-    return await this.zoho_crm.convertLead(
-      this.recordId,
-      this.overwrite,
-      this.notifyLeadOwner,
-      this.notifyNewEntityOwner,
-      this.accounts,
-      this.contacts,
-      this.users,
-      this.deals,
-      this.carryOverTags
-    );
+    const constraints = {
+      recordId: {
+        presence: true,
+      },
+    };
+    const validationResult = validate({ recordId: this.recordId }, constraints);
+    if (validationResult) {
+      throw new Error(validationResult.recordId);
+    }
+    const data = [
+      {
+        overwrite: this.overwrite,
+        notifyLeadOwner: this.notifyLeadOwner,
+        notifyNewEntityOwner: this.notifyNewEntityOwner,
+        accounts: this.accounts,
+        contacts: this.contacts,
+        users: this.users,
+        deals: this.deals,
+        carryOverTags: this.carryOverTags,
+      },
+    ];
+    return await this.zoho_crm.convertLead(this.recordId, data);
   },
 };
