@@ -150,29 +150,13 @@ module.exports = {
       return data;
     },
     async addOrUpdateContacts(requestData) {
-      /*
-      //Not working, but same url/requestData works on Postman
       const url = this._contactsUrl();
       const requestConfig = this._makeRequestConfig();
-      //----------------------------------------------------//
-        let debugData = {};
-        debugData.body = requestData;
-        debugData.url = url;
-        const { data: debug } = axios.post(
-          "https://enwlyu79unm9933.m.pipedream.net",
-          debugData
-        );
-      //----------------------------------------------------//
-      const { data } = await this._withRetries(() =>  axios.put(url, requestData, requestConfig));
-      return data;
-      */
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "PUT",
-          path: `/marketing/contacts`,
-          data: requestData,
-        })
+      requestConfig.headers["Content-Type"] = "application/json";
+      const { data } = await this._withRetries(() =>
+        axios.put(url, requestData, requestConfig)
       );
+      return data;
     },
     async createContactList(name) {
       const url = this._contactListUrl();
