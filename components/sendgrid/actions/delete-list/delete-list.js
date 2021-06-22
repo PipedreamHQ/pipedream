@@ -20,6 +20,7 @@ module.exports = {
       description:
         "Indicates that all contacts on the list are also to be deleted.",
       optional: true,
+      default: false
     },
   },
   async run() {
