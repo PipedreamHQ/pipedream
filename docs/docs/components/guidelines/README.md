@@ -79,8 +79,8 @@ Pipedream's UI when building workflows.
 demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8).**
 
 If you're ready to build a component for the Pipedream registry, we recommend
-starting with our Quickstart Guides for [source]](../quickstart/nodejs/sources/)
-and [actions]](../quickstart/nodejs/actions/). Then review the [Component API
+starting with our Quickstart Guides for [source](../quickstart/nodejs/sources/)
+and [actions](../quickstart/nodejs/actions/). Then review the [Component API
 Reference](../api/).
 
 ### Prerequisites
