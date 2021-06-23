@@ -53,7 +53,9 @@ module.exports = {
 
     // Batched emits do not take advantage of the built-in deduper
     if (this.emitEventsInBatch) {
-      this.$emit(events, {
+      this.$emit({
+        events,
+      }, {
         summary: `${events.length} new event${events.length > 1
           ? "s"
           : ""}`,
