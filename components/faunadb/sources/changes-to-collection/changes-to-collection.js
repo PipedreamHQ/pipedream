@@ -6,7 +6,7 @@ module.exports = {
   name: "New or Removed Documents in a Collection",
   description:
     "This source tracks add and remove events to documents in a specific collection. Each time you add or remove a document from this collection, this event source emits an event with the details of the document.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique", // Dedupe events based on the concatenation of event + document ref id
   props: {
     timer: {
