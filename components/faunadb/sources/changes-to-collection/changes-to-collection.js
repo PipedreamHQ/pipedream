@@ -17,7 +17,12 @@ module.exports = {
     },
     db: "$.service.db",
     fauna,
-    collection: { propDefinition: [fauna, "collection"] },
+    collection: {
+      propDefinition: [
+        fauna,
+        "collection",
+      ],
+    },
     emitEventsInBatch: {
       type: "boolean",
       label: "Emit changes as a single event",
@@ -35,7 +40,7 @@ module.exports = {
 
     const events = await this.fauna.getEventsInCollectionAfterTs(
       this.collection,
-      cursor
+      cursor,
     );
 
     if (!events.length) {
@@ -49,7 +54,9 @@ module.exports = {
     // Batched emits do not take advantage of the built-in deduper
     if (this.emitEventsInBatch) {
       this.$emit(events, {
-        summary: `${events.length} new event${events.length > 1 ? "s" : ""}`,
+        summary: `${events.length} new event${events.length > 1
+          ? "s"
+          : ""}`,
         id: cursor,
       });
     } else {
