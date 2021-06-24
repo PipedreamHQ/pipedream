@@ -138,30 +138,29 @@ module.exports = {
         .shift();
       return {
         file,
-        pageToken: newStartPageToken,
+        newStartPageToken,
       };
     },
     async getSpreadsheetToProcess(event) {
       const { headers } = event;
       const subscription = this._getSubscription();
       const channelID = this._getChannelID();
-      const pageToken = this._getPageToken();
-
       if (!this.googleSheets.checkHeaders(headers, subscription, channelID)) {
         return;
       }
 
+      const pageToken = this._getPageToken();
       const driveId = this.getDriveId();
       const sheetId = this.getSheetId();
       const {
         file,
-        newPageToken,
+        newStartPageToken = pageToken,
       } = await this.getModifiedSheet(
         pageToken,
         driveId,
         sheetId,
       );
-      if (newPageToken) this._setPageToken(newPageToken);
+      this._setPageToken(newStartPageToken);
 
       if (!file) {
         console.log("No sheets were modified");
@@ -233,7 +232,7 @@ module.exports = {
     },
   },
   async run(event) {
-    if (event.interval_seconds) {
+    if (event.timestamp) {
       // Component was invoked by timer
       return this.renewSubscription();
     }
