@@ -333,26 +333,5 @@ module.exports = {
 
       return { newChannelID, newPageToken, expiration, resourceId };
     },
-    async checkResubscription(
-      subscription,
-      channelID,
-      pageToken,
-      endpoint,
-      driveId
-    ) {
-      if (subscription && subscription.resourceId) {
-        console.log(
-          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`
-        );
-        await this.stopNotifications(channelID, subscription.resourceId);
-      }
-      const { expiration, resourceId } = await this.watchDrive(
-        channelID,
-        endpoint,
-        pageToken,
-        driveId === "myDrive" ? null : driveId
-      );
-      return { expiration, resourceId };
-    },
   },
 };
