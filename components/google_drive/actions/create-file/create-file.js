@@ -1,10 +1,6 @@
 const googleDrive = require("../../google_drive.app");
 const fs = require("fs");
 const got = require("got");
-const { promisify } = require("util");
-const { resolve } = require("path");
-const readdir = promisify(fs.readdir);
-const stat = promisify(fs.stat);
 
 module.exports = {
   key: "google_drive-create-file",
@@ -216,7 +212,9 @@ module.exports = {
         resource: {
           name: this.name,
           originalFilename: this.originalFilename,
-          parents: [ this.parents ],
+          parents: [
+            this.parents,
+          ],
           mimeType: this.mimeType,
           description: this.description,
           folderColorRgb: this.folderColorRgb,
