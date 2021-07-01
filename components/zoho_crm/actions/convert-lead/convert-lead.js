@@ -1,14 +1,16 @@
-const zoho_crm = require("../../zoho_crm.app");
+const common = require("../common");
+const { zoho_crm } = common.props;
 const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-convert-lead",
   name: "Convert Lead",
   description: "Converts a lead into a contact or an account.",
-  version: "0.0.41",
+  version: "0.0.1",
   type: "action",
   props: {
     zoho_crm,
+    domainLocation: { propDefinition: [zoho_crm, "domainLocation"] },
     recordId: {
       type: "string",
       label: "Record Id",
@@ -20,7 +22,7 @@ module.exports = {
       label: "Overwrite Lead Details?",
       default: false,
       description:
-        "Specify if the Lead details must be overwritten in the Contact/Account/Deal based on lead conversion mapping configuration.",
+        "Specifies if the Lead details must be overwritten in the Contact/Account/Deal based on lead conversion mapping configuration.",
     },
     notifyLeadOwner: {
       type: "boolean",
@@ -54,7 +56,7 @@ module.exports = {
       type: "string",
       label: "Users",
       description:
-        "Use this key to assign record owner for the new contact and account. Pass the unique and valid user ID.",
+        "Use this key to assign a record owner for the new contact and account. Pass the unique and valid user ID.",
       optional: true,
     },
     deals: {
@@ -72,6 +74,9 @@ module.exports = {
       optional: true,
     },
   },
+  methods: {
+    ...common.methods,
+  },
   async run() {
     const constraints = {
       recordId: {
@@ -80,7 +85,8 @@ module.exports = {
     };
     const validationResult = validate({ recordId: this.recordId }, constraints);
     if (validationResult) {
-      throw new Error(validationResult.recordId);
+      const validationMessages = this.getValidationMessage(validationResult);
+      throw new Error(validationMessages);
     }
     const data = [
       {
@@ -94,6 +100,6 @@ module.exports = {
         carryOverTags: this.carryOverTags,
       },
     ];
-    return await this.zoho_crm.convertLead(this.recordId, data);
+    return await this.zoho_crm.convertLead(this.domainLocation,this.recordId, data);
   },
 };
