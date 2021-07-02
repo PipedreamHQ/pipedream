@@ -4,7 +4,7 @@
 <img style="display: inline-block;" src="./images/discord_plus_pipedream.png" alt="Discord" width="200px">
 </div>
 
-Pipedream supports two [Discord](https://discordapp.com) integrations:
+Pipedream supports two [Discord](https://discordapp.com) integrations: 
 
 - [Discord Webhook](#discord-webhook)
 - [Discord Bot](#discord-bot)
@@ -24,7 +24,7 @@ The **Discord Webhook** integration is the easiest way to send messages to a cha
 You can use Pipedream to automate any workflow where you need to receive a message in Discord. For example, you can:
 
 - Receive data [via webhooks](/workflows/steps/triggers/#http), [modify it with code](/workflows/steps/code/), and format a specific Discord message.
-- [Run code on a schedule](/workflows/steps/triggers/#cron-scheduler) to hit an API and send the data on to a Discord channel.
+- [Run code on a schedule](/workflows/steps/triggers/#schedule) to hit an API and send the data on to a Discord channel.
 - Use the [email trigger](/workflows/steps/triggers/#email) to accept emails and forward them to Discord.
 
 Watch this video to see how to create a new Discord webhook using Pipedream, and how to send the name of a random Star Wars character to a Discord channel once an hour:
@@ -83,7 +83,7 @@ This should send a message to Discord that looks something like:
 The **Discord Bot** integration should be used when you have a Discord bot that you've added to a server, and you want to automate interaction with the Discord API using Pipedream. You can use this integration to:
 
 - Accept HTTP requests from a [webhook](/workflows/steps/triggers/#http) and automate common server actions, like automatically sending any new user who signs up for your app a channel invite.
-- [Run code on a schedule](/workflows/steps/triggers/#cron-scheduler) to regularly check your [Discord audit log](https://discordapp.com/developers/docs/resources/audit-log) and send you an email of any events you want to monitor.
+- [Run code on a schedule](/workflows/steps/triggers/#schedule) to regularly check your [Discord audit log](https://discordapp.com/developers/docs/resources/audit-log) and send you an email of any events you want to monitor.
 - Any other administrative action you want to drive programmatically, triggered from any event.
 
 If you just want to send messages to a channel, check out the [**Discord Webhook**](#discord-webhook) integration, instead.

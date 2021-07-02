@@ -1,6 +1,6 @@
 # Logs
 
-Sources can produce log using `console` statements, and can throw errors. These logs show up in the sources UI for each source, under **LOGS**.
+Sources can produce log using `console` statements, and can throw errors. These logs show up in the sources UI for each source, under **LOGS**. 
 
 [Like events](/event-sources/), logs can also be consumed programmatically:
 

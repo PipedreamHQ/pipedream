@@ -6,7 +6,7 @@ We recommend starting with this [5 minute tutorial](https://pipedream.com/new?ap
 
 - Trigger a workflow on HTTP requests 
 - Retrieve data from an API using Node.js and npm 
-- Deploy and test your changes. 
+- Deploy and test your changes.
 
 Once you're done with the tutorial, start building workflows to solve your own problems. Get creative and share them with others!
 

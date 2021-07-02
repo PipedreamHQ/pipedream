@@ -6,7 +6,7 @@ Event sources operate primarily as workflow triggers. When you add a new app-bas
 <img alt="New-app-based trigger" width="600px" src="./images/app-based-trigger.png">
 </div>
 
-Event sources run as their own resources, separate from workflows, for two reasons:
+Event sources run as their own resources, separate from workflows, for two reasons: 
 
 - A single event sources can trigger more than one workflow. If you have a data source that you want to run _multiple_ workflows, you can create an event source once and use it as the trigger for each workflow.
 - If you need to consume events emitted by event sources in your own application, you don't need to run a workflow: you can use Pipedream's [REST API](/api/rest/) or a [private, real-time SSE stream](/api/sse/) to access the event data directly.

@@ -4,7 +4,7 @@
 
 Historically, Pipedream provided data on the event that triggered your workflow in a variable called `$event`. `$event` was a JavaScript object. For HTTP-triggered workflows, for example, it contained properties like `body` to represent the body of the HTTP request, and `headers` for HTTP headers.
 
-**Pipedream changed the name of this variable from `$event` to `event`**. Now, when you want to reference the HTTP payload, for example, you use `event.body` instead of `$event.body`. [Read about the full format of `event` here](/workflows/events/#event-format).
+**Pipedream changed the name of this variable from `$event` to `event`**. Now, when you want to reference the HTTP payload, for example, you use `event.body` instead of `$event.body`. [Read about the full format of `event` here](/workflows/events/#event-format). 
 
 `$event` was also mutable: you could add new properties or modify existing ones. This allowed you to add a property in one step and use that data in the next.
 

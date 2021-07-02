@@ -1,8 +1,8 @@
 # Auth in code steps
 
-When you use [pre-built actions](/workflows/steps/actions/) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
+When you use [prebuilt actions](/workflows/steps/actions/) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
 
-Often, though, you'll need to write your own code. You can also connect apps to custom code steps, utilizing the auth information to authorize requests to that app.
+Often, though, you'll need to write your own code. You can also connect apps to custom code steps, utilizing the auth information to authorize requests to that app. 
 
 For example, you may want to send a Slack message from a step. We use Slack's OAuth integration to authorize requests to Slack, so you can connect your account to this step and send a message using the access token Pipedream generates for you at `auths.slack.oauth_access_token`:
 
@@ -62,7 +62,7 @@ In Slack's case, the test request retrieves basic profile information:
 <img alt="Slack test request" width="500" src="./images/slack-test-request.png">
 </div>
 
-This code operates as a template you can extend, and comes pre-configured with the connection to the target app and the code for authorizing requests to the API. You can extend this code however you'd like.
+This code operates as a template you can extend, and comes preconfigured with the connection to the target app and the code for authorizing requests to the API. You can extend this code however you'd like.
 
 ### Manually connecting apps to steps
 

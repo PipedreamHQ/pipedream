@@ -1,36 +1,51 @@
 # Triggers
 
-**Triggers** define the type of event that runs your workflow. Workflows execute on every trigger event.
+**Triggers** define the type of event that runs your workflow. For example, HTTP triggers expose a URL where you can send any HTTP requests. Pipedream will run your workflow on each request. The Cron Scheduler trigger runs your workflow on a schedule.
 
-For example, HTTP triggers expose a URL where you can send any HTTP requests. We'll run your workflow on each request. The Cron Scheduler trigger runs your workflow on a schedule.
-
-Today, we support the following triggers:
+Today, we support the following triggers: 
 
 - [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
-- [HTTP](#http)
-- [Cron Scheduler](#cron-scheduler)
+- [HTTP API](#http)
+- [Schedule](#schedule)
 - [Email](#email)
+- [RSS](#rss)
 - [SDK](#sdk)
 
-In the future we plan to support triggers for SQL, AMQP, and more. If there's a trigger you'd like supported, please [let us know](/support/).
+If there's a specific trigger you'd like supported, please [let us know](/support/).
 
 [[toc]]
 
 ## App-based Triggers
 
-You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources).
+You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
 
-When you create a workflow, choose the opton to **Create Event Source** in the trigger step. Select your app, and you'll see a list of available sources. For Google Calendar, for example, you can run your workflow every time a new event is **added** to your calendar, each time an event **starts**, **ends**, and more:
+When you create a workflow, you'll see your available triggers:
 
 <div>
-<img alt="Google Calendar sources" width="300px" src="./images/google-calendar-triggers.png">
+<img alt="App triggers" src="./images/app-triggers.png">
 </div>
 
-Once you select your source, you'll be asked to connect any necessary accounts (for example, Google Calendar sources require you authorize Pipedream access to your Google account), and enter the values for any configuration settings tied to the source.
+Search by **app name** to find triggers associated with your app. For Google Calendar, for example, you can run your workflow every time a new event is **added** to your calendar, each time an event **starts**, **ends**, and more:
 
-Some sources are configured to retrieve an initial set of events when they're created. Others require you to generate events in the app to trigger your workflow. If your source generates an initial set of events, you'll see them appear in the test event menu in the trigger step. Then you can select a specific test event and manually trigger your workflow with that event data.
+<div>
+<img alt="Google Calendar sources" src="./images/google-calendar-triggers.png">
+</div>
 
-Moreover, since event sources can produce a large stream of events, the workflow is configured to **pause** the stream of events from source to workflow when you first create your workflow. This way, you can author your workflow without it being triggered automatically by your source, sending test events manually during development, instead. **Once you're done, you can toggle the source on in the top-right of the trigger step**.
+Once you select your trigger, you'll be asked to connect any necessary accounts (for example, Google Calendar sources require you authorize Pipedream access to your Google account), and enter the values for any configuration settings.
+
+Some sources are configured to retrieve an initial set of events when they're created. Others require you to generate events in the app to trigger your workflow. If your source generates an initial set of events, you'll see them appear in the **test** menu in the trigger step:
+
+<div>
+<img alt="Airtable test events" src="./images/airtable-test-events.png">
+</div>
+
+Then you can select a specific test event and manually trigger your workflow with that event data by clicking **Send Test Event**.
+
+Moreover, since event sources can produce a large stream of events, the workflow is configured to **pause** the stream of events from source to workflow when you first create your workflow. This way, you can author your workflow without it being triggered automatically by your source, sending test events manually during development, instead. **Once you're done, you can toggle the source on in the top-right of the trigger step**:
+
+<div>
+<img alt="Turn your trigger on" width="300px" src="./images/turn-trigger-on.gif">
+</div>
 
 ### What's the difference between an event source and a trigger?
 
@@ -44,18 +59,25 @@ For example, you might create a single source to listen for new Twitter mentions
 
 Moreover, you can access events emitted by sources using Pipedream's [SSE](/api/sse/) and [REST APIs](/api/rest/). This allows you to access these events in your own app, outside Pipedream's platform.
 
-### Shape of the `event` object
+### Shape of the `steps.trigger.event` object
 
-In all workflows, you have access to [event data](/workflows/events/#event-format) using one of two variables:
-
-- `steps.trigger.event`
-- `event` (shorthand reference)
+In all workflows, you have access to [event data](/workflows/events/#event-format) using one the variable `steps.trigger.event`.
 
 The shape of the event is specific to the source. For example, RSS sources produce events with a `url` and `title` property representing the data provided by new items from a feed. Google Calendar sources produce events with a meeting title, start date, etc.
 
 ## HTTP
 
-When you select the **HTTP** trigger, we create a URL endpoint specific to your workflow.
+When you select the **HTTP API** trigger:
+
+<div>
+<img alt="HTTP API trigger" width="400px" src="./images/http-api-trigger.png">
+</div>
+
+Pipedream creates a URL endpoint specific to your workflow:
+
+<div>
+<img alt="HTTP API trigger endpoint" width="400px" src="./images/http-endpoint.png">
+</div>
 
 You can send any HTTP requests to this endpoint, from anywhere on the web. You can configure the endpoint as the destination URL for a webhook or send HTTP traffic from your application - we'll accept any [valid HTTP request](#valid-requests).
 
@@ -287,7 +309,7 @@ If you need to issue an HTTP response in the middle of a workflow, see the secti
 
 #### Returning a response immediately
 
-You can issue an HTTP response within a worklow, and continue the rest of the workflow execution, by setting the `immediate` property to `true`:
+You can issue an HTTP response within a workflow, and continue the rest of the workflow execution, by setting the `immediate` property to `true`:
 
 ```javascript
 await $respond({
@@ -381,13 +403,9 @@ Otherwise, the workflow will [end early](/workflows/steps/code/#end).
 
 Since you can [run any Node code](/workflows/steps/code/) in a workflow, you can implement more complex validation. For example, you could require JWT tokens and validate those tokens using the [`jsonwebtoken` package](https://www.npmjs.com/package/jsonwebtoken) at the start of your workflow.
 
-## Webhook
+## Schedule
 
-A **Webhook** trigger is an alias for the [HTTP](#http) trigger. They are equivalent in every way. You can trigger workflows on HTTP requests using either the HTTP or Webhook trigger.
-
-## Cron Scheduler
-
-Pipedream allows you to run hosted cron jobs — any code run on a schedule — [for free](/pricing).
+Pipedream allows you to run hosted scheduled jobs — commonly-referred to as a "cron job" — [for free](/pricing).
 
 We call these cron jobs "[workflows](/workflows)". Workflows are just scripts that run on a schedule.
 
@@ -402,20 +420,20 @@ Pipedream manages the servers where these cron jobs run, so you don't have to wo
 
 ### Choosing a cron trigger
 
-To create a cron job, create a new workflow and search for the **Cron Scheduler** trigger:
+To create a cron job, create a new workflow and search for the **Schedule** trigger:
 
 <div>
-<img alt="Cron Scheduler source" width="400" src="./images/cron-scheduler-source.png">
+<img alt="Cron Scheduler source" width="400px" src="./images/schedule.png">
 </div>
 
 By default, your cron job will be turned **Off**. **To enable it, select either of the scheduling options**:
 
-- **Simple** : run the job every N days, hours, minutes (e.g. every 1 day, every 3 hours).
-- **Cron expression** : schedule your job using a cron expression. For example, the expression `0 0 * * *` will run the job every day at midnight. Cron expressions can be tied to any timezone.
+- **Every** : run the job every N days, hours, minutes (e.g. every 1 day, every 3 hours).
+- **Cron Expression** : schedule your job using a cron expression. For example, the expression `0 0 * * *` will run the job every day at midnight. Cron expressions can be tied to any timezone.
 
 ### Testing a cron job
 
-If you're running a cron job once a day, you probably don't want to wait until the next day's run to test your new code. You can manually run the workflow associated with a cron job at any time by pressing the **Send Test Event** button.
+If you're running a cron job once a day, you probably don't want to wait until the next day's run to test your new code. You can manually run the workflow associated with a cron job at any time by pressing the **Run Now** button.
 
 ### Future executions of your cron job
 
@@ -439,7 +457,7 @@ You can also [write code](/workflows/steps/code/) to trigger any complex notific
 
 When you're testing cron jobs, you may encounter **Rate Limit Exceeded** errors. Cron jobs can be tested no more than twice a minute. If you encounter this error, wait one minute and try again.
 
-### Troubleshooting your cron jobs
+### Troubleshooting your scheduled jobs
 
 When you run a cron job, you may need to troubleshoot errors or other execution issues. Pipedream offers built-in, step-level logs that show you detailed execution information that should aid troubleshooting.
 
@@ -457,7 +475,17 @@ Cron jobs can run for at most 30 seconds, by default. You can raise this up to 3
 
 ## Email
 
-When you select the **Email** trigger, we create an email address specific to your workflow. Any email sent to this address triggers your workflow.
+When you select the **Email** trigger:
+
+<div>
+<img alt="Email source" width="400px" src="./images/email.png">
+</div>
+
+Pipedream creates an email address specific to your workflow. Any email sent to this address triggers your workflow:
+
+<div>
+<img alt="Custom workflow email address" width="400px" src="./images/email-addr.png">
+</div>
 
 As soon as you send an email to the workflow-specific address, Pipedream parses its body, headers, and attachments into a JavaScript object it exposes in the `steps.trigger.event` variable that you can access within your workflow. This transformation can take a few seconds to perform. Once done, Pipedream will immediately trigger your workflow with the transformed payload.
 
@@ -469,7 +497,7 @@ By default, you can send emails up to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LI
 
 **You can send emails up to `30MB` in size by sending emails to `[YOUR EMAIL ENDPOINT]@upload.pipedream.net`**. If your workflow-specific email address is `endpoint@pipedream.net`, your "large email address" is `endpoint@upload.pipedream.net`.
 
-Emails delivered to this address are uploaded to a private URL you have access to within your worklow, at the variable `steps.trigger.event.mail.content_url`. You can download and parse the email within your workflow using that URL. This content contains the _raw_ email. Unlike the standard email interface, you must parse this email on your own - see the examples below.
+Emails delivered to this address are uploaded to a private URL you have access to within your workflow, at the variable `steps.trigger.event.mail.content_url`. You can download and parse the email within your workflow using that URL. This content contains the _raw_ email. Unlike the standard email interface, you must parse this email on your own - see the examples below.
 
 #### Example: Download the email using the Send HTTP Request action
 
@@ -528,11 +556,21 @@ myemailaddr+unsubscribe@pipedream.net
 
 This allows you implement conditional logic in your workflow based on the data in that string.
 
+## RSS
+
+Choose the RSS trigger to watch an RSS feed for new items:
+
+<div>
+<img alt="RSS source" width="400px" src="./images/rss.png">
+</div>
+
+This will create an RSS [event source](/event-sources) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
+
 ## SDK
 
 You can trigger workflows using the Pipedream JavaScript and Ruby SDKs, as well.
 
-Select the SDK trigger to generate workflow-specific code samples for sending events to your workflow using each of the SDKs.
+Select the **SDK** trigger to generate workflow-specific code samples for sending events to your workflow using each of the SDKs.
 
 ## Don't see a trigger you need?
 

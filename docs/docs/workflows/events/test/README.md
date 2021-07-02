@@ -2,7 +2,7 @@
 
 We provide the ability for you to send a test event through your workflow to test it before running it on real data.
 
-We provide a default test event you can send to a workflow that helps you explore the features of the product. Click the **Send Test Event** button at the top of [the Inspector](/workflows/events/inspect/#the-inspector) to send this event to your workflow:
+We provide a default test event you can send to a workflow that helps you explore the features of the product. Click the **Send Test Event** button at the top of [the Inspector](/workflows/events/inspect/#the-inspector) to send this event to your workflow: 
 
 <div>
 <img alt="Send test event" width="300" src="./images/send-test-event-button.png">

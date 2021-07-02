@@ -6,7 +6,7 @@ module.exports = {
   name: "New or Removed Documents in a Collection",
   description:
     "This source tracks add and remove events to documents in a specific collection. Each time you add or remove a document from this collection, this event source emits an event with the details of the document.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique", // Dedupe events based on the concatenation of event + document ref id
   props: {
     timer: {
@@ -17,7 +17,12 @@ module.exports = {
     },
     db: "$.service.db",
     fauna,
-    collection: { propDefinition: [fauna, "collection"] },
+    collection: {
+      propDefinition: [
+        fauna,
+        "collection",
+      ],
+    },
     emitEventsInBatch: {
       type: "boolean",
       label: "Emit changes as a single event",
@@ -35,7 +40,7 @@ module.exports = {
 
     const events = await this.fauna.getEventsInCollectionAfterTs(
       this.collection,
-      cursor
+      cursor,
     );
 
     if (!events.length) {
@@ -48,8 +53,12 @@ module.exports = {
 
     // Batched emits do not take advantage of the built-in deduper
     if (this.emitEventsInBatch) {
-      this.$emit(events, {
-        summary: `${events.length} new event${events.length > 1 ? "s" : ""}`,
+      this.$emit({
+        events,
+      }, {
+        summary: `${events.length} new event${events.length > 1
+          ? "s"
+          : ""}`,
         id: cursor,
       });
     } else {
