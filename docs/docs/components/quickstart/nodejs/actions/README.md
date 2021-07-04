@@ -442,7 +442,7 @@ Select an existing account or connect a new one, and then deploy your workflow a
 
 ## What's Next?
 
-You're ready to start authoring and publishing actions on Pipedream! You can also check out the [detailed component reference](components/api/#component-api) at any time!
+You're ready to start authoring and publishing actions on Pipedream! You can also check out the [detailed component reference](/components/api/#component-api) at any time!
 
 If you have any questions or feedback, please [reach out](https://pipedream.com/community)!
 
