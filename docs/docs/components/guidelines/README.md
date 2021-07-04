@@ -237,7 +237,7 @@ directory](https://github.com/pipedreamhq/pipedream/components).
 
 #### Using APIs vs Client Libraries
 
-Use If the app has a well-supported [Node.js client
+If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
 
