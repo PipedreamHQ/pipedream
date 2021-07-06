@@ -259,7 +259,8 @@ out](https://pipedream.com/community/c/dev/11).
 ##### Prop Definitions
 
 Whenever possible, reuse existing [prop
-definitions](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#prop-definitions-example).
+definitions](https://pipedream.com/docs/components/api/#prop-definitions-example).
+
 If a prop definition does not exist and you are adding an app-specific prop that
 may be reused in future components, add it as a prop definition to the app file.
 Prop definitions will also be surfaced for apps the Pipedream marketplace.
