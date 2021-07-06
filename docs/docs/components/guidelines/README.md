@@ -203,7 +203,7 @@ module.exports = {
 When publishing components to the Pipedream registry, the `key` must be unique
 across registry components and should follow the pattern:
 
-`app-name-slug`-`slugified-component-name`
+`app_name_slug`-`slugified-component-name`
 
 #### Folder Structure
 
@@ -212,14 +212,14 @@ Registry components are organized by app in the `components` directory of the
 
 ```text
 /components
- /[app_name_slug]
-  /[app_name_slug].app.js
+ /[app-name-slug]
+  /[app-name-slug].app.js
   /actions
-   /[action_name_slug]
-    /[action_name_slug].js
+   /[action-name-slug]
+    /[action-name-slug].js
   /sources
-   /[source_name_slug]
-    /[source_name_slug].js
+   /[source-name-slug]
+    /[source-name-slug].js
 ```
 
 - The name of each app folder corresponds with the name slug for each app
