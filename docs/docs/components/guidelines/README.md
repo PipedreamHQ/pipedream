@@ -345,7 +345,7 @@ approach, the general pattern is:
   etc) and potentially redefining any inherited methods.
 
 See [Google
-Drive](https://github.com/pipedreamhq/pipedream/components/google_drive) for an
+Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_drive) for an
 example of this pattern. When using this approach, prop definitions should still
 be maintained in the app file.
 
