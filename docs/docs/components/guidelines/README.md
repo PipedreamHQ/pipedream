@@ -374,13 +374,13 @@ Examples:
 - The async option to select an Airtable Base is self-explanatory so includes no
   description:
 
-  ![image-20210326151557417](images/image-20210326151557417.png)
+  ![image-20210326151557417](https://github.com/PipedreamHQ/pipedream/blob/016d65fef1ed307be4a38bff058375ab5a70c461/images/image-20210326151557417.png)
 
 - The “Search Term” prop for Twitter includes a description that helps the user
   understand what values they can enter, with specific values highlighted using
   backticks and links to external content.
 
-  ![image-20210326151706682](images/image-20210326151706682.png)
+  ![image-20210326151706682](https://github.com/PipedreamHQ/pipedream/blob/016d65fef1ed307be4a38bff058375ab5a70c461/images/image-20210326151706682.png)
 
 #### Optional vs Required Props
 
