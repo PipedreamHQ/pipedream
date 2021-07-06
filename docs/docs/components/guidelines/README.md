@@ -268,7 +268,7 @@ Prop definitions will also be surfaced for apps the Pipedream marketplace.
 ##### Methods
 
 Whenever possible, reuse
-[methods](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#methods)
+[methods](https://pipedream.com/docs/components/api/#methods)
 defined in the app file. If you need to use an API for which a method is not
 defined and it may be used in future components, define a new method in the app
 file.
