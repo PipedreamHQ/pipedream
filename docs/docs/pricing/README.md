@@ -43,12 +43,12 @@ You can upgrade to the Professional Tier from your [Billing and Usage Settings](
 
 ### Professional Tier Pricing
 
-Invocations on the Professional tier are priced at **\${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation, with a minimum monthly charge of \$10/month**. In other words, when you upgrade to the Professional tier, you pay \$10 per month for an initial set of {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations, which you can use at any time during that month. If you use more than {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations during that month, you'll be billed \${{$site.themeConfig.PRICE_PER_INVOCATION}} for each extra invocation.
+Invocations on the Professional tier are priced at **\${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation, with a minimum monthly charge of {{$site.themeConfig.PRO_MONTHLY_PRICE}}/month**. In other words, when you upgrade to the Professional tier, you pay {{$site.themeConfig.PRO_MONTHLY_PRICE}} per month for an initial set of {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations, which you can use at any time during that month. If you use more than {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations during that month, you'll be billed \${{$site.themeConfig.PRICE_PER_INVOCATION}} for each extra invocation.
 
-For example, if you run 100,000 invocations during a given [billing period](#billing-period) (roughly one month), you'll be charged a total of \$20:
+For example, if you run 120,000 invocations during a given [billing period](#billing-period) (one month), you'll be charged a total of \$39:
 
-- \$10 for the minimum monthly charge (yields {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} [base invocations](#base-invocations-quota) that you can use at any time during that month), paid at the start of your billing period.
-- \$10 for the 50,000 [additional billable invocations](#additional-billable-invocations), paid at the start of the next billing period.
+- {{$site.themeConfig.PRO_MONTHLY_PRICE}} for the minimum monthly charge (provides {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} [base invocations](#base-invocations-quota) that you can use at any time during that month), paid at the start of your billing period.
+- \$20 for the 100,000 [additional billable invocations](#additional-billable-invocations), paid at the start of the next billing period.
 
 See [when we invoice](#when-am-i-invoiced-billed-for-paid-plans) for more information on your billing schedule.
 
@@ -92,7 +92,7 @@ Your invoices are tied to your billing period. [Read more about invoicing / bill
 
 ### Base Invocations Quota
 
-If you sign up for the [Professional tier](#professional-tier), you pay \$10 at the start of each [billing period](#billing-period). This minimum monthly charge grants you a base of {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} you can use for the rest of your billing period. If you have been granted any additional invocation quota increases by Pipedream, that is added to your {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} base invocations. **This total is called the base invocations quota**.
+If you sign up for the [Professional tier](#professional-tier), you pay {{$site.themeConfig.PRO_MONTHLY_PRICE}} at the start of each [billing period](#billing-period). This minimum monthly charge grants you a base of {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} you can use for the rest of your billing period. If you have been granted any additional invocation quota increases by Pipedream, that is added to your {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} base invocations. **This total is called the base invocations quota**.
 
 ### Additional Billable Invocations
 
@@ -120,11 +120,11 @@ Pipedream charges invocations proportional to the memory configuration. If you r
 
 ### When am I invoiced / billed for paid plans?
 
-When you upgrade to the Professional tier, Stripe will immediately charge your payment method on file for \$10.
+When you upgrade to the Professional tier, Stripe will immediately charge your payment method on file for {{$site.themeConfig.PRO_MONTHLY_PRICE}}.
 
-If you accrue any [additional billable invocations](#additional-billable-invocations), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next \$10 monthly minimum, is charged at the start of the _next_ billing period.
+If you accrue any [additional billable invocations](#additional-billable-invocations), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next {{$site.themeConfig.PRO_MONTHLY_PRICE}} monthly minimum, is charged at the start of the _next_ billing period.
 
-For example, if you sign up for a paid plan on January 1st, you're immediately charged \$10. If you run 100,000 invocations in January, you'd use the {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations tied to this \$10 payment, and you'd accrue 50,000 additional billable invocations, for a total cost of \$20. That \$20 charge would be added to your next invoice, around Feb 1st, along with the \$10 monthly minimum charge for the billing period starting Feb 1st.
+For example, if you sign up for a paid plan on January 1st, you're immediately charged {{$site.themeConfig.PRO_MONTHLY_PRICE}}. If you run 120,000 invocations in January, you'd use the {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations tied to this {{$site.themeConfig.PRO_MONTHLY_PRICE}} payment, and you'd accrue 100,000 additional billable invocations, for a total cost of \$39. That \$39 charge would be added to your next invoice, around Feb 1st, along with the {{$site.themeConfig.PRO_MONTHLY_PRICE}} monthly minimum charge for the billing period starting Feb 1st.
 
 ### How does Pipedream secure my credit card data?
 
@@ -134,7 +134,7 @@ Pipedream stores no information on your payment method and uses Stripe as our pa
 
 **No**. On the Developer tier, unused daily invocations (and compute time) under the daily limit are **not** rolled over to the next day.
 
-On paid tiers, unused invocations included as a part of the base \$10 monthly fee are also **not** rolled over to the next month.
+On paid tiers, unused invocations included as a part of the base {{$site.themeConfig.PRO_MONTHLY_PRICE}} monthly fee are also **not** rolled over to the next month.
 
 ### How do I change my billing payment method?
 
