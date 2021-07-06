@@ -392,7 +392,7 @@ connect their account and enter a search term. The remaining fields are optional
 for users who want to filter the results, but they do not require any action to
 activate the source:
 
-![image-20210326151930885](images/image-20210326151930885.png)
+![image-20210326151930885](https://github.com/PipedreamHQ/pipedream/blob/016d65fef1ed307be4a38bff058375ab5a70c461/images/image-20210326151930885.png)
 
 #### Default Values
 
