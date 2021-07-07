@@ -4,7 +4,7 @@ Organizations provide your team a way to manage resources in a shared workspace.
 
 ## Creating an org
 
-Click the [context switcher](#switching-context) in the top-left of the page and click the button labeled **New Organization**:
+Click the [context switcher](#switching-context) in the top-left of the page and select the button labeled **New Organization**:
 
 <div>
 <img alt="Create a new org" src="./images/create-an-org.gif" width="400px">
