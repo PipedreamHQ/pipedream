@@ -6,7 +6,7 @@ module.exports = {
   key: "pcloud-list-contents",
   name: "List Contents.",
   description: "Lists the metadata of the specified folder's contents.",
-  version: "0.0.6",
+  version: "0.0.1",
   type: "action",
   props: {
     pcloud,

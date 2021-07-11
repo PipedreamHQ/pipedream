@@ -5,8 +5,8 @@ const validate = require("validate.js");
 module.exports = {
   key: "pcloud-copy-folder",
   name: "Copy Folder",
-  description: "Copies a folder to the specified path or  folder.",
-  version: "0.0.9",
+  description: "Copies a folder to the specified path or folder.",
+  version: "0.0.1",
   type: "action",
   props: {
     pcloud,

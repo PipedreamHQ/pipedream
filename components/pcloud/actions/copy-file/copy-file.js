@@ -7,7 +7,7 @@ module.exports = {
   name: "Copy File",
   description:
     "Takes one file and copies it as another file in the user's filesystem.",
-  version: "0.0.21",
+  version: "0.0.1",
   type: "action",
   props: {
     pcloud,

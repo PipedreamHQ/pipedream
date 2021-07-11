@@ -7,7 +7,7 @@ module.exports = {
   name: "Download File",
   description:
     "Downloads one or more files from links suplied in the url parameter.",
-  version: "0.0.11",
+  version: "0.0.1",
   type: "action",
   props: {
     pcloud,

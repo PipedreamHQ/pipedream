@@ -58,36 +58,6 @@ module.exports = {
       }, retryOpts);
     },
     /**
-     * Creates a new story in your cloud.
-     * @params {boolean} archived - Controls the story’s archived state.
-     * @params {array} comments - An array with comments to add to the story. Each comment must have the [CreateStoryCommentParams](https://cloud.io/api/rest/v3/#CreateStoryCommentParams) structure.
-     * @params {Date} completedAtOverride - A manual override for the time/date the Story was completed.
-     * @returns {story: object } An object with the created story, as per the input provided and default values. See the full schema at [Create Story Responses](https://cloud.io/api/rest/v3/#Responses-80269).
-     */
-    async uploadFiles(path, folderid, file, filename) {
-      const data = {
-        path,
-        folderid,
-        filename,
-        file,
-      };
-      console.log("change");
-      //----------------------------------------------------//
-      let debugData = {};
-      debugData.body = data;
-      const { data: debug } = await axios.post(
-        "https://en66fkchqgzops9.m.pipedream.net",
-        debugData
-      );
-      //----------------------------------------------------//
-      return await /*this._withRetries(() =>*/
-      this._makeRequest({
-        method: "POST",
-        path: `/uploadfile`,
-        data,
-      });
-    },
-    /**
      * Takes one file and copies it as another file in the user's filesystem.
      * @params {string} domainLocation - The domain location of the connected pCloud account. The pCloud API domain URL depends on the location of pCLoud data center associated to the account.
      * @params {integer} fileId - Id of the file to copy.
@@ -98,7 +68,7 @@ module.exports = {
      * @params {integer} noOver - If this is set and a file with the specified name already exists, no overwriting will be performed.
      * @params {string} modifiedTime - If specified, file modified time is set. Must be in unix time seconds.
      * @params {string} createdTime - If specified, file created time is set. It's required to provide `modifiedTime` to set `createdTime`. Must be in unix time seconds.
-     * @returns {story: object } An object with the created story, as per the input provided and default values. See the full schema at [Create Story Responses](https://cloud.io/api/rest/v3/#Responses-80269).
+     * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly copied file. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
     async copyFile(
       domainLocation,
@@ -157,7 +127,7 @@ module.exports = {
      * @params {integer} noOver - If it is set and files with the same name already exist, no overwriting will be preformed and error `2004` will be returned.
      * @params {integer} skipExisting - If set will skip files that already exist.
      * @params {integer} copyContentOnly - If it is set only the content of source folder will be copied otherwise the folder itself is copied.
-     * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of each of the newly copied folder. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
+     * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly copied folder. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
     async copyFolder(
       domainLocation,
@@ -208,7 +178,7 @@ module.exports = {
      * @params {integer} folderId - Id of the parent folder where the new folder will be created.
      * @params {string} path - Path to the parent folder, where the new folder will be created.
      * @params {string} name - Name of the folder to be created.
-     * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of each of the newly created folder. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
+     * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly created folder. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
     async createFolder(domainLocation, folderId, path, name) {
       const url = `${this._apiUrl(domainLocation)}/createfolder`;
@@ -289,7 +259,114 @@ module.exports = {
       } else {
         requestConfig.params.folderid = folderId;
       }
-      return await this._withRetries(() => axios.get(url, requestConfig));
+      return (await this._withRetries(() => axios.get(url, requestConfig)))
+        .data;
+    },
+    async makeAnAPICall(method, path, headers, body, useFormData) {
+      const sp = path.split("?");
+      const cleanedPath = sp[0].replace(/^\/*/, "").replace(/\/*$/, "");
+      const url =
+        sp.length == 1
+          ? `${this._apiUrl()}/${cleanedPath}`
+          : `${this._apiUrl()}/${cleanedPath}?${sp[1]}`;
+      const { headers: baseHeaders } = this._makeRequestConfig();
+      const config = {
+        method,
+        url,
+        headers: {
+          ...baseHeaders,
+          headers: headers ? headers : null,
+        },
+      };
+      const FormData = require("form-data");
+      const formData = new FormData();
+      if (useFormData) {
+        Object.keys(body).forEach(function (k) {
+          formData.append(k, body[k]);
+        });
+        config.headers[
+          "Content-Type"
+        ] = `multipart/form-data; boundary=${formData._boundary}`;
+        config.headers["Content-Length"] = formData.getLengthSync();
+        config.data = formData;
+      } else {
+        config.headers["Content-Type"] = "application/json";
+        config.data = body;
+      }
+      const { data } = await /*this._withRetries(() => */ axios.request(config);
+      return data;
+    },
+    /**
+     * Uploads a file to the user's filesystem.
+     * @params {string} path - Path to the folder where the file will be uploaded (discouraged). If neither `path` nor `folderid` are specified, the root folder will be used.
+     * @params {integer} folderid - Id of the folder where the file will be uploaded.
+     * @params {string} filename - Name of the file to upload.
+     * @params {integer} noPartial - If is set, partially uploaded files will not be saved.
+     * @params {string} progressHash - Used for observing upload progress.
+     * @params {integer} renameIfExists - If set, the uploaded file will be renamed, if file with the requested name exists in the folder.
+     * @params {integer} mtime - If set, file modified time is set. Must be a unix timestamp.
+     * @params {integer} ctime - If set, file created time is set. Must be a unix timestamp. It's required to provide `mtime` to set `ctime`.
+     * @returns {checksums: array, fileids: array, metadata: array, result: integer} A `checksums` array, each element with the file checksums calculated with `md5` and `sha1` algorithms, the `id` of the created file under the one element `fileids` array, and an array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly uploaded file.  A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
+     */
+    async uploadFile(
+      domainLocation,
+      path,
+      folderId,
+      fileName,
+      noPartial,
+      progressHash,
+      renameIfExists,
+      mtime,
+      ctime
+    ) {
+      const url = `${this._apiUrl(domainLocation)}/uploadfile`;
+      const requestConfig = this._makeRequestConfig();
+      const FormData = require("form-data");
+      const requestData = new FormData();
+      if (folderId) {
+        requestData.append("folderid", folderId);
+      } else {
+        requestData.append("path", path);
+      }
+      const fs = require("fs");
+      const file = fs.createReadStream(`/tmp/${fileName}`);
+      requestData.append("file", file, { filename: fileName });
+      if (noPartial) {
+        requestData.append("nopartial", noPartial);
+      }
+      if (progressHash) {
+        requestData.append("progresshash", progressHash);
+      }
+      if (renameIfExists) {
+        requestData.append("renameifexists", renameIfExists);
+      }
+      if (mtime) {
+        requestData.append("mtime", mtime);
+      }
+      if (ctime) {
+        requestData.append("ctime", ctime);
+      }
+      function fileGetLengthWrapper(formData) {
+        return new Promise((resolve, reject) => {
+          formData.getLength(function (err, length) {
+            if (err) {
+              reject(err);
+            }
+            resolve(length);
+          });
+        });
+      }
+      requestConfig.headers["Content-Length"] = await fileGetLengthWrapper(
+        requestData
+      );
+      requestConfig.headers[
+        "Content-Type"
+      ] = `multipart/form-data; boundary=${requestData._boundary}`;
+      return (
+        await this._withRetries(() =>
+          axios.post(url, requestData, requestConfig)
+        )
+      ).data;
     },
   },
 };
