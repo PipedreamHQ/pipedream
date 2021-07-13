@@ -212,6 +212,26 @@ api_key = def456
 
 You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pipedream account via the CLI and set a named profile for that account.
 
+## Creating a profile for an organization
+
+If you're working with resources in an [organization](/orgs/), you'll need to add an `org_id` to your profile. 
+
+1. Visit [pipedream.com](https://pipedream.com) and [switch your context](/orgs/#switching-context) to your organization.
+2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Acccess** section.
+3. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
+
+```
+[profile_name]
+api_key = <API Key from org settings>
+org_id = <Org ID from org settings>
+```
+
+When using the CLI, pass `--profile <profile_name>` when running any command. For example, if you named your profile `my_org`, you'd run this command to publish a component:
+
+```bash
+pd publish file.js --profile my_org
+```
+
 ### Using profiles
 
 You can set a profile on any `pd` command by setting the `-p` or `--profile` flag. For example, to list the sources in a specific account, run:
