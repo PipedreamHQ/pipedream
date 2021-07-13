@@ -212,7 +212,7 @@ api_key = def456
 
 You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pipedream account via the CLI and set a named profile for that account.
 
-## Creating a profile for an organization
+### Creating a profile for an organization
 
 If you're working with resources in an [organization](/orgs/), you'll need to add an `org_id` to your profile. 
 
