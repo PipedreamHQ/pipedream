@@ -233,11 +233,11 @@ Registry components are organized by app in the `components` directory of the
   `/components/twitter/sources/search-mentions/search-mentions.js`.
 
 You can explore examples in the [components
-directory](https://github.com/pipedreamhq/pipedream/components).
+directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
 
 #### Using APIs vs Client Libraries
 
-Use If the app has a well-supported [Node.js client
+If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
 
