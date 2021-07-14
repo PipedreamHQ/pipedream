@@ -1,4 +1,6 @@
 const axios = require("axios");
+/* timezone-list: https://www.npmjs.com/package/timezones-list */
+const timezones = require("timezones-list");
 
 module.exports = {
   type: "app",
@@ -12,13 +14,26 @@ module.exports = {
           prevHasMore: hasMore = false,
           prevContinuation: continuation,
         } = prevContext;
-        const params = hasMore ? { continuation } : null;
-        const { organizations, pagination } = await this.listMyOrganizations(
-          params
+        const params = hasMore
+          ? {
+            continuation,
+          }
+          : null;
+        const {
+          organizations,
+          pagination,
+        } = await this.listMyOrganizations(
+          params,
         );
         const options = organizations.map((org) => {
-          const { name, id } = org;
-          return { label: name, value: id };
+          const {
+            name,
+            id,
+          } = org;
+          return {
+            label: name,
+            value: id,
+          };
         });
         const {
           has_more_items: prevHasMore,
@@ -33,6 +48,29 @@ module.exports = {
         };
       },
     },
+    eventId: {
+      type: "integer",
+      label: "Event ID",
+      description: "Enter the ID of an event",
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "The timezone",
+      default: "UTC",
+      async options() {
+        timezones.unshift({
+          label: "UTC (GMT+00:00)",
+          tzCode: "UTC",
+        });
+        return timezones.map(({
+          label, tzCode,
+        }) => ({
+          label,
+          value: tzCode,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -40,7 +78,8 @@ module.exports = {
     },
     _getHeaders() {
       return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Content-Type": "application/json",
       };
     },
     async _makeRequest(
@@ -48,7 +87,7 @@ module.exports = {
       endpoint,
       params = null,
       data = null,
-      url = `${this._getBaseUrl()}${endpoint}`
+      url = `${this._getBaseUrl()}${endpoint}`,
     ) {
       const config = {
         method,
@@ -64,7 +103,7 @@ module.exports = {
         "POST",
         `organizations/${orgId}/webhooks/`,
         null,
-        data
+        data,
       );
     },
     async deleteHook(hookId) {
@@ -73,11 +112,16 @@ module.exports = {
     async listMyOrganizations(params) {
       return await this._makeRequest("GET", "users/me/organizations", params);
     },
-    async listEvents({ orgId, params }) {
+    async listEvents(
+      {
+        orgId,
+        params,
+      },
+    ) {
       return await this._makeRequest(
         "GET",
         `organizations/${orgId}/events/`,
-        params
+        params,
       );
     },
     async getResource(url) {
@@ -89,8 +133,20 @@ module.exports = {
     async getOrderAttendees(orderId) {
       return await this._makeRequest("GET", `orders/${orderId}/attendees/`);
     },
-    async getEventAttendees(eventId) {
-      return await this._makeRequest("GET", `events/${eventId}/attendees/`);
+    async getEventAttendees(eventId, params = null) {
+      return await this._makeRequest(
+        "GET",
+        `events/${eventId}/attendees/`,
+        params,
+      );
+    },
+    async createEvent(orgId, data) {
+      return await this._makeRequest(
+        "POST",
+        `organizations/${orgId}/events/`,
+        null,
+        data,
+      );
     },
   },
 };
