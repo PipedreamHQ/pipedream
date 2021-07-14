@@ -2,7 +2,7 @@ const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 
 module.exports = {
-  key: "sendgrid-add-or-update-contacts",
+  key: "sendgrid-add-or-update-contact",
   name: "Add Or Update Contacts",
   description: "Adds or updates contacts.",
   version: "0.0.1",
