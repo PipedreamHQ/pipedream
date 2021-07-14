@@ -495,10 +495,12 @@ let axios = require("axios");
 Next, let's add an **app prop**, which will enable us to use Pipedream managed auth with this component. For this example, we'll add Github:
 
 ```javascript
-github: {
-  type: "app",
-  app: "github",
-}
+props: {
+  github: {
+    type: "app",
+    app: "github",
+  },
+},
 ```
 
 **IMPORTANT: The CLI will prompt you to select a connected account (or connect a new one) when you deploy (or update) this component.**
