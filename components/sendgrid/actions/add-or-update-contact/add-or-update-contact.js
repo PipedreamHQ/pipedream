@@ -35,23 +35,15 @@ module.exports = {
     };
     const validationResult = validate(
       { listIds: this.listIds, contacts: this.contacts },
-      constraints
+      constraints,
+      { format: 'flat' },
     );
     if (validationResult) {
-      let validationResultKeys = Object.keys(validationResult);
-      let validationMessages;
-      if (validationResultKeys.length == 1) {
-        validationMessages = validationResult[validationResultKeys[0]];
-      } else {
-        validationMessages =
-          "Parameters validation failed with the following errors:\t";
-        validationResultKeys.forEach(
-          (validationResultKey) =>
-            (validationMessages +=
-              `${validationResult[validationResultKey]}\t`)
-        );
-      }
-      throw new Error(validationMessages);
+      const validationErrorMsg = validationResult
+        .map((errorMsg) => `\t${errorMsg}`)
+        .join('\n');
+      const errorMsg = `Parameter validation failed with the following errors:\n${validationErrorMsg}`;
+      throw new Error(errorMsg);
     }
     return await this.sendgrid.addOrUpdateContacts({
       list_ids: this.listIds,
