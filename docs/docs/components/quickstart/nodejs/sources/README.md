@@ -507,7 +507,7 @@ props: {
 
 > **Note:** The value for the `app` property is the name slug for the app in Pipedream. This is not currently discoverable, but it will be in the near future. For the time being, if you want to know how to reference an app, please reach out on our public Slack.
 
-Finally, we'll update the `run()` method to fetch issues from Github using `axios` and emit them. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the app prop `this.github.$auth.oauth_access_token`. Also, similar to the RSS example, it's important that you use the `pddemo/demo` repo so you can test the next dedupe strategy.
+Finally, we'll update the `run()` method to fetch issues from Github using `axios` and emit them. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the app prop `this.github.$auth.oauth_access_token`. Also, similar to the RSS example, it's important that you use `https://api.github.com/repos/pddemo/demo/issues` as the repo so you can test the next dedupe strategy.
 
 ```javascript
 async run() {
