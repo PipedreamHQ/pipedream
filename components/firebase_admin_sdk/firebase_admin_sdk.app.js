@@ -1,6 +1,5 @@
 const admin = require("firebase-admin");
 const axios = require("axios");
-let tokens;
 
 module.exports = {
   type: "app",
@@ -57,23 +56,23 @@ module.exports = {
     getApp() {
       return admin.app();
     },
-    _getHeaders(withAuth) {
+    _getHeaders(token) {
       const defaultHeader = {
         "Content-Type": "applicaton/json",
       };
-      const headers = withAuth
+      const headers = token
         ? {
           ...defaultHeader,
-          Authorization: `Bearer ${tokens.token}`,
+          Authorization: `Bearer ${token}`,
         }
         : defaultHeader;
       return headers;
     },
-    async _makeRequest(method, url, data, params = {}, withAuth = true) {
+    async _makeRequest(method, url, data, params = {}, token = null) {
       const config = {
         method,
         url,
-        headers: this._getHeaders(withAuth),
+        headers: this._getHeaders(token),
         data,
         params,
       };
@@ -105,59 +104,7 @@ module.exports = {
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken",
         data,
         params,
-        false,
       );
-    },
-    /**
-     * Exchanges a refresh Token for a new Bearer token for use with the Firebase REST API.
-     * @param {string} apiKey - the Web API Key, which is obtained from the project settings
-     * page in the admin console
-     * @returns {object} returns an object containing a new token and refresh token
-     */
-    async _refreshToken(apiKey) {
-      const data = {
-        grant_type: "refresh_token",
-        refresh_token: tokens.refreshToken,
-      };
-      const params = {
-        key: apiKey,
-      };
-      return await this._makeRequest(
-        "POST",
-        "https://securetoken.googleapis.com/v1/token",
-        data,
-        params,
-        false,
-      );
-    },
-    /**
-     * Gets a new brand new token or exchanges the refresh token for a new Bearer token
-     * for use with the Firebase REST API.
-     * @param {string} apiKey - the Web API Key, which is obtained from the project settings
-     * page in the admin console
-     */
-    async _getFreshTokens(apiKey) {
-      if (tokens) {
-        const {
-          id_token: it,
-          refresh_token: rt,
-        } = await this._refreshToken(apiKey);
-        tokens = {
-          token: it,
-          refreshToken: rt,
-        };
-        return;
-      }
-      const {
-        idToken,
-        refreshToken,
-      } = await this._getToken(
-        apiKey,
-      );
-      tokens = {
-        token: idToken,
-        refreshToken,
-      };
     },
     /**
      * @param {string} structuredQuery - A structured query in the format specified in
@@ -168,7 +115,7 @@ module.exports = {
      * @returns {array} an array of the documents returned from the structured query
      */
     async runQuery(structuredQuery, apiKey) {
-      await this._getFreshTokens(apiKey);
+      const { idToken } = await this._getToken(apiKey);
       const { projectId } = this.$auth;
       const parent = `projects/${projectId}/databases/(default)/documents`;
       const data = {
@@ -179,7 +126,7 @@ module.exports = {
         `https://firestore.googleapis.com/v1/${parent}:runQuery`,
         data,
         null,
-        true,
+        idToken,
       );
     },
   },
