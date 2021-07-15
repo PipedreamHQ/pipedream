@@ -67,11 +67,11 @@ module.exports = {
         headers,
       };
     },
-    async _makeRequest(opts) {
-      if (!opts.headers) opts.headers = {};
-      opts.headers.authorization = `Bearer ${this._authToken()}`;
-      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
-      opts.headers["Content-Type"] = "application/json";
+    async _makeRequest(opts = {}) {
+      opts = {
+        ...this._makeRequestConfig(),
+        ...opts,
+      };
       const { path } = opts;
       delete opts.path;
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
