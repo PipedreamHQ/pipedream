@@ -59,7 +59,8 @@ module.exports = {
     _makeRequestConfig() {
       const authToken = this._authToken();
       const headers = {
-        Authorization: `Bearer ${authToken}`,
+        "Authorization": `Bearer ${authToken}`,
+        "Content-Type": "application/json",
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
       return {
