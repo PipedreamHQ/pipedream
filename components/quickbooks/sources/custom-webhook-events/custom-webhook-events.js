@@ -4,51 +4,19 @@ module.exports = {
   ...common,
   key: 'quickbooks-custom-webhook-events',
   name: 'Custom Webhook Events',
-  description: 'Subscribe to one or more event types (i.e. PurchaseOrder created, Invoice emailed) and emit an event on each webhook request. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks',
+  description: 'Specify your own combination of entities and operations (i.e. Bills and Invoices — Created and Updated) to emit an event for each matching webhook request. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks',
   version: '0.0.1',
   props: {
     ...common.props,
-    operations_to_emit: {
-      type: 'string[]',
-      label: 'Operations',
-      options: ['Create', 'Update', 'Emailed', 'Delete', 'Void'],
-      optional: true,
-    },
     names_to_emit: {
       type: 'string[]',
-      label: 'Entity Types',
-      options: [
-        'Account',
-        'BillPayment',
-        'Class',
-        'Customer',
-        'Employee',
-        'Estimate',
-        'Invoice',
-        'Item',
-        'Payment',
-        'Purchase',
-        'SalesReceipt',
-        'Vendor',
-        'Bill',
-        'CreditMemo',
-        'RefundReceipt',
-        'VendorCredit',
-        'TimeActivity',
-        'Department',
-        'Deposit',
-        'JournalEntry',
-        'PaymentMethod',
-        'Preferences',
-        'PurchaseOrder',
-        'TaxAgency',
-        'Term',
-        'Transfer',
-        'Budget',
-        'Currency',
-        'JournalCode',
-      ],
+      label: 'Entities',
+      description: 'Select which QuickBooks entities to emit. If you want to emit them all you can just leave this field blank.',
+      options: common.methods.getEntityNames(),
       optional: true,
+    },
+    operations_to_emit: {
+      propDefinition: [github, 'operations_to_emit'],
     },
   },
   async run(event) {
@@ -63,11 +31,11 @@ module.exports = {
       },
     });
 
-    //reject any events that don't match the operation or entity name (if those options have been selected)
-    if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(entity.operation)){
-      console.log(`Operation '${entity.operation}' not found in list of selected Operations`)
-    } else if(this.names_to_emit.length > 0 && !this.names_to_emit.includes(entity.name)){
+    //reject any events that don't match the entity name or operation (if those options have been selected)
+    if(this.names_to_emit.length > 0 && !this.names_to_emit.includes(entity.name)){
       console.log(`Name '${entity.name}' not found in list of selected Entity Types`)
+    } else if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(entity.operation)){
+      console.log(`Operation '${entity.operation}' not found in list of selected Operations`)
     } else {
       this.$emit(event.body, {summary})
     }
