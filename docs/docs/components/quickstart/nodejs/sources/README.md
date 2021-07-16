@@ -203,7 +203,7 @@ module.exports = {
 
 Save the changes to your file (your component on Pipedream should automatically update). and then, return to the Pipedream UI and **reload the page**. You should now see the timer settings in the summary and a countdown to the next execution (you can still run your component manually). Your component will now run every 15 seconds.
 
-![source](/images/quickstart/hello-world-3.gif)
+![source](./images/quickstart/hello-world-3.gif)
 
 **Note**: if you'd like to change the schedule of your deployed component, visit the **Configuration** tab in the Pipedream UI and change the schedule accordingly. Changing the value of `intervalSeconds` within the component's code will not change the schedule of the running instance of the component. You can also set one value as the default `intervalSeconds` in the component's code, but run
 
