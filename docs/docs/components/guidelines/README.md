@@ -258,7 +258,7 @@ out](https://pipedream.com/community/c/dev/11).
 
 ##### Prop Definitions
 
-Whenever possible, reuse existing [prop definitions](../api/#prop-definitions-example).
+Whenever possible, reuse existing [prop definitions](/components/api/#prop-definitions-example).
 
 If a prop definition does not exist and you are adding an app-specific prop that
 may be reused in future components, add it as a prop definition to the app file.
@@ -267,7 +267,7 @@ Prop definitions will also be surfaced for apps the Pipedream marketplace.
 ##### Methods
 
 Whenever possible, reuse
-[methods](../api/#methods)
+[methods](/components/api/#methods)
 defined in the app file. If you need to use an API for which a method is not
 defined and it may be used in future components, define a new method in the app
 file.
