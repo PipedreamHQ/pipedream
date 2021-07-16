@@ -49,7 +49,7 @@ module.exports = {
       return supported_webhook_options[entity_name]
     },
     describeOperations(operations){
-      const descriptive_operations = {
+      const descriptive_operation_names = {
         Create: 'created',
         Update: 'updated',
         Merge: 'merged',
@@ -59,9 +59,10 @@ module.exports = {
       }
 
       if(Array.isArray(operations)){
-        return operations.map(operation => descriptive_operations[operation]).join(', ')
+        //creates a string listing the operations for use in the description: e.g. 'created, updated, merged, deleted'
+        return operations.map(operation => descriptive_operation_names[operation]).join(', ')
       } else {
-        return descriptive_operations[operations]
+        return descriptive_operation_names[operations]
       }
     },
     getEntity(event){
