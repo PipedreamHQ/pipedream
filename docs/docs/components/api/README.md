@@ -202,7 +202,7 @@ The event lifecycle applies to deployed components. Learn about the [component l
 
 ### Diagram
 
-![./image-20200819210516311](../../../../images/image-20200819210516311.png)
+![image-20200819210516311](./images/image-20200819210516311.png)
 
 ### Triggering Components
 
