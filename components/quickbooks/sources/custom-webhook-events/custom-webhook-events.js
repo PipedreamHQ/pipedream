@@ -10,7 +10,7 @@ module.exports = {
   props: {
     ...common.props,
     names_to_emit: {
-      propDefinition: [quickbooks, 'webhook_entities'],
+      propDefinition: [quickbooks, 'webhook_names'],
     },
     operations_to_emit: {
       propDefinition: [quickbooks, 'webhook_operations'],
