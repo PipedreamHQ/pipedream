@@ -10,7 +10,7 @@ module.exports = {
   ...common,
   key: `quickbooks-new-or-modified-customer`,
   name: `New or Modified Customer (${supported_operations_list})`,
-  description: `Emits an event when a Customer is ${supported_operations_list.toLowerCase()}. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks`,
+  description: `Emit Customers that are ${supported_operations_list.toLowerCase()}. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks`,
   version: '0.0.1',
   props: {
     ...common.props,
