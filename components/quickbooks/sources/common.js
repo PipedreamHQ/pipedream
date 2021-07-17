@@ -48,21 +48,19 @@ module.exports = {
     getSupportedOperations(entity_name){      
       return supported_webhook_options[entity_name]
     },
-    describeOperations(operations){
-      const descriptive_operation_names = {
-        Create: 'created',
-        Update: 'updated',
-        Merge: 'merged',
-        Delete: 'deleted',
-        Void: 'voided',
-        Emailed: 'emailed',
+    toPastTense(operations){
+      const past_tense_version = {
+        Create: 'Created',
+        Update: 'Updated',
+        Merge: 'Merged',
+        Delete: 'Deleted',
+        Void: 'Voided',
+        Emailed: 'Emailed',
       }
-
       if(Array.isArray(operations)){
-        //creates a string listing the operations for use in the description: e.g. 'created, updated, merged, deleted'
-        return operations.map(operation => descriptive_operation_names[operation]).join(', ')
+        return operations.map(operation => past_tense_version[operation])
       } else {
-        return descriptive_operation_names[operations]
+        return past_tense_version[operations]
       }
     },
     getEntity(event){
@@ -78,7 +76,7 @@ module.exports = {
       })
     },
     emitEvent(event, entity){
-      const summary = `${entity.name} ${entity.id} ${this.describeOperations(entity.operation)}`
+      const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`
       this.$emit(event.body, {summary})
     }
   },
