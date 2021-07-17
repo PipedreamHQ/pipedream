@@ -71,17 +71,17 @@ module.exports = {
     },
 
     toReadableList(array){
-      // converts an array to a readable list like this: ['Created', 'Updated', 'Merged'] => 'Created, Updated or Merged'
+      // converts an array to a readable list like this: ['Created', 'Updated', 'Merged'] => 'Created, Updated, or Merged'
       const comma_separated_list = array.join(', ')
-      const index_of_last_comma = comma_separated_list.lastIndexOf(',')
-      if(index_of_last_comma !== -1){
-        //replace the last comma with an 'or'
-        const before_last_comma = comma_separated_list.substring(0, index_of_last_comma)
-        const after_last_comma = comma_separated_list.substring(index_of_last_comma + 1)
-        return before_last_comma + ' or' + after_last_comma
-      } else {
+      const index_after_last_comma = comma_separated_list.lastIndexOf(',') + 1
+      if(index_of_last_comma === -1){
         //no commas were found so just return the list
         return comma_separated_list
+      } else {
+        //add an 'or' after the last comma
+        const before_last_comma = comma_separated_list.slice(0, index_after_last_comma)
+        const after_last_comma = comma_separated_list.slice(index_after_last_comma)
+        return before_last_comma + ' or' + after_last_comma
       }
     },
 
