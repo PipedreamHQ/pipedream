@@ -1,3 +1,4 @@
+const quickbooks = require('../../quickbooks.app');
 const common = require('../common')
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
       optional: true,
     },
     operations_to_emit: {
-      propDefinition: [github, 'operations_to_emit'],
+      propDefinition: [quickbooks, 'operations_to_emit'],
     },
   },
   async run(event) {
