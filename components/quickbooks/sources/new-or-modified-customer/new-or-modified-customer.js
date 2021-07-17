@@ -3,8 +3,8 @@ const common = require('../common')
 
 const source_entity = 'Customer'
 
-const supported_operations = common.methods.getSupportedOperations(source_entity)
-const supported_operations_description = common.methods.describeOperations(supported_operations)
+const supported_operations = this.getSupportedOperations(source_entity)
+const supported_operations_description = this.describeOperations(supported_operations)
 
 module.exports = {
   ...common,

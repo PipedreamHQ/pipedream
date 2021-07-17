@@ -13,7 +13,7 @@ module.exports = {
       type: 'string[]',
       label: 'Entities',
       description: 'Select which QuickBooks entities to emit or just leave it blank to emit them all.',
-      options: common.methods.getEntityNames(),
+      options: this.getEntityNames(),
       optional: true,
     },
     operations_to_emit: {
