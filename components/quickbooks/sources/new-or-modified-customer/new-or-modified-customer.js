@@ -16,7 +16,7 @@ module.exports = {
     ...common.props,
     operations_to_emit: {
       propDefinition: [quickbooks, 'operations_to_emit'],
-      //list only the options supported by this source's entity instead of offering all the default options from the propDefinition
+      //overwrite the default options from the propDefinition to list only the options supported by this source's entity
       options: supported_operations,
     },
   },

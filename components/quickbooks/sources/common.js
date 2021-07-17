@@ -45,9 +45,11 @@ module.exports = {
     getEntityNames(){
       return Object.keys(supported_webhook_options)
     },
+
     getSupportedOperations(entity_name){      
       return supported_webhook_options[entity_name]
     },
+
     toPastTense(operations){
       const past_tense_version = {
         Create: 'Created',
@@ -63,9 +65,11 @@ module.exports = {
         return past_tense_version[operations]
       }
     },
+
     getEntity(event){
       return event.body.eventNotifications[0].dataChangeEvent.entities[0]
     },
+
     sendHttpResponse(event, entity){
       this.http.respond({
         status: 200,
@@ -75,6 +79,7 @@ module.exports = {
         },
       })
     },
+    
     emitEvent(event, entity){
       const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`
       this.$emit(event.body, {summary})
