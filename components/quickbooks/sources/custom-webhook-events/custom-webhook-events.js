@@ -13,12 +13,15 @@ module.exports = {
       type: 'string[]',
       label: 'Entities',
       description: 'Select which QuickBooks entities to emit or just leave it blank to emit them all.',
-      options: this.getEntityNames(),
+      options: common.methods.getEntityNames(),
       optional: true,
     },
     operations_to_emit: {
       propDefinition: [quickbooks, 'operations_to_emit'],
     },
+  },
+  methods:{
+    ...common.methods,
   },
   async run(event) {
     const entity = event.body.eventNotifications[0].dataChangeEvent.entities[0]
