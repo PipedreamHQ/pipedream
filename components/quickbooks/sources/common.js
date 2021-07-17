@@ -104,4 +104,9 @@ module.exports = {
       this.$emit(event.body, {summary})
     }
   },
+  async run(event) {
+    const webhook_entity = this.getEntity(event)
+    this.sendHttpResponse(event, webhook_entity)
+    this.validateAndEmit(event, webhook_entity)
+  },
 }

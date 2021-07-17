@@ -18,18 +18,16 @@ module.exports = {
   },
   methods:{
     ...common.methods,
+    validateAndEmit(event, webhook_entity){
+      //reject any events that don't match the entity name or operation (if those options have been selected)
+      if(this.names_to_emit.length > 0 && !this.names_to_emit.includes(webhook_entity.name)){
+        console.log(`Entity Type '${webhook_entity.name}' not found in list of selected Entity Types`)
+      } else if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(webhook_entity.operation)){
+        console.log(`Operation '${webhook_entity.operation}' not found in list of selected Operations`)
+      } else {
+        this.emitEvent(event, webhook_entity)
+      }
+   }
   },
-  async run(event) {
-    const webhook_entity = this.getEntity(event)
-    this.sendHttpResponse(event, webhook_entity)
 
-    //reject any events that don't match the entity name or operation (if those options have been selected)
-    if(this.names_to_emit.length > 0 && !this.names_to_emit.includes(webhook_entity.name)){
-      console.log(`Entity Type '${webhook_entity.name}' not found in list of selected Entity Types`)
-    } else if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(webhook_entity.operation)){
-      console.log(`Operation '${webhook_entity.operation}' not found in list of selected Operations`)
-    } else {
-      this.emitEvent(event, webhook_entity)
-    }
-  },
 };
