@@ -85,14 +85,10 @@ module.exports = {
       }
     },
 
-    getEntity(event){
-      return event.body.eventNotifications[0].dataChangeEvent.entities[0]
-    },
-
-    sendHttpResponse(event, entity){
+    sendHttpResponse(event, entities){
       this.http.respond({
         status: 200,
-        body: entity,
+        body: entities,
         headers: {
           'Content-Type': event.headers['Content-Type'],
         },
@@ -105,8 +101,8 @@ module.exports = {
     }
   },
   async run(event) {
-    const webhook_entity = this.getEntity(event)
-    this.sendHttpResponse(event, webhook_entity)
-    this.validateAndEmit(event, webhook_entity)
+    const {entities} = event.body.eventNotifications[0].dataChangeEvent
+    this.sendHttpResponse(event, entities)
+    entities.forEach(entity => this.validateAndEmit(event, entity))
   },
 }
