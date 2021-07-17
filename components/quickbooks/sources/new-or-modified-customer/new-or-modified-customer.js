@@ -12,7 +12,7 @@ const supported_operations_description = common.methods.describeOperations(suppo
 module.exports = {
   ...common,
   key: `quickbooks-new-or-modified-${source_entity.name.toLowerCase()}`,
-  name: `${source_entity.display_name} Created, Updated, Merged, Deleted, Voided, or Emailed`,
+  name: `New or Modified ${source_entity.display_name} (${supported_operations.join(', ')})`,
   description: `Emits an event when a ${source_entity.display_name} is ${supported_operations_description}. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks`,
   version: '0.0.1',
   props: {
