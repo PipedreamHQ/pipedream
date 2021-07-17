@@ -4,13 +4,13 @@ const common = require('../common')
 const source_entity = 'Customer'
 
 const supported_operations = common.methods.getSupportedOperations(source_entity)
-const supported_operations_list = common.methods.toPastTense(supported_operations).join(', ').toLowerCase()
+const supported_operations_list = common.methods.getOperationsDescription(supported_operations)
 
 module.exports = {
   ...common,
   key: `quickbooks-new-or-modified-customer`,
-  name: `New or Modified Customer (${supported_operations.join(', ')})`,
-  description: `Emits an event when a Customer is ${supported_operations_list}. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks`,
+  name: `New or Modified Customer (${supported_operations_list})`,
+  description: `Emits an event when a Customer is ${supported_operations_list.toLowerCase()}. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks`,
   version: '0.0.1',
   props: {
     ...common.props,

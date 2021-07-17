@@ -4,8 +4,8 @@ const common = require('../common')
 module.exports = {
   ...common,
   key: 'quickbooks-custom-webhook-events',
-  name: 'Custom Set of Webhook Entities (Create, Update, Merge, Delete, Void, Emailed)',
-  description: 'Specify your own combination of entities and operations (i.e. Created or Updated Customers and Vendors) to emit an event for each matching webhook request. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks',
+  name: 'Custom Set of Webhook Entities (Created, Updated, Merged, Deleted, Voided or Emailed)',
+  description: 'Use this if you want your source to emit more than one type of entity (e.g. "Emailed Invoices and Purchase Orders" or "New and Modified Customers and Vendors"). Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks',
   version: '0.0.1',
   props: {
     ...common.props,
