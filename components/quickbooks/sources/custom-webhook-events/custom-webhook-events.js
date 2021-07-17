@@ -24,24 +24,16 @@ module.exports = {
     ...common.methods,
   },
   async run(event) {
-    const entity = event.body.eventNotifications[0].dataChangeEvent.entities[0]
-    const summary = `${entity.name} ${entity.id} ${entity.operation}`
-
-    this.http.respond({
-      status: 200,
-      body: entity,
-      headers: {
-        'Content-Type': event.headers['Content-Type'],
-      },
-    });
+    const webhook_entity = this.getEntity(event)
+    this.sendHttpResponse(event, webhook_entity)
 
     //reject any events that don't match the entity name or operation (if those options have been selected)
-    if(this.names_to_emit.length > 0 && !this.names_to_emit.includes(entity.name)){
-      console.log(`Name '${entity.name}' not found in list of selected Entity Types`)
-    } else if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(entity.operation)){
-      console.log(`Operation '${entity.operation}' not found in list of selected Operations`)
+    if(this.names_to_emit.length > 0 && !this.names_to_emit.includes(webhook_entity.name)){
+      console.log(`Entity Type '${webhook_entity.name}' not found in list of selected Entity Types`)
+    } else if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(webhook_entity.operation)){
+      console.log(`Operation '${webhook_entity.operation}' not found in list of selected Operations`)
     } else {
-      this.$emit(event.body, {summary})
+      this.emitEvent(event, webhook_entity)
     }
   },
 };
