@@ -74,7 +74,7 @@ module.exports = {
       // converts an array to a readable list like this: ['Created', 'Updated', 'Merged'] => 'Created, Updated, or Merged'
       const comma_separated_list = array.join(', ')
       const index_after_last_comma = comma_separated_list.lastIndexOf(',') + 1
-      if(index_of_last_comma === -1){
+      if(index_after_last_comma === -1){
         //no commas were found so just return the list
         return comma_separated_list
       } else {
