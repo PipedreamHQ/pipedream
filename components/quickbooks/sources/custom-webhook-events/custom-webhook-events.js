@@ -10,14 +10,10 @@ module.exports = {
   props: {
     ...common.props,
     names_to_emit: {
-      type: 'string[]',
-      label: 'Entities',
-      description: 'Select which QuickBooks entities to emit or just leave it blank to emit them all.',
-      options: common.methods.getEntityNames(),
-      optional: true,
+      propDefinition: [quickbooks, 'webhook_entities'],
     },
     operations_to_emit: {
-      propDefinition: [quickbooks, 'operations_to_emit'],
+      propDefinition: [quickbooks, 'webhook_operations'],
     },
   },
   methods:{

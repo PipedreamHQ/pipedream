@@ -15,9 +15,10 @@ module.exports = {
   props: {
     ...common.props,
     operations_to_emit: {
-      propDefinition: [quickbooks, 'operations_to_emit'],
+      propDefinition: [quickbooks, 'webhook_operations'],
       //overwrite the default options from the propDefinition to list only the options supported by this source's entity
       options: supported_operations,
+      default: supported_operations,
     },
   },
   methods: {
