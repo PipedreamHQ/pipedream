@@ -30,7 +30,7 @@ module.exports = {
       } else if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(entity.operation)){
         console.log(`Operation '${entity.operation}' not found in list of selected Operations`)
       } else {
-        this.emitEvent(event, entity)
+        return this.emitEvent(event, entity)
       }
     },
   },

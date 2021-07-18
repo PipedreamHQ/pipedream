@@ -97,11 +97,12 @@ module.exports = {
       const record_details = await this.quickbooks.getRecordDetails(entity.name, entity.id)
       const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`
       this.$emit(record_details, {summary})
+      return record_details
     }
   },
   async run(event) {
     const {entities} = event.body.eventNotifications[0].dataChangeEvent
     this.sendHttpResponse(event, entities)
-    entities.forEach(entity => this.validateAndEmit(event, entity))
+    await Promise.all(entities.map(entity => this.validateAndEmit(event, entity)))
   },
 }
