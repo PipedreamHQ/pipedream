@@ -93,9 +93,10 @@ module.exports = {
       })
     },
     
-    emitEvent(event, entity){
+    async emitEvent(event, entity){
+      const record_details = await quickbooks.methods.getRecordDetails(entity.name, entity.id)
       const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`
-      this.$emit(event.body, {summary})
+      this.$emit(record_details, {summary})
     }
   },
   async run(event) {

@@ -1,4 +1,5 @@
 // const QuickBooks = require('node-quickbooks')
+const axios = require('axios')
 
 const WEBHOOK_OPERATIONS = [
   'Create',
@@ -60,5 +61,16 @@ module.exports = {
     },
   },
   methods: {
+    async getRecordDetails(endpoint, id){
+      // const config = {
+      //   url: `https://quickbooks.api.intuit.com/v3/company/${this.$auth.company_id}/${endpoint}/${id}`,
+      //   headers: {
+      //     Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      //     "accept": `application/json`,
+      //     "content-type": `application/json`,
+      //   },
+      // }
+      // return await axios(config)
+    },
   },
 };

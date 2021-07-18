@@ -18,7 +18,7 @@ module.exports = {
   },
   methods:{
     ...common.methods,
-    validateAndEmit(event, entity){
+    async validateAndEmit(event, entity){
       //reject any events that don't match the entity name or operation (if those options have been selected)
       if(this.names_to_emit.length > 0 && !this.names_to_emit.includes(entity.name)){
         console.log(`Entity Type '${entity.name}' not found in list of selected Entity Types`)
