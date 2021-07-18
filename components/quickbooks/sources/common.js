@@ -42,9 +42,9 @@ module.exports = {
     },
   },
   methods: {
-    getEntityNames(){
-      return Object.keys(supported_webhook_options)
-    },
+    // getEntityNames(){
+    //   return Object.keys(supported_webhook_options)
+    // },
 
     getSupportedOperations(entity_name){      
       return supported_webhook_options[entity_name]
@@ -72,16 +72,14 @@ module.exports = {
 
     toReadableList(array){
       // converts an array to a readable list like this: ['Created', 'Updated', 'Merged'] => 'Created, Updated, or Merged'
-      const comma_separated_list = array.join(', ')
-      const index_after_last_comma = comma_separated_list.lastIndexOf(',') + 1
-      if(index_after_last_comma === -1){
+      const list = array.join(', ')
+      const index_after_last_comma = list.lastIndexOf(',') + 1
+      if(index_after_last_comma === 0){
         //no commas were found so just return the list
-        return comma_separated_list
+        return list
       } else {
         //add an 'or' after the last comma
-        const before_last_comma = comma_separated_list.slice(0, index_after_last_comma)
-        const after_last_comma = comma_separated_list.slice(index_after_last_comma)
-        return before_last_comma + ' or' + after_last_comma
+        return list.slice(0, index_after_last_comma) + ' or' + list.slice(index_after_last_comma)
       }
     },
 
