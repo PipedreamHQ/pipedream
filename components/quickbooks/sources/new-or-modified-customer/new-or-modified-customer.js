@@ -14,6 +14,9 @@ module.exports = {
   version: '0.0.1',
   props: {
     ...common.props,
+    webhook_verifier_token: {
+      propDefinition: [quickbooks, 'webhook_verifier_token'],
+    },
     operations_to_emit: {
       propDefinition: [quickbooks, 'webhook_operations'],
       //overwrite the default options from the propDefinition to list only the options supported by this source's entity

@@ -94,10 +94,17 @@ module.exports = {
     },
     
     async emitEvent(event, entity){
-      const record_details = await this.quickbooks.getRecordDetails(entity.name, entity.id)
-      const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`
-      this.$emit(record_details, {summary})
-      return record_details
+      const token = this.webhook_verifier_token
+      const payload = event.bodyRaw
+      const header = event.headers['intuit-signature']
+      const isWebhookValid = this.quickbooks.verifyWebhookRequest(token, payload, header)
+      console.log(isWebhookValid)
+      if(isWebhookValid){
+        const record_details = await this.quickbooks.getRecordDetails(entity.name, entity.id)
+        const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`
+        this.$emit(record_details, {summary})
+        return record_details
+      }
     }
   },
   async run(event) {

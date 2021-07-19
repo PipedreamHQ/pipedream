@@ -9,6 +9,9 @@ module.exports = {
   version: '0.0.1',
   props: {
     ...common.props,
+    webhook_verifier_token: {
+      propDefinition: [quickbooks, 'webhook_verifier_token'],
+    },
     names_to_emit: {
       propDefinition: [quickbooks, 'webhook_names'],
     },

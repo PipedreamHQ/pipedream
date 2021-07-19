@@ -1,5 +1,6 @@
 // const QuickBooks = require('node-quickbooks')
 const axios = require('axios')
+const {createHmac} = require("crypto");
 
 const WEBHOOK_OPERATIONS = [
   'Create',
@@ -59,6 +60,15 @@ module.exports = {
       default: WEBHOOK_OPERATIONS,
       optional: true,
     },
+    webhook_verifier_token: {
+      type: 'string',
+      label: 'Verifier Token',
+      description: '[Create an app](https://developer.intuit.com/app/developer/qbo/docs/build-your-first-app) ' +
+      'on the Intuit Developer dashboard and [set up a webhook](https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks). ' +
+      'Once you have a [verifier token](https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks/managing-webhooks-notifications), ' +
+      'fill it in below. Note that if you want to send webhooks to more than one Pipedream source, you will have to create a new app for each different source.',
+      secret: true,
+    }
   },
   methods: {
     async getRecordDetails(endpoint, id){
@@ -73,5 +83,13 @@ module.exports = {
       const {data} = await axios(config)
       return data
     },
+    verifyWebhookRequest(token, payload, header){
+      const hash = createHmac("sha256", token).update(payload).digest('hex')
+      const converted_header = Buffer.from(header, 'base64').toString('hex')
+      // console.log('Payload: ', payload)
+      // console.log('Header: ', converted_header)
+      // console.log('Hash: ', hash)
+      return hash === converted_header
+    }
   },
 };
