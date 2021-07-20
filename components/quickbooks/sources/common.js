@@ -94,16 +94,30 @@ module.exports = {
       return this.emitEvent(event, entity)
     },
     
-    async emitEvent(event, entity){
+    async emitEvent(event_received, entity){
       const token = this.webhook_verifier_token
-      const payload = event.bodyRaw
-      const header = event.headers['intuit-signature']
-      const isWebhookValid = this.quickbooks.verifyWebhookRequest(token, payload, header)
+      const payload = event_received.bodyRaw
+      const header = event_received.headers['intuit-signature']
+      const isWebhookValid = this.verifyWebhookRequest(token, payload, header)
       if(isWebhookValid){
-        const record_details = await this.quickbooks.getRecordDetails(entity.name, entity.id)
+        // Unless the record has been deleted, use the id received in the webhook to get the full record data
+        const event_to_emit = {
+          event_notification: event_received,
+          record_details: {},
+        }
+        if(event_received.operation !== 'Delete'){
+          const webhook_company_id = event_received.body.eventNotifications[0].realmId
+          const connected_company_id = this.quickbooks.$auth.webhook_company_id
+          if(webhook_company_id === connected_company_id){
+            console.log('Company ID: ', webhook_company_id)
+            source_event.record_details = await this.quickbooks.getRecordDetails(entity.name, entity.id)
+          } else {
+            console.log('Error: Ids do not match. ', webhook_company_id, connected_company_id)
+          }
+        }
         const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`
-        this.$emit(record_details, {summary})
-        return record_details
+        this.$emit(event_to_emit, {summary})
+        return source_event.record_details
       }
     },
 
