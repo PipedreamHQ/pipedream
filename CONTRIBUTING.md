@@ -33,8 +33,33 @@ See a gap or mistake in our [docs](https://github.com/PipedreamHQ/pipedream/tree
 
 ## Develop Sources and Actions
 
-[Contribute](COMPONENT-GUIDELINES.md) to Pipedream's registry of open source components  by:
+[Contribute](https://pipedream.com/docs/components/guidelines/) to Pipedream's registry of open source components by:
 
-- Creating new comonents (sources and actions)
-- Updating exisiting components (e.g., fixing bugs, enhancing functionality)
+- Creating new components (sources and actions)
+- Updating existing components (e.g., fixing bugs, enhancing functionality)
 - Adding or updating metadata (e.g., descriptions, labels)
+
+## The Pull Request process
+
+When contributing new code to this repo, please do so on a new Git branch, and submit a pull request to merge changes on that branch into `master`.
+
+A member of the Pipedream team will automatically be notified when you open a pull request. You can also reach out to us on [our community](https://pipedream.com/community/c/dev/11) or [Slack](https://pipedream.com/support).
+
+### Spellchecking
+
+A spellchecker is automatically run on Markdown files in PRs. If you see this check fail when you open a PR, check the output for misspelled words:
+
+```text
+Misspelled words:
+<htmlcontent> README.md: html>body>p
+--------------------------------------------------------------------------------
+lkjsdflkjsdflkjsdflk
+--------------------------------------------------------------------------------
+
+!!!Spelling check failed!!!
+Files in repository contain spelling errors
+```
+
+Some technical words (like Pipedream or JavaScript) aren't in an English dictionary. If the spellchecker fails on a real word, please add it to the `.wordlist.txt` file.
+
+The spellchecker configuration can be found in `.spellcheck.yml`. The spellchecking is handled by [this GitHub action](https://github.com/rojopolis/spellcheck-github-actions), which uses [PySpelling](https://facelessuser.github.io/pyspelling/).

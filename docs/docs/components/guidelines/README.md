@@ -10,7 +10,7 @@ conform to these guidelines, but they will not be eligible to be listed in the
 curated registry (e.g., they may be hosted in a Github repo). If you develop a
 component that does not adhere to these guidelines, but you believe there is
 value to the broader community, please [reach out in our community
-forum](https://pipedream.com/community/c/dev/11).
+forum](https://pipedream.com/community/c/dev/11). 
 
 [[toc]]
 
@@ -24,7 +24,7 @@ execution in workflows. Developers can
 on [Github](https://github.com/pipedreamhq/pipedream) by:
 
 - Creating new components (sources and actions)
-- Updating exisiting components (e.g., fixing bugs, enhancing functionality)
+- Updating existing components (e.g., fixing bugs, enhancing functionality)
 - Adding or updating metadata (e.g., descriptions, labels)
 
 Once a PR is merged to the `master` branch of the
@@ -79,8 +79,8 @@ Pipedream's UI when building workflows.
 demo](https://www.youtube.com/watch?v=hJ-KRbp6EO8).**
 
 If you're ready to build a component for the Pipedream registry, we recommend
-starting with our Quickstart Guides for [source]](../quickstart/nodejs/sources/)
-and [actions]](../quickstart/nodejs/actions/). Then review the [Component API
+starting with our Quickstart Guides for [source](../quickstart/nodejs/sources/)
+and [actions](../quickstart/nodejs/actions/). Then review the [Component API
 Reference](../api/).
 
 ### Prerequisites
@@ -177,9 +177,9 @@ can be generated when users star or unstar a repository. The “New Star” sour
 filters events for only new star activity so the user doesn’t have to.
 
 There may be cases where it's valuable to create a generic component that
-provides users with broad lattitude (e.g., see the [custom
+provides users with broad latitude (e.g., see the [custom
 webhook](https://github.com/pipedreamhq/pipedream/components/github/sources/custom-webhook-events)
-event source for Github). However, as a general heuristic, we found that tightly
+event source for GitHub). However, as a general heuristic, we found that tightly
 scoped components are easier for users to understand and use.
 
 #### Required Metadata
@@ -233,11 +233,11 @@ Registry components are organized by app in the `components` directory of the
   `/components/twitter/sources/search-mentions/search-mentions.js`.
 
 You can explore examples in the [components
-directory](https://github.com/pipedreamhq/pipedream/components).
+directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
 
 #### Using APIs vs Client Libraries
 
-Use If the app has a well-supported [Node.js client
+If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
 
@@ -276,7 +276,7 @@ Use the [JS Docs](https://jsdoc.app/about-getting-started.html) pattern for
 lightweight documentation of each method in the app file. Provide a description
 and define @params and @returns block tags (with default values if applicable —
 e.g., `[foo=bar]`). This data will both help with reusability and will be
-surfaced in documention for apps in the Pipedream marketplace. For example:
+surfaced in documentation for apps in the Pipedream marketplace. For example:
 
 ```javascript
 module.exports = {
@@ -291,7 +291,7 @@ module.exports = {
      * @params {String} [opts.count=200] - The maximum number of Tweets to
      * return
      * @params {String} [opts.tweetMode=extended] - Use the default of
-     * `extended` to return non-trucated Tweets
+     * `extended` to return non-truncated Tweets
      * @returns {Array} Array of most recent Tweets liked by the specified user
      */
     async getLikedTweets(opts = {}) {
@@ -341,12 +341,12 @@ approach, the general pattern is:
   the equivalent of a base abstract class.
 - The component module of each action would inherit/extend the `common.js`
   component by setting additional attributes (e.g. `name`, `description`, `key`,
-  etc) and potentially redifining any inherited methods.
+  etc) and potentially redefining any inherited methods.
 
 See [Google
 Drive](https://github.com/pipedreamhq/pipedream/components/google_drive) for an
 example of this pattern. When using this approach, prop definitions should still
-be maintainted in the app file.
+be maintained in the app file.
 
 ### Props
 

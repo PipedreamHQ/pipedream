@@ -2,12 +2,6 @@
 
 The Pipedream CLI currently allows you to work with [event sources](/event-sources/) and their associated events. If you'd like to see support for managing [workflows](/workflows/), please +1 [this issue on Github](https://github.com/PipedreamHQ/pipedream/issues/220).
 
-::: warning PREVIEW RELEASE
-This is an early version of the CLI, and we'd love your feedback on what we can improve. Please reach out on [Slack](https://pipedream.com/community) or raise an issue on our [Github repo](https://github.com/PipedreamHQ/pipedream) with any questions or suggestions.
-
-Since this is a preview release, the commands you see below, and the [REST API](/api/rest/), are subject to change based on feedback.
-:::
-
 [[toc]]
 
 ## Installing the CLI
@@ -18,7 +12,7 @@ Since this is a preview release, the commands you see below, and the [REST API](
 
 Run `pd` to see a list of all commands with basic usage info, or run `pd help <command>` to display help docs for a specific command.
 
-We've also documented each command below, with usage examples for each.
+We've also documented each command below, with usage examples for each. 
 
 ### General Notes
 
@@ -217,6 +211,26 @@ api_key = def456
 ```
 
 You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pipedream account via the CLI and set a named profile for that account.
+
+### Creating a profile for an organization
+
+If you're working with resources in an [organization](/orgs/), you'll need to add an `org_id` to your profile. 
+
+1. Visit [pipedream.com](https://pipedream.com) and [switch your context](/orgs/#switching-context) to your organization.
+2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Acccess** section.
+3. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
+
+```
+[profile_name]
+api_key = <API Key from org settings>
+org_id = <Org ID from org settings>
+```
+
+When using the CLI, pass `--profile <profile_name>` when running any command. For example, if you named your profile `my_org`, you'd run this command to publish a component:
+
+```bash
+pd publish file.js --profile my_org
+```
 
 ### Using profiles
 

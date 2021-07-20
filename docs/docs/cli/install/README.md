@@ -10,7 +10,7 @@ Run the following command:
 curl https://cli.pipedream.com/install | sh
 ```
 
-This will automatically download and install the `pd` CLI to your Mac. You can also [download the macOS build](https://cli.pipedream.com/darwin/amd64/latest/pd.zip), unzip that archive, and place the `pd` binary somewhere in [your `PATH`](https://opensource.com/article/17/6/set-path-linux).
+This will automatically download and install the `pd` CLI to your Mac. You can also [download the macOS build](https://cli.pipedream.com/darwin/amd64/latest/pd.zip), unzip that archive, and place the `pd` binary somewhere in [your `PATH`](https://opensource.com/article/17/6/set-path-linux). 
 
 ## Linux
 

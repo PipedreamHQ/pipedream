@@ -8,9 +8,19 @@ You can find important account details, text editor configuration, and more in y
 
 You'll find your Pipedream username, email, and other basic account details in your [Account Settings](https://pipedream.com/settings/account).
 
+### Username
+
+Your Pipedream username functions as your user or org identity. If you've made any resources [public](/public-workflows/), these resources will appear on your public profile at:
+
+```text
+https://pipedream.com/@username
+```
+
+You can change your username at any time (see below).
+
 ### Changing your username
 
-You can change your Pipedream username by editing the **Username** field in your Account Settings.
+You can change your Pipedream username by editing the **Username** field in your Account Settings. 
 
 Existing workflow URLs that contain your old username will continue to resolve to the correct workflow. However, links to your public profile with your old username (for example, [https://pipedream.com/@old-username](https://pipedream.com/@old-username)) will no longer resolve.
 
@@ -48,11 +58,11 @@ Environment variables allow you to securely store secrets or other config values
 
 ## Billing and Usage
 
-You'll find information on your usage data (for specific [Pipedream limits](/limits/)) in your [Billing Settings](https://pipedream.com/settings/billing). You can also upgrade to the [Professional tier](/pricing/#professional-tier) from this page.
+You'll find information on your usage data (for specific [Pipedream limits](/limits/)) in your [Billing Settings](https://pipedream.com/settings/billing). You can also upgrade to [paid plans](https://pipedream.com/pricing) from this page.
 
 ### Subscription
 
-You can upgrade to the [Professional tier](/pricing/#professional-tier) from this section.
+You can upgrade to [paid plans](https://pipedream.com/pricing) from this section.
 
 If you've already upgraded, you'll see an option to **Manage Subscription** here, which directs you to your personal Stripe portal. Here, you can change your payment method, review the details of previous invoices, and more.
 
@@ -72,7 +82,7 @@ _Click_ on a specific column to see invocations for that day, broken out by work
 <img alt="Invocations broken out by workflow / source" src="./images/usage-by-resource.png">
 </div>
 
-[Developer (free) tier](/pricing/#developer-tier) users will see the last 30 days of usage in this chart. [Professional tier](/pricing/#professional-tier) users will see the cumulative usage tied to their current billing period.
+[Developer (free) tier](/pricing/#developer-tier) users will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
 
 ### Limits
 

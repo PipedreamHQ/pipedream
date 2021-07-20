@@ -1,37 +1,41 @@
 const aws = require("../../aws.app.js");
-const crypto = require("crypto");
 
 module.exports = {
   key: "aws-new-records-returned-by-cloudwatch-logs-insights-query",
   name: "New Records Returned by CloudWatch Logs Insights Query",
   description:
     "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",
-  version: "0.0.1",
+  version: "0.0.3",
   props: {
     aws,
     region: {
-      label: "AWS Region",
-      description: "The AWS region string where your CloudWatch logs reside",
-      type: "string",
-      default: "us-east-1",
+      propDefinition: [
+        aws,
+        "region",
+      ],
     },
     db: "$.service.db",
     logGroupNames: {
       label: "CloudWatch Log Groups",
       description: "The log groups you'd like to query",
       type: "string[]",
-      async options({ page, prevContext }) {
+      async options({ prevContext }) {
         const prevToken = prevContext.nextToken;
         const {
           logGroups,
           nextToken,
         } = await this.aws.logsInsightsDescibeLogGroups(this.region, prevToken);
         const options = logGroups.map((group) => {
-          return { label: group.logGroupName, value: group.logGroupName };
+          return {
+            label: group.logGroupName,
+            value: group.logGroupName,
+          };
         });
         return {
           options,
-          context: { nextToken },
+          context: {
+            nextToken,
+          },
         };
       },
     },
@@ -81,7 +85,9 @@ module.exports = {
     let result, res;
     do {
       await sleep(1000);
-      res = await cloudwatchlogs.getQueryResults({ queryId }).promise();
+      res = await cloudwatchlogs.getQueryResults({
+        queryId,
+      }).promise();
       result = res.status;
     } while (result === "Running" || result === "Scheduled");
 

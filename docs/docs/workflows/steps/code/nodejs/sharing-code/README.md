@@ -3,7 +3,7 @@
 Pipedream provides two ways to share code across workflows:
 
 - **Create an action**. Actions are reusable steps. When you author an action, you can add it to your workflow like you would other actions, by clicking the **+** button below any step. [Watch this video](/workflows/steps/actions/#creating-your-own-actions) to learn how to publish actions.
-- **Create your own npm package**. If you need to run the same Node.js code in multiple workflows, you can publish that code as an npm package. We'll walk you through that process below.
+- **Create your own npm package**. If you need to run the same Node.js code in multiple workflows, you can publish that code as an npm package. We'll walk you through that process below. 
 
 [[toc]]
 

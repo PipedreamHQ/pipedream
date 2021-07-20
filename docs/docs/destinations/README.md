@@ -2,7 +2,7 @@
 
 **Destinations**, like [Actions](/workflows/steps/actions/), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
 
-However, Destinations are different than Actions in two ways:
+However, Destinations are different than Actions in two ways: 
 
 - **Events are delivered to the Destinations asynchronously**, after your workflow completes. This means you don't wait for network I/O (e.g. for HTTP requests or connection overhead for data warehouses) within your workflow code, so you can process more events faster.
 - In the case of data stores like S3 and warehouses like Snowflake, you typically don't want to send every event on its own. This can be costly and confers little benefit. **Instead, you typically want to batch a collection of events together, sending the batch at some frequency. Destinations handle that batching for relevant services**.
@@ -23,7 +23,7 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 
 ### Adding a Destination using Actions
 
-The simplest way to send data to a Destination is using one of our pre-built [Actions](/workflows/steps/actions/). Just add the relevant Action, enter the required values, and send data to your workflow!
+The simplest way to send data to a Destination is using one of our prebuilt [Actions](/workflows/steps/actions/). Just add the relevant Action, enter the required values, and send data to your workflow!
 
 For example, you can use the [Send HTTP Request Action](/destinations/http/) to send an HTTP request from a workflow. First, add a new Action to your workflow by clicking on the + button between any two steps.
 

@@ -6,7 +6,7 @@
 
 Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required. 
 
-Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [Github repo](https://github.com/pipedreamhq/pipedream/components) or you can author and share your own.
+Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [Github repo](https://github.com/pipedreamhq/pipedream/components) or you can author and share your own. 
 
 ## Component Types
 
@@ -28,7 +28,7 @@ Sources must be instantiated and they run as independent resources on Pipedream.
 
 **Example**
 
-The [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.js) source for Twitter is a pre-built component in Pipedream's registry that can be deployed in seconds and emits new Tweets that match a search query. After a user configures and deploys it, the deployed component polls the Twitter API for new results. When new results are found, each new result is emitted as an event that may be inspected and used to trigger a workflow.
+The [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.js) source for Twitter is a prebuilt component in Pipedream's registry that can be deployed in seconds and emits new Tweets that match a search query. After a user configures and deploys it, the deployed component polls the Twitter API for new results. When new results are found, each new result is emitted as an event that may be inspected and used to trigger a workflow.
 
 ### Actions
 
@@ -41,7 +41,7 @@ Actions are components that may be used as steps in a workflow. Unlike sources, 
 
 **Example**
 
-The Add Single Row action for Google Sheets is a pre-built component in Pipedream's registry that can be added to a workflow and configured in seconds. Users can configure it in seconds and send workflow data to Google Sheets without having to learn the Google Sheets API.
+The Add Single Row action for Google Sheets is a prebuilt component in Pipedream's registry that can be added to a workflow and configured in seconds. Users can configure it in seconds and send workflow data to Google Sheets without having to learn the Google Sheets API.
 
 ## Using Components
 

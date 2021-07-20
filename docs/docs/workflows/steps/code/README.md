@@ -1,6 +1,6 @@
 # Code
 
-Often, you'll want to modify events in a highly custom way. You may need to look up additional metadata about the event, parse raw data into more meaningful fields, or end the execution of a workflow early under some conditions. Code steps let you do this and more.
+Often, you'll want to modify events in a highly custom way. You may need to look up additional metadata about the event, parse raw data into more meaningful fields, or end the execution of a workflow early under some conditions. Code steps let you do this and more. 
 
 Code steps currently let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/dist/latest-v10.x/docs/api/errors.html#errors_errors) (JavaScript) code, using JavaScript's extensive [npm](https://www.npmjs.com/) package ecosystem within your code. Virtually anything you can do in Node.js, you can do in a code step.
 
@@ -43,7 +43,7 @@ Code steps support syntax highlighting and automatic indentation.
 
 ## Passing parameters to code steps
 
-You can make code steps reusable by allowing them to accept parameters. Instead of harcoding the values of variables within the code itself, you can pass them to the code step as arguments or parameters, instead.
+You can make code steps reusable by allowing them to accept parameters. Instead of hard-coding the values of variables within the code itself, you can pass them to the code step as arguments or parameters, instead.
 
 [Read more about using step parameters here](/workflows/steps/#passing-data-to-steps-step-parameters).
 

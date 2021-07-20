@@ -1,7 +1,8 @@
 ![pipedream](https://i.ibb.co/LPhXtH1/logo.png)
 
 <p align="center">
-  <a href="https://pipedream.com/community"><img src="https://img.shields.io/badge/-Join%20us%20on%20Slack-green?logo=slack&logoColor=34d28B&labelColor=150d11&color=34d28B&logoWidth=18&link=https%3A%2F%2Fpipedream.com%2Fcommunity&link=https%3A%2F%2Fpipedream.com%2Fcommunity)](https://pipedream.com/community"></a>
+  <a href="https://pipedream.com/community"><img src="https://img.shields.io/badge/discourse-forum-brightgreen.svg?style=flat-square&link=https%3A%2F%2Fpipedream.com%2Fcommunity)](https://pipedream.com/community"></a>
+  <a href="https://pipedream.com/support"><img src="https://img.shields.io/badge/-Join%20us%20on%20Slack-green?logo=slack&logoColor=34d28B&labelColor=150d11&color=34d28B&logoWidth=18&link=https%3A%2F%2Fpipedream.com%2Fsupport&link=https%3A%2F%2Fpipedream.com%2Fsupport)](https://pipedream.com/support"></a>
   <a href="https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F%3FbuttonType%3DFollowButton%26query%3Dhttps%253A%252F%252Ftwitter.com%252Fpipedream%26widget%3DButton&ref_src=twsrc%5Etfw&region=follow_link&screen_name=pipedream&tw_p=followbutton"><img src="https://img.shields.io/twitter/follow/pipedream?label=Follow%20%40pipedream&style=social"></a>
 </p>
 
@@ -11,9 +12,9 @@ We provide a free, hosted platform that makes it easy to connect apps and develo
 
 **Key Features**:
 
-- [Event Sources](#event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from services (Github, Slack, Airtable, RSS & [more](https://pipedream.com/apps)).
+- [Event Sources](#event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from services (GitHub, Slack, Airtable, RSS & [more](https://pipedream.com/apps)).
 - [Workflows](#workflows) - A sequence of linear steps - just Node.js code - triggered by an event (via event source, HTTP or timer)
-- [Actions](#actions) - Pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 300+ API integrations, for example: sending email, adding a row to a Google Sheet, and [more](https://pipedream.com/apps).
+- [Actions](#actions) - Prebuilt code steps that you can use in a workflow to perform common operations across Pipedream's 300+ API integrations, for example: sending email, adding a row to a Google Sheet, and [more](https://pipedream.com/apps).
 - [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
 - Serverless - No server or cloud resources to manage
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
@@ -24,7 +25,7 @@ You can also [get support](#getting-support), [raise a bug or feature request](#
 
 ## Event Sources
 
-Pipedream receives data via event sources. Event sources are open source, run on Pipedream's infrastructure and collect data from your own application and/or services like Github, DropBox, Zoom, RSS feeds, and more.
+Pipedream receives data via event sources. Event sources are open source, run on Pipedream's infrastructure and collect data from your own application and/or services like GitHub, DropBox, Zoom, RSS feeds, and more.
 
 Event sources emit new events produced by the service, which can trigger Pipedream workflows, or which you can consume using [Pipedream's REST API](https://docs.pipedream.com/api/rest/) or a private, real-time [SSE stream](https://docs.pipedream.com/api/sse/).
 
@@ -50,7 +51,7 @@ Popular Event Sources:
 - [Airtable](https://github.com/PipedreamHQ/pipedream/tree/master/components/airtable) ([deploy](https://pipedream.com/sources/new?app=airtable))
 - [AWS](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws) ([deploy](https://pipedream.com/sources/new?app=aws))
 - [Dropbox](https://github.com/PipedreamHQ/pipedream/tree/master/components/dropbox) ([deploy](https://pipedream.com/sources/new?app=dropbox))
-- [Github](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/readme.md) ([deploy](https://pipedream.com/sources/new?app=github))
+- [GitHub](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/readme.md) ([deploy](https://pipedream.com/sources/new?app=github))
 - [Google Calendar](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-calendar) ([deploy](https://pipedream.com/sources/new?app=google-calendar))
 - [Google Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-drive) ([deploy](https://pipedream.com/sources/new?app=google-drive))
 - [RSS](https://github.com/PipedreamHQ/pipedream/tree/master/components/rss) ([deploy](https://pipedream.com/sources/new?app=rss))
@@ -73,7 +74,7 @@ You can also create your own event sources for your own personal use. If you thi
 Workflows are a sequence of linear [steps](https://docs.pipedream.com/workflows/steps) - just Node.js code - triggered by an event (via event source, HTTP endpoint, or timer). Workflows make it easy to transform data and integrate with 300+ APIs from various apps and services.
 
 - Trigger your workflow on any event (e.g. [HTTP requests](https://docs.pipedream.com/workflows/steps/triggers/#http) or a [schedule](https://docs.pipedream.com/workflows/steps/triggers/#cron-scheduler)).
-- Add steps to run [Node.js code](https://docs.pipedream.com/workflows/steps/code/) (using virtually any npm package) and [pre-built actions](https://docs.pipedream.com/workflows/steps/actions/).
+- Add steps to run [Node.js code](https://docs.pipedream.com/workflows/steps/code/) (using virtually any npm package) and [prebuilt actions](https://docs.pipedream.com/workflows/steps/actions/).
 - Steps are executed in the order they appear in your workflow.
 - Data is shared between steps via [step exports](https://docs.pipedream.com/workflows/steps/#step-exports).
 
@@ -92,11 +93,11 @@ As you build more advanced workflows, you may also find these docs helpful:
 
 ## Actions
 
-[Actions](https://docs.pipedream.com/workflows/steps/actions/) are pre-built code steps that you can use to perform common operations across Pipedream's 300+ API integrations, for example: sending email, adding a row to a Google Sheet, and more. Pipedream currently supports over 1000+ actions.
+[Actions](https://docs.pipedream.com/workflows/steps/actions/) are prebuilt code steps that you can use to perform common operations across Pipedream's 300+ API integrations, for example: sending email, adding a row to a Google Sheet, and more. Pipedream currently supports over 1000+ actions.
 
 Typically, integrating with these services requires a custom code to manage authentication, error handling, etc. Actions abstract that for you - you just pass the necessary params as input and the action handles the rest. For example, the **Send HTTP Request** action accepts the data you want to send and the URL you want to send it to, returning the HTTP response for use in future steps.
 
-Actions come pre-built to solve a common use case, but you can modify them in any way you'd like. Actions are just Node.js functions. When you add an action, you'll see its code in your workflow - just click into the code and start editing to modify it.
+Actions come prebuilt to solve a common use case, but you can modify them in any way you'd like. Actions are just Node.js functions. When you add an action, you'll see its code in your workflow - just click into the code and start editing to modify it.
 
 Finally, you can [create your own actions](https://docs.pipedream.com/workflows/steps/actions/#creating-your-own-actions), allowing you to re-use them across workflows in your account. You can even [publish actions](https://docs.pipedream.com/workflows/steps/actions/#save-vs-publish) to the entire Pipedream community, making them available for anyone to use.
 
@@ -165,7 +166,7 @@ The Pipedream platform imposes some runtime limits on sources and workflows. [Re
 
 ## Getting Support
 
-You can get help [on our public Slack](https://pipedream.com/community) or [reach out to our team directly](https://docs.pipedream.com/support/) with any questions or feedback. We'd love to hear from you!
+You can get help [on our Discourse and public Slack](https://pipedream.com/support), and share any feedback with our team. We'd love to hear from you!
 
 ## Found a Bug? Have a Feature to suggest?
 

@@ -5,7 +5,7 @@ next: false
 
 # Plans and Pricing
 
-The Pipedream team believes anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/event-sources/), [workflows](/workflows/managing/#sharing-workflows), [actions](/workflows/steps/actions/#creating-your-own-actions), and other integration components so that other Pipedream users benefit from your work.
+We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/event-sources/), [workflows](/workflows/managing/#sharing-workflows), [actions](/workflows/steps/actions/#creating-your-own-actions), and other integration components so that other Pipedream users benefit from your work.
 
 To support these goals, **Pipedream offers a [generous free tier](#developer-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#professional-tier).
 
@@ -15,50 +15,58 @@ Read more about our plans and pricing options below.
 
 ## Developer Tier
 
-**The Developer tier is free**. You can run any number of sources and workflows, as long as they operate under the following limits:
-
-- [{{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}} invocations per day](/limits/#daily-invocations)
-- [30 minutes (1,800,000 milliseconds) compute time per day](/limits/#compute-time-per-day)
-- [Other default limits on execution time, memory, and disk usage](/limits/)
+**The Developer tier is free**. You can run any number of sources and workflows, as long as they operate under [Pipedream platform limits](/limits/).
 
 **To run any number of invocations, for any amount of time, [upgrade to the Professional tier](https://pipedream.com/pricing)**.
 
 ### Developer Tier Support options
 
-Users on the Developer Tier have access to community support, on Github Discussions and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
+Users on the Developer Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
 
 ## Professional Tier
 
-The Professional tier includes all the features of the Developer tier. It also comes with the following benefits:
+The Professional Tier includes all the features of the Developer Tier. It also comes with the following benefits:
 
 - **You have no daily invocations or compute time cap. You can run any number of invocations, for any amount of time**.
-- [Dedicated email or chat support](https://pipedream.com/support)
 - When using [concurrency and throttling controls](/workflows/events/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
 
 Pipedream will be adding more features to the Professional tier over time.
 
 ### Upgrading to the Professional Tier
 
-You can upgrade to the Professional Tier from your [Billing and Usage Settings](https://pipedream.com/settings/billing).
+You can upgrade to the Professional Plan by visiting your [Billing and Usage Settings](https://pipedream.com/settings/billing).
 
 ### Professional Tier Pricing
 
-Invocations on the Professional tier are priced at **\${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation, with a minimum monthly charge of \$10/month**. In other words, when you upgrade to the Professional tier, you pay \$10 per month for an initial set of {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations, which you can use at any time during that month. If you use more than {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations during that month, you'll be billed \${{$site.themeConfig.PRICE_PER_INVOCATION}} for each extra invocation.
-
-For example, if you run 100,000 invocations during a given [billing period](#billing-period) (roughly one month), you'll be charged a total of \$20:
-
-- \$10 for the minimum monthly charge (yields {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} [base invocations](#base-invocations-quota) that you can use at any time during that month), paid at the start of your billing period.
-- \$10 for the 50,000 [additional billable invocations](#additional-billable-invocations), paid at the start of the next billing period.
-
-See [when we invoice](#when-am-i-invoiced-billed-for-paid-plans) for more information on your billing schedule.
+See [https://pipedream.com/pricing](https://pipedream.com/pricing) for pricing information.
 
 ### Professional Tier Support options
 
-Users on the Professional Tier have access to both email and community support, on Github Discussions and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
+Users on the Professional Tier have access to community support, on [our forum](https://pipedream.com/community) and Slack. [Visit out Support page](https://pipedream.com/support) for more information.
 
-## Team / Enterprise Tiers
+## Team Plan
 
-To discuss team and enterprise plans, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
+You can create as many [organizations](/orgs) as you'd like for free. But the quota for free orgs is set to {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}} invocations per day. To lift this limit, you can upgrade the org to the **Team Plan**.
+
+Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please reach out about an [Enterprise Plan](#enterprise-plan).
+
+The Team Plan also includes all of the features of the Professional Plan.
+
+### Upgrading to the Team Plan
+
+You can upgrade to the Team Plan by switching to your [org's context](/orgs/#switching-context) and visiting your [Billing and Usage Settings](https://pipedream.com/settings/billing).
+
+### Team Tier Pricing
+
+See [https://pipedream.com/pricing](https://pipedream.com/pricing) for pricing information.
+
+### Team Tier Support options
+
+Teams have access to support from the Pipedream team via email or a shared Slack channel between our organizations. [Visit out Support page](https://pipedream.com/support) for more information.
+
+## Enterprise Plan
+
+To discuss an Enterprise plan, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
 
 ## Definition of Terms
 
@@ -92,11 +100,11 @@ Your invoices are tied to your billing period. [Read more about invoicing / bill
 
 ### Base Invocations Quota
 
-If you sign up for the [Professional tier](#professional-tier), you pay \$10 at the start of each [billing period](#billing-period). This minimum monthly charge grants you a base of {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} you can use for the rest of your billing period. If you have been granted any additional invocation quota increases by Pipedream, that is added to your {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} base invocations. **This total is called the base invocations quota**.
+When you sign up for a paid plan, you pay a platform fee at the start of each [billing period](#billing-period). This minimum monthly charge grants you a base of invocations that you can use for the rest of your billing period (see your [Billing and Usage Settings](https://pipedream.com/settings/billing) for your exact quota). If you have been granted any additional invocation increases by Pipedream, that is added to the base quota. **This total is called the base invocations quota**.
 
 ### Additional Billable Invocations
 
-Any invocations you run over your [base invocations quota](#base-invocations-quota) are called **additional billable invocations**. On the Professional tier, any additional billable invocations are billed at \${{$site.themeConfig.PRICE_PER_INVOCATION}} per invocation. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed).
+Any invocations you run over your [base invocations quota](#base-invocations-quota) are called **additional billable invocations**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed).
 
 ## FAQ
 
@@ -120,11 +128,9 @@ Pipedream charges invocations proportional to the memory configuration. If you r
 
 ### When am I invoiced / billed for paid plans?
 
-When you upgrade to the Professional tier, Stripe will immediately charge your payment method on file for \$10.
+When you upgrade to the Professional tier, Stripe will immediately charge your payment method on file for the platform fee tied to your plan (see [https://pipedream.com/pricing](https://pipedream.com/pricing))
 
-If you accrue any [additional billable invocations](#additional-billable-invocations), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next \$10 monthly minimum, is charged at the start of the _next_ billing period.
-
-For example, if you sign up for a paid plan on January 1st, you're immediately charged \$10. If you run 100,000 invocations in January, you'd use the {{$site.themeConfig.PRO_MONTHLY_INVOCATIONS}} invocations tied to this \$10 payment, and you'd accrue 50,000 additional billable invocations, for a total cost of \$20. That \$20 charge would be added to your next invoice, around Feb 1st, along with the \$10 monthly minimum charge for the billing period starting Feb 1st.
+If you accrue any [additional billable invocations](#additional-billable-invocations), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next platform fee, is charged at the start of the _next_ billing period.
 
 ### How does Pipedream secure my credit card data?
 
@@ -134,7 +140,7 @@ Pipedream stores no information on your payment method and uses Stripe as our pa
 
 **No**. On the Developer tier, unused daily invocations (and compute time) under the daily limit are **not** rolled over to the next day.
 
-On paid tiers, unused invocations included as a part of the base \$10 monthly fee are also **not** rolled over to the next month.
+On paid tiers, unused invocations included as a part of the base platform fee are also **not** rolled over to the next month.
 
 ### How do I change my billing payment method?
 

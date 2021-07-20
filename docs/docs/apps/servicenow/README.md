@@ -1,10 +1,10 @@
 # ServiceNow
 
-Pipedream lets you interact with the [ServiceNow REST API](https://docs.servicenow.com/bundle/orlando-application-development/page/build/applications/concept/api-rest.html) in workflows. You can use Pipedream's [pre-built actions](/workflows/steps/actions/) (or write your own) to perform common operations, or [run any Node code](/workflows/steps/code/) to talk to their API.
+Pipedream lets you interact with the [ServiceNow REST API](https://docs.servicenow.com/bundle/orlando-application-development/page/build/applications/concept/api-rest.html) in workflows. You can use Pipedream's [prebuilt actions](/workflows/steps/actions/) (or write your own) to perform common operations, or [run any Node code](/workflows/steps/code/) to talk to their API.
 
 ## Setting up an app in your ServiceNow instance
 
-Before you can use the ServiceNow REST API from a workflow, you need to configure an OAuth app in your ServiceNow instance that will grant access tokens to your users and authenticate requests to its REST API.
+Before you can use the ServiceNow REST API from a workflow, you need to configure an OAuth app in your ServiceNow instance that will grant access tokens to your users and authenticate requests to its REST API. 
 
 1. In your ServiceNow instance, visit the **Application Registry** and create a new app, choosing the **Create an OAuth API endpoint for external clients** option.
 2. Name it something memorable, then leave every other field blank or keep the defaults, except for the **Redirect URL**, which should be: `https://api.pipedream.com/connect/oauth/oa_g2oiqA/callback`. Your app should look something like this:

@@ -1,6 +1,6 @@
 # Workflow state
 
-Sometimes you need to save state in one invocation of a workflow and read it the next time your workflow runs. For example, you might need to keep track of the last ID of the item you processed, or the last timestamp you ran a job, so you can pull new data the next time.
+Sometimes you need to save state in one invocation of a workflow and read it the next time your workflow runs. For example, you might need to keep track of the last ID of the item you processed, or the last timestamp you ran a job, so you can pull new data the next time. 
 
 On Pipedream, you can save and read state in two ways:
 
@@ -65,7 +65,7 @@ $checkpoint = checkpoint;
 
 `$checkpoint` is frequently used to dedupe incoming data. For example, you might receive events via webhooks and encounter duplicate HTTP requests (tied to the same user taking the same action in the source system). You need a way to make sure you don't process the same request twice.
 
-[This workflow](https://pipedream.com/@dylburger/dedupe-based-on-incoming-key-exit-early-if-we-ve-seen-this-key-before-p_brCyAy/edit) shows you how this works. It keeps track of `emails` seen so far, retrieved from `event.body.email` in the incoming HTTP request (here, the email address is a unique identifer we're using to dedupe requests, but you can use any identifier). If we've seen a particular email address before, we exit early:
+[This workflow](https://pipedream.com/@dylburger/dedupe-based-on-incoming-key-exit-early-if-we-ve-seen-this-key-before-p_brCyAy/edit) shows you how this works. It keeps track of `emails` seen so far, retrieved from `event.body.email` in the incoming HTTP request (here, the email address is a unique identifier we're using to dedupe requests, but you can use any identifier). If we've seen a particular email address before, we exit early:
 
 ```javascript
 const get = require("lodash.get");
