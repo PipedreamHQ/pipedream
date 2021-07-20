@@ -42,10 +42,6 @@ module.exports = {
     },
   },
   methods: {
-    // getEntityNames(){
-    //   return Object.keys(supported_webhook_options)
-    // },
-
     getSupportedOperations(entity_name){      
       return supported_webhook_options[entity_name]
     },

@@ -27,7 +27,9 @@ module.exports = {
   methods: {
   	...common.methods,
     validateAndEmit(event, entity){
-      //reject any events that don't match the specified entity name or operation
+      //only emit events that match the specified entity name and operation
+      // but if the operations prop is left empty, emit all events rather than filtering them all out
+      // (it would a hassle for the user to select every single option if they wanted to emit everything)
       if(entity.name !== source_entity){
         console.log(`${entity.name} webhook received and ignored, since it is not a Customer`)
       } else if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(entity.operation)){

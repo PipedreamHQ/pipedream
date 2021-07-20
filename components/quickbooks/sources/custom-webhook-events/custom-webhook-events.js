@@ -22,7 +22,9 @@ module.exports = {
   methods:{
     ...common.methods,
     async validateAndEmit(event, entity){
-      //reject any events that don't match the entity name or operation (if those options have been selected)
+      // only emit events that match the entity names and operations indicated by the user
+      // but if the props are left empty, emit all events rather than filtering them all out
+      // (it would a hassle for the user to select every single option if they wanted to emit everything)
       if(this.names_to_emit.length > 0 && !this.names_to_emit.includes(entity.name)){
         console.log(`Entity Type '${entity.name}' not found in list of selected Entity Types`)
       } else if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(entity.operation)){
