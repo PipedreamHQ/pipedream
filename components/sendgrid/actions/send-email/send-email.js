@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-send-an-email",
@@ -14,7 +15,7 @@ module.exports = {
       type: "object",
       label: "Personalizations",
       description:
-        'An array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled. See our [Personalizations documentation](https://sendgrid.com/docs/for-developers/sending-email/personalizations/) for details. maxItems: 1000. Example: `[{to:[{email:"email@email.com",name:"Example"}],subject:"Mail Personalization Sample"}]`',
+        "An array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled. See our [Personalizations documentation](https://sendgrid.com/docs/for-developers/sending-email/personalizations/) for details. maxItems: 1000. Example: `[{to:[{email:\"email@email.com\",name:\"Example\"}],subject:\"Mail Personalization Sample\"}]`",
     },
     fromEmail: {
       type: "string",
@@ -52,13 +53,13 @@ module.exports = {
       type: "object",
       label: "Content",
       description:
-        'An array where you can specify the content of your email. You can include multiple  of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Example: `[{type:"text/plain",value:"Plain text content."}]`',
+        "An array where you can specify the content of your email. You can include multiple  of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Example: `[{type:\"text/plain\",value:\"Plain text content.\"}]`",
     },
     attachments: {
       type: "object",
       label: "Attachments",
       description:
-        'An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Example: `[{content:"aGV5",type:"text/plain",filename:"sample.txt"}]`',
+      "An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Example: `[{content:\"aGV5\",type:\"text/plain\",filename:\"sample.txt\"}]`",
       optional: true,
     },
     templateId: {
@@ -79,7 +80,7 @@ module.exports = {
       type: "object",
       label: "Categories",
       description:
-        'An array of category names for this message. Each category name may not exceed 255 characters. Example: `["category1","category2"]`',
+        "An array of category names for this message. Each category name may not exceed 255 characters. Example: `[\"category1\",\"category2\"]`",
       optional: true,
     },
     customArgs: {
@@ -131,6 +132,9 @@ module.exports = {
       optional: true,
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
     const constraints = {
       personalizations: {
@@ -141,9 +145,6 @@ module.exports = {
         presence: true,
         email: true,
       },
-      replyToEmail: {
-        email: true,
-      },
       subject: {
         presence: true,
       },
@@ -151,9 +152,32 @@ module.exports = {
         presence: true,
         type: "array",
       },
-      attachments: { type: "array" },
-      categories: { type: "array" },
     };
+    if (this.replyToEmail) {
+      constraints.replyToEmail = {
+        email: true,
+      };
+    }
+    if (this.attachments) {
+      constraints.attachments = {
+        type: "array",
+      };
+    }
+    if (this.categories) {
+      constraints.categories = {
+        type: "array",
+      };
+    }
+    if (this.sendAt) {
+      constraints.sendAt = {
+        type: "integer",
+      };
+    }
+    if (this.batchId) {
+      constraints.batchId = {
+        type: "integer",
+      };
+    }
     const validationResult = validate(
       {
         personalizations: this.personalizations,
@@ -163,45 +187,45 @@ module.exports = {
         content: this.content,
         attachments: this.attachments,
         categories: this.categories,
+        sendAt: this.sendAt,
+        batchId: this.batchId,
       },
-      constraints
+      constraints,
     );
-    if (validationResult) {
-      let validationResultKeys = Object.keys(validationResult);
-      let validationMessages;
-      if (validationResultKeys.length == 1) {
-        validationMessages = validationResult[validationResultKeys[0]];
-      } else {
-        validationMessages =
-          "Parameters validation failed with the following errors:\t";
-        validationResultKeys.forEach(
-          (validationResultKey) =>
-            (validationMessages += `${validationResult[validationResultKey]}\t`)
-        );
-      }
-      throw new Error(validationMessages);
+    this.checkValidationResults(validationResult);
+    this.integerValueGreaterThan(this.sendAt, 0, "sendAt", "0");
+    this.integerValueGreaterThan(this.batchId, 0, "batchId", "0");
+    const from = {
+      email: this.fromEmail,
+    };
+    if (this.fromName) {
+      from.name = this.fromName;
     }
     const config = {
       personalizations: this.personalizations,
-      from: {
-        email: this.fromEmail,
-        name: this.fromName,
-      },
-      reply_to: this.replyTo,
+      from,
       subject: this.subject,
       content: this.content,
-      attachments: this.attachments,
+      attachments: this.convertEmptyStringToUndefined(this.attachments),
       template_id: this.templateId,
-      headers: this.headers,
-      categories: this.categories,
+      headers: this.convertEmptyStringToUndefined(this.headers),
+      categories: this.convertEmptyStringToUndefined(this.categories),
       custom_args: this.customArgs,
       send_at: this.sendAt,
       batch_id: this.batchId,
-      asm: this.asm,
+      asm: this.convertEmptyStringToUndefined(this.asm),
       ip_pool_name: this.ipPoolName,
-      mail_settings: this.mailSettings,
-      tracking_settings: this.trackingSettings,
+      mail_settings: this.convertEmptyStringToUndefined(this.mailSettings),
+      tracking_settings: this.convertEmptyStringToUndefined(this.trackingSettings),
     };
+    if (this.replyToEmail) {
+      config.reply_to = {
+        email: this.replyToEmail,
+      };
+      if (this.replyToName) {
+        config.reply_to.name = this.replyToName;
+      }
+    }
     return await this.sendgrid.sendEmail(config);
   },
 };

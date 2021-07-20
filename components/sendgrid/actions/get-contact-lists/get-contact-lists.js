@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-get-contact-lists",
@@ -15,21 +16,26 @@ module.exports = {
       description: "The number of contact lists to return.",
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
     const constraints = {
       numberOfLists: {
         presence: true,
+        type: "integer",
       },
     };
     const validationResult = validate(
-      { numberOfLists: this.numberOfLists },
-      constraints
+      {
+        numberOfLists: this.numberOfLists,
+      },
+      constraints,
     );
-    if (validationResult) {
-      throw new Error(validationResult.numberOfLists);
-    }
+    this.checkValidationResults(validationResult);
+    this.integerValueGreaterThan(this.numberOfLists, 0, "numberOfLists", "0");
     const contactListGenerator = this.sendgrid.getAllContactLists(
-      this.numberOfLists
+      this.numberOfLists,
     );
     const contactLists = [];
     let contactList;

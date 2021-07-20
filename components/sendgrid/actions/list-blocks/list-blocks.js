@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-list-blocks",
@@ -30,23 +31,48 @@ module.exports = {
       description: "Indicates the max number of blocked emails to return.",
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
     const constraints = {
       numberOfBlocks: {
         presence: true,
+        type: "integer",
       },
     };
-    const validationResult = validate(
-      { numberOfBlocks: this.numberOfBlocks },
-      constraints
-    );
-    if (validationResult) {
-      throw new Error(validationResult.numberOfBlocks);
+    if (this.startTime) {
+      constraints.startTime = {
+        type: "integer",
+      };
     }
+    if (this.endTime) {
+      constraints.endTime = {
+        type: "integer",
+      };
+    }
+    const validationResult = validate(
+      {
+        startTime: this.startTime,
+        endTime: this.endTime,
+        numberOfBlocks: this.numberOfBlocks,
+      },
+      constraints,
+    );
+    this.checkValidationResults(validationResult);
+    this.integerValueGreaterThan(this.startTime, 0, "startTime", "0");
+    this.integerValueGreaterThan(this.endTime, 0, "endTime", "0");
+    this.integerValueGreaterThan(this.numberOfBlocks, 0, "numberOfBlocks", "0");
+    this.integerValueGreaterThan(
+      this.endTime,
+      this.startTime,
+      "endTime",
+      "startTime",
+    );
     const blocksGenerator = await this.sendgrid.listBlocks(
       this.startTime,
       this.endTime,
-      this.numberOfBlocks
+      this.numberOfBlocks,
     );
     const blocks = [];
     let block;

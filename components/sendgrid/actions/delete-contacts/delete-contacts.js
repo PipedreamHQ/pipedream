@@ -1,4 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
+const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-delete-contacts",
@@ -9,20 +11,46 @@ module.exports = {
   props: {
     sendgrid,
     deleteAllContacts: {
-      type: "string",
+      type: "boolean",
       label: "Delete All Contacts?",
-      description: "Must be set to `true` to delete all contacts.",
+      description: "This parameter allows you to delete all of your contacts. This can not be used with the `Ids` parameter.",
       optional: true,
     },
     ids: {
-      type: "string",
+      type: "object",
       label: "Ids",
-      description: "A comma-separated list of contact IDs to delete.",
+      description: "An array of contact IDs to delete.",
       optional: true,
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
-    const deleteAllContacts = !!this.deleteAllContacts;
-    return await this.sendgrid.deleteContacts(deleteAllContacts, this.ids);
+    if (this.deleteAllContacts && this.ids) {
+      throw new Error(
+        "Must provide only one of `deleteAllContacts` or `ids` parameters.",
+      );
+    }
+    const constraints = {};
+    let ids = undefined;
+    if (this.ids) {
+      constraints.ids = {
+        type: "array",
+      };
+      const validationResult = validate(
+        {
+          id: this.id,
+          contactIds: this.contactIds,
+        },
+        constraints,
+      );
+      this.checkValidationResults(validationResult);
+      ids = this.ids.join(",");
+    }
+    const deleteAllContacts = (this.deleteAllContacts)
+      ? "true"
+      : "false";
+    return await this.sendgrid.deleteContacts(deleteAllContacts, ids);
   },
 };

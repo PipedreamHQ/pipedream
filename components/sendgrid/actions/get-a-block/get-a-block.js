@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-get-a-block",
@@ -15,17 +16,20 @@ module.exports = {
       description: "The email address of the specific block.",
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
     const constraints = {
       email: {
         presence: true,
-        email: true
+        email: true,
       },
     };
-    const validationResult = validate({ email: this.email }, constraints);
-    if (validationResult) {
-      throw new Error(validationResult.email);
-    }
+    const validationResult = validate({
+      email: this.email,
+    }, constraints);
+    this.checkValidationResults(validationResult);
     return await this.sendgrid.getBlock(this.email);
   },
 };

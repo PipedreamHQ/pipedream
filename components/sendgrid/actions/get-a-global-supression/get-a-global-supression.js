@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-get-a-global-supression",
@@ -16,6 +17,9 @@ module.exports = {
         "The email address of the global suppression you want to retrieve.",
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
     const constraints = {
       email: {
@@ -23,10 +27,10 @@ module.exports = {
         email: true,
       },
     };
-    const validationResult = validate({ email: this.email }, constraints);
-    if (validationResult) {
-      throw new Error(validationResult.email);
-    }
+    const validationResult = validate({
+      email: this.email,
+    }, constraints);
+    this.checkValidationResults(validationResult);
     return await this.sendgrid.getGlobalSupression(this.email);
   },
 };

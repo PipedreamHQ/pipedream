@@ -1,4 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
+const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-search-contacts",
@@ -15,17 +17,22 @@ module.exports = {
         "The query field accepts valid SGQL for searching for a contact. Only the first 50 contacts will be returned. If the query takes longer than 20 seconds a 408 Request Timeout will be returned.",
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
-    const validate = require("validate.js");
     const constraints = {
       query: {
         presence: true,
       },
     };
-    const validationResult = validate({ query: this.query }, constraints);
-    if (validationResult) {
-      throw new Error(validationResult.query);
-    }
+    const validationResult = validate(
+      {
+        query: this.query,
+      },
+      constraints,
+    );
+    this.checkValidationResults(validationResult);
     return await this.sendgrid.searchContacts(this.query);
   },
 };

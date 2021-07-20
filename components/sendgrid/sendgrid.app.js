@@ -74,11 +74,16 @@ module.exports = {
       };
       const { path } = opts;
       delete opts.path;
-      opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
+      opts.url = `${this._apiUrl()}${path[0] === "/"
+        ? ""
+        : "/"}${path}`;
       return (await axios(opts)).data;
     },
     async _getAllItems(params) {
-      const { url, query } = params;
+      const {
+        url,
+        query,
+      } = params;
       const requestData = {
         query,
       };
@@ -87,7 +92,11 @@ module.exports = {
       return data;
     },
     _isRetriableStatusCode(statusCode) {
-      [408, 429, 500].includes(statusCode);
+      [
+        408,
+        429,
+        500,
+      ].includes(statusCode);
     },
     async _withRetries(apiCall) {
       const retryOpts = {
@@ -98,7 +107,10 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = get(err, ["response", "status"]);
+          const statusCode = get(err, [
+            "response",
+            "status",
+          ]);
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
@@ -119,8 +131,7 @@ module.exports = {
       const url = this._webhookSettingsUrl();
       const requestConfig = this._makeRequestConfig();
       return this._withRetries(() =>
-        axios.patch(url, webhookSettings, requestConfig)
-      );
+        axios.patch(url, webhookSettings, requestConfig));
     },
     async _setSignedWebhook(enabled) {
       const url = this._setSignedWebhookUrl();
@@ -129,8 +140,7 @@ module.exports = {
       };
       const requestConfig = this._makeRequestConfig();
       return this._withRetries(() =>
-        axios.patch(url, requestData, requestConfig)
-      );
+        axios.patch(url, requestData, requestConfig));
     },
     async enableSignedWebhook() {
       const { data } = await this._setSignedWebhook(true);
@@ -146,8 +156,7 @@ module.exports = {
       };
       const requestConfig = this._makeRequestConfig();
       const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig)
-      );
+        axios.post(url, requestData, requestConfig));
       return data;
     },
     async addOrUpdateContacts(requestData) {
@@ -155,8 +164,7 @@ module.exports = {
       const requestConfig = this._makeRequestConfig();
       requestConfig.headers["Content-Type"] = "application/json";
       const { data } = await this._withRetries(() =>
-        axios.put(url, requestData, requestConfig)
-      );
+        axios.put(url, requestData, requestConfig));
       return data;
     },
     async createContactList(name) {
@@ -166,8 +174,7 @@ module.exports = {
       };
       const requestConfig = this._makeRequestConfig();
       const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig)
-      );
+        axios.post(url, requestData, requestConfig));
       return data;
     },
     async deleteBlocks(deleteAll, emails) {
@@ -217,8 +224,7 @@ module.exports = {
       const requestConfig = this._makeRequestConfig();
       const url = `${this._asmGlobalSupressionsUrl()}/${email}`;
       const { data } = await this._withRetries(() =>
-        axios.delete(url, requestConfig)
-      );
+        axios.delete(url, requestConfig));
       return data;
     },
     async deleteList(id, deleteContacts) {
@@ -235,16 +241,14 @@ module.exports = {
       const requestConfig = this._makeRequestConfig();
       const url = `${this._supressionBlocksUrl()}/${email}`;
       const { data } = await this._withRetries(() =>
-        axios.get(url, requestConfig)
-      );
+        axios.get(url, requestConfig));
       return data;
     },
     async getGlobalSupression(email) {
       const requestConfig = this._makeRequestConfig();
       const url = `${this._asmGlobalSupressionsUrl()}/${email}`;
       const { data } = await this._withRetries(() =>
-        axios.get(url, requestConfig)
-      );
+        axios.get(url, requestConfig));
       return data;
     },
     async getAllBounces(startTime, endTime) {
@@ -255,8 +259,7 @@ module.exports = {
       };
       const url = this._supressionBouncesUrl();
       const { data } = await this._withRetries(() =>
-        axios.get(url, requestConfig)
-      );
+        axios.get(url, requestConfig));
       return data;
     },
     async *getAllContactLists(maxItems) {
@@ -270,8 +273,7 @@ module.exports = {
           params,
         };
         const { data } = await this._withRetries(() =>
-          axios.get(url, requestConfig)
-        );
+          axios.get(url, requestConfig));
         const contactLists = data.result.slice(0, maxItems);
         for (const contactList of contactLists) {
           yield contactList;
@@ -295,8 +297,7 @@ module.exports = {
           params,
         };
         const { data } = await this._withRetries(() =>
-          axios.get(url, requestConfig)
-        );
+          axios.get(url, requestConfig));
         if (!data.length) {
           return;
         }
@@ -323,8 +324,7 @@ module.exports = {
           params,
         };
         const { data } = await this._withRetries(() =>
-          axios.get(url, requestConfig)
-        );
+          axios.get(url, requestConfig));
         if (!data.length) {
           return;
         }
@@ -355,10 +355,11 @@ module.exports = {
     async removeContactFromList(id, contactIds) {
       const url = `${this._contactListUrl()}/${id}/contacts`;
       const requestConfig = this._makeRequestConfig();
-      requestConfig.params = { contactIds };
-      const { data } = await this._withRetries(() =>
-        axios.delete(url, requestConfig)
-      );
+      requestConfig.params = {
+        contact_ids: contactIds,
+      };
+      const { data } = await  this._withRetries(() =>
+        axios.delete(url, requestConfig));
       return data;
     },
     async searchContacts(query) {
@@ -377,15 +378,14 @@ module.exports = {
       const url = this._sendMailUrl();
       const requestConfig = this._makeRequestConfig();
       const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig)
-      );
+        axios.post(url, requestData, requestConfig));
+      return data;
     },
     async validateEmail(requestData) {
       const url = this._emailValidationsUrl();
       const requestConfig = this._makeRequestConfig();
       const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig)
-      );
+        axios.post(url, requestData, requestConfig));
       return data;
     },
   },

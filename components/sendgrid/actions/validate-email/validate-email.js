@@ -1,4 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
+const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-validate-email",
@@ -22,21 +24,29 @@ module.exports = {
       optional: true,
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
-    const validate = require("validate.js");
     const constraints = {
       email: {
         presence: true,
         email: true,
       },
     };
-    const validationResult = validate({ email: this.email }, constraints);
-    if (validationResult) {
-      throw new Error(validationResult.email);
-    }
-    return await this.sendgrid.validateEmail({
+    const validationResult = validate(
+      {
+        email: this.email,
+      },
+      constraints,
+    );
+    this.checkValidationResults(validationResult);
+    const config = {
       email: this.email,
-      source: this.source,
-    });
+    };
+    if (this.source) {
+      config.source = this.source;
+    }
+    return await this.sendgrid.validateEmail(config);
   },
 };

@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
-var validate = require("validate.js");
+const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-list-global-supressions",
@@ -30,31 +31,49 @@ module.exports = {
       description: "Indicates the max number of global supressions to return.",
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
     const constraints = {
       numberOfSupressions: {
         presence: true,
+        type: "integer",
       },
     };
-    const validate = require("validate.js");
-    const constraints = {
-      numberOfSupressions: {
-        presence: true,
-        type: "array",
-      },
-    };
-    const validationResult = validate(
-      { numberOfSupressions: this.numberOfSupressions },
-      constraints
-    );
-    if (validationResult) {
-      throw new Error(validationResult.numberOfSupressions);
+    if (this.startTime) {
+      constraints.startTime = {
+        type: "integer",
+      };
     }
+    if (this.endTime) {
+      constraints.endTime = {
+        type: "integer",
+      };
+    }
+    const validationResult = validate(
+      {
+        startTime: this.startTime,
+        endTime: this.endTime,
+        numberOfSupressions: this.numberOfSupressions,
+      },
+      constraints,
+    );
+    this.checkValidationResults(validationResult);
+    this.integerValueGreaterThan(this.startTime, 0, "startTime", "0");
+    this.integerValueGreaterThan(this.endTime, 0, "endTime", "0");
+    this.integerValueGreaterThan(this.numberOfSupressions, 0, "numberOfSupressions", "0");
+    this.integerValueGreaterThan(
+      this.endTime,
+      this.startTime,
+      "endTime",
+      "startTime",
+    );
     const globalSupressionsGenerator =
       await this.sendgrid.listGlobalSupressions(
         this.startTime,
         this.endTime,
-        this.numberOfSupressions
+        this.numberOfSupressions,
       );
     const globalSupressions = [];
     let globalSupression;

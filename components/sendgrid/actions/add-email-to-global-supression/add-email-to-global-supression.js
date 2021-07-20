@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
-var validate = require("validate.js");
+const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-add-email-to-global-supression",
@@ -14,8 +15,11 @@ module.exports = {
       type: "object",
       label: "Recipient Emails",
       description:
-        'An array of email addresses to be added to the global suppressions group. Example `["email1@example.com","email2@example.com"]`',
+        "An array of email addresses to be added to the global suppressions group. Example `[\"email1@example.com\",\"email2@example.com\"]`",
     },
+  },
+  methods: {
+    ...common,
   },
   async run() {
     const constraints = {
@@ -25,14 +29,12 @@ module.exports = {
       },
     };
     const validationResult = validate(
-      { recipientEmails: this.recipientEmails },
-      constraints
+      {
+        recipientEmails: this.recipientEmails,
+      },
+      constraints,
     );
-    if (validationResult) {
-      const validationResultKeys = Object.keys(validationResult);
-      let validationMessages = validationResult[validationResultKeys[0]];
-      throw new Error(validationMessages);
-    }
+    this.checkValidationResults(validationResult);
     return await this.sendgrid.addEmailToGlobalSupression(this.recipientEmails);
   },
 };

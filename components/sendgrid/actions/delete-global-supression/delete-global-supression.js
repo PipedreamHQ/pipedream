@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-delete-global-supression",
@@ -17,17 +18,20 @@ module.exports = {
         "The email address you want to remove from the global suppressions group.",
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
     const constraints = {
       email: {
         presence: true,
-        email: true
+        email: true,
       },
     };
-    const validationResult = validate({ email: this.email }, constraints);
-    if (validationResult) {
-      throw new Error(validationResult.email);
-    }
+    const validationResult = validate({
+      email: this.email,
+    }, constraints);
+    this.checkValidationResults(validationResult);
     return await this.sendgrid.deleteGlobalSupression(this.email);
   },
 };

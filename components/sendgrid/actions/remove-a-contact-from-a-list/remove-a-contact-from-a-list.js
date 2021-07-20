@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-remove-a-contact-from-a-list",
@@ -16,11 +17,14 @@ module.exports = {
         "Unique Id of the List where the contact to remove off is located.",
     },
     contactIds: {
-      type: "string",
+      type: "object",
       label: "Contact Ids",
       description:
-        "Comma separated list of contact ids to be removed off the list.",
+        "Array of contact ids to be removed off the list.",
     },
+  },
+  methods: {
+    ...common,
   },
   async run() {
     const constraints = {
@@ -29,27 +33,18 @@ module.exports = {
       },
       contactIds: {
         presence: true,
+        type: "array",
       },
     };
     const validationResult = validate(
-      { id: this.id, contactIds: this.contactIds },
-      constraints
+      {
+        id: this.id,
+        contactIds: this.contactIds,
+      },
+      constraints,
     );
-    if (validationResult) {
-      let validationResultKeys = Object.keys(validationResult);
-      let validationMessages;
-      if (validationResultKeys.length == 1) {
-        validationMessages = validationResult[validationResultKeys[0]];
-      } else {
-        validationMessages =
-          "Parameters validation failed with the following errors:\t";
-        validationResultKeys.forEach(
-          (validationResultKey) =>
-            (validationMessages += `${validationResult[validationResultKey]}\t`)
-        );
-      }
-      throw new Error(validationMessages);
-    }
-    return await this.sendgrid.removeContactFromList(this.id, this.contactIds);
+    this.checkValidationResults(validationResult);
+    const contactIds = this.contactIds.join(",");
+    return await this.sendgrid.removeContactFromList(this.id, contactIds);
   },
 };

@@ -1,5 +1,6 @@
 const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
+const common = require("../common");
 
 module.exports = {
   key: "sendgrid-make-an-api-request",
@@ -13,7 +14,13 @@ module.exports = {
       type: "string",
       label: "Request Method",
       description: "Http method to use in the request.",
-      options: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+      options: [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+      ],
     },
     relativeUrl: {
       type: "string",
@@ -35,6 +42,9 @@ module.exports = {
       optional: true,
     },
   },
+  methods: {
+    ...common,
+  },
   async run() {
     const constraints = {
       requestMethod: {
@@ -45,29 +55,18 @@ module.exports = {
       },
     };
     const validationResult = validate(
-      { requestMethod: this.requestMethod, relativeUrl: this.relativeUrl },
-      constraints
+      {
+        requestMethod: this.requestMethod,
+        relativeUrl: this.relativeUrl,
+      },
+      constraints,
     );
-    if (validationResult) {
-      let validationResultKeys = Object.keys(validationResult);
-      let validationMessages;
-      if (validationResultKeys.length == 1) {
-        validationMessages = validationResult[validationResultKeys[0]];
-      } else {
-        validationMessages =
-          "Parameters validation failed with the following errors:\t";
-        validationResultKeys.forEach(
-          (validationResultKey) =>
-            (validationMessages += `${validationResult[validationResultKey]}\t`)
-        );
-      }
-      throw new Error(validationMessages);
-    }
+    this.checkValidationResults(validationResult);
     return await this.sendgrid.makeAnAPICall(
       this.requestMethod,
       this.relativeUrl,
       this.headers,
-      this.requestBody
+      this.requestBody,
     );
   },
 };
