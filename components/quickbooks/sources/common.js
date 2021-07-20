@@ -99,7 +99,6 @@ module.exports = {
       const payload = event.bodyRaw
       const header = event.headers['intuit-signature']
       const isWebhookValid = this.quickbooks.verifyWebhookRequest(token, payload, header)
-      console.log(isWebhookValid)
       if(isWebhookValid){
         const record_details = await this.quickbooks.getRecordDetails(entity.name, entity.id)
         const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`
@@ -112,8 +111,8 @@ module.exports = {
       const hash = createHmac("sha256", token).update(payload).digest('hex')
       const converted_header = Buffer.from(header, 'base64').toString('hex')
       // console.log('Payload: ', payload)
-      // console.log('Header: ', converted_header)
       // console.log('Hash: ', hash)
+      // console.log('Header: ', converted_header)
       return hash === converted_header
     },
   },
