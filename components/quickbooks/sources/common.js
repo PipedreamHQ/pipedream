@@ -100,25 +100,31 @@ module.exports = {
       const payload = event_received.bodyRaw
       const header = event_received.headers['intuit-signature']
       const isWebhookValid = this.verifyWebhookRequest(token, payload, header)
-      if(isWebhookValid){
-        // Unless the record has been deleted, use the id received in the webhook to get the full record data
-        const event_to_emit = {
-          event_notification: event_received,
-          record_details: {},
-        }
-        if(event_received.operation !== 'Delete'){
-          const webhook_company_id = event_received.body.eventNotifications[0].realmId
-          const connected_company_id = this.quickbooks.$auth.webhook_company_id
-          if(webhook_company_id === connected_company_id){
-            console.log('Company ID: ', webhook_company_id)
-            source_event.record_details = await this.quickbooks.getRecordDetails(entity.name, entity.id)
-          } else {
-            console.log('Error: Ids do not match. ', webhook_company_id, connected_company_id)
-          }
-        }
+      if(!isWebhookValid){
+        const message = `Error: Webhook did not pass verification. Try reentering the verify token, making sure it's from the correct webhook on the Intuit Developer Dashboard.`
+        console.log(message)
+        throw new Error(message)
+      } else {
         const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`
-        this.$emit(event_to_emit, {summary})
-        return source_event.record_details
+        const webhook_company_id = event_received.body.eventNotifications[0].realmId
+        const connected_company_id = this.quickbooks.$auth.company_id
+        if(webhook_company_id !== connected_company_id){
+          const message = `Error: Cannot retrieve record details for ${summary}. The QuickBooks company id 
+          of the incoming event (${webhook_company_id}) does not match the company id of the account 
+          currently connected to this source in Pipedream (${connected_company_id}).`
+          console.log(message)
+          throw new Error(message)
+        } else{
+          const event_to_emit = {
+            event_notification: event_received,
+            record_details: {},
+          }
+          // Unless the record has been deleted, use the id received in the webhook to get the full record data
+          if(event_received.operation !== 'Delete'){
+            event_to_emit.record_details = await this.quickbooks.getRecordDetails(entity.name, entity.id)
+          }
+          this.$emit(event_to_emit, {summary})
+        }
       }
     },
 
