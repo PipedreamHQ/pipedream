@@ -15,7 +15,7 @@ module.exports = {
       type: "object",
       label: "Recipient Emails",
       description:
-        "An array of email addresses to be added to the global suppressions group. Example `[\"sample1@example.com\",\"sample2@example.com\"]`",
+        "An array of email addresses to be added to the global suppressions group. Example `[\"email1@example.com\",\"email2@example.com\"]`",
     },
   },
   methods: {
