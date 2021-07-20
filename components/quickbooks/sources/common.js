@@ -1,4 +1,5 @@
 const quickbooks = require('../quickbooks.app');
+const {createHmac} = require("crypto");
 
 //https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks/entities-and-operations-supported
 const supported_webhook_options = {
