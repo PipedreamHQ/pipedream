@@ -92,6 +92,11 @@ module.exports = {
         },
       })
     },
+
+    async validateAndEmit(event, entity){
+      //individual source modules can redefine this method to specify criteria for which events to emit
+      return this.emitEvent(event, entity)
+    },
     
     async emitEvent(event, entity){
       const token = this.webhook_verifier_token
@@ -105,7 +110,16 @@ module.exports = {
         this.$emit(record_details, {summary})
         return record_details
       }
-    }
+    },
+
+    verifyWebhookRequest(token, payload, header){
+      const hash = createHmac("sha256", token).update(payload).digest('hex')
+      const converted_header = Buffer.from(header, 'base64').toString('hex')
+      // console.log('Payload: ', payload)
+      // console.log('Header: ', converted_header)
+      // console.log('Hash: ', hash)
+      return hash === converted_header
+    },
   },
   async run(event) {
     const {entities} = event.body.eventNotifications[0].dataChangeEvent

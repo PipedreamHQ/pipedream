@@ -83,13 +83,5 @@ module.exports = {
       const {data} = await axios(config)
       return data
     },
-    verifyWebhookRequest(token, payload, header){
-      const hash = createHmac("sha256", token).update(payload).digest('hex')
-      const converted_header = Buffer.from(header, 'base64').toString('hex')
-      // console.log('Payload: ', payload)
-      // console.log('Header: ', converted_header)
-      // console.log('Hash: ', hash)
-      return hash === converted_header
-    }
   },
 };
