@@ -21,7 +21,7 @@ module.exports = {
   },
   methods:{
     ...common.methods,
-    async validateAndEmit(event, entity){
+    validateAndEmit(event, entity){
       // only emit events that match the entity names and operations indicated by the user
       // but if the props are left empty, emit all events rather than filtering them all out
       // (it would a hassle for the user to select every single option if they wanted to emit everything)
@@ -30,8 +30,8 @@ module.exports = {
       } else if(this.operations_to_emit.length > 0 && !this.operations_to_emit.includes(entity.operation)){
         console.log(`Operation '${entity.operation}' not found in list of selected Operations`)
       } else {
-        return this.emitEvent(event, entity)
+        this.emitEvent(event, entity)
       }
-   }
+    }
   },
 };

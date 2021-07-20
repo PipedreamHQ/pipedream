@@ -92,7 +92,7 @@ module.exports = {
 
     async validateAndEmit(event, entity){
       //individual source modules can redefine this method to specify criteria for which events to emit
-      return this.emitEvent(event, entity)
+      await this.emitEvent(event, entity)
     },
     
     async emitEvent(event_received, entity){
