@@ -24,7 +24,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {
