@@ -13,18 +13,25 @@ module.exports = {
       async options(opts) {
         const cards = await this.getCards(opts.board);
         return cards.map((card) => {
-          return { label: card.name, value: card.id };
+          return {
+            label: card.name,
+            value: card.id,
+          };
         });
       },
     },
     board: {
       type: "string",
       label: "Board",
-      async options(opts) {
+      //async options(opts) {
+      async options() {
         const boards = await this.getBoards(this.$auth.oauth_uid);
         const activeBoards = boards.filter((board) => board.closed === false);
         return activeBoards.map((board) => {
-          return { label: board.name, value: board.id };
+          return {
+            label: board.name,
+            value: board.id,
+          };
         });
       },
     },
@@ -43,7 +50,10 @@ module.exports = {
       async options(opts) {
         const lists = await this.getLists(opts.board);
         return lists.map((list) => {
-          return { label: list.name, value: list.id };
+          return {
+            label: list.name,
+            value: list.id,
+          };
         });
       },
     },
@@ -52,7 +62,11 @@ module.exports = {
     _getBaseUrl() {
       return "https://api.trello.com/1/";
     },
-    async _getAuthorizationHeader({ data, method, url }) {
+    async _getAuthorizationHeader({
+      data,
+      method,
+      url,
+    }) {
       const requestData = {
         data,
         method,
@@ -85,6 +99,48 @@ module.exports = {
         console.log(err);
       }
     },
+    async createCard(
+      name,
+      desc,
+      pos,
+      dueDate,
+      dueComplete,
+      idList,
+      idMembers,
+      idLabels,
+      urlSource,
+      fileSource,
+      mimeType,
+      idCardSource,
+      keepFromSource,
+      address,
+      locationName,
+      coordinates,
+    ) {
+      const config = {
+        url: `${this._getBaseUrl()}/cards`,
+        method: "post",
+        data: {
+          name,
+          desc,
+          pos,
+          due: dueDate,
+          dueComplete,
+          idList,
+          idMembers,
+          idLabels,
+          urlSource,
+          fileSource,
+          mimeType,
+          idCardSource,
+          keepFromSource,
+          address,
+          locationName,
+          coordinates,
+        },
+      };
+      return (await this._makeRequest(config)).data;
+    },
     async getResource(endpoint, params = null) {
       const config = {
         url: `${this._getBaseUrl()}${endpoint}`,
@@ -92,10 +148,23 @@ module.exports = {
       };
       return (await this._makeRequest(config)).data;
     },
+    async moveCardToList(idCard,
+      opts) {
+      const config = {
+        url: `${this._getBaseUrl()}/cards/${idCard}`,
+        method: "PUT",
+        data: {
+          idBoard: opts.toBoardId,
+          idList: opts.toListId,
+        },
+      };
+      return (await this._makeRequest(config)).data;
+    },
     async verifyTrelloWebhookRequest(request, callbackURL) {
       let secret = this.$auth.oauth_refresh_token;
       const base64Digest = function (s) {
-        return crypto.createHmac("sha1", secret).update(s).digest("base64");
+        return crypto.createHmac("sha1", secret).update(s).
+          digest("base64");
       };
       const content = JSON.stringify(request.body) + callbackURL;
       const doubleHash = base64Digest(content);
@@ -134,10 +203,13 @@ module.exports = {
     },
     async getAttachment(cardId, attachmentId) {
       return await this.getResource(
-        `cards/${cardId}/attachments/${attachmentId}`
+        `cards/${cardId}/attachments/${attachmentId}`,
       );
     },
-    async createHook({ id, endpoint }) {
+    async createHook({
+      id,
+      endpoint,
+    }) {
       const resp = await this._makeRequest({
         method: "post",
         url: `${this._getBaseUrl()}webhooks/`,
