@@ -17,9 +17,9 @@ module.exports = {
       default: false,
     },
     ids: {
-      type: "object",
-      label: "Ids",
-      description: "An array of contact IDs to delete.",
+      type: "string",
+      label: "Contact ID's",
+      description: "An array of contact IDs to delete",
       optional: true,
     },
   },
