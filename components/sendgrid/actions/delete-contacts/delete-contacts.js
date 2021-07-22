@@ -3,6 +3,7 @@ const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-delete-contacts",
   name: "Delete Contacts",
   description: "Allows you to delete one or more contacts.",
