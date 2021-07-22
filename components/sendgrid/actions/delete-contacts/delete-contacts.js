@@ -14,7 +14,7 @@ module.exports = {
       type: "boolean",
       label: "Delete All Contacts?",
       description: "This parameter allows you to delete all of your contacts. This can not be used with the `Ids` parameter.",
-      optional: true,
+      default: false,
     },
     ids: {
       type: "object",
