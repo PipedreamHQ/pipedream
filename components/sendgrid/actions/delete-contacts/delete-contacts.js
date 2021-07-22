@@ -27,30 +27,13 @@ module.exports = {
     ...common,
   },
   async run() {
-    if (this.deleteAllContacts && this.ids) {
-      throw new Error(
-        "Must provide only one of `deleteAllContacts` or `ids` parameters.",
-      );
-    }
-    const constraints = {};
-    let ids = undefined;
-    if (this.ids) {
-      constraints.ids = {
+    const constraints = {
+      ids: {
         type: "array",
-      };
-      const validationResult = validate(
-        {
-          id: this.id,
-          contactIds: this.contactIds,
-        },
-        constraints,
-      );
-      this.checkValidationResults(validationResult);
-      ids = this.ids.join(",");
-    }
-    const deleteAllContacts = (this.deleteAllContacts)
-      ? "true"
-      : "false";
-    return await this.sendgrid.deleteContacts(deleteAllContacts, ids);
+      },
+    };
+    const validationResults = validate(this, constraints);
+    this.checkValidationResults(validationResults);
+    await this.sendgrid.deleteContacts(this.ids, this.deleteAllContacts);
   },
 };
