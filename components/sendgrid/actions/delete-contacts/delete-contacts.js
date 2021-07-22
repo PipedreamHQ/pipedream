@@ -9,7 +9,7 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     deleteAllContacts: {
       type: "boolean",
       label: "Delete All Contacts?",
