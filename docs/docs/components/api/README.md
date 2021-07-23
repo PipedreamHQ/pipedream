@@ -1,6 +1,6 @@
 # Component API Reference
 
-This document was created to help developers author and use Pipedream components. You can develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using components. You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
+This document was created to help developers author and use [Pipedream components](/components/). You can develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using components. You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
 
 While sources and actions share the core component API, they differ in both how they're used and written. [See this section](#differences-between-actions-and-sources) for the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
@@ -12,7 +12,7 @@ If you have any questions about component development, please reach out [in our 
 
 ### What is a component?
 
-Components are Node.js modules that run on Pipedream's serverless infrastructure.
+Components are Node.js [CommonJS modules](https://flaviocopes.com/commonjs/) that run on Pipedream's serverless infrastructure.
 
 - Trigger Node.js code on HTTP requests, timers, cron schedules, or manually
 - Emit data on each event to inspect it, trigger Pipedream hosted workflows or access it outside of Pipedream via API
@@ -20,24 +20,6 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 - Connect to [400+ apps](https://pipedream.com/apps) using Pipedream managed auth
 - Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
-
-### What is a source?
-
-Sources are components that collect data from services like Twitter, GitHub, Google Sheets, and more, and emit the relevant data as individual events. These events trigger linked workflows, and [can be retrieved using the API or SSE interfaces](/event-sources/#consuming-events-from-sources).
-
-Sources operate primarily as workflow triggers. For example, the **Twitter - My Tweets** source will run your workflow every time you post a new tweet.
-
-If the target API supports webhooks or another mechanism for real-time data delivery, the event source uses it. For example, Google Sheets supports webhooks, which allows Google Sheets event sources to emit updates instantly.
-
-If a service doesn't support real-time event delivery, Pipedream polls the API for updates every few minutes, emitting events as the API produces them. For example, Airtable doesn't support webhooks, so we poll their API for new records added to a table.
-
-Read [the event source docs](/event-sources) for more information.
-
-### What is an action?
-
-Actions are reusable code steps that integrate with apps and APIs. For example, you can send HTTP requests to an external service using our HTTP actions, or use actions to send data to Slack, Amazon S3, and more. You can use thousands of actions across 100+ apps today.
-
-Typically, integrating with these services requires custom code to manage connection logic, error handling, and more. Actions handle that for you. You only need to select the action and specify the required parameters. For example, when you use the **HTTP POST Request** action, you specify the data you want to send and the URL you want to send it to.
 
 ### Quickstarts
 
@@ -66,12 +48,6 @@ Sources and actions share the same component API. However, certain features of t
 Several examples below use the Pipedream CLI. To install it, [follow the instructions for your OS / architecture](/cli/install/).
 
 See the [CLI reference](/cli/reference/) for detailed usage and examples beyond those covered below.
-
-### Contributing
-
-You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
-
-Components published to the Pipedream registry can be found in the [`PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream).
 
 ### Example Components
 
@@ -567,9 +543,13 @@ hooks: {
 
 ### Run
 
-Each time a component is invoked (for example, via HTTP request), its `run` method is called.
+Each time a component is invoked, its `run` method is called. Sources are invoked by their [interface](#interface-props) (for example, via HTTP request). Actions are run when their parent workflow is triggered.
 
-The event that triggered the component is passed to `run`, so that you can access it within the method:
+You can reference [`this`](#referencing-this) within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and more.
+
+#### Sources
+
+When a source is invoked, the event that triggered the source is passed to `run`, so that you can access it within the method:
 
 ```javascript
 async run(event) {
@@ -577,23 +557,9 @@ async run(event) {
 }
 ```
 
-You can reference [`this`](#referencing-this) within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and Pipedream-provided functions like `this.$emit`.
+##### \$emit
 
-You can view logs produced by the `run` method in the **LOGS** section of the Pipedream UI for the component, or using the `pd logs` CLI command:
-
-```bash
-pd logs <deployed-component-name>
-```
-
-If the `run` method emits events using `this.$emit`, you can access the events in the **EVENTS** section of the Pipedream UI for the component, or using the `pd events` CLI command:
-
-```bash
-pd events <deployed-component-name>
-```
-
-#### \$emit
-
-`this.$emit()` is a method in scope for the `run` method of a component
+`this.$emit()` is a method in scope for the `run` method of a source
 
 ```javascript
 this.$emit(event, {
@@ -624,6 +590,160 @@ module.exports = {
 };
 ```
 
+##### Logs
+
+You can view logs produced by a source's `run` method in the **Logs** section of the [Pipedream source UI](https://pipedream.com/sources), or using the `pd logs` CLI command:
+
+```bash
+pd logs <deployed-component-name>
+```
+
+##### Events
+
+If the `run` method emits events using `this.$emit`, you can access the events in the **EVENTS** section of the Pipedream UI for the component, or using the `pd events` CLI command:
+
+```bash
+pd events <deployed-component-name>
+```
+
+#### Actions
+
+When an action is run in a workflow, Pipedream passes an object with a `$` variable that gives you access to special functions, outlined below:
+
+```javascript
+async run({ $ }) {
+  $.export("var", "value")
+}
+```
+
+##### Returning data from steps
+
+By default, variables declared within an action are scoped to that action. To return data from a step, you have two options: 1) use the `return` keyword, or 2) use `$.export` to return a named export from a step.
+
+**`return`**
+
+Use `return` to return data from an action:
+
+```javascript
+async run({ $ }) {
+  return "data"
+}
+```
+
+When you use return, the exported data will appear at `steps.[STEP NAME].$return_value`. For example, if you ran the code above in a step named `nodejs`, you'd reference the returned data using `steps.nodejs.$return_value`.
+
+**`$.export`**
+
+You can also use `$.export` to return named exports from an action. `$export` takes the name of the export as the first argument, and the value to export as the second argument:
+
+```javascript
+async run({ $ }) {
+  $.export("name", "value")
+}
+```
+
+When your workflow runs, you'll see the named exports appear below your step, with the data you exported. You can reference these exports in other steps using `steps.[STEP NAME].[EXPORT NAME]`.
+
+**`$.respond`**
+
+`$.respond` functions the same way as `$respond` in workflow code steps. [See the `$respond` docs for more information](/workflows/steps/triggers/#customizing-the-http-response).
+
+```javascript
+async run({ $ }) {
+  $.respond({
+    status: 200,
+    body: "hello, world"
+  })
+}
+```
+
+**`return $.flow.exit`**
+
+`return $.flow.exit` terminates the entire workflow. It accepts a single argument: a string that tells the workflow why the action ended execution, which is displayed in the Pipedream UI.
+
+```javascript
+async run({ $ }) {
+  return $.flow.exit("reason")
+}
+```
+
+It functions the same way as [`$end` in workflow code steps](/workflows/steps/code/#end).
+
+**`$.send`**
+
+`$.send` allows you to send data to [Pipedream destinations](/destinations/).
+
+**`$.send.http`**
+
+`$.send.http` functions the same as [`$send.http` in workflow code steps](/destinations/http/#using-send-http):
+
+```javascript
+async run({ $ }) {
+  $.send.http({
+    method: "GET",
+    url: "https://example.com"
+  })
+}
+```
+
+**`$.send.email`**
+
+`$.send.email` functions the same as [`$send.email` in workflow code steps](/destinations/email/#using-send-email):
+
+```javascript
+async run({ $ }) {
+  $.send.email({
+    subject: "Your subject",
+    text: "Plain text email body",
+    html: "HTML email body"
+    include_collaborators: false,
+  });
+}
+```
+
+**`$.send.s3`**
+
+`$.send.s3` functions the same as [`$send.s3` in workflow code steps](/destinations/s3/#using-send-s3):
+
+```javascript
+async run({ $ }) {
+  $send.s3({
+    bucket: "your-bucket-here",
+    prefix: "your-prefix/",
+    payload: event.body,
+  });
+}
+```
+
+**`$.send.emit`**
+
+`$.send.emit` functions the same as [`$send.emit` in workflow code steps](/destinations/emit/#using-send-emit):
+
+```javascript
+async run({ $ }) {
+  $.send.emit({
+    raw_event: {
+      name: "Yoda",
+    },
+  });
+}
+```
+
+**`$.send.sse`**
+
+`$.send.sse` functions the same as [`$send.sse` in workflow code steps](/destinations/sse/#sending-data-to-an-sse-destination):
+
+```javascript
+async run({ $ }) {
+  $.send.sse({
+    channel: "events",
+    payload: {
+      name: "Luke Skywalker"
+    }
+  });
+}
+```
+
 ### Environment variables
 
 [Environment variables](/environment-variables/) are not accessible within a sources or actions directly. 
@@ -640,25 +760,25 @@ To use an npm package in a component, just require it. There is no `package.json
 const axios = require("axios");
 ```
 
-When you deploy a component, Pipedream downloads these packages and bundles them with your deployment.
+When you deploy a component, Pipedream downloads the latest versions of these packages and bundles them with your deployment.
 
 Some packages — for example, packages like [Puppeteer](https://pptr.dev/), which includes large dependencies like Chromium — may not work on Pipedream. Please [reach out](https://pipedream.com/community) if you encounter a specific issue.
 
-By default, Pipedream pins the current version of the package to the component. For example, if you `require("axios")` and the current version of `axios` is `0.20.0`, Pipedream downloads that version of the package and also pins future updates to that version. When the component updates, Pipedream will always download version `0.20.0`.
+#### Referencing a specific version of a package
 
-If you want to always download the latest version of the package, you can `require("axios@latest")`, and Pipedream will download the latest version of the package on all component updates.
+_This logic currently applies only to sources_.
 
-If you'd like to use a _specific_ version of a package, you can add that version in the `require` string, for example: `require("axios@0.19.2")`. Moreover, you can pass the same version specifiers that npm and other tools allow to specify allowed [semantic version](https://semver.org/) upgrades. For example, 
+If you'd like to use a _specific_ version of a package in a source, you can add that version in the `require` string, for example: `require("axios@0.19.2")`. Moreover, you can pass the same version specifiers that npm and other tools allow to specify allowed [semantic version](https://semver.org/) upgrades. For example:
 
 - To allow for future patch version upgrades, use `require("axios@~0.20.0")`
 - To allow for patch and minor version upgrades, use `require("axios@^0.20.0")`
 
-## Management
+## Managing Components
 
 Sources and actions are developed and deployed slightly differently, given the different functions they serve in the product.
 
-- [Sources](#managing-sources)
-- [Actions](#managing-actions)
+- [Managing Sources](#managing-sources)
+- [Managing Actions](#managing-actions)
 
 ### Managing Sources
 
@@ -769,6 +889,20 @@ You can delete a component via the UI at [https://pipedream.com/sources](https:/
 See the [REST API docs](/api/rest/#operations).
 
 ### Managing Actions
+
+#### CLI - Publish
+
+To publish an action, use the `pd publish` command.
+
+```bash
+pd publish <filename>
+```
+
+E.g.,
+
+```bash
+pd publish my-action.js
+```
 
 ## Source Lifecycle
 

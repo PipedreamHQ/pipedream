@@ -1,6 +1,8 @@
 # CLI Reference
 
-The Pipedream CLI currently allows you to work with [event sources](/event-sources/) and their associated events. If you'd like to see support for managing [workflows](/workflows/), please +1 [this issue on Github](https://github.com/PipedreamHQ/pipedream/issues/220).
+The Pipedream CLI currently allows you to manage [components](/components/). If you'd like to see support for managing [workflows](/workflows/), please +1 [this issue on Github](https://github.com/PipedreamHQ/pipedream/issues/220).
+
+When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
 [[toc]]
 
@@ -16,7 +18,7 @@ We've also documented each command below, with usage examples for each.
 
 ### General Notes
 
-Everywhere you can refer to a specific source as an argument, you can use the source's ID _or_ its name slug. For example, to retrieve details about a specific source using `pd describe`, you can use either of the following commands:
+Everywhere you can refer to a specific component as an argument, you can use the component's ID _or_ its name slug. For example, to retrieve details about a specific source using `pd describe`, you can use either of the following commands:
 
 ```
 λ ~/ pd describe dc_abc123
@@ -73,6 +75,21 @@ Display the details for a source: its id, name, and other configuration details:
 pd describe <source-id-or-name>
 ```
 
+### `pd dev`
+
+`pd dev` allows you to interactively develop a source from a local file.`pd dev` will link your local file with the deployed component and watch your local file for changes. When you save changes to your local file, your component will automatically be updated on Pipedream.
+
+```
+pd dev <file-or-name>
+```
+
+If you quit `pd dev` and want to link the same deployed source to your local file, you can pass the deployed component ID using the `--dc` flag:
+
+```
+pd dev --dc <existing-deployed-component-id> <file-or-name>
+```
+
+
 ### `pd events`
 
 Returns historical events sent to a source, and streams emitted events directly to the CLI.
@@ -107,12 +124,12 @@ Displays help for any command. Run `pd help events`, `pd help describe`, etc.
 
 ### `pd list`
 
-Lists Pipedream resources you own. Running `pd list` without any arguments prompts you to select the type of resource you'd like to list.
+Lists Pipedream sources running in your account. Running `pd list` without any arguments prompts you to select the type of resource you'd like to list.
 
 You can also list specific resource types directly:
 
 ```
-pd list sources
+pd list components
 ```
 
 ```
@@ -152,6 +169,20 @@ Event sources produce logs that can be useful for troubleshooting issues with th
 Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to your source](/event-sources/logs/), displaying new logs as the source produces them.
 
 Any errors thrown by the source will also appear here.
+
+### `pd publish`
+
+To publish an action, use the `pd publish` command.
+
+```bash
+pd publish <filename>
+```
+
+E.g.,
+
+```bash
+pd publish my-action.js
+```
 
 ### `pd signup`
 
