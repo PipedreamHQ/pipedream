@@ -1,36 +1,114 @@
 const googleSheets = require("../../google_sheets.app");
 
 module.exports = {
-  key: "google_sheets-add-single-row",
-  name: "Add Single Row",
+  key: "pravin-add-single-row",
+  name: "Computed Props Test - Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "0.0.29",
+  version: "0.0.27",
   type: "action",
   props: {
     googleSheets,
-    drive: { 
+    drive: {
       propDefinition: [
-        googleSheets, 
+        googleSheets,
         "watchedDrive"
       ],
-      description: "", 
+      description: "",
     },
-    sheetId: { 
+    sheetId: {
+      label: "Spreadsheet",
       propDefinition: [
-        googleSheets, 
+        googleSheets,
         "sheetID",
         (c) => ({
           driveId: c.drive === "myDrive" ? null : c.drive,
         }),
-      ] 
+      ]
     },
     sheetName: { propDefinition: [googleSheets, "sheetName", (c) => ({ sheetId: c.sheetId })] },
-    cells: { propDefinition: [googleSheets, "cells"] },
-  }, 
+    dataEntry: { 
+      type: "string",
+      options: [
+        { label: "Enter data for each column", value: "column" },
+        { label: "Pass an array of data", value: "array" }
+      ],
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    if (this.dataEntry == "column") {
+      if(!this.header) {
+        const rv = {}
+        rv['header'] = { 
+          type: "string", 
+          label: "Header Row?",
+          options: [
+            { label: "First row has headers", value: "hasHeaders" },
+            { label: "There is no header row", value: "noHeaders" },
+          ],
+          reloadProps: true
+        }
+        return rv
+      } else {
+        if(this.header === "hasHeaders") {
+          const rv = {}
+          rv['header'] = { 
+            type: "string", 
+            label: "Header Row?",
+            options: [
+              { label: "First row has headers", value: "hasHeaders" },
+              { label: "There is no header row", value: "noHeaders" },
+            ],
+            reloadProps: true
+          }
+          const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId, `${this.sheetName}!1:1`)
+          for (let i = 0; i < values[0].length; i++) {
+            rv[`col_${i.toString().padStart(4, "0")}`] = { type: "string", label: values[0][i], optional: true }
+          }
+          return rv
+        } else {
+          const rv = {}
+          rv['header'] = { 
+            type: "string", 
+            label: "Header Row?",
+            options: [
+              { label: "First row has headers", value: "hasHeaders" },
+              { label: "There is no header row", value: "noHeaders" },
+            ],
+            reloadProps: true
+          }
+          rv['myColumnData'] = { type: "string[]", label: "Enter individual columns" }
+          return rv
+        }
+      }
+    } else {
+      const rv = {}
+      rv['mydata'] = { type: "any", label: "Pass an Array" }
+      return rv
+    }
+  },
   async run() {
     const sheets = this.googleSheets.sheets()
-    const cells = this.cells
-    
+    let cells
+    console.log(this.dataEntry)
+    console.log(this.header)
+    if(this.dataEntry === "column") {
+      console.log("foo1")
+      if(this.header === "hasHeaders") {
+        console.log("foo2")
+        cells = Object.keys(this).filter(prop => prop.startsWith("col_")).sort().map(prop => this[prop])
+      } else {
+        cells = this.myColumnData
+      }
+    } else {
+      cells = this.mydata
+      if(!Array.isArray(cells)) {
+        cells = JSON.parse(cells)
+      }
+    }
+
+    console.log(cells)
+
     // validate input
     if (!cells || !cells.length) {
       throw new Error("Please enter an array of elements in `Cells / Column Values`.")
