@@ -1,8 +1,8 @@
 # Component API Reference
 
-This document was created to help developers author and use [Pipedream components](/components/). You can develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using components. You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
+This document was created to help developers author and use [Pipedream components](/components/). You can develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API. You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
 
-While sources and actions share the core component API, they differ in both how they're used and written. [See this section](#differences-between-actions-and-sources) for the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
+While sources and actions share the core component API, they differ in both how they're used and written. [See this section](#differences-between-actions-and-sources) for an explanation of the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
 If you have any questions about component development, please reach out [in our community](https://pipedream.com/community/c/dev/11).
 
@@ -15,7 +15,7 @@ If you have any questions about component development, please reach out [in our 
 Components are Node.js [CommonJS modules](https://flaviocopes.com/commonjs/) that run on Pipedream's serverless infrastructure.
 
 - Trigger Node.js code on HTTP requests, timers, cron schedules, or manually
-- Emit data on each event to inspect it, trigger Pipedream hosted workflows or access it outside of Pipedream via API
+- Emit data on each event to inspect it. Trigger Pipedream hosted workflows or access it outside of Pipedream via API
 - Accept user input on deploy via [CLI](/cli/reference/#pd-deploy), [API](/api/rest/#overview), or [UI](https://pipedream.com/sources)
 - Connect to [400+ apps](https://pipedream.com/apps) using Pipedream managed auth
 - Use most npm packages with no `npm install` or `package.json` required
@@ -23,19 +23,19 @@ Components are Node.js [CommonJS modules](https://flaviocopes.com/commonjs/) tha
 
 ### Quickstarts
 
-To help you get started, we created a step-by-step walkthrough for both [sources](/components/quickstart/nodejs/sources/) and [actions](/components/quickstart/nodejs/actions/). We recommend starting with those docs and using the API reference below as you develop.
+To help you get started, we created a step-by-step walkthrough for developing both [sources](/components/quickstart/nodejs/sources/) and [actions](/components/quickstart/nodejs/actions/). We recommend starting with those docs and using the API reference below as you develop.
 
 ### Differences between sources and actions
 
 Sources and actions share the same component API. However, certain features of the API are only relevant for one type of component or the other:
 
-- Actions are defined with `type: action`. Sources require no `type` property be set. Components without a `type` are considered sources.
+- Actions are defined with `type: action` ([see the docs on the `type` property](#component-structure)). Sources require no `type` property be set. Components without a `type` are considered sources.
 
-- Sources emit events using `this.$emit`, which trigger linked workflows. Anything features associated with emitting events (e.g., [dedupe strategies](#dedupe-strategies)) can only be used with sources. Actions return data using `return` or `$.export`, which is made available to future steps of the associated workflow.
+- Sources emit events [using `this.$emit`](#emit), which trigger linked workflows. Any features associated with emitting events (e.g., [dedupe strategies](#dedupe-strategies)) can only be used with sources. Actions [return data using `return` or `$.export`](#returning-data-from-steps), which is made available to future steps of the associated workflow.
 
 - Sources have access to [lifecycle hooks](#lifecycle-hooks), which are often required to configure the source to listen for new events. Actions do not have access to these lifecycle hooks.
 
-- Actions have access to a special `$` variable, passed as a parameter to the `run` method. This variable exposes functions that allow you to send data to destinations, export data from the action, return HTTP responses, and more.
+- Actions have access to [a special `$` variable](#actions), passed as a parameter to the `run` method. This variable exposes functions that allow you to send data to destinations, export data from the action, return HTTP responses, and more.
 
 - Sources can be developed iteratively using `pd dev`. Actions currently cannot (please follow [this issue](https://github.com/PipedreamHQ/pipedream/issues/1437) to be notified of updates).
 
@@ -163,7 +163,7 @@ props: {
 
 **Example**
 
-Following is an example source that demonstrates how to capture user input via a prop and emit it on each event. 
+Following is an example source that demonstrates how to capture user input via a prop and emit it on each event:
 
 ```javascript
 module.exports = {
@@ -188,7 +188,7 @@ To see more examples, explore the [curated components in Pipedream's GitHub repo
 
 ##### Async Options ([example](components/github/github.app.js))
 
-Async options allow users to select prop values that can be programmatically generated (e.g., based on a real-time API response).
+Async options allow users to select prop values that can be programmatically-generated (e.g., based on a real-time API response).
 
 ```javascript
 async options({
@@ -203,7 +203,7 @@ async options({
 | `page`        | `integer` | optional  | Returns a `0` indexed page number. For use with APIs that accept a numeric page number for pagination.                                                                                                                                                                                                                                                                                                                                                         |
 | `prevContext` | `string`  | optional  | Return a string representing the context for the previous `options` invocation. For use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                             |
 
-Following is an example source demonstrating the usage of async options.
+Following is an example source demonstrating the usage of async options:
 
 ```javascript
 module.exports = {
@@ -285,7 +285,7 @@ Interface props are infrastructure abstractions provided by the Pipedream platfo
 
 | Interface Type  | Description                                                                                 |
 | --------------- | ------------------------------------------------------------------------------------------- |
-| [Timer](#timer) | Invoke your source on an interval (defaults to every hour) or based on a cron expression |
+| [Timer](#timer) | Invoke your source on an interval or based on a cron expression |
 | [HTTP](#http)   | Invoke your source on HTTP requests                                                           |
 
 #### Timer
@@ -412,7 +412,7 @@ Following is the shape of the event passed to the `run()` method of your source:
 
 **Example**
 
-Following is an example source that's triggered by `$.interface.http` and returns `{ 'msg': 'hello world!' }` in the HTTP response. On deploy, Pipedream will generate a unique URL to run this source.
+Following is an example source that's triggered by `$.interface.http` and returns `{ 'msg': 'hello world!' }` in the HTTP response. On deploy, Pipedream will generate a unique URL for this source:
 
 ```javascript
 module.exports = {
@@ -460,7 +460,7 @@ props: {
 | Code                                | Description                                                                                  | Read Scope                            | Write Scope                            |
 | ----------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------- |
 | `this.myPropName.get('key')`        | Method to get a previously set value for a key. Returns `undefined` if a key does not exist. | `run()` `hooks` `methods`             | Use the `set()` method to write values |
-| `this.myPropName.set('key', value)` | Method to set a value for a key. Values must be JSON serializable data.                      | Use the `get()` method to read values | `run()` `hooks` `methods`              |
+| `this.myPropName.set('key', value)` | Method to set a value for a key. Values must be JSON-serializable data.                      | Use the `get()` method to read values | `run()` `hooks` `methods`              |
 
 #### App Props
 
@@ -480,7 +480,7 @@ props: {
 | Property          | Type     | Required? | Description                                                                                                                                                                                                                      |
 | ----------------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`            | `string` | required  | Value must be `app`                                                                                                                                                                                                              |
-| `app`             | `string` | required  | Value must be set to the name slug for an app registered on Pipedream. If you don't see an app listed, please reach out in our public Slack. This data will be discoverable in a self-service way in the near future.            |
+| `app`             | `string` | required  | Value must be set to the name slug for an app registered on Pipedream. If you don't see an app listed, please [open an issue here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D). This data will be discoverable in a self-service way in the near future.            |
 | `propDefinitions` | `object` | optional  | An object that contains objects with predefined user input props. See the section on User Input Props above to learn about the shapes that can be defined and how to reference in components using the `propDefinition` property |
 | `methods`         | `object` | optional  | Define app-specific methods. Methods can be referenced within the app object context via `this` (e.g., `this.methodName()`) and within a component via `this.myAppPropName` (e.g., `this.myAppPropName.methodName()`).           |
 
@@ -538,7 +538,7 @@ hooks: {
 | Strategy   | Description                                                                                                                                                                                                                                                                                                                                                              |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `unique`   | Pipedream maintains a cache of 100 emitted `id` values. Events with `id` values that are not in the cache are emitted, and the `id` value is added to the cache. After 100 events, `id` values are purged from the cache based on the order received (first in, first out). A common use case for this strategy is an RSS feed which typically does not exceed 100 items |
-| `greatest` | Pipedream caches the largest `id` value (must be numeric). Only events with larger `id` values are emitted (and the cache is updated to match the new, largest value).                                                                                                                                                                                                   |
+| `greatest` | Pipedream caches the largest `id` value (must be numeric). Only events with larger `id` values are emitted, and the cache is updated to match the new, largest value..                                                                                                                                                                                                   |
 | `last`     | Pipedream caches the ID associated with the last emitted event. When new events are emitted, only events after the matching `id` value will be emitted as events. If no `id` values match, then all events will be emitted.                                                                                                                                              |
 
 ### Run
@@ -612,7 +612,7 @@ When an action is run in a workflow, Pipedream passes an object with a `$` varia
 
 ```javascript
 async run({ $ }) {
-  $.export("var", "value")
+  // You have access to $ within your action
 }
 ```
 
@@ -659,7 +659,7 @@ async run({ $ }) {
 
 **`return $.flow.exit`**
 
-`return $.flow.exit` terminates the entire workflow. It accepts a single argument: a string that tells the workflow why the action ended execution, which is displayed in the Pipedream UI.
+`return $.flow.exit` terminates the entire workflow. It accepts a single argument: a string that tells the workflow why the workflow terminated, which is displayed in the Pipedream UI.
 
 ```javascript
 async run({ $ }) {
@@ -746,11 +746,11 @@ async run({ $ }) {
 
 ### Environment variables
 
-[Environment variables](/environment-variables/) are not accessible within a sources or actions directly. 
+[Environment variables](/environment-variables/) are not accessible within a source or actions directly.
+
+For sources, you can use [`secret` props](#props) to reference sensitive data.
 
 For actions, you can pass environment variables as the values of props using the [object explorer](/workflows/steps/params/#use-the-object-explorer) within your workflow.
-
-For sources, you can use [`secret` props](#props) to reference sensitive data, instead.
 
 ### Using npm packages
 
@@ -766,7 +766,7 @@ Some packages — for example, packages like [Puppeteer](https://pptr.dev/), wh
 
 #### Referencing a specific version of a package
 
-_This logic currently applies only to sources_.
+_This currently applies only to sources_.
 
 If you'd like to use a _specific_ version of a package in a source, you can add that version in the `require` string, for example: `require("axios@0.19.2")`. Moreover, you can pass the same version specifiers that npm and other tools allow to specify allowed [semantic version](https://semver.org/) upgrades. For example:
 
@@ -775,7 +775,7 @@ If you'd like to use a _specific_ version of a package in a source, you can add 
 
 ## Managing Components
 
-Sources and actions are developed and deployed slightly differently, given the different functions they serve in the product.
+Sources and actions are developed and deployed in different ways, given the different functions they serve in the product.
 
 - [Managing Sources](#managing-sources)
 - [Managing Actions](#managing-actions)
@@ -786,7 +786,7 @@ Sources and actions are developed and deployed slightly differently, given the d
 
 ---
 
-The easiest way to develop and iteratively test is to use the `pd dev` command to deploy a local file, attach to a component, and automatically update the component on each local save. To deploy a new component with `pd dev`, run:
+The easiest way to develop and test sources is with the `pd dev` command. `pd dev` deploys a local file, attaches it to a component, and automatically updates the component on each local save. To deploy a new component with `pd dev`, run:
 
 ```bash
 pd dev <filename>
@@ -795,14 +795,14 @@ pd dev <filename>
 To attach to an existing deployed component, run:
 
 ```bash
-pd dev [--dc <existing-deployed-component-id>] <file-or-name>
+pd dev --dc <existing-deployed-component-id> <file-or-name>
 ```
 
 #### CLI - Deploy
 
 ##### From Local Code
 
-To deploy a via CLI, use the `pd deploy` command.
+To deploy a source via CLI, use the `pd deploy` command.
 
 ```bash
 pd deploy <filename>
@@ -811,7 +811,7 @@ pd deploy <filename>
 E.g.,
 
 ```bash
-pd deploy my-component.js
+pd deploy my-source.js
 ```
 
 ##### From Pipedream Github Repo
@@ -850,7 +850,7 @@ View the [CLI command reference](/cli/reference/#command-reference).
 
 #### UI - Deploy
 
-You can find and deploy curated components at [https://pipedream.com/sources/new, or you can deploy code via the UI using following URL patterns.
+You can find and deploy curated components at [https://pipedream.com/sources/new](https://pipedream.com/sources/new), or you can deploy code via the UI using following URL patterns.
 
 ##### From Pipedream Github Repo
 
@@ -878,7 +878,7 @@ https://pipedream.com/sources?action=create&url=https%3A%2F%2Fraw.githubusercont
 
 #### UI - Update
 
-You can update the code and props for a component from the configuration tab for a source in the Pipedream UI.
+You can update the code and props for a component from the **Configuration** tab for a source in the Pipedream UI.
 
 #### UI - Delete
 
@@ -912,7 +912,7 @@ Pipedream sources support the following hooks. The code for these hooks are defi
 
 #### `deploy`
 
-The `deploy()` hook is automatically invoked by Pipedream when a source is deployed. A common use case for the deploy hook is to create webhook subscriptions when the source is created, but you can run any valid code. To learn more about defining a custom `deploy()` hook, refer to the [API documentation](#hooks).
+The `deploy()` hook is automatically invoked by Pipedream when a source is deployed. A common use case for the deploy hook is to create webhook subscriptions when the source is deployed, but you can run any Node.js code within the `deploy` hook. To learn more about the `deploy()` hook, refer to the [API documentation](#hooks).
 
 #### `activate`
 
@@ -920,7 +920,7 @@ The `activate()` hook is automatically invoked by Pipedream when a source is dep
 
 #### `deactivate`
 
-The `deactivate()` hook is automatically invoked by Pipedream when a source is updated or deleted. A common use case for the deactivate hook is to automatically delete a webhook subscription when a component is deleted, but you can run any valid code. To learn more about defining a custom `deactivate()` hook, refer to the [API documentation](#hooks).
+The `deactivate()` hook is automatically invoked by Pipedream when a source is updated or deleted. A common use case for the deactivate hook is to automatically delete a webhook subscription when a component is deleted, but you can run any Node.js code within the `deactivate` hook. To learn more about the `deactivate()` hook, refer to the [API documentation](#hooks).
 
 ### States
 
@@ -962,13 +962,13 @@ The event lifecycle applies to deployed sources. Learn about the [source lifecyc
 
 ### Triggering Sources
 
-Sources are triggered when you manually run them (e.g., via the **RUN NOW** button in the UI) or when one of their [interfaces](#interface-props) is triggered. Pipedream currently support **HTTP** and **timer** interfaces.
+Sources are triggered when you manually run them (e.g., via the **RUN NOW** button in the UI) or when one of their [interfaces](#interface-props) is triggered. Pipedream sources currently support **HTTP** and **Timer** interfaces.
 
 When a source is triggered, the `run()` method of the component is executed. Standard output and errors are surfaced in the **Logs** tab.
 
 ### Emitting Events from Sources
 
-Sources can emit events via `this.$emit()`. If you define a [dedupe strategy](#dedupe-strategies) for a component, Pipedream automatically dedupes the events you emit.
+Sources can emit events via `this.$emit()`. If you define a [dedupe strategy](#dedupe-strategies) for a source, Pipedream automatically dedupes the events you emit.
 
 > **TIP:** if you want to use a dedupe strategy, be sure to pass an `id` for each event. Pipedream uses this value for deduping purposes.
 
@@ -983,7 +983,7 @@ Pipedream makes it easy to consume events via:
 
 #### UI
 
-When you navigate to your source component in the UI, you will be able to select and inspect the most recent 100 events (i.e., an event bin). For example, if you send requests to a simple HTTP source, you will be able to inspect the events (i.e., a request bin).
+When you navigate to your source [in the UI](https://pipedream.com/sources), you'll be able to select and inspect the most recent 100 events (i.e., an event bin). For example, if you send requests to a simple HTTP source, you will be able to inspect the events (i.e., a request bin).
 
 #### Workflows
 
