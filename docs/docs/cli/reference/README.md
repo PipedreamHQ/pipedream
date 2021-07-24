@@ -248,7 +248,7 @@ You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pip
 If you're working with resources in an [organization](/orgs/), you'll need to add an `org_id` to your profile. 
 
 1. Visit [pipedream.com](https://pipedream.com) and [switch your context](/orgs/#switching-context) to your organization.
-2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Acccess** section.
+2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Access** section.
 3. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
 
 ```
