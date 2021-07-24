@@ -1,15 +1,15 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-delete-blocks",
   name: "Delete Blocks",
   description: "Allows you to delete all email addresses on your blocks list.",
   version: "0.0.1",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     deleteAll: {
       type: "boolean",
       label: "Delete All",
@@ -26,7 +26,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     if (this.emails) {

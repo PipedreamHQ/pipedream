@@ -1,4 +1,3 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 

@@ -1,15 +1,15 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-create-contact-list",
   name: "Create Contact List",
   description: "Allows you to create a new contact list.",
   version: "0.0.1",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     name: {
       type: "string",
       label: "Name",
@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {

@@ -1,15 +1,15 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-get-all-bounces",
   name: "Get All Bounces",
   description: "Allows you to get all of your bounces.",
-  version: "0.0.1",
+  version: "0.0.23",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     startTime: {
       type: "integer",
       label: "Start Time",
@@ -26,18 +26,28 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {};
-    if (this.startTime) {
+    if (this.startTime != null) {
       constraints.startTime = {
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: 0,
+          message: "must be positive integer, greater than zero.",
+        },
       };
     }
-    if (this.endTime) {
+    if (this.endTime != null) {
       constraints.endTime = {
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: this.startTime > 0 ?
+            this.startTime :
+            0,
+          message: "must be positive integer, non zero, greater than `startTime`.",
+        },
       };
     }
     const validationResult = validate(
@@ -48,14 +58,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    this.integerValueGreaterThan(this.startTime, 0, "startTime", "0");
-    this.integerValueGreaterThan(this.endTime, 0, "endTime", "0");
-    this.integerValueGreaterThan(
-      this.endTime,
-      this.startTime,
-      "endTime",
-      "startTime",
-    );
     return await this.sendgrid.getAllBounces(this.startTime, this.endTime);
   },
 };

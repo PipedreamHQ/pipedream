@@ -1,15 +1,15 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-make-an-api-request",
   name: "Make An API Request",
   description: "Makes a aribitrary call to Sendgrid API.",
   version: "0.0.1",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     requestMethod: {
       type: "string",
       label: "Request Method",
@@ -43,7 +43,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {

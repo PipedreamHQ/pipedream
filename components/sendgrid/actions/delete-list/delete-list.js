@@ -1,15 +1,15 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-delete-list",
   name: "Delete List",
   description: "Allows you to delete a specific list.",
   version: "0.0.1",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     id: {
       type: "string",
       label: "Id",
@@ -24,7 +24,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {

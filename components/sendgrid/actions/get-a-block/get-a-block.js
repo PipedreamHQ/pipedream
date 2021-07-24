@@ -1,15 +1,15 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-get-a-block",
   name: "Get a Block",
   description: "Gets a specific block.",
   version: "0.0.1",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     email: {
       type: "string",
       label: "Email",
@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {

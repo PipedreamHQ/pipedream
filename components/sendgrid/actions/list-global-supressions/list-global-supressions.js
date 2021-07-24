@@ -1,16 +1,16 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-list-global-supressions",
-  name: "List Global Supression",
+  name: "List Global Supressions",
   description:
     "Allows you to get a list of all email address that are globally suppressed.",
-  version: "0.0.1",
+  version: "0.0.47",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     startTime: {
       type: "integer",
       label: "Start Time",
@@ -32,23 +32,37 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {
       numberOfSupressions: {
         presence: true,
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: 0,
+          message: "must be positive integer, greater than zero.",
+        },
       },
     };
-    if (this.startTime) {
+    if (this.startTime != null) {
       constraints.startTime = {
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: 0,
+          message: "must be positive integer, greater than zero.",
+        },
       };
     }
-    if (this.endTime) {
+    if (this.endTime != null) {
       constraints.endTime = {
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: this.startTime > 0 ?
+            this.startTime :
+            0,
+          message: "must be positive integer, non zero, greater than `startTime`.",
+        },
       };
     }
     const validationResult = validate(
@@ -60,15 +74,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    this.integerValueGreaterThan(this.startTime, 0, "startTime", "0");
-    this.integerValueGreaterThan(this.endTime, 0, "endTime", "0");
-    this.integerValueGreaterThan(this.numberOfSupressions, 0, "numberOfSupressions", "0");
-    this.integerValueGreaterThan(
-      this.endTime,
-      this.startTime,
-      "endTime",
-      "startTime",
-    );
     const globalSupressionsGenerator =
       await this.sendgrid.listGlobalSupressions(
         this.startTime,

@@ -1,16 +1,16 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-send-an-email",
   name: "Send an Email",
   description:
     "This action sends a personalized e-mail to the specified recipients",
-  version: "0.0.1",
+  version: "0.0.81",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     personalizations: {
       type: "object",
       label: "Personalizations",
@@ -133,7 +133,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {
@@ -168,14 +168,22 @@ module.exports = {
         type: "array",
       };
     }
-    if (this.sendAt) {
+    if (this.sendAt != null) {
       constraints.sendAt = {
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: 0,
+          message: "must be positive integer, greater than zero.",
+        },
       };
     }
-    if (this.batchId) {
+    if (this.batchId != null) {
       constraints.batchId = {
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: 0,
+          message: "must be positive integer, greater than zero.",
+        },
       };
     }
     const validationResult = validate(
@@ -193,8 +201,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    this.integerValueGreaterThan(this.sendAt, 0, "sendAt", "0");
-    this.integerValueGreaterThan(this.batchId, 0, "batchId", "0");
     const from = {
       email: this.fromEmail,
     };

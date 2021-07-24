@@ -1,16 +1,16 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-list-blocks",
   name: "List Blocks",
   description:
     "Allows you to list all email addresses that are currently on your blocks list.",
-  version: "0.0.1",
+  version: "0.0.17",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     startTime: {
       type: "integer",
       label: "Start Time",
@@ -32,7 +32,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {
@@ -41,14 +41,33 @@ module.exports = {
         type: "integer",
       },
     };
-    if (this.startTime) {
+    if (this.startTime != null) {
       constraints.startTime = {
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: 0,
+          message: "must be positive integer, greater than zero.",
+        },
       };
     }
-    if (this.endTime) {
+    if (this.endTime != null) {
       constraints.endTime = {
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: this.startTime > 0 ?
+            this.startTime :
+            0,
+          message: "must be positive integer, non zero, greater than `startTime`.",
+        },
+      };
+    }
+    if (this.numberOfBlocks != null) {
+      constraints.numberOfBlocks = {
+        numericality: {
+          onlyInteger: true,
+          greaterThan: 0,
+          message: "must be positive integer, greater than zero.",
+        },
       };
     }
     const validationResult = validate(
@@ -60,15 +79,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    this.integerValueGreaterThan(this.startTime, 0, "startTime", "0");
-    this.integerValueGreaterThan(this.endTime, 0, "endTime", "0");
-    this.integerValueGreaterThan(this.numberOfBlocks, 0, "numberOfBlocks", "0");
-    this.integerValueGreaterThan(
-      this.endTime,
-      this.startTime,
-      "endTime",
-      "startTime",
-    );
     const blocksGenerator = await this.sendgrid.listBlocks(
       this.startTime,
       this.endTime,

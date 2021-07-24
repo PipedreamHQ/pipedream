@@ -1,15 +1,15 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-get-contact-lists",
   name: "Get Contact Lists",
   description: "Allows you to get details of your contact lists.",
-  version: "0.0.1",
+  version: "0.0.31",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     numberOfLists: {
       type: "integer",
       label: "Number of Lists",
@@ -17,13 +17,17 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {
       numberOfLists: {
         presence: true,
-        type: "integer",
+        numericality: {
+          onlyInteger: true,
+          greaterThan: 0,
+          message: "must be positive integer, greater than zero.",
+        },
       },
     };
     const validationResult = validate(
@@ -33,7 +37,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    this.integerValueGreaterThan(this.numberOfLists, 0, "numberOfLists", "0");
     const contactListGenerator = this.sendgrid.getAllContactLists(
       this.numberOfLists,
     );

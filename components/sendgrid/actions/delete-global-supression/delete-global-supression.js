@@ -1,8 +1,8 @@
-const sendgrid = require("../../sendgrid.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "sendgrid-delete-global-supression",
   name: "Delete Global Supression",
   description:
@@ -10,7 +10,7 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    sendgrid,
+    ...common.props,
     email: {
       type: "string",
       label: "Email",
@@ -19,7 +19,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
     const constraints = {
