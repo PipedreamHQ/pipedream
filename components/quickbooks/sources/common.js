@@ -101,7 +101,8 @@ module.exports = {
       const header = event_received.headers['intuit-signature']
       const isWebhookValid = this.verifyWebhookRequest(token, payload, header)
       if(!isWebhookValid){
-        const message = `Error: Webhook did not pass verification. Try reentering the verify token, making sure it's from the correct webhook on the Intuit Developer Dashboard.`
+        const message = `Error: Webhook did not pass verification. Try reentering the verify token, 
+        making sure it's from the correct section on the Intuit Developer Dashboard.`
         console.log(message)
         throw new Error(message)
       } else {

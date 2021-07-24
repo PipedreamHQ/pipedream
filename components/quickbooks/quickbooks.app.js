@@ -63,9 +63,9 @@ module.exports = {
       type: 'string',
       label: 'Verifier Token',
       description: '[Create an app](https://developer.intuit.com/app/developer/qbo/docs/build-your-first-app) ' +
-      'on the Intuit Developer dashboard and [set up a webhook](https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks). ' +
+      'on the Intuit Developer Dashboard and [set up a webhook](https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks). ' +
       'Once you have a [verifier token](https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks/managing-webhooks-notifications), ' +
-      'fill it in below. Note that if you want to send webhooks to more than one Pipedream source, you will have to create a new app for each different source.',
+      'fill it in below. Note that if you want to send webhooks to more than one Pipedream source, you will have to create a new Dashboard app for each different source.',
       secret: true,
     }
   },
