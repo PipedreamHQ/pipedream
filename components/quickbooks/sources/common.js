@@ -121,7 +121,7 @@ module.exports = {
             record_details: {},
           }
           // Unless the record has been deleted, use the id received in the webhook to get the full record data
-          if(event_received.operation !== 'Delete'){
+          if(entity.operation !== 'Delete'){
             event_to_emit.record_details = await this.quickbooks.getRecordDetails(entity.name, entity.id)
           }
           this.$emit(event_to_emit, {summary})
