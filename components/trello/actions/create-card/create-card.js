@@ -1,15 +1,15 @@
-const trello = require("../../trello.app");
 const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
+  ...common,
   key: "trello-create-card",
   name: "Create Card",
   description: "Creates a new card.",
-  version: "0.0.1",
+  version: "0.0.16",
   type: "action",
   props: {
-    trello,
+    ...common.props,
     name: {
       type: "string",
       label: "Name",
@@ -110,20 +110,57 @@ module.exports = {
     },
   },
   methods: {
-    ...common,
+    ...common.methods,
   },
   async run() {
+    //TODO: Array type validation subject to change, depending on Slack discussions with the team
     const constraints = {
       idList: {
         presence: true,
+        format: {
+          pattern: "^[0-9a-fA-F]{24}$",
+          message: function (value) {
+            return validate.format("^%{id} is not a valid List id", {
+              id: value,
+            });
+          },
+        },
+      },
+      mimeType: {
+        length: {
+          maximum: 256,
+        },
       },
     };
-    const validationResult = validate(
-      {
-        idList: this.idList,
-      },
-      constraints,
-    );
+    if (this.pos) {
+      const posValidationMesssage = "contains invalid values. Valid values are: `top`, `bottom`, or a positive float.";
+      if (validate.isNumber(this.pos)) {
+        constraints.pos = {
+          numericality: {
+            greaterThanOrEqualTo: 0,
+          },
+          message: posValidationMesssage,
+        };
+      } else if (validate.isString(this.pos)) {
+        const options = [
+          "top",
+          "bottom",
+        ];
+        validate.validators.posStringValiadator = function(posString, options) {
+          return options.includes(posString) ?
+            null :
+            posValidationMesssage;
+        };
+        constraints.pos = {
+          posStringValiadator: options,
+        };
+      }
+    }
+    if (this.dueDate) {
+      constraints.dueDate = {
+        type: "date",
+      };
+    }
     if (this.idMembers) {
       constraints.idMembers = {
         type: "array",
@@ -134,6 +171,82 @@ module.exports = {
         type: "array",
       };
     }
+    if (this.urlSource) {
+      constraints.urlSource = {
+        url: true,
+      };
+    }
+    if (this.idCardSource) {
+      constraints.idCardSource = {
+        format: {
+          pattern: "^[0-9a-fA-F]{24}$",
+          message: function (value) {
+            return validate.format("^%{id} is not a valid Card Source id", {
+              id: value,
+            });
+          },
+        },
+      };
+    }
+    if (this.keepFromSource) {
+      validate.validators.keepFromSourceValidator = function (
+        keepFromSource,
+        options,
+      ) {
+        let isValid = true;
+        if (keepFromSource.length == 1) {
+          isValid = keepFromSource.includes("all");
+        } else {
+          keepFromSource.forEach((keepFromSourceValue) => {
+            isValid &= options.includes(keepFromSourceValue);
+          });
+        }
+        if (isValid) {
+          return null;
+        }
+        return "contains invalid values. Valid values are: a one element array with `all` as value or an multiple element array containing one or more of `attachments`, `checklists`, `comments`, `due`, `labels`, `members`, `stickers`.";
+      };
+      const options = [
+        "attachments",
+        "checklists",
+        "comments",
+        "due",
+        "labels",
+        "members",
+        "stickers",
+      ];
+      constraints.keepFromSource = {
+        type: "array",
+        keepFromSourceValidator: options,
+      };
+    }
+    if (this.coordinates) {
+      constraints.coordinates = {
+        format: {
+          pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$",
+          message: function (value) {
+            return validate.format("^%{id} doesn't use a valid `latitud, longitud` format.", {
+              id: value,
+            });
+          },
+        },
+      };
+    }
+    const validationResult = validate(
+      {
+        idList: this.idList,
+        idCardSource: this.idCardSource,
+        mimeType: this.mimeType,
+        idMembers: this.idMembers,
+        idLabels: this.idLabels,
+        pos: this.pos,
+        dueDate: this.dueDate,
+        urlSource: this.urlSource,
+        keepFromSource: this.keepFromSource,
+        coordinates: this.coordinates,
+      },
+      constraints,
+    );
     this.checkValidationResults(validationResult);
     return await this.trello.createCard(
       this.name,
