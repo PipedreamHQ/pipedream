@@ -223,7 +223,7 @@ This example shows you how to download a file to a file in [the `/tmp` directory
 
 ```javascript
 const fs = require("fs");
-const got = require("got");
+const { got } = await import("got");
 const stream = require("stream");
 const { promisify } = require("util");
 
@@ -344,7 +344,7 @@ This method is especially effective for large files that exceed the [limits of t
 const stream = require("stream");
 const { promisify } = require("util");
 const fs = require("fs");
-const got = require("got");
+const { got } = await import("got");
 
 const pipeline = promisify(stream.pipeline);
 

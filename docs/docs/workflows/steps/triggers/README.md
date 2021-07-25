@@ -173,7 +173,7 @@ This will return the data in the variable `steps.send_http_request.$return_value
 const stream = require("stream");
 const { promisify } = require("util");
 const fs = require("fs");
-const got = require("got");
+const { got } = await import("got");
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(
@@ -234,7 +234,7 @@ Within the `image` property of `event.body`, you'll see the value of this URL in
 const stream = require("stream");
 const { promisify } = require("util");
 const fs = require("fs");
-const got = require("got");
+const { got } = await import("got");
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(
@@ -520,7 +520,7 @@ this.parsed = await simpleParser(steps.send_http_request.$return_value);
 const stream = require("stream");
 const { promisify } = require("util");
 const fs = require("fs");
-const got = require("got");
+const { got } = await import("got");
 const simpleParser = require("mailparser").simpleParser;
 
 const pipeline = promisify(stream.pipeline);

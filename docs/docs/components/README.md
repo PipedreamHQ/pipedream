@@ -93,4 +93,3 @@ Registered components also appear in the Pipedream marketplace and are listed in
 ### Community Components
 
 Developers may create, deploy and share components that do not conform to these guidelines, but they will not be eligible to be listed in the curated registry (e.g., they may be hosted in a Github repo). If you develop a component that does not adhere to these guidelines, but you believe there is value to the broader community, please [reach out in our community forum](https://pipedream.com/community/c/dev/11).
-
