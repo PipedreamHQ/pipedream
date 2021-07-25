@@ -155,10 +155,33 @@ module.exports = {
         };
       },
     },
+    team: {
+      type: "string",
+      label: "Team",
+      description: "Select a team.",
+      async options({ prevContext }) {
+        let { cursor } = prevContext;
+        const scopes = await this.scopes();
+        if (scopes.includes("admin.teams:read")) {
+          const resp = await this.getTeams(cursor);
+          return {
+            options: resp.teams.map((c) => {
+              return { 
+                label: 'team',
+                value: c.id
+              };
+            }),
+              context: {
+              cursor: resp.cursor
+              },
+            };
+          };
+        },
+    },
     conversation: {
       type: "string",
       label: "Channel",
-      description: "Select a public or private channel, or a user or group to direct message (DM).",
+      description: "Select a public or private channel, or a user or group.",
       async options({ prevContext }) {
         let {
           types,
@@ -231,6 +254,12 @@ module.exports = {
       type: "string",
       label: "Topic",
       description: "Text of the new channel topic",
+      //example: "Hello world"
+    },
+    purpose: {
+      type: "string",
+      label: "Purpose",
+      description: "Text of the new channel purpose",
       //example: "Hello world"
     },
     attachments: {
@@ -357,6 +386,23 @@ module.exports = {
         };
       } else {
         console.log("Error getting conversations", resp.error);
+        throw (resp.error);
+      }
+    },
+    async getTeams(cursor) {
+      const params = {
+        cursor,
+        limit: 10,
+      };
+      const resp = await this.sdk().admin.teams.list(params);
+      if (resp.ok) {
+        console.log("No error getting teams");
+        return {
+          cursor: resp.response_metadata.next_cursor,
+          teams: resp.teams,
+        };
+      } else {
+        console.log("Error getting teams", resp.error);
         throw (resp.error);
       }
     },
