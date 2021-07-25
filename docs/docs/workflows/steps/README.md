@@ -18,7 +18,9 @@ Every workflow begins with a single [**trigger**](/workflows/steps/triggers/) st
 
 ### Code, Actions
 
-[**Code**](/workflows/steps/code/) and [**Actions**](/workflows/steps/actions/) steps cannot precede triggers, since they'll have no data to operate on.
+[**Actions**](/components/actions/) and [**code**](/workflows/steps/code/) steps drive the logic of your workflow. Anytime your workflow runs, Pipedream will execute each step of your workflow in order. Actions are prebuilt code steps that let you connect to hundreds of APIs without writing code. When you need more control than the default actions provide, code steps let you write any custom Node.js code.
+
+Code and action steps cannot precede triggers, since they'll have no data to operate on.
 
 Once you save a workflow, we deploy it to our servers. Each event triggers the workflow code, whether you have the workflow open in your browser, or not.
 

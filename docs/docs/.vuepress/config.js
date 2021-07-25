@@ -63,7 +63,6 @@ module.exports = {
           "/workflows/steps/code/state/",
           "/workflows/steps/code/nodejs/http-requests/",
           "/workflows/steps/code/nodejs/working-with-files/",
-          "/workflows/steps/actions/",
           "/workflows/networking/",
           "/workflows/steps/code/nodejs/sharing-code/",
           "/workflows/steps/code/async/",
@@ -110,15 +109,12 @@ module.exports = {
         ],
       },
       {
-        title: "Event Sources",
-        collapsable: false,
-        children: ["/event-sources/", "/event-sources/logs/"],
-      },
-      {
         title: "Components",
         collapsable: false,
         children: [
           "/components/",
+          "/event-sources/",
+          "/components/actions/",
           "/components/quickstart/nodejs/actions/",
           "/components/quickstart/nodejs/sources/",
           "/components/api/",

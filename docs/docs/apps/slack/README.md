@@ -29,7 +29,7 @@ You can install the Pipedream Slack app in the [Accounts](https://pipedream.com/
 
 ## Workflow Actions
 
-[Actions](/workflows/steps/actions/) are reusable code steps that wrap common operations for an API. Pipedream provides Slack actions for sending a message, setting a channel topic, adding reminders, and more.
+[Actions](/components/actions/) are reusable code steps that wrap common operations for an API. Pipedream provides Slack actions for sending a message, setting a channel topic, adding reminders, and more.
 
 ## Privacy Policy
 

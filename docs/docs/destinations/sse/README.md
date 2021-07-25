@@ -20,11 +20,7 @@ Beyond web browsers, any program that's able to create an [`EventSource` interfa
 
 You can send data to an SSE Destination in [Node.js code steps](/workflows/steps/code/) using the `$send.sse()` function.
 
-[Add a new Action](/workflows/steps/actions/#adding-a-new-action), then search for "**Code**":
-
-<div>
-<img alt="Code action" width="300" src="./images/new-code-step.png">
-</div>
+[Add a new step to your workflow](/workflows/steps/actions/#adding-a-new-action), then search for "**Code**":
 
 Then add this code to that step:
 

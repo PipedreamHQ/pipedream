@@ -14,9 +14,9 @@ First, [add a new Action](/workflows/steps/actions/#adding-a-new-action), then s
 
 ### Using `$send.email()`
 
-You can send data to an Email Destination in [Node.js code steps](/workflows/steps/code/), too, using the `$send.email()` function. **This allows you to send emails to yourself programmatically, if you need more control than Actions afford**.
+You can send data to an Email Destination in [Node.js code steps](/workflows/steps/code/), too, using the `$send.email()` function. **This allows you to send emails to yourself programmatically, if you need more control than actions provide**.
 
-`$send.email()` takes the same parameters as the corresponding Action:
+`$send.email()` takes the same parameters as the corresponding action:
 
 ```javascript
 $send.email({

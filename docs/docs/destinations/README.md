@@ -1,6 +1,6 @@
 # Overview
 
-**Destinations**, like [Actions](/workflows/steps/actions/), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
+**Destinations**, like [Actions](/components/actions/), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
 
 However, Destinations are different than Actions in two ways: 
 
@@ -23,7 +23,7 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 
 ### Adding a Destination using Actions
 
-The simplest way to send data to a Destination is using one of our prebuilt [Actions](/workflows/steps/actions/). Just add the relevant Action, enter the required values, and send data to your workflow!
+The simplest way to send data to a Destination is using one of our prebuilt [Actions](/components/actions/). Just add the relevant Action, enter the required values, and send data to your workflow!
 
 For example, you can use the [Send HTTP Request Action](/destinations/http/) to send an HTTP request from a workflow. First, add a new Action to your workflow by clicking on the + button between any two steps.
 
@@ -35,15 +35,11 @@ This action defaults to sending an HTTP `POST` request with the desired payload 
 
 You can send data to Destinations in [Node.js code steps](/workflows/steps/code/), too, using `$send` functions.
 
-`$send` is an object provided by Pipedream that exposes destination-specific functions like `$send.http()`, `$send.s3()`, and more. **This allows you to send data to destinations programmatically, if you need more control than Actions afford**.
+`$send` is an object provided by Pipedream that exposes destination-specific functions like `$send.http()`, `$send.s3()`, and more. **This allows you to send data to destinations programmatically, if you need more control than the default actions provide**.
 
-Let's use `$send.http()` to send an HTTP POST request like we did in the Action example above. [Add a new Action](/workflows/steps/actions/#adding-a-new-action), then search for "**Code**":
+Let's use `$send.http()` to send an HTTP POST request like we did in the Action example above. [Add a new Action](/components/actions/#adding-a-new-action), then search for "**Run Node.js code**":
 
-<div>
-<img alt="Code action" width="300" src="./images/new-code-step.png">
-</div>
-
-[Create an endpoint URL on RequestBin](https://requestbin.com), adding the code below to your code step, with the URL you created:
+[Create an endpoint URL](https://requestbin.com), adding the code below to your code step, with the URL you created:
 
 ```javascript
 $send.http({
