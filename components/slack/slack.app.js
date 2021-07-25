@@ -12,12 +12,14 @@ module.exports = {
         let {
           types,
           cursor,
+          userNames
         } = prevContext;
         if (types == null) {
           const scopes = await this.scopes();
           types = [
             "public_channel",
           ];
+          userNames = {};
         }
         const resp = await this.availableConversations(types.join(), cursor);
         return {
@@ -55,12 +57,14 @@ module.exports = {
         let {
           types,
           cursor,
+          userNames
         } = prevContext;
         if (types == null) {
           const scopes = await this.scopes();
           types = [
             "private_channel",
           ];
+          userNames = {};
         }
         const resp = await this.availableConversations(types.join(), cursor);
         return {
@@ -221,6 +225,12 @@ module.exports = {
       type: "string",
       label: "Text",
       description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually required, unless you're providing only attachments instead. Provide no more than 40,000 characters or risk truncation.",
+      //example: "Hello world"
+    },
+    topic: {
+      type: "string",
+      label: "Topic",
+      description: "Text of the new channel topic",
       //example: "Hello world"
     },
     attachments: {
