@@ -186,12 +186,54 @@ module.exports = {
         let { cursor } = prevContext;
         let resp = await this.getCurrentTeamID(cursor);
         const teamID = resp.teamID;
-        resp = await this.getFiles(cursor, teamID);
+        resp = await this.getFilesForTeam(cursor, teamID);
         return {
           options: resp.files.map((c) => {
             return { 
               label: 'files',
               value: c.id
+            };
+          }),
+            context: {
+            cursor: resp.cursor
+            },
+          };
+      },
+    },
+    reminder: {
+      type: "string",
+      label: "Reminder",
+      description: "Select a reminder.",
+      async options({ prevContext }) {
+        let { cursor } = prevContext;
+        let resp = await this.getCurrentTeamID(cursor);
+        const teamID = resp.teamID;
+        resp = await this.getRemindersForTeam(cursor, teamID);
+        return {
+          options: resp.reminders.map((c) => {
+            return { 
+              label: 'reminders',
+              value: c.id
+            };
+          }),
+            context: {
+            cursor: cursor
+            },
+          };
+      },
+    },
+    team_id: {
+      type: "string",
+      label: "Team ID",
+      description: "Select team ID",
+      async options({ prevContext }) {
+        let { cursor } = prevContext;
+        let resp = await this.getCurrentTeamID(cursor);
+        return {
+          options: resp.map((c) => {
+            return { 
+              label: 'team_id',
+              value: c.teamID
             };
           }),
             context: {
@@ -275,13 +317,13 @@ module.exports = {
     topic: {
       type: "string",
       label: "Topic",
-      description: "Text of the new channel topic",
+      description: "Text of the new channel topic.",
       //example: "Hello world"
     },
     purpose: {
       type: "string",
       label: "Purpose",
-      description: "Text of the new channel purpose",
+      description: "Text of the new channel purpose.",
       //example: "Hello world"
     },
     attachments: {
@@ -374,6 +416,13 @@ module.exports = {
       //example: "1234567890.123456",
       optional: true,
     },
+    timestamp: {
+      label: "Timestamp",
+      type: "string",
+      description: "Timestamp of the message.",
+      //example: "1234567890.123456",
+      optional: true,
+    },
     icon_url: {
       type: "string",
       label: "Icon (image URL)",
@@ -452,7 +501,19 @@ module.exports = {
           files: resp.files,
         };
       } else {
-        console.log("Error getting files", resp.error);
+        throw (resp.error);
+      }
+    },
+    async getRemindersForTeam(cursor, teamID) {
+      const params = {
+        teamID
+      };
+      const resp = await this.sdk().reminders.list(params);
+      if (resp.ok) {
+        return {
+          reminders: resp.reminders,
+        };
+      } else {
         throw (resp.error);
       }
     },
@@ -468,7 +529,6 @@ module.exports = {
           teamID: resp.fields.id,
         };
       } else {
-        console.log("Error getting teams", resp.error);
         throw (resp.error);
       }
     },

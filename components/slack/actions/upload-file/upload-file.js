@@ -10,7 +10,7 @@ module.exports = {
   props: {
     slack,
     content: { propDefinition: [ slack, "content" ] },
-    initial_comment: { propDefinition: [ slack, "initial_comment" ] },
+    initial_comment: { propDefinition: [ slack, "initial_comment" ] }, optional: true
   },
   async run() {
     const web = new WebClient(this.slack.$auth.oauth_access_token)
