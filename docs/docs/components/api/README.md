@@ -2,7 +2,7 @@
 
 This document was created to help developers author and use [Pipedream components](/components/). You can develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API. You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
 
-While sources and actions share the core component API, they differ in both how they're used and written. [See this section](#differences-between-actions-and-sources) for an explanation of the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
+While sources and actions share the core component API, they differ in both how they're used and written, so certain parts of the component API apply only to one or the other. [This section of the docs](#differences-between-sources-and-actions) explains the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
 If you have any questions about component development, please reach out [in our community](https://pipedream.com/community/c/dev/11).
 
@@ -27,7 +27,7 @@ To help you get started, we created a step-by-step walkthrough for developing bo
 
 ### Differences between sources and actions
 
-Sources and actions share the same component API. However, certain features of the API are only relevant for one type of component or the other:
+Sources and actions share the same component API. However, certain features of the API only apply to one or the other:
 
 - Actions are defined with `type: action` ([see the docs on the `type` property](#component-structure)). Sources require no `type` property be set. Components without a `type` are considered sources.
 
@@ -746,7 +746,7 @@ async run({ $ }) {
 
 ### Environment variables
 
-[Environment variables](/environment-variables/) are not accessible within a source or actions directly.
+[Environment variables](/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
 
 For sources, you can use [`secret` props](#props) to reference sensitive data.
 
