@@ -178,6 +178,28 @@ module.exports = {
           };
         },
     },
+    file: {
+      type: "string",
+      label: "File",
+      description: "Select a file.",
+      async options({ prevContext }) {
+        let { cursor } = prevContext;
+        let resp = await this.getCurrentTeamID(cursor);
+        const teamID = resp.teamID;
+        resp = await this.getFiles(cursor, teamID);
+        return {
+          options: resp.files.map((c) => {
+            return { 
+              label: 'files',
+              value: c.id
+            };
+          }),
+            context: {
+            cursor: resp.cursor
+            },
+          };
+      },
+    },
     conversation: {
       type: "string",
       label: "Channel",
@@ -320,10 +342,16 @@ module.exports = {
       //example: ":chart_with_upwards_trend:",
       optional: true,
     },
+    content: {
+      label: "Content",
+      type: "string",
+      description: "File contents via a POST variable.",
+      //example: "full",
+    },
     link_names: {
       type: "string",
       description: "Find and link channel names and usernames.",
-      //example: "true",
+      //example: "...",
       optional: true,
     },
     reply_broadcast: {
@@ -353,6 +381,12 @@ module.exports = {
       //example: "http://lorempixel.com/48/48",
       optional: true,
     },
+    initial_comment: {
+      type: "string",
+      label: "Initial Comment",
+      description: "The message text introducing the file",
+      optional: true
+    }
   },
   methods: {
     mySlackId() {
@@ -396,10 +430,42 @@ module.exports = {
       };
       const resp = await this.sdk().admin.teams.list(params);
       if (resp.ok) {
-        console.log("No error getting teams");
         return {
           cursor: resp.response_metadata.next_cursor,
           teams: resp.teams,
+        };
+      } else {
+        console.log("Error getting teams", resp.error);
+        throw (resp.error);
+      }
+    },
+    async getFilesForTeam(cursor, teamID) {
+      const params = {
+        cursor,
+        limit: 10,
+        teamID
+      };
+      const resp = await this.sdk().files.list(params);
+      if (resp.ok) {
+        return {
+          cursor: resp.response_metadata.next_cursor,
+          files: resp.files,
+        };
+      } else {
+        console.log("Error getting files", resp.error);
+        throw (resp.error);
+      }
+    },
+    async getCurrentTeamID(cursor) {
+      const params = {
+        cursor,
+      };
+      const resp = await this.sdk().team.profile.get(params);
+      if (resp.ok && resp.fields) {
+        console.log(resp);
+        return {
+          cursor: resp.response_metadata.next_cursor,
+          teamID: resp.fields.id,
         };
       } else {
         console.log("Error getting teams", resp.error);
