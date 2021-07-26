@@ -203,7 +203,7 @@ module.exports = {
 
 Save the changes to your file (your component on Pipedream should automatically update). and then, return to the Pipedream UI and **reload the page**. You should now see the timer settings in the summary and a countdown to the next execution (you can still run your component manually). Your component will now run every 15 seconds.
 
-![source](/images/quickstart/hello-world-3.gif)
+![source](./images/quickstart/hello-world-3.gif)
 
 **Note**: if you'd like to change the schedule of your deployed component, visit the **Configuration** tab in the Pipedream UI and change the schedule accordingly. Changing the value of `intervalSeconds` within the component's code will not change the schedule of the running instance of the component. You can also set one value as the default `intervalSeconds` in the component's code, but run
 
@@ -495,17 +495,19 @@ let axios = require("axios");
 Next, let's add an **app prop**, which will enable us to use Pipedream managed auth with this component. For this example, we'll add Github:
 
 ```javascript
-github: {
-  type: "app",
-  app: "github",
-}
+props: {
+  github: {
+    type: "app",
+    app: "github",
+  },
+},
 ```
 
 **IMPORTANT: The CLI will prompt you to select a connected account (or connect a new one) when you deploy (or update) this component.**
 
 > **Note:** The value for the `app` property is the name slug for the app in Pipedream. This is not currently discoverable, but it will be in the near future. For the time being, if you want to know how to reference an app, please reach out on our public Slack.
 
-Finally, we'll update the `run()` method to fetch issues from Github using `axios` and emit them. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the app prop `this.github.$auth.oauth_access_token`. Also, similar to the RSS example, it's important that you use the `pddemo/demo` repo so you can test the next dedupe strategy.
+Finally, we'll update the `run()` method to fetch issues from Github using `axios` and emit them. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the app prop `this.github.$auth.oauth_access_token`. Again, it's important that you stick with the `pddemo/demo` repo shown in the below example so you can test the next dedupe strategy.
 
 ```javascript
 async run() {
