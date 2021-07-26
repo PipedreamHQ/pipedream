@@ -180,13 +180,11 @@ module.exports = {
       description: "Select a reminder.",
       async options({ prevContext }) {
         let { cursor } = prevContext;
-        let resp = await this.getCurrentTeamID(cursor);
-        const teamID = resp.teamID;
-        resp = await this.getRemindersForTeam(cursor, teamID);
+        resp = await this.getRemindersForTeam();
         return {
           options: resp.reminders.map((c) => {
             return { 
-              label: 'reminders',
+              label: c.text,
               value: c.id
             };
           }),
@@ -401,7 +399,7 @@ module.exports = {
     timestamp: {
       label: "Timestamp",
       type: "string",
-      description: "Timestamp of the message.",
+      description: "Timestamp of the relevant data.",
       //example: "1234567890.123456",
       optional: true,
     },
@@ -481,46 +479,11 @@ module.exports = {
         throw (resp.error);
       }
     },
-    async getFilesForTeam(cursor, teamID) {
-      const params = {
-        cursor,
-        limit: 10,
-        teamID
-      };
-      const resp = await this.sdk().files.list(params);
-      if (resp.ok) {
-        return {
-          cursor: resp.response_metadata.next_cursor,
-          files: resp.files,
-        };
-      } else {
-        throw (resp.error);
-      }
-    },
-    async getRemindersForTeam(cursor, teamID) {
-      const params = {
-        teamID
-      };
-      const resp = await this.sdk().reminders.list(params);
+    async getRemindersForTeam() {
+      const resp = await this.sdk().reminders.list();
       if (resp.ok) {
         return {
           reminders: resp.reminders,
-        };
-      } else {
-        throw (resp.error);
-      }
-    },
-    async getCurrentTeamID(cursor) {
-      const params = {
-        cursor,
-      };
-      const resp = await this.sdk().team.profile.get(params);
-      console.log(resp);
-      if (resp.ok) {
-        console.log(resp);
-        return {
-          cursor: resp.response_metadata.next_cursor,
-          teamID: resp.fields.id,
         };
       } else {
         throw (resp.error);

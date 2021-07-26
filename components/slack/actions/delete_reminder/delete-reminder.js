@@ -10,13 +10,11 @@ module.exports = {
   props: {
     slack,
     reminder: { propDefinition: [ slack, "reminder" ] },
-    team_id: { propDefinition: [ slack, "team_id" ] },
   },
   async run() {
     const web = new WebClient(this.slack.$auth.oauth_access_token)
-    return await web.reminders.complete({
+    return await web.reminders.delete({
         reminder: this.reminder,
-        team_id: this.team_id
     })
   },
 }

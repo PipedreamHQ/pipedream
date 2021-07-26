@@ -9,6 +9,7 @@ module.exports = {
   type: "action",
   props: {
     slack,
+    team_id: { propDefinition: [ slack, "timestamp" ], optional: true },
   },
   async run() {
     const web = new WebClient(this.slack.$auth.oauth_access_token)

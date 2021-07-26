@@ -5,11 +5,11 @@ module.exports = {
   key: "slack-list-reminders",
   name: "List Reminders",
   description: "List all reminders for a given user",
-  version: "0.0.21",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,
-    team_id: { propDefinition: [ slack, "team_id" ] },
+    team_id: { propDefinition: [ slack, "team_id" ], optional: true },
   },
   async run() {
     const web = new WebClient(this.slack.$auth.oauth_access_token)
