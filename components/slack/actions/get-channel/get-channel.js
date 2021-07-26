@@ -5,7 +5,7 @@ module.exports = {
   key: "slack-get-channel",
   name: "Get Channel",
   description: "Return information about a workspace channel",
-  version: "0.0.16",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

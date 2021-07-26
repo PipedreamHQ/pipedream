@@ -5,7 +5,7 @@ module.exports = {
   key: "slack-delete-file",
   name: "Delete File",
   description: "Delete a file",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

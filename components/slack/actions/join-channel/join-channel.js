@@ -13,7 +13,7 @@ module.exports = {
   },
   async run() {
     const web = new WebClient(this.slack.$auth.oauth_access_token)
-    return await web.conversations.info({
+    return await web.conversations.join({
         channel: this.conversation
     })
   },

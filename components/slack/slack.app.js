@@ -12,14 +12,12 @@ module.exports = {
         let {
           types,
           cursor,
-          userNames
         } = prevContext;
         if (types == null) {
           const scopes = await this.scopes();
           types = [
             "public_channel",
           ];
-          userNames = {};
         }
         const resp = await this.availableConversations(types.join(), cursor);
         return {
@@ -57,14 +55,12 @@ module.exports = {
         let {
           types,
           cursor,
-          userNames
         } = prevContext;
         if (types == null) {
           const scopes = await this.scopes();
           types = [
             "private_channel",
           ];
-          userNames = {};
         }
         const resp = await this.availableConversations(types.join(), cursor);
         return {
@@ -178,28 +174,6 @@ module.exports = {
           };
         },
     },
-    file: {
-      type: "string",
-      label: "File",
-      description: "Select a file.",
-      async options({ prevContext }) {
-        let { cursor } = prevContext;
-        let resp = await this.getCurrentTeamID(cursor);
-        const teamID = resp.teamID;
-        resp = await this.getFilesForTeam(cursor, teamID);
-        return {
-          options: resp.files.map((c) => {
-            return { 
-              label: 'files',
-              value: c.id
-            };
-          }),
-            context: {
-            cursor: resp.cursor
-            },
-          };
-      },
-    },
     reminder: {
       type: "string",
       label: "Reminder",
@@ -218,26 +192,6 @@ module.exports = {
           }),
             context: {
             cursor: cursor
-            },
-          };
-      },
-    },
-    team_id: {
-      type: "string",
-      label: "Team ID",
-      description: "Select team ID",
-      async options({ prevContext }) {
-        let { cursor } = prevContext;
-        let resp = await this.getCurrentTeamID(cursor);
-        return {
-          options: resp.map((c) => {
-            return { 
-              label: 'team_id',
-              value: c.teamID
-            };
-          }),
-            context: {
-            cursor: resp.cursor
             },
           };
       },
@@ -314,6 +268,18 @@ module.exports = {
       description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually required, unless you're providing only attachments instead. Provide no more than 40,000 characters or risk truncation.",
       //example: "Hello world"
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of a single key to set.",
+      //example: "Hello world"
+    },
+    value: {
+      type: "string",
+      label: "Value",
+      description: "Value to set a single key to.",
+      //example: "Hello world"
+    },
     topic: {
       type: "string",
       label: "Topic",
@@ -325,6 +291,22 @@ module.exports = {
       label: "Purpose",
       description: "Text of the new channel purpose.",
       //example: "Hello world"
+    },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "Search query.",
+      //example: "Hello world"
+    },
+    team_id: {
+      type: "string",
+      label: "Team ID",
+      description: "The ID of the team."
+    },
+    file: {
+      type: "string",
+      label: "File ID",
+      description: "Specify a file by providing its ID."
     },
     attachments: {
       type: "string",
@@ -435,6 +417,17 @@ module.exports = {
       label: "Initial Comment",
       description: "The message text introducing the file",
       optional: true
+    },
+    count: {
+      type: "integer",
+      label: "Count",
+      description: "Number of items to return per page.",
+      optional: true
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "An email address belonging to a user in the workspace",
     }
   },
   methods: {
@@ -522,7 +515,8 @@ module.exports = {
         cursor,
       };
       const resp = await this.sdk().team.profile.get(params);
-      if (resp.ok && resp.fields) {
+      console.log(resp);
+      if (resp.ok) {
         console.log(resp);
         return {
           cursor: resp.response_metadata.next_cursor,

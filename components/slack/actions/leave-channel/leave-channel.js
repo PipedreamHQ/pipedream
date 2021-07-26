@@ -5,7 +5,7 @@ module.exports = {
   key: "slack-leave-channel",
   name: "Leave Channel",
   description: "Leave an existing channel",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,
@@ -13,7 +13,7 @@ module.exports = {
   },
   async run() {
     const web = new WebClient(this.slack.$auth.oauth_access_token)
-    return await web.conversations.info({
+    return await web.conversations.leave({
         channel: this.conversation
     })
   },

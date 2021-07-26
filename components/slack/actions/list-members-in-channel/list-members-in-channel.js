@@ -5,7 +5,7 @@ module.exports = {
   key: "slack-list-members-in-channel",
   name: "List Members in Channel",
   description: "Retrieve members of a channel",
-  version: "0.0.15",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,
@@ -13,7 +13,7 @@ module.exports = {
   },
   async run() {
     const web = new WebClient(this.slack.$auth.oauth_access_token)
-    return await web.conversations.list({
+    return await web.conversations.members({
         channel: this.conversation
     })
   },

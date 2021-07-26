@@ -5,11 +5,11 @@ module.exports = {
   key: "slack-find-user-by-email",
   name: "Find User by Email",
   description: "Find a user by matching against their email",
-  version: "0.0.14",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,
-    email: { type: "string" }
+    email: { propDefinition: [ slack, "email" ] }
   },
   async run() {
     const web = new WebClient(this.slack.$auth.oauth_access_token)
