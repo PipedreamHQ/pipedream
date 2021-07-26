@@ -1,5 +1,5 @@
-const slack = require('../../slack.app.js')
-const { WebClient } = require('@slack/web-api')
+const slack = require("../../slack.app.js");
+const { WebClient } = require("@slack/web-api");
 
 module.exports = {
   key: "slack-set-channel-topic",
@@ -9,14 +9,24 @@ module.exports = {
   type: "action",
   props: {
     slack,
-      conversation: { propDefinition: [ slack, "conversation" ] },
-      topic: { propDefinition: [ slack, "topic" ] },
+    conversation: {
+      propDefinition: [
+        slack,
+        "conversation",
+      ],
+    },
+    topic: {
+      propDefinition: [
+        slack,
+        "topic",
+      ],
+    },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
-      return await web.conversations.setTopic({
-        channel: this.conversation,
-        topic: this.topic,
-      })
+    const web = new WebClient(this.slack.$auth.oauth_access_token);
+    return await web.conversations.setTopic({
+      channel: this.conversation,
+      topic: this.topic,
+    });
   },
-}
+};

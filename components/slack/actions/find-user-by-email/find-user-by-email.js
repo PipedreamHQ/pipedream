@@ -1,7 +1,7 @@
-const slack = require('../../slack.app.js')
-const { WebClient } = require('@slack/web-api')
+const slack = require("../../slack.app.js");
+const { WebClient } = require("@slack/web-api");
 
-module.exports = {  
+module.exports = {
   key: "slack-find-user-by-email",
   name: "Find User by Email",
   description: "Find a user by matching against their email",
@@ -9,12 +9,17 @@ module.exports = {
   type: "action",
   props: {
     slack,
-    email: { propDefinition: [ slack, "email" ] }
+    email: {
+      propDefinition: [
+        slack,
+        "email",
+      ],
+    },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    const web = new WebClient(this.slack.$auth.oauth_access_token);
     return await web.users.lookupByEmail({
-      email: this.email
-    })
+      email: this.email,
+    });
   },
-}
+};

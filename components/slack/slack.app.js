@@ -12,13 +12,14 @@ module.exports = {
         let {
           types,
           cursor,
+          userNames,
         } = prevContext;
         if (types == null) {
-          const scopes = await this.scopes();
           types = [
             "public_channel",
           ];
         }
+        userNames = {};
         const resp = await this.availableConversations(types.join(), cursor);
         return {
           options: resp.conversations.map((c) => {
@@ -55,13 +56,14 @@ module.exports = {
         let {
           types,
           cursor,
+          userNames,
         } = prevContext;
         if (types == null) {
-          const scopes = await this.scopes();
           types = [
             "private_channel",
           ];
         }
+        userNames = {};
         const resp = await this.availableConversations(types.join(), cursor);
         return {
           options: resp.conversations.map((c) => {
@@ -89,7 +91,6 @@ module.exports = {
           userNames,
         } = prevContext;
         if (types == null) {
-          const scopes = await this.scopes();
           types = [
             "im",
           ];
@@ -123,9 +124,9 @@ module.exports = {
         let {
           types,
           cursor,
+          userNames,
         } = prevContext;
         if (types == null) {
-          const scopes = await this.scopes();
           types = [
             "mpim",
           ];
@@ -157,18 +158,18 @@ module.exports = {
       description: "Select a reminder.",
       async options({ prevContext }) {
         let { cursor } = prevContext;
-        resp = await this.getRemindersForTeam();
+        let resp = await this.getRemindersForTeam();
         return {
           options: resp.reminders.map((c) => {
-            return { 
+            return {
               label: c.text,
-              value: c.id
+              value: c.id,
             };
           }),
-            context: {
-            cursor: cursor
-            },
-          };
+          context: {
+            cursor: cursor,
+          },
+        };
       },
     },
     conversation: {
@@ -276,12 +277,12 @@ module.exports = {
     team_id: {
       type: "string",
       label: "Team ID",
-      description: "The ID of the team."
+      description: "The ID of the team.",
     },
     file: {
       type: "string",
       label: "File ID",
-      description: "Specify a file by providing its ID."
+      description: "Specify a file by providing its ID.",
     },
     attachments: {
       type: "string",
@@ -391,19 +392,19 @@ module.exports = {
       type: "string",
       label: "Initial Comment",
       description: "The message text introducing the file",
-      optional: true
+      optional: true,
     },
     count: {
       type: "integer",
       label: "Count",
       description: "Number of items to return per page.",
-      optional: true
+      optional: true,
     },
     email: {
       type: "string",
       label: "Email",
       description: "An email address belonging to a user in the workspace",
-    }
+    },
   },
   methods: {
     mySlackId() {

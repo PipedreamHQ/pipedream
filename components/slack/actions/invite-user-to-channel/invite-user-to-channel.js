@@ -1,7 +1,7 @@
-const slack = require('../../slack.app.js')
-const { WebClient } = require('@slack/web-api')
+const slack = require("../../slack.app.js");
+const { WebClient } = require("@slack/web-api");
 
-module.exports = {  
+module.exports = {
   key: "slack-invite-user-to-channel",
   name: "Invite User to Channel",
   description: "Invite a user to an existing channel.",
@@ -9,15 +9,25 @@ module.exports = {
   type: "action",
   props: {
     slack,
-    conversation: { propDefinition: [ slack, "conversation" ] },
-    user: { propDefinition: [ slack, "user" ] }
+    conversation: {
+      propDefinition: [
+        slack,
+        "conversation",
+      ],
+    },
+    user: {
+      propDefinition: [
+        slack,
+        "user",
+      ],
+    },
 
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    const web = new WebClient(this.slack.$auth.oauth_access_token);
     return await web.conversations.invite({
       channel: this.conversation,
-      users: this.user
-    })
+      users: this.user,
+    });
   },
-}
+};

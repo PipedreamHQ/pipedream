@@ -1,7 +1,7 @@
-const slack = require('../../slack.app.js')
-const { WebClient } = require('@slack/web-api')
+const slack = require("../../slack.app.js");
+const { WebClient } = require("@slack/web-api");
 
-module.exports = {  
+module.exports = {
   key: "slack-send-block-kit-message",
   name: "Send Message Using Block Kit",
   description: "Send a message using Slack's Block Kit UI framework to a channel, group or user.",
@@ -12,30 +12,50 @@ module.exports = {
     conversation: {
       propDefinition: [
         slack,
-        "conversation"
+        "conversation",
       ],
       optional: false,
     },
     blocks: {
       propDefinition: [
         slack,
-        "blocks"
+        "blocks",
       ],
       optional: false,
     },
     text: {
       propDefinition: [
         slack,
-        "notificationText"
+        "notificationText",
       ],
     },
-    as_user: { propDefinition: [ slack, "as_user" ] },
-    username: { propDefinition: [ slack, "username" ] },
-    icon_emoji: { propDefinition: [ slack, "icon_emoji" ] },
-    icon_url: { propDefinition: [ slack, "icon_url" ]  },
+    as_user: {
+      propDefinition: [
+        slack,
+        "as_user",
+      ],
+    },
+    username: {
+      propDefinition: [
+        slack,
+        "username",
+      ],
+    },
+    icon_emoji: {
+      propDefinition: [
+        slack,
+        "icon_emoji",
+      ],
+    },
+    icon_url: {
+      propDefinition: [
+        slack,
+        "icon_url",
+      ],
+    },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    const web = new WebClient(this.slack.$auth.oauth_access_token);
     return await web.chat.postMessage({
       text: this.text,
       blocks: this.blocks,
@@ -43,7 +63,7 @@ module.exports = {
       as_user: this.as_user,
       username: this.username,
       icon_emoji: this.icon_emoji,
-      icon_url: this.icon_url
-    })
+      icon_url: this.icon_url,
+    });
   },
-}
+};

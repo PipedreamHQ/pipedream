@@ -1,7 +1,7 @@
-const slack = require('../../slack.app.js')
-const { WebClient } = require('@slack/web-api')
+const slack = require("../../slack.app.js");
+const { WebClient } = require("@slack/web-api");
 
-module.exports = {  
+module.exports = {
   key: "slack-list-users",
   name: "List Users",
   description: "Return a list of all users in a workspace",
@@ -9,10 +9,16 @@ module.exports = {
   type: "action",
   props: {
     slack,
-    team_id: { propDefinition: [ slack, "timestamp" ], optional: true },
+    team_id: {
+      propDefinition: [
+        slack,
+        "timestamp",
+      ],
+      optional: true,
+    },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
-    return await web.users.list()
+    const web = new WebClient(this.slack.$auth.oauth_access_token);
+    return await web.users.list();
   },
-}
+};

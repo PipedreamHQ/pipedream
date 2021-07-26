@@ -1,7 +1,7 @@
-const slack = require('../../slack.app.js')
-const { WebClient } = require('@slack/web-api')
+const slack = require("../../slack.app.js");
+const { WebClient } = require("@slack/web-api");
 
-module.exports = {  
+module.exports = {
   key: "slack-kick-user",
   name: "Kick User",
   description: "Remove a user from a conversation",
@@ -9,14 +9,24 @@ module.exports = {
   type: "action",
   props: {
     slack,
-    conversation: { propDefinition: [ slack, "conversation" ] },
-    user: { propDefinition: [ slack, "user" ] } 
+    conversation: {
+      propDefinition: [
+        slack,
+        "conversation",
+      ],
+    },
+    user: {
+      propDefinition: [
+        slack,
+        "user",
+      ],
+    },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    const web = new WebClient(this.slack.$auth.oauth_access_token);
     return await web.conversations.kick({
-        conversation: this.conversation,
-        user: this.user
-    })
+      conversation: this.conversation,
+      user: this.user,
+    });
   },
-}
+};

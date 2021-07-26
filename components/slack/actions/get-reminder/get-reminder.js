@@ -1,7 +1,7 @@
-const slack = require('../../slack.app.js')
-const { WebClient } = require('@slack/web-api')
+const slack = require("../../slack.app.js");
+const { WebClient } = require("@slack/web-api");
 
-module.exports = {  
+module.exports = {
   key: "slack-get-reminder",
   name: "Get Reminder",
   description: "Return information about a reminder",
@@ -9,12 +9,17 @@ module.exports = {
   type: "action",
   props: {
     slack,
-    reminder: { propDefinition: [ slack, "reminder" ] }
+    reminder: {
+      propDefinition: [
+        slack,
+        "reminder",
+      ],
+    },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    const web = new WebClient(this.slack.$auth.oauth_access_token);
     return await web.reminders.info({
-        reminder: this.reminder
-    })
+      reminder: this.reminder,
+    });
   },
-}
+};
