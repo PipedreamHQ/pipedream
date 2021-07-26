@@ -18,7 +18,7 @@ Pipedream will launch the workflow builder:
 
 ![image-20210516191619202](./images/image-20210516191619202.png)
 
-Following is an brief overview of the screen layout:
+Following is a brief overview of the screen layout:
 
 ![image-20210518181827110](./images/builder_overview.png)
 
