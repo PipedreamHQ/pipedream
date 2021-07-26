@@ -202,7 +202,7 @@ The event lifecycle applies to deployed components. Learn about the [component l
 
 ### Diagram
 
-![./image-20200819210516311](images/image-20200819210516311.png)
+![image-20200819210516311](./images/image-20200819210516311.png)
 
 ### Triggering Components
 
@@ -316,7 +316,7 @@ props: {
 
 | Property         | Type                                 | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ---------------- | ------------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`           | `string`                             | required  | Value must be set to a valid `PropType` (see below). Suffix with `[]` (eg. `string[]`) to denote array of that type (if supported).                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `type`           | `string`                             | required  | Value must be set to a valid `PropType` (see below). Suffix with `[]` (e.g. `string[]`) to denote array of that type (if supported).                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `label`          | `string`                             | optional  | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed to the user.                                                                                                                                                                                                                                                                                                                                                                                             |
 | `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                                                    |
 | `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
@@ -345,7 +345,7 @@ props: {
 
 **Example**
 
-Following is a basic example that demonstrates how to capture user input via a prop and emit it on each event.
+Following is a basic example that demonstrates how to capture user input via a prop and emit it on each event. 
 
 ```javascript
 module.exports = {
@@ -756,6 +756,7 @@ pd events <deployed-component-name>
 ```javascript
 this.$emit(event, {
   id,
+  name,
   summary,
   ts,
 });
@@ -765,6 +766,7 @@ this.$emit(event, {
 | --------- | ---------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `event`   | JSON serializable data | optional                                 | The data to emit as the event                                                                                                                                                                                                                          |
 | `id`      | `string` or `number`   | Required if a dedupe strategy is applied | A value to uniquely identify this event. Common `id` values may be a 3rd party ID, a timestamp, or a data hash                                                                                                                                         |
+| `name`      | `string`   | optional | The name of the "channel" you'd like to emit the event to. By default, events are emitted to the `default` channel. If you set a different channel here, listening sources or workflows can subscribe to events on this channel, running the source or workflow only on events emitted to that channel.                                                                                                                                        |
 | `summary` | `string`               | optional                                 | Define a summary to customize the data displayed in the events list to help differentiate events at a glance                                                                                                                                           |
 | `ts`      | `integer`              | optional                                 | Accepts an epoch timestamp in **milliseconds**. If you submit a timestamp, events will automatically be ordered and emitted from oldest to newest. If using the `last` dedupe strategy, the value cached as the `last` event for an invocation will correspond to the event with the newest timestamp. |
 

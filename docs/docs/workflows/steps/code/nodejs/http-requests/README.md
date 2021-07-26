@@ -4,7 +4,7 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 **Below, we'll review how to make HTTP requests using Node.js code on Pipedream.**
 
-We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
+We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too. 
 
 If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/blog/working-with-webhooks/#webhooks-glossary-common-terms) for a helpful introduction.
 
@@ -284,13 +284,13 @@ const config = {
 const resp = await axios.request(config);
 ```
 
-**If you don't have access to an HTTP proxy, [reach out to our team](/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
+**If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/make-an-http-request-through-a-proxy-p_ezC6RD/edit).
 
 ## IP addresses for HTTP requests made from Pipedream workflows
 
-By default, HTTP requests made from Pipedream can come from a large range of IP addresses. **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
+By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/workflows/networking/). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
 
 - [Use an HTTP proxy to proxy requests](#use-an-http-proxy-to-proxy-requests-through-another-host)
 - If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).

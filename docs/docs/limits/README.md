@@ -5,7 +5,7 @@ next: false
 
 # Limits
 
-Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You'll receive an [error](/errors/) if you encounter these limits.
+Pipedream imposes limits on source and workflow execution, the events you send to Pipedream, and other properties. You'll receive an [error](/errors/) if you encounter these limits. 
 
 Some of these limits apply only on the free tier. For example, Pipedream limits the daily number of invocations and execution time you can use on the free tier. **On paid tiers, you can run an unlimited number of invocations, for any amount of execution time**.
 
@@ -25,11 +25,12 @@ Other limits apply to both the free and paid tiers, but many can be raised upon 
 
 ## Daily Invocations
 
-Users on the [Developer (free) tier](/pricing/#developer-tier) have a default quota of
-
-**{{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}} invocations per day**
-
-across all workflows and event sources. **You are _not_ limited on invocations on paid plans like the [Professional tier](/pricing/#professional-tier)**, but instead pay for usage.
+|     Tier     |                                                                          Daily Invocations Quota                                                                          |
+| :----------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|  Developer   |                                                  {{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}}                                                   |
+|  Professional Plan   |                                                  No limit (pay per invocation above the [base invocations quota](/pricing/#base-invocations-quota))                                                   |
+|  Orgs (free)   |                                                  {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}}                                                   |
+|  Orgs (Team Plan) |                                                  No limit (pay per invocation above the [base invocations quota](/pricing/#base-invocations-quota))                                                   |
 
 You can view your invocations usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
 
@@ -39,12 +40,12 @@ Your quota is reset, daily, at 00:00 (midnight) UTC.
 
 |     Tier     |                                                                          Notifications                                                                          |
 | :----------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|  Developer   |                                                  You'll receive an email at 80% and 100% of your daily usage.                                                   |
-| Professional | You'll receive an email at 80% and 100% of your [base invocations quota](/pricing/#base-invocations-quota) for your [billing period](/pricing/#billing-period). |
+|  Free tiers   |                                                  You'll receive an email at 80% and 100% of your daily usage.                                                   |
+| Paid tiers | You'll receive an email at 80% and 100% of your [base invocations quota](/pricing/#base-invocations-quota) for your [billing period](/pricing/#billing-period). |
 
 ## Compute time per day
 
-Users on the [Developer (free) tier](/pricing/#developer-tier) have a default compute time quota of
+Users on the [Developer (free) tier](/pricing/#developer-tier), and free Organizations, have a default compute time quota of
 
 **30 minutes (1,800,000 milliseconds) per day**
 
@@ -54,14 +55,12 @@ You can view your current usage in your [Billing and Usage Settings](https://pip
 
 Your compute time quota is reset, daily, at 00:00 (midnight) UTC.
 
-Pipedream records a minimum time of `100ms` per execution. For example, if your workflow runs for `50ms`, you'll incur `100ms` of time towards your daily quota.
-
 ### Compute Time Quota Notifications
 
 |     Tier     |                                             Notifications                                             |
 | :----------: | :---------------------------------------------------------------------------------------------------: |
-|  Developer   |                     You'll receive an email at 80% and 100% of your daily usage.                      |
-| Professional | **Not applicable** - Professional tier users have unlimited compute time, so receive no notifications |
+|  Free tiers   |                     You'll receive an email at 80% and 100% of your daily usage.                      |
+| Paid tiers | **Not applicable** - Paid tiers have unlimited compute time, so receive no notifications |
 
 ## HTTP Triggers
 

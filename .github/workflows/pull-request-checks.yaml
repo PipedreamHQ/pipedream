@@ -6,14 +6,37 @@ name: Pull Request Checks
 #
 
 on:
-  push:
-    branches-ignore:
-      - master
   pull_request:
     branches:
       - master
 
 jobs:
+  build:
+    name: Spellcheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: jitterbit/get-changed-files@v1
+      id: changed_files
+    - id: md_changed_files
+      run: |-
+        files=''
+        for f in ${{ steps.changed_files.outputs.all }}
+        do
+          ext="${f##*.}"
+          if [ $ext = "md" ]
+          then
+            files="${f} ${files}"
+          fi
+        done
+
+        echo "files=${files}" >> $GITHUB_ENV
+    - uses: rojopolis/spellcheck-github-actions@0.14.0
+      name: Spellcheck
+      if: ${{ env.files }}
+      with:
+        source_files: ${{ env.files }}
+        task_name: Markdown
   lint:
     name: Lint Code Base
     runs-on: ubuntu-latest

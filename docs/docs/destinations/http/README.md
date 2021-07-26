@@ -72,7 +72,7 @@ If you need to access the HTTP response data in your workflow, [use `axios`](/wo
 
 The timeout on HTTP request sent with `$send.http()` is currently **5 seconds**. This time includes DNS resolution, connecting to the host, writing the request body, server processing, and reading the response body.
 
-Any requests that exceed 5 seconds will yield a `timeout` error.
+Any requests that exceed 5 seconds will yield a `timeout` error. 
 
 ## Retries
 
@@ -85,5 +85,9 @@ When you make an HTTP request using `$send.http()`, the traffic will come from o
 <<< @/docs/snippets/public-node-ips.txt
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble sending HTTP requests to your target service, please check to ensure this list matches your firewall rules.
+
+::: warning
+These IP addresses are tied specifically to the `$send.http()` service. If you send traffic directly from a workflow, it will be sent from one of Pipedream's general range of IP addresses. [See our networking docs for more information](/workflows/networking/).
+:::
 
 <Footer />

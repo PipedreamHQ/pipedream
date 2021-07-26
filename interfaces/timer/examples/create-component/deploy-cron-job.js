@@ -10,5 +10,5 @@ axios({
   },
   data,
 })
-  .then(res => console.log(res))
-  .catch(err => console.log(`Error: ${err}`));
+  .then((res) => console.log(res))
+  .catch((err) => console.log(`Error: ${err}`));

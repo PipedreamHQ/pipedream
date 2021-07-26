@@ -8,7 +8,7 @@
 
 You can send data to an S3 Destination in [Node.js code steps](/workflows/steps/code/) using `$send.s3()`.
 
-`$send.s3()` takes the following parameters:
+`$send.s3()` takes the following parameters: 
 
 ```javascript
 $send.s3({
