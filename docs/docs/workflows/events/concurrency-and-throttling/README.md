@@ -34,8 +34,8 @@ Events emitted from a source to a workflow are placed in a queue, and Pipedream 
 
 The maximum number of events Pipedream will queue per workflow depends on your account type.
 
-- Up to 100 events will be queued per workflow for [free and pro accounts](https://pipedream.com/pricing)
-- Team/Enterprise accounts may have custom limits. If you need a larger queue size, please contact Pipedream
+- Up to 100 events will be queued per workflow for the [Developer Tier](/pricing/#developer-tier)
+- Workflows owned by paid plans may have custom limits. If you need a larger queue size, [see here](#increasing-the-queue-size-for-a-workflow).
 
 **IMPORTANT:** If the number of events emitted to a workflow exceeds the queue size, events will be lost. If that happens, an error message will be displayed in the event list of your workflow and your [global error workflow](/workflows/error-handling/global-error-workflow/) will be triggered.
 
@@ -83,7 +83,7 @@ By default, your workflow can hold up to {{$site.themeConfig.DEFAULT_WORKFLOW_QU
 
 For example, if you serialize the execution of your workflow by setting a concurrency of `1`, but receive 200 events from your workflow's event source at once, the workflow's queue can only hold the first 100 events. The last 100 events will be dropped.
 
-[Professional Tier](/pricing/#professional-tier) users can [increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}}](/workflows/events/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow, just below the **Concurrency** section of your **Execution Controls** settings:
+Users on [paid tiers](https://pipedream.com/pricing) can [increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}}](/workflows/events/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow, just below the **Concurrency** section of your **Execution Controls** settings:
 
 <div>
 <img alt="Queue size" width="400" src="./images/queue-size.png">

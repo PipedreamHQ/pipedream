@@ -1,95 +1,124 @@
-const common = require('../common');
+const common = require("../common");
 
 module.exports = {
   ...common,
-  key: 'google_sheets-new-row-added',
-  name: 'New Row Added (Instant)',
+  key: "google_sheets-new-row-added",
+  name: "New Row Added (Instant)",
   description:
-    'Emits an event each time a row or rows are added to the bottom of a spreadsheet.',
-  version: '0.0.13',
-  dedupe: 'unique',
+    "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
+  version: "0.0.14",
+  dedupe: "unique",
   props: {
     ...common.props,
     sheetID: {
       propDefinition: [
-        common.props.google_sheets,
-        'sheetID',
-        c => ({
-          driveId: c.watchedDrive === 'myDrive' ? null : c.watchedDrive,
+        common.props.googleSheets,
+        "sheetID",
+        (c) => ({
+          driveId: c.watchedDrive === "myDrive" ?
+            null :
+            c.watchedDrive,
         }),
       ],
     },
     worksheetIDs: {
       propDefinition: [
-        common.props.google_sheets,
-        'worksheetIDs',
-        c => ({sheetId: c.sheetID}),
+        common.props.googleSheets,
+        "worksheetIDs",
+        (c) => ({
+          sheetId: c.sheetID,
+        }),
       ],
     },
   },
   methods: {
     ...common.methods,
     getMeta(spreadsheet, worksheet, rowNumber) {
-      const {sheetId: worksheetId} = worksheet;
-      const {spreadsheetId: sheetId} = spreadsheet;
+      const { sheetId: worksheetId } = worksheet;
+      const { spreadsheetId: sheetId } = spreadsheet;
       const ts = Date.now();
       const id = `${sheetId}${worksheetId}${rowNumber}${ts}`;
-      const summary = `New row #${rowNumber}`;
+      const summary = `New row #${rowNumber} in ${worksheet.properties.title}`;
       return {
         id,
         summary,
         ts,
       };
     },
+    /**
+     * Temporary transformation to ensure the format of the data is the
+     * correct one. This will be fixed in the UI and backend, so that the data
+     * format is guaranteed to be the one indicated in the `type` field of the
+     * user prop.
+     */
     getSheetId() {
-      // Temporary transformation to ensure the format of the data is the
-      // correct one. This will be fixed in the UI and backend, so that the data
-      // format is guaranteed to be the one indicated in the `type` field of the
-      // user prop.
       return this.sheetID.toString();
     },
+    /**
+     * Temporary transformation to ensure the format of the data is the
+     * correct one. This will be fixed in the UI and backend, so that the data
+     * format is guaranteed to be the one indicated in the `type` field of the
+     * user prop.
+     */
     getWorksheetIds() {
-      // Temporary transformation to ensure the format of the data is the
-      // correct one. This will be fixed in the UI and backend, so that the data
-      // format is guaranteed to be the one indicated in the `type` field of the
-      // user prop.
-      return this.worksheetIDs.map(i => i.toString());
+      return this.worksheetIDs.map((i) => i.toString());
+    },
+    _getRowCount(id) {
+      return this.db.get(id) || 0;
+    },
+    _setRowCount(id, rowCount) {
+      this.db.set(id, rowCount);
     },
     async getWorksheetLengthsById() {
       const sheetId = this.getSheetId();
-      const worksheetIds = new Set(this.getWorksheetIds());
-      const worksheetLengths = await this.google_sheets.getWorksheetLength(
+      const relevantWorksheets =
+        this.getWorksheetIds().length === 0
+          ? await this.getAllWorksheetIds(sheetId)
+          : this.getWorksheetIds();
+      const worksheetIds = new Set(relevantWorksheets);
+      const worksheetLengths = await this.googleSheets.getWorksheetLength(
         sheetId,
       );
       return worksheetLengths
-        .map(worksheetLengthData => {
-          const {worksheetId} = worksheetLengthData;
+        .map((worksheetLengthData) => {
+          const { worksheetId } = worksheetLengthData;
           return {
             ...worksheetLengthData,
             worksheetId: worksheetId.toString(),
           };
         })
-        .filter(({worksheetId}) => worksheetIds.has(worksheetId))
+        .filter(({ worksheetId }) => worksheetIds.has(worksheetId))
         .reduce(
-          (accum, {worksheetId, worksheetLength}) => ({
+          (accum, {
+            worksheetId,
+            worksheetLength,
+          }) => ({
             ...accum,
             [worksheetId]: worksheetLength,
           }),
           {},
         );
     },
+    /**
+     * Initialize row counts (used to keep track of new rows)
+     */
     async takeSheetSnapshot(offset = 0) {
-      // Initialize row counts (used to keep track of new rows)
       const sheetId = this.getSheetId();
-      const worksheetIds = this.getWorksheetIds();
-      const worksheetRowCounts = await this.google_sheets.getWorksheetRowCounts(
+      const worksheetIds =
+        this.getWorksheetIds().length === 0
+          ? await this.getAllWorksheetIds(sheetId)
+          : this.getWorksheetIds();
+      const worksheetRowCounts = await this.googleSheets.getWorksheetRowCounts(
         sheetId,
         worksheetIds,
       );
       for (const worksheetRowCount of worksheetRowCounts) {
-        const {rowCount, worksheetId} = worksheetRowCount;
+        const {
+          rowCount,
+          worksheetId,
+        } = worksheetRowCount;
         const offsetRowCount = Math.max(rowCount - offset, 0);
-        this.db.set(`${sheetId}${worksheetId}`, offsetRowCount);
+        this._setRowCount(`${sheetId}${worksheetId}`, offsetRowCount);
       }
     },
     async processSpreadsheet(spreadsheet) {
@@ -101,16 +130,19 @@ module.exports = {
           sheetId: worksheetId,
           title: worksheetTitle,
         } = worksheet.properties;
-        if (!this.isWorksheetRelevant(worksheetId)) {
+        if (
+          this.getWorksheetIds().length &&
+          !this.isWorksheetRelevant(worksheetId)
+        ) {
           continue;
         }
 
-        const oldRowCount = this.db.get(`${sheetId}${worksheetId}`);
+        const oldRowCount = this._getRowCount(`${sheetId}${worksheetId}`);
         const worksheetLength = worksheetLengthsById[worksheetId];
         const lowerBound = oldRowCount + 1;
         const upperBound = worksheetLength;
         const range = `${worksheetTitle}!${lowerBound}:${upperBound}`;
-        const newRowValues = await this.google_sheets.getSpreadsheetValues(
+        const newRowValues = await this.googleSheets.getSpreadsheetValues(
           sheetId,
           range,
         );
@@ -118,12 +150,20 @@ module.exports = {
         const newRowCount = oldRowCount + newRowValues.values.length;
         if (newRowCount <= oldRowCount) continue;
 
-        this.db.set(`${sheetId}${worksheetId}`, newRowCount);
+        this._setRowCount(`${sheetId}${worksheetId}`, newRowCount);
 
-        for (const [index, newRow] of newRowValues.values.entries()) {
+        for (const [
+          index,
+          newRow,
+        ] of newRowValues.values.entries()) {
           const rowNumber = lowerBound + index;
           this.$emit(
-            {newRow, range, worksheet, rowNumber},
+            {
+              newRow,
+              range,
+              worksheet,
+              rowNumber,
+            },
             this.getMeta(spreadsheet, worksheet, rowNumber),
           );
         }

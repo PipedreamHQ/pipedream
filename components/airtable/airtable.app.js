@@ -1,5 +1,5 @@
 const Airtable = require("airtable");
-const isEmpty = require("lodash/isEmpty");
+const isEmpty = require("lodash.isempty");
 
 module.exports = {
   type: "app",
@@ -56,14 +56,15 @@ module.exports = {
       description: "Optionally select a field to sort results. To sort by multiple fields, use the `Filter by Forumla` field.",
       optional: true,
     },
+    typecast: {
+      type: "boolean",
+      description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. Automatic conversion is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
+    },
   },
   methods: {
-    apiKey() {
-      return this.$auth.api_key;
-    },
     base(baseId) {
       return new Airtable({
-        apiKey: this.apiKey(),
+        apiKey: this.$auth.api_key,
       }).base(baseId);
     },
     throwFormattedError(err) {

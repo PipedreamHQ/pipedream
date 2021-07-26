@@ -19,16 +19,21 @@ jobs:
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
     - id: md_changed_files
-      run: |
-        files=''; for f in ${{ steps.changed_files.outputs.all }}; do
+      run: |-
+        files=''
+        for f in ${{ steps.changed_files.outputs.all }}
+        do
           ext="${f##*.}"
-          if [ $ext = "md" ]; then
+          if [ $ext = "md" ]
+          then
             files="${f} ${files}"
-          fi;
+          fi
         done
+
         echo "files=${files}" >> $GITHUB_ENV
     - uses: rojopolis/spellcheck-github-actions@0.14.0
       name: Spellcheck
+      if: ${{ env.files }}
       with:
         source_files: ${{ env.files }}
         task_name: Markdown

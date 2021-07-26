@@ -1,5 +1,5 @@
 const { v4: uuid } = require("uuid");
-const google_sheets = require("../google_sheets.app");
+const googleSheets = require("../google_sheets.app");
 
 /**
  * The number of events that will be automatically sent whenever the event
@@ -12,7 +12,7 @@ const INITIAL_EVENT_COUNT = 10;
 
 module.exports = {
   props: {
-    google_sheets,
+    googleSheets,
     db: "$.service.db",
     http: "$.interface.http",
     timer: {
@@ -24,25 +24,34 @@ module.exports = {
         intervalSeconds: 60 * 30, // 30 minutes
       },
     },
-    watchedDrive: { propDefinition: [google_sheets, "watchedDrive"] },
+    watchedDrive: {
+      propDefinition: [
+        googleSheets,
+        "watchedDrive",
+      ],
+    },
   },
   hooks: {
     async deploy() {
       await this.takeSheetSnapshot(INITIAL_EVENT_COUNT);
 
       const sheetId = this.getSheetId();
-      const spreadsheet = await this.google_sheets.getSpreadsheet(sheetId);
+      const spreadsheet = await this.googleSheets.getSpreadsheet(sheetId);
       await this.processSpreadsheet(spreadsheet);
     },
+    /**
+     * Called when a component is created or updated. Handles all the logic
+     * for starting and stopping watch notifications tied to the desired files.
+     */
     async activate() {
-      // Called when a component is created or updated. Handles all the logic
-      // for starting and stopping watch notifications tied to the desired files.
-
-      const channelID = this.db.get("channelID") || uuid();
+      const channelID = this._getChannelID() || uuid();
       const driveId = this.getDriveId();
 
-      const startPageToken = await this.google_sheets.getPageToken(driveId);
-      const { expiration, resourceId } = await this.google_sheets.watchDrive(
+      const startPageToken = await this.googleSheets.getPageToken(driveId);
+      const {
+        expiration,
+        resourceId,
+      } = await this.googleSheets.watchDrive(
         channelID,
         this.http.endpoint,
         startPageToken,
@@ -50,13 +59,16 @@ module.exports = {
       );
 
       // We use and increment the pageToken as new changes arrive, in run()
-      this.db.set("pageToken", startPageToken);
+      this._setPageToken(startPageToken);
 
       // Save metadata on the subscription so we can stop / renew later
       // Subscriptions are tied to Google's resourceID, "an opaque value that
       // identifies the watched resource". This value is included in request headers
-      this.db.set("subscription", { resourceId, expiration });
-      this.db.set("channelID", channelID);
+      this._setSubscription({
+        resourceId,
+        expiration,
+      });
+      this._setChannelID(channelID);
 
       await this.takeSheetSnapshot();
     },
@@ -65,39 +77,64 @@ module.exports = {
       const subscription = this.db.get("subscription");
 
       // Reset DB state before anything else
-      this.db.set("subscription", null);
-      this.db.set("channelID", null);
-      this.db.set("pageToken", null);
+      this._setSubscription(null);
+      this._setChannelID(null);
+      this._setPageToken(null);
 
       if (!channelID) {
         console.log(
-          "Channel not found, cannot stop notifications for non-existent channel"
+          "Channel not found, cannot stop notifications for non-existent channel",
         );
         return;
       }
 
       if (!subscription || !subscription.resourceId) {
         console.log(
-          "No resource ID found, cannot stop notifications for non-existent resource"
+          "No resource ID found, cannot stop notifications for non-existent resource",
         );
         return;
       }
 
-      await this.google_sheets.stopNotifications(
+      await this.googleSheets.stopNotifications(
         channelID,
-        subscription.resourceId
+        subscription.resourceId,
       );
     },
   },
   methods: {
+    _getSubscription() {
+      return this.db.get("subscription");
+    },
+    _setSubscription(subscription) {
+      this.db.set("subscription", subscription);
+    },
+    _getChannelID() {
+      return this.db.get("channelID");
+    },
+    _setChannelID(channelID) {
+      this.db.set("channelID", channelID);
+    },
+    _getPageToken() {
+      return this.db.get("pageToken");
+    },
+    _setPageToken(pageToken) {
+      this.db.set("pageToken", pageToken);
+    },
+    async getAllWorksheetIds(sheetID) {
+      const { sheets } = await this.googleSheets.getSpreadsheet(sheetID);
+      return sheets
+        .map(({ properties }) => properties)
+        .filter(({ sheetType }) => sheetType === "GRID")
+        .map(({ sheetId }) => (sheetId.toString()));
+    },
     async getModifiedSheet(pageToken, driveId, sheetID) {
       const {
         changedFiles,
         newStartPageToken,
-      } = await this.google_sheets.getChanges(pageToken, driveId);
+      } = await this.googleSheets.getChanges(pageToken, driveId);
       const file = changedFiles
-        .filter(file => file.mimeType.includes("spreadsheet"))
-        .filter(file => sheetID === file.id)
+        .filter((file) => file.mimeType.includes("spreadsheet"))
+        .filter((file) => sheetID === file.id)
         .shift();
       return {
         file,
@@ -106,32 +143,37 @@ module.exports = {
     },
     async getSpreadsheetToProcess(event) {
       const { headers } = event;
-      const subscription = this.db.get("subscription");
-      const channelID = this.db.get("channelID");
-      const pageToken = this.db.get("pageToken");
+      const subscription = this._getSubscription();
+      const channelID = this._getChannelID();
+      const pageToken = this._getPageToken();
 
-      if (!this.google_sheets.checkHeaders(headers, subscription, channelID)) {
+      if (!this.googleSheets.checkHeaders(headers, subscription, channelID)) {
         return;
       }
 
       const driveId = this.getDriveId();
       const sheetId = this.getSheetId();
-      const { file, newPageToken } = await this.getModifiedSheet(
+      const {
+        file,
+        newPageToken,
+      } = await this.getModifiedSheet(
         pageToken,
         driveId,
         sheetId,
       );
-      if (newPageToken) this.db.set("pageToken", newPageToken);
+      if (newPageToken) this._setPageToken(newPageToken);
 
       if (!file) {
         console.log("No sheets were modified");
         return;
       }
 
-      return this.google_sheets.getSpreadsheet(sheetId);
+      return this.googleSheets.getSpreadsheet(sheetId);
     },
     getDriveId() {
-      return this.watchedDrive === "myDrive" ? null : this.watchedDrive;
+      return this.watchedDrive === "myDrive" ?
+        null :
+        this.watchedDrive;
     },
     getSheetId() {
       throw new Error("getSheetId is not implemented");
@@ -155,17 +197,16 @@ module.exports = {
 
       // Assume subscription, channelID, and pageToken may all be undefined at
       // this point Handle their absence appropriately.
-      const subscription = this.db.get("subscription");
-      const channelID = this.db.get("channelID") || uuid();
-      const pageToken = (
-        this.db.get("pageToken") ||
-        await this.google_sheets.getPageToken(driveId)
-      );
+      const subscription = this._getSubscription();
+      const channelID = this._getChannelID() || uuid();
+      const pageToken =
+        this._getPageToken() ||
+        (await this.googleSheets.getPageToken(driveId));
 
       const {
         expiration,
         resourceId,
-      } = await this.google_sheets.checkResubscription(
+      } = await this.googleSheets.checkResubscription(
         subscription,
         channelID,
         pageToken,
@@ -173,14 +214,16 @@ module.exports = {
         this.watchedDrive,
       );
 
-      this.db.set("subscription", { expiration, resourceId });
-      this.db.set("pageToken", pageToken);
-      this.db.set("channelID", channelID);
+      this._setSubscription({
+        expiration,
+        resourceId,
+      });
+      this._setPageToken(pageToken);
+      this._setChannelID(channelID);
     },
     /**
      * This method scans the worksheets indicated by the user to retrieve the
      * current row count of each one, and cache those values.
-     *
      * @param {number} [offset=0] When present, the row count that gets cached
      * will be reduced by this amount (useful for example to force an event
      * source to interpret the last rows as new).
@@ -206,7 +249,6 @@ module.exports = {
       console.log(`Spreadsheet "${sheetId}" was not modified. Skipping event`);
       return;
     }
-
     return this.processSpreadsheet(spreadsheet);
   },
 };
