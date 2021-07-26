@@ -78,7 +78,7 @@ Sign up for a [free account (no credit card required)](https://pipedream.com/aut
 <a href="/quickstart/hello-world/"><img src="./quickstart/get-started.png"></a>
 </p>
 -->
-Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or commitment. As your needs grow, it's easy to upgrade to paid plans to run without limits for individuals, teams (in alpha) and enterprises.
+Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or commitment. As your needs grow, it's easy to upgrade to [paid plans](https://pipedream.com/pricing) to run without limits for individuals, teams and enterprises.
 
 ## Use Cases
 
