@@ -1,11 +1,11 @@
 # Overview
 
-**Destinations**, like [Actions](/components/actions/), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
+**Destinations**, like [actions](/components/actions/), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
 
-However, Destinations are different than Actions in two ways: 
+However, Destinations are different than actions in two ways:
 
 - **Events are delivered to the Destinations asynchronously**, after your workflow completes. This means you don't wait for network I/O (e.g. for HTTP requests or connection overhead for data warehouses) within your workflow code, so you can process more events faster.
-- In the case of data stores like S3 and warehouses like Snowflake, you typically don't want to send every event on its own. This can be costly and confers little benefit. **Instead, you typically want to batch a collection of events together, sending the batch at some frequency. Destinations handle that batching for relevant services**.
+- In the case of data stores like S3, you typically don't want to send every event on its own. This can be costly and carries little benefit. **Instead, you typically want to batch a collection of events together, sending the batch at some frequency. Destinations handle that batching for relevant services**.
 
 The docs below discuss features common to all Destinations. See the [docs for a given destination](#available-destinations) for information specific to those destinations.
 
