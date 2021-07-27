@@ -10,7 +10,7 @@ conform to these guidelines, but they will not be eligible to be listed in the
 curated registry (e.g., they may be hosted in a Github repo). If you develop a
 component that does not adhere to these guidelines, but you believe there is
 value to the broader community, please [reach out in our community
-forum](https://pipedream.com/community/c/dev/11). 
+forum](https://pipedream.com/community/c/dev/11).
 
 [[toc]]
 
@@ -153,13 +153,13 @@ actions for Pipedream's registry.
 
 ### Reference Sources
 
-| Name                                                                                                                                             | App          | Type                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- |
-| [New Card](https://github.com/pipedreamhq/pipedream/components/trello/sources/new-card/new-card.js)                                              | Trello       | Webhook                                      |
-| [Search Mentions](https://github.com/pipedreamhq/pipedream/components/twitter/sources/search-mentions/search-mentions.js)                        | Twitter      | Polling                                      |
-| [New or Modified Files](https://github.com/pipedreamhq/pipedream/components/google_drive/sources/new-or-modified-files/new-or-modified-files.js) | Google Drive | Webhook + Polling                            |
-| [New Submission](https://github.com/pipedreamhq/pipedream/components/jotform/sources/new-submission/new-submission.js)                           | Jotform      | Webhook (with no unique hook ID)             |
-| [New Stars](https://github.com/pipedreamhq/pipedream/components/github/sources/new-star/new-star.js)                                             | Github       | Webhook (with extensive use of common files) |
+| Name                                                                                                    | App          | Type                                         |
+| ------------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------------- |
+| [New Card](components/trello/sources/new-card/new-card.js)                                              | Trello       | Webhook                                      |
+| [Search Mentions](components/twitter/sources/search-mentions/search-mentions.js)                        | Twitter      | Polling                                      |
+| [New or Modified Files](components/google_drive/sources/new-or-modified-files/new-or-modified-files.js) | Google Drive | Webhook + Polling                            |
+| [New Submission](components/jotform/sources/new-submission/new-submission.js)                           | Jotform      | Webhook (with no unique hook ID)             |
+| [New Stars](components/github/sources/new-star/new-star.js)                                             | Github       | Webhook (with extensive use of common files) |
 
 ### Reference Actions
 
@@ -178,7 +178,7 @@ filters events for only new star activity so the user doesn’t have to.
 
 There may be cases where it's valuable to create a generic component that
 provides users with broad latitude (e.g., see the [custom
-webhook](https://github.com/pipedreamhq/pipedream/components/github/sources/custom-webhook-events)
+webhook](components/github/sources/custom-webhook-events)
 event source for GitHub). However, as a general heuristic, we found that tightly
 scoped components are easier for users to understand and use.
 
@@ -233,7 +233,7 @@ Registry components are organized by app in the `components` directory of the
   `/components/twitter/sources/search-mentions/search-mentions.js`.
 
 You can explore examples in the [components
-directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
+directory](tree/master/components).
 
 #### Using APIs vs Client Libraries
 
