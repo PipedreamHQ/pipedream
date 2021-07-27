@@ -202,7 +202,7 @@ The event lifecycle applies to deployed components. Learn about the [component l
 
 ### Diagram
 
-![./image-20200819210516311](images/image-20200819210516311.png)
+![image-20200819210516311](./images/image-20200819210516311.png)
 
 ### Triggering Components
 
@@ -756,6 +756,7 @@ pd events <deployed-component-name>
 ```javascript
 this.$emit(event, {
   id,
+  name,
   summary,
   ts,
 });
@@ -765,6 +766,7 @@ this.$emit(event, {
 | --------- | ---------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `event`   | JSON serializable data | optional                                 | The data to emit as the event                                                                                                                                                                                                                          |
 | `id`      | `string` or `number`   | Required if a dedupe strategy is applied | A value to uniquely identify this event. Common `id` values may be a 3rd party ID, a timestamp, or a data hash                                                                                                                                         |
+| `name`      | `string`   | optional | The name of the "channel" you'd like to emit the event to. By default, events are emitted to the `default` channel. If you set a different channel here, listening sources or workflows can subscribe to events on this channel, running the source or workflow only on events emitted to that channel.                                                                                                                                        |
 | `summary` | `string`               | optional                                 | Define a summary to customize the data displayed in the events list to help differentiate events at a glance                                                                                                                                           |
 | `ts`      | `integer`              | optional                                 | Accepts an epoch timestamp in **milliseconds**. If you submit a timestamp, events will automatically be ordered and emitted from oldest to newest. If using the `last` dedupe strategy, the value cached as the `last` event for an invocation will correspond to the event with the newest timestamp. |
 
