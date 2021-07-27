@@ -59,6 +59,15 @@ You'll also see some data associated with these accounts:
 - For OAuth apps, the scopes you've granted Pipedream access to
 - The workflows where you're using the account.
 
+## Reconnect an account
+
+If you encounter errors in a step that appear to be related to credentials / authorization, you can reconnect your account:
+
+1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts)
+2. Search for your account
+3. Click on the *...* next to your account, on the right side of the page
+4. Select the option to **Reconnect** your account
+
 ## Types of Integrations
 
 ### OAuth
