@@ -37,7 +37,7 @@ Curious what you can do with Strava event sources, or need some inspiration? Cop
 
 ## Common Issues
 
-If you're having an issue you can't solve with these docs, [get support here](https://docs.pipedream.comhttps://pipedream.com/support/).
+If you're having an issue you can't solve with these docs, [get support here](https://pipedream.com/support/).
 
 ### Event Delay
 

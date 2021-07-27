@@ -223,7 +223,7 @@ This example shows you how to download a file to a file in [the `/tmp` directory
 
 ```javascript
 const fs = require("fs");
-const { got } = await import("got");
+const { default: got } = await import("got");
 const stream = require("stream");
 const { promisify } = require("util");
 
