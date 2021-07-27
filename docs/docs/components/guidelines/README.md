@@ -21,16 +21,16 @@ it easy to connect APIs remarkably fast. Users can select from thousands of
 customizable, open source components for hundreds of apps and orchestrate their
 execution in workflows. Developers can
 [contribute](https://pipedream.com/contributing) to these open source components
-on [Github](https://github.com/pipedreamhq/pipedream) by:
+on [Github](/code) by:
 
 - Creating new components (sources and actions)
 - Updating existing components (e.g., fixing bugs, enhancing functionality)
 - Adding or updating metadata (e.g., descriptions, labels)
 
 Once a PR is merged to the `master` branch of the
-[`pipedreamhq/pipedream`](https://github.com/PipedreamHQ/pipedream) repo, the
-components are automatically registered and immediately become available to the
-150k+ users of the Pipedream platform.
+[`pipedreamhq/pipedream`](/code) repo, the components are automatically
+registered and immediately become available to the 150k+ users of the Pipedream
+platform.
 
 ### Components
 
@@ -153,13 +153,13 @@ actions for Pipedream's registry.
 
 ### Reference Sources
 
-| Name                                                                                                    | App          | Type                                         |
-| ------------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------------- |
-| [New Card](components/trello/sources/new-card/new-card.js)                                              | Trello       | Webhook                                      |
-| [Search Mentions](components/twitter/sources/search-mentions/search-mentions.js)                        | Twitter      | Polling                                      |
-| [New or Modified Files](components/google_drive/sources/new-or-modified-files/new-or-modified-files.js) | Google Drive | Webhook + Polling                            |
-| [New Submission](components/jotform/sources/new-submission/new-submission.js)                           | Jotform      | Webhook (with no unique hook ID)             |
-| [New Stars](components/github/sources/new-star/new-star.js)                                             | Github       | Webhook (with extensive use of common files) |
+| Name                                                                                                          | App          | Type                                         |
+| ------------------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------------- |
+| [New Card](/code/components/trello/sources/new-card/new-card.js)                                              | Trello       | Webhook                                      |
+| [Search Mentions](/code/components/twitter/sources/search-mentions/search-mentions.js)                        | Twitter      | Polling                                      |
+| [New or Modified Files](/code/components/google_drive/sources/new-or-modified-files/new-or-modified-files.js) | Google Drive | Webhook + Polling                            |
+| [New Submission](/code/components/jotform/sources/new-submission/new-submission.js)                           | Jotform      | Webhook (with no unique hook ID)             |
+| [New Stars](/code/components/github/sources/new-star/new-star.js)                                             | Github       | Webhook (with extensive use of common files) |
 
 ### Reference Actions
 
@@ -178,7 +178,7 @@ filters events for only new star activity so the user doesn’t have to.
 
 There may be cases where it's valuable to create a generic component that
 provides users with broad latitude (e.g., see the [custom
-webhook](components/github/sources/custom-webhook-events)
+webhook](/code/components/github/sources/custom-webhook-events)
 event source for GitHub). However, as a general heuristic, we found that tightly
 scoped components are easier for users to understand and use.
 
@@ -343,10 +343,9 @@ approach, the general pattern is:
   component by setting additional attributes (e.g. `name`, `description`, `key`,
   etc) and potentially redefining any inherited methods.
 
-See [Google
-Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_drive) for an
-example of this pattern. When using this approach, prop definitions should still
-be maintained in the app file.
+See [Google Drive](/code/components/google_drive) for an example of this
+pattern. When using this approach, prop definitions should still be maintained
+in the app file.
 
 ### Props
 

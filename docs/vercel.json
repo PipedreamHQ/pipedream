@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/components/(.*)",
-      "destination": "https://github.com/PipedreamHQ/pipedream/components/$1"
-    },
-    {
       "source": "/docs",
       "destination": "/"
     },
@@ -14,6 +10,14 @@
     }
   ],
   "redirects": [
+    {
+      "source": "/code",
+      "destination": "https://github.com/PipedreamHQ/pipedream"
+    },
+    {
+      "source": "/code/(.*)",
+      "destination": "https://github.com/PipedreamHQ/pipedream/tree/master/$1"
+    },
     {
       "source": "/docs/notebook/actions/",
       "destination": "/workflows/steps/actions/"
