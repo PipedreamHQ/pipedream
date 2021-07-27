@@ -99,45 +99,100 @@ module.exports = {
         console.log(err);
       }
     },
-    async createCard(
-      name,
-      desc,
-      pos,
-      dueDate,
-      dueComplete,
-      idList,
-      idMembers,
-      idLabels,
-      urlSource,
-      fileSource,
-      mimeType,
-      idCardSource,
-      keepFromSource,
-      address,
-      locationName,
-      coordinates,
-    ) {
+    /**
+     * Archives a card.
+     *
+     * @param {string}  idCard the ID of the Card to archive.
+     * @returns an updated card object with `closed` (archived) property set to true.
+     * See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
+     */
+    async archiveCard(idCard) {
+      const config = {
+        url: `${this._getBaseUrl()}/cards/${idCard}`,
+        method: "PUT",
+        data: {
+          closed: true,
+        },
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Adds an existing label to the specified card.
+     *
+     * @param {string}  idCard the ID of the Card to move.
+     * @param {string}  params.value the ID of the Label that will be added to the Card.
+     * @returns {array} an string array with the ID of all the Card's Labels.
+     * See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
+     */
+    async addExistingLabelToCard(idCard, params) {
+      const config = {
+        url: `${this._getBaseUrl()}/cards/${idCard}/idLabels`,
+        method: "POST",
+        params,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Closes a board.
+     *
+     * @param {string}  opts.boardId the ID of the Board to close.
+     * @returns the updated board object with the `closed` property set to true.
+     * See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-put
+     */
+    async closeBoard(boardId) {
+      const config = {
+        url: `${this._getBaseUrl()}/boards/${boardId}`,
+        method: "PUT",
+        data: {
+          closed: true,
+        },
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Creates a new card.
+     *
+     * @param {string}  opts.name the name of the card.
+     * @param {string}  opts.desc the description for the card.
+     * @param {string}  opts.pos the position of the new card.
+     * @param {string}  opts.due the due date for the card.
+     * @param {boolean}  opts.dueComplete flag that indicates if `dueDate` expired.
+     * @param {string}  opts.idList the ID of the list the card should be created in.
+     * @param {array}  opts.idMembers array of member IDs to add to the card.
+     * @param {array}  opts.idLabels array of label IDs to add to the card.
+     * @param {string}  opts.urlSource a URL starting with `http://` or `https://`."
+     * @param {string}  opts.fileSource format: `binary`.
+     * @param {string}  opts.mimeType the mimeType of the attachment. Max length 256.
+     * @param {string}  opts.idCardSource the ID of a card to copy into the new card.
+     * @param {string}  opts.keepFromSource if using `idCardSource`, specifies properties to copy.
+     * @returns the created card object. See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
+     */
+    async createCard(opts) {
       const config = {
         url: `${this._getBaseUrl()}/cards`,
         method: "post",
-        data: {
-          name,
-          desc,
-          pos,
-          due: dueDate,
-          dueComplete,
-          idList,
-          idMembers,
-          idLabels,
-          urlSource,
-          fileSource,
-          mimeType,
-          idCardSource,
-          keepFromSource,
-          address,
-          locationName,
-          coordinates,
-        },
+        data: opts,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    //TODO: Complete findLIst method
+    /**
+     * Finds a list in the specified board.
+     *
+     * @param {string}  opts.name the name of the card.
+     * @param {string}  opts.desc the description for the card.
+     * @returns the created card object. See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
+     */
+    async findList(opts) {
+      const config = {
+        url: `${this._getBaseUrl()}/cards`,
+        method: "post",
+        data: opts,
       };
       return (await this._makeRequest(config)).data;
     },
@@ -148,15 +203,22 @@ module.exports = {
       };
       return (await this._makeRequest(config)).data;
     },
+    /**
+     * Moves a card to the specified board/list pair.
+     *
+     * @param {string}  idCard the ID of the Card to move.
+     * @param {string}  data.idBoard the ID of the board the card should be moved to.
+     * @param {string}  data.idList the ID of the list that the card should be moved to.
+     * @returns an updated card object set to the specified board and list ids.
+     * See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
+     */
     async moveCardToList(idCard,
-      opts) {
+      data) {
       const config = {
         url: `${this._getBaseUrl()}/cards/${idCard}`,
         method: "PUT",
-        data: {
-          idBoard: opts.toBoardId,
-          idList: opts.toListId,
-        },
+        data,
       };
       return (await this._makeRequest(config)).data;
     },
@@ -177,6 +239,13 @@ module.exports = {
     async getBoards(id) {
       return await this.getResource(`members/${id}/boards`);
     },
+    /**
+     * Gets details of a card.
+     *
+     * @param {string} id the ID of the card to get details of.
+     * @returns  {object} a card object. See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
+     */
     async getCard(id) {
       return await this.getResource(`cards/${id}`);
     },
@@ -229,6 +298,39 @@ module.exports = {
         method: "delete",
         url: `${this._getBaseUrl()}webhooks/${hookId}`,
       });
+    },
+    /**
+     * Removes an existing label from the specified card.
+     *
+     * @param {string}  idCard the ID of the Card to remove the Label from.
+     * @param {string}  idLabel the ID of the Label to be removed from the card.
+     * @returns {object} an object with the null valued property `_value` indicating that
+     * there were no errors
+     */
+    async removeLabelFromCard(idCard, idLabel) {
+      const config = {
+        url: `${this._getBaseUrl()}/cards/${idCard}/idLabels/${idLabel}`,
+        method: "DELETE",
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Renames the specified list
+     *idLabel
+     * @param {string}  listId the ID of the List to rename.
+     * @param {string}  opts.name the new name of the list.
+     * @returns {object} a list object with the `closed` property, indicated if the list is
+     * closed or archived, `id` the id of the renamed List, `idBoard` the id of the Board parent
+     * to the List, `name` with the new name of the List, and `pos` with the position of the List
+     * in the Board.
+     */
+    async renameList(listId, data) {
+      const config = {
+        url: `${this._getBaseUrl()}/lists/${listId}`,
+        method: "PUT",
+        data,
+      };
+      return (await this._makeRequest(config)).data;
     },
   },
 };

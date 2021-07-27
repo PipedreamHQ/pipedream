@@ -29,7 +29,7 @@ module.exports = {
         "The position of the new card. Valid values: `top`, `bottom`, or a positive float.",
       optional: true,
     },
-    dueDate: {
+    due: {
       type: "string",
       label: "Due Date",
       description: "The due date for the card.",
@@ -44,7 +44,7 @@ module.exports = {
     idList: {
       type: "string",
       label: "Id List",
-      description: "The ID of the list the card should be created in.",
+      description: "The ID of the list the card should be created in. Must match pattern `^[0-9a-fA-F]{24}$`.",
     },
     idMembers: {
       type: "object",
@@ -79,7 +79,7 @@ module.exports = {
     idCardSource: {
       type: "string",
       label: "Id Card Source",
-      description: "The ID of a card to copy into the new card.",
+      description: "The ID of a card to copy into the new card. Must match pattern `^[0-9a-fA-F]{24}$`.",
       optional: true,
     },
     keepFromSource: {
@@ -105,7 +105,7 @@ module.exports = {
       type: "string",
       label: "Coordinates",
       description:
-        "For use with/by the Map Power-Up. Should take the form latitude,longitude.",
+        "Latitude, longitude coordinates. For use with/by the Map Power-Up. Should take the form `lat, long`.",
       optional: true,
     },
   },
@@ -113,7 +113,6 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    //TODO: Array type validation subject to change, depending on Slack discussions with the team
     const constraints = {
       idList: {
         presence: true,
@@ -133,7 +132,8 @@ module.exports = {
       },
     };
     if (this.pos) {
-      const posValidationMesssage = "contains invalid values. Valid values are: `top`, `bottom`, or a positive float.";
+      const posValidationMesssage =
+        "contains invalid values. Valid values are: `top`, `bottom`, or a positive float.";
       if (validate.isNumber(this.pos)) {
         constraints.pos = {
           numericality: {
@@ -146,7 +146,10 @@ module.exports = {
           "top",
           "bottom",
         ];
-        validate.validators.posStringValiadator = function(posString, options) {
+        validate.validators.posStringValiadator = function (
+          posString,
+          options,
+        ) {
           return options.includes(posString) ?
             null :
             posValidationMesssage;
@@ -156,8 +159,8 @@ module.exports = {
         };
       }
     }
-    if (this.dueDate) {
-      constraints.dueDate = {
+    if (this.due) {
+      constraints.due = {
         type: "date",
       };
     }
@@ -225,9 +228,12 @@ module.exports = {
         format: {
           pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$",
           message: function (value) {
-            return validate.format("^%{id} doesn't use a valid `latitud, longitud` format.", {
-              id: value,
-            });
+            return validate.format(
+              "^%{id} doesn't use a valid `latitud, longitud` format.",
+              {
+                id: value,
+              },
+            );
           },
         },
       };
@@ -240,7 +246,7 @@ module.exports = {
         idMembers: this.idMembers,
         idLabels: this.idLabels,
         pos: this.pos,
-        dueDate: this.dueDate,
+        due: this.due,
         urlSource: this.urlSource,
         keepFromSource: this.keepFromSource,
         coordinates: this.coordinates,
@@ -248,23 +254,23 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.createCard(
-      this.name,
-      this.desc,
-      this.pos,
-      this.dueDate,
-      this.dueComplete,
-      this.idList,
-      this.idMembers,
-      this.idLabels,
-      this.urlSource,
-      this.fileSource,
-      this.mimeType,
-      this.idCardSource,
-      this.keepFromSource,
-      this.address,
-      this.locationName,
-      this.coordinates,
-    );
+    return await this.trello.createCard({
+      name: this.name,
+      desc: this.desc,
+      pos: this.pos,
+      due: this.due,
+      dueComplete: this.dueComplete,
+      idList: this.idList,
+      idMembers: this.idMembers,
+      idLabels: this.idLabels,
+      urlSource: this.urlSource,
+      fileSource: this.fileSource,
+      mimeType: this.mimeType,
+      idCardSource: this.idCardSource,
+      keepFromSource: this.keepFromSource,
+      address: this.address,
+      locationName: this.locationName,
+      coordinates: this.locationName,
+    });
   },
 };

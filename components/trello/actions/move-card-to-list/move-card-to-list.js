@@ -5,24 +5,24 @@ module.exports = {
   ...common,
   key: "trello-move-card-to-list",
   name: "Move Card to List",
-  description: "Enter action description here.",
-  version: "0.0.7",
+  description: "Moves a card to the specified board/list pair.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
-    cardId: {
+    idCard: {
       type: "string",
-      label: "Card Id",
+      label: "Id Card",
       description: "The ID of the Card to move.",
     },
-    toBoardId: {
+    toIdBoard: {
       type: "string",
-      label: "From Board Id",
+      label: "To Id Board",
       description: "The ID of the board the card should be moved to.",
     },
-    toListId: {
+    toIdList: {
       type: "string",
-      label: "From List Id",
+      label: "To Id List",
       description: "The ID of the list that the card should be moved to.",
     },
   },
@@ -31,7 +31,7 @@ module.exports = {
   },
   async run() {
     const constraints = {
-      cardId: {
+      idCard: {
         presence: true,
         format: {
           pattern: "^[0-9a-fA-F]{24}$",
@@ -42,7 +42,7 @@ module.exports = {
           },
         },
       },
-      toBoardId: {
+      toIdBoard: {
         presence: true,
         format: {
           pattern: "^[0-9a-fA-F]{24}$",
@@ -53,7 +53,7 @@ module.exports = {
           },
         },
       },
-      toListId: {
+      toIdList: {
         presence: true,
         format: {
           pattern: "^[0-9a-fA-F]{24}$",
@@ -67,16 +67,16 @@ module.exports = {
     };
     const validationResult = validate(
       {
-        cardId: this.cardId,
-        toBoardId: this.toBoardId,
-        toListId: this.toListId,
+        idCard: this.idCard,
+        toIdBoard: this.toIdBoard,
+        toIdList: this.toIdList,
       },
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.moveCardToList(this.cardId, {
-      toBoardId: this.toBoardId,
-      toListId: this.toListId,
+    return await this.trello.moveCardToList(this.idCard, {
+      idBoard: this.toIdBoard,
+      idList: this.toIdList,
     });
   },
 };
