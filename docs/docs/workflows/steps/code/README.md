@@ -39,7 +39,7 @@ this.test = "Some test data";
 return "Test data";
 ```
 
-Code steps use the same editor ([Monoco](https://microsoft.github.io/monaco-editor/)) used in Microsoft's [VS Code](https://code.visualstudio.com/), which supports syntax highlighting, automatic indentation, and more.
+Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-editor/)) used in Microsoft's [VS Code](https://code.visualstudio.com/), which supports syntax highlighting, automatic indentation, and more.
 
 ## Passing parameters to code steps
 
