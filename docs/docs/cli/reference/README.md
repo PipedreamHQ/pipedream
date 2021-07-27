@@ -14,7 +14,7 @@ When this document uses the term "component", the corresponding feature applies 
 
 Run `pd` to see a list of all commands with basic usage info, or run `pd help <command>` to display help docs for a specific command.
 
-We've also documented each command below, with usage examples for each. 
+We've also documented each command below, with usage examples for each.
 
 ### General Notes
 
