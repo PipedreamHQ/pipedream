@@ -675,74 +675,23 @@ It functions the same way as [`$end` in workflow code steps](/workflows/steps/co
 
 **`$.send.http`**
 
-`$.send.http` functions the same as [`$send.http` in workflow code steps](/destinations/http/#using-send-http):
-
-```javascript
-async run({ $ }) {
-  $.send.http({
-    method: "GET",
-    url: "https://example.com"
-  })
-}
-```
+[See the HTTP destination docs](/destinations/http/#using-send-http-in-component-actions).
 
 **`$.send.email`**
 
-`$.send.email` functions the same as [`$send.email` in workflow code steps](/destinations/email/#using-send-email):
-
-```javascript
-async run({ $ }) {
-  $.send.email({
-    subject: "Your subject",
-    text: "Plain text email body",
-    html: "HTML email body"
-    include_collaborators: false,
-  });
-}
-```
+[See the Email destination docs](/destinations/email/#using-send-email-in-component-actions).
 
 **`$.send.s3`**
 
-`$.send.s3` functions the same as [`$send.s3` in workflow code steps](/destinations/s3/#using-send-s3):
-
-```javascript
-async run({ $ }) {
-  $send.s3({
-    bucket: "your-bucket-here",
-    prefix: "your-prefix/",
-    payload: event.body,
-  });
-}
-```
+[See the S3 destination docs](/destinations/s3/#using-send-s3-in-component-actions).
 
 **`$.send.emit`**
 
-`$.send.emit` functions the same as [`$send.emit` in workflow code steps](/destinations/emit/#using-send-emit):
-
-```javascript
-async run({ $ }) {
-  $.send.emit({
-    raw_event: {
-      name: "Yoda",
-    },
-  });
-}
-```
+[See the Emit destination docs](/destinations/emit/#using-send-emit-in-component-actions).
 
 **`$.send.sse`**
 
-`$.send.sse` functions the same as [`$send.sse` in workflow code steps](/destinations/sse/#sending-data-to-an-sse-destination):
-
-```javascript
-async run({ $ }) {
-  $.send.sse({
-    channel: "events",
-    payload: {
-      name: "Luke Skywalker"
-    }
-  });
-}
-```
+[See the SSE destination docs](/destinations/sse/#using-send-sse-in-component-actions).
 
 ### Environment variables
 

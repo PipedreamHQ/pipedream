@@ -19,19 +19,9 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 - [Pipedream Data Warehouse](/destinations/sql/)
 - [SSE](/destinations/sse/)
 
-## Adding a Destination
+## Using destinations
 
-### Adding a Destination using Actions
-
-The simplest way to send data to a Destination is using one of our prebuilt [Actions](/components/actions/). Just add the relevant Action, enter the required values, and send data to your workflow!
-
-For example, you can use the [Send HTTP Request Action](/destinations/http/) to send an HTTP request from a workflow. First, add a new Action to your workflow by clicking on the + button between any two steps.
-
-Then, choose the **Send HTTP Request** action and add the **URL** and **Payload**.
-
-This action defaults to sending an HTTP `POST` request with the desired payload to the specified URL. If you'd like to change the HTTP method, add Basic auth, query string parameters or headers, you can click the sections below the Payload field.
-
-### Using `$send`
+### Using destinations in workflows
 
 You can send data to Destinations in [Node.js code steps](/workflows/steps/code/), too, using `$send` functions.
 
@@ -70,12 +60,34 @@ for (const name of names) {
 
 you won't have to `await` the execution of the HTTP requests in your workflow. We'll collect every `$send.http()` call and defer those HTTP requests, sending them after your workflow finishes.
 
+### Using destinations in actions
+
+If you're authoring a [component action](/components/actions/), you can deliver data to destinations, too. `$send` isn't directly available to actions like it is for workflow code steps. **Instead, you use `$.send` to access the destination-specific functions**:
+
+```javascript
+module.exports = {
+  name: "Action Demo",
+  key: "action_demo",
+  version: "0.0.1",
+  type: "action",
+  async run({ $ }) {
+    $.send.http({
+      method: "POST",
+      url: "[YOUR URL HERE]",
+      data: {
+        name: "Luke Skywalker",
+      },
+    });
+  }
+}
+```
+
+[See the component action API docs](/components/api/#actions) for more details.
+
 ## Asynchronous Delivery
 
-For every event sent to a workflow, for each Destination you've added, we send the specified payload to the desired Destination.
+Events are delivered to destinations _asynchronously_ — that is, separate from the execution of your workflow. **This means you're not waiting for network or connection I/O in the middle of your function, which can be costly**.
 
-Events are delivered to Destinations _asynchronously_ — that is, separate from the execution of your workflow. **This means you're not waiting for network or connection I/O in the middle of your function, which can be costly**.
-
-Some Destination payloads, like HTTP, are delivered within seconds. For other Destinations, like S3 and SQL, we collect individual events into a batch and send the batch to the Destination. See the [docs for a specific Destination](#available-destinations) for the relevant batch delivery frequency.
+Some destination payloads, like HTTP, are delivered within seconds. For other destinations, like S3 and SQL, we collect individual events into a batch and send the batch to the destination. See the [docs for a specific destination](#available-destinations) for the relevant batch delivery frequency.
 
 <Footer />
