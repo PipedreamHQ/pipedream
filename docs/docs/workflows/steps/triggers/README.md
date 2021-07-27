@@ -11,7 +11,7 @@ Today, we support the following triggers:
 - [RSS](#rss)
 - [SDK](#sdk)
 
-If there's a specific trigger you'd like supported, please [let us know](/support/).
+If there's a specific trigger you'd like supported, please [let us know](https://pipedream.com/support/).
 
 [[toc]]
 
@@ -190,7 +190,7 @@ Your raw payload is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.am
 
 #### Limits
 
-**You can upload payloads up to 5TB in size**. However, payloads that large may trigger [other Pipedream limits](/limits/). Please [reach out](/support/) with any specific questions or issues.
+**You can upload payloads up to 5TB in size**. However, payloads that large may trigger [other Pipedream limits](/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
 
 ### Large File Support
 
@@ -251,7 +251,7 @@ await pipeline(
 
 Since large files are uploaded using a `Content-Type` of `multipart/form-data`, the limits that apply to [form data](#how-pipedream-handles-multipart-form-data) also apply here.
 
-The content of the file itself does not contribute to the HTTP payload limit imposed for forms. **You can upload files up to 5TB in size**. However, files that large may trigger [other Pipedream limits](/limits/). Please [reach out](/support/) with any specific questions or issues.
+The content of the file itself does not contribute to the HTTP payload limit imposed for forms. **You can upload files up to 5TB in size**. However, files that large may trigger [other Pipedream limits](/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
 
 ### Cross-Origin HTTP Requests
 
@@ -385,7 +385,7 @@ We'll also issue a 404 response on workflows with an HTTP trigger that have been
 
 If you send too many requests to your HTTP source within a small period of time, we may issue a `429 Too Many Requests` response. [Review our limits](/limits/) to understand the conditions where you might be throttled.
 
-You can also [reach out](/support/) to inquire about raising this rate limit.
+You can also [reach out](https://pipedream.com/support/) to inquire about raising this rate limit.
 
 If you control the application sending requests, you should implement [a backoff strategy](https://medium.com/clover-platform-blog/conquering-api-rate-limiting-dcac5552714d) to temporarily slow the rate of events.
 

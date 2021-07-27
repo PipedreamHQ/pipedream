@@ -193,7 +193,7 @@ You can copy any of the workflows below by clicking **Copy** in the top-right co
 
 ## Common Issues
 
-If you encounter any issues connecting to Zoom with Pipedream, please [reach out to our Support team](/support).
+If you encounter any issues connecting to Zoom with Pipedream, please [reach out to our Support team](https://pipedream.com/support).
 
 ### My Zoom event source isn't receiving events
 

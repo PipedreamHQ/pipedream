@@ -37,4 +37,4 @@ Please see the [Pipedream Privacy Policy](https://pipedream.com/privacy) for a d
 
 ## Support
 
-Please [reach out](/support/) to the Pipedream team with any technical issues or questions about the Slack integration. We're happy to help!
+Please [reach out](https://pipedream.com/support/) to the Pipedream team with any technical issues or questions about the Slack integration. We're happy to help!
