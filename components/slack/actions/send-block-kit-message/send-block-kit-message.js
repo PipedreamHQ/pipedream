@@ -3,8 +3,8 @@ const slack = require("../../slack.app.js");
 module.exports = {
   key: "slack-send-block-kit-message",
   name: "Send Message Using Block Kit",
-  description: "Send a message using Slack's Block Kit UI framework to a channel, group or user.",
-  version: "0.0.14",
+  description: "Send a message using Slack's Block Kit UI framework to a channel, group or user",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

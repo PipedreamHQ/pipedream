@@ -3,8 +3,8 @@ const slack = require("../../slack.app.js");
 module.exports = {
   key: "slack-send-group-message",
   name: "Send Group Message",
-  description: "Send a direct message to a group of users.",
-  version: "0.0.2",
+  description: "Send a direct message to a group of users",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

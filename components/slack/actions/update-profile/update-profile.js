@@ -3,8 +3,8 @@ const slack = require("../../slack.app.js");
 module.exports = {
   key: "slack-update-profile",
   name: "Update Profile",
-  description: "Update basic profile field such as name or title.",
-  version: "0.0.2",
+  description: "Update basic profile field such as name or title",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

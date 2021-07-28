@@ -3,8 +3,8 @@ const slack = require("../../slack.app.js");
 module.exports = {
   key: "slack-send-message-private-channel",
   name: "Send Message to a Private Channel",
-  description: "Send a message to a private channel and customize the name and avatar of the bot that posts the message.",
-  version: "0.0.2",
+  description: "Send a message to a private channel and customize the name and avatar of the bot that posts the message",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

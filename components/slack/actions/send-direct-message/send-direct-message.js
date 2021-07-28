@@ -3,8 +3,8 @@ const slack = require("../../slack.app.js");
 module.exports = {
   key: "slack-send-direct-message",
   name: "Send a Direct Message",
-  description: "Send a direct message to a single user.",
-  version: "0.0.6",
+  description: "Send a direct message to a single user",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

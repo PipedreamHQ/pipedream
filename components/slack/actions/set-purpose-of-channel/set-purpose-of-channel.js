@@ -3,7 +3,7 @@ const slack = require("../../slack.app.js");
 module.exports = {
   key: "slack-set-channel-purpose",
   name: "Set Channel Purpose",
-  description: "Change the purpose of a channel.",
+  description: "Change the purpose of a channel",
   version: "0.0.1",
   type: "action",
   props: {

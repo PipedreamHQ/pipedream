@@ -3,8 +3,8 @@ const slack = require("../../slack.app.js");
 module.exports = {
   key: "slack-reply-to-a-message",
   name: "Reply to a Message Thread",
-  description: "Send a message as a threaded reply.",
-  version: "0.0.8",
+  description: "Send a message as a threaded reply",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

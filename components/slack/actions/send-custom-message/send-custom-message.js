@@ -3,8 +3,8 @@ const slack = require("../../slack.app.js");
 module.exports = {
   key: "slack-send-custom-message",
   name: "Send a Custom Message",
-  description: "Customize advanced setttings and send a message to a channel, group or user.",
-  version: "0.0.4",
+  description: "Customize advanced setttings and send a message to a channel, group or user",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

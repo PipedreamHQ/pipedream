@@ -3,7 +3,7 @@ const slack = require("../../slack.app.js");
 module.exports = {
   key: "slack-update-message",
   name: "Update Message",
-  description: "Update a message.",
+  description: "Update a message",
   version: "0.0.1",
   type: "action",
   props: {
