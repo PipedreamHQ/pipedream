@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-remove-a-contact-from-a-list",
   name: "Remove A Contact From A List",
   description: "Allows you to remove contacts from a given list.",
-  version: "0.0.1",
+  version: "0.0.32",
   type: "action",
   props: {
     ...common.props,
@@ -17,10 +17,10 @@ module.exports = {
         "Unique Id of the List where the contact to remove off is located.",
     },
     contactIds: {
-      type: "object",
+      type: "string[]",
       label: "Contact Ids",
       description:
-        "Array of contact ids to be removed off the list.",
+        "String array of contact ids to be removed off the list.",
     },
   },
   methods: {
@@ -44,7 +44,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    const contactIds = this.contactIds.join(",");
-    return await this.sendgrid.removeContactFromList(this.id, contactIds);
+    return await this.sendgrid.removeContactFromList(this.id, this.contactIds);
   },
 };

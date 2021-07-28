@@ -356,7 +356,7 @@ module.exports = {
       const url = `${this._contactListUrl()}/${id}/contacts`;
       const requestConfig = this._makeRequestConfig();
       requestConfig.params = {
-        contact_ids: contactIds,
+        contact_ids: contactIds.join(","),
       };
       const { data } = await  this._withRetries(() =>
         axios.delete(url, requestConfig));

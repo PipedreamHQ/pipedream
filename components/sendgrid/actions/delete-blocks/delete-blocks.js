@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-delete-blocks",
   name: "Delete Blocks",
   description: "Allows you to delete all email addresses on your blocks list.",
-  version: "0.0.1",
+  version: "0.0.18",
   type: "action",
   props: {
     ...common.props,
@@ -18,10 +18,10 @@ module.exports = {
       default: false,
     },
     emails: {
-      type: "object",
+      type: "string[]",
       label: "Emails",
       description:
-        "An array of the specific blocked email addresses that you want to delete. This can not be used with the `deleteAll` parameter. Example: `[\"email1@example.com\",\"email2@example.com\"]`",
+        "A string array of the specific blocked email addresses that you want to delete. This can not be used with the `deleteAll` parameter. Example: `[\"email1@example.com\",\"email2@example.com\"]`",
       optional: true,
     },
   },

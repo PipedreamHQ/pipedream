@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-delete-contacts",
   name: "Delete Contacts",
   description: "Allows you to delete one or more contacts.",
-  version: "0.0.1",
+  version: "0.0.22",
   type: "action",
   props: {
     ...common.props,
@@ -17,7 +17,7 @@ module.exports = {
       default: false,
     },
     ids: {
-      type: "string",
+      type: "string[]",
       label: "Contact ID's",
       description: "An array of contact IDs to delete",
       optional: true,
@@ -27,13 +27,23 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const constraints = {
-      ids: {
-        type: "array",
-      },
-    };
-    const validationResults = validate(this, constraints);
-    this.checkValidationResults(validationResults);
-    await this.sendgrid.deleteContacts(this.ids, this.deleteAllContacts);
+    if (this.ids) {
+      const constraints = {
+        ids: {
+          type: "array",
+        },
+      };
+      const validationResult = validate({
+        ids: this.ids,
+      }, constraints);
+      this.checkValidationResults(validationResult);
+    }
+    if (this.deleteAllContacts && this.ids) {
+      throw new Error(
+        "Must provide only one of `deleteAllContacts` or `ids` parameters.",
+      );
+    }
+    const deleteAll = !!this.deleteAllContacts;
+    await this.sendgrid.deleteContacts(this.ids, deleteAll);
   },
 };

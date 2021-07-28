@@ -7,12 +7,12 @@ module.exports = {
   name: "Send an Email",
   description:
     "This action sends a personalized e-mail to the specified recipients",
-  version: "0.0.81",
+  version: "0.0.88",
   type: "action",
   props: {
     ...common.props,
     personalizations: {
-      type: "object",
+      type: "string",
       label: "Personalizations",
       description:
         "An array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled. See our [Personalizations documentation](https://sendgrid.com/docs/for-developers/sending-email/personalizations/) for details. maxItems: 1000. Example: `[{to:[{email:\"email@email.com\",name:\"Example\"}],subject:\"Mail Personalization Sample\"}]`",
@@ -50,10 +50,10 @@ module.exports = {
         "The global or `message level` subject of your email. This may be overridden by subject lines set in personalizations.",
     },
     content: {
-      type: "object",
+      type: "string",
       label: "Content",
       description:
-        "An array where you can specify the content of your email. You can include multiple  of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Example: `[{type:\"text/plain\",value:\"Plain text content.\"}]`",
+        "An array where you can specify the content of your email. You can include multiple  of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Alternatively, provide a string that will `JSON.parse` to an array of content objects. Example: `[{type:\"text/plain\",value:\"Plain text content.\"}]`",
     },
     attachments: {
       type: "object",
@@ -77,10 +77,10 @@ module.exports = {
       optional: true,
     },
     categories: {
-      type: "object",
+      type: "string[]",
       label: "Categories",
       description:
-        "An array of category names for this message. Each category name may not exceed 255 characters. Example: `[\"category1\",\"category2\"]`",
+        "A string array of category names for this message. Each category name may not exceed 255 characters. Example: `[\"category1\",\"category2\"]`",
       optional: true,
     },
     customArgs: {
@@ -150,8 +150,30 @@ module.exports = {
       },
       content: {
         presence: true,
-        type: "array",
+        arrayValidator: {
+          value: this.content,
+          key: "content",
+        },
       },
+    };
+    const arrayValidatorFormat = "parameter must be an array of % objects, or an string that will `JSON.parse` to an array of % objects.";
+    validate.validators.arrayValidator = function (
+      value,
+      params,
+    ) {
+      const arrayValidatorMsg = arrayValidatorFormat.replace("%", params.key);
+      if (Array.isArray(value)) {
+        return null;
+      } else {
+        try {
+          const parsedValue = JSON.parse(value);
+          return Array.isArray(parsedValue) ?
+            null :
+            arrayValidatorMsg;
+        } catch {
+          return arrayValidatorMsg;
+        }
+      }
     };
     if (this.replyToEmail) {
       constraints.replyToEmail = {
@@ -211,7 +233,9 @@ module.exports = {
       personalizations: this.personalizations,
       from,
       subject: this.subject,
-      content: this.content,
+      content: Array.isArray(this.content) ?
+        this.content :
+        JSON.parse(this.content),
       attachments: this.convertEmptyStringToUndefined(this.attachments),
       template_id: this.templateId,
       headers: this.convertEmptyStringToUndefined(this.headers),

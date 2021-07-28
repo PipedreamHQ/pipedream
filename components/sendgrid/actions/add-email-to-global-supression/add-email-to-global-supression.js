@@ -7,15 +7,15 @@ module.exports = {
   name: "Add Email To Global Supression",
   description:
     "Allows you to add one or more email addresses to the global suppressions group.",
-  version: "0.0.1",
+  version: "0.0.17",
   type: "action",
   props: {
     ...common.props,
     recipientEmails: {
-      type: "object",
+      type: "string[]",
       label: "Recipient Emails",
       description:
-        "An array of email addresses to be added to the global suppressions group. Example `[\"email1@example.com\",\"email2@example.com\"]`",
+        "An string array of email addresses to be added to the global suppressions group. Example `[\"email1@example.com\",\"email2@example.com\"]`",
     },
   },
   methods: {

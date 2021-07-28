@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-delete-bounces",
   name: "Delete Bounces",
   description: "Allows you to delete all emails on your bounces list.",
-  version: "0.0.1",
+  version: "0.0.17",
   type: "action",
   props: {
     ...common.props,
@@ -18,10 +18,10 @@ module.exports = {
       default: false,
     },
     emails: {
-      type: "object",
+      type: "string[]",
       label: "Emails",
       description:
-        "An array of emails to delete from your bounce list at the same time. This can not be used with the `deleteAll` parameter. Example:  `[\"email1@example.com\",\"email2@example.com\"]`",
+        "A string array of emails to delete from your bounce list at the same time. This can not be used with the `deleteAll` parameter. Example:  `[\"email1@example.com\",\"email2@example.com\"]`",
       optional: true,
     },
   },
