@@ -45,7 +45,7 @@ When you return to your workflow, you'll see the requests in the event list (eve
 
 ![image-20210525161233808](./images/image-20210525161233808.png)
 
-**IMPORTANT:** You may see multiple events appear in the event list each time you load the endpoint URL in a web browsers's address bar. That happens because modern browsers automatically request a `favicon.ico` resource when you load a URL. We'll update our workflow to handle this case in a later section of the quickstart.
+**IMPORTANT:** You may see multiple events appear in the event list each time you load the endpoint URL in a web browser's address bar. That happens because modern browsers automatically request a `favicon.ico` resource when you load a URL. We'll update our workflow to handle this case in a later section of the quickstart.
 
 ### Inspect workflow events
 

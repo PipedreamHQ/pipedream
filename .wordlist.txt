@@ -863,6 +863,5 @@ udL
 img
 href
 OpenSSH
-browsers's
 favicon
 ico
