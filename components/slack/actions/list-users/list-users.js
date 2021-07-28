@@ -11,7 +11,7 @@ module.exports = {
     team_id: {
       propDefinition: [
         slack,
-        "timestamp",
+        "team_id",
       ],
       optional: true,
     },

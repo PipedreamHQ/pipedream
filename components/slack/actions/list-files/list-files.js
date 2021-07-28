@@ -4,7 +4,7 @@ module.exports = {
   key: "slack-list-files",
   name: "List Files",
   description: "Return a list of files within a team",
-  version: "0.0.1",
+  version: "0.0.29",
   type: "action",
   props: {
     slack,
@@ -24,7 +24,7 @@ module.exports = {
     team_id: {
       propDefinition: [
         slack,
-        "count",
+        "team_id",
       ],
       optional: true,
     },
