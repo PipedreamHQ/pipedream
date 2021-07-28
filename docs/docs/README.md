@@ -108,7 +108,7 @@ Pipedream maintains an [open source component registry](https://github.com/piped
 
 We hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform by:
 
-- [Contributing](/components/guidelines/) open source components to our [registry](https://github.com/pipedreamhq/pipedream.) or sharing via your own GitHub repo
+- [Contributing](/components/guidelines/) open source components to our [registry](https://github.com/pipedreamhq/pipedream) or sharing via your own GitHub repo
 - Asking and answering questions in our [public community](https://pipedream.com/community/)
 - [Reporting bugs](https://pipedream.com/community/c/bugs/9) and [requesting features](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+) that help us build a better product
 - Following us on [Twitter](https://twitter.com/pipedream), starring our [GitHub repo](https://github.com/PipedreamHQ/pipedream) and subscribing to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)
