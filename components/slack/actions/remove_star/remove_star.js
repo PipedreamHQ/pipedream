@@ -31,7 +31,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().stars.remove({
+    return await this.slack.sdk().stars.remove({
       conversation: this.conversation,
       timestamp: this.timestamp,
       file: this.file,

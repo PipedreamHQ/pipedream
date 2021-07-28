@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().conversations.setTopic({
+    return await this.slack.sdk().conversations.setTopic({
       channel: this.conversation,
       topic: this.topic,
     });

@@ -17,6 +17,6 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().users.list();
+    return await this.slack.sdk().users.list();
   },
 };

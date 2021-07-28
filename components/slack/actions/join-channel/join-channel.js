@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().conversations.join({
+    return await this.slack.sdk().conversations.join({
       channel: this.conversation,
     });
   },

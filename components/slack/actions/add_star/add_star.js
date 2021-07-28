@@ -34,7 +34,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().stars.add({
+    return await this.slack.sdk().stars.add({
       conversation: this.conversation,
       timestamp: this.timestamp,
       file: this.file,

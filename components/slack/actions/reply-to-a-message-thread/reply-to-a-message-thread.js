@@ -55,7 +55,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().chat.postMessage({
+    return await this.slack.sdk().chat.postMessage({
       text: this.text,
       channel: this.reply_channel,
       thread_ts: this.thread_ts,

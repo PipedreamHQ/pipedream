@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().users.profile.set({
+    return await this.slack.sdk().users.profile.set({
       name: this.name,
       value: this.value,
     });

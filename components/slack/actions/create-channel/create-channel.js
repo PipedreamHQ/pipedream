@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().conversations.create({
+    return await this.slack.sdk().conversations.create({
       name: this.channelName,
       is_private: this.isPrivate,
     });

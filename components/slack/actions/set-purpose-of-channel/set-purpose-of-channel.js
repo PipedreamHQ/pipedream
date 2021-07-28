@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().conversations.setPurpose({
+    return await this.slack.sdk().conversations.setPurpose({
       channel: this.conversation,
       purpose: this.purpose,
     });

@@ -23,7 +23,7 @@ module.exports = {
 
   },
   async run() {
-    return await slack.sdk().conversations.invite({
+    return await this.slack.sdk().conversations.invite({
       channel: this.conversation,
       users: this.user,
     });

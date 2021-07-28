@@ -41,7 +41,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().chat.update({
+    return await this.slack.sdk().chat.update({
       ts: this.timestamp,
       text: this.text,
       channel: this.conversation,

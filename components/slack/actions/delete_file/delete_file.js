@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().files.delete({
+    return await this.slack.sdk().files.delete({
       file: this.file,
     });
   },

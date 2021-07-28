@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().conversations.unarchive({
+    return await this.slack.sdk().conversations.unarchive({
       channel: this.conversation,
     });
   },

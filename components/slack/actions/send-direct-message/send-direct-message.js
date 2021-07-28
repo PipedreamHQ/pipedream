@@ -49,7 +49,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().chat.postMessage({
+    return await this.slack.sdk().chat.postMessage({
       channel: this.conversation,
       text: this.text,
       as_user: this.as_user,

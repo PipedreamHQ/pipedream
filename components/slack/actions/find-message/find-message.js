@@ -30,7 +30,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().search.messages({
+    return await this.slack.sdk().search.messages({
       query: this.query,
       count: this.count,
     });

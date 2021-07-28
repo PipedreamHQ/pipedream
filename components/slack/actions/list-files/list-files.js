@@ -37,7 +37,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().files.list({
+    return await this.slack.sdk().files.list({
       channel: this.conversation,
       count: this.count,
       user: this.user,

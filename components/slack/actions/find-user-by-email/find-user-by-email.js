@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().users.lookupByEmail({
+    return await this.slack.sdk().users.lookupByEmail({
       email: this.email,
     });
   },

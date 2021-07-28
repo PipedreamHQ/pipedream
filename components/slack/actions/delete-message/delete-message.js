@@ -29,7 +29,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().chat.delete({
+    return await this.slack.sdk().chat.delete({
       channel: this.conversation,
       ts: this.timestamp,
       as_user: this.as_user,

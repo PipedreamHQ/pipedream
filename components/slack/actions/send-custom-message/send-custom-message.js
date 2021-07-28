@@ -100,7 +100,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().chat.postMessage({
+    return await this.slack.sdk().chat.postMessage({
       text: this.text,
       channel: this.conversation,
       attachments: this.attachments,

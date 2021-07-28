@@ -37,7 +37,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().reminders.add({
+    return await this.slack.sdk().reminders.add({
       text: this.text,
       team_id: this.team_id,
       time: this.timestamp,

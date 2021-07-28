@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().reminders.list({
+    return await this.slack.sdk().reminders.list({
       team_id: this.team_id,
     });
   },

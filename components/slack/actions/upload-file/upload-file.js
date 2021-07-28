@@ -29,7 +29,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().files.upload({
+    return await this.slack.sdk().files.upload({
       content: this.content,
       channel: this.conversation,
       initial_comment: this.initial_comment,

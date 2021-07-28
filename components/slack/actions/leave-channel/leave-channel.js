@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().conversations.leave({
+    return await this.slack.sdk().conversations.leave({
       channel: this.conversation,
     });
   },

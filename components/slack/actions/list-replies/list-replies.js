@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().conversations.replies({
+    return await this.slack.sdk().conversations.replies({
       channel: this.conversation,
       ts: this.timestamp,
     });

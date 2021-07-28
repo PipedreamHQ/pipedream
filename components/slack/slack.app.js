@@ -7,7 +7,6 @@ module.exports = {
     publicChannel: {
       type: "string",
       label: "Channel",
-      //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
         let {
           types,
@@ -54,7 +53,6 @@ module.exports = {
     privateChannel: {
       type: "string",
       label: "Channel",
-      //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
         let {
           types,
@@ -89,7 +87,6 @@ module.exports = {
     user: {
       type: "string",
       label: "User",
-      //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
         let {
           types,
@@ -100,7 +97,6 @@ module.exports = {
           types = [
             "im",
           ];
-          // TODO use paging
           userNames = {};
           for (const user of (await this.users()).users) {
             userNames[user.id] = user.name;
@@ -125,7 +121,6 @@ module.exports = {
     group: {
       type: "string",
       label: "Group",
-      //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
         let {
           types,
@@ -136,7 +131,6 @@ module.exports = {
           types = [
             "mpim",
           ];
-          // TODO use paging
           userNames = {};
           for (const user of (await this.users()).users) {
             userNames[user.id] = user.name;
@@ -201,7 +195,6 @@ module.exports = {
           }
           if (scopes.includes("im:read")) {
             types.push("im");
-            // TODO use paging
             userNames = {};
             for (const user of (await this.users()).users) {
               userNames[user.id] = user.name;
@@ -248,37 +241,31 @@ module.exports = {
       type: "string",
       label: "Text",
       description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually required, unless you're providing only attachments instead. Provide no more than 40,000 characters or risk truncation.",
-      //example: "Hello world"
     },
     name: {
       type: "string",
       label: "Name",
       description: "Name of a single key to set.",
-      //example: "Hello world"
     },
     value: {
       type: "string",
       label: "Value",
       description: "Value to set a single key to.",
-      //example: "Hello world"
     },
     topic: {
       type: "string",
       label: "Topic",
       description: "Text of the new channel topic.",
-      //example: "Hello world"
     },
     purpose: {
       type: "string",
       label: "Purpose",
       description: "Text of the new channel purpose.",
-      //example: "Hello world"
     },
     query: {
       type: "string",
       label: "Query",
       description: "Search query.",
-      //example: "Hello world"
     },
     team_id: {
       type: "string",
@@ -293,39 +280,33 @@ module.exports = {
     attachments: {
       type: "string",
       description: "A JSON-based array of structured attachments, presented as a URL-encoded string (e.g., `[{\"pretext\": \"pre-hello\", \"text\": \"text-world\"}]`).",
-      //example: "[{\"pretext\": \"pre-hello\", \"text\": \"text-world\"}]",
       optional: true,
     },
     unfurl_links: {
       type: "boolean",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of links.",
-      //example: "true",
       optional: true,
     },
     unfurl_media: {
       type: "boolean",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of media content.",
-      //example: "true",
       optional: true,
     },
     parse: {
       type: "string",
       description: "Change how messages are treated. Defaults to none. See below.",
-      //example: "full",
       optional: true,
     },
     as_user: {
       type: "boolean",
       label: "Send as User",
       description: "Optionally pass `TRUE` to post the message as the authed user, instead of as a bot. Defaults to `FALSE`.",
-      //example: "true",
       default: false,
       optional: true,
     },
     mrkdwn: {
       type: "boolean",
       description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing.",
-      //example: "false",
       default: true,
       optional: true,
     },
@@ -333,7 +314,6 @@ module.exports = {
       type: "string",
       label: "Bot Username",
       description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `as_user` set to false, otherwise ignored.",
-      //example: "My Bot",
       optional: true,
     },
     blocks: {
@@ -345,53 +325,45 @@ module.exports = {
       type: "string",
       label: "Icon (emoji)",
       description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
-      //example: ":chart_with_upwards_trend:",
       optional: true,
     },
     content: {
       label: "Content",
       type: "string",
       description: "File contents via a POST variable.",
-      //example: "full",
     },
     link_names: {
       type: "string",
       description: "Find and link channel names and usernames.",
-      //example: "...",
       optional: true,
     },
     reply_broadcast: {
       type: "string",
       description: "Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.",
-      //example: "true",
       optional: true,
     },
     reply_channel: {
       label: "Reply Channel or Conversation ID",
       type: "string",
       description: "Provide the channel or conversation ID for the thread to reply to (e.g., if triggering on new Slack messages, enter `{{event.channel}}`). If the channel does not match the thread timestamp, a new message will be posted to this channel.",
-      //example: "1234567890.123456",
       optional: true,
     },
     thread_ts: {
       label: "Thread Timestamp",
       type: "string",
       description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead.",
-      //example: "1234567890.123456",
       optional: true,
     },
     timestamp: {
       label: "Timestamp",
       type: "string",
       description: "Timestamp of the relevant data.",
-      //example: "1234567890.123456",
       optional: true,
     },
     icon_url: {
       type: "string",
       label: "Icon (image URL)",
       description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
-      //example: "http://lorempixel.com/48/48",
       optional: true,
     },
     initial_comment: {

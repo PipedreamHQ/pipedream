@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().reminders.delete({
+    return await this.slack.sdk().reminders.delete({
       reminder: this.reminder,
     });
   },

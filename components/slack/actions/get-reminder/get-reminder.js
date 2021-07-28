@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().reminders.info({
+    return await this.slack.sdk().reminders.info({
       reminder: this.reminder,
     });
   },

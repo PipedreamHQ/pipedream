@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().files.info({
+    return await this.slack.sdk().files.info({
       file: this.file,
       count: this.count,
     });

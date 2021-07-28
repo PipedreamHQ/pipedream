@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    return await slack.sdk().conversations.kick({
+    return await this.slack.sdk().conversations.kick({
       conversation: this.conversation,
       user: this.user,
     });

@@ -10,6 +10,6 @@ module.exports = {
     slack,
   },
   async run() {
-    return await slack.sdk().conversations.list();
+    return await this.slack.sdk().conversations.list();
   },
 };
