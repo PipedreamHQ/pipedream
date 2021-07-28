@@ -4,7 +4,7 @@ module.exports = {
   key: "slack-send-direct-message",
   name: "Send a Direct Message",
   description: "Send a direct message to a single user",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     slack,

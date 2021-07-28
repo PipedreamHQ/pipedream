@@ -4,7 +4,7 @@ module.exports = {
   key: "slack-send-message-private-channel",
   name: "Send Message to a Private Channel",
   description: "Send a message to a private channel and customize the name and avatar of the bot that posts the message",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     slack,
