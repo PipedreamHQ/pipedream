@@ -863,3 +863,5 @@ udL
 img
 href
 OpenSSH
+favicon
+ico
