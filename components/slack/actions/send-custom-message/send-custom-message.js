@@ -4,7 +4,7 @@ module.exports = {
   key: "slack-send-custom-message",
   name: "Send a Custom Message",
   description: "Customize advanced setttings and send a message to a channel, group or user",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     slack,

@@ -4,7 +4,7 @@ module.exports = {
   key: "slack-reply-to-a-message",
   name: "Reply to a Message Thread",
   description: "Send a message as a threaded reply",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     slack,

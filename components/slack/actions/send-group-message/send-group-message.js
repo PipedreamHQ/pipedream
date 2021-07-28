@@ -4,7 +4,7 @@ module.exports = {
   key: "slack-send-group-message",
   name: "Send Group Message",
   description: "Send a direct message to a group of users",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     slack,

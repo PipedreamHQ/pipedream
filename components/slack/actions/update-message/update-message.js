@@ -4,7 +4,7 @@ module.exports = {
   key: "slack-update-message",
   name: "Update Message",
   description: "Update a message",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     slack,
