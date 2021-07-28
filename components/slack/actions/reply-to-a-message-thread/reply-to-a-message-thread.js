@@ -1,5 +1,4 @@
 const slack = require("../../slack.app.js");
-const { WebClient } = require("@slack/web-api");
 
 module.exports = {
   key: "slack-reply-to-a-message",
@@ -56,8 +55,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token);
-    return await web.chat.postMessage({
+    return await slack.sdk().chat.postMessage({
       text: this.text,
       channel: this.reply_channel,
       thread_ts: this.thread_ts,

@@ -18,8 +18,11 @@ module.exports = {
           types = [
             "public_channel",
           ];
+          userNames = {};
+          for (const user of (await this.users()).users) {
+            userNames[user.id] = user.name;
+          }
         }
-        userNames = {};
         const resp = await this.availableConversations(types.join(), cursor);
         return {
           options: resp.conversations.map((c) => {
@@ -62,8 +65,11 @@ module.exports = {
           types = [
             "private_channel",
           ];
+          userNames = {};
+          for (const user of (await this.users()).users) {
+            userNames[user.id] = user.name;
+          }
         }
-        userNames = {};
         const resp = await this.availableConversations(types.join(), cursor);
         return {
           options: resp.conversations.map((c) => {

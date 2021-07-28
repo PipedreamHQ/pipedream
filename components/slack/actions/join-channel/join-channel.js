@@ -1,5 +1,4 @@
 const slack = require("../../slack.app.js");
-const { WebClient } = require("@slack/web-api");
 
 module.exports = {
   key: "slack-join-channel",
@@ -17,8 +16,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token);
-    return await web.conversations.join({
+    return await slack.sdk().conversations.join({
       channel: this.conversation,
     });
   },

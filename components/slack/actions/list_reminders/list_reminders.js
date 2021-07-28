@@ -1,5 +1,4 @@
 const slack = require("../../slack.app.js");
-const { WebClient } = require("@slack/web-api");
 
 module.exports = {
   key: "slack-list-reminders",
@@ -18,8 +17,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token);
-    return await web.reminders.list({
+    return await slack.sdk().reminders.list({
       team_id: this.team_id,
     });
   },

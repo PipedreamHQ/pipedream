@@ -1,5 +1,4 @@
 const slack = require("../../slack.app.js");
-const { WebClient } = require("@slack/web-api");
 
 module.exports = {
   key: "slack-send-group-message",
@@ -50,8 +49,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token);
-    return await web.chat.postMessage({
+    return await slack.sdk().chat.postMessage({
       channel: this.conversation,
       text: this.text,
       as_user: this.as_user,

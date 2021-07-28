@@ -1,11 +1,10 @@
 const slack = require("../../slack.app.js");
-const { WebClient } = require("@slack/web-api");
 
 module.exports = {
   key: "slack-set-channel-purpose",
   name: "Set Channel Purpose",
   description: "Change the purpose of a channel.",
-  version: "0.0.11",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,
@@ -23,8 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token);
-    return await web.conversations.setPurpose({
+    return await slack.sdk().conversations.setPurpose({
       channel: this.conversation,
       purpose: this.purpose,
     });

@@ -1,9 +1,9 @@
 const slack = require("../../slack.app.js");
-const { WebClient } = require("@slack/web-api");
+
 module.exports = {
   key: "slack-find-message",
   name: "Find Message",
-  description: "Find a Slack message.",
+  description: "Find a Slack message",
   version: "0.0.1",
   type: "action",
   props: {
@@ -30,8 +30,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token);
-    return await web.search.messages({
+    return await slack.sdk().search.messages({
       query: this.query,
       count: this.count,
     });

@@ -1,5 +1,4 @@
 const slack = require("../../slack.app.js");
-const { WebClient } = require("@slack/web-api");
 
 module.exports = {
   key: "slack-upload-file",
@@ -30,8 +29,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token);
-    return await web.files.upload({
+    return await slack.sdk().files.upload({
       content: this.content,
       channel: this.conversation,
       initial_comment: this.initial_comment,

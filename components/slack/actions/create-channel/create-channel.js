@@ -22,8 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = this.slack.sdk();
-    return await web.conversations.create({
+    return await slack.sdk().conversations.create({
       name: this.channelName,
       is_private: this.isPrivate,
     });

@@ -1,5 +1,4 @@
 const slack = require("../../slack.app.js");
-const { WebClient } = require("@slack/web-api");
 
 module.exports = {
   key: "slack-send-block-kit-message",
@@ -55,8 +54,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token);
-    return await web.chat.postMessage({
+    return await slack.sdk().chat.postMessage({
       text: this.text,
       blocks: this.blocks,
       channel: this.conversation,

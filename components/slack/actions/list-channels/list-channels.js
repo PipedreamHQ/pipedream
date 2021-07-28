@@ -1,5 +1,4 @@
 const slack = require("../../slack.app.js");
-const { WebClient } = require("@slack/web-api");
 
 module.exports = {
   key: "slack-list-channels",
@@ -11,7 +10,6 @@ module.exports = {
     slack,
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token);
-    return await web.conversations.list();
+    return await slack.sdk().conversations.list();
   },
 };
