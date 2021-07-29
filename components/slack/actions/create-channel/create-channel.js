@@ -4,7 +4,7 @@ module.exports = {
   key: "slack-create-channel",
   name: "Create a Channel",
   description: "Create a new channel",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,
@@ -22,8 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    const web = this.slack.sdk();
-    return await web.conversations.create({
+    return await this.slack.sdk().conversations.create({
       name: this.channelName,
       is_private: this.isPrivate,
     });
