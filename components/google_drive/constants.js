@@ -67,6 +67,14 @@ const GOOGLE_DRIVE_UPDATE_TYPES = [
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
 ];
 
+/**
+ * This is a custom string value to represent the 'My Drive' Google Drive, which
+ * is represented as `null` by the Google Drive API. In order to simplify the
+ * code by avoiding null values, we assign this special value to the 'My Drive'
+ * drive.
+ */
+const MY_DRIVE_VALUE = "myDrive";
+
 module.exports = {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
@@ -76,4 +84,5 @@ module.exports = {
   GOOGLE_DRIVE_NOTIFICATION_UNTRASH,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_UPDATE_TYPES,
+  MY_DRIVE_VALUE,
 };

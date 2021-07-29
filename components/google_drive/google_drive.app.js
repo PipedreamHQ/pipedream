@@ -2,7 +2,15 @@ const axios = require("axios");
 const { google } = require("googleapis");
 const { uuid } = require("uuidv4");
 
-const { GOOGLE_DRIVE_UPDATE_TYPES } = require("./constants");
+const {
+  GOOGLE_DRIVE_UPDATE_TYPES,
+  MY_DRIVE_VALUE,
+} = require("./constants");
+
+const {
+  isMyDrive,
+  getDriveId,
+} = require("./utils");
 
 module.exports = {
   type: "app",
@@ -36,6 +44,10 @@ module.exports = {
     },
   },
   methods: {
+    // Static methods
+    isMyDrive,
+    getDriveId,
+
     // Returns a drive object authenticated with the user's access token
     drive() {
       const auth = new google.auth.OAuth2();
@@ -244,7 +256,7 @@ module.exports = {
         : [
           {
             label: "My Drive",
-            value: "myDrive",
+            value: MY_DRIVE_VALUE,
           },
         ];
       for (const d of drives) {
@@ -501,9 +513,7 @@ module.exports = {
     },
     async invokedByTimer(drive, subscription, url, channelID, pageToken) {
       const newChannelID = channelID || uuid();
-      const driveId = drive === "myDrive"
-        ? null
-        : drive;
+      const driveId = this.getDriveId(drive);
       const newPageToken = pageToken || await this.getPageToken(driveId);
 
       const {
@@ -531,10 +541,7 @@ module.exports = {
       endpoint,
       drive,
     ) {
-      const driveId = drive === "myDrive"
-        ? null
-        : drive;
-
+      const driveId = this.getDriveId(drive);
       if (subscription && subscription.resourceId) {
         console.log(
           `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`,

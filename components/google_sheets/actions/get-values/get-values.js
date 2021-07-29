@@ -20,9 +20,7 @@ module.exports = {
         googleSheets,
         "sheetID",
         (c) => ({
-          driveId: c.drive === "myDrive"
-            ? null
-            : c.drive,
+          driveId: googleSheets.methods.getDriveId(c.drive),
         }),
       ],
     },

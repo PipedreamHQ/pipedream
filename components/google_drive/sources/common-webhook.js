@@ -42,9 +42,7 @@ module.exports = {
       } = await this.googleDrive.activateHook(
         channelID,
         this.http.endpoint,
-        this.drive === "myDrive"
-          ? null
-          : this.drive,
+        this.getDriveId(),
       );
 
       // We use and increment the pageToken as new changes arrive, in run()
@@ -87,6 +85,12 @@ module.exports = {
     },
     _setPageToken(pageToken) {
       this.db.set("pageToken", pageToken);
+    },
+    isMyDrive(drive = this.drive) {
+      return googleDrive.methods.isMyDrive(drive);
+    },
+    getDriveId(drive = this.drive) {
+      return googleDrive.methods.getDriveId(drive);
     },
     /**
      * This method returns the types of updates/events from Google Drive that
@@ -174,9 +178,7 @@ module.exports = {
       return;
     }
 
-    const driveId = this.drive === "myDrive"
-      ? null
-      : this.drive;
+    const driveId = this.getDriveId();
     const changedFilesStream = this.googleDrive.listChanges(pageToken, driveId);
     for await (const changedFilesPage of changedFilesStream) {
       const {

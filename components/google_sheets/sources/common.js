@@ -128,7 +128,7 @@ module.exports = {
         .map(({ sheetId }) => (sheetId.toString()));
     },
     async getModifiedSheet(pageToken, driveId, sheetID) {
-      const changedFilesStream = this.googleSheets.getChanges(pageToken, driveId);
+      const changedFilesStream = this.googleSheets.listChanges(pageToken, driveId);
       for await (const changedFilesPage of changedFilesStream) {
         const {
           changedFiles,
@@ -173,10 +173,8 @@ module.exports = {
 
       return this.googleSheets.getSpreadsheet(sheetId);
     },
-    getDriveId() {
-      return this.watchedDrive === "myDrive" ?
-        null :
-        this.watchedDrive;
+    getDriveId(drive = this.watchedDrive) {
+      return googleSheets.methods.getDriveId(drive);
     },
     getSheetId() {
       throw new Error("getSheetId is not implemented");

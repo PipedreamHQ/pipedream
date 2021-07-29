@@ -35,12 +35,12 @@ module.exports = {
       options({ prevContext }) {
         const { nextPageToken } = prevContext;
         const baseOpts = {};
-        const opts = this.drive === "myDrive"
+        const opts = this.isMyDrive()
           ? baseOpts
           : {
             ...baseOpts,
             corpora: "drive",
-            driveId: this.drive,
+            driveId: this.getDriveId(),
             includeItemsFromAllDrives: true,
             supportsAllDrives: true,
           };

@@ -16,9 +16,7 @@ module.exports = {
         common.props.googleSheets,
         "sheetID",
         (c) => ({
-          driveId: c.watchedDrive === "myDrive" ?
-            null :
-            c.watchedDrive,
+          driveId: common.methods.getDriveId(c.watchedDrive),
         }),
       ],
     },
