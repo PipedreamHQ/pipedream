@@ -7,7 +7,7 @@ module.exports = {
   name: "Send an Email",
   description:
     "This action sends a personalized e-mail to the specified recipients",
-  version: "0.0.88",
+  version: "0.0.90",
   type: "action",
   props: {
     ...common.props,
@@ -139,7 +139,10 @@ module.exports = {
     const constraints = {
       personalizations: {
         presence: true,
-        type: "array",
+        arrayValidator: {
+          value: this.personalizations,
+          key: "content",
+        },
       },
       fromEmail: {
         presence: true,
@@ -156,7 +159,7 @@ module.exports = {
         },
       },
     };
-    const arrayValidatorFormat = "parameter must be an array of % objects, or an string that will `JSON.parse` to an array of % objects.";
+    const arrayValidatorFormat = "parameter must be an array of % objects (or an string that will `JSON.parse` to one).";
     validate.validators.arrayValidator = function (
       value,
       params,
@@ -230,7 +233,9 @@ module.exports = {
       from.name = this.fromName;
     }
     const config = {
-      personalizations: this.personalizations,
+      personalizations: Array.isArray(this.personalizations) ?
+        this.personalizations :
+        JSON.parse(this.personalizations),
       from,
       subject: this.subject,
       content: Array.isArray(this.content) ?
