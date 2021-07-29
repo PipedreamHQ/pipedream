@@ -14,7 +14,7 @@ module.exports = {
       status: 204,
       });
 
-    if (messageBody.type == "message-received"){
+    if (messageBody.message.direction == "in"){
       this.$emit(messageBody, {
         summary: "Message Received"
       })
