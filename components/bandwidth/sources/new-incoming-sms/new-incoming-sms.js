@@ -5,19 +5,19 @@ module.exports = {
     http: {
         type: "$.interface.http",
         customResponse: true
-      },
+      }
     },
 
   async run(event) {
     let messageBody = event.body[0]
     this.http.respond({
-      status: 204,
+      status: 204
       });
 
-    if (messageBody.message.direction == "in"){
+    if (messageBody.message.direction == "in") {
       this.$emit(messageBody, {
         summary: "Message Received"
       })
-    },
-  },
+    }
+  }
 };
