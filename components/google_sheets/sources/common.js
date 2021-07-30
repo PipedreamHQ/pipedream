@@ -1,4 +1,6 @@
 const { v4: uuid } = require("uuid");
+
+const { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } = require("../../google_drive/constants");
 const googleSheets = require("../google_sheets.app");
 
 /**
@@ -21,7 +23,7 @@ module.exports = {
         "The Google Drive API requires occasionally renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 30, // 30 minutes
+        intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },
     },
     watchedDrive: {

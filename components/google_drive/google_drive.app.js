@@ -5,6 +5,7 @@ const { uuid } = require("uuidv4");
 const {
   GOOGLE_DRIVE_UPDATE_TYPES,
   MY_DRIVE_VALUE,
+  WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
 } = require("./constants");
 
 const {
@@ -372,35 +373,35 @@ module.exports = {
       }
     },
     _makeWatchRequestBody(id, address) {
+      const expiration = Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS;
       return {
         id, // the component-specific channel ID, a UUID
         type: "web_hook",
         address, // the component-specific HTTP endpoint
+        expiration,
       };
     },
     async watchDrive(id, address, pageToken, driveId) {
       const drive = this.drive();
       const requestBody = this._makeWatchRequestBody(id, address);
+      let watchRequest = {
+        pageToken,
+        requestBody,
+      };
 
       // Google expects an entirely different object to be passed
       // when you make a watch request for My Drive vs. a shared drive
       // "My Drive" doesn't have a driveId, so if this method is called
       // without a driveId, we make a watch request for My Drive
-      let watchRequest;
       if (driveId) {
         watchRequest = {
+          ...watchRequest,
           driveId,
-          pageToken,
-          requestBody,
           includeItemsFromAllDrives: true,
           supportsAllDrives: true,
         };
-      } else {
-        watchRequest = {
-          pageToken,
-          requestBody,
-        };
       }
+
       // When watching for changes to an entire account, we must pass a pageToken,
       // which points to the moment in time we want to start watching for changes:
       // https://developers.google.com/drive/api/v3/manage-changes

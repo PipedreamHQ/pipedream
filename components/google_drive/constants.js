@@ -75,6 +75,30 @@ const GOOGLE_DRIVE_UPDATE_TYPES = [
  */
 const MY_DRIVE_VALUE = "myDrive";
 
+/**
+ * The maximum amount of time a subscription can be active without expiring is
+ * 24 hours. In order to minimize subscription renewals (which involve the
+ * execution of an event source) we set the expiration of subscriptions to its
+ * maximum allowed value.
+ *
+ * More information can be found in the API docs:
+ * https://developers.google.com/drive/api/v3/push#optional-properties
+ */
+const WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS = 24 * 60 * 60 * 1000;
+
+/**
+ * The default time interval between webhook subscription renewals. Since
+ * subscriptions expire after 24 hours at most, we set this time to 95% of this
+ * time window by default to make sure the event sources don't miss any events
+ * due to an expired subscription not being renewed on time.
+ *
+ * More information can be found in the API docs:
+ * https://developers.google.com/drive/api/v3/push#optional-properties
+ */
+const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS = (
+  WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * .95 / 1000
+);
+
 module.exports = {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
@@ -85,4 +109,6 @@ module.exports = {
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_UPDATE_TYPES,
   MY_DRIVE_VALUE,
+  WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
+  WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
 };

@@ -1,6 +1,8 @@
-const googleDrive = require("../google_drive.app.js");
 const includes = require("lodash/includes");
 const { v4: uuid } = require("uuid");
+
+const googleDrive = require("../google_drive.app.js");
+const { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } = require("../constants.js");
 
 module.exports = {
   props: {
@@ -25,7 +27,7 @@ module.exports = {
         "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 30, // 30 minutes
+        intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },
     },
   },
