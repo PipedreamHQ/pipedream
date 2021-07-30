@@ -17,12 +17,6 @@ module.exports = {
         "domain",
       ],
     },
-    baseRegion: {
-      propDefinition: [
-        mailgun,
-        "baseRegion",
-      ],
-    },
     timer: {
       propDefinition: [
         mailgun,

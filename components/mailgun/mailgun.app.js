@@ -30,19 +30,6 @@ module.exports = {
       label: "Halt on error?",
       default: true,
     },
-    baseRegion: {
-      type: "string",
-      label: "Base region",
-      description:
-        "The region that Mailgun will use to send and receive email, which determines the URL to " +
-        "use when requesting Mailgun API. This must be the same region where \"domain\" was " +
-        "created.",
-      default: "US",
-      options: [
-        "US",
-        "EU",
-      ],
-    },
     timer: {
       label: "Polling schedule",
       description: "Pipedream polls Mailgun for events on this schedule.",
@@ -69,7 +56,7 @@ module.exports = {
         key: this.$auth.api_key,
         public_key: this.$auth.api_key,
       };
-      if (this.baseRegion === "EU") {
+      if (this.$auths.region === "EU") {
         config.url = "https://api.eu.mailgun.net";
       }
       const mailgun = new Mailgun(formData);
@@ -97,7 +84,7 @@ module.exports = {
             ],
         ),
       };
-      if (this.baseRegion === "EU") {
+      if (this.$auths.region === "EU") {
         config.url = `https://api.eu.mailgun.net/v3/${d}/${t}`;
       }
       const res = await axios(config);

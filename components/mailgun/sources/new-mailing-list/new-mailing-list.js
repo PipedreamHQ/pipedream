@@ -11,12 +11,6 @@ module.exports = {
   dedupe: "greatest",
   props: {
     ...common.props,
-    baseRegion: {
-      propDefinition: [
-        mailgun,
-        "baseRegion",
-      ],
-    },
     timer: {
       propDefinition: [
         mailgun,
