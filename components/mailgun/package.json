@@ -16,6 +16,6 @@
     "dependencies": {
         "form-data": "^4.0.0",
         "lodash.get": "^4.4.2",
-        "mailgun.js": "^3.3.2"
+        "mailgun.js": "^3.5.2"
     }
 }
