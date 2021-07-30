@@ -1,7 +1,7 @@
 const axios = require("axios");
 const formData = require("form-data");
 const Mailgun = require("mailgun.js");
-const get = require("lodash/get");
+const get = require("lodash.get");
 const moment = require("moment");
 const retry = require("async-retry");
 

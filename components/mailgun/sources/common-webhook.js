@@ -1,5 +1,5 @@
 const mailgun = require("../mailgun.app");
-const get = require("lodash/get");
+const get = require("lodash.get");
 
 module.exports = {
   props: {
