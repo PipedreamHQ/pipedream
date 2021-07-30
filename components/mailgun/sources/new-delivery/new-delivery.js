@@ -1,25 +1,17 @@
-const common = require("../common-webhook");
-const { mailgun } = common.props;
+const {
+  methods,
+  ...common
+} = require("../common-webhook");
 
 module.exports = {
   ...common,
   key: "mailgun-new-delivery",
   name: "New Delivery",
-  description:
-    "Emit an event when an email is sent and accepted by the recipient email server.",
-  version: "0.0.1",
+  description: "Emit an event when an email is sent and accepted by the recipient email server.",
+  version: "0.0.2",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    domain: {
-      propDefinition: [
-        mailgun,
-        "domain",
-      ],
-    },
-  },
   methods: {
-    ...common.methods,
+    ...methods,
     getEventName() {
       return [
         "delivered",
@@ -30,12 +22,12 @@ module.exports = {
         "delivered",
       ];
     },
-    generateMeta(eventPayload) {
-      const ts = eventPayload.timestamp;
+    generateMeta(payload) {
+      const id = payload.message.headers["message-id"];
       return {
-        id: `${eventPayload.id}${ts}`,
-        summary: `New Delivery: ${eventPayload.message.headers["message-id"]} by ${eventPayload.envelope.sender}`,
-        ts,
+        id: `${payload.id}${payload.timestamp}`,
+        summary: `New Delivery ${id} by ${payload.recipient}`,
+        ts: payload.timestamp,
       };
     },
   },

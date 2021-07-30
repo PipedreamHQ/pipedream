@@ -1,90 +1,78 @@
-const common = require("../common-webhook");
-const { mailgun } = common.props;
+const {
+  props,
+  methods,
+  ...common
+} = require("../common-webhook");
 
 module.exports = {
   ...common,
   key: "mailgun-new-log-data",
   name: "New Log Data",
-  description:
-    "Emit an event when new data is logged in Mailgun's Control Panel. Occurs for most actions within the associated Mailgun account.",
-  version: "0.0.1",
+  description: "Emit an event when new data is logged in Mailgun's Control Panel. Occurs for " +
+    "most actions within the associated Mailgun account.",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
-    mailgun,
-    domain: {
-      propDefinition: [
-        mailgun,
-        "domain",
-      ],
-    },
+    ...props,
     timer: {
       propDefinition: [
-        mailgun,
+        props.mailgun,
         "timer",
       ],
     },
-    db: "$.service.db",
+  },
+  methods: {
+    ...methods,
+    generateMeta(payload) {
+      return {
+        id: payload.id,
+        summary: `${payload.timestamp} [${payload["log-level"]}] ${payload.event}`,
+        ts: payload.timestamp,
+      };
+    },
+    async getLatestEvents(page = null, limit = 300) {
+      const date = new Date();
+      date.setDate(date.getDate() - 1);
+      const config = {
+        begin: Math.floor(date.valueOf() / 1000),
+        page,
+        ascending: "yes",
+        limit,
+      };
+      return this.mailgun.api("events").get(this.domain, config);
+    },
   },
   hooks: {
     async deploy() {
-      // Emits sample events on the first run during deploy.
-      let mailgunEvents = await this.mailgun.getMailgunEvents(
-        this.domain,
-        null,
-        10,
-      );
-      if (mailgunEvents.items.length === 0) {
-        console.log("No data available, skipping iteration");
+      // Emit sample events on the first run during deploy
+      const { items } = await this.getLatestEvents("last", 5);
+      if (items.length === 0) {
         return;
       }
-      mailgunEvents.items.forEach(this.emitEvent);
-      const last = new String(mailgunEvents.paging.last);
-      let idxSlash = last.lastIndexOf("/");
-      let lastUrlPart = last.substring(idxSlash + 1);
-      mailgunEvents = await this.mailgun.getMailgunEvents(
-        this.domain,
-        lastUrlPart,
-        10,
-      );
-      this.db.set("next", mailgunEvents.paging.next);
-    },
-  },
-  methods: {
-    ...common.methods,
-    generateMeta(eventPayload) {
-      const ts = eventPayload.timestamp;
-      return {
-        id: eventPayload.id,
-        summary: `New data logged ${eventPayload.event}, with log-level: ${eventPayload["log-level"]}`,
-        ts,
-      };
-    },
-    emitEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
+      for (let item of items) {
+        this.$emit(item, this.generateMeta(item));
+      }
     },
   },
   async run() {
-    let next = this.db.get("next");
-    let mailgunEvents = null;
-    do {
-      let nextUrlPart = "";
-      if (next) {
-        const idxSlash = next.lastIndexOf("/");
-        nextUrlPart = next.substring(idxSlash + 1);
-      }
-      mailgunEvents = await this.mailgun.getMailgunEvents(
-        this.domain,
-        nextUrlPart,
-        10,
-      );
-      if (mailgunEvents.items.length === 0) {
+    let result = {
+      items: [],
+      pages: {
+        next: {
+          id: null,
+        },
+      },
+    };
+
+    while (true) {
+      result = await this.getLatestEvents(result.pages.next.id, 300);
+      if (result.items.length === 0) {
         console.log("No data available, skipping iteration");
-        break;
+        return;
       }
-      this.db.set("next", mailgunEvents.paging.next);
-      next = mailgunEvents.paging.next;
-      mailgunEvents.items.forEach(this.emitEvent);
-    } while (mailgunEvents.items.length > 0);
+      for (let item of result.items) {
+        this.$emit(item, this.generateMeta(item));
+      }
+    }
   },
 };

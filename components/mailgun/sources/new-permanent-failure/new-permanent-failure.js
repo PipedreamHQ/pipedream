@@ -1,25 +1,18 @@
-const common = require("../common-webhook");
-const { mailgun } = common.props;
+const {
+  methods,
+  ...common
+} = require("../common-webhook");
 
 module.exports = {
   ...common,
   key: "mailgun-new-permanent-failure",
   name: "New Permanent Failure",
-  description:
-    "Emit an event when an email can't be delivered to the recipient email server due to a permanent mailbox error such as non-existent mailbox.",
-  version: "0.0.1",
+  description: "Emit an event when an email can't be delivered to the recipient email server due " +
+    "to a permanent mailbox error such as non-existent mailbox.",
+  version: "0.0.2",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    domain: {
-      propDefinition: [
-        mailgun,
-        "domain",
-      ],
-    },
-  },
   methods: {
-    ...common.methods,
+    ...methods,
     getEventName() {
       return [
         "permanent_fail",
@@ -35,23 +28,21 @@ module.exports = {
         "permanent",
       ];
     },
-    generateMeta(eventPayload) {
-      const ts = eventPayload.timestamp;
+    generateMeta(payload) {
+      const id = payload.message.headers["message-id"];
+      const error = payload["delivery-status"].description;
       return {
-        id: `${eventPayload.id}${ts}`,
-        ts,
-        summary: `Delivery of msg-id "${eventPayload.message.headers["message-id"]}" failed with permanent error: "${eventPayload["delivery-status"].description}"`,
+        id: `${payload.id}${payload.timestamp}`,
+        summary: `Delivery of "${id}" failed with permanent error: "${error}"`,
+        ts: payload.timestamp,
       };
     },
-    emitEvent(eventWorkload) {
-      const eventType = this.getEventType();
-      const eventSubtype = this.getEventSubtype();
+    emitEvent(payload) {
       if (
-        eventType.includes(eventWorkload.event) &&
-        eventSubtype.includes(eventWorkload.severity)
+        this.getEventType().includes(payload.event) &&
+        this.getEventSubtype().includes(payload.severity)
       ) {
-        const meta = this.generateMeta(eventWorkload);
-        this.$emit(eventWorkload, meta);
+        this.$emit(payload, this.generateMeta(payload));
       }
     },
   },

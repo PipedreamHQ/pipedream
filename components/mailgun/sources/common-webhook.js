@@ -5,6 +5,12 @@ const get = require("lodash.get");
 module.exports = {
   props: {
     mailgun,
+    domain: {
+      propDefinition: [
+        mailgun,
+        "domain",
+      ],
+    },
     webhookSigningKey: {
       propDefinition: [
         mailgun,
@@ -15,6 +21,30 @@ module.exports = {
     db: "$.service.db",
   },
   methods: {
+    async getWebhook(domain, webhook) {
+      const response = await this.mailgun.api("request")
+        .get(`/domains/${domain}/webhooks/${webhook}`);
+      return response.body.webhook.urls;
+    },
+    async createWebhook(domain, webhook, urls) {
+      const response = await this.mailgun.api("request").post(`/domains/${domain}/webhooks`, {
+        id: webhook,
+        url: urls,
+      });
+      return response.body.webhook.urls;
+    },
+    async updateWebhook(domain, webhook, urls) {
+      const response = await this.mailgun.api("request")
+        .put(`/domains/${domain}/webhooks/${webhook}`, {
+          url: urls,
+        });
+      return response.body.webhook.urls;
+    },
+    async deleteWebhook(domain, webhook) {
+      const response = await this.mailgun.api("request")
+        .delete(`/domains/${domain}/webhooks/${webhook}`);
+      return response.body.webhook.urls;
+    },
     isSubscribed(urls = []) {
       return (
         urls.length > 0
@@ -27,10 +57,16 @@ module.exports = {
     getEventType() {
       throw new Error("getEventType is not implemented");
     },
-    generateMeta() {
-      throw new Error("generateMeta is not implemented");
+    generateMeta(payload) {
+      return {
+        id: `${payload["X-Mailgun-Sid"]}${payload.id}${payload.timestamp}`,
+        summary: payload.recipient,
+        ts: payload.timestamp,
+      };
     },
-    verifySignature({ timestamp, token, signature }) {
+    verifySignature({
+      timestamp, token, signature,
+    }) {
       const encodedToken = crypto
         .createHmac("sha256", this.webhookSigningKey)
         .update(timestamp.concat(token))
@@ -39,7 +75,7 @@ module.exports = {
     },
     emitEvent(payload) {
       const expectedTypes = this.getEventType();
-      if (!t.includes(payload.event)) {
+      if (!expectedTypes.includes(payload.event)) {
         console.debug("Expected", expectedTypes, "but got a", payload.event, "- skipping");
         return;
       }
@@ -68,7 +104,7 @@ module.exports = {
           this.domain,
           webhook,
           [
-            this.http.endpoint
+            this.http.endpoint,
           ],
         );
       }
@@ -85,7 +121,7 @@ module.exports = {
           await this.mailgun.updateWebhook(
             this.domain,
             webhook,
-            urls.filter(url => url !== this.http.endpoint),
+            urls.filter((url) => url !== this.http.endpoint),
           );
           continue;
         }

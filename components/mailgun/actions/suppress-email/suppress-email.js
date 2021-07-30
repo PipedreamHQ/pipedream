@@ -70,7 +70,14 @@ module.exports = {
         break;
       }
 
-      return await this.mailgun.suppress(this.domain, this.category, suppression);
+      const url = `/domains/${this.domain}/${this.category}`;
+      const data = Array.isArray(suppression)
+        ? suppression
+        : [
+          suppression,
+        ];
+      const response = await this.mailgun.api("request").post(url, data);
+      return response.body;
     } catch (err) {
       if (this.haltOnError) {
         throw err;

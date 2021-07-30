@@ -5,30 +5,29 @@ const {
 
 module.exports = {
   ...common,
-  key: "mailgun-new-delivery-failure",
-  name: "New Delivery Failure",
-  description: "Emit an event when an email can't be delivered to the recipient email server.",
+  key: "mailgun-new-complaint",
+  name: "New Complaint",
+  description: "Emit an event when the email recipient clicked on the spam complaint button " +
+    "within their email client. Feedback loops enable the notification to be received by Mailgun.",
   version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...methods,
     getEventName() {
       return [
-        "permanent_fail",
-        "temporary_fail",
+        "complained",
       ];
     },
     getEventType() {
       return [
-        "failed",
+        "complained",
       ];
     },
     generateMeta(payload) {
       const id = payload.message.headers["message-id"];
-      const error = payload["delivery-status"].description;
       return {
         id: `${payload.id}${payload.timestamp}`,
-        summary: `Delivery ${id} failed with error: "${error}"`,
+        summary: `New Complaint on message ${id} by ${payload.recipient}`,
         ts: payload.timestamp,
       };
     },
