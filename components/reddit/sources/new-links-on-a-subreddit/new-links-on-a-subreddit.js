@@ -6,12 +6,15 @@ module.exports = {
   key: "new-links-on-a-subreddit",
   name: "New Links on a subreddit",
   description: "Emits an event each time a new link is added to a subreddit",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
     subreddit: {
-      propDefinition: [reddit, "subreddit"],
+      propDefinition: [
+        reddit,
+        "subreddit",
+      ],
     },
   },
   hooks: {
@@ -20,7 +23,7 @@ module.exports = {
       var redditLinks = await this.reddit.getNewSubredditLinks(
         null,
         this.subreddit,
-        10
+        10,
       );
       const { children: links = [] } = redditLinks.data;
       if (links.length === 0) {
@@ -30,7 +33,7 @@ module.exports = {
       const { name: before = this.db.get("before") } = links[0].data;
       this.db.set("before", before);
       links.reverse().forEach(this.emitRedditEvent);
-    }
+    },
   },
   methods: {
     ...common.methods,
@@ -40,14 +43,14 @@ module.exports = {
         summary: redditEvent.data.title,
         ts: redditEvent.data.created,
       };
-    }
+    },
   },
   async run() {
     let redditLinks;
     do {
       redditLinks = await this.reddit.getNewSubredditLinks(
         this.db.get("before"),
-        this.subreddit
+        this.subreddit,
       );
       const { children: links = [] } = redditLinks.data;
       if (links.length === 0) {

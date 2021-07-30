@@ -18,7 +18,7 @@ module.exports = {
         for (const subreddit of results) {
           options.push({
             label: subreddit.title,
-            value: subreddit.name,
+            value: subreddit.displayName,
           });
         }
         return options;
@@ -34,7 +34,14 @@ module.exports = {
       label: "Time filter",
       description:
         "If set to all, all existing links or comments, before applying dedupe strategy, will be considered to be emitted. Otherwise, the indicated time frame will be used for getting links or comments.",
-      options: ["hour", "day", "week", "month", "year", "all"],
+      options: [
+        "hour",
+        "day",
+        "week",
+        "month",
+        "year",
+        "all",
+      ],
       default: "all",
       optional: true,
     },
@@ -52,7 +59,7 @@ module.exports = {
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
-      return `https://oauth.reddit.com`;
+      return "https://oauth.reddit.com";
     },
     async _makeRequest(opts) {
       if (!opts.headers) opts.headers = {};
@@ -60,11 +67,16 @@ module.exports = {
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
       const { path } = opts;
       delete opts.path;
-      opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
+      opts.url = `${this._apiUrl()}${path[0] === "/" ?
+        "" :
+        "/"}${path}`;
       return (await axios(opts)).data;
     },
-    _isRetriableStatusCode(statusCode) {
-      [408, 429, 500].includes(statusCode);
+    _isRetriableStatusCode(statusCode) {[
+      408,
+      429,
+      500,
+    ].includes(statusCode);
     },
     async _withRetries(apiCall) {
       const retryOpts = {
@@ -75,7 +87,10 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = get(err, ["response", "status"]);
+          const statusCode = get(err, [
+            "response",
+            "status",
+          ]);
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
@@ -108,7 +123,7 @@ module.exports = {
       region,
       excludeFilters,
       includeSubredditDetails,
-      limit = 100
+      limit = 100,
     ) {
       const params = {};
       if (excludeFilters) {
@@ -121,8 +136,7 @@ module.exports = {
         this._makeRequest({
           path: `/r/${subreddit}/hot`,
           params,
-        })
-      );
+        }));
     },
     async getNewSubredditLinks(before, subreddit, limit = 100) {
       const params = {
@@ -133,8 +147,7 @@ module.exports = {
         this._makeRequest({
           path: `/r/${subreddit}/new`,
           params,
-        })
-      );
+        }));
     },
     async getNewSubredditComments(
       subreddit,
@@ -142,7 +155,7 @@ module.exports = {
       numberOfParents,
       depth,
       includeSubredditDetails,
-      limit = 100
+      limit = 100,
     ) {
       const params = {
         article: subredditPost,
@@ -155,12 +168,14 @@ module.exports = {
         threaded: true,
         trucate: 0,
       };
-      const [redditArticle, redditComments] = await this._withRetries(() =>
+      const [
+        ,
+        redditComments,
+      ] = await this._withRetries(() =>
         this._makeRequest({
           path: `/r/${subreddit}/comments/article`,
           params,
-        })
-      );
+        }));
       return redditComments;
     },
     async getNewUserLinks(
@@ -169,7 +184,7 @@ module.exports = {
       numberOfParents,
       timeFilter,
       includeSubredditDetails,
-      limit = 100
+      limit = 100,
     ) {
       const params = {
         before,
@@ -185,8 +200,7 @@ module.exports = {
         this._makeRequest({
           path: `/user/${username}/submitted`,
           params,
-        })
-      );
+        }));
     },
     async getNewUserComments(
       before,
@@ -194,7 +208,7 @@ module.exports = {
       numberOfParents,
       timeFilter,
       includeSubredditDetails,
-      limit = 100
+      limit = 100,
     ) {
       const params = {
         before,
@@ -210,8 +224,7 @@ module.exports = {
         this._makeRequest({
           path: `/user/${username}/comments`,
           params,
-        })
-      );
+        }));
     },
     async searchSubreddits(after, query = "") {
       const params = {
@@ -225,10 +238,9 @@ module.exports = {
       };
       const redditCommunities = await this._withRetries(() =>
         this._makeRequest({
-          path: `/subreddits/search`,
+          path: "/subreddits/search",
           params,
-        })
-      );
+        }));
       return redditCommunities;
     },
     async getAllSearchSubredditsResults(query) {
@@ -247,10 +259,13 @@ module.exports = {
         const { children: communities = [] } = redditCommunities.data;
         after = communities[communities.length - 1].data.name;
         communities.forEach((subreddit) => {
-          const { title, name } = subreddit.data;
+          const {
+            title,
+            display_name: displayName,
+          } = subreddit.data;
           results.push({
             title,
-            name,
+            displayName,
           });
         });
       } while (after);
