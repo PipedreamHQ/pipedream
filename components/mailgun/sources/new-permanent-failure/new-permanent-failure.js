@@ -11,25 +11,36 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    domain: { propDefinition: [mailgun, "domain"] },
+    domain: {
+      propDefinition: [
+        mailgun,
+        "domain",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     getEventName() {
-      return ["permanent_fail"];
+      return [
+        "permanent_fail",
+      ];
     },
     getEventType() {
-      return ["failed"];
+      return [
+        "failed",
+      ];
     },
     getEventSubtype() {
-      return ["permanent"];
+      return [
+        "permanent",
+      ];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
       return {
         id: `${eventPayload.id}${ts}`,
         ts,
-        summary: `Delivery of msg-id \"${eventPayload.message.headers["message-id"]}\" failed with permanent error: \"${eventPayload["delivery-status"].description}\"`,
+        summary: `Delivery of msg-id "${eventPayload.message.headers["message-id"]}" failed with permanent error: "${eventPayload["delivery-status"].description}"`,
       };
     },
     emitEvent(eventWorkload) {

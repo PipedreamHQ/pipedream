@@ -12,15 +12,24 @@ module.exports = {
   type: "action",
   props: {
     ...common.props,
-    domain: { propDefinition: [mailgun, "domain"] },
+    domain: {
+      propDefinition: [
+        mailgun,
+        "domain",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     getEventName() {
-      return ["clicked"];
+      return [
+        "clicked",
+      ];
     },
     getEventType() {
-      return ["CLICKED"];
+      return [
+        "CLICKED",
+      ];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;

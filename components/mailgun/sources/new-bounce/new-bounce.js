@@ -11,15 +11,24 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    domain: { propDefinition: [mailgun, "domain"] },
+    domain: {
+      propDefinition: [
+        mailgun,
+        "domain",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     getEventName() {
-      return ["bounce"];
+      return [
+        "bounce",
+      ];
     },
     getEventType() {
-      return ["bounced"];
+      return [
+        "bounced",
+      ];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;
@@ -47,9 +56,15 @@ module.exports = {
    * */
   async run(event) {
     const eventWorkload = event.body;
-    const { timestamp, token, signature } = eventWorkload;
+    const {
+      timestamp,
+      token,
+      signature,
+    } = eventWorkload;
     if (!this.verify(this.webhookSigningKey, timestamp, token, signature)) {
-      this.http.respond({ status: 404 });
+      this.http.respond({
+        status: 404,
+      });
       console.log("Invalid event. Skipping...");
       return;
     }

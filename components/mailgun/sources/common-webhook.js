@@ -43,7 +43,7 @@ module.exports = {
       for (const webhookName of webhookNames) {
         const webhookDetails = await this.mailgun.getWebhookDetails(
           this.domain,
-          webhookName
+          webhookName,
         );
         const newWebhookUrls = get(webhookDetails, "urls", []);
         if (newWebhookUrls.length) {
@@ -51,13 +51,13 @@ module.exports = {
           await this.mailgun.updateWebhook(
             this.domain,
             webhookName,
-            newWebhookUrls
+            newWebhookUrls,
           );
         } else {
           await this.mailgun.createWebhook(
             this.domain,
             webhookName,
-            this.http.endpoint
+            this.http.endpoint,
           );
         }
       }
@@ -67,17 +67,17 @@ module.exports = {
       for (const webhookName of webhookNames) {
         const webhookDetails = await this.mailgun.getWebhookDetails(
           this.domain,
-          webhookName
+          webhookName,
         );
         const currentWebhookUrls = get(webhookDetails, "urls", []);
         if (currentWebhookUrls.length > 1) {
           const newWebhookUrls = currentWebhookUrls.filter(
-            (url) => url !== this.http.endpoint
+            (url) => url !== this.http.endpoint,
           );
           await this.mailgun.updateWebhook(
             this.domain,
             webhookName,
-            newWebhookUrls
+            newWebhookUrls,
           );
         } else {
           await this.mailgun.deleteWebhook(this.domain, webhookName);
@@ -86,15 +86,24 @@ module.exports = {
     },
   },
   async run(event) {
-    const hasSignature  = get(event, ['body', 'signature'])
+    const hasSignature  = get(event, [
+      "body",
+      "signature",
+    ]);
     if (!hasSignature) {
-      console.log("No signature present in event")
+      console.log("No signature present in event");
       return;
     }
-    const { timestamp, token, signature } = event.body.signature;
+    const {
+      timestamp,
+      token,
+      signature,
+    } = event.body.signature;
     const eventPayload = event.body["event-data"];
     if (!this.verify(this.webhookSigningKey, timestamp, token, signature)) {
-      this.http.respond({ status: 404 });
+      this.http.respond({
+        status: 404,
+      });
       console.log("Invalid event. Skipping...");
       return;
     }

@@ -11,15 +11,24 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    domain: { propDefinition: [mailgun, "domain"] },
+    domain: {
+      propDefinition: [
+        mailgun,
+        "domain",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     getEventName() {
-      return ["delivered"];
+      return [
+        "delivered",
+      ];
     },
     getEventType() {
-      return ["delivered"];
+      return [
+        "delivered",
+      ];
     },
     generateMeta(eventPayload) {
       const ts = eventPayload.timestamp;

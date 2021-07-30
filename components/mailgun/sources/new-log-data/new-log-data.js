@@ -11,9 +11,24 @@ module.exports = {
   dedupe: "unique",
   props: {
     mailgun,
-    domain: { propDefinition: [mailgun, "domain"] },
-    baseRegion: { propDefinition: [mailgun, "baseRegion"] },
-    timer: { propDefinition: [mailgun, "timer"] },
+    domain: {
+      propDefinition: [
+        mailgun,
+        "domain",
+      ],
+    },
+    baseRegion: {
+      propDefinition: [
+        mailgun,
+        "baseRegion",
+      ],
+    },
+    timer: {
+      propDefinition: [
+        mailgun,
+        "timer",
+      ],
+    },
     db: "$.service.db",
   },
   hooks: {
@@ -22,10 +37,10 @@ module.exports = {
       let mailgunEvents = await this.mailgun.getMailgunEvents(
         this.domain,
         null,
-        10
+        10,
       );
       if (mailgunEvents.items.length === 0) {
-        console.log(`No data available, skipping iteration`);
+        console.log("No data available, skipping iteration");
         return;
       }
       mailgunEvents.items.forEach(this.emitEvent);
@@ -35,7 +50,7 @@ module.exports = {
       mailgunEvents = await this.mailgun.getMailgunEvents(
         this.domain,
         lastUrlPart,
-        10
+        10,
       );
       this.db.set("next", mailgunEvents.paging.next);
     },
@@ -67,10 +82,10 @@ module.exports = {
       mailgunEvents = await this.mailgun.getMailgunEvents(
         this.domain,
         nextUrlPart,
-        10
+        10,
       );
       if (mailgunEvents.items.length === 0) {
-        console.log(`No data available, skipping iteration`);
+        console.log("No data available, skipping iteration");
         break;
       }
       this.db.set("next", mailgunEvents.paging.next);

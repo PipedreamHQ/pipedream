@@ -11,8 +11,18 @@ module.exports = {
   dedupe: "greatest",
   props: {
     ...common.props,
-    baseRegion: { propDefinition: [mailgun, "baseRegion"] },
-    timer: { propDefinition: [mailgun, "timer"] },
+    baseRegion: {
+      propDefinition: [
+        mailgun,
+        "baseRegion",
+      ],
+    },
+    timer: {
+      propDefinition: [
+        mailgun,
+        "timer",
+      ],
+    },
   },
   hooks: {
     async deploy() {
@@ -53,6 +63,7 @@ module.exports = {
         address = nextUrlParams.get("address");
         page = "next";
       }
+      // @TODO fix obsolete `address` param
       mailgunLists = await this.mailgun.getMailgunLists(page, 5, address);
       if (!mailgunLists || mailgunLists.items.length === 0) {
         console.log("No data available, skipping iteration");
