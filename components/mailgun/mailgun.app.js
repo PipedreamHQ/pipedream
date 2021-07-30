@@ -51,6 +51,16 @@ module.exports = {
         intervalSeconds: 60 * 15, // by default, run every 15 minutes.
       },
     },
+    webhookSigningKey: {
+      type: "string",
+      secret: true,
+      label: "Mailgun webhook signing key",
+      description:
+        "Your Mailgun webhook signing key, found " +
+        "[in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under " +
+        "Settings on the left-hand nav and then in API Keys look for webhook signing key. " +
+        "Required to compute the authentication signature of events.",
+    },
   },
   methods: {
     api(api) {
