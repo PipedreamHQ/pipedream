@@ -1,4 +1,5 @@
 const mailgun = require("../mailgun.app");
+const crypto = require("crypto");
 const get = require("lodash.get");
 
 module.exports = {
@@ -14,98 +15,99 @@ module.exports = {
     db: "$.service.db",
   },
   methods: {
+    isSubscribed(urls = []) {
+      return (
+        urls.length > 0
+        && urls.includes(this.http.endpoint)
+      );
+    },
     getEventName() {
       throw new Error("getEventName is not implemented");
     },
     getEventType() {
       throw new Error("getEventType is not implemented");
     },
-    verify(signingKey, timestamp, token, signature) {
-      const crypto = require("crypto");
+    generateMeta() {
+      throw new Error("generateMeta is not implemented");
+    },
+    verifySignature({ timestamp, token, signature }) {
       const encodedToken = crypto
-        .createHmac("sha256", signingKey)
+        .createHmac("sha256", this.webhookSigningKey)
         .update(timestamp.concat(token))
         .digest("hex");
       return encodedToken === signature;
     },
-    emitEvent(eventPayload) {
-      const eventTypes = this.getEventType();
-      if (eventTypes.includes(eventPayload.event)) {
-        const meta = this.generateMeta(eventPayload);
-        this.$emit(eventPayload, meta);
+    emitEvent(payload) {
+      const expectedTypes = this.getEventType();
+      if (!t.includes(payload.event)) {
+        console.debug("Expected", expectedTypes, "but got a", payload.event, "- skipping");
+        return;
       }
+      this.$emit(payload, this.generateMeta(payload));
     },
   },
   hooks: {
     async activate() {
-      const webhookNames = this.getEventName();
-      for (const webhookName of webhookNames) {
-        const webhookDetails = await this.mailgun.getWebhookDetails(
-          this.domain,
-          webhookName,
-        );
-        const newWebhookUrls = get(webhookDetails, "urls", []);
-        if (newWebhookUrls.length) {
-          newWebhookUrls.push(this.http.endpoint);
+      for (let webhook of this.getEventName()) {
+        const urls = await this.mailgun.getWebhook(this.domain, webhook);
+
+        if (this.isSubscribed(urls)) {
+          continue;
+        }
+
+        if (urls.length > 0) {
           await this.mailgun.updateWebhook(
             this.domain,
-            webhookName,
-            newWebhookUrls,
+            webhook,
+            urls.concat(this.http.endpoint),
           );
-        } else {
-          await this.mailgun.createWebhook(
-            this.domain,
-            webhookName,
-            this.http.endpoint,
-          );
+          continue;
         }
+
+        await this.mailgun.createWebhook(
+          this.domain,
+          webhook,
+          [
+            this.http.endpoint
+          ],
+        );
       }
     },
     async deactivate() {
-      const webhookNames = this.getEventName();
-      for (const webhookName of webhookNames) {
-        const webhookDetails = await this.mailgun.getWebhookDetails(
-          this.domain,
-          webhookName,
-        );
-        const currentWebhookUrls = get(webhookDetails, "urls", []);
-        if (currentWebhookUrls.length > 1) {
-          const newWebhookUrls = currentWebhookUrls.filter(
-            (url) => url !== this.http.endpoint,
-          );
+      for (let webhook of this.getEventName()) {
+        const urls = await this.mailgun.getWebhook(this.domain, webhook);
+
+        if (!this.isSubscribed(urls)) {
+          continue;
+        }
+
+        if (urls.length > 1) {
           await this.mailgun.updateWebhook(
             this.domain,
-            webhookName,
-            newWebhookUrls,
+            webhook,
+            urls.filter(url => url !== this.http.endpoint),
           );
-        } else {
-          await this.mailgun.deleteWebhook(this.domain, webhookName);
+          continue;
         }
+
+        await this.mailgun.deleteWebhook(this.domain, webhook);
       }
     },
   },
   async run(event) {
-    const hasSignature  = get(event, [
-      "body",
-      "signature",
-    ]);
-    if (!hasSignature) {
-      console.log("No signature present in event");
+    if (!get(event, "body.signature", false)) {
+      console.warn("Webhook signature missing, skipping");
       return;
     }
-    const {
-      timestamp,
-      token,
-      signature,
-    } = event.body.signature;
-    const eventPayload = event.body["event-data"];
-    if (!this.verify(this.webhookSigningKey, timestamp, token, signature)) {
+
+    if (!this.verifySignature(event.body.signature)) {
       this.http.respond({
-        status: 404,
+        status: 401,
       });
-      console.log("Invalid event. Skipping...");
+      console.warn("Webhook signature invalid, skipping");
       return;
     }
-    this.emitEvent(eventPayload);
+
+    this.emitEvent(event.body["event-data"]);
   },
 };

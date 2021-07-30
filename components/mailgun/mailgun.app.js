@@ -182,21 +182,6 @@ module.exports = {
         }));
     },
     /**
-     * Get details of an specific webhook in a given domain.
-     *
-     * @param {String} mailgunDomain - Name of the Mailgun domain where the webhook is located.
-     * @param {String} webhookName - Name of the webhook to get details of.
-     * @returns {urls: array} Object with an array of the urls subscribed to the specified webhook.
-     */
-    async getWebhookDetails(mailgunDomain, webhookName) {
-      const webhooks = await this._withRetries(() =>
-        this._makeRequest({
-          method: "GET",
-          path: `/domains/${mailgunDomain}/webhooks`,
-        }));
-      return get(webhooks, `webhooks.${webhookName}`);
-    },
-    /**
      * Get a list with the entire set of domains under the connected Mailgun account.
      *
      * @returns {Array} Array with the entire set of domains under the connected Mailgun account.
@@ -217,69 +202,62 @@ module.exports = {
       return results;
     },
     /**
-     * Creates a new webhook under a given domain.
+     * Get a list of URLs that are subscribed to a specific webhook in a given domain.
      *
-     * @param {String} mailgunDomain - Name of the Mailgun domain where the webhook will be created.
-     * @param {String} webhookName - Name of the webhook to create. Must be one of the webhook names
-     * listed in the Mailgun API documentation, webhooks:
-     * [https://documentation.mailgun.com/en/latest/api-webhooks.html#webhooks]
-     * @param {String} webhookUrl - URL listening for the webhook event.
-     * May be repeated up to 3 times.
-     * @returns {message: string, webhook: { urls: Array }} An object with the result message of the
-     * request and a webhook object wrapping a one item array with the provided url of the webhook.
+     * @param {String} domain - Domain name
+     * @param {String} webhook - Webhook name (see
+     * https://documentation.mailgun.com/en/latest/api-webhooks.html
+     * for a list of supported webhooks)
+     * @returns {Array} Array of subscribed URLs
      */
-    async createWebhook(mailgunDomain, webhookName, webhookUrl) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "POST",
-          path: `/domains/${mailgunDomain}/webhooks`,
-          params: {
-            domain: mailgunDomain,
-            url: webhookUrl,
-            id: webhookName,
-          },
-        }));
+    async getWebhook(domain, webhook) {
+      const response = await this.api('request').get(`/domains/${domain}/webhooks/${webhook}`);
+      return response.body.webhook.urls;
     },
     /**
-     * Updates a webhook existing under a given domain.
+     * Creates a new webhook.
      *
-     * @param {String} mailgunDomain - Name of the Mailgun domain where the webhook to update is.
-     * @param {String} webhookName - Name of the webhook to update. Must be one of the webhook names
-     * listed in the Mailgun API documentation, webhooks:
-     * [https://documentation.mailgun.com/en/latest/api-webhooks.html#webhooks]
-     * @param {String} webhookUrl - URL listening for the webhook event.
-     * May be repeated up to 3 times.
-     * @returns {message: string, webhook: { urls: Array }} An object with the result message of the
-     * request and a webhook object wrapping an array with the updated urls of webhook.
+     * @param {String} domain - Domain name
+     * @param {String} webhook - Webhook name (see
+     * https://documentation.mailgun.com/en/latest/api-webhooks.html
+     * for a list of supported webhooks)
+     * @param {Array} urls - Array of URLs for the webhook event
+     * @returns {Array} Array of subscribed URLs
      */
-    async updateWebhook(mailgunDomain, webhookName, webhookUrls) {
-      const opts = {
-        method: "PUT",
-        path: `/domains/${mailgunDomain}/webhooks/${webhookName}`,
-        params: {
-          domain: mailgunDomain,
-          webhookname: webhookName,
-          url: webhookUrls,
-        },
-      };
-      return await this._withRetries(() => this._makeRequest(opts));
+    async createWebhook(domain, webhook, urls) {
+      const response = await this.api('request').post(`/domains/${domain}/webhooks`, {
+        id: webhook, url: urls
+      });
+      return response.body.webhook.urls;
     },
     /**
-     * Deletes a webhook under a given domain.
+     * Update an existing webhook.
      *
-     * @param {String} mailgunDomain - Name of the Mailgun domain where the webhook to delete is.
-     * @param {String} webhookName - Name of the webhook to delete. Must be one of the webhook names
-     * listed in the Mailgun API documentation, webhooks:
-     * [https://documentation.mailgun.com/en/latest/api-webhooks.html#webhooks]
-     * @returns {message: string, webhook: { urls: Array }} An object with the result and an array
-     * of the URLs that were related to the webhook that was deleted.
+     * @param {String} domain - Domain name
+     * @param {String} webhook - Webhook name (see
+     * https://documentation.mailgun.com/en/latest/api-webhooks.html
+     * for a list of supported webhooks)
+     * @param {Array} urls - Array of URLs for the webhook event
+     * @returns {Array} Array of subscribed URLs
      */
-    async deleteWebhook(mailgunDomain, webhookName) {
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "DELETE",
-          path: `/domains/${mailgunDomain}/webhooks/${webhookName}`,
-        }));
+    async updateWebhook(domain, webhook, urls) {
+      const response = await this.api('request').put(`/domains/${domain}/webhooks/${webhook}`, {
+        url: urls
+      });
+      return response.body.webhook.urls;
+    },
+    /**
+     * Delete a webhook.
+     *
+     * @param {String} domain - Domain name
+     * @param {String} webhook - Webhook name (see
+     * https://documentation.mailgun.com/en/latest/api-webhooks.html
+     * for a list of supported webhooks)
+     * @returns {Array} Array of subscribed URLs
+     */
+    async deleteWebhook(domain, webhook) {
+      const response = await this.api('request').delete(`/domains/${domain}/webhooks/${webhook}`);
+      return response.body.webhook.urls;
     },
     /**
      * Get a list of Mailgun event under a given domain occured
