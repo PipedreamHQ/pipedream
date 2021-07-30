@@ -54,19 +54,23 @@ module.exports = {
   },
   methods: {
     api(api) {
-      const mailgun = new Mailgun(formData);
-      const mg = mailgun.client({
+      const config = {
         username: "api",
         key: this.$auth.api_key,
         public_key: this.$auth.api_key,
-      });
+      };
+      if (this.baseRegion === "EU") {
+        config.url = "https://api.eu.mailgun.net";
+      }
+      const mailgun = new Mailgun(formData);
+      const mg = mailgun.client(config);
       return mg[api];
     },
     async suppress(domain, type, suppression) {
-      const res = await axios({
-        url: `https://api.mailgun.net/v3/${encodeURIComponent(
-          domain,
-        )}/${encodeURIComponent(type)}`,
+      const d = encodeURIComponent(domain);
+      const t = encodeURIComponent(type);
+      const config = {
+        url: `https://api.mailgun.net/v3/${d}/${t}`,
         method: "POST",
         auth: {
           username: "api",
@@ -82,7 +86,11 @@ module.exports = {
               suppression,
             ],
         ),
-      });
+      };
+      if (this.baseRegion === "EU") {
+        config.url = `https://api.eu.mailgun.net/v3/${d}/${t}`;
+      }
+      const res = await axios(config);
       return res.data;
     },
     _mailgun(apiKey, domain, host) {
