@@ -1,6 +1,8 @@
 module.exports = {
   name: "New Incoming SMS",
   description: "Emits an event each time a `message-received` event is received at the source url",
+  key: "bandwidth-new-incoming-sms",
+  version: "1.0.0",
   props: {
     http: {
       type: "$.interface.http",
@@ -9,7 +11,7 @@ module.exports = {
   },
 
   async run(event) {
-    let messageBody = event.body[0];
+    const messageBody = event.body[0];
     this.http.respond({
       status: 204,
     });
@@ -17,6 +19,8 @@ module.exports = {
     if (messageBody.message.direction == "in") {
       this.$emit(messageBody, {
         summary: "Message Received",
+        id: messageBody.message.id,
+        ts: +new Date(messageBody.time),
       });
     }
   },
