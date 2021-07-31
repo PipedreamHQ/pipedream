@@ -126,11 +126,85 @@ module.exports = {
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
      */
+    async addAttachmentToCardViaUrl(idCard, params) {
+      const config = {
+        url: `${this._getBaseUrl()}cards/${idCard}/attachments`,
+        method: "POST",
+        params,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Adds an existing label to the specified card.
+     *
+     * @param {string}  idCard the ID of the Card to move.
+     * @param {string}  params.value the ID of the Label that will be added to the Card.
+     * @returns {array} an string array with the ID of all the Card's Labels.
+     * See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
+     */
     async addExistingLabelToCard(idCard, params) {
       const config = {
         url: `${this._getBaseUrl()}/cards/${idCard}/idLabels`,
         method: "POST",
         params,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Adds an existing label to the specified card.
+     *
+     * @param {string}  idCard the ID of the Card to move.
+     * @param {string}  params.value the ID of the Label that will be added to the Card.
+     * @returns {array} an string array with the ID of all the Card's Labels.
+     * See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
+     */
+    async addMemberToCard(idCard, params) {
+      const config = {
+        url: `${this._getBaseUrl()}/cards/${idCard}/idMembers`,
+        method: "POST",
+        params,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Creates a checklist on the specified card.
+     *
+     * @param {string}  params.idCard the ID of the Card that the checklist should be
+     * greated on.
+     * @param {string}  params.name name for the checklist to create.
+     * @param {string}  params.pos the position of the new checklist.
+     * @param {string}  params.idChecklistSource ID of a checklist to copy into the new checklist.
+     * @returns an object with the created checklist.
+     * See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post
+     */
+    async createChecklist(params) {
+      const config = {
+        url: `${this._getBaseUrl()}checklists`,
+        method: "POST",
+        params,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Creates a comment on a card.
+     *
+     * @param {string}  idCard the ID of the Card that the comment should be created on.
+     * @param {string}  params.text the text for the comment.
+     * @returns a object containing a summary of the related card, members, and other Trello
+     * entities related to the newly created comment.
+     * See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post
+     */
+    async createCommentOnCard(idCard, comment) {
+      const config = {
+        url: `${this._getBaseUrl()}cards/${idCard}/actions/comments`,
+        method: "POST",
+        params: {
+          text: comment,
+        },
       };
       return (await this._makeRequest(config)).data;
     },
@@ -176,6 +250,19 @@ module.exports = {
         url: `${this._getBaseUrl()}/cards`,
         method: "post",
         data: opts,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Deletes the specified checklist.
+     *
+     * @param {string}  idChecklist the ID of the checklist to delete.
+     * @returns {object} an empty `limits` object indicating the operation completed successfully.
+     */
+    async deleteChecklist(idChecklist) {
+      const config = {
+        url: `${this._getBaseUrl()}checklists/${idChecklist}`,
+        method: "DELETE",
       };
       return (await this._makeRequest(config)).data;
     },
@@ -329,6 +416,34 @@ module.exports = {
         url: `${this._getBaseUrl()}/lists/${listId}`,
         method: "PUT",
         data,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Updates a card.
+     *
+     * @param {string}  params.name the name of the card.
+     * @param {string}  params.desc the description for the card.
+     * @param {string}  params.pos the position of the new card.
+     * @param {string}  params.due the due date for the card.
+     * @param {boolean}  params.dueComplete flag that indicates if `dueDate` expired.
+     * @param {string}  params.idList the ID of the list the card should be created in.
+     * @param {array}  params.idMembers array of member IDs to add to the card.
+     * @param {array}  params.idLabels array of label IDs to add to the card.
+     * @param {string}  params.urlSource a URL starting with `http://` or `https://`."
+     * @param {string}  params.fileSource format: `binary`.
+     * @param {string}  params.mimeType the mimeType of the attachment. Max length 256.
+     * @param {string}  params.idCardSource the ID of a card to copy into the new card.
+     * @param {string}  params.keepFromSource if using `idCardSource`, specifies properties to
+     * @returns the updated card object. See more at the API docs:
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
+     */
+    async updateCard(idCard,
+      params) {
+      const config = {
+        url: `${this._getBaseUrl()}cards/${idCard}`,
+        method: "PUT",
+        params,
       };
       return (await this._makeRequest(config)).data;
     },

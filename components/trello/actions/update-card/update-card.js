@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-update-card",
   name: "Update Card",
   description: "Updates a card.",
-  version: "0.0.1",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,
@@ -111,7 +111,7 @@ module.exports = {
     },
     cover: {
       type: "object",
-      label: "Conver",
+      label: "Cover",
       description:
         "Updates the card's cover.",
       optional: true,
@@ -127,7 +127,7 @@ module.exports = {
         format: {
           pattern: "^[0-9a-fA-F]{24}$",
           message: function (value) {
-            return validate.format("^%{id} is not a valid List id", {
+            return validate.format("^%{id} is not a valid Card id", {
               id: value,
             });
           },
@@ -166,6 +166,18 @@ module.exports = {
     if (this.idLabels) {
       constraints.idLabels = {
         type: "array",
+      };
+    }
+    if (this.idBoard) {
+      constraints.idLabels = {
+        format: {
+          pattern: "^[0-9a-fA-F]{24}$",
+          message: function (value) {
+            return validate.format("^%{id} is not a valid Board id", {
+              id: value,
+            });
+          },
+        },
       };
     }
     if (this.pos) {
@@ -230,19 +242,57 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.updateCard({
-      name: this.name,
-      desc: this.desc,
-      pos: this.pos,
-      due: this.due,
-      dueComplete: this.dueComplete,
-      idList: this.idList,
-      idMembers: this.idMembers,
-      idLabels: this.idLabels,
-      fileSource: this.fileSource,
-      address: this.address,
-      locationName: this.locationName,
-      coordinates: this.locationName,
-    });
+    //Need to send only defined props, otherwise request against Trello API
+    //endpoint for updateCard fails
+    const opts = {};
+    if (this.name) {
+      opts.name = this.name;
+    }
+    if (this.desc) {
+      opts.desc = this.desc;
+    }
+    if (this.closed) {
+      opts.closed = this.closed;
+    }
+    if (this.idMembers) {
+      opts.idMembers = this.idMembers;
+    }
+    if (this.idAttachmentCover) {
+      opts.idAttachmentCover = this.idAttachmentCover;
+    }
+    if (this.idList) {
+      opts.idList = this.idList;
+    }
+    if (this.idLabels) {
+      opts.idLabels = this.idLabels;
+    }
+    if (this.idBoard) {
+      opts.idBoard = this.idBoard;
+    }
+    if (this.pos) {
+      opts.pos = this.pos;
+    }
+    if (this.due) {
+      opts.due = this.due;
+    }
+    if (this.dueComplete) {
+      opts.dueComplete = this.dueComplete;
+    }
+    if (this.subscribed) {
+      opts.subscribed = this.subscribed;
+    }
+    if (this.address) {
+      opts.address = this.address;
+    }
+    if (this.locationName) {
+      opts.locationName = this.locationName;
+    }
+    if (this.coordinates) {
+      opts.coordinates = this.coordinates;
+    }
+    if (this.cover) {
+      opts.cover = this.cover;
+    }
+    return await this.trello.updateCard(this.idCard, opts);
   },
 };
