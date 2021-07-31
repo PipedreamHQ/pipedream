@@ -1,29 +1,63 @@
-const common = require("../common.js");
+const docusign = require("../../docusign.app.js");
 
 module.exports = {
-  ...common,
   key: "docusign-new-folder",
   name: "New Folder",
   description: "Emits an event when a new folder is created",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
+  props: {
+    docusign,
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
+    account: {
+      propDefinition: [
+        docusign,
+        "account",
+      ],
+    },
+    include: {
+      type: "string[]",
+      label: "Folder types",
+      description: "Folder types to include in the response",
+      options: [
+        "envelope_folders",
+        "template_folders",
+        "shared_template_folders",
+      ],
+      default: [
+        "envelope_folders",
+        "template_folders",
+        "shared_template_folders",
+      ],
+    },
+  },
   methods: {
-    ...common.methods,
-    _getFolderIds() {
-      return this.db.get("folderIds");
-    },
-    _setFolderIds(folderIds) {
-      this.db.set("folderIds", folderIds);
-    },
-    processFolder(folderIds, folder, ts) {
-      if (this.isRelevant(folderIds, folder.folderId)) {
-        this.emitEvent(folder, ts);
-        folderIds.push(folder.folderId);
+    async processFolders(baseUri, params, folders, ts) {
+      for (const folder of folders) {
+        if (folder.hasSubFolders == "true") {
+          for (const subfolder of folder.folders) {
+            let done = false;
+            do {
+              const {
+                folders: subfolders,
+                nextUri,
+                resultSetSize,
+              } = await this.docusign.listFolderItems(baseUri, params, subfolder.folderId);
+              await this.processFolders(baseUri, params, subfolders, ts);
+              if (nextUri) params.start_postion += resultSetSize + 1;
+              else done = true;
+            } while (!done);
+          }
+        }
+        const meta = this.generateMeta(folder, ts);
+        this.$emit(folder, meta);
       }
-      return folderIds;
-    },
-    isRelevant(folderIds, id) {
-      return !folderIds.includes(id);
     },
     generateMeta({
       folderId: id, name: summary,
@@ -37,32 +71,24 @@ module.exports = {
   },
   async run(event) {
     const { timestamp: ts } = event;
-    const baseUri = this._getBaseUri();
-    let folderIds = this._getFolderIds() || [];
+    const baseUri =  await this.docusign.getBaseUri(this.account);
     let done = false;
     const params = {
       start_position: 0,
-      include: "envelope_folders,template_folders,shared_template_folders",
+      include: (this.include).join(),
       include_items: true,
     };
     do {
       const {
         folders = [],
         nextUri,
-        endPosition,
+        resultSetSize,
       } = await this.docusign.listFolders(baseUri, params);
-      if (nextUri) params.start_position += endPosition + 1;
+      if (nextUri) params.start_position += resultSetSize + 1;
       else done = true;
 
-      for (const folder of folders) {
-        if (folder.hasSubFolders == "true") {
-          for (const subfolder of folder.folders) {
-            folderIds = this.processFolder(folderIds, subfolder, ts);
-          }
-        }
-        folderIds = this.processFolder(folderIds, folder, ts);
-      }
+      await this.processFolders(baseUri, params, folders, ts);
+
     } while (!done);
-    this._setFolderIds(folderIds);
   },
 };
