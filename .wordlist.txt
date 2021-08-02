@@ -863,6 +863,7 @@ udL
 img
 href
 OpenSSH
+<<<<<<< HEAD
 CommonJS
 Quickstarts
 decrypted
@@ -952,3 +953,5 @@ Zenkit
 Zerys
 Boomtrain
 WorkDrive
+favicon
+ico
