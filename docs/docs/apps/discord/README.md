@@ -120,7 +120,7 @@ To request a new Discord Bot action, please file an issue on our [Github repo](h
 
 Right now, the Discord Bot integration cannot utilize the [Discord Gateway](https://discordapp.com/developers/docs/topics/gateway) to receive events via websockets or make API requests that require an initial connection to the gateway.
 
-Please [reach out](/support) if prevents you from building a workflow. We're happy to prioritize support for this in the future.
+Please [reach out](https://pipedream.com/support) if prevents you from building a workflow. We're happy to prioritize support for this in the future.
 
 ## Discord Event Sources
 

@@ -4,7 +4,7 @@ HTTP Destinations allow you to send data to another HTTP endpoint URL outside of
 
 [[toc]]
 
-## Using `$send.http()`
+## Using `$send.http` in workflows
 
 You can send HTTP requests in [Node.js code steps](/workflows/steps/code/) using `$send.http()`.
 
@@ -49,6 +49,21 @@ names.forEach((name) => {
 ```
 
 you won't have to `await` the execution of the HTTP requests in your workflow. We'll collect every `$send.http()` call and defer those HTTP requests, sending them after your workflow finishes.
+
+## Using `$.send.http` in component actions
+
+If you're authoring a [component action](/components/actions/), you can deliver data to an HTTP destination using `$.send.http`.
+
+`$.send.http` functions the same as [`$send.http` in workflow code steps](#using-send-http-in-workflows):
+
+```javascript
+async run({ $ }) {
+  $.send.http({
+    method: "GET",
+    url: "https://example.com"
+  })
+}
+```
 
 ## HTTP Destination delivery
 
