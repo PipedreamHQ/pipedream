@@ -35,9 +35,14 @@ module.exports = {
     },
   },
   async run () {
-    response = await this.bandwidth.sendSms(this.to, this.from, this.message, this.messagingApplicationId);
-    console.log('Status Code:', response.statusCode);
-    console.log('Message ID:', response.result.id);
+    const response = await this.bandwidth.sendSms(
+      this.to,
+      this.from,
+      this.message,
+      this.messagingApplicationId
+    );
+    console.log("Status Code:", response.statusCode);
+    console.log("Message ID:", response.result.id);
     return response;
   },
 };

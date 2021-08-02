@@ -1,4 +1,4 @@
-const bandwidthMessaging = require("@bandwidth/messaging")
+const bandwidthMessaging = require("@bandwidth/messaging");
 
 module.exports = {
   type: "app",
@@ -33,20 +33,22 @@ module.exports = {
   methods: {
     getMessagingClient() {
       return new bandwidthMessaging.Client({
-          basicAuthUserName: this.$auth.username,
-          basicAuthPassword: this.$auth.password,
+        basicAuthUserName: this.$auth.username,
+        basicAuthPassword: this.$auth.password,
       });
     },
     async sendSms(to, from, message, messagingApplicationId) {
       const controller = new bandwidthMessaging.ApiController(this.getMessagingClient());
       const data = {
         applicationId: messagingApplicationId,
-        to: [to],
+        to: [
+          to
+        ],
         from: from,
         text: message,
       };
       try {
-        response = await controller.createMessage(this.$auth.accountId, data);
+        const response = await controller.createMessage(this.$auth.accountId, data);
         return response;
       } catch (error) {
         console.log(error.result);
