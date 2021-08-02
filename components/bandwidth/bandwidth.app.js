@@ -42,7 +42,7 @@ module.exports = {
       const data = {
         applicationId: messagingApplicationId,
         to: [
-          to
+          to,
         ],
         from: from,
         text: message,

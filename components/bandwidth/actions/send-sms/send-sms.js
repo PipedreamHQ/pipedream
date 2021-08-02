@@ -39,7 +39,7 @@ module.exports = {
       this.to,
       this.from,
       this.message,
-      this.messagingApplicationId
+      this.messagingApplicationId,
     );
     console.log("Status Code:", response.statusCode);
     console.log("Message ID:", response.result.id);
