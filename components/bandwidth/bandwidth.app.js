@@ -22,7 +22,7 @@ module.exports = {
     messagingApplicationId: {
       type: "string",
       label: "Messaging Application ID",
-      description: "The ID from the messaging application created in the [Bandwidth Dashboard](https://www.dashboard.bandwidth.com). \n\nThe application must be associated with the location that the `from` number lives on.",
+      description: "The ID from the messaging application created in the [Bandwidth Dashboard](https://dashboard.bandwidth.com). \n\nThe application must be associated with the location that the `from` number lives on.",
     },
     mediaUrl: {
       type: "string[]",
