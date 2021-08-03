@@ -35,7 +35,7 @@ module.exports = {
   },
   async run () {
     const response = await this.bandwidth.sendSms(
-      this.to,
+      this.messageTo,
       this.from,
       this.message,
       this.messagingApplicationId,
