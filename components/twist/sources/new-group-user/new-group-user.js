@@ -2,9 +2,9 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
-  name: "New Group User(Instant)",
+  name: "New Group User (Instant)",
   version: "0.0.1",
-  key: "twist-new-group-user",
+  key: "twist-new-group-user-instant",
   description: "Emits an event for any new user added to a workspace group.",
   methods: {
     getHookActivationData() {

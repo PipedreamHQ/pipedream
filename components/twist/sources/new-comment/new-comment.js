@@ -10,10 +10,22 @@ module.exports = {
   props: {
     ...common.props,
     channel: {
-      propDefinition: [twist, "channel", (c) => ({ workspace: c.workspace })],
+      propDefinition: [
+        twist,
+        "channel",
+        (c) => ({
+          workspace: c.workspace,
+        }),
+      ],
     },
     thread: {
-      propDefinition: [twist, "thread", (c) => ({ channel: c.channel })],
+      propDefinition: [
+        twist,
+        "thread",
+        (c) => ({
+          channel: c.channel,
+        }),
+      ],
     },
   },
   methods: {
@@ -27,7 +39,11 @@ module.exports = {
       };
     },
     getMeta(body) {
-      const { id, content, posted } = body;
+      const {
+        id,
+        content,
+        posted,
+      } = body;
       return {
         id,
         summary: content,

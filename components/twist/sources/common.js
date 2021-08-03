@@ -10,7 +10,10 @@ module.exports = {
       customResponse: true,
     },
     workspace: {
-      propDefinition: [twist, "workspace"],
+      propDefinition: [
+        twist,
+        "workspace",
+      ],
     },
   },
   hooks: {

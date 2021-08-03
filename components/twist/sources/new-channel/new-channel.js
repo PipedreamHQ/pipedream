@@ -1,4 +1,3 @@
-const twist = require("../../twist.app.js");
 const common = require("../common.js");
 
 module.exports = {
@@ -16,11 +15,15 @@ module.exports = {
       };
     },
     getMeta(body) {
-      const { id, name, created_ts } = body;
+      const {
+        id,
+        name,
+        created_ts: created,
+      } = body;
       return {
         id,
         summary: name,
-        ts: Date.parse(created_ts),
+        ts: Date.parse(created),
       };
     },
   },

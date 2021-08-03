@@ -4,7 +4,7 @@ module.exports = {
   ...common,
   name: "New Group (Instant)",
   version: "0.0.1",
-  key: "twist-new-group",
+  key: "twist-new-group-instant",
   description: "Emits an event for any new group added in a workspace",
   methods: {
     getHookActivationData() {

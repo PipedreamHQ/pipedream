@@ -13,7 +13,9 @@ module.exports = {
       propDefinition: [
         twist,
         "conversation",
-        (c) => ({ workspace: c.workspace }),
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
     },
   },
@@ -27,7 +29,11 @@ module.exports = {
       };
     },
     getMeta(body) {
-      const { id, content, posted } = body;
+      const {
+        id,
+        content,
+        posted,
+      } = body;
       return {
         id,
         summary: content,

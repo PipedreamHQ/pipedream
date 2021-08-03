@@ -46,14 +46,15 @@ module.exports = {
     },
     getMeta(body) {
       const {
-        name,
         id,
-        created = Date.now(),
+        name: summary = "New Event",
+        created = new Date(),
       } = body;
+      const ts = Date.parse(created);
       return {
-        id: `${id}${created}`,
-        summary: name || "New Event",
-        ts: Date.parse(created),
+        id: `${id}${ts}`,
+        summary,
+        ts,
       };
     },
   },
