@@ -10,7 +10,12 @@ module.exports = {
   type: "action",
   props: {
     zoho_crm,
-    domainLocation: { propDefinition: [zoho_crm, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        zoho_crm,
+        "domainLocation",
+      ],
+    },
     module: {
       type: "string",
       label: "Module",
@@ -73,7 +78,7 @@ module.exports = {
         module: this.module,
         fileName: this.fileName,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -83,7 +88,7 @@ module.exports = {
       this.domainLocation,
       this.module,
       this.recordId,
-      this.fileName
+      this.fileName,
     );
   },
 };

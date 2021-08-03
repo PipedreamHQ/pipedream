@@ -10,7 +10,12 @@ module.exports = {
   type: "action",
   props: {
     zoho_crm,
-    domainLocation: { propDefinition: [zoho_crm, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        zoho_crm,
+        "domainLocation",
+      ],
+    },
     recordId: {
       type: "string",
       label: "Record Id",
@@ -63,7 +68,7 @@ module.exports = {
       type: "object",
       label: "Deals",
       description:
-        'Use this key to create a deal for the newly created Account. The "Deal_Name", "Closing_Date", and "Stage" are default mandatory keys to be passed as part of the recordId  object structure.',
+        "Use this key to create a deal for the newly created Account. The \"Deal_Name\", \"Closing_Date\", and \"Stage\" are default mandatory keys to be passed as part of the recordId  object structure.",
       optional: true,
     },
     carryOverTags: {
@@ -83,7 +88,9 @@ module.exports = {
         presence: true,
       },
     };
-    const validationResult = validate({ recordId: this.recordId }, constraints);
+    const validationResult = validate({
+      recordId: this.recordId,
+    }, constraints);
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
       throw new Error(validationMessages);
@@ -100,6 +107,6 @@ module.exports = {
         carryOverTags: this.carryOverTags,
       },
     ];
-    return await this.zoho_crm.convertLead(this.domainLocation,this.recordId, data);
+    return await this.zoho_crm.convertLead(this.domainLocation, this.recordId, data);
   },
 };

@@ -20,7 +20,7 @@ module.exports = {
           "Parameters validation failed with the following errors:\t";
         validationResultKeys.forEach(
           (validationResultKey) =>
-            (validationMessages += `${validationResult[validationResultKey]}\t`)
+            (validationMessages += `${validationResult[validationResultKey]}\t`),
         );
       }
       return validationMessages;

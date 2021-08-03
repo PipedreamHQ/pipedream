@@ -12,7 +12,12 @@ module.exports = {
   type: "action",
   props: {
     zoho_crm,
-    domainLocation: { propDefinition: [zoho_crm, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        zoho_crm,
+        "domainLocation",
+      ],
+    },
     criteria: {
       type: "string",
       label: "Search Criteria",
@@ -104,7 +109,7 @@ module.exports = {
         module: this.module,
         record: this.record,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -117,10 +122,10 @@ module.exports = {
       null,
       null,
       null,
-      this.fields
+      this.fields,
     );
     const searchResults = await this.getGeneratorResults(
-      searchResultsGenerator
+      searchResultsGenerator,
     );
     if (searchResults.length) {
       return {
@@ -133,245 +138,259 @@ module.exports = {
       let moduleConstraints;
       let moduleFieldsValues;
       switch (this.module) {
-        case "Leads":
-        case "Contacts":
-          {
-            moduleConstraints = {
-              Last_Name: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = { Last_Name: this.record.Last_Name };
-          }
-          break;
-        case "Accounts":
-          {
-            moduleConstraints = {
-              Account_Name: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = { Account_Name: this.record.Account_Name };
-          }
-          break;
-        case "Deals":
-          {
-            moduleConstraints = {
-              Deal_Name: {
-                presence: true,
-              },
-              Stage: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = {
-              Deal_Name: this.record.Deal_Name,
-              Stage: this.record.Stage,
-            };
-          }
-          break;
-        case "Tasks":
-          {
-            moduleConstraints = {
-              Subject: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = { Subject: this.record.Subject };
-          }
-          break;
-        case "Calls":
-          {
-            moduleConstraints = {
-              Subject: {
-                presence: true,
-              },
-              Call_Type: {
-                presence: true,
-              },
-              Call_Start_Time: {
-                presence: true,
-              },
-              Call_Duration: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = {
-              Subject: this.record.Subject,
-              Call_Type: this.record.Call_Type,
-              Call_Start_Time: this.record.Call_Start_Time,
-              Call_Duration: this.record.Call_Duration,
-            };
-          }
-          break;
-        case "Events":
-          {
-            moduleConstraints = {
-              Event_Title: {
-                presence: true,
-              },
-              Call_Type: {
-                presence: true,
-              },
-              Start_DateTime: {
-                presence: true,
-              },
-              End_DateTime: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = {
-              Event_Title: this.record.Event_Title,
-              Call_Type: this.record.Call_Type,
-              Start_DateTime: this.record.Start_DateTime,
-              End_DateTime: this.record.End_DateTime,
-            };
-          }
-          break;
-        case "Products":
-          {
-            moduleConstraints = {
-              Product_Name: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = { Product_Name: this.record.Product_Name };
-          }
-          break;
-        case "Quotes":
-          {
-            moduleConstraints = {
-              Subject: {
-                presence: true,
-              },
-              Quoted_Items: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = {
-              Subject: this.record.Subject,
-              Quoted_Items: this.record.Quoted_Items,
-            };
-          }
-          break;
-        case "Invoices":
-          {
-            moduleConstraints = {
-              Subject: {
-                presence: true,
-              },
-              Invoiced_Items: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = {
-              Subject: this.record.Subject,
-              Invoiced_Items: this.record.Invoiced_Items,
-            };
-          }
-          break;
-        case "Campaigns":
-          {
-            moduleConstraints = {
-              Campaign_Name: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = { Campaign_Name: this.record.Campaign_Name };
-          }
-          break;
-        case "Vendors":
-          {
-            moduleConstraints = {
-              Vendor_Name: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = { Vendor_Name: this.record.Vendor_Name };
-          }
-          break;
-        case "Price_Books":
-          {
-            moduleConstraints = {
-              Price_Book_Name: {
-                presence: true,
-              },
-              Pricing_Details: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = {
-              Price_Book_Name: this.record.Price_Book_Name,
-              Pricing_Details: this.record.Pricing_Details,
-            };
-          }
-          break;
-        case "Cases":
-          {
-            moduleConstraints = {
-              Case_Origin: {
-                presence: true,
-              },
-              Status: {
-                presence: true,
-              },
-              Subject: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = {
-              Case_Origin: this.record.Case_Origin,
-              Status: this.record.Status,
-              Subject: this.record.Subject,
-            };
-          }
-          break;
-        case "Solutions":
-          {
-            moduleConstraints = {
-              Solution_Title: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = { Solution_Title: this.record.Solution_Title };
-          }
-          break;
-        case "Purchase_Orders":
-          {
-            moduleConstraints = {
-              Subject: {
-                presence: true,
-              },
-              Vendor_Name: {
-                presence: true,
-              },
-              Purchased_Items: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = {
-              Subject: this.record.Subject,
-              Vendor_Name: this.record.Vendor_Name,
-              Purchased_Items: this.record.Purchased_Items,
-            };
-          }
-          break;
-        case "Sales_Orders":
-          {
-            moduleConstraints = {
-              Subject: {
-                presence: true,
-              },
-              Ordered_Items: {
-                presence: true,
-              },
-            };
-            moduleFieldsValues = {
-              Subject: this.record.Subject,
-              Ordered_Items: this.record.Ordered_Items,
-            };
-          }
-          break;
+      case "Leads":
+      case "Contacts":
+        {
+          moduleConstraints = {
+            Last_Name: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Last_Name: this.record.Last_Name,
+          };
+        }
+        break;
+      case "Accounts":
+        {
+          moduleConstraints = {
+            Account_Name: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Account_Name: this.record.Account_Name,
+          };
+        }
+        break;
+      case "Deals":
+        {
+          moduleConstraints = {
+            Deal_Name: {
+              presence: true,
+            },
+            Stage: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Deal_Name: this.record.Deal_Name,
+            Stage: this.record.Stage,
+          };
+        }
+        break;
+      case "Tasks":
+        {
+          moduleConstraints = {
+            Subject: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Subject: this.record.Subject,
+          };
+        }
+        break;
+      case "Calls":
+        {
+          moduleConstraints = {
+            Subject: {
+              presence: true,
+            },
+            Call_Type: {
+              presence: true,
+            },
+            Call_Start_Time: {
+              presence: true,
+            },
+            Call_Duration: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Subject: this.record.Subject,
+            Call_Type: this.record.Call_Type,
+            Call_Start_Time: this.record.Call_Start_Time,
+            Call_Duration: this.record.Call_Duration,
+          };
+        }
+        break;
+      case "Events":
+        {
+          moduleConstraints = {
+            Event_Title: {
+              presence: true,
+            },
+            Call_Type: {
+              presence: true,
+            },
+            Start_DateTime: {
+              presence: true,
+            },
+            End_DateTime: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Event_Title: this.record.Event_Title,
+            Call_Type: this.record.Call_Type,
+            Start_DateTime: this.record.Start_DateTime,
+            End_DateTime: this.record.End_DateTime,
+          };
+        }
+        break;
+      case "Products":
+        {
+          moduleConstraints = {
+            Product_Name: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Product_Name: this.record.Product_Name,
+          };
+        }
+        break;
+      case "Quotes":
+        {
+          moduleConstraints = {
+            Subject: {
+              presence: true,
+            },
+            Quoted_Items: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Subject: this.record.Subject,
+            Quoted_Items: this.record.Quoted_Items,
+          };
+        }
+        break;
+      case "Invoices":
+        {
+          moduleConstraints = {
+            Subject: {
+              presence: true,
+            },
+            Invoiced_Items: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Subject: this.record.Subject,
+            Invoiced_Items: this.record.Invoiced_Items,
+          };
+        }
+        break;
+      case "Campaigns":
+        {
+          moduleConstraints = {
+            Campaign_Name: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Campaign_Name: this.record.Campaign_Name,
+          };
+        }
+        break;
+      case "Vendors":
+        {
+          moduleConstraints = {
+            Vendor_Name: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Vendor_Name: this.record.Vendor_Name,
+          };
+        }
+        break;
+      case "Price_Books":
+        {
+          moduleConstraints = {
+            Price_Book_Name: {
+              presence: true,
+            },
+            Pricing_Details: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Price_Book_Name: this.record.Price_Book_Name,
+            Pricing_Details: this.record.Pricing_Details,
+          };
+        }
+        break;
+      case "Cases":
+        {
+          moduleConstraints = {
+            Case_Origin: {
+              presence: true,
+            },
+            Status: {
+              presence: true,
+            },
+            Subject: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Case_Origin: this.record.Case_Origin,
+            Status: this.record.Status,
+            Subject: this.record.Subject,
+          };
+        }
+        break;
+      case "Solutions":
+        {
+          moduleConstraints = {
+            Solution_Title: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Solution_Title: this.record.Solution_Title,
+          };
+        }
+        break;
+      case "Purchase_Orders":
+        {
+          moduleConstraints = {
+            Subject: {
+              presence: true,
+            },
+            Vendor_Name: {
+              presence: true,
+            },
+            Purchased_Items: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Subject: this.record.Subject,
+            Vendor_Name: this.record.Vendor_Name,
+            Purchased_Items: this.record.Purchased_Items,
+          };
+        }
+        break;
+      case "Sales_Orders":
+        {
+          moduleConstraints = {
+            Subject: {
+              presence: true,
+            },
+            Ordered_Items: {
+              presence: true,
+            },
+          };
+          moduleFieldsValues = {
+            Subject: this.record.Subject,
+            Ordered_Items: this.record.Ordered_Items,
+          };
+        }
+        break;
       }
       validate.validators.presence.message = `is required for creating records in the ${this.module} module.`;
       validationResult = validate(moduleFieldsValues, moduleConstraints);
@@ -382,11 +401,19 @@ module.exports = {
       const createRecordResult = await this.zoho_crm.createModuleRecord(
         this.domainLocation,
         this.module,
-        { data: [this.record] }
+        {
+          data: [
+            this.record,
+          ],
+        },
       );
-      const createRecordResultData = get(createRecordResult, ["data"]);
+      const createRecordResultData = get(createRecordResult, [
+        "data",
+      ]);
       if (createRecordResultData.length) {
-        if (["SUCCESS"].includes(createRecordResultData[0].code)) {
+        if ([
+          "SUCCESS",
+        ].includes(createRecordResultData[0].code)) {
           const createdRecordGenerator = this.zoho_crm.searchRecords(
             this.domainLocation,
             this.module,
@@ -394,7 +421,7 @@ module.exports = {
             null,
             null,
             null,
-            this.fields
+            this.fields,
           );
           const createdRecord = await createdRecordGenerator.next();
           return {

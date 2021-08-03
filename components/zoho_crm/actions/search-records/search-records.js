@@ -10,7 +10,12 @@ module.exports = {
   type: "action",
   props: {
     zoho_crm,
-    domainLocation: { propDefinition: [zoho_crm, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        zoho_crm,
+        "domainLocation",
+      ],
+    },
     criteria: {
       type: "string",
       label: "Search Criteria",
@@ -51,9 +56,18 @@ module.exports = {
       description:
         "Determines whether converted records should be retrieved. `Yes` - get only converted records. `No` - get only non-converted records. `Both` -  get all records ",
       options: [
-        { label: "Yes", value: "true" },
-        { label: "No", value: "false" },
-        { label: "Both", value: "both" },
+        {
+          label: "Yes",
+          value: "true",
+        },
+        {
+          label: "No",
+          value: "false",
+        },
+        {
+          label: "Both",
+          value: "both",
+        },
       ],
       default: "No",
     },
@@ -63,9 +77,18 @@ module.exports = {
       description:
         "Determines whether approved records should be retrieved. `Yes` - get only approved records. `No` - get only non-approved records. `Both` -  get all records ",
       options: [
-        { label: "Yes", value: "true" },
-        { label: "No", value: "false" },
-        { label: "Both", value: "both" },
+        {
+          label: "Yes",
+          value: "true",
+        },
+        {
+          label: "No",
+          value: "false",
+        },
+        {
+          label: "Both",
+          value: "both",
+        },
       ],
       default: "Yes",
     },
@@ -79,7 +102,7 @@ module.exports = {
       label: "Fields",
       description:
         "Comma separated list of the fields you'd like to retrieve in the records matching your search.",
-      optional: true
+      optional: true,
     },
   },
   methods: {
@@ -95,8 +118,11 @@ module.exports = {
       },
     };
     const validationResult = validate(
-      { criteria: this.criteria, numberOfRecords: this.numberOfRecords },
-      constraints
+      {
+        criteria: this.criteria,
+        numberOfRecords: this.numberOfRecords,
+      },
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -109,7 +135,7 @@ module.exports = {
       this.numberOfRecords,
       this.converted,
       this.approved,
-      this.fields
+      this.fields,
     );
     const searchResults = await this.getGeneratorResults(searchResultsGenerator);
     return searchResults.slice(0, this.numberOfRecords);

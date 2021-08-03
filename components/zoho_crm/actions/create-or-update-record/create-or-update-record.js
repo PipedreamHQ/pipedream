@@ -11,7 +11,12 @@ module.exports = {
   type: "action",
   props: {
     zoho_crm,
-    domainLocation: { propDefinition: [zoho_crm, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        zoho_crm,
+        "domainLocation",
+      ],
+    },
     module: {
       type: "string",
       label: "Module",
@@ -47,15 +52,15 @@ module.exports = {
       type: "object",
       label: "Duplicate Check Fields",
       description:
-        'The values of the fields specified in this array are used to check for duplicate records. They can be **system-defined duplicate check fields** which are module-wise system-defined, or **user-defined unique fields** fields for which "Do not allow duplicate values" is enabled. See the relevant section in the [Upsert Records API Docs](https://www.zoho.com/crm/developer/docs/api/v2/upsert-records.html), and [User-Custom Fields, Mark Field as Unique](https://help.zoho.com/portal/en/kb/crm/customize-crm-account/customizing-fields/articles/use-custom-fields#Mark_a_Field_as_Unique) article respectively.',
+        "The values of the fields specified in this array are used to check for duplicate records. They can be **system-defined duplicate check fields** which are module-wise system-defined, or **user-defined unique fields** fields for which \"Do not allow duplicate values\" is enabled. See the relevant section in the [Upsert Records API Docs](https://www.zoho.com/crm/developer/docs/api/v2/upsert-records.html), and [User-Custom Fields, Mark Field as Unique](https://help.zoho.com/portal/en/kb/crm/customize-crm-account/customizing-fields/articles/use-custom-fields#Mark_a_Field_as_Unique) article respectively.",
       optional: true,
     },
     trigger: {
       type: "object",
       label: "Trigger",
       description: "An array with the triggers, workflow actions, related to this entry you'd like to be executed. Use an empty array `[]` to not execute any of the workflows.",
-      optional: true
-    }
+      optional: true,
+    },
   },
   methods: {
     ...common.methods,
@@ -88,9 +93,9 @@ module.exports = {
         module: this.module,
         record: this.record,
         duplicateCheckFields: this.duplicateCheckFields,
-        trigger: this.trigger
+        trigger: this.trigger,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -101,7 +106,7 @@ module.exports = {
       this.module,
       this.record,
       this.duplicateCheckFields,
-      this.trigger
+      this.trigger,
     );
   },
 };

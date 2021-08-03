@@ -10,7 +10,12 @@ module.exports = {
   type: "action",
   props: {
     zoho_crm,
-    domainLocation: { propDefinition: [zoho_crm, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        zoho_crm,
+        "domainLocation",
+      ],
+    },
     module: {
       type: "string",
       label: "Module",
@@ -81,7 +86,7 @@ module.exports = {
         recordId: this.recordId,
         tagNames: this.tagNames,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       let validationResultKeys = Object.keys(validationResult);
@@ -93,7 +98,7 @@ module.exports = {
           "Parameters validation failed with the following errors:\t";
         validationResultKeys.forEach(
           (validationResultKey) =>
-            (validationMessages += `${validationResult[validationResultKey]}\t`)
+            (validationMessages += `${validationResult[validationResultKey]}\t`),
         );
       }
       throw new Error(validationMessages);
@@ -103,7 +108,7 @@ module.exports = {
       this.module,
       this.recordId,
       this.tagNames,
-      this.overWrite
+      this.overWrite,
     );
   },
 };

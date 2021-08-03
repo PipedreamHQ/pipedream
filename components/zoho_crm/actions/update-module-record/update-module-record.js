@@ -10,7 +10,12 @@ module.exports = {
   type: "action",
   props: {
     zoho_crm,
-    domainLocation: { propDefinition: [zoho_crm, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        zoho_crm,
+        "domainLocation",
+      ],
+    },
     module: {
       type: "string",
       label: "Module",
@@ -54,8 +59,8 @@ module.exports = {
       type: "object",
       label: "Trigger",
       description: "An array with the triggers, workflow actions, related to this entry you'd like to be executed. Use an empty array `[]` to not execute any of the workflows.",
-      optional: true
-    }
+      optional: true,
+    },
   },
   methods: {
     ...common.methods,
@@ -70,7 +75,7 @@ module.exports = {
       },
       recordId: {
         presence: true,
-      }      ,
+      },
       record: {
         presence: true,
       },
@@ -82,7 +87,7 @@ module.exports = {
         recordId: this.recordId,
         record: this.record,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -93,7 +98,7 @@ module.exports = {
       this.module,
       this.recordId,
       this.record,
-      this.trigger
+      this.trigger,
 
     );
   },

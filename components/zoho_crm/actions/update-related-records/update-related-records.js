@@ -11,12 +11,23 @@ module.exports = {
   type: "action",
   props: {
     zoho_crm,
-    domainLocation: { propDefinition: [zoho_crm, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        zoho_crm,
+        "domainLocation",
+      ],
+    },
     module: {
       type: "string",
       label: "Module",
       description: "Module of the record to relate.",
-      options: ["Leads", "Accounts", "Contacts", "Potentials", "Price_Books"],
+      options: [
+        "Leads",
+        "Accounts",
+        "Contacts",
+        "Potentials",
+        "Price_Books",
+      ],
     },
     recordId: {
       type: "string",
@@ -28,13 +39,16 @@ module.exports = {
       type: "string",
       label: "Related Module",
       description: "Module on which the record will be related to.",
-      options: ["Campaigns", "Products"],
+      options: [
+        "Campaigns",
+        "Products",
+      ],
     },
     relatedData: {
       type: "object",
       label: "Related Data",
       description:
-        'An array with the unique identifier of the record (`id`) in the related module, and its member estatus (`Member_Status`). Example: `[{id:"3652397000000327001",Member_Status:"Active"},{id:"3652397000001854001",Member_Status:"Planning"}]`',
+        "An array with the unique identifier of the record (`id`) in the related module, and its member estatus (`Member_Status`). Example: `[{id:\"3652397000000327001\",Member_Status:\"Active\"},{id:\"3652397000001854001\",Member_Status:\"Planning\"}]`",
     },
   },
   methods: {
@@ -67,7 +81,7 @@ module.exports = {
         relatedModule: this.relatedModule,
         relatedData: this.relatedData,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -78,7 +92,7 @@ module.exports = {
       this.module,
       this.recordId,
       this.relatedModule,
-      this.relatedData
+      this.relatedData,
     );
   },
 };
