@@ -47,7 +47,7 @@ module.exports = {
         from: from,
         text: message,
       };
-        return await controller.createMessage(this.$auth.accountId, data);
+      return await controller.createMessage(this.$auth.accountId, data);
     },
   },
 };
