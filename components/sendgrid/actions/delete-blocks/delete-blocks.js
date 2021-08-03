@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-delete-blocks",
   name: "Delete Blocks",
   description: "Allows you to delete all email addresses on your blocks list.",
-  version: "0.0.18",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

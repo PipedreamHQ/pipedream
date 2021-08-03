@@ -14,7 +14,7 @@ module.exports = {
     },
     _emailValidationsUrl() {
       const baseUrl = this._apiUrl();
-      return `${baseUrl}/validations/email`;
+      return `${baseUrl}/validatiogns/email`;
     },
     _contactListUrl() {
       const baseUrl = this._apiUrl();
@@ -149,6 +149,13 @@ module.exports = {
     async disableSignedWebhook() {
       return this._setSignedWebhook(false);
     },
+    /**
+     * Adds an email to global supressions
+     *
+     * @param {array}  recipientEmails the email addresses to be added to the global
+     * suppressions group.
+     * @returns {recipient_emails: array} the email addresses that are globally suppressed.
+     */
     async addEmailToGlobalSupression(recipientEmails) {
       const url = this._asmGlobalSupressionsUrl();
       const requestData = {
@@ -159,14 +166,32 @@ module.exports = {
         axios.post(url, requestData, requestConfig));
       return data;
     },
-    async addOrUpdateContacts(requestData) {
+    /**
+     * Adds an email to global supressions
+     * @param {array} opts.list_ids an array of List ID strings that this contact will be added to.
+     * @param {array}  opts.contacts one or more contacts objects for upsert. An email field is
+     * required for each contact object. See the contact object description at:
+     * https://docs.sendgrid.com/api-reference/contacts/add-or-update-a-contact
+     * @returns {job_id: string } indicates that the contacts are queued for processing. Check the
+     * job status with the "Import Contacts Status" endpoint. Check the API docs at:
+     * https://docs.sendgrid.com/api-reference/contacts/import-contacts-status
+     */
+    async addOrUpdateContacts(opts) {
       const url = this._contactsUrl();
       const requestConfig = this._makeRequestConfig();
       requestConfig.headers["Content-Type"] = "application/json";
       const { data } = await this._withRetries(() =>
-        axios.put(url, requestData, requestConfig));
+        axios.put(url, opts, requestConfig));
       return data;
     },
+    /**
+     * Creates a new contact list.
+     *
+     * @param {string}  name the name for the list.
+     * @returns {id: string, name: string, contact_count: integer} object with the id of the
+     * created list, the name given to the list, and contact_count with the number of contacts
+     * currently stored on the list.
+     */
     async createContactList(name) {
       const url = this._contactListUrl();
       const requestData = {
@@ -177,6 +202,14 @@ module.exports = {
         axios.post(url, requestData, requestConfig));
       return data;
     },
+    /**
+     * Deletes all email addresses on on the associated account blocks list
+     *
+     * @param {boolean}  deleteAll Indicates if all blocked email addresses shoudld be deleted.
+     * This can not be used with the `emails` parameter.
+     * @param {array}  emails the specific blocked email addresses to delete.
+     * @returns This endpoint replies with HTTP 204 code "No content".
+     */
     async deleteBlocks(deleteAll, emails) {
       const requestConfig = this._makeRequestConfig();
       requestConfig.method = "DELETE";
@@ -193,6 +226,15 @@ module.exports = {
       const { data } = await this._withRetries(() => axios(requestConfig));
       return data;
     },
+    /**
+     * Deletes all email addresses on the associated account bounces list.
+     *
+     * @param {boolean}  deleteAll Indicates if all email addresses in the bounces list should be
+     * deleted.
+     * This can not be used with the `emails` parameter.
+     * @param {array}  emails the specific email addresses to be deleted from the bounces list.
+     * @returns this endpoint replies with HTTP 204 code "No content".
+     */
     async deleteBounces(deleteAll, emails) {
       const requestConfig = this._makeRequestConfig();
       requestConfig.method = "DELETE";
@@ -209,17 +251,34 @@ module.exports = {
       const { data } = await this._withRetries(() => axios(requestConfig));
       return data;
     },
+    /**
+     * Deletes one or more contacts.
+     *
+     * @param {boolean}  deleteAllContacts Indicates if all delete contacts should be deleted.
+     * This can not be used with the `ids` parameter.
+     * @param {array}  ids the specific email addresses to be deleted from the bounces list.
+     * @returns {job_id: string } the id of deletion job indicating request has been accepted
+     * and is being processed. Contact deletion jobs are processed asynchronously.
+     */
     async deleteContacts(deleteAllContacts, ids) {
       const requestConfig = this._makeRequestConfig();
       requestConfig.method = "DELETE";
       requestConfig.url = this._contactsUrl();
       requestConfig.params = {
-        delete_all_contacts: deleteAllContacts,
-        ids,
+        delete_all_contacts: deleteAllContacts.toString(),
       };
+      if (ids) {
+        requestConfig.params.ids = ids.join(",");
+      }
       const { data } = await this._withRetries(() => axios(requestConfig));
       return data;
     },
+    /**
+     * Removes an email address from the associated account's global suppressions group.
+     *
+     * @param {string}  email the email address to remove from the global suppressions group.
+     * @returns this endpoint replies with HTTP 204 code "No content".
+     */
     async deleteGlobalSupression(email) {
       const requestConfig = this._makeRequestConfig();
       const url = `${this._asmGlobalSupressionsUrl()}/${email}`;
@@ -227,6 +286,15 @@ module.exports = {
         axios.delete(url, requestConfig));
       return data;
     },
+    /**
+     * Deletes a specific contact list.
+     *
+     * @param {string}  id id of the list to be deleted.
+     * @param {boolean}  deleteContacts indicates if all contacts on the list are also to be
+     * deleted.
+     * @returns {job_id: string } the id of deletion job indicating request has been accepted
+     * and is being processed. Contact deletion jobs are processed asynchronously.
+     */
     async deleteList(id, deleteContacts) {
       const requestConfig = this._makeRequestConfig();
       requestConfig.method = "DELETE";
@@ -237,6 +305,15 @@ module.exports = {
       const { data } = await this._withRetries(() => axios(requestConfig));
       return data;
     },
+    /**
+     * Gets a specific block
+     *
+     * @param {string}  email the email address of the specific block.
+     * @returns {created: integer, email: string, reason: string, status: string } an object
+     * with: `created`, the unix timestamp indicating when the email address was added to the
+     * blocks list. `email` with the email address added of the block list, `reason`, an
+     * explanation for the reason of the block, and `status` with the status of the block.
+     */
     async getBlock(email) {
       const requestConfig = this._makeRequestConfig();
       const url = `${this._supressionBlocksUrl()}/${email}`;
@@ -244,6 +321,13 @@ module.exports = {
         axios.get(url, requestConfig));
       return data;
     },
+    /**
+     * Gets a global supression
+     *
+     * @param {string}  email the email address of the global suppression to retrieve.
+     * @returns {recipient_email: string} the email address that is globally suppressed. This will
+     * be an empty object if the email address you included in your call is not globally suppressed.
+     */
     async getGlobalSupression(email) {
       const requestConfig = this._makeRequestConfig();
       const url = `${this._asmGlobalSupressionsUrl()}/${email}`;
@@ -251,6 +335,19 @@ module.exports = {
         axios.get(url, requestConfig));
       return data;
     },
+    /**
+     * Get all the associated account's bounces.
+     *
+     * @param {integer}  startTime start of the time range in unix timestamp when a bounce was
+     * created (inclusive).
+     * @param {integer}  endTime end of the time range in unix timestamp when a bounce was
+     * created (inclusive).
+     * @returns {{created: number, email: string, reason: string, status: string}: array} an array
+     * with details of each bounce returned: `created` for unix timestamp for when the bounce record
+     * was created at SendGrid, `email` for the email address that was added to the bounce list,
+     * `reason` with the reason for the bounce  (typicallya bounce code, an enhanced code, and a
+     * description), and `status` for the enhanced SMTP bounce response.
+     */
     async getAllBounces(startTime, endTime) {
       const requestConfig = this._makeRequestConfig();
       requestConfig.params = {
@@ -262,6 +359,15 @@ module.exports = {
         axios.get(url, requestConfig));
       return data;
     },
+    /**
+     * Get all the associated account's contact lists.
+     *
+     * @param {integer}  numberOfLists the number of contact lists to return.
+     * @returns {{_metadata: object, contact_count: integer, id: string, name: string}: array} an
+     * array with details of each contact list returned: `_metadata` with a `self` object containing
+     * a link to the contat list, a `contact_count` with the count of contacts in the list, an `id`
+     * as a unique identifier to the contat list, and the `name` of the list.
+     */
     async *getAllContactLists(maxItems) {
       let url = this._contactListUrl();
       while (url && maxItems > 0) {
@@ -282,6 +388,19 @@ module.exports = {
         url = data._metadata.next;
       }
     },
+    /**
+     * Lists all email addresses that are currently the associated account blocks list.
+     *
+     * @param {integer}  startTime start of the time range in unix timestamp when a block was
+     * created (inclusive).
+     * @param {integer}  endTime end of the time range in unix timestamp when a block was
+     * created (inclusive).
+     * @param {integer}  numberOfBlocks the number of blocks to return.
+     * @returns {{created: number, email: string, reason: string, status: string}: array} an array
+     * with details of each block returned: `created` for unix timestamp for when the block record
+     * was created at SendGrid, `email` for the email address that was added to the block  list,
+     * `reason` with the reason for the block, and the `status` of the block.
+     */
     async *listBlocks(startTime, endTime, maxItems) {
       const url = this._supressionBlocksUrl();
       let offset = 0;
@@ -309,6 +428,19 @@ module.exports = {
         offset += blocks.length;
       }
     },
+    /**
+     * Lists all email addresses that are globally suppressed.
+     *
+     * @param {integer}  startTime start of the time range in unix timestamp when a global
+     * supression was created (inclusive).
+     * @param {integer}  endTime end of the time range in unix timestamp when  a global
+     * supression was created (inclusive).
+     * @param {integer}  numberOfSupressions the number of global supressions to return.
+     * @returns {{created: number, email: string}: array} an array
+     * with details of each global supression returned: `created` for unix timestamp for when
+     * the recipient was added to the global suppression list, `email` for the email address of
+     * the recipient who is globally suppressed.
+     */
     async *listGlobalSupressions(startTime, endTime, maxItems) {
       const url = this._globalSupressionsUrl();
       let offset = 0;
@@ -336,6 +468,17 @@ module.exports = {
         offset += globalSupressions.length;
       }
     },
+    /**
+     * Makes an aribitrary call to Sendgrid API.
+     *
+     * @param {string}  method the http method to use in the request.
+     * @param {string}  path the path relative to Sendgrid API to send the request against.
+     * @param {string}  headers the headers to send in the request. Authorization headers will
+     * already be included.
+     * @param {string}  body the body of the request.
+     * @returns
+     * the return object depends on the parameters specified.
+     */
     async makeAnAPICall(method, path, headers, body) {
       const cleanedPath = path.replace(/^\/*/, "").replace(/\/*$/, "");
       const url = `${this._apiUrl()}/${cleanedPath}`;
@@ -352,6 +495,14 @@ module.exports = {
       const { data } = await this._withRetries(() => axios.request(config));
       return data;
     },
+    /**
+     * Removes one or more contact from the specified list.
+     *
+     * @param {boolean}  id unique id of the List where the contact to remove off is located.
+     * @param {array}  contactIds an string array of contact ids to be removed off the list.
+     * @returns {job_id: string } the id of deletion job indicating request has been accepted
+     * and is being processed. Contact deletion jobs are processed asynchronously.
+     */
     async removeContactFromList(id, contactIds) {
       const url = `${this._contactListUrl()}/${id}/contacts`;
       const requestConfig = this._makeRequestConfig();
@@ -362,6 +513,15 @@ module.exports = {
         axios.delete(url, requestConfig));
       return data;
     },
+    /**
+     * Searches contacts in the associated account with a SGQL query.
+     *
+     * @param {string}  query the query field; accepts a valid SGQL for searching for a contact.
+     * @returns {result: array, _metadata: object, contact_count: number } a `result` array with all
+     * the contacts objects matching the query, `_metadata` object with a link to the search object,
+     * and `contact_count` with the total number of contacts matched. See details on the contact
+     * objects at the API docs: https://docs.sendgrid.com/api-reference/contacts/search-contacts
+     */
     async searchContacts(query) {
       const requestConfig = {
         method: "POST",
@@ -381,6 +541,21 @@ module.exports = {
         axios.post(url, requestData, requestConfig));
       return data;
     },
+    /**
+     * Validates an email address.
+     *
+     * @param {string}  email the email to validate.
+     * @param {string}  source optional indicator of the email address's source.
+     * @returns {{ email: string, verdict: string, score: string, local: string, host: string
+     * suggestion: string, checks: string, source: string, ip_address: string }: object } an
+     * object with details of the validation result: `email`, the email being validated, `verdict`
+     * a generic classification of whether or not the email address is valid, `score` a numeric
+     * representation of the email validity, `local`, the local part of the email address, `host`,
+     * the domain of the email address, `suggestion`, a suggested correction in the event of
+     * domain name typos (e.g., gmial.com), the `checks` object with granular checks for email
+     * address validity, `source`, the source of the validation, as per the API request, the IP
+     * address associated with this email.
+     */
     async validateEmail(requestData) {
       const url = this._emailValidationsUrl();
       const requestConfig = this._makeRequestConfig();

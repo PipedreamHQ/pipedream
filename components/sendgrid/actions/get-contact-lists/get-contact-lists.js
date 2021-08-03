@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-get-contact-lists",
   name: "Get Contact Lists",
   description: "Allows you to get details of your contact lists.",
-  version: "0.0.31",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

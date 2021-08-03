@@ -5,7 +5,7 @@ module.exports = {
   ...common,
   key: "sendgrid-make-an-api-request",
   name: "Make An API Request",
-  description: "Makes a aribitrary call to Sendgrid API.",
+  description: "Makes an aribitrary call to Sendgrid API.",
   version: "0.0.1",
   type: "action",
   props: {

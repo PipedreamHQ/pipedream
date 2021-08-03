@@ -3,11 +3,11 @@ const common = require("../common");
 
 module.exports = {
   ...common,
-  key: "sendgrid-send-an-email",
-  name: "Send an Email",
+  key: "sendgrid-send-email-multiple-recipients",
+  name: "Send Email Multiple Recipients",
   description:
-    "This action sends a personalized e-mail to the specified recipients",
-  version: "0.0.90",
+    "This action sends a personalized e-mail to multiple specified recipients.",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -40,26 +40,26 @@ module.exports = {
       type: "string",
       label: "Reply To Name",
       description:
-        "A name or title associated with the `reply_to` email address.",
+        "A name or title associated with the `replyToEmail` address.",
       optional: true,
     },
     subject: {
       type: "string",
       label: "Subject",
       description:
-        "The global or `message level` subject of your email. This may be overridden by subject lines set in personalizations.",
+        "The global or `message level` subject of your email. This may be overridden by subject lines set -in personalizations.",
     },
     content: {
       type: "string",
       label: "Content",
       description:
-        "An array where you can specify the content of your email. You can include multiple  of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Alternatively, provide a string that will `JSON.parse` to an array of content objects. Example: `[{type:\"text/plain\",value:\"Plain text content.\"}]`",
+        "An string array where you can specify the content of your email. You can include multiple  of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Alternatively, provide a string that will `JSON.parse` to an array of content objects. Example: `[{type:\"text/plain\",value:\"Plain text content.\"}]`",
     },
     attachments: {
-      type: "object",
+      type: "string",
       label: "Attachments",
       description:
-      "An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Example: `[{content:\"aGV5\",type:\"text/plain\",filename:\"sample.txt\"}]`",
+      "An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Alternatively, provide a string that will `JSON.parse` to an array of attachments objects. Example: `[{content:\"aGV5\",type:\"text/plain\",filename:\"sample.txt\"}]`",
       optional: true,
     },
     templateId: {
@@ -136,12 +136,15 @@ module.exports = {
     ...common.methods,
   },
   async run() {
+    //Performs validation on parameters.
+    validate.validators.arrayValidator = this.validateArray; //custom validator for object arrays
+    //Defines contraints for required parameters
     const constraints = {
       personalizations: {
         presence: true,
         arrayValidator: {
           value: this.personalizations,
-          key: "content",
+          key: "personalizations",
         },
       },
       fromEmail: {
@@ -159,25 +162,7 @@ module.exports = {
         },
       },
     };
-    const arrayValidatorFormat = "parameter must be an array of % objects (or an string that will `JSON.parse` to one).";
-    validate.validators.arrayValidator = function (
-      value,
-      params,
-    ) {
-      const arrayValidatorMsg = arrayValidatorFormat.replace("%", params.key);
-      if (Array.isArray(value)) {
-        return null;
-      } else {
-        try {
-          const parsedValue = JSON.parse(value);
-          return Array.isArray(parsedValue) ?
-            null :
-            arrayValidatorMsg;
-        } catch {
-          return arrayValidatorMsg;
-        }
-      }
-    };
+    //Defines contraints for optional parameters
     if (this.replyToEmail) {
       constraints.replyToEmail = {
         email: true,
@@ -185,7 +170,10 @@ module.exports = {
     }
     if (this.attachments) {
       constraints.attachments = {
-        type: "array",
+        arrayValidator: {
+          value: this.attachments,
+          key: "attachments",
+        },
       };
     }
     if (this.categories) {
@@ -193,24 +181,15 @@ module.exports = {
         type: "array",
       };
     }
+    this.sendAt = this.convertEmptyStringToNull(this.sendAt);
     if (this.sendAt != null) {
-      constraints.sendAt = {
-        numericality: {
-          onlyInteger: true,
-          greaterThan: 0,
-          message: "must be positive integer, greater than zero.",
-        },
-      };
+      constraints.sendAt = this.getIntegerGtZeroConstraint();
     }
+    this.batchId = this.convertEmptyStringToNull(this.batchId);
     if (this.batchId != null) {
-      constraints.batchId = {
-        numericality: {
-          onlyInteger: true,
-          greaterThan: 0,
-          message: "must be positive integer, greater than zero.",
-        },
-      };
+      constraints.batchId = this.getIntegerGtZeroConstraint();
     }
+    //Executes validation
     const validationResult = validate(
       {
         personalizations: this.personalizations,
@@ -226,41 +205,42 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
+    //Set ups the `from` object, where `email`, `name` of the mail sender are specified, with
+    //`email` being required.
     const from = {
       email: this.fromEmail,
     };
     if (this.fromName) {
       from.name = this.fromName;
     }
+    //Set ups the `reply_to` object, where `email`, `name` of the reply-to recipient are
+    //specified, with `email` being required.
+    let replyTo = undefined;
+    if (this.replyToEmail) {
+      replyTo.email = this.replyToEmail;
+      if (this.replyToName) {
+        replyTo.name = this.replyToName;
+      }
+    }
+    //Prepares and sends the request configuration
     const config = {
-      personalizations: Array.isArray(this.personalizations) ?
-        this.personalizations :
-        JSON.parse(this.personalizations),
+      personalizations: this.getArrayObject(this.personalizations),
       from,
+      reply_to: replyTo,
       subject: this.subject,
-      content: Array.isArray(this.content) ?
-        this.content :
-        JSON.parse(this.content),
-      attachments: this.convertEmptyStringToUndefined(this.attachments),
+      content: this.getArrayObject(this.content),
+      attachments: this.getArrayObject(this.attachments),
       template_id: this.templateId,
-      headers: this.convertEmptyStringToUndefined(this.headers),
-      categories: this.convertEmptyStringToUndefined(this.categories),
+      headers: this.convertEmptyStringToNull(this.headers),
+      categories: this.convertEmptyStringToNull(this.categories),
       custom_args: this.customArgs,
       send_at: this.sendAt,
       batch_id: this.batchId,
-      asm: this.convertEmptyStringToUndefined(this.asm),
+      asm: this.convertEmptyStringToNull(this.asm),
       ip_pool_name: this.ipPoolName,
-      mail_settings: this.convertEmptyStringToUndefined(this.mailSettings),
-      tracking_settings: this.convertEmptyStringToUndefined(this.trackingSettings),
+      mail_settings: this.convertEmptyStringToNull(this.mailSettings),
+      tracking_settings: this.convertEmptyStringToNull(this.trackingSettings),
     };
-    if (this.replyToEmail) {
-      config.reply_to = {
-        email: this.replyToEmail,
-      };
-      if (this.replyToName) {
-        config.reply_to.name = this.replyToName;
-      }
-    }
     return await this.sendgrid.sendEmail(config);
   },
 };

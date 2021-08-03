@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-get-all-bounces",
   name: "Get All Bounces",
   description: "Allows you to get all of your bounces.",
-  version: "0.0.23",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -30,15 +30,11 @@ module.exports = {
   },
   async run() {
     const constraints = {};
+    this.startTime = this.convertEmptyStringToNull(this.startTime);
     if (this.startTime != null) {
-      constraints.startTime = {
-        numericality: {
-          onlyInteger: true,
-          greaterThan: 0,
-          message: "must be positive integer, greater than zero.",
-        },
-      };
+      constraints.startTime = this.getIntegerGtZeroConstraint();
     }
+    this.endTime = this.convertEmptyStringToNull(this.endTime);
     if (this.endTime != null) {
       constraints.endTime = {
         numericality: {

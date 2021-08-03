@@ -4,9 +4,9 @@ const common = require("../common");
 module.exports = {
   ...common,
   key: "sendgrid-add-or-update-contact",
-  name: "Add Or Update Contacts",
-  description: "Adds or updates contacts.",
-  version: "0.0.29",
+  name: "Add Or Update Contact",
+  description: "Adds or updates a contact.",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -14,65 +14,125 @@ module.exports = {
       type: "string[]",
       label: "List Ids",
       description:
-        "A string array of List IDs where contact(s) will be added to. Example:  `[\"49eeb4d9-0065-4f6a-a7d8-dfd039b77e0f\",\"89876b28-a90e-41d1-b73b-e4a6ce2354ba\"]`",
+        "A string array of List IDs where the contact will be added to. Example:  `[\"49eeb4d9-0065-4f6a-a7d8-dfd039b77e0f\",\"89876b28-a90e-41d1-b73b-e4a6ce2354ba\"]`",
       optional: true,
     },
-    contacts: {
+    email: {
       type: "string",
-      label: "Contacts",
+      label: "Email",
+      description: "The contact's email address.",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The contact's personal name.",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The contact's family name.",
+      optional: true,
+    },
+    addressLine1: {
+      type: "string",
+      label: "Address Line 1",
+      description: "The first line of the address.",
+      optional: true,
+    },
+    addressLine2: {
+      type: "string",
+      label: "Address Line 2",
+      description: "An optional second line for the address.",
+      optional: true,
+    },
+    alternateEmails: {
+      type: "string[]",
+      label: "Alternate Emails",
+      description: "Additional emails associated with the contact.",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The contact's city.",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
       description:
-        "Array of one or more contacts objects that you intend to upsert. Alternatively, provide string that will `JSON.parse()` to an array of objects. The `email` field is required for each Contact. Example `[{email:\"email1@example.com\",first_name:\"Example 1\"},{email:\"email2@example.com\",first_name:\"Example 2\"}]`",
+        "The contact's country. Can be a full name or an abbreviation.",
+      optional: true,
+    },
+    postalCode: {
+      type: "string",
+      label: "Postal Code",
+      description: "The contact's ZIP code or other postal code.",
+      optional: true,
+    },
+    stateProvinceRegion: {
+      type: "string",
+      label: "State Province Region",
+      description: "The contact's state, province, or region.",
+      optional: true,
+    },
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "Custom fields for the contact.",
+      optional: true,
     },
   },
   methods: {
     ...common.methods,
   },
   async run() {
+    validate.validators.arrayValidator = this.validateArray;
     const constraints = {
-      contacts: {
+      email: {
         presence: true,
-        length: {
-          minimum: 1,
-          maximum: 30000,
-          tooShort: "parameter needs to have %{count} contacts or more",
-          tooLong: "parameter needs to have %{count} contacts or less",
-        },
-        contactsValidator: this.contacts,
+        email: true,
       },
     };
-    const opts = {};
     if (this.listIds) {
       constraints.listIds = {
         type: "array",
       };
-      opts.list_ids = this.listIds;
     }
-    const arrayValidationMsg = "must be an array of %, or an string that will `JSON.parse` to an array of contacts.";
-    validate.validators.contactsValidator = function (
-      value,
-    ) {
-      if (Array.isArray(value)) {
-        opts.contacts = value;
-        return null;
-      } else {
-        try {
-          opts.contacts = JSON.parse(value);
-          return Array.isArray(opts.contacts) ?
-            null :
-            contactsValidationMsg;
-        } catch {
-          return contactsValidationMsg;
-        }
-      }
-    };
+    if (this.alternateEmails) {
+      constraints.cc = {
+        type: "array",
+      };
+    }
     const validationResult = validate(
       {
+        email: this.email,
         listIds: this.listIds,
-        contacts: this.contacts,
+        alternateEmails: this.alternateEmails,
       },
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.sendgrid.addOrUpdateContacts(opts);
+    const contacts = [
+      {
+        email: this.email,
+        address_line_1: this.addressLine1,
+        address_line_2: this.addressLine2,
+        alternate_emails: this.alternateEmails,
+        city: this.city,
+        country: this.country,
+        first_name: this.firstName,
+        last_name: this.lastName,
+        postal_code: this.postalCode,
+        state_province_region: this.stateProvinceRegion,
+        custom_fields: this.customFields,
+      },
+    ];
+    const config = {
+      list_ids: this.convertEmptyStringToNull(this.listIds),
+      contacts,
+    };
+    return await this.sendgrid.addOrUpdateContacts(config);
   },
 };

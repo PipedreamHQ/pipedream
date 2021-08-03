@@ -5,7 +5,7 @@ module.exports = {
   ...common,
   key: "sendgrid-delete-list",
   name: "Delete List",
-  description: "Allows you to delete a specific list.",
+  description: "Allows you to delete a specific contact list.",
   version: "0.0.1",
   type: "action",
   props: {

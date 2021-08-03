@@ -6,14 +6,14 @@ module.exports = {
   key: "sendgrid-delete-contacts",
   name: "Delete Contacts",
   description: "Allows you to delete one or more contacts.",
-  version: "0.0.22",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
     deleteAllContacts: {
       type: "boolean",
       label: "Delete All Contacts?",
-      description: "This parameter allows you to delete all of your contacts. This can not be used with the `Ids` parameter.",
+      description: "This parameter allows you to delete all of your contacts. This can not be used with the `ids` parameter.",
       default: false,
     },
     ids: {
@@ -44,6 +44,6 @@ module.exports = {
       );
     }
     const deleteAll = !!this.deleteAllContacts;
-    await this.sendgrid.deleteContacts(this.ids, deleteAll);
+    await this.sendgrid.deleteContacts(deleteAll, this.ids);
   },
 };

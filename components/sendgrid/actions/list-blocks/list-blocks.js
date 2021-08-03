@@ -7,7 +7,7 @@ module.exports = {
   name: "List Blocks",
   description:
     "Allows you to list all email addresses that are currently on your blocks list.",
-  version: "0.0.17",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -41,15 +41,11 @@ module.exports = {
         type: "integer",
       },
     };
+    this.startTime = this.convertEmptyStringToNull(this.startTime);
     if (this.startTime != null) {
-      constraints.startTime = {
-        numericality: {
-          onlyInteger: true,
-          greaterThan: 0,
-          message: "must be positive integer, greater than zero.",
-        },
-      };
+      constraints.startTime = this.getIntegerGtZeroConstraint();
     }
+    this.endTime = this.convertEmptyStringToNull(this.endTime);
     if (this.endTime != null) {
       constraints.endTime = {
         numericality: {
@@ -61,14 +57,9 @@ module.exports = {
         },
       };
     }
+    this.numberOfBlocks = this.convertEmptyStringToNull(this.numberOfBlocks);
     if (this.numberOfBlocks != null) {
-      constraints.numberOfBlocks = {
-        numericality: {
-          onlyInteger: true,
-          greaterThan: 0,
-          message: "must be positive integer, greater than zero.",
-        },
-      };
+      constraints.numberOfBlocks = this.getIntegerGtZeroConstraint();
     }
     const validationResult = validate(
       {

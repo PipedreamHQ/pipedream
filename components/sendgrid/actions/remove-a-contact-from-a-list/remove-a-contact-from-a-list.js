@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-remove-a-contact-from-a-list",
   name: "Remove A Contact From A List",
   description: "Allows you to remove contacts from a given list.",
-  version: "0.0.32",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

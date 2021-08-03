@@ -7,7 +7,7 @@ module.exports = {
   name: "Add Email To Global Supression",
   description:
     "Allows you to add one or more email addresses to the global suppressions group.",
-  version: "0.0.17",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

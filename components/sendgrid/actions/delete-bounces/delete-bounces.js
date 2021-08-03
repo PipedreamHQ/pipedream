@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-delete-bounces",
   name: "Delete Bounces",
   description: "Allows you to delete all emails on your bounces list.",
-  version: "0.0.17",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
