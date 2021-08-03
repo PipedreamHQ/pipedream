@@ -7,17 +7,17 @@ module.exports = {
     messageTo: {
       type: "string",
       label: "To",
-      description: "The number the message will be sent to, in E164 format ex `+19195551234`.",
+      description: "The number the message will be sent to, in E164 format ex `+19195551234`",
     },
     from: {
       type: "string",
       label: "From",
-      description: "The number the call or message event will come from, in E164 format ex `+19195551234`.",
+      description: "The number the call or message event will come from, in E164 format ex `+19195551234`",
     },
     message: {
       type: "string",
       label: "Message",
-      description: "The text message content.",
+      description: "The text message content",
     },
     messagingApplicationId: {
       type: "string",
@@ -27,7 +27,7 @@ module.exports = {
     mediaUrl: {
       type: "string[]",
       label: "Media URL",
-      description: "Publicly addressible URL of the media you would like to send with the SMS.",
+      description: "Publicly addressible URL of the media you would like to send with the SMS",
     },
   },
   methods: {
@@ -47,13 +47,7 @@ module.exports = {
         from: from,
         text: message,
       };
-      try {
-        const response = await controller.createMessage(this.$auth.accountId, data);
-        return response;
-      } catch (error) {
-        console.log(error.result);
-        return error;
-      }
+        return await controller.createMessage(this.$auth.accountId, data);
     },
   },
 };

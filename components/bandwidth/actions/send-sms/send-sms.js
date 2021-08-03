@@ -3,10 +3,9 @@ const bandwidth = require("../../bandwidth.app.js");
 module.exports = {
   key: "bandwidth-send-sms",
   name: "Send SMS",
-  description: "Send an SMS message using Bandwidth's Messaging API.",
+  description: "Send an SMS message using Bandwidth's Messaging API",
   type: "action",
   version: "1.0.0",
-
   props: {
     bandwidth,
     messageTo: {
