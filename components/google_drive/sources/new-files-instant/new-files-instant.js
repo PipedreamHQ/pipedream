@@ -58,7 +58,7 @@ module.exports = {
       const watchedFolders = new Set(this.folders);
       return (
         watchedFolders.size == 0 ||
-        file.parents.some((p) => watchedFolders.has(p))
+        (file.parents && file.parents.some((p) => watchedFolders.has(p)))
       );
     },
     getUpdateTypes() {
