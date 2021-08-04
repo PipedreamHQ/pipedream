@@ -22,6 +22,18 @@ module.exports = {
         "account",
       ],
     },
+    status: {
+      type: "string[]",
+      label: "Status",
+      description: "The envelope status that you are checking for",
+      options: [
+        "sent",
+        "completed",
+      ],
+      default: [
+        "sent",
+      ],
+    },
   },
   methods: {
     _getLastEvent() {
@@ -36,10 +48,10 @@ module.exports = {
       return monthAgo;
     },
     generateMeta({
-      envelopeId: id, emailSubject: summary,
+      envelopeId: id, emailSubject: summary, status,
     }, ts) {
       return {
-        id,
+        id: `${id}${status}`,
         summary,
         ts,
       };
@@ -52,7 +64,7 @@ module.exports = {
     let done = false;
     const params = {
       from_date: lastEvent,
-      status: "sent,completed",
+      status: this.status.join(),
     };
     do {
       const {
