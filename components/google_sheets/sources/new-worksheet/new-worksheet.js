@@ -6,7 +6,7 @@ module.exports = {
   name: "New Worksheet (Instant)",
   description:
     "Emits an event each time a new worksheet is created in a spreadsheet.",
-  version: "0.0.2",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -15,9 +15,7 @@ module.exports = {
         common.props.googleSheets,
         "sheetID",
         (c) => ({
-          driveId: c.watchedDrive === "myDrive" ?
-            null :
-            c.watchedDrive,
+          driveId: common.methods.getDriveId(c.watchedDrive),
         }),
       ],
     },
