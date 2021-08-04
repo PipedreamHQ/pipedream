@@ -18,7 +18,7 @@ module.exports = {
       type: "object",
       label: "Properties",
       description:
-        'An object with property values to update for this page. The object keys are the names or IDs of the [property](https://developers.notion.com/reference-link/database-property) and the values are [property values](https://developers.notion.com/reference-link/page-property-value). Example `{"In stock":{"checkbox":true}}`',
+        "An object with property values to update for this page. The object keys are the names or IDs of the [property](https://developers.notion.com/reference-link/database-property) and the values are [property values](https://developers.notion.com/reference-link/page-property-value). Example `{\"In stock\":{\"checkbox\":true}}`",
     },
   },
   async run() {

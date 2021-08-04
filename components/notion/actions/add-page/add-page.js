@@ -25,7 +25,7 @@ module.exports = {
       type: "string",
       label: "Children",
       description:
-        'A JSON-based array of [block objects](https://developers.notion.com/reference-link/block) to use as page content. Example `[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"This is the paragraph content"}}]}}]`',
+        "A JSON-based array of [block objects](https://developers.notion.com/reference-link/block) to use as page content. Example `[{\"object\":\"block\",\"type\":\"paragraph\",\"paragraph\":{\"text\":[{\"type\":\"text\",\"text\":{\"content\":\"This is the paragraph content\"}}]}}]`",
       optional: true,
     },
   },
@@ -33,11 +33,13 @@ module.exports = {
     if (!this.parent || !this.propertyValues) {
       throw new Error("Must provide parent and propertyValues parameters.");
     }
-    const children = this.children ? JSON.parse(this.children) : null;
+    const children = this.children
+      ? JSON.parse(this.children)
+      : null;
     return await this.notion.addPage(
       this.parent,
       this.propertyValues,
-      children
+      children,
     );
   },
 };

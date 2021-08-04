@@ -18,7 +18,7 @@ module.exports = {
       type: "string",
       label: "Content",
       description:
-        'A JSON-based array of content to be added to a page (or container block). Example `[{"object":"block","type":"heading_2","heading_2":{"text":[{"type":"text","text":{"content":"Sample content"}}]}}]`',
+        "A JSON-based array of content to be added to a page (or container block). Example `[{\"object\":\"block\",\"type\":\"heading_2\",\"heading_2\":{\"text\":[{\"type\":\"text\",\"text\":{\"content\":\"Sample content\"}}]}}]`",
     },
   },
   async run() {

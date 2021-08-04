@@ -40,7 +40,7 @@ module.exports = {
     return await this.notion.getBlockChildren(
       this.blockId,
       this.startCursor,
-      this.pageSize
+      this.pageSize,
     );
   },
 };

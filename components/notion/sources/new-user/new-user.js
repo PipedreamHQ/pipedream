@@ -18,7 +18,10 @@ module.exports = {
     async deploy() {
       // Emits sample events on the first run during deploy.
       const notionUsers = await this.notion.getAllUsers(null, 10);
-      const hasPageResults = get(notionUsers, ["results", "length"]);
+      const hasPageResults = get(notionUsers, [
+        "results",
+        "length",
+      ]);
       if (!hasPageResults) {
         console.log("No data available, skipping iteration");
         return;
@@ -41,9 +44,12 @@ module.exports = {
     do {
       notionUsers = await this.notion.getAllUsers(
         this.db.get("startCursor"),
-        100
+        100,
       );
-      const hasPageResults = get(notionUsers, ["results", "length"]);
+      const hasPageResults = get(notionUsers, [
+        "results",
+        "length",
+      ]);
       if (!hasPageResults) {
         console.log("No data available, skipping iteration");
         break;

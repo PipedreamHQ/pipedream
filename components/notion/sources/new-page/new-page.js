@@ -16,29 +16,37 @@ module.exports = {
       type: "string",
       label: "Database Id",
       description: "Unique identifier of the database to watch for new pages.",
-    }
+    },
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
       let notionPages;
       let sampleEmmitted = false;
-      const sorts = [{ timestamp: "created_time", direction: "ascending" }];
+      const sorts = [
+        {
+          timestamp: "created_time",
+          direction: "ascending",
+        },
+      ];
       do {
         notionPages = await this.notion.queryDatabasePages(
           this.databaseId,
           null,
           sorts,
           this.db.get("startCursor"),
-          100
+          100,
         );
-        const hasPageResults = get(notionPages, ["results", "length"]);
+        const hasPageResults = get(notionPages, [
+          "results",
+          "length",
+        ]);
         if (!hasPageResults) {
           console.log("No data available, skipping iteration");
           break;
         }
-        if(!sampleEmmitted){
-          notionPages.results.slice(0,10).forEach(this.emitNotionEvent);
+        if (!sampleEmmitted) {
+          notionPages.results.slice(0, 10).forEach(this.emitNotionEvent);
           sampleEmmitted = true;
         }
         if (notionPages.next_cursor) {
@@ -72,16 +80,24 @@ module.exports = {
   },
   async run() {
     let notionPages;
-    const sorts = [{ timestamp: "created_time", direction: "ascending" }];
+    const sorts = [
+      {
+        timestamp: "created_time",
+        direction: "ascending",
+      },
+    ];
     do {
       notionPages = await this.notion.queryDatabasePages(
         this.databaseId,
         null,
         sorts,
         this.db.get("startCursor"),
-        100
+        100,
       );
-      const hasPageResults = get(notionPages, ["results", "length"]);
+      const hasPageResults = get(notionPages, [
+        "results",
+        "length",
+      ]);
       if (!hasPageResults) {
         console.log("No data available, skipping iteration");
         break;

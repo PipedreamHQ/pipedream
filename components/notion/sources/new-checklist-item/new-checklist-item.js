@@ -24,14 +24,18 @@ module.exports = {
         const notionDatabases = await this.notion.getNotionItems("database");
         const notionPages = await this.notion.getNotionItems("page");
         notionDatabases.forEach((notionDatabase) =>
-          notionItems.push(notionDatabase)
-        );
+          notionItems.push(notionDatabase));
         notionPages.forEach((notionPage) => notionItems.push(notionPage));
 
         for (const notionItem of notionItems) {
           //Populating options with Notion databases
-          if (["database"].includes(notionItem.object)) {
-            const notionDatabaseTitle = get(notionItem, ["title", "length"]);
+          if ([
+            "database",
+          ].includes(notionItem.object)) {
+            const notionDatabaseTitle = get(notionItem, [
+              "title",
+              "length",
+            ]);
             if (notionDatabaseTitle) {
               options.push({
                 label: `(DATABASE) ${notionItem.title[0].text.content}`,
@@ -40,7 +44,9 @@ module.exports = {
             }
           } else {
             //Populating options with Notion pages
-            if (["page"].includes(notionItem.object)) {
+            if ([
+              "page",
+            ].includes(notionItem.object)) {
               const notionPageTitle = get(notionItem, [
                 "properties",
                 "Name",
@@ -70,19 +76,24 @@ module.exports = {
         notionBlocks = await this.notion.getBlockChildren(
           this.parent,
           this.db.get("startCursor"),
-          100
+          100,
         );
-        const hasPageResults = get(notionBlocks, ["results", "length"]);
+        const hasPageResults = get(notionBlocks, [
+          "results",
+          "length",
+        ]);
         if (!hasPageResults) {
           console.log("No data available, skipping iteration");
           break;
         }
         notionBlocks.results.forEach((notionBlock) => {
-          if (["to_do"].includes(notionBlock.type)) {
+          if ([
+            "to_do",
+          ].includes(notionBlock.type)) {
             checklistBlocks.push(notionBlock);
           }
         });
-        if(!sampleEmmitted && checklistBlocks.length >= 10){
+        if (!sampleEmmitted && checklistBlocks.length >= 10) {
           checklistBlocks.slice(0, 10).forEach(this.emitNotionEvent);
           sampleEmmitted = true;
         }
@@ -109,16 +120,21 @@ module.exports = {
       notionBlocks = await this.notion.getBlockChildren(
         this.parent,
         this.db.get("startCursor"),
-        100
+        100,
       );
-      const hasPageResults = get(notionBlocks, ["results", "length"]);
+      const hasPageResults = get(notionBlocks, [
+        "results",
+        "length",
+      ]);
       if (!hasPageResults) {
         console.log("No data available, skipping iteration");
         break;
       }
 
       notionBlocks.results.forEach((notionBlock) => {
-        if (["to_do"].includes(notionBlock.type)) {
+        if ([
+          "to_do",
+        ].includes(notionBlock.type)) {
           checklistBlocks.push(notionBlock);
         }
       });

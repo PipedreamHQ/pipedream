@@ -22,13 +22,17 @@ module.exports = {
         const notionDatabases = await this.notion.getNotionItems("database");
         const notionPages = await this.notion.getNotionItems("page");
         notionDatabases.forEach((notionDatabase) =>
-          notionItems.push(notionDatabase)
-        );
+          notionItems.push(notionDatabase));
         notionPages.forEach((notionPage) => notionItems.push(notionPage));
         for (const notionItem of notionItems) {
           //Populating options with Notion databases
-          if (["database"].includes(notionItem.object)) {
-            const notionDatabaseTitle = get(notionItem, ["title", "length"]);
+          if ([
+            "database",
+          ].includes(notionItem.object)) {
+            const notionDatabaseTitle = get(notionItem, [
+              "title",
+              "length",
+            ]);
             if (notionDatabaseTitle) {
               options.push({
                 label: `(DATABASE) ${notionItem.title[0].text.content}`,
@@ -37,7 +41,9 @@ module.exports = {
             }
           } else {
             //Populating options with Notion pages
-            if (["page"].includes(notionItem.object)) {
+            if ([
+              "page",
+            ].includes(notionItem.object)) {
               const notionPageTitle = get(notionItem, [
                 "properties",
                 "Name",
@@ -61,13 +67,19 @@ module.exports = {
       label: "Sort Direction",
       description:
         "Results will be sorted using this direction. Sort direction currenty is only applied against `last_edited_time`",
-      options: ["ascending", "descending"],
+      options: [
+        "ascending",
+        "descending",
+      ],
       optional: true,
     },
     searchFor: {
       type: "string",
       label: "Search For",
-      options: ["Page", "Database"],
+      options: [
+        "Page",
+        "Database",
+      ],
       optional: true,
     },
     startCursor: {
@@ -107,7 +119,7 @@ module.exports = {
       sort,
       filter,
       this.startCursor,
-      this.pageSize
+      this.pageSize,
     );
   },
 };

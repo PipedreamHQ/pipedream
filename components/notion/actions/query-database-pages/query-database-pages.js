@@ -26,7 +26,7 @@ module.exports = {
       type: "string",
       label: "Sorts",
       description:
-        'A JSON-based array of [sort criteria](https://developers.notion.com/reference-link/post-database-query-sort) used to order the pages included in the results. Example `[{"property":"Last ordered","direction":"ascending"}]`',
+        "A JSON-based array of [sort criteria](https://developers.notion.com/reference-link/post-database-query-sort) used to order the pages included in the results. Example `[{\"property\":\"Last ordered\",\"direction\":\"ascending\"}]`",
       optional: true,
     },
     startCursor: {
@@ -50,13 +50,15 @@ module.exports = {
     if (!this.databaseId) {
       throw new Error("Must provide databaseId parameters.");
     }
-    const sorts = this.sorts ? JSON.parse(this.sorts) : null;
+    const sorts = this.sorts
+      ? JSON.parse(this.sorts)
+      : null;
     return await this.notion.queryDatabasePages(
       this.databaseId,
       this.filter,
       sorts,
       this.startCursor,
-      this.pageSize
+      this.pageSize,
     );
   },
 };
