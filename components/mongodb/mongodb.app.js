@@ -48,17 +48,29 @@ module.exports = {
     },
   },
   methods: {
-    _getConnectionUrl() {
+    _getConnectionUrl(replSet = true) {
       const {
         username,
         password,
         hostname,
       } = this.$auth;
-      return `mongodb+srv://${username}:${password}@${hostname}`;
+      const protocol = replSet
+        ? "mongodb+srv"
+        : "mongodb";
+      return `${protocol}://${username}:${password}@${hostname}`;
     },
     async getClient() {
       const url = this._getConnectionUrl();
-      return await MongoClient.connect(url);
+      try {
+        return await MongoClient.connect(url);
+      } catch (err) {
+        if (err.code === "ENOTFOUND") {
+          // Last attempt to connect to the server
+          const url = this._getConnectionUrl(false);
+          return MongoClient.connect(url);
+        }
+        throw err;
+      }
     },
     getDatabase(client, dbName) {
       return client.db(dbName);

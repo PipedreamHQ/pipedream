@@ -52,7 +52,7 @@ module.exports = {
     generateMeta({ _id: id }, ts) {
       return {
         id,
-        summary: `New Document ID ${id}`,
+        summary: `New Document ID ${JSON.stringify(id)}`,
         ts,
       };
     },

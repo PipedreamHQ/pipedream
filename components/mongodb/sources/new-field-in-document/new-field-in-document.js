@@ -2,8 +2,8 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
-  key: "mongodb-new-field",
-  name: "New Field",
+  key: "mongodb-new-field-in-document",
+  name: "New Field in Document",
   description: "Emits an event when a new field is added to a document",
   version: "0.0.1",
   dedupe: "unique",
