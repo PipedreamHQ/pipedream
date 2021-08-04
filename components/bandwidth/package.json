@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bandwidth",
+  "version": "1.0.0",
+  "description": "Pipedream Bandwidth Components",
+  "main": "index.js",
+  "keywords": [
+      "pipedream",
+      "bandwidth"
+  ],
+  "author": "Bandwidth",
+  "license": "MIT",
+  "dependencies": {
+    "@bandwidth/messaging": "^4.0.0"
+  }
+}

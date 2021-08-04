@@ -9,7 +9,7 @@ next: false
 
 ## Github Discussions
 
-If you have any questions, feedback, or ideas for how we could improve the platform, please reach out on our Q&A forum - [Github Discussions](https://github.com/PipedreamHQ/pipedream/discussions).
+If you have any questions, feedback, or ideas for how we could improve the platform, please reach out on our Q&A forum - [Github Discussions](https://github.com/PipedreamHQ/pipedream/discussions). 
 
 ## Slack
 

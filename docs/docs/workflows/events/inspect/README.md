@@ -1,6 +1,6 @@
 # Inspect Events
 
-[The inspector](#the-inspector) lists the events you send to a [workflow](/workflows/). Once you choose a [trigger](/workflows/steps/triggers/) and send events to it, you'll see those events in the inspector, to the left of your workflow.
+[The inspector](#the-inspector) lists the events you send to a [workflow](/workflows/). Once you choose a [trigger](/workflows/steps/triggers/) and send events to it, you'll see those events in the inspector, to the left of your workflow. 
 
 Clicking on an event from the list lets you [review the incoming event data and workflow execution logs](/workflows/events/#examining-incoming-event-data) for that event.
 

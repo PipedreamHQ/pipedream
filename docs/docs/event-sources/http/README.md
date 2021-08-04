@@ -1,6 +1,6 @@
 # Creating an HTTP source
 
-This tutorial will walk you through how to:
+This tutorial will walk you through how to: 
 
 1. [Install the Pipedream CLI](#install-the-pipedream-cli)
 2. [Link your Pipedream account to the CLI](#link-your-pipedream-account-to-the-cli)
@@ -11,7 +11,7 @@ This should take about 5 minutes to complete.
 
 ## Install the Pipedream CLI
 
-[See the CLI installation docs](/cli/install/) to learn how to install the CLI for your OS / architecture.
+[See the CLI installation docs](/cli/install/) to learn how to install the CLI for your OS / architecture. 
 
 ## Link your Pipedream account to the CLI
 

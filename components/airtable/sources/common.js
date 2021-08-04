@@ -10,7 +10,10 @@ module.exports = {
         intervalSeconds: 60 * 5,
       },
     },
-    baseId: { type: "$.airtable.baseId", appProp: "airtable" },
+    baseId: {
+      type: "$.airtable.baseId",
+      appProp: "airtable",
+    },
   },
   hooks: {
     activate() {
@@ -24,7 +27,9 @@ module.exports = {
   methods: {
     updateLastTimestamp(event) {
       const { timestamp } = event;
-      const timestampMillis = timestamp ? timestamp * 1000 : Date.now();
+      const timestampMillis = timestamp
+        ? timestamp * 1000
+        : Date.now();
       const formattedTimestamp = new Date(timestampMillis).toISOString();
       this.db.set("lastTimestamp", formattedTimestamp);
     },

@@ -1,6 +1,6 @@
 # Replay Events
 
-Any events you've previously sent to a workflow, you can replay through your workflow, sending the same event again. Once you select an event in the Inspector, you'll see an icon at the far right of the row:
+Any events you've previously sent to a workflow, you can replay through your workflow, sending the same event again. Once you select an event in the Inspector, you'll see an icon at the far right of the row: 
 
 <div>
 <img alt="Edit test event" width="350" src="./images/replay.png">

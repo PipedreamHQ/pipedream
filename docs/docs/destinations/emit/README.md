@@ -1,10 +1,10 @@
 # Emit events
 
-Like [event sources](/event-sources/), workflows can emit events. These events can trigger other workflows, or be consumed using Pipedream's [REST API](/api/rest/#get-workflow-emits).
+Like [event sources](/event-sources/), workflows can emit events. These events can trigger other workflows, or be consumed using Pipedream's [REST API](/api/rest/#get-workflow-emits). 
 
 [[toc]]
 
-## Using `$send.emit()`
+## Using `$send.emit()` in workflows
 
 You can emit arbitrary events from any [Node.js code steps](/workflows/steps/code/) using `$send.emit()`.
 
@@ -24,6 +24,22 @@ $send.emit({
 });
 ```
 
+## Using `$.send.emit` in component actions
+
+If you're authoring a [component action](/components/actions/), you can emit data using `$.send.emit`.
+
+`$.send.emit` functions the same as [`$send.emit` in workflow code steps](#using-send-emit-in-workflows):
+
+```javascript
+async run({ $ }) {
+  $.send.emit({
+    raw_event: {
+      name: "Yoda",
+    },
+  });
+}
+```
+
 **Destination delivery is asynchronous**: emits are sent after your workflow finishes.
 
 You can call `$send.emit()` multiple times within a workflow, for example: to iterate over an array of values and emit an event for each.
@@ -41,7 +57,7 @@ for (const name of names) {
 
 ## Trigger a workflow from emitted events
 
-We call the events you emit from a workflow **emitted events**. Somtimes, you'll want emitted events to trigger another workflow. This can be helpful when:
+We call the events you emit from a workflow **emitted events**. Sometimes, you'll want emitted events to trigger another workflow. This can be helpful when:
 
 - You process events from different workflows in the same way. For example, you want to log events from many workflows to Amazon S3 or a logging service. You can write one workflow that handles logging, then `$send.emit()` events from other workflows that are consumed by the single, logging workflow. This helps remove duplicate logic from the other workflows.
 - Your workflow is complex and you want to separate it into multiple workflows to group logical functions together. You can `$send.emit()` events from one workflow to another to chain the workflows together.

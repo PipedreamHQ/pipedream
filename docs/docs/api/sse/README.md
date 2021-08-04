@@ -4,7 +4,7 @@
 
 ## Overview
 
-As soon as you deploy an event source, Pipedream creates a private [SSE stream](#what-is-sse) linked to that source. Each event emitted by the source is published to this SSE stream, so your app can subscribe to the stream to process new events.
+As soon as you deploy an event source, Pipedream creates a private [SSE stream](#what-is-sse) linked to that source. Each event emitted by the source is published to this SSE stream, so your app can subscribe to the stream to process new events. 
 
 ## What is SSE?
 

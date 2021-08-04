@@ -2,7 +2,7 @@
 
 The global error workflow allows you to run code in response to errors from any workflow. We believe code gives you full control over how you handle errors, and where you send them.
 
-When you sign up for Pipedream, this workflow is automatically created for you. You can access it from your workflow dashboard, by clicking on the **Error Workflow** label:
+When you sign up for Pipedream, this workflow is automatically created for you. You can access it from your workflow dashboard, by clicking on the **Error Workflow** label: 
 
 <div>
 <img width="150" alt="global error workflow" src="./images/global-error-workflow.png">
@@ -28,7 +28,7 @@ Here are a few improvements we've seen people make:
 
 Events sent to the global error workflow have the following properties:
 
-- `error` : contains information about the error, for example the `code` (its type), the `msg`, and the `stack`, which contains its stacktrace.
+- `error` : contains information about the error, for example the `code` (its type), the `msg`, and the `stack`, which contains its stack trace.
 - `original_event` : contains the original event (see the [event format](/workflows/events/#event-format) docs for an explanation of the event properties).
 - `original_context` : contains the original workflow context object.
 
@@ -50,7 +50,7 @@ If you'd prefer not to send errors from a particular workflow, visit the workflo
 
 ## What happens if an error is raised in the error workflow itself?
 
-**Unhanlded errors raised in the global error workflow are not sent to the global error workflow**, since that could cause an infinite loop that would lock up the workflow.
+**Unhandled errors raised in the global error workflow are not sent to the global error workflow**, since that could cause an infinite loop that would lock up the workflow.
 
 Errors in the error workflow will still be displayed in the Inspector next to the workflow, so you can troubleshoot issues.
 
