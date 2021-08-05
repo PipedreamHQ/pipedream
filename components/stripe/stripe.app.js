@@ -1,13 +1,229 @@
-const stripe = require("stripe")
+const stripe = require("stripe");
+
+const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({ prevContext }) {
+  let result;
+  if (typeof collectionOrFn === "function") {
+    result = await collectionOrFn.call(this, {
+      prevContext,
+    });
+  } else {
+    result = await this.stripe.sdk()[collectionOrFn].list({
+      starting_after: prevContext,
+    });
+  }
+
+  let options;
+  if (typeof keysOrFn === "function") {
+    options = result.data.map(keysOrFn.bind(this));
+  } else {
+    options = result.data.map((obj) => ({
+      value: obj[keysOrFn[0]],
+      label: obj[keysOrFn[1]],
+    }));
+  }
+
+  let nextPageToken = null;
+  if (options[options.length - 1]) {
+    nextPageToken = options[options.length - 1].value;
+  }
+
+  return {
+    options,
+    nextPageToken,
+  };
+};
 
 module.exports = {
   type: "app",
   app: "stripe",
+  propDefinitions: {
+    customer: {
+      type: "string",
+      label: "Customer ID",
+      description: "Example: `cus_Jz4ErxGo9t1agg`",
+      options: createOptionsMethod("customers", [
+        "id",
+        "name",
+      ]),
+    },
+    payment_method: {
+      type: "string",
+      label: "Payment Method",
+      description: "Example: `pm_card_visa`",
+      options: createOptionsMethod(
+        function({ prevContext }) {
+          if (!this.customer) {
+            return {
+              data: [],
+            };
+          }
+          return this.stripe.sdk().paymentMethods.list({
+            starting_after: prevContext,
+            customer: this.customer,
+          });
+        },
+        function ({
+          id, card, type,
+        }) {
+          const label = [
+            type,
+          ];
+          if (type === "card") {
+            label.push(card.brand, card.last4);
+          }
+          label.push(id);
+          return {
+            value: id,
+            label: label.join(" "),
+          };
+        },
+      ),
+    },
+    payment_intent: {
+      type: "string",
+      label: "Payment Intent ID",
+      description: "Example: `pi_0FhyHzGHO3mdGsgAJNHu7VeJ`",
+      options: createOptionsMethod("paymentIntents", [
+        "id",
+        "description",
+      ]),
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Two-letter ISO country code, in lowercase.",
+      options: createOptionsMethod("countrySpecs", function (id) {
+        return {
+          value: id,
+          label: id,
+        };
+      }),
+    },
+    currency: {
+      type: "string",
+      label: "Currency",
+      description: "Three-letter ISO currency code, in lowercase. Must be a [supported currency]" +
+        "(https://stripe.com/docs/currencies).",
+      options: createOptionsMethod(
+        function() {
+          if (!this.country) {
+            return {
+              data: [],
+            };
+          }
+          const spec = this.stripe.sdk().countrySpecs.retrieve(this.country);
+          return {
+            data: spec.supported_payment_currencies,
+          };
+        },
+        function (id) {
+          return {
+            value: id,
+            label: id,
+          };
+        },
+      ),
+    },
+    payment_intent_client_secret: {
+      type: "string",
+      label: "Client Secret",
+      description: "Example: `pi_0FhyHzGHO3mdGsgAJNHu7VeJ`",
+      required: true,
+      secret: true,
+    },
+    payment_intent_cancellation_reason: {
+      type: "string",
+      name: "Cancellation Reason",
+      options: [
+        "duplicate",
+        "fraudulent",
+        "requested_by_customer",
+        "abandoned",
+      ],
+    },
+    amount: {
+      type: "integer",
+      label: "Amount",
+      description: "Amount. Use the smallest currency unit (e.g., 100 cents to " +
+        "charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is " +
+        "$0.50 US or equivalent in charge currency. The amount value supports up to eight digits " +
+        "(e.g., a value of 99999999 for a USD charge of $999,999.99).",
+    },
+    payment_method_types: {
+      type: "string[]",
+      label: "Payment Method Types",
+      description: "Payment method types that may be used.",
+      options: [
+        "acss_debit",
+        "alipay",
+        "au_becs_debit",
+        "bancontact",
+        "card",
+        "card_present",
+        "eps",
+        "giropay",
+        "ideal",
+        "interac_present",
+        "p24",
+        "sepa_debit",
+        "sofort",
+      ],
+    },
+    statement_descriptor: {
+      type: "string",
+      label: "Statement Descriptor",
+      description: "For non-card charges, you can use this value as the complete description " +
+        "that appears on your customers' statements. Must contain at least one letter, " +
+        "maximum 22 characters.",
+    },
+    metadata: {
+      type: "object",
+      label: "Metadata",
+      description: "associate other information that’s meaningful to you with Stripe activity. " +
+        "Metadata will not be shown to customers or affect whether or not a payment is accepted.",
+    },
+    advanced: {
+      type: "object",
+      label: "Advanced Options",
+    },
+    email: {
+      type: "string",
+      name: "Email",
+    },
+    setup_future_usage: {
+      type: "boolean",
+      label: "Setup Future Usage",
+      description: "Indicate if you intend to use the specified payment method for a future " +
+        "payment. If you intend to only reuse the payment method when your customer is present " +
+        "in your checkout flow, choose `on_session`; otherwise, choose `off_session`.",
+      options: [
+        "on_session",
+        "off_session",
+      ],
+    },
+  },
   methods: {
     sdk() {
       return stripe(this.$auth.api_key, {
         apiVersion: "2020-03-02",
-      })
+      });
+    },
+    async paginate(fn, limit = 100) {
+      let hasMore = true;
+      const params = {
+        limit,
+      };
+      const items = [];
+      while (hasMore) {
+        const result = await fn(params);
+        if (result.object !== "list") {
+          throw new Error("Only 'list'-type queries can be paginated");
+        }
+        items.push(...result.data);
+        hasMore = result.data.length > 0 && result.has_more;
+        params.starting_after = result.data[result.data.length - 1].id;
+      }
+      return items;
     },
     // https://github.com/stripe/stripe-node/blob/master/types/2020-03-02/WebhookEndpoints.d.ts#L225
     enabledEvents() {
@@ -170,7 +386,7 @@ module.exports = {
         "transfer.paid",
         "transfer.reversed",
         "transfer.updated",
-      ]
+      ];
     },
   },
-}
+};
