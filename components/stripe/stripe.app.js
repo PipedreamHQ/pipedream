@@ -375,8 +375,8 @@ module.exports = {
         "transfer_cancel",
         "transfer_failure",
         "transfer_refund",
-      ]
-    }
+      ],
+    },
   },
   methods: {
     sdk() {

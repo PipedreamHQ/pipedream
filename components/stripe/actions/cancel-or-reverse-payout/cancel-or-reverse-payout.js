@@ -13,10 +13,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "payout",
-        {
-          required: true,
-        },
       ],
+      required: true,
     },
   },
   async run() {

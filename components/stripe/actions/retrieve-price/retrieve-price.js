@@ -12,6 +12,7 @@ module.exports = {
         stripe,
         "price",
       ],
+      required: true,
     },
   },
   async run() {

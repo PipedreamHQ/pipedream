@@ -78,11 +78,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "advanced",
-        {
-          description: "Specify less-common options that you require. See [Create a Customer]" +
-          "(https://stripe.com/docs/api/customers/create) for a list of supported options.",
-        },
       ],
+      description: "Specify less-common options that you require. See [Create a Customer]" +
+        "(https://stripe.com/docs/api/customers/create) for a list of supported options.",
     },
   },
   async run() {

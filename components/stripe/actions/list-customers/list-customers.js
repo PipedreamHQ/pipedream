@@ -12,10 +12,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "email",
-        {
-          description: "Search by customer email address (case-sensitive)",
-        },
       ],
+      description: "Search by customer email address (case-sensitive)",
     },
   },
   async run() {

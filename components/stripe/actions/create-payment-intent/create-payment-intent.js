@@ -12,40 +12,32 @@ module.exports = {
       propDefinition: [
         stripe,
         "amount",
-        {
-          required: true,
-        },
       ],
+      required: true,
     },
     country: {
       propDefinition: [
         stripe,
         "country",
-        {
-          required: true,
-          default: "us",
-        },
       ],
+      required: true,
+      default: "us",
     },
     currency: {
       propDefinition: [
         stripe,
         "currency",
-        {
-          required: true,
-          default: "usd",
-        },
       ],
+      required: true,
+      default: "usd",
     },
     payment_method_types: {
       propDefinition: [
         stripe,
         "payment_method_types",
-        {
-          default: [
-            "card",
-          ],
-        },
+      ],
+      default: [
+        "card",
       ],
     },
     statement_descriptor: {
@@ -64,11 +56,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "advanced",
-        {
-          description: "Specify less-common options that you require. See [Create a PaymentIntent]" +
-          "(https://stripe.com/docs/api/payment_intents/create) for a list of supported options.",
-        },
       ],
+      description: "Specify less-common options that you require. See [Create a PaymentIntent]" +
+        "(https://stripe.com/docs/api/payment_intents/create) for a list of supported options.",
     },
   },
   async run() {

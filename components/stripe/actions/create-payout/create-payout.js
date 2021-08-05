@@ -10,22 +10,18 @@ module.exports = {
   props: {
     stripe,
     amount: {
-      propDefinition: [
+      "propDefinition": [
         stripe,
         "amount",
-        {
-          "required": true,
-        },
       ],
+      "required": true,
     },
     currency: {
-      propDefinition: [
+      "propDefinition": [
         stripe,
         "currency",
-        {
-          "required": true,
-        },
       ],
+      "required": true,
     },
     description: {
       propDefinition: [

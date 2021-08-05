@@ -12,6 +12,7 @@ module.exports = {
         stripe,
         "refund",
       ],
+      required: true,
     },
   },
   async run() {

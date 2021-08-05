@@ -18,12 +18,10 @@ module.exports = {
       advanced: [
         stripe,
         "advanced",
-        {
-          description: "Specify less-common options that you require. See [List all " +
-          "PaymentIntents](https://stripe.com/docs/api/payment_intents/list) for a list of " +
-          "supported options.",
-        },
       ],
+      description: "Specify less-common options that you require. See [List all " +
+        "PaymentIntents](https://stripe.com/docs/api/payment_intents/list) for a list of " +
+        "supported options.",
     },
   },
   async run() {

@@ -12,31 +12,25 @@ module.exports = {
       propDefinition: [
         stripe,
         "payment_intent",
-        {
-          required: true,
-        },
       ],
+      required: true,
     },
     amount_to_capture: {
       propDefinition: [
         stripe,
         "amount",
-        {
-          description: "The amount to capture, which must be less than or equal to the original " +
-          "amount. Any additional amount will be automatically refunded. Defaults to the full " +
-          "`amount_capturable` if not provided.",
-        },
       ],
+      description: "The amount to capture, which must be less than or equal to the original " +
+        "amount. Any additional amount will be automatically refunded. Defaults to the full " +
+        "`amount_capturable` if not provided.",
     },
     advanced: {
       propDefinition: [
         stripe,
         "advanced",
-        {
-          description: "Specify less-common options that you require. See [Capture a PaymentIntent]" +
-          "(https://stripe.com/docs/api/payment_intents/capture) for a list of supported options.",
-        },
       ],
+      description: "Specify less-common options that you require. See [Capture a PaymentIntent]" +
+        "(https://stripe.com/docs/api/payment_intents/capture) for a list of supported options.",
     },
   },
   async run() {

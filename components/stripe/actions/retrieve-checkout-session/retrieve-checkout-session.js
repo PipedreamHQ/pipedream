@@ -12,10 +12,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "checkout_session",
-        {
-          required: true
-        }
       ],
+      required: true,
     },
   },
   async run() {

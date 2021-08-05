@@ -11,10 +11,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "name",
-        {
-          required: true,
-        },
       ],
+      required: true,
     },
   },
   async run() {

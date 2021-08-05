@@ -8,22 +8,18 @@ module.exports = {
   props: {
     stripe,
     id: {
-      propDefinition: [
+      "propDefinition": [
         stripe,
         "refund",
-        {
-          "required": true,
-        },
       ],
+      "required": true,
     },
     metadata: {
-      propDefinition: [
+      "propDefinition": [
         stripe,
         "metadata",
-        {
-          "required": true,
-        },
       ],
+      "required": true,
     },
   },
   async run() {

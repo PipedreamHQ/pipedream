@@ -13,10 +13,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "payment_intent",
-        {
-          required: true,
-        },
       ],
+      required: true,
     },
     customer: {
       propDefinition: [
@@ -34,10 +32,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "email",
-        {
-          name: "Receipt Email",
-        },
       ],
+      name: "Receipt Email",
     },
     setup_future_usage: {
       propDefinition: [
@@ -49,11 +45,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "advanced",
-        {
-          description: "Specify less-common options that you require. See [Confirm a PaymentIntent]" +
-          "(https://stripe.com/docs/api/payment_intents/confirm) for a list of supported options.",
-        },
       ],
+      description: "Specify less-common options that you require. See [Confirm a PaymentIntent]" +
+        "(https://stripe.com/docs/api/payment_intents/confirm) for a list of supported options.",
     },
   },
   async run() {
