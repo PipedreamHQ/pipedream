@@ -88,6 +88,24 @@ module.exports = {
         "description",
       ]),
     },
+    charge: {
+      type: "string",
+      label: "Charge ID",
+      description: "Example: `ch_0IwGKaGHO3mdGsgAMweyhl0E`",
+      options: createOptionsMethod("charges", [
+        "id",
+        "description",
+      ]),
+    },
+    refund: {
+      type: "string",
+      label: "Refund ID",
+      description: "Example: `re_0JL8pIGHO3mdGsgAsFJAlTnn`",
+      options: createOptionsMethod("refunds", [
+        "id",
+        "id",
+      ]),
+    },
     country: {
       type: "string",
       label: "Country",
@@ -237,6 +255,35 @@ module.exports = {
         "on_session",
         "off_session",
       ],
+    },
+    refund_reason: {
+      type: "string",
+      label: "Reason",
+      description: "If you believe the charge to be fraudulent, specifying fraudulent as the " +
+        "reason will add the associated card and email to your block lists, and will also help " +
+        "Stripe improve its fraud detection algorithms.",
+      options: [
+        "duplicate",
+        "fraudulent",
+        "requested_by_customer",
+      ],
+    },
+    refund_application_fee: {
+      type: "boolean",
+      label: "Refund Application Fee",
+      description: "Whether the application fee should be refunded when refunding this charge. " +
+        "If a full charge refund is given, the full application fee will be refunded. Otherwise, " +
+        "the application fee will be refunded in an amount proportional to the amount of the " +
+        "charge refunded. Note that an application fee can be refunded only by the application " +
+        "that created the charge.",
+    },
+    reverse_transfer: {
+      type: "boolean",
+      label: "Refund Application Fee",
+      description: "Whether the transfer should be reversed when refunding this charge. The " +
+        "transfer will be reversed proportionally to the amount being refunded (either the " +
+        "entire or partial amount). Note that a transfer can be reversed only by the application " +
+        "that created the charge.",
     },
   },
   methods: {
