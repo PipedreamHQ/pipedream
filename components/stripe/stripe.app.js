@@ -147,20 +147,21 @@ module.exports = {
     country: {
       type: "string",
       label: "Country",
-      description: "Two-letter ISO country code, in lowercase.",
+      description: "Two-letter ISO country code, in lowercase",
       options: createOptionsMethod("countrySpecs", function (id) {
         return {
           value: id,
           label: id,
         };
       }),
+      default: "us",
       optional: true,
     },
     currency: {
       type: "string",
       label: "Currency",
-      description: "Three-letter ISO currency code, in lowercase. Must be a [supported currency]" +
-        "(https://stripe.com/docs/currencies).",
+      description: "Three-letter ISO currency code, in lowercase; must be a [supported currency]" +
+        "(https://stripe.com/docs/currencies)",
       options: createOptionsMethod(
         function() {
           if (!this.country) {
@@ -180,6 +181,7 @@ module.exports = {
           };
         },
       ),
+      default: "usd",
       optional: true,
     },
     payment_intent_client_secret: {
@@ -212,7 +214,7 @@ module.exports = {
     payment_method_types: {
       type: "string[]",
       label: "Payment Method Types",
-      description: "Payment method types that may be used.",
+      description: "Payment method types that may be used",
       options: [
         "acss_debit",
         "alipay",
@@ -241,7 +243,7 @@ module.exports = {
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "associate other information that’s meaningful to you with Stripe activity. " +
+      description: "Associate other information that's meaningful to you with Stripe activity. " +
         "Metadata will not be shown to customers or affect whether or not a payment is accepted.",
       optional: true,
     },
@@ -273,31 +275,31 @@ module.exports = {
     address1: {
       type: "string",
       label: "Address Line 1",
-      description: "Street, PO Box, or company name.",
+      description: "Street, PO Box, or company name",
       optional: true,
     },
     address2: {
       type: "string",
       label: "Address Line 2",
-      description: "Apartment, suite, unit, or building.",
+      description: "Apartment, suite, unit, or building",
       optional: true,
     },
     city: {
       type: "string",
       label: "City",
-      description: "City, district, suburb, town, or village.",
+      description: "City, district, suburb, town, or village",
       optional: true,
     },
     state: {
       type: "string",
       label: "State",
-      description: "State, county, province, or region.",
+      description: "State, county, province, or region",
       optional: true,
     },
     postal_code: {
       type: "string",
       label: "Postal Code",
-      description: "ZIP or postal code.",
+      description: "ZIP or postal code",
       optional: true,
     },
     setup_future_usage: {
@@ -347,7 +349,6 @@ module.exports = {
     payout_status: {
       type: "string",
       label: "Payout Status",
-      description: ".",
       options: [
         "pending",
         "paid",
@@ -359,7 +360,7 @@ module.exports = {
     payout_method: {
       type: "string",
       label: "Payout Method",
-      description: "`instant` is only supported for payouts to debit cards.",
+      description: "`instant` is only supported for payouts to debit cards",
       default: "standard",
       options: [
         "standard",
@@ -370,7 +371,7 @@ module.exports = {
     payout_source_type: {
       type: "string",
       label: "Payout Source Type",
-      description: "The balance type of your Stripe balance to draw this payout from.",
+      description: "The balance type of your Stripe balance to draw this payout from",
       options: [
         "bank_account",
         "card",

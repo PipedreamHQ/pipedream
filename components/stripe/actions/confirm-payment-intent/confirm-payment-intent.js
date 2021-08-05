@@ -16,6 +16,7 @@ module.exports = {
       ],
       optional: false,
     },
+    // Needed to populate the options for payment_method
     customer: {
       propDefinition: [
         stripe,
@@ -53,6 +54,7 @@ module.exports = {
   async run() {
     const params = pick(this, [
       "payment_method",
+      "receipt_email",
       "setup_future_usage",
     ]);
     return await this.stripe.sdk().paymentIntents.confirm(this.id, {

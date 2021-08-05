@@ -21,7 +21,6 @@ module.exports = {
         "country",
       ],
       optional: false,
-      default: "us",
     },
     currency: {
       propDefinition: [
@@ -29,7 +28,6 @@ module.exports = {
         "currency",
       ],
       optional: false,
-      default: "usd",
     },
     payment_method_types: {
       propDefinition: [
