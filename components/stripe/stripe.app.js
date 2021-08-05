@@ -88,6 +88,11 @@ module.exports = {
         "nickname",
       ]),
     },
+    checkout_session: {
+      type: "string",
+      label: "Checkout Session ID",
+      description: "Example: `cs_test_9eWaeld2XfS9lsUjtzPQxPH0GcG30XfkDCAf3WgQ4OhmvdA7dwGcmZYR`",
+    },
     payment_intent: {
       type: "string",
       label: "Payment Intent ID",
