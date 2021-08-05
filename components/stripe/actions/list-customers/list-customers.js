@@ -15,15 +15,20 @@ module.exports = {
       ],
       description: "Search by customer email address (case-sensitive)",
     },
+    limit: {
+      propDefinition: [
+        stripe,
+        "limit",
+      ],
+    },
   },
   async run() {
-    return await this.stripe.paginate(
-      (params) => this.stripe.sdk().customers.list({
-        ...pick(this, [
-          "email",
-        ]),
-        ...params,
-      }),
-    );
+    const params = pick(this, [
+      "email",
+    ]);
+    return await this.stripe.sdk().customers.list(params)
+      .autoPagingToArray({
+        limit: this.limit,
+      });
   },
 };

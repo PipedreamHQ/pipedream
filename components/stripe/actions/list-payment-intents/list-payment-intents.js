@@ -15,7 +15,9 @@ module.exports = {
         stripe,
         "customer",
       ],
-      advanced: [
+    },
+    advanced: {
+      propDefinition: [
         stripe,
         "advanced",
       ],
@@ -23,16 +25,23 @@ module.exports = {
         "PaymentIntents](https://stripe.com/docs/api/payment_intents/list) for a list of " +
         "supported options.",
     },
+    limit: {
+      propDefinition: [
+        stripe,
+        "limit",
+      ],
+    },
   },
   async run() {
-    return await this.stripe.paginate(
-      (params) => this.stripe.sdk().paymentIntents.list({
-        ...pick(this, [
-          "customer",
-        ]),
-        ...this.advanced,
-        ...params,
-      }),
-    );
+    const params = {
+      ...pick(this, [
+        "customer",
+      ]),
+      ...this.advanced,
+    };
+    return await this.stripe.sdk().paymentIntents.list(params)
+      .autoPagingToArray({
+        limit: this.limit,
+      });
   },
 };

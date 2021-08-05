@@ -28,13 +28,21 @@ module.exports = {
         "balance_transaction_type",
       ],
     },
+    limit: {
+      propDefinition: [
+        stripe,
+        "limit",
+      ],
+    },
   },
   async run() {
     const params = pick(this, [
       "payout",
       "type",
     ]);
-    const { data } = await this.stripe.sdk().balanceTransactions.list(params);
-    return data;
+    return await this.stripe.sdk().balanceTransactions.list(params)
+      .autoPagingToArray({
+        limit: this.limit,
+      });
   },
 };

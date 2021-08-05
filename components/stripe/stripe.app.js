@@ -37,6 +37,11 @@ module.exports = {
   type: "app",
   app: "stripe",
   propDefinitions: {
+    limit: {
+      type: "integer",
+      label: "Max. Number of Results",
+      default: 100,
+    },
     customer: {
       type: "string",
       label: "Customer ID",
@@ -382,24 +387,8 @@ module.exports = {
     sdk() {
       return stripe(this.$auth.api_key, {
         apiVersion: "2020-03-02",
+        maxNetworkRetries: 2,
       });
-    },
-    async paginate(fn, limit = 100) {
-      let hasMore = true;
-      const params = {
-        limit,
-      };
-      const items = [];
-      while (hasMore) {
-        const result = await fn(params);
-        if (result.object !== "list") {
-          throw new Error("Only 'list'-type queries can be paginated");
-        }
-        items.push(...result.data);
-        hasMore = result.data.length > 0 && result.has_more;
-        params.starting_after = result.data[result.data.length - 1].id;
-      }
-      return items;
     },
     // https://github.com/stripe/stripe-node/blob/master/types/2020-03-02/WebhookEndpoints.d.ts#L225
     enabledEvents() {

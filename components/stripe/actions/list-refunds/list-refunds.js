@@ -20,16 +20,21 @@ module.exports = {
         "payment_intent",
       ],
     },
+    limit: {
+      propDefinition: [
+        stripe,
+        "limit",
+      ],
+    },
   },
   async run() {
-    return await this.stripe.paginate(
-      (params) => this.stripe.sdk().refunds.list({
-        ...pick(this, [
-          "charge",
-          "payment_intent",
-        ]),
-        ...params,
-      }),
-    );
+    const params = pick(this, [
+      "charge",
+      "payment_intent",
+    ]);
+    return await this.stripe.sdk().refunds.list(params)
+      .autoPagingToArray({
+        limit: this.limit,
+      });
   },
 };

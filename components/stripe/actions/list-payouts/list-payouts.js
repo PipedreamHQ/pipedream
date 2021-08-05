@@ -14,15 +14,20 @@ module.exports = {
         "payout_status",
       ],
     },
+    limit: {
+      propDefinition: [
+        stripe,
+        "limit",
+      ],
+    },
   },
   async run() {
-    return await this.stripe.paginate(
-      (params) => this.stripe.sdk().payouts.list({
-        ...pick(this, [
-          "status",
-        ]),
-        ...params,
-      }),
-    );
+    const params = pick(this, [
+      "status",
+    ]);
+    return await this.stripe.sdk().payouts.list(params)
+      .autoPagingToArray({
+        limit: this.limit,
+      });
   },
 };
