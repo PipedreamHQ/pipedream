@@ -13,14 +13,14 @@ module.exports = {
         stripe,
         "amount",
       ],
-      required: true,
+      optional: false,
     },
     country: {
       propDefinition: [
         stripe,
         "country",
       ],
-      required: true,
+      optional: false,
       default: "us",
     },
     currency: {
@@ -28,7 +28,7 @@ module.exports = {
         stripe,
         "currency",
       ],
-      required: true,
+      optional: false,
       default: "usd",
     },
     payment_method_types: {

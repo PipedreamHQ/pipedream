@@ -13,7 +13,7 @@ module.exports = {
         stripe,
         "checkout_session",
       ],
-      required: true,
+      optional: false,
     },
   },
   async run() {

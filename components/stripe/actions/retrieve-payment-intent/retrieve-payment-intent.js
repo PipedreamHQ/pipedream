@@ -14,7 +14,7 @@ module.exports = {
         stripe,
         "payment_intent_client_secret",
       ],
-      required: true,
+      optional: false,
     },
   },
   async run() {

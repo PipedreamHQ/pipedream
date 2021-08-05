@@ -41,6 +41,8 @@ module.exports = {
       type: "integer",
       label: "Max. Number of Results",
       default: 100,
+      min: 1,
+      max: 10000,
     },
     customer: {
       type: "string",
@@ -50,6 +52,7 @@ module.exports = {
         "id",
         "name",
       ]),
+      optional: true,
     },
     payment_method: {
       type: "string",
@@ -83,6 +86,7 @@ module.exports = {
           };
         },
       ),
+      optional: true,
     },
     price: {
       type: "string",
@@ -92,11 +96,13 @@ module.exports = {
         "id",
         "nickname",
       ]),
+      optional: true,
     },
     checkout_session: {
       type: "string",
       label: "Checkout Session ID",
       description: "Example: `cs_test_9eWaeld2XfS9lsUjtzPQxPH0GcG30XfkDCAf3WgQ4OhmvdA7dwGcmZYR`",
+      optional: true,
     },
     payment_intent: {
       type: "string",
@@ -106,6 +112,7 @@ module.exports = {
         "id",
         "description",
       ]),
+      optional: true,
     },
     charge: {
       type: "string",
@@ -115,6 +122,7 @@ module.exports = {
         "id",
         "description",
       ]),
+      optional: true,
     },
     refund: {
       type: "string",
@@ -124,6 +132,7 @@ module.exports = {
         "id",
         "id",
       ]),
+      optional: true,
     },
     payout: {
       type: "string",
@@ -133,6 +142,7 @@ module.exports = {
         "id",
         "description",
       ]),
+      optional: true,
     },
     country: {
       type: "string",
@@ -144,6 +154,7 @@ module.exports = {
           label: id,
         };
       }),
+      optional: true,
     },
     currency: {
       type: "string",
@@ -169,13 +180,14 @@ module.exports = {
           };
         },
       ),
+      optional: true,
     },
     payment_intent_client_secret: {
       type: "string",
       label: "Client Secret",
       description: "Example: `pi_0FhyHzGHO3mdGsgAJNHu7VeJ`",
-      required: true,
       secret: true,
+      optional: true,
     },
     payment_intent_cancellation_reason: {
       type: "string",
@@ -186,6 +198,7 @@ module.exports = {
         "requested_by_customer",
         "abandoned",
       ],
+      optional: true,
     },
     amount: {
       type: "integer",
@@ -194,6 +207,7 @@ module.exports = {
         "charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is " +
         "$0.50 US or equivalent in charge currency. The amount value supports up to eight digits " +
         "(e.g., a value of 99999999 for a USD charge of $999,999.99).",
+      optional: true,
     },
     payment_method_types: {
       type: "string[]",
@@ -214,6 +228,7 @@ module.exports = {
         "sepa_debit",
         "sofort",
       ],
+      optional: true,
     },
     statement_descriptor: {
       type: "string",
@@ -221,57 +236,69 @@ module.exports = {
       description: "For non-card charges, you can use this value as the complete description " +
         "that appears on your customers' statements. Must contain at least one letter, " +
         "maximum 22 characters.",
+      optional: true,
     },
     metadata: {
       type: "object",
       label: "Metadata",
       description: "associate other information that’s meaningful to you with Stripe activity. " +
         "Metadata will not be shown to customers or affect whether or not a payment is accepted.",
+      optional: true,
     },
     advanced: {
       type: "object",
       label: "Advanced Options",
+      optional: true,
     },
     name: {
       type: "string",
       label: "Name",
+      optional: true,
     },
     email: {
       type: "string",
       label: "Email",
+      optional: true,
     },
     phone: {
       type: "string",
       label: "Phone",
+      optional: true,
     },
     description: {
       type: "string",
       label: "Description",
+      optional: true,
     },
     address1: {
       type: "string",
       label: "Address Line 1",
       description: "Street, PO Box, or company name.",
+      optional: true,
     },
     address2: {
       type: "string",
       label: "Address Line 2",
       description: "Apartment, suite, unit, or building.",
+      optional: true,
     },
     city: {
       type: "string",
       label: "City",
       description: "City, district, suburb, town, or village.",
+      optional: true,
     },
     state: {
       type: "string",
       label: "State",
       description: "State, county, province, or region.",
+      optional: true,
     },
     postal_code: {
       type: "string",
       label: "Postal Code",
       description: "ZIP or postal code.",
+      optional: true,
     },
     setup_future_usage: {
       type: "boolean",
@@ -283,6 +310,7 @@ module.exports = {
         "on_session",
         "off_session",
       ],
+      optional: true,
     },
     refund_reason: {
       type: "string",
@@ -295,6 +323,7 @@ module.exports = {
         "fraudulent",
         "requested_by_customer",
       ],
+      optional: true,
     },
     refund_application_fee: {
       type: "boolean",
@@ -304,6 +333,7 @@ module.exports = {
         "the application fee will be refunded in an amount proportional to the amount of the " +
         "charge refunded. Note that an application fee can be refunded only by the application " +
         "that created the charge.",
+      optional: true,
     },
     reverse_transfer: {
       type: "boolean",
@@ -312,6 +342,7 @@ module.exports = {
         "transfer will be reversed proportionally to the amount being refunded (either the " +
         "entire or partial amount). Note that a transfer can be reversed only by the application " +
         "that created the charge.",
+      optional: true,
     },
     payout_status: {
       type: "string",
@@ -323,6 +354,7 @@ module.exports = {
         "failed",
         "canceled",
       ],
+      optional: true,
     },
     payout_method: {
       type: "string",
@@ -333,6 +365,7 @@ module.exports = {
         "standard",
         "instant",
       ],
+      optional: true,
     },
     payout_source_type: {
       type: "string",
@@ -343,6 +376,7 @@ module.exports = {
         "card",
         "fpx",
       ],
+      optional: true,
     },
     balance_transaction_type: {
       type: "string",
@@ -381,6 +415,7 @@ module.exports = {
         "transfer_failure",
         "transfer_refund",
       ],
+      optional: true,
     },
   },
   methods: {

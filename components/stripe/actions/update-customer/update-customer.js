@@ -13,7 +13,7 @@ module.exports = {
         stripe,
         "name",
       ],
-      required: true,
+      optional: false,
     },
     name: {
       propDefinition: [

@@ -14,14 +14,14 @@ module.exports = {
         stripe,
         "amount",
       ],
-      "required": true,
+      "optional": false,
     },
     currency: {
       "propDefinition": [
         stripe,
         "currency",
       ],
-      "required": true,
+      "optional": false,
     },
     description: {
       propDefinition: [

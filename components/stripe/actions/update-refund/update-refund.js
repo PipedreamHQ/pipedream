@@ -12,14 +12,14 @@ module.exports = {
         stripe,
         "refund",
       ],
-      "required": true,
+      "optional": false,
     },
     metadata: {
       "propDefinition": [
         stripe,
         "metadata",
       ],
-      "required": true,
+      "optional": false,
     },
   },
   async run() {

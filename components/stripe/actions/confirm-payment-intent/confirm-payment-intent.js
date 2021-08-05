@@ -14,7 +14,7 @@ module.exports = {
         stripe,
         "payment_intent",
       ],
-      required: true,
+      optional: false,
     },
     customer: {
       propDefinition: [
