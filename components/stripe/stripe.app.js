@@ -106,6 +106,15 @@ module.exports = {
         "id",
       ]),
     },
+    payout: {
+      type: "string",
+      label: "Payout ID",
+      description: "Example: `po_0JL8pIGHO3mdGsgAthGqEt0m`",
+      options: createOptionsMethod("payouts", [
+        "id",
+        "description",
+      ]),
+    },
     country: {
       type: "string",
       label: "Country",
@@ -284,6 +293,37 @@ module.exports = {
         "transfer will be reversed proportionally to the amount being refunded (either the " +
         "entire or partial amount). Note that a transfer can be reversed only by the application " +
         "that created the charge.",
+    },
+    payout_status: {
+      type: "string",
+      label: "Payout Status",
+      description: ".",
+      options: [
+        "pending",
+        "paid",
+        "failed",
+        "canceled",
+      ],
+    },
+    payout_method: {
+      type: "string",
+      label: "Payout Method",
+      description: "`instant` is only supported for payouts to debit cards.",
+      default: "standard",
+      options: [
+        "standard",
+        "instant",
+      ],
+    },
+    payout_source_type: {
+      type: "string",
+      label: "Payout Source Type",
+      description: "The balance type of your Stripe balance to draw this payout from.",
+      options: [
+        "bank_account",
+        "card",
+        "fpx",
+      ],
     },
   },
   methods: {
