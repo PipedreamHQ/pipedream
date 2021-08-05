@@ -1,4 +1,4 @@
-const stripe = require("../../stripe.app.js")
+const stripe = require("../../stripe.app.js");
 
 module.exports = {
   key: "stripe-custom-webhook-events",
@@ -11,7 +11,7 @@ module.exports = {
       type: "string[]",
       label: "Events to listen for (select '*' for all)",
       options() {
-        return this.stripe.enabledEvents()
+        return this.stripe.enabledEvents();
       },
     },
     http: {
@@ -22,49 +22,60 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      let enabledEvents = this.enabledEvents
-      if (enabledEvents.includes('*')) enabledEvents = ['*']
+      let enabledEvents = this.enabledEvents;
+      if (enabledEvents.includes("*")) enabledEvents = [
+        "*",
+      ];
       const endpoint = await this.stripe.sdk().webhookEndpoints.create({
         url: this.http.endpoint,
         enabled_events: enabledEvents,
-      })
-      this.db.set("endpoint", JSON.stringify(endpoint))
+      });
+      this.db.set("endpoint", JSON.stringify(endpoint));
     },
     async deactivate() {
-      const endpoint = this.getEndpoint()
-      this.db.set("endpoint", null)
-      if (!endpoint) return
-      const confirmation = await this.stripe.sdk().webhookEndpoints.del(endpoint.id)
+      const endpoint = this.getEndpoint();
+      this.db.set("endpoint", null);
+      if (!endpoint) return;
+      const confirmation = await this.stripe.sdk().webhookEndpoints.del(endpoint.id);
       if ("deleted" in confirmation && !confirmation.deleted) {
-        throw new Error("endpoint not deleted")
+        throw new Error("endpoint not deleted");
       }
     },
   },
   run(event) {
-    const endpoint = this.getEndpoint()
+    const endpoint = this.getEndpoint();
     if (!endpoint) {
-      this.http.respond({status: 500})
-      throw new Error("endpoint config missing from db")
+      this.http.respond({
+        status: 500,
+      });
+      throw new Error("endpoint config missing from db");
     }
-    const sig = event.headers["stripe-signature"]
+    const sig = event.headers["stripe-signature"];
     try {
-      event = this.stripe.sdk().webhooks.constructEvent(event.bodyRaw, sig, endpoint.secret)
+      event = this.stripe.sdk().webhooks.constructEvent(event.bodyRaw, sig, endpoint.secret);
     } catch (err) {
-      this.http.respond({status: 400, body: err.message})
-      console.log(err.message)
-      return
+      this.http.respond({
+        status: 400,
+        body: err.message,
+      });
+      console.log(err.message);
+      return;
     }
-    this.http.respond({status: 200})
-    this.$emit(event)
+    this.http.respond({
+      status: 200,
+    });
+    this.$emit(event);
   },
   methods: {
     getEndpoint() {
-      let endpoint
-      const endpointJson = this.db.get("endpoint")
+      let endpoint;
+      const endpointJson = this.db.get("endpoint");
       try {
-        endpoint = JSON.parse(endpointJson)
-      } catch (err) {}
-      return endpoint
+        endpoint = JSON.parse(endpointJson);
+      } catch (err) {
+        console.error(err);
+      }
+      return endpoint;
     },
   },
-}
+};
