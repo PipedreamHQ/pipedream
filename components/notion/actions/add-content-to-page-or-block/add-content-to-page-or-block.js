@@ -10,9 +10,10 @@ module.exports = {
   props: {
     notion,
     blockId: {
-      type: "string",
-      label: "Page or Block Id",
-      description: "Unique identifier of the page or block to add content to.",
+      propDefinition: [
+        notion,
+        "blockId",
+      ],
     },
     content: {
       type: "string",

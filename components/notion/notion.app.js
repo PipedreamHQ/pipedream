@@ -5,6 +5,97 @@ const retry = require("async-retry");
 module.exports = {
   type: "app",
   app: "notion",
+  props: {
+    parent: {
+      type: "object",
+      label: "Parent",
+      description:
+        "Database object that is parent to a page, or page object that is parent to other pages or any other Notion objects such as text, check lists, media, etc.",
+      async options() {
+        const options = [];
+        const notionItems = [];
+        const notionDatabases = await this.getAllItems("database");
+        const notionPages = await this.getAllItems("page");
+        notionDatabases.forEach((notionDatabase) =>
+          notionItems.push(notionDatabase));
+        notionPages.forEach((notionPage) => notionItems.push(notionPage));
+
+        for (const notionItem of notionItems) {
+          //Populating options with Notion databases
+          if ([
+            "database",
+          ].includes(notionItem.object)) {
+            const notionDatabaseTitle = get(notionItem, [
+              "title",
+              "length",
+            ]);
+            if (notionDatabaseTitle) {
+              options.push({
+                label: `(DATABASE) ${notionItem.title[0].text.content}`,
+                value: notionItem.id,
+              });
+            }
+          } else {
+            //Populating options with Notion pages
+            if ([
+              "page",
+            ].includes(notionItem.object)) {
+              const notionPageTitle = get(notionItem, [
+                "properties",
+                "Name",
+                "title",
+                "length",
+              ]);
+              if (notionPageTitle) {
+                options.push({
+                  label: `(PAGE) ${notionItem.properties.Name.title[0].text.content}`,
+                  value: notionItem.id,
+                });
+              }
+            }
+          }
+        }
+        return options;
+      },
+    },
+    blockId: {
+      type: "string",
+      label: "Page or Block Id",
+      description: "Unique identifier of a page or block. A block is an object that represents content within Notion, such as text, lists, media, etc. Even a page is a type of block, too.",
+    },
+    databaseId: {
+      type: "string",
+      label: "Database Id",
+      description: "Unique identifier of the database.",
+    },
+    pageId: {
+      type: "string",
+      label: "Page Id",
+      description: "Unique identifier of the page.",
+      optional: true,
+    },
+    startCursor: {
+      type: "string",
+      label: "Start Cursor",
+      description:
+        "If supplied, a page of results starting after the cursor provided will be returned. Otherwise, the first page of results will be returned.",
+      optional: true,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description:
+        "The number of items from the full list desired in the response. Maximum: 100",
+      max: 100,
+      optional: true,
+    },
+    properties: {
+      type: "object",
+      label: "Properties",
+      description:
+        "An object with property values of the page. The keys are the names or IDs of the [property](https://developers.notion.com/reference-link/database-property) and the values are [property values](https://developers.notion.com/reference-link/page-property-value).",
+    },
+  },
   methods: {
     _authToken() {
       return this.$auth.oauth_access_token;
@@ -106,8 +197,8 @@ module.exports = {
         }));
     },
     /**
-     * Gets details for all users in the connected Notion account workspace.
-     * @params {string} startCursor - Points to the start page of results. If not supplied, this
+     * Gets users from the Notion workspace. Allows for pagination.
+     * @params {string} startCursor - Points to the start page of results. If not supplied,
      * the first page of results will be returned.
      * @params {string} pageSize - Specifies the number of items on each page in the results.
      * @returns {has_more: boolean, next_cursor: string, object: string, results: array} The
@@ -117,7 +208,7 @@ module.exports = {
      * page.
      */
 
-    async getAllUsers(startCursor, pageSize) {
+    async getUsers(startCursor, pageSize) {
       let params = {};
       if (startCursor) {
         params.start_cursor = startCursor;
@@ -181,7 +272,7 @@ module.exports = {
      * case `list`, and the `results` as an array of objects, which will be of the specified
      * `itemType`.
      */
-    async getNotionItems(itemType) {
+    async getAllItems(itemType) {
       const filter = {
         property: "object",
         value: itemType,
@@ -210,6 +301,34 @@ module.exports = {
         }
       } while (notionItemsPage.has_more);
       return notionItems;
+    },
+    /**
+     * Gets all users from the Notion workspace.
+     * @returns {users: array } An array of user objects, which represent user in a Notion
+     * workspace.
+     */
+    async getAllUsers() {
+      let startCursor = null;
+      const users = [];
+      let usersPage;
+      do {
+        usersPage = await this.getUsers(
+          startCursor,
+          100,
+        );
+        const hasResults = get(usersPage, [
+          "results",
+          "length",
+        ]);
+        if (!hasResults) {
+          break;
+        }
+        usersPage.results.forEach((result) => users.push(result));
+        if (usersPage.next_cursor) {
+          startCursor = usersPage.next_cursor;
+        }
+      } while (usersPage.has_more);
+      return users;
     },
     /**
      * Gets details of an specified page.

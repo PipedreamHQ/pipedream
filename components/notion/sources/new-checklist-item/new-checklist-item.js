@@ -14,56 +14,10 @@ module.exports = {
     ...common.props,
     notion,
     parent: {
-      type: "string",
-      label: "Database Or Page",
-      description:
-        "The database or page object you'd like to watch for new checklist items.",
-      async options() {
-        const options = [];
-        const notionItems = [];
-        const notionDatabases = await this.notion.getNotionItems("database");
-        const notionPages = await this.notion.getNotionItems("page");
-        notionDatabases.forEach((notionDatabase) =>
-          notionItems.push(notionDatabase));
-        notionPages.forEach((notionPage) => notionItems.push(notionPage));
-
-        for (const notionItem of notionItems) {
-          //Populating options with Notion databases
-          if ([
-            "database",
-          ].includes(notionItem.object)) {
-            const notionDatabaseTitle = get(notionItem, [
-              "title",
-              "length",
-            ]);
-            if (notionDatabaseTitle) {
-              options.push({
-                label: `(DATABASE) ${notionItem.title[0].text.content}`,
-                value: notionItem.id,
-              });
-            }
-          } else {
-            //Populating options with Notion pages
-            if ([
-              "page",
-            ].includes(notionItem.object)) {
-              const notionPageTitle = get(notionItem, [
-                "properties",
-                "Name",
-                "title",
-                "length",
-              ]);
-              if (notionPageTitle) {
-                options.push({
-                  label: `(PAGE) ${notionItem.properties.Name.title[0].text.content}`,
-                  value: notionItem.id,
-                });
-              }
-            }
-          }
-        }
-        return options;
-      },
+      propDefinition: [
+        notion,
+        "parent",
+      ],
     },
   },
   hooks: {

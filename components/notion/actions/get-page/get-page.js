@@ -9,10 +9,10 @@ module.exports = {
   props: {
     notion,
     pageId: {
-      type: "string",
-      label: "Page Id",
-      description: "Unique identifier of the page to get details of.",
-      optional: true,
+      propDefinition: [
+        notion,
+        "pageId",
+      ],
     },
   },
   async run() {

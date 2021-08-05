@@ -1,4 +1,4 @@
-const common = require("../common");
+const common = require("../common-sources");
 const { notion } = common.props;
 const get = require("lodash/get");
 

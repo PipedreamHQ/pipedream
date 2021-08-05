@@ -9,16 +9,16 @@ module.exports = {
   props: {
     notion,
     pageId: {
-      type: "string",
-      label: "Page Id",
-      description:
-        "Unique identifier of the page to update its property values.`",
+      propDefinition: [
+        notion,
+        "pageId",
+      ],
     },
     properties: {
-      type: "object",
-      label: "Properties",
-      description:
-        "An object with property values to update for this page. The object keys are the names or IDs of the [property](https://developers.notion.com/reference-link/database-property) and the values are [property values](https://developers.notion.com/reference-link/page-property-value). Example `{\"In stock\":{\"checkbox\":true}}`",
+      propDefinition: [
+        notion,
+        "properties",
+      ],
     },
   },
   async run() {

@@ -10,16 +10,16 @@ module.exports = {
   props: {
     notion,
     parent: {
-      type: "object",
-      label: "Parent",
-      description:
-        "The new page [database parent](https://developers.notion.com/reference/page#database-parent) or [page parent](https://developers.notion.com/reference/page#page-parent) object.",
+      propDefinition: [
+        notion,
+        "parent",
+      ],
     },
-    propertyValues: {
-      type: "object",
-      label: "Property Values",
-      description:
-        "Property values of the page being added. The keys are the names or IDs of the [property](https://developers.notion.com/reference-link/database-property) and the values are [property values](https://developers.notion.com/reference-link/page-property-value).",
+    properties: {
+      propDefinition: [
+        notion,
+        "properties",
+      ],
     },
     children: {
       type: "string",

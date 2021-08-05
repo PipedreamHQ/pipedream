@@ -10,9 +10,10 @@ module.exports = {
   props: {
     notion,
     databaseId: {
-      type: "string",
-      label: "Database Id",
-      description: "Unique identifier of a Notion database to query.",
+      propDefinition: [
+        notion,
+        "databaseId",
+      ],
       optional: true,
     },
     filter: {
@@ -30,20 +31,16 @@ module.exports = {
       optional: true,
     },
     startCursor: {
-      type: "string",
-      label: "Start Cursor",
-      description:
-        "This endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results.",
-      optional: true,
+      propDefinition: [
+        notion,
+        "startCursor",
+      ],
     },
     pageSize: {
-      type: "integer",
-      label: "Page Size",
-      description:
-        "The number of items from the full list desired in the response. Maximum: 100",
-      min: 1,
-      max: 100,
-      optional: true,
+      propDefinition: [
+        notion,
+        "pageSize",
+      ],
     },
   },
   async run() {

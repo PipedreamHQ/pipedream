@@ -9,9 +9,10 @@ module.exports = {
   props: {
     notion,
     databaseId: {
-      type: "string",
-      label: "Database Id",
-      description: "Unique identifier of the database to get details of.",
+      propDefinition: [
+        notion,
+        "databaseId",
+      ],
       optional: true,
     },
   },

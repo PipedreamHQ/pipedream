@@ -19,8 +19,8 @@ module.exports = {
       async options() {
         const options = [];
         const notionItems = [];
-        const notionDatabases = await this.notion.getNotionItems("database");
-        const notionPages = await this.notion.getNotionItems("page");
+        const notionDatabases = await this.notion.getAllItems("database");
+        const notionPages = await this.notion.getAllItems("page");
         notionDatabases.forEach((notionDatabase) =>
           notionItems.push(notionDatabase));
         notionPages.forEach((notionPage) => notionItems.push(notionPage));
@@ -83,20 +83,16 @@ module.exports = {
       optional: true,
     },
     startCursor: {
-      type: "string",
-      label: "Start Cursor",
-      description:
-        "This endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results.",
-      optional: true,
+      propDefinition: [
+        notion,
+        "startCursor",
+      ],
     },
     pageSize: {
-      type: "integer",
-      label: "Page Size",
-      description:
-        "The number of items from the full list desired in the response. Maximum: 100",
-      min: 1,
-      max: 100,
-      optional: true,
+      propDefinition: [
+        notion,
+        "pageSize",
+      ],
     },
   },
   async run() {

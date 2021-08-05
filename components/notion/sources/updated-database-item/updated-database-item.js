@@ -13,8 +13,10 @@ module.exports = {
     ...common.props,
     notion,
     databaseId: {
-      type: "string",
-      label: "Database Id",
+      propDefinition: [
+        notion,
+        "databaseId",
+      ],
       description: "Unique identifier of the database to watch for updated pages.",
     },
   },
