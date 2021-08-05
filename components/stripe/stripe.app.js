@@ -186,9 +186,46 @@ module.exports = {
       type: "object",
       label: "Advanced Options",
     },
+    name: {
+      type: "string",
+      label: "Name",
+    },
     email: {
       type: "string",
-      name: "Email",
+      label: "Email",
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+    },
+    address1: {
+      type: "string",
+      label: "Address Line 1",
+      description: "Street, PO Box, or company name.",
+    },
+    address2: {
+      type: "string",
+      label: "Address Line 2",
+      description: "Apartment, suite, unit, or building.",
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "City, district, suburb, town, or village.",
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "State, county, province, or region.",
+    },
+    postal_code: {
+      type: "string",
+      label: "Postal Code",
+      description: "ZIP or postal code.",
     },
     setup_future_usage: {
       type: "boolean",
