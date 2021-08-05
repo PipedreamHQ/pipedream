@@ -79,6 +79,15 @@ module.exports = {
         },
       ),
     },
+    price: {
+      type: "string",
+      label: "Price ID",
+      description: "Example: `price_0HuVAoGHO3mdGsgAi0l1fEtm`",
+      options: createOptionsMethod("prices", [
+        "id",
+        "nickname",
+      ]),
+    },
     payment_intent: {
       type: "string",
       label: "Payment Intent ID",
