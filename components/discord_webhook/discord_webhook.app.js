@@ -55,7 +55,6 @@ module.exports = {
           username,
           avatar_url: avatarURL,
         },
-        validateStatus: () => true,
       })).data;
     },
   },
