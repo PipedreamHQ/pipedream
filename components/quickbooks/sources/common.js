@@ -116,8 +116,9 @@ module.exports = {
           console.log(message)
           throw new Error(message)
         } else{
+          entity.realmId = webhook_company_id
           const event_to_emit = {
-            event_notification: event_received,
+            event_notification: entity,
             record_details: {},
           }
           // Unless the record has been deleted, use the id received in the webhook to get the full record data
