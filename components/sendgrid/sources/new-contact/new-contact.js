@@ -7,7 +7,7 @@ module.exports = {
   key: "sendgrid-new-contact",
   name: "New Contact (Instant)",
   description: "Emit an event when a new contact is created",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   hooks: {
     async activate() {
@@ -33,13 +33,13 @@ module.exports = {
     },
     _cleanupOldProcessedItems(processedItems, currentTimestamp) {
       return processedItems
-        .map(item => ({
+        .map((item) => ({
           // We just need to keep track of the record ID and
           // its creation date.
           id: item.id,
           created_at: item.created_at,
         }))
-        .filter(item => {
+        .filter((item) => {
           const { created_at: createdAt } = item;
           const createdAtTimestamp = Date.parse(createdAt);
           const cutoffTimestamp = this._addDelayOffset(currentTimestamp);
@@ -48,9 +48,9 @@ module.exports = {
     },
     _makeSearchQuery(processedItems, lowerTimestamp, upperTimestamp) {
       const idList = processedItems
-        .map(item => item.id)
-        .map(id => `'${id}'`)
-        .join(', ')
+        .map((item) => item.id)
+        .map((id) => `'${id}'`)
+        .join(", ")
       || "''";
       const startTimestamp = this._addDelayOffset(lowerTimestamp);
       const startDate = this.toISOString(startTimestamp);
@@ -112,10 +112,13 @@ module.exports = {
       }
 
       // We process the searched records from oldest to newest.
-      const itemsToProcess = orderBy(items, 'created_at');
+      const itemsToProcess = orderBy(items, "created_at");
       itemsToProcess
-        .forEach(item => {
-          const meta = this.generateMeta({ item, eventTimestamp });
+        .forEach((item) => {
+          const meta = this.generateMeta({
+            item,
+            eventTimestamp,
+          });
           this.$emit(item, meta);
         });
 
@@ -135,14 +138,19 @@ module.exports = {
       // next iteration the search results count will most likely be less than
       // 50. In that case, if we extend the upper bound of the search time range
       // we might be able to retrieve more records.
-      const newUpperTimestamp = contactCount < 100 ? eventTimestamp : upperTimestamp;
+      const newUpperTimestamp = contactCount < 100
+        ? eventTimestamp
+        : upperTimestamp;
 
       // The list of processed items can grow indefinitely.
       // Since we don't want to keep track of every processed record
       // ever, we need to clean up this list, removing any records
       // that are no longer relevant.
       const newProcessedItems = this._cleanupOldProcessedItems(
-        [...processedItems, ...itemsToProcess],
+        [
+          ...processedItems,
+          ...itemsToProcess,
+        ],
         newLowerTimestamp,
       );
 
