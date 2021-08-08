@@ -34,7 +34,7 @@ module.exports = {
         stripe,
         "email",
       ],
-      name: "Receipt Email",
+      label: "Receipt Email",
     },
     setup_future_usage: {
       propDefinition: [

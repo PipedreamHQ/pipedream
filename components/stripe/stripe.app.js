@@ -283,7 +283,7 @@ module.exports = {
     },
     payment_intent_cancellation_reason: {
       type: "string",
-      name: "Cancellation Reason",
+      label: "Cancellation Reason",
       options: [
         "duplicate",
         "fraudulent",
