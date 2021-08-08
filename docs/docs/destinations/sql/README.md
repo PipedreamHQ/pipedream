@@ -357,7 +357,7 @@ If you want to test potential table names against a [regular expression](https:/
 
 ## How we handle non-JSON data sent to SQL Destinations
 
-The SQL Service expects JavaScript objects as payloads. If you send a string, a CSV row, or another type of data as the payload, you may see unexpected issues when querying your data via SQL. If you do, please [reach out to our Support team](/support/) and we can help you troubleshoot.
+The SQL Service expects JavaScript objects as payloads. If you send a string, a CSV row, or another type of data as the payload, you may see unexpected issues when querying your data via SQL. If you do, please [reach out to our Support team](https://pipedream.com/support/) and we can help you troubleshoot.
 
 Often, though, we'll just ignore the record when you issue queries. If you see **empty rows** in your result set, that's often an indication of a record we couldn't query using the schema defined for this table.
 
@@ -369,4 +369,4 @@ WHERE field IS NOT NULL
 
 ## Still have questions?
 
-Please [reach out](/support/) if this doc didn't answer your question. We're happy to help!
+Please [reach out](https://pipedream.com/support/) if this doc didn't answer your question. We're happy to help!

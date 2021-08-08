@@ -12,11 +12,11 @@ You can use this to email yourself when you receive a specific event, for exampl
 
 First, [add a new Action](/workflows/steps/actions/#adding-a-new-action), then select the **Send Yourself an Email** Action. You can modify the **Subject** and the message (either **Plain Text** or **HTML**) however you want.
 
-### Using `$send.email()`
+### Using `$send.email` in workflows
 
-You can send data to an Email Destination in [Node.js code steps](/workflows/steps/code/), too, using the `$send.email()` function. **This allows you to send emails to yourself programmatically, if you need more control than Actions afford**.
+You can send data to an Email Destination in [Node.js code steps](/workflows/steps/code/), too, using the `$send.email()` function. **This allows you to send emails to yourself programmatically, if you need more control than actions provide**.
 
-`$send.email()` takes the same parameters as the corresponding Action:
+`$send.email()` takes the same parameters as the corresponding action:
 
 ```javascript
 $send.email({
@@ -30,6 +30,23 @@ $send.email({
 The `html` property is optional. If you include both the `text` and `html` properties, email clients that support HTML will prefer that over the plaintext version.
 
 Like with any `$send` function, you can use `$send.email()` conditionally, within a loop, or anywhere you'd use a function normally in Node.js.
+
+### Using `$.send.email` in component actions
+
+If you're authoring a [component action](/components/actions/), you can deliver data to an email destination using `$.send.email`.
+
+`$.send.email` functions the same as [`$send.email` in workflow code steps](#using-send-email-in-workflows):
+
+```javascript
+async run({ $ }) {
+  $.send.email({
+    subject: "Your subject",
+    text: "Plain text email body",
+    html: "HTML email body"
+    include_collaborators: false,
+  });
+}
+```
 
 ## Emailing workflow collaborators
 
