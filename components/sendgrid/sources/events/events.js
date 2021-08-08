@@ -5,7 +5,7 @@ module.exports = {
   key: "sendgrid-events",
   name: "Events (Instant)",
   description: "Emit an event when any of the specified SendGrid events is received",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -22,13 +22,13 @@ module.exports = {
         }
 
         const options = [
-          ...require('./delivery-event-types'),
-          ...require('./engagement-event-types'),
+          ...require("./delivery-event-types"),
+          ...require("./engagement-event-types"),
         ];
         return {
           options,
         };
-      }
+      },
     },
   },
   methods: {
@@ -41,8 +41,8 @@ module.exports = {
       // See the docs for more information:
       // https://sendgrid.com/docs/api-reference/
       const eventTypesData = [
-        ...require('./delivery-event-types'),
-        ...require('./engagement-event-types'),
+        ...require("./delivery-event-types"),
+        ...require("./engagement-event-types"),
       ];
       return eventTypesData.reduce((accum, eventTypeData) => ({
         ...accum,

@@ -1,26 +1,26 @@
 module.exports = [
   {
     label: "Open (Engagement Event)",
-    value: "open"
+    value: "open",
   },
   {
     label: "Click (Engagement Event)",
-    value: "click"
+    value: "click",
   },
   {
     label: "Spam Report (Engagement Event)",
-    value: "spam_report"
+    value: "spam_report",
   },
   {
     label: "Unsubscribe (Engagement Event)",
-    value: "unsubscribe"
+    value: "unsubscribe",
   },
   {
     label: "Group Unsubscribe (Engagement Event)",
-    value: "group_unsubscribe"
+    value: "group_unsubscribe",
   },
   {
     label: "Group Resubscribe (Engagement Event)",
-    value: "group_resubscribe"
-  }
+    value: "group_resubscribe",
+  },
 ];
