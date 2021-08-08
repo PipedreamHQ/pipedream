@@ -98,6 +98,96 @@ module.exports = {
       ]),
       optional: true,
     },
+    invoice: {
+      type: "string",
+      label: "Invoice ID",
+      description: "Example: `in_0JMBoWGHO3mdGsgA6zwttRva`",
+      options: createOptionsMethod(
+        function({ prevContext }) {
+          const params = {
+            starting_after: prevContext,
+          };
+          if (this.customer) {
+            params.customer = this.customer;
+          }
+          if (this.subscription) {
+            params.subscription = this.subscription;
+          }
+          return this.stripe.sdk().invoices.list(params);
+        },
+        [
+          "id",
+          "number",
+        ],
+      ),
+      optional: true,
+    },
+    invoice_item: {
+      type: "string",
+      label: "Invoice Item ID",
+      description: "Example: `ii_0JMBoYGHO3mdGsgAgSUuIOan`",
+      options: createOptionsMethod(
+        function({ prevContext }) {
+          const params = {
+            starting_after: prevContext,
+          };
+          if (this.invoice) {
+            params.invoice = this.invoice;
+          }
+          return this.stripe.sdk().invoiceItems.list(params);
+        },
+        [
+          "id",
+          "description",
+        ],
+      ),
+      optional: true,
+    },
+    subscription: {
+      type: "string",
+      label: "Subscription ID",
+      description: "Example: `sub_K0CC9GlXAWpBQg`",
+      options: createOptionsMethod(
+        function({ prevContext }) {
+          const params = {
+            starting_after: prevContext,
+          };
+          if (this.customer) {
+            params.customer = this.customer;
+          }
+          if (this.price) {
+            params.price = this.price;
+          }
+          return this.stripe.sdk().subscriptions.list(params);
+        },
+        [
+          "id",
+          "id",
+        ],
+      ),
+      optional: true,
+    },
+    subscription_item: {
+      type: "string",
+      label: "Subscription Item ID",
+      description: "Example: `si_K0CCMs2vNHPxV2`",
+      options: createOptionsMethod(
+        function({ prevContext }) {
+          if (!this.subscription) {
+            return [];
+          }
+          return this.stripe.sdk().subscriptions.list({
+            starting_after: prevContext,
+            subscription: this.subscription,
+          });
+        },
+        [
+          "id",
+          "id",
+        ],
+      ),
+      optional: true,
+    },
     checkout_session: {
       type: "string",
       label: "Checkout Session ID",
@@ -416,6 +506,65 @@ module.exports = {
         "transfer_failure",
         "transfer_refund",
       ],
+      optional: true,
+    },
+    timestamp: {
+      type: "integer",
+      label: "Timestamp",
+      optional: true,
+    },
+    quantity: {
+      type: "integer",
+      label: "Quantity",
+      optional: true,
+    },
+    usage_record_action: {
+      type: "string",
+      label: "Action",
+      description: "Add the quantity to the usage at the specified timestamp, or overwrite the " +
+        "usage quantity at that timestamp. If the subscription has billing thresholds, increment " +
+        "is the only allowed value.",
+      options: [
+        "increment",
+        "set",
+      ],
+      default: "increment",
+      optional: true,
+    },
+    invoice_status: {
+      type: "string",
+      label: "Status",
+      options: [
+        "draft",
+        "open",
+        "paid",
+        "uncollectible",
+        "void",
+      ],
+      optional: true,
+    },
+    invoice_auto_advance: {
+      type: "boolean",
+      label: "Auto Collect",
+      description: "Attempt to automatically collect the invoice. When disabled, the invoice's " +
+        "state will not automatically advance without an explicit action.",
+      optional: true,
+      default: false,
+    },
+    invoice_collection_method: {
+      type: "string",
+      label: "Collection Method",
+      options: [
+        "charge_automatically",
+        "send_invoice",
+      ],
+      optional: true,
+    },
+    invoice_days_until_due: {
+      type: "integer",
+      label: "Payment Terms",
+      description: "The number of days until the invoice is due (valid when collection method is " +
+        "`send_invoice`)",
       optional: true,
     },
   },
