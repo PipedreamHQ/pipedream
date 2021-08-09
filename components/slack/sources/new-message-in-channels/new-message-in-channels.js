@@ -67,6 +67,12 @@ module.exports = {
       description: "Resolve user and channel names (incurs extra API calls)",
       default: false,
     },
+    ignoreBot: {
+      type: "boolean",
+      label: "Ignore bots",
+      description: "Ignore messages from bots",
+      default: false,
+    },
     nameCache: "$.service.db",
   },
   methods: {
@@ -126,6 +132,9 @@ module.exports = {
       return
     }
     if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
+      return
+    }
+    if (this.ignoreBot && event.subtype != null && event.subtype == "bot_message") {
       return
     }
     if (this.resolveNames) {
