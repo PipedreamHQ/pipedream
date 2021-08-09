@@ -151,7 +151,11 @@ module.exports = {
       type: "string",
       label: "Story Type",
       description: "The type of story (feature, bug, chore).",
-      options: ["bug", "chore", "feature"],
+      options: [
+        "bug",
+        "chore",
+        "feature",
+      ],
       optional: true,
     },
     tasks: {
@@ -181,13 +185,17 @@ module.exports = {
     const constraints = {
       name: {
         presence: true,
-        length: { maximum: 512 },
+        length: {
+          maximum: 512,
+        },
       },
       projectId: {
         presence: true,
       },
       description: {
-        length: { maximum: 100000 },
+        length: {
+          maximum: 100000,
+        },
       },
     };
     if (this.externalLinks) {
@@ -226,7 +234,9 @@ module.exports = {
       };
     }
     if (this.tasks) {
-      constraints.tasks = { type: "array" };
+      constraints.tasks = {
+        type: "array",
+      };
     }
     const validationResult = validate(
       {
@@ -242,7 +252,7 @@ module.exports = {
         storyLinks: this.storyLinks,
         tasks: this.tasks,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -274,7 +284,7 @@ module.exports = {
       this.storyType,
       this.tasks,
       this.updatedAt,
-      this.workflowStateId
+      this.workflowStateId,
     );
   },
 };

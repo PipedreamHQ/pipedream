@@ -40,7 +40,7 @@ module.exports = {
         query: this.query,
         numberOfStories: this.numberOfStories,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -48,10 +48,10 @@ module.exports = {
     }
     const searchStoriesGenerator = this.clubhouse.searchStories(
       this.query,
-      this.numberOfStories
+      this.numberOfStories,
     );
     const searchResults = await this.getGeneratorResults(
-      searchStoriesGenerator
+      searchStoriesGenerator,
     );
     return searchResults.slice(0, this.numberOfStories);
   },
