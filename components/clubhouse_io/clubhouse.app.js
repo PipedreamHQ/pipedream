@@ -19,11 +19,17 @@ module.exports = {
       opts.headers["Content-Type"] = "application/json";
       const { path } = opts;
       delete opts.path;
-      opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
+      opts.url = `${this._apiUrl()}${path[0] === "/" ?
+        "" :
+        "/"}${path}`;
       return (await axios(opts)).data;
     },
     _isRetriableStatusCode(statusCode) {
-      [408, 429, 500].includes(statusCode);
+      [
+        408,
+        429,
+        500,
+      ].includes(statusCode);
     },
     async _withRetries(apiCall) {
       const retryOpts = {
@@ -34,7 +40,12 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = [get(err, ["response", "status"])];
+          const statusCode = [
+            get(err, [
+              "response",
+              "status",
+            ]),
+          ];
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
@@ -50,20 +61,25 @@ module.exports = {
      * Creates a new story in your clubhouse.
      * @params {boolean} archived - Controls the story’s archived state.
      * @params {array} comments - An array with comments to add to the story. Each comment must have the [CreateStoryCommentParams](https://clubhouse.io/api/rest/v3/#CreateStoryCommentParams) structure.
-     * @params {Date} completedAtOverride - A manual override for the time/date the Story was completed.
+     * @params {Date} completedAtOverride - A manual override for the time/date the Story was
+     *  completed.
      * @params {Date} createdAt - The time/date the Story was created.
      * @params {Date} dueDate - The due date of the story.
      * @params {string} description - The description of the story.
      * @params {integer} epicId - The unique identifier of the epic the story belongs to.
-     * @params {integer} estimate - The numeric point estimate of the story. Can also be null, which means unestimated.
-     * @params {integer} externalId - This field can be set to another unique ID. In the case that the Story has been imported from another tool, the ID in the other tool can be indicated here.
+     * @params {integer} estimate - The numeric point estimate of the story. Can be null, which
+     * means unestimated.
+     * @params {integer} externalId - This field can be set to another unique ID. In the case that
+     *  the Story has been imported from another tool, the ID in the other tool can be indicated
+     * here.
      * @params {array} externalLinks - An array of External Links associated with this story.
      * @params {array} fileIds - An array of IDs of files attached to the story.
      * @params {array} followerIds - An array of UUIDs of the followers of this story.
      * @params {string} groupId - The id of the group to associate with this story.
      * @params {integer} iterationId - The ID of the iteration the story belongs to.
      * @params {array} labels - An array of labels attached to the story. Each label must have the [CreateLabelParams](https://clubhouse.io/api/rest/v3/#CreateLabelParams) structure.
-     * @params {array} linkedFileIds - An array of integers with the IDs of linked files attached to the story.
+     * @params {array} linkedFileIds - An array of integers with the IDs of linked files attached
+     * to the story.
      * @params {string} name - The name of the story.
      * @params {array} ownerIds - An array of UUIDs of the owners of this story.
      * @params {integer} projectId - The ID of the project the story belongs to.
@@ -102,7 +118,7 @@ module.exports = {
       storyType,
       tasks,
       updatedAt,
-      workflowStateId
+      workflowStateId,
     ) {
       const data = {
         archived,
@@ -135,19 +151,19 @@ module.exports = {
       return await this._withRetries(() =>
         this._makeRequest({
           method: "POST",
-          path: `/api/v3/stories`,
+          path: "/api/v3/stories",
           data,
-        })
-      );
+        }));
     },
     /**
      * Searches for stories in your clubhouse.
      * @params {string} query - The search query based on the [Search page](https://help.clubhouse.io/hc/en-us/articles/115005967026) [search operators](https://help.clubhouse.io/hc/en-us/articles/360000046646-Search-Operators) to use for finding stories.
      * @params {integer} numberOfStories - The number of stories to return.
-     * @returns {stories: array } An array stories matching the `query` parameter. Number of results are limited by `numberOfStories`.
+     * @returns {stories: array } An array stories matching the `query` parameter. Number of
+     *  results are limited by `numberOfStories`.
      */
     async *searchStories(query, numberOfStories) {
-      let next = `/api/v3/search/stories`;
+      let next = "/api/v3/search/stories";
       while (next) {
         const data = {
           query: query,
@@ -157,11 +173,14 @@ module.exports = {
           url: `${this._apiUrl()}${next}`,
           headers: {
             "Clubhouse-Token": `${this._authToken()}`,
-            "Content-Type": `application/json`,
+            "Content-Type": "application/json",
           },
           data,
         });
-        const stories = get(response, ["data", "data"]);
+        const stories = get(response, [
+          "data",
+          "data",
+        ]);
         if (!stories.length) {
           return;
         }
