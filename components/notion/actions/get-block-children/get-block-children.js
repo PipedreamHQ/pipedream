@@ -1,41 +1,43 @@
-const notion = require("../../notion.app");
+const validate = require("validate.js");
+const {
+  props,
+  methods,
+} = require("../common");
 
 module.exports = {
   key: "notion-get-block-children",
   name: "Get Block Children",
   description:
     "Gets a list of child block objects contained in a block given its identifier.",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
-    notion,
+    ...props,
     blockId: {
       propDefinition: [
-        notion,
+        props.notion,
         "blockId",
       ],
     },
-    startCursor: {
-      propDefinition: [
-        notion,
-        "startCursor",
-      ],
-    },
-    pageSize: {
-      propDefinition: [
-        notion,
-        "pageSize",
-      ],
-    },
+  },
+  methods: {
+    ...methods,
   },
   async run() {
-    if (!this.blockId) {
-      throw new Error("Must provide blockId parameter.");
-    }
-    return await this.notion.getBlockChildren(
+    const constraints = {
+      blockId: {
+        presence: true,
+      },
+    };
+    const validationResult = validate(
+      {
+        blockId: this.blockId,
+      },
+      constraints,
+    );
+    this.checkValidationResults(validationResult);
+    return await this.notion.getAllBlockChildren(
       this.blockId,
-      this.startCursor,
-      this.pageSize,
     );
   },
 };

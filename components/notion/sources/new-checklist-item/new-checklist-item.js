@@ -13,11 +13,67 @@ module.exports = {
   props: {
     ...common.props,
     notion,
-    parent: {
-      propDefinition: [
-        notion,
-        "parent",
-      ],
+    parentId: {
+      type: "string",
+      label: "Parent Id",
+      description:
+        "Database object that is parent to a page, or page object that is parent to other pages or any other Notion objects such as text, check lists, media, etc.",
+      async options() {
+        const options = [];
+        const notionItems = [];
+        const notionDatabases = await this.notion.getAllItems("database");
+        const notionPages = await this.notion.getAllItems("page");
+        notionDatabases.forEach((notionDatabase) =>
+          notionItems.push(notionDatabase));
+        notionPages.forEach((notionPage) => notionItems.push(notionPage));
+
+        for (const notionItem of notionItems) {
+          //Populating options with Notion databases
+          if ([
+            "database",
+          ].includes(notionItem.object)) {
+            const notionDatabaseTitle = get(notionItem, [
+              "title",
+              "length",
+            ]);
+            if (notionDatabaseTitle) {
+              options.push({
+                label: `(DATABASE) ${notionItem.title[0].text.content}`,
+                value: notionItem.id,
+              });
+            }
+          } else {
+            //Populating options with Notion pages
+            if ([
+              "page",
+            ].includes(notionItem.object)) {
+              const hasTitle = get(notionItem, [
+                "properties",
+                "title",
+                "title",
+                "length",
+              ]);
+              let label;
+              if (hasTitle) {
+                label = `(PAGE) ${notionItem.properties.title.title[0].plain_text}`;
+              } else {
+                const idxSlash = notionItem.url.lastIndexOf("/");
+                const idxHypen = notionItem.url.lastIndexOf("-");
+                label = idxHypen > -1 ?
+                  `(PAGE) ${notionItem.url.substring(idxSlash + 1, idxHypen).split("-")
+                    .join(" ")}` :
+                  notionItem.id;
+
+              }
+              options.push({
+                label,
+                value: notionItem.id,
+              });
+            }
+          }
+        }
+        return options;
+      },
     },
   },
   hooks: {
@@ -28,7 +84,7 @@ module.exports = {
       const checklistBlocks = [];
       do {
         notionBlocks = await this.notion.getBlockChildren(
-          this.parent,
+          this.parentId,
           this.db.get("startCursor"),
           100,
         );
@@ -72,7 +128,7 @@ module.exports = {
     const checklistBlocks = [];
     do {
       notionBlocks = await this.notion.getBlockChildren(
-        this.parent,
+        this.parentId,
         this.db.get("startCursor"),
         100,
       );

@@ -1,4 +1,4 @@
-const common = require("../common-sources");
+const common = require("../common");
 const { notion } = common.props;
 const get = require("lodash/get");
 
@@ -17,7 +17,7 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      const notionUsers = await this.notion.getAllUsers(null, 10);
+      const notionUsers = await this.notion.getUsers(null, 10);
       const hasPageResults = get(notionUsers, [
         "results",
         "length",
@@ -42,7 +42,7 @@ module.exports = {
   async run() {
     let notionUsers;
     do {
-      notionUsers = await this.notion.getAllUsers(
+      notionUsers = await this.notion.getUsers(
         this.db.get("startCursor"),
         100,
       );

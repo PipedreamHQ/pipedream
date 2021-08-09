@@ -6,7 +6,7 @@ module.exports = {
   name: "Search Items",
   description:
     "Searches all databases, pages and child pages that are shared with the integration, according to filter conditions.",
-  version: "0.0.35",
+  version: "0.0.1",
   type: "action",
   props: {
     notion,
@@ -44,18 +44,29 @@ module.exports = {
             if ([
               "page",
             ].includes(notionItem.object)) {
-              const notionPageTitle = get(notionItem, [
+              const hasTitle = get(notionItem, [
                 "properties",
-                "Name",
+                "title",
                 "title",
                 "length",
               ]);
-              if (notionPageTitle) {
-                options.push({
-                  label: `(PAGE) ${notionItem.properties.Name.title[0].text.content}`,
-                  value: notionItem.properties.Name.title[0].text.content,
-                });
+              let title;
+              if (hasTitle) {
+                title = notionItem.properties.title.title[0].plain_text;
+              } else {
+                const idxSlash = notionItem.url.lastIndexOf("/");
+                const idxHypen = notionItem.url.lastIndexOf("-");
+                if (idxHypen > -1) {
+                  title = notionItem.url.substring(idxSlash + 1, idxHypen).split("-")
+                    .join(" ");
+                } else {
+                  continue;
+                }
               }
+              options.push({
+                label: `(PAGE) ${title}`,
+                value: title,
+              });
             }
           }
         }
@@ -110,12 +121,29 @@ module.exports = {
         property: "object",
       };
     }
-    return await this.notion.searchItems(
-      this.query,
-      sort,
-      filter,
-      this.startCursor,
-      this.pageSize,
-    );
+    const items = [];
+    let item;
+    let startCursor = this.startCursor;
+    do {
+      item = await this.notion.searchItems(
+        this.query,
+        sort,
+        filter,
+        startCursor,
+        this.pageSize,
+      );
+      const hasResults = get(item, [
+        "results",
+        "length",
+      ]);
+      if (!hasResults) {
+        break;
+      }
+      item.results.forEach((result) => items.push(result));
+      if (item.next_cursor) {
+        startCursor = item.next_cursor;
+      }
+    } while (item.has_more);
+    return items;
   },
 };

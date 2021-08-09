@@ -1,17 +1,22 @@
-const notion = require("../../notion.app");
+const validate = require("validate.js");
+const {
+  props,
+  methods,
+} = require("../common");
+const get = require("lodash/get");
 
 module.exports = {
   key: "notion-query-database-pages",
   name: "Query Database Pages",
   description:
     "Gets a list of Pages contained in the specified database, according to filter conditions.",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   props: {
-    notion,
+    ...props,
     databaseId: {
       propDefinition: [
-        notion,
+        props.notion,
         "databaseId",
       ],
       optional: true,
@@ -32,30 +37,69 @@ module.exports = {
     },
     startCursor: {
       propDefinition: [
-        notion,
+        props.notion,
         "startCursor",
       ],
     },
     pageSize: {
       propDefinition: [
-        notion,
+        props.notion,
         "pageSize",
       ],
     },
   },
+  methods: {
+    ...methods,
+  },
   async run() {
-    if (!this.databaseId) {
-      throw new Error("Must provide databaseId parameters.");
+    const constraints = {
+      databaseId: {
+        presence: true,
+      },
+    };
+    if (this.sorts) {
+      validate.validators.arrayValidator = this.validateArray;
+      constraints.sorts = {
+        arrayValidator: {
+          value: this.sorts,
+          key: "sorts",
+        },
+      };
     }
-    const sorts = this.sorts
-      ? JSON.parse(this.sorts)
-      : null;
-    return await this.notion.queryDatabasePages(
-      this.databaseId,
-      this.filter,
-      sorts,
-      this.startCursor,
-      this.pageSize,
+    const validationResult = validate(
+      {
+        databaseId: this.databaseId,
+        sorts: this.sorts,
+      },
+      constraints,
     );
+    this.checkValidationResults(validationResult);
+    const sorts = this.sorts ?
+      this.getArrayObject(this.sorts) :
+      null;
+    const pages = [];
+    let page;
+    let startCursor = this.startCursor;
+    do {
+      page = await this.notion.queryDatabasePages(
+        this.databaseId,
+        this.filter,
+        sorts,
+        startCursor,
+        this.pageSize,
+      );
+      const hasResults = get(page, [
+        "results",
+        "length",
+      ]);
+      if (!hasResults) {
+        break;
+      }
+      page.results.forEach((result) => pages.push(result));
+      if (page.next_cursor) {
+        startCursor = page.next_cursor;
+      }
+    } while (page.has_more);
+    return pages;
   },
 };

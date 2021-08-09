@@ -5,59 +5,7 @@ const retry = require("async-retry");
 module.exports = {
   type: "app",
   app: "notion",
-  props: {
-    parent: {
-      type: "object",
-      label: "Parent",
-      description:
-        "Database object that is parent to a page, or page object that is parent to other pages or any other Notion objects such as text, check lists, media, etc.",
-      async options() {
-        const options = [];
-        const notionItems = [];
-        const notionDatabases = await this.getAllItems("database");
-        const notionPages = await this.getAllItems("page");
-        notionDatabases.forEach((notionDatabase) =>
-          notionItems.push(notionDatabase));
-        notionPages.forEach((notionPage) => notionItems.push(notionPage));
-
-        for (const notionItem of notionItems) {
-          //Populating options with Notion databases
-          if ([
-            "database",
-          ].includes(notionItem.object)) {
-            const notionDatabaseTitle = get(notionItem, [
-              "title",
-              "length",
-            ]);
-            if (notionDatabaseTitle) {
-              options.push({
-                label: `(DATABASE) ${notionItem.title[0].text.content}`,
-                value: notionItem.id,
-              });
-            }
-          } else {
-            //Populating options with Notion pages
-            if ([
-              "page",
-            ].includes(notionItem.object)) {
-              const notionPageTitle = get(notionItem, [
-                "properties",
-                "Name",
-                "title",
-                "length",
-              ]);
-              if (notionPageTitle) {
-                options.push({
-                  label: `(PAGE) ${notionItem.properties.Name.title[0].text.content}`,
-                  value: notionItem.id,
-                });
-              }
-            }
-          }
-        }
-        return options;
-      },
-    },
+  propDefinitions: {
     blockId: {
       type: "string",
       label: "Page or Block Id",
@@ -67,11 +15,61 @@ module.exports = {
       type: "string",
       label: "Database Id",
       description: "Unique identifier of the database.",
+      async options() {
+        const options = [];
+        const notionDatabases = await this.getAllDatabases();
+        notionDatabases.forEach((database) => {
+          const hasTitle = get(database, [
+            "title",
+            "length",
+          ]);
+          options.push({
+            label: hasTitle ?
+              database.title[0].text.content :
+              "untitled database",
+            value: database.id,
+          });
+        });
+        return options;
+      },
     },
     pageId: {
       type: "string",
       label: "Page Id",
       description: "Unique identifier of the page.",
+      async options() {
+        const options = [];
+        const pages = await this.getAllItems("page");
+        pages.forEach( (page) =>  {
+          if ([
+            "page",
+          ].includes(page.object)) {
+            const hasTitle = get(page, [
+              "properties",
+              "title",
+              "title",
+              "length",
+            ]);
+            let label;
+            if (hasTitle) {
+              label = page.properties.title.title[0].plain_text;
+            } else {
+              const idxSlash = page.url.lastIndexOf("/");
+              const idxHypen = page.url.lastIndexOf("-");
+              label = idxHypen > -1 ?
+                page.url.substring(idxSlash + 1, idxHypen).split("-")
+                  .join(" ") :
+                page.id;
+
+            }
+            options.push({
+              label,
+              value: page.id,
+            });
+          }
+        });
+        return options;
+      },
       optional: true,
     },
     startCursor: {
@@ -197,33 +195,133 @@ module.exports = {
         }));
     },
     /**
-     * Gets users from the Notion workspace. Allows for pagination.
-     * @params {string} startCursor - Points to the start page of results. If not supplied,
-     * the first page of results will be returned.
-     * @params {string} pageSize - Specifies the number of items on each page in the results.
-     * @returns {has_more: boolean, next_cursor: string, object: string, results: array} The
-     * `has_more` flag, which indicates that there are more page results available,
-     * "next_cursor" a cursor pointing to the next result page, `object` for the Notion object type
-     *  of the result, in this case `list`, a `results` array with the users in the current results
-     * page.
+     * Gets a list of all direct child block objects contained in a block.
+     * @params {String} blockId - The unique identifier of the block to get children blocks.
+     * @returns {array}  An array of block objects, that are direct children to the specified block.
      */
-
-    async getUsers(startCursor, pageSize) {
-      let params = {};
-      if (startCursor) {
-        params.start_cursor = startCursor;
-      }
-      if (pageSize) {
-        params.page_size = pageSize;
-      }
-      return await this._withRetries(() =>
-        this._makeRequest({
-          path: "/v1/users",
-          params,
-        }));
+    async getAllBlockChildren(blockId) {
+      let startCursor = null;
+      const blocks = [];
+      let blocksPage;
+      do {
+        blocksPage = await this.getBlockChildren(
+          blockId,
+          startCursor,
+          100,
+        );
+        const hasResults = get(blocksPage, [
+          "results",
+          "length",
+        ]);
+        if (!hasResults) {
+          break;
+        }
+        blocksPage.results.forEach((result) => blocks.push(result));
+        if (blocksPage.next_cursor) {
+          startCursor = blocksPage.next_cursor;
+        }
+      } while (blocksPage.has_more);
+      return blocks;
     },
     /**
-     * Gets a list of child block objects contained in a block.
+     * Gets all databases shared with the connected Notion account
+     * @returns {array}  An array of database objects.
+     */
+    async getAllDatabases() {
+      let startCursor = null;
+      const databases = [];
+      let databasePage;
+      do {
+        databasePage = await this.getDatabases(
+          startCursor,
+          100,
+        );
+        const hasDatabaseResults = get(databasePage, [
+          "results",
+          "length",
+        ]);
+        if (!hasDatabaseResults) {
+          break;
+        }
+        databasePage.results.forEach((result) => databases.push(result));
+        if (databasePage.next_cursor) {
+          startCursor = databasePage.next_cursor;
+        }
+      } while (databasePage.has_more);
+      return databases;
+    },
+    /**
+     * Gets all users from the Notion workspace.
+     * @returns {array} An array of user objects, which represent user in a Notion
+     * workspace.
+     */
+    /**
+     * Gets all the items of the specified type.
+     * @params {String} itemType - The type of items to get. Valid values: `database`, `page`.
+     * @returns {object: string, results: array } The Notion object type of the results, in this
+     * case `list`, and the `results` as an array of objects, which will be of the specified
+     * `itemType`.
+     */
+    async getAllItems(itemType) {
+      const filter = {
+        property: "object",
+        value: itemType,
+      };
+      let startCursor = null;
+      const notionItems = [];
+      let notionItemsPage;
+      do {
+        notionItemsPage = await this.searchItems(
+          null,
+          null,
+          filter,
+          startCursor,
+          100,
+        );
+        const hasDatabaseResults = get(notionItemsPage, [
+          "results",
+          "length",
+        ]);
+        if (!hasDatabaseResults) {
+          break;
+        }
+        notionItemsPage.results.forEach((result) => notionItems.push(result));
+        if (notionItemsPage.next_cursor) {
+          startCursor = notionItemsPage.next_cursor;
+        }
+      } while (notionItemsPage.has_more);
+      return notionItems;
+    },
+    /**
+     * Gets all users from the Notion workspace.
+     * @returns {array} An array of user objects, which represent user in a Notion
+     * workspace.
+     */
+    async getAllUsers() {
+      let startCursor = null;
+      const users = [];
+      let usersPage;
+      do {
+        usersPage = await this.getUsers(
+          startCursor,
+          100,
+        );
+        const hasResults = get(usersPage, [
+          "results",
+          "length",
+        ]);
+        if (!hasResults) {
+          break;
+        }
+        usersPage.results.forEach((result) => users.push(result));
+        if (usersPage.next_cursor) {
+          startCursor = usersPage.next_cursor;
+        }
+      } while (usersPage.has_more);
+      return users;
+    },
+    /**
+     * Gets a list of direct child block objects contained in a block. Allows pagination.
      * @params {String} blockId - The unique identifier of the block to get children blocks.
      * @params {string} startCursor - Points to the start page of results. If not supplied, this
      * the first page of results will be returned.
@@ -266,69 +364,29 @@ module.exports = {
         }));
     },
     /**
-     * Gets all the items of the specified type.
-     * @params {String} itemType - The type of items to get. Valid values: `database`, `page`.
-     * @returns {object: string, results: array } The Notion object type of the results, in this
-     * case `list`, and the `results` as an array of objects, which will be of the specified
-     * `itemType`.
+     * Gets databases shared with the connected Notion account. Allows for pagination.
+     * @params {string} startCursor - Points to the start page of results. If not supplied,
+     * the first page of results will be returned.
+     * @params {string} pageSize - Specifies the number of items on each page in the results.
+     * @returns {has_more: boolean, next_cursor: string, object: string, results: array} The
+     * `has_more` flag, which indicates that there are more page results available,
+     * "next_cursor" a cursor pointing to the next result page, `object` for the Notion object type
+     *  of the result, in this case `list`, a `results` array with the users in the current results
+     * page.
      */
-    async getAllItems(itemType) {
-      const filter = {
-        property: "object",
-        value: itemType,
-      };
-      let startCursor = null;
-      const notionItems = [];
-      let notionItemsPage;
-      do {
-        notionItemsPage = await this.searchItems(
-          null,
-          null,
-          filter,
-          startCursor,
-          100,
-        );
-        const hasDatabaseResults = get(notionItemsPage, [
-          "results",
-          "length",
-        ]);
-        if (!hasDatabaseResults) {
-          break;
-        }
-        notionItemsPage.results.forEach((result) => notionItems.push(result));
-        if (notionItemsPage.next_cursor) {
-          startCursor = notionItemsPage.next_cursor;
-        }
-      } while (notionItemsPage.has_more);
-      return notionItems;
-    },
-    /**
-     * Gets all users from the Notion workspace.
-     * @returns {users: array } An array of user objects, which represent user in a Notion
-     * workspace.
-     */
-    async getAllUsers() {
-      let startCursor = null;
-      const users = [];
-      let usersPage;
-      do {
-        usersPage = await this.getUsers(
-          startCursor,
-          100,
-        );
-        const hasResults = get(usersPage, [
-          "results",
-          "length",
-        ]);
-        if (!hasResults) {
-          break;
-        }
-        usersPage.results.forEach((result) => users.push(result));
-        if (usersPage.next_cursor) {
-          startCursor = usersPage.next_cursor;
-        }
-      } while (usersPage.has_more);
-      return users;
+    async getDatabases(startCursor, pageSize) {
+      let params = {};
+      if (startCursor) {
+        params.start_cursor = startCursor;
+      }
+      if (pageSize) {
+        params.page_size = pageSize;
+      }
+      return await this._withRetries(() =>
+        this._makeRequest({
+          path: "/v1/databases",
+          params,
+        }));
     },
     /**
      * Gets details of an specified page.
@@ -359,6 +417,31 @@ module.exports = {
       return await this._withRetries(() =>
         this._makeRequest({
           path: `/v1/users/${userId}`,
+        }));
+    },
+    /**
+     * Gets users from the Notion workspace. Allows for pagination.
+     * @params {string} startCursor - Points to the start page of results. If not supplied,
+     * the first page of results will be returned.
+     * @params {string} pageSize - Specifies the number of items on each page in the results.
+     * @returns {has_more: boolean, next_cursor: string, object: string, results: array} The
+     * `has_more` flag, which indicates that there are more page results available,
+     * "next_cursor" a cursor pointing to the next result page, `object` for the Notion object type
+     *  of the result, in this case `list`, a `results` array with the users in the current results
+     * page.
+     */
+    async getUsers(startCursor, pageSize) {
+      let params = {};
+      if (startCursor) {
+        params.start_cursor = startCursor;
+      }
+      if (pageSize) {
+        params.page_size = pageSize;
+      }
+      return await this._withRetries(() =>
+        this._makeRequest({
+          path: "/v1/users",
+          params,
         }));
     },
     /**
