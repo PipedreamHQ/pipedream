@@ -7,12 +7,15 @@ module.exports = {
   name: "New comments on a post",
   description:
     "Emits an event each time a new comment is added to a subreddit.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
     subreddit: {
-      propDefinition: [reddit, "subreddit"],
+      propDefinition: [
+        reddit,
+        "subreddit",
+      ],
     },
     subredditPost: {
       type: "string",
@@ -46,12 +49,15 @@ module.exports = {
       type: "integer",
       label: "Depth",
       description:
-        'If set to 1, it will include, in the emitted event, only new comments that are direct children to the subreddit pointed by "subredditPost". Furthermore, "depth" determines the maximum depth of children, within the related subreddit comment tree, of new comments to be included in said emitted event.',
+        "If set to 1, it will include, in the emitted event, only new comments that are direct children to the subreddit pointed by \"subredditPost\". Furthermore, \"depth\" determines the maximum depth of children, within the related subreddit comment tree, of new comments to be included in said emitted event.",
       default: 1,
       optional: true,
     },
     includeSubredditDetails: {
-      propDefinition: [reddit, "includeSubredditDetails"],
+      propDefinition: [
+        reddit,
+        "includeSubredditDetails",
+      ],
     },
   },
   hooks: {
@@ -63,7 +69,7 @@ module.exports = {
         this.numberOfParents,
         this.depth,
         this.includeSubredditDetails,
-        10
+        10,
       );
       const { children: comments = [] } = redditComments.data;
       if (comments.length === 0) {
@@ -71,7 +77,7 @@ module.exports = {
         return;
       }
       comments.reverse().forEach(this.emitRedditEvent);
-    }
+    },
   },
   methods: {
     ...common.methods,
@@ -88,7 +94,7 @@ module.exports = {
       do {
         const redditLinks = await this.reddit.getNewSubredditLinks(
           before,
-          this.subreddit
+          this.subreddit,
         );
         const { children: links = [] } = redditLinks.data;
         if (links.length === 0) {
@@ -96,7 +102,10 @@ module.exports = {
         }
         before = links[0].data.name;
         links.forEach((link) => {
-          const { title, id } = link.data;
+          const {
+            title,
+            id,
+          } = link.data;
           results.push({
             title,
             id,
@@ -112,7 +121,7 @@ module.exports = {
       this.subredditPost,
       this.numberOfParents,
       this.depth,
-      this.includeSubredditDetails
+      this.includeSubredditDetails,
     );
     const { children: comments = [] } = redditComments.data;
     if (comments.length === 0) {
@@ -120,5 +129,5 @@ module.exports = {
       return;
     }
     comments.reverse().forEach(this.emitRedditEvent);
-  }
+  },
 };

@@ -6,7 +6,7 @@ module.exports = {
   name: "New Row Added (Instant)",
   description:
     "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.14",
+  version: "0.0.16",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -15,9 +15,7 @@ module.exports = {
         common.props.googleSheets,
         "sheetID",
         (c) => ({
-          driveId: c.watchedDrive === "myDrive" ?
-            null :
-            c.watchedDrive,
+          driveId: common.methods.getDriveId(c.watchedDrive),
         }),
       ],
     },

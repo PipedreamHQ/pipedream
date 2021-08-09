@@ -223,7 +223,7 @@ This example shows you how to download a file to a file in [the `/tmp` directory
 
 ```javascript
 const fs = require("fs");
-const got = require("got");
+const { default: got } = await import("got");
 const stream = require("stream");
 const { promisify } = require("util");
 
@@ -284,7 +284,7 @@ const config = {
 const resp = await axios.request(config);
 ```
 
-**If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
+**If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/make-an-http-request-through-a-proxy-p_ezC6RD/edit).
 
@@ -344,7 +344,7 @@ This method is especially effective for large files that exceed the [limits of t
 const stream = require("stream");
 const { promisify } = require("util");
 const fs = require("fs");
-const got = require("got");
+const { default: got } = await import("got");
 
 const pipeline = promisify(stream.pipeline);
 

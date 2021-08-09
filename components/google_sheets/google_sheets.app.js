@@ -26,12 +26,12 @@ module.exports = {
     sheetID: {
       type: "string",
       label: "Spreadsheet to watch for changes",
-      async options({
+      options({
         prevContext,
         driveId,
       }) {
         const { nextPageToken } = prevContext;
-        return this.listSheets(driveId, nextPageToken);
+        return this.listSheetsOptions(driveId, nextPageToken);
       },
     },
     sheetName: {
@@ -76,7 +76,7 @@ module.exports = {
         auth,
       });
     },
-    async listSheets(driveId, pageToken = null) {
+    async listSheetsOptions(driveId, pageToken = null) {
       const q = "mimeType='application/vnd.google-apps.spreadsheet'";
       let request = {
         q,
@@ -91,7 +91,7 @@ module.exports = {
           supportsAllDrives: true,
         };
       }
-      return this.listFiles(request);
+      return this.listFilesOptions(pageToken, request);
     },
     async getSpreadsheet(spreadsheetId, fields = []) {
       const sheets = this.sheets();
