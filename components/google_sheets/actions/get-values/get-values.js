@@ -4,7 +4,7 @@ module.exports = {
   key: "google_sheets-get-values",
   name: "Get Values",
   description: "Get all values from a sheet.",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
   props: {
     googleSheets,
