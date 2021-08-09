@@ -1,22 +1,22 @@
 module.exports = [
   {
     label: "Processed (Delivery Event)",
-    value: "processed"
+    value: "processed",
   },
   {
     label: "Dropped (Delivery Event)",
-    value: "dropped"
+    value: "dropped",
   },
   {
     label: "Delivered (Delivery Event)",
-    value: "delivered"
+    value: "delivered",
   },
   {
     label: "Deferred (Delivery Event)",
-    value: "deferred"
+    value: "deferred",
   },
   {
     label: "Bounce (Delivery Event)",
-    value: "bounce"
-  }
+    value: "bounce",
+  },
 ];

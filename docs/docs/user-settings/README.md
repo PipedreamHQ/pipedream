@@ -30,7 +30,7 @@ Pipedream sends system emails to the email address tied to your Pipedream login 
 
 You can change the email address to which these emails are delivered by modifying the **Email** in your Account Settings. Once changed, an email will be delivered to the new address requesting you verify it.
 
-Pipedream marketing emails may still be sent to the original email address you used when signing up for Pipedream. To change the email address tied to marketing emails, please [reach out to our team](/support).
+Pipedream marketing emails may still be sent to the original email address you used when signing up for Pipedream. To change the email address tied to marketing emails, please [reach out to our team](https://pipedream.com/support).
 
 ### Pipedream API Key
 
@@ -58,11 +58,11 @@ Environment variables allow you to securely store secrets or other config values
 
 ## Billing and Usage
 
-You'll find information on your usage data (for specific [Pipedream limits](/limits/)) in your [Billing Settings](https://pipedream.com/settings/billing). You can also upgrade to the [Professional tier](/pricing/#professional-tier) from this page.
+You'll find information on your usage data (for specific [Pipedream limits](/limits/)) in your [Billing Settings](https://pipedream.com/settings/billing). You can also upgrade to [paid plans](https://pipedream.com/pricing) from this page.
 
 ### Subscription
 
-You can upgrade to the [Professional tier](/pricing/#professional-tier) from this section.
+You can upgrade to [paid plans](https://pipedream.com/pricing) from this section.
 
 If you've already upgraded, you'll see an option to **Manage Subscription** here, which directs you to your personal Stripe portal. Here, you can change your payment method, review the details of previous invoices, and more.
 
@@ -82,7 +82,7 @@ _Click_ on a specific column to see invocations for that day, broken out by work
 <img alt="Invocations broken out by workflow / source" src="./images/usage-by-resource.png">
 </div>
 
-[Developer (free) tier](/pricing/#developer-tier) users will see the last 30 days of usage in this chart. [Professional tier](/pricing/#professional-tier) users will see the cumulative usage tied to their current billing period.
+[Developer (free) tier](/pricing/#developer-tier) users will see the last 30 days of usage in this chart. Users on [paid plans](https://pipedream.com/pricing) will see the cumulative usage tied to their current billing period.
 
 ### Limits
 

@@ -78,7 +78,7 @@ Sign up for a [free account (no credit card required)](https://pipedream.com/aut
 <a href="/quickstart/hello-world/"><img src="./quickstart/get-started.png"></a>
 </p>
 -->
-Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or commitment. As your needs grow, it's easy to upgrade to paid plans to run without limits for individuals, teams (in alpha) and enterprises.
+Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or commitment. As your needs grow, it's easy to upgrade to [paid plans](https://pipedream.com/pricing) to run without limits for individuals, teams and enterprises.
 
 ## Use Cases
 
@@ -108,7 +108,7 @@ Pipedream maintains an [open source component registry](https://github.com/piped
 
 We hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform by:
 
-- [Contributing](/components/guidelines/) open source components to our [registry](https://github.com/pipedreamhq/pipedream.) or sharing via your own GitHub repo
+- [Contributing](/components/guidelines/) open source components to our [registry](https://github.com/pipedreamhq/pipedream) or sharing via your own GitHub repo
 - Asking and answering questions in our [public community](https://pipedream.com/community/)
 - [Reporting bugs](https://pipedream.com/community/c/bugs/9) and [requesting features](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+) that help us build a better product
 - Following us on [Twitter](https://twitter.com/pipedream), starring our [GitHub repo](https://github.com/PipedreamHQ/pipedream) and subscribing to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)

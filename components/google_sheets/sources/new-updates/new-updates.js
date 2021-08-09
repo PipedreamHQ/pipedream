@@ -7,7 +7,7 @@ module.exports = {
   name: "New Updates (Instant)",
   description:
     "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.15",
+  version: "0.0.17",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -16,9 +16,7 @@ module.exports = {
         common.props.googleSheets,
         "sheetID",
         (c) => ({
-          driveId: c.watchedDrive === "myDrive" ?
-            null :
-            c.watchedDrive,
+          driveId: common.methods.getDriveId(c.watchedDrive),
         }),
       ],
     },
