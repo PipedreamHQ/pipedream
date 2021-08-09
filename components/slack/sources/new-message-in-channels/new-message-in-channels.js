@@ -123,7 +123,7 @@ module.exports = {
     },
   },
   async run(event) {
-    if (event.subtype != null && event.subtype != "bot_message") {
+    if (event.subtype != null && event.subtype != "bot_message" && event.subtype != "file_share") {
       // This source is designed to just emit an event for each new message received.
       // Due to inconsistencies with the shape of message_changed and message_deleted
       // events, we are ignoring them for now. If you want to handle these types of
