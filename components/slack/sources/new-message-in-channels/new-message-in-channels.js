@@ -3,7 +3,7 @@ const slack = require('../../slack.app.js')
 module.exports = {
   key: "slack-new-message-in-channels",
   name: "New Message In Channels",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit an event when a new message is posted to a one or more channels",
   dedupe: "unique",
   props: {
