@@ -1,5 +1,5 @@
 const common = require("../common");
-const { zoho_crm } = common.props;
+const { zoho_crm: zohoCrm } = common.props;
 const validate = require("validate.js");
 
 module.exports = {
@@ -9,11 +9,11 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    zoho_crm,
-    domainLocation: {
+    zoho_crm: zohoCrm,
+    domain: {
       propDefinition: [
-        zoho_crm,
-        "domainLocation",
+        zohoCrm,
+        "domain",
       ],
     },
     recordId: {
@@ -98,15 +98,15 @@ module.exports = {
     const data = [
       {
         overwrite: this.overwrite,
-        notifyLeadOwner: this.notifyLeadOwner,
-        notifyNewEntityOwner: this.notifyNewEntityOwner,
-        accounts: this.accounts,
-        contacts: this.contacts,
-        users: this.users,
-        deals: this.deals,
-        carryOverTags: this.carryOverTags,
+        notify_lead_owner: this.notifyLeadOwner,
+        notify_new_entity_owner: this.notifyNewEntityOwner,
+        Accounts: this.accounts,
+        Contacts: this.contacts,
+        assign_to: this.users,
+        Deals: this.deals,
+        carry_over_tags: this.carryOverTags,
       },
     ];
-    return await this.zoho_crm.convertLead(this.domainLocation, this.recordId, data);
+    return await this.zoho_crm.convertLead(this.domain, this.recordId, data);
   },
 };

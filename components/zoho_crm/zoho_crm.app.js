@@ -1,21 +1,57 @@
 const axios = require("axios");
 const retry = require("async-retry");
+const get = require("lodash/get");
 
 module.exports = {
   type: "app",
   app: "zoho_crm",
+  propDefinitions: {
+    domain: {
+      type: "string",
+      label: "Domain Location",
+      description:
+        "The domain location of your account. The Zoho API domain URL depends on the location of Zoho CRM data center associated to your account.",
+      default: "US",
+      options: [
+        {
+          label: "US",
+          value: "com",
+        },
+        {
+          label: "AU",
+          value: "com.au",
+        },
+        {
+          label: "EU",
+          value: "eu",
+        },
+        {
+          label: "IN",
+          value: "in",
+        },
+        {
+          label: "CN",
+          value: "com.cn",
+        },
+      ],
+    },
+  },
   methods: {
     _authToken() {
       return this.$auth.oauth_access_token;
     },
-    _apiUrl() {
-      return "https://www.zohoapis.com/crm/v2";
+    _apiUrl(domain = "com") {
+      return `https://www.zohoapis.${domain}/crm/v2`;
     },
     _isRetriableStatusCode(statusCode) {
-      [408, 429, 500].includes(statusCode);
+      [
+        408,
+        429,
+        500,
+      ].includes(statusCode);
     },
-    _leadsUrl() {
-      const baseUrl = this._apiUrl();
+    _leadsUrl(domain) {
+      const baseUrl = this._apiUrl(domain);
       return `${baseUrl}/Leads`;
     },
     _metadataUrl() {
@@ -25,7 +61,9 @@ module.exports = {
     _usersUrl(id) {
       const baseUrl = this._apiUrl();
       const basePath = `${baseUrl}/users`;
-      return id ? `${basePath}/${id}` : basePath;
+      return id ?
+        `${basePath}/${id}`
+        : basePath;
     },
     _watchActionsUrl() {
       const baseUrl = this._apiUrl();
@@ -34,7 +72,7 @@ module.exports = {
     _makeRequestConfig() {
       const authToken = this._authToken();
       const headers = {
-        Authorization: `Zoho-oauthtoken ${authToken}`,
+        "Authorization": `Zoho-oauthtoken ${authToken}`,
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
       return {
@@ -50,7 +88,10 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = get(err, ["response", "status"]);
+          const statusCode = get(err, [
+            "response",
+            "status",
+          ]);
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
@@ -62,14 +103,41 @@ module.exports = {
         }
       }, retryOpts);
     },
-    async convertLead(recordId, body) {
-      const url = `${this._leadsUrl()}/${recordId}/actions/convert`;
+    /**
+     * Converts a lead into a contact or an account.
+     *
+     * @param {string} domain the domain location of the connected Zoho CRM
+     * account. The Zoho API domain URL depends on the location of Zoho CRM data
+     * center associated to the connected account.
+     * @param {string} recordId unique identifier of the record associated to the Lead to convert.
+     * @param {object} opts optional parameters for this function
+     * @param {boolean} opts.overwrite specifies if the lead details must be overwritten in
+     * the Contact/Account/Deal based on lead conversion mapping configuration.
+     * @param {boolean} opts.notify_lead_owner specifies whether the lead owner must get
+     *  notified about the lead conversion via email.
+     * @param {boolean} opts.notify_new_entity_owner specifies whether the user to whom
+     * the contact/account is assigned to must get notified about the lead conversion via
+     * email.
+     * @param {string} opts.Accounts unique identifier of an account to associate with the lead
+     * being converted.
+     * @param {string} opts.Contacts unique identifier of a contact to associate with the lead
+     * being converted.
+     * @param {string} opts.assign_to unique identifier of the record owner for the new contact and
+     * account.
+     * @param {object} opts.Deals creates a deal for the newly created account. within this object,
+     * "Deal_Name", "Closing_Date", and "Stage" are required.
+     * @param {object} opts.carry_over_tags carries over tags of the lead to contact, account, and
+     * deal. For exact structure check the Sample input in the API docs:
+     * https://www.zoho.com/crm/developer/docs/api/v2/convert-lead.html
+     * @returns The users API page number where new records would be contained
+     */
+    async convertLead(domain, recordId, opts) {
+      const url = `${this._leadsUrl(domain)}/${recordId}/actions/convert`;
       const requestConfig = this._makeRequestConfig();
       const requestData = {};
-      requestData.data = body;
+      requestData.data = opts;
       const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig)
-      );
+        axios.post(url, requestData, requestConfig));
       return data;
     },
     async genericApiGetCall(url, params = {}) {
@@ -100,7 +168,9 @@ module.exports = {
      * 200.
      * @returns The users API page number where new records would be contained
      */
-    computeLastUsersPage({ userCount = 0, pageSize = this.usersPageSize() }) {
+    computeLastUsersPage({
+      userCount = 0, pageSize = this.usersPageSize(),
+    }) {
       return 1 + Math.floor(userCount / pageSize);
     },
     /**
@@ -121,7 +191,9 @@ module.exports = {
      * @returns The number of records at the beginning of the users page that
      * were already processed and can be skipped
      */
-    computeUsersOffset({ userCount = 0, pageSize = this.usersPageSize() }) {
+    computeUsersOffset({
+      userCount = 0, pageSize = this.usersPageSize(),
+    }) {
       return userCount % pageSize;
     },
     async getUserCount({ type }) {
@@ -131,12 +203,12 @@ module.exports = {
         page_size: pageSize,
         type,
       };
-      const {
-        info: { count: userCount },
-      } = await this.genericApiGetCall(url, params);
+      const { info: { count: userCount } } = await this.genericApiGetCall(url, params);
       return userCount;
     },
-    async *getUsers({ page = 1, type }) {
+    async *getUsers({
+      page = 1, type,
+    }) {
       const url = this._usersUrl();
       let moreRecords = false;
       let params = {
@@ -144,7 +216,11 @@ module.exports = {
         type,
       };
       do {
-        const { users, info } = await this.genericApiGetCall(url, params);
+        const {
+          users,
+          info,
+        } = await this.genericApiGetCall(url,
+          params);
         for (const user of users) {
           yield user;
         }
@@ -163,7 +239,13 @@ module.exports = {
       return data;
     },
     async createHook(opts) {
-      const { token, notifyUrl, channelId, channelExpiry, events } = opts;
+      const {
+        token,
+        notifyUrl,
+        channelId,
+        channelExpiry,
+        events,
+      } = opts;
 
       const url = this._watchActionsUrl();
       const requestConfig = this._makeRequestConfig();
@@ -201,7 +283,12 @@ module.exports = {
       await axios.delete(url, requestConfig);
     },
     async renewHookSubscription(opts) {
-      const { channelId, channelExpiry, events, token } = opts;
+      const {
+        channelId,
+        channelExpiry,
+        events,
+        token,
+      } = opts;
       const url = this._watchActionsUrl();
       const requestConfig = this._makeRequestConfig();
 

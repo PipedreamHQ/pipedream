@@ -31,10 +31,12 @@ module.exports = {
     }) {
       const {
         id,
-        first_name: firstName = '',
-        last_name: lastName = '',
+        first_name: firstName = "",
+        last_name: lastName = "",
       } = user;
-      const lastNameInitial = lastName ? `${lastName.slice(0, 1)}.` : '';
+      const lastNameInitial = lastName
+        ? `${lastName.slice(0, 1)}.`
+        : "";
       const userNameDisplay = `${firstName} ${lastNameInitial}`;
       const summary = `New User: ${userNameDisplay}`;
       const { timestamp: ts } = event;

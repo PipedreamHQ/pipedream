@@ -1,5 +1,5 @@
 const common = require("../common");
-const { zoho_crm } = common.props;
+const { zoho_crm: zohoCrm } = common.props;
 const validate = require("validate.js");
 
 module.exports = {
@@ -9,10 +9,10 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    zoho_crm,
+    zoho_crm: zohoCrm,
     domainLocation: {
       propDefinition: [
-        zoho_crm,
+        zohoCrm,
         "domainLocation",
       ],
     },
