@@ -72,10 +72,6 @@ Pipedream is currently free, subject to the [limits noted below](https://docs.pi
 
 If you exceed any of these limits, please [reach out](https://docs.pipedream.com/support/).
 
-## Getting Support
-
-You can get help [on our public Slack](https://pipedream.com/community) or [reach out to our team directly](https://docs.pipedream.com/support/) with any questions or feedback. We'd love to hear from you!
-
 ## Found a Bug? Have a Feature to suggest?
 
 Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/pipedream/issues) or [reach out to our team](https://docs.pipedream.com/support/) to see if a similar request already exists.

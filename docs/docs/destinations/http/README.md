@@ -4,7 +4,7 @@ HTTP Destinations allow you to send data to another HTTP endpoint URL outside of
 
 [[toc]]
 
-## Using `$send.http()`
+## Using `$send.http` in workflows
 
 You can send HTTP requests in [Node.js code steps](/workflows/steps/code/) using `$send.http()`.
 
@@ -50,6 +50,21 @@ names.forEach((name) => {
 
 you won't have to `await` the execution of the HTTP requests in your workflow. We'll collect every `$send.http()` call and defer those HTTP requests, sending them after your workflow finishes.
 
+## Using `$.send.http` in component actions
+
+If you're authoring a [component action](/components/actions/), you can deliver data to an HTTP destination using `$.send.http`.
+
+`$.send.http` functions the same as [`$send.http` in workflow code steps](#using-send-http-in-workflows):
+
+```javascript
+async run({ $ }) {
+  $.send.http({
+    method: "GET",
+    url: "https://example.com"
+  })
+}
+```
+
 ## HTTP Destination delivery
 
 HTTP Destination delivery is handled asynchronously, separate from the execution of a workflow. However, we deliver the specified payload to HTTP destinations for every event sent to your workflow.
@@ -72,7 +87,7 @@ If you need to access the HTTP response data in your workflow, [use `axios`](/wo
 
 The timeout on HTTP request sent with `$send.http()` is currently **5 seconds**. This time includes DNS resolution, connecting to the host, writing the request body, server processing, and reading the response body.
 
-Any requests that exceed 5 seconds will yield a `timeout` error.
+Any requests that exceed 5 seconds will yield a `timeout` error. 
 
 ## Retries
 
@@ -85,5 +100,9 @@ When you make an HTTP request using `$send.http()`, the traffic will come from o
 <<< @/docs/snippets/public-node-ips.txt
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble sending HTTP requests to your target service, please check to ensure this list matches your firewall rules.
+
+::: warning
+These IP addresses are tied specifically to the `$send.http()` service. If you send traffic directly from a workflow, it will be sent from one of Pipedream's general range of IP addresses. [See our networking docs for more information](/workflows/networking/).
+:::
 
 <Footer />

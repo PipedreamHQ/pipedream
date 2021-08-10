@@ -10,8 +10,8 @@ module.exports = {
   methods: {
     slugifyEmail(email) {
       return email
-        .replace(/[@]/g, '-at-')
-        .replace(/[\.]/g, '-');
+        .replace(/[@]/g, "-at-")
+        .replace(/[\.]/g, "-");
     },
     toISOString(timestamp) {
       const date = new Date(timestamp);

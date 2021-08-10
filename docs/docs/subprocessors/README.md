@@ -5,7 +5,7 @@ prev: false
 
 # Subprocessors
 
-Below, you'll find a list of Pipedream’s Subprocessors in our capacity as a Processor (as defined by our Data Protection Addendum). Please check this list frequently for any updates.
+Below, you'll find a list of Pipedream’s Subprocessors in our capacity as a Processor (as defined by our Data Protection Addendum). Please check this list frequently for any updates. 
 
 _Last updated March 17, 2021_
 

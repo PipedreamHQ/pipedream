@@ -1,43 +1,64 @@
-const discordWebhook=require('../../discord_webhook.app.js')
-const axios = require('axios')
+const discordWebhook = require("../../discord_webhook.app.js");
 
 module.exports = {
   key: "discord_webhook-send-message-advanced",
   name: "Send Message (Advanced)",
-  description: "Send a simple or structured message (using embeds) to a Discord channel.",
-  version: "0.0.1",
+  description: "Send a simple or structured message (using embeds) to a Discord channel",
+  version: "0.1.0",
   type: "action",
   props: {
     discordWebhook,
-    message: { 
-      propDefinition: [discordWebhook, "message"],
+    message: {
+      propDefinition: [
+        discordWebhook,
+        "message",
+      ],
       optional: true,
     },
-    embeds: { propDefinition: [discordWebhook, "embeds"] },
-    username: { propDefinition: [discordWebhook, "username"] },
-    avatar_url: { propDefinition: [discordWebhook, "avatar_url"] },
+    threadID: {
+      propDefinition: [
+        discordWebhook,
+        "threadID",
+      ],
+    },
+    embeds: {
+      propDefinition: [
+        discordWebhook,
+        "embeds",
+      ],
+    },
+    username: {
+      propDefinition: [
+        discordWebhook,
+        "username",
+      ],
+    },
+    avatarURL: {
+      propDefinition: [
+        discordWebhook,
+        "avatarURL",
+      ],
+    },
   },
   async run() {
-    const url = this.discordWebhook.$auth.oauth_uid
-    let content = this.message
-    const { embeds, username, avatar_url } = this
+    const content = this.message;
+    const {
+      avatarURL,
+      embeds,
+      threadID,
+      username,
+    } = this;
 
     if (!content && !embeds) {
-      throw new Error("This action requires at least 1 message OR embeds object. Please enter one or the other above.")
+      throw new Error("This action requires at least 1 message OR embeds object. Please enter one or the other above.");
     }
 
-    return (await axios({
-      method: "POST",
-      url,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      data: {
-        content,
-        embeds,
-        username,
-        avatar_url,
-      }
-    })).data
+    // No interesting data is returned from Discord
+    await this.discordWebhook.sendMessage({
+      avatarURL,
+      content,
+      threadID,
+      username,
+    });
   },
-}
+};
