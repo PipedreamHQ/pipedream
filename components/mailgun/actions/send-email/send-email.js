@@ -4,7 +4,7 @@ module.exports = {
   key: "mailgun-send-email",
   name: "Mailgun Send Email",
   description: "Send email with Mailgun.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailgun,

@@ -11,7 +11,6 @@ module.exports = {
       const mg = mailgun.client({
         username: "api",
         key: this.$auth.api_key,
-        public_key: this.$auth.api_key,
       });
       return mg[api];
     },
@@ -42,7 +41,7 @@ module.exports = {
           skip: 50 * page,
         };
         const domains = await this.api("domains").list(query);
-        return domains.map(domain => domain.name);
+        return domains.map((domain) => domain.name);
       },
     },
     email: {
