@@ -48,6 +48,24 @@ module.exports = {
       type: "string",
       label: "Email Address",
     },
+    acceptableRiskLevels: {
+      type: "string[]",
+      label: "Acceptable Risk Levels",
+      description: "If set, workflow execution will stop at this step if the email risk is not " +
+        "in this list",
+      options: [
+        "high",
+        "medium",
+        "low",
+        "unknown",
+      ],
+      default: [
+        "medium",
+        "low",
+        "unknown",
+      ],
+      optional: true,
+    },
     haltOnError: {
       type: "boolean",
       label: "Halt on error?",
