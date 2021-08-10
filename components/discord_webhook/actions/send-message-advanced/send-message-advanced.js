@@ -4,7 +4,7 @@ module.exports = {
   key: "discord_webhook-send-message-advanced",
   name: "Send Message (Advanced)",
   description: "Send a simple or structured message (using embeds) to a Discord channel",
-  version: "0.1.0",
+  version: "0.1.3",
   type: "action",
   props: {
     discordWebhook,
@@ -56,6 +56,7 @@ module.exports = {
     // No interesting data is returned from Discord
     await this.discordWebhook.sendMessage({
       avatarURL,
+      embeds,
       content,
       threadID,
       username,

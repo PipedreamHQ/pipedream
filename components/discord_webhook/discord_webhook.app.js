@@ -38,12 +38,13 @@ module.exports = {
     async sendMessage({
       content, embeds, username, avatarURL, threadID,
     }) {
-      return (await axios({
+      const resp = await axios({
         method: "POST",
         url: this.url(),
         headers: {
           "Content-Type": "application/json",
         },
+        validateStatus: () => true,
         params: {
           thread_id: threadID
             ? threadID
@@ -55,7 +56,11 @@ module.exports = {
           username,
           avatar_url: avatarURL,
         },
-      })).data;
+      });
+      if (resp.status >= 400) {
+        throw new Error(JSON.stringify(resp.data));
+      }
+      return resp.data;
     },
   },
 };
