@@ -134,7 +134,7 @@ module.exports = {
     if (this.ignoreMyself && event.user == this.slack.mySlackId()) {
       return
     }
-    if (this.ignoreBot && event.subtype != null && event.subtype == "bot_message") {
+    if (this.ignoreBot && event.subtype == "bot_message") {
       return
     }
     if (this.resolveNames) {
