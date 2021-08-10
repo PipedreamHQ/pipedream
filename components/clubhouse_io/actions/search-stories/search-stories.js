@@ -6,7 +6,7 @@ module.exports = {
   key: "clubhouse-search-stories",
   name: "Search Stories",
   description: "Searches for stories in your clubhouse.",
-  version: "0.0.1",
+  version: "0.0.39",
   type: "action",
   props: {
     clubhouse,
@@ -46,6 +46,13 @@ module.exports = {
       const validationMessages = this.getValidationMessage(validationResult);
       throw new Error(validationMessages);
     }
+    //---
+    const data = {
+      query: this.query,
+      page_size: Math.min(this.numberOfStories, 2),
+    };
+    const response = await this.clubhouse._clubhouseio().searchStories(data);
+    //---
     const searchStoriesGenerator = this.clubhouse.searchStories(
       this.query,
       this.numberOfStories,
@@ -53,6 +60,7 @@ module.exports = {
     const searchResults = await this.getGeneratorResults(
       searchStoriesGenerator,
     );
+    console.log(JSON.stringify(response));
     return searchResults.slice(0, this.numberOfStories);
   },
 };

@@ -6,7 +6,7 @@ module.exports = {
   key: "clubhouse-create-story",
   name: "Create Story",
   description: "Creates a new story in your clubhouse.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     clubhouse,

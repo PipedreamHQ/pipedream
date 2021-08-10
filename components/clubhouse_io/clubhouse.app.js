@@ -1,4 +1,4 @@
-const axios = require("axios");
+const clubhouse = require("clubhouse-lib");
 const get = require("lodash/get");
 const retry = require("async-retry");
 
@@ -9,8 +9,8 @@ module.exports = {
     _authToken() {
       return this.$auth.api_key;
     },
-    _apiUrl() {
-      return "https://api.clubhouse.io";
+    _clubhouseio() {
+      return clubhouse.create(this._authToken());
     },
     async _makeRequest(opts) {
       if (!opts.headers) opts.headers = {};
@@ -22,7 +22,7 @@ module.exports = {
       opts.url = `${this._apiUrl()}${path[0] === "/" ?
         "" :
         "/"}${path}`;
-      return (await axios(opts)).data;
+      return 1;
     },
     _isRetriableStatusCode(statusCode) {
       [
@@ -163,32 +163,33 @@ module.exports = {
      *  results are limited by `numberOfStories`.
      */
     async *searchStories(query, numberOfStories) {
-      let next = "/api/v3/search/stories";
-      while (next) {
-        const data = {
-          query: query,
-          page_size: Math.min(numberOfStories, 5),
-        };
-        const response = await axios({
-          url: `${this._apiUrl()}${next}`,
-          headers: {
-            "Clubhouse-Token": `${this._authToken()}`,
-            "Content-Type": "application/json",
-          },
-          data,
-        });
+      let next = null;
+      let  getStories;
+      let initialRequestDone = false;
+      const data = {
+        query: query,
+        page_size: Math.min(numberOfStories, 2),
+      };
+      do {
+        let response;
+        if (!initialRequestDone) {
+          response = await this._clubhouseio().searchStories(data);
+        } else {
+          response = await getStories();
+        }
         const stories = get(response, [
           "data",
-          "data",
         ]);
-        if (!stories.length) {
+        if (!stories.data.length) {
           return;
         }
-        for (const story of stories) {
+        for (const story of stories.data) {
           yield story;
         }
-        next = response.data.next;
-      }
+        next = response.next;
+        getStories = response.fetchNext;
+        initialRequestDone = true;
+      } while (next);
     },
   },
 };
