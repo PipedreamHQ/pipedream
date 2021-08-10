@@ -330,6 +330,35 @@ module.exports = {
       };
     },
     /**
+     * Method returns a list of folder options
+     *
+     * @param {string} [pageToken] - the page token for the next page of shared
+     * drives
+     * @param {object} [opts = {}] - an object containing extra/optional
+     * parameters to be fed to the GDrive API call, as defined in [the API
+     * docs](https://bit.ly/3AnQDR1)
+     *
+     * @returns a list of prop options
+     */
+    async listFolderOptions(pageToken, opts = {}) {
+      return await this.listFilesOptions(pageToken, {
+        ...opts,
+        q: "mimeType = 'application/vnd.google-apps.folder'",
+      });
+    },
+    /**
+     * Creates a new file in a drive
+     *
+     * @param {object} [opts = {}] - an object containing parameters to be fed to the GDrive
+     * API call as defined in [the API docs](https://developers.google.com/drive/api/v3/reference/files/create)
+     *
+     * @returns a files resource
+     */
+    async createFile(opts = {}) {
+      const drive = this.drive();
+      return (await drive.files.create(opts)).data;
+    },
+    /**
      * This method yields comments made to a particular GDrive file. It is a
      * wrapper around [the `drive.comments.list` API](https://bit.ly/2UjYajv)
      * but defined as a generator to enable lazy loading of multiple pages.

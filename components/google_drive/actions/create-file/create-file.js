@@ -16,6 +16,28 @@ module.exports = {
         "watchedDrive",
       ],
     },
+    parents: {
+      type: "string",
+      label: "Parent Folder",
+      description:
+        "The ID of the parent folder which contain the file. If not specified as part of a create request, the file will be placed directly in the user's My Drive folder.",
+      optional: true,
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        let results;
+        if (this.drive === "myDrive") {
+          results = await this.googleDrive.listFolderOptions(nextPageToken);
+        } else {
+          results = await this.googleDrive.listFolderOptions(nextPageToken, {
+            corpora: "drive",
+            driveId: this.drive,
+            includeItemsFromAllDrives: true,
+            supportsAllDrives: true,
+          });
+        }
+        return results;
+      },
+    },
     uploadType: {
       type: "string",
       label: "Upload Type",
@@ -25,9 +47,18 @@ module.exports = {
         resumable - Resumable upload. Upload the file in a resumable fashion, using a series of at least two requests where the first request includes the metadata.
       `,
       options: [
-        "media",
-        "multipart",
-        "resumable",
+        {
+          label: "Media (upload the media only, without any metadata)",
+          value: "media",
+        },
+        {
+          label: "Multipart (upload both the media and its metadata, in a single request)",
+          value: "multipart",
+        },
+        {
+          label: "Resumable (Upload the file in a resumable fashion, using a series of requests)",
+          value: "resumable",
+        },
       ],
     },
     fileUrl: {
@@ -47,10 +78,8 @@ module.exports = {
     ignoreDefaultVisibility: {
       type: "boolean",
       label: "Ignore Default Visibility",
-      description: `Whether to ignore the domain's default visibility settings for the created file. Domain administrators can choose to make all uploaded files visible to the domain by default; this parameter bypasses that behavior for the request. Permissions are still inherited from parent folders. 
-        (Default: false)
-      `,
-      optional: true,
+      description: "Whether to ignore the domain's default visibility settings for the created file. Domain administrators can choose to make all uploaded files visible to the domain by default; this parameter bypasses that behavior for the request. Permissions are still inherited from parent folders.",
+      default: false,
     },
     includePermissionsForView: {
       type: "string",
@@ -58,13 +87,16 @@ module.exports = {
       description:
         "Specifies which additional view's permissions to include in the response. Only 'published' is supported.",
       optional: true,
+      options: [
+        "published",
+      ],
     },
     keepRevisionForever: {
       type: "boolean",
       label: "Keep Revision Forever",
       description:
-        "Whether to set the 'keepForever' field in the new head revision. This is only applicable to files with binary content in Google Drive. Only 200 revisions for the file can be kept forever. If the limit is reached, try deleting pinned revisions. (Default: false)",
-      optional: true,
+        "Whether to set the 'keepForever' field in the new head revision. This is only applicable to files with binary content in Google Drive. Only 200 revisions for the file can be kept forever. If the limit is reached, try deleting pinned revisions.",
+      default: false,
     },
     ocrLanguage: {
       type: "string",
@@ -77,8 +109,8 @@ module.exports = {
       type: "boolean",
       label: "Use Content As Indexable Text",
       description:
-        "Whether to use the uploaded content as indexable text. (Default: false)",
-      optional: true,
+        "Whether to use the uploaded content as indexable text.",
+      default: false,
     },
     supportsAllDrives: {
       type: "boolean",
@@ -149,33 +181,6 @@ module.exports = {
         "The original filename of the uploaded content if available, or else the original value of the name field. This is only available for files with binary content in Google Drive.",
       optional: true,
     },
-    parents: {
-      type: "string",
-      label: "Parent Folder",
-      description:
-        "The ID of the parent folder which contain the file. If not specified as part of a create request, the file will be placed directly in the user's My Drive folder.",
-      optional: true,
-      async options({ prevContext }) {
-        const { nextPageToken } = prevContext;
-        let results;
-        if (this.drive === "myDrive") {
-          results = await this.googleDrive.listFiles({
-            pageToken: nextPageToken,
-            q: "mimeType = 'application/vnd.google-apps.folder'",
-          });
-        } else {
-          results = await this.googleDrive.listFiles({
-            pageToken: nextPageToken,
-            corpora: "drive",
-            driveId: this.drive,
-            includeItemsFromAllDrives: true,
-            supportsAllDrives: true,
-            q: "mimeType = 'application/vnd.google-apps.folder'",
-          });
-        }
-        return results;
-      },
-    },
     shortcutDetailsTargetId: {
       type: "string",
       label: "Shortcut Details Target ID",
@@ -197,12 +202,11 @@ module.exports = {
     },
   },
   async run() {
-    const drive = this.googleDrive.drive();
     const body = this.fileUrl
       ? await got.stream(this.fileUrl)
-      : fs.createReadStream(`${this.filePath}`);
+      : fs.createReadStream(this.filePath);
     return (
-      await drive.files.create({
+      await this.googleDrive.createFile({
         ignoreDefaultVisibility: this.ignoreDefaultVisibility,
         includePermissionsForView: this.includePermissionsForView,
         keepRevisionForever: this.keeprevisionForever,
@@ -239,6 +243,6 @@ module.exports = {
         },
         fields: "*",
       })
-    ).data;
+    );
   },
 };
