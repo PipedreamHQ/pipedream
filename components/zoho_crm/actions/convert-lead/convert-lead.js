@@ -91,10 +91,7 @@ module.exports = {
     const validationResult = validate({
       recordId: this.recordId,
     }, constraints);
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
+    this.checkValidationResults(validationResult);
     const data = [
       {
         overwrite: this.overwrite,
@@ -107,6 +104,6 @@ module.exports = {
         carry_over_tags: this.carryOverTags,
       },
     ];
-    return await this.zoho_crm.convertLead(this.domain, this.recordId, data);
+    return await this.zohoCrm.convertLead(this.domain, this.recordId, data);
   },
 };
