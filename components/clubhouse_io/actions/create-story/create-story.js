@@ -6,7 +6,7 @@ module.exports = {
   key: "clubhouse-create-story",
   name: "Create Story",
   description: "Creates a new story in your clubhouse.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     clubhouse,
@@ -17,10 +17,10 @@ module.exports = {
       optional: true,
     },
     comments: {
-      type: "object",
+      type: "string",
       label: "Comments",
       description:
-        "An array with comments to add to the story. Each comment must have the [CreateStoryCommentParams](https://clubhouse.io/api/rest/v3/#CreateStoryCommentParams) structure.",
+        "An array with comment objects to add to the story. Each comment object must have the [CreateStoryCommentParams](https://clubhouse.io/api/rest/v3/#CreateStoryCommentParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of comment objects. ",
       optional: true,
     },
     completedAtOverride: {
@@ -69,21 +69,21 @@ module.exports = {
       optional: true,
     },
     externalLinks: {
-      type: "object",
+      type: "string[]",
       label: "External Links",
-      description: "An array of External Links associated with this story.",
+      description: "A string array of External Links associated with this story.",
       optional: true,
     },
     fileIds: {
-      type: "object",
+      type: "integer[]",
       label: "File Ids",
-      description: "An array of IDs of files attached to the story.",
+      description: "An integer array of IDs of files attached to the story.",
       optional: true,
     },
     followerIds: {
-      type: "object",
+      type: "string[]",
       label: "Follower Ids",
-      description: "An array of UUIDs of the followers of this story.",
+      description: "A string array of UUIDs of the followers of this story.",
       optional: true,
     },
     groupId: {
@@ -99,17 +99,17 @@ module.exports = {
       optional: true,
     },
     labels: {
-      type: "object",
+      type: "string",
       label: "Labels",
       description:
-        "An array of labels attached to the story. Each label must have the [CreateLabelParams](https://clubhouse.io/api/rest/v3/#CreateLabelParams) structure.",
+        "An array of labels objects attached to the story. Each label object must have the [CreateLabelParams](https://clubhouse.io/api/rest/v3/#CreateLabelParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of labels objects.",
       optional: true,
     },
     linkedFileIds: {
-      type: "object",
+      type: "integer[]",
       label: "Linked File Ids",
       description:
-        "An array of integers with the IDs of linked files attached to the story.",
+        "An integer array with the IDs of linked files attached to the story.",
       optional: true,
     },
     name: {
@@ -118,9 +118,9 @@ module.exports = {
       description: "The name of the story.",
     },
     ownerIds: {
-      type: "object",
+      type: "string",
       label: "Owner Ids",
-      description: "An array of UUIDs of the owners of this story.",
+      description: "A string array of UUIDs of the owners of this story.",
       optional: true,
     },
     projectId: {
@@ -141,10 +141,10 @@ module.exports = {
       optional: true,
     },
     storyLinks: {
-      type: "object",
+      type: "string",
       label: "Story Links",
       description:
-        "An array of story links attached to the story. Each story link must have the [CreateStoryLinkParams](https://clubhouse.io/api/rest/v3/#Body-Parameters-34268) structure.",
+        "An array of story link objects attached to the story. Each story link object must have the [CreateStoryLinkParams](https://clubhouse.io/api/rest/v3/#Body-Parameters-34268) structure. Alternatively, provide a string that will `JSON.parse` to an array of story link objects. ",
       optional: true,
     },
     storyType: {
@@ -159,10 +159,10 @@ module.exports = {
       optional: true,
     },
     tasks: {
-      type: "object",
-      label: "Story Links",
+      type: "string",
+      label: "Tasks",
       description:
-        "An array of tasks connected to the story. Each task must have the [CreateTaskParams](https://clubhouse.io/api/rest/v3/#CreateTaskParams) structure.",
+        "An array of task objects connected to the story. Each task object must have the [CreateTaskParams](https://clubhouse.io/api/rest/v3/#CreateTaskParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of content objects. ",
       optional: true,
     },
     updatedAt: {
@@ -213,9 +213,21 @@ module.exports = {
         type: "array",
       };
     }
+    validate.validators.arrayValidator = this.validateArray; //custom validator for object arrays
+    if (this.comments) {
+      constraints.comments = {
+        arrayValidator: {
+          value: this.comments,
+          key: "comment",
+        },
+      };
+    }
     if (this.labels) {
       constraints.labels = {
-        type: "array",
+        arrayValidator: {
+          value: this.labels,
+          key: "label",
+        },
       };
     }
     if (this.linkedFileIds) {
@@ -230,16 +242,23 @@ module.exports = {
     }
     if (this.storyLinks) {
       constraints.storyLinks = {
-        type: "array",
+        arrayValidator: {
+          value: this.storyLinks,
+          key: "story link",
+        },
       };
     }
     if (this.tasks) {
       constraints.tasks = {
-        type: "array",
+        arrayValidator: {
+          value: this.tasks,
+          key: "task",
+        },
       };
     }
     const validationResult = validate(
       {
+        comments: this.comments,
         name: this.name,
         projectId: this.projectId,
         description: this.description,
@@ -254,37 +273,35 @@ module.exports = {
       },
       constraints,
     );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
-    return await this.clubhouse.createStory(
-      this.archived,
-      this.comments,
-      this.completedAtOverride,
-      this.createdAt,
-      this.dueDate,
-      this.description,
-      this.epicId,
-      this.estimate,
-      this.externalId,
-      this.externalLinks,
-      this.fileIds,
-      this.followerIds,
-      this.groupId,
-      this.iterationId,
-      this.labels,
-      this.linkedFileIds,
-      this.name,
-      this.ownerIds,
-      this.projectId,
-      this.requestedById,
-      this.startedAtOverride,
-      this.storyLinks,
-      this.storyType,
-      this.tasks,
-      this.updatedAt,
-      this.workflowStateId,
-    );
+    this.checkValidationResults(validationResult);
+    const story = {
+      archived: this.archived,
+      comments: this.getArrayObject(this.comments),
+      completed_at_override: this.completedAtOverride,
+      created_at: this.createdAt,
+      deadline: this.dueDate,
+      description: this.description,
+      epic_id: this.epicId,
+      estimate: this.estimate,
+      external_id: this.externalId,
+      external_links: this.convertEmptyStringToUndefined(this.externalLinks),
+      file_ids: this.convertEmptyStringToUndefined(this.fileIds),
+      follower_ids: this.convertEmptyStringToUndefined(this.followerIds),
+      group_id: this.groupId,
+      iteration_id: this.iterationId,
+      labels: this.getArrayObject(this.labels),
+      linked_file_ids: this.convertEmptyStringToUndefined(this.linkedFileIds),
+      name: this.name,
+      owner_ids: this.convertEmptyStringToUndefined(this.ownerIds),
+      project_id: this.projectId,
+      requested_by_id: this.requestedById,
+      started_at_override: this.startedAtOverride,
+      story_links: this.getArrayObject(this.storyLinks),
+      story_type: this.storyType,
+      tasks: this.getArrayObject(this.tasks),
+      updated_at: this.updatedAt,
+      workflow_state_id: this.workflowStateId,
+    };
+    return await this.clubhouse.createStory(story);
   },
 };

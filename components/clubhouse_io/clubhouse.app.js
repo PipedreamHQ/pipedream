@@ -12,18 +12,6 @@ module.exports = {
     _clubhouseio() {
       return clubhouse.create(this._authToken());
     },
-    async _makeRequest(opts) {
-      if (!opts.headers) opts.headers = {};
-      opts.headers["Clubhouse-Token"] = this._authToken();
-      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
-      opts.headers["Content-Type"] = "application/json";
-      const { path } = opts;
-      delete opts.path;
-      opts.url = `${this._apiUrl()}${path[0] === "/" ?
-        "" :
-        "/"}${path}`;
-      return 1;
-    },
     _isRetriableStatusCode(statusCode) {
       [
         408,
@@ -92,68 +80,10 @@ module.exports = {
      * @params {integer} workflowStateId - The ID of the workflow state the story will be in.
      * @returns {story: object } An object with the created story, as per the input provided and default values. See the full schema at [Create Story Responses](https://clubhouse.io/api/rest/v3/#Responses-80269).
      */
-    async createStory(
-      archived,
-      comments,
-      completedAtOverride,
-      createdAt,
-      dueDate,
-      description,
-      epicId,
-      estimate,
-      externalId,
-      externalLinks,
-      fileIds,
-      followerIds,
-      groupId,
-      iterationId,
-      labels,
-      linkedFileIds,
-      name,
-      ownerIds,
-      projectId,
-      requestedById,
-      startedAtOverride,
-      storyLinks,
-      storyType,
-      tasks,
-      updatedAt,
-      workflowStateId,
-    ) {
-      const data = {
-        archived,
-        comments,
-        completed_at_override: completedAtOverride,
-        created_at: createdAt,
-        deadline: dueDate,
-        description,
-        epic_id: epicId,
-        estimate,
-        external_id: externalId,
-        external_links: externalLinks,
-        file_ids: fileIds,
-        follower_ids: followerIds,
-        group_id: groupId,
-        iteration_id: iterationId,
-        labels,
-        linked_file_ids: linkedFileIds,
-        name,
-        owner_ids: ownerIds,
-        project_id: projectId,
-        requested_by_id: requestedById,
-        started_at_override: startedAtOverride,
-        story_links: storyLinks,
-        story_type: storyType,
-        tasks,
-        updated_at: updatedAt,
-        workflow_state_id: workflowStateId,
-      };
-      return await this._withRetries(() =>
-        this._makeRequest({
-          method: "POST",
-          path: "/api/v3/stories",
-          data,
-        }));
+    async createStory(data) {
+      return await this._withRetries(
+        () => this._clubhouseio().createStory(data),
+      );
     },
     /**
      * Searches for stories in your clubhouse.
@@ -162,34 +92,24 @@ module.exports = {
      * @returns {stories: array } An array stories matching the `query` parameter. Number of
      *  results are limited by `numberOfStories`.
      */
-    async *searchStories(query, numberOfStories) {
-      let next = null;
-      let  getStories;
-      let initialRequestDone = false;
-      const data = {
-        query: query,
-        page_size: Math.min(numberOfStories, 2),
+    async searchStories(query, numberOfStories) {
+      let stories = [];
+      const processResult = async function(result) {
+        stories = stories.concat(result.data);
+        if (stories.length >= numberOfStories || !result.fetchNext) {
+          return stories.slice(0, numberOfStories);
+        }
+        const nextResult = await this._withRetries( () => result.fetchNext());
+        return await processResult(nextResult);
       };
-      do {
-        let response;
-        if (!initialRequestDone) {
-          response = await this._clubhouseio().searchStories(data);
-        } else {
-          response = await getStories();
-        }
-        const stories = get(response, [
-          "data",
-        ]);
-        if (!stories.data.length) {
-          return;
-        }
-        for (const story of stories.data) {
-          yield story;
-        }
-        next = response.next;
-        getStories = response.fetchNext;
-        initialRequestDone = true;
-      } while (next);
+      let result;
+      try {
+        result = await this._withRetries(() =>
+          this._clubhouseio().searchStories(query, Math.min(numberOfStories, 25)));
+      } catch (err) {
+        throw new Error(err.message);
+      }
+      return await processResult(result);
     },
   },
 };
