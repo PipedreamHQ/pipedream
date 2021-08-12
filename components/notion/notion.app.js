@@ -91,7 +91,7 @@ module.exports = {
       type: "object",
       label: "Properties",
       description:
-        "An object with property values of the page. The keys are the names or IDs of the [property](https://developers.notion.com/reference-link/database-property) and the values are [property values](https://developers.notion.com/reference-link/page-property-value).",
+        "An object with property values of the database or page. The keys are the names or IDs of the [property](https://developers.notion.com/reference-link/database-property) and the values are [property values](https://developers.notion.com/reference-link/page-property-value).",
     },
   },
   methods: {
@@ -192,6 +192,34 @@ module.exports = {
           data: {
             children,
           },
+        }));
+    },
+    /**
+     * Creates a database as a subpage in the specified parent page, with the specified properties
+     *  schema.
+     * @params {String} pageId - The unique identifier of the page parent to the database to create.
+     * @params {array} title - title of database as it appears in Notion as an array of [rich text objects](https://developers.notion.com/reference-link/rich-text).
+     * @params {object} properties - An object with property values of the database. The object keys are the names or IDs of the [property](https://developers.notion.com/reference-link/database-property) and the values are [property values](https://developers.notion.com/reference-link/page-property-value). Example `{\"In stock\":{\"checkbox\":true}}`.
+     * @returns {object: string, id: string, created_time: Date, last_edited_time: Date, archived:
+     * boolean, properties: object } An object specifying the Notion object type, "database" in this
+     * case, an `id` with the identifier of the database, the database's `created_time` and
+     * `last_edited_time` dates, the database `title`, the
+     * `properties` object, which contains all the properties of the database.
+     */
+    async createDatabase(pageId, title, properties) {
+      const data = {
+        parent: {
+          type: "page_id",
+          page_id: pageId,
+        },
+        title,
+        properties,
+      };
+      return await this._withRetries(() =>
+        this._makeRequest({
+          method: "POST",
+          path: "/v1/databases",
+          data,
         }));
     },
     /**

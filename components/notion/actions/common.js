@@ -49,6 +49,16 @@ module.exports = {
       }
     },
     /**
+     * Returns `undefined` when `value` is an empty string or `null`.
+     *
+     * @param {object} value the value to check for returning `null`.
+     * @returns If `value` is defined, it will return `value`. Otherwise on an empty string, or
+     * `null` it will return `undefined`.
+     */
+    convertEmptyStringToUndefined(value) {
+      return value || undefined;
+    },
+    /**
      * Checks if an object is an array and returns it if the case, otherwise it
      * will attempt to JSON parse and return it.
      *
