@@ -33,12 +33,12 @@ module.exports = {
     },
     /**
      * Checks if an object is an array, if not it will attempt to JSON parse.
-     * If the object is not defined it will return null.
+     * If the object is not defined it will return undefined.
      * @param {object} object the input object to check for array type or JSON parse.
      * @returns The same object, if it's an array, otherwise the "JSON.parsed" object.
      */
     getArrayObject(obj) {
-      obj = obj || null;
+      obj = obj || undefined;
       if (obj) {
         return Array.isArray(obj) ?
           obj :

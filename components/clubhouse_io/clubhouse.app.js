@@ -86,6 +86,47 @@ module.exports = {
       );
     },
     /**
+     * Returns a list of all Epics and their attributes.
+     * @returns {epics: array } An array of all epics in the connected Clubhouse account.
+     * See the [Epic schema](https://clubhouse.io/api/rest/v3/#Epic) at the API docs.
+     */
+    async listEpics() {
+      return await this._withRetries(
+        () => this._clubhouseio().listEpics(),
+      );
+    },
+    /**
+     * Returns a list of all Epics and their attributes.
+     * @returns {interations: array } An array of all interations in the connected Clubhouse
+     * account.
+     * See the [Iteration schema](https://clubhouse.io/api/rest/v3/#Iteration) at the API docs.
+     */
+    async listIterations() {
+      return await this._withRetries(
+        () => this._clubhouseio().listIterations(),
+      );
+    },
+    /**
+     * Returns a list of all Members and their attributes.
+     * @returns {members: array } An array of all members in the connected Clubhouse account.
+     * See the [Members schema](https://clubhouse.io/api/rest/v3/#Member-1426) at the API docs.
+     */
+    async listMembers() {
+      return await this._withRetries(
+        () => this._clubhouseio().listMembers(),
+      );
+    },
+    /**
+     * Returns a list of all Workflows and their attributes.
+     * @returns {workflows: array } An array of all Workflows in the connected Clubhouse account.
+     * See the [Workflow schema](https://clubhouse.io/api/rest/v3/#Workflow) at the API docs.
+     */
+    async listWorkflows() {
+      return await this._withRetries(
+        () => this._clubhouseio().listWorkflows(),
+      );
+    },
+    /**
      * Searches for stories in your clubhouse.
      * @params {string} query - The search query based on the [Search page](https://help.clubhouse.io/hc/en-us/articles/115005967026) [search operators](https://help.clubhouse.io/hc/en-us/articles/360000046646-Search-Operators) to use for finding stories.
      * @params {integer} numberOfStories - The number of stories to return.

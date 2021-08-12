@@ -1,4 +1,5 @@
 const common = require("../common");
+const get = require("lodash/get");
 const { clubhouse } = common.props;
 const validate = require("validate.js");
 
@@ -6,7 +7,7 @@ module.exports = {
   key: "clubhouse-create-story",
   name: "Create Story",
   description: "Creates a new story in your clubhouse.",
-  version: "0.0.1",
+  version: "0.0.31",
   type: "action",
   props: {
     clubhouse,
@@ -52,6 +53,17 @@ module.exports = {
       type: "integer",
       label: "Epic ID",
       description: "The unique identifier of the epic the story belongs to.",
+      async options() {
+        const options = [];
+        const epics = await this.clubhouse.listEpics();
+        epics.forEach((epic) => {
+          options.push({
+            label: epic.name,
+            value: epic.id,
+          });
+        });
+        return options;
+      },
       optional: true,
     },
     estimate: {
@@ -89,13 +101,24 @@ module.exports = {
     groupId: {
       type: "string",
       label: "Group Id",
-      description: "The id of the group to associate with this story.",
+      description: "The id of the group to associate with this story. A group in Clubhouse API maps to a \"Team\" within the Clubhouse Product.",
       optional: true,
     },
     iterationId: {
       type: "integer",
       label: "Iteration Id",
       description: "The ID of the iteration the story belongs to.",
+      async options() {
+        const options = [];
+        const iterations = await this.clubhouse.listIterations();
+        iterations.forEach((iteration) => {
+          options.push({
+            label: iteration.name,
+            value: iteration.id,
+          });
+        });
+        return options;
+      },
       optional: true,
     },
     labels: {
@@ -127,11 +150,33 @@ module.exports = {
       type: "integer",
       label: "Project Id",
       description: "The ID of the project the story belongs to.",
+      async options() {
+        const options = [];
+        const projects = await this.clubhouse.listProjects();
+        projects.forEach((project) => {
+          options.push({
+            label: project.name,
+            value: project.id,
+          });
+        });
+        return options;
+      },
     },
     requestedById: {
       type: "string",
       label: "Requested by ID",
       description: "The ID of the member that requested the story.",
+      async options() {
+        const options = [];
+        const members = await this.clubhouse.listMembers();
+        members.forEach((member) => {
+          options.push({
+            label: member.name,
+            value: member.id,
+          });
+        });
+        return options;
+      },
       optional: true,
     },
     startedAtOverride: {
@@ -175,6 +220,25 @@ module.exports = {
       type: "integer",
       label: "Workflow State Id",
       description: "The ID of the workflow state the story will be in.",
+      async options() {
+        const options = [];
+        const workflows = await this.clubhouse.listWorkflows();
+        workflows.forEach((workflow) => {
+          const hasState = get(workflow, [
+            "states",
+            "length",
+          ]);
+          if (hasState) {
+            workflow.states.forEach((state) => {
+              options.push({
+                label: `${state.name} (${workflow.name})`,
+                value: state.id,
+              });
+            });
+          }
+        });
+        return options;
+      },
       optional: true,
     },
   },
