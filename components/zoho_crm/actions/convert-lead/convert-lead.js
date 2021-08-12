@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 const common = require("../common");
-const { zoho_crm: zohoCrm } = common.props;
+const { zoho_crm } = common.props;
 const validate = require("validate.js");
 
 module.exports = {
@@ -9,10 +10,10 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    zoho_crm: zohoCrm,
+    zoho_crm,
     domain: {
       propDefinition: [
-        zohoCrm,
+        zoho_crm,
         "domain",
       ],
     },
@@ -104,6 +105,6 @@ module.exports = {
         carry_over_tags: this.carryOverTags,
       },
     ];
-    return await this.zohoCrm.convertLead(this.domain, this.recordId, data);
+    return await this.zoho_crm.convertLead(this.domain, this.recordId, data);
   },
 };

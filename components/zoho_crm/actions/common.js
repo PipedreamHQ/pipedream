@@ -1,8 +1,9 @@
-const { zoho_crm: zohoCrm } = require("../zoho_crm.app");
+/* eslint-disable camelcase */
+const { zoho_crm } = require("../zoho_crm.app");
 
 module.exports = {
   props: {
-    zoho_crm: zohoCrm,
+    zoho_crm,
   },
   methods: {
     /**

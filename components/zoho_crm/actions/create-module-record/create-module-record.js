@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const common = require("../common");
 const { zoho_crm } = common.props;
 const validate = require("validate.js");
