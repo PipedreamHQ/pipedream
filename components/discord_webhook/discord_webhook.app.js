@@ -1,4 +1,4 @@
-const axios = require("axios");
+const { axios } = require("@pipedream/platform");
 
 module.exports = {
   type: "app",
@@ -35,16 +35,16 @@ module.exports = {
     url() {
       return this.$auth.oauth_uid;
     },
-    async sendMessage({
+    // Make sure to bind - see common.js
+    async sendMessage(step, {
       content, embeds, username, avatarURL, threadID,
     }) {
-      const resp = await axios({
+      return await axios(step, {
         method: "POST",
         url: this.url(),
         headers: {
           "Content-Type": "application/json",
         },
-        validateStatus: () => true,
         params: {
           thread_id: threadID
             ? threadID
@@ -57,10 +57,6 @@ module.exports = {
           avatar_url: avatarURL,
         },
       });
-      if (resp.status >= 400) {
-        throw new Error(JSON.stringify(resp.data));
-      }
-      return resp.data;
     },
   },
 };
