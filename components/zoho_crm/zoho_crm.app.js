@@ -11,7 +11,7 @@ module.exports = {
       label: "Domain Location",
       description:
         "The domain location of your account. The Zoho API domain URL depends on the location of Zoho CRM data center associated to your account.",
-      default: "US",
+      default: "com",
       options: [
         {
           label: "US",
@@ -102,6 +102,50 @@ module.exports = {
           throw err;
         }
       }, retryOpts);
+    },
+    /**
+     * Converts a lead into a contact or an account.
+     *
+     * @param {string} domain the domain location of the connected Zoho CRM
+     * account. The Zoho API domain URL depends on the location of Zoho CRM data
+     * center associated to the connected account.
+     * @param {string} recordId unique identifier of the record associated to the Lead to convert.
+     * @param {object} opts optional parameters for this function
+     * @param {boolean} opts.overwrite specifies if the lead details must be overwritten in
+     * the Contact/Account/Deal based on lead conversion mapping configuration.
+     * @param {boolean} opts.notify_lead_owner specifies whether the lead owner must get
+     *  notified about the lead conversion via email.
+     * @param {boolean} opts.notify_new_entity_owner specifies whether the user to whom
+     * the contact/account is assigned to must get notified about the lead conversion via
+     * email.
+     * @param {string} opts.Accounts unique identifier of an account to associate with the lead
+     * being converted.
+     * @param {string} opts.Contacts unique identifier of a contact to associate with the lead
+     * being converted.
+     * @param {string} opts.assign_to unique identifier of the record owner for the new contact and
+     * account.
+     * @param {object} opts.Deals creates a deal for the newly created account. within this object,
+     * "Deal_Name", "Closing_Date", and "Stage" are required.
+     * @param {object} opts.carry_over_tags carries over tags of the lead to contact, account, and
+     * deal. For exact structure check the Sample input in the API docs:
+     * https://www.zoho.com/crm/developer/docs/api/v2/convert-lead.html
+     * @returns The users API page number where new records would be contained
+     */
+    async addTags(domain, module, recordId, tagNames, overWrite) {
+      const baseUrl = this._apiUrl(domain);
+      const url = `${baseUrl}/${module}/${recordId}/actions/add_tags`;
+      const requestConfig = {
+        url,
+        method: "POST",
+        headers: this._makeRequestConfig().headers,
+        params: {
+          tag_names: tagNames.join(","),
+          over_write: overWrite,
+        },
+      };
+      const { data } = await this._withRetries(() =>
+        axios(requestConfig));
+      return data;
     },
     /**
      * Converts a lead into a contact or an account.

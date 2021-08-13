@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
-const common = require("../common");
-const { zoho_crm } = common.props;
+const zoho_crm = require("../../zoho_crm.app");
+const { methods } = require("../common");
 const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-convert-lead",
   name: "Convert Lead",
   description: "Converts a lead into a contact or an account.",
-  version: "0.0.1",
+  version: "0.0.50",
   type: "action",
   props: {
     zoho_crm,
@@ -81,7 +81,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {

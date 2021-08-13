@@ -1,19 +1,21 @@
-const common = require("../common");
-const { zoho_crm } = common.props;
+// eslint-disable-next-line camelcase
+const zoho_crm = require("../../zoho_crm.app");
+const { methods } = require("../common");
 const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-add-tags",
   name: "Add Tags",
-  description: "Add new tags to existing module records.",
-  version: "0.0.1",
+  description: "Add new tags to an existing module record.",
+  version: "0.0.18",
   type: "action",
   props: {
     zoho_crm,
-    domainLocation: {
+    domain: {
       propDefinition: [
+        // eslint-disable-next-line camelcase
         zoho_crm,
-        "domainLocation",
+        "domain",
       ],
     },
     module: {
@@ -50,9 +52,9 @@ module.exports = {
         "Unique identifiers of the module record you'd like to add tags on.",
     },
     tagNames: {
-      type: "string",
+      type: "string[]",
       label: "Tag Names",
-      description: "Comma separated list of the names of the tags to be added.",
+      description: "An string array of the names of the tags to be added.",
     },
     overWrite: {
       type: "boolean",
@@ -62,11 +64,11 @@ module.exports = {
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {
-      domainLocation: {
+      domain: {
         presence: true,
       },
       module: {
@@ -77,34 +79,35 @@ module.exports = {
       },
       tagNames: {
         presence: true,
+        type: "array",
       },
     };
     const validationResult = validate(
       {
-        domainLocation: this.domainLocation,
+        domain: this.domain,
         module: this.module,
         recordId: this.recordId,
         tagNames: this.tagNames,
       },
       constraints,
     );
-    if (validationResult) {
-      let validationResultKeys = Object.keys(validationResult);
-      let validationMessages;
-      if (validationResultKeys.length == 1) {
-        validationMessages = validationResult[validationResultKeys[0]];
-      } else {
-        validationMessages =
-          "Parameters validation failed with the following errors:\t";
-        validationResultKeys.forEach(
-          (validationResultKey) =>
-            (validationMessages += `${validationResult[validationResultKey]}\t`),
-        );
-      }
-      throw new Error(validationMessages);
-    }
+    this.checkValidationResults(validationResult);
+    //
+    const baseUrl = this.zoho_crm._apiUrl(this.domain);
+    const url = `${baseUrl}/${this.module}/${this.recordId}/actions/add_tags`;
+    const requestConfig = {
+      url,
+      method: "POST",
+      headers: this.zoho_crm._makeRequestConfig().headers,
+      params: {
+        tag_names: this.tagNames.join(","),
+        over_write: this.overWrite,
+      },
+    };
+    console.log(JSON.stringify(requestConfig));
+    //
     return await this.zoho_crm.addTags(
-      this.domainLocation,
+      this.domain,
       this.module,
       this.recordId,
       this.tagNames,
