@@ -1,3 +1,5 @@
+const axios = require("axios");
+
 module.exports = {
   type: "app",
   app: "discord_webhook",
@@ -16,11 +18,49 @@ module.exports = {
       description: "Overrides the current username of the webhook",
       optional: true,
     },
-    avatar_url: {
+    avatarURL: {
       type: "string",
       label: "Avatar URL",
       description: "If used, it overrides the default avatar of the webhook",
       optional: true,
+    },
+    threadID: {
+      type: "string",
+      label: "Thread ID",
+      description: "If provided, the message will be posted to this thread",
+      optional: true,
+    },
+  },
+  methods: {
+    url() {
+      return this.$auth.oauth_uid;
+    },
+    async sendMessage({
+      content, embeds, username, avatarURL, threadID,
+    }) {
+      const resp = await axios({
+        method: "POST",
+        url: this.url(),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        validateStatus: () => true,
+        params: {
+          thread_id: threadID
+            ? threadID
+            : undefined,
+        },
+        data: {
+          content,
+          embeds,
+          username,
+          avatar_url: avatarURL,
+        },
+      });
+      if (resp.status >= 400) {
+        throw new Error(JSON.stringify(resp.data));
+      }
+      return resp.data;
     },
   },
 };

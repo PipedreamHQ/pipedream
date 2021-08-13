@@ -12,13 +12,19 @@ curl https://cli.pipedream.com/install | sh
 
 This will automatically download and install the `pd` CLI to your Mac. You can also [download the macOS build](https://cli.pipedream.com/darwin/amd64/latest/pd.zip), unzip that archive, and place the `pd` binary somewhere in [your `PATH`](https://opensource.com/article/17/6/set-path-linux). 
 
+If this returns a permissions error, you may need to run:
+
+```bash
+curl https://cli.pipedream.com/install | sudo sh
+```
+
 ## Linux
 
 Download the [CLI build](#cli-builds) for your architecture below. Unzip that archive, and place the `pd` binary somewhere in [your `PATH`](https://opensource.com/article/17/6/set-path-linux).
 
 ## Windows (native)
 
-[Download the CLI build for Windows](https://cli.pipedream.com/windows/amd64/latest/pd.zip). Unzip that archive, and run `pd.exe` in a terminal that supports ANSI colors, like the [Windows Terminal](https://github.com/microsoft/terminal).
+[Download the CLI build for Windows](https://cli.pipedream.com/windows/amd64/latest/pd.zip). Unzip that archive, save `pd.exe` in Program Files, and [add its file path to `Path` in your system environment variables](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/). Use `pd.exe` in a terminal that supports ANSI colors, like the [Windows Terminal](https://github.com/microsoft/terminal).
 
 ## Windows (WSL)
 

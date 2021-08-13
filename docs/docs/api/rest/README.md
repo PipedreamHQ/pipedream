@@ -1204,7 +1204,7 @@ _No parameters_
 
 #### Example Request
 
-```text
+```bash
 curl 'https://api.pipedream.com/v1/users/me' \
   -H 'Authorization: Bearer <api_key>'
 ```

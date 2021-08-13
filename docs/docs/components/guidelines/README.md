@@ -163,7 +163,13 @@ actions for Pipedream's registry.
 
 ### Reference Actions
 
-(_Coming soon_)
+| Name | App |
+| ---- | --- |
+| [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable |
+| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.js) | Google Sheets |
+| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.js) | Discord |
+| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.js) | Google Docs |
+| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.js) | HTTP |
 
 ## Guidelines & Patterns
 
@@ -203,7 +209,7 @@ module.exports = {
 When publishing components to the Pipedream registry, the `key` must be unique
 across registry components and should follow the pattern:
 
-`app-name-slug`-`slugified-component-name`
+`app_name_slug`-`slugified-component-name`
 
 #### Folder Structure
 
@@ -212,14 +218,14 @@ Registry components are organized by app in the `components` directory of the
 
 ```text
 /components
- /[app_name_slug]
-  /[app_name_slug].app.js
+ /[app-name-slug]
+  /[app-name-slug].app.js
   /actions
-   /[action_name_slug]
-    /[action_name_slug].js
+   /[action-name-slug]
+    /[action-name-slug].js
   /sources
-   /[source_name_slug]
-    /[source_name_slug].js
+   /[source-name-slug]
+    /[source-name-slug].js
 ```
 
 - The name of each app folder corresponds with the name slug for each app
@@ -233,13 +239,17 @@ Registry components are organized by app in the `components` directory of the
   `/components/twitter/sources/search-mentions/search-mentions.js`.
 
 You can explore examples in the [components
-directory](https://github.com/pipedreamhq/pipedream/components).
+directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
 
 #### Using APIs vs Client Libraries
 
-Use If the app has a well-supported [Node.js client
+If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
+
+#### Pagination
+
+When making API requests, handle pagination to ensure all data / events are processed.
 
 #### Capturing Sensitive Data
 
@@ -258,8 +268,8 @@ out](https://pipedream.com/community/c/dev/11).
 
 ##### Prop Definitions
 
-Whenever possible, reuse existing [prop
-definitions](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#prop-definitions-example).
+Whenever possible, reuse existing [prop definitions](/components/api/#prop-definitions-example).
+
 If a prop definition does not exist and you are adding an app-specific prop that
 may be reused in future components, add it as a prop definition to the app file.
 Prop definitions will also be surfaced for apps the Pipedream marketplace.
@@ -267,7 +277,7 @@ Prop definitions will also be surfaced for apps the Pipedream marketplace.
 ##### Methods
 
 Whenever possible, reuse
-[methods](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#methods)
+[methods](/components/api/#methods)
 defined in the app file. If you need to use an API for which a method is not
 defined and it may be used in future components, define a new method in the app
 file.
@@ -344,7 +354,7 @@ approach, the general pattern is:
   etc) and potentially redefining any inherited methods.
 
 See [Google
-Drive](https://github.com/pipedreamhq/pipedream/components/google_drive) for an
+Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_drive) for an
 example of this pattern. When using this approach, prop definitions should still
 be maintained in the app file.
 
@@ -373,13 +383,13 @@ Examples:
 - The async option to select an Airtable Base is self-explanatory so includes no
   description:
 
-  ![image-20210326151557417](images/image-20210326151557417.png)
+  ![image-20210326151557417](./images/image-20210326151557417.png)
 
 - The “Search Term” prop for Twitter includes a description that helps the user
   understand what values they can enter, with specific values highlighted using
   backticks and links to external content.
 
-  ![image-20210326151706682](images/image-20210326151706682.png)
+  ![image-20210326151706682](./images/image-20210326151706682.png)
 
 #### Optional vs Required Props
 
@@ -391,7 +401,7 @@ connect their account and enter a search term. The remaining fields are optional
 for users who want to filter the results, but they do not require any action to
 activate the source:
 
-![image-20210326151930885](images/image-20210326151930885.png)
+![image-20210326151930885](./images/image-20210326151930885.png)
 
 #### Default Values
 
@@ -426,7 +436,9 @@ In the interest of consistency, use the following naming patterns when defining
 | `$.interface.timer` | `timer`                            |
 | `$.service.db`      | `db`                               |
 
-### Sources
+### Source Guidelines
+
+These guidelines are specific to [source](/event-sources) development.
 
 #### Webhook vs Polling Sources
 
@@ -486,11 +498,6 @@ they can immediately use to support workflow development. Do not emit multiple
 pages of results or more than 100 events on the first run (as a general
 heuristic, emit the first page of results returned by the API).
 
-##### Pagination
-
-Support pagination when appropriate to ensure that all new events are emitted
-for a source.
-
 ##### Rate Limit Optimization
 
 When building a polling source, cache the most recently processed ID or
@@ -543,6 +550,6 @@ If the source app supports shared secrets, implement support transparent to the
 end user. Generate and use a GUID for the shared secret value, save it to a
 `$.service.db` key, and use the saved value to validate incoming events.
 
-### Actions
+### Action Guidelines
 
-(_Coming soon_)
+_(Coming soon)_
