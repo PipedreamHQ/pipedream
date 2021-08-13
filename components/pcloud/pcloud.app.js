@@ -12,7 +12,10 @@ module.exports = {
       description:
         "The domain location of your account. The pCloud API domain URL depends on the location of pCLoud data center associated to your account.",
       default: "US",
-      options: ["US", "EU"],
+      options: [
+        "US",
+        "EU",
+      ],
     },
   },
   methods: {
@@ -20,13 +23,15 @@ module.exports = {
       return this.$auth.oauth_access_token;
     },
     _apiUrl(domainLocation) {
-      const subdomain = domainLocation == "EU" ? "eapi" : "api";
+      const subdomain = domainLocation == "EU"
+        ? "eapi"
+        : "api";
       return `https://${subdomain}.pcloud.com`;
     },
     _makeRequestConfig() {
       const authToken = this._authToken();
       const headers = {
-        Authorization: `Bearer ${authToken}`,
+        "Authorization": `Bearer ${authToken}`,
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
       return {
@@ -34,7 +39,11 @@ module.exports = {
       };
     },
     _isRetriableStatusCode(statusCode) {
-      [408, 429, 500].includes(statusCode);
+      [
+        408,
+        429,
+        500,
+      ].includes(statusCode);
     },
     async _withRetries(apiCall) {
       const retryOpts = {
@@ -45,7 +54,12 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = [get(err, ["response", "status"])];
+          const statusCode = [
+            get(err, [
+              "response",
+              "status",
+            ]),
+          ];
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
@@ -59,15 +73,23 @@ module.exports = {
     },
     /**
      * Takes one file and copies it as another file in the user's filesystem.
-     * @params {string} domainLocation - The domain location of the connected pCloud account. The pCloud API domain URL depends on the location of pCLoud data center associated to the account.
+     * @params {string} domainLocation - The domain location of the connected pCloud account. The
+     * pCloud API domain URL depends on the location of pCLoud data center associated to the
+     * account.
      * @params {integer} fileId - Id of the file to copy.
      * @params {string} path - Path to the file to copy.
      * @params {integer} toFolderId - Id of the destination folder.
-     * @params {string} toPath - Destination path, including the filename. A new filename can be used. When this is used, `toName` is ignored.
-     * @params {string} toName - Name of the destination file. This is used only if the destination folder is specified with `toFolderId`.
-     * @params {integer} noOver - If this is set and a file with the specified name already exists, no overwriting will be performed.
-     * @params {string} modifiedTime - If specified, file modified time is set. Must be in unix time seconds.
-     * @params {string} createdTime - If specified, file created time is set. It's required to provide `modifiedTime` to set `createdTime`. Must be in unix time seconds.
+     * @params {string} toPath - Destination path, including the filename. A new filename can be
+     * used.
+     * When this is used, `toName` is ignored.
+     * @params {string} toName - Name of the destination file. This is used only if the destination
+     * folder is specified with `toFolderId`.
+     * @params {integer} noOver - If this is set and a file with the specified name already exists,
+     * no overwriting will be performed.
+     * @params {string} modifiedTime - If specified, file modified time is set. Must be in unix time
+     * seconds.
+     * @params {string} createdTime - If specified, file created time is set. It's required to
+     * provide `modifiedTime` to set `createdTime`. Must be in unix time seconds.
      * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly copied file. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
     async copyFile(
@@ -79,7 +101,7 @@ module.exports = {
       toName,
       noOver,
       modifiedTime,
-      createdTime
+      createdTime,
     ) {
       const url = `${this._apiUrl(domainLocation)}/copyfile`;
       const requestConfig = this._makeRequestConfig();
@@ -113,20 +135,24 @@ module.exports = {
       requestConfig.headers["Content-Length"] = requestData.getLengthSync();
       return (
         await this._withRetries(() =>
-          axios.post(url, requestData, requestConfig)
-        )
+          axios.post(url, requestData, requestConfig))
       ).data;
     },
     /**
      * Copies a folder to the specified path or folder.
-     * @params {string} domainLocation - The domain location of the connected pCloud account. The pCloud API domain URL depends on the location of pCLoud data center associated to the account.
+     * @params {string} domainLocation - The domain location of the connected pCloud account. The
+     * pCloud API domain URL depends on the location of pCLoud data center associated to the
+     * account.
      * @params {integer} folderId - Id of the folder to copy.
-     * @params {string} path - Path to the folder to copy contents. If `path` or `folderId` are not present, then root folder is used.
+     * @params {string} path - Path to the folder to copy contents. If `path` or `folderId` are not
+     * present, then root folder is used.
      * @params {integer} toFolderId - Id of the destination folder.
      * @params {string} toPath - Path to the destination folder.
-     * @params {integer} noOver - If it is set and files with the same name already exist, no overwriting will be preformed and error `2004` will be returned.
-     * @params {integer} skipExisting - If set will skip files that already exist.
-     * @params {integer} copyContentOnly - If it is set only the content of source folder will be copied otherwise the folder itself is copied.
+     * @params {integer} noOver - If it is set and files with the same name already exist, no
+     * overwriting will be preformed and error `2004` will be returned.
+     * @params {integer} skipExisting - If set, it will skip files that already exist.
+     * @params {integer} copyContentOnly - If set, only the content of source folder will be copied
+     * otherwise the folder itself is copied.
      * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly copied folder. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
     async copyFolder(
@@ -137,7 +163,7 @@ module.exports = {
       toPath,
       noOver,
       skipExisting,
-      copyContentOnly
+      copyContentOnly,
     ) {
       const url = `${this._apiUrl(domainLocation)}/copyfolder`;
       const requestConfig = this._makeRequestConfig();
@@ -168,13 +194,14 @@ module.exports = {
       requestConfig.headers["Content-Length"] = requestData.getLengthSync();
       return (
         await this._withRetries(() =>
-          axios.post(url, requestData, requestConfig)
-        )
+          axios.post(url, requestData, requestConfig))
       ).data;
     },
     /**
      * Creates a folder in the specified path or folder.
-     * @params {string} domainLocation - The domain location of the connected pCloud account. The pCloud API domain URL depends on the location of pCLoud data center associated to the account.
+     * @params {string} domainLocation - The domain location of the connected pCloud account. The
+     * pCloud API domain URL depends on the location of pCLoud data center associated to the
+     * account.
      * @params {integer} folderId - Id of the parent folder where the new folder will be created.
      * @params {string} path - Path to the parent folder, where the new folder will be created.
      * @params {string} name - Name of the folder to be created.
@@ -199,17 +226,20 @@ module.exports = {
       requestConfig.headers["Content-Length"] = requestData.getLengthSync();
       return (
         await this._withRetries(() =>
-          axios.post(url, requestData, requestConfig)
-        )
+          axios.post(url, requestData, requestConfig))
       ).data;
     },
     /**
      * Downloads one or more files from links suplied in the url parameter.
-     * @params {string} domainLocation - The domain location of the connected pCloud account. The pCloud API domain URL depends on the location of pCLoud data center associated to the account.
+     * @params {string} domainLocation - The domain location of the connected pCloud account. The
+     * pCloud API domain URL depends on the location of pCLoud data center associated to the
+     * account.
      * @params {string} urls - URLs of the files to download, separated by whitespaces.
-     * @params {string} path - Path to folder, in which to download the files. If `path` or `folderId` are not present, then root folder is used
+     * @params {string} path - Path to folder, in which to download the files. If `path` or
+     * `folderId` are not present, then root folder is used
      * @params {integer} folderId - Id of the folder, in which to download the files.
-     * @params {string} targetFilenames - Desired names for the downloaded files, separated by commas.
+     * @params {string} targetFilenames - Desired names for the downloaded files, separated by
+     * commas.
      * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of each of the downloaded files. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
     async downloadFiles(domainLocation, urls, path, folderId, targetFilenames) {
@@ -228,11 +258,16 @@ module.exports = {
     },
     /**
      * Lists the metadata of the specified folder's contents.
-     * @params {string} domainLocation - The domain location of the connected pCloud account. The pCloud API domain URL depends on the location of pCLoud data center associated to the account.
-     * @params {string} path - Path to the folder list contents. If `path` or `folderId` are not present, then root folder is used.
+     * @params {string} domainLocation - The domain location of the connected pCloud account. The
+     * pCloud API domain URL depends on the location of pCLoud data center associated to the
+     * account.
+     * @params {string} path - Path to the folder list contents. If `path` or `folderId` are not
+     * present, then root folder is used.
      * @params {integer} folderId - Id of the folder to list contents.
-     * @params {integer} recursive - If is set full directory tree will be returned, which means that all directories will have contents filed.
-     * @params {integer} showdeleted - If is set, deleted files and folders that can be undeleted will be displayed.
+     * @params {integer} recursive - If is set full directory tree will be returned, which means
+     * that all directories will have contents filed.
+     * @params {integer} showdeleted - If is set, deleted files and folders that can be undeleted
+     * will be displayed.
      * @params {integer} nofiles - If is set, only the folder (sub)structure will be returned.
      * @params {integer} noshares - If is set, only user's own folders and files will be displayed.
      * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of each of the retrieved files and folders, if `recursive` is set, an additional `contents` element will be presented for the contents of inner folders. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
@@ -244,7 +279,7 @@ module.exports = {
       recursive,
       showdeleted,
       nofiles,
-      noshares
+      noshares,
     ) {
       const url = `${this._apiUrl(domainLocation)}/listfolder`;
       const requestConfig = this._makeRequestConfig();
@@ -275,7 +310,9 @@ module.exports = {
         url,
         headers: {
           ...baseHeaders,
-          headers: headers ? headers : null,
+          headers: headers
+            ? headers
+            : null,
         },
       };
       const FormData = require("form-data");
@@ -298,14 +335,17 @@ module.exports = {
     },
     /**
      * Uploads a file to the user's filesystem.
-     * @params {string} path - Path to the folder where the file will be uploaded (discouraged). If neither `path` nor `folderid` are specified, the root folder will be used.
+     * @params {string} path - Path to the folder where the file will be uploaded (discouraged). If
+     *  neither `path` nor `folderid` are specified, the root folder will be used.
      * @params {integer} folderid - Id of the folder where the file will be uploaded.
      * @params {string} filename - Name of the file to upload.
      * @params {integer} noPartial - If is set, partially uploaded files will not be saved.
      * @params {string} progressHash - Used for observing upload progress.
-     * @params {integer} renameIfExists - If set, the uploaded file will be renamed, if file with the requested name exists in the folder.
+     * @params {integer} renameIfExists - If set, the uploaded file will be renamed, if file with
+     * the requested name exists in the folder.
      * @params {integer} mtime - If set, file modified time is set. Must be a unix timestamp.
-     * @params {integer} ctime - If set, file created time is set. Must be a unix timestamp. It's required to provide `mtime` to set `ctime`.
+     * @params {integer} ctime - If set, file created time is set. Must be a unix timestamp. It's
+     * required to provide `mtime` to set `ctime`.
      * @returns {checksums: array, fileids: array, metadata: array, result: integer} A `checksums` array, each element with the file checksums calculated with `md5` and `sha1` algorithms, the `id` of the created file under the one element `fileids` array, and an array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly uploaded file.  A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
     async uploadFile(
@@ -317,7 +357,7 @@ module.exports = {
       progressHash,
       renameIfExists,
       mtime,
-      ctime
+      ctime,
     ) {
       const url = `${this._apiUrl(domainLocation)}/uploadfile`;
       const requestConfig = this._makeRequestConfig();
@@ -330,7 +370,9 @@ module.exports = {
       }
       const fs = require("fs");
       const file = fs.createReadStream(`/tmp/${fileName}`);
-      requestData.append("file", file, { filename: fileName });
+      requestData.append("file", file, {
+        filename: fileName,
+      });
       if (noPartial) {
         requestData.append("nopartial", noPartial);
       }
@@ -357,15 +399,14 @@ module.exports = {
         });
       }
       requestConfig.headers["Content-Length"] = await fileGetLengthWrapper(
-        requestData
+        requestData,
       );
       requestConfig.headers[
         "Content-Type"
       ] = `multipart/form-data; boundary=${requestData._boundary}`;
       return (
         await this._withRetries(() =>
-          axios.post(url, requestData, requestConfig)
-        )
+          axios.post(url, requestData, requestConfig))
       ).data;
     },
   },

@@ -13,7 +13,13 @@ module.exports = {
       type: "string",
       label: "Request Method",
       description: "Http method to use in the request.",
-      options: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+      options: [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+      ],
     },
     relativeUrl: {
       type: "string",
@@ -51,8 +57,11 @@ module.exports = {
       },
     };
     const validationResult = validate(
-      { requestMethod: this.requestMethod, relativeUrl: this.relativeUrl },
-      constraints
+      {
+        requestMethod: this.requestMethod,
+        relativeUrl: this.relativeUrl,
+      },
+      constraints,
     );
     if (validationResult) {
       let validationResultKeys = Object.keys(validationResult);
@@ -64,7 +73,7 @@ module.exports = {
           "Parameters validation failed with the following errors:\t";
         validationResultKeys.forEach(
           (validationResultKey) =>
-            (validationMessages += `${validationResult[validationResultKey]}\t`)
+            (validationMessages += `${validationResult[validationResultKey]}\t`),
         );
       }
       throw new Error(validationMessages);
@@ -74,7 +83,7 @@ module.exports = {
       this.relativeUrl,
       this.headers,
       this.requestBody,
-      this.useFormData
+      this.useFormData,
     );
   },
 };

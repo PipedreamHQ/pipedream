@@ -11,7 +11,12 @@ module.exports = {
   type: "action",
   props: {
     pcloud,
-    domainLocation: { propDefinition: [pcloud, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        pcloud,
+        "domainLocation",
+      ],
+    },
     urls: {
       type: "string",
       label: "URLs",
@@ -39,7 +44,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common.methods
+    ...common.methods,
   },
   async run() {
     const constraints = {
@@ -55,7 +60,7 @@ module.exports = {
         domainLocation: this.domainLocation,
         urls: this.urls,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -66,7 +71,7 @@ module.exports = {
       this.urls,
       this.path,
       this.folderId,
-      this.targetFilenames
+      this.targetFilenames,
     );
   },
 };

@@ -11,7 +11,12 @@ module.exports = {
   type: "action",
   props: {
     pcloud,
-    domainLocation: { propDefinition: [pcloud, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        pcloud,
+        "domainLocation",
+      ],
+    },
     fileId: {
       type: "integer",
       label: "File Id",
@@ -74,7 +79,7 @@ module.exports = {
       {
         domainLocation: this.domainLocation,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);

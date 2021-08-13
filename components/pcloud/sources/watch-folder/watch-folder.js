@@ -20,7 +20,12 @@ module.exports = {
         intervalSeconds: 60 * 15, // by default, run every 15 minutes.
       },
     },
-    domainLocation: { propDefinition: [pcloud, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        pcloud,
+        "domainLocation",
+      ],
+    },
     folderPath: {
       type: "string",
       label: "Folder Path",
@@ -30,7 +35,10 @@ module.exports = {
     emmitOn: {
       type: "string",
       label: "Emmit events on Created or Modified files?",
-      options: ["Created", "Modified"],
+      options: [
+        "Created",
+        "Modified",
+      ],
       description:
         "When you'd like an event to be emitted, by checking on the file's created or modified timestamps. Note: When you manually upload files on pCloud, the file originals's `created` and `modified` timestamps are preserved. When using pCloud API's `uploadfile` endpoint, these fields can be set by specifying the `mtime` and `ctime` parameters.",
       default: "Created",
@@ -51,11 +59,16 @@ module.exports = {
         this.folderPath,
         undefined,
         undefined,
-        this.showDeleted ? 1 : undefined,
+        this.showDeleted
+          ? 1
+          : undefined,
         undefined,
-        undefined
+        undefined,
       );
-      const hasContents = get(pCloudContentsData, ["metadata", "contents"]);
+      const hasContents = get(pCloudContentsData, [
+        "metadata",
+        "contents",
+      ]);
       if (hasContents) {
         for (const folderItem of pCloudContentsData.metadata.contents) {
           if (!folderItem.isfolder) {
@@ -78,10 +91,14 @@ module.exports = {
       this.$emit(pCloudEvent, metadata);
     },
     getEventData(pcloudEvent) {
-      const newOrModified = ["Created"].includes(this.emmitOn)
+      const newOrModified = [
+        "Created",
+      ].includes(this.emmitOn)
         ? "New created"
         : "Modified";
-      const eventDate = ["Created"].includes(this.emmitOn)
+      const eventDate = [
+        "Created",
+      ].includes(this.emmitOn)
         ? pcloudEvent.created
         : pcloudEvent.modified;
       return {
@@ -99,16 +116,23 @@ module.exports = {
       this.folderPath,
       undefined,
       undefined,
-      this.showDeleted ? 1 : undefined,
+      this.showDeleted ?
+        1 :
+        undefined,
       undefined,
-      undefined
+      undefined,
     );
-    const hasContents = get(pCloudContentsData, ["metadata", "contents"]);
+    const hasContents = get(pCloudContentsData, [
+      "metadata",
+      "contents",
+    ]);
     if (hasContents) {
       for (const folderItem of pCloudContentsData.metadata.contents) {
         if (!folderItem.isfolder) {
           let fileTime;
-          if (["Created"].includes(this.emmitOn)) {
+          if ([
+            "Created",
+          ].includes(this.emmitOn)) {
             fileTime = +new Date(folderItem.created);
           } else {
             fileTime = +new Date(folderItem.modified);

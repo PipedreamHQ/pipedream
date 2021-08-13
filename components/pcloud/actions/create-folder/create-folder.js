@@ -10,7 +10,12 @@ module.exports = {
   type: "action",
   props: {
     pcloud,
-    domainLocation: { propDefinition: [pcloud, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        pcloud,
+        "domainLocation",
+      ],
+    },
     folderId: {
       type: "integer",
       label: "Folder Id",
@@ -28,7 +33,7 @@ module.exports = {
       label: "Name",
       description: "Name of the folder to be created.",
       optional: true,
-    }
+    },
   },
   methods: {
     ...common.methods,
@@ -43,7 +48,7 @@ module.exports = {
       {
         domainLocation: this.domainLocation,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -53,7 +58,7 @@ module.exports = {
       this.domainLocation,
       this.folderId,
       this.path,
-      this.name
+      this.name,
     );
   },
 };

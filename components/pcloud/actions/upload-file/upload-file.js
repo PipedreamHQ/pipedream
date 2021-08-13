@@ -11,7 +11,12 @@ module.exports = {
   type: "action",
   props: {
     pcloud,
-    domainLocation: { propDefinition: [pcloud, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        pcloud,
+        "domainLocation",
+      ],
+    },
     path: {
       type: "string",
       label: "Path",
@@ -83,7 +88,7 @@ module.exports = {
         domainLocation: this.domainLocation,
         filename: this.filename,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -98,7 +103,7 @@ module.exports = {
       this.progressHash,
       this.renameIfExists,
       this.mtime,
-      this.ctime
+      this.ctime,
     );
   },
 };

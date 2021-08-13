@@ -10,7 +10,12 @@ module.exports = {
   type: "action",
   props: {
     pcloud,
-    domainLocation: { propDefinition: [pcloud, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        pcloud,
+        "domainLocation",
+      ],
+    },
     folderId: {
       type: "integer",
       label: "Folder Id",
@@ -69,7 +74,7 @@ module.exports = {
       {
         domainLocation: this.domainLocation,
       },
-      constraints
+      constraints,
     );
     if (validationResult) {
       const validationMessages = this.getValidationMessage(validationResult);
@@ -83,7 +88,7 @@ module.exports = {
       this.toPath,
       this.noOver,
       this.skipExisting,
-      this.copyContentOnly
+      this.copyContentOnly,
     );
   },
 };

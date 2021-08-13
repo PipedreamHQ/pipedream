@@ -1,6 +1,5 @@
 const common = require("../../common");
 const { pcloud } = common.props;
-const validate = require("validate.js");
 
 module.exports = {
   key: "pcloud-list-contents",
@@ -10,7 +9,12 @@ module.exports = {
   type: "action",
   props: {
     pcloud,
-    domainLocation: { propDefinition: [pcloud, "domainLocation"] },
+    domainLocation: {
+      propDefinition: [
+        pcloud,
+        "domainLocation",
+      ],
+    },
     path: {
       type: "string",
       label: "Path",
@@ -64,7 +68,7 @@ module.exports = {
       this.recursive,
       this.showdeleted,
       this.nofiles,
-      this.noshares
+      this.noshares,
     );
   },
 };
