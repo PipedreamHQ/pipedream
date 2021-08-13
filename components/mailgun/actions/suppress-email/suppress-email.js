@@ -8,7 +8,7 @@ module.exports = {
   key: "mailgun-suppress-email",
   name: "Mailgun Suppress Email",
   description: "Add email to the Mailgun suppression list.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     mailgun,
