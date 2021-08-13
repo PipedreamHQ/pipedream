@@ -41,6 +41,15 @@ module.exports = {
       type: "string",
       label: "Message Body (HTML)",
     },
+    priority: {
+      type: "integer",
+      label: "Priority",
+      description: "Priority ranks low to high, and higher priority routes are handled first",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+    },
     acceptableRiskLevels: {
       type: "string[]",
       label: "Acceptable Risk Levels",
