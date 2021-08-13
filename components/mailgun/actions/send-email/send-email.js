@@ -1,4 +1,5 @@
 const mailgun = require("../../mailgun.app.js");
+const { props, withErrorHandler } = require("../common");
 
 module.exports = {
   key: "mailgun-send-email",
@@ -108,15 +109,10 @@ module.exports = {
         "documentation](https://documentation.mailgun.com/en/latest/api-sending.html#sending)",
       optional: true,
     },
-    haltOnError: {
-      propDefinition: [
-        mailgun,
-        "haltOnError",
-      ],
-    },
+    ...props,
   },
-  async run () {
-    try {
+  run: withErrorHandler(
+    async function () {
       const msg = {
         "from": `${this.fromName} <${this.from}>`,
         "to": this.to,
@@ -139,11 +135,6 @@ module.exports = {
         msg["o:tracking"] = "yes";
       }
       return await this.mailgun.api("messages").create(this.domain, msg);
-    } catch (err) {
-      if (this.haltOnError) {
-        throw err;
-      }
-      return err;
     }
-  },
+  )
 };

@@ -1,4 +1,5 @@
 const mailgun = require("../../mailgun.app.js");
+const { props, withErrorHandler } = require("../common");
 
 module.exports = {
   key: "mailgun-suppress-email",
@@ -46,15 +47,10 @@ module.exports = {
       default: "*",
       optional: true,
     },
-    haltOnError: {
-      propDefinition: [
-        mailgun,
-        "haltOnError",
-      ],
-    },
+    ...props,
   },
-  async run () {
-    try {
+  run: withErrorHandler(
+    async function () {
       const suppression = {
         address: this.email,
       };
@@ -73,14 +69,6 @@ module.exports = {
       const url = `/v3/${this.domain}/${this.category}`;
       const data = Array.isArray(suppression) ? suppression : [suppression];
       return await this.mailgun.api("request").post(url, data);
-    } catch (err) {
-      if (this.haltOnError) {
-        throw err;
-      }
-      if (err.response) {
-        return err.response.data;
-      }
-      return err;
     }
-  },
+  )
 };

@@ -1,4 +1,5 @@
 const mailgun = require("../../mailgun.app.js");
+const { props, withErrorHandler } = require("../common");
 
 module.exports = {
   key: "mailgun-create-route",
@@ -56,12 +57,7 @@ module.exports = {
         "For the `store` action, (optionally) specify a webhook URL to notify. " +
         "For the `stop` action, leave this blank.",
     },
-    haltOnError: {
-      propDefinition: [
-        mailgun,
-        "haltOnError",
-      ],
-    },
+    ...props,
   },
   methods: {
     _expression (filter, expression) {
@@ -97,8 +93,8 @@ module.exports = {
       }
     },
   },
-  async run () {
-    try {
+  run: withErrorHandler(
+    async function () {
       const data = {
         priority: this.priority,
         description: this.description,
@@ -108,11 +104,6 @@ module.exports = {
         ],
       };
       return await this.mailgun.api("routes").create(data);
-    } catch (err) {
-      if (this.haltOnError) {
-        throw err;
-      }
-      return err;
     }
-  },
+  )
 };

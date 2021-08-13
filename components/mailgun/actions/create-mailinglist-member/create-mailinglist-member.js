@@ -1,5 +1,6 @@
 const pick = require("lodash.pick");
 const mailgun = require("../../mailgun.app.js");
+const { props, withErrorHandler } = require("../common");
 
 module.exports = {
   key: "mailgun-create-mailinglist-member",
@@ -49,15 +50,10 @@ module.exports = {
         "upsert",
       ],
     },
-    haltOnError: {
-      propDefinition: [
-        mailgun,
-        "haltOnError",
-      ],
-    },
+    ...props,
   },
-  async run () {
-    try {
+  run: withErrorHandler (
+    async function () {
       const data = pick(this, [
         "address",
         "name",
@@ -69,11 +65,6 @@ module.exports = {
         data.vars = vars;
       }
       return await this.mailgun.api("lists").members.createMember(this.list, data);
-    } catch (err) {
-      if (this.haltOnError) {
-        throw err;
-      }
-      return err;
     }
-  },
+  ),
 };

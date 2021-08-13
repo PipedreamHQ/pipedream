@@ -1,4 +1,5 @@
 const mailgun = require("../../mailgun.app.js");
+const { props, withErrorHandler } = require("../common");
 
 module.exports = {
   key: "mailgun-verify-email",
@@ -20,15 +21,10 @@ module.exports = {
         "acceptableRiskLevels",
       ],
     },
-    haltOnError: {
-      propDefinition: [
-        mailgun,
-        "haltOnError",
-      ],
-    },
+    ...props,
   },
-  async run ({ $ }) {
-    try {
+  run: withErrorHandler(
+    async function () {
       const result = await this.mailgun.api("request").get("/v4/address/validate", {
         address: this.email,
       });
@@ -39,11 +35,6 @@ module.exports = {
         return $.flow.exit(`${result.body.risk} risk`);
       }
       return result.body;
-    } catch (err) {
-      if (this.haltOnError) {
-        throw err;
-      }
-      return err;
     }
-  },
+  )
 };

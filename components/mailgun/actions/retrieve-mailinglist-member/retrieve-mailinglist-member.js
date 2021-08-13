@@ -1,4 +1,5 @@
 const mailgun = require("../../mailgun.app.js");
+const { props, withErrorHandler } = require("../common");
 
 module.exports = {
   key: "mailgun-retrieve-mailinglist-member",
@@ -20,21 +21,11 @@ module.exports = {
         "address",
       ],
     },
-    haltOnError: {
-      propDefinition: [
-        mailgun,
-        "haltOnError",
-      ],
-    },
+    ...props,
   },
-  async run () {
-    try {
+  run: withErrorHandler(
+    async function () {
       return await this.mailgun.api("lists").members.createMember(this.list, this.address);
-    } catch (err) {
-      if (this.haltOnError) {
-        throw err;
-      }
-      return err;
     }
-  },
+  )
 };
