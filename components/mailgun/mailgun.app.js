@@ -17,6 +17,18 @@ module.exports = {
         return domains.map((domain) => domain.name);
       },
     },
+    list: {
+      type: "string",
+      label: "Mailing List",
+      async options ({ page }) {
+        const query = {
+          limit: 50,
+          skip: 50 * page,
+        };
+        const lists = await this.api("lists").list(query);
+        return lists.map((list) => list.address);
+      },
+    },
     email: {
       type: "string",
       label: "Email Address",
@@ -49,6 +61,30 @@ module.exports = {
     description: {
       type: "string",
       label: "Description",
+    },
+    vars: {
+      type: "object",
+      label: "Vars",
+      description: "Extra arbitrary list member data",
+    },
+    subscribed: {
+      type: "string",
+      label: "Subscribed?",
+      options: [
+        "yes",
+        "no",
+      ],
+    },
+    upsert: {
+      type: "string",
+      label: "Update if exists?",
+      description: "If `yes`, will update if a matching entry already exists; if `no`, will " +
+        "throw an error if a matching entry already exists",
+      options: [
+        "yes",
+        "no",
+      ],
+      default: "no",
     },
     acceptableRiskLevels: {
       type: "string[]",
