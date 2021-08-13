@@ -21,6 +21,26 @@ module.exports = {
       type: "string",
       label: "Email Address",
     },
+    emails: {
+      type: "string[]",
+      label: "Email Addresses",
+    },
+    name: {
+      type: "string",
+      label: "Name",
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+    },
+    body_text: {
+      type: "string",
+      label: "Message Body (text)",
+    },
+    body_html: {
+      type: "string",
+      label: "Message Body (HTML)",
+    },
     acceptableRiskLevels: {
       type: "string[]",
       label: "Acceptable Risk Levels",
