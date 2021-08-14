@@ -18,24 +18,28 @@ module.exports = {
       ],
     },
     path: {
-      type: "string",
-      label: "Path",
-      description:
-        "Path to the folder where the file will be uploaded (discouraged). If neither `path` nor `folderid` are specified, the root folder will be used.",
-      optional: true,
+      propDefinition: [
+        pcloud,
+        "path",
+      ],
+      description: "Path to the folder where the file will be uploaded (discouraged). If neither `path` nor `folderid` are specified, the root folder will be used.",
     },
     folderId: {
-      type: "integer",
-      label: "Folder Id",
+      propDefinition: [
+        pcloud,
+        "folderId",
+      ],
       description:
         "Id of the folder where the file will be uploaded. If neither `path` nor `folderid` are specified, the root folder will be used.",
-      optional: true,
     },
-    filename: {
-      type: "string",
-      label: "Filename",
+    name: {
+      propDefinition: [
+        pcloud,
+        "name",
+      ],
       description:
         "Name of the file to upload. Within the associated Pipedream workflow, the file to upload exist under the `/tmp` directory.",
+      optional: false,
     },
     noPartial: {
       type: "integer",
@@ -98,7 +102,7 @@ module.exports = {
       this.domainLocation,
       this.path,
       this.folderId,
-      this.filename,
+      this.name,
       this.noPartial,
       this.progressHash,
       this.renameIfExists,

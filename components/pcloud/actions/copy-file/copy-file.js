@@ -24,34 +24,38 @@ module.exports = {
       optional: true,
     },
     path: {
-      type: "string",
-      label: "Path",
+      propDefinition: [
+        pcloud,
+        "path",
+      ],
       description: "Path to the file to copy.",
-      optional: true,
     },
     toFolderId: {
-      type: "integer",
-      label: "To Folder Id",
-      description: "Id of destination folder.",
-      optional: true,
+      propDefinition: [
+        pcloud,
+        "toFolderId",
+      ],
     },
     toPath: {
-      type: "string",
-      label: "To Path",
+      propDefinition: [
+        pcloud,
+        "toPath",
+      ],
       description: "Destination path, including the filename. A new filename can be used. When this is used `toName` is ignored.",
-      optional: true,
     },
-    toName: {
-      type: "string",
+    name: {
+      propDefinition: [
+        pcloud,
+        "name",
+      ],
       label: "To Name",
       description: "Name of the destination file. This is used only if the destination folder is specified with `toFolderId`.",
-      optional: true,
     },
     noOver: {
-      type: "integer",
-      label: "No Overwrite?",
-      description: "If this is set and a file with the specified name already exists, no overwriting will be performed.",
-      optional: true,
+      propDefinition: [
+        pcloud,
+        "noOver",
+      ],
     },
     modifiedTime: {
       type: "integer",
@@ -91,7 +95,7 @@ module.exports = {
       this.path,
       this.toFolderId,
       this.toPath,
-      this.toName,
+      this.name,
       this.noOver,
       this.modifiedTime,
       this.createdTime,

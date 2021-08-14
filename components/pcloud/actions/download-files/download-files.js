@@ -23,17 +23,19 @@ module.exports = {
       description: "URLs of the files to download, separated by whitespaces.",
     },
     path: {
-      type: "string",
-      label: "Path",
+      propDefinition: [
+        pcloud,
+        "path",
+      ],
       description:
         "Path to folder, in which to download the files. If `path` or `folderId` are not present, then root folder is used",
-      optional: true,
     },
     folderId: {
-      type: "string",
-      label: "Files",
+      propDefinition: [
+        pcloud,
+        "folderId",
+      ],
       description: "Id of the folder, in which to download the files.",
-      optional: true,
     },
     targetFilenames: {
       type: "string",

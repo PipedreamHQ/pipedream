@@ -17,22 +17,24 @@ module.exports = {
       ],
     },
     folderId: {
-      type: "integer",
-      label: "Folder Id",
+      propDefinition: [
+        pcloud,
+        "folderId",
+      ],
       description: "Id of the parent folder where the new folder will be created.",
-      optional: true,
     },
     path: {
-      type: "string",
-      label: "Path",
+      propDefinition: [
+        pcloud,
+        "path",
+      ],
       description: "Path to the parent folder, where the new folder will be created.",
-      optional: true,
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "Name of the folder to be created.",
-      optional: true,
+      propDefinition: [
+        pcloud,
+        "name",
+      ],
     },
   },
   methods: {

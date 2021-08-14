@@ -26,11 +26,13 @@ module.exports = {
         "domainLocation",
       ],
     },
-    folderPath: {
-      type: "string",
-      label: "Folder Path",
-      description:
-        "Path to the folder you'd like to watch for created or modified files. For example:  `/My Documents/Work`",
+    path: {
+      propDefinition: [
+        pcloud,
+        "path",
+      ],
+      description: "Path to the folder you'd like to watch for created or modified files. For example: `/My Documents/Work`",
+      optional: false,
     },
     emmitOn: {
       type: "string",
@@ -44,11 +46,10 @@ module.exports = {
       default: "Created",
     },
     showdeleted: {
-      type: "boolean",
-      label: "Show Deleted?",
-      description:
-        "If is set, deleted files that can be undeleted will be displayed.",
-      default: false,
+      propDefinition: [
+        pcloud,
+        "showdeleted",
+      ],
     },
   },
   hooks: {

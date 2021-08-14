@@ -16,17 +16,19 @@ module.exports = {
       ],
     },
     path: {
-      type: "string",
-      label: "Path",
+      propDefinition: [
+        pcloud,
+        "path",
+      ],
       description:
         "Path to the folder list contents. If `path` or `folderId` are not present, then root folder is used.",
-      optional: true,
     },
     folderId: {
-      type: "integer",
-      label: "Files",
+      propDefinition: [
+        pcloud,
+        "folderId",
+      ],
       description: "Id of the folder to list contents.",
-      optional: true,
     },
     recursive: {
       type: "integer",
@@ -36,8 +38,10 @@ module.exports = {
       optional: true,
     },
     showdeleted: {
-      type: "integer",
-      label: "Show Deleted?",
+      propDefinition: [
+        pcloud,
+        "showdeleted",
+      ],
       description:
         "If is set, deleted files and folders that can be undeleted will be displayed.",
       optional: true,

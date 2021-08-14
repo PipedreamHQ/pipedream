@@ -17,6 +17,47 @@ module.exports = {
         "EU",
       ],
     },
+    path: {
+      type: "string",
+      label: "Path",
+      optional: true,
+    },
+    folderId: {
+      type: "integer",
+      label: "Folder Id",
+      optional: true,
+    },
+    toFolderId: {
+      type: "integer",
+      label: "To Folder Id",
+      description: "Id of destination folder.",
+      optional: true,
+    },
+    toPath: {
+      type: "string",
+      label: "To Path",
+      optional: true,
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of the folder to be created.",
+      optional: true,
+    },
+    noOver: {
+      type: "boolean",
+      label: "No Overwrite?",
+      description:
+        "If `true` and file(s) with the same name already exist, no overwriting will be performed and error `2004` will be returned.",
+      optional: true,
+    },
+    showdeleted: {
+      type: "boolean",
+      label: "Show Deleted?",
+      description:
+        "If is set, deleted files that can be undeleted will be displayed.",
+      default: false,
+    },
   },
   methods: {
     _authToken() {
@@ -84,7 +125,7 @@ module.exports = {
      * When this is used, `toName` is ignored.
      * @params {string} toName - Name of the destination file. This is used only if the destination
      * folder is specified with `toFolderId`.
-     * @params {integer} noOver - If this is set and a file with the specified name already exists,
+     * @params {boolean} noOver - If this `true` and a file with the specified name already exists,
      * no overwriting will be performed.
      * @params {string} modifiedTime - If specified, file modified time is set. Must be in unix time
      * seconds.
@@ -121,7 +162,7 @@ module.exports = {
         requestData.append("toname", toName);
       }
       if (noOver) {
-        requestData.append("noover", noOver);
+        requestData.append("noover", 1);
       }
       if (modifiedTime) {
         requestData.append("mtime", modifiedTime);
@@ -148,7 +189,7 @@ module.exports = {
      * present, then root folder is used.
      * @params {integer} toFolderId - Id of the destination folder.
      * @params {string} toPath - Path to the destination folder.
-     * @params {integer} noOver - If it is set and files with the same name already exist, no
+     * @params {boolean} noOver - If `true` and files with the same name already exist, no
      * overwriting will be preformed and error `2004` will be returned.
      * @params {integer} skipExisting - If set, it will skip files that already exist.
      * @params {integer} copyContentOnly - If set, only the content of source folder will be copied
@@ -180,7 +221,7 @@ module.exports = {
         requestData.append("topath", toPath);
       }
       if (noOver) {
-        requestData.append("noover", noOver);
+        requestData.append("noover", 1);
       }
       if (skipExisting) {
         requestData.append("skipexisting", skipExisting);

@@ -17,28 +17,31 @@ module.exports = {
       ],
     },
     folderId: {
-      type: "integer",
-      label: "Folder Id",
+      propDefinition: [
+        pcloud,
+        "folderId",
+      ],
       description: "Id of the source folder.",
-      optional: true,
     },
     path: {
-      type: "string",
-      label: "Path",
+      propDefinition: [
+        pcloud,
+        "path",
+      ],
       description: "Path of the source folder.",
-      optional: true,
     },
     toFolderId: {
-      type: "integer",
-      label: "To Folder Id",
-      description: "Id of destination folder.",
-      optional: true,
+      propDefinition: [
+        pcloud,
+        "toFolderId",
+      ],
     },
     toPath: {
-      type: "string",
-      label: "To Path",
+      propDefinition: [
+        pcloud,
+        "toPath",
+      ],
       description: "Destination path.",
-      optional: true,
     },
     noOver: {
       type: "integer",
