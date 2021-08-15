@@ -25,7 +25,7 @@ module.exports = {
     },
     sheetID: {
       type: "string",
-      label: "Spreadsheet to watch for changes",
+      label: "Spreadsheet",
       options({
         prevContext,
         driveId,
@@ -44,7 +44,7 @@ module.exports = {
     },
     worksheetIDs: {
       type: "string[]",
-      label: "Worksheets to watch for changes",
+      label: "Worksheet(s)",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
 

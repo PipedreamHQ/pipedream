@@ -6,7 +6,7 @@ module.exports = {
   name: "New Worksheet (Instant)",
   description:
     "Emits an event each time a new worksheet is created in a spreadsheet.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,
