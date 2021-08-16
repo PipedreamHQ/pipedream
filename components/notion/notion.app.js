@@ -19,13 +19,10 @@ module.exports = {
         const options = [];
         const notionDatabases = await this.getAllDatabases();
         notionDatabases.forEach((database) => {
-          const hasTitle = get(database, [
-            "title",
-            "length",
-          ]);
+          const title = this._getDatabaseTitle(database);
           options.push({
-            label: hasTitle ?
-              database.title[0].text.content :
+            label: title ?
+              title :
               "untitled database",
             value: database.id,
           });
@@ -44,26 +41,11 @@ module.exports = {
           if ([
             "page",
           ].includes(page.object)) {
-            const hasTitle = get(page, [
-              "properties",
-              "title",
-              "title",
-              "length",
-            ]);
-            let label;
-            if (hasTitle) {
-              label = page.properties.title.title[0].plain_text;
-            } else {
-              const idxSlash = page.url.lastIndexOf("/");
-              const idxHypen = page.url.lastIndexOf("-");
-              label = idxHypen > -1 ?
-                page.url.substring(idxSlash + 1, idxHypen).split("-")
-                  .join(" ") :
-                page.id;
-
-            }
+            const title = this._getPageTitle(page);
             options.push({
-              label,
+              label: title ?
+                title :
+                page.id,
               value: page.id,
             });
           }
@@ -146,6 +128,46 @@ module.exports = {
           throw err;
         }
       }, retryOpts);
+    },
+    /**
+     * Utility function that gets the title of a database
+     * @params {object} database - A [database object](https://developers.notion.com/reference/database) to get a title from.
+     * @returns { title: string} The title of the database, or null if the database
+     *  doesn't have a title.
+     */
+    _getDatabaseTitle(database) {
+      const hasTitle = get(database, [
+        "title",
+        "length",
+      ]);
+      return hasTitle ?
+        database.title[0].text.content :
+        null;
+    },
+    /**
+     * Utility function that gets the title of a page
+     * @params {object} page - A [page object](https://developers.notion.com/reference/page) to get a title from.
+     * @returns { title: string} The title of the page, or null if the page doesn't have a title.
+     */
+    _getPageTitle(page) {
+      const hasTitle = get(page, [
+        "properties",
+        "title",
+        "title",
+        "length",
+      ]);
+      let title;
+      if (hasTitle) {
+        title = page.properties.title.title[0].plain_text;
+      } else {
+        const idxSlash = page.url.lastIndexOf("/");
+        const idxHypen = page.url.lastIndexOf("-");
+        title = idxHypen > -1 ?
+          page.url.substring(idxSlash + 1, idxHypen).split("-")
+            .join(" ") :
+          null;
+      }
+      return title;
     },
     /**
      * Adds a new page to the specified parent object, a database or an existing page.

@@ -9,7 +9,7 @@ module.exports = {
       description: "Pipedream polls Notion for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 3, // by default, run every 15 minutes.
+        intervalSeconds: 60 * 15, // by default, run every 15 minutes.
       },
     },
   },

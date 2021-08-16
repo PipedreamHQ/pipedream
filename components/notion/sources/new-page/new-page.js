@@ -60,18 +60,9 @@ module.exports = {
   methods: {
     ...common.methods,
     generateEventMetadata(notionEvent) {
-      const numOfPageTitles = get(notionEvent, [
-        "properties",
-        "Name",
-        "title",
-        "length",
-      ]);
-      let pageName;
-      if (numOfPageTitles) {
-        pageName = notionEvent.properties.Name.title[0].plain_text;
-      }
-      const summary = pageName
-        ? `New page "${pageName}" was created`
+      const title = this.notion._getPageTitle(notionEvent);
+      const summary = title
+        ? `New page "${title}" was created`
         : "New page was created.";
       return {
         id: notionEvent.id,

@@ -29,14 +29,11 @@ module.exports = {
           if ([
             "database",
           ].includes(notionItem.object)) {
-            const notionDatabaseTitle = get(notionItem, [
-              "title",
-              "length",
-            ]);
-            if (notionDatabaseTitle) {
+            const databaseTitle = this.notion._getDatabaseTitle(notionItem);
+            if (databaseTitle) {
               options.push({
-                label: `(DATABASE) ${notionItem.title[0].text.content}`,
-                value: notionItem.title[0].text.content,
+                label: `(DATABASE) ${databaseTitle}`,
+                value: databaseTitle,
               });
             }
           } else {
@@ -44,29 +41,13 @@ module.exports = {
             if ([
               "page",
             ].includes(notionItem.object)) {
-              const hasTitle = get(notionItem, [
-                "properties",
-                "title",
-                "title",
-                "length",
-              ]);
-              let title;
-              if (hasTitle) {
-                title = notionItem.properties.title.title[0].plain_text;
-              } else {
-                const idxSlash = notionItem.url.lastIndexOf("/");
-                const idxHypen = notionItem.url.lastIndexOf("-");
-                if (idxHypen > -1) {
-                  title = notionItem.url.substring(idxSlash + 1, idxHypen).split("-")
-                    .join(" ");
-                } else {
-                  continue;
-                }
+              const pageTitle = this.notion._getPageTitle(notionItem);
+              if (pageTitle) {
+                options.push({
+                  label: `(PAGE) ${pageTitle}`,
+                  value: pageTitle,
+                });
               }
-              options.push({
-                label: `(PAGE) ${title}`,
-                value: title,
-              });
             }
           }
         }

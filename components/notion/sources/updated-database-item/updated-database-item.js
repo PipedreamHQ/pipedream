@@ -60,18 +60,9 @@ module.exports = {
   methods: {
     ...common.methods,
     generateEventMetadata(notionEvent) {
-      const numOfPageTitles = get(notionEvent, [
-        "properties",
-        "Name",
-        "title",
-        "length",
-      ]);
-      let pageName;
-      if (numOfPageTitles) {
-        pageName = notionEvent.properties.Name.title[0].plain_text;
-      }
-      const summary = pageName
-        ? `Page "${pageName}" was updated`
+      const title = this.notion._getPageTitle(notionEvent);
+      const summary = title
+        ? `Page "${title}" was updated`
         : "Page updated.";
       const timestamp = +new Date(notionEvent.last_edited_time);
       return {
