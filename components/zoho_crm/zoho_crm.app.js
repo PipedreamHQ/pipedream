@@ -133,12 +133,13 @@ module.exports = {
      */
     async addTags(domain, module, recordId, tagNames, overWrite) {
       const baseUrl = this._apiUrl(domain);
-      const url = `${baseUrl}/${module}/${recordId}/actions/add_tags`;
+      const url = `${baseUrl}/${module}/actions/add_tags`;
       const requestConfig = {
         url,
         method: "POST",
         headers: this._makeRequestConfig().headers,
         params: {
+          ids: recordId,
           tag_names: tagNames.join(","),
           over_write: overWrite,
         },

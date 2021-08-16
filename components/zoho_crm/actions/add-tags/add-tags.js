@@ -1,4 +1,3 @@
-// eslint-disable-next-line camelcase
 const zoho_crm = require("../../zoho_crm.app");
 const { methods } = require("../common");
 const validate = require("validate.js");
@@ -7,13 +6,12 @@ module.exports = {
   key: "zoho_crm-add-tags",
   name: "Add Tags",
   description: "Add new tags to an existing module record.",
-  version: "0.0.18",
+  version: "0.0.23",
   type: "action",
   props: {
     zoho_crm,
     domain: {
       propDefinition: [
-        // eslint-disable-next-line camelcase
         zoho_crm,
         "domain",
       ],
@@ -92,20 +90,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    //
-    const baseUrl = this.zoho_crm._apiUrl(this.domain);
-    const url = `${baseUrl}/${this.module}/${this.recordId}/actions/add_tags`;
-    const requestConfig = {
-      url,
-      method: "POST",
-      headers: this.zoho_crm._makeRequestConfig().headers,
-      params: {
-        tag_names: this.tagNames.join(","),
-        over_write: this.overWrite,
-      },
-    };
-    console.log(JSON.stringify(requestConfig));
-    //
     return await this.zoho_crm.addTags(
       this.domain,
       this.module,
