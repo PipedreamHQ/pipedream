@@ -1,45 +1,48 @@
-const quickbooks = require("../quickbooks.app");
+const quickbooks = require("../../quickbooks.app");
+const fs = require('fs')
 
 module.exports = {
 	name: 'Download PDF',
 	description: 'Download an invoice, bill, purchase order, etc. as a PDF and save it in the temporary file system for use in a later step.',
 	key: 'download_pdf',
-	version: '0.0.1',
+	version: '0.0.8',
 	type: 'action',
 	props: {
-		quickbooks
+		quickbooks,
+		entity: {
+			propDefinition: [
+				quickbooks,
+				'entity',
+			]
+		},
+		id: {
+			type: 'string',
+			label: 'Record Id',
+		},
+		file_name: {
+			type: 'string',
+			label: 'File Name',
+		},
 	},
-	methods: {},
-	async run(){
-		// const fs = require('fs')
+	methods: {
+		async downloadPDF(entity, id, file_name){
+		  const file = await require("@pipedreamhq/platform").axios(this, {
+		    url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/${entity.toLowerCase()}/${id}/pdf`,
+		    headers: {
+		      Authorization: `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
+		      'accept': 'application/pdf',
+		    },
+		    responseType: 'arraybuffer',
+		  })
 
-		// const {name, operation, id} = steps.trigger.event.event_notification.body.eventNotifications[0].dataChangeEvent.entities[0]
-		// const po = steps.trigger.event.record_details.PurchaseOrder
+		  const file_path = '/tmp/' + file_name
+		  fs.writeFileSync(file_path, file)
 
-		// const po_number = po.DocNumber.replace('/', ' ')
-		// const vendor_name = po.VendorRef.name.replace(' [V]', '')
-		// const file_name = `${po.TxnDate} PO ${po_number} for ${vendor_name.replace('&', ' and ')}.pdf`
-		// const file_path = await downloadPDF(id, file_name)
-
-		// this.qb_id = id
-		// this.po = po
-		// this.file_name = file_name
-		// this.file_path = file_path
-
-		// async function downloadPDF(id, file_name){
-		//   const file = await require("@pipedreamhq/platform").axios(this, {
-		//     url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/purchaseorder/${id}/pdf`,
-		//     headers: {
-		//       Authorization: `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-		//       'accept': 'application/pdf',
-		//     },
-		//     responseType: 'arraybuffer',
-		//   })
-
-		//   const file_path = '/tmp/' + file_name
-		//   fs.writeFileSync(file_path, file)
-
-		//   return file_path
-		// }
+		  return file_path
+		}
+	},
+	async run({ $ }){
+		const file_path = await this.downloadPDF(this.entity, this.id, this.file_name)
+		$.export('file_path', file_path)
 	}
 }
