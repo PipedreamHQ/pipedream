@@ -9,7 +9,7 @@ module.exports = {
      * Returns a validation message
      *
      * @param {object} validationResults a validation results object from validate.js library
-     * @returns tt will generate validation message for each of the validation results present in
+     * @returns it will generate validation message for each of the validation results present in
      * `validationResults`.
      */
     checkValidationResults(validationResults) {
