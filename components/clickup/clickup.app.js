@@ -1,4 +1,5 @@
 const axios = require("axios");
+const axiosRetry = require("axios-retry");
 
 module.exports = {
   type: "app",
@@ -9,12 +10,10 @@ module.exports = {
       label: "Workspace",
       async options() {
         const workspaces = (await this.getWorkspaces()).teams;
-        return workspaces.map((workspace) => {
-          return {
-            label: workspace.name,
-            value: workspace.id,
-          };
-        });
+        return workspaces.map((workspace) => ({
+          label: workspace.name,
+          value: workspace.id,
+        }));
       },
     },
     space: {
@@ -22,12 +21,10 @@ module.exports = {
       label: "Space",
       async options({ workspace }) {
         const spaces = (await this.getSpaces(workspace)).spaces;
-        return spaces.map((space) => {
-          return {
-            label: space.name,
-            value: space.id,
-          };
-        });
+        return spaces.map((space) => ({
+          label: space.name,
+          value: space.id,
+        }));
       },
     },
     folder: {
@@ -35,12 +32,10 @@ module.exports = {
       label: "Folder",
       async options({ space }) {
         const folders = (await this.getFolders(space)).folders;
-        return folders.map((folder) => {
-          return {
-            label: folder.name,
-            value: folder.id,
-          };
-        });
+        return folders.map((folder) => ({
+          label: folder.name,
+          value: folder.id,
+        }));
       },
       optional: true,
     },
@@ -53,12 +48,10 @@ module.exports = {
         const lists = folder
           ? (await this.getLists(folder)).lists
           : (await this.getFolderlessLists(space)).lists;
-        return lists.map((list) => {
-          return {
-            label: list.name,
-            value: list.id,
-          };
-        });
+        return lists.map((list) => ({
+          label: list.name,
+          value: list.id,
+        }));
       },
     },
     assignees: {
@@ -67,12 +60,10 @@ module.exports = {
       description: "Select the assignees for the task",
       async options({ workspace }) {
         const members = await this.getWorkspaceMembers(workspace);
-        return members.map((member) => {
-          return {
-            label: member.user.username,
-            value: member.user.id,
-          };
-        });
+        return members.map((member) => ({
+          label: member.user.username,
+          value: member.user.id,
+        }));
       },
       optional: true,
     },
@@ -83,9 +74,7 @@ module.exports = {
         "Select the tags for the task to filter when searching for the tasks",
       async options({ space }) {
         const tags = (await this.getTags(space)).tags;
-        return tags.map((tag) => {
-          return tag.name;
-        });
+        return tags.map((tag) => tag.name);
       },
       optional: true,
     },
@@ -95,9 +84,7 @@ module.exports = {
       description: "Select the status of the task",
       async options({ list }) {
         const statuses = (await this.getList(list)).statuses;
-        return statuses.map((status) => {
-          return status.status;
-        });
+        return statuses.map((status) => status.status);
       },
       optional: true,
     },
@@ -108,12 +95,10 @@ module.exports = {
         list, page,
       }) {
         const tasks = (await this.getTasks(list, page)).tasks;
-        return tasks.map((task) => {
-          return {
-            label: task.name,
-            value: task.id,
-          };
-        });
+        return tasks.map((task) => ({
+          label: task.name,
+          value: task.id,
+        }));
       },
     },
     priority: {
@@ -125,26 +110,58 @@ module.exports = {
         4 is Low`,
       optional: true,
     },
+    name: {
+      type: "string",
+      label: "Name",
+    },
+    dueDate: {
+      type: "integer",
+      label: "Due Date",
+      optional: true,
+    },
+    dueDateTime: {
+      type: "boolean",
+      label: "Due Date Time",
+      optional: true,
+    },
+    parent: {
+      type: "string",
+      label: "Parent",
+      description:
+        `Pass an existing task ID in the parent property to make the new task a subtask of that parent. 
+        The parent you pass must not be a subtask itself, and must be part of the specified list.`,
+      async options({
+        list, page,
+      }) {
+        const tasks = (await this.getTasks(list, page)).tasks;
+        return tasks.map((task) => ({
+          label: task.name,
+          value: task.id,
+        }));
+      },
+    },
   },
   methods: {
-    _getBaseUrl() {
-      return "https://api.clickup.com/api/v2/";
-    },
-    _getHeader() {
-      return {
-        "content-type": "application/json",
-        "Authorization": this.$auth.oauth_access_token,
-      };
-    },
     async _makeRequest(method, endpoint, data = null, params = null) {
+      axiosRetry(axios, {
+        retries: 3,
+      });
       const config = {
-        headers: this._getHeader(),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": this.$auth.oauth_access_token,
+        },
         method,
-        url: `${this._getBaseUrl()}${endpoint}`,
+        url: `https://api.clickup.com/api/v2/${endpoint}`,
         data,
         params,
       };
-      return (await axios(config)).data;
+      const response = await axios(config).catch((err) => {
+        if (err.response.status !== 200) {
+          throw new Error(`API call failed with status code: ${err.response.status} after 3 retry attempts`);
+        }
+      });
+      return response.data;
     },
     async getWorkspaces() {
       return await this._makeRequest("GET", "team");
@@ -177,11 +194,13 @@ module.exports = {
       );
     },
     async getWorkspaceMembers(workspaceId) {
-      const workspaces = (await this.getWorkspaces()).teams;
-      const workspace = workspaces.filter(
+      const { teams } = (await this.getWorkspaces());
+      const workspace = teams.filter(
         (workspace) => workspace.id == workspaceId,
       );
-      return workspace[0].members;
+      return workspace
+        ? workspace[0].members
+        : [];
     },
     async getTags(spaceId) {
       return await this._makeRequest("GET", `space/${spaceId}/tag`);

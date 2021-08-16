@@ -20,8 +20,10 @@ module.exports = {
       ],
     },
     name: {
-      type: "string",
-      label: "Name",
+      propDefinition: [
+        common.props.clickup,
+        "name",
+      ],
       description: "New task name",
     },
     description: {
@@ -58,27 +60,30 @@ module.exports = {
       ],
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
+      propDefinition: [
+        common.props.clickup,
+        "dueDate",
+      ],
       description:
-        "The date by which you must complete the task. Use UTC time in milliseconds (ex. 1508369194377)",
-      optional: true,
+        `The date by which you must complete the task. Use UTC time in 
+        milliseconds (ex. 1508369194377)`,
     },
     dueDateTime: {
-      type: "boolean",
-      label: "Due Date Time",
+      propDefinition: [
+        common.props.clickup,
+        "dueDateTime",
+      ],
       description:
         "Set to true if you want to enable the due date time for the task",
-      optional: true,
     },
     timeEstimate: {
-      type: "string",
+      type: "integer",
       label: "Time Estimate",
       description: "Use milliseconds",
       optional: true,
     },
     startDate: {
-      type: "string",
+      type: "integer",
       label: "Start Date",
       description:
         "The start date of the task. Use UTC time in milliseconds (ex. 1567780450202)",
@@ -94,20 +99,18 @@ module.exports = {
       type: "boolean",
       label: "Notify All",
       description:
-        "If notify_all is true, creation notifications will be sent to everyone including the creator of the task.",
+        `If Notify All is true, creation notifications will be sent to everyone including the 
+        creator of the task.`,
       optional: true,
     },
     parent: {
       propDefinition: [
         common.props.clickup,
-        "task",
+        "parent",
         (c) => ({
           list: c.list,
         }),
       ],
-      label: "Parent",
-      description:
-        "Passing an existing task ID in the parent property will make the new task a subtask of that parent. The parent you pass must not be a subtask itself, and must be part of the specified list.",
       optional: true,
     },
     linksTo: {
@@ -127,7 +130,10 @@ module.exports = {
       type: "boolean",
       label: "Check Required Custom Fields",
       description:
-        "Indicates whether or not your new task will include data for required Custom Fields (true) or not (false). The default is false. If you set this option to true, and do not include information for required Custom Fields, then you will receive an error that 'One or more required fields is missing'.",
+        `Indicates whether or not your new task will include data for required 
+        Custom Fields (true) or not (false). The default is false. If you set this option to true, 
+        and do not include information for required Custom Fields, then you will receive an error 
+        that 'One or more required fields is missing'.`,
       optional: true,
     },
     customFields: {

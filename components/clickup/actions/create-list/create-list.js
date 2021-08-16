@@ -10,8 +10,10 @@ module.exports = {
   props: {
     ...common.props,
     name: {
-      type: "string",
-      label: "Name",
+      propDefinition: [
+        common.props.clickup,
+        "name",
+      ],
       description: "New list name",
     },
     content: {
@@ -21,18 +23,21 @@ module.exports = {
       optional: true,
     },
     dueDate: {
-      type: "string",
-      label: "Due Date",
+      propDefinition: [
+        common.props.clickup,
+        "dueDate",
+      ],
       description:
-        "The date by which you must complete the tasks in this list. Use UTC time in milliseconds (ex. 1508369194377)",
-      optional: true,
+        `The date by which you must complete the tasks in this list. Use UTC time in 
+        milliseconds (ex. 1508369194377)`,
     },
     dueDateTime: {
-      type: "boolean",
-      label: "Due Date Time",
+      propDefinition: [
+        common.props.clickup,
+        "dueDateTime",
+      ],
       description:
         "Set to true if you want to enable the due date time for the tasks in this list",
-      optional: true,
     },
     assignee: {
       propDefinition: [
