@@ -1,7 +1,7 @@
 // const QuickBooks = require('node-quickbooks')
 const axios = require("axios");
 
-const ENTITIES = [
+const WEBHOOK_ENTITIES = [
   "Account",
   "Bill",
   "BillPayment",
@@ -46,16 +46,11 @@ module.exports = {
   type: "app",
   app: "quickbooks",
   propDefinitions: {
-    entity: {
-      type: "string",
-      label: "Entity",
-      options: ENTITIES,
-    },
     webhook_names: {
       type: "string[]",
       label: "Entities",
       description: "Select which QuickBooks entities to emit or just leave it blank to emit them all.",
-      options: ENTITIES,
+      options: WEBHOOK_ENTITIES,
       optional: true,
     },
     webhook_operations: {
