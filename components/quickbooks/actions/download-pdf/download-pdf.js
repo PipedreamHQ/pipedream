@@ -5,7 +5,7 @@ module.exports = {
 	name: 'Download PDF',
 	description: 'Download an invoice, bill, purchase order, etc. as a PDF and save it in the temporary file system for use in a later step.',
 	key: 'download_pdf',
-	version: '0.0.9',
+	version: '0.1.1',
 	type: 'action',
 	props: {
 		quickbooks,
@@ -28,7 +28,8 @@ module.exports = {
 		},
 		file_name: {
 			type: 'string',
-			label: 'File Name',
+			label: 'File Name (Optional)',
+			optional: true,
 		},
 	},
 	methods: {
@@ -42,7 +43,7 @@ module.exports = {
 		    responseType: 'arraybuffer',
 		  })
 
-		  const file_path = '/tmp/' + file_name
+		  const file_path = '/tmp/' + (file_name || id)
 		  fs.writeFileSync(file_path, file)
 
 		  return file_path
