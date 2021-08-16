@@ -5,15 +5,22 @@ module.exports = {
 	name: 'Download PDF',
 	description: 'Download an invoice, bill, purchase order, etc. as a PDF and save it in the temporary file system for use in a later step.',
 	key: 'download_pdf',
-	version: '0.0.8',
+	version: '0.0.9',
 	type: 'action',
 	props: {
 		quickbooks,
 		entity: {
-			propDefinition: [
-				quickbooks,
-				'entity',
-			]
+			type: 'string',
+			label: 'Document Type',
+			options: [
+			  "CreditMemo",
+			  "Estimate",
+			  "Invoice",
+			  "Payment",
+			  "PurchaseOrder",
+			  "RefundReceipt",
+			  "SalesReceipt",
+			],
 		},
 		id: {
 			type: 'string',
