@@ -149,6 +149,34 @@ module.exports = {
       return data;
     },
     /**
+     * Creates a new record in the specified module.
+     *
+     * @param {string} domain the domain location of the connected Zoho CRM
+     * account. The Zoho API domain URL depends on the location of Zoho CRM data
+     * center associated to the connected account.
+     * @param {string} module the Zoho CRM module where the record will be created.
+     * @param {object} record the record data. this object's structure must match the structure for
+     *  the records in the specified module
+     * @param {array} trigger the triggers, workflow actions, related to this record to be
+     * executated when the record is created. Use an empty array `[]` to not execute any of the
+     * workflows.
+     * @returns {data: array} a one element array with the results of the create record operation.
+     *
+     */
+    async createModuleRecord(domain, module, record, trigger) {
+      const url = `${this._apiUrl(domain)}/${module}`;
+      const requestConfig = this._makeRequestConfig();
+      const requestData = {
+        data: [
+          record,
+        ],
+        trigger,
+      };
+      const { data } = await this._withRetries(() =>
+        axios.post(url, requestData, requestConfig));
+      return data;
+    },
+    /**
      * Converts a lead into a contact or an account.
      *
      * @param {string} domain the domain location of the connected Zoho CRM
