@@ -338,42 +338,6 @@ module.exports = {
       return (await this._withRetries(() => axios.get(url, requestConfig)))
         .data;
     },
-    async makeAnAPICall(method, path, headers, body, useFormData) {
-      const sp = path.split("?");
-      const cleanedPath = sp[0].replace(/^\/*/, "").replace(/\/*$/, "");
-      const url =
-        sp.length == 1
-          ? `${this._apiUrl()}/${cleanedPath}`
-          : `${this._apiUrl()}/${cleanedPath}?${sp[1]}`;
-      const { headers: baseHeaders } = this._makeRequestConfig();
-      const config = {
-        method,
-        url,
-        headers: {
-          ...baseHeaders,
-          headers: headers
-            ? headers
-            : null,
-        },
-      };
-      const FormData = require("form-data");
-      const formData = new FormData();
-      if (useFormData) {
-        Object.keys(body).forEach(function (k) {
-          formData.append(k, body[k]);
-        });
-        config.headers[
-          "Content-Type"
-        ] = `multipart/form-data; boundary=${formData._boundary}`;
-        config.headers["Content-Length"] = formData.getLengthSync();
-        config.data = formData;
-      } else {
-        config.headers["Content-Type"] = "application/json";
-        config.data = body;
-      }
-      const { data } = await /*this._withRetries(() => */ axios.request(config);
-      return data;
-    },
     /**
      * Uploads a file to the user's filesystem.
      * @params {string} path - Path to the folder where the file will be uploaded (discouraged). If
