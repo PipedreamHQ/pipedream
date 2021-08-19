@@ -1,9 +1,9 @@
+/* eslint-disable */
 const axios = require("axios");
 const get = require("lodash/get");
 const { DateTime } = require("luxon");
 const querystring = require("querystring");
 const retry = require("async-retry");
-const retweet = require("./actions/retweet/retweet");
 
 module.exports = {
   type: "app",
