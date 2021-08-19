@@ -35,7 +35,7 @@ module.exports = {
   },
   async run() {
     const {
-      result_type,
+      result_type: resultType,
       enrichTweets,
       includeReplies,
       includeRetweets,
@@ -49,7 +49,7 @@ module.exports = {
     // run paginated search
     return await this.twitter.paginatedSearch({
       q,
-      result_type,
+      result_type: resultType,
       enrichTweets,
       includeReplies,
       includeRetweets,
