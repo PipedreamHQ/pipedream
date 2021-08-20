@@ -1,32 +1,30 @@
-/* eslint-disable camelcase */
-const zoho_crm = require("../../zoho_crm.app");
-const { methods } = require("../common");
+const {
+  props,
+  methods,
+} = require("../common");
 const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-convert-lead",
   name: "Convert Lead",
   description: "Converts a lead into a contact or an account.",
-  version: "0.0.50",
+  version: "0.0.52",
   type: "action",
   props: {
-    zoho_crm,
-    domain: {
-      propDefinition: [
-        zoho_crm,
-        "domain",
-      ],
-    },
+    ...props,
     recordId: {
-      type: "string",
-      label: "Record Id",
+      propDefinition: [
+        props.zoho_crm,
+        "recordId",
+      ],
       description:
-        "Unique identifier of the record associated to the Lead you'd like to convert.",
+      "Unique identifier of the record associated to the Lead you'd like to convert.",
     },
-    overwrite: {
-      type: "boolean",
-      label: "Overwrite Lead Details?",
-      default: false,
+    overWrite: {
+      propDefinition: [
+        props.zoho_crm,
+        "overWrite",
+      ],
       description:
         "Specifies if the Lead details must be overwritten in the Contact/Account/Deal based on lead conversion mapping configuration.",
     },
@@ -93,7 +91,7 @@ module.exports = {
       recordId: this.recordId,
     }, constraints);
     this.checkValidationResults(validationResult);
-    const data = [
+    const opts = [
       {
         overwrite: this.overwrite,
         notify_lead_owner: this.notifyLeadOwner,
@@ -105,6 +103,6 @@ module.exports = {
         carry_over_tags: this.carryOverTags,
       },
     ];
-    return await this.zoho_crm.convertLead(this.domain, this.recordId, data);
+    return await this.zoho_crm.convertLead(this.domain, this.recordId, opts);
   },
 };

@@ -1,5 +1,7 @@
-const common = require("../common");
-const { zoho_crm } = common.props;
+const {
+  props,
+  methods,
+} = require("../common");
 const validate = require("validate.js");
 const get = require("lodash/get");
 
@@ -11,58 +13,36 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    zoho_crm,
-    domainLocation: {
-      propDefinition: [
-        zoho_crm,
-        "domainLocation",
-      ],
-    },
+    ...props,
     criteria: {
-      type: "string",
-      label: "Search Criteria",
+      propDefinition: [
+        props.zoho_crm,
+        "criteria",
+      ],
       description:
-        "Your search will be performed using the criteria enter here. It must match the following pattern: `(({api_name}:{starts_with|equals}:{value})and/or({api_name}:{starts_with|equals}:{value}))`. Example: `((Last_Name:equals:Burns%5C%2CB)and(First_Name:starts_with:M))`",
+        "The attempt to find your record will be performed using the criteria enter here. It must match the following pattern: `(({api_name}:{starts_with|equals}:{value})and/or({api_name}:{starts_with|equals}:{value}))`. Example: `((Last_Name:equals:Burns%5C%2CB)and(First_Name:starts_with:M))`",
     },
     module: {
-      type: "string",
-      label: "Module",
-      description: "Module where the record will be created.",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Cases",
-        "Events",
-        "Calls",
-        "Solutions",
-        "Products",
-        "Vendors",
-        "Price_Books",
-        "Quotes",
-        "Sales_Orders",
-        "Purchase_Orders",
-        "Invoices",
-        "Custom",
+      propDefinition: [
+        props.zoho_crm,
+        "module",
       ],
-      default: "Leads",
+      description: "Module where the record will be created, if no record is found.",
     },
     record: {
-      type: "object",
-      label: "Record",
+      propDefinition: [
+        props.zoho_crm,
+        "record",
+      ],
       description:
         "The record you'd like to find. If not found, a new record optionally could be created with the data provided. Depending on the selected module, certain fields must be presented in the record being created. I.e. for Leads `Last_Name` is required, see more at Zoho CRM [Insert Records](https://www.zoho.com/crm/developer/docs/api/v2.1/insert-records.html) API docs.",
       optional: true,
     },
     fields: {
-      type: "string",
-      label: "Fields",
-      description:
-        "Comma separated list of the fields you'd like to retrieve in the records matching your search, or from the newly created record, if no records are found and `createRecord` prop is set to `true`.",
-      optional: true,
+      propDefinition: [
+        props.zoho_crm,
+        "fields",
+      ],
     },
     createRecord: {
       type: "boolean",
@@ -73,23 +53,25 @@ module.exports = {
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   /*
-  This methods runs the logic for the `Find or Create Record".
-  The following algorithim is perfomed:
-  1. Validation against the props of the actions.
-  2. If validation passed, `criteria` prop is used to find records.
-  3. If records are found, the results are turned.
-  4. If records are not found, the `createRecord` prop flag is checked
-  5. If `createRecord` is on `record` is validated module-wise.
-  5.a If `createRecord` is off, the flow finishes.
-  6. If module-wise validation passed, a `record` is used to create a new record.
-* @returns { searchSuccess: boolean, hasNewRecord: boolean, searchResults: array, newRecord: object }
-  searchSuccess -- Indicates if results were found.
-  hasNewRecord  -- Indicates if a new record was created.
-  searchResults -- Contains records found, if any.
-  newRecord     -- The new record data. This is populated when no record was found, `createRecord` flag is on, and the record was created succesfully.
+    This methods runs the logic for the `Find or Create Record".
+    The following algorithim is perfomed:
+    1. Validation against the props of the actions.
+    2. If validation passed, `criteria` prop is used to find records.
+    3. If records are found, the results are turned.
+    4. If records are not found, the `createRecord` prop flag is checked
+    5. If `createRecord` is on `record` is validated module-wise.
+    5.a If `createRecord` is off, the flow finishes.
+    6. If module-wise validation passed, a `record` is used to create a new record.
+    @returns { searchSuccess: boolean, hasNewRecord: boolean, searchResults:
+    array, newRecord: object }
+    searchSuccess -- Indicates if results were found.
+    hasNewRecord  -- Indicates if a new record was created.
+    searchResults -- Contains records found, if any.
+    newRecord     -- The new record data. This is populated when no record was found, `createRecord`
+    flag is on, and the record was created succesfully.
   */
   async run() {
     const constraints = {
@@ -103,20 +85,22 @@ module.exports = {
         presence: this.createRecord,
       },
     };
+    if (this.fields) {
+      constraints.fields = {
+        type: "array",
+      };
+    }
     let validationResult = validate(
       {
         domainLocation: this.domainLocation,
         module: this.module,
         record: this.record,
+        fields: this.fields,
       },
       constraints,
     );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
+    this.checkValidationResults(validationResult);
     const searchResultsGenerator = await this.zoho_crm.searchRecords(
-      this.domainLocation,
       this.module,
       this.criteria,
       null,
@@ -394,12 +378,8 @@ module.exports = {
       }
       validate.validators.presence.message = `is required for creating records in the ${this.module} module.`;
       validationResult = validate(moduleFieldsValues, moduleConstraints);
-      if (validationResult) {
-        const validationMessages = this.getValidationMessage(validationResult);
-        throw new Error(validationMessages);
-      }
+      this.checkValidationResults(validationResult);
       const createRecordResult = await this.zoho_crm.createModuleRecord(
-        this.domainLocation,
         this.module,
         {
           data: [
@@ -415,7 +395,6 @@ module.exports = {
           "SUCCESS",
         ].includes(createRecordResultData[0].code)) {
           const createdRecordGenerator = this.zoho_crm.searchRecords(
-            this.domainLocation,
             this.module,
             `id:equals:${createRecordResultData[0].details.id}`,
             null,

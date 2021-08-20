@@ -1,70 +1,41 @@
-/* eslint-disable camelcase */
-const common = require("../common");
-const zoho_crm = require("../../zoho_crm.app");
+const {
+  props,
+  methods,
+} = require("../common");
 const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-create-module-record",
   name: "Create Module Record",
   description: "Creates a new record in the specified module.",
-  version: "0.0.11",
+  version: "0.0.27",
   type: "action",
   props: {
-    zoho_crm,
-    domain: {
-      propDefinition: [
-        zoho_crm,
-        "domain",
-      ],
-    },
+    ...props,
     module: {
-      type: "string",
-      label: "Module",
-      description: "Module where the record will be created.",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Cases",
-        "Events",
-        "Calls",
-        "Solutions",
-        "Products",
-        "Vendors",
-        "Price_Books",
-        "Quotes",
-        "Sales_Orders",
-        "Purchase_Orders",
-        "Invoices",
-        "Custom",
-        "Notes",
+      propDefinition: [
+        props.zoho_crm,
+        "module",
       ],
-      default: "Leads",
     },
     record: {
-      type: "object",
-      label: "Record",
-      description:
-        "The new record data. Depending on the selected module, certain fields must be presented in the record being created. I.e. for Leads `Last_Name` is required, see more at Zoho CRM [Insert Records](https://www.zoho.com/crm/developer/docs/api/v2.1/insert-records.html) API docs.",
+      propDefinition: [
+        props.zoho_crm,
+        "record",
+      ],
     },
     trigger: {
-      type: "string[]",
-      label: "Trigger",
-      description: "An string array with the triggers, workflow actions, related to this record you'd like to be executed. Use an empty array `[]` to not execute any of the workflows.",
-      default: [],
+      propDefinition: [
+        props.zoho_crm,
+        "trigger",
+      ],
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {
-      domain: {
-        presence: true,
-      },
       module: {
         presence: true,
       },
@@ -79,7 +50,6 @@ module.exports = {
     }
     const validationResult = validate(
       {
-        domain: this.domain,
         module: this.module,
         record: this.record,
         trigger: this.trigger,
@@ -88,7 +58,6 @@ module.exports = {
     );
     this.checkValidationResults(validationResult);
     return await this.zoho_crm.createModuleRecord(
-      this.domainLocation,
       this.module,
       this.record,
       this.trigger,

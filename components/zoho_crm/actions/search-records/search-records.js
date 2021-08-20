@@ -1,5 +1,7 @@
-const common = require("../common");
-const { zoho_crm } = common.props;
+const {
+  props,
+  methods,
+} = require("../common");
 const validate = require("validate.js");
 
 module.exports = {
@@ -9,46 +11,19 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    zoho_crm,
-    domainLocation: {
-      propDefinition: [
-        zoho_crm,
-        "domainLocation",
-      ],
-    },
+    ...props,
     criteria: {
-      type: "string",
-      label: "Search Criteria",
-      description:
-        "Your search will be performed using the criteria enter here. It must match the following pattern: `(({api_name}:{starts_with|equals}:{value})and/or({api_name}:{starts_with|equals}:{value}))`. Example: `((Last_Name:equals:Burns%5C%2CB)and(First_Name:starts_with:M))`",
+      propDefinition: [
+        props.zoho_crm,
+        "criteria",
+      ],
     },
     module: {
-      type: "string",
-      label: "Module",
-      description:
-        "The module related to the record you'd like to add the attachment.",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Cases",
-        "Events",
-        "Calls",
-        "Solutions",
-        "Products",
-        "Vendors",
-        "Price_Books",
-        "Quotes",
-        "Sales_Orders",
-        "Purchase_Orders",
-        "Invoices",
-        "Custom",
-        "Notes",
+      propDefinition: [
+        props.zoho_crm,
+        "module",
       ],
-      default: "Leads",
+      description: "Module that you'd like to search for records.",
     },
     converted: {
       type: "string",
@@ -98,15 +73,14 @@ module.exports = {
       description: "The number of module records to return.",
     },
     fields: {
-      type: "string",
-      label: "Fields",
-      description:
-        "Comma separated list of the fields you'd like to retrieve in the records matching your search.",
-      optional: true,
+      propDefinition: [
+        props.zoho_crm,
+        "fields",
+      ],
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {
@@ -124,12 +98,8 @@ module.exports = {
       },
       constraints,
     );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
+    this.checkValidationResults(validationResult);
     const searchResultsGenerator = this.zoho_crm.searchRecords(
-      this.domainLocation,
       this.module,
       this.criteria,
       this.numberOfRecords,

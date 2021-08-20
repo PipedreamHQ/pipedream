@@ -1,53 +1,30 @@
-const zoho_crm = require("../../zoho_crm.app");
-const { methods } = require("../common");
+const {
+  props,
+  methods,
+} = require("../common");
 const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-add-tags",
   name: "Add Tags",
   description: "Add new tags to an existing module record.",
-  version: "0.0.23",
+  version: "0.0.28",
   type: "action",
   props: {
-    zoho_crm,
-    domain: {
-      propDefinition: [
-        zoho_crm,
-        "domain",
-      ],
-    },
+    ...props,
     module: {
-      type: "string",
-      label: "Module",
-      description:
-        "The module related to the record you'd like to add tags on.",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Cases",
-        "Events",
-        "Calls",
-        "Solutions",
-        "Products",
-        "Vendors",
-        "Price_Books",
-        "Quotes",
-        "Sales_Orders",
-        "Purchase_Orders",
-        "Invoices",
-        "Custom",
-        "Notes",
+      propDefinition: [
+        props.zoho_crm,
+        "module",
       ],
+      description: "The module related to the record you'd like to add tags on.",
     },
     recordId: {
-      type: "string",
-      label: "Record Id",
-      description:
-        "Unique identifiers of the module record you'd like to add tags on.",
+      propDefinition: [
+        props.zoho_crm,
+        "recordId",
+      ],
+      description: "Unique identifier of the module record you'd like to add tags on.",
     },
     tagNames: {
       type: "string[]",
@@ -55,10 +32,10 @@ module.exports = {
       description: "An string array of the names of the tags to be added.",
     },
     overWrite: {
-      type: "boolean",
-      label: "Overwrite?",
-      description: "Specifies if the existing tags are to be overwritten.",
-      default: false,
+      propDefinition: [
+        props.zoho_crm,
+        "overWrite",
+      ],
     },
   },
   methods: {
@@ -66,9 +43,6 @@ module.exports = {
   },
   async run() {
     const constraints = {
-      domain: {
-        presence: true,
-      },
       module: {
         presence: true,
       },
@@ -82,7 +56,6 @@ module.exports = {
     };
     const validationResult = validate(
       {
-        domain: this.domain,
         module: this.module,
         recordId: this.recordId,
         tagNames: this.tagNames,
@@ -91,7 +64,6 @@ module.exports = {
     );
     this.checkValidationResults(validationResult);
     return await this.zoho_crm.addTags(
-      this.domain,
       this.module,
       this.recordId,
       this.tagNames,

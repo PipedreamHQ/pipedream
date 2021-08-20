@@ -1,53 +1,29 @@
-const common = require("../common");
-const { zoho_crm } = common.props;
+const {
+  props,
+  methods,
+} = require("../common");
 const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-add-attachment",
   name: "Add Attachment",
   description: "Adds a file attachment to the given module record.",
-  version: "0.0.1",
+  version: "0.0.23",
   type: "action",
   props: {
-    zoho_crm,
-    domainLocation: {
-      propDefinition: [
-        zoho_crm,
-        "domainLocation",
-      ],
-    },
+    ...props,
     module: {
-      type: "string",
-      label: "Module",
-      description:
-        "The module related to the record you'd like to add the attachment.",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Cases",
-        "Events",
-        "Calls",
-        "Solutions",
-        "Products",
-        "Vendors",
-        "Price_Books",
-        "Quotes",
-        "Sales_Orders",
-        "Purchase_Orders",
-        "Invoices",
-        "Custom",
-        "Notes",
+      propDefinition: [
+        props.zoho_crm,
+        "module",
       ],
+      description: "The module related to the record you'd like to add the attachment.",
     },
     recordId: {
-      type: "string",
-      label: "Record Id",
-      description:
-        "Unique identifier of the record you'd like to add an attachment.",
+      propDefinition: [
+        props.zoho_crm,
+        "recordId",
+      ],
     },
     fileName: {
       type: "string",
@@ -57,7 +33,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {
@@ -73,19 +49,14 @@ module.exports = {
     };
     const validationResult = validate(
       {
-        domainLocation: this.domainLocation,
         recordId: this.recordId,
         module: this.module,
         fileName: this.fileName,
       },
       constraints,
     );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
+    this.checkValidationResults(validationResult);
     return await this.zoho_crm.addAttachment(
-      this.domainLocation,
       this.module,
       this.recordId,
       this.fileName,

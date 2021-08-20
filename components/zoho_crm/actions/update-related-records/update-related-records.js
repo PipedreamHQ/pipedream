@@ -1,25 +1,22 @@
-const common = require("../common");
-const { zoho_crm } = common.props;
+const {
+  props,
+  methods,
+} = require("../common");
 const validate = require("validate.js");
-
 module.exports = {
   key: "zoho_crm-update-related-records",
   name: "Update Related Records",
   description:
     "Updates the relation between records from different modules. The following relations are supported: Campaigns - to - Leads, Contacts, Products - to - Leads, Accounts, Contacts, Potentials, Price Books.",
-  version: "0.0.1",
+  version: "0.0.13",
   type: "action",
   props: {
-    zoho_crm,
-    domainLocation: {
-      propDefinition: [
-        zoho_crm,
-        "domainLocation",
-      ],
-    },
+    ...props,
     module: {
-      type: "string",
-      label: "Module",
+      propDefinition: [
+        props.zoho_crm,
+        "module",
+      ],
       description: "Module of the record to relate.",
       options: [
         "Leads",
@@ -30,8 +27,10 @@ module.exports = {
       ],
     },
     recordId: {
-      type: "string",
-      label: "Record Id",
+      propDefinition: [
+        props.zoho_crm,
+        "recordId",
+      ],
       description:
         "Unique identifier of the record you'd like to relate to another module.",
     },
@@ -45,20 +44,17 @@ module.exports = {
       ],
     },
     relatedData: {
-      type: "object",
+      type: "string",
       label: "Related Data",
       description:
-        "An array with the unique identifier of the record (`id`) in the related module, and its member estatus (`Member_Status`). Example: `[{id:\"3652397000000327001\",Member_Status:\"Active\"},{id:\"3652397000001854001\",Member_Status:\"Planning\"}]`",
+        "An array with the unique identifier of the record (`id`) in the related module, and its member estatus (`Member_Status`). Alternatively, provide a string that will `JSON.parse` to an array of objects with this structure. Example: `[{id:\"3652397000000327001\",Member_Status:\"Active\"},{id:\"3652397000001854001\",Member_Status:\"Planning\"}]`",
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {
-      domainLocation: {
-        presence: true,
-      },
       module: {
         presence: true,
       },
@@ -70,29 +66,28 @@ module.exports = {
       },
       relatedData: {
         presence: true,
-        type: "array",
+        arrayValidator: {
+          value: this.relatedData,
+          key: "related data",
+        },
       },
     };
+    validate.validators.arrayValidator = this.validateArray; //custom validator for object arrays
     const validationResult = validate(
       {
-        domainLocation: this.domainLocation,
         module: this.module,
         recordId: this.recordId,
         relatedModule: this.relatedModule,
-        relatedData: this.relatedData,
+        relatedData: this.convertEmptyStringToUndefined(this.relatedData),
       },
       constraints,
     );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
+    this.checkValidationResults(validationResult);
     return await this.zoho_crm.updateRelatedRecords(
-      this.domainLocation,
       this.module,
       this.recordId,
       this.relatedModule,
-      this.relatedData,
+      this.getArrayObject(this.relatedData),
     );
   },
 };

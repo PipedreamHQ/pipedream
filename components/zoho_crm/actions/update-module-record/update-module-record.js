@@ -1,75 +1,52 @@
-const common = require("../common");
-const { zoho_crm: zohoCrm } = common.props;
+const {
+  props,
+  methods,
+} = require("../common");
 const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-update-module-record",
   name: "Update Module Record",
   description: "Updates an existing record in the specified module.",
-  version: "0.0.1",
+  version: "0.0.19",
   type: "action",
   props: {
-    zoho_crm: zohoCrm,
-    domainLocation: {
-      propDefinition: [
-        zohoCrm,
-        "domainLocation",
-      ],
-    },
+    ...props,
     module: {
-      type: "string",
-      label: "Module",
-      description: "Module where the record will be created.",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Cases",
-        "Events",
-        "Calls",
-        "Solutions",
-        "Products",
-        "Vendors",
-        "Price_Books",
-        "Quotes",
-        "Sales_Orders",
-        "Purchase_Orders",
-        "Invoices",
-        "Custom",
-        "Notes",
+      propDefinition: [
+        props.zoho_crm,
+        "module",
       ],
-      default: "Leads",
+      description: "Module where the record will be updated.",
     },
     recordId: {
-      type: "string",
-      label: "Record Id",
+      propDefinition: [
+        props.zoho_crm,
+        "recordId",
+      ],
       description:
-        "Unique identifier of the record you'd like to add an attachment.",
+        "The unique identifier of the record you'd like to update.",
     },
     record: {
-      type: "object",
-      label: "Record",
+      propDefinition: [
+        props.zoho_crm,
+        "record",
+      ],
       description:
-        "The new record data. Depending on the selected module, certain fields must be presented in the record being inserted. I.e. for Leads `Last_Name` is required, see more at Zoho CRM [Insert Records](https://www.zoho.com/crm/developer/docs/api/v2.1/insert-records.html) API docs.",
+        "The new record data. Depending on the selected module, certain fields must be presented in the record being updated. I.e. for Leads `Last_Name` is required, see more at Zoho CRM [Update Records](https://www.zoho.com/crm/developer/docs/api/v2/update-records.html) API docs.",
     },
     trigger: {
-      type: "object",
-      label: "Trigger",
-      description: "An array with the triggers, workflow actions, related to this entry you'd like to be executed. Use an empty array `[]` to not execute any of the workflows.",
-      optional: true,
+      propDefinition: [
+        props.zoho_crm,
+        "trigger",
+      ],
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {
-      domainLocation: {
-        presence: true,
-      },
       module: {
         presence: true,
       },
@@ -80,26 +57,26 @@ module.exports = {
         presence: true,
       },
     };
+    if (this.trigger) {
+      constraints.trigger = {
+        type: "array",
+      };
+    }
     const validationResult = validate(
       {
-        domainLocation: this.domainLocation,
         module: this.module,
         recordId: this.recordId,
         record: this.record,
+        trigger: this.trigger,
       },
       constraints,
     );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
+    this.checkValidationResults(validationResult);
     return await this.zoho_crm.updateModuleRecord(
-      this.domainLocation,
       this.module,
       this.recordId,
       this.record,
       this.trigger,
-
     );
   },
 };
