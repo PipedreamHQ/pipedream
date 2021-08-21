@@ -44,7 +44,7 @@ module.exports = {
       source_context: this.sourceContext,
       reason: this.reason,
     };
-    const { status } = await this.twitch.blockUser(params);
+    const { status, statusText } = await this.twitch.blockUser(params);
     return status == 204
       ? "User Blocked Successfully"
       : `${status} ${statusText}`;

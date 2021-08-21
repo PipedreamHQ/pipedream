@@ -28,7 +28,7 @@ module.exports = {
       label: "Stream Language",
       description:
         `A language value must be either the ISO 639-1 two-letter code for a supported stream
-        language or \"other\".`,
+        language or "other".`,
       optional: true,
     },
     delay: {
