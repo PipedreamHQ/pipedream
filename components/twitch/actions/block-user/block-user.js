@@ -44,7 +44,7 @@ module.exports = {
       source_context: this.sourceContext,
       reason: this.reason,
     };
-    const { 
+    const {
       status,
       statusText,
     } = await this.twitch.blockUser(params);
