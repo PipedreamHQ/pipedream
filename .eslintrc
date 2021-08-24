@@ -32,10 +32,13 @@
   },
   "plugins": [
     "jsonc",
-    "putout"
+    "putout",
+    "pipedream"
   ],
   "root": true,
   "rules": {
+    "pipedream/async-func-name": "warn",
+    "pipedream/required-properties-key": "warn",
     "arrow-parens": "error",
     "arrow-spacing": "error",
     "array-bracket-newline": [
