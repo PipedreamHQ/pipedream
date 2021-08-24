@@ -9,7 +9,7 @@ module.exports = {
   name: "Create or Update Record",
   description:
     "Creates or update a record. The fields' values specified in prop `duplicateCheckFields` are used to check for duplicate records.",
-  version: "0.0.25",
+  version: "0.0.1",
   type: "action",
   props: {
     ...props,

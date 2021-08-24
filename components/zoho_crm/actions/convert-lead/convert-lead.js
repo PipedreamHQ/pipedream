@@ -2,21 +2,18 @@ const {
   props,
   methods,
 } = require("../common");
-const validate = require("validate.js");
 
 module.exports = {
   key: "zoho_crm-convert-lead",
   name: "Convert Lead",
-  description: "Converts a lead into a contact or an account.",
-  version: "0.0.52",
+  description: "Converts a Lead into a Contact or an Account.",
+  version: "0.0.1",
   type: "action",
   props: {
     ...props,
-    recordId: {
-      propDefinition: [
-        props.zoho_crm,
-        "recordId",
-      ],
+    leadId: {
+      type: "string",
+      label: "Lead Id",
       description:
       "Unique identifier of the record associated to the Lead you'd like to convert.",
     },
@@ -42,30 +39,30 @@ module.exports = {
       description:
         "Specifies whether the user to whom the contact/account is assigned to must get notified about the lead conversion via email.",
     },
-    accounts: {
+    account: {
       type: "string",
-      label: "Accounts",
+      label: "Account",
       description:
         "Use this key to associate an account with the lead being converted. Pass the unique and valid account ID.",
       optional: true,
     },
-    contacts: {
+    contact: {
       type: "string",
-      label: "Contacts",
+      label: "Contact",
       description:
         "Use this key to associate a contact with the lead being converted. Pass the unique and valid contact ID.",
       optional: true,
     },
-    users: {
+    user: {
       type: "string",
-      label: "Users",
+      label: "User",
       description:
         "Use this key to assign a record owner for the new contact and account. Pass the unique and valid user ID.",
       optional: true,
     },
-    deals: {
+    deal: {
       type: "object",
-      label: "Deals",
+      label: "Deal",
       description:
         "Use this key to create a deal for the newly created Account. The \"Deal_Name\", \"Closing_Date\", and \"Stage\" are default mandatory keys to be passed as part of the recordId  object structure.",
       optional: true,
@@ -82,27 +79,18 @@ module.exports = {
     ...methods,
   },
   async run() {
-    const constraints = {
-      recordId: {
-        presence: true,
-      },
-    };
-    const validationResult = validate({
-      recordId: this.recordId,
-    }, constraints);
-    this.checkValidationResults(validationResult);
     const opts = [
       {
-        overwrite: this.overwrite,
-        notify_lead_owner: this.notifyLeadOwner,
-        notify_new_entity_owner: this.notifyNewEntityOwner,
-        Accounts: this.accounts,
-        Contacts: this.contacts,
-        assign_to: this.users,
-        Deals: this.deals,
-        carry_over_tags: this.carryOverTags,
+        overwrite: Boolean(this.overwrite),
+        notify_lead_owner: this.convertEmptyStringToUndefined(this.notifyLeadOwner),
+        notify_new_entity_owner: this.convertEmptyStringToUndefined(this.notifyNewEntityOwner),
+        Accounts: this.convertEmptyStringToUndefined(this.account),
+        Contacts: this.convertEmptyStringToUndefined(this.contact),
+        assign_to: this.convertEmptyStringToUndefined(this.user),
+        Deals: this.convertEmptyStringToUndefined(this.deals),
+        carry_over_tags: this.convertEmptyStringToUndefined(this.carryOverTags),
       },
     ];
-    return await this.zoho_crm.convertLead(this.domain, this.recordId, opts);
+    return await this.zoho_crm.convertLead(this.leadId, opts);
   },
 };

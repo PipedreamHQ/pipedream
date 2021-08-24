@@ -38,12 +38,6 @@ module.exports = {
         "The record you'd like to find. If not found, a new record optionally could be created with the data provided. Depending on the selected module, certain fields must be presented in the record being created. I.e. for Leads `Last_Name` is required, see more at Zoho CRM [Insert Records](https://www.zoho.com/crm/developer/docs/api/v2.1/insert-records.html) API docs.",
       optional: true,
     },
-    fields: {
-      propDefinition: [
-        props.zoho_crm,
-        "fields",
-      ],
-    },
     createRecord: {
       type: "boolean",
       label: "Create New Record?",
@@ -75,9 +69,6 @@ module.exports = {
   */
   async run() {
     const constraints = {
-      domainLocation: {
-        presence: true,
-      },
       module: {
         presence: true,
       },
@@ -85,17 +76,10 @@ module.exports = {
         presence: this.createRecord,
       },
     };
-    if (this.fields) {
-      constraints.fields = {
-        type: "array",
-      };
-    }
     let validationResult = validate(
       {
-        domainLocation: this.domainLocation,
         module: this.module,
         record: this.record,
-        fields: this.fields,
       },
       constraints,
     );
@@ -106,7 +90,6 @@ module.exports = {
       null,
       null,
       null,
-      this.fields,
     );
     const searchResults = await this.getGeneratorResults(
       searchResultsGenerator,
@@ -381,11 +364,7 @@ module.exports = {
       this.checkValidationResults(validationResult);
       const createRecordResult = await this.zoho_crm.createModuleRecord(
         this.module,
-        {
-          data: [
-            this.record,
-          ],
-        },
+        this.record,
       );
       const createRecordResultData = get(createRecordResult, [
         "data",
@@ -400,7 +379,6 @@ module.exports = {
             null,
             null,
             null,
-            this.fields,
           );
           const createdRecord = await createdRecordGenerator.next();
           return {
@@ -408,6 +386,13 @@ module.exports = {
             hasNewRecord: true,
             searchResults: null,
             newRecord: createdRecord.value,
+          };
+        } else {
+          return {
+            searchSuccess: false,
+            hasNewRecord: false,
+            searchResults: null,
+            newRecord: createRecordResultData,
           };
         }
       } else {

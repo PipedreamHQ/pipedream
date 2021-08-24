@@ -12,13 +12,6 @@ module.exports = {
       description:
         "Your search will be performed using the criteria enter here. It must match the following pattern: `(({api_name}:{starts_with|equals}:{value})and/or({api_name}:{starts_with|equals}:{value}))`. Example: `((Last_Name:equals:Burns%5C%2CB)and(First_Name:starts_with:M))`",
     },
-    fields: {
-      type: "string[]",
-      label: "Fields",
-      description:
-        "An string srray of the fields you'd like to retrieve in the records matching your search, or from the newly created record, if no records are found and `createRecord` prop is set to `true`.",
-      optional: true,
-    },
     module: {
       type: "string",
       label: "Module",
@@ -34,7 +27,7 @@ module.exports = {
     overWrite: {
       type: "boolean",
       label: "Overwrite?",
-      description: "Specifies if the existing tags are to be overwritten.",
+      description: "Sspecifies if the existing tags are to be overwritten.",
       default: false,
     },
     record: {
@@ -71,8 +64,8 @@ module.exports = {
         500,
       ].includes(statusCode);
     },
-    _leadsUrl(domain) {
-      const baseUrl = this._apiUrl(domain);
+    _leadsUrl() {
+      const baseUrl = this._apiUrl();
       return `${baseUrl}/Leads`;
     },
     _metadataUrl() {
@@ -124,10 +117,13 @@ module.exports = {
         }
       }, retryOpts);
     },
-    //
     /**
      * Adds a file attachment to the given module record.
-     * TODO: DOCUMENT THIS METHOD, UPDATE COMMON VARIABLES
+     * @param {string} module the Zoho CRM module where the record to add tags on is located..
+     * @param {object} recordId unique identifier of the record to add tags on.
+     * @param {array} fileName file name of the file to attach. the file must exists under the
+     * Pipedream workflow's execution environment '/tmp' folder.
+     * @returns {data: array} a one element array with the results of the add attachment operation.
      */
     async addAttachment(module, recordId, fileName) {
       const baseUrl = this._apiUrl();
@@ -145,7 +141,14 @@ module.exports = {
     },
     /**
      * Add new tags to an existing module record.
-     * TODO: DOCUMENT THIS METHOD, UPDATE COMMON VARIABLES
+     * @param {string} module the Zoho CRM module where the record to add tags on is located..
+     * @param {object} recordId unique identifier of the record to add tags on.
+     * @param {array} tagNames the tags to add to the record.
+     * @param {boolean} overWrite flag that specifies if the existing tags are to be overwritten.
+     * @returns {data: array, wf_scheduler: boolean, success_count: integer} an array with the
+     * result of the add operation for each tag, `wf_scheduler` a flag that indicates in there was a
+     * workflow scheduler triggered by the add tag operation, and the count `success_count` of
+     * succesfully added tags.
      */
     async addTags(module, recordId, tagNames, overWrite) {
       const baseUrl = this._apiUrl();
@@ -163,14 +166,11 @@ module.exports = {
     /**
      * Creates a new record in the specified module.
      *
-     * @param {string} domain the domain location of the connected Zoho CRM
-     * account. The Zoho API domain URL depends on the location of Zoho CRM data
-     * center associated to the connected account.
      * @param {string} module the Zoho CRM module where the record will be created.
      * @param {object} record the record data. this object's structure must match the structure for
      *  the records in the specified module
      * @param {array} trigger the triggers, workflow actions, related to this record to be
-     * executated when the record is created. Use an empty array `[]` to not execute any of the
+     * executed when the record is created. Use an empty array `[]` to not execute any of the
      * workflows.
      * @returns {data: array} a one element array with the results of the create record operation.
      * Exact structure depends on the module being returned.
@@ -191,16 +191,13 @@ module.exports = {
     /**
      * Converts a lead into a contact or an account.
      *
-     * @param {string} domain the domain location of the connected Zoho CRM
-     * account. The Zoho API domain URL depends on the location of Zoho CRM data
-     * center associated to the connected account.
-     * @param {string} recordId unique identifier of the record associated to the Lead to convert.
+     * @param {string} leadId unique identifier of the Lead to convert.
      * @param {object} opts optional parameters for this function
-     * @param {boolean} opts.overwrite specifies if the lead details must be overwritten in
+     * @param {boolean} opts.overwrite sspecifies if the lead details must be overwritten in
      * the Contact/Account/Deal based on lead conversion mapping configuration.
-     * @param {boolean} opts.notify_lead_owner specifies whether the lead owner must get
+     * @param {boolean} opts.notify_lead_owner sspecifies whether the lead owner must get
      *  notified about the lead conversion via email.
-     * @param {boolean} opts.notify_new_entity_owner specifies whether the user to whom
+     * @param {boolean} opts.notify_new_entity_owner sspecifies whether the user to whom
      * the contact/account is assigned to must get notified about the lead conversion via
      * email.
      * @param {string} opts.Accounts unique identifier of an account to associate with the lead
@@ -214,13 +211,15 @@ module.exports = {
      * @param {object} opts.carry_over_tags carries over tags of the lead to contact, account, and
      * deal. For exact structure check the Sample input in the API docs:
      * https://www.zoho.com/crm/developer/docs/api/v2/convert-lead.html
-     * @returns The users API page number where new records would be contained
+     * @returns {data: array} a one element array with the associated `Contacts`, `Deals`,
+     * `Accounts` resulted in the conversion.
      */
-    async convertLead(domain, recordId, opts) {
-      const url = `${this._leadsUrl(domain)}/${recordId}/actions/convert`;
+    async convertLead(leadId, opts) {
+      const url = `${this._leadsUrl()}/${leadId}/actions/convert`;
       const requestConfig = this._makeRequestConfig();
-      const requestData = {};
-      requestData.data = opts;
+      const requestData = {
+        data: opts,
+      };
       const { data } = await this._withRetries(() =>
         axios.post(url, requestData, requestConfig));
       return data;
@@ -400,49 +399,66 @@ module.exports = {
       return data;
     },
     /**
-     * TODO: COMPLETE DOCUMENTATION
      * Searches for records in a module based on the provided criteria.
      *
-     * @param {string} domain the domain location of the connected Zoho CRM
-     * account. The Zoho API domain URL depends on the location of Zoho CRM data
-     * center associated to the connected account.
-     * @param {string} module the Zoho CRM module where the record will be created.
-     * @param {object} record the record data. this object's structure must match the structure for
-     *  the records in the specified module
-     * @param {array} trigger the triggers, workflow actions, related to this record to be
-     * executated when the record is created. Use an empty array `[]` to not execute any of the
-     * workflows.
-     * @returns {data: array} a one element array with the results of the create record operation.
+     * @param {string} module the Zoho CRM module where the search for records will be performed.
+     * @param {string} criteria the search will be performed using this `criteria`, it must match
+     * the following pattern: `(({api_name}:{starts_with|equals}:{value})and/or({api_name}
+     * :{starts_with|equals}:{value}))`. Example: `((Last_Name:equals:Burns%5C%2CB)and(First_Name:
+     * starts_with:M))`
+     * @param {integer} maxItems The max number of module records to return.
+     * @param {boolean} converted flag that determines whether converted records should be
+     * retrieved.
+     * `true` - get only converted records. `false` - get only non-converted records.
+     * `both` -  get all records.
+     * @param {boolean} approved flag that determines whether approved records should be retrieved.
+     * `true` - get only approved records. `false` - get only non-approved records.
+     * `both` - get all records.
+     * @returns {array} an array with the results of the records found.
      * Exact structure depends on the module being returned.
      */
-    async *searchRecords(module, criteria, numberOfRecords, converted, approved, fields) {
+    async *searchRecords(module, criteria, maxItems, converted, approved) {
       const url = `${this._apiUrl()}/${module}/search`;
-      const requestConfig = this._makeRequestConfig();
-      const requestData = {
-        data: [
-          record,
-        ],
-        trigger,
-        duplicate_check_fields: duplicateCheckFields,
-      };
-      const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig));
-      return data;
+      let currentPage = 1;
+      do {
+        const params = {
+          criteria,
+          converted,
+          approved,
+          per_page: Math.min(maxItems, 200),
+          page: currentPage,
+        };
+        const requestConfig = {
+          ...this._makeRequestConfig(),
+          params,
+        };
+        const { data: searchResult }  = await this._withRetries(() =>
+          axios.get(url, requestConfig));
+        const hasResults = get(searchResult, [
+          "data",
+          "length",
+        ]);
+        if (!hasResults) {
+          return;
+        }
+        for (const result of searchResult.data) {
+          yield result;
+        }
+        maxItems -= searchResult.data.length;
+        currentPage += 1;
+      } while (maxItems > 0);
     },
     /**
-     * TODO: COMPLETE DOCUMENTATION
      * Updates an existing record in the specified module.
      *
-     * @param {string} domain the domain location of the connected Zoho CRM
-     * account. The Zoho API domain URL depends on the location of Zoho CRM data
-     * center associated to the connected account.
-     * @param {string} module the Zoho CRM module where the record will be created.
+     * @param {string} module the Zoho CRM module where the record will be updated.
+     * @param {object} recordId unique identifier of the record to update.
      * @param {object} record the record data. this object's structure must match the structure for
-     *  the records in the specified module
+     * records in the specified module.
      * @param {array} trigger the triggers, workflow actions, related to this record to be
-     * executated when the record is created. Use an empty array `[]` to not execute any of the
+     * executed when the record is updated. Use an empty array `[]` to not execute any of the
      * workflows.
-     * @returns {data: array} a one element array with the results of the create record operation.
+     * @returns {data: array} a one element array with the results of the update record operation.
      * Exact structure depends on the module being returned.
      */
     async updateModuleRecord(module, recordId, record, trigger) {
@@ -459,20 +475,17 @@ module.exports = {
       return data;
     },
     /**
-     * TODO: COMPLETE DOCUMENTATION
      * Updates the relation between records from different modules.
      *
-     * @param {string} domain the domain location of the connected Zoho CRM
-     * account. The Zoho API domain URL depends on the location of Zoho CRM data
-     * center associated to the connected account.
      * @param {string} module the Zoho CRM module where the record will be created.
-     * @param {object} record the record data. this object's structure must match the structure for
-     *  the records in the specified module
-     * @param {array} trigger the triggers, workflow actions, related to this record to be
-     * executated when the record is created. Use an empty array `[]` to not execute any of the
-     * workflows.
-     * @returns {data: array} a one element array with the results of the create record operation.
-     * Exact structure depends on the module being returned.
+     * @param {object} recordId unique identifier of the record to relate.
+     * @param {string} relatedModule the Zoho CRM module where the records related to the
+     * specified `recordId` are located.
+     * @param {array} relatedData an array with the unique identifier of the record (`id` in the
+     *  related module, and its member estatus (`Member_Status`).
+     * @returns {data: array} an array with the results of the `update related records` operation.
+     * See the API docs for a sample response:
+     * https://www.zoho.com/crm/developer/docs/api/v2/update-related-records.html
      */
     async updateRelatedRecords(module, recordId, relatedModule, relatedData) {
       const url = `${this._apiUrl()}/${module}/${recordId}/${relatedModule}`;
@@ -485,20 +498,17 @@ module.exports = {
       return data;
     },
     /**
-     * TODO: COMPLETE DOCUMENTATION
      * Creates or update a record. The fields' values specified in param
      * `duplicateCheckFields` are used to check for duplicate records.
      *
-     * @param {string} domain the domain location of the connected Zoho CRM
-     * account. The Zoho API domain URL depends on the location of Zoho CRM data
-     * center associated to the connected account.
-     * @param {string} module the Zoho CRM module where the record will be created.
+     * @param {string} module the Zoho CRM module where the record will be created or updated.
      * @param {object} record the record data. this object's structure must match the structure for
      *  the records in the specified module
      * @param {array} trigger the triggers, workflow actions, related to this record to be
-     * executated when the record is created. Use an empty array `[]` to not execute any of the
+     * executed when the record is created. Use an empty array `[]` to not execute any of the
      * workflows.
-     * @returns {data: array} a one element array with the results of the create record operation.
+     * @returns {data: array} a one element array with the results of the create or
+     * update record operation.
      * Exact structure depends on the module being returned.
      */
     async upsertRecord(module, record, trigger, duplicateCheckFields) {

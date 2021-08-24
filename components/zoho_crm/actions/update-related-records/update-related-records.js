@@ -8,7 +8,7 @@ module.exports = {
   name: "Update Related Records",
   description:
     "Updates the relation between records from different modules. The following relations are supported: Campaigns - to - Leads, Contacts, Products - to - Leads, Accounts, Contacts, Potentials, Price Books.",
-  version: "0.0.13",
+  version: "0.0.1",
   type: "action",
   props: {
     ...props,

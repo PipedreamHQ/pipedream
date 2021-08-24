@@ -8,7 +8,7 @@ module.exports = {
   key: "zoho_crm-add-tags",
   name: "Add Tags",
   description: "Add new tags to an existing module record.",
-  version: "0.0.28",
+  version: "0.0.1",
   type: "action",
   props: {
     ...props,
@@ -63,11 +63,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.zoho_crm.addTags(
-      this.module,
-      this.recordId,
-      this.tagNames,
-      this.overWrite,
-    );
+    return await this.zoho_crm.addTags(this.module, this.recordId, this.tagNames, this.overWrite);
   },
 };

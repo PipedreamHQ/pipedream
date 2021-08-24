@@ -8,7 +8,7 @@ module.exports = {
   key: "zoho_crm-add-attachment",
   name: "Add Attachment",
   description: "Adds a file attachment to the given module record.",
-  version: "0.0.23",
+  version: "0.0.1",
   type: "action",
   props: {
     ...props,
@@ -56,10 +56,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.zoho_crm.addAttachment(
-      this.module,
-      this.recordId,
-      this.fileName,
-    );
+    return await this.zoho_crm.addAttachment(this.module, this.recordId, this.fileName);
   },
 };

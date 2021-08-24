@@ -29,54 +29,30 @@ module.exports = {
       type: "string",
       label: "Converted",
       description:
-        "Determines whether converted records should be retrieved. `Yes` - get only converted records. `No` - get only non-converted records. `Both` -  get all records ",
+        "Determines whether converted records should be retrieved. `true` - get only converted records. `false` - get only non-converted records. `both` -  get all records.",
       options: [
-        {
-          label: "Yes",
-          value: "true",
-        },
-        {
-          label: "No",
-          value: "false",
-        },
-        {
-          label: "Both",
-          value: "both",
-        },
+        "true",
+        "false",
+        "both",
       ],
-      default: "No",
+      default: "false",
     },
     approved: {
       type: "string",
       label: "Approved",
       description:
-        "Determines whether approved records should be retrieved. `Yes` - get only approved records. `No` - get only non-approved records. `Both` -  get all records ",
+        "Determines whether approved records should be retrieved. `true` - get only approved records. `false` - get only non-approved records. `both` -  get all records.",
       options: [
-        {
-          label: "Yes",
-          value: "true",
-        },
-        {
-          label: "No",
-          value: "false",
-        },
-        {
-          label: "Both",
-          value: "both",
-        },
+        "true",
+        "false",
+        "both",
       ],
-      default: "Yes",
+      default: "false",
     },
     numberOfRecords: {
       type: "integer",
       label: "Number of Records",
       description: "The number of module records to return.",
-    },
-    fields: {
-      propDefinition: [
-        props.zoho_crm,
-        "fields",
-      ],
     },
   },
   methods: {
@@ -105,9 +81,8 @@ module.exports = {
       this.numberOfRecords,
       this.converted,
       this.approved,
-      this.fields,
     );
     const searchResults = await this.getGeneratorResults(searchResultsGenerator);
-    return searchResults.slice(0, this.numberOfRecords);
+    return searchResults;
   },
 };

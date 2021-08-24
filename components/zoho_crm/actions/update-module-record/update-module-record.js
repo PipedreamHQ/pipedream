@@ -8,7 +8,7 @@ module.exports = {
   key: "zoho_crm-update-module-record",
   name: "Update Module Record",
   description: "Updates an existing record in the specified module.",
-  version: "0.0.19",
+  version: "0.0.1",
   type: "action",
   props: {
     ...props,
