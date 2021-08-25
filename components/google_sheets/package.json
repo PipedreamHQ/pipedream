@@ -19,7 +19,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "devDependencies": {
-        "eslint-plugin-pipedream": "0.0.2"
-    }
+    "devDependencies": {}
 }
