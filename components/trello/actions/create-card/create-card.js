@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-create-card",
   name: "Create Card",
   description: "Creates a new card.",
-  version: "0.0.16",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -146,7 +146,7 @@ module.exports = {
           "top",
           "bottom",
         ];
-        validate.validators.posStringValiadator = function (
+        validate.validators.posStringValidator = function (
           posString,
           options,
         ) {
@@ -155,7 +155,7 @@ module.exports = {
             posValidationMesssage;
         };
         constraints.pos = {
-          posStringValiadator: options,
+          posStringValidator: options,
         };
       }
     }

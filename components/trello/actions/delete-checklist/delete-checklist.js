@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-delete-checklist",
   name: "Delete Checklist",
   description: "Deletes the specified checklist.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

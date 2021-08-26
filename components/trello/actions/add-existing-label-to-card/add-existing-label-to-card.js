@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-add-existing-label-to-card",
   name: "Add Existing Label to Card",
   description: "Adds an existing label to the specified card.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

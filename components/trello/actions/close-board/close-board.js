@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-close-board",
   name: "Close Board",
   description: "Closes a board.",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

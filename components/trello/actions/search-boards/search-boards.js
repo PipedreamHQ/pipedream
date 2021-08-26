@@ -8,7 +8,7 @@ module.exports = {
   key: "trello-search-boards",
   name: "Search Boards",
   description: "Searches for boards matching the specified query.",
-  version: "0.0.13",
+  version: "0.0.1",
   type: "action",
   props: {
     ...props,

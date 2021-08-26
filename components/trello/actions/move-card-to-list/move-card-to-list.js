@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-move-card-to-list",
   name: "Move Card to List",
   description: "Moves a card to the specified board/list pair.",
-  version: "0.0.10",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

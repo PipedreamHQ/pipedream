@@ -8,7 +8,7 @@ module.exports = {
   key: "trello-find-a-list",
   name: "Find a List",
   description: "Finds a list on a specific board by name.",
-  version: "0.0.15",
+  version: "0.0.1",
   type: "action",
   props: {
     ...props,
@@ -72,19 +72,19 @@ module.exports = {
     };
     const self = this;
     const filterOptsValidationMesssage = "must be one of `all`, `closed`, `none`, or `open`";
-    validate.validators.posStringValiadator = function (option) {
+    validate.validators.filterOptsValidator = function (option) {
       return self.trello.getFilterOptions().includes(option) ?
         null :
         filterOptsValidationMesssage;
     };
     if (this.cardFilter) {
       constraints.cardFilter = {
-        posStringValiadator: this.cardFilter,
+        filterOptsValidator: this.cardFilter,
       };
     }
     if (this.listFilter) {
       constraints.listFilter = {
-        posStringValiadator: this.listFilter,
+        filterOptsValidator: this.listFilter,
       };
     }
     const validationResult = validate({

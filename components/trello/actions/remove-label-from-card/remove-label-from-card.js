@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-add-remove-label-from-card",
   name: "Remove a Label from a Card",
   description: "Removes an existing label from the specified card.",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

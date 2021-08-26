@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-archive-card",
   name: "Archive Card",
   description: "Archives a card.",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-create-comment-on-card",
   name: "Create Comment on Card",
   description: "Creates a new comment on a card.",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

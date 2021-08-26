@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-get-a-card",
   name: "Get a Card",
   description: "Gets a card by its ID.",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

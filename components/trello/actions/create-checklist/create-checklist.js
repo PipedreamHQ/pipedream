@@ -6,7 +6,7 @@ module.exports = {
   key: "trello-create-checklist",
   name: "Create Checklist",
   description: "Creates a checklist on the specified card.",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -75,7 +75,7 @@ module.exports = {
           "top",
           "bottom",
         ];
-        validate.validators.posStringValiadator = function (
+        validate.validators.posStringValidator = function (
           posString,
           options,
         ) {
@@ -84,7 +84,7 @@ module.exports = {
             posValidationMesssage;
         };
         constraints.pos = {
-          posStringValiadator: options,
+          posStringValidator: options,
         };
       }
     }

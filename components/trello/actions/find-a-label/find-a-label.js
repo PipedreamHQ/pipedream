@@ -8,7 +8,7 @@ module.exports = {
   key: "trello-find-a-label",
   name: "Find a label",
   description: "Finds a label on a specific board by name.",
-  version: "0.0.17",
+  version: "0.0.1",
   type: "action",
   props: {
     ...props,
