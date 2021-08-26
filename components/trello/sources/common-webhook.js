@@ -2,11 +2,6 @@ const common = require("./common.js");
 
 module.exports = {
   ...common,
-  key: "trello-sources-common-webhook-file",
-  name: "Sources Common Webhook File",
-  description: "Common file with methods and props for Trello webhook based sources.",
-  version: "0.0.1",
-  type: "source",
   props: {
     ...common.props,
     http: "$.interface.http",

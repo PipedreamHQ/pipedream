@@ -1,11 +1,6 @@
 const trello = require("../trello.app");
 
 module.exports = {
-  key: "trello-actions-common-file",
-  name: "Actions Common File",
-  description: "Common file with methods and props for Trello actions.",
-  version: "0.0.1",
-  type: "action",
   props: {
     trello,
   },
