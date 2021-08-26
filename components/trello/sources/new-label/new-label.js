@@ -1,4 +1,4 @@
-const common = require("../board-based.js");
+const common = require("../common-board-based.js");
 const get = require("lodash/get");
 
 module.exports = {
