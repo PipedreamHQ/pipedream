@@ -54,6 +54,7 @@ module.exports = {
     lists: {
       type: "string[]",
       label: "Lists",
+      description: "Lists to watch for events.",
       optional: true,
       async options(opts) {
         const lists = await this.getLists(opts.board);
