@@ -26,6 +26,7 @@ module.exports = {
     sheetID: {
       type: "string",
       label: "Spreadsheet",
+      description: "The Google spreadsheet",
       options({
         prevContext,
         driveId,
