@@ -5,7 +5,8 @@ module.exports = {
   key: "trello-card-due-date-reminder",
   name: "Card Due Date Reminder",
   description: "Emits an event at a specified time before a card is due.",
-  version: "0.0.3",
+  version: "0.0.4",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,

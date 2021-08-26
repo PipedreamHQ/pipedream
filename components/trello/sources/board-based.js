@@ -3,6 +3,10 @@ const base = require("./common-webhook.js");
 module.exports = {
   ...base,
   props: {
+    key: "trello-sources-board-based-file",
+    name: "Sources Board Based File",
+    description: "Common file with methods and props for Trello board based sources.",
+    type: "source",
     ...base.props,
     board: {
       propDefinition: [
