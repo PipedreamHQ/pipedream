@@ -2,7 +2,6 @@ const googleSheets = require("../../google_sheets.app");
 
 module.exports = {
   key: "google_sheets-add-single-row",
-  name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
   version: "0.0.31",
   type: "action",
