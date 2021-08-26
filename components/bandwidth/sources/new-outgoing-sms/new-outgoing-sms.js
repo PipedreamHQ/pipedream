@@ -1,14 +1,15 @@
-const bandwidth = require("../../bandwidth.app");
+const bandwidth = require('../../bandwidth.app');
 
 module.exports = {
-  name: "New Outgoing SMS",
-  description: "Emits an event each time an outbound message status event is received at the source url",
-  key: "bandwidth-new-ourgoing-sms",
-  version: "1.1.0",
+  name: 'New Outgoing SMS',
+  description:
+    'Emits an event each time an outbound message status event is received at the source url',
+  key: 'bandwidth-new-ourgoing-sms',
+  version: '1.1.1',
   props: {
     bandwidth,
     http: {
-      type: "$.interface.http",
+      type: '$.interface.http',
       customResponse: true,
     },
   },
@@ -19,7 +20,7 @@ module.exports = {
       status: 204,
     });
 
-    if (messageBody.message.direction == "out") {
+    if (messageBody.message.direction == 'out') {
       this.$emit(messageBody, {
         summary: messageBody.type,
         id: messageBody.message.id,

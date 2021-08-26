@@ -24,7 +24,35 @@
       "parserOptions": {
         "ecmaVersion": 10
       }
-    }
+    },
+    {
+      "files": [
+        "**/actions/**/*.js",
+        "**/sources/**/*.js"
+      ],
+      "rules": {
+        "pipedream/required-properties-key": "error",
+        "pipedream/required-properties-name": "error",
+        "pipedream/required-properties-version": "error",
+        "pipedream/required-properties-description": "error",
+        "pipedream/required-properties-type": "error",
+        "pipedream/props-label": "error",
+        "pipedream/props-description": "error",
+        "pipedream/default-value-required-for-optional-props": "warn",
+        "pipedream/source-name": "warn",
+        "pipedream/source-description": "warn"
+      }
+    },
+    {
+      "files": [
+        "**/*.app.js"
+      ],
+      "rules": {
+        "pipedream/props-label": "error",
+        "pipedream/props-description": "error",
+        "pipedream/default-value-required-for-optional-props": "warn"
+      }
+    },
   ],
   "parserOptions": {
     "ecmaVersion": 12,
@@ -32,7 +60,8 @@
   },
   "plugins": [
     "jsonc",
-    "putout"
+    "putout",
+    "pipedream"
   ],
   "root": true,
   "rules": {
