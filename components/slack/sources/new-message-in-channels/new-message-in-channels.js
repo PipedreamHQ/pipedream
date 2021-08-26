@@ -17,12 +17,12 @@ module.exports = {
         let {
           types,
           cursor,
-          userNames
+          userNames,
         } = prevContext;
         if (types == null) {
           const scopes = await this.slack.scopes();
           types = [
-            "public_channel"
+            "public_channel",
           ];
           if (scopes.includes("groups:read")) {
             types.push("private_channel");
@@ -45,24 +45,28 @@ module.exports = {
             if (c.is_im) {
               return {
                 label: `Direct messaging with: @${userNames[c.user]}`,
-                value: c.id
+                value: c.id,
               };
             } else if (c.is_mpim) {
               return {
                 label: c.purpose.value,
-                value: c.id
+                value: c.id,
               };
             } else {
               return {
-                label: `${c.is_private ? "Private" : "Public"} channel: ${c.name}`,
-                value: c.id
+                label: `${c.is_private ?
+                  "Private" :
+                  "Public"
+                } channel: ${c.name}`,
+                value: c.id,
               };
             }
           }),
           context: {
             types,
             cursor: resp.cursor,
-            userNames },
+            userNames
+          },
         };
       },
     },
@@ -100,7 +104,7 @@ module.exports = {
       if (!record || time - record.ts > timeoutMs) {
         record = {
           ts: time,
-          val: await refreshVal()
+          val: await refreshVal(),
         };
         this.nameCache.set(key, record);
       }
@@ -109,7 +113,7 @@ module.exports = {
     async getBotName(id) {
       return this.maybeCached(`bots:${id}`, async () => {
         const info = await this.slack.sdk().bots.info({
-          bot: id
+          bot: id,
         });
         if (!info.ok) throw new Error(info.error);
         return info.bot.name;
@@ -118,7 +122,7 @@ module.exports = {
     async getUserName(id) {
       return this.maybeCached(`users:${id}`, async () => {
         const info = await this.slack.sdk().users.info({
-          user: id
+          user: id,
         });
         if (!info.ok) throw new Error(info.error);
         return info.user.name;
@@ -127,7 +131,7 @@ module.exports = {
     async getConversationName(id) {
       return this.maybeCached(`conversations:${id}`, async () => {
         const info = await this.slack.sdk().conversations.info({
-          channel: id
+          channel: id,
         });
         if (!info.ok) throw new Error(info.error);
         if (info.channel.is_im) {
@@ -141,7 +145,7 @@ module.exports = {
       return this.maybeCached(`team:${id}`, async () => {
         try {
           const info = await this.slack.sdk().team.info({
-            team: id
+            team: id,
           });
           return info.team.name;
         } catch (err) {
@@ -186,7 +190,7 @@ module.exports = {
     }
 
     this.$emit(event, {
-      id: event.client_msg_id || event.pipedream_msg_id
+      id: event.client_msg_id || event.pipedream_msg_id,
     });
   },
 };
