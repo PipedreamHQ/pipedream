@@ -23,7 +23,6 @@ module.exports = {
     board: {
       type: "string",
       label: "Board",
-      //async options(opts) {
       async options() {
         const boards = await this.getBoards(this.$auth.oauth_uid);
         const activeBoards = boards.filter((board) => board.closed === false);
@@ -34,6 +33,12 @@ module.exports = {
           };
         });
       },
+    },
+    cardFields: {
+      type: "string",
+      label: "Cards Fields",
+      description: "`all` or a comma-separated list of card [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#card-object): `badges`, `checkItemStates`, `closed`, `dateLastActivity`, `desc`, `descData`, `due`, `email`, `idAttachmentCover`, `idBoard`, `idChecklists`, `idLabels`, `idList`, `idMembers`, `idMembersVoted`, `idShort`, `labels`, `manualCoverAttachment`, `name`, `pos`, `shortLink`, `shortUrl`, `subscribed`, `url`.",
+      default: "all",
     },
     eventTypes: {
       type: "string[]",
@@ -56,6 +61,35 @@ module.exports = {
           };
         });
       },
+    },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "The search query with a length of 1 to 16384 characters.",
+    },
+    idBoards: {
+      type: "string",
+      label: "Id Boards",
+      description: "The special value `mine` or a comma-separated list of Board IDs where cards will be searched in.",
+      optional: true,
+    },
+    idOrganizations: {
+      type: "string[]",
+      label: "Id Organizations",
+      description: "An string array of Organizations IDs where cards will be searched in.",
+      optional: true,
+    },
+    modelTypes: {
+      type: "string",
+      label: "Model Types",
+      description: "What type or types of Trello objects you want to search. `all` or a comma-separated list of: `actions`, `boards`, `cards`, `members`, `organizations`.",
+      default: "all",
+    },
+    partial: {
+      type: "boolean",
+      label: "Partial Search?",
+      description: "Specifying partial to be true means that Trello will search for content that starts with any of the words in `query`. when searching for an object titled \"My Development Status Report\", by default a solution is to search for \"Development\". If partial is enabled, a search for \"dev\" is possible, however, a search for \"velopment\" is not possible.",
+      default: false,
     },
   },
   methods: {
@@ -266,20 +300,36 @@ module.exports = {
       };
       return (await this._makeRequest(config)).data;
     },
-    //TODO: Complete findLIst method
+    /**
+     * Finds a label on a specific board.
+     *
+     * @param {string}  boardId unique identifier of the board to search for labels.
+     * @param {string}  params.limit the number of labels to be returned.
+     * @returns {array} an array with label objects complying with the specified parameters.
+     */
+    async findLabel(boardId, params) {
+      const config = {
+        url: `${this._getBaseUrl()}/boards/${boardId}/labels`,
+        params,
+      };
+      return (await this._makeRequest(config)).data;
+    },
     /**
      * Finds a list in the specified board.
      *
-     * @param {string}  opts.name the name of the card.
-     * @param {string}  opts.desc the description for the card.
-     * @returns the created card object. See more at the API docs:
-     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
+     * @param {string}  boardId unique identifier of the board to search for lists.
+     * @param {string}  params.cards filter to apply to cards. valid values: `all`, `closed`,
+     * `none`, `open`.
+     * @param {string}  params.card_fields `all` or a comma-separated list of card [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#card-object).`,
+     * `none`, `open`.
+     * @param {string}  params.filter filter to apply to lists. valid values: `all`, `closed`,
+     * `none`, `open`.
+     * @returns {array} an array with list objects conforming with the specified parameters.
      */
-    async findList(opts) {
+    async findList(boardId, params) {
       const config = {
-        url: `${this._getBaseUrl()}/cards`,
-        method: "post",
-        data: opts,
+        url: `${this._getBaseUrl()}/boards/${boardId}/lists`,
+        params,
       };
       return (await this._makeRequest(config)).data;
     },
@@ -403,7 +453,7 @@ module.exports = {
     },
     /**
      * Renames the specified list
-     *idLabel
+     *
      * @param {string}  listId the ID of the List to rename.
      * @param {string}  opts.name the new name of the list.
      * @returns {object} a list object with the `closed` property, indicated if the list is
@@ -418,6 +468,124 @@ module.exports = {
         data,
       };
       return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Searches for members, cards, boards, and/or organizations matching the specified query.
+     *
+     * @param {string}  params.query the search query with a length of 1 to 16384 characters.
+     * @param {string}  params.idBoards the special value `mine` or a comma-separated list of Board
+     *  IDs where cards will be searched in.
+     * @param {string}  params.idOrganizations an string array of Organizations IDs where cards will
+     * be searched in.
+     * @param {boolean}  params.idCards an string array of Cards IDs. search will be done on
+     * these cards.
+     * @param {string}  params.cardFields `all` or a comma separated list of card fields to return
+     * in each card object.`
+     * @param {array}  params.cardsLimit the maximum number of cards to return.
+     * @param {array}  params.cardsPage the page of results for cards.
+     * @param {string}  params.cardBoard flag for including of parent board with card results.
+     * @param {string}  params.cardList flag for including the parent list with card results.
+     * @param {string}  params.cardMembers flag for including member objects with card results.
+     * @param {string}  params.cardStickers flag for including sticker objects with card results.
+     * @param {string}  params.cardAttachments flag for including attachment objects with card
+     * results. a boolean value (`true` or `false`) or `cover` for only card cover attachment.
+     * @param {string}  params.partial specifying partial to be true means that Trello will search
+     * for content that starts with any of the words in `query`. when searching for a card titled
+     * \"My Development Status Report\", by default a solution is to search for "Development". If
+     * partial is enabled, searching for \"dev\" is possible, however a search for \"velopment\"
+     * is not possible.
+     * @returns {cards: array, options: object} an array with the `cards` objects matching the
+     * specified `query`, and an object with the `options` for the search, such as `modelTypes` (in
+     * this case "cards"), `partial` the search `terms` as included in `query`, and other
+     * `modifiers`.
+     */
+    async search(params) {
+      const config = {
+        url: `${this._getBaseUrl()}search`,
+        params,
+      };
+      return (await this._makeRequest(config)).data;
+    },
+    /**
+     * Searches for boards matching the specified query.
+     *
+     * @param {string}  params.query the search query with a length of 1 to 16384 characters.
+     * @param {string}  params.idBoards the special value `mine` or a comma-separated list of Board
+     *  IDs where cards will be searched in.
+     * @param {string}  params.idOrganizations an string array of Organizations IDs where cards will
+     * be searched in.
+     * @param {boolean}  params.idCards an string array of Cards IDs. search will be done on
+     * these cards.
+     * @param {string}  params.cardFields `all` or a comma separated list of card fields to return
+     * in each card object.`
+     * @param {array}  params.cardsLimit the maximum number of cards to return.
+     * @param {array}  params.cardsPage the page of results for cards.
+     * @param {string}  params.cardBoard flag for including of parent board with card results.
+     * @param {string}  params.cardList flag for including the parent list with card results.
+     * @param {string}  params.cardMembers flag for including member objects with card results.
+     * @param {string}  params.cardStickers flag for including sticker objects with card results.
+     * @param {string}  params.cardAttachments flag for including attachment objects with card
+     * results. a boolean value (`true` or `false`) or `cover` for only card cover attachment.
+     * @param {string}  params.partial specifying partial to be true means that Trello will search
+     * for content that starts with any of the words in `query`. when searching for a card titled
+     * \"My Development Status Report\", by default a solution is to search for "Development". If
+     * partial is enabled, searching for \"dev\" is possible, however a search for \"velopment\"
+     * is not possible.
+     * @returns {cards: array, options: object} an array with the `cards` objects matching the
+     * specified `query`, and an object with the `options` for the search, such as `modelTypes` (in
+     * this case "cards"), `partial` the search `terms` as included in `query`, and other
+     * `modifiers`.
+     */
+    async searchBoards(opts) {
+      const params = {
+        ...opts,
+        idOrganizations: opts.idOrganizations ?
+          opts.idOrganizations.join(",") :
+          undefined,
+      };
+      return this.search(params);
+    },
+    /**
+     * Searches for cards matching the specified query.
+     *
+     * @param {string}  params.query the search query with a length of 1 to 16384 characters.
+     * @param {string}  params.idBoards the special value `mine` or a comma-separated list of Board
+     *  IDs where cards will be searched in.
+     * @param {string}  params.idOrganizations an string array of Organizations IDs where cards will
+     * be searched in.
+     * @param {boolean}  params.idCards an string array of Cards IDs. search will be done on
+     * these cards.
+     * @param {string}  params.cardFields `all` or a comma separated list of card fields to return
+     * in each card object.`
+     * @param {array}  params.cardsLimit the maximum number of cards to return.
+     * @param {array}  params.cardsPage the page of results for cards.
+     * @param {string}  params.cardBoard flag for including of parent board with card results.
+     * @param {string}  params.cardList flag for including the parent list with card results.
+     * @param {string}  params.cardMembers flag for including member objects with card results.
+     * @param {string}  params.cardStickers flag for including sticker objects with card results.
+     * @param {string}  params.cardAttachments flag for including attachment objects with card
+     * results. a boolean value (`true` or `false`) or `cover` for only card cover attachment.
+     * @param {string}  params.partial specifying partial to be true means that Trello will search
+     * for content that starts with any of the words in `query`. when searching for a card titled
+     * \"My Development Status Report\", by default a solution is to search for "Development". If
+     * partial is enabled, searching for \"dev\" is possible, however a search for \"velopment\"
+     * is not possible.
+     * @returns {cards: array, options: object} an array with the `cards` objects matching the
+     * specified `query`, and an object with the `options` for the search, such as `modelTypes` (in
+     * this case "cards"), `partial` the search `terms` as included in `query`, and other
+     * `modifiers`.
+     */
+    async searchCards(opts) {
+      const params = {
+        ...opts,
+        idOrganizations: opts.idOrganizations ?
+          opts.idOrganizations.join(",") :
+          undefined,
+        idCards: opts.idCards ?
+          opts.idCards.join(",") :
+          undefined,
+      };
+      return await this.search(params);
     },
     /**
      * Updates a card.
@@ -446,6 +614,14 @@ module.exports = {
         params,
       };
       return (await this._makeRequest(config)).data;
+    },
+    getFilterOptions() {
+      return [
+        "all",
+        "closed",
+        "none",
+        "open",
+      ];
     },
   },
 };

@@ -9,7 +9,12 @@ module.exports = {
   version: "0.0.1",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -21,7 +26,11 @@ module.exports = {
       return !this.board || this.board === boardId;
     },
     generateMeta({ action }) {
-      const { id, type: summary, date } = action;
+      const {
+        id,
+        type: summary,
+        date,
+      } = action;
       return {
         id,
         summary,

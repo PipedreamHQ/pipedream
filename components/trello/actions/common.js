@@ -19,5 +19,17 @@ module.exports = {
         ? undefined
         : value;
     },
+    getMatches(foundObjects, query) {
+      const matches = [];
+      if (foundObjects) {
+        foundObjects.forEach((obj) => {
+          if (obj.name.includes(query))
+            matches.push(obj);});
+      }
+      return matches;
+    },
+    validateFilterOptions(option) {
+      return this.getFilterOptions().includes(option);
+    },
   },
 };

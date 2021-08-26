@@ -10,12 +10,19 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     cards: {
       propDefinition: [
         common.props.trello,
         "cards",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
   },
@@ -32,7 +39,7 @@ module.exports = {
       this.db.set("comment", comment);
       return await this.trello.getCard(cardId);
     },
-    isRelevant({ result: card, event }) {
+    isRelevant({ result: card }) {
       return (
         (!this.board || this.board === card.idBoard) &&
         (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))

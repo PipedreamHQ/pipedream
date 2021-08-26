@@ -10,7 +10,10 @@ module.exports = {
   props: {
     ...common.props,
     board: {
-      propDefinition: [common.props.trello, "board"],
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
       default: "me",
     },
     timeBefore: {
@@ -25,10 +28,22 @@ module.exports = {
       description: "Unit of time for Time Before.",
       async options() {
         return [
-          { label: "Minutes", value: 60000 },
-          { label: "Hours", value: 3600000 },
-          { label: "Days", value: 86400000 },
-          { label: "Weeks", value: 604800000 },
+          {
+            label: "Minutes",
+            value: 60000,
+          },
+          {
+            label: "Hours",
+            value: 3600000,
+          },
+          {
+            label: "Days",
+            value: 86400000,
+          },
+          {
+            label: "Weeks",
+            value: 604800000,
+          },
         ];
       },
       default: "Minutes",
@@ -36,7 +51,9 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    generateMeta({ id, name: summary }, now) {
+    generateMeta({
+      id, name: summary,
+    }, now) {
       return {
         id,
         summary,

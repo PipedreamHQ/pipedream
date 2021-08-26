@@ -16,7 +16,9 @@ module.exports = {
     _setLastNotificationId(lastNotificationId) {
       this.db.set("lastNotificationId", lastNotificationId);
     },
-    generateMeta({ id, type, date, data }) {
+    generateMeta({
+      id, type, date, data,
+    }) {
       return {
         id,
         summary: `${type} : ${data.card.name}`,
@@ -24,7 +26,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const since = this._getLastNotificationId();
     const params = {
       since,

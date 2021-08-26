@@ -9,19 +9,28 @@ module.exports = {
   version: "0.0.4",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     lists: {
       propDefinition: [
         common.props.trello,
         "lists",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
     cards: {
       propDefinition: [
         common.props.trello,
         "cards",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
   },
@@ -40,7 +49,7 @@ module.exports = {
       this.db.set("labelColor", labelColor);
       return await this.trello.getCard(cardId);
     },
-    isRelevant({ result: card, event }) {
+    isRelevant({ result: card }) {
       return (
         (!this.board || this.board === card.idBoard) &&
         (!this.lists ||
@@ -49,11 +58,15 @@ module.exports = {
         (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
       );
     },
-    generateMeta({ id, name }) {
+    generateMeta({
+      id, name,
+    }) {
       const labelName = this.db.get("labelName");
       const labelColor = this.db.get("labelColor");
       let summary = labelColor;
-      summary += labelName ? ` - ${labelName}` : "";
+      summary += labelName
+        ? ` - ${labelName}`
+        : "";
       summary += `; added to ${name}`;
       return {
         id,

@@ -1,32 +1,61 @@
+const {
+  props,
+  methods,
+} = require("../common");
 const validate = require("validate.js");
-const common = require("../common");
 
 module.exports = {
-  ...common,
   key: "trello-find-a-list",
   name: "Find a List",
-  description: "Enter action description here.",
-  version: "0.0.1",
+  description: "Finds a list on a specific board by name.",
+  version: "0.0.15",
   type: "action",
   props: {
-    ...common.props,
-    boardId: {
-      type: "string",
-      label: "From Board Id",
-      description: "The ID of the board where the list may be found.",
+    ...props,
+    board: {
+      propDefinition: [
+        props.trello,
+        "board",
+      ],
+      label: "Id Board",
+      description: "Unique identifier of the board to search for lists. Must match pattern `^[0-9a-fA-F]{24}$`.",
     },
     name: {
       type: "string",
       label: "List Name",
       description: "Name of the list to find.",
     },
+    cardFilter: {
+      type: "string",
+      label: "Card Filter",
+      description: "Filter to apply to Cards. Valid values: `all`, `closed`, `none`, `open`.",
+      options() {
+        return this.trello.getFilterOptions();
+      },
+      default: "all",
+    },
+    cardFields: {
+      propDefinition: [
+        props.trello,
+        "cardFields",
+      ],
+    },
+    listFilter: {
+      type: "string",
+      label: "List Filter",
+      description: "Filter to apply to Lists. Valid values: `all`, `closed`, `none`, `open`.",
+      options() {
+        return this.trello.getFilterOptions();
+      },
+      default: "all",
+    },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {
-      boardId: {
+      board: {
         presence: true,
         format: {
           pattern: "^[0-9a-fA-F]{24}$",
@@ -41,13 +70,36 @@ module.exports = {
         presence: true,
       },
     };
-    const opts = {
-      boardId: this.boardId,
-      name: this.name,
+    const self = this;
+    const filterOptsValidationMesssage = "must be one of `all`, `closed`, `none`, or `open`";
+    validate.validators.posStringValiadator = function (option) {
+      return self.trello.getFilterOptions().includes(option) ?
+        null :
+        filterOptsValidationMesssage;
     };
-    const validationResult = validate(opts,
-      constraints);
+    if (this.cardFilter) {
+      constraints.cardFilter = {
+        posStringValiadator: this.cardFilter,
+      };
+    }
+    if (this.listFilter) {
+      constraints.listFilter = {
+        posStringValiadator: this.listFilter,
+      };
+    }
+    const validationResult = validate({
+      board: this.board,
+      name: this.name,
+      cardFilter: this.cardFilter,
+      listFilter: this.listFilter,
+    }, constraints);
     this.checkValidationResults(validationResult);
-    return await this.trello.findList(opts);
+    const opts = {
+      cards: this.cardFilter,
+      card_fields: this.cardFields,
+      filter: this.listFilter,
+    };
+    const lists = await this.trello.findList(this.board, opts);
+    return this.getMatches(lists, this.name);
   },
 };

@@ -18,8 +18,12 @@ module.exports = {
       const labelId = get(event, "body.action.data.label.id");
       return await this.trello.getLabel(labelId);
     },
-    generateMeta({ id, name, color: summary }) {
-      summary += name ? ` - ${name}` : "";
+    generateMeta({
+      id, name, color: summary,
+    }) {
+      summary += name
+        ? ` - ${name}`
+        : "";
       return {
         id,
         summary,

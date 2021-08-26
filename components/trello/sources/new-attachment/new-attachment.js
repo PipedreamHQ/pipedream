@@ -9,7 +9,12 @@ module.exports = {
   version: "0.0.1",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
   },
   methods: {
     ...common.methods,

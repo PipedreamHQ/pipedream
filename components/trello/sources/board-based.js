@@ -5,7 +5,10 @@ module.exports = {
   props: {
     ...base.props,
     board: {
-      propDefinition: [base.props.trello, "board"],
+      propDefinition: [
+        base.props.trello,
+        "board",
+      ],
     },
   },
   methods: {

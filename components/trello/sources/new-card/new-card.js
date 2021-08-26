@@ -10,12 +10,19 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     lists: {
       propDefinition: [
         common.props.trello,
         "lists",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
   },
