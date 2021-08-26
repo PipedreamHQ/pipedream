@@ -38,7 +38,9 @@
         "pipedream/required-properties-type": "error",
         "pipedream/props-label": "error",
         "pipedream/props-description": "error",
-        "pipedream/default-value-required-for-optional-props": "error"
+        "pipedream/default-value-required-for-optional-props": "warn",
+        "pipedream/source-name": "warn",
+        "pipedream/source-description": "warn"
       }
     },
     {
@@ -48,7 +50,7 @@
       "rules": {
         "pipedream/props-label": "error",
         "pipedream/props-description": "error",
-        "pipedream/default-value-required-for-optional-props": "error"
+        "pipedream/default-value-required-for-optional-props": "warn"
       }
     },
   ],
