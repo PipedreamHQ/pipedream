@@ -5,6 +5,7 @@ module.exports = {
   name: "Actions Common File",
   description: "Common file with methods and props for Trello actions.",
   version: "0.0.1",
+  type: "action",
   props: {
     trello,
   },

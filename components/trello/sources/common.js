@@ -1,6 +1,11 @@
 const trello = require("../trello.app.js");
 
 module.exports = {
+  key: "trello-sources-common-file",
+  name: "Sources Common File",
+  description: "Common file with methods and props for Trello sources.",
+  version: "0.0.1",
+  type: "source",
   props: {
     trello,
     db: "$.service.db",
