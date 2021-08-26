@@ -5,7 +5,7 @@ next: false
 
 # Plans and Pricing
 
-We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/event-sources/), [workflows](/workflows/managing/#sharing-workflows), [actions](/workflows/steps/actions/#creating-your-own-actions), and other integration components so that other Pipedream users benefit from your work.
+We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/event-sources/), [workflows](/workflows/managing/#sharing-workflows), [actions](/components/actions/#creating-your-own-actions), and other integration components so that other Pipedream users benefit from your work.
 
 To support these goals, **Pipedream offers a [generous free tier](#developer-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#professional-tier).
 
@@ -158,7 +158,7 @@ Yes. You can retrieve your usage and billing metadata from the [/users/me](/api/
 
 You can cancel your plan in your [Billing and Usage Settings](https://pipedream.com/settings/billing). You will have access to your paid plan through the end of your current billing period. Pipedream does not prorate plans cancelled within a billing period.
 
-If you'd like to process your cancellation immediately, and downgrade to the free tier, please [reach out](/support).
+If you'd like to process your cancellation immediately, and downgrade to the free tier, please [reach out](https://pipedream.com/support).
 
 ### How do I change the billing email / company details tied to my invoice?
 

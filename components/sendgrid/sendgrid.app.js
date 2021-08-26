@@ -35,7 +35,10 @@ module.exports = {
       };
     },
     async _getAllItems(params) {
-      const { url, query } = params;
+      const {
+        url,
+        query,
+      } = params;
       const requestData = {
         query,
       };
@@ -44,7 +47,11 @@ module.exports = {
       return data;
     },
     _isRetriableStatusCode(statusCode) {
-      [408, 429, 500].includes(statusCode);
+      [
+        408,
+        429,
+        500,
+      ].includes(statusCode);
     },
     async _withRetries(apiCall) {
       const retryOpts = {
@@ -55,7 +62,10 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = get(err, ["response", "status"]);
+          const statusCode = get(err, [
+            "response",
+            "status",
+          ]);
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):

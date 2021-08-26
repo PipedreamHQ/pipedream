@@ -7,10 +7,15 @@ module.exports = {
   name: "Custom Webhook Events",
   description:
     "Subscribe to one or more event types and emit an event on each webhook request",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     ...common.props,
-    events: { propDefinition: [github, "events"] },
+    events: {
+      propDefinition: [
+        github,
+        "events",
+      ],
+    },
   },
   dedupe: "unique",
   methods: {
