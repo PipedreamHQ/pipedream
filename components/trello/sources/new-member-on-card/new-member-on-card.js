@@ -7,7 +7,8 @@ module.exports = {
   name: "New Member on Card (Instant)",
   description:
     "Emits an event for each card joined by the authenticated Trello user.",
-  version: "0.0.5",
+  version: "0.0.6",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,

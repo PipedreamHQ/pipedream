@@ -6,7 +6,8 @@ module.exports = {
   key: "trello-new-attachment",
   name: "New Attachment (Instant)",
   description: "Emits an event for new attachment on a board.",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   props: {
     ...common.props,
     board: {

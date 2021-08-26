@@ -1,24 +1,29 @@
 const validate = require("validate.js");
-const common = require("../common");
+const {
+  props,
+  methods,
+} = require("../common");
 
 module.exports = {
-  ...common,
   key: "trello-move-card-to-list",
   name: "Move Card to List",
   description: "Moves a card to the specified board/list pair.",
   version: "0.0.1",
   type: "action",
   props: {
-    ...common.props,
+    ...props,
     idCard: {
       type: "string",
       label: "Id Card",
       description: "The ID of the Card to move.",
     },
-    toIdBoard: {
-      type: "string",
+    board: {
+      propDefinition: [
+        props.trello,
+        "board",
+      ],
       label: "To Id Board",
-      description: "The ID of the board the card should be moved to.",
+      description: "The ID of the board the card should be moved to. Must match pattern `^[0-9a-fA-F]{24}$`.",
     },
     toIdList: {
       type: "string",
@@ -27,7 +32,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {
@@ -42,7 +47,7 @@ module.exports = {
           },
         },
       },
-      toIdBoard: {
+      board: {
         presence: true,
         format: {
           pattern: "^[0-9a-fA-F]{24}$",
@@ -68,14 +73,14 @@ module.exports = {
     const validationResult = validate(
       {
         idCard: this.idCard,
-        toIdBoard: this.toIdBoard,
+        board: this.board,
         toIdList: this.toIdList,
       },
       constraints,
     );
     this.checkValidationResults(validationResult);
     return await this.trello.moveCardToList(this.idCard, {
-      idBoard: this.toIdBoard,
+      idBoard: this.board,
       idList: this.toIdList,
     });
   },

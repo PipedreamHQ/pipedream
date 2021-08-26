@@ -6,7 +6,8 @@ module.exports = {
   key: "trello-new-activity",
   name: "New Activity (Instant)",
   description: "Emits an event for new activity on a board.",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   props: {
     ...common.props,
     board: {

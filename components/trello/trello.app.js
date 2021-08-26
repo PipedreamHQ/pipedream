@@ -5,10 +5,12 @@ const events = require("./events.js");
 module.exports = {
   type: "app",
   app: "trello",
+  description: "Pipedream Trello Components",
   propDefinitions: {
     cards: {
       type: "string[]",
       label: "Cards",
+      description: "The card you'd like to watch for this event.",
       optional: true,
       async options(opts) {
         const cards = await this.getCards(opts.board);
@@ -23,6 +25,7 @@ module.exports = {
     board: {
       type: "string",
       label: "Board",
+      description: "Boards in the connected Trello account to watch for events.",
       async options() {
         const boards = await this.getBoards(this.$auth.oauth_uid);
         const activeBoards = boards.filter((board) => board.closed === false);

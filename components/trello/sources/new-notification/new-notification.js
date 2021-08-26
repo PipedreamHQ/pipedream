@@ -6,7 +6,8 @@ module.exports = {
   name: "New Notification",
   description:
     "Emits an event for each new Trello notification for the authenticated user.",
-  version: "0.0.4",
+  version: "0.0.5",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,

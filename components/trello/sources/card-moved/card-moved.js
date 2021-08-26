@@ -6,7 +6,8 @@ module.exports = {
   key: "trello-card-moved",
   name: "Card Moved (Instant)",
   description: "Emits an event each time a card is moved to a list.",
-  version: "0.0.4",
+  version: "0.0.5",
+  type: "source",
   props: {
     ...common.props,
     board: {

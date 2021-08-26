@@ -1,15 +1,17 @@
 const validate = require("validate.js");
-const common = require("../common");
+const {
+  props,
+  methods,
+} = require("../common");
 
 module.exports = {
-  ...common,
   key: "trello-update-card",
   name: "Update Card",
   description: "Updates a card.",
-  version: "0.0.1",
+  version: "0.0.13",
   type: "action",
   props: {
-    ...common.props,
+    ...props,
     idCard: {
       type: "string",
       label: "Id Card",
@@ -58,12 +60,13 @@ module.exports = {
       description: "Array of label IDs to add to the card.",
       optional: true,
     },
-    idBoard: {
-      type: "string",
-      label: "Board Id",
-      description:
-        "The ID of the board the card should be on.",
-      optional: true,
+    board: {
+      propDefinition: [
+        props.trello,
+        "board",
+      ],
+      label: "Id Board",
+      description: "The ID of the board containing the card to update is located. Must match pattern `^[0-9a-fA-F]{24}$`.",
     },
     pos: {
       type: "string",
@@ -86,7 +89,7 @@ module.exports = {
     },
     subscribed: {
       type: "boolean",
-      label: "Closed",
+      label: "Subscribed",
       description: "Whether the member is should be subscribed to the card.",
       default: false,
     },
@@ -118,7 +121,7 @@ module.exports = {
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
   },
   async run() {
     const constraints = {
@@ -168,8 +171,8 @@ module.exports = {
         type: "array",
       };
     }
-    if (this.idBoard) {
-      constraints.idLabels = {
+    if (this.board) {
+      constraints.board = {
         format: {
           pattern: "^[0-9a-fA-F]{24}$",
           message: function (value) {
@@ -235,6 +238,7 @@ module.exports = {
         idAttachmentCover: this.idAttachmentCover,
         idList: this.idList,
         idLabels: this.idLabels,
+        board: this.board,
         pos: this.pos,
         due: this.due,
         coordinates: this.coordinates,
@@ -266,8 +270,8 @@ module.exports = {
     if (this.idLabels) {
       opts.idLabels = this.idLabels;
     }
-    if (this.idBoard) {
-      opts.idBoard = this.idBoard;
+    if (this.board) {
+      opts.idBoard = this.board;
     }
     if (this.pos) {
       opts.pos = this.pos;

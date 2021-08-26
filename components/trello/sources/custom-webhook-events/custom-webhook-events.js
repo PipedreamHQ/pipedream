@@ -7,7 +7,8 @@ module.exports = {
   name: "Custom Webhook Events (Instant)",
   description:
     "Emit events for activity matching a board, event types, lists and/or cards.",
-  version: "0.0.4",
+  version: "0.0.5",
+  type: "source",
   props: {
     ...common.props,
     board: {
