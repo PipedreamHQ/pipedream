@@ -10,7 +10,7 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
       label: "Timer",
-      description: "The frequency in seconds you'd like to poll for new events."
+      description: "The frequency in seconds you'd like to poll for new events.",
     },
   },
 };
