@@ -168,11 +168,11 @@ You can also add any JSON-serializable data to the `$checkpoint` editor, modifyi
 To reset the value of `$checkpoint`, [add a new Node.js code step](/workflows/steps/code/#adding-a-code-step) to your workflow, just below the trigger step. Then add the following code to that step:
 
 ```javascript
-$checkpoint = undefined;
+$checkpoint = false;
 $end("Clearing $checkpoint");
 ```
 
-This will set the value of `$checkpoint` to `undefined`, and then immediately end your workflow.
+This will set the value of `$checkpoint` to `false`, and then immediately end your workflow.
 
 You can also set `$checkpoint` to any JSON-serializable value:
 
