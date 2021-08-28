@@ -6,11 +6,8 @@ module.exports = {
   type: "app",
   app: "clubhouse",
   methods: {
-    _authToken() {
-      return this.$auth.api_key;
-    },
-    _clubhouseio() {
-      return clubhouse.create(this._authToken());
+    api() {
+      return clubhouse.create(this.$auth.api_key);
     },
     _isRetriableStatusCode(statusCode) {
       [
@@ -45,12 +42,19 @@ module.exports = {
         }
       }, retryOpts);
     },
+    callWithRetry(method, ...args) {
+      return this._withRetries(
+        () => this.api()[method](...args)
+      );
+    },
     /**
      * Creates a new story in your clubhouse.
      * @params {boolean} archived - Controls the story’s archived state.
-     * @params {array} comments - An array with comments to add to the story. Each comment must have the [CreateStoryCommentParams](https://clubhouse.io/api/rest/v3/#CreateStoryCommentParams) structure.
+     * @params {array} comments - Array with comments to add to the story. Each comment must have
+     * [CreateStoryCommentParams](https://clubhouse.io/api/rest/v3/#CreateStoryCommentParams)
+     * structure.
      * @params {Date} completedAtOverride - A manual override for the time/date the Story was
-     *  completed.
+     * completed.
      * @params {Date} createdAt - The time/date the Story was created.
      * @params {Date} dueDate - The due date of the story.
      * @params {string} description - The description of the story.
@@ -65,25 +69,29 @@ module.exports = {
      * @params {array} followerIds - An array of UUIDs of the followers of this story.
      * @params {string} groupId - The id of the group to associate with this story.
      * @params {integer} iterationId - The ID of the iteration the story belongs to.
-     * @params {array} labels - An array of labels attached to the story. Each label must have the [CreateLabelParams](https://clubhouse.io/api/rest/v3/#CreateLabelParams) structure.
+     * @params {array} labels - An array of labels attached to the story. Each label must have the
+     * [CreateLabelParams](https://clubhouse.io/api/rest/v3/#CreateLabelParams) structure.
      * @params {array} linkedFileIds - An array of integers with the IDs of linked files attached
      * to the story.
      * @params {string} name - The name of the story.
      * @params {array} ownerIds - An array of UUIDs of the owners of this story.
      * @params {integer} projectId - The ID of the project the story belongs to.
      * @params {integer} requestedById - The ID of the member that requested the story.
-     * @params {Date} startedAtOverride - A manual override for the time/date the Story was started.
-     * @params {array} storyLinks - An array of story links attached to the story. Each story link must have the [CreateStoryLinkParams](https://clubhouse.io/api/rest/v3/#Body-Parameters-34268) structure.
+     * @params {Date} startedAtOverride - Manual override for the time/date the Story was started.
+     * @params {array} storyLinks - An array of story links attached to the story. Each story link
+     * must have the
+     * [CreateStoryLinkParams](https://clubhouse.io/api/rest/v3/#Body-Parameters-34268) structure.
      * @params {string} storyType - The type of story (feature, bug, chore).
-     * @params {array} tasks - An array of tasks connected to the story. Each task must have the [CreateTaskParams](https://clubhouse.io/api/rest/v3/#CreateTaskParams) structure.
+     * @params {array} tasks - An array of tasks connected to the story. Each task must have the
+     * [CreateTaskParams](https://clubhouse.io/api/rest/v3/#CreateTaskParams) structure.
      * @params {string} updatedAt - The time/date the story was updated.
      * @params {integer} workflowStateId - The ID of the workflow state the story will be in.
-     * @returns {story: object } An object with the created story, as per the input provided and default values. See the full schema at [Create Story Responses](https://clubhouse.io/api/rest/v3/#Responses-80269).
+     * @returns {story: object } An object with the created story, as per input provided, default
+     * values. See the full schema at
+     * [Create Story Responses](https://clubhouse.io/api/rest/v3/#Responses-80269).
      */
     async createStory(data) {
-      return await this._withRetries(
-        () => this._clubhouseio().createStory(data),
-      );
+      return await this.api().createStory(data);
     },
     /**
      * Returns a list of all Epics and their attributes.
@@ -91,20 +99,24 @@ module.exports = {
      * See the [Epic schema](https://clubhouse.io/api/rest/v3/#Epic) at the API docs.
      */
     async listEpics() {
-      return await this._withRetries(
-        () => this._clubhouseio().listEpics(),
-      );
+      return await this.api().listEpics();
     },
     /**
-     * Returns a list of all Epics and their attributes.
-     * @returns {interations: array } An array of all interations in the connected Clubhouse
+     * Returns a list of all Linked Files.
+     * @returns {linkedFiles: array } An array of all linked files in the connected Clubhouse
      * account.
-     * See the [Iteration schema](https://clubhouse.io/api/rest/v3/#Iteration) at the API docs.
+     * See the [Linked File schema](https://clubhouse.io/api/rest/v3/#LinkedFile) at the API docs.
      */
-    async listIterations() {
-      return await this._withRetries(
-        () => this._clubhouseio().listIterations(),
-      );
+    async listLinkedFiles() {
+      return await this.api().listLinkedFiles();
+    },
+    /**
+     * Returns a list of all Members and their attributes.
+     * @returns {members: array } An array of all members in the connected Clubhouse account.
+     * See the [Members schema](https://clubhouse.io/api/rest/v3/#Member-1426) at the API docs.
+     */
+     async listMembers() {
+      return await this.api().listMembers();
     },
     /**
      * Returns a list of all Members and their attributes.
@@ -112,9 +124,15 @@ module.exports = {
      * See the [Members schema](https://clubhouse.io/api/rest/v3/#Member-1426) at the API docs.
      */
     async listMembers() {
-      return await this._withRetries(
-        () => this._clubhouseio().listMembers(),
-      );
+      return await this.api().listMembers();
+    },
+    /**
+     * Returns a list of all projects.
+     * @returns {members: array } An array of all projects in the connected Clubhouse account.
+     * See the [Projects schema](https://clubhouse.io/api/rest/v3/#Project) at the API docs.
+     */
+     async listProjects() {
+      return await this.api().listProjects();
     },
     /**
      * Returns a list of all Workflows and their attributes.
@@ -122,13 +140,15 @@ module.exports = {
      * See the [Workflow schema](https://clubhouse.io/api/rest/v3/#Workflow) at the API docs.
      */
     async listWorkflows() {
-      return await this._withRetries(
-        () => this._clubhouseio().listWorkflows(),
-      );
+      return await this.api().listWorkflows();
     },
     /**
      * Searches for stories in your clubhouse.
-     * @params {string} query - The search query based on the [Search page](https://help.clubhouse.io/hc/en-us/articles/115005967026) [search operators](https://help.clubhouse.io/hc/en-us/articles/360000046646-Search-Operators) to use for finding stories.
+     * @params {string} query - The search query based on the
+     * [Search page](https://help.clubhouse.io/hc/en-us/articles/115005967026)
+     * [search operators]
+     * (https://help.clubhouse.io/hc/en-us/articles/360000046646-Search-Operators)
+     * to use for finding stories.
      * @params {integer} numberOfStories - The number of stories to return.
      * @returns {stories: array } An array stories matching the `query` parameter. Number of
      *  results are limited by `numberOfStories`.
@@ -146,7 +166,7 @@ module.exports = {
       let result;
       try {
         result = await this._withRetries(() =>
-          this._clubhouseio().searchStories(query, Math.min(numberOfStories, 25)));
+          this.api().searchStories(query, Math.min(numberOfStories, 25)));
       } catch (err) {
         throw new Error(err.message);
       }

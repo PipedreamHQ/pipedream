@@ -6,7 +6,7 @@ module.exports = {
   key: "clubhouse-search-stories",
   name: "Search Stories",
   description: "Searches for stories in your clubhouse.",
-  version: "0.0.1",
+  version: "0.0.48",
   type: "action",
   props: {
     clubhouse,
@@ -20,6 +20,7 @@ module.exports = {
       type: "integer",
       label: "Number of Stories",
       description: "The number of stories to return.",
+      default: 25,
     },
   },
   methods: {

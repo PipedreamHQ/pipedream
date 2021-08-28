@@ -7,7 +7,7 @@ module.exports = {
   key: "clubhouse-create-story",
   name: "Create Story",
   description: "Creates a new story in your clubhouse.",
-  version: "0.0.1",
+  version: "0.0.36",
   type: "action",
   props: {
     clubhouse,
@@ -55,7 +55,7 @@ module.exports = {
       description: "The unique identifier of the epic the story belongs to.",
       async options() {
         const options = [];
-        const epics = await this.clubhouse.listEpics();
+        const epics = await this.clubhouse.callWithRetry("listEpics");
         epics.forEach((epic) => {
           options.push({
             label: epic.name,
@@ -110,7 +110,7 @@ module.exports = {
       description: "The ID of the iteration the story belongs to.",
       async options() {
         const options = [];
-        const iterations = await this.clubhouse.listIterations();
+        const iterations = await this.clubhouse.callWithRetry("listIterations");
         iterations.forEach((iteration) => {
           options.push({
             label: iteration.name,
@@ -133,6 +133,17 @@ module.exports = {
       label: "Linked File Ids",
       description:
         "An integer array with the IDs of linked files attached to the story.",
+      async options() {
+        const options = [];
+        const linkedFiles = await this.clubhouse.callWithRetry("listLinkedFiles");
+        linkedFiles.forEach((linkedFile) => {
+          options.push({
+            label: linkedFile.name,
+            value: linkedFile.id,
+          });
+        });
+        return options;
+      },
       optional: true,
     },
     name: {
@@ -141,7 +152,7 @@ module.exports = {
       description: "The name of the story.",
     },
     ownerIds: {
-      type: "string",
+      type: "string[]",
       label: "Owner Ids",
       description: "A string array of UUIDs of the owners of this story.",
       optional: true,
@@ -152,7 +163,7 @@ module.exports = {
       description: "The ID of the project the story belongs to.",
       async options() {
         const options = [];
-        const projects = await this.clubhouse.listProjects();
+        const projects = await this.clubhouse.callWithRetry("listProjects");
         projects.forEach((project) => {
           options.push({
             label: project.name,
@@ -168,7 +179,7 @@ module.exports = {
       description: "The ID of the member that requested the story.",
       async options() {
         const options = [];
-        const members = await this.clubhouse.listMembers();
+        const members = await this.clubhouse.callWithRetry("listMembers");
         members.forEach((member) => {
           options.push({
             label: member.name,
@@ -222,7 +233,7 @@ module.exports = {
       description: "The ID of the workflow state the story will be in.",
       async options() {
         const options = [];
-        const workflows = await this.clubhouse.listWorkflows();
+        const workflows = await this.clubhouse.callWithRetry("listWorkflows");
         workflows.forEach((workflow) => {
           const hasState = get(workflow, [
             "states",
@@ -366,6 +377,6 @@ module.exports = {
       updated_at: this.updatedAt,
       workflow_state_id: this.workflowStateId,
     };
-    return await this.clubhouse.createStory(story);
+    return await this.clubhouse.callWithRetry("createStory", story);
   },
 };
