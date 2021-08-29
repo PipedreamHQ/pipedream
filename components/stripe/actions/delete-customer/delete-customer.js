@@ -11,7 +11,7 @@ module.exports = {
     customer: {
       propDefinition: [
         stripe,
-        "name",
+        "customer",
       ],
       optional: false,
     },
