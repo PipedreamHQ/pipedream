@@ -39,7 +39,8 @@ module.exports = {
   propDefinitions: {
     limit: {
       type: "integer",
-      label: "Max. Number of Results",
+      label: "Result Limit",
+      description: "Maximum number of results",
       default: 100,
       min: 1,
       max: 10000,
@@ -284,6 +285,7 @@ module.exports = {
     payment_intent_cancellation_reason: {
       type: "string",
       label: "Cancellation Reason",
+      description: "Indicate why the payment was cancelled",
       options: [
         "duplicate",
         "fraudulent",
@@ -340,6 +342,7 @@ module.exports = {
     advanced: {
       type: "object",
       label: "Advanced Options",
+      description: "Add any additional parameters that you require here",
       optional: true,
     },
     name: {
@@ -471,7 +474,7 @@ module.exports = {
     },
     balance_transaction_type: {
       type: "string",
-      label: "Type",
+      label: "Transaction Type",
       options: [
         "adjustment",
         "advance",

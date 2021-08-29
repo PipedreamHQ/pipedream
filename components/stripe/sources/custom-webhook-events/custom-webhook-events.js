@@ -10,10 +10,12 @@ module.exports = {
     stripe,
     enabledEvents: {
       type: "string[]",
-      label: "Events to listen for (select '*' for all)",
+      label: "Events",
+      description: "Events to listen for (select '*' for all)",
       options() {
         return this.stripe.enabledEvents();
       },
+      default: "*",
     },
     http: {
       type: "$.interface.http",
