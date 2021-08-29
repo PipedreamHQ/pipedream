@@ -1,3 +1,5 @@
+/* eslint-disable pipedream/default-value-required-for-optional-props */
+
 const stripe = require("stripe");
 
 const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({ prevContext }) {
@@ -345,6 +347,7 @@ module.exports = {
       description: "Add any additional parameters that you require here",
       optional: true,
     },
+    /* eslint-disable pipedream/props-description */
     name: {
       type: "string",
       label: "Name",
@@ -365,6 +368,7 @@ module.exports = {
       label: "Description",
       optional: true,
     },
+    /* eslint-enable pipedream/props-description */
     address1: {
       type: "string",
       label: "Address Line 1",
@@ -439,6 +443,7 @@ module.exports = {
         "that created the charge.",
       optional: true,
     },
+    /* eslint-disable pipedream/props-description */
     payout_status: {
       type: "string",
       label: "Payout Status",
@@ -450,6 +455,7 @@ module.exports = {
       ],
       optional: true,
     },
+    /* eslint-enable pipedream/props-description */
     payout_method: {
       type: "string",
       label: "Payout Method",
@@ -472,6 +478,7 @@ module.exports = {
       ],
       optional: true,
     },
+    /* eslint-disable pipedream/props-description */
     balance_transaction_type: {
       type: "string",
       label: "Transaction Type",
@@ -521,6 +528,7 @@ module.exports = {
       label: "Quantity",
       optional: true,
     },
+    /* eslint-enable pipedream/props-description */
     usage_record_action: {
       type: "string",
       label: "Action",
@@ -534,6 +542,7 @@ module.exports = {
       default: "increment",
       optional: true,
     },
+    /* eslint-disable pipedream/props-description */
     invoice_status: {
       type: "string",
       label: "Status",
@@ -546,6 +555,7 @@ module.exports = {
       ],
       optional: true,
     },
+    /* eslint-enable pipedream/props-description */
     invoice_auto_advance: {
       type: "boolean",
       label: "Auto Collect",
@@ -554,6 +564,7 @@ module.exports = {
       optional: true,
       default: false,
     },
+    /* eslint-disable pipedream/props-description */
     invoice_collection_method: {
       type: "string",
       label: "Collection Method",
@@ -563,6 +574,7 @@ module.exports = {
       ],
       optional: true,
     },
+    /* eslint-enable pipedream/props-description */
     invoice_days_until_due: {
       type: "integer",
       label: "Payment Terms",

@@ -17,10 +17,14 @@ module.exports = {
       },
       default: "*",
     },
+    /* eslint-disable pipedream/props-label */
+    /* eslint-disable pipedream/props-description */
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
+    /* eslint-enable pipedream/props-description */
+    /* eslint-enable pipedream/props-label */
     db: "$.service.db",
   },
   hooks: {
