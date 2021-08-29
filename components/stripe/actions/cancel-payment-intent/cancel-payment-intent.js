@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-cancel-payment-intent",
   name: "Cancel a Payment Intent",
+  type: "action",
   version: "0.0.1",
   description: "Cancel a [payment intent](https://stripe.com/docs/payments/payment-intents). " +
     "Once canceled, no additional charges will be made by the payment intent and any operations " +

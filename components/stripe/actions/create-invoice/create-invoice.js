@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-create-invoice",
   name: "Create Invoice",
+  type: "action",
   version: "0.0.1",
   description: "Create an invoice",
   props: {

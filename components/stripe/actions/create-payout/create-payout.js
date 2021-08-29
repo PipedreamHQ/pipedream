@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-create-payout",
   name: "Create a Payout",
+  type: "action",
   version: "0.0.1",
   description: "Send funds to your own bank account. Your Stripe balance must be able to cover " +
     "the payout amount, or you'll receive an 'Insufficient Funds' error.",

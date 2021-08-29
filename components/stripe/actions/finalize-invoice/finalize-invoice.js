@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-finalize-invoice",
   name: "Finalize Draft Invoice",
+  type: "action",
   version: "0.0.1",
   description: "Finalize a draft invoice",
   props: {

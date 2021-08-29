@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-list-invoices",
   name: "List Invoices",
+  type: "action",
   version: "0.0.1",
   description: "Find or list invoices",
   props: {

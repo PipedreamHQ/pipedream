@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-capture-payment-intent",
   name: "Capture a Payment Intent",
+  type: "action",
   version: "0.0.1",
   description: "Capture the funds of an existing uncaptured payment intent.",
   props: {

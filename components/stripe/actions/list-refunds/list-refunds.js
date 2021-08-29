@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-list-refunds",
   name: "List Refunds",
+  type: "action",
   version: "0.0.1",
   description: "Find or list refunds",
   props: {

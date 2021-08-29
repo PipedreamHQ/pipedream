@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-create-invoice-item",
   name: "Create Invoice Line Item",
+  type: "action",
   version: "0.0.1",
   description: "Add a line item to an invoice",
   props: {

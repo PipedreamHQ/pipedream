@@ -3,6 +3,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-retrieve-price",
   name: "Retrieve a Price",
+  type: "action",
   version: "0.0.1",
   description: "Retrieves the details of an existing product price.",
   props: {

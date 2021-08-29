@@ -3,6 +3,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-cancel-or-reverse-payout",
   name: "Cancel Or Reverse a Payout",
+  type: "action",
   version: "0.0.1",
   description: "Cancel or reverse a [payout](https://stripe.com/docs/payouts). " +
     "A payout can be canceled only if it has not yet been paid out. A payout can be reversed " +

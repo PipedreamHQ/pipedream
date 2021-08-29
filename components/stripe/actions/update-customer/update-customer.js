@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-update-customer",
   name: "Create a Customer",
+  type: "action",
   version: "0.0.1",
   description: "Update a customer",
   props: {

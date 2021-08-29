@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-list-payouts",
   name: "List Payouts",
+  type: "action",
   version: "0.0.1",
   description: "Find or list payouts",
   props: {

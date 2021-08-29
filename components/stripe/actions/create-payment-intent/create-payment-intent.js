@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-create-payment-intent",
   name: "Create a Payment Intent",
+  type: "action",
   version: "0.0.1",
   description: "Create a [payment intent](https://stripe.com/docs/payments/payment-intents)",
   props: {

@@ -4,6 +4,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-create-refund",
   name: "Create a Refund",
+  type: "action",
   version: "0.0.1",
   description: "Creating a new refund will refund a charge that has previously been created but " +
     "not yet refunded. Funds will be refunded to the credit or debit card that was originally " +

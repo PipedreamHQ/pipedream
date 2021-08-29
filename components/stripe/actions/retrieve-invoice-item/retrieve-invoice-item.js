@@ -3,6 +3,7 @@ const stripe = require("../../stripe.app.js");
 module.exports = {
   key: "stripe-retrieve-invoice-item",
   name: "Retrieve Invoice Line Item",
+  type: "action",
   version: "0.0.1",
   description: "Retrieve a single line item on an invoice",
   props: {
