@@ -7,6 +7,7 @@ module.exports = {
   ...common,
   key: "mailgun-new-delivery",
   name: "New Delivery",
+  type: "source",
   description: "Emit an event when an email is sent and accepted by the recipient email server.",
   version: "0.0.2",
   dedupe: "unique",

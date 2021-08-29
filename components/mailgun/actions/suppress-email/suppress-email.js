@@ -26,6 +26,8 @@ module.exports = {
     },
     category: {
       type: "string",
+      label: "Category",
+      description: "Which suppression list to add the email to",
       options: [
         "bounces",
         "unsubscribes",
@@ -35,14 +37,18 @@ module.exports = {
     bounceErrorCode: {
       type: "string",
       label: "Bounce Error Code",
+      description: "Email bounce error code",
       default: "550",
       optional: true,
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     bounceErrorMessage: {
       type: "string",
       label: "Bounce Error Message",
+      description: "Email bounce error message",
       optional: true,
     },
+    /* eslint-enable pipedream/default-value-required-for-optional-props */
     unsubscribeFrom: {
       type: "string",
       label: "Tag to unsubscribe from",

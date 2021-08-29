@@ -19,6 +19,7 @@ module.exports = {
         "list",
       ],
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     subscribed: {
       propDefinition: [
         mailgun,
@@ -28,6 +29,7 @@ module.exports = {
         "all members",
       optional: true,
     },
+    /* eslint-enable pipedream/default-value-required-for-optional-props */
     ...props,
   },
   run: withErrorHandler(

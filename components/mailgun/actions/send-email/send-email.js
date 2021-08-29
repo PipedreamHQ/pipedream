@@ -34,6 +34,7 @@ module.exports = {
       label: "From Email",
       description: "Sender email address",
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     replyTo: {
       propDefinition: [
         mailgun,
@@ -43,6 +44,7 @@ module.exports = {
       description: "Sender reply email address",
       optional: true,
     },
+    /* eslint-enable pipedream/default-value-required-for-optional-props */
     to: {
       propDefinition: [
         mailgun,
@@ -51,6 +53,7 @@ module.exports = {
       label: "To",
       description: "Recipient email address(es)",
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     cc: {
       propDefinition: [
         mailgun,
@@ -69,6 +72,7 @@ module.exports = {
       description: "Blind copy email address(es)",
       optional: true,
     },
+    /* eslint-enable pipedream/default-value-required-for-optional-props */
     subject: {
       propDefinition: [
         mailgun,
@@ -82,6 +86,7 @@ module.exports = {
         "body_text",
       ],
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     html: {
       propDefinition: [
         mailgun,
@@ -89,6 +94,7 @@ module.exports = {
       ],
       optional: true,
     },
+    /* eslint-enable pipedream/default-value-required-for-optional-props */
     testMode: {
       type: "boolean",
       label: "Send in test mode?",

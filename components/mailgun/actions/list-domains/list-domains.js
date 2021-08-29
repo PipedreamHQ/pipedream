@@ -13,6 +13,7 @@ module.exports = {
   type: "action",
   props: {
     mailgun,
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     authority: {
       type: "string",
       label: "DKIM Authority",
@@ -30,6 +31,7 @@ module.exports = {
       ],
       optional: true,
     },
+    /* eslint-enable pipedream/default-value-required-for-optional-props */
     ...props,
   },
   run: withErrorHandler(

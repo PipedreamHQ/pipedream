@@ -1,3 +1,5 @@
+/* eslint-disable pipedream/props-description */
+
 const formData = require("form-data");
 const Mailgun = require("mailgun.js");
 

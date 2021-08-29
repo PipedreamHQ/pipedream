@@ -14,7 +14,7 @@ module.exports = {
     "section",
   version: "0.0.2",
   dedupe: "unique",
-  type: "action",
+  type: "source",
   methods: {
     ...methods,
     getEventName() {

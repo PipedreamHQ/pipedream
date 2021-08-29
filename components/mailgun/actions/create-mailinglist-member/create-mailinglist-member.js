@@ -25,6 +25,7 @@ module.exports = {
         "email",
       ],
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     name: {
       propDefinition: [
         mailgun,
@@ -39,6 +40,7 @@ module.exports = {
       ],
       optional: true,
     },
+    /* eslint-enable pipedream/default-value-required-for-optional-props */
     subscribed: {
       propDefinition: [
         mailgun,
