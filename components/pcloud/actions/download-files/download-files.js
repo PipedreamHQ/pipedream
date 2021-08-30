@@ -35,7 +35,7 @@ module.exports = {
         pcloud,
         "folderId",
       ],
-      description: "Id of the folder, in which to download the files.",
+      description: "ID of the folder, in which to download the files.",
     },
     targetFilenames: {
       type: "string",

@@ -21,7 +21,7 @@ module.exports = {
         pcloud,
         "folderId",
       ],
-      description: "Id of the parent folder where the new folder will be created.",
+      description: "ID of the parent folder where the new folder will be created.",
     },
     path: {
       propDefinition: [

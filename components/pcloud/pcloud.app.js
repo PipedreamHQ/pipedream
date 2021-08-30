@@ -24,13 +24,13 @@ module.exports = {
     },
     folderId: {
       type: "integer",
-      label: "Folder Id",
+      label: "Folder ID",
       optional: true,
     },
     toFolderId: {
       type: "integer",
-      label: "To Folder Id",
-      description: "Id of destination folder.",
+      label: "To Folder ID",
+      description: "ID of destination folder.",
       optional: true,
     },
     toPath: {
@@ -60,7 +60,8 @@ module.exports = {
     },
   },
   methods: {
-    _authToken() {
+    _authToken()
+    {
       return this.$auth.oauth_access_token;
     },
     _apiUrl(domainLocation) {
@@ -117,9 +118,9 @@ module.exports = {
      * @params {string} domainLocation - The domain location of the connected pCloud account. The
      * pCloud API domain URL depends on the location of pCLoud data center associated to the
      * account.
-     * @params {integer} fileId - Id of the file to copy.
+     * @params {integer} fileId - ID of the file to copy.
      * @params {string} path - Path to the file to copy.
-     * @params {integer} toFolderId - Id of the destination folder.
+     * @params {integer} toFolderId - ID of the destination folder.
      * @params {string} toPath - Destination path, including the filename. A new filename can be
      * used.
      * When this is used, `toName` is ignored.
@@ -184,15 +185,15 @@ module.exports = {
      * @params {string} domainLocation - The domain location of the connected pCloud account. The
      * pCloud API domain URL depends on the location of pCLoud data center associated to the
      * account.
-     * @params {integer} folderId - Id of the folder to copy.
+     * @params {integer} folderId - ID of the folder to copy.
      * @params {string} path - Path to the folder to copy contents. If `path` or `folderId` are not
      * present, then root folder is used.
-     * @params {integer} toFolderId - Id of the destination folder.
+     * @params {integer} toFolderId - ID of the destination folder.
      * @params {string} toPath - Path to the destination folder.
      * @params {boolean} noOver - If `true` and files with the same name already exist, no
      * overwriting will be preformed and error `2004` will be returned.
-     * @params {integer} skipExisting - If set, it will skip files that already exist.
-     * @params {integer} copyContentOnly - If set, only the content of source folder will be copied
+     * @params {boolean} skipExisting - If set, it will skip files that already exist.
+     * @params {boolean} copyContentOnly - If set, only the content of source folder will be copied
      * otherwise the folder itself is copied.
      * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly copied folder. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
      */
@@ -221,13 +222,14 @@ module.exports = {
         requestData.append("topath", toPath);
       }
       if (noOver) {
-        requestData.append("noover", 1);
+        requestData.append("noover", 1);//Need to use an integer for `noover`, `skipexisting`,
+                                        //and `copycontentonly` if `true`
       }
       if (skipExisting) {
-        requestData.append("skipexisting", skipExisting);
+        requestData.append("skipexisting", 1);
       }
       if (copyContentOnly) {
-        requestData.append("copycontentonly", copyContentOnly);
+        requestData.append("copycontentonly", 1);
       }
       requestConfig.headers[
         "Content-Type"
@@ -243,7 +245,7 @@ module.exports = {
      * @params {string} domainLocation - The domain location of the connected pCloud account. The
      * pCloud API domain URL depends on the location of pCLoud data center associated to the
      * account.
-     * @params {integer} folderId - Id of the parent folder where the new folder will be created.
+     * @params {integer} folderId - ID of the parent folder where the new folder will be created.
      * @params {string} path - Path to the parent folder, where the new folder will be created.
      * @params {string} name - Name of the folder to be created.
      * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of the newly created folder. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
@@ -278,7 +280,7 @@ module.exports = {
      * @params {string} urls - URLs of the files to download, separated by whitespaces.
      * @params {string} path - Path to folder, in which to download the files. If `path` or
      * `folderId` are not present, then root folder is used
-     * @params {integer} folderId - Id of the folder, in which to download the files.
+     * @params {integer} folderId - ID of the folder, in which to download the files.
      * @params {string} targetFilenames - Desired names for the downloaded files, separated by
      * commas.
      * @returns {metadata: array, result: integer } An array with the [metadata](https://docs.pcloud.com/structures/metadata.html) of each of the downloaded files. A `result` integer that indicates the results of the API operation, 0 means success, a non-zero result means an error occurred, when the result is non-zero an `error` message is included.
@@ -304,7 +306,7 @@ module.exports = {
      * account.
      * @params {string} path - Path to the folder list contents. If `path` or `folderId` are not
      * present, then root folder is used.
-     * @params {integer} folderId - Id of the folder to list contents.
+     * @params {integer} folderId - ID of the folder to list contents.
      * @params {integer} recursive - If is set full directory tree will be returned, which means
      * that all directories will have contents filed.
      * @params {integer} showdeleted - If is set, deleted files and folders that can be undeleted
@@ -342,7 +344,7 @@ module.exports = {
      * Uploads a file to the user's filesystem.
      * @params {string} path - Path to the folder where the file will be uploaded (discouraged). If
      *  neither `path` nor `folderid` are specified, the root folder will be used.
-     * @params {integer} folderid - Id of the folder where the file will be uploaded.
+     * @params {integer} folderid - ID of the folder where the file will be uploaded.
      * @params {string} filename - Name of the file to upload.
      * @params {integer} noPartial - If is set, partially uploaded files will not be saved.
      * @params {string} progressHash - Used for observing upload progress.

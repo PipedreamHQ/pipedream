@@ -30,7 +30,7 @@ module.exports = {
         "folderId",
       ],
       description:
-        "Id of the folder where the file will be uploaded. If neither `path` nor `folderid` are specified, the root folder will be used.",
+        "ID of the folder where the file will be uploaded. If neither `path` nor `folderid` are specified, the root folder will be used.",
     },
     name: {
       propDefinition: [
@@ -53,6 +53,7 @@ module.exports = {
       description: "Used for observing upload progress.",
       optional: true,
     },
+    //TODO: maybe needed to change `renameIfExists`, and `noPartial` to boolean
     renameIfExists: {
       type: "integer",
       label: "Rename if Exists",

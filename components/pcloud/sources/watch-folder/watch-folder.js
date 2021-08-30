@@ -8,13 +8,14 @@ module.exports = {
   description:
     "Emits an event when a file is created or modified in the specified folder.",
   version: "0.0.1",
-  dedupe: "dedupe",
+  type: "action",
+  dedupe: "last",
   props: {
     pcloud,
     db: "$.service.db",
     timer: {
       label: "Polling schedule",
-      description: "Pipedream polls Reddit for events on this schedule.",
+      description: "Pipedream polls pCloud for events on this schedule.",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // by default, run every 15 minutes.
@@ -34,15 +35,15 @@ module.exports = {
       description: "Path to the folder you'd like to watch for created or modified files. For example: `/My Documents/Work`",
       optional: false,
     },
-    emmitOn: {
+    event: {
       type: "string",
-      label: "Emmit events on Created or Modified files?",
+      label: "Folder Event",
       options: [
         "Created",
         "Modified",
       ],
       description:
-        "When you'd like an event to be emitted, by checking on the file's created or modified timestamps. Note: When you manually upload files on pCloud, the file originals's `created` and `modified` timestamps are preserved. When using pCloud API's `uploadfile` endpoint, these fields can be set by specifying the `mtime` and `ctime` parameters.",
+        "Specify when to emit an event related to a given folder. Note that pCloud preserves files\' `created` and `modified` timestamps on upload. If manually uploading via pCloud\'s `uploadfile` API, these timestamps can be set by specifying the `mtime` and `ctime` parameters, respectively.",
       default: "Created",
     },
     showdeleted: {
@@ -94,12 +95,12 @@ module.exports = {
     getEventData(pcloudEvent) {
       const newOrModified = [
         "Created",
-      ].includes(this.emmitOn)
+      ].includes(this.event)
         ? "New created"
         : "Modified";
       const eventDate = [
         "Created",
-      ].includes(this.emmitOn)
+      ].includes(this.event)
         ? pcloudEvent.created
         : pcloudEvent.modified;
       return {
@@ -133,7 +134,7 @@ module.exports = {
           let fileTime;
           if ([
             "Created",
-          ].includes(this.emmitOn)) {
+          ].includes(this.event)) {
             fileTime = +new Date(folderItem.created);
           } else {
             fileTime = +new Date(folderItem.modified);

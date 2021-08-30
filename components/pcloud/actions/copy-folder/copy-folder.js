@@ -6,7 +6,7 @@ module.exports = {
   key: "pcloud-copy-folder",
   name: "Copy Folder",
   description: "Copies a folder to the specified path or folder.",
-  version: "0.0.1",
+  version: "0.0.11",
   type: "action",
   props: {
     pcloud,
@@ -21,7 +21,7 @@ module.exports = {
         pcloud,
         "folderId",
       ],
-      description: "Id of the source folder.",
+      description: "ID of the source folder.",
     },
     path: {
       propDefinition: [
@@ -44,20 +44,20 @@ module.exports = {
       description: "Destination path.",
     },
     noOver: {
-      type: "integer",
+      type: "boolean",
       label: "No Overwrite?",
       description:
         "If it is set and files with the same name already exist, no overwriting will be preformed and error `2004` will be returned.",
       optional: true,
     },
     skipExisting: {
-      type: "integer",
+      type: "boolean",
       label: "Skip Existing?",
       description: "If set will skip files that already exist.",
       optional: true,
     },
     copyContentOnly: {
-      type: "integer",
+      type: "boolean",
       label: "Copy Content Only?",
       description:
         "If it is set only the content of source folder will be copied otherwise the folder itself is copied.",

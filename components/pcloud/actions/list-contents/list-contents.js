@@ -28,8 +28,9 @@ module.exports = {
         pcloud,
         "folderId",
       ],
-      description: "Id of the folder to list contents.",
+      description: "ID of the folder to list contents.",
     },
+    //TODO: maybe needed to change `recursive`, `nofiles`, `noshares`, to boolean
     recursive: {
       type: "integer",
       label: "Recursive?",

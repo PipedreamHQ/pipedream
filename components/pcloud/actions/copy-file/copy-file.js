@@ -19,8 +19,8 @@ module.exports = {
     },
     fileId: {
       type: "integer",
-      label: "File Id",
-      description: "Id of the file to copy.",
+      label: "File ID",
+      description: "ID of the file to copy.",
       optional: true,
     },
     path: {
@@ -60,13 +60,13 @@ module.exports = {
     modifiedTime: {
       type: "integer",
       label: "Modified Time",
-      description: "If specified, file modified time is set. Must be in unix time seconds.",
+      description: "Must be a UNIX timestamp.",
       optional: true,
     },
     createdTime: {
       type: "integer",
       label: "Created Time",
-      description: "If specified, file created time is set. It's required to provide `modifiedTime` to set `createdTime`. Must be in unix time seconds.",
+      description: "Must be a UNIX timestamp.",
       optional: true,
     },
   },
