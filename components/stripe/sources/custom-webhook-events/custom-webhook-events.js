@@ -4,7 +4,7 @@ module.exports = {
   key: "stripe-custom-webhook-events",
   name: "Custom Webhook Events",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Subscribe to one or more event types and emit an event on each webhook request",
   props: {
     stripe,
@@ -15,7 +15,9 @@ module.exports = {
       options() {
         return this.stripe.enabledEvents();
       },
-      default: "*",
+      default: [
+        "*"
+      ],
     },
     /* eslint-disable pipedream/props-label */
     /* eslint-disable pipedream/props-description */
