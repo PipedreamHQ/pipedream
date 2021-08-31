@@ -119,6 +119,23 @@ module.exports = {
       return await this.api().listMembers();
     },
     /**
+     * Returns a list of all Members as options to use as dynamically populated prop's options.
+     * @returns {members: array } An array where each element has the `value` and `label`
+     * properties, to be used as dynamically populated prop's options. `value` is set to the `id`
+     * of the Clubhouse member, and `label` to the member's name.
+     */
+     async listMembersAsOptions() {
+      const members = await this.callWithRetry("listMembers");
+      const options = [];
+      members.forEach((member) => {
+        options.push({
+          label: member.profile.name,
+          value: member.id,
+        });
+      });
+      return options;
+    },
+    /**
      * Returns a list of all Members and their attributes.
      * @returns {members: array } An array of all members in the connected Clubhouse account.
      * See the [Members schema](https://clubhouse.io/api/rest/v3/#Member-1426) at the API docs.

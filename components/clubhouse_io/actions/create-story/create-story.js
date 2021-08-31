@@ -7,7 +7,7 @@ module.exports = {
   key: "clubhouse-create-story",
   name: "Create Story",
   description: "Creates a new story in your clubhouse.",
-  version: "0.0.36",
+  version: "0.0.1",
   type: "action",
   props: {
     clubhouse,
@@ -15,6 +15,7 @@ module.exports = {
       type: "boolean",
       label: "Archived",
       description: "Controls the story’s archived state.",
+      default: false,
       optional: true,
     },
     comments: {
@@ -22,6 +23,7 @@ module.exports = {
       label: "Comments",
       description:
         "An array with comment objects to add to the story. Each comment object must have the [CreateStoryCommentParams](https://clubhouse.io/api/rest/v3/#CreateStoryCommentParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of comment objects. ",
+      default: "",
       optional: true,
     },
     completedAtOverride: {
@@ -47,6 +49,7 @@ module.exports = {
       type: "string",
       label: "Description",
       description: "The description of the story.",
+      default: "",
       optional: true,
     },
     epicId: {
@@ -96,6 +99,9 @@ module.exports = {
       type: "string[]",
       label: "Follower Ids",
       description: "A string array of UUIDs of the followers of this story.",
+      async options(){
+        return await this.clubhouse.listMembersAsOptions();
+      },
       optional: true,
     },
     groupId: {
@@ -155,6 +161,9 @@ module.exports = {
       type: "string[]",
       label: "Owner Ids",
       description: "A string array of UUIDs of the owners of this story.",
+      async options(){
+        return await this.clubhouse.listMembersAsOptions();
+      },
       optional: true,
     },
     projectId: {
@@ -178,15 +187,7 @@ module.exports = {
       label: "Requested by ID",
       description: "The ID of the member that requested the story.",
       async options() {
-        const options = [];
-        const members = await this.clubhouse.callWithRetry("listMembers");
-        members.forEach((member) => {
-          options.push({
-            label: member.name,
-            value: member.id,
-          });
-        });
-        return options;
+        return await this.clubhouse.listMembersAsOptions();
       },
       optional: true,
     },
@@ -212,6 +213,7 @@ module.exports = {
         "chore",
         "feature",
       ],
+      default: "feature",
       optional: true,
     },
     tasks: {
@@ -232,25 +234,22 @@ module.exports = {
       label: "Workflow State Id",
       description: "The ID of the workflow state the story will be in.",
       async options() {
-        const options = [];
         const workflows = await this.clubhouse.callWithRetry("listWorkflows");
-        workflows.forEach((workflow) => {
+        return workflows.reduce(function (options, workflow) {
           const hasState = get(workflow, [
             "states",
             "length",
           ]);
           if (hasState) {
-            workflow.states.forEach((state) => {
-              options.push({
-                label: `${state.name} (${workflow.name})`,
-                value: state.id,
-              });
-            });
+            workflow.states.map(state =>(options.push({
+                  label: `${state.name} (${workflow.name})`,
+                  value: `${state.id}`,
+                })));
           }
-        });
-        return options;
+          return options;
+        },[])
       },
-      optional: true,
+      optional: true
     },
   },
   methods: {
