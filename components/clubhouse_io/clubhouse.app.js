@@ -44,7 +44,7 @@ module.exports = {
     },
     callWithRetry(method, ...args) {
       return this._withRetries(
-        () => this.api()[method](...args)
+        () => this.api()[method](...args),
       );
     },
     /**
@@ -115,7 +115,7 @@ module.exports = {
      * @returns {members: array } An array of all members in the connected Clubhouse account.
      * See the [Members schema](https://clubhouse.io/api/rest/v3/#Member-1426) at the API docs.
      */
-     async listMembers() {
+    async listMembers() {
       return await this.api().listMembers();
     },
     /**
@@ -124,7 +124,7 @@ module.exports = {
      * properties, to be used as dynamically populated prop's options. `value` is set to the `id`
      * of the Clubhouse member, and `label` to the member's name.
      */
-     async listMembersAsOptions() {
+    async listMembersAsOptions() {
       const members = await this.callWithRetry("listMembers");
       const options = [];
       members.forEach((member) => {
@@ -136,19 +136,11 @@ module.exports = {
       return options;
     },
     /**
-     * Returns a list of all Members and their attributes.
-     * @returns {members: array } An array of all members in the connected Clubhouse account.
-     * See the [Members schema](https://clubhouse.io/api/rest/v3/#Member-1426) at the API docs.
-     */
-    async listMembers() {
-      return await this.api().listMembers();
-    },
-    /**
      * Returns a list of all projects.
      * @returns {members: array } An array of all projects in the connected Clubhouse account.
      * See the [Projects schema](https://clubhouse.io/api/rest/v3/#Project) at the API docs.
      */
-     async listProjects() {
+    async listProjects() {
       return await this.api().listProjects();
     },
     /**
