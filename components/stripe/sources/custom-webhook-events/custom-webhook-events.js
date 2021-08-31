@@ -16,7 +16,7 @@ module.exports = {
         return this.stripe.enabledEvents();
       },
       default: [
-        "*"
+        "*",
       ],
     },
     /* eslint-disable pipedream/props-label */
