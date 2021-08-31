@@ -16,8 +16,13 @@ module.exports = {
     },
   },
   async run(event) {
-    await this.firebase.initializeApp();
-    await this.processEvent(event);
-    this.firebase.deleteApp();
+    try {
+      await this.firebase.initializeApp();
+      await this.processEvent(event);
+    } catch (err) {
+      throw new Error(err);
+    } finally {
+      this.firebase.deleteApp();
+    }
   },
 };
