@@ -99,7 +99,7 @@ module.exports = {
       type: "string[]",
       label: "Follower Ids",
       description: "A string array of UUIDs of the followers of this story.",
-      async options(){
+      async options() {
         return await this.clubhouse.listMembersAsOptions();
       },
       optional: true,
@@ -161,7 +161,7 @@ module.exports = {
       type: "string[]",
       label: "Owner Ids",
       description: "A string array of UUIDs of the owners of this story.",
-      async options(){
+      async options() {
         return await this.clubhouse.listMembersAsOptions();
       },
       optional: true,
@@ -241,15 +241,15 @@ module.exports = {
             "length",
           ]);
           if (hasState) {
-            workflow.states.map(state =>(options.push({
-                  label: `${state.name} (${workflow.name})`,
-                  value: `${state.id}`,
-                })));
+            workflow.states.map((state) => (options.push({
+              label: `${state.name} (${workflow.name})`,
+              value: `${state.id}`,
+            })));
           }
           return options;
-        },[])
+        }, []);
       },
-      optional: true
+      optional: true,
     },
   },
   methods: {
