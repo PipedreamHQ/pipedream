@@ -1,6 +1,5 @@
-const common = require("../common");
+const clubhouse = require("../../clubhouse.app.js");
 const get = require("lodash/get");
-const { clubhouse } = common.props;
 const validate = require("validate.js");
 
 module.exports = {
@@ -77,7 +76,7 @@ module.exports = {
       optional: true,
     },
     externalId: {
-      type: "integer",
+      type: "string",
       label: "External Id",
       description:
         "This field can be set to another unique ID. In the case that the Story has been imported from another tool, the ID in the other tool can be indicated here.",
@@ -93,6 +92,17 @@ module.exports = {
       type: "integer[]",
       label: "File Ids",
       description: "An integer array of IDs of files attached to the story.",
+      async options() {
+        const options = [];
+        const files = await this.clubhouse.callWithRetry("listFiles");
+        files.forEach((file) => {
+          options.push({
+            label: file.name,
+            value: file.id,
+          });
+        });
+        return options;
+      },
       optional: true,
     },
     followerIds: {
@@ -127,11 +137,11 @@ module.exports = {
       },
       optional: true,
     },
-    labels: {
-      type: "string",
-      label: "Labels",
+    label: {
+      type: "object",
+      label: "Label",
       description:
-        "An array of labels objects attached to the story. Each label object must have the [CreateLabelParams](https://clubhouse.io/api/rest/v3/#CreateLabelParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of labels objects.",
+        "A label object attached to the story. Each label object must have the following structure: `color` which is an string with the hex color to be displayed with the Label i.e. \"#ff0000\", and a string `name` for the name of the Label.",
       optional: true,
     },
     linkedFileIds: {
@@ -252,9 +262,6 @@ module.exports = {
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
     const constraints = {
       name: {
@@ -287,20 +294,11 @@ module.exports = {
         type: "array",
       };
     }
-    validate.validators.arrayValidator = this.validateArray; //custom validator for object arrays
     if (this.comments) {
       constraints.comments = {
         arrayValidator: {
           value: this.comments,
           key: "comment",
-        },
-      };
-    }
-    if (this.labels) {
-      constraints.labels = {
-        arrayValidator: {
-          value: this.labels,
-          key: "label",
         },
       };
     }
@@ -339,7 +337,6 @@ module.exports = {
         externalLinks: this.externalLinks,
         fileIds: this.fileIds,
         followerIds: this.followerIds,
-        labels: this.labels,
         linkedFileIds: this.linkedFileIds,
         ownerIds: this.ownerIds,
         storyLinks: this.storyLinks,
@@ -347,10 +344,10 @@ module.exports = {
       },
       constraints,
     );
-    this.checkValidationResults(validationResult);
+    this.clubhouse.checkValidationResults(validationResult);
     const story = {
       archived: this.archived,
-      comments: this.getArrayObject(this.comments),
+      comments: this.clubhouse.getArrayObject(this.comments),
       completed_at_override: this.completedAtOverride,
       created_at: this.createdAt,
       deadline: this.dueDate,
@@ -358,24 +355,29 @@ module.exports = {
       epic_id: this.epicId,
       estimate: this.estimate,
       external_id: this.externalId,
-      external_links: this.convertEmptyStringToUndefined(this.externalLinks),
-      file_ids: this.convertEmptyStringToUndefined(this.fileIds),
-      follower_ids: this.convertEmptyStringToUndefined(this.followerIds),
+      external_links: this.clubhouse.convertEmptyStringToUndefined(this.externalLinks),
+      file_ids: this.clubhouse.convertEmptyStringToUndefined(this.fileIds),
+      follower_ids: this.clubhouse.convertEmptyStringToUndefined(this.followerIds),
       group_id: this.groupId,
       iteration_id: this.iterationId,
-      labels: this.getArrayObject(this.labels),
-      linked_file_ids: this.convertEmptyStringToUndefined(this.linkedFileIds),
+      linked_file_ids: this.clubhouse.convertEmptyStringToUndefined(this.linkedFileIds),
       name: this.name,
-      owner_ids: this.convertEmptyStringToUndefined(this.ownerIds),
+      owner_ids: this.clubhouse.convertEmptyStringToUndefined(this.ownerIds),
       project_id: this.projectId,
       requested_by_id: this.requestedById,
       started_at_override: this.startedAtOverride,
-      story_links: this.getArrayObject(this.storyLinks),
+      story_links: this.clubhouse.getArrayObject(this.storyLinks),
       story_type: this.storyType,
-      tasks: this.getArrayObject(this.tasks),
+      tasks: this.clubhouse.getArrayObject(this.tasks),
       updated_at: this.updatedAt,
       workflow_state_id: this.workflowStateId,
     };
+    const label = this.clubhouse.convertEmptyStringToUndefined(this.label);
+    if (label) {
+      story.labels = [
+        label,
+      ];
+    }
     return await this.clubhouse.callWithRetry("createStory", story);
   },
 };

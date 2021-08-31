@@ -1,5 +1,4 @@
-const common = require("../common");
-const { clubhouse } = common.props;
+const clubhouse = require("../../clubhouse.app.js");
 const validate = require("validate.js");
 
 module.exports = {
@@ -23,9 +22,6 @@ module.exports = {
       default: 25,
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
     const constraints = {
       query: {
@@ -43,7 +39,7 @@ module.exports = {
       },
       constraints,
     );
-    this.checkValidationResults(validationResult);
+    this.clubhouse.checkValidationResults(validationResult);
     return await this.clubhouse.searchStories(this.query, this.numberOfStories);
   },
 };

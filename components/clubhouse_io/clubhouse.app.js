@@ -48,6 +48,32 @@ module.exports = {
       );
     },
     /**
+     * Returns a validation message
+     *
+     * @param {object} validationResults a validation results object from validate.js library
+     * @returns it will generate validation message for each of the validation results present in
+     * `validationResults`.
+     */
+    checkValidationResults(validationResults) {
+      if (validationResults) {
+        const validationErrorMsg = Object.keys(validationResults)
+          .map((key) => `\t${validationResults[key]}`)
+          .join("\n");
+        const errorMsg = `Parameter validation failed with the following errors:\n${validationErrorMsg}`;
+        throw new Error(errorMsg);
+      }
+    },
+    /**
+     * Returns `undefined` when `value` is an empty string or `null`.
+     *
+     * @param {object} value the value to check for returning `null`.
+     * @returns If `value` is defined, it will return `value`. Otherwise on an empty string, or
+     * `null` it will return `undefined`.
+     */
+    convertEmptyStringToUndefined(value) {
+      return value || undefined;
+    },
+    /**
      * Creates a new story in your clubhouse.
      * @params {boolean} archived - Controls the story’s archived state.
      * @params {array} comments - Array with comments to add to the story. Each comment must have
@@ -61,7 +87,7 @@ module.exports = {
      * @params {integer} epicId - The unique identifier of the epic the story belongs to.
      * @params {integer} estimate - The numeric point estimate of the story. Can be null, which
      * means unestimated.
-     * @params {integer} externalId - This field can be set to another unique ID. In the case that
+     * @params {string} externalId - This field can be set to another unique ID. In the case that
      *  the Story has been imported from another tool, the ID in the other tool can be indicated
      * here.
      * @params {array} externalLinks - An array of External Links associated with this story.
@@ -94,12 +120,36 @@ module.exports = {
       return await this.api().createStory(data);
     },
     /**
+     * Checks if an object is an array, if not it will attempt to JSON parse.
+     * If the object is not defined it will return undefined.
+     * @param {object} object the input object to check for array type or JSON parse.
+     * @returns The same object, if it's an array, otherwise the "JSON.parsed" object.
+     */
+    getArrayObject(obj) {
+      if (obj && Array.isArray(obj)) {
+        return obj;
+      }
+      if (obj && typeof obj === "string") {
+        return JSON.parse(obj);
+      }
+      return undefined;
+    },
+    /**
      * Returns a list of all Epics and their attributes.
      * @returns {epics: array } An array of all epics in the connected Clubhouse account.
      * See the [Epic schema](https://clubhouse.io/api/rest/v3/#Epic) at the API docs.
      */
     async listEpics() {
       return await this.api().listEpics();
+    },
+    /**
+     * Returns a list of all Files.
+     * @returns {files: array } An array of all files in the connected Clubhouse
+     * account.
+     * See the [Files schema](https://clubhouse.io/api/rest/v3/#List-Files) at the API docs.
+     */
+    async listFiles() {
+      return await this.api().listFiles();
     },
     /**
      * Returns a list of all Linked Files.
@@ -176,10 +226,10 @@ module.exports = {
       try {
         result = await this._withRetries(() =>
           this.api().searchStories(query, Math.min(numberOfStories, 25)));
+        return await processResult(result);
       } catch (err) {
         throw new Error(err.message);
       }
-      return await processResult(result);
     },
   },
 };
