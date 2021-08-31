@@ -50,7 +50,7 @@ module.exports = {
         "Content-Type": "application/json",
       };
     },
-    _getParamsSerializer(p) {
+    _getParamsSerializer() {
       return (p) =>
         qs.stringify(p, {
           arrayFormat: "repeat",
