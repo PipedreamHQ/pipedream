@@ -47,8 +47,8 @@ module.exports = {
     /**
      * Renders this app instance unusable and frees the resources of all associated services.
      */
-    deleteApp() {
-      return this.getApp().delete();
+    async deleteApp() {
+      return await this.getApp().delete();
     },
     /**
      * Retrieves the default Firebase app instance.
