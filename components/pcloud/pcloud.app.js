@@ -64,6 +64,10 @@ module.exports = {
     {
       return this.$auth.oauth_access_token;
     },
+    _getToken()
+    {
+      return this.$auth;
+    },
     _apiUrl(domainLocation) {
       const subdomain = domainLocation == "EU"
         ? "eapi"

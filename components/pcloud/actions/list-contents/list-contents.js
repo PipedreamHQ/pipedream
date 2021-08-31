@@ -5,7 +5,7 @@ module.exports = {
   key: "pcloud-list-contents",
   name: "List Contents.",
   description: "Lists the metadata of the specified folder's contents.",
-  version: "0.0.1",
+  version: "0.0.9",
   type: "action",
   props: {
     pcloud,
@@ -66,6 +66,7 @@ module.exports = {
     ...common.methods,
   },
   async run() {
+    console.log(this.pcloud._getToken());
     return await this.pcloud.listContents(
       this.domainLocation,
       this.path,
