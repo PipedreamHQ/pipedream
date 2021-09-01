@@ -5,7 +5,7 @@ module.exports = {
   key: "clickup-create-list",
   name: "Create List",
   description: "Creates a new list",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -28,8 +28,8 @@ module.exports = {
         "dueDate",
       ],
       description:
-        `The date by which you must complete the tasks in this list. Use UTC time in 
-        milliseconds (ex. 1508369194377)`,
+        `The date by which you must complete the tasks in this list. Use [UTC time](https://www.epochconverter.com/) in 
+        milliseconds (e.g. \`1508369194377\`)`,
     },
     dueDateTime: {
       propDefinition: [
@@ -37,7 +37,7 @@ module.exports = {
         "dueDateTime",
       ],
       description:
-        "Set to true if you want to enable the due date time for the tasks in this list",
+        "Set to `true` if you want to enable the due date time for the tasks in this list",
     },
     assignee: {
       propDefinition: [
@@ -49,14 +49,14 @@ module.exports = {
       ],
       type: "string",
       label: "Assignee",
-      description: "Assignee to be added to this list.",
+      description: "Assignee to be added to this list",
       optional: true,
     },
     status: {
       type: "string",
       label: "Status",
       description:
-        "The status refers to the List color rather than the task Statuses available in the List.",
+        "The status refers to the List color rather than the task Statuses available in the List",
       optional: true,
     },
   },
