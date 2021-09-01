@@ -8,19 +8,19 @@ module.exports = {
     path: {
       type: "string",
       label: "Path",
-      description: "A relative path to the location of child data",
+      description: "A [relative path](https://firebase.google.com/docs/reference/rules/rules.Path) to the location of child data",
     },
     query: {
       type: "string",
       label: "Structured Query",
       description:
-        "The JSON contents of the Structured Query. https://cloud.google.com/firestore/docs/reference/rest/v1beta1/StructuredQuery",
+        "Enter a [structured query](https://cloud.google.com/firestore/docs/reference/rest/v1beta1/StructuredQuery) that returns new records from your target collection. Example: `{ \"select\": { \"fields\": [] }, \"from\": [ { \"collectionId\": \"<YOUR COLLECTION>\", \"allDescendants\": \"true\" } ] }`",
     },
     apiKey: {
       type: "string",
-      label: "API Key",
+      label: "Web API Key",
       description:
-        "API Key refers to the Web API Key, which can be obtained on the project settings page in your admin console.",
+        "You can find the Web API key in the **Project Settings** of your Firebase admin console",
       secret: true,
     },
   },

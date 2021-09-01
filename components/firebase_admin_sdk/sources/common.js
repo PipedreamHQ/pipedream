@@ -20,7 +20,7 @@ module.exports = {
       await this.firebase.initializeApp();
       await this.processEvent(event);
     } catch (err) {
-      console.log("ERROR IN REQUEST: ", err.response);
+      console.log("CHECK HERE FOR ERROR: ", err.response);
       throw new Error(err);
     } finally {
       this.firebase.deleteApp();
