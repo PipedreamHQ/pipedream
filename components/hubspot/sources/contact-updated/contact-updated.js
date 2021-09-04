@@ -6,6 +6,7 @@ module.exports = {
   name: "Contact Updated",
   description: "Emits an event each time a contact is updated.",
   version: "0.0.3",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     generateMeta(contact) {

@@ -4,9 +4,18 @@ module.exports = {
   ...common,
   key: "hubspot-new-or-updated-crm-object",
   name: "New or Updated CRM Object",
-  description: "Emits an event each time a CRM Object (companies, contacts, deals, products, tickets, line_items, quotes, custom_objects) is updated.",
+  description: "Emits an event each time a CRM Object of the specified object type is updated.",
   version: "0.0.1",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    objectType: {
+      propDefinition: [
+        common.props.hubspot,
+        "objectType",
+      ],
+    },
+  },
   hooks: {},
   methods: {
     ...common.methods,
@@ -29,11 +38,14 @@ module.exports = {
       return null;
     },
     getObjectParams(object) {
+      const propertyName = (object == "contacts")
+        ? "lastmodifieddate"
+        : "hs_lastmodifieddate";
       return {
         limit: 100,
         sorts: [
           {
-            propertyName: "lastmodifieddate",
+            propertyName,
             direction: "DESCENDING",
           },
         ],
@@ -41,11 +53,11 @@ module.exports = {
       };
     },
     async processResults(after) {
-      const crmObjects = this.hubspot.getCRMObjects();
-      for (const object of crmObjects) {
-        const params = this.getObjectParams(object);
-        await this.searchCRM(params, after);
-      }
+      const object = (this.objectType == "company")
+        ? "companies"
+        : `${this.objectType}s`;
+      const params = this.getObjectParams(object);
+      await this.searchCRM(params, after);
     },
   },
 };

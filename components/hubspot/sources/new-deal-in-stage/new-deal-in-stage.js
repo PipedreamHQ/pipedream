@@ -19,30 +19,18 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    _getStage() {
-      return this.db.get("stage");
-    },
-    _setStage(stage) {
-      this.db.set("stage", stage);
-    },
-    generateMeta(deal, stage) {
+    generateMeta(deal) {
       const {
         id,
         properties,
         updatedAt,
       } = deal;
-      const { label } = stage;
       const ts = Date.parse(updatedAt);
       return {
         id: `${id}${properties.dealstage}`,
-        summary: `${properties.dealname} ${label}`,
+        summary: `${properties.dealname}`,
         ts,
       };
-    },
-    emitEvent(deal) {
-      const stage = this._getStage();
-      const meta = this.generateMeta(deal, stage);
-      this.$emit(deal, meta);
     },
     isRelevant(deal, updatedAfter) {
       return Date.parse(deal.updatedAt) > updatedAfter;
@@ -51,18 +39,24 @@ module.exports = {
       return null;
     },
     getStageParams(stage) {
+      const filter = {
+        propertyName: "dealstage",
+        operator: "EQ",
+        value: stage.value,
+      };
+      const filterGroup = {
+        filters: [
+          filter,
+        ],
+      };
       return {
         limit: 100,
-        filters: [
-          {
-            propertyName: "dealstage",
-            operator: "EQ",
-            value: stage.value,
-          },
+        filterGroups: [
+          filterGroup,
         ],
         sorts: [
           {
-            propertyName: "lastmodifieddate",
+            propertyName: "hs_lastmodifieddate",
             direction: "DESCENDING",
           },
         ],
@@ -72,7 +66,6 @@ module.exports = {
     async processResults(after) {
       for (let stage of this.stages) {
         stage = JSON.parse(stage);
-        this._setStage(stage);
         const params = this.getStageParams(stage);
         await this.searchCRM(params, after);
       }

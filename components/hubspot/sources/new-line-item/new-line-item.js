@@ -34,7 +34,7 @@ module.exports = {
             direction: "DESCENDING",
           },
         ],
-        object: "line_items",
+        object: "lineItems",
       };
     },
     async processResults(after, params) {

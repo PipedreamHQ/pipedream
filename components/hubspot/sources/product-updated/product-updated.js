@@ -31,7 +31,7 @@ module.exports = {
         limit: 100,
         sorts: [
           {
-            propertyName: "lastmodifieddate",
+            propertyName: "hs_lastmodifieddate",
             direction: "DESCENDING",
           },
         ],

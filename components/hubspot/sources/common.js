@@ -34,8 +34,7 @@ module.exports = {
     },
     async paginate(params, resourceFn, resultType = null, after = null) {
       let results = null;
-      let done = false;
-      while ((!results || params.after) && !done) {
+      while (!results || params.after) {
         results = await resourceFn(params);
         if (results.paging) params.after = results.paging.next.after;
         else delete params.after;
@@ -44,7 +43,7 @@ module.exports = {
           if (this.isRelevant(result, after)) {
             this.emitEvent(result);
           } else {
-            done = true;
+            return;
           }
         }
       }
@@ -80,7 +79,7 @@ module.exports = {
       throw new Error("getParams not implemented");
     },
     processResults() {
-      throw new Error("paginateResults not implemented");
+      throw new Error("processResults not implemented");
     },
     async searchCRM(params, after) {
       await this.paginate(
