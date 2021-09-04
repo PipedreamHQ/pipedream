@@ -277,18 +277,6 @@ module.exports = {
     async getLineItem(lineItemId) {
       return await this.makeRequest("GET", `/crm/v3/objects/line_items/${lineItemId}`);
     },
-    /*    getCRMObjects() {
-      return [
-        "companies",
-        "contacts",
-        "deals",
-        "products",
-        "tickets",
-        "lineItems",
-        "quotes",
-        "customObjects"
-      ];
-    },  */
     async getPublishingChannels() {
       return await this.makeAxiosRequest("GET", "/broadcast/v1/channels/setting/publish/current");
     },
