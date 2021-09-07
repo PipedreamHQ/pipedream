@@ -717,7 +717,7 @@ display the sources configured as listeners using this API**.
 
 #### Endpoint
 
-```text
+```
 POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}listener_id={receiving_source_id}
 ```
 
