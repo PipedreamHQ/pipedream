@@ -168,7 +168,7 @@ const resp = await axios({
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/send-an-http-request-with-headers-p_q6ClzO/edit).
 
-## Send multiple HTTP requests using a loop
+## Send multiple HTTP requests in sequence
 
 There are many ways to make multiple HTTP requests. This code shows you a simple example that sends the numbers `1`, `2`, and `3` in the body of an HTTP POST request:
 
@@ -192,9 +192,39 @@ for (const num of [1, 2, 3]) {
 return responses;
 ```
 
-This sends each HTTP request _in sequence_, one after another, and returns an array of response data returned from the URL to which you send the POST request.
+This sends each HTTP request _in sequence_, one after another, and returns an array of response data returned from the URL to which you send the POST request. If you need to make requests _in parallel_, [see these docs](#send-multiple-http-requests-in-parallel).
 
 [Copy this workflow](https://pipedream.com/@dylburger/iterate-over-a-pipedream-step-export-sending-multiple-http-requests-p_ljCAPN/edit) and fill in your destination URL to see how this works. **This workflow iterates over the value of a Pipedream [step export](/workflows/steps/#step-exports)** - data returned from a previous step. Since you often want to iterate over data returned from a Pipedream action or other code step, this is a common use case.
+
+## Send multiple HTTP requests in parallel
+
+Sometimes you'll want to make multiple HTTP requests in parallel. If one request doesn't depend on the results of another, this is a nice way to save processing time in a workflow. It can significantly cut down on the time you spend waiting for one request to finish, and for the next to begin.
+
+To make requests in parallel, you can use two techniques. By default, we recommend using [`promise.allSettled`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled), which makes all HTTP requests and returns data on their success / failure. If an HTTP request fails, all other requests will proceed.
+
+```javascript
+const axios = require("axios")
+const arr = ["https://www.example.com", "https://www.cnn.com", "https://www.espn.com"]
+const promises = arr.map(url => axios.get(url))
+return Promise.allSettled(promises)
+```
+
+First, we generate an array of `axios.get` requests (which are all [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)), and then call `Promise.allSettled` to run them in parallel.
+
+When you want to stop future requests when _one_ of the requests fails, you can use [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all), instead:
+
+```javascript
+const axios = require("axios")
+const arr = ["https://www.example.com", "https://www.cnn.com", "https://www.espn.com"]
+const promises = arr.map(url => axios.get(url))
+return Promise.all(promises)
+```
+
+The Mozilla docs expand on the difference between these methods, and when you may want to use one or the other:
+
+>The `Promise.allSettled()` method returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.<br /></br >
+> It is typically used when you have multiple asynchronous tasks that are not dependent on one another to complete successfully, or you'd always like to know the result of each promise.<br /></br >
+> In comparison, the Promise returned by `Promise.all()` may be more appropriate if the tasks are dependent on each other / if you'd like to immediately reject upon any of them rejecting.
 
 ## Send a `multipart/form-data` request
 
