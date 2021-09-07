@@ -112,7 +112,7 @@ In Node.js, you typically import third-party packages using the `require` statem
 const _ = require("lodash");
 ```
 
-In this example, `lodash` published their package to npm as a [CommomJS module](https://nodejs.org/api/modules.html). You import CommonJS modules using the `require` statement.
+In this example, `lodash` published their package to npm as a [CommonJS module](https://nodejs.org/api/modules.html). You import CommonJS modules using the `require` statement.
 
 But you may encounter this error in workflows:
 
