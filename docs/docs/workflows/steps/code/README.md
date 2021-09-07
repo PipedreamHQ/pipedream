@@ -104,6 +104,46 @@ The core limitation of packages is one we described above: some packages require
 
 Moreover, packages that require access to large binaries — for example, how [Puppeteer](https://pptr.dev) requires Chromium — may not work on Pipedream. If you're seeing any issues with a specific package, please [let us know](https://pipedream.com/support/).
 
+## CommonJS vs. ESM imports
+
+In Node.js, you typically import third-party packages using the `require` statement:
+
+```javascript
+const _ = require("lodash");
+```
+
+In this example, `lodash` published their package to npm as a [CommonJS module](https://nodejs.org/api/modules.html). You import CommonJS modules using the `require` statement.
+
+But you may encounter this error in workflows:
+
+**Error Must use import to load ES Module**
+
+This means that the package you're trying to `require` uses a different format to export their code, called [ECMAScript modules](https://nodejs.org/api/esm.html#esm_modules_ecmascript_modules) (**ESM**, or **ES modules**, for short). With ES modules, you instead need to `import` the package:
+
+```javascript
+import got from 'got';
+```
+
+**This default, "static" `import` statement does not work in Pipedream workflows**. Instead, you'll need to use a "dynamic" `import` statement like this:
+
+```javascript
+const { default: got } = await import('got')
+```
+
+In general, when you see the **Must use import to load ES Module** error, you'll want to try adding code like this:
+
+```javascript
+const { default: <npm package name> } = await import('<npm package name>')
+```
+
+This should make the name of the npm package (like `got` above) available for use in the rest of your code.
+
+```javascript
+const { default: got } = await import('got')
+// I can use `got` in the rest of my workflow
+await got.post(...)
+```
+
 ## Variable scope
 
 Any variables you create within a step are scoped to that step. That is, they cannot be referenced in any other step.

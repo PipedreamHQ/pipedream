@@ -6,9 +6,10 @@ module.exports = {
   ...common,
   key: "google_cloud-bigquery-query-results",
   name: "BigQuery - Query Results",
-  description: "Emit an event with the results of an arbitrary query",
-  version: "0.0.1",
+  description: "Emit new events with the results of an arbitrary query",
+  version: "0.0.2",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
     sqlQuery: {
@@ -46,9 +47,9 @@ module.exports = {
     generateMetaForCollection(rows, ts) {
       const hash = crypto.createHash("sha1");
       rows
-        .map(i => i[this.dedupeKey] || uuidv4())
-        .map(i => i.toString())
-        .forEach(i => hash.update(i));
+        .map((i) => i[this.dedupeKey] || uuidv4())
+        .map((i) => i.toString())
+        .forEach((i) => hash.update(i));
       const id = hash.digest("base64");
       const summary = `New event (ID: ${id})`;
       return {

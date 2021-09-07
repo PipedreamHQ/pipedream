@@ -46,7 +46,9 @@
     {
       "files": [
         "**/actions/**/common*.js",
-        "**/sources/**/common*.js",
+        "**/actions/common/*",
+        "**/sources/common/*",
+        "**/sources/**/common*.js"
       ],
       "rules": {
         "pipedream/required-properties-key": "off",

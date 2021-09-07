@@ -43,25 +43,18 @@ module.exports = {
     },
     /**
      * Called when a component is created or updated. Handles all the logic
-     * for starting and stopping watch notifications tied to the desired files.
+     * for starting and stopping watch notifications tied to the desired file.
      */
     async activate() {
       const channelID = this._getChannelID() || uuid();
-      const driveId = this.getDriveId();
-
-      const startPageToken = await this.googleSheets.getPageToken(driveId);
       const {
         expiration,
         resourceId,
-      } = await this.googleSheets.watchDrive(
+      } = await this.googleSheets.watchFile(
         channelID,
         this.http.endpoint,
-        startPageToken,
-        driveId,
+        this.sheetID,
       );
-
-      // We use and increment the pageToken as new changes arrive, in run()
-      this._setPageToken(startPageToken);
 
       // Save metadata on the subscription so we can stop / renew later
       // Subscriptions are tied to Google's resourceID, "an opaque value that
@@ -81,7 +74,6 @@ module.exports = {
       // Reset DB state before anything else
       this._setSubscription(null);
       this._setChannelID(null);
-      this._setPageToken(null);
 
       if (!channelID) {
         console.log(
@@ -196,33 +188,50 @@ module.exports = {
       throw new Error("processEvent is not implemented");
     },
     async renewSubscription() {
-      const driveId = this.getDriveId();
-
-      // Assume subscription, channelID, and pageToken may all be undefined at
+      // Assume subscription & channelID may all be undefined at
       // this point Handle their absence appropriately.
       const subscription = this._getSubscription();
       const channelID = this._getChannelID() || uuid();
-      const pageToken =
-        this._getPageToken() ||
-        (await this.googleSheets.getPageToken(driveId));
 
       const {
         expiration,
         resourceId,
-      } = await this.googleSheets.checkResubscription(
+      } = await this.checkResubscription(
         subscription,
         channelID,
-        pageToken,
         this.http.endpoint,
-        this.watchedDrive,
       );
 
       this._setSubscription({
         expiration,
         resourceId,
       });
-      this._setPageToken(pageToken);
       this._setChannelID(channelID);
+    },
+    async checkResubscription(
+      subscription,
+      channelID,
+      endpoint,
+    ) {
+      if (subscription && subscription.resourceId) {
+        console.log(
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`,
+        );
+        await this.googleSheets.stopNotifications(channelID, subscription.resourceId);
+      }
+
+      const {
+        expiration,
+        resourceId,
+      } = await this.googleSheets.watchFile(
+        channelID,
+        endpoint,
+        this.sheetID,
+      );
+      return {
+        expiration,
+        resourceId,
+      };
     },
     /**
      * This method scans the worksheets indicated by the user to retrieve the
@@ -246,12 +255,8 @@ module.exports = {
       return;
     }
 
-    const spreadsheet = await this.getSpreadsheetToProcess(event);
-    if (!spreadsheet) {
-      const sheetId = this.getSheetId();
-      console.log(`Spreadsheet "${sheetId}" was not modified. Skipping event`);
-      return;
-    }
+    const spreadsheet = await this.googleSheets.getSpreadsheet(this.sheetID);
+
     return this.processSpreadsheet(spreadsheet);
   },
 };
