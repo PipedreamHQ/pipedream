@@ -19,6 +19,10 @@ If you'd like to report a suspected vulnerability, please contact <span style="f
 
 If you need to encrypt sensitive data as part of your report, you can use our [PGP key](/security/pgp-key/).
 
+## Reporting abuse
+
+If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report it here](/abuse).
+
 ## Hosting Details
 
 Pipedream is hosted on the [Amazon Web Services](https://aws.amazon.com/) (AWS) platform. The physical hardware powering Pipedream, and the data stored by our platform, is hosted in data centers controlled and secured by AWS. You can read more about AWS’s security practices and compliance certifications [here](https://aws.amazon.com/security/).

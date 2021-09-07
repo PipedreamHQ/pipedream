@@ -118,4 +118,8 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 
 You may notice other properties in `context`. These are used internally by Pipedream, and are subject to change.
 
+## Limits on event history
+
+Only the last 100 events are retained for each workflow. After 100 events have been processed, Pipedream will delete the oldest event data as new events arrive, keeping only the last 100 events.
+
 <Footer />
