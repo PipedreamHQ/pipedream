@@ -1,6 +1,4 @@
-const common = require("../../common");
-const { pcloud } = common.props;
-const validate = require("validate.js");
+const pcloud = require("../../pcloud.app.js");
 
 module.exports = {
   key: "pcloud-copy-file",
@@ -11,24 +9,13 @@ module.exports = {
   type: "action",
   props: {
     pcloud,
-    domainLocation: {
-      propDefinition: [
-        pcloud,
-        "domainLocation",
-      ],
-    },
     fileId: {
       type: "integer",
       label: "File ID",
       description: "ID of the file to copy.",
-      optional: true,
-    },
-    path: {
-      propDefinition: [
-        pcloud,
-        "path",
-      ],
-      description: "Path to the file to copy.",
+      async options() {
+        return await this.pcloud.getFileOptions();
+      },
     },
     toFolderId: {
       propDefinition: [
@@ -36,25 +23,18 @@ module.exports = {
         "toFolderId",
       ],
     },
-    toPath: {
-      propDefinition: [
-        pcloud,
-        "toPath",
-      ],
-      description: "Destination path, including the filename. A new filename can be used. When this is used `toName` is ignored.",
-    },
     name: {
       propDefinition: [
         pcloud,
         "name",
       ],
       label: "To Name",
-      description: "Name of the destination file. This is used only if the destination folder is specified with `toFolderId`.",
+      description: "Name of the destination file.",
     },
-    noOver: {
+    overwrite: {
       propDefinition: [
         pcloud,
-        "noOver",
+        "overwrite",
       ],
     },
     modifiedTime: {
@@ -70,35 +50,14 @@ module.exports = {
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    const constraints = {
-      domainLocation: {
-        presence: true,
-      },
-    };
-    const validationResult = validate(
-      {
-        domainLocation: this.domainLocation,
-      },
-      constraints,
-    );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
-    return await this.pcloud.copyFile(
-      this.domainLocation,
-      this.fileId,
-      this.path,
-      this.toFolderId,
-      this.toPath,
-      this.name,
-      this.noOver,
-      this.modifiedTime,
-      this.createdTime,
+    return await this.pcloud._withRetries(
+      () => this.pcloud.copyFile(this.fileId,
+        this.toFolderId,
+        this.name,
+        !this.overwrite,
+        this.modifiedTime,
+        this.createdTime),
     );
   },
 };

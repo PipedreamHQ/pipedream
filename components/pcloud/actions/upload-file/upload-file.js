@@ -1,36 +1,21 @@
-const common = require("../../common");
-const { pcloud } = common.props;
-const validate = require("validate.js");
+const pcloud = require("../../pcloud.app.js");
 
 module.exports = {
   key: "pcloud-upload-file",
   name: "Upload File",
   description:
-    "Uploads a file to the specified folder in the `folderId` or `path` parameters.",
+    "Uploads a file to the specified folder.",
   version: "0.0.1",
   type: "action",
   props: {
     pcloud,
-    domainLocation: {
-      propDefinition: [
-        pcloud,
-        "domainLocation",
-      ],
-    },
-    path: {
-      propDefinition: [
-        pcloud,
-        "path",
-      ],
-      description: "Path to the folder where the file will be uploaded (discouraged). If neither `path` nor `folderid` are specified, the root folder will be used.",
-    },
     folderId: {
       propDefinition: [
         pcloud,
         "folderId",
       ],
       description:
-        "ID of the folder where the file will be uploaded. If neither `path` nor `folderid` are specified, the root folder will be used.",
+        "ID of the folder where the file will be uploaded. If not specified, the root folder will be used.",
     },
     name: {
       propDefinition: [
@@ -39,76 +24,40 @@ module.exports = {
       ],
       description:
         "Name of the file to upload. Within the associated Pipedream workflow, the file to upload exist under the `/tmp` directory.",
-      optional: false,
     },
-    noPartial: {
-      type: "integer",
-      label: "No Partial Upload",
-      description: "If is set, partially uploaded files will not be saved.",
-      optional: true,
-    },
-    progressHash: {
-      type: "string",
-      label: "Progress Hassh",
-      description: "Used for observing upload progress.",
-      optional: true,
-    },
-    //TODO: maybe needed to change `renameIfExists`, and `noPartial` to boolean
     renameIfExists: {
-      type: "integer",
+      type: "boolean",
       label: "Rename if Exists",
       description:
         "If set, the uploaded file will be renamed, if file with the requested name exists in the folder.",
-      optional: true,
+      default: true,
     },
     mtime: {
       type: "integer",
       label: "Modified Time",
       description:
-        "If set, file modified time is set. Must be a unix timestamp.",
+        "Must be a UNIX timestamp",
       optional: true,
     },
     ctime: {
       type: "integer",
       label: "Modified Time",
       description:
-        "If set, file created time is set. Must be a unix timestamp. It's required to provide `mtime` to set `ctime`.",
+        "Must be a UNIX timestamp.",
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    const constraints = {
-      domainLocation: {
-        presence: true,
-      },
-      filename: {
-        presence: true,
-      },
-    };
-    const validationResult = validate(
-      {
-        domainLocation: this.domainLocation,
-        filename: this.filename,
-      },
-      constraints,
-    );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
-    return await this.pcloud.uploadFile(
-      this.domainLocation,
-      this.path,
-      this.folderId,
-      this.name,
-      this.noPartial,
-      this.progressHash,
-      this.renameIfExists,
-      this.mtime,
-      this.ctime,
+    return await this.pcloud._withRetries(
+      () => this.pcloud.uploadFile(
+        this.folderId,
+        this.name,
+        this.noPartial,
+        this.progressHash,
+        this.renameIfExists,
+        this.mtime,
+        this.ctime,
+      ),
     );
   },
 };

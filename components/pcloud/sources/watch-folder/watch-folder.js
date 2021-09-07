@@ -1,5 +1,4 @@
-const common = require("../../common");
-const { pcloud } = common.props;
+const pcloud = require("../../pcloud.app.js");
 const get = require("lodash/get");
 
 module.exports = {
@@ -8,7 +7,7 @@ module.exports = {
   description:
     "Emits an event when a file is created or modified in the specified folder.",
   version: "0.0.1",
-  type: "action",
+  type: "source",
   dedupe: "last",
   props: {
     pcloud,
@@ -21,19 +20,12 @@ module.exports = {
         intervalSeconds: 60 * 15, // by default, run every 15 minutes.
       },
     },
-    domainLocation: {
+    folderId: {
       propDefinition: [
         pcloud,
-        "domainLocation",
+        "folderId",
       ],
-    },
-    path: {
-      propDefinition: [
-        pcloud,
-        "path",
-      ],
-      description: "Path to the folder you'd like to watch for created or modified files. For example: `/My Documents/Work`",
-      optional: false,
+      description: "ID of the folder you'd like to watch for created or modified files.",
     },
     event: {
       type: "string",
@@ -43,7 +35,7 @@ module.exports = {
         "Modified",
       ],
       description:
-        "Specify when to emit an event related to a given folder. Note that pCloud preserves files\' `created` and `modified` timestamps on upload. If manually uploading via pCloud\'s `uploadfile` API, these timestamps can be set by specifying the `mtime` and `ctime` parameters, respectively.",
+        "Specify when to emit an event related to a given folder. Note that pCloud preserves files' `created` and `modified` timestamps on upload. If manually uploading via pCloud's `uploadfile` API, these timestamps can be set by specifying the `mtime` and `ctime` parameters, respectively.",
       default: "Created",
     },
     showdeleted: {
@@ -56,23 +48,20 @@ module.exports = {
   hooks: {
     async deploy() {
       const files = [];
-      const pCloudContentsData = await this.pcloud.listContents(
-        this.domainLocation,
-        this.folderPath,
-        undefined,
-        undefined,
-        this.showDeleted
-          ? 1
-          : undefined,
-        undefined,
-        undefined,
+      const pCloudContentsData = await this.pcloud._withRetries(
+        () => this.pcloud.listContents(
+          this.folderId,
+          false,
+          this.showdeleted,
+          false,
+          false,
+        ),
       );
       const hasContents = get(pCloudContentsData, [
-        "metadata",
         "contents",
       ]);
       if (hasContents) {
-        for (const folderItem of pCloudContentsData.metadata.contents) {
+        for (const folderItem of pCloudContentsData.contents) {
           if (!folderItem.isfolder) {
             files.push(folderItem);
             if (files.length == 10) {
@@ -103,33 +92,31 @@ module.exports = {
       ].includes(this.event)
         ? pcloudEvent.created
         : pcloudEvent.modified;
+      const ts = +new Date(eventDate);
       return {
-        id: pcloudEvent.fileid,
+        id: ts,
         summary: `${newOrModified} file "${pcloudEvent.name}"`,
-        ts: +new Date(eventDate),
+        ts,
       };
     },
   },
   async run() {
     const lastPolledTime = this.db.get("lastPolledTime");
     const files = [];
-    const pCloudContentsData = await this.pcloud.listContents(
-      this.domainLocation,
-      this.folderPath,
-      undefined,
-      undefined,
-      this.showDeleted ?
-        1 :
-        undefined,
-      undefined,
-      undefined,
+    const pCloudContentsData = await this.pcloud._withRetries(
+      () => this.pcloud.listContents(
+        this.folderId,
+        false,
+        this.showdeleted,
+        false,
+        false,
+      ),
     );
     const hasContents = get(pCloudContentsData, [
-      "metadata",
       "contents",
     ]);
     if (hasContents) {
-      for (const folderItem of pCloudContentsData.metadata.contents) {
+      for (const folderItem of pCloudContentsData.contents) {
         if (!folderItem.isfolder) {
           let fileTime;
           if ([

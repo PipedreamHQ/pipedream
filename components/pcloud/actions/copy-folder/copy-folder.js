@@ -1,21 +1,13 @@
-const common = require("../../common");
-const { pcloud } = common.props;
-const validate = require("validate.js");
+const pcloud = require("../../pcloud.app.js");
 
 module.exports = {
   key: "pcloud-copy-folder",
   name: "Copy Folder",
-  description: "Copies a folder to the specified path or folder.",
-  version: "0.0.11",
+  description: "Copies a folder to the specified folder.",
+  version: "0.0.1",
   type: "action",
   props: {
     pcloud,
-    domainLocation: {
-      propDefinition: [
-        pcloud,
-        "domainLocation",
-      ],
-    },
     folderId: {
       propDefinition: [
         pcloud,
@@ -23,75 +15,35 @@ module.exports = {
       ],
       description: "ID of the source folder.",
     },
-    path: {
-      propDefinition: [
-        pcloud,
-        "path",
-      ],
-      description: "Path of the source folder.",
-    },
     toFolderId: {
       propDefinition: [
         pcloud,
         "toFolderId",
       ],
     },
-    toPath: {
-      propDefinition: [
-        pcloud,
-        "toPath",
-      ],
-      description: "Destination path.",
-    },
-    noOver: {
+    overwrite: {
       type: "boolean",
-      label: "No Overwrite?",
+      label: "Overwrite?",
       description:
-        "If it is set and files with the same name already exist, no overwriting will be preformed and error `2004` will be returned.",
-      optional: true,
-    },
-    skipExisting: {
-      type: "boolean",
-      label: "Skip Existing?",
-      description: "If set will skip files that already exist.",
-      optional: true,
+        "Overwrite existing file if one exists. Otherwise, will return a `2004` error code.",
+      default: false,
     },
     copyContentOnly: {
       type: "boolean",
       label: "Copy Content Only?",
       description:
         "If it is set only the content of source folder will be copied otherwise the folder itself is copied.",
-      optional: true,
+      default: false,
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    const constraints = {
-      domainLocation: {
-        presence: true,
-      },
-    };
-    const validationResult = validate(
-      {
-        domainLocation: this.domainLocation,
-      },
-      constraints,
-    );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
-    return await this.pcloud.copyFolder(
-      this.domainLocation,
-      this.folderId,
-      this.path,
-      this.toFolderId,
-      this.toPath,
-      this.noOver,
-      this.skipExisting,
-      this.copyContentOnly,
+    return await this.pcloud._withRetries(
+      () => this.pcloud.copyFolder(
+        this.folderId,
+        this.toFolderId,
+        !this.overwrite,
+        this.copyContentOnly,
+      ),
     );
   },
 };

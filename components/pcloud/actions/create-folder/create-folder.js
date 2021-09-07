@@ -1,19 +1,17 @@
-const common = require("../../common");
-const { pcloud } = common.props;
-const validate = require("validate.js");
+const pcloud = require("../../pcloud.app.js");
 
 module.exports = {
   key: "pcloud-create-folder",
   name: "Create Folder",
-  description: "Creates a folder in the specified path or folder.",
+  description: "Creates a folder in the specified folder.",
   version: "0.0.1",
   type: "action",
   props: {
     pcloud,
-    domainLocation: {
+    name: {
       propDefinition: [
         pcloud,
-        "domainLocation",
+        "name",
       ],
     },
     folderId: {
@@ -21,46 +19,16 @@ module.exports = {
         pcloud,
         "folderId",
       ],
+      label: "Parent Folder ID",
       description: "ID of the parent folder where the new folder will be created.",
     },
-    path: {
-      propDefinition: [
-        pcloud,
-        "path",
-      ],
-      description: "Path to the parent folder, where the new folder will be created.",
-    },
-    name: {
-      propDefinition: [
-        pcloud,
-        "name",
-      ],
-    },
-  },
-  methods: {
-    ...common.methods,
   },
   async run() {
-    const constraints = {
-      domainLocation: {
-        presence: true,
-      },
-    };
-    const validationResult = validate(
-      {
-        domainLocation: this.domainLocation,
-      },
-      constraints,
-    );
-    if (validationResult) {
-      const validationMessages = this.getValidationMessage(validationResult);
-      throw new Error(validationMessages);
-    }
-    return await this.pcloud.createFolder(
-      this.domainLocation,
-      this.folderId,
-      this.path,
-      this.name,
+    return await this.pcloud._withRetries(
+      () => this.pcloud.createFolder(
+        this.name,
+        this.folderId,
+      ),
     );
   },
 };

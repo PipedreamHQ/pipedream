@@ -1,28 +1,13 @@
-const common = require("../../common");
-const { pcloud } = common.props;
+const pcloud = require("../../pcloud.app.js");
 
 module.exports = {
   key: "pcloud-list-contents",
   name: "List Contents.",
   description: "Lists the metadata of the specified folder's contents.",
-  version: "0.0.9",
+  version: "0.0.1",
   type: "action",
   props: {
     pcloud,
-    domainLocation: {
-      propDefinition: [
-        pcloud,
-        "domainLocation",
-      ],
-    },
-    path: {
-      propDefinition: [
-        pcloud,
-        "path",
-      ],
-      description:
-        "Path to the folder list contents. If `path` or `folderId` are not present, then root folder is used.",
-    },
     folderId: {
       propDefinition: [
         pcloud,
@@ -30,13 +15,12 @@ module.exports = {
       ],
       description: "ID of the folder to list contents.",
     },
-    //TODO: maybe needed to change `recursive`, `nofiles`, `noshares`, to boolean
     recursive: {
-      type: "integer",
+      type: "boolean",
       label: "Recursive?",
       description:
-        "If is set full directory tree will be returned, which means that all directories will have contents filed.",
-      optional: true,
+        "Return contents of the folder and all subfolders, recursively.",
+      default: false,
     },
     showdeleted: {
       propDefinition: [
@@ -44,37 +28,32 @@ module.exports = {
         "showdeleted",
       ],
       description:
-        "If is set, deleted files and folders that can be undeleted will be displayed.",
-      optional: true,
+            "If is set, deleted files and folders that can be undeleted will be displayed.",
+      default: false,
     },
     nofiles: {
-      type: "integer",
+      type: "boolean",
       label: "No Files?",
       description:
-        "If is set, only the folder (sub)structure will be returned.",
-      optional: true,
+            "If is set, only the folder (sub)structure will be returned.",
+      default: false,
     },
     noshares: {
-      type: "integer",
-      label: "No Shares?",
-      description:
-        "If is set, only user's own folders and files will be displayed.",
-      optional: true,
+      type: "boolean",
+      label: "Exclude Shares?",
+      description: "Exclude shared files and folders.",
+      default: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    console.log(this.pcloud._getToken());
-    return await this.pcloud.listContents(
-      this.domainLocation,
-      this.path,
-      this.folderId,
-      this.recursive,
-      this.showdeleted,
-      this.nofiles,
-      this.noshares,
+    return await this.pcloud._withRetries(
+      () => this.pcloud.listContents(
+        this.folderId,
+        this.recursive,
+        this.showdeleted,
+        this.nofiles,
+        this.noshares,
+      ),
     );
   },
 };
