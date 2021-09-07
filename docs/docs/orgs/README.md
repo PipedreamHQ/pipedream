@@ -1,6 +1,8 @@
 # Organizations
 
-Organizations provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+Organizations ("orgs") provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+
+[[toc]]
 
 ## Creating an org
 
@@ -36,4 +38,15 @@ When you [create an org](#creating-an-org), you'll see that org listed in the co
 
 ## Migrating workflows from your user to your org
 
-If you are running resources in your user account, but want to move those to your organization, [reach out to the Pipedream team](https://pipedream.com/support) and we can help you with the migration.
+If you are running resources in your user account, but want to move those to your organization, [reach out to the Pipedream team](https://pipedream.com/support).
+
+## Org admins
+
+Org admins have permission to:
+
+- Remove users from orgs
+- Manage the org's billing details
+
+## Adding new org admins
+
+By default, the user who created the org is the org admin. To change ownership or assign new admins, [reach out to the Pipedream team](https://pipedream.com/support).
