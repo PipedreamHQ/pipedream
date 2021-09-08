@@ -4,7 +4,7 @@ Like [event sources](/event-sources/), workflows can emit events. These events c
 
 [[toc]]
 
-## Using `$send.emit()`
+## Using `$send.emit()` in workflows
 
 You can emit arbitrary events from any [Node.js code steps](/workflows/steps/code/) using `$send.emit()`.
 
@@ -22,6 +22,22 @@ $send.emit({
 $send.emit({
   raw_event, // An object that contains the event you'd like to emit
 });
+```
+
+## Using `$.send.emit` in component actions
+
+If you're authoring a [component action](/components/actions/), you can emit data using `$.send.emit`.
+
+`$.send.emit` functions the same as [`$send.emit` in workflow code steps](#using-send-emit-in-workflows):
+
+```javascript
+async run({ $ }) {
+  $.send.emit({
+    raw_event: {
+      name: "Yoda",
+    },
+  });
+}
 ```
 
 **Destination delivery is asynchronous**: emits are sent after your workflow finishes.

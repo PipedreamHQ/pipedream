@@ -163,7 +163,13 @@ actions for Pipedream's registry.
 
 ### Reference Actions
 
-(_Coming soon_)
+| Name | App |
+| ---- | --- |
+| [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable |
+| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.js) | Google Sheets |
+| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.js) | Discord |
+| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.js) | Google Docs |
+| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.js) | HTTP |
 
 ## Guidelines & Patterns
 
@@ -240,6 +246,10 @@ directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
 If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
+
+#### Pagination
+
+When making API requests, handle pagination to ensure all data / events are processed.
 
 #### Capturing Sensitive Data
 
@@ -426,7 +436,9 @@ In the interest of consistency, use the following naming patterns when defining
 | `$.interface.timer` | `timer`                            |
 | `$.service.db`      | `db`                               |
 
-### Sources
+### Source Guidelines
+
+These guidelines are specific to [source](/event-sources) development.
 
 #### Webhook vs Polling Sources
 
@@ -486,11 +498,6 @@ they can immediately use to support workflow development. Do not emit multiple
 pages of results or more than 100 events on the first run (as a general
 heuristic, emit the first page of results returned by the API).
 
-##### Pagination
-
-Support pagination when appropriate to ensure that all new events are emitted
-for a source.
-
 ##### Rate Limit Optimization
 
 When building a polling source, cache the most recently processed ID or
@@ -543,6 +550,6 @@ If the source app supports shared secrets, implement support transparent to the
 end user. Generate and use a GUID for the shared secret value, save it to a
 `$.service.db` key, and use the saved value to validate incoming events.
 
-### Actions
+### Action Guidelines
 
-(_Coming soon_)
+_(Coming soon)_

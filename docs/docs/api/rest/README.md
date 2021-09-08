@@ -17,7 +17,7 @@ You authenticate to the REST API using your [Pipedream API
 key](/api/auth/#pipedream-api-key). When you make API requests, pass an
 `Authorization` header of the following format:
 
-```text
+```
 Authorization: Bearer <api key>
 ```
 
@@ -166,7 +166,7 @@ metadata you'll need to [deploy a source](#create-a-source) from this component.
 
 #### Endpoint
 
-```text
+```
 POST /components
 ```
 
@@ -245,7 +245,7 @@ This endpoint returns the component's metadata and configurable props.
 
 #### Endpoint
 
-```text
+```
 GET /components/{key|id}
 ```
 
@@ -314,7 +314,7 @@ component.
 
 #### Endpoint
 
-```text
+```
 GET /components/registry/{key}
 ```
 
@@ -377,7 +377,7 @@ Retrieve up to the last 100 events emitted by a source.
 
 #### Endpoint
 
-```text
+```
 GET /sources/{id}/event_summaries
 ```
 
@@ -387,13 +387,13 @@ The event data for events larger than `1KB` may get truncated in the response.
 If you're processing larger events, and need to see the full event data, pass
 `?expand=event`:
 
-```text
+```
 GET /sources/{id}/event_summaries?expand=event
 ```
 
 Pass `?limit=N` to retrieve the last **N** events:
 
-```text
+```
 GET /sources/{id}/event_summaries?limit=10
 ```
 
@@ -414,7 +414,7 @@ ordered by time.
 
 #### Endpoint
 
-```text
+```
 DELETE /sources/{id}/events
 ```
 
@@ -497,7 +497,7 @@ as workflow triggers. [Read more here](/event-sources/).
 
 #### Endpoint
 
-```text
+```
 GET /users/me/sources/
 ```
 
@@ -547,7 +547,7 @@ curl 'https://api.pipedream.com/v1/users/me/sources' \
 
 #### Endpoint
 
-```text
+```
 POST /sources/
 ```
 
@@ -635,7 +635,7 @@ Example response from creating an RSS source that runs once a minute:
 
 #### Endpoint
 
-```text
+```
 PUT /sources/{id}
 ```
 
@@ -717,7 +717,7 @@ display the sources configured as listeners using this API**.
 
 #### Endpoint
 
-```text
+```
 POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}listener_id={receiving_source_id}
 ```
 
@@ -799,7 +799,7 @@ display the sources configured as listeners using this API**.
 
 #### Endpoint
 
-```text
+```
 POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_id}
 ```
 
@@ -855,7 +855,7 @@ subscriptions.
 
 #### Endpoint
 
-```text
+```
 DELETE /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_source_id}&event_name={event_name}
 ```
 
@@ -949,7 +949,7 @@ to deliver events to this webhook.
 
 #### Endpoint
 
-```text
+```
 POST /webhooks?url={your_endpoint_url}&name={name}&description={description}
 ```
 
@@ -965,7 +965,7 @@ webhook object will be delivered to this endpoint URL.
 This URL **must** contain, at a minimum, a protocol — one of `http` or `https` —
 and hostname, but can specify resources or ports. For example, these URLs work:
 
-```text
+```
 https://example.com
 http://example.com
 https://example.com:12345/endpoint
@@ -973,7 +973,7 @@ https://example.com:12345/endpoint
 
 but these do not:
 
-```text
+```
 # No protocol - needs http(s)://
 example.com
 
@@ -1044,7 +1044,7 @@ Retrieve up to the last 100 events emitted from a workflow using
 
 #### Endpoint
 
-```text
+```
 GET /workflows/{workflow_id}/event_summaries
 ```
 
@@ -1054,13 +1054,13 @@ The event data for events larger than `1KB` may get truncated in the response.
 If you're retrieving larger events, and need to see the full event data, pass
 `?expand=event`:
 
-```text
+```
 GET /workflows/{workflow_id}/event_summaries&expand=event
 ```
 
 Pass `?limit=N` to retrieve the last **N** events:
 
-```text
+```
 GET /v1/workflows/{workflow_id}/event_summaries?expand=event&limit=1
 ```
 
@@ -1112,7 +1112,7 @@ details of the error, along with the original event data, will be included
 
 #### Endpoint
 
-```text
+```
 GET /workflows/{workflow_id}/$errors/event_summaries
 ```
 
@@ -1122,13 +1122,13 @@ The event data for events larger than `1KB` may get truncated in the response.
 If you're processing larger events, and need to see the full event data, pass
 `?expand=event`:
 
-```text
+```
 GET /workflows/{workflow_id}/$errors/event_summaries&expand=event
 ```
 
 Pass `?limit=N` to retrieve the last **N** events:
 
-```text
+```
 GET /v1/workflows/{workflow_id}/$errors/event_summaries?expand=event&limit=1
 ```
 
@@ -1194,7 +1194,7 @@ Retrieve information on the authenticated user.
 
 #### Endpoint
 
-```text
+```
 GET /users/me
 ```
 
@@ -1252,7 +1252,7 @@ authenticated user.
 
 #### Endpoint
 
-```text
+```
 GET /users/me/subscriptions
 ```
 
@@ -1296,7 +1296,7 @@ Retrieve all the [webhooks](#webhooks) configured for the authenticated user.
 
 #### Endpoint
 
-```text
+```
 GET /users/me/webhooks
 ```
 

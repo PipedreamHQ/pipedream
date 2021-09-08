@@ -1,11 +1,11 @@
 # What are events?
 
-Events trigger workflow executions. The event that triggers your workflow depends on the trigger you select for your workflow: 
+Events trigger workflow executions. The event that triggers your workflow depends on the trigger you select for your workflow:
 
 - [HTTP triggers](/workflows/steps/triggers/#http) invoke your workflow on HTTP requests.
 - [Cron triggers](/workflows/steps/triggers/#schedule) invoke your workflow on a time schedule (e.g., on an interval).
 - [Email triggers](/workflows/steps/triggers/#email) invoke your workflow on inbound emails.
-- [App-based triggers](/workflows/steps/triggers/#app-based-triggers) invoke your workflow on events from apps like Twitter, Google Calendar, and more.
+- [Event sources](/workflows/steps/triggers/#app-based-triggers) invoke your workflow on events from apps like Twitter, Google Calendar, and more.
 
 ---
 
@@ -64,7 +64,7 @@ When you send an event to your workflow, Pipedream takes the trigger data — fo
 
 When you click on an event in [the inspector](/workflows/events/inspect/#the-inspector), we show you the contents of `steps.trigger.event` at the top of your workflow, in the trigger step.
 
-You can reference your event data in any [code](/workflows/steps/code/) or [action](/workflows/steps/actions/) step. See those docs or the general [docs on passing data between steps](/workflows/steps/) for more information.
+You can reference your event data in any [code](/workflows/steps/code/) or [action](/components/actions/) step. See those docs or the general [docs on passing data between steps](/workflows/steps/) for more information.
 
 The specific shape of `event` varies with the trigger type:
 
@@ -114,7 +114,12 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 | `platform_version` |        The version of the Pipedream execution environment this event ran on        |
 | `ts`               |           The ISO 8601 timestamp at which the event invoked the workflow           |
 | `workflow_id`      |                                  The workflow ID                                   |
+| `workflow_name`    |                                 The workflow name                                  |
 
 You may notice other properties in `context`. These are used internally by Pipedream, and are subject to change.
+
+## Limits on event history
+
+Only the last 100 events are retained for each workflow. After 100 events have been processed, Pipedream will delete the oldest event data as new events arrive, keeping only the last 100 events.
 
 <Footer />

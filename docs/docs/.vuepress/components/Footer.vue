@@ -5,7 +5,7 @@
     </h2>
     <p>
       Please
-      <a href="/support/" class>reach out</a> if this doc didn't answer your question. We're happy to help!
+      <a href="https://pipedream.com/support/" class>reach out</a> if this doc didn't answer your question. We're happy to help!
     </p>
   </footer>
 </template>

@@ -85,7 +85,7 @@ Generally the rate of HTTP requests sent to an endpoint is quantified by QPS, or
 
 We'll also accept short bursts of traffic, as long as you remain close to an average of 10 QPS (e.g. sending a batch of 50 requests every 30 seconds should not trigger rate limiting).
 
-**This limit can be raised for Professional, Teams, and Enterprise customers**. To request an increase, [reach out to our Support team](/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
+**This limit can be raised for Professional, Teams, and Enterprise customers**. To request an increase, [reach out to our Support team](https://pipedream.com/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
 
 ## Email Triggers
 
@@ -124,7 +124,7 @@ If your code exceeds your workflow-level limit, we'll throw a **Timeout** error 
 
 Events that trigger a **Timeout** error will appear in red in the [Inspector](/workflows/events/inspect/). You'll see the timeout error, also in red, in the cell at which the code timed out.
 
-If you need to run a workflow that exceeds 5 minutes, please [reach out to our team](/support/).
+If you need to run a workflow that exceeds 5 minutes, please [reach out to our team](https://pipedream.com/support/).
 
 ### Event / Execution History
 

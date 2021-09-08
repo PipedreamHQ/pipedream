@@ -1,43 +1,61 @@
-const slack = require('../../slack.app.js')
-const { WebClient } = require('@slack/web-api')
+const slack = require("../../slack.app.js");
 
-module.exports = {  
+module.exports = {
   key: "slack-reply-to-a-message",
   name: "Reply to a Message Thread",
-  description: "Send a message as a threaded reply.",
-  version: "0.0.8",
+  description: "Send a message as a threaded reply",
+  version: "0.1.0",
   type: "action",
   props: {
     slack,
     thread_ts: {
       propDefinition: [
         slack,
-        "thread_ts"
+        "thread_ts",
       ],
       optional: false,
     },
     reply_channel: {
       propDefinition: [
         slack,
-        "reply_channel"
+        "reply_channel",
       ],
       optional: false,
     },
     text: {
       propDefinition: [
         slack,
-        "text"
+        "text",
       ],
       optional: false,
     },
-    as_user: { propDefinition: [ slack, "as_user" ] },
-    username: { propDefinition: [ slack, "username" ] },
-    icon_emoji: { propDefinition: [ slack, "icon_emoji" ] },
-    icon_url: { propDefinition: [ slack, "icon_url" ]  },
+    as_user: {
+      propDefinition: [
+        slack,
+        "as_user",
+      ],
+    },
+    username: {
+      propDefinition: [
+        slack,
+        "username",
+      ],
+    },
+    icon_emoji: {
+      propDefinition: [
+        slack,
+        "icon_emoji",
+      ],
+    },
+    icon_url: {
+      propDefinition: [
+        slack,
+        "icon_url",
+      ],
+    },
   },
   async run() {
-    const web = new WebClient(this.slack.$auth.oauth_access_token)
-    return await web.chat.postMessage({
+    return await this.slack.sdk().chat.postMessage({
       text: this.text,
       channel: this.reply_channel,
       thread_ts: this.thread_ts,
@@ -45,6 +63,6 @@ module.exports = {
       username: this.username,
       icon_emoji: this.icon_emoji,
       icon_url: this.icon_url,
-    })
+    });
   },
-}
+};

@@ -7,17 +7,20 @@ module.exports = {
     publicChannel: {
       type: "string",
       label: "Channel",
-      //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
         let {
           types,
           cursor,
+          userNames,
         } = prevContext;
         if (types == null) {
-          const scopes = await this.scopes();
           types = [
             "public_channel",
           ];
+          userNames = {};
+          for (const user of (await this.users()).users) {
+            userNames[user.id] = user.name;
+          }
         }
         const resp = await this.availableConversations(types.join(), cursor);
         return {
@@ -50,17 +53,20 @@ module.exports = {
     privateChannel: {
       type: "string",
       label: "Channel",
-      //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
         let {
           types,
           cursor,
+          userNames,
         } = prevContext;
         if (types == null) {
-          const scopes = await this.scopes();
           types = [
             "private_channel",
           ];
+          userNames = {};
+          for (const user of (await this.users()).users) {
+            userNames[user.id] = user.name;
+          }
         }
         const resp = await this.availableConversations(types.join(), cursor);
         return {
@@ -81,7 +87,6 @@ module.exports = {
     user: {
       type: "string",
       label: "User",
-      //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
         let {
           types,
@@ -89,11 +94,9 @@ module.exports = {
           userNames,
         } = prevContext;
         if (types == null) {
-          const scopes = await this.scopes();
           types = [
             "im",
           ];
-          // TODO use paging
           userNames = {};
           for (const user of (await this.users()).users) {
             userNames[user.id] = user.name;
@@ -118,18 +121,16 @@ module.exports = {
     group: {
       type: "string",
       label: "Group",
-      //description: "Select one or more channels or DM conversations to monitor for new messages.",
       async options({ prevContext }) {
         let {
           types,
           cursor,
+          userNames,
         } = prevContext;
         if (types == null) {
-          const scopes = await this.scopes();
           types = [
             "mpim",
           ];
-          // TODO use paging
           userNames = {};
           for (const user of (await this.users()).users) {
             userNames[user.id] = user.name;
@@ -151,10 +152,30 @@ module.exports = {
         };
       },
     },
+    reminder: {
+      type: "string",
+      label: "Reminder",
+      description: "Select a reminder.",
+      async options({ prevContext }) {
+        let { cursor } = prevContext;
+        let resp = await this.getRemindersForTeam();
+        return {
+          options: resp.reminders.map((c) => {
+            return {
+              label: c.text,
+              value: c.id,
+            };
+          }),
+          context: {
+            cursor: cursor,
+          },
+        };
+      },
+    },
     conversation: {
       type: "string",
       label: "Channel",
-      description: "Select a public or private channel, or a user or group to direct message (DM).",
+      description: "Select a public or private channel, or a user or group.",
       async options({ prevContext }) {
         let {
           types,
@@ -174,7 +195,6 @@ module.exports = {
           }
           if (scopes.includes("im:read")) {
             types.push("im");
-            // TODO use paging
             userNames = {};
             for (const user of (await this.users()).users) {
               userNames[user.id] = user.name;
@@ -221,44 +241,72 @@ module.exports = {
       type: "string",
       label: "Text",
       description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually required, unless you're providing only attachments instead. Provide no more than 40,000 characters or risk truncation.",
-      //example: "Hello world"
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of a single key to set.",
+    },
+    value: {
+      type: "string",
+      label: "Value",
+      description: "Value to set a single key to.",
+    },
+    topic: {
+      type: "string",
+      label: "Topic",
+      description: "Text of the new channel topic.",
+    },
+    purpose: {
+      type: "string",
+      label: "Purpose",
+      description: "Text of the new channel purpose.",
+    },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "Search query.",
+    },
+    team_id: {
+      type: "string",
+      label: "Team ID",
+      description: "The ID of the team.",
+    },
+    file: {
+      type: "string",
+      label: "File ID",
+      description: "Specify a file by providing its ID.",
     },
     attachments: {
       type: "string",
       description: "A JSON-based array of structured attachments, presented as a URL-encoded string (e.g., `[{\"pretext\": \"pre-hello\", \"text\": \"text-world\"}]`).",
-      //example: "[{\"pretext\": \"pre-hello\", \"text\": \"text-world\"}]",
       optional: true,
     },
     unfurl_links: {
       type: "boolean",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of links.",
-      //example: "true",
       optional: true,
     },
     unfurl_media: {
       type: "boolean",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of media content.",
-      //example: "true",
       optional: true,
     },
     parse: {
       type: "string",
       description: "Change how messages are treated. Defaults to none. See below.",
-      //example: "full",
       optional: true,
     },
     as_user: {
       type: "boolean",
       label: "Send as User",
       description: "Optionally pass `TRUE` to post the message as the authed user, instead of as a bot. Defaults to `FALSE`.",
-      //example: "true",
       default: false,
       optional: true,
     },
     mrkdwn: {
       type: "boolean",
       description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing.",
-      //example: "false",
       default: true,
       optional: true,
     },
@@ -266,7 +314,6 @@ module.exports = {
       type: "string",
       label: "Bot Username",
       description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `as_user` set to false, otherwise ignored.",
-      //example: "My Bot",
       optional: true,
     },
     blocks: {
@@ -278,41 +325,63 @@ module.exports = {
       type: "string",
       label: "Icon (emoji)",
       description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
-      //example: ":chart_with_upwards_trend:",
       optional: true,
+    },
+    content: {
+      label: "Content",
+      type: "string",
+      description: "File contents via a POST variable.",
     },
     link_names: {
       type: "string",
       description: "Find and link channel names and usernames.",
-      //example: "true",
       optional: true,
     },
     reply_broadcast: {
       type: "string",
       description: "Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.",
-      //example: "true",
       optional: true,
     },
     reply_channel: {
       label: "Reply Channel or Conversation ID",
       type: "string",
       description: "Provide the channel or conversation ID for the thread to reply to (e.g., if triggering on new Slack messages, enter `{{event.channel}}`). If the channel does not match the thread timestamp, a new message will be posted to this channel.",
-      //example: "1234567890.123456",
       optional: true,
     },
     thread_ts: {
       label: "Thread Timestamp",
       type: "string",
       description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead.",
-      //example: "1234567890.123456",
+      optional: true,
+    },
+    timestamp: {
+      label: "Timestamp",
+      type: "string",
+      description: "Timestamp of the relevant data.",
       optional: true,
     },
     icon_url: {
       type: "string",
       label: "Icon (image URL)",
       description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
-      //example: "http://lorempixel.com/48/48",
       optional: true,
+    },
+    initial_comment: {
+      type: "string",
+      label: "Initial Comment",
+      description: "The message text introducing the file",
+      optional: true,
+    },
+    count: {
+      type: "integer",
+      label: "Count",
+      description: "Number of items to return per page.",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "An email address belonging to a user in the workspace",
     },
   },
   methods: {
@@ -347,6 +416,16 @@ module.exports = {
         };
       } else {
         console.log("Error getting conversations", resp.error);
+        throw (resp.error);
+      }
+    },
+    async getRemindersForTeam() {
+      const resp = await this.sdk().reminders.list();
+      if (resp.ok) {
+        return {
+          reminders: resp.reminders,
+        };
+      } else {
         throw (resp.error);
       }
     },
