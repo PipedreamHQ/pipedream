@@ -1,11 +1,11 @@
 {
     "name": "@pipedream/clubhouse",
     "version": "0.3.3",
-    "description": "Pipedream Clubhouse Components",
-    "main": "clubhouse.app.js",
+    "description": "Pipedream Shortcut Components",
+    "main": "shortcut.app.js",
     "keywords": [
         "pipedream",
-        "clubhouse"
+        "shortcut"
     ],
     "homepage": "https://pipedream.com/apps/clubhouse",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

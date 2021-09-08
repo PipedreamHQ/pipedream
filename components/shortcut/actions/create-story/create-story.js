@@ -1,15 +1,15 @@
-const clubhouse = require("../../clubhouse.app.js");
+const shortcut = require("../../shortcut.app");
 const get = require("lodash/get");
 const validate = require("validate.js");
 
 module.exports = {
-  key: "clubhouse-create-story",
+  key: "shortcut-create-story",
   name: "Create Story",
-  description: "Creates a new story in your clubhouse.",
+  description: "Creates a new story in your Shortcut account.",
   version: "0.0.1",
   type: "action",
   props: {
-    clubhouse,
+    shortcut,
     archived: {
       type: "boolean",
       label: "Archived",
@@ -21,7 +21,7 @@ module.exports = {
       type: "string",
       label: "Comments",
       description:
-        "An array with comment objects to add to the story. Each comment object must have the [CreateStoryCommentParams](https://clubhouse.io/api/rest/v3/#CreateStoryCommentParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of comment objects. ",
+        "An array with comment objects to add to the story. Each comment object must have the [CreateStoryCommentParams](https://shortcut.io/api/rest/v3/#CreateStoryCommentParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of comment objects. ",
       default: "",
       optional: true,
     },
@@ -57,7 +57,7 @@ module.exports = {
       description: "The unique identifier of the epic the story belongs to.",
       async options() {
         const options = [];
-        const epics = await this.clubhouse.callWithRetry("listEpics");
+        const epics = await this.shortcut.callWithRetry("listEpics");
         epics.forEach((epic) => {
           options.push({
             label: epic.name,
@@ -94,7 +94,7 @@ module.exports = {
       description: "An integer array of IDs of files attached to the story.",
       async options() {
         const options = [];
-        const files = await this.clubhouse.callWithRetry("listFiles");
+        const files = await this.shortcut.callWithRetry("listFiles");
         files.forEach((file) => {
           options.push({
             label: file.name,
@@ -110,14 +110,14 @@ module.exports = {
       label: "Follower Ids",
       description: "A string array of UUIDs of the followers of this story.",
       async options() {
-        return await this.clubhouse.listMembersAsOptions();
+        return await this.shortcut.listMembersAsOptions();
       },
       optional: true,
     },
     groupId: {
       type: "string",
       label: "Group Id",
-      description: "The id of the group to associate with this story. A group in Clubhouse API maps to a \"Team\" within the Clubhouse Product.",
+      description: "The id of the group to associate with this story. A group in Shortcut API maps to a \"Team\" within the Shortcut Product.",
       optional: true,
     },
     iterationId: {
@@ -126,7 +126,7 @@ module.exports = {
       description: "The ID of the iteration the story belongs to.",
       async options() {
         const options = [];
-        const iterations = await this.clubhouse.callWithRetry("listIterations");
+        const iterations = await this.shortcut.callWithRetry("listIterations");
         iterations.forEach((iteration) => {
           options.push({
             label: iteration.name,
@@ -151,7 +151,7 @@ module.exports = {
         "An integer array with the IDs of linked files attached to the story.",
       async options() {
         const options = [];
-        const linkedFiles = await this.clubhouse.callWithRetry("listLinkedFiles");
+        const linkedFiles = await this.shortcut.callWithRetry("listLinkedFiles");
         linkedFiles.forEach((linkedFile) => {
           options.push({
             label: linkedFile.name,
@@ -172,7 +172,7 @@ module.exports = {
       label: "Owner Ids",
       description: "A string array of UUIDs of the owners of this story.",
       async options() {
-        return await this.clubhouse.listMembersAsOptions();
+        return await this.shortcut.listMembersAsOptions();
       },
       optional: true,
     },
@@ -182,7 +182,7 @@ module.exports = {
       description: "The ID of the project the story belongs to.",
       async options() {
         const options = [];
-        const projects = await this.clubhouse.callWithRetry("listProjects");
+        const projects = await this.shortcut.callWithRetry("listProjects");
         projects.forEach((project) => {
           options.push({
             label: project.name,
@@ -197,7 +197,7 @@ module.exports = {
       label: "Requested by ID",
       description: "The ID of the member that requested the story.",
       async options() {
-        return await this.clubhouse.listMembersAsOptions();
+        return await this.shortcut.listMembersAsOptions();
       },
       optional: true,
     },
@@ -211,7 +211,7 @@ module.exports = {
       type: "string",
       label: "Story Links",
       description:
-        "An array of story link objects attached to the story. Each story link object must have the [CreateStoryLinkParams](https://clubhouse.io/api/rest/v3/#Body-Parameters-34268) structure. Alternatively, provide a string that will `JSON.parse` to an array of story link objects. ",
+        "An array of story link objects attached to the story. Each story link object must have the [CreateStoryLinkParams](https://shortcut.io/api/rest/v3/#Body-Parameters-34268) structure. Alternatively, provide a string that will `JSON.parse` to an array of story link objects. ",
       optional: true,
     },
     storyType: {
@@ -230,7 +230,7 @@ module.exports = {
       type: "string",
       label: "Tasks",
       description:
-        "An array of task objects connected to the story. Each task object must have the [CreateTaskParams](https://clubhouse.io/api/rest/v3/#CreateTaskParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of content objects. ",
+        "An array of task objects connected to the story. Each task object must have the [CreateTaskParams](https://shortcut.io/api/rest/v3/#CreateTaskParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of content objects. ",
       optional: true,
     },
     updatedAt: {
@@ -244,7 +244,7 @@ module.exports = {
       label: "Workflow State Id",
       description: "The ID of the workflow state the story will be in.",
       async options() {
-        const workflows = await this.clubhouse.callWithRetry("listWorkflows");
+        const workflows = await this.shortcut.callWithRetry("listWorkflows");
         return workflows.reduce(function (options, workflow) {
           const hasState = get(workflow, [
             "states",
@@ -344,10 +344,10 @@ module.exports = {
       },
       constraints,
     );
-    this.clubhouse.checkValidationResults(validationResult);
+    this.shortcut.checkValidationResults(validationResult);
     const story = {
       archived: this.archived,
-      comments: this.clubhouse.getArrayObject(this.comments),
+      comments: this.shortcut.getArrayObject(this.comments),
       completed_at_override: this.completedAtOverride,
       created_at: this.createdAt,
       deadline: this.dueDate,
@@ -355,29 +355,29 @@ module.exports = {
       epic_id: this.epicId,
       estimate: this.estimate,
       external_id: this.externalId,
-      external_links: this.clubhouse.convertEmptyStringToUndefined(this.externalLinks),
-      file_ids: this.clubhouse.convertEmptyStringToUndefined(this.fileIds),
-      follower_ids: this.clubhouse.convertEmptyStringToUndefined(this.followerIds),
+      external_links: this.shortcut.convertEmptyStringToUndefined(this.externalLinks),
+      file_ids: this.shortcut.convertEmptyStringToUndefined(this.fileIds),
+      follower_ids: this.shortcut.convertEmptyStringToUndefined(this.followerIds),
       group_id: this.groupId,
       iteration_id: this.iterationId,
-      linked_file_ids: this.clubhouse.convertEmptyStringToUndefined(this.linkedFileIds),
+      linked_file_ids: this.shortcut.convertEmptyStringToUndefined(this.linkedFileIds),
       name: this.name,
-      owner_ids: this.clubhouse.convertEmptyStringToUndefined(this.ownerIds),
+      owner_ids: this.shortcut.convertEmptyStringToUndefined(this.ownerIds),
       project_id: this.projectId,
       requested_by_id: this.requestedById,
       started_at_override: this.startedAtOverride,
-      story_links: this.clubhouse.getArrayObject(this.storyLinks),
+      story_links: this.shortcut.getArrayObject(this.storyLinks),
       story_type: this.storyType,
-      tasks: this.clubhouse.getArrayObject(this.tasks),
+      tasks: this.shortcut.getArrayObject(this.tasks),
       updated_at: this.updatedAt,
       workflow_state_id: this.workflowStateId,
     };
-    const label = this.clubhouse.convertEmptyStringToUndefined(this.label);
+    const label = this.shortcut.convertEmptyStringToUndefined(this.label);
     if (label) {
       story.labels = [
         label,
       ];
     }
-    return await this.clubhouse.callWithRetry("createStory", story);
+    return await this.shortcut.callWithRetry("createStory", story);
   },
 };

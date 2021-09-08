@@ -1,4 +1,4 @@
-const clubhouse = require("clubhouse-lib");
+const shortcut = require("clubhouse-lib");
 const get = require("lodash/get");
 const retry = require("async-retry");
 
@@ -7,7 +7,7 @@ module.exports = {
   app: "clubhouse",
   methods: {
     api() {
-      return clubhouse.create(this.$auth.api_key);
+      return shortcut.create(this.$auth.api_key);
     },
     _isRetriableStatusCode(statusCode) {
       [
@@ -74,10 +74,10 @@ module.exports = {
       return value || undefined;
     },
     /**
-     * Creates a new story in your clubhouse.
+     * Creates a new story in your Shortcut account.
      * @params {boolean} archived - Controls the story’s archived state.
      * @params {array} comments - Array with comments to add to the story. Each comment must have
-     * [CreateStoryCommentParams](https://clubhouse.io/api/rest/v3/#CreateStoryCommentParams)
+     * [CreateStoryCommentParams](https://shortcut.com/api/rest/v3#CreateStoryCommentParams)
      * structure.
      * @params {Date} completedAtOverride - A manual override for the time/date the Story was
      * completed.
@@ -96,7 +96,7 @@ module.exports = {
      * @params {string} groupId - The id of the group to associate with this story.
      * @params {integer} iterationId - The ID of the iteration the story belongs to.
      * @params {array} labels - An array of labels attached to the story. Each label must have the
-     * [CreateLabelParams](https://clubhouse.io/api/rest/v3/#CreateLabelParams) structure.
+     * [CreateLabelParams](https://shortcut.com/api/rest/v3#CreateLabelParams) structure.
      * @params {array} linkedFileIds - An array of integers with the IDs of linked files attached
      * to the story.
      * @params {string} name - The name of the story.
@@ -106,15 +106,15 @@ module.exports = {
      * @params {Date} startedAtOverride - Manual override for the time/date the Story was started.
      * @params {array} storyLinks - An array of story links attached to the story. Each story link
      * must have the
-     * [CreateStoryLinkParams](https://clubhouse.io/api/rest/v3/#Body-Parameters-34268) structure.
+     * [CreateStoryLinkParams](https://shortcut.com/api/rest/v3#CreateStoryLinkParams) structure.
      * @params {string} storyType - The type of story (feature, bug, chore).
      * @params {array} tasks - An array of tasks connected to the story. Each task must have the
-     * [CreateTaskParams](https://clubhouse.io/api/rest/v3/#CreateTaskParams) structure.
+     * [CreateTaskParams](https://shortcut.com/api/rest/v3#CreateTaskParams) structure.
      * @params {string} updatedAt - The time/date the story was updated.
      * @params {integer} workflowStateId - The ID of the workflow state the story will be in.
      * @returns {story: object } An object with the created story, as per input provided, default
      * values. See the full schema at
-     * [Create Story Responses](https://clubhouse.io/api/rest/v3/#Responses-80269).
+     * [Create Story Responses](https://shortcut.com/api/rest/v3#Responses-79271).
      */
     async createStory(data) {
       return await this.api().createStory(data);
@@ -136,34 +136,34 @@ module.exports = {
     },
     /**
      * Returns a list of all Epics and their attributes.
-     * @returns {epics: array } An array of all epics in the connected Clubhouse account.
-     * See the [Epic schema](https://clubhouse.io/api/rest/v3/#Epic) at the API docs.
+     * @returns {epics: array } An array of all epics in the connected Shortcut account.
+     * See the [Epic schema](https://shortcut.com/api/rest/v3#Epic) at the API docs.
      */
     async listEpics() {
       return await this.api().listEpics();
     },
     /**
      * Returns a list of all Files.
-     * @returns {files: array } An array of all files in the connected Clubhouse
+     * @returns {files: array } An array of all files in the connected Shortcut
      * account.
-     * See the [Files schema](https://clubhouse.io/api/rest/v3/#List-Files) at the API docs.
+     * See the [Files schema](https://shortcut.com/api/rest/v3#List-Files) at the API docs.
      */
     async listFiles() {
       return await this.api().listFiles();
     },
     /**
      * Returns a list of all Linked Files.
-     * @returns {linkedFiles: array } An array of all linked files in the connected Clubhouse
+     * @returns {linkedFiles: array } An array of all linked files in the connected shortcut
      * account.
-     * See the [Linked File schema](https://clubhouse.io/api/rest/v3/#LinkedFile) at the API docs.
+     * See the [Linked File schema](https://shortcut.com/api/rest/v3#LinkedFile) at the API docs.
      */
     async listLinkedFiles() {
       return await this.api().listLinkedFiles();
     },
     /**
      * Returns a list of all Members and their attributes.
-     * @returns {members: array } An array of all members in the connected Clubhouse account.
-     * See the [Members schema](https://clubhouse.io/api/rest/v3/#Member-1426) at the API docs.
+     * @returns {members: array } An array of all members in the connected Shortcut account.
+     * See the [Members schema](https://shortcut.com/api/rest/v3#Member) at the API docs.
      */
     async listMembers() {
       return await this.api().listMembers();
@@ -172,7 +172,7 @@ module.exports = {
      * Returns a list of all Members as options to use as dynamically populated prop's options.
      * @returns {members: array } An array where each element has the `value` and `label`
      * properties, to be used as dynamically populated prop's options. `value` is set to the `id`
-     * of the Clubhouse member, and `label` to the member's name.
+     * of the shortcut member, and `label` to the member's name.
      */
     async listMembersAsOptions() {
       const members = await this.callWithRetry("listMembers");
@@ -187,26 +187,26 @@ module.exports = {
     },
     /**
      * Returns a list of all projects.
-     * @returns {members: array } An array of all projects in the connected Clubhouse account.
-     * See the [Projects schema](https://clubhouse.io/api/rest/v3/#Project) at the API docs.
+     * @returns {members: array } An array of all projects in the connected Shortcut account.
+     * See the [Projects schema](https://shortcut.com/api/rest/v3#Project) at the API docs.
      */
     async listProjects() {
       return await this.api().listProjects();
     },
     /**
      * Returns a list of all Workflows and their attributes.
-     * @returns {workflows: array } An array of all Workflows in the connected Clubhouse account.
-     * See the [Workflow schema](https://clubhouse.io/api/rest/v3/#Workflow) at the API docs.
+     * @returns {workflows: array } An array of all Workflows in the connected Shortcut account.
+     * See the [Workflow schema](https://shortcut.com/api/rest/v3#Workflow) at the API docs.
      */
     async listWorkflows() {
       return await this.api().listWorkflows();
     },
     /**
-     * Searches for stories in your clubhouse.
+     * Searches for stories in your Shortcut account.
      * @params {string} query - The search query based on the
-     * [Search page](https://help.clubhouse.io/hc/en-us/articles/115005967026)
+     * [Search page](https://help.shortcut.com/hc/en-us/articles/115005967026)
      * [search operators]
-     * (https://help.clubhouse.io/hc/en-us/articles/360000046646-Search-Operators)
+     * (https://help.shortcut.com/hc/en-us/articles/360000046646-Search-Operators)
      * to use for finding stories.
      * @params {integer} numberOfStories - The number of stories to return.
      * @returns {stories: array } An array stories matching the `query` parameter. Number of
