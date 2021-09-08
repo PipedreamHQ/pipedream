@@ -1,5 +1,5 @@
 {
-    "name": "@pipedream/clubhouse",
+    "name": "@pipedream/shortcut",
     "version": "0.3.3",
     "description": "Pipedream Shortcut Components",
     "main": "shortcut.app.js",
@@ -7,7 +7,7 @@
         "pipedream",
         "shortcut"
     ],
-    "homepage": "https://pipedream.com/apps/clubhouse",
+    "homepage": "https://pipedream.com/apps/shortcut",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "dependencies": {

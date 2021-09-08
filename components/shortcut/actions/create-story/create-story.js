@@ -15,7 +15,6 @@ module.exports = {
       label: "Archived",
       description: "Controls the story’s archived state.",
       default: false,
-      optional: true,
     },
     comments: {
       type: "string",
@@ -23,7 +22,6 @@ module.exports = {
       description:
         "An array with comment objects to add to the story. Each comment object must have the [CreateStoryCommentParams](https://shortcut.io/api/rest/v3/#CreateStoryCommentParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of comment objects. ",
       default: "",
-      optional: true,
     },
     completedAtOverride: {
       type: "string",
