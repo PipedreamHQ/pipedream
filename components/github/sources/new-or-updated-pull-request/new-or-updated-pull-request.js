@@ -4,13 +4,16 @@ module.exports = {
   ...common,
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request (Instant)",
-  description: "Emit an event when a pull request is opened or updated",
-  version: "0.0.1",
+  description: "Emit new events when a pull request is opened or updated",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
-      return ["pull_request"];
+      return [
+        "pull_request",
+      ];
     },
     getEventTypes() {
       return [
@@ -33,12 +36,12 @@ module.exports = {
         "reopened",
       ];
     },
-    generateMeta(data) {
+    generateMeta(data, id) {
       const ts = data.pull_request.updated_at
         ? Date.parse(data.pull_request.updated_at)
         : Date.parse(data.pull_request.created_at);
       return {
-        id: `${data.pull_request.id}${ts}`,
+        id,
         summary: `${data.pull_request.title} ${data.action} by ${data.sender.login}`,
         ts,
       };

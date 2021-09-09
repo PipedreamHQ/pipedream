@@ -6,7 +6,7 @@ module.exports = {
   name: "New Review Request",
   description:
     "Emit new events when you or a team you're a member of are requested to review a pull request",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "greatest",
   methods: {

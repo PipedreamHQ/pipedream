@@ -8,7 +8,7 @@ module.exports = {
   description:
     "Emit new events of selected types",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     ...common.props,
     events: {

@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-gist",
   name: "New Gist",
   description: "Emit new events when new gists are created by the authenticated user",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "last",
   methods: {

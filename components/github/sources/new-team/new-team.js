@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-team",
   name: "New Team",
   description: "Emit new events when the user is added to a new team",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "last",
   methods: {

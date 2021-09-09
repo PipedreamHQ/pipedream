@@ -9,7 +9,7 @@ module.exports = {
     repoFullName: {
       type: "string",
       label: "Repo",
-      description: "The name of your repository (the `pipedream` in `PipedreamHQ/pipedream`",
+      description: "The name of your repository (for example, `PipedreamHQ/pipedream`)",
       async options({ page }) {
         const repos = await this.getRepos({
           page: page + 1, // pipedream page 0-indexed, github is 1
@@ -20,7 +20,7 @@ module.exports = {
     org: {
       type: "string",
       label: "Organization",
-      description: "The name of your organization (the `PipedreamHQ` in `PipedreamHQ/pipedream`",
+      description: "The name of your organization (the `PipedreamHQ` in `PipedreamHQ/pipedream`)",
       async options({ page }) {
         const orgs = await this.getOrgs({
           page: page + 1, // pipedream page 0-indexed, github is 1

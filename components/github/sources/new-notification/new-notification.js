@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-notification",
   name: "New Notification",
   description: "Emit new events when you receive new notifications",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -6,7 +6,7 @@ module.exports = {
   key: "github-new-commit",
   name: "New Commit",
   description: "Emit new events on new commits to a repo or branch",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   props: {
     ...common.props,

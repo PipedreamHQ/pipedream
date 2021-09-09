@@ -6,7 +6,7 @@ module.exports = {
   key: "github-new-watcher",
   name: "New Watcher",
   description: "Emit new events when new watchers are added to a repository",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "last",
   props: {

@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-pull-request",
   name: "New Pull Request (Instant)",
   description: "Emit new event on new pull requests",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
