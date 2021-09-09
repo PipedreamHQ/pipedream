@@ -8,7 +8,7 @@ module.exports = {
   key: "clickup-create-subtask",
   name: "Create Subtask",
   description: "Creates a new subtask",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...props,

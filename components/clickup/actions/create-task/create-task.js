@@ -5,7 +5,7 @@ module.exports = {
   key: "clickup-create-task",
   name: "Create Task",
   description: "Creates a new task",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
