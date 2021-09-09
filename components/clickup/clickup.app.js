@@ -8,6 +8,7 @@ module.exports = {
     workspace: {
       type: "string",
       label: "Workspace",
+      description: "Workspace",
       async options() {
         const workspaces = (await this.getWorkspaces()).teams;
         return workspaces.map((workspace) => ({
@@ -19,6 +20,7 @@ module.exports = {
     space: {
       type: "string",
       label: "Space",
+      description: "Space",
       async options({ workspace }) {
         const spaces = (await this.getSpaces(workspace)).spaces;
         return spaces.map((space) => ({
@@ -30,6 +32,7 @@ module.exports = {
     folder: {
       type: "string",
       label: "Folder",
+      description: "Folder",
       async options({ space }) {
         const folders = (await this.getFolders(space)).folders;
         return folders.map((folder) => ({
@@ -42,6 +45,7 @@ module.exports = {
     list: {
       type: "string",
       label: "List",
+      description: "List",
       async options({
         folder, space,
       }) {
@@ -91,6 +95,7 @@ module.exports = {
     task: {
       type: "string",
       label: "Task",
+      description: "Task",
       async options({
         list, page,
       }) {
@@ -113,15 +118,18 @@ module.exports = {
     name: {
       type: "string",
       label: "Name",
+      description: "Name",
     },
     dueDate: {
       type: "integer",
       label: "Due Date",
+      description: "Due Date",
       optional: true,
     },
     dueDateTime: {
       type: "boolean",
       label: "Due Date Time",
+      description: "Due Date Time",
       optional: true,
     },
     parent: {
