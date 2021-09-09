@@ -9,6 +9,7 @@ module.exports = {
     repoFullName: {
       type: "string",
       label: "Repo",
+      description: "The name of your repository (the `pipedream` in `PipedreamHQ/pipedream`",
       async options({ page }) {
         const repos = await this.getRepos({
           page: page + 1, // pipedream page 0-indexed, github is 1
@@ -19,6 +20,7 @@ module.exports = {
     org: {
       type: "string",
       label: "Organization",
+      description: "The name of your organization (the `PipedreamHQ` in `PipedreamHQ/pipedream`",
       async options({ page }) {
         const orgs = await this.getOrgs({
           page: page + 1, // pipedream page 0-indexed, github is 1
@@ -30,6 +32,7 @@ module.exports = {
     branch: {
       type: "string",
       label: "Branch",
+      description: "The name of your branch",
       async options({
         page, repoFullName,
       }) {
@@ -44,11 +47,13 @@ module.exports = {
     events: {
       type: "string[]",
       label: "Events",
+      description: "The types of events you'd like to listen for. [See the GitHub docs](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads) for details on each.",
       options: listOfEvents,
     },
     labels: {
       type: "string[]",
       label: "Labels",
+      description: "Labels attached to issues or PRs",
       async options({
         page, repoFullName,
       }) {
@@ -67,6 +72,7 @@ module.exports = {
     labelNames: {
       type: "string[]",
       label: "Labels",
+      description: "Labels attached to issues or PRs",
       async options({
         page, repoFullName,
       }) {
@@ -82,6 +88,7 @@ module.exports = {
     milestone: {
       type: "string",
       label: "Milestone",
+      description: "[See the GitHub docs](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones)",
       async options({
         page, repoFullName,
       }) {
@@ -98,8 +105,10 @@ module.exports = {
       },
     },
     order: {
+      label: "Result order",
       type: "string",
       optional: true,
+      description: "Order of returned results",
       options: [
         {
           label: "Descending",
@@ -113,14 +122,16 @@ module.exports = {
       default: "desc",
     },
     per_page: {
+      label: "Results per page",
       type: "integer",
-      description: "Results per page (max `100`)",
+      description: "The number of results to return per page (max `100`)",
       optional: true,
       default: 100,
     },
     page: {
+      label: "Page number",
       type: "integer",
-      description: "Page number of the results to fetch.",
+      description: "Page number of the results to fetch",
       optional: true,
     },
     paginate: {
