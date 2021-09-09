@@ -6,7 +6,7 @@ module.exports = {
   name: "New Security Alert",
   description:
     "Emit new events when GitHub discovers a security vulnerability in one of your repositories",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "greatest",
   methods: {

@@ -4,7 +4,7 @@ module.exports = {
   ...common,
   key: "github-new-star",
   name: "New Stars (Instant)",
-  version: "0.0.4",
+  version: "0.0.5",
   description: "Emit new events when a repo is starred",
   type: "source",
   dedupe: "unique",

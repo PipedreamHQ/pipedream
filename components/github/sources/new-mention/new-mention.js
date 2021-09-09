@@ -6,7 +6,7 @@ module.exports = {
   name: "New Mention",
   description:
     "Emit new events when you are @mentioned in a new commit, comment, issue or pull request",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   hooks: {
     async activate() {

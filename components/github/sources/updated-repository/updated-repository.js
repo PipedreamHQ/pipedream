@@ -16,7 +16,7 @@ module.exports = {
   key: "github-updated-repository",
   name: "Updated Repository (Instant)",
   description: "Emit new events when an existing repository is updated",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

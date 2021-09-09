@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-push",
   name: "New Push",
   description: "Emit new events on each new push to a repo",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

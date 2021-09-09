@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-repository",
   name: "New Repository",
   description: "Emit new events when new repositories are created",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "last",
   methods: {

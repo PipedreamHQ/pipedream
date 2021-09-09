@@ -6,7 +6,7 @@ module.exports = {
   name: "New Organization",
   description:
     "Emit new events when the authenticated user is added to a new organization",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "last",
   methods: {
