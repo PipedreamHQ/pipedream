@@ -5,7 +5,7 @@ module.exports = {
   key: "clickup-create-list",
   name: "Create List",
   description: "Creates a new list",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
