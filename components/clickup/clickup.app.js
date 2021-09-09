@@ -161,9 +161,9 @@ module.exports = {
         },
         method,
         url: `https://api.clickup.com/api/v2/${endpoint}`,
-        data,
         params,
       };
+      if (data) config.data = data;
       const response = await axios(config).catch((err) => {
         if (err.response.status !== 200) {
           throw new Error(`API call failed with status code: ${err.response.status} after 3 retry attempts`);
