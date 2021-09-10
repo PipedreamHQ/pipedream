@@ -30,7 +30,9 @@ module.exports = {
       type: "string[]",
       label: "Types of updates",
       description:
-        "The types of updates you want to watch for on these files. [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).",
+        `The types of updates you want to watch for on these files. 
+        [See Google's docs]
+        (https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
       // https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events
       default: GOOGLE_DRIVE_UPDATE_TYPES,
       options: GOOGLE_DRIVE_UPDATE_TYPES,
@@ -39,7 +41,8 @@ module.exports = {
       type: "boolean",
       label: "Watch for changes to file properties",
       description:
-        "Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties) in addition to changes to content. **Defaults to `false`, watching for only changes to content**.",
+        `Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties)
+        in addition to changes to content. **Defaults to \`false\`, watching for only changes to content**.`,
       optional: true,
       default: false,
     },
@@ -575,7 +578,8 @@ module.exports = {
       const driveId = this.getDriveId(drive);
       if (subscription && subscription.resourceId) {
         console.log(
-          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`,
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}.
+          Stopping existing sub`,
         );
         await this.stopNotifications(channelID, subscription.resourceId);
       }
