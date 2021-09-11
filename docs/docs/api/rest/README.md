@@ -42,7 +42,7 @@ header set to `application/json`. For example:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
 ```
 
 ## Common Parameters
@@ -176,8 +176,7 @@ POST /components
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream
-component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+The full code for a [Pipedream component](components/api/).
 
 ---
 
@@ -186,7 +185,7 @@ component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
 
 ---
 
@@ -202,7 +201,7 @@ Here's an example of how to create an RSS component from a Github URL:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
 ```
 
 #### Example Response
@@ -564,8 +563,7 @@ endpoints](/api/rest/#components) for information on how to retrieve this ID.
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream
-component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+The full code for a [Pipedream component](/components/api/).
 
 ---
 
@@ -574,7 +572,7 @@ component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
 
 ---
 
@@ -589,7 +587,7 @@ as metadata to identify the location of the code.
 The name of the source.
 
 If absent, this defaults to using the [name
-slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure)
+slug](/components/api/#component-structure)
 of the component used to create the source.
 
 #### Example Request
@@ -598,7 +596,7 @@ of the component used to create the source.
 curl https://api.pipedream.com/v1/sources \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
 
 #### Example Response
@@ -653,7 +651,7 @@ endpoints](/api/rest/#components) for information on how to retrieve this ID.
 `component_code` **string** (_optional_)
 
 The full code for a [Pipedream
-component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+component](/components/api/).
 
 ---
 
@@ -662,7 +660,7 @@ component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
 
 ---
 
@@ -676,8 +674,7 @@ as metadata to identify the location of the code.
 
 The name of the source.
 
-If absent, this defaults to using the [name
-slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure)
+If absent, this defaults to using the [name slug](/components/api/#component-structure)
 of the component used to create the source.
 
 ---

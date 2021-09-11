@@ -186,7 +186,7 @@ To see more examples, explore the [curated components in Pipedream's GitHub repo
 
 ##### Advanced Configuration
 
-##### Async Options ([example](components/github/github.app.js))
+##### Async Options ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/github.app.js))
 
 Async options allow users to select prop values that can be programmatically-generated (e.g., based on a real-time API response).
 
@@ -226,7 +226,7 @@ module.exports = {
 };
 ```
 
-###### Prop Definitions ([example](components/github/new-commit.js))
+###### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 
@@ -765,7 +765,7 @@ pd deploy my-source.js
 
 ##### From Pipedream Github Repo
 
-You can explore the components available to deploy in [Pipedream's Github repo](https://github.com/pipedreamhq/pipedream/components).
+You can explore the components available to deploy in [Pipedream's GitHub repo](https://github.com/pipedreamhq/pipedream/tree/master/components).
 
 ```bash
 pd deploy <source-key>
@@ -786,7 +786,7 @@ pd deploy <url-to-raw-code>
 E.g.,
 
 ```bash
-pd deploy https://raw.githubusercontent.com/PipedreamHQ/pipedream/master/components/http/http.js
+pd deploy https://raw.githubusercontent.com/PipedreamHQ/pipedream/master/components/http/sources/new-requests/new-requests.js
 ```
 
 #### CLI - Update
