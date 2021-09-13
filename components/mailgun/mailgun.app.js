@@ -108,5 +108,20 @@ module.exports = {
       });
       return res.data;
     },
+    paginate (next, perPage = 100) {
+      const results = [];
+      for (let page = 0;; page++) {
+        const query = {
+          limit: perPage,
+          skip: page * perPage,
+        };
+        const result = await next(query);
+        if (Array.isArray(result) && result.length > 0) {
+          results.push(...result);
+        } else {
+          return results;
+        }
+      }
+    },
   },
 };
