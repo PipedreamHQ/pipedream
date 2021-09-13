@@ -21,7 +21,7 @@ If you need to encrypt sensitive data as part of your report, you can use our [P
 
 ## Reporting abuse
 
-If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report it here](/abuse).
+If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report it here](/abuse/).
 
 ## Hosting Details
 
