@@ -4,7 +4,7 @@ module.exports = {
   key: "mailgun-suppress-email",
   name: "Mailgun Suppress Email",
   description: "Add email to the Mailgun suppression list.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     mailgun,
@@ -70,14 +70,9 @@ module.exports = {
         break;
       }
 
-      const url = `/domains/${this.domain}/${this.category}`;
-      const data = Array.isArray(suppression)
-        ? suppression
-        : [
-          suppression,
-        ];
-      const response = await this.mailgun.api("request").post(url, data);
-      return response.body;
+      const url = `/v3/${this.domain}/${this.category}`;
+      const data = Array.isArray(suppression) ? suppression : [suppression];
+      return await this.mailgun.api("request").post(url, data);
     } catch (err) {
       if (this.haltOnError) {
         throw err;
