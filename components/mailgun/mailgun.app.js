@@ -46,17 +46,29 @@ module.exports = {
     },
   },
   methods: {
-    api(api) {
-      const config = {
+    api (api) {
+      const mailgun = new Mailgun(formData);
+      const mg = mailgun.client({
         username: "api",
         key: this.$auth.api_key,
-        public_key: this.$auth.api_key,
-      };
-      if (this.$auths.region === "EU") {
-        config.url = "https://api.eu.mailgun.net";
-      }
-      const mailgun = new Mailgun(formData);
-      return mailgun.client(config)[api];
+      });
+      return mg[api];
+    },
+    async suppress (domain, type, suppression) {
+      const res = await axios({
+        url: `https://api.mailgun.net/v3/${encodeURIComponent(domain)}/${encodeURIComponent(type)}`,
+        method: "POST",
+        auth: {
+          username: "api",
+          password: this.$auth.api_key,
+        },
+        headers: {
+          "content-type": "application/json",
+        },
+        // eslint-disable-next-line multiline-ternary, array-bracket-newline
+        data: JSON.stringify(Array.isArray(suppression) ? suppression : [suppression]),
+      });
+      return res.data;
     },
   },
 };
