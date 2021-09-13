@@ -4,7 +4,7 @@ module.exports = {
   key: "mailgun-verify-email",
   name: "Mailgun Verify Email",
   description: "Verify email address deliverability with Mailgun.",
-  version: "0.0.3",
+  version: "0.0.8",
   type: "action",
   props: {
     mailgun,
@@ -14,6 +14,12 @@ module.exports = {
         "email",
       ],
     },
+    acceptableRiskLevels: {
+      propDefinition: [
+        mailgun,
+        "acceptableRiskLevels",
+      ],
+    },
     haltOnError: {
       propDefinition: [
         mailgun,
@@ -21,11 +27,18 @@ module.exports = {
       ],
     },
   },
-  async run () {
+  async run ({ $ }) {
     try {
-      return await this.mailgun.api("request").get("/v4/address/validate", {
+      const result = await this.mailgun.api("request").get("/v4/address/validate", {
         address: this.email,
       });
+      if (
+        this.acceptableRiskLevels.length > 0
+        && !this.acceptableRiskLevels.includes(result.body.risk)
+      ) {
+        return $.flow.exit(`${result.body.risk} risk`);
+      }
+      return result.body;
     } catch (err) {
       if (this.haltOnError) {
         throw err;
