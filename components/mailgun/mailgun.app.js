@@ -139,23 +139,7 @@ module.exports = {
       });
       return mg[api];
     },
-    async suppress (domain, type, suppression) {
-      const res = await axios({
-        url: `https://api.mailgun.net/v3/${encodeURIComponent(domain)}/${encodeURIComponent(type)}`,
-        method: "POST",
-        auth: {
-          username: "api",
-          password: this.$auth.api_key,
-        },
-        headers: {
-          "content-type": "application/json",
-        },
-        // eslint-disable-next-line multiline-ternary, array-bracket-newline
-        data: JSON.stringify(Array.isArray(suppression) ? suppression : [suppression]),
-      });
-      return res.data;
-    },
-    paginate (next, perPage = 100) {
+    async paginate (next, perPage = 100) {
       const results = [];
       for (let page = 0;; page++) {
         const query = {

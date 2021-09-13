@@ -8,7 +8,7 @@ module.exports = {
   key: "mailgun-new-complaint",
   name: "New Complaint",
   type: "source",
-  description: "Emit an event when the email recipient clicked on the spam complaint button " +
+  description: "Emit new event when the email recipient clicked on the spam complaint button " +
     "within their email client. Feedback loops enable the notification to be received by Mailgun.",
   version: "0.0.2",
   dedupe: "unique",

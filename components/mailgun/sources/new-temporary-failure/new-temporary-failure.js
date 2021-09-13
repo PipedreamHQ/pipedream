@@ -8,7 +8,7 @@ module.exports = {
   key: "mailgun-new-temporary-failure",
   name: "New Temporary Failure",
   type: "source",
-  description: "Emit an event when an email can't be delivered to the recipient email server due " +
+  description: "Emit new event when an email can't be delivered to the recipient email server due " +
     "to a temporary mailbox error such as an ESP block. ESP is the Email Service Provider " +
     "managing the recipient email server.",
   version: "0.0.2",
