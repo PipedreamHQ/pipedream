@@ -18,5 +18,5 @@ module.exports = {
       }
       return error;
     }
-  }
+  },
 };

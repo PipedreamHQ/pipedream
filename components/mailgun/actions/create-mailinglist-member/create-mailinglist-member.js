@@ -1,6 +1,9 @@
 const pick = require("lodash.pick");
 const mailgun = require("../../mailgun.app.js");
-const { props, withErrorHandler } = require("../common");
+const {
+  props,
+  withErrorHandler,
+} = require("../common");
 
 module.exports = {
   key: "mailgun-create-mailinglist-member",
@@ -65,6 +68,6 @@ module.exports = {
         data.vars = vars;
       }
       return await this.mailgun.api("lists").members.createMember(this.list, data);
-    }
+    },
   ),
 };

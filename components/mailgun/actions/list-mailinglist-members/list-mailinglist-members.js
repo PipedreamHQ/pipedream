@@ -1,6 +1,9 @@
 const pick = require("lodash.pick");
 const mailgun = require("../../mailgun.app.js");
-const { props, withErrorHandler } = require("../common");
+const {
+  props,
+  withErrorHandler,
+} = require("../common");
 
 module.exports = {
   key: "mailgun-list-mailinglist-members",
@@ -30,13 +33,13 @@ module.exports = {
   run: withErrorHandler(
     async function () {
       return await this.mailgun.paginate(
-        params => this.mailgun.api("lists").members.getMembers(this.list, {
+        (params) => this.mailgun.api("lists").members.getMembers(this.list, {
           ...pick(this, [
             "subscribed",
           ]),
           ...params,
-        })
+        }),
       );
-    }
-  )
+    },
+  ),
 };

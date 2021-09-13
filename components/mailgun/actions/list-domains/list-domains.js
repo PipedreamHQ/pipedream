@@ -1,6 +1,9 @@
 const pick = require("lodash.pick");
 const mailgun = require("../../mailgun.app.js");
-const { props, withErrorHandler } = require("../common");
+const {
+  props,
+  withErrorHandler,
+} = require("../common");
 
 module.exports = {
   key: "mailgun-list-domains",
@@ -32,14 +35,14 @@ module.exports = {
   run: withErrorHandler(
     async function () {
       return await this.mailgun.paginate(
-        params => this.mailgun.api("domains").list({
+        (params) => this.mailgun.api("domains").list({
           ...pick(this, [
             "authority",
-            "state"
+            "state",
           ]),
           ...params,
-        })
+        }),
       );
-    }
-  )
+    },
+  ),
 };

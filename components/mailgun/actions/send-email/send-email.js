@@ -1,5 +1,8 @@
 const mailgun = require("../../mailgun.app.js");
-const { props, withErrorHandler } = require("../common");
+const {
+  props,
+  withErrorHandler,
+} = require("../common");
 
 module.exports = {
   key: "mailgun-send-email",
@@ -135,6 +138,6 @@ module.exports = {
         msg["o:tracking"] = "yes";
       }
       return await this.mailgun.api("messages").create(this.domain, msg);
-    }
-  )
+    },
+  ),
 };
