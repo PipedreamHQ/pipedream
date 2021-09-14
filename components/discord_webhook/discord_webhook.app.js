@@ -1,4 +1,5 @@
 const axios = require("axios");
+const FormData = require("form-data");
 
 module.exports = {
   type: "app",
@@ -6,15 +7,18 @@ module.exports = {
   propDefinitions: {
     message: {
       type: "string",
+      label: "Message",
       description: "Enter a simple message up to 2000 characters. This is the most commonly used field. However, it's optional if you pass embed content.",
     },
     embeds: {
       type: "any",
+      label: "Embeds",
       description: "Optionally pass an [array of embed objects](https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html). E.g., ``{{ [{\"description\":\"Use markdown including *Italic* **bold** __underline__ ~~strikeout~~ [hyperlink](https://google.com) `code`\"}] }}``. To pass data from another step, enter a reference using double curly brackets (e.g., `{{steps.mydata.$return_value}}`).\nTip: Construct the `embeds` array in a Node.js code step, return it, and then pass the return value to this step.",
       optional: true,
     },
     username: {
       type: "string",
+      label: "Username",
       description: "Overrides the current username of the webhook",
       optional: true,
     },
@@ -56,6 +60,34 @@ module.exports = {
           username,
           avatar_url: avatarURL,
         },
+      });
+      if (resp.status >= 400) {
+        throw new Error(JSON.stringify(resp.data));
+      }
+      return resp.data;
+    },
+    async sendMessageWithFile({
+      content, username, avatarURL, threadID, file,
+    }) {
+      const data = new FormData();
+      if (content) data.append("content", content);
+      if (username) data.append("username", username);
+      if (avatarURL) data.append("avatar_url", avatarURL);
+      if (file) data.append("file", file);
+      const resp = await axios({
+        method: "POST",
+        url: this.url(),
+        headers: {
+          "Content-Type": "multipart/form-data; boundary=" + data._boundary,
+        },
+        validateStatus: () => true,
+        params: {
+          thread_id: threadID
+            ? threadID
+            : undefined,
+        },
+        data,
+        file,
       });
       if (resp.status >= 400) {
         throw new Error(JSON.stringify(resp.data));
