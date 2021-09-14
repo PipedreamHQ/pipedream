@@ -1,16 +1,22 @@
 const axios = require("axios");
 const { google } = require("googleapis");
 const { uuid } = require("uuidv4");
+// const { v4: uuidv4 } = require("uuid");
+const mimeDb = require("mime-db");
+const mimeTypes = Object.keys(mimeDb);
 
 const {
   GOOGLE_DRIVE_UPDATE_TYPES,
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
 } = require("./constants");
+const googleMimeTypes = require("./actions/google-mime-types");
 
 const {
   isMyDrive,
   getDriveId,
+  getListFilesOpts,
 } = require("./utils");
 
 module.exports = {
@@ -20,10 +26,51 @@ module.exports = {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "The drive you want to watch for changes",
+      description: "The drive you want to watch for changes,",
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);
+      },
+    },
+    folderId: {
+      type: "string",
+      label: "Folder",
+      description: "The folder in the drive.",
+      options({
+        prevContext,
+        drive,
+        baseOpts = {
+          q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}'`,
+        },
+      }) {
+        const { nextPageToken } = prevContext;
+        return this.listDriveFilesOptions(drive, nextPageToken, baseOpts);
+      },
+    },
+    fileId: {
+      type: "string",
+      label: "File",
+      description: "The file in the drive.",
+      options({
+        prevContext,
+        drive,
+        baseOpts = {
+          q: `mimeType != '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}'`,
+        },
+      }) {
+        const { nextPageToken } = prevContext;
+        return this.listDriveFilesOptions(drive, nextPageToken, baseOpts);
+      },
+    },
+    fileOrFolderId: {
+      type: "string",
+      label: "File or Folder",
+      description: "The file or folder in the drive.",
+      options({
+        prevContext, drive, baseOpts = {},
+      }) {
+        const { nextPageToken } = prevContext;
+        return this.listDriveFilesOptions(drive, nextPageToken, baseOpts);
       },
     },
     updateTypes: {
@@ -40,6 +87,55 @@ module.exports = {
       label: "Watch for changes to file properties",
       description:
         "Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties) in addition to changes to content. **Defaults to `false`, watching for only changes to content**.",
+      optional: true,
+      default: false,
+    },
+    fileUrl: {
+      type: "string",
+      label: "File URL",
+      description: "The URL of the file to upload.",
+      optional: true,
+      default: "",
+    },
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description:
+        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`).",
+      optional: true,
+      default: "",
+    },
+    fileName: {
+      type: "string",
+      label: "Name",
+      description: "The new name of the file (e.g. `/myFile.csv`).",
+      optional: true,
+      default: "",
+    },
+    fileNameSearchTerm: {
+      type: "string",
+      label: "Search Name",
+      description: "The name of the file to search for.",
+      optional: true,
+      default: "",
+    },
+    mimeType: {
+      type: "string",
+      label: "MIME Type",
+      description: "The file's MIME type, (e.g., `image/jpeg`).",
+      optional: true,
+      default: "",
+      async options({ page = 0 }) {
+        const allTypes = googleMimeTypes.concat(mimeTypes);
+        const start = (page - 1) * 10;
+        const end = start + 10;
+        return allTypes.slice(start, end);
+      },
+    },
+    useDomainAdminAccess: {
+      type: "boolean",
+      label: "Use Domain Admin Access",
+      description: "Issue the request as a domain administrator.",
       optional: true,
       default: false,
     },
@@ -226,7 +322,9 @@ module.exports = {
         const {
           drives = [],
           nextPageToken,
-        } = await this.listDrivesInPage(pageToken);
+        } = await this.listDrivesInPage(
+          pageToken,
+        );
 
         for (const drive in drives) {
           yield drive;
@@ -252,14 +350,15 @@ module.exports = {
       // list and assign it a static ID that we can refer to when we need. We
       // only do this during the first page of options (i.e. when `pageToken` is
       // undefined).
-      const options = pageToken !== undefined
-        ? []
-        : [
-          {
-            label: "My Drive",
-            value: MY_DRIVE_VALUE,
-          },
-        ];
+      const options =
+        pageToken !== undefined
+          ? []
+          : [
+            {
+              label: "My Drive",
+              value: MY_DRIVE_VALUE,
+            },
+          ];
       for (const d of drives) {
         options.push({
           label: d.name,
@@ -316,7 +415,10 @@ module.exports = {
       const {
         files,
         nextPageToken,
-      } = await this.listFilesInPage(pageToken, extraOpts);
+      } = await this.listFilesInPage(
+        pageToken,
+        extraOpts,
+      );
       const options = files.map((file) => ({
         label: file.name,
         value: file.id,
@@ -327,6 +429,23 @@ module.exports = {
           nextPageToken,
         },
       };
+    },
+    /**
+     * Gets a list of prop options for a GDrive file in a particalar GDrive
+     * drive, if provided
+     *
+     * @param {String} [drive] the ID value of a Google Drive, as provided by the
+     * `drive` prop definition of this app, to which the file belongs
+     * @param {string} [pageToken] - the page token for the next page of files
+     * @param {object} [extraOpts = {}] - an object containing extra/optional
+     * parameters to be fed to the GDrive API call, as defined in [the API
+     * docs](https://bit.ly/3AnQDR1)
+     *
+     * @returns a list of prop options
+     */
+    async listDriveFilesOptions(drive, pageToken = null, extraOpts = {}) {
+      const opts = getListFilesOpts(drive, extraOpts);
+      return this.listFilesOptions(pageToken, opts);
     },
     /**
      * This method yields comments made to a particular GDrive file. It is a
@@ -373,7 +492,8 @@ module.exports = {
       }
     },
     _makeWatchRequestBody(id, address) {
-      const expiration = Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS;
+      const expiration =
+        Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS;
       return {
         id, // the component-specific channel ID, a UUID
         type: "web_hook",
@@ -461,12 +581,13 @@ module.exports = {
         );
       }
     },
-    async getFile(fileId) {
+    async getFile(fileId, params = {}) {
+      const { fields = "*" } = params;
       const drive = this.drive();
       return (
         await drive.files.get({
           fileId,
-          fields: "*",
+          fields,
         })
       ).data;
     },
@@ -515,7 +636,7 @@ module.exports = {
     async invokedByTimer(drive, subscription, url, channelID, pageToken) {
       const newChannelID = channelID || uuid();
       const driveId = this.getDriveId(drive);
-      const newPageToken = pageToken || await this.getPageToken(driveId);
+      const newPageToken = pageToken || (await this.getPageToken(driveId));
 
       const {
         expiration,
@@ -563,6 +684,402 @@ module.exports = {
         expiration,
         resourceId,
       };
+    },
+
+    /**
+     * Get a filtered list of folders
+     *
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to filter the folders that are listed
+     * @param {string} [opts.drive] - the ID value of a Google Drive, as
+     * provided by the `drive` prop definition of this app
+     * @param {string} [opts.name] - the name of the folder to find
+     * @param {string} [opts.parentId] - the ID of the parent folder of the
+     * folder to find, used to filter the listed folders
+     * @param {boolean} [opts.excludeTrashed=true] - `true` if folders in the
+     * trash should be excluded
+     * @returns the list of folders
+     */
+    async findFolder(opts = {}) {
+      const {
+        drive: driveProp,
+        name,
+        parentId,
+        excludeTrashed = true,
+      } = opts;
+      const drive = this.drive();
+      let q = "mimeType = 'application/vnd.google-apps.folder'";
+      if (name) {
+        q += ` and name = '${name}'`;
+      }
+      if (parentId) {
+        q += ` and '${parentId}' in parents`;
+      }
+      if (excludeTrashed) {
+        q += " and trashed != true";
+      }
+      const listOpts = getListFilesOpts(driveProp, {
+        q,
+      });
+      return (await drive.files.list(listOpts)).data.files;
+    },
+    /**
+     * Create a file
+     *
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to create a file
+     * @param {stream.Readable} [opts.file] - a file stream to create the file
+     * with
+     * @param {string} [opts.mimeType] - the MIME type of the file to
+     * create
+     * @param {string} [opts.name] - the name of the file to create
+     * @param {string} [opts.parentId] - the ID value of the parent folder to
+     * create the file in
+     * @param {string} [opts.fields] - the paths of the fields to include in
+     * the response
+     * @param {object} [opts.requestBody] - extra/optional properties to be used
+     * in the request body of the GDrive API, as defined in
+     * [the API docs](https://bit.ly/3kuvbnq)
+     * @param {...*} [opts.extraParams] - extra/optional parameters to be fed to
+     * the GDrive API call, as defined in [the API docs](https://bit.ly/2VY0MVg)
+     * @returns the created file
+     */
+    async createFile(opts = {}) {
+      const {
+        file,
+        mimeType,
+        name,
+        parentId,
+        fields,
+        requestBody,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.files.create({
+          fields,
+          media: file
+            ? {
+              mimeType,
+              body: file,
+            }
+            : undefined,
+          requestBody: {
+            name,
+            mimeType,
+            parents: parentId
+              ? [
+                parentId,
+              ]
+              : undefined,
+            ...requestBody,
+          },
+          ...extraParams,
+        })
+      ).data;
+    },
+    /**
+     * Create a folder
+     *
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to create a folder
+     * @param {string} [opts.name] - the name of the folder to create
+     * @param {string} [opts.parentId] - the ID value of the parent folder to
+     * create the folder in
+     * @param {string} [opts.fields="*"] - the paths of the fields to include in
+     * the response
+     * @param {...*} [opts.extraParams] - extra/optional parameters to be fed to
+     * the GDrive API call, as defined in [the API docs](https://bit.ly/2VY0MVg)
+     * @returns the created folder
+     */
+    async createFolder(opts = {}) {
+      const {
+        name,
+        parentId,
+        fields = "*",
+        ...extraParams
+      } = opts;
+      return await this.createFile({
+        name,
+        parentId,
+        fields,
+        mimeType: "application/vnd.google-apps.folder",
+        ...extraParams,
+      });
+    },
+    /**
+     * Update a file's media content
+     *
+     * @param {string} fileId - the ID value of the file to update
+     * @param {stream.Readable} [fileStream] - a file stream used to update the
+     * content of the file
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to update a file
+     * @param {string} [opts.mimeType] - the MIME type of the file
+     * used to update the file content
+     * @param {...*} [opts.extraParams] - extra/optional parameters to be fed to
+     * the GDrive API call, as defined in [the API docs](https://bit.ly/3lNg9Zw)
+     * @returns the updated file
+     */
+    async updateFileMedia(fileId, fileStream, opts = {}) {
+      const {
+        mimeType,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.files.update({
+          fileId,
+          media: {
+            mimeType,
+            body: fileStream,
+          },
+          ...extraParams,
+        })
+      ).data;
+    },
+    /**
+     * Update a file's metadata
+     *
+     * @param {string} fileId - the ID value of the file to update
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to update a file
+     * @param {string} [opts.name] - the updated name of the file
+     * @param {string} [opts.mimeType] - the updated MIME type of the file
+     * @param {string} [opts.fields] - the paths of the fields to include in
+     * the response
+     * @param {string} [opts.removeParents] - a comma-separated list of parent
+     * folder IDs to add to the file's parents
+     * @param {string} [opts.addParents] - a comma-separated list of parent
+     * folder IDs to add to the file's parents
+     * @param {object} [opts.requestBody] - extra/optional properties to be used
+     * in the request body of the GDrive API, as defined in
+     * [the API docs](https://bit.ly/3nTMi4n)
+     * @param {...*} [opts.extraParams] - extra/optional parameters to be fed to
+     * the GDrive API call, as defined in [the API docs](https://bit.ly/3lNg9Zw)
+     * @returns the updated file
+     */
+    async updateFile(fileId, opts = {}) {
+      const {
+        name,
+        mimeType,
+        fields,
+        removeParents,
+        addParents,
+        requestBody,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.files.update({
+          fileId,
+          removeParents,
+          addParents,
+          fields,
+          requestBody: {
+            name,
+            mimeType,
+            ...requestBody,
+          },
+          ...extraParams,
+        })
+      ).data;
+    },
+    /**
+     * Copy a file
+     *
+     * @param {string} fileId - the ID value of the file to copy
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to copy a file
+     * @param {string} [opts.fields="*"] - the paths of the fields to include in
+     * the response
+     * @param {...*} [opts.extraParams] - extra/optional parameters to be fed to
+     * the GDrive API call, as defined in [the API docs](https://bit.ly/3kq5eFO)
+     * @returns the copy of the file
+     */
+    async copyFile(fileId, opts = {}) {
+      const {
+        fields = "*",
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.files.copy({
+          fileId,
+          fields,
+          ...extraParams,
+        })
+      ).data;
+    },
+    /**
+     * Delete a file
+     *
+     * @param {string} fileId - the ID value of the file to delete
+     * @returns {void}
+     */
+    async deleteFile(fileId) {
+      const drive = this.drive();
+      return (
+        await drive.files.delete({
+          fileId,
+        })
+      ).data;
+    },
+    /**
+     * Create a permission for a file
+     *
+     * @param {string} fileId - the ID value of the file to create a Permission
+     * for
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to create a permission
+     * @param {string} [opts.role="reader"] - the name of the folder to find
+     * @param {string} [opts.type] - the ID of the parent folder of the folder to
+     * find, used to filter the listed folders
+     * @param {string} [opts.domain] - `true` if folders in the trash
+     * @param {string} [opts.emailAddress] - `true` if folders in the trash
+     * @returns the created Permission
+     */
+    async createPermission(fileId, opts = {}) {
+      const {
+        role = "reader",
+        type,
+        domain,
+        emailAddress,
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.permissions.create({
+          fileId,
+          requestBody: {
+            role,
+            type,
+            domain: domain || undefined,
+            emailAddress: emailAddress || undefined,
+          },
+        })
+      ).data;
+    },
+    /**
+     * Get a shared drive
+     *
+     * @param {string} driveId - the ID value of the drive
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to get a shared drive
+     * @param {boolean} [opts.useDomainAccess] - if the request should issued a
+     * domain administrator, granted if the requester an administrator of the
+     * domain to which the shared drive belongs
+     * @returns the shared drive
+     */
+    async getSharedDrive(driveId, opts = {}) {
+      const { useDomainAdminAccess } = opts;
+      const drive = this.drive();
+      return (
+        await drive.drives.get({
+          driveId,
+          useDomainAdminAccess,
+        })
+      ).data;
+    },
+    /**
+     * Search for drives according to the list parameters
+     *
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to search for drives
+     * @param {string} [opts.q] - query string for searching shared drives. See
+     * the ["Search for shared drives"](https://bit.ly/2XJ1oik) guide for
+     * supported syntax.
+     * @param {boolean} [opts.useDomainAccess] - if the request should issued a
+     * domain administrator, granted if the requester an administrator of the
+     * domain to which the shared drive belongs
+     * @param {...*} [opts.extraParams] - extra/optional parameters to be fed to
+     * the GDrive API call, as defined in [the API docs](https://bit.ly/3CCf4e3)
+     * the response
+     * @returns a list of drives
+     */
+    async searchDrives(opts = {}) {
+      const {
+        q,
+        useDomainAdminAccess,
+        ...extraParams
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.drives.list({
+          q,
+          useDomainAdminAccess,
+          ...extraParams,
+        })
+      ).data;
+    },
+    /**
+     * Create a drive
+     *
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to create a drive
+     * @param {string} [opts.name] - the name of the drive to create
+     * @param {object} [opts.requestBody] - extra/optional properties to be used
+     * in the request body of the GDrive API, as defined in
+     * [the API docs](https://bit.ly/2ZiyIgJ)
+     * @returns the created drive
+     */
+    async createDrive(opts = {}) {
+      const {
+        name,
+        requestBody,
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.drives.create({
+          requestId: uuid(),
+          requestBody: {
+            name,
+            ...requestBody,
+          },
+        })
+      ).data;
+    },
+    /**
+     * Update a shared drive
+     *
+     * @param {object} [opts={}] - an object representing configuration options
+     * used to update a shared drive
+     * @param {boolean} [opts.useDomainAccess] - if the request should issued a
+     * domain administrator, granted if the requester an administrator of the
+     * domain to which the shared drive belongs
+     * @param {object} [opts.requestBody] - extra/optional properties to be used
+     * in the request body of the GDrive API, as defined in
+     * [the API docs](https://bit.ly/3AxJP3c)
+     * @returns the updated shared drive
+     */
+    async updateSharedDrive(driveId, opts = {}) {
+      const {
+        useDomainAdminAccess,
+        requestBody,
+      } = opts;
+      const drive = this.drive();
+      return (
+        await drive.drives.update({
+          driveId,
+          useDomainAdminAccess,
+          requestBody: {
+            ...requestBody,
+          },
+        })
+      ).data;
+    },
+    /**
+     * Delete a shared drive
+     *
+     * @param {string} fileId - the ID value of the drive to delete
+     * @returns {void}
+     */
+    async deleteSharedDrive(driveId) {
+      const drive = this.drive();
+      return (
+        await drive.files.delete({
+          driveId,
+        })
+      ).data;
     },
   },
 };

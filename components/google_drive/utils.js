@@ -1,3 +1,5 @@
+const fs = require("fs");
+const axios = require("axios");
 const { MY_DRIVE_VALUE } = require("./constants");
 
 /**
@@ -24,8 +26,50 @@ function getDriveId(drive) {
     : drive;
 }
 
+function getListFilesOpts(drive, baseOpts = {}) {
+  const opts = isMyDrive(drive)
+    ? baseOpts
+    : {
+      ...baseOpts,
+      corpora: drive
+        ? "drive"
+        : "allDrives",
+      driveId: getDriveId(drive),
+      includeItemsFromAllDrives: true,
+      supportsAllDrives: true,
+    };
+  return opts;
+}
+
+/**
+ * Returns a file stream from a file URL or file path to be used in Google Drive
+ * API calls
+ *
+ * @param {Object} opts - an object containing options for getting a file stream
+ * @param {String} opts.fileUrl - the url of a file to download to a Readable
+ * stream
+ * @param {String} opts.filePath - the path to a file from which to create a
+ * Readable stream
+ * @returns {stream.Readable} a Readable stream from the file URL or file path
+ */
+async function getFileStream({
+  fileUrl, filePath,
+}) {
+  return fileUrl
+    ? (
+      await axios({
+        url: fileUrl,
+        method: "GET",
+        responseType: "stream",
+      })
+    ).data
+    : fs.createReadStream(filePath);
+}
+
 module.exports = {
   MY_DRIVE_VALUE,
   isMyDrive,
   getDriveId,
+  getListFilesOpts,
+  getFileStream,
 };

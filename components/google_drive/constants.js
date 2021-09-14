@@ -95,9 +95,20 @@ const WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS = 24 * 60 * 60 * 1000;
  * More information can be found in the API docs:
  * https://developers.google.com/drive/api/v3/push#optional-properties
  */
-const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS = (
-  WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * .95 / 1000
-);
+const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
+  (WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * 0.95) / 1000;
+
+/**
+ * The MIME type prefix of Google Drive MIME types as defined by the [Google
+ * Drive API docs](https://developers.google.com/drive/api/v3/mime-types)
+ */
+const GOOGLE_DRIVE_MIME_TYPE_PREFIX = "application/vnd.google-apps";
+
+/**
+ * The MIME type of Google Drive folders as defined by the [Google Drive API
+ * docs](https://developers.google.com/drive/api/v3/mime-types)
+ */
+const GOOGLE_DRIVE_FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
 
 module.exports = {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
@@ -111,4 +122,6 @@ module.exports = {
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+  GOOGLE_DRIVE_MIME_TYPE_PREFIX,
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
 };
