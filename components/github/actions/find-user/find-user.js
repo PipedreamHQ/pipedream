@@ -2,9 +2,9 @@ const github = require("../../github.app.js");
 const { Octokit } = require("@octokit/rest");
 
 module.exports = {
-  key: "github-search-issues-and-pull-requests",
-  name: "Search Issues and Pull Requests",
-  description: "Find issues by state and keyword.",
+  key: "github-find-user",
+  name: "Find User",
+  description: "Find user by username.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,11 +14,22 @@ module.exports = {
         github,
         "q_issues_and_pull_requests",
       ],
+      label: "Username",
+      description: "The username to look for. It's what follows after `https://github.com/` in a user Github profile URL.",
     },
     sort: {
       propDefinition: [
         github,
         "sortIssues",
+      ],
+      options: [
+        {
+          label: "Best Match (default)",
+          value: "",
+        },
+        "followers",
+        "repositories",
+        "joined",
       ],
     },
     order: {
@@ -38,10 +49,11 @@ module.exports = {
     const octokit = new Octokit({
       auth: this.github.$auth.oauth_access_token,
     });
+    const q = `${this.q} type:user`;
     if (this.paginate) {
       return await this.github._withRetries(
         () => octokit.paginate(octokit.search.users, {
-          q: `${this.q} type:user`,
+          q,
           sort: this.sort,
           order: this.order,
           per_page: 100,
@@ -50,7 +62,7 @@ module.exports = {
     } else {
       const result = await this.github._withRetries(
         () => octokit.search.users({
-          q: this.q,
+          q,
           sort: this.sort,
           order: this.order,
           per_page: 100,
