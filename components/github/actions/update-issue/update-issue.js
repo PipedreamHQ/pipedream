@@ -2,9 +2,9 @@ const github = require("../../github.app.js");
 const { Octokit } = require("@octokit/rest");
 
 module.exports = {
-  key: "github-create-issue",
-  name: "Create Issue",
-  description: "Create a new issue in a Gihub repo.",
+  key: "github-update-issue",
+  name: "Update Issue",
+  description: "Update an issue in a Gihub repo.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,6 +13,17 @@ module.exports = {
       propDefinition: [
         github,
         "repoFullName",
+      ],
+    },
+    issue: {
+      propDefinition: [
+        github,
+        "issue",
+        (c) => (
+          {
+            repoFullName: c.repoFullName,
+          }
+        ),
       ],
     },
     title: {
@@ -27,21 +38,26 @@ module.exports = {
         "issueBody",
       ],
     },
-    labels: {
+    state: {
       propDefinition: [
         github,
-        "labelNames",
-        (c) => ({
-          repoFullName: c.repoFullName,
-        }),
+        "state",
       ],
-      description: "String array with the names of the labels to add to the issue.",
-      optional: true,
     },
     milestone: {
       propDefinition: [
         github,
         "milestone",
+        (c) => ({
+          repoFullName: c.repoFullName,
+        }),
+      ],
+      optional: true,
+    },
+    labels: {
+      propDefinition: [
+        github,
+        "labelNames",
         (c) => ({
           repoFullName: c.repoFullName,
         }),
@@ -59,16 +75,29 @@ module.exports = {
     const octokit = new Octokit({
       auth: this.github.$auth.oauth_access_token,
     });
+    const opts = {
+      owner: this.repoFullName.split("/")[0],
+      repo: this.repoFullName.split("/")[1],
+      issue_number: this.issue,
+      title: this.title,
+    };
+    if (this.body) {
+      opts.body = this.body;
+    }
+    if (this.state) {
+      opts.state = this.state;
+    }
+    if (this.milestone) {
+      opts.milestone = this.milestone;
+    }
+    if (this.labels) {
+      opts.labels = this.labels;
+    }
+    if (this.assignees) {
+      opts.assignees = this.assignees;
+    }
     const result = await this.github._withRetries(
-      () =>  octokit.issues.create({
-        owner: this.repoFullName.split("/")[0],
-        repo: this.repoFullName.split("/")[1],
-        title: this.title,
-        body: this.body,
-        labels: this.labels,
-        assignees: this.assignees,
-        milestone: this.milestone,
-      }),
+      () =>  octokit.issues.update(opts),
     );
     return result.data;
   },

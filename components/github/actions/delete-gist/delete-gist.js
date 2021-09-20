@@ -2,17 +2,17 @@ const github = require("../../github.app.js");
 const { Octokit } = require("@octokit/rest");
 
 module.exports = {
-  key: "github-get-repo",
-  name: "Get Repo",
-  description: "Get details for a repo including the owner, description, metrics (e.g., forks, stars, watchers, issues) and more.",
+  key: "github-delete-gist",
+  name: "Delete Gist",
+  description: "Delete gist in connected Github account.",
   version: "0.0.1",
   type: "action",
   props: {
     github,
-    repoFullName: {
+    gist: {
       propDefinition: [
         github,
-        "repoFullName",
+        "gist",
       ],
     },
   },
@@ -21,9 +21,8 @@ module.exports = {
       auth: this.github.$auth.oauth_access_token,
     });
     const result = await this.github._withRetries(
-      () => octokit.repos.get({
-        owner: this.repoFullName.split("/")[0],
-        repo: this.repoFullName.split("/")[1],
+      () => octokit.gists.delete({
+        gist_id: this.gist,
       }),
     );
     return result.data;

@@ -2,9 +2,9 @@ const github = require("../../github.app.js");
 const { Octokit } = require("@octokit/rest");
 
 module.exports = {
-  key: "github-get-repo",
-  name: "Get Repo",
-  description: "Get details for a repo including the owner, description, metrics (e.g., forks, stars, watchers, issues) and more.",
+  key: "github-delete-branch",
+  name: "Delete Branch",
+  description: "Deletes a branch from a Github repo.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -15,15 +15,29 @@ module.exports = {
         "repoFullName",
       ],
     },
+    branch: {
+      propDefinition: [
+        github,
+        "branch",
+        (c) => (
+          {
+            repoFullName: c.repoFullName,
+          }
+        ),
+      ],
+      description:
+        "The branch to delete.",
+    },
   },
   async run() {
     const octokit = new Octokit({
       auth: this.github.$auth.oauth_access_token,
     });
     const result = await this.github._withRetries(
-      () => octokit.repos.get({
+      () =>  octokit.request("DELETE /repos/{owner}/{repo}/git/refs/{ref}", {
         owner: this.repoFullName.split("/")[0],
         repo: this.repoFullName.split("/")[1],
+        ref: `heads/${this.branch}`,
       }),
     );
     return result.data;
