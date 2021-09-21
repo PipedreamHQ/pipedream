@@ -213,7 +213,7 @@ module.exports = {
         },
       });
       if (resp.status >= 400) {
-        throw new Error(resp.data);
+        throw new Error(JSON.stringify(resp.data));
       }
       return resp.data.updates;
     },
