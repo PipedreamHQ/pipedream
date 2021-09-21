@@ -48,7 +48,6 @@ module.exports = {
         });
         return orgs.map((org) => org.login);
       },
-      description: "The Github organization.",
       optional: true,
     },
     branch: {
@@ -133,7 +132,7 @@ module.exports = {
         page, repoFullName,
       }) {
         const labels = await this.getLabels({
-         page: page + 1, // pipedream page 0-indexed, github is 1
+          page: page + 1, // pipedream page 0-indexed, github is 1
           repoFullName,
         });
         return labels.map((label) => {
