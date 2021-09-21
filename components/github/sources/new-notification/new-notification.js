@@ -4,8 +4,9 @@ module.exports = {
   ...common,
   key: "github-new-notification",
   name: "New Notification",
-  description: "Emit an event when you receive a notification.",
-  version: "0.0.1",
+  description: "Emit new events when you receive new notifications",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   methods: {
     generateMeta(data) {
@@ -17,7 +18,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const since = this.db.get("since");
 
     const notifications = await this.github.getNotifications({

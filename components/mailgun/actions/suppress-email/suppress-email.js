@@ -1,10 +1,14 @@
 const mailgun = require("../../mailgun.app.js");
+const {
+  props,
+  withErrorHandler,
+} = require("../common");
 
 module.exports = {
   key: "mailgun-suppress-email",
   name: "Mailgun Suppress Email",
   description: "Add email to the Mailgun suppression list.",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     mailgun,
@@ -22,6 +26,8 @@ module.exports = {
     },
     category: {
       type: "string",
+      label: "Category",
+      description: "Which suppression list to add the email to",
       options: [
         "bounces",
         "unsubscribes",
@@ -31,14 +37,18 @@ module.exports = {
     bounceErrorCode: {
       type: "string",
       label: "Bounce Error Code",
+      description: "Email bounce error code",
       default: "550",
       optional: true,
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     bounceErrorMessage: {
       type: "string",
       label: "Bounce Error Message",
+      description: "Email bounce error message",
       optional: true,
     },
+    /* eslint-enable pipedream/default-value-required-for-optional-props */
     unsubscribeFrom: {
       type: "string",
       label: "Tag to unsubscribe from",
@@ -46,15 +56,10 @@ module.exports = {
       default: "*",
       optional: true,
     },
-    haltOnError: {
-      propDefinition: [
-        mailgun,
-        "haltOnError",
-      ],
-    },
+    ...props,
   },
-  async run () {
-    try {
+  run: withErrorHandler(
+    async function () {
       const suppression = {
         address: this.email,
       };
@@ -70,15 +75,13 @@ module.exports = {
         break;
       }
 
-      return await this.mailgun.suppress(this.domain, this.category, suppression);
-    } catch (err) {
-      if (this.haltOnError) {
-        throw err;
-      }
-      if (err.response) {
-        return err.response.data;
-      }
-      return err;
-    }
-  },
+      const url = `/v3/${this.domain}/${this.category}`;
+      const data = Array.isArray(suppression)
+        ? suppression
+        : [
+          suppression,
+        ];
+      return await this.mailgun.api("request").post(url, data);
+    },
+  ),
 };

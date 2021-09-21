@@ -20,10 +20,7 @@
       target="_blank"
       rel="noopener"
     >
-      <img
-        class="navbar-icons"
-        src="https://res.cloudinary.com/pipedreamin/image/upload/v1597037778/docs/GitHub-Mark-32px_vaecft.png"
-      />
+      <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/PipedreamHQ/pipedream?label=View%20code%20on%20GitHub&style=social">
     </a>
   </nav>
 </template>
@@ -134,7 +131,7 @@ export default {
     position: relative;
     display: inline-block;
     margin-left: 1.5rem;
-    line-height: 2rem;
+    line-height: 2rem
 
     &:first-child {
       margin-left: 0;

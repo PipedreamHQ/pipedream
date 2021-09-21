@@ -1,66 +1,61 @@
-const common = require("../common-webhook");
-const { mailgun } = common.props;
+const {
+  props,
+  methods,
+  ...common
+} = require("../common-webhook");
 
 module.exports = {
   ...common,
   key: "mailgun-new-mailing-list",
   name: "New Mailing List",
-  description:
-    "Emit an event when a new mailing list is added to the associated Mailgun account.",
-  version: "0.0.1",
+  type: "source",
+  description: "Emit new event when a new mailing list is added to the associated Mailgun account.",
+  version: "0.0.2",
   dedupe: "greatest",
   props: {
-    ...common.props,
-    baseRegion: { propDefinition: [mailgun, "baseRegion"] },
-    timer: { propDefinition: [mailgun, "timer"] },
+    ...props,
+    timer: {
+      propDefinition: [
+        props.mailgun,
+        "timer",
+      ],
+    },
+  },
+  methods: {
+    ...methods,
+    generateMeta(payload) {
+      const ts = +new Date(payload.created_at);
+      return {
+        id: `${ts}`,
+        summary: `New mailing list: ${payload.name}`,
+        ts,
+      };
+    },
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      const mailgunLists = await this.mailgun.getMailgunLists("last", 5);
-      if (!mailgunLists || mailgunLists.items.length === 0) {
-        console.log("No data available, skipping iteration");
-        return;
+      const lists = await this.mailgun.api("lists").list({
+        limit: 5,
+      });
+      for (let list of lists) {
+        this.$emit(list, this.generateMeta(list));
       }
-      const { items: mailgunListItems = [] } = mailgunLists;
-      mailgunListItems.forEach(this.emitEvent);
-      this.db.set("next", mailgunLists.paging.next);
-    },
-  },
-  methods: {
-    ...common.methods,
-    generateMeta(eventPayload) {
-      const ts = +new Date(eventPayload.created_at);
-      return {
-        id: `${ts}`,
-        summary: `A new mailing list "${eventPayload.name}" has been created.`,
-        ts,
-      };
-    },
-    emitEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
     },
   },
   async run() {
-    let mailgunLists;
-    let next = null;
-    let address = null;
-    let page = "first";
-    do {
-      if (next) {
-        const nextUrlParams = new URLSearchParams(next);
-        address = nextUrlParams.get("address");
-        page = "next";
+    const perPage = 100;
+    for (let page = 0; ; page += perPage) {
+      const lists = await this.mailgun.api("lists").list({
+        skip: 0 * perPage,
+        limit: perPage,
+      });
+      if (lists.length === 0) {
+        return;
       }
-      mailgunLists = await this.mailgun.getMailgunLists(page, 5, address);
-      if (!mailgunLists || mailgunLists.items.length === 0) {
-        console.log("No data available, skipping iteration");
-        break;
+      for (let list of lists) {
+        this.$emit(list, this.generateMeta(list));
       }
-      mailgunLists.items.forEach(this.emitEvent);
-      this.db.set("next", mailgunLists.paging.next);
-      next = this.db.get("next");
-    } while (mailgunLists.items.length > 0);
+    }
   },
 };

@@ -8,12 +8,15 @@ module.exports = {
   name: "New hot posts on a subreddit",
   description:
     "Emits an event each time a new hot post is added to the top 10 items in a subreddit.",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   props: {
     ...common.props,
     subreddit: {
-      propDefinition: [reddit, "subreddit"],
+      propDefinition: [
+        reddit,
+        "subreddit",
+      ],
     },
     region: {
       type: "string",
@@ -28,12 +31,15 @@ module.exports = {
       type: "boolean",
       label: "Exclude filters (Show all posts)?",
       description:
-        'If set to `true`, filters such as "hide links that I have voted on" will be disabled',
+        "If set to `true`, filters such as \"hide links that I have voted on\" will be disabled",
       default: false,
       optional: true,
     },
     includeSubredditDetails: {
-      propDefinition: [reddit, "includeSubredditDetails"],
+      propDefinition: [
+        reddit,
+        "includeSubredditDetails",
+      ],
     },
   },
   hooks: {
@@ -44,7 +50,7 @@ module.exports = {
         this.region,
         this.excludeFilters,
         this.includeSubredditDetails,
-        10
+        10,
       );
       const { children: hotPosts = [] } = redditHotPosts.data;
       if (hotPosts.length === 0) {
@@ -52,7 +58,7 @@ module.exports = {
         return;
       }
       hotPosts.reverse().forEach(this.emitRedditEvent);
-    }
+    },
   },
   methods: {
     ...common.methods,
@@ -62,7 +68,7 @@ module.exports = {
         summary: redditEvent.data.title,
         ts: redditEvent.data.created,
       };
-    }
+    },
   },
   async run() {
     const redditHotPosts = await this.reddit.getNewHotSubredditPosts(
@@ -70,7 +76,7 @@ module.exports = {
       this.region,
       this.excludeFilters,
       this.includeSubredditDetails,
-      10
+      10,
     );
     const { children: hotPosts = [] } = redditHotPosts.data;
     if (hotPosts.length === 0) {

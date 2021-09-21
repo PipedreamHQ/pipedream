@@ -1,6 +1,6 @@
 # Creating an HTTP source
 
-This tutorial will walk you through how to:
+This tutorial will walk you through how to: 
 
 1. [Install the Pipedream CLI](#install-the-pipedream-cli)
 2. [Link your Pipedream account to the CLI](#link-your-pipedream-account-to-the-cli)
@@ -11,7 +11,7 @@ This should take about 5 minutes to complete.
 
 ## Install the Pipedream CLI
 
-[See the CLI installation docs](/cli/install/) to learn how to install the CLI for your OS / architecture.
+[See the CLI installation docs](/cli/install/) to learn how to install the CLI for your OS / architecture. 
 
 ## Link your Pipedream account to the CLI
 
@@ -106,11 +106,11 @@ or, like above, you can listen for new events as they arrive:
 pd events -f http
 ```
 
-`http` is the default name associated with the [source you deployed above](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js). `pd events` can accept the name of the ID of the source, which you can see by running `pd list sources`.
+`http` is the default name associated with the [source you deployed above](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/new-requests/new-requests.js). `pd events` can accept the name of the ID of the source, which you can see by running `pd list sources`.
 
 ## Next Steps
 
-[This source](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js) accepts any HTTP request and returns a 200 OK to the client. But you can modify this behavior in any way you'd like to validate the request, issue a custom response, or run any Node.js code you'd like. [Check out our other example HTTP sources](https://github.com/PipedreamHQ/pipedream/tree/master/components/http#example-http-sources) to learn more.
+[This source](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/new-requests/new-requests.js) accepts any HTTP request and returns a 200 OK to the client. But you can modify this behavior in any way you'd like to validate the request, issue a custom response, or run any Node.js code you'd like. [Check out our other example HTTP sources](https://github.com/PipedreamHQ/pipedream/tree/master/components/http) to learn more.
 
 For more information on the Pipedream CLI, see the [command reference](/cli/reference/).
 

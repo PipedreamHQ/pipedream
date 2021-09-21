@@ -1,35 +1,51 @@
-const discordWebhook=require('../../discord_webhook.app.js')
-const axios = require('axios')
+const discordWebhook = require("../../discord_webhook.app.js");
 
 module.exports = {
   key: "discord_webhook-send-message",
   name: "Send Message",
-  description: "Send a simple message to a Discord channel.",
-  version: "0.0.11",
+  description: "Send a simple message to a Discord channel",
+  version: "0.1.2",
   type: "action",
   props: {
     discordWebhook,
-    message: { propDefinition: [discordWebhook, "message"] },
-    username: { propDefinition: [discordWebhook, "username"] },
-    avatar_url: { propDefinition: [discordWebhook, "avatar_url"] },
+    message: {
+      propDefinition: [
+        discordWebhook,
+        "message",
+      ],
+    },
+    threadID: {
+      propDefinition: [
+        discordWebhook,
+        "threadID",
+      ],
+    },
+    username: {
+      propDefinition: [
+        discordWebhook,
+        "username",
+      ],
+    },
+    avatarURL: {
+      propDefinition: [
+        discordWebhook,
+        "avatarURL",
+      ],
+    },
   },
   async run() {
-    const url = this.discordWebhook.$auth.oauth_uid
-    let content = this.message
-    const { username, avatar_url } = this
+    const {
+      avatarURL,
+      threadID,
+      username,
+    } = this;
 
-    return (await axios({
-      method: "POST",
-      url,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      data: {
-        content,
-        embeds,
-        username,
-        avatar_url,
-      }
-    })).data
+    // No interesting data is returned from Discord
+    await this.discordWebhook.sendMessage({
+      avatarURL,
+      content: this.message,
+      threadID,
+      username,
+    });
   },
-}
+};

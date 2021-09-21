@@ -7,7 +7,7 @@ On Pipedream, you can save and read state in two ways:
 - On a **workflow-level**, using `$checkpoint`
 - On a **step-level**, using `this.$checkpoint`
 
-If you need to manage state _across_ workflows, we recommend you use a database or key-value store like [KVdb](https://kvdb.io).
+If you need to manage state across workflows, we recommend you use a database or key-value store.
 
 [[toc]]
 
@@ -24,13 +24,13 @@ $checkpoint = {
 };
 ```
 
-You don't need to store data in an object — numbers, strings, and other JavaScript native types are JSON-serializable, as well. If you just need to keep track of a single ID in `$checkpoint`, store its value directly in `$checkpoint`:
+You don't need to store data in an object. Numbers, strings, and other JavaScript native types are JSON-serializable, as well. If you just need to keep track of a single ID in `$checkpoint`, store its value directly in `$checkpoint`:
 
 ```javascript
 $checkpoint = 1;
 ```
 
-This will store the number `1`, as a value of type `Number`. To store IDs as a strings, set the value to a string:
+This will store the number `1`, as a `Number`. To store IDs as a strings, set the value to a string:
 
 ```javascript
 $checkpoint = "1";
@@ -39,12 +39,16 @@ $checkpoint = "1";
 You can read data previously saved in `$checkpoint` like so:
 
 ```javascript
-if ($checkpoint) {
-  console.log($checkpoint);
-}
+const checkpoint = $checkpoint ?? "default value"
 ```
 
-### Example workflow - use `$checkpoint` to increment a number
+### Workflow state and concurrency
+
+If two events trigger your workflow at the same time, they'll run the workflow in parallel. If you're using `$checkpoint`, the last event to finish will write its value to workflow state, overwriting the data saved by the first event. This is called a [race condition](https://en.wikipedia.org/wiki/Race_condition), and it'll cause bugs in your workflow that can be difficult to troubleshoot.
+
+**When you're saving data to `$checkpoint`, you'll typically want to [serialize your workflow's execution](/workflows/events/concurrency-and-throttling/#managing-event-concurrency), running one event at at time**. This ensures each execution of your workflow writes its data to `$checkpoint` before the next event is invoked.
+
+### Example workflow: use `$checkpoint` to increment a number
 
 Often, you'll want to track the count of events a workflow processes, or keep track of some incrementing ID that you can pass to other systems as a unique identifier for an event.
 
@@ -65,7 +69,7 @@ $checkpoint = checkpoint;
 
 `$checkpoint` is frequently used to dedupe incoming data. For example, you might receive events via webhooks and encounter duplicate HTTP requests (tied to the same user taking the same action in the source system). You need a way to make sure you don't process the same request twice.
 
-[This workflow](https://pipedream.com/@dylburger/dedupe-based-on-incoming-key-exit-early-if-we-ve-seen-this-key-before-p_brCyAy/edit) shows you how this works. It keeps track of `emails` seen so far, retrieved from `event.body.email` in the incoming HTTP request (here, the email address is a unique identifer we're using to dedupe requests, but you can use any identifier). If we've seen a particular email address before, we exit early:
+[This workflow](https://pipedream.com/@dylburger/dedupe-based-on-incoming-key-exit-early-if-we-ve-seen-this-key-before-p_brCyAy/edit) shows you how this works. It keeps track of `emails` seen so far, retrieved from `event.body.email` in the incoming HTTP request (here, the email address is a unique identifier we're using to dedupe requests, but you can use any identifier). If we've seen a particular email address before, we exit early:
 
 ```javascript
 const get = require("lodash.get");
@@ -113,9 +117,18 @@ This means **you'll need to initialize `$checkpoint` before you can use it, and 
 
 `$checkpoint` is scoped to a workflow. Any data you save in `$checkpoint` is specific to that workflow. Saving data to `$checkpoint` in one workflow will not affect the data saved in `$checkpoint` in another.
 
-## Step-level state: `this.$checkpoint`
+## Step-level state
 
 Often, a specific step needs to maintain state that isn't relevant for the rest of the workflow. If you're writing a code step that pulls tweets from Twitter, and want to keep track of the last tweet ID you processed, you can store that state within a step, instead of using the global `$checkpoint` variable. This can make state easier to manage, and introduce fewer bugs.
+
+Pipedream provides two ways to manage step-level state in workflows:
+
+- If you're writing [Node.js code steps]((/workflows/steps/code/)) within a workflow, [use `$this.$checkpoint`](#workflow-code-steps-this-checkpoint)
+- If you're authoring [components](/components/), [use `$.service.db`](/components/api/#db)
+
+### Workflow code steps - `this.$checkpoint`
+
+_Use `this.$checkpoint` in [Node.js code steps](/workflows/steps/code/)_
 
 Within a step, you can store any [JSON-serializable](https://stackoverflow.com/a/3316779/10795955) data in `this.$checkpoint`:
 
@@ -129,6 +142,10 @@ this.$checkpoint = {
 ```
 
 `this.$checkpoint` is scoped to a step, and `$checkpoint` is scoped to a workflow. But their programming API is equivalent: they both start out with values of `undefined`, they both store JSON-serializable data, etc.
+
+### `$.service.db`
+
+[Components](/components/) like sources and actions manage state using the [`$.service.db` prop](/components/api/#db).
 
 ## Resetting or changing the value of `$checkpoint`
 
@@ -151,11 +168,11 @@ You can also add any JSON-serializable data to the `$checkpoint` editor, modifyi
 To reset the value of `$checkpoint`, [add a new Node.js code step](/workflows/steps/code/#adding-a-code-step) to your workflow, just below the trigger step. Then add the following code to that step:
 
 ```javascript
-$checkpoint = undefined;
+$checkpoint = false;
 $end("Clearing $checkpoint");
 ```
 
-This will set the value of `$checkpoint` to `undefined`, and then immediately end your workflow.
+This will set the value of `$checkpoint` to `false`, and then immediately end your workflow.
 
 You can also set `$checkpoint` to any JSON-serializable value:
 

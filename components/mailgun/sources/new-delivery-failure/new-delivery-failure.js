@@ -1,40 +1,37 @@
-const common = require("../common-webhook");
-const { mailgun } = common.props;
+const {
+  methods,
+  ...common
+} = require("../common-webhook");
 
 module.exports = {
   ...common,
   key: "mailgun-new-delivery-failure",
   name: "New Delivery Failure",
-  description:
-    "Emit an event when an email can't be delivered to the recipient email server.",
-  version: "0.0.1",
+  type: "source",
+  description: "Emit new event when an email can't be delivered to the recipient email server.",
+  version: "0.0.2",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    domain: { propDefinition: [mailgun, "domain"] },
-  },
   methods: {
-    ...common.methods,
+    ...methods,
     getEventName() {
-      return ["permanent_fail", "temporary_fail"];
+      return [
+        "permanent_fail",
+        "temporary_fail",
+      ];
     },
     getEventType() {
-      return ["failed"];
+      return [
+        "failed",
+      ];
     },
-    generateMeta(eventPayload) {
-      const ts = eventPayload.timestamp;
+    generateMeta(payload) {
+      const id = payload.message.headers["message-id"];
+      const error = payload["delivery-status"].description;
       return {
-        id: `${eventPayload.id}${ts}`,
-        ts,
-        summary: `Delivery of msg-id \"${eventPayload.message.headers["message-id"]}\" failed with error: \"${eventPayload["delivery-status"].description}\"`,
+        id: `${payload.id}${payload.timestamp}`,
+        summary: `Delivery ${id} failed with error: "${error}"`,
+        ts: payload.timestamp,
       };
-    },
-    emitEvent(eventWorkload) {
-      const eventType = this.getEventType();
-      if (eventType.includes(eventWorkload.event)) {
-        const meta = this.generateMeta(eventWorkload);
-        this.$emit(eventWorkload, meta);
-      }
     },
   },
 };

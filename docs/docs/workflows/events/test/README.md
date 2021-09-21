@@ -2,7 +2,7 @@
 
 We provide the ability for you to send a test event through your workflow to test it before running it on real data.
 
-We provide a default test event you can send to a workflow that helps you explore the features of the product. Click the **Send Test Event** button at the top of [the Inspector](/workflows/events/inspect/#the-inspector) to send this event to your workflow:
+We provide a default test event you can send to a workflow that helps you explore the features of the product. Click the **Send Test Event** button at the top of [the Inspector](/workflows/events/inspect/#the-inspector) to send this event to your workflow: 
 
 <div>
 <img alt="Send test event" width="300" src="./images/send-test-event-button.png">
@@ -10,7 +10,7 @@ We provide a default test event you can send to a workflow that helps you explor
 
 **The contents of this test event varies depending on the source**.
 
-When you're first learning how Pipedream works, you can trigger a workflow using this test event to learn how [code](/workflows/steps/code/), [actions](/workflows/steps/actions/), [destinations](/destinations/), and more.
+When you're first learning how Pipedream works, you can trigger a workflow using this test event to learn how [code](/workflows/steps/code/), [actions](/components/actions/), [destinations](/destinations/), and other functionality works.
 
 Typically, though, you're processing events of a different shape in real workflow. **Press the pencil icon to the right of the Sent Test Event button to modify the test event**.
 

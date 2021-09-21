@@ -8,6 +8,8 @@ module.exports = {
     google_cloud,
     db: "$.service.db",
     timer: {
+      label: "Polling interval",
+      description: "How often to run your query",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // 15 minutes
@@ -85,7 +87,7 @@ module.exports = {
     async processCollection(queryOpts, timestamp) {
       const rows = await this.getRowsForQuery(queryOpts);
       chunk(rows, this.eventSize)
-        .forEach(rows => {
+        .forEach((rows) => {
           const meta = this.generateMetaForCollection(rows, timestamp);
           const rowCount = rows.length;
           const data = {
@@ -94,15 +96,15 @@ module.exports = {
           };
           this.$emit(data, meta);
         });
-      this._updateLastResultId(rows);
+      if (this.uniqueKey) this._updateLastResultId(rows);
     },
     async processSingle(queryOpts, timestamp) {
       const rows = await this.getRowsForQuery(queryOpts);
-      rows.forEach(row => {
+      rows.forEach((row) => {
         const meta = this.generateMeta(row, timestamp);
         this.$emit(row, meta);
       });
-      this._updateLastResultId(rows);
+      if (this.uniqueKey) this._updateLastResultId(rows);
     },
     getInitialEventCount() {
       return 10;

@@ -4,7 +4,7 @@
 
 ## Editing Title and Description
 
-When you create a workflow, you can edit the **Title** and **Description** near the top. We also present some helpful information — the workflow's author, the current version, and visibility state of the code and data, and when the workflow was last updated:
+When you create a workflow, you can edit the **Title** and **Description** near the top. We also present some helpful information — the workflow's author, the current version, and visibility state of the code and data, and when the workflow was last updated: 
 
 <div>
 <img alt="Pipeline title and description" src="./images/pipeline.png">
@@ -14,7 +14,7 @@ When you create a workflow, you can edit the **Title** and **Description** near 
 
 **All workflow code is private by default. The data you send to a workflow, or logs you generate, is also private**.
 
-You can change the visibility of workflow code using the dropdown menu to the right of the **code** label at the top of your workflow:
+You can change the visibility of workflow code using the drop-down menu to the right of the **code** label at the top of your workflow:
 
 <div>
 <img alt="Workflow visibility toggle" src="./images/workflow-visibility.png">
@@ -56,7 +56,7 @@ If you need to revert your workflow to a previous version, click on that menu an
 <img alt="Current workflow version" src="./images/switch-workflow-version.png" width="400px">
 </div>
 
-This will display the code for that version of your workflow below. To revert your workflow to this version, click **Redploy This Version** on the far right of the header that appears:
+This will display the code for that version of your workflow below. To revert your workflow to this version, click **Re-deploy This Version** on the far right of the header that appears:
 
 <div>
 <img alt="Current workflow version" src="./images/redploy-workflow-version.png">
@@ -81,7 +81,7 @@ There are two types of ways to share your workflow:
 
 ## Deactivating Workflows
 
-Workflows can be deactivated by switching the toggle in the top-left corner of any workflow. By defaut, this toggle is green, which means your workflow is active:
+Workflows can be deactivated by switching the toggle in the top-left corner of any workflow. By default, this toggle is green, which means your workflow is active:
 
 <div>
 <img alt="Active workflow" width="200" src="./images/active.png">
