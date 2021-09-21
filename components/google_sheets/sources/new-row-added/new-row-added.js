@@ -5,9 +5,10 @@ module.exports = {
   key: "google_sheets-new-row-added",
   name: "New Row Added (Instant)",
   description:
-    "Emits an event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.18",
+    "Emit new events each time a row or rows are added to the bottom of a spreadsheet",
+  version: "0.0.19",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
     sheetID: {
