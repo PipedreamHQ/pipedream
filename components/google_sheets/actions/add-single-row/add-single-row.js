@@ -4,7 +4,7 @@ module.exports = {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "0.0.31",
+  version: "0.1.0",
   type: "action",
   props: {
     googleSheets,
@@ -41,7 +41,6 @@ module.exports = {
     },
   },
   async run() {
-    const sheets = this.googleSheets.sheets();
     const cells = this.cells;
 
     // validate input
@@ -53,16 +52,12 @@ module.exports = {
       throw new Error("Cell / Column data is a multi-dimensional array. A one-dimensional is expected. If you're trying to send multiple rows to Google Sheets, search for the action to add multiple rows to Sheets.");
     }
 
-    return (await sheets.spreadsheets.values.append({
+    return await this.googleSheets.addRowsToSheet({
       spreadsheetId: this.sheetId,
       range: this.sheetName,
-      valueInputOption: "USER_ENTERED",
-      insertDataOption: "INSERT_ROWS",
-      resource: {
-        values: [
-          cells,
-        ],
-      },
-    })).data.updates;
+      rows: [
+        cells,
+      ],
+    });
   },
 };
