@@ -1,3 +1,5 @@
+/* eslint-disable pipedream/default-value-required-for-optional-props */
+
 const axios = require("axios");
 const { google } = require("googleapis");
 const { uuid } = require("uuidv4");
@@ -26,7 +28,7 @@ module.exports = {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "The drive you want to watch for changes,",
+      description: "The drive you want to watch for changes",
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);
@@ -35,7 +37,7 @@ module.exports = {
     folderId: {
       type: "string",
       label: "Folder",
-      description: "The folder in the drive.",
+      description: "The folder in the drive",
       options({
         prevContext,
         drive,
@@ -50,7 +52,7 @@ module.exports = {
     fileId: {
       type: "string",
       label: "File",
-      description: "The file in the drive.",
+      description: "The file in the drive",
       options({
         prevContext,
         drive,
@@ -65,7 +67,7 @@ module.exports = {
     fileOrFolderId: {
       type: "string",
       label: "File or Folder",
-      description: "The file or folder in the drive.",
+      description: "The file or folder in the drive",
       options({
         prevContext, drive, baseOpts = {},
       }) {
@@ -93,38 +95,33 @@ module.exports = {
     fileUrl: {
       type: "string",
       label: "File URL",
-      description: "The URL of the file to upload.",
+      description: "The URL of the file to upload",
       optional: true,
-      default: "",
     },
     filePath: {
       type: "string",
       label: "File Path",
       description:
-        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`).",
+        "The path to the file saved to the /tmp (e.g., `/tmp/myFile.csv`)",
       optional: true,
-      default: "",
     },
     fileName: {
       type: "string",
       label: "Name",
-      description: "The new name of the file (e.g. `/myFile.csv`).",
+      description: "The name of the file (e.g., `/myFile.csv`)",
       optional: true,
-      default: "",
     },
     fileNameSearchTerm: {
       type: "string",
       label: "Search Name",
-      description: "The name of the file to search for.",
+      description: "Enter the name of a file to search for.",
       optional: true,
-      default: "",
     },
     mimeType: {
       type: "string",
       label: "MIME Type",
-      description: "The file's MIME type, (e.g., `image/jpeg`).",
+      description: "The file's MIME type (e.g., `image/jpeg`)",
       optional: true,
-      default: "",
       async options({ page = 0 }) {
         const allTypes = googleMimeTypes.concat(mimeTypes);
         const start = (page - 1) * 10;
@@ -135,7 +132,7 @@ module.exports = {
     useDomainAdminAccess: {
       type: "boolean",
       label: "Use Domain Admin Access",
-      description: "Issue the request as a domain administrator.",
+      description: "Issue the request as a domain administrator",
       optional: true,
       default: false,
     },
@@ -708,7 +705,7 @@ module.exports = {
         excludeTrashed = true,
       } = opts;
       const drive = this.drive();
-      let q = "mimeType = 'application/vnd.google-apps.folder'";
+      let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}'`;
       if (name) {
         q += ` and name = '${name}'`;
       }
@@ -803,7 +800,7 @@ module.exports = {
         name,
         parentId,
         fields,
-        mimeType: "application/vnd.google-apps.folder",
+        mimeType: `${GOOGLE_DRIVE_FOLDER_MIME_TYPE}`,
         ...extraParams,
       });
     },

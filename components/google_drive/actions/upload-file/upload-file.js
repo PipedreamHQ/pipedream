@@ -6,7 +6,7 @@ module.exports = {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Copy an existing file to Google Drive",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     googleDrive,
@@ -15,8 +15,10 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to upload the file to.",
+      description:
+        "The drive to use. If not specified, your personal Google Drive will be used. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     parentId: {
       propDefinition: [
         googleDrive,
@@ -25,9 +27,9 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The folder you want to upload the file to.",
+      description:
+        "The folder you want to upload the file to. If not specified, the file will be placed directly in the user's My Drive folder.",
       optional: true,
-      default: "",
     },
     fileUrl: {
       propDefinition: [
@@ -35,7 +37,7 @@ module.exports = {
         "fileUrl",
       ],
       description:
-        "The URL of the file to upload. Must specify either File URL or File Path.",
+        "The URL of the file to upload. Must specify either `File URL` or `File Path`.",
     },
     filePath: {
       propDefinition: [
@@ -43,7 +45,7 @@ module.exports = {
         "filePath",
       ],
       description:
-        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either File URL or File Path.",
+        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either `File URL` or `File Path`.",
     },
     name: {
       propDefinition: [

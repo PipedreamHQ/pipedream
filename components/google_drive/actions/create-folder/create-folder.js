@@ -4,7 +4,7 @@ module.exports = {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder",
-  version: "0.0.12",
+  version: "0.0.1",
   type: "action",
   props: {
     googleDrive,
@@ -13,8 +13,10 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to create the folder in.",
+      description:
+        "The drive to use. If not specified, your personal Google Drive will be used. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     parentId: {
       propDefinition: [
         googleDrive,
@@ -23,9 +25,9 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The folder you want to create the folder in.",
+      description:
+        "Select a folder in which to place the new folder. If not specified, the folder will be placed directly in the user's My Drive folder.",
       optional: true,
-      default: "",
     },
     name: {
       propDefinition: [
@@ -33,15 +35,14 @@ module.exports = {
         "fileName",
       ],
       label: "Name",
-      description: "The name of the new folder.",
+      description: "The name of the new folder",
       optional: true,
-      default: "",
     },
   },
   async run() {
     const {
       parentId,
-      name = undefined,
+      name,
     } = this;
     return await this.googleDrive.createFolder({
       name,

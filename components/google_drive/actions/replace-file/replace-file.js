@@ -1,25 +1,25 @@
 const path = require("path");
 const googleDrive = require("../../google_drive.app");
 
-const { GOOGLE_DRIVE_FOLDER_MIME_TYPE } = require("../../constants");
 const { getFileStream } = require("../../utils");
 
 module.exports = {
   key: "google_drive-replace-file",
   name: "Replace File",
   description: "Upload a file that replaces an existing file",
-  version: "0.0.62",
+  version: "0.0.1",
   type: "action",
   props: {
     googleDrive,
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     drive: {
       propDefinition: [
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to replace a file in.",
+      description:
+        "The drive to use. If not specified, your personal Google Drive will be used. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
       optional: true,
-      default: "",
     },
     fileId: {
       propDefinition: [
@@ -27,13 +27,10 @@ module.exports = {
         "fileId",
         (c) => ({
           drive: c.drive,
-          baseOpts: {
-            q: `mimeType != '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and 'me' in writers`,
-          },
         }),
       ],
       optional: false,
-      description: "The file to update.",
+      description: "The file to update",
     },
     fileUrl: {
       propDefinition: [
@@ -57,14 +54,14 @@ module.exports = {
         "fileName",
       ],
       label: "Name",
-      description: "The new name of the file (e.g., `myFile.csv`).",
+      description: "The name of the new file (e.g., `myFile.csv`)",
     },
     mimeType: {
       propDefinition: [
         googleDrive,
         "mimeType",
       ],
-      description: "The new file's MIME type, (e.g., `image/jpeg`).",
+      description: "The MIME type of the new file (e.g., `image/jpeg`)",
     },
   },
   async run() {
@@ -83,7 +80,8 @@ module.exports = {
       filePath,
     });
     // Update file media separately from metadata to prevent multipart upload,
-    // which the Google API client doesn't seem to support for files.update.
+    // which `google-apis-nodejs-client` doesn't seem to support for
+    // [files.update](https://bit.ly/3lP5sWn)
     await this.googleDrive.updateFileMedia(fileId, fileStream, {
       mimeType: mimeType || undefined,
     });

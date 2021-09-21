@@ -4,7 +4,7 @@ module.exports = {
   key: "google_drive-get-shared-drive",
   name: "Get Shared Drive",
   description: "Get a shared drive's metadata by ID",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     googleDrive,
@@ -13,7 +13,8 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "Select a drive.",
+      description:
+        "Select a [shared drive](https://support.google.com/a/users/answer/9310351).",
     },
     useDomainAdminAccess: {
       propDefinition: [

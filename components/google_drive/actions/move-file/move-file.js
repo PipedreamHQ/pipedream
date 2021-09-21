@@ -4,7 +4,7 @@ module.exports = {
   key: "google_drive-move-file",
   name: "Move File",
   description: "Move a file from one folder to another",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     googleDrive,
@@ -13,7 +13,8 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive containing the file to move.",
+      description:
+        "The drive to use. If not specified, your personal Google Drive will be used. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
     fileId: {
       propDefinition: [
@@ -23,8 +24,9 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The file to move.",
+      description: "The file to move",
     },
+    /* eslint-disable pipedream/default-value-required-for-optional-props */
     folderId: {
       propDefinition: [
         googleDrive,
@@ -33,9 +35,8 @@ module.exports = {
           drive: c.drive,
         }),
       ],
-      description: "The folder you want to move the file to.",
+      description: "The folder you want to move the file to",
       optional: true,
-      default: "",
     },
   },
   async run() {
