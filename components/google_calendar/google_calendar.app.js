@@ -115,6 +115,7 @@ module.exports = {
       description: "Time zone used in the response. Optional. The default is the time zone of the calendar.",
       optional: true,
       type: "string",
+      label: "TimeZone",
     },
     updatedMin: {
       description: "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted. Optional. The default is not to filter by last modification time.",
