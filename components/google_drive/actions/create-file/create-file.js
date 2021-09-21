@@ -10,7 +10,7 @@ module.exports = {
   key: "google_drive-create-file",
   name: "Create a New File",
   description: "Create a new file from a URL or /tmp/filepath.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
