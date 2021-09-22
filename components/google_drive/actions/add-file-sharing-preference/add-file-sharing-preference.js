@@ -1,15 +1,20 @@
 const googleDrive = require("../../google_drive.app");
 
+/**
+ * Uses Google Drive API to create a permission for a file. The role granted by
+ * the permission is one of `owner`,`organizer`,`fileOrganizer`,
+ * `writer`,`commenter`, `reader`. See the [Google Drive API Reference for
+ * Permissions](https://bit.ly/2XKKG1X) for more information.
+ */
 module.exports = {
   key: "google_drive-add-file-sharing-preference",
   name: "Add File Sharing Preference",
   description:
-    "Add a sharing permission to the sharing preferences of a file and provide a sharing URL",
+    "Add a [sharing](https://support.google.com/drive/answer/7166529) permission to the sharing preferences of a file and provide a sharing URL",
   version: "0.0.1",
   type: "action",
   props: {
     googleDrive,
-    /* eslint-disable pipedream/default-value-required-for-optional-props */
     drive: {
       propDefinition: [
         googleDrive,
@@ -52,7 +57,7 @@ module.exports = {
       type: "string",
       label: "Type",
       description:
-        "The type of the grantee. If type is `user` or `group`, you must provide an `Email Address` for the user or group. When `type` is `domain`, you must provide a `Domain`.",
+        "The type of the grantee. If type is `user` or `group`, you must provide an `Email Address` for the user or group. When `type` is `domain`, you must provide a `Domain`. Sharing with a domain is only valid for G Suite users.",
       optional: true,
       default: "anyone",
       options: [
@@ -66,7 +71,7 @@ module.exports = {
       type: "string",
       label: "Domain",
       description:
-        "The domain to which this permission refers if `type` is `domain`",
+        "The domain of the G Suite organization to which this permission refers if `type` is `domain` (e.g., `yourcomapany.com`)",
       optional: true,
     },
     emailAddress: {
@@ -85,6 +90,7 @@ module.exports = {
       domain,
       emailAddress,
     } = this;
+    // Create the permission for the file
     await this.googleDrive.createPermission(fileId, {
       role,
       type,
@@ -92,6 +98,7 @@ module.exports = {
       emailAddress,
     });
 
+    // Get the file to get the `webViewLink` sharing URL
     return (await this.googleDrive.getFile(this.fileId)).webViewLink;
   },
 };

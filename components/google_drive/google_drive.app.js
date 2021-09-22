@@ -1,9 +1,6 @@
-/* eslint-disable pipedream/default-value-required-for-optional-props */
-
 const axios = require("axios");
 const { google } = require("googleapis");
 const { uuid } = require("uuidv4");
-// const { v4: uuidv4 } = require("uuid");
 const mimeDb = require("mime-db");
 const mimeTypes = Object.keys(mimeDb);
 
@@ -925,15 +922,19 @@ module.exports = {
     /**
      * Create a permission for a file
      *
-     * @param {string} fileId - the ID value of the file to create a Permission
-     * for
+     * @param {string} fileId - the ID value of the file for which to create a
+     * Permission
      * @param {object} [opts={}] - an object representing configuration options
      * used to create a permission
-     * @param {string} [opts.role="reader"] - the name of the folder to find
-     * @param {string} [opts.type] - the ID of the parent folder of the folder to
-     * find, used to filter the listed folders
-     * @param {string} [opts.domain] - `true` if folders in the trash
-     * @param {string} [opts.emailAddress] - `true` if folders in the trash
+     * @param {string} [opts.role="reader"] - the role granted by this
+     * permission. Currently, one of `owner`,`organizer`,`fileOrganizer`,
+     * `writer`,`commenter`, `reader`.
+     * @param {string} [opts.type] - the type of the grantee. Valid values are:
+     * `user`,`group`,`domain`,`anyone`.
+     * @param {string} [opts.domain] - the domain to which this permission
+     * refers
+     * @param {string} [opts.emailAddress] - the email address of the user or
+     * group to which this permission refers
      * @returns the created Permission
      */
     async createPermission(fileId, opts = {}) {

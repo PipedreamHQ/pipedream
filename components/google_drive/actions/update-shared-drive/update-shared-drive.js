@@ -22,7 +22,6 @@ module.exports = {
         "useDomainAdminAccess",
       ],
     },
-    /* eslint-disable pipedream/default-value-required-for-optional-props */
     backgroundImageLink: {
       type: "string",
       label: "Background Image Link",

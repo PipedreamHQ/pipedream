@@ -15,6 +15,7 @@ module.exports = {
       ],
       description:
         "The drive to use. If not specified, your personal Google Drive will be used. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
+      optional: true,
     },
     fileId: {
       propDefinition: [
@@ -26,7 +27,6 @@ module.exports = {
       ],
       description: "The file to move",
     },
-    /* eslint-disable pipedream/default-value-required-for-optional-props */
     folderId: {
       propDefinition: [
         googleDrive,

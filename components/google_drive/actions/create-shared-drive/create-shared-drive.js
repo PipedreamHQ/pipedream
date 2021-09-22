@@ -8,7 +8,6 @@ module.exports = {
   type: "action",
   props: {
     googleDrive,
-    /* eslint-disable pipedream/default-value-required-for-optional-props */
     name: {
       type: "string",
       label: "Name",
