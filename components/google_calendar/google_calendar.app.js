@@ -132,6 +132,14 @@ module.exports = {
       optional: true,
       type: "string",
     },
+    ruleId: {
+      type: "string",
+      label: "ACL rule identifier",
+      description: "ACL rule identifier.",
+      async options({ calendarId }) {
+        return await this.listACLOptions(calendarId);
+      },
+    },
   },
   methods: {
     _tokens() {
@@ -219,6 +227,26 @@ module.exports = {
         return {
           label: event.summary,
           value: event.id,
+        };
+      });
+
+      return options;
+    },
+
+    /**
+     * @param {string} [calendarId] - User Calendar Id
+     * @returns
+     */
+
+    async listACLOptions(calendarId) {
+      const calendar = this.calendar();
+      const { data } = await calendar.acl.list({
+        calendarId: calendarId,
+      });
+      const options = data.items.map((item) => {
+        return {
+          label: item.role,
+          value: item.id,
         };
       });
 
