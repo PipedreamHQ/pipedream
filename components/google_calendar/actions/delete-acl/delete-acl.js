@@ -1,9 +1,9 @@
 const googleCalendar = require("../../google_calendar.app");
 
 module.exports = {
-  key: "google_calendar_get_acl",
-  name: "Retreive Access Control Rule",
-  description: "Retreive Access Control Rule Metadata from a google calendar.",
+  key: "google_calendar_delete_acl",
+  name: "Delete Access Control Rule",
+  description: "Delete Access Control Rule Metadata from a google calendar.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -26,7 +26,7 @@ module.exports = {
   },
   async run() {
     const calendar = this.googleCalendar.calendar();
-    return (await calendar.acl.get({
+    return (await calendar.acl.delete({
       calendarId: this.calendarId,
       ruleId: this.ruleId,
     })).data;
