@@ -13,8 +13,6 @@ module.exports = {
         googleCalendar,
         "calendarId",
       ],
-      optional: true,
-      default: "primary",
     },
   },
   async run() {

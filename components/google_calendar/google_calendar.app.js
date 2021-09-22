@@ -9,6 +9,8 @@ module.exports = {
       label: "Calender Name",
       description: "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the \"primary\" keyword.",
       type: "string",
+      optional: true,
+      default: "primary",
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         const calendars = await this.listCalendarsInPage(nextPageToken);
