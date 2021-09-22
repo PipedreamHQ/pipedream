@@ -1,4 +1,4 @@
-const base = require("../common/s3");
+const { methods, ...base } = require("../common/s3");
 
 module.exports = {
   ...base,
@@ -8,7 +8,7 @@ module.exports = {
   version: "0.0.1",
   dedupe: "unique",
   methods: {
-    ...base.methods,
+    ...methods,
     getEvents() {
       return [
         "s3:ObjectCreated:*",

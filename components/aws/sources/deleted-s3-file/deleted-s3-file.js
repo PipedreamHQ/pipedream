@@ -1,4 +1,4 @@
-const base = require("../common/s3");
+const { props, methods, ...base } = require("../common/s3");
 
 module.exports = {
   ...base,
@@ -8,7 +8,7 @@ module.exports = {
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    ...base.props,
+    ...props,
     ignoreDeleteMarkers: {
       type: "boolean",
       label: "Ignore Delete Markers",
@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   methods: {
-    ...base.methods,
+    ...methods,
     getEvents() {
       return [
         this.ignoreDeleteMarkers

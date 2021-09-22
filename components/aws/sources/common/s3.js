@@ -37,7 +37,7 @@ module.exports = {
       const region = await this._getRegionForBucket(this.bucket);
       this._setRegion(region);
 
-      await base.hooks.activate.bind(this)();
+      await base.hooks.activate.call(this);
 
       const topicArn = this.getTopicArn();
       await this._enableBucketNotifications(this.bucket, topicArn);
@@ -46,7 +46,7 @@ module.exports = {
       const topicArn = this.getTopicArn();
       await this._disableBucketNotifications(this.bucket, topicArn);
 
-      await base.hooks.deactivate.bind(this)();
+      await base.hooks.deactivate.call(this);
 
       this._setRegion(null);
     },
