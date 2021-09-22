@@ -29,6 +29,7 @@ module.exports = {
         }),
       ],
       description: "The Google spreadsheet to copy",
+      optional: true,
     },
   },
   async run() {

@@ -53,9 +53,11 @@ module.exports = {
     // validate input
     if (!cells || !cells.length) {
       throw new Error("Please enter an array of elements in `Cells / Column Values`.");
-    } else if (!Array.isArray(cells)) {
+    }
+    if (!Array.isArray(cells)) {
       throw new Error("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
-    } else if (Array.isArray(cells[0])) {
+    }
+    if (Array.isArray(cells[0])) {
       throw new Error("Cell / Column data is a multi-dimensional array. A one-dimensional is expected.");
     }
     const request = {

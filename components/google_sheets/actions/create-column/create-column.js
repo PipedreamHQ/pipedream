@@ -55,10 +55,10 @@ module.exports = {
   async run() {
     const colIndex = this.googleSheets._getColumnIndex(this.column);
     const colCount = await this.getColumnCount();
-    let requests;
+    const requests = [];
     // if inserting a column outside of the grid limits, append to end
     if (colIndex >= colCount) {
-      requests = [
+      requests.push([
         {
           appendDimension: {
             sheetId: this.worksheetId,
@@ -66,9 +66,9 @@ module.exports = {
             length: 1,
           },
         },
-      ];
+      ]);
     } else {
-      requests = [
+      requests.push([
         {
           insertRange: {
             range: {
@@ -79,7 +79,7 @@ module.exports = {
             shiftDimension: "COLUMNS",
           },
         },
-      ];
+      ]);
     }
     const request = {
       spreadsheetId: this.sheetId,
