@@ -81,7 +81,7 @@ module.exports = {
       type: this.scopeType,
     };
 
-    if (this.scopeType !== "default") {
+    if (this.scopeType !== "default" && this.scopeValue.trim().length) {
       scope["value"] = this.scopeValue;
     }
 
