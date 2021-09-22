@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const { google } = require("googleapis");
 const googleDrive = require("../google_drive/google_drive.app");
 
@@ -59,6 +60,7 @@ module.exports = {
         return sheets.map((sheet) => sheet.properties.title);
       },
     },
+    // TODO: is this a duplicate of the prop above?
     worksheetIDs: {
       type: "string[]",
       label: "Worksheet(s)",
@@ -300,6 +302,29 @@ module.exports = {
     async clearSheetValues(request) {
       const sheets = this.sheets();
       return (await sheets.spreadsheets.values.clear(request)).data;
+    },
+    async addRowsToSheet({
+      spreadsheetId, range, rows,
+    }) {
+      const resp = await axios({
+        method: "POST",
+        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`,
+        headers: {
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        validateStatus: () => true,
+        params: {
+          valueInputOption: "USER_ENTERED",
+          insertDataOption: "INSERT_ROWS",
+        },
+        data: {
+          values: rows,
+        },
+      });
+      if (resp.status >= 400) {
+        throw new Error(JSON.stringify(resp.data));
+      }
+      return resp.data.updates;
     },
   },
 };

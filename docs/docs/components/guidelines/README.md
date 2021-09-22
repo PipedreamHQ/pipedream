@@ -131,20 +131,22 @@ run the following commands at the root of the project:
 
 To create and submit a new or updated component to the Pipedream registry:
 
-1. Fork or branch the `pipedreamhq/pipedream` repo
-2. Develop and test a new or updated component that conforms to the guidelines
-   in the document
-3. Create a PR for the Pipedream team to review and post a message in our
-   [community forum](https://pipedream.com/community/c/dev/11)
-4. Address feedback provided by Pipedream
-5. Once the review is complete and approved, Pipedream will merge the PR to the
-   `master` branch
+1. Anyone from the community can build [sources](/event-sources/) and [actions](/components/actions/) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)"). If you don't see the app listed in [our marketplace](https://pipedream.com/apps), you can [request it here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D).
+2. Once the Pipedream team integrates the app, ask for the app's "name slug" (you'll need to reference this in your code).
+3. All development happens in this [GitHub repo](https://github.com/PipedreamHQ/pipedream). Fork the repo and refer to the [contribution docs](/components/guidelines/#prerequisites) to get your development environment setup.
+4. After the app is integrated with Pipedream, check if a directory already exists for the app's name slug in the `components` directory of the repo. These directories contain existing sources and actions for the app.
+5. If the directory _doesn't_ exist, create it.
+6. Within that directory, create an "[app file](/components/guidelines/#app-files)" for the integration using the format, `[app_name_slug].app.js` ([see this example for Airtable](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/airtable.app.js)). App files should contain props, methods, and other code you're using across different components.
+7. Refer to the quickstarts for [sources](/components/quickstart/nodejs/sources/) and [actions](/components/quickstart/nodejs/actions/) for guidance.
+8. When you're ready to develop your own components, you can reference the [component API docs](/components/api/) and our [contribution guidelines](/components/guidelines/#guidelines-patterns).
+9. Create a PR for the Pipedream team to review and post a message in our [community forum](https://pipedream.com/community/c/dev/11) or [public Slack](https://pipedream-users.slack.com/archives/C01E5KCTR16).
+10. Address any feedback provided by Pipedream.
+11. Once the review is complete and approved, Pipedream will merge the PR to the `master` branch! :tada:
 
-Looking for ideas? Check out
-[sources](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BSOURCE%5D+in%3Atitle)
-and
-[actions](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BACTION%5D+in%3Atitle+)
-requested by the community!
+Have questions? Reach out in the [#contribute channel](https://pipedream-users.slack.com/archives/C01E5KCTR16) in Slack or [on Discourse](https://pipedream.com/community/c/dev/11).
+
+Looking for ideas? Check out [sources](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BSOURCE%5D+in%3Atitle)
+and [actions](https://github.com/PipedreamHQ/pipedream/issues?q=is%3Aissue+is%3Aopen+%5BACTION%5D+in%3Atitle+) requested by the community!
 
 ## Reference Components
 
@@ -155,11 +157,11 @@ actions for Pipedream's registry.
 
 | Name                                                                                                                                             | App          | Type                                         |
 | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- |
-| [New Card](https://github.com/pipedreamhq/pipedream/components/trello/sources/new-card/new-card.js)                                              | Trello       | Webhook                                      |
-| [Search Mentions](https://github.com/pipedreamhq/pipedream/components/twitter/sources/search-mentions/search-mentions.js)                        | Twitter      | Polling                                      |
-| [New or Modified Files](https://github.com/pipedreamhq/pipedream/components/google_drive/sources/new-or-modified-files/new-or-modified-files.js) | Google Drive | Webhook + Polling                            |
-| [New Submission](https://github.com/pipedreamhq/pipedream/components/jotform/sources/new-submission/new-submission.js)                           | Jotform      | Webhook (with no unique hook ID)             |
-| [New Stars](https://github.com/pipedreamhq/pipedream/components/github/sources/new-star/new-star.js)                                             | Github       | Webhook (with extensive use of common files) |
+| [New Card](https://github.com/pipedreamhq/pipedream/blob/master/components/trello/sources/new-card/new-card.js)                                              | Trello       | Webhook                                      |
+| [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.js)                        | Twitter      | Polling                                      |
+| [New or Modified Files](https://github.com/pipedreamhq/pipedream/blob/master/components/google_drive/sources/new-or-modified-files/new-or-modified-files.js) | Google Drive | Webhook + Polling                            |
+| [New Submission](https://github.com/pipedreamhq/pipedream/blob/master/components/jotform/sources/new-submission/new-submission.js)                           | Jotform      | Webhook (with no unique hook ID)             |
+| [New Stars](https://github.com/pipedreamhq/pipedream/blob/master/components/github/sources/new-star/new-star.js)                                             | Github       | Webhook (with extensive use of common files) |
 
 ### Reference Actions
 
@@ -184,7 +186,7 @@ filters events for only new star activity so the user doesn’t have to.
 
 There may be cases where it's valuable to create a generic component that
 provides users with broad latitude (e.g., see the [custom
-webhook](https://github.com/pipedreamhq/pipedream/components/github/sources/custom-webhook-events)
+webhook](https://github.com/pipedreamhq/pipedream/blob/master/components/github/sources/custom-webhook-events)
 event source for GitHub). However, as a general heuristic, we found that tightly
 scoped components are easier for users to understand and use.
 

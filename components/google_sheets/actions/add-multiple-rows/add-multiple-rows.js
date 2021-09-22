@@ -3,8 +3,8 @@ const googleSheets = require("../../google_sheets.app");
 module.exports = {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
-  description: "Add multiple rows of data to Google Sheets.",
-  version: "0.0.29",
+  description: "Add multiple rows of data to a Google Sheet",
+  version: "0.1.1",
   type: "action",
   props: {
     googleSheets,
@@ -41,7 +41,6 @@ module.exports = {
     },
   },
   async run() {
-    const sheets = this.googleSheets.sheets();
     let rows = this.rows;
 
     let inputValidated = true;
@@ -63,14 +62,10 @@ module.exports = {
       throw new Error("Rows data is not an array of arrays. Please enter an array of arrays in the `Rows` parameter above. If you're trying to send a single rows to Google Sheets, search for the action to add a single row to Sheets or try modifying the code for this step.");
     }
 
-    return (await sheets.spreadsheets.values.append({
+    return await this.googleSheets.addRowsToSheet({
       spreadsheetId: this.sheetId,
       range: this.sheetName,
-      valueInputOption: "USER_ENTERED",
-      insertDataOption: "INSERT_ROWS",
-      resource: {
-        values: rows,
-      },
-    })).data.updates;
+      rows,
+    });
   },
 };

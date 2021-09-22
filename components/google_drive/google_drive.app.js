@@ -30,7 +30,9 @@ module.exports = {
       type: "string[]",
       label: "Types of updates",
       description:
-        "The types of updates you want to watch for on these files. [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).",
+        `The types of updates you want to watch for on these files. 
+        [See Google's docs]
+        (https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
       // https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events
       default: GOOGLE_DRIVE_UPDATE_TYPES,
       options: GOOGLE_DRIVE_UPDATE_TYPES,
@@ -39,7 +41,8 @@ module.exports = {
       type: "boolean",
       label: "Watch for changes to file properties",
       description:
-        "Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties) in addition to changes to content. **Defaults to `false`, watching for only changes to content**.",
+        `Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties)
+        in addition to changes to content. **Defaults to \`false\`, watching for only changes to content**.`,
       optional: true,
       default: false,
     },
@@ -183,6 +186,7 @@ module.exports = {
       }
       return true;
     },
+
     /**
      * A utility method around [the `drive.drives.list`
      * API](https://bit.ly/3AiWE1x) but scoped to a specific page of the API
@@ -327,6 +331,35 @@ module.exports = {
           nextPageToken,
         },
       };
+    },
+    /**
+     * Method returns a list of folder options
+     *
+     * @param {string} [pageToken] - the page token for the next page of shared
+     * drives
+     * @param {object} [opts = {}] - an object containing extra/optional
+     * parameters to be fed to the GDrive API call, as defined in [the API
+     * docs](https://bit.ly/3AnQDR1)
+     *
+     * @returns a list of prop options
+     */
+    async listFolderOptions(pageToken, opts = {}) {
+      return await this.listFilesOptions(pageToken, {
+        ...opts,
+        q: "mimeType = 'application/vnd.google-apps.folder'",
+      });
+    },
+    /**
+     * Creates a new file in a drive
+     *
+     * @param {object} [opts = {}] - an object containing parameters to be fed to the GDrive
+     * API call as defined in [the API docs](https://developers.google.com/drive/api/v3/reference/files/create)
+     *
+     * @returns a files resource
+     */
+    async createFile(opts = {}) {
+      const drive = this.drive();
+      return (await drive.files.create(opts)).data;
     },
     /**
      * This method yields comments made to a particular GDrive file. It is a
@@ -545,7 +578,8 @@ module.exports = {
       const driveId = this.getDriveId(drive);
       if (subscription && subscription.resourceId) {
         console.log(
-          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`,
+          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}.
+          Stopping existing sub`,
         );
         await this.stopNotifications(channelID, subscription.resourceId);
       }

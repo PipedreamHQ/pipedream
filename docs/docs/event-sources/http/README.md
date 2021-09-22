@@ -106,11 +106,11 @@ or, like above, you can listen for new events as they arrive:
 pd events -f http
 ```
 
-`http` is the default name associated with the [source you deployed above](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js). `pd events` can accept the name of the ID of the source, which you can see by running `pd list sources`.
+`http` is the default name associated with the [source you deployed above](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/new-requests/new-requests.js). `pd events` can accept the name of the ID of the source, which you can see by running `pd list sources`.
 
 ## Next Steps
 
-[This source](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js) accepts any HTTP request and returns a 200 OK to the client. But you can modify this behavior in any way you'd like to validate the request, issue a custom response, or run any Node.js code you'd like. [Check out our other example HTTP sources](https://github.com/PipedreamHQ/pipedream/tree/master/components/http#example-http-sources) to learn more.
+[This source](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/new-requests/new-requests.js) accepts any HTTP request and returns a 200 OK to the client. But you can modify this behavior in any way you'd like to validate the request, issue a custom response, or run any Node.js code you'd like. [Check out our other example HTTP sources](https://github.com/PipedreamHQ/pipedream/tree/master/components/http) to learn more.
 
 For more information on the Pipedream CLI, see the [command reference](/cli/reference/).
 

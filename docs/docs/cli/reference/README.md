@@ -53,7 +53,7 @@ Running `pd deploy`, without any arguments, brings up an interactive menu asking
 
 When you select a source, we'll deploy it and start listening for new events.
 
-You can also deploy a specific source via the source key:
+You can also deploy a specific source via the source's `key` (defined in the component file for the source):
 
 ```
 pd deploy http-new-requests
@@ -65,7 +65,7 @@ or author a component locally and deploy that local file:
 pd deploy http.js
 ```
 
-[Read more about authoring your own event sources](https://github.com/PipedreamHQ/pipedream/tree/master/components/http#example-http-sources).
+[Read more about authoring your own event sources](/components/quickstart/nodejs/sources/).
 
 ### `pd describe`
 
@@ -195,7 +195,7 @@ Updates the code, props, or metadata for an event source.
 If you deployed a source from Github, for example, someone might publish an update to that source, and you may want to run the updated code.
 
 ```
-pd update <source-id-or-name> --code https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd update <source-id-or-name> --code https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/new-requests/new-requests.js
 ```
 
 You can change the name of a source:
