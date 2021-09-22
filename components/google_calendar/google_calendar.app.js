@@ -140,6 +140,56 @@ module.exports = {
         return await this.listACLOptions(calendarId);
       },
     },
+    role: {
+      label: "Role",
+      type: "string",
+      description: "The role assigned to the scope.",
+      optional: true,
+      options() {
+        const roles = [
+          "none",
+          "freeBusyReader",
+          "reader",
+          "writer",
+          "owner",
+        ];
+        const options = roles.map((role) => {
+          return {
+            label: role,
+            value: role,
+          };
+        });
+        return options;
+      },
+    },
+    scopeType: {
+      label: "Type of the Scope",
+      type: "string",
+      description: "The extent to which calendar access is granted by this ACL rule.",
+      optional: true,
+      default: "default",
+      options() {
+        const types = [
+          "user",
+          "group",
+          "domain",
+        ];
+        const options = types.map((type) => {
+          return {
+            label: type,
+            value: type,
+          };
+        });
+        return options;
+      },
+    },
+    scopeValue: {
+      label: "Type of the Scope",
+      type: "string",
+      description: "The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type 'default'",
+      optional: true,
+      default: "",
+    },
   },
   methods: {
     _tokens() {

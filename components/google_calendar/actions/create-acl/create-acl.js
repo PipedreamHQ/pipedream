@@ -1,9 +1,9 @@
 const googleCalendar = require("../../google_calendar.app");
 
 module.exports = {
-  key: "google_calendar_update_acl",
-  name: "Update Access Control Rule",
-  description: "Update Access Control Rule Metadata of a google calendar.",
+  key: "google_calendar_create_acl",
+  name: "Create an Access Control Rule for a calendar",
+  description: "Create an Access Control Rule for a calendar.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -12,15 +12,6 @@ module.exports = {
       propDefinition: [
         googleCalendar,
         "calendarId",
-      ],
-    },
-    ruleId: {
-      propDefinition: [
-        googleCalendar,
-        "ruleId",
-        (c) => ({
-          calendarId: c.calendarId,
-        }),
       ],
     },
     role: {
@@ -44,7 +35,6 @@ module.exports = {
   },
   async run() {
     const calendar = this.googleCalendar.calendar();
-
     let scope = {
       type: this.scopeType,
     };
@@ -53,12 +43,11 @@ module.exports = {
       scope["value"] = this.scopeValue;
     }
 
-    return (await calendar.acl.update({
+    return (await calendar.acl.insert({
       calendarId: this.calendarId,
-      ruleId: this.ruleId,
       requestBody: {
-        scope,
         role: this.role,
+        scope: scope,
       },
     })).data;
   },
