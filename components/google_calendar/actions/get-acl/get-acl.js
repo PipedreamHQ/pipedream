@@ -3,7 +3,7 @@ const googleCalendar = require("../../google_calendar.app");
 module.exports = {
   key: "google_calendar_get_acl",
   name: "Retreive Access Control Rule",
-  description: "Retreive Access Control Rule Metadata from a google calendar.",
+  description: "Retreive Access Control Rule Metadata of a google calendar.",
   version: "0.0.1",
   type: "action",
   props: {

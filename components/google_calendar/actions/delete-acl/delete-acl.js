@@ -3,7 +3,7 @@ const googleCalendar = require("../../google_calendar.app");
 module.exports = {
   key: "google_calendar_delete_acl",
   name: "Delete Access Control Rule",
-  description: "Delete Access Control Rule Metadata from a google calendar.",
+  description: "Delete Access Control Rule Metadata of a google calendar.",
   version: "0.0.1",
   type: "action",
   props: {
