@@ -52,9 +52,12 @@ module.exports = {
       spreadsheetId: this.sheetId,
       range: `${this.sheetName}!${this.column}:${this.column}`,
     })).data.values;
-    return colValues.map((value, index) => {
-      if (value == this.value)
-        return index + 1;
-    }).filter((value) => value);
+    const rowNumbers = [];
+    return colValues.reduce((values, value, index) => {
+      if (value == this.value) {
+        rowNumbers.push(index + 1);
+      }
+      return rowNumbers;
+    });
   },
 };
