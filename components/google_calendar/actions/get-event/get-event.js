@@ -1,9 +1,9 @@
 const googleCalendar = require("../../google_calendar.app");
 
 module.exports = {
-  key: "google_calendar_delete_event",
-  name: "Delete an Event",
-  description: "Delete an event to the Google Calendar.",
+  key: "google_calendar_get_event",
+  name: "Retreive Event Details",
+  description: "Retreive event details from the Google Calendar.",
   version: "0.0.1",
   type: "action",
   props: {
