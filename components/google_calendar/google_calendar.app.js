@@ -27,6 +27,14 @@ module.exports = {
         };
       },
     },
+    eventId: {
+      label: "Event Name",
+      description: "Event identifier. To retreive event Ids from a calender.",
+      type: "string",
+      async options({ calendarId }) {
+        return await this.listEventOptions(calendarId);
+      },
+    },
     iCalUID: {
       description: "Specifies event ID in the iCalendar format to be included in the response. Optional.",
       optional: true,
@@ -193,6 +201,26 @@ module.exports = {
         showHidden: true,
       });
       return data;
+    },
+
+    /**
+     * @param {string} [calendarId] - user calender id
+     * @returns
+     */
+    async listEventOptions(calendarId) {
+      const calendar = this.calendar();
+      const { data } = await calendar.events.list({
+        calendarId,
+      });
+
+      const options = data.items.map((event) => {
+        return {
+          label: event.summary,
+          value: event.id,
+        };
+      });
+
+      return options;
     },
   },
 };
