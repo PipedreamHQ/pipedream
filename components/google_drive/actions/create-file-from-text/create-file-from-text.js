@@ -55,7 +55,7 @@ module.exports = {
     const file = Readable.from([
       content,
     ]);
-    return await this.googleDrive.createFile({
+    return await this.googleDrive.createFileFromOpts({
       mimeType: "text/plain",
       file,
       name,

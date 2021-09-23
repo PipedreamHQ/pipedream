@@ -132,8 +132,7 @@ module.exports = [
     value: "zh",
   },
   {
-    label:
-      "Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic",
+    label: "Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic",
     value: "cu",
   },
   {

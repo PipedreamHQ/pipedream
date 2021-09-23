@@ -79,7 +79,7 @@ module.exports = {
       fileUrl,
       filePath,
     });
-    return await this.googleDrive.createFile({
+    return await this.googleDrive.createFileFromOpts({
       file,
       mimeType: mimeType || undefined,
       name: name || path.basename(fileUrl || filePath),
