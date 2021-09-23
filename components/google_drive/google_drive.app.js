@@ -29,7 +29,8 @@ module.exports = {
     updateTypes: {
       type: "string[]",
       label: "Types of updates",
-      description: `The types of updates you want to watch for on these files. 
+      description:
+        `The types of updates you want to watch for on these files. 
         [See Google's docs]
         (https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
       // https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events
@@ -39,7 +40,8 @@ module.exports = {
     watchForPropertiesChanges: {
       type: "boolean",
       label: "Watch for changes to file properties",
-      description: `Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties)
+      description:
+        `Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties)
         in addition to changes to content. **Defaults to \`false\`, watching for only changes to content**.`,
       optional: true,
       default: false,
@@ -228,9 +230,7 @@ module.exports = {
         const {
           drives = [],
           nextPageToken,
-        } = await this.listDrivesInPage(
-          pageToken,
-        );
+        } = await this.listDrivesInPage(pageToken);
 
         for (const drive in drives) {
           yield drive;
@@ -256,15 +256,14 @@ module.exports = {
       // list and assign it a static ID that we can refer to when we need. We
       // only do this during the first page of options (i.e. when `pageToken` is
       // undefined).
-      const options =
-        pageToken !== undefined
-          ? []
-          : [
-            {
-              label: "My Drive",
-              value: MY_DRIVE_VALUE,
-            },
-          ];
+      const options = pageToken !== undefined
+        ? []
+        : [
+          {
+            label: "My Drive",
+            value: MY_DRIVE_VALUE,
+          },
+        ];
       for (const d of drives) {
         options.push({
           label: d.name,
@@ -321,10 +320,7 @@ module.exports = {
       const {
         files,
         nextPageToken,
-      } = await this.listFilesInPage(
-        pageToken,
-        extraOpts,
-      );
+      } = await this.listFilesInPage(pageToken, extraOpts);
       const options = files.map((file) => ({
         label: file.name,
         value: file.id,
@@ -410,8 +406,7 @@ module.exports = {
       }
     },
     _makeWatchRequestBody(id, address) {
-      const expiration =
-        Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS;
+      const expiration = Date.now() + WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS;
       return {
         id, // the component-specific channel ID, a UUID
         type: "web_hook",
@@ -554,7 +549,7 @@ module.exports = {
     async invokedByTimer(drive, subscription, url, channelID, pageToken) {
       const newChannelID = channelID || uuid();
       const driveId = this.getDriveId(drive);
-      const newPageToken = pageToken || (await this.getPageToken(driveId));
+      const newPageToken = pageToken || await this.getPageToken(driveId);
 
       const {
         expiration,
