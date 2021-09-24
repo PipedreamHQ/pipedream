@@ -28,7 +28,7 @@ function getDriveId(drive) {
 
 /**
  * Gets an options object to be used in functions that use the
- * [the `drive.drives.list` API](https://bit.ly/3AiWE1x)
+ * [the `drive.drives.list` API](https://bit.ly/3AiWE1x).
  *
  * @param {String} drive the ID value of a Google Drive, as provided by the
  * `drive` prop definition of this app
@@ -39,7 +39,10 @@ function getDriveId(drive) {
  * @returns an object containing the options
  */
 function getListFilesOpts(drive, baseOpts = {}) {
-  const opts = isMyDrive(drive)
+  // Use default options (e.g., `corpora=drive`) for `files.list` if `drive` is
+  // empty or is "My Drive". Otherwise, use the "drive" corpus and include
+  // `supportsAllDrives` param.
+  const opts = (!drive || isMyDrive(drive))
     ? baseOpts
     : {
       ...baseOpts,
