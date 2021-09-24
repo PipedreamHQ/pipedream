@@ -1,6 +1,8 @@
 # CLI Reference
 
-The Pipedream CLI currently allows you to work with [event sources](/event-sources/) and their associated events. If you'd like to see support for managing [workflows](/workflows/), please +1 [this issue on Github](https://github.com/PipedreamHQ/pipedream/issues/220).
+The Pipedream CLI currently allows you to manage [components](/components/). If you'd like to see support for managing [workflows](/workflows/), please +1 [this issue on Github](https://github.com/PipedreamHQ/pipedream/issues/220).
+
+When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
 [[toc]]
 
@@ -12,11 +14,11 @@ The Pipedream CLI currently allows you to work with [event sources](/event-sourc
 
 Run `pd` to see a list of all commands with basic usage info, or run `pd help <command>` to display help docs for a specific command.
 
-We've also documented each command below, with usage examples for each. 
+We've also documented each command below, with usage examples for each.
 
 ### General Notes
 
-Everywhere you can refer to a specific source as an argument, you can use the source's ID _or_ its name slug. For example, to retrieve details about a specific source using `pd describe`, you can use either of the following commands:
+Everywhere you can refer to a specific component as an argument, you can use the component's ID _or_ its name slug. For example, to retrieve details about a specific source using `pd describe`, you can use either of the following commands:
 
 ```
 λ ~/ pd describe dc_abc123
@@ -51,7 +53,7 @@ Running `pd deploy`, without any arguments, brings up an interactive menu asking
 
 When you select a source, we'll deploy it and start listening for new events.
 
-You can also deploy a specific source via the source key:
+You can also deploy a specific source via the source's `key` (defined in the component file for the source):
 
 ```
 pd deploy http-new-requests
@@ -63,7 +65,7 @@ or author a component locally and deploy that local file:
 pd deploy http.js
 ```
 
-[Read more about authoring your own event sources](https://github.com/PipedreamHQ/pipedream/tree/master/components/http#example-http-sources).
+[Read more about authoring your own event sources](/components/quickstart/nodejs/sources/).
 
 ### `pd describe`
 
@@ -72,6 +74,21 @@ Display the details for a source: its id, name, and other configuration details:
 ```
 pd describe <source-id-or-name>
 ```
+
+### `pd dev`
+
+`pd dev` allows you to interactively develop a source from a local file.`pd dev` will link your local file with the deployed component and watch your local file for changes. When you save changes to your local file, your component will automatically be updated on Pipedream.
+
+```
+pd dev <file-or-name>
+```
+
+If you quit `pd dev` and want to link the same deployed source to your local file, you can pass the deployed component ID using the `--dc` flag:
+
+```
+pd dev --dc <existing-deployed-component-id> <file-or-name>
+```
+
 
 ### `pd events`
 
@@ -107,12 +124,12 @@ Displays help for any command. Run `pd help events`, `pd help describe`, etc.
 
 ### `pd list`
 
-Lists Pipedream resources you own. Running `pd list` without any arguments prompts you to select the type of resource you'd like to list.
+Lists Pipedream sources running in your account. Running `pd list` without any arguments prompts you to select the type of resource you'd like to list.
 
 You can also list specific resource types directly:
 
 ```
-pd list sources
+pd list components
 ```
 
 ```
@@ -153,6 +170,20 @@ Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to y
 
 Any errors thrown by the source will also appear here.
 
+### `pd publish`
+
+To publish an action, use the `pd publish` command.
+
+```bash
+pd publish <filename>
+```
+
+E.g.,
+
+```bash
+pd publish my-action.js
+```
+
 ### `pd signup`
 
 Sign up for Pipedream via the CLI and persist your API key locally. See the docs on [Signing up for Pipedream via the CLI](/cli/login/#signing-up-for-pipedream-via-the-cli) for more information.
@@ -164,7 +195,7 @@ Updates the code, props, or metadata for an event source.
 If you deployed a source from Github, for example, someone might publish an update to that source, and you may want to run the updated code.
 
 ```
-pd update <source-id-or-name> --code https://github.com/PipedreamHQ/pipedream/blob/master/components/http/http.js
+pd update <source-id-or-name> --code https://github.com/PipedreamHQ/pipedream/blob/master/components/http/sources/new-requests/new-requests.js
 ```
 
 You can change the name of a source:
@@ -217,7 +248,7 @@ You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pip
 If you're working with resources in an [organization](/orgs/), you'll need to add an `org_id` to your profile. 
 
 1. Visit [pipedream.com](https://pipedream.com) and [switch your context](/orgs/#switching-context) to your organization.
-2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Acccess** section.
+2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Access** section.
 3. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
 
 ```

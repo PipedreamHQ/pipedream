@@ -4,16 +4,21 @@ module.exports = {
   ...common,
   key: "github-new-milestone",
   name: "New Milestone (Instant)",
-  description: "Emit an event when a new milestone is created in a repo",
-  version: "0.0.3",
+  description: "Emit new events when new milestones are created in a repo",
+  version: "0.0.5",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
-      return ["milestone"];
+      return [
+        "milestone",
+      ];
     },
     getEventTypes() {
-      return ["created"];
+      return [
+        "created",
+      ];
     },
     generateMeta(data) {
       const ts = new Date(data.milestone.created_at).getTime();

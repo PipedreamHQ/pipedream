@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const { google } = require("googleapis");
 const googleDrive = require("../google_drive/google_drive.app");
 
@@ -25,26 +26,30 @@ module.exports = {
     },
     sheetID: {
       type: "string",
-      label: "Spreadsheet to watch for changes",
-      async options({
+      label: "Spreadsheet",
+      description: "The Google spreadsheet",
+      options({
         prevContext,
         driveId,
       }) {
         const { nextPageToken } = prevContext;
-        return this.listSheets(driveId, nextPageToken);
+        return this.listSheetsOptions(driveId, nextPageToken);
       },
     },
     sheetName: {
       type: "string",
       label: "Sheet Name",
+      description: "The name of the worksheet within your Google spreadsheet, e.g. `Sheet1`",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
         return sheets.map((sheet) => sheet.properties.title);
       },
     },
+    // TODO: is this a duplicate of the prop above?
     worksheetIDs: {
       type: "string[]",
-      label: "Worksheets to watch for changes",
+      label: "Worksheet(s)",
+      description: "The name of the worksheet within your Google spreadsheet, e.g. `Sheet1`",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
 
@@ -76,7 +81,7 @@ module.exports = {
         auth,
       });
     },
-    async listSheets(driveId, pageToken = null) {
+    async listSheetsOptions(driveId, pageToken = null) {
       const q = "mimeType='application/vnd.google-apps.spreadsheet'";
       let request = {
         q,
@@ -91,7 +96,7 @@ module.exports = {
           supportsAllDrives: true,
         };
       }
-      return this.listFiles(request);
+      return this.listFilesOptions(pageToken, request);
     },
     async getSpreadsheet(spreadsheetId, fields = []) {
       const sheets = this.sheets();
@@ -188,6 +193,29 @@ module.exports = {
             };
           }),
       );
+    },
+    async addRowsToSheet({
+      spreadsheetId, range, rows,
+    }) {
+      const resp = await axios({
+        method: "POST",
+        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`,
+        headers: {
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        validateStatus: () => true,
+        params: {
+          valueInputOption: "USER_ENTERED",
+          insertDataOption: "INSERT_ROWS",
+        },
+        data: {
+          values: rows,
+        },
+      });
+      if (resp.status >= 400) {
+        throw new Error(JSON.stringify(resp.data));
+      }
+      return resp.data.updates;
     },
   },
 };

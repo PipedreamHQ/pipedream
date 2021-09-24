@@ -3,15 +3,20 @@ const github = require("../github.app.js");
 module.exports = {
   props: {
     github,
-    repoFullName: { propDefinition: [github, "repoFullName"] },
+    repoFullName: {
+      propDefinition: [
+        github,
+        "repoFullName",
+      ],
+    },
     http: "$.interface.http",
     db: "$.service.db",
   },
   methods: {
-    emitEvent(body) {
+    emitEvent(body, id) {
       const eventTypes = this.getEventTypes();
       if (eventTypes.includes(body.action)) {
-        const meta = this.generateMeta(body);
+        const meta = this.generateMeta(body, id);
         this.$emit(body, meta);
       }
     },
@@ -37,7 +42,10 @@ module.exports = {
     },
   },
   async run(event) {
-    const { body, headers } = event;
+    const {
+      body,
+      headers,
+    } = event;
 
     if (headers["X-Hub-Signature"]) {
       const crypto = require("crypto");
@@ -54,6 +62,6 @@ module.exports = {
       return;
     }
 
-    this.emitEvent(body);
+    this.emitEvent(body, headers["x-github-delivery"]);
   },
 };
