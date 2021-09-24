@@ -1,7 +1,7 @@
 const mailgun = require("../../mailgun.app.js");
 const {
   props,
-  withErrorHandler,
+  methods,
 } = require("../common");
 
 module.exports = {
@@ -21,14 +21,21 @@ module.exports = {
     address: {
       propDefinition: [
         mailgun,
-        "address",
+        "email",
       ],
     },
     ...props,
   },
-  run: withErrorHandler(
-    async function () {
-      return await this.mailgun.api("lists").members.createMember(this.list, this.address);
-    },
-  ),
+  methods: {
+    ...methods,
+  },
+  async run() {
+    const retrieveMailingListMember = async function (mailgun, opts) {
+      return await mailgun.api("lists").members.getMember(opts.list, opts.address);
+    };
+    return await this.withErrorHandler(retrieveMailingListMember, {
+      list: this.list,
+      address: this.address,
+    });
+  },
 };

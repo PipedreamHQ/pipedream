@@ -1,14 +1,14 @@
 const mailgun = require("../../mailgun.app.js");
 const {
   props,
-  withErrorHandler,
+  methods,
 } = require("../common");
 
 module.exports = {
   key: "mailgun-suppress-email",
   name: "Mailgun Suppress Email",
   description: "Add email to the Mailgun suppression list.",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     mailgun,
@@ -58,30 +58,26 @@ module.exports = {
     },
     ...props,
   },
-  run: withErrorHandler(
-    async function () {
-      const suppression = {
-        address: this.email,
-      };
-
-      switch (this.category) {
-      case "bounces":
-        suppression.code = this.bounceErrorCode;
-        suppression.error = this.bounceErrorMessage;
-        break;
-
-      case "unsubscribes":
-        suppression.tag = this.unsubscribeFrom;
-        break;
-      }
-
-      const url = `/v3/${this.domain}/${this.category}`;
-      const data = Array.isArray(suppression)
-        ? suppression
-        : [
-          suppression,
-        ];
-      return await this.mailgun.api("request").post(url, data);
-    },
-  ),
+  methods: {
+    ...methods,
+  },
+  async run() {
+    const urlSearchParams = new URLSearchParams();
+    urlSearchParams.append("address", this.email);
+    switch (this.category) {
+    case "bounces":
+      urlSearchParams.append("code", this.bounceErrorCode);
+      urlSearchParams.append("error", this.bounceErrorMessage);
+      break;
+    case "unsubscribes":
+      urlSearchParams.append("tag", this.unsubscribeFrom);
+      break;
+    }
+    const params = urlSearchParams.toString();
+    const url = `v3/${this.domain}/${this.category}?${params}`;
+    const supressEmail = async function (mailgun, url) {
+      return await mailgun.api("request").post(url);
+    };
+    return await this.withErrorHandler(supressEmail, url);
+  },
 };

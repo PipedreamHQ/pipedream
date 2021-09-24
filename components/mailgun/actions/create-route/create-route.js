@@ -1,7 +1,7 @@
 const mailgun = require("../../mailgun.app.js");
 const {
   props,
-  withErrorHandler,
+  methods,
 } = require("../common");
 
 module.exports = {
@@ -99,18 +99,20 @@ module.exports = {
         throw new Error(`Unsupported action: ${action}`);
       }
     },
+    ...methods,
   },
-  run: withErrorHandler(
-    async function () {
-      const data = {
-        priority: this.priority,
-        description: this.description,
-        expression: this._expression(this.match, this.matchExpression),
-        action: [
-          this._action(this.action, this.action_expression),
-        ],
-      };
-      return await this.mailgun.api("routes").create(data);
-    },
-  ),
+  async run() {
+    const opts = {
+      priority: this.priority,
+      description: this.description,
+      expression: this._expression(this.match, this.matchExpression),
+      action: [
+        this._action(this.action, this.action_expression),
+      ],
+    };
+    const createRoute = async function (mailgun, opts) {
+      return await mailgun.api("routes").create(opts);
+    };
+    return await this.withErrorHandler(createRoute, opts);
+  },
 };

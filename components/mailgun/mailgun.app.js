@@ -73,8 +73,8 @@ module.exports = {
       type: "string",
       label: "Subscribed?",
       options: [
-        "yes",
-        "no",
+        "true",
+        "false",
       ],
     },
     upsert: {

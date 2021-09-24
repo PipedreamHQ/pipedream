@@ -1,14 +1,14 @@
 const mailgun = require("../../mailgun.app.js");
 const {
   props,
-  withErrorHandler,
+  methods,
 } = require("../common");
 
 module.exports = {
   key: "mailgun-send-email",
   name: "Mailgun Send Email",
   description: "Send email with Mailgun.",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     mailgun,
@@ -53,25 +53,6 @@ module.exports = {
       label: "To",
       description: "Recipient email address(es)",
     },
-    /* eslint-disable pipedream/default-value-required-for-optional-props */
-    cc: {
-      propDefinition: [
-        mailgun,
-        "emails",
-      ],
-      label: "CC",
-      description: "Copy email address(es)",
-      optional: true,
-    },
-    bcc: {
-      propDefinition: [
-        mailgun,
-        "emails",
-      ],
-      label: "BCC",
-      description: "Blind copy email address(es)",
-      optional: true,
-    },
     /* eslint-enable pipedream/default-value-required-for-optional-props */
     subject: {
       propDefinition: [
@@ -85,6 +66,7 @@ module.exports = {
         mailgun,
         "body_text",
       ],
+      optional: true,
     },
     /* eslint-disable pipedream/default-value-required-for-optional-props */
     html: {
@@ -120,30 +102,35 @@ module.exports = {
     },
     ...props,
   },
-  run: withErrorHandler(
-    async function () {
-      const msg = {
-        "from": `${this.fromName} <${this.from}>`,
-        "to": this.to,
-        "cc": this.cc,
-        "bcc": this.bcc,
-        "subject": this.subject,
-        "text": this.text,
-        "html": this.html,
-        "o:testmode": this.testMode,
-      };
-      if (this.replyTo) {
-        msg["h:Reply-To"] = this.replyTo;
-      }
-      if (this.dkim !== null) {
-        msg["o:dkim"] = this.dkim
-          ? "yes"
-          : "no";
-      }
-      if (this.tracking) {
-        msg["o:tracking"] = "yes";
-      }
-      return await this.mailgun.api("messages").create(this.domain, msg);
-    },
-  ),
+  methods: {
+    ...methods,
+  },
+  async run() {
+    const msg = {
+      "from": `${this.fromName} <${this.from}>`,
+      "to": this.to,
+      "subject": this.subject,
+      "text": this.text,
+      "html": this.html,
+      "o:testmode": this.testMode,
+    };
+    if (this.replyTo) {
+      msg["h:Reply-To"] = this.replyTo;
+    }
+    if (this.dkim !== null) {
+      msg["o:dkim"] = this.dkim
+        ? "yes"
+        : "no";
+    }
+    if (this.tracking) {
+      msg["o:tracking"] = "yes";
+    }
+    const sendMail = async function (mailgun, opts) {
+      return await mailgun.api("messages").create(opts.domain, opts.msg);
+    };
+    return await this.withErrorHandler(sendMail, {
+      domain: this.domain,
+      msg,
+    });
+  },
 };

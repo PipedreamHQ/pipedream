@@ -1,8 +1,7 @@
-const pick = require("lodash.pick");
 const mailgun = require("../../mailgun.app.js");
 const {
   props,
-  withErrorHandler,
+  methods,
 } = require("../common");
 
 module.exports = {
@@ -25,23 +24,29 @@ module.exports = {
         mailgun,
         "subscribed",
       ],
-      description: "`yes` for subscribed only, `no` for unsubscribed only, or blank for " +
+      description: "`true` for subscribed only, `false` for unsubscribed only, or blank for " +
         "all members",
       optional: true,
     },
     /* eslint-enable pipedream/default-value-required-for-optional-props */
     ...props,
   },
-  run: withErrorHandler(
-    async function () {
-      return await this.mailgun.paginate(
-        (params) => this.mailgun.api("lists").members.getMembers(this.list, {
-          ...pick(this, [
-            "subscribed",
-          ]),
-          ...params,
-        }),
-      );
-    },
-  ),
+  methods: {
+    ...methods,
+  },
+  async run() {
+    const listMailinglistMembers = async function (mailgun, opts) {
+      let data;
+      if (opts.subscribed) {
+        data = {
+          subscribed: opts.subscribed,
+        };
+      }
+      return await mailgun.api("lists").members.listMembers(opts.list, data);
+    };
+    return await this.withErrorHandler(listMailinglistMembers, {
+      list: this.list,
+      subscribed: this.subscribed,
+    });
+  },
 };

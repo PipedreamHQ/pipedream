@@ -1,14 +1,14 @@
 const mailgun = require("../../mailgun.app.js");
 const {
   props,
-  withErrorHandler,
+  methods,
 } = require("../common");
 
 module.exports = {
   key: "mailgun-verify-email",
   name: "Mailgun Verify Email",
   description: "Verify email address deliverability with Mailgun.",
-  version: "0.0.9",
+  version: "0.0.1",
   type: "action",
   props: {
     mailgun,
@@ -26,18 +26,25 @@ module.exports = {
     },
     ...props,
   },
-  run: withErrorHandler(
-    async function ({ $ }) {
-      const result = await this.mailgun.api("request").get("/v4/address/validate", {
-        address: this.email,
+  methods: {
+    ...methods,
+  },
+  async run({ $ }) {
+    const verifyEmail = async function (mailgun, opts) {
+      const result = await mailgun.api("request").get("/v4/address/validate", {
+        address: opts.address,
       });
       if (
-        this.acceptableRiskLevels.length > 0
-        && !this.acceptableRiskLevels.includes(result.body.risk)
+        opts.acceptableRiskLevels.length > 0
+        && !opts.acceptableRiskLevels.includes(result.body.risk)
       ) {
         return $.flow.exit(`${result.body.risk} risk`);
       }
       return result.body;
-    },
-  ),
+    };
+    return await this.withErrorHandler(verifyEmail, {
+      acceptableRiskLevels: this.acceptableRiskLevels,
+      address: this.email,
+    });
+  },
 };

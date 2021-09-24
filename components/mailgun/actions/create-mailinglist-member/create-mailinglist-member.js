@@ -1,8 +1,8 @@
-const pick = require("lodash.pick");
 const mailgun = require("../../mailgun.app.js");
+const pick = require("lodash.pick");
 const {
   props,
-  withErrorHandler,
+  methods,
 } = require("../common");
 
 module.exports = {
@@ -57,19 +57,30 @@ module.exports = {
     },
     ...props,
   },
-  run: withErrorHandler (
-    async function () {
-      const data = pick(this, [
+  methods: {
+    ...methods,
+  },
+  async run() {
+    const createMailinglistMember = async function (mailgun, opts) {
+      const data = pick(opts, [
         "address",
         "name",
         "subscribed",
         "upsert",
       ]);
-      const vars = JSON.stringify(this.vars);
+      const vars = JSON.stringify(opts.vars);
       if (vars) {
         data.vars = vars;
       }
-      return await this.mailgun.api("lists").members.createMember(this.list, data);
-    },
-  ),
+      return await mailgun.api("lists").members.createMember(opts.list, data);
+    };
+    return await this.withErrorHandler(createMailinglistMember, {
+      address: this.address,
+      name: this.name,
+      subscribed: this.subscribed,
+      upsert: this.upsert,
+      vars: this.vars,
+      list: this.list,
+    });
+  },
 };
