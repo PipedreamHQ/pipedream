@@ -614,6 +614,7 @@ module.exports = {
         await drive.files.get({
           fileId,
           fields,
+          supportsAllDrives: true,
         })
       ).data;
     },
