@@ -47,47 +47,29 @@ module.exports = {
     },
   },
   async run() {
-    // Get file metadata to get mime type
-    const drive = this.googleDrive.drive();
-    // Get file mimeType
+    // Get file metadata to get file's MIME type
     const fileMetadata = await this.googleDrive.getFile(this.fileId, {
       fields: "mimeType",
     });
     const mimeType = fileMetadata.mimeType;
+
     // Download file
-    let file;
-    if (mimeType.includes(GOOGLE_DRIVE_MIME_TYPE_PREFIX)) {
-      // `mimeType` is a Google MIME type
-      // See https://developers.google.com/drive/api/v3/mime-types for a list of
-      // Google MIME types.
-      // Converting Google Workspace formats to `application/pdf` because it is
-      // supported for all Google Workspace formats other than Apps Scripts
-      // See https://developers.google.com/drive/api/v3/ref-export-formats for
-      // more information.
-      file = (
-        await drive.files.export(
-          {
-            fileId: this.fileId,
-            mimeType: "application/pdf",
-          },
-          {
-            responseType: "stream",
-          },
-        )
-      ).data;
-    } else {
-      file = (
-        await drive.files.get(
-          {
-            fileId: this.fileId,
-            alt: "media",
-          },
-          {
-            responseType: "stream",
-          },
-        )
-      ).data;
-    }
+    // If `mimeType` is a Google MIME type, use `downloadWorkspaceFile`.
+    // Otherwise, use `getFile`. See
+    // https://developers.google.com/drive/api/v3/mime-types for a list of
+    // Google MIME types. Converting Google Workspace formats to
+    // `application/pdf` because it is supported for all Google Workspace
+    // formats other than Apps Scripts. Google Workspace format to MIME type
+    // map: https://developers.google.com/drive/api/v3/ref-export-formats
+    const file = mimeType.includes(GOOGLE_DRIVE_MIME_TYPE_PREFIX)
+      ? await this.googleDrive.downloadWorkspaceFile(this.fileId, {
+        mimeType: "application/pdf",
+      })
+      : await this.googleDrive.getFile(this.fileId, {
+        alt: "media",
+      });
+
+    // Stream file to `filePath`
     const pipeline = promisify(stream.pipeline);
     await pipeline(file, fs.createWriteStream(this.filePath));
     return fileMetadata;

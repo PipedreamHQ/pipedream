@@ -607,14 +607,31 @@ module.exports = {
         );
       }
     },
+    /**
+     * Get a file in a drive
+     *
+     * @param {string} fileId - the ID value of the file to get
+     * @param {object} [params={}] - an object representing parameters used to
+     * get a file
+     * @param {string} [params.fields="*"] - the paths of the fields to include
+     * in the response
+     * @param {...*} [params.extraParams] - extra/optional parameters to be fed
+     * to the GDrive API call, as defined in [the API
+     * docs](https://bit.ly/3i5ctkS)
+     * @returns the file
+     */
     async getFile(fileId, params = {}) {
-      const { fields = "*" } = params;
+      const {
+        fields = "*",
+        ...extraParams
+      } = params;
       const drive = this.drive();
       return (
         await drive.files.get({
           fileId,
           fields,
           supportsAllDrives: true,
+          ...extraParams,
         })
       ).data;
     },
@@ -751,7 +768,7 @@ module.exports = {
       return (await drive.files.list(listOpts)).data.files;
     },
     /**
-     * Create a file in a Google Drive with params generated using `opts`
+     * Create a file in a drive with params generated using `opts`
      *
      * @param {object} [opts={}] - an object representing configuration options
      * used to create a file
@@ -806,7 +823,7 @@ module.exports = {
       ).data;
     },
     /**
-     * Create a folder in a Google Drive
+     * Create a folder in a drive
      *
      * @param {object} [opts={}] - an object representing configuration options
      * used to create a folder
@@ -949,6 +966,33 @@ module.exports = {
       return (
         await drive.files.delete({
           fileId,
+        })
+      ).data;
+    },
+    /**
+     * Download a Google Workspace document using the
+     * [files.export](https://bit.ly/2Zkrxo8) method
+     *
+     * @param {string} fileId - the ID value of the file to download
+     * @param {object} [params={}] - an object representing parameters used to
+     * download a Workspace file
+     * @param {string} [params.mimeType] - the MIME type to which to export the
+     * document
+     * @param {...*} [params.extraParams] - extra/optional parameters to be fed to
+     * the GDrive API call, as defined in [the API docs](https://bit.ly/3o6rRRF)
+     * @returns the file download
+     */
+    async downloadWorkspaceFile(fileId, params = {}) {
+      const {
+        mimeType,
+        ...extraParams
+      } = params;
+      const drive = this.drive();
+      return (
+        await drive.files.export({
+          fileId,
+          mimeType,
+          ...extraParams,
         })
       ).data;
     },
