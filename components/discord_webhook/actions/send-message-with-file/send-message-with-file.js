@@ -1,5 +1,5 @@
 const discordWebhook = require("../../discord_webhook.app.js");
-var request = require("request");
+const axios = require("axios");
 const fs = require("fs");
 
 module.exports = {
@@ -38,14 +38,14 @@ module.exports = {
       type: "string",
       label: "File URL",
       description:
-        "The URL of the file to attach. Must specify either File URL or File Path.",
+        "The URL of the file to attach. Must specify either **File URL** or **File Path**.",
       optional: true,
     },
     filePath: {
       type: "string",
       label: "File Path",
       description:
-        "The path to the file, e.g. /tmp/myFile.csv . Must specify either File URL or File Path.",
+        "The path to the file, e.g. `/tmp/myFile.csv`. Must specify either **File URL** or **File Path**.",
       optional: true,
     },
   },
@@ -55,11 +55,21 @@ module.exports = {
       avatarURL,
       threadID,
       username,
+      fileUrl,
+      filePath,
     } = this;
 
-    const file = this.fileUrl
-      ? request.get(this.fileUrl)
-      : fs.createReadStream(this.filePath);
+    if (!fileUrl && !filePath) {
+      throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
+    }
+
+    const file = fileUrl
+      ? (await axios({
+        method: "get",
+        url: fileUrl,
+        responseType: "stream",
+      })).data
+      : fs.createReadStream(filePath);
 
     // No interesting data is returned from Discord
     await this.discordWebhook.sendMessageWithFile({

@@ -12,9 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
-    "form-data": "^4.0.0",
-    "request": "^2.88.2",
-    "fs": "^0.0.1-security"
+    "form-data": "^4.0.0"
   },
   "publishConfig": {
     "access": "public"

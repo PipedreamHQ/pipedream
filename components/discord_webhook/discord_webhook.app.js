@@ -42,6 +42,7 @@ module.exports = {
     async sendMessage({
       content, embeds, username, avatarURL, threadID,
     }) {
+      if (!threadID) threadID = undefined;
       const resp = await axios({
         method: "POST",
         url: this.url(),
@@ -50,9 +51,7 @@ module.exports = {
         },
         validateStatus: () => true,
         params: {
-          thread_id: threadID
-            ? threadID
-            : undefined,
+          thread_id: threadID,
         },
         data: {
           content,
@@ -74,6 +73,7 @@ module.exports = {
       if (username) data.append("username", username);
       if (avatarURL) data.append("avatar_url", avatarURL);
       if (file) data.append("file", file);
+      if (!threadID) threadID = undefined;
       const resp = await axios({
         method: "POST",
         url: this.url(),
@@ -82,9 +82,7 @@ module.exports = {
         },
         validateStatus: () => true,
         params: {
-          thread_id: threadID
-            ? threadID
-            : undefined,
+          thread_id: threadID,
         },
         data,
         file,
