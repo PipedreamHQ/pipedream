@@ -184,6 +184,7 @@ module.exports = {
         children: [
           "/privacy-and-security/",
           "/privacy-and-security/best-practices/",
+          "/abuse/",
           "/privacy-and-security/pgp-key/",
           "/subprocessors/",
         ],

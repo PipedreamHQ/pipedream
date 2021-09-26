@@ -114,7 +114,12 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 | `platform_version` |        The version of the Pipedream execution environment this event ran on        |
 | `ts`               |           The ISO 8601 timestamp at which the event invoked the workflow           |
 | `workflow_id`      |                                  The workflow ID                                   |
+| `workflow_name`    |                                 The workflow name                                  |
 
 You may notice other properties in `context`. These are used internally by Pipedream, and are subject to change.
+
+## Limits on event history
+
+Only the last 100 events are retained for each workflow. After 100 events have been processed, Pipedream will delete the oldest event data as new events arrive, keeping only the last 100 events.
 
 <Footer />

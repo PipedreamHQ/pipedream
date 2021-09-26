@@ -4,16 +4,21 @@ module.exports = {
   ...common,
   key: "github-new-project-card",
   name: "New Project Card (Instant)",
-  description: "Emit an event when a new project card is created",
-  version: "0.0.3",
+  description: "Emit new events when new project cards are created",
+  version: "0.0.5",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
-      return ["project_card"];
+      return [
+        "project_card",
+      ];
     },
     getEventTypes() {
-      return ["created"];
+      return [
+        "created",
+      ];
     },
     generateMeta(data) {
       const ts = new Date(data.project_card.created_at).getTime();

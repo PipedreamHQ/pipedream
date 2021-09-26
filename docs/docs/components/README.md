@@ -6,7 +6,7 @@
 
 Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [300+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required. 
 
-Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [Github repo](https://github.com/pipedreamhq/pipedream/components) or you can author and share your own. 
+Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [GitHub repo](https://github.com/pipedreamhq/pipedream/tree/master/components) or you can author and share your own.
 
 ## Component Types
 
@@ -74,7 +74,7 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 ### Component API Reference
 
-After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/components) to learn more.
+After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/tree/master/components) to learn more.
 
 ## Sharing Components
 

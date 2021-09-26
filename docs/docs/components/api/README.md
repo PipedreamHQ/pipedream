@@ -84,7 +84,7 @@ module.exports = {
 | ------------- | -------- | ----------- | ------------------------------------------------------------ |
 | `name`        | `string` | required    | The name of the component, a string which identifies components deployed to users' accounts. This name will show up in the Pipedream UI, in CLI output (for example, from `pd list` commands), etc. It will also be converted to a unique slug on deploy to reference a specific component instance (it will be auto-incremented if not unique within a user account). |
 | `key`         | `string` | recommended | The `key` uniquely identifies a component within a namespace. The default namespace for components is your account.<br /><br />When publishing components to the Pipedream registry, the `key` must be unique across registry components and should follow the pattern:<br /><br />`app_name_slug`-`slugified-component-name` |
-| `type`        | `string` | required for actions  | When publishing an action, `type: action` is required. Sources require no `type` property be set. Components without a `type` are considered sources.  |
+| `type`        | `string` | required  | When publishing an action, `type: "action"` is required. When publishing a source, use `type: "source"`.  |
 | `version`     | `string` | required    | The component version. There are no constraints on the version, but [semantic versioning](https://semver.org/) is required for any components published to the [Pipedream registry](/components/guidelines/). |
 | `description` | `string` | recommended | The description will appear in the Pipedream UI to aid in discovery and to contextualize instantiated components |
 | `props`       | `object` | optional    | [Props](#props) are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`). |
@@ -186,7 +186,7 @@ To see more examples, explore the [curated components in Pipedream's GitHub repo
 
 ##### Advanced Configuration
 
-##### Async Options ([example](components/github/github.app.js))
+##### Async Options ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/github.app.js))
 
 Async options allow users to select prop values that can be programmatically-generated (e.g., based on a real-time API response).
 
@@ -226,7 +226,7 @@ module.exports = {
 };
 ```
 
-###### Prop Definitions ([example](components/github/new-commit.js))
+###### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 
@@ -765,7 +765,7 @@ pd deploy my-source.js
 
 ##### From Pipedream Github Repo
 
-You can explore the components available to deploy in [Pipedream's Github repo](https://github.com/pipedreamhq/pipedream/components).
+You can explore the components available to deploy in [Pipedream's GitHub repo](https://github.com/pipedreamhq/pipedream/tree/master/components).
 
 ```bash
 pd deploy <source-key>
@@ -786,7 +786,7 @@ pd deploy <url-to-raw-code>
 E.g.,
 
 ```bash
-pd deploy https://raw.githubusercontent.com/PipedreamHQ/pipedream/master/components/http/http.js
+pd deploy https://raw.githubusercontent.com/PipedreamHQ/pipedream/master/components/http/sources/new-requests/new-requests.js
 ```
 
 #### CLI - Update

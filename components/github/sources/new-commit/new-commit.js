@@ -5,16 +5,24 @@ module.exports = {
   ...common,
   key: "github-new-commit",
   name: "New Commit",
-  description: "Emit an event on new commit to a repo or branch",
-  version: "0.0.2",
+  description: "Emit new events on new commits to a repo or branch",
+  version: "0.0.4",
+  type: "source",
   props: {
     ...common.props,
-    repoFullName: { propDefinition: [github, "repoFullName"] },
+    repoFullName: {
+      propDefinition: [
+        github,
+        "repoFullName",
+      ],
+    },
     branch: {
       propDefinition: [
         github,
         "branch",
-        (c) => ({ repoFullName: c.repoFullName }),
+        (c) => ({
+          repoFullName: c.repoFullName,
+        }),
       ],
       description:
         "Branch to monitor for new commits. If no branch is selected, the repository’s default branch will be used (usually master).",
@@ -31,7 +39,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const since = this.db.get("since");
 
     const config = {
