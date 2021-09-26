@@ -12,6 +12,7 @@ module.exports = {
   name: `New or Modified Customer (${supportedOperationsList})`,
   description: `Emit Customers that are ${supportedOperationsList.toLowerCase()}. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks`,
   version: "0.0.1",
+  type: "source",
   props: {
     ...common.props,
     webhook_verifier_token: {

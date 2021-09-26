@@ -31,7 +31,7 @@ const WEBHOOK_ENTITIES = [
   "Transfer",
   "Vendor",
   "VendorCredit",
-]
+];
 
 const WEBHOOK_OPERATIONS = [
   "Create",

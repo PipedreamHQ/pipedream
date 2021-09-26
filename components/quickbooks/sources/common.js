@@ -170,6 +170,8 @@ module.exports = {
     http: {
       type: "$.interface.http",
       customResponse: true,
+      label: "HTTP",
+      description: "",
     },
   },
   methods: {
