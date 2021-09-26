@@ -179,10 +179,6 @@ module.exports = {
       return supportedWebhookOptions[entityName];
     },
 
-    getOperationsDescription(operations) {
-      return this.toReadableList(this.toPastTense(operations));
-    },
-
     toPastTense(operations) {
       const pastTenseVersion = {
         Create: "Created",
@@ -196,20 +192,6 @@ module.exports = {
         return operations.map((operation) => pastTenseVersion[operation]);
       } else {
         return pastTenseVersion[operations];
-      }
-    },
-
-    toReadableList(array) {
-      // converts an array to a readable list like this:
-      // ['Created', 'Updated', 'Merged'] => 'Created, Updated, or Merged'
-      const list = array.join(", ");
-      const indexAfterLastComma = list.lastIndexOf(",") + 1;
-      if (indexAfterLastComma === 0) {
-        //no commas were found so just return the list
-        return list;
-      } else {
-        //add an 'or' after the last comma
-        return list.slice(0, indexAfterLastComma) + " or" + list.slice(indexAfterLastComma);
       }
     },
 
