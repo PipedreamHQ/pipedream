@@ -3,6 +3,7 @@ const fs = require("fs");
 const stream = require("stream");
 const { promisify } = require("util");
 const { GOOGLE_DRIVE_MIME_TYPE_PREFIX } = require("../../constants");
+const googleWorkspaceExportFormats = require("../google-workspace-export-formats");
 
 /**
  * Uses Google Drive API to download files to a `filePath` in the /tmp
@@ -45,6 +46,18 @@ module.exports = {
       description:
         "The destination path for the file in /tmp (e.g., `/tmp/myFile.csv`).",
     },
+    mimeType: {
+      propDefinition: [
+        googleDrive,
+        "mimeType",
+      ],
+      label: "Conversion Format",
+      description:
+        "The format to which to convert the downloaded file if it is a [Google Workspace document](https://developers.google.com/drive/api/v3/ref-export-formats)",
+      options: googleWorkspaceExportFormats,
+      optional: false,
+      default: "application/pdf",
+    },
   },
   async run() {
     // Get file metadata to get file's MIME type
@@ -58,12 +71,13 @@ module.exports = {
     // Otherwise, use `getFile`. See
     // https://developers.google.com/drive/api/v3/mime-types for a list of
     // Google MIME types. Converting Google Workspace formats to
-    // `application/pdf` because it is supported for all Google Workspace
-    // formats other than Apps Scripts. Google Workspace format to MIME type
-    // map: https://developers.google.com/drive/api/v3/ref-export-formats
+    // `application/pdf` by default because it is supported for all Google
+    // Workspace formats other than Apps Scripts. Google Workspace format to
+    // MIME type map:
+    // https://developers.google.com/drive/api/v3/ref-export-formats
     const file = mimeType.includes(GOOGLE_DRIVE_MIME_TYPE_PREFIX)
       ? await this.googleDrive.downloadWorkspaceFile(this.fileId, {
-        mimeType: "application/pdf",
+        mimeType: this.mimeType,
       })
       : await this.googleDrive.getFile(this.fileId, {
         alt: "media",
