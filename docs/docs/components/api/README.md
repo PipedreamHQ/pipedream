@@ -706,7 +706,7 @@ For actions, you can pass environment variables as the values of props using the
 To use an npm package in a component, just require it. There is no `package.json` or `npm install` required.
 
 ```javascript
-const axios = require("axios");
+import axios from "axios"
 ```
 
 When you deploy a component, Pipedream downloads the latest versions of these packages and bundles them with your deployment.

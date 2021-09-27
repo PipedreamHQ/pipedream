@@ -28,7 +28,7 @@ Click the **+** button to add a new step after `steps.get_iss_position` and sele
 Then add the following code to convert the timestamp to a Google Sheets compatible date/time and export it from the code step:
 
 ```javascript
-const { DateTime } = require('luxon')
+import { DateTime } from 'luxon';
 
 return DateTime.fromSeconds(steps.get_iss_position.$return_value.timestamp).toFormat('yyyy-MM-dd HH:mm:ss');
 ```

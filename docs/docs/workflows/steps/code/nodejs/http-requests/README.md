@@ -12,10 +12,10 @@ If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/b
 
 ## Basic `axios` usage notes
 
-To use `axios` on Pipedream, you'll just need to require the `axios` npm package:
+To use `axios` on Pipedream, you'll just need to import the `axios` npm package:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 ```
 
 You make HTTP requests by passing a [JavaScript object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects) to `axios` that defines the parameters of the request. For example, you'll typically want to define the HTTP method and the URL you're sending data to:
@@ -61,7 +61,7 @@ const { data } = resp;
 Make a request to retrieve Star Wars films from the Star Wars API:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // Make an HTTP GET request using axios
 const resp = await axios({
@@ -80,7 +80,7 @@ const { data } = resp;
 POST sample JSON to [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // Make an HTTP POST request using axios
 const resp = await axios({
@@ -104,7 +104,7 @@ When you make a `POST` request, you pass `POST` as the `method`, and include the
 Retrieve fake comment data on a specific post using [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service. Here, you fetch data from the `/comments` resource, retrieving data for a specific post by query string parameter: `/comments?postId=1`.
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // Make an HTTP GET request using axios
 const resp = await axios({
@@ -128,7 +128,7 @@ You should pass query string parameters using the `params` object, like above. W
 You pass HTTP headers in the `headers` object of the `axios` request:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // Make an HTTP GET request using axios
 const resp = await axios({
@@ -150,7 +150,7 @@ Most APIs require you authenticate HTTP requests with an API key or other token.
 Here's an example showing an API key passed in an HTTP header:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // Make an HTTP GET request using axios
 const resp = await axios({
@@ -173,7 +173,7 @@ const resp = await axios({
 There are many ways to make multiple HTTP requests. This code shows you a simple example that sends the numbers `1`, `2`, and `3` in the body of an HTTP POST request:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // We'll store each response and return them in this array
 const responses = [];
@@ -203,7 +203,7 @@ Sometimes you'll want to make multiple HTTP requests in parallel. If one request
 To make requests in parallel, you can use two techniques. By default, we recommend using [`promise.allSettled`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled), which makes all HTTP requests and returns data on their success / failure. If an HTTP request fails, all other requests will proceed.
 
 ```javascript
-const axios = require("axios")
+import axios from "axios"
 const arr = ["https://www.example.com", "https://www.cnn.com", "https://www.espn.com"]
 const promises = arr.map(url => axios.get(url))
 return Promise.allSettled(promises)
@@ -214,7 +214,7 @@ First, we generate an array of `axios.get` requests (which are all [Promises](ht
 When you want to stop future requests when _one_ of the requests fails, you can use [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all), instead:
 
 ```javascript
-const axios = require("axios")
+import axios from "axios"
 const arr = ["https://www.example.com", "https://www.cnn.com", "https://www.espn.com"]
 const promises = arr.map(url => axios.get(url))
 return Promise.all(promises)
@@ -229,8 +229,8 @@ The Mozilla docs expand on the difference between these methods, and when you ma
 ## Send a `multipart/form-data` request
 
 ```javascript
-const axios = require("axios");
-const FormData = require("form-data");
+import axios from "axios";
+import FormData from "form-data";
 
 const formData = new FormData();
 formData.append("name", "Luke Skywalker");
@@ -252,10 +252,10 @@ return await axios(config);
 This example shows you how to download a file to a file in [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
 
 ```javascript
-const fs = require("fs");
-const { default: got } = await import("got");
-const stream = require("stream");
-const { promisify } = require("util");
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 // DOWNLOAD
 const pipeline = promisify(stream.pipeline);
@@ -274,9 +274,9 @@ This example shows you how to make a `multipart/form-data` request with a file a
 This can be especially helpful for uploading large files: it streams the file from disk, minimizing the memory the workflow uses when uploading the file.
 
 ```javascript
-const axios = require("axios");
-const fs = require("fs");
-const FormData = require("form-data");
+import axios from "axios";
+import fs from "fs";
+import FormData from "form-data";
 
 const formData = new FormData();
 formData.append("file", fs.createReadStream(params.pathToYourFile));
@@ -300,9 +300,9 @@ When you make HTTP requests to certain services, they might require you whitelis
 By default, HTTP requests made from Pipedream can come from a range of IP addresses. **If you need to make requests from a single IP address, you can route traffic through an HTTP proxy**:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
-let httpsProxyAgent = require("https-proxy-agent");
+import httpsProxyAgent from "https-proxy-agent";
 const agent = new httpsProxyAgent(`http://${user}:${pass}@${host}:${port}`);
 
 const config = {
@@ -371,10 +371,10 @@ This method is especially effective for large files that exceed the [limits of t
 [Copy this workflow](https://pipedream.com/@dylburger/stream-download-to-upload-p_5VCLoa1/edit) or paste this code into a [new Node.js code step](/workflows/steps/code/#adding-a-code-step):
 
 ```javascript
-const stream = require("stream");
-const { promisify } = require("util");
-const fs = require("fs");
-const { default: got } = await import("got");
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 const pipeline = promisify(stream.pipeline);
 

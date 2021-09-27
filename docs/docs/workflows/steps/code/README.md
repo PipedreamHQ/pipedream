@@ -104,7 +104,7 @@ If a package only supports the [CommonJS module format](https://nodejs.org/api/m
 const axios = require("axios");
 ```
 
-See [this section](#commonjs-vs-esm-imports) for more on the difference between ESM and CJS modules.
+**Within a single step, you can only use `import` or `require` statements, not both**. See [this section](#require-is-not-defined) for more details.
 
 When Pipedream runs your workflow, we download the associated npm package for you before running your code steps.
 
