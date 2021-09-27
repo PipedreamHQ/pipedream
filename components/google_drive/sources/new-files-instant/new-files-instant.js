@@ -11,6 +11,7 @@ module.exports = {
   description:
     "Emits a new event any time a new file is added in your linked Google Drive",
   version: "0.0.8",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,

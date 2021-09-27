@@ -18,6 +18,7 @@ module.exports = {
   description:
     "Emits a new event any time a file comment is added, modified, or deleted in your linked Google Drive",
   version: "0.0.3",
+  type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
