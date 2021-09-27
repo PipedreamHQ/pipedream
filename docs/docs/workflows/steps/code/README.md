@@ -90,29 +90,39 @@ While you can save a workflow with syntax errors, it's unlikely to run correctly
 
 [npm](https://www.npmjs.com/) hosts JavaScript packages: bits of code someone else has written and packaged for others to use. npm has over 400,000 packages and counting. You can use most of those on Pipedream.
 
-To use an npm package in a code step, simply `require()` it:
+### Just `import` it
+
+To use an npm package in a code step, simply `import` it:
 
 ```javascript
-const _ = require("lodash");
+import axios from "axios";
 ```
+
+If a package only supports the [CommonJS module format](https://nodejs.org/api/modules.html), you may have to `require` it:
+
+```javascript
+const axios = require("axios");
+```
+
+See [this section](#commonjs-vs-esm-imports) for more on the difference between ESM and CJS modules.
 
 When Pipedream runs your workflow, we download the associated npm package for you before running your code steps.
 
-If you've used Node before, you'll notice there's no `package.json` file to upload or edit. We want to make package management simple, so just `require()` the module like you would in your code, after package installation, and get to work.
+If you've used Node before, you'll notice there's no `package.json` file to upload or edit. We want to make package management simple, so just `import` or `require` the module like you would in your code, after package installation, and get to work.
 
-The core limitation of packages is one we described above: some packages require access to a web browser to run, and don't work with Node. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `require()` it.
+The core limitation of packages is one we described above: some packages require access to a web browser to run, and don't work with Node. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `import` or `require` it.
 
 Moreover, packages that require access to large binaries — for example, how [Puppeteer](https://pptr.dev) requires Chromium — may not work on Pipedream. If you're seeing any issues with a specific package, please [let us know](https://pipedream.com/support/).
 
-## CommonJS vs. ESM imports
+### CommonJS vs. ESM imports
 
-In Node.js, you typically import third-party packages using the `require` statement:
+In Node.js, you may be used to importing third-party packages using the `require` statement:
 
 ```javascript
-const _ = require("lodash");
+const axios = require("axios");
 ```
 
-In this example, `lodash` published their package to npm as a [CommonJS module](https://nodejs.org/api/modules.html). You import CommonJS modules using the `require` statement.
+In this example, we're including the `axios` [CommonJS module](https://nodejs.org/api/modules.html) published to npm. You import CommonJS modules using the `require` statement.
 
 But you may encounter this error in workflows:
 
@@ -124,25 +134,32 @@ This means that the package you're trying to `require` uses a different format t
 import got from 'got';
 ```
 
-**This default, "static" `import` statement does not work in Pipedream workflows**. Instead, you'll need to use a "dynamic" `import` statement like this:
+Most package publish both CommonJS and ESM versions, so **if you always use `import`, you're less likely to have problems**. In general, refer to the documentation for your package for instructions on importing it correctly.
+
+### `require` is not defined
+
+This error means that you cannot use CommonJS and ESM imports in the same step. For example, if you run code like this:
 
 ```javascript
-const { default: got } = await import('got')
+import fetch from 'node-fetch';
+const axios = require("axios")
 ```
 
-In general, when you see the **Must use import to load ES Module** error, you'll want to try adding code like this:
+your workflow will throw a `require is not defined` error. There are two solutions:
+
+1. Try converting your CommonJS `require` statement into an ESM `import` statement. For example, convert this:
 
 ```javascript
-const { default: <npm package name> } = await import('<npm package name>')
+const axios = require("axios")
 ```
 
-This should make the name of the npm package (like `got` above) available for use in the rest of your code.
+to this:
 
 ```javascript
-const { default: got } = await import('got')
-// I can use `got` in the rest of my workflow
-await got.post(...)
+import axios from "axios"
 ```
+
+2. If the `import` syntax fails to work, separate your imports into different steps, using only CommonJS requires in one step, and only ESM imports in another.
 
 ## Variable scope
 
