@@ -151,8 +151,9 @@ props: {
 | `integer` | ✓ | ✓ | ✓ | - `min` (`integer`): Minimum allowed integer value.<br/>- `max` (`integer`): Maximum allowed integer value.
 | `string` | ✓ | ✓ | ✓ | - `secret` (`boolean`): Whether to treat the value as a secret.
 | `object` |  | ✓ | ✓ |
-| `$.interface.http` | | ✓ | | 
-| `$.interface.timer` | | ✓ | | 
+| `any` |  | | ✓ |
+| `$.interface.http` | | ✓ | |
+| `$.interface.timer` | | ✓ | |
 | `$.service.db` | | ✓ | ✓ |
 
 **Usage**
