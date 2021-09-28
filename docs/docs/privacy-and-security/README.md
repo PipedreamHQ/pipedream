@@ -86,6 +86,8 @@ Pipedream notifies customers of any data breaches according to our [Data Protect
 
 Pipedream is considered both a Controller and a Processor as defined by the GDPR. As a Processor, Pipedream implements policies and practices that secure the personal data you send to the platform, and includes a [Data Protection Addendum](https://pipedream.com/dpa) as part of our standard [Terms of Service](https://pipedream.com/terms).
 
+The Pipedream Data Protection Addendum includes the [Standard Contractual Clauses (SCCs)](https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en). These clarify how Pipedream handles your data, and they update our GDPR policies to cover the latest standards set by the European Commission.
+
 You can find a list of Pipedream subprocessors [here](/subprocessors/).
 
 ## Payment Processor
