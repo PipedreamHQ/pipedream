@@ -1266,7 +1266,14 @@ Free user:
     "id": "u_abc123",
     "username": "dylburger",
     "email": "dylan@pipedream.com",
-    "api_key": "XXX",
+    "orgs": [
+      {
+        "name": "MyTestOrg",
+        "id": "o_abc123",
+        "orgname": "mytestorg",
+        "email": "test@pipedream.com"
+      }
+    ],
     "daily_compute_time_quota": 95400000,
     "daily_compute_time_used": 8420300,
     "daily_invocations_quota": 27344,
