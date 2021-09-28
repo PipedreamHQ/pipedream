@@ -90,6 +90,12 @@ The Pipedream Data Protection Addendum includes the [Standard Contractual Clause
 
 You can find a list of Pipedream subprocessors [here](/subprocessors/).
 
+## Submitting a GDPR deletion request
+
+When you [delete your account](/user-settings/#delete-account), Pipedream deletes all personal data we hold on you in our system and our vendors.
+
+If you need to delete data on behalf of one of your users, you can delete the event data yourself in your workflow or event source (for example, by deleting the events, or by removing the data from `$checkpoint`). Your customer event data is automatically deleted from Pipedream subprocessors.
+
 ## Payment Processor
 
 Pipedream uses [Stripe](https://stripe.com) as our payment processor. When you sign up for a paid plan, the details of your payment method are transmitted to and stored by Stripe [according to their security policy](https://stripe.com/docs/security/stripe). Pipedream stores no information about your payment method.
