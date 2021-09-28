@@ -387,3 +387,23 @@ await pipeline(
 You'll be asked to provide the **Download URL** — the URL of the content you want to download — and the **Upload URL** — the place you want to upload the content to. `got` streams the content directly, downloading the file using a `GET` request and uploading it as a `POST` request.
 
 If you need to modify this behavior, [see the `got` Stream API](https://github.com/sindresorhus/got#gotstreamurl-options).
+
+## Catch and process HTTP errors
+
+By default, `axios` throws an error when the HTTP response code is in the 400-500 range (a client or server error). If you'd like to process the error data instead of throwing an error, you can pass a custom function to the `validateStatus` property:
+
+```javascript
+import axios from "axios";
+
+const resp = await axios({
+  url: "https://httpstat.us/400",
+  validateStatus: () => true, // will not throw error when axios gets a 400+ status code (the default behavior)
+})
+if (resp.status >= 400) {
+  this.debug = resp
+  throw new Error(JSON.stringify(resp.data)) // This can be modified to throw any error you'd like
+}
+return resp
+```
+
+See [the `axios` docs](https://github.com/axios/axios#request-config) for more details.
