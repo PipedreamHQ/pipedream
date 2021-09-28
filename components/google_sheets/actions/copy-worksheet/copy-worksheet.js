@@ -3,7 +3,7 @@ const googleSheets = require("../../google_sheets.app");
 module.exports = {
   key: "google_sheets-copy-worksheet",
   name: "Copy Worksheet",
-  description: "Create a new worksheet by copying an existing worksheet",
+  description: "Copy an existing worksheet to another Google Sheets file",
   version: "0.0.1",
   type: "action",
   props: {

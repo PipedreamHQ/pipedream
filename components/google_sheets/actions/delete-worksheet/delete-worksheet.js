@@ -3,7 +3,7 @@ const googleSheets = require("../../google_sheets.app");
 module.exports = {
   key: "google_sheets-delete-worksheet",
   name: "Delete Worksheet",
-  description: "Deletes a specific worksheet",
+  description: "Delete a specific worksheet",
   version: "0.0.1",
   type: "action",
   props: {

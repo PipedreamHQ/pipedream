@@ -3,7 +3,7 @@ const googleSheets = require("../../google_sheets.app");
 module.exports = {
   key: "google_sheets-get-cell",
   name: "Get Cell",
-  description: "Get a specific cell in a spreadsheet",
+  description: "Fetch the contents of a specific cell in a spreadsheet",
   version: "0.0.1",
   type: "action",
   props: {

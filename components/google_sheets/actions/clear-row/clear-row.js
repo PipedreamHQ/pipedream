@@ -3,7 +3,7 @@ const googleSheets = require("../../google_sheets.app");
 module.exports = {
   key: "google_sheets-clear-row",
   name: "Clear Row",
-  description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows",
+  description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows.",
   version: "0.0.1",
   type: "action",
   props: {
