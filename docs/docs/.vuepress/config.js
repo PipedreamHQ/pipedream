@@ -190,6 +190,7 @@ module.exports = {
         ],
       },
       ["https://pipedream.com/support", "Support and Community"],
+      "/troubleshooting/",
       "/orgs/",
       "/pricing/",
       "/status/",
