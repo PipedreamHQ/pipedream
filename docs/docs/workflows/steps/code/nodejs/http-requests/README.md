@@ -407,3 +407,9 @@ return resp
 ```
 
 See [the `axios` docs](https://github.com/axios/axios#request-config) for more details.
+
+## Paginating API requests
+
+When you fetch data from an API, the API may return records in "pages". For example, if you're trying to fetch a list of 1,000 records, the API might return those in groups of 100 items.
+
+Different APIs paginate data in different ways. You'll need to consult the docs of your API provider to see how they suggest you paginate through records.
