@@ -10,7 +10,7 @@ If you didn't complete the previous examples, we recommend you start from the [b
 
 ### Delete a step
 
-First, delete `steps.get_iss_position` by clicking the **X** buttton at the top right of the step.
+First, delete `steps.get_iss_position` by clicking the **X** button at the top right of the step.
 
 ![image-20210525175501367](./images/image-20210525175501367.png)
 
