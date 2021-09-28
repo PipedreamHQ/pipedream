@@ -76,7 +76,23 @@ When you [connect an account to a step](/connected-accounts/#from-a-code-step), 
 
 ## Logs
 
-You can call `console.log()` or `console.error()` to add logs to the execution of a code step. These logs will appear just below the associated step. `console.log()` messages appear in black, `console.error()` in red.
+You can call `console.log` or `console.error` to add logs to the execution of a code step. These logs will appear just below the associated step. `console.log` messages appear in black, `console.error` in red.
+
+## `console.dir`
+
+If you need to print the contents of JavaScript objects, use `console.dir`:
+
+```javascript
+console.dir({
+  name: "Luke"
+})
+```
+
+This will let you inspect the object properties below the step like you can for [step exports](/workflows/steps/#exporting-data-in-code-steps):
+
+<div>
+<img alt="console.dir output" src="./images/console-dir.png" width="300px">
+</div>
 
 ## Syntax errors
 
