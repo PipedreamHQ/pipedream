@@ -465,6 +465,8 @@ props: {
 
 #### App Props
 
+App props are normally defined in an [app file](/components/guidelines/#app-files), separate from individual components. See [the `components/` directory of the pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components) for example app files.
+
 **Definition**
 
 ```javascript
