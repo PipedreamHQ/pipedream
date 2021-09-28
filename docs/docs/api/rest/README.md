@@ -484,6 +484,56 @@ curl -X DELETE \
 Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
 code in response to any deletion requests.
 
+## Organizations
+
+[Organizations](/orgs/) provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+
+### Get Org's Subscriptions
+
+---
+
+Retrieve all the [subscriptions](#subscriptions) configured for a specific organization.
+
+#### Endpoint
+
+```
+GET /orgs/<org_id>/subscriptions
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sub_abc123",
+      "emitter_id": "dc_abc123",
+      "listener_id": "p_abc123",
+      "event_name": ""
+    },
+    {
+      "id": "sub_def456",
+      "emitter_id": "dc_def456",
+      "listener_id": "p_def456",
+      "event_name": ""
+    }
+  ]
+}
+```
+
 ## Sources
 
 Event sources run code to collect events from an API, or receive events via
@@ -1216,7 +1266,14 @@ Free user:
     "id": "u_abc123",
     "username": "dylburger",
     "email": "dylan@pipedream.com",
-    "api_key": "XXX",
+    "orgs": [
+      {
+        "name": "MyTestOrg",
+        "id": "o_abc123",
+        "orgname": "mytestorg",
+        "email": "test@pipedream.com"
+      }
+    ],
     "daily_compute_time_quota": 95400000,
     "daily_compute_time_used": 8420300,
     "daily_invocations_quota": 27344,

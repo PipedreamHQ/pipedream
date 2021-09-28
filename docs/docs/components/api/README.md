@@ -151,8 +151,9 @@ props: {
 | `integer` | ✓ | ✓ | ✓ | - `min` (`integer`): Minimum allowed integer value.<br/>- `max` (`integer`): Maximum allowed integer value.
 | `string` | ✓ | ✓ | ✓ | - `secret` (`boolean`): Whether to treat the value as a secret.
 | `object` |  | ✓ | ✓ |
-| `$.interface.http` | | ✓ | | 
-| `$.interface.timer` | | ✓ | | 
+| `any` |  | | ✓ |
+| `$.interface.http` | | ✓ | |
+| `$.interface.timer` | | ✓ | |
 | `$.service.db` | | ✓ | ✓ |
 
 **Usage**
@@ -464,6 +465,8 @@ props: {
 
 #### App Props
 
+App props are normally defined in an [app file](/components/guidelines/#app-files), separate from individual components. See [the `components/` directory of the pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components) for example app files.
+
 **Definition**
 
 ```javascript
@@ -706,7 +709,7 @@ For actions, you can pass environment variables as the values of props using the
 To use an npm package in a component, just require it. There is no `package.json` or `npm install` required.
 
 ```javascript
-const axios = require("axios");
+import axios from "axios"
 ```
 
 When you deploy a component, Pipedream downloads the latest versions of these packages and bundles them with your deployment.
