@@ -373,12 +373,12 @@ set to “Search Term”.
 
 #### Descriptions
 
-Include a description for a [prop](../api/#user-input-props) if it helps the
-user understand what they need to do. Additionally, use markdown as appropriate
-to improve the clarity of the description or instructions. When using markdown:
+Include a description for [props](../api/#user-input-props) if it helps the
+user understand what they need to do. Additionally, use Markdown as appropriate
+to improve the clarity of the description or instructions. When using Markdown:
 
 - Enclose sample input values in backticks (`` ` ``)
-- Link descriptive text rather than displaying a full URL using markdown syntax.
+- Use Markdown links with descriptive text rather than displaying a full URL.
 
 Examples:
 
