@@ -176,7 +176,7 @@ POST /components
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream component](components/api/).
+The full code for a [Pipedream component](/components/api/).
 
 ---
 
