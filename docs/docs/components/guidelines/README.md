@@ -240,8 +240,7 @@ Registry components are organized by app in the `components` directory of the
   name). For example, the path for the "Search Mentions" source for Twitter is
   `/components/twitter/sources/search-mentions/search-mentions.js`.
 
-You can explore examples in the [components
-directory](tree/master/components).
+You can explore examples in the [components directory](/code/components).
 
 #### Using APIs vs Client Libraries
 
@@ -253,7 +252,7 @@ constructed API requests to reduce code and improve maintenance.
 
 When making API requests, handle pagination to ensure all data/events are
 processed. Moreover, if the underlying account experiences and/or generates too
-much data paginating through the entire collection of records might cause
+much data paginating through the entire collection of records, it might cause
 out-of-memory or timeout issues (or both!), so as a rule of thumb the pagination
 logic should:
 
@@ -303,13 +302,14 @@ Whenever possible, reuse [methods](/components/api/#methods) defined in the app
 file or within a [common module](#common-files-optional).
 
 As a rule of thumb, every interaction with the app-specific API should go
-through the `.app` component. If you need to use an API for which a method is
-not defined and it may be used in future components, define a new method in the
-`.app` component.
+through the [`.app` file](#app-files). If you need to use an API for which a
+method is not defined and it may be used in future components, define a new
+method in the `.app` file.
 
 Behavior that is specific to the components themselves (e.g. a method to
-generate the metadata of an emitted event) can be specified in a common module
-to be reused by other components without polluting the main `.app` module.
+generate the metadata of an emitted event) can be specified in a [common
+module](#common-files-optional) to be reused by other components without
+polluting the main `.app` module.
 
 #### Documentation
 
@@ -366,30 +366,36 @@ changes to an app file that may impact other sources, you must currently test
 potentially impacted components to confirm their functionality is not negatively
 affected. We expect to support a testing framework in the future.
 
-Some tips on what to test:
+The following sub-sections contain some tips on what to test.
 
-- High traffic, or large record collections:
-  - Check that no event was left unprocessed/undetected
-  - Ensure that events are emitted in order, when applicable. Ensuring that the
-    timestamp and/or ID metadata fields match the application's API is usually
-    enough, especially when dealing with webhooks that do not guarantee that
-    webhook calls are made in order.
-- Deployment, activation and deactivation of components:
-  - When applicable, the deployment step of an event source should emit an
-    initial list of events for testing purposes. See the [`deploy` hook
-    section](../api/#deploy) for more information.
-  - [Deployment](../api/#deploy), [activation](../api/#activate) and
-    [deactivation](../api/#deactivate) must execute without throwing any errors,
-    and users expect components to be activated/deactivated at any time, any
-    number of times, without experiencing any issues
-  - After activating a component, all the resources that it needs must be
-    successfully created by the activation process (or reuse any available
-    resource when applicable). Similarly, deactivating a component must perform
-    the necessary cleanup, **leaving the user's app account in the same state as
-    it was prior to the component being activated**.
-- Even though there is no tooling available to analyze the code coverage, it is
-  expected that the entirety of the new code is exercised prior to submitting it
-  for review.
+##### High Traffic or Large Record Collections
+
+- Check that no event was left unprocessed/undetected
+- Ensure that events are emitted in order, when applicable. Ensuring that the
+  timestamp and/or ID metadata fields match the application's API is usually
+  enough, especially when dealing with webhooks that do not guarantee that
+  webhook calls are made in order.
+
+##### Deployment, Activation and Deactivation of Components
+
+- When applicable, the deployment step of an event source should emit an
+  initial list of events for testing purposes. See the [`deploy` hook
+  section](../api/#deploy) for more information.
+- [Deployment](../api/#deploy), [activation](../api/#activate) and
+  [deactivation](../api/#deactivate) must execute without throwing any errors,
+  and users expect components to be activated/deactivated at any time, any
+  number of times, without experiencing any issues
+- After activating a component, all the resources that it needs must be
+  successfully created by the activation process (or reuse any available
+  resource when applicable). Similarly, deactivating a component must perform
+  the necessary cleanup, **leaving the user's app account in the same state as
+  it was prior to the component being activated**.
+
+##### Code Coverage
+
+Even though there is no tooling available in the project to analyze the code
+coverage at the moment, it is expected that the entirety of the new code is
+exercised prior to submitting it for review.
 
 #### Common Files (optional)
 
@@ -779,8 +785,8 @@ misunderstandings, wasted time and effort:
       review (i.e. the **Ready for PR review** column). These tasks should be
       associated to an open PR that is waiting for a review.
    2. If the above step does not yield any PR, explicitly look for open pull
-      requests in the [pull requests page](/code/pulls) without reviews and
-      without reviewers assigned to it. [This
+      requests without reviews and without reviewers assigned to it in the [pull
+      requests page](/code/pulls). [This
       link](/code/pulls?q=is%3Apr+is%3Aopen+review%3Anone+no%3Aassignee) already
       provides a filtered view for the mentioned criteria.
 
@@ -851,15 +857,13 @@ The advantage of making a module customizable is that it can then be extended
 into particular use cases very easily should those be highly demanded. See the
 [Code Structure](#code-structure) section for an example.
 
-There is no clear line as to which components should be customizable and which
-ones should be a sole component, so use your best judgment here to check that
-the component's props make sense both from a maintenance effort as well as from
-a user's point of view.
+If it's unclear which components should be customizable and which ones should be
+a sole component, reach out to the Pipedream team on the issue since this
+usually requires input from a product perspective.
 
 #### Code Structure
 
-An important part of the review involves making sure that the code is properly
-structured so that:
+Code should be properly structured so that:
 
 - It's easily maintainable and extendable by other contributors
 - Users are able to make sense of the different modules involved in case they
@@ -934,7 +938,7 @@ maintenance pain and confusion
 A better approach would be to extract any common logic outside of the specific
 component (i.e. `cloud_storage-new-file`) so that both this component as well as
 any new ones (e.g. `cloud_storage-new-pdf-document`) become easier to maintain
-as they become smaller while also allowing for future similar event sources to
+as they become smaller, while also allowing for future similar event sources to
 be implemented in a straightforward manner.
 
 Using the same example, we can extract the logic related to the processing of
@@ -1034,9 +1038,9 @@ new files into a common component that can be reused by many similar ones:
 - `cloud_storage/sources/new-pdf-document/new-pdf-document.js`
 
   This component is a simplified version of the above, which also extends the
-  `common/new-file` module but instead of providing the user with an option to
-  select file types of interest it fixes those types to simply `application/pdf`
-  (the type of PDF documents):
+  `common/new-file` module. But instead of providing the user with an option to
+  select file types of interest, it fixes those types to simply
+  `application/pdf` (the type of PDF documents):
 
   ```javascript
   const base = require("../common/new-file");
@@ -1082,15 +1086,15 @@ new files into a common component that can be reused by many similar ones:
 
 #### Good API Usage
 
-In the previous sections we highlighted the fact that the `.app` modules are the
-ones that contain almost all of the logic regarding the interaction with the
-underlying 3rd party app. For example, the
+In the previous sections we highlighted the fact that the [`.app`
+files](#app-files) are the ones that contain almost all of the logic regarding
+the interaction with the underlying 3rd party app. For example, the
 [`gitlab.app`](/code/components/gitlab/gitlab.app.js) module defines several
 methods that encapsulate calls to and knowledge about the [Gitlab
 API](https://docs.gitlab.com/ee/api/).
 
-Given that the `.app` modules provide such abstractions around external API's,
-there's an opportunity for making good and efficient usage of such API's without
+Given that the `.app` files provide such abstractions around external APIs,
+there's an opportunity for making good and efficient usage of such APIs without
 exposing these details to consumers of those abstractions (i.e. the actions and
 event source components). Moreover, it allows us to scope the impact of any API
 changes since it will only affect (ideally) a subset of the `.app` module
@@ -1323,9 +1327,9 @@ method, and a component making use of it:
 
   ::: tip
   Note that the interface around this API call only requires the drive ID, and
-  hides the details regarding the pagination details. Any additional parameter
-  is optional and they are high-level enough for consumers of this method to
-  make sense of them without requiring any API knowledge.
+  hides the details regarding pagination. Any additional parameter is optional
+  and they are high-level enough for consumers of this method to make sense of
+  them without requiring any API knowledge.
   :::
 
 - `cloud_storage/sources/new-files/new-files.js`
@@ -1389,9 +1393,9 @@ Note that this section is more relevant to event source components but the
 principles apply to every component involved in a workflow.
 :::
 
-In general, API's usually offer certain endpoints to search and retrieve a
-subset of records from the entire collection. Moreover, these endpoints (again,
-in general) accept parameters that customize the result, such as sorting by a
+In general, APIs usually offer certain endpoints to search and retrieve a subset
+of records from the entire collection. Moreover, these endpoints (again, in
+general) accept parameters that customize the result, such as sorting by a
 specific field in a specific order. Whenever a module performs such calls to the
 third party API it **must always offload as much processing as possible** when
 it comes to such operations. Some of the advantages of this approach are:
@@ -1402,7 +1406,7 @@ it comes to such operations. Some of the advantages of this approach are:
   likely have to retrieve all the data from the service, store it in memory,
   pre-process it (e.g. sorting the records) and then proceed to the actual
   record processing.
-- Search API's usually provide certain consistency guarantees which is then
+- Search APIs usually provide certain consistency guarantees which are then
   transferred to the components that use them properly
 
 ::: tip GOOD
@@ -1569,7 +1573,7 @@ to focus when evaluating if a component makes proper use of an app's API:
   3. [ ] When record timestamp information is unavailable, the component's logic
      uses a consistent approach when generating timestamps
 - [Generators for Pagination](#generators-for-pagination)
-  1. [ ] Paginated API's are encapsulated around an `async` generator
+  1. [ ] Paginated APIs are encapsulated around an `async` generator
   2. [ ] The generator accepts an optional page ID/number/token representing the
      next page to be retrieved
   3. [ ] The pagination logic is contained within the generator's definition
