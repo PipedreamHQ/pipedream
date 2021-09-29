@@ -18,17 +18,8 @@
     },
     {
       "files": [
-        "**/*.app.js",
-        "**/sources/**/*.js"
-      ],
-      "parserOptions": {
-        "ecmaVersion": 10
-      }
-    },
-    {
-      "files": [
         "**/actions/**/*.js",
-        "**/sources/**/*.js",
+        "**/sources/**/*.js"
       ],
       "rules": {
         "pipedream/required-properties-key": "error",

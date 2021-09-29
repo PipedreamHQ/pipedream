@@ -198,10 +198,10 @@ You should see `hello foo!` (or the value you entered for `Name`) as the value r
 
 ### Use an npm Package
 
-Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. To use the `axios` package, just require it.
+Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. To use the `axios` package, just `import` it.
 
 ```javascript
-const axios = require("axios")
+import axios from "axios";
 
 module.exports = {
   name: "Action Demo",
@@ -222,7 +222,7 @@ module.exports = {
 ```
 
 ::: tip
-To use most npm packages on Pipedream, just `require` them — there is no `package.json` or `npm install` required.
+To use most npm packages on Pipedream, just `import` or `require` them — there is no `package.json` or `npm install` required.
 :::
 
 Then, update the `run()` method to:
@@ -231,7 +231,7 @@ Then, update the `run()` method to:
 - Reference the `name` field of the payload returned by the API
 
 ```javascript
-const axios = require("axios")
+import axios from "axios"
 
 module.exports = {
   name: "Action Demo",
@@ -255,7 +255,7 @@ module.exports = {
 Next, remove the `name` prop since we're no longer using it.
 
 ```javascript
-const axios = require("axios")
+import axios from "axios"
 
 module.exports = {
   name: "Action Demo",
@@ -274,7 +274,7 @@ module.exports = {
 Finally, update the version to `0.0.3`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-const axios = require("axios")
+import axios from "axios"
 
 module.exports = {
   name: "Action Demo",
@@ -306,7 +306,7 @@ Follow the steps in the previous example to update and run the action in your wo
 
 ### Use Managed Auth
 
-For the last example, we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). First, remove the line that requires `axios` and clear the `run()` function from the last example. Your code should look like this:
+For the last example, we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). First, remove the line that imports `axios` and clear the `run()` function from the last example. Your code should look like this:
 
 ```javascript
 module.exports = {
@@ -319,10 +319,10 @@ module.exports = {
 }
 ```
 
-Next, require Github's `octokit` npm package
+Next, import Github's `octokit` npm package
 
 ```javascript
-const { Octokit } = require('@octokit/rest')
+import { Octokit } from '@octokit/rest';
 
 module.exports = {
   name: "Action Demo",
@@ -337,7 +337,7 @@ module.exports = {
 Then add an [app prop](/components/api/#app-props) to use Pipedream managed auth with this component. For this example, we'll add an app prop for Github:
 
 ```javascript
-const { Octokit } = require('@octokit/rest')
+import { Octokit } from '@octokit/rest';
 
 module.exports = {
   name: "Action Demo",
@@ -364,7 +364,7 @@ The value for the `app` property is the name slug for the app in Pipedream. This
 Next, update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the `$auth` property of the app prop — `this.github.$auth.oauth_access_token`. You can discover how to reference auth tokens in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore). 
 
 ```javascript
-const { Octokit } = require('@octokit/rest')
+import { Octokit } from '@octokit/rest';
 
 module.exports = {
   name: "Action Demo",
@@ -394,7 +394,7 @@ module.exports = {
 Finally, update the version to `0.0.4`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-const { Octokit } = require('@octokit/rest')
+import { Octokit } from '@octokit/rest';
 
 module.exports = {
   name: "Action Demo",

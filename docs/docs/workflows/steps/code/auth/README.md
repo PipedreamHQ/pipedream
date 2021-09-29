@@ -11,7 +11,7 @@ But sometimes you'll need to [write your own code](/workflows/steps/code/). You 
 For example, you may want to send a Slack message from a step. We use Slack's OAuth integration to authorize requests to Slack, so you can connect your account to this step and send a message using the access token Pipedream generates for you at `auths.slack.oauth_access_token`:
 
 ```javascript
-const { WebClient } = require('@slack/web-api')
+import { WebClient } from '@slack/web-api'
 const web = new WebClient(auths.slack.oauth_access_token)
 return await web.chat.postMessage({
   text: "Hello, world!",

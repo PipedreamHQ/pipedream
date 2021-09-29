@@ -21,7 +21,8 @@ module.exports = {
   name: "New or Modified Files",
   description:
     "Emits a new event any time any file in your linked Google Drive is added, modified, or deleted",
-  version: "0.0.13",
+  version: "0.0.14",
+  type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",

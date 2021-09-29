@@ -9,7 +9,7 @@ This document is intended for a technical audience (including those interested i
 - Use Pipedream managed OAuth for an app
 - Use npm packages in components
 
-We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples. 
+We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples.
 
 [[toc]]
 
@@ -305,12 +305,12 @@ module.exports = {
 
 ## Emit items in an RSS Feed
 
-> **Note:** The code for the examples below was adapted from the samples provided in the readme for the `rss-parser` package at https://www.npmjs.com/package/rss-parser. To use most npm packages on Pipedream, just require them — there is no `package.json` or `npm install` required.
+> **Note:** The code for the examples below was adapted from the samples provided in the readme for the `rss-parser` package at https://www.npmjs.com/package/rss-parser. To use most npm packages on Pipedream, just `import` them — there is no `package.json` or `npm install` required.
 
 To parse the RSS feed, we'll use the `rss-parser` npm package.
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 ```
 
@@ -329,7 +329,7 @@ feed.items.forEach((item) => {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
 module.exports = {
@@ -361,7 +361,7 @@ this.$emit(item, {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
 module.exports = {
@@ -404,7 +404,7 @@ this.$emit(item, {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
 module.exports = {
@@ -443,7 +443,7 @@ props: {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
 module.exports = {
@@ -486,10 +486,10 @@ module.exports = {
 
 ## Get issues for a repo
 
-First, require axios so we can make a request to the Github REST API:
+First, import `axios` so we can make a request to the Github REST API:
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 ```
 
 Next, let's add an **app prop**, which will enable us to use Pipedream managed auth with this component. For this example, we'll add Github:
@@ -527,7 +527,7 @@ async run() {
 Here's the updated code.
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 
 module.exports = {
   name: "Source Demo",
@@ -580,7 +580,7 @@ response.data.forEach((issue) => {
 Here is the updated code.
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 
 module.exports = {
   name: "Source Demo",
@@ -629,7 +629,7 @@ timer: {
 Here's the updated code.
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 
 module.exports = {
   name: "Source Demo",
