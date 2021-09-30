@@ -76,7 +76,6 @@ module.exports = {
       width: this.width,
       height: this.height,
       reply_markup: this.reply_markup,
-    }, {
       filename: this.filename,
       contentType: this.contentType,
     });

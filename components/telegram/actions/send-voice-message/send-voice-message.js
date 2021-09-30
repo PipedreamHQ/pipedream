@@ -75,7 +75,6 @@ module.exports = {
       disable_notification: this.disable_notification,
       duration: this.duration,
       reply_markup: this.reply_markup,
-    }, {
       filename: this.filename,
       contentType: this.contentType,
     });

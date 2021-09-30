@@ -89,7 +89,6 @@ module.exports = {
       performer: this.performer,
       title: this.title,
       reply_markup: this.reply_markup,
-    }, {
       filename: this.filename,
       contentType: this.contentType,
     });

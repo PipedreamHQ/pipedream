@@ -74,7 +74,6 @@ module.exports = {
       disable_notification: this.disable_notification,
       reply_to_message_id: this.reply_to_message_id,
       reply_markup: this.reply_markup,
-    }, {
       filename: this.filename,
       contentType: this.contentType,
     });

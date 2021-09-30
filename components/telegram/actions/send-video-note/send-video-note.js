@@ -66,7 +66,6 @@ module.exports = {
       duration: this.duration,
       reply_to_message_id: this.reply_to_message_id,
       reply_markup: this.reply_markup,
-    }, {
       filename: this.filename,
       contentType: this.contentType,
     });
