@@ -57,7 +57,7 @@ module.exports = {
         telegram,
         "media",
       ],
-      description: "",
+      label: "Media",
     },
     parse_mode: {
       propDefinition: [
