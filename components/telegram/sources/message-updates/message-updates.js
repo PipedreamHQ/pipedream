@@ -4,11 +4,14 @@ module.exports = {
   key: "telegram-message-updates",
   name: "Message Updates (Instant)",
   description: "Emits an event each time a Telegram message is created or updated.",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   props: {
     db: "$.service.db",
     http: {
+      label: "HTTP Responder",
+      description: "Exposes a `respond()` method that lets the source issue HTTP responses",
       type: "$.interface.http",
       customResponse: true,
     },
@@ -16,10 +19,13 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      const response = await this.telegram.createHook(this.http.endpoint, ['message', 'edited_message']);
+      await this.telegram.createHook(this.http.endpoint, [
+        "message",
+        "edited_message",
+      ]);
     },
     async deactivate() {
-      const response = await this.telegram.deleteHook();
+      await this.telegram.deleteHook();
     },
   },
   async run(event) {
@@ -33,12 +39,11 @@ module.exports = {
     if (!body) {
       return;
     }
-    this.$emit(body, 
+    this.$emit(body,
       {
         id: body.update_id,
         summary: body.message.text,
-        ts: Date.now()
-      }
-    );
+        ts: Date.now(),
+      });
   },
 };
