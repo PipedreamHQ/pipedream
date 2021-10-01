@@ -6,7 +6,7 @@ module.exports = {
   key: "twilio-make-phone-call",
   name: "Make a Phone Call",
   description: "Make a phone call, passing text that Twilio will speak to the recipient of the call.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     twilio,

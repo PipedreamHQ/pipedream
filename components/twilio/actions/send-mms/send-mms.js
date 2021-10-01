@@ -7,7 +7,7 @@ module.exports = {
   name: "Send MMS",
   description: "Send an SMS with text and media files.",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     twilio,
     from: {

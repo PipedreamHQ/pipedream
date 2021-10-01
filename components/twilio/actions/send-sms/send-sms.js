@@ -7,7 +7,7 @@ module.exports = {
   name: "Send SMS",
   description: "Send a simple text-only SMS.",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     twilio,
     from: {
