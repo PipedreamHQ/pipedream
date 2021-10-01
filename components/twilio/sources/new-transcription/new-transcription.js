@@ -5,7 +5,8 @@ module.exports = {
   key: "twilio-new-transcription",
   name: "New Transcription",
   description: "Emits an event when a new call transcription is created",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -13,7 +14,10 @@ module.exports = {
       return await this.twilio.listTranscriptions(...args);
     },
     generateMeta(transcription) {
-      const { sid: id, dateCreated } = transcription;
+      const {
+        sid: id,
+        dateCreated,
+      } = transcription;
       return {
         id,
         summary: `New transcription ${id}`,

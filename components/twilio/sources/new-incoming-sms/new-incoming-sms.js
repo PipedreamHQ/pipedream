@@ -7,12 +7,16 @@ module.exports = {
   name: "New Incoming SMS (Instant)",
   description:
     "Configures a webhook in Twilio, tied to an incoming phone number, and emits an event each time an SMS is sent to that number",
-  version: "0.0.5",
+  version: "0.0.6",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
     responseMessage: {
-      propDefinition: [common.props.twilio, "responseMessage"],
+      propDefinition: [
+        common.props.twilio,
+        "responseMessage",
+      ],
     },
   },
   methods: {

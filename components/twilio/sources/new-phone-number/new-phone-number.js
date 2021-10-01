@@ -5,7 +5,8 @@ module.exports = {
   key: "twilio-new-phone-number",
   name: "New Phone Number",
   description: "Emits an event when you add a new phone number to your account",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -13,7 +14,11 @@ module.exports = {
       return await this.twilio.listIncomingPhoneNumbers(...args);
     },
     generateMeta(number) {
-      const { sid: id, friendlyName: summary, dateCreated } = number;
+      const {
+        sid: id,
+        friendlyName: summary,
+        dateCreated,
+      } = number;
       return {
         id,
         summary,

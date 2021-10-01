@@ -6,7 +6,8 @@ module.exports = {
   name: "New Call (Instant)",
   description:
     "Configures a webhook in Twilio, tied to a phone number, and emits an event each time a call to that number is completed",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,

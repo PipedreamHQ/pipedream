@@ -5,7 +5,8 @@ module.exports = {
   key: "twilio-new-phone-recording",
   name: "New Recording",
   description: "Emits an event when a new call recording is created",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -13,7 +14,10 @@ module.exports = {
       return await this.twilio.listRecordings(...args);
     },
     generateMeta(recording) {
-      const { sid: id, dateCreated } = recording;
+      const {
+        sid: id,
+        dateCreated,
+      } = recording;
       return {
         id,
         summary: `New recording ${id}`,
