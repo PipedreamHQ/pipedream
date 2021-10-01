@@ -23,6 +23,7 @@ module.exports = {
       ],
     },
     text: {
+      label: "Text",
       type: "string",
       description: "The text you'd like Twilio to speak to the user when they pick up the phone.",
     },
