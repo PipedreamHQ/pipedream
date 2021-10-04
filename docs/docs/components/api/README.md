@@ -60,7 +60,7 @@ You can find hundreds of example components in the `components/` directory of th
 Pipedream components export an object with the following properties:
 
 ```javascript
-module.exports = {
+export default {
   name: "",
   key: "",
   type: "",
@@ -167,7 +167,7 @@ props: {
 Following is an example source that demonstrates how to capture user input via a prop and emit it on each event:
 
 ```javascript
-module.exports = {
+export default {
   name: "User Input Prop Example",
   version: "0.1",
   props: {
@@ -207,7 +207,7 @@ async options({
 Following is an example source demonstrating the usage of async options:
 
 ```javascript
-module.exports = {
+export default {
   name: "Async Options Example",
   version: "0.1",
   props: {
@@ -266,7 +266,7 @@ const rss = {
   },
 };
 
-module.exports = {
+export default {
   name: "Prop Definition Example",
   description: `This component captures an RSS URL and logs it`,
   version: "0.1",
@@ -321,7 +321,7 @@ props: {
 Following is a basic example of a source that is triggered by a `$.interface.timer` and has default defined as a cron expression.
 
 ```javascript
-module.exports = {
+export default {
   name: "Cron Example",
   version: "0.1",
   props: {
@@ -341,7 +341,7 @@ module.exports = {
 Following is an example source that's triggered by a `$.interface.timer` and has a `default` interval defined.
 
 ```javascript
-module.exports = {
+export default {
   name: "Interval Example",
   version: "0.1",
   props: {
@@ -416,7 +416,7 @@ Following is the shape of the event passed to the `run()` method of your source:
 Following is an example source that's triggered by `$.interface.http` and returns `{ 'msg': 'hello world!' }` in the HTTP response. On deploy, Pipedream will generate a unique URL for this source:
 
 ```javascript
-module.exports = {
+export default {
   name: "HTTP Example",
   version: "0.0.1",
   props: {
@@ -584,7 +584,7 @@ this.$emit(event, {
 Following is a basic example that emits an event on each component execution.
 
 ```javascript
-module.exports = {
+export default {
   name: "this.$emit() example",
   description: "Deploy and run this component manually via the Pipedream UI",
   async run() {
