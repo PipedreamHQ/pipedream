@@ -5,6 +5,8 @@ module.exports = {
     youtube,
     db: "$.service.db",
     timer: {
+      label: "Polling interval",
+      description: "Pipedream will poll the YouTube API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // every 15 minutes
@@ -49,7 +51,10 @@ module.exports = {
       return {};
     },
     generateMeta(video) {
-      const { id, snippet } = video;
+      const {
+        id,
+        snippet,
+      } = video;
       return {
         id: id.videoId,
         summary: snippet.title,
@@ -89,7 +94,7 @@ module.exports = {
       return lastPublished;
     },
   },
-  async run(event) {
+  async run(/* event */) {
     let publishedAfter = this._getPublishedAfter();
     const params = {
       ...this._getBaseParams(),
