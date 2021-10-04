@@ -59,7 +59,7 @@ We recommend that you complete the examples below in order.
 The following code represents a simple component that can be published as an action ([learn more](/components/api) about the component structure). When used in a workflow, it will export `hello world!` as the return value for the step.
 
 ```javascript
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -112,7 +112,7 @@ Keep the browser tab open. We'll return to this workflow in the rest of the exam
 Next, let's update the component to capture some user input. First, add a `string` [prop](/components/api/#props) called `name` to the component.
 
 ```java
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -133,7 +133,7 @@ module.exports = {
 Next, update the `run()` function to reference `this.name` in the return value.
 
 ```javascript
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -154,7 +154,7 @@ module.exports = {
 Finally, update the component version to `0.0.2`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -203,7 +203,7 @@ Next, we'll update the component to get data from the Star Wars API using the `a
 ```javascript
 import axios from "axios";
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -233,7 +233,7 @@ Then, update the `run()` method to:
 ```javascript
 import axios from "axios"
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -257,7 +257,7 @@ Next, remove the `name` prop since we're no longer using it.
 ```javascript
 import axios from "axios"
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -276,7 +276,7 @@ Finally, update the version to `0.0.3`. If you fail to update the version, the C
 ```javascript
 import axios from "axios"
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -309,7 +309,7 @@ Follow the steps in the previous example to update and run the action in your wo
 For the last example, we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). First, remove the line that imports `axios` and clear the `run()` function from the last example. Your code should look like this:
 
 ```javascript
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -324,7 +324,7 @@ Next, import Github's `octokit` npm package
 ```javascript
 import { Octokit } from '@octokit/rest';
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -339,7 +339,7 @@ Then add an [app prop](/components/api/#app-props) to use Pipedream managed auth
 ```javascript
 import { Octokit } from '@octokit/rest';
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -351,9 +351,7 @@ module.exports = {
       app: "github",
     }
   },
-  async run() {
-  	
-  },
+  async run() {},
 }
 ```
 
@@ -366,7 +364,7 @@ Next, update the `run()` method to get a repo from Github and return it. For thi
 ```javascript
 import { Octokit } from '@octokit/rest';
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -396,7 +394,7 @@ Finally, update the version to `0.0.4`. If you fail to update the version, the C
 ```javascript
 import { Octokit } from '@octokit/rest';
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",

@@ -65,7 +65,7 @@ See the [CLI reference](/cli/reference/) for detailed usage and examples beyond 
 Here is a simple component that will emit an event with a payload of `{ message: "hello world!" }` on each invocation.
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {
@@ -133,7 +133,7 @@ this.db.set("count", ++count);
 Here's the updated code:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -174,7 +174,7 @@ timer: {
 Here's the updated code:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -249,7 +249,7 @@ this.$emit(event.body, {
 Here's the updated code:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -296,7 +296,7 @@ curl -d '{ "message": "hello world!" }' \
 Next, let's cover some real-world examples starting with RSS. Continue editing the same file, but start with the following scaffolding for this example.
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {},
@@ -332,7 +332,7 @@ Here's the updated code:
 import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {
@@ -364,7 +364,7 @@ Here's the updated code:
 import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {
@@ -407,7 +407,7 @@ Here's the updated code:
 import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   dedupe: "unique",
@@ -446,7 +446,7 @@ Here's the updated code:
 import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -477,7 +477,7 @@ module.exports = {
 In the last example, we were able to retrieve data to emit without any authentication. Now we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). Similar to the last example, continue editing the same file, but start with the following scaffolding:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {},
@@ -529,7 +529,7 @@ Here's the updated code.
 ```javascript
 import axios from "axios";
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -582,7 +582,7 @@ Here is the updated code.
 ```javascript
 import axios from "axios";
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -631,7 +631,7 @@ Here's the updated code.
 ```javascript
 import axios from "axios";
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {

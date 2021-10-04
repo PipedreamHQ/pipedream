@@ -198,7 +198,7 @@ Registry [components](../api/#component-structure) require a unique `key` and
 future).
 
 ```javascript
-module.exports = {
+export default {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
@@ -291,7 +291,7 @@ e.g., `[foo=bar]`). This data will both help with reusability and will be
 surfaced in documentation for apps in the Pipedream marketplace. For example:
 
 ```javascript
-module.exports = {
+export default {
   methods: {
     /**
      * Get the most recently liked Tweets for a user
