@@ -2,12 +2,12 @@ import typeform from "../../typeform.app.mjs";
 import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "typeform-create-image",
   name: "Create an Image",
   description: "Adds an image in your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/create-image/)",
   type: "action",
   version: "0.0.1",
-  methods: common.methods,
   props: {
     typeform,
     fileName: {
@@ -35,14 +35,9 @@ export default {
       url: this.url,
     };
 
-    try {
-      return await this.typeform.createImage({
-        $,
-        data,
-      });
-
-    } catch (error) {
-      throw new Error(error);
-    }
+    return await this.typeform.createImage({
+      $,
+      data,
+    });
   },
 };

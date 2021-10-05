@@ -138,26 +138,14 @@ export default {
       throw new Error("Field ID not found");
     }
 
-    let fields;
-    let formProperties;
-
-    try {
-      ({
-        fields,
-        ...formProperties
-      } =
-        await this.typeform.getForm({
-          $,
-          formId,
-        }));
-
-    } catch (error) {
-      const message =
-        error.response?.status === 404
-          ? "Form not found. Please enter the ID again."
-          : error;
-      throw new Error(message);
-    }
+    const {
+      fields,
+      ...formProperties
+    } =
+      await this.typeform.getForm({
+        $,
+        formId,
+      });
 
     const [
       existingChoices,
@@ -182,15 +170,10 @@ export default {
       fields: fieldsToUpdate,
     };
 
-    try {
-      return await this.typeform.updateForm({
-        $,
-        formId,
-        data,
-      });
-
-    } catch (error) {
-      throw new Error(error);
-    }
+    return await this.typeform.updateForm({
+      $,
+      formId,
+      data,
+    });
   },
 };

@@ -2,12 +2,15 @@ import typeform from "../../typeform.app.mjs";
 import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "typeform-create-form",
   name: "Create a Form",
   description: "Creates a form with its corresponing fields. [See the docs here](https://developer.typeform.com/create/reference/create-form/)",
   type: "action",
   version: "0.0.1",
-  methods: common.methods,
+  methods: {
+    ...common.methods,
+  },
   props: {
     typeform,
     title: {
@@ -42,14 +45,9 @@ export default {
       additionalProps,
     });
 
-    try {
-      return await this.typeform.createForm({
-        $,
-        data,
-      });
-
-    } catch (error) {
-      throw new Error(error);
-    }
+    return await this.typeform.createForm({
+      $,
+      data,
+    });
   },
 };
