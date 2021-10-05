@@ -1,4 +1,6 @@
 const youtube = require("../youtube.app.js");
+const { promisify } = require("util");
+const pause = promisify((delay, fn) => setTimeout(fn, delay));
 
 module.exports = {
   props: {
@@ -63,6 +65,7 @@ module.exports = {
     },
     emitEvent(result) {
       const meta = this.generateMeta(result);
+      console.log("meta", meta);
       this.$emit(result, meta);
     },
     /**
@@ -92,6 +95,61 @@ module.exports = {
         else params.pageToken = results.nextPageToken;
       }
       return lastPublished;
+    },
+
+    /**
+     * Paginate through item results from `resourceFn` and yield each item
+     *
+     * @param {Function} resourceFn - An async function that returns an object containing a list of
+     * items and a `nextPageToken`
+     * @param {Object} [params] - An object containing parameters to pass to `resourceFn`
+     * @param {Number} [max] - The maximum number of items to yield
+     * @returns {void}
+     */
+    async *paginate(resourceFn, params, max = null) {
+      let done = false;
+      let count = 0;
+      do {
+        const {
+          items,
+          nextPageToken,
+        } = await this.retryFn(resourceFn,
+          params);
+        for (const item of items) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        // pass cursor to get next page of results; if no cursor, no more pages
+        params.pageToken = nextPageToken;
+        done = !nextPageToken;
+      } while (!done);
+    },
+    /**
+     * Retry the call to `resourceFn` up to `retries` times in the event of an error
+     *
+     * @param {Function} resourceFn - An async function to call with `params`
+     * @param {Object} params - An object containing params to pass as an argument to `resourceFn`
+     * @param {Number} [retries=3] - The maximum number of times to retry the function call
+     * @returns The result of the call to `resourceFn`
+     */
+    async retryFn(resourceFn, params, retries = 3) {
+      let response;
+      try {
+        response = await resourceFn(params);
+        return response.data;
+      } catch (err) {
+        if (retries <= 1) {
+          throw new Error(err);
+        }
+        const delay = response
+          ? response.headers["ratelimit-limit"]
+          : 500;
+        await pause(delay);
+        return await this.retryFn(resourceFn, params, retries - 1);
+      }
     },
   },
   async run(/* event */) {
