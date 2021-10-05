@@ -5,7 +5,8 @@ module.exports = {
   key: "youtube-new-videos-in-channel",
   name: "New Videos in Channel",
   description: "Emits an event for each new Youtube video posted to a Channel.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,

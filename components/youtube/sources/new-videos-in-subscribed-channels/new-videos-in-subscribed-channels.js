@@ -154,7 +154,6 @@ module.exports = {
      * @type {PlaylistItem}
      */
     async *paginatePlaylistItems(playlistId, channelId, channelData) {
-      console.log("paginatePlaylistItems", playlistId, channelId);
       // Set `publishedAfter` to `lastPublishedAt` for this channelId if it exists, and this
       // source's `publishAfter` otherwise, which is set to current time on deploy and run
       const publishedAfter = channelData[channelId].lastPublishedAt
@@ -165,7 +164,6 @@ module.exports = {
         playlistId,
       });
       for await (const playlistItem of playlistItemStream) {
-        console.log("playlistItem", playlistItem);
         // If the playlistItem was published before `publishedAfter`, stop including playlistItems
         if (
           !playlistItem.snippet.publishedAt
@@ -180,7 +178,6 @@ module.exports = {
 
   async run() {
     let channelData = this._getChannelData();
-    console.log("channelData", channelData);
     // Get all subscriptions (each has a totalItemCount) for the current user
     const subscriptions = await this.getSubscriptions();
 
@@ -197,7 +194,6 @@ module.exports = {
       ))
       // Map subscription to channelId
       .map((s) => s.snippet.resourceId.channelId);
-    console.log("updatedChannelIds", updatedChannelIds);
 
     // If there are not updated channels, updated channelData and stop
     if (updatedChannelIds.length === 0) {
@@ -219,8 +215,6 @@ module.exports = {
     this.setChannelData(subscriptions, uploadsPlaylists);
     // Set `publishedAfter` to current time
     this._setPublishedAfter(new Date().toISOString());
-
-    console.log("uploadsPlaylists", uploadsPlaylists);
 
     // Concatenate playlistItems in uploads playlists
     const allItems = [].concat(...uploadsPlaylists);

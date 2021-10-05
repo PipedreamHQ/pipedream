@@ -5,12 +5,16 @@ module.exports = {
   key: "youtube-new-videos",
   name: "New Videos",
   description: "Emits an event for each new Youtube video the user posts.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
     maxResults: {
-      propDefinition: [common.props.youtube, "maxResults"],
+      propDefinition: [
+        common.props.youtube,
+        "maxResults",
+      ],
     },
   },
   hooks: {
@@ -26,7 +30,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const params = {
       ...this._getBaseParams(),
       ...this.getParams(),

@@ -5,7 +5,8 @@ module.exports = {
   key: "youtube-new-videos-by-location",
   name: "New Videos by Location",
   description: "Emits an event for each new YouTube video tied to a location.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,

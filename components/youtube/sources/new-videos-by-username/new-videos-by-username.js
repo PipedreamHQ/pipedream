@@ -5,7 +5,8 @@ module.exports = {
   key: "youtube-new-videos-by-username",
   name: "New Videos by Username",
   description: "Emits an event for each new Youtube video tied to a username.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -66,7 +67,7 @@ module.exports = {
       return lastPublished;
     },
   },
-  async run(event) {
+  async run() {
     let publishedAfter = this._getPublishedAfter();
     const channelIds = await this.getChannelIds();
 

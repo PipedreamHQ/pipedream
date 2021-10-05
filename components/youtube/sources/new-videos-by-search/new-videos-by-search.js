@@ -6,7 +6,8 @@ module.exports = {
   name: "New Videos by Search",
   description:
     "Emits an event for each new YouTube video matching a search query.",
-  version: "0.0.3",
+  version: "0.0.4",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -16,7 +17,10 @@ module.exports = {
       description: "Search for new videos that match these keywords.",
     },
     maxResults: {
-      propDefinition: [common.props.youtube, "maxResults"],
+      propDefinition: [
+        common.props.youtube,
+        "maxResults",
+      ],
     },
   },
   hooks: {

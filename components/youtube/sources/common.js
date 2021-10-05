@@ -65,7 +65,6 @@ module.exports = {
     },
     emitEvent(result) {
       const meta = this.generateMeta(result);
-      console.log("meta", meta);
       this.$emit(result, meta);
     },
     /**
