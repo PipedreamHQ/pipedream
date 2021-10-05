@@ -1,21 +1,16 @@
-import typeform from "../../typeform.app.mjs";
 import common from "../common.mjs";
 
+const { typeform } = common.props;
+
 export default {
+  ...common,
   key: "typeform-list-responses",
   name: "List Responses",
   description: "Returns form responses and date and time of form landing and submission. [See the docs here](https://developer.typeform.com/responses/reference/retrieve-responses/)",
   type: "action",
   version: "0.0.1",
-  methods: common.methods,
   props: {
-    typeform,
-    formId: {
-      propDefinition: [
-        typeform,
-        "formId",
-      ],
-    },
+    ...common.props,
     pageSize: {
       propDefinition: [
         typeform,
@@ -157,17 +152,12 @@ export default {
       answered_fields: answeredFields?.join(","),
     };
 
-    try {
-      const { items } = await this.typeform.getResponses({
-        $,
-        formId,
-        params,
-      });
+    const { items } = await this.typeform.getResponses({
+      $,
+      formId,
+      params,
+    });
 
-      return items;
-
-    } catch (error) {
-      throw new Error(error);
-    }
+    return items;
   },
 };

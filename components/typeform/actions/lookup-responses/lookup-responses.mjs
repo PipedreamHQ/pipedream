@@ -1,21 +1,16 @@
-import typeform from "../../typeform.app.mjs";
 import common from "../common.mjs";
 
+const { typeform } = common.props;
+
 export default {
+  ...common,
   key: "typeform-lookup-responses",
   name: "Lookup Responses",
   description: "Search for responses with the `query` property. [See the docs here](https://developer.typeform.com/responses/reference/retrieve-responses/)",
   type: "action",
   version: "0.0.1",
-  methods: common.methods,
   props: {
-    typeform,
-    formId: {
-      propDefinition: [
-        typeform,
-        "formId",
-      ],
-    },
+    ...common.props,
     query: {
       propDefinition: [
         typeform,
@@ -73,17 +68,12 @@ export default {
       before,
     };
 
-    try {
-      const { items } = await this.typeform.getResponses({
-        $,
-        formId,
-        params,
-      });
+    const { items } = await this.typeform.getResponses({
+      $,
+      formId,
+      params,
+    });
 
-      return items;
-
-    } catch (error) {
-      throw new Error(error);
-    }
+    return items;
   },
 };

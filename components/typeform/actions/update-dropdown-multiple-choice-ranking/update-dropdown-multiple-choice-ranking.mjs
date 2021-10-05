@@ -1,14 +1,40 @@
 /* eslint-disable no-unused-vars */
-import typeform from "../../typeform.app.mjs";
 import common from "../common.mjs";
-import constants from "../constants.mjs";
+import constants from "../../constants.mjs";
+
+const { typeform } = common.props;
 
 export default {
+  ...common,
   key: "typeform-update-dropdown-multiple-choice-ranking",
   name: "Update Dropdown, Multiple Choice or Ranking",
-  description: "Update Dropdown, Multiple Choice or Ranking Field Types. [See the docs here](https://developer.typeform.com/create/reference/update-form/)",
+  description: "Update a dropdown, multiple choice, or ranking field's choices. [See the docs here](https://developer.typeform.com/create/reference/update-form/)",
   type: "action",
   version: "0.0.1",
+  props: {
+    ...common.props,
+    field: {
+      description: "Please select a field. Update Dropdown, Multiple Choice or Ranking",
+      propDefinition: [
+        typeform,
+        "field",
+        ({ formId }) => ({
+          formId,
+          allowedFields: [
+            constants.FIELD_TYPES.DROPDOWN,
+            constants.FIELD_TYPES.MULTIPLE_CHOICE,
+            constants.FIELD_TYPES.RANKING,
+          ],
+          returnFieldObject: true,
+        }),
+      ],
+    },
+    choice: {
+      type: "string",
+      label: "New choice",
+      description: "Please add the new choice you want to include in your Question",
+    },
+  },
   methods: {
     ...common.methods,
     getUpdatedFields({
@@ -59,10 +85,6 @@ export default {
     },
     getExistingAndAddedChoices(choices = []) {
       return choices.reduce((reduction, choice) => {
-        if (typeof(choice) === "string") {
-          choice = JSON.parse(choice);
-        }
-
         const [
           existingChoices = [],
           addedChoices = [],
@@ -88,76 +110,38 @@ export default {
       }, []);
     },
   },
-  props: {
-    typeform,
-    formId: {
-      propDefinition: [
-        typeform,
-        "formId",
-      ],
-    },
-    field: {
-      description: "Please select a field. Update Dropdown, Multiple Choice or Ranking",
-      propDefinition: [
-        typeform,
-        "field",
-        ({ formId }) => ({
-          formId,
-          allowedFields: [
-            constants.FIELD_TYPES.DROPDOWN,
-            constants.FIELD_TYPES.MULTIPLE_CHOICE,
-            constants.FIELD_TYPES.RANKING,
-          ],
-          returnFieldObject: true,
-        }),
-      ],
-    },
-    choices: {
-      type: "string[]",
-      label: "Field's choices",
-      description: "Please select the choices you want to include in your Question. In case you want to build yourself the selected options, the structure should look like this `{{[{\"label\":\"Choice 1\"}]}}`. Please provide at least one option.",
-      options() {
-        const { properties } = JSON.parse(this.field);
-        return properties.choices.map((choice) => ({
-          label: choice.label,
-          value: JSON.stringify(choice),
-        }));
-      },
-    },
-  },
   async run({ $ }) {
     const {
       formId,
       field,
-      choices,
+      choice,
     } = this;
 
-    const { id: fieldId } = JSON.parse(field);
+    const {
+      id: fieldId,
+      properties,
+    } = JSON.parse(field);
+
+    const { choices: currentChoices } = properties;
+    const choices = [
+      ...currentChoices,
+      {
+        label: choice,
+      },
+    ];
 
     if (!fieldId) {
       throw new Error("Field ID not found");
     }
 
-    let fields;
-    let formProperties;
-
-    try {
-      ({
-        fields,
-        ...formProperties
-      } =
-        await this.typeform.getForm({
-          $,
-          formId,
-        }));
-
-    } catch (error) {
-      const message =
-        error.response?.status === 404
-          ? "Form not found. Please enter the ID again."
-          : error;
-      throw new Error(message);
-    }
+    const {
+      fields,
+      ...formProperties
+    } =
+      await this.typeform.getForm({
+        $,
+        formId,
+      });
 
     const [
       existingChoices,
@@ -182,15 +166,10 @@ export default {
       fields: fieldsToUpdate,
     };
 
-    try {
-      return await this.typeform.updateForm({
-        $,
-        formId,
-        data,
-      });
-
-    } catch (error) {
-      throw new Error(error);
-    }
+    return await this.typeform.updateForm({
+      $,
+      formId,
+      data,
+    });
   },
 };

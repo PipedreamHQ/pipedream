@@ -1,21 +1,16 @@
-import typeform from "../../typeform.app.mjs";
 import common from "../common.mjs";
 
+const { typeform } = common.props;
+
 export default {
+  ...common,
   key: "typeform-update-form",
   name: "Update a Form",
   description: "Updates an existing form. Request body must include all the existing form fields. [See the docs here](https://developer.typeform.com/create/reference/update-form-patch/)",
   type: "action",
   version: "0.0.1",
-  methods: common.methods,
   props: {
-    typeform,
-    formId: {
-      propDefinition: [
-        typeform,
-        "formId",
-      ],
-    },
+    ...common.props,
     title: {
       propDefinition: [
         typeform,
@@ -66,28 +61,19 @@ export default {
       Object.keys(dataObj)
         .map((key) => dataObj[key]);
 
-    try {
-      const response = await this.typeform.patchForm({
-        $,
-        formId,
-        data,
-      });
+    const response = await this.typeform.patchForm({
+      $,
+      formId,
+      data,
+    });
 
-      if (!response) {
-        return {
-          id: formId,
-          success: true,
-        };
-      }
-
-      return response;
-
-    } catch (error) {
-      const message =
-        error.response?.status === 404
-          ? "Form not found. Please enter the ID again."
-          : error;
-      throw new Error(message);
+    if (!response) {
+      return {
+        id: formId,
+        success: true,
+      };
     }
+
+    return response;
   },
 };

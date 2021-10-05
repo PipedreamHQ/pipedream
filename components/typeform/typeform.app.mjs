@@ -1,5 +1,5 @@
-import { axios } from "@pipedreamhq/platform";
-import constants from "./actions/constants.mjs";
+import { axios } from "@pipedream/platform";
+import constants from "./constants.mjs";
 
 export default {
   type: "app",
@@ -10,23 +10,18 @@ export default {
       label: "Form",
       description: "Form ID",
       async options({ page }) {
-        try {
-          const { items } = await this.getForms({
-            params: {
-              page: page + 1, // pipedream page 0-indexed, typeform is 1
-              page_size: 10,
-            },
-          });
-          return items.map((form) => {
-            return {
-              label: form.title,
-              value: form.id,
-            };
-          });
-
-        } catch (error) {
-          throw new Error(error);
-        }
+        const { items } = await this.getForms({
+          params: {
+            page: page + 1, // pipedream page 0-indexed, typeform is 1
+            page_size: 10,
+          },
+        });
+        return items.map((form) => {
+          return {
+            label: form.title,
+            value: form.id,
+          };
+        });
       },
     },
     search: {
@@ -84,24 +79,19 @@ export default {
       description: "URL of the workspace to use for the typeform. If you don't specify a URL for the workspace, Typeform saves the form in the default workspace.",
       optional: true,
       async options({ page }) {
-        try {
-          const { items } = await this.getWorkspaces({
-            params: {
-              page_size: 10,
-              page: page + 1, // pipedream page 0-indexed, github is 1
-            },
-          });
+        const { items } = await this.getWorkspaces({
+          params: {
+            page_size: 10,
+            page: page + 1, // pipedream page 0-indexed, github is 1
+          },
+        });
 
-          return items.map(({
-            name, self,
-          }) => ({
-            label: name,
-            value: self.href,
-          }));
-
-        } catch (error) {
-          throw new Error(error);
-        }
+        return items.map(({
+          name, self,
+        }) => ({
+          label: name,
+          value: self.href,
+        }));
       },
     },
     field: {
@@ -111,40 +101,35 @@ export default {
       async options({
         formId, allowedFields = constants.ALL_FIELD_TYPES, returnFieldObject,
       }) {
-        try {
-          const { fields } =
-            await this.getForm({
-              formId,
-            });
+        const { fields } =
+          await this.getForm({
+            formId,
+          });
 
-          if (!fields) {
-            return [];
+        if (!fields) {
+          return [];
+        }
+
+        return fields.reduce((reduction, field) => {
+          if (!allowedFields.includes(field.type)) {
+            return reduction;
           }
 
-          return fields.reduce((reduction, field) => {
-            if (!allowedFields.includes(field.type)) {
-              return reduction;
-            }
+          const value =
+            returnFieldObject
+              ? JSON.stringify(field)
+              : field.id;
 
-            const value =
-              returnFieldObject
-                ? JSON.stringify(field)
-                : field.id;
+          const option = {
+            label: field.title,
+            value,
+          };
 
-            const option = {
-              label: field.title,
-              value,
-            };
-
-            return [
-              ...reduction,
-              option,
-            ];
-          }, []);
-
-        } catch (error) {
-          throw new Error(error);
-        }
+          return [
+            ...reduction,
+            option,
+          ];
+        }, []);
       },
     },
     query: {
@@ -159,24 +144,19 @@ export default {
       async options({
         page, formId, fieldId,
       }) {
-        try {
-          const { items: responses } = await this.getResponses({
-            formId,
-            params: {
-              answered_fields: fieldId,
-              page_size: 20,
-              page: page + 1,
-            },
-          });
+        const { items: responses } = await this.getResponses({
+          formId,
+          params: {
+            answered_fields: fieldId,
+            page_size: 20,
+            page: page + 1,
+          },
+        });
 
-          return responses.map((response) => ({
-            label: response.response_id,
-            value: response.response_id,
-          }));
-
-        } catch (error) {
-          throw new Error(error);
-        }
+        return responses.map((response) => ({
+          label: response.response_id,
+          value: response.response_id,
+        }));
       },
     },
   },

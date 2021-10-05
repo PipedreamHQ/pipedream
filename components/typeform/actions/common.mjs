@@ -1,4 +1,7 @@
+import common from "../common.mjs";
+
 export default {
+  ...common,
   methods: {
     addProperty({
       src, validation, addition,

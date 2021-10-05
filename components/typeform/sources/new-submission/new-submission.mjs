@@ -1,6 +1,8 @@
-import typeform from "../../typeform.app.mjs";
+import { createHmac } from "crypto";
 import { uuid } from "uuidv4";
 import { DateTime } from "luxon";
+import common from "../common.mjs";
+import constants from "../../constants.mjs";
 
 function parseIsoDate(isoDate) {
   const dt = DateTime.fromISO(isoDate);
@@ -15,23 +17,19 @@ function parseIsoDate(isoDate) {
 }
 
 export default {
+  ...common,
   key: "typeform-new-submission",
   name: "New Submission",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   description: "Emit new submission",
   props: {
-    typeform,
-    formId: {
-      propDefinition: [
-        typeform,
-        "formId",
-      ],
-    },
+    ...common.props,
     http: "$.interface.http",
     db: "$.service.db",
   },
   methods: {
+    ...common.methods,
     generateSecret() {
       return "" + Math.random();
     },
@@ -39,34 +37,28 @@ export default {
   hooks: {
     async activate() {
       const secret = this.generateSecret();
-      this.db.set("secret", secret);
-      let tag = this.db.get("tag");
+      this._setSecret(secret);
+
+      let tag = this._getTag();
       if (!tag) {
         tag = uuid();
-        this.db.set("tag", tag);
+        this._setTag(tag);
       }
-      try {
-        return await this.typeform.createHook({
-          endpoint: this.http.endpoint,
-          formId: this.formId,
-          tag,
-          secret,
-        });
 
-      } catch (error) {
-        throw new Error(error);
-      }
+      return await this.typeform.createHook({
+        endpoint: this.http.endpoint,
+        formId: this.formId,
+        tag,
+        secret,
+      });
     },
     async deactivate() {
-      try {
-        return await this.typeform.deleteHook({
-          formId: this.formId,
-          tag: this.db.get("tag"),
-        });
+      const tag = this._getTag();
 
-      } catch (error) {
-        throw new Error(error);
-      }
+      return await this.typeform.deleteHook({
+        formId: this.formId,
+        tag,
+      });
     },
   },
   async run(event) {
@@ -75,14 +67,19 @@ export default {
       headers,
     } = event;
 
-    if (headers["Typeform-Signature"]) {
-      const crypto = require("crypto");
-      const algo = "sha256";
-      const hmac = crypto.createHmac(algo, this.db.get("secret"));
-      hmac.update(body);
-      if (
-        headers["Typeform-Signature"] !== `${algo}=${hmac.digest("base64")}`
-      ) {
+    const { [constants.TYPEFORM_SIGNATURE]: typeformSignature } = headers;
+
+    if (typeformSignature) {
+      const secret = this._getSecret();
+
+      const hmac =
+        createHmac(constants.ALGORITHM, secret)
+          .update(body)
+          .digest(constants.ENCODING);
+
+      const signature = `${constants.ALGORITHM}=${hmac}`;
+
+      if (typeformSignature !== signature) {
         throw new Error("signature mismatch");
       }
     }
@@ -90,30 +87,45 @@ export default {
     let formResponseString = "";
     const data = Object.assign({}, body.form_response);
     data.form_response_parsed = {};
+
     for (let i = 0; i < body.form_response.answers.length; i++) {
       const field = body.form_response.definition.fields[i];
       const answer = body.form_response.answers[i];
 
       let parsedAnswer;
       let value = answer[answer.type];
+
       if (value.label) {
         parsedAnswer = value.label;
+
       } else if (value.labels) {
         parsedAnswer = value.labels.join();
+
       } else if (value.choice) {
         parsedAnswer = value.choice;
+
       } else if (value.choices) {
         parsedAnswer = value.choices.join();
+
       } else {
         parsedAnswer = value;
       }
+
       data.form_response_parsed[field.title] = parsedAnswer;
       formResponseString += `### ${field.title}\n${parsedAnswer}\n`;
     }
+
     data.form_response_string = formResponseString;
     data.raw_webhook_event = body;
-    if (data.landed_at) data.landed_at = parseIsoDate(data.landed_at);
-    if (data.submitted_at) data.submitted_at = parseIsoDate(data.submitted_at);
+
+    if (data.landed_at) {
+      data.landed_at = parseIsoDate(data.landed_at);
+    }
+
+    if (data.submitted_at) {
+      data.submitted_at = parseIsoDate(data.submitted_at);
+    }
+
     data.form_title = body.form_response.definition.title;
     delete data.answers;
     delete data.definition;

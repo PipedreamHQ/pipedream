@@ -1,5 +1,11 @@
+const SECRET = "secret";
+const TAG = "tag";
+const TYPEFORM_SIGNATURE = "Typeform-Signature";
+const ALGORITHM = "sha256";
+const ENCODING = "base64";
+
 /**
- * The list of supported field types
+ * List of supported field types
  * can be found [here](https://developer.typeform.com/responses/JSON-response-explanation)
  */
 const FIELD_TYPES = {
@@ -32,6 +38,11 @@ const ALL_FIELD_TYPES =
     .map((key) => FIELD_TYPES[key]);
 
 export default {
+  SECRET,
+  TAG,
+  TYPEFORM_SIGNATURE,
+  ALGORITHM,
+  ENCODING,
   FIELD_TYPES,
   ALL_FIELD_TYPES,
   CONTENT_DISPOSITION_HEADER,
