@@ -43,12 +43,13 @@ module.exports = {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    async _makeRequest(method, endpoint, params) {
+    async _makeRequest(method, endpoint, params, data) {
       const config = {
         method,
         url: `${await this._getBaseUrl()}${endpoint}`,
         headers: await this._getHeaders(),
         params,
+        data,
       };
       return await this.retry(config);
     },
