@@ -1,11 +1,11 @@
 import lodash from "lodash";
-import * as spotify from "../../spotify.app";
+import spotify from "../../spotify.app.mjs";
 
 export default {
-  name: "Create Playlist",
+  name: "Create a new playlist",
   description: "Create a new spotify playlist",
   key: "spotify-create-playlist",
-  version: "0.0.23",
+  version: "0.0.31",
   type: "action",
   props: {
     spotify,

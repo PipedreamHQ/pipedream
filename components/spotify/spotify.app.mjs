@@ -1,8 +1,8 @@
-const axios = require("axios");
-const { promisify } = require("util");
+import axios from "axios";
+import { promisify } from "util";
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
 
-module.exports = {
+export default {
   type: "app",
   app: "spotify",
   propDefinitions: {
@@ -60,6 +60,7 @@ module.exports = {
         response = await axios(config);
         return response;
       } catch (err) {
+        console.log(err);
         if (retries <= 1) {
           throw new Error(err);
         }
