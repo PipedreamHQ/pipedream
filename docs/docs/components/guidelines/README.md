@@ -374,11 +374,12 @@ set to “Search Term”.
 #### Descriptions
 
 Include a description for [props](../api/#user-input-props) if it helps the
-user understand what they need to do. Additionally, use Markdown as appropriate
+user understand what they need to do. Use Markdown as appropriate
 to improve the clarity of the description or instructions. When using Markdown:
 
 - Enclose sample input values in backticks (`` ` ``)
 - Use Markdown links with descriptive text rather than displaying a full URL.
+- If the description isn't self-explanatory, link to the API docs of the relevant method to further clarify how the prop works. When the value of the prop is complex (for example, an object with many properties), link to the section of the API docs that include details on this format. Users may pass values from previous steps using [expressions](/workflows/steps/params/#entering-expressions), so they'll need to know how to structure that data.
 
 Examples:
 
