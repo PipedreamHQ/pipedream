@@ -1,10 +1,11 @@
+import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Remove Items from a Playlist",
   description: "Remove one or more items from a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-remove-tracks-playlist)",
   key: "spotify-remove-items-from-playlist",
-  version: "0.0.5",
+  version: "0.0.12",
   type: "action",
   props: {
     spotify,
@@ -15,9 +16,10 @@ export default {
       ],
     },
     tracks: {
-      type: "string[]",
-      label: "Tracks",
-      description: "An array of objects containing [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) of the tracks or episodes to remove. For example: `spotify:track:4iV5W9uYEdYUVa79Axb7Rh`. A maximum of 100 objects can be sent at once.",
+      propDefinition: [
+        spotify,
+        "tracks",
+      ],
     },
     snapshotId: {
       type: "string",
@@ -40,10 +42,10 @@ export default {
       snapshot_id: snapshotId,
     };
 
-    return this.spotify._makeRequest($, {
+    return axios($, this.spotify.__getAxiosParams({
       method: "DELETE",
       path: `/playlists/${playlistId}/tracks`,
       data,
-    });
+    }));
   },
 };

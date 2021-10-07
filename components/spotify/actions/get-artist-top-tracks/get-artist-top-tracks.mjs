@@ -1,10 +1,11 @@
+import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Get an Artist's Top Tracks",
   description: "Get Spotify catalog information about an artist’s top tracks by country. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-an-artists-top-tracks)",
   key: "spotify-get-artist-top-tracks",
-  version: "0.0.15",
+  version: "0.0.18",
   type: "action",
   props: {
     spotify,
@@ -26,9 +27,9 @@ export default {
       market,
     } = this;
 
-    return  this.spotify._makeRequest($, {
+    return axios($, this.spotify._getAxiosParams({
       method: "GET",
       path: `/artists/${id}/top-tracks?market=${market}`,
-    });
+    }));
   },
 };

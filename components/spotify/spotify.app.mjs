@@ -1,4 +1,3 @@
-import { axios as axiosPipedream } from "@pipedream/platform";
 import axios from "axios";
 import lodash from "lodash";
 import { promisify } from "util";
@@ -8,6 +7,11 @@ export default {
   type: "app",
   app: "spotify",
   propDefinitions: {
+    tracks: {
+      type: "string[]",
+      label: "Tracks",
+      description: "An array of objects containing [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) of the tracks or episodes to remove. For example: `spotify:track:4iV5W9uYEdYUVa79Axb7Rh`. A maximum of 100 objects can be sent at once.",
+    },
     artistId: {
       type: "string",
       label: "ID",
@@ -16,13 +20,17 @@ export default {
       async options({ query }) {
         const artists = await this.getArtists(query);
         if (!artists) {
-          return [];
+          return {
+            options: [],
+          };
         }
 
-        return artists.map((artist) => ({
-          label: artist.name,
-          value: artist.id,
-        }));
+        return {
+          options: artists.map((artist) => ({
+            label: artist.name,
+            value: artist.id,
+          })),
+        };
       },
     },
     playlistId: {
@@ -32,44 +40,28 @@ export default {
       async options() {
         const playlists = await this.getPlaylists();
         if (!playlists) {
-          return [];
+          return {
+            options: [],
+          };
         }
 
-        return playlists.map((playlist) => ({
-          label: playlist.name,
-          value: playlist.id,
-        }));
-      },
-    },
-    playlists: {
-      type: "string[]",
-      label: "Playlist",
-      description: "Search for new tracks added to the specified playlist(s).",
-      async options({ prevContext }) {
-        const limit = 20;
-        const offset = prevContext.offset
-          ? prevContext.offset
-          : 0;
-        const { data } = await this.getPlaylists({
-          limit,
-          offset,
-        });
-        const options = data.items.map((playlist) => {
-          return {
+        return {
+          options: playlists.map((playlist) => ({
             label: playlist.name,
             value: playlist.id,
-          };
-        });
-        return {
-          options,
-          context: {
-            offset: offset + limit,
-          },
+          })),
         };
       },
     },
   },
   methods: {
+    _getAxiosParams(opts) {
+      return {
+        ...opts,
+        url: this._getBaseUrl() + opts.path,
+        headers: this._getHeaders(),
+      };
+    },
     _getBaseUrl() {
       return "https://api.spotify.com/v1";
     },
@@ -78,18 +70,20 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    async _makeRequest($, opts) {
-      return this.retry($, {
-        ...opts,
-        url: this._getBaseUrl() + opts.path,
-        headers: this._getHeaders(),
-      });
+    async _makeRequest(method, endpoint, params) {
+      const config = {
+        method,
+        url: `${await this._getBaseUrl()}${endpoint}`,
+        headers: await this._getHeaders(),
+        params,
+      };
+      return await this.retry(config);
     },
     // Retry axios request if not successful
-    async retry($, opts, retries = 3) {
+    async retry(config, retries = 3) {
       let response;
       try {
-        response = await axiosPipedream($, opts);
+        response = await axios(config);
         return response;
       } catch (err) {
         if (retries <= 1) {
@@ -101,36 +95,18 @@ export default {
           ? (response.headers["Retry-After"] * 1000)
           : 500;
         await pause(delay);
-        return this.retry($, opts, retries - 1);
+        return this.retry(config, retries - 1);
       }
-    },
-    async getPlaylistItems(params) {
-      const { playlistId } = params;
-      return this._makeRequest("GET", `/playlists/${playlistId}/tracks`, params);
-    },
-    /* async getPlaylists(params) {
-      return this._makeRequest("GET", "/me/playlists", params);
-    }, */
-    async getTracks(params) {
-      return this._makeRequest("GET", "/me/tracks", params);
     },
     async getArtists(query) {
       if (!query) {
-        return [];
+        return null;
       }
-      const url = this._getBaseUrl() + `/search?type=artist&limit=50&q=${encodeURI(query)}`;
-      const res = await axios.get(url, {
-        headers: this._getHeaders(),
-      });
-
+      const res = await this._makeRequest("GET", `/search?type=artist&limit=50&q=${encodeURI(query)}`);
       return lodash.get(res, "data.artists.items", null);
     },
     async getPlaylists() {
-      const url = this._getBaseUrl() + "/me/playlists";
-      const res = await axios.get(url, {
-        headers: this._getHeaders(),
-      });
-
+      const res = await this._makeRequest("GET", "/me/playlists");
       return lodash.get(res, "data.items", null);
     },
   },
