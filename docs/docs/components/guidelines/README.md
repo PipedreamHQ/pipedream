@@ -198,7 +198,7 @@ Registry [components](../api/#component-structure) require a unique `key` and
 future).
 
 ```javascript
-module.exports = {
+export default {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
@@ -323,7 +323,7 @@ and will be surfaced in documentation for apps in the Pipedream marketplace.
 For example:
 
 ```javascript
-module.exports = {
+export default {
   methods: {
     /**
      * Get the most recently liked Tweets for a user
@@ -589,12 +589,12 @@ labels, descriptions, etc. E.g., the Twitter API property for search keywords is
 
 #### Descriptions
 
-Include a description for a [prop](../api/#user-input-props) if it helps the
-user understand what they need to do. Additionally, use markdown as appropriate
-to improve the clarity of the description or instructions. When using markdown:
+Include a description for [props](../api/#user-input-props) if it helps the
+user understand what they need to do. Additionally, use Markdown as appropriate
+to improve the clarity of the description or instructions. When using Markdown:
 
 - Enclose sample input values in backticks (`` ` ``)
-- Link descriptive text rather than displaying a full URL using markdown syntax.
+- Use Markdown links with descriptive text rather than displaying a full URL.
 
 Examples:
 
