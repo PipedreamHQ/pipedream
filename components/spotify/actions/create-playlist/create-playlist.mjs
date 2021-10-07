@@ -2,17 +2,17 @@ import lodash from "lodash";
 import spotify from "../../spotify.app.mjs";
 
 export default {
-  name: "Create a new playlist",
-  description: "Create a new spotify playlist",
+  name: "Create a Playlist",
+  description: "Create a playlist for a Spotify user. The playlist will be empty until you add tracks.",
   key: "spotify-create-playlist",
-  version: "0.0.31",
+  version: "0.0.36",
   type: "action",
   props: {
     spotify,
     name: {
       type: "string",
       label: "Name",
-      description: "The name for the new playlist, for example \"Your Coolest Playlist\" . This name does not need to be unique; a user may have several playlists with the same name",
+      description: "The name for the new playlist, for example \"Your Coolest Playlist\". This name does not need to be unique; a user may have several playlists with the same name",
     },
     description: {
       type: "string",

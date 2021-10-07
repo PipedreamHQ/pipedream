@@ -5,14 +5,14 @@ export default {
   name: "Get Audio Features for a Track",
   description: "Get audio feature information for a single track identified by its unique Spotify ID.",
   key: "spotify-get-audio-features-for-a-track",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     spotify,
     id: {
       type: "string",
-      label: "Id",
-      description: "The Spotify ID for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`.",
+      label: "ID",
+      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`.",
     },
   },
   async run() {
