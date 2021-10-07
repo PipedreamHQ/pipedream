@@ -1,10 +1,11 @@
+import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Add Items to a Playlist",
   description: "Add one or more items to a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-add-tracks-to-playlist)",
   key: "spotify-add-item-to-a-playlist",
-  version: "0.0.31",
+  version: "0.0.33",
   type: "action",
   props: {
     spotify,
@@ -38,10 +39,10 @@ export default {
       uris,
     };
 
-    return this.spotify._makeRequest($, {
+    return axios($, this.spotify._getAxiosParams({
       method: "POST",
       path: `/playlists/${playlistId}/tracks`,
       data,
-    });
+    }));
   },
 };
