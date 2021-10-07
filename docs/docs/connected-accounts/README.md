@@ -5,7 +5,8 @@ Pipedream allows you to connect accounts for various apps and services within ou
 For example, you can connect to Slack from Pipedream (via their OAuth integration), and use the access token Pipedream generates to authorize requests:
 
 ```javascript
-const { WebClient } = require('@slack/web-api')
+import { WebClient } from '@slack/web-api';
+
 const web = new WebClient(auths.slack.oauth_access_token)
 return await web.chat.postMessage({
   text: "Hello, world!",

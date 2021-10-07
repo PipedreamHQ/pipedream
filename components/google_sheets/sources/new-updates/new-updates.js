@@ -4,10 +4,11 @@ const common = require("../common");
 module.exports = {
   ...common,
   key: "google_sheets-new-updates",
+  type: "source",
   name: "New Updates (Instant)",
   description:
-    "Emits an event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.19",
+    "Emit new event each time a row or cell is updated in a spreadsheet.",
+  version: "0.0.20",
   dedupe: "unique",
   props: {
     ...common.props,

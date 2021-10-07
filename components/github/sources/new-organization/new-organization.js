@@ -5,8 +5,9 @@ module.exports = {
   key: "github-new-organization",
   name: "New Organization",
   description:
-    "Emit an event when the authenticated user is added to a new organization.",
-  version: "0.0.1",
+    "Emit new events when the authenticated user is added to a new organization",
+  version: "0.0.3",
+  type: "source",
   dedupe: "last",
   methods: {
     generateMeta(data) {
@@ -18,7 +19,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const orgs = await this.github.getOrgs();
 
     orgs.forEach((org) => {

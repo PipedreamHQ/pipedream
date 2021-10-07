@@ -15,7 +15,7 @@ Within a workflow, you have full read-write access to the `/tmp` directory. You 
 Use the [`fs` module](https://nodejs.org/api/fs.html) to write data to `/tmp`:
 
 ```javascript
-const fs = require("fs");
+import fs from "fs";
 
 fs.writeFileSync(`/tmp/myfile`, Buffer.from("hello, world"));
 ```
@@ -25,7 +25,7 @@ fs.writeFileSync(`/tmp/myfile`, Buffer.from("hello, world"));
 This code sample uses [step exports](/workflows/steps/#step-exports) to return a list of the files saved in `/tmp` that you can use in future steps of your workflow:
 
 ```javascript
-const fs = require("fs");
+import fs from "fs";
 
 this.tmpFiles = fs.readdirSync("/tmp");
 ```
@@ -35,7 +35,7 @@ this.tmpFiles = fs.readdirSync("/tmp");
 This code sample uses [step exports](/workflows/steps/#step-exports) to return the contents of a test file saved in `/tmp`, returned as a string ([`fs.readFileSync` returns a `Buffer`](https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options))
 
 ```javascript
-const fs = require("fs");
+import fs from "fs";
 
 this.fileData = fs.readFileSync(`/tmp/myfile`).toString();
 ```

@@ -4,16 +4,21 @@ module.exports = {
   ...common,
   key: "github-new-star",
   name: "New Stars (Instant)",
-  version: "0.0.3",
-  description: "Emit an event when a repo is starred",
+  version: "0.0.5",
+  description: "Emit new events when a repo is starred",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
-      return ["star"];
+      return [
+        "star",
+      ];
     },
     getEventTypes() {
-      return ["created"];
+      return [
+        "created",
+      ];
     },
     generateMeta(data) {
       const ts = new Date(data.starred_at).getTime();

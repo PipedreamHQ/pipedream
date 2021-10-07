@@ -50,4 +50,4 @@ You can also publish actions to [the Pipedream registry](/components/guidelines/
 
 ## Reporting a bug / feature request
 
-If you'd like to report a bug, request a new action, or submit a feature request for an existing action, [open an issue in our GitHub repo](https://github.com/PipedreamHQ/pipedream).
+If you'd like to report a bug, request a new action, or submit a feature request for an existing action, [open an issue in our GitHub repo](https://github.com/pipedreamhq/pipedream).

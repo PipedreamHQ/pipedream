@@ -42,7 +42,7 @@ header set to `application/json`. For example:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
 ```
 
 ## Common Parameters
@@ -176,8 +176,7 @@ POST /components
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream
-component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+The full code for a [Pipedream component](/components/api/).
 
 ---
 
@@ -186,7 +185,7 @@ component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
 
 ---
 
@@ -202,7 +201,7 @@ Here's an example of how to create an RSS component from a Github URL:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
 ```
 
 #### Example Response
@@ -485,6 +484,56 @@ curl -X DELETE \
 Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
 code in response to any deletion requests.
 
+## Organizations
+
+[Organizations](/orgs/) provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+
+### Get Org's Subscriptions
+
+---
+
+Retrieve all the [subscriptions](#subscriptions) configured for a specific organization.
+
+#### Endpoint
+
+```
+GET /orgs/<org_id>/subscriptions
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sub_abc123",
+      "emitter_id": "dc_abc123",
+      "listener_id": "p_abc123",
+      "event_name": ""
+    },
+    {
+      "id": "sub_def456",
+      "emitter_id": "dc_def456",
+      "listener_id": "p_def456",
+      "event_name": ""
+    }
+  ]
+}
+```
+
 ## Sources
 
 Event sources run code to collect events from an API, or receive events via
@@ -564,8 +613,7 @@ endpoints](/api/rest/#components) for information on how to retrieve this ID.
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream
-component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+The full code for a [Pipedream component](/components/api/).
 
 ---
 
@@ -574,7 +622,7 @@ component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
 
 ---
 
@@ -589,7 +637,7 @@ as metadata to identify the location of the code.
 The name of the source.
 
 If absent, this defaults to using the [name
-slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure)
+slug](/components/api/#component-structure)
 of the component used to create the source.
 
 #### Example Request
@@ -598,7 +646,7 @@ of the component used to create the source.
 curl https://api.pipedream.com/v1/sources \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
 
 #### Example Response
@@ -653,7 +701,7 @@ endpoints](/api/rest/#components) for information on how to retrieve this ID.
 `component_code` **string** (_optional_)
 
 The full code for a [Pipedream
-component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+component](/components/api/).
 
 ---
 
@@ -662,7 +710,7 @@ component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
 
 ---
 
@@ -676,8 +724,7 @@ as metadata to identify the location of the code.
 
 The name of the source.
 
-If absent, this defaults to using the [name
-slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure)
+If absent, this defaults to using the [name slug](/components/api/#component-structure)
 of the component used to create the source.
 
 ---
@@ -718,7 +765,7 @@ display the sources configured as listeners using this API**.
 #### Endpoint
 
 ```
-POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}listener_id={receiving_source_id}
+POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}&listener_id={receiving_source_id}
 ```
 
 #### Parameters
@@ -1219,7 +1266,14 @@ Free user:
     "id": "u_abc123",
     "username": "dylburger",
     "email": "dylan@pipedream.com",
-    "api_key": "XXX",
+    "orgs": [
+      {
+        "name": "MyTestOrg",
+        "id": "o_abc123",
+        "orgname": "mytestorg",
+        "email": "test@pipedream.com"
+      }
+    ],
     "daily_compute_time_quota": 95400000,
     "daily_compute_time_used": 8420300,
     "daily_invocations_quota": 27344,

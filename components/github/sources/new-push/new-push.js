@@ -4,13 +4,16 @@ module.exports = {
   ...common,
   key: "github-new-push",
   name: "New Push",
-  description: "Emit an event on each new push to a repo",
-  version: "0.0.3",
+  description: "Emit new events on each new push to a repo",
+  version: "0.0.5",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
-      return ["push"];
+      return [
+        "push",
+      ];
     },
     generateMeta(data) {
       const ts = Date.now();

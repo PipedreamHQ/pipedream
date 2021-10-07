@@ -4,16 +4,21 @@ module.exports = {
   ...common,
   key: "github-new-release",
   name: "New Release (Instant)",
-  description: "Emit an event when a new release is published.",
-  version: "0.0.1",
+  description: "Emit new event when a new release is published",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
-      return ["release"];
+      return [
+        "release",
+      ];
     },
     getEventTypes() {
-      return ["published"];
+      return [
+        "published",
+      ];
     },
     generateMeta(data) {
       const ts = new Date(data.release.published_at).getTime();
