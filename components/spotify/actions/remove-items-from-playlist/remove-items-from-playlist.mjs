@@ -1,18 +1,18 @@
-import lodash from "lodash";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Remove Items from a Playlist",
-  description: "Remove one or more items from a user’s playlist.",
+  description: "Remove one or more items from a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-remove-tracks-playlist)",
   key: "spotify-remove-items-from-playlist",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     spotify,
     playlistId: {
-      type: "string",
-      label: "Playlist ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids)",
+      propDefinition: [
+        spotify,
+        "playlistId",
+      ],
     },
     tracks: {
       type: "string[]",
@@ -26,7 +26,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       playlistId,
       tracks,
@@ -40,16 +40,10 @@ export default {
       snapshot_id: snapshotId,
     };
 
-    const res = await this.spotify._makeRequest(
-      "DELETE",
-      `/playlists/${playlistId}/tracks`,
-      null,
+    return this.spotify._makeRequest($, {
+      method: "DELETE",
+      path: `/playlists/${playlistId}/tracks`,
       data,
-    );
-
-    return {
-      data: lodash.get(res, "data"),
-      headers: lodash.get(res, "headers"),
-    };
+    });
   },
 };

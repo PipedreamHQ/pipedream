@@ -1,11 +1,10 @@
-import lodash from "lodash";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Create a Playlist",
-  description: "Create a playlist for a Spotify user. The playlist will be empty until you add tracks.",
+  description: "Create a playlist for a Spotify user. The playlist will be empty until you add tracks. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-create-playlist)",
   key: "spotify-create-playlist",
-  version: "0.0.36",
+  version: "0.0.37",
   type: "action",
   props: {
     spotify,
@@ -29,11 +28,11 @@ export default {
     isCollaborative: {
       type: "boolean",
       label: "Collaborative",
-      description: "Defaults to `false`. If `true` the playlist will be collaborative. Note that to create a collaborative playlist you must also set `public` to `false`",
+      description: "Defaults to `false`. If `true` the playlist will be collaborative. Note that to create a collaborative playlist you must also set **public** to `false`",
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       name,
       description,
@@ -48,16 +47,10 @@ export default {
       collaborative: isCollaborative,
     };
 
-    const res = await this.spotify._makeRequest(
-      "POST",
-      `/users/${this.spotify.$auth.oauth_uid}/playlists`,
-      null,
+    return this.spotify._makeRequest($, {
+      method: "POST",
+      path: `/users/${this.spotify.$auth.oauth_uid}/playlists`,
       data,
-    );
-
-    return {
-      data: lodash.get(res, "data"),
-      headers: lodash.get(res, "headers"),
-    };
+    });
   },
 };

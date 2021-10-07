@@ -1,18 +1,18 @@
-import lodash from "lodash";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Add Items to a Playlist",
   description: "Add one or more items to a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-add-tracks-to-playlist)",
   key: "spotify-add-item-to-a-playlist",
-  version: "0.0.8",
+  version: "0.0.31",
   type: "action",
   props: {
     spotify,
     playlistId: {
-      type: "string",
-      label: "Playlist ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the playlist",
+      propDefinition: [
+        spotify,
+        "playlistId",
+      ],
     },
     uris: {
       type: "string[]",
@@ -26,7 +26,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       playlistId,
       position,
@@ -38,16 +38,10 @@ export default {
       uris,
     };
 
-    const res = await this.spotify._makeRequest(
-      "POST",
-      `/playlists/${playlistId}/tracks`,
-      null,
+    return this.spotify._makeRequest($, {
+      method: "POST",
+      path: `/playlists/${playlistId}/tracks`,
       data,
-    );
-
-    return {
-      data: lodash.get(res, "data"),
-      headers: lodash.get(res, "headers"),
-    };
+    });
   },
 };
