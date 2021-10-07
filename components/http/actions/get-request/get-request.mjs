@@ -1,28 +1,53 @@
-const axios = require('axios')
-const http = require('../../http.app.js')
+import { axios } from "@pipedream/platform";
+import http from "../../http.app.mjs";
 
-module.exports = {  
+export default {
   key: "http-get-request",
   name: "GET Request",
-  description: "Make an HTTP `GET` request to any URL. Optionally configure query string parameters, headers and basic auth.",
+  description: "Make an HTTP GET request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.0.18",
+  version: "0.1.0",
   props: {
     http,
-    url: { propDefinition: [http, "url"] },
-    params: { propDefinition: [http, "params"] },
-    headers: { propDefinition: [http, "headers"] },
-    auth: { propDefinition: [http, "auth"] },
+    url: {
+      propDefinition: [
+        http,
+        "url",
+      ],
+    },
+    params: {
+      propDefinition: [
+        http,
+        "params",
+      ],
+    },
+    headers: {
+      propDefinition: [
+        http,
+        "headers",
+      ],
+    },
+    auth: {
+      propDefinition: [
+        http,
+        "auth",
+      ],
+    },
   },
-  methods: {},
-  async run() {
+  async run({ $ }) {
+    const {
+      headers,
+      params,
+      url,
+    } = this;
     const config = {
-      url: this.url,
+      url,
       method: "GET",
-      params: this.params,
-      headers: this.headers,
-    }
-    if (this.auth) config.auth = this.http.parseAuth(this.auth)
-    return (await axios(config)).data
+      params,
+      headers,
+    };
+    if (this.auth) config.auth = this.http.parseAuth(this.auth);
+    return await axios($, config);
   },
 }
+;
