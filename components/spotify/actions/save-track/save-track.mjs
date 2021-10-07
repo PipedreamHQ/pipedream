@@ -3,7 +3,7 @@ import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Save tracks for user",
-  description: "Save one or more tracks to the current user’s ‘Your Music’ library. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-save-tracks-user)",
+  description: "Save one or more tracks to the current user’s ‘Your Music’ library. See the docs here: https://developer.spotify.com/documentation/web-api/reference/#endpoint-save-tracks-user",
   key: "spotify-save-track",
   version: "0.0.8",
   type: "action",

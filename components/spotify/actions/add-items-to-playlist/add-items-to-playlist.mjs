@@ -3,7 +3,7 @@ import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Add Items to a Playlist",
-  description: "Add one or more items to a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-add-tracks-to-playlist)",
+  description: "Add one or more items to a user’s playlist. See the docs here: https://developer.spotify.com/documentation/web-api/reference/#endpoint-add-tracks-to-playlist",
   key: "spotify-add-item-to-a-playlist",
   version: "0.0.33",
   type: "action",
