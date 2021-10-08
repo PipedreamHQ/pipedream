@@ -616,3 +616,9 @@ end user. Generate and use a GUID for the shared secret value, save it to a
 By default, the standard `axios` package doesn't return useful debugging data to the user when it `throw`s errors on HTTP 4XX and 5XX status codes. This makes it hard for the user to troubleshoot the issue.
 
 Instead, [use `@pipedream/platform` axios](/pipedream-axios).
+
+#### Return JavaScript objects
+
+When you `return` data from an action, it's exposed as a [step export](/workflows/steps/#step-exports) for users to reference in future steps of their workflow. Return JavaScript objects in all cases, unless there's a specific reason not to.
+
+For example, some APIs return XML responses. If you return XML from the step, it's harder for users to parse and reference in future steps. Convert the XML to a JavaScript object, and return that, instead.
