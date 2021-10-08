@@ -42,7 +42,7 @@ export default {
       snapshot_id: snapshotId,
     };
 
-    return axios($, this.spotify.__getAxiosParams({
+    return axios($, this.spotify._getAxiosParams({
       method: "DELETE",
       path: `/playlists/${playlistId}/tracks`,
       data,

@@ -25,7 +25,7 @@ export default {
     trackId: {
       type: "string",
       label: "Track ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. You can also type the track name, we can find it for you :)",
+      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. You can also type the track name, we can find it for you.",
       useQuery: true,
       async options({ query }) {
         const tracks = await this.getItems(ITEM_TYPES.TRACK, query);
@@ -159,7 +159,7 @@ export default {
         throw new Error("Invalid item type");
       }
       if (!q) {
-        return null;
+        return [];
       }
       const query = this._getQuery({
         limit: 50,
