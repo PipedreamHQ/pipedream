@@ -227,7 +227,7 @@ export default {
 };
 ```
 
-###### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
+##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 
@@ -249,7 +249,7 @@ props: {
 | `propDefinition`     | `array`  | optional  | An array of options that define a reference to a `propDefinitions` within the `propDefinitions` for an `app`                                                               |
 | `app`                | `object` | required  | An app object                                                                                                                                                              |
 | `propDefinitionName` | `string` | required  | The name of a specific `propDefinition` defined in the corresponding `app` object                                                                                          |
-| `inputValues`        | `object` | optional  | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br>&nbsp;<br>`c => ({ variableName: c.previousPropName })` |
+| `inputValues`        | `object` | optional  | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br>&nbsp;<br>`c => ({ variableName: c.previousPropName })`<br /><br />[See these docs](#referencing-values-from-previous-props) for more information. |
 
 Following is an example source that demonstrates how to use `propDefinitions`.
 
@@ -279,6 +279,64 @@ export default {
   },
 };
 ```
+
+##### Referencing values from previous props
+
+When you define a prop in an app file, and that prop depends on the value of another prop, you'll need to pass the value of the previous props in a special way. Let's review an example from [Trello](https://trello.com), a task manager.
+
+You create Trello _boards_ for new projects. Boards contain _lists_. For example, this **Active** board contains two lists:
+
+<div>
+<img alt="Trello board example" src="./images/trello-board-example.png">
+</div>
+
+In Pipedream, users can choose from lists on a specific board:
+
+<div>
+<img alt="Trello board and lists props" src="./images/trello-props.png">
+</div>
+
+Both **Board** and **Lists** are defined in the Trello app file:
+
+```javascript
+board: {
+  type: "string",
+  label: "Board",
+  async options(opts) {
+    const boards = await this.getBoards(this.$auth.oauth_uid);
+    const activeBoards = boards.filter((board) => board.closed === false);
+    return activeBoards.map((board) => {
+      return { label: board.name, value: board.id };
+    });
+  },
+},
+lists: {
+  type: "string[]",
+  label: "Lists",
+  optional: true,
+  async options(opts) {
+    const lists = await this.getLists(opts.board);
+    return lists.map((list) => {
+      return { label: list.name, value: list.id };
+    });
+  },
+}
+```
+
+In the `lists` prop, notice how `opts.board` references the board. You can pass `opts` to the prop's `options` method when you reference `propDefinitions` in specific components:
+
+```javascript
+board: { propDefinition: [trello, "board"] },
+lists: {
+  propDefinition: [
+    trello,
+    "lists",
+    (configuredProps) => ({ board: configuredProps.board }),
+  ],
+},
+```
+
+`configuredProps` contains the props the user previously configured (the board). This allows the `lists` prop to use it in the `options` method.
 
 #### Interface Props
 
@@ -497,6 +555,12 @@ props: {
 | `this.myAppPropName.methodName()` | Execute a common method defined for an app from a component that includes the app as a prop      | **Parent Component:** `run()` `hooks` `methods` | n/a         |
 
 > **Note:** The specific `$auth` keys supported for each app will be published in the near future.
+
+#### Limits on props
+
+When a user configures a prop with a value, it can hold at most `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` data. Consider this when accepting large input in these fields (such as a base64 string).
+
+The `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example <code v-pre>{{steps.nodejs.$return_value}}</code>, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits).
 
 ### Methods
 

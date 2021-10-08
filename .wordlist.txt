@@ -967,3 +967,7 @@ toFormat
 autocomplete
 SCCs
 performant
+EEs
+appendFile
+readFile
+CJS
