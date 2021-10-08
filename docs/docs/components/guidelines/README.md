@@ -177,6 +177,40 @@ actions for Pipedream's registry.
 
 ### General
 
+#### Components should be ES modules
+
+The Node.js community has started publishing [ESM-only](https://flaviocopes.com/es-modules/) packages that do not work with [CommonJS modules](https://nodejs.org/docs/latest/api/modules.html#modules_modules_commonjs_modules). This means you must `import` the package. You can't use `require`.
+
+You also cannot mix ESM with CJS. This will **not** work:
+
+```javascript
+// ESM
+import axios from "axios";
+
+// CommonJS - this should be `export default`
+module.exports = {
+  ...
+}
+```
+
+Therefore, all components should be written as ES modules:
+
+```javascript
+import axios from "axios";
+
+export default {
+  ...
+}
+```
+
+**You'll need to use [the `.mjs` file extension](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#aside_%E2%80%94_.mjs_versus_.js) for any components written as ES modules**.
+
+You'll notice that many of the existing components are written as CommonJS modules. Please fix these and submit a pull request as you refactor related code. For example, if you're developing new Spotify actions, and you notice the existing event sources use CommonJS, change them to ESM:
+
+1. Rename the file extension from `.js` to `.mjs` using `git mv` (e.g. `git mv source.js source.mjs`).
+2. Change all `require` statements to `import`s.
+3. Change instances of `module.exports` to `export default`.
+
 #### Component Scope
 
 Create components to address specific use cases whenever possible. For example,
