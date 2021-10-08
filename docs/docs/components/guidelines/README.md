@@ -247,6 +247,20 @@ across registry components and should follow the pattern:
 
 `app_name_slug`-`slugified-component-name`
 
+#### Versioning
+
+When you first publish a component to the registry, set its version to `0.0.1`.
+
+Pipedream registry components try to follow [semantic versioning](https://semver.org/). From their site:
+
+Given a version number `MAJOR.MINOR.PATCH`, increment the:
+
+1. `MAJOR` version when you make incompatible API changes,
+2. `MINOR` version when you add functionality in a backwards compatible manner, and
+3. `PATCH` version when you make backwards compatible bug fixes.
+
+When you're developing actions locally, and you've incremented the version in your account multiple times, make sure to set it to the version it should be at in the registry prior to submitting your PR. For example, when you add an action to the registry, the version should be `0.0.1`. If the action was at version `0.1.0` and you've fixed a bug, change it to `0.1.1` when committing your final code.
+
 #### Folder Structure
 
 Registry components are organized by app in the `components` directory of the
