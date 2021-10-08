@@ -29,12 +29,6 @@ export default {
       useQuery: true,
       async options({ query }) {
         const tracks = await this.getItems(ITEM_TYPES.TRACK, query);
-        if (!tracks) {
-          return {
-            options: [],
-          };
-        }
-
         return {
           options: tracks.map((track) => ({
             label: this.getTrackNameWithArtists(track),
@@ -50,12 +44,6 @@ export default {
       useQuery: true,
       async options({ query }) {
         const artists = await this.getItems(ITEM_TYPES.ARTIST, query);
-        if (!artists) {
-          return {
-            options: [],
-          };
-        }
-
         return {
           options: artists.map((artist) => ({
             label: artist.name,
@@ -70,16 +58,24 @@ export default {
       description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the playlist",
       async options() {
         const playlists = await this.getPlaylists();
-        if (!playlists) {
-          return {
-            options: [],
-          };
-        }
-
         return {
           options: playlists.map((playlist) => ({
             label: playlist.name,
             value: playlist.id,
+          })),
+        };
+      },
+    },
+    categoryId: {
+      type: "string",
+      label: "Category ID",
+      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the category",
+      async options() {
+        const categories = await this.getCategories();
+        return {
+          options: categories.map((category) => ({
+            label: category.name,
+            value: category.id,
           })),
         };
       },
@@ -171,7 +167,7 @@ export default {
         q: encodeURI(q),
       });
       const res = await this._makeRequest("GET", `/search${query}`);
-      return lodash.get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, null);
+      return lodash.get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, []);
     },
     async getPlaylists() {
       const res = await this._makeRequest("GET", "/me/playlists");
@@ -188,7 +184,11 @@ export default {
       });
 
       const res = await this._makeRequest("GET", `/tracks/${id}${query}`);
-      return lodash.get(res, "data.items", null);
+      return lodash.get(res, "data.items", []);
+    },
+    async getCategories() {
+      const res = await this._makeRequest("GET", "/browse/categories");
+      return lodash.get(res, "data.categories.items", []);
     },
   },
 };
