@@ -2,20 +2,21 @@ import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
 
 export default {
-  name: "Get an Artist's Top Tracks",
-  description: "Get Spotify catalog information about an artist’s top tracks by country. See the docs here: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-an-artists-top-tracks",
-  key: "spotify-get-artist-top-tracks",
-  version: "0.0.23",
+  name: "Get a Track",
+  description: "Get a track by its name or Id. See the docs here: https://developer.spotify.com/documentation/web-api/reference/#endpoint-search",
+  key: "spotify-get-a-track",
+  version: "0.0.6",
   type: "action",
   props: {
     spotify,
-    id: {
+    trackId: {
       propDefinition: [
         spotify,
-        "artistId",
+        "trackId",
       ],
     },
     market: {
+      optional: true,
       propDefinition: [
         spotify,
         "market",
@@ -24,13 +25,17 @@ export default {
   },
   async run({ $ }) {
     const {
-      id,
+      trackId,
       market,
     } = this;
 
+    const query = this.spotify._getQuery({
+      market,
+    });
+
     return axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/artists/${id}/top-tracks?market=${market}`,
+      path: `/tracks/${trackId}${query}`,
     }));
   },
 };

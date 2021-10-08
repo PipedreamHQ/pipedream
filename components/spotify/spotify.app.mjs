@@ -12,6 +12,11 @@ export default {
   type: "app",
   app: "spotify",
   propDefinitions: {
+    market: {
+      type: "string",
+      label: "Market",
+      description: "An [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Synonym for country. Example: `US` for `United States of America`",
+    },
     tracks: {
       type: "string[]",
       label: "Tracks",
@@ -20,7 +25,7 @@ export default {
     trackId: {
       type: "string",
       label: "Track ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`.",
+      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. You can also type the track name, we can find it for you :)",
       useQuery: true,
       async options({ query }) {
         const tracks = await this.getItems(ITEM_TYPES.TRACK, query);
@@ -96,6 +101,23 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
+    _getQuery(params) {
+      if (!params) {
+        return "";
+      }
+
+      let query = "?";
+      const keys = Object.keys(params);
+      for (let i = 0; i < keys.length; i++) {
+        // Explicity looking for nil values to avoid false negative for Boolean(false)
+        if (!lodash.isNil(params[keys[i]])) {
+          query += `${keys[i]}=${params[keys[i]]}&`;
+        }
+      }
+
+      // It removes the last string char, it can be ? or &
+      return query.substr(0, query.length - 1);
+    },
     getTrackNameWithArtists(track) {
       if (!track) {
         return "";
@@ -136,18 +158,36 @@ export default {
         return this.retry(config, retries - 1);
       }
     },
-    async getItems(type, query) {
+    async getItems(type, q) {
       if (!Object.values(ITEM_TYPES).includes(type)) {
         throw new Error("Invalid item type");
       }
-      if (!query) {
+      if (!q) {
         return null;
       }
-      const res = await this._makeRequest("GET", `/search?type=${type}&limit=50&q=${encodeURI(query)}`);
+      const query = this._getQuery({
+        limit: 50,
+        type,
+        q: encodeURI(q),
+      });
+      const res = await this._makeRequest("GET", `/search${query}`);
       return lodash.get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, null);
     },
     async getPlaylists() {
       const res = await this._makeRequest("GET", "/me/playlists");
+      return lodash.get(res, "data.items", null);
+    },
+    async getTrackById(id, market) {
+      if (!id) {
+        return null;
+      }
+
+      const query = this._getQuery({
+        id,
+        market,
+      });
+
+      const res = await this._makeRequest("GET", `/tracks/${id}${query}`);
       return lodash.get(res, "data.items", null);
     },
   },
