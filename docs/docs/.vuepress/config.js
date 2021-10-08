@@ -120,6 +120,7 @@ module.exports = {
           "/components/quickstart/nodejs/sources/",
           "/components/api/",
           "/components/guidelines/",
+          "/pipedream-axios/",
           "/components/migrating/",
         ],
       },

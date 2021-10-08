@@ -603,4 +603,8 @@ end user. Generate and use a GUID for the shared secret value, save it to a
 
 ### Action Guidelines
 
-_(Coming soon)_
+#### Use `@pipedream/platform` axios for all HTTP requests
+
+By default, the standard `axios` package doesn't return useful debugging data to the user when it `throw`s errors on HTTP 4XX and 5XX status codes. This makes it hard for the user to troubleshoot the issue.
+
+Instead, [use `@pipedream/platform` axios](/pipedream-axios).
