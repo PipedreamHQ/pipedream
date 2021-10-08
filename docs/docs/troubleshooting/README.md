@@ -30,10 +30,20 @@ If you're still seeing the issue after trying these steps, please reach out in [
 
 ## Where do I find my workflow's ID?
 
-Visit your workflow and copy the URL that appears in your browser's address bar. For example:
+Open [https://pipedream.com](https://pipedream.com) and visit your workflow. Copy the URL that appears in your browser's address bar. For example:
 
 ```
 https://pipedream.com/@dylburger/p_abc123/edit
 ```
 
 Your workflow's ID is the value that starts with `p_`. In this example: `p_abc123`.
+
+## Where do I find my event source's ID?
+
+Open [https://pipedream.com/sources](https://pipedream.com/sources) and click on your event source. Copy the URL that appears in your browser's address bar. For example:
+
+```
+https://pipedream.com/sources/dc_abc123
+```
+
+Your source's ID is the value that starts with `dc_`. In this example: `dc_abc123`.
