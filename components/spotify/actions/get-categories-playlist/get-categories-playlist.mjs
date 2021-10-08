@@ -23,13 +23,13 @@ export default {
       ],
     },
     limit: {
-      type: "string",
+      type: "integer",
       label: "Limit",
       description: "The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.",
       optional: true,
     },
     offset: {
-      type: "string",
+      type: "integer",
       label: "Limit",
       description: "The index of the first item to return. Default: 0 (the first object). Use with `limit` to get the next set of items",
       optional: true,
