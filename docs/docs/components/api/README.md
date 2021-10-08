@@ -498,6 +498,12 @@ props: {
 
 > **Note:** The specific `$auth` keys supported for each app will be published in the near future.
 
+#### Limits on props
+
+When a user configures a prop with a value, it can hold at most `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` data. Consider this when accepting large input in these fields (such as a base64 string).
+
+The `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example <code v-pre>{{steps.nodejs.$return_value}}</code>, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits).
+
 ### Methods
 
 You can define helper functions within the `methods` property of your component. You have access to these functions within the [`run` method](#run), or within other methods.
