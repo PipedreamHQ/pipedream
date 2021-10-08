@@ -1,16 +1,19 @@
 const common = require("../common.js");
 const { toArray } = require("../../utils");
 const youtube = require("../../youtube.app");
+
 /**
  * @typedef {import('googleapis').youtube_v3.Schema$Subscription} Subscription
  * @typedef {import('googleapis').youtube_v3.Schema$PlaylistItem} PlaylistItem
  * @typedef {import('googleapis').youtube_v3.Schema$Channel} Channel
  */
+
 /**
  * Uses [YouTube API](https://developers.google.com/youtube/v3/docs) to get the authenticated user's
  * subscriptions with a `totalItemCount` for each. The user's subscriptions are used to get the
  * subscribed-to channels. Then the ID of the 'uploads' playlist in each channel is used to get
- * playlist items of recently uploaded videos.
+ * playlist items of recently uploaded videos. Process is taken roughly from [this stackoverflow
+ * comment](https://bit.ly/3lp4uRS).
  *
  * Sequence: Subscriptions -> Channels -> PlaylistItems
  *
@@ -90,7 +93,7 @@ module.exports = {
         };
         return channels;
       }, {});
-      // For each channel with new uploads, set the new `lastPublishedAt` for each channel
+      // For each channel with new uploads, set the new `lastPublishedAt`
       itemLists.forEach((list) => {
         if (list.length > 0) {
           const channelId = list[0].snippet.videoOwnerChannelId;
@@ -107,11 +110,10 @@ module.exports = {
     async getSubscriptions() {
       // `part.snippet` contains the `resourceId.channelId`
       // `part.contentDetails` contains the `totalItemCount`
-      const subscriptionStream = this.paginate(this.youtube.getSubscriptions.bind(this), {
+      return await this.youtube.listAll(this.youtube.getSubscriptions.bind(this), {
         part: "contentDetails,id,snippet",
         mine: true,
       });
-      return await toArray(subscriptionStream);
     },
     /**
      * Gets a list of channels from a list of channel IDs
@@ -120,59 +122,38 @@ module.exports = {
      * @returns {Channel[]} The list of subscriptions
      */
     async getChannels(channelIds) {
-      const channelStream = this.paginate(this.youtube.getChannels.bind(this), {
-        // `part.snippet` contains the `resourceId.channelId`
-        // `part.contentDetails` contains the `totalItemCount`
+      return await this.youtube.listAll(this.youtube.getChannels.bind(this), {
         part: "contentDetails,id",
         id: channelIds.join(","),
       });
-      return await toArray(channelStream);
     },
     /**
-     * Gets a list of playlist items in the 'uploads' playlist of a channel
+     * Gets a list of playlist items in the 'uploads' playlist of a channel published after the last
+     * processed video from that playlist
      *
      * @param {ChannelData} channelData - The recorded data for each channel to use in filtering
      * playlist items
+     * @param {Object} Channel - The channel from which to get 'uploads' playlist items
      * @returns {PlaylistItem[]} The list of playlist items
      */
     async getPlaylistItems(channelData, channel) {
       // Use `playlistId` of [uploads](https://bit.ly/3FuJiC3) playlist
       const playlistId = channel.contentDetails.relatedPlaylists.uploads;
-      return await toArray(
-        this.paginatePlaylistItems(playlistId, channel.id, channelData),
-      );
-    },
-    /**
-     * Paginate through results from` getPlaylistItems()` and yield each playlist item that was
-     * published after the channel's last recorded video or the last run of this event source
-     *
-     * @param {String} playlistId - The id of the playlist from which to paginate items
-     * @param {String} channelId - The id of the channel that owns the playlist
-     * @param {Object} channelData - A dict mapping channelId to an object containing
-     * `lastPublishedAt` times for each channel
-     * @yields The next playlist item in the playlist
-     * @type {PlaylistItem}
-     */
-    async *paginatePlaylistItems(playlistId, channelId, channelData) {
-      // Set `publishedAfter` to `lastPublishedAt` for this channelId if it exists, and this
-      // source's `publishAfter` otherwise, which is set to current time on deploy and run
-      const publishedAfter = channelData[channelId].lastPublishedAt
-        ? Date.parse(channelData[channelId].lastPublishedAt)
+      const publishedAfter = channelData[channel.id].lastPublishedAt
+        ? Date.parse(channelData[channel.id].lastPublishedAt)
         : Date.parse(this._getPublishedAfter());
-      const playlistItemStream = this.paginate(this.youtube.getPlaylistItems.bind(this), {
-        part: "contentDetails,id,snippet",
-        playlistId,
-      });
-      for await (const playlistItem of playlistItemStream) {
-        // If the playlistItem was published before `publishedAfter`, stop including playlistItems
-        if (
-          !playlistItem.snippet.publishedAt
-          || Date.parse(playlistItem.snippet.publishedAt) <= publishedAfter
-        ) {
-          return;
-        }
-        yield playlistItem;
-      }
+      return await toArray(this.youtube.paginateUntil(
+        this.youtube.getPlaylistItems.bind(this),
+        {
+          part: "contentDetails,id,snippet",
+          playlistId,
+        },
+        null,
+        (item) => (
+          !item.snippet.publishedAt
+          || Date.parse(item.snippet.publishedAt) <= publishedAfter
+        ),
+      ));
     },
   },
 
@@ -181,45 +162,33 @@ module.exports = {
     // Get all subscriptions (each has a totalItemCount) for the current user
     const subscriptions = await this.getSubscriptions();
 
-    // Map subscriptions to updated channel IDs
-    // If a subscribed channel's `totalItemCount` is greater than its previously recorded
-    // `totalItemCount`, assume the channel has a newly uploaded video
+    // To avoid emitting all of a channels videos, include only channels whose
+    // `totalItemCount` is greater than its previously recorded `totalItemCount`
     const updatedChannelIds = subscriptions
-      // Filter to remove channels whose `totalItemCount` has not increased and channels that are
-      // newly subscribed to -- to avoid emitting all of a channels videos
       .filter((s) => (
         channelData[s.snippet.resourceId.channelId]
         && s.contentDetails.totalItemCount >
           channelData[s.snippet.resourceId.channelId].totalItemCount
       ))
-      // Map subscription to channelId
       .map((s) => s.snippet.resourceId.channelId);
 
-    // If there are not updated channels, updated channelData and stop
     if (updatedChannelIds.length === 0) {
       return this.setChannelData(subscriptions);
     }
 
-    // Get list of channels using 'updatedChannelIds`
     const channels = await this.getChannels(updatedChannelIds);
 
-    // Get list of playlistItems in the 'uploads' playlist for each updated channel (with new
-    // videos) -- use each channel's `lastPublishedAt` in `channelData` to list only playlistItems
-    // published after `lastPublishedAt`
     const uploadsPlaylists = await Promise.all(
       channels.map(this.getPlaylistItems.bind(this, channelData)),
     );
 
-    // Set channelData using `subscriptions`and `uploadsPlaylists` to record last publishedAt date
-    // for each channel
     this.setChannelData(subscriptions, uploadsPlaylists);
-    // Set `publishedAfter` to current time
     this._setPublishedAfter(new Date().toISOString());
 
-    // Concatenate playlistItems in uploads playlists
     const allItems = [].concat(...uploadsPlaylists);
     // Sort playlistItems in order of `publishedAt`
     allItems.sort((a, b) => Date.parse(a.snippet.publishedAt) - Date.parse(b.snippet.publishedAt));
+
     // Emit playlistItems
     allItems.forEach((item) => {
       this.emitEvent(item);
