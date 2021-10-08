@@ -27,3 +27,13 @@ If you're encountering a specific issue in a workflow, try the following steps, 
 3. [Copy your workflow](/workflows/copy/) to see if the issue persists on the new workflow.
 
 If you're still seeing the issue after trying these steps, please reach out in [the community](https://pipedream.com/support).
+
+## Where do I find my workflow's ID?
+
+Visit your workflow and copy the URL that appears in your browser's address bar. For example:
+
+```
+https://pipedream.com/@dylburger/p_abc123/edit
+```
+
+Your workflow's ID is the value that starts with `p_`. In this example: `p_abc123`.
