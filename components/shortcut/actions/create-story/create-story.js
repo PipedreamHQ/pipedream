@@ -16,12 +16,12 @@ module.exports = {
       description: "Controls the story’s archived state.",
       default: false,
     },
-    comments: {
-      type: "string",
-      label: "Comments",
+    comment: {
+      type: "object",
+      label: "Comment",
       description:
-        "An array with comment objects to add to the story. Each comment object must have the [CreateStoryCommentParams](https://shortcut.io/api/rest/v3/#CreateStoryCommentParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of comment objects. ",
-      default: "",
+        "A comment object attached to the story. Each comment object must have the following structure: `author_id` which is the member ID of the Comment’s author  (defaults to the user identified by the API token), a date `created_at` which defaults to the time/date the comment is created, but can be set to reflect another date, `external_id` a field that can be set to another unique ID. In the case that the comment has been imported from another tool, the ID in the other tool can be indicated here `text` with the comment text, and `updated_at` which defaults to the time/date the comment is last updated in Shortcut but can be set to reflect another time/date. See [CreateStoryCommentParams](https://shortcut.com/api/rest/v3#CreateStoryCommentParams) for more info.",
+      optional: true,
     },
     completedAtOverride: {
       type: "string",
@@ -112,12 +112,6 @@ module.exports = {
       },
       optional: true,
     },
-    groupId: {
-      type: "string",
-      label: "Group Id",
-      description: "The id of the group to associate with this story. A group in Shortcut API maps to a \"Team\" within the Shortcut Product.",
-      optional: true,
-    },
     iterationId: {
       type: "integer",
       label: "Iteration Id",
@@ -139,7 +133,7 @@ module.exports = {
       type: "object",
       label: "Label",
       description:
-        "A label object attached to the story. Each label object must have the following structure: `color` which is an string with the hex color to be displayed with the Label i.e. \"#ff0000\", and a string `name` for the name of the Label.",
+        "A label object attached to the story. Each label object must have the following structure: `color` which is an string with the hex color to be displayed with the Label i.e. \"#ff0000\", and a string `name` for the name of the Label. See [CreateLabelParams](https://shortcut.com/api/rest/v3#CreateLabelParams) for more info.",
       optional: true,
     },
     linkedFileIds: {
@@ -205,11 +199,11 @@ module.exports = {
       description: "A manual override for the time/date the Story was started.",
       optional: true,
     },
-    storyLinks: {
-      type: "string",
-      label: "Story Links",
+    storyLink: {
+      type: "object",
+      label: "Story Link",
       description:
-        "An array of story link objects attached to the story. Each story link object must have the [CreateStoryLinkParams](https://shortcut.io/api/rest/v3/#Body-Parameters-34268) structure. Alternatively, provide a string that will `JSON.parse` to an array of story link objects. ",
+        "An story link object attached to the story. Each story link object must have the following structure: `object_id` which is an integer, unique ID of the story defined as object, `subject_id` which is an integer, unique ID of the story defined as subject, and `verb` which indicates how the subject story acts on the object story, valid values are `blocks`, `duplicates`, or `relates to`. See [CreateStoryLinkParams](https://shortcut.com/api/rest/v3#CreateStoryLinkParams) for more info.",
       optional: true,
     },
     storyType: {
@@ -224,11 +218,11 @@ module.exports = {
       default: "feature",
       optional: true,
     },
-    tasks: {
-      type: "string",
-      label: "Tasks",
+    task: {
+      type: "object",
+      label: "Task",
       description:
-        "An array of task objects connected to the story. Each task object must have the [CreateTaskParams](https://shortcut.io/api/rest/v3/#CreateTaskParams) structure. Alternatively, provide a string that will `JSON.parse` to an array of content objects. ",
+        "A task object attached to the story. Each task object must have the following structure: `complete` which is a boolean, indicating whether the task is completed (defaults to `false`), `created_at` which defaults to the time/date the task is created but can be set to reflect another creation time/date, `description` as a description for the task, `external_id` a field can be set to another unique ID. In the case that the task has been imported from another tool, the ID in the other tool can be indicated here, `owner_ids` as an array of UUIDs for any members you want to add as owners on this new task, `updated_at` which defaults to the time/date the task was last updated in Shortcut but can be set to reflect another time/date.  See [CreateTaskParams](https://shortcut.com/api/rest/v3#CreateTaskParams) for more info.",
       optional: true,
     },
     updatedAt: {
@@ -263,13 +257,9 @@ module.exports = {
   async run() {
     const constraints = {
       name: {
-        presence: true,
         length: {
           maximum: 512,
         },
-      },
-      projectId: {
-        presence: true,
       },
       description: {
         length: {
@@ -292,14 +282,6 @@ module.exports = {
         type: "array",
       };
     }
-    if (this.comments) {
-      constraints.comments = {
-        arrayValidator: {
-          value: this.comments,
-          key: "comment",
-        },
-      };
-    }
     if (this.linkedFileIds) {
       constraints.linkedFileIds = {
         type: "array",
@@ -310,42 +292,21 @@ module.exports = {
         type: "array",
       };
     }
-    if (this.storyLinks) {
-      constraints.storyLinks = {
-        arrayValidator: {
-          value: this.storyLinks,
-          key: "story link",
-        },
-      };
-    }
-    if (this.tasks) {
-      constraints.tasks = {
-        arrayValidator: {
-          value: this.tasks,
-          key: "task",
-        },
-      };
-    }
     const validationResult = validate(
       {
-        comments: this.comments,
         name: this.name,
-        projectId: this.projectId,
         description: this.description,
         externalLinks: this.externalLinks,
         fileIds: this.fileIds,
         followerIds: this.followerIds,
         linkedFileIds: this.linkedFileIds,
         ownerIds: this.ownerIds,
-        storyLinks: this.storyLinks,
-        tasks: this.tasks,
       },
       constraints,
     );
     this.shortcut.checkValidationResults(validationResult);
     const story = {
       archived: this.archived,
-      comments: this.shortcut.getArrayObject(this.comments),
       completed_at_override: this.completedAtOverride,
       created_at: this.createdAt,
       deadline: this.dueDate,
@@ -356,7 +317,6 @@ module.exports = {
       external_links: this.shortcut.convertEmptyStringToUndefined(this.externalLinks),
       file_ids: this.shortcut.convertEmptyStringToUndefined(this.fileIds),
       follower_ids: this.shortcut.convertEmptyStringToUndefined(this.followerIds),
-      group_id: this.groupId,
       iteration_id: this.iterationId,
       linked_file_ids: this.shortcut.convertEmptyStringToUndefined(this.linkedFileIds),
       name: this.name,
@@ -364,16 +324,32 @@ module.exports = {
       project_id: this.projectId,
       requested_by_id: this.requestedById,
       started_at_override: this.startedAtOverride,
-      story_links: this.shortcut.getArrayObject(this.storyLinks),
       story_type: this.storyType,
-      tasks: this.shortcut.getArrayObject(this.tasks),
       updated_at: this.updatedAt,
       workflow_state_id: this.workflowStateId,
     };
+    const comment = this.shortcut.convertEmptyStringToUndefined(this.comment);
+    if (comment) {
+      story.comments = [
+        comment,
+      ];
+    }
     const label = this.shortcut.convertEmptyStringToUndefined(this.label);
     if (label) {
       story.labels = [
         label,
+      ];
+    }
+    const storyLink = this.shortcut.convertEmptyStringToUndefined(this.storyLink);
+    if (storyLink) {
+      story.story_links = [
+        storyLink,
+      ];
+    }
+    const task = this.shortcut.convertEmptyStringToUndefined(this.task);
+    if (task) {
+      story.tasks = [
+        task,
       ];
     }
     return await this.shortcut.callWithRetry("createStory", story);

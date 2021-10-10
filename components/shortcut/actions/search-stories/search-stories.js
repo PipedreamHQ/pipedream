@@ -1,5 +1,4 @@
 const shortcut = require("../../shortcut.app");
-const validate = require("validate.js");
 
 module.exports = {
   key: "shortcut-search-stories",
@@ -23,23 +22,6 @@ module.exports = {
     },
   },
   async run() {
-    const constraints = {
-      query: {
-        presence: true,
-      },
-      numberOfStories: {
-        presence: true,
-        type: "integer",
-      },
-    };
-    const validationResult = validate(
-      {
-        query: this.query,
-        numberOfStories: this.numberOfStories,
-      },
-      constraints,
-    );
-    this.shortcut.checkValidationResults(validationResult);
     return await this.shortcut.searchStories(this.query, this.numberOfStories);
   },
 };

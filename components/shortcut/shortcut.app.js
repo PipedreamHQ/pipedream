@@ -4,7 +4,7 @@ const retry = require("async-retry");
 
 module.exports = {
   type: "app",
-  app: "clubhouse",
+  app: "shortcut",
   methods: {
     api() {
       return shortcut.create(this.$auth.api_key);
@@ -120,21 +120,6 @@ module.exports = {
       return await this.api().createStory(data);
     },
     /**
-     * Checks if an object is an array, if not it will attempt to JSON parse.
-     * If the object is not defined it will return undefined.
-     * @param {object} object the input object to check for array type or JSON parse.
-     * @returns The same object, if it's an array, otherwise the "JSON.parsed" object.
-     */
-    getArrayObject(obj) {
-      if (obj && Array.isArray(obj)) {
-        return obj;
-      }
-      if (obj && typeof obj === "string") {
-        return JSON.parse(obj);
-      }
-      return undefined;
-    },
-    /**
      * Returns a list of all Epics and their attributes.
      * @returns {epics: array } An array of all epics in the connected Shortcut account.
      * See the [Epic schema](https://shortcut.com/api/rest/v3#Epic) at the API docs.
@@ -226,10 +211,10 @@ module.exports = {
       try {
         result = await this._withRetries(() =>
           this.api().searchStories(query, Math.min(numberOfStories, 25)));
-        return await processResult(result);
       } catch (err) {
         throw new Error(err.message);
       }
+      return await processResult(result);
     },
   },
 };
