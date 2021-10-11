@@ -1,4 +1,4 @@
-import spotify from "../../spotify.app.mjs";
+import common from "../common.mjs";
 
 export default {
   dedupe: "unique",
@@ -9,15 +9,11 @@ export default {
     "Emit new event for each new track saved to the current Spotify user's Music Library.",
   version: "0.0.3",
   props: {
-    spotify,
+    ...common.props,
     db: "$.service.db",
   },
   methods: {
-    daysAgo(days) {
-      const daysAgo = new Date();
-      daysAgo.setDate(daysAgo.getDate() - days);
-      return daysAgo;
-    },
+    ...common.methods,
     getMeta({
       track,
       added_at: ts,
@@ -45,11 +41,11 @@ export default {
     this.db.set("lastEvent", lastEvent);
     const tracks = await this.spotify._paginate(this.spotify.getTracks.bind(this));
 
-    tracks.forEach((track) => {
+    for (const track of tracks) {
       if (this.isItemRelevant(track, lastEvent)) {
         this.$emit(track, this.getMeta(track));
       }
-    });
+    }
 
     this.db.set("lastEvent", new Date());
   },
