@@ -211,5 +211,9 @@ export default {
       const res = await this._makeRequest("GET", "/browse/categories");
       return lodash.get(res, "data.categories.items", []);
     },
+    async getTracks(params) {
+      const res = await this._makeRequest("GET", "/me/tracks", params);
+      return lodash.get(res, "data.items", []);
+    },
   },
 };
