@@ -1,15 +1,17 @@
-const common = require("../common.js");
+import spotify from "../../spotify.app.mjs";
 
-module.exports = {
-  ...common,
+export default {
+  dedupe: "unique",
   type: "source",
-  key: "spotify-new-playlist",
+  key: "spotify-source-new-playlist",
   name: "New Playlist",
   description:
     "Emit new event when a new playlist is created or followed by the current Spotify user.",
-  version: "0.0.2",
+  version: "0.0.3",
+  props: {
+    spotify,
+  },
   methods: {
-    ...common.methods,
     getMeta({
       id,
       name: summary,
@@ -23,9 +25,9 @@ module.exports = {
     },
   },
   async run() {
-    const playlists = await this.paginate(this.spotify.getPlaylists.bind(this));
-    for await (const playlist of playlists) {
+    const playlists = await this.spotify._paginate(this.spotify.getPlaylists.bind(this));
+    playlists.forEach((playlist) => {
       this.$emit(playlist, this.getMeta(playlist));
-    }
+    });
   },
 };

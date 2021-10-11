@@ -114,6 +114,27 @@ export default {
       // It removes the last string char, it can be ? or &
       return query.substr(0, query.length - 1);
     },
+    async _paginate(resourceFn, params = {}) {
+      let data = [];
+      params.limit = 20;
+      params.offset = 0;
+
+      do {
+        const items = await resourceFn(params);
+        data = [
+          ...data,
+          ...items,
+        ];
+
+        if (items.length < params.limit) {
+          break;
+        }
+
+        params.offset += params.limit;
+      } while (true);
+
+      return data;
+    },
     getTrackNameWithArtists(track) {
       if (!track) {
         return "";
@@ -169,8 +190,8 @@ export default {
       const res = await this._makeRequest("GET", `/search${query}`);
       return lodash.get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, []);
     },
-    async getPlaylists() {
-      const res = await this._makeRequest("GET", "/me/playlists");
+    async getPlaylists(params) {
+      const res = await this._makeRequest("GET", "/me/playlists", params);
       return lodash.get(res, "data.items", null);
     },
     async getTrackById(id, market) {

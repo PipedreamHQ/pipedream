@@ -1,18 +1,10 @@
-const spotify = require("../spotify.app.js");
+import spotify from "../spotify.app.mjs";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     spotify,
     db: "$.service.db",
-    timer: {
-      label: "Timer",
-      description: "Interval to execute the trigger",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
   },
   methods: {
     daysAgo(days) {
