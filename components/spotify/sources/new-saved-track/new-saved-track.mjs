@@ -1,6 +1,7 @@
 import spotify from "../../spotify.app.mjs";
 
 export default {
+  dedupe: "unique",
   type: "source",
   key: "spotify-source-new-saved-track",
   name: "New Saved Track",

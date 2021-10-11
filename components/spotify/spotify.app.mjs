@@ -215,5 +215,10 @@ export default {
       const res = await this._makeRequest("GET", "/me/tracks", params);
       return lodash.get(res, "data.items", []);
     },
+    async getPlaylistItems(params) {
+      const { playlistId } = params;
+      const res = await this._makeRequest("GET", `/playlists/${playlistId}/tracks`, params);
+      return lodash.get(res, "data.items", []);
+    },
   },
 };
