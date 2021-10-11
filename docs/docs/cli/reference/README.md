@@ -122,6 +122,61 @@ You can combine the `-n` and `-f` options to list historical events _and_ follow
 
 Displays help for any command. Run `pd help events`, `pd help describe`, etc.
 
+### `pd init`
+
+Generate new app and component files from templates.
+
+#### `pd init app`
+
+Creates a directory and [an app file](/components/guidelines/#app-files) from a template
+
+```
+# Creates google_calendar/ directory and google_calendar.mjs file
+pd init app google_calendar
+```
+
+#### `pd init action`
+
+Creates a new directory and [a component action](/components/actions/) from a template.
+
+```
+# Creates add-new-event/ directory and add-new-event.mjs file
+pd init action add-new-event
+```
+
+#### `pd init source`
+
+Creates a new directory and [an event source](/event-sources/) from a template.
+
+```
+# Creates cancelled-event/ directory and cancelled_event.mjs file
+pd init source cancelled-event
+```
+
+You can attach [database](/components/api/#db), [HTTP](/components/api/#http), or [Timer](/components/api/#timer) props to your template using the following flags:
+
+| Prop type        | Flag           |
+| ------------- |-------------|
+| Database      | `--db` |
+| HTTP      | `--http`      |
+| Timer | `--timer`      |
+
+For example, running:
+
+```
+pd init source cancelled-event --db --http --timer
+```
+
+will include the following props in your new event source:
+
+```javascript
+props: {
+  db: "$.service.db",
+  http: "$.interface.http",
+  timer: "$.interface.timer",
+}
+```
+
 ### `pd list`
 
 Lists Pipedream sources running in your account. Running `pd list` without any arguments prompts you to select the type of resource you'd like to list.
