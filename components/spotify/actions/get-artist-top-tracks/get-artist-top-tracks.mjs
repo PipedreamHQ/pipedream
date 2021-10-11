@@ -5,7 +5,7 @@ export default {
   name: "Get an Artist's Top Tracks",
   description: "Get Spotify catalog information about an artist’s top tracks by country. See the docs here: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-an-artists-top-tracks",
   key: "spotify-get-artist-top-tracks",
-  version: "0.0.23",
+  version: "0.0.1",
   type: "action",
   props: {
     spotify,
@@ -28,9 +28,13 @@ export default {
       market,
     } = this;
 
+    const query = this.spotify._getQuery({
+      market,
+    });
+
     return axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/artists/${id}/top-tracks?market=${market}`,
+      path: `/artists/${id}/top-tracks${query}`,
     }));
   },
 };

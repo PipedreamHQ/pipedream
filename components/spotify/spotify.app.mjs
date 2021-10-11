@@ -27,8 +27,17 @@ export default {
       label: "Track ID",
       description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. You can also type the track name, we can find it for you.",
       useQuery: true,
-      async options({ query }) {
-        const tracks = await this.getItems(ITEM_TYPES.TRACK, query);
+      async options({
+        query,
+        page,
+      }) {
+        const limit = 20;
+        const tracks = await this.getItems(
+          ITEM_TYPES.TRACK,
+          query,
+          limit,
+          limit * page,
+        );
         return {
           options: tracks.map((track) => ({
             label: this.getTrackNameWithArtists(track),
@@ -42,8 +51,17 @@ export default {
       label: "Artist ID",
       description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the artist. For example: `43ZHCT0cAZBISjO8DG9PnE`.",
       useQuery: true,
-      async options({ query }) {
-        const artists = await this.getItems(ITEM_TYPES.ARTIST, query);
+      async options({
+        query,
+        page,
+      }) {
+        const limit = 20;
+        const artists = await this.getItems(
+          ITEM_TYPES.ARTIST,
+          query,
+          limit,
+          limit * page,
+        );
         return {
           options: artists.map((artist) => ({
             label: artist.name,
@@ -175,37 +193,27 @@ export default {
         return this.retry(config, retries - 1);
       }
     },
-    async getItems(type, q) {
+    async getItems(type, q, limit, offset) {
       if (!Object.values(ITEM_TYPES).includes(type)) {
         throw new Error("Invalid item type");
       }
       if (!q) {
         return [];
       }
-      const query = this._getQuery({
-        limit: 50,
+
+      const params = {
         type,
-        q: encodeURI(q),
-      });
-      const res = await this._makeRequest("GET", `/search${query}`);
+        q,
+        limit,
+        offset,
+      };
+
+      const res = await this._makeRequest("GET", "/search", params);
       return lodash.get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, []);
     },
     async getPlaylists(params) {
       const res = await this._makeRequest("GET", "/me/playlists", params);
       return lodash.get(res, "data.items", null);
-    },
-    async getTrackById(id, market) {
-      if (!id) {
-        return null;
-      }
-
-      const query = this._getQuery({
-        id,
-        market,
-      });
-
-      const res = await this._makeRequest("GET", `/tracks/${id}${query}`);
-      return lodash.get(res, "data.items", []);
     },
     async getCategories() {
       const res = await this._makeRequest("GET", "/browse/categories");
