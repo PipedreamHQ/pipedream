@@ -9,9 +9,9 @@ export default {
   description: "Emit new event for each new Spotify track added to a playlist",
   version: "0.0.3",
   props: {
-    spotify,
+    ...common.props,
     db: "$.service.db",
-    playlists: {
+    playlistIds: {
       type: "string[]",
       label: "Playlist IDs",
       propDefinition: [
@@ -48,7 +48,7 @@ export default {
       : this.daysAgo(30);
 
     this.db.set("lastEvent", lastEvent);
-    for (const playlistId of this.playlists) {
+    for (const playlistId of this.playlistIds) {
       const params = {
         playlistId,
       };
@@ -58,7 +58,7 @@ export default {
         params,
       );
 
-      for await (const item of playlistItems) {
+      for (const item of playlistItems) {
         if (this.isItemRelevant(item, lastEvent)) {
           this.$emit(item, this.getMeta({
             ...item,
