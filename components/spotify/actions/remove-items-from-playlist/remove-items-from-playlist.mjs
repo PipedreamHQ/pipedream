@@ -5,7 +5,7 @@ export default {
   name: "Remove Items from a Playlist",
   description: "Remove one or more items from a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-remove-tracks-playlist)",
   key: "spotify-remove-items-from-playlist",
-  version: "0.0.1",
+  version: "0.1.10",
   type: "action",
   props: {
     spotify,
@@ -18,7 +18,10 @@ export default {
     tracks: {
       propDefinition: [
         spotify,
-        "tracks",
+        "playlistTracksUris",
+        (c) => ({
+          playlistId: c.playlistId,
+        }),
       ],
     },
     snapshotId: {

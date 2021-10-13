@@ -19,10 +19,27 @@ export default {
       description: "An [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Synonym for country. Example: `US` for `United States of America`",
       options: Countries,
     },
-    tracks: {
+    playlistTracksUris: {
       type: "string[]",
       label: "Tracks",
       description: "An array of [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) of the tracks or episodes to remove. For example: `spotify:track:4iV5W9uYEdYUVa79Axb7Rh`. A maximum of 100 URIs can be sent at once.",
+      async options({
+        page, playlistId,
+      }) {
+        const limit = 20;
+        const items = await this.getPlaylistItems({
+          limit,
+          offset: limit * page,
+          playlistId,
+        });
+
+        return {
+          options: items.map((item) => ({
+            label: this.getTrackNameWithArtists(item.track),
+            value: item.track.uri,
+          })),
+        };
+      },
     },
     savedUserTracksId: {
       type: "string[]",
@@ -31,13 +48,13 @@ export default {
       useQuery: true,
       async options({ page }) {
         const limit = 20;
-        const tracks = await this.getUserTracks({
+        const items = await this.getUserTracks({
           limit,
           offset: limit * page,
         });
 
         return {
-          options: tracks.map((item) => ({
+          options: items.map((item) => ({
             label: this.getTrackNameWithArtists(item.track),
             value: item.track.id,
           })),
