@@ -39,7 +39,7 @@ export default {
       : this.daysAgo(30);
 
     this.db.set("lastEvent", lastEvent);
-    const tracks = await this.spotify._paginate(this.spotify.getTracks.bind(this));
+    const tracks = await this.spotify._paginate(this.spotify.getUserTracks.bind(this));
 
     for (const track of tracks) {
       if (this.isItemRelevant(track, lastEvent)) {

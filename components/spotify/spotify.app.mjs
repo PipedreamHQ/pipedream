@@ -24,26 +24,22 @@ export default {
       label: "Tracks",
       description: "An array of [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) of the tracks or episodes to remove. For example: `spotify:track:4iV5W9uYEdYUVa79Axb7Rh`. A maximum of 100 URIs can be sent at once.",
     },
-    trackId: {
-      type: "string",
+    savedUserTracksId: {
+      type: "string[]",
       label: "Track ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. You can also type the track name, we can find it for you.",
+      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
       useQuery: true,
-      async options({
-        query,
-        page,
-      }) {
+      async options({ page }) {
         const limit = 20;
-        const tracks = await this.getItems(
-          ITEM_TYPES.TRACK,
-          query,
+        const tracks = await this.getUserTracks({
           limit,
-          limit * page,
-        );
+          offset: limit * page,
+        });
+
         return {
-          options: tracks.map((track) => ({
-            label: this.getTrackNameWithArtists(track),
-            value: track.id,
+          options: tracks.map((item) => ({
+            label: this.getTrackNameWithArtists(item.track),
+            value: item.track.id,
           })),
         };
       },
@@ -236,7 +232,7 @@ export default {
       const res = await this._makeRequest("GET", "/browse/categories");
       return lodash.get(res, "data.categories.items", []);
     },
-    async getTracks(params) {
+    async getUserTracks(params) {
       const res = await this._makeRequest("GET", "/me/tracks", params);
       return lodash.get(res, "data.items", []);
     },
