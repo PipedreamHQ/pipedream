@@ -1,9 +1,10 @@
 const ghost = require("../../ghost-admin.app.js");
 
 module.exports = {
+  type: "source",
   key: "ghost_admin-new-tag",
   name: "Tag Added (Instant)",
-  description: "Emits an event for each new tag created on a site.",
+  description: "Emit new event for each new tag created on a site.",
   version: "0.0.2",
   props: {
     ghost,

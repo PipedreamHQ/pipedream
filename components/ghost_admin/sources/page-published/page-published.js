@@ -1,9 +1,10 @@
 const ghost = require("../../ghost-admin.app.js");
 
 module.exports = {
+  type: "source",
   key: "ghost-page-published",
   name: "Page Published (Instant)",
-  description: "Emits an event for each new page published on a site.",
+  description: "Emit new event for each new page published on a site.",
   version: "0.0.2",
   props: {
     ghost,

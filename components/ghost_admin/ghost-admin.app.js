@@ -15,12 +15,15 @@ module.exports = {
     },
     async _getToken() {
       const key = this.$auth.admin_api_key;
-      const [id, secret] = key.split(":");
+      const [
+        id,
+        secret,
+      ] = key.split(":");
       return jwt.sign({}, Buffer.from(secret, "hex"), {
         keyid: id,
         algorithm: "HS256",
         expiresIn: "5m",
-        audience: `/v3/admin/`,
+        audience: "/v3/admin/",
       });
     },
     async createHook(token, data) {

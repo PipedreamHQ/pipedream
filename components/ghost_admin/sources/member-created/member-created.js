@@ -1,9 +1,10 @@
 const ghost = require("../../ghost-admin.app.js");
 
 module.exports = {
+  type: "source",
   key: "ghost_admin-member-created",
-  name: "Member Created (Instant)",
-  description: "Emits an event for each new member added to a site.",
+  name: "New Member Created (Instant)",
+  description: "Emit new event for each new member added to a site.",
   version: "0.0.2",
   dedupe: "unique",
   props: {
@@ -11,7 +12,6 @@ module.exports = {
     db: "$.service.db",
     http: "$.interface.http",
   },
-
   hooks: {
     async activate() {
       const data = {

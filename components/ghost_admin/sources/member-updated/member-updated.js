@@ -1,9 +1,10 @@
 const ghost = require("../../ghost-admin.app.js");
 
 module.exports = {
+  type: "source",
   key: "ghost_admin-member-updated",
   name: "Member Updated (Instant)",
-  description: "Emits an event each time a member is updated.",
+  description: "Emit new event each time a member is updated.",
   version: "0.0.2",
   props: {
     ghost,

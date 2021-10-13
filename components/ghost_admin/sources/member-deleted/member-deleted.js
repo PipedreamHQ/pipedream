@@ -1,9 +1,10 @@
 const ghost = require("../../ghost-admin.app.js");
 
 module.exports = {
+  type: "source",
   key: "ghost_admin-member-deleted",
   name: "Member Deleted (Instant)",
-  description: "Emits an event each time a member is deleted from a site.",
+  description: "Emit new event each time a member is deleted from a site.",
   version: "0.0.2",
   dedupe: "unique",
   props: {
