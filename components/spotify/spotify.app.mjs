@@ -5,6 +5,7 @@ import {
   ITEM_TYPES,
   ITEM_TYPES_RESULT_NAME,
 } from "./consts.mjs";
+import Countries from "./country-codes.mjs";
 
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
 
@@ -16,11 +17,14 @@ export default {
       type: "string",
       label: "Market",
       description: "An [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Synonym for country. Example: `US` for `United States of America`",
+      options() {
+        return Countries;
+      },
     },
     tracks: {
       type: "string[]",
       label: "Tracks",
-      description: "An array of objects containing [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) of the tracks or episodes to remove. For example: `spotify:track:4iV5W9uYEdYUVa79Axb7Rh`. A maximum of 100 objects can be sent at once.",
+      description: "An array of [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) of the tracks or episodes to remove. For example: `spotify:track:4iV5W9uYEdYUVa79Axb7Rh`. A maximum of 100 URIs can be sent at once.",
     },
     trackId: {
       type: "string",
