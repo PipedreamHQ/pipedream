@@ -45,14 +45,14 @@ export default {
       offset,
     } = this;
 
-    const query = this.spotify._getQuery({
-      limit,
-      offset,
-      country: market,
-    });
     return axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/browse/categories/${categoryId}/playlists${query}`,
+      path: `/browse/categories/${categoryId}/playlists`,
+      params: {
+        limit,
+        offset,
+        country: market,
+      },
     }));
   },
 };

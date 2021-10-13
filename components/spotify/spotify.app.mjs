@@ -120,7 +120,7 @@ export default {
     _getAxiosParams(opts) {
       return {
         ...opts,
-        url: this._getBaseUrl() + opts.path,
+        url: this._getBaseUrl() + opts.path + this._getQuery(opts.params),
         headers: this._getHeaders(),
       };
     },

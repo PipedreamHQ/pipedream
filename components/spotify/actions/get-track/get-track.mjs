@@ -29,13 +29,12 @@ export default {
       market,
     } = this;
 
-    const query = this.spotify._getQuery({
-      market,
-    });
-
     return axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/tracks/${trackId}${query}`,
+      path: `/tracks/${trackId}`,
+      params: {
+        market,
+      },
     }));
   },
 };

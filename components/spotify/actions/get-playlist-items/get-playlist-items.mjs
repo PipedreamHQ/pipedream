@@ -54,17 +54,16 @@ export default {
       additionalTypes,
     } = this;
 
-    const query = this.spotify._getQuery({
-      fields,
-      market,
-      limit,
-      offset,
-      additional_types: additionalTypes && additionalTypes.join(",").toLowerCase(),
-    });
-
     return axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/playlists/${playlistId}/tracks${query}`,
+      path: `/playlists/${playlistId}/tracks`,
+      params: {
+        fields,
+        market,
+        limit,
+        offset,
+        additional_types: additionalTypes && additionalTypes.join(",").toLowerCase(),
+      },
     }));
   },
 };
