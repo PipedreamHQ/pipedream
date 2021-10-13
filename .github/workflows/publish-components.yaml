@@ -37,7 +37,7 @@ jobs:
           mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
           for added_modified_file in "${added_modified_files[@]}"; do
             # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js
-            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.js ]]
+            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]]
             then
               echo "attempting to publish ${added_modified_file}"
               PD_OUTPUT=`./pd publish ${added_modified_file} --json`
