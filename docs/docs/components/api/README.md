@@ -60,7 +60,7 @@ You can find hundreds of example components in the `components/` directory of th
 Pipedream components export an object with the following properties:
 
 ```javascript
-module.exports = {
+export default {
   name: "",
   key: "",
   type: "",
@@ -151,8 +151,9 @@ props: {
 | `integer` | ✓ | ✓ | ✓ | - `min` (`integer`): Minimum allowed integer value.<br/>- `max` (`integer`): Maximum allowed integer value.
 | `string` | ✓ | ✓ | ✓ | - `secret` (`boolean`): Whether to treat the value as a secret.
 | `object` |  | ✓ | ✓ |
-| `$.interface.http` | | ✓ | | 
-| `$.interface.timer` | | ✓ | | 
+| `any` |  | | ✓ |
+| `$.interface.http` | | ✓ | |
+| `$.interface.timer` | | ✓ | |
 | `$.service.db` | | ✓ | ✓ |
 
 **Usage**
@@ -166,7 +167,7 @@ props: {
 Following is an example source that demonstrates how to capture user input via a prop and emit it on each event:
 
 ```javascript
-module.exports = {
+export default {
   name: "User Input Prop Example",
   version: "0.1",
   props: {
@@ -206,7 +207,7 @@ async options({
 Following is an example source demonstrating the usage of async options:
 
 ```javascript
-module.exports = {
+export default {
   name: "Async Options Example",
   version: "0.1",
   props: {
@@ -226,7 +227,7 @@ module.exports = {
 };
 ```
 
-###### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
+##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 
@@ -248,7 +249,7 @@ props: {
 | `propDefinition`     | `array`  | optional  | An array of options that define a reference to a `propDefinitions` within the `propDefinitions` for an `app`                                                               |
 | `app`                | `object` | required  | An app object                                                                                                                                                              |
 | `propDefinitionName` | `string` | required  | The name of a specific `propDefinition` defined in the corresponding `app` object                                                                                          |
-| `inputValues`        | `object` | optional  | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br>&nbsp;<br>`c => ({ variableName: c.previousPropName })` |
+| `inputValues`        | `object` | optional  | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br>&nbsp;<br>`c => ({ variableName: c.previousPropName })`<br /><br />[See these docs](#referencing-values-from-previous-props) for more information. |
 
 Following is an example source that demonstrates how to use `propDefinitions`.
 
@@ -265,7 +266,7 @@ const rss = {
   },
 };
 
-module.exports = {
+export default {
   name: "Prop Definition Example",
   description: `This component captures an RSS URL and logs it`,
   version: "0.1",
@@ -278,6 +279,64 @@ module.exports = {
   },
 };
 ```
+
+##### Referencing values from previous props
+
+When you define a prop in an app file, and that prop depends on the value of another prop, you'll need to pass the value of the previous props in a special way. Let's review an example from [Trello](https://trello.com), a task manager.
+
+You create Trello _boards_ for new projects. Boards contain _lists_. For example, this **Active** board contains two lists:
+
+<div>
+<img alt="Trello board example" src="./images/trello-board-example.png">
+</div>
+
+In Pipedream, users can choose from lists on a specific board:
+
+<div>
+<img alt="Trello board and lists props" src="./images/trello-props.png">
+</div>
+
+Both **Board** and **Lists** are defined in the Trello app file:
+
+```javascript
+board: {
+  type: "string",
+  label: "Board",
+  async options(opts) {
+    const boards = await this.getBoards(this.$auth.oauth_uid);
+    const activeBoards = boards.filter((board) => board.closed === false);
+    return activeBoards.map((board) => {
+      return { label: board.name, value: board.id };
+    });
+  },
+},
+lists: {
+  type: "string[]",
+  label: "Lists",
+  optional: true,
+  async options(opts) {
+    const lists = await this.getLists(opts.board);
+    return lists.map((list) => {
+      return { label: list.name, value: list.id };
+    });
+  },
+}
+```
+
+In the `lists` prop, notice how `opts.board` references the board. You can pass `opts` to the prop's `options` method when you reference `propDefinitions` in specific components:
+
+```javascript
+board: { propDefinition: [trello, "board"] },
+lists: {
+  propDefinition: [
+    trello,
+    "lists",
+    (configuredProps) => ({ board: configuredProps.board }),
+  ],
+},
+```
+
+`configuredProps` contains the props the user previously configured (the board). This allows the `lists` prop to use it in the `options` method.
 
 #### Interface Props
 
@@ -320,7 +379,7 @@ props: {
 Following is a basic example of a source that is triggered by a `$.interface.timer` and has default defined as a cron expression.
 
 ```javascript
-module.exports = {
+export default {
   name: "Cron Example",
   version: "0.1",
   props: {
@@ -340,7 +399,7 @@ module.exports = {
 Following is an example source that's triggered by a `$.interface.timer` and has a `default` interval defined.
 
 ```javascript
-module.exports = {
+export default {
   name: "Interval Example",
   version: "0.1",
   props: {
@@ -415,7 +474,7 @@ Following is the shape of the event passed to the `run()` method of your source:
 Following is an example source that's triggered by `$.interface.http` and returns `{ 'msg': 'hello world!' }` in the HTTP response. On deploy, Pipedream will generate a unique URL for this source:
 
 ```javascript
-module.exports = {
+export default {
   name: "HTTP Example",
   version: "0.0.1",
   props: {
@@ -464,6 +523,8 @@ props: {
 
 #### App Props
 
+App props are normally defined in an [app file](/components/guidelines/#app-files), separate from individual components. See [the `components/` directory of the pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components) for example app files.
+
 **Definition**
 
 ```javascript
@@ -494,6 +555,12 @@ props: {
 | `this.myAppPropName.methodName()` | Execute a common method defined for an app from a component that includes the app as a prop      | **Parent Component:** `run()` `hooks` `methods` | n/a         |
 
 > **Note:** The specific `$auth` keys supported for each app will be published in the near future.
+
+#### Limits on props
+
+When a user configures a prop with a value, it can hold at most `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` data. Consider this when accepting large input in these fields (such as a base64 string).
+
+The `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example <code v-pre>{{steps.nodejs.$return_value}}</code>, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits).
 
 ### Methods
 
@@ -581,7 +648,7 @@ this.$emit(event, {
 Following is a basic example that emits an event on each component execution.
 
 ```javascript
-module.exports = {
+export default {
   name: "this.$emit() example",
   description: "Deploy and run this component manually via the Pipedream UI",
   async run() {
@@ -706,7 +773,7 @@ For actions, you can pass environment variables as the values of props using the
 To use an npm package in a component, just require it. There is no `package.json` or `npm install` required.
 
 ```javascript
-const axios = require("axios");
+import axios from "axios"
 ```
 
 When you deploy a component, Pipedream downloads the latest versions of these packages and bundles them with your deployment.

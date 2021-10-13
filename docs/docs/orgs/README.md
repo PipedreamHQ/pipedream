@@ -50,3 +50,8 @@ Org admins have permission to:
 ## Adding new org admins
 
 By default, the user who created the org is the org admin. To change ownership or assign new admins, [reach out to the Pipedream team](https://pipedream.com/support).
+
+## Finding your organization's ID
+
+1. Visit [pipedream.com](https://pipedream.com) and [switch your context](#switching-context) to your organization.
+2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Access** section. You'll see your org ID here.
