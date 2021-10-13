@@ -113,6 +113,30 @@ export default {
         };
       },
     },
+    trackId: {
+      type: "string",
+      label: "Track ID",
+      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`.",
+      useQuery: true,
+      async options({
+        query,
+        page,
+      }) {
+        const limit = 20;
+        const tracks = await this.getItems(
+          ITEM_TYPES.TRACK,
+          query,
+          limit,
+          limit * page,
+        );
+        return {
+          options: tracks.map((track) => ({
+            label: this.getTrackNameWithArtists(track),
+            value: track.id,
+          })),
+        };
+      },
+    },
     offset: {
       type: "integer",
       label: "Offset",
