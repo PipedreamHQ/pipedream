@@ -23,16 +23,18 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.",
-      optional: true,
+      propDefinition: [
+        spotify,
+        "limit",
+      ],
+      description: "The maximum number of items to return. Default: 20.",
+      max: 50,
     },
     offset: {
-      type: "integer",
-      label: "Limit",
-      description: "The index of the first item to return. Default: 0 (the first object). Use with `limit` to get the next set of items",
-      optional: true,
+      propDefinition: [
+        spotify,
+        "offset",
+      ],
     },
   },
   async run({ $ }) {

@@ -22,22 +22,26 @@ export default {
       optional: true,
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The maximum number of items to return. Default: 100. Minimum: 1. Maximum: 100.",
-      optional: true,
+      propDefinition: [
+        spotify,
+        "limit",
+      ],
     },
     offset: {
-      type: "integer",
-      label: "Offset",
-      description: "The index of the first item to return. Default: 0 (the first object).",
-      optional: true,
+      propDefinition: [
+        spotify,
+        "offset",
+      ],
     },
     additionalTypes: {
       type: "string",
       label: "Additional Types",
       description: "A comma-separated list of item types that your client supports besides the default `track` type. Valid types are: `track` and `episode`. **Note**: This parameter was introduced to allow existing clients to maintain their current behaviour and might be deprecated in the future. In addition to providing this parameter, make sure that your client properly handles cases of new types in the future by checking against the `type` field of each object.",
       optional: true,
+      options: [
+        "Track",
+        "Episode",
+      ],
     },
   },
   async run({ $ }) {
@@ -55,7 +59,7 @@ export default {
       market,
       limit,
       offset,
-      additional_types: additionalTypes,
+      additional_types: additionalTypes && additionalTypes.join(",").toLowerCase(),
     });
 
     return axios($, this.spotify._getAxiosParams({

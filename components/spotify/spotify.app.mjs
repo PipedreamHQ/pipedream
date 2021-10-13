@@ -17,9 +17,7 @@ export default {
       type: "string",
       label: "Market",
       description: "An [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Synonym for country. Example: `US` for `United States of America`",
-      options() {
-        return Countries;
-      },
+      options: Countries,
     },
     tracks: {
       type: "string[]",
@@ -101,6 +99,21 @@ export default {
           })),
         };
       },
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The index of the first item to return. Default: 0 (the first object). Use with `limit` to get the next set of items",
+      optional: true,
+      min: 0,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of items to return. Default: 100.",
+      optional: true,
+      min: 1,
+      max: 100,
     },
   },
   methods: {
