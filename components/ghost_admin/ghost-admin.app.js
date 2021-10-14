@@ -6,7 +6,7 @@ module.exports = {
   app: "ghost_org_admin_api",
   methods: {
     _getBaseURL() {
-      return `${this.$auth.admin_api_url}ghost/api/v3/admin`;
+      return `${this.$auth.admin_api_url}/ghost/api/v3/admin`;
     },
     _getHeader(token) {
       return {
