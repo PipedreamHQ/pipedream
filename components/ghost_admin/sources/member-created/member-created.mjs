@@ -1,6 +1,6 @@
-const ghost = require("../../ghost-admin.app.js");
+import ghost from "../../ghost-admin.app.mjs";
 
-module.exports = {
+export default {
   type: "source",
   key: "ghost_admin-member-created",
   name: "New Member Created (Instant)",
@@ -14,17 +14,11 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      const data = {
-        webhooks: [
-          {
-            event: "member.added",
-            target_url: this.http.endpoint,
-          },
-        ],
-      };
-      const token = await this.ghost._getToken();
-      const resp = await this.ghost.createHook(token, data);
-      this.db.set("hookId", resp.data.webhooks[0].id);
+      const {
+        hookId,
+        token,
+      } = await this.ghost.createHook("member.added", this.http.endpoint);
+      this.db.set("hookId", hookId);
       this.db.set("token", token);
     },
     async deactivate() {
