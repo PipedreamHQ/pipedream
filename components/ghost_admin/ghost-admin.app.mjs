@@ -9,12 +9,13 @@ export default {
     _getBaseURL() {
       return `${this.$auth.admin_api_url}/ghost/api/v3/admin`;
     },
-    _getHeader(token) {
+    async _getHeader() {
+      const token = await this._getToken();
       return {
         Authorization: `Ghost ${token}`,
       };
     },
-    async _getToken() {
+    _getToken() {
       const key = this.$auth.admin_api_key;
       const [
         id,
@@ -36,40 +37,34 @@ export default {
           },
         ],
       };
-      const token = await this._getToken();
-      const res = await this.makeHttpCreateHookRequest(token, data);
+      const res = await this.makeHttpCreateHookRequest(data);
       if (!lodash.get(res, "data.webhooks[0].id")) {
+        console.log(res.data);
         throw new Error("No webhook id was returned by Ghost. Please try again.");
       }
 
-      return {
-        token,
-        hookId: res.data.webhooks[0].id,
-      };
+      return res.data.webhooks[0].id;
     },
-    async deleteHook(hookId, token) {
-      if (!hookId || !token) {
-        console.warn("No hookId or token provided. None webhook deleted", {
-          hookId,
-          token,
-        });
+    async deleteHook(hookId) {
+      if (!hookId) {
+        console.warn("No hookId provided. None webhook deleted");
       }
-      await this.makeHttpDeleteHookRequest(hookId, token);
+      await this.makeHttpDeleteHookRequest(hookId);
     },
-    async makeHttpCreateHookRequest(token, data) {
+    async makeHttpCreateHookRequest(data) {
       const config = {
         method: "post",
         url: `${this._getBaseURL()}/webhooks`,
-        headers: this._getHeader(token),
+        headers: await this._getHeader(),
         data,
       };
       return await axios(config);
     },
-    async makeHttpDeleteHookRequest(hookId, token) {
+    async makeHttpDeleteHookRequest(hookId) {
       const config = {
         method: "delete",
         url: `${this._getBaseURL()}/webhooks/${hookId}`,
-        headers: this._getHeader(token),
+        headers: await this._getHeader(),
       };
       await axios(config);
     },

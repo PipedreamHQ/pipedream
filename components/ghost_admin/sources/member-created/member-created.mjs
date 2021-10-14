@@ -14,18 +14,12 @@ export default {
   },
   hooks: {
     async activate() {
-      const {
-        hookId,
-        token,
-      } = await this.ghost.createHook("member.added", this.http.endpoint);
-      this.db.set("hookId", hookId);
-      this.db.set("token", token);
+      this.db.set("hookId", await this.ghost.createHook("member.added", this.http.endpoint));
     },
     async deactivate() {
-      await this.ghost.deleteHook(this.db.get("hookId"), this.db.get("token"));
+      await this.ghost.deleteHook(this.db.get("hookId"));
     },
   },
-
   async run(event) {
     this.$emit(event.body, {
       id: event.body.member.current.id,
