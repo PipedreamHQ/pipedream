@@ -23,16 +23,16 @@ module.exports = {
       ],
     },
     fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL of the video file you want to upload to YouTube. Must specify either File URL or File Path.",
-      optional: true,
+      propDefinition: [
+        youtube,
+        "fileUrl",
+      ],
     },
     filePath: {
-      type: "string",
-      label: "File Path",
-      description: "Path to the video file to upload (e.g., `/tmp/myVideo.mp4`). Must specify either File URL or File Path.",
-      optional: true,
+      propDefinition: [
+        youtube,
+        "filePath",
+      ],
     },
     privacyStatus: {
       propDefinition: [

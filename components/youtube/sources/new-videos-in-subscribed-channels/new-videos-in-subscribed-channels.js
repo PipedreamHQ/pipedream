@@ -9,6 +9,15 @@ const youtube = require("../../youtube.app");
  */
 
 /**
+ * The number of channels to check for new videos whenever the event source is setup and deployed
+ * for the first time.
+ *
+ * Note that the event source could check fewer channels if the authenticated user has fewer
+ * subscriptions.
+ */
+const INITIAL_CHANNEL_COUNT = 10;
+
+/**
  * Uses [YouTube API](https://developers.google.com/youtube/v3/docs) to get the authenticated user's
  * subscriptions with a `totalItemCount` for each. The user's subscriptions are used to get the
  * subscribed-to channels. Then the ID of the 'uploads' playlist in each channel is used to get
@@ -26,8 +35,8 @@ const youtube = require("../../youtube.app");
  */
 module.exports = {
   key: "youtube-new-videos-in-subscribed-channels",
-  name: "New Videos in Subscribed to Channels",
-  description: "Emit new event for each new YouTube video posted to a subscribed-to channel.",
+  name: "New Videos in Subscribed Channels",
+  description: "Emit new event for each new YouTube video posted to a subscribed channel.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -40,7 +49,16 @@ module.exports = {
     async deploy() {
       const subscriptions = await this.getSubscriptions();
       this.setChannelData(subscriptions);
-      this._setPublishedAfter(new Date().toISOString());
+
+      // To emit events on the first run - set `totalItemCount` to 0 for first
+      // `INITIAL_CHANNEL_COUNT` subscribed channels to check these channels for new uploads
+      const channelData = this._getChannelData();
+      subscriptions.slice(0, INITIAL_CHANNEL_COUNT).forEach((s) => {
+        channelData[s.snippet.resourceId.channelId].totalItemCount = 0;
+      });
+      this._setChannelData(channelData);
+
+      this._setPublishedAfter(this.youtube.daysAgo(7).toISOString());
     },
   },
   methods: {
@@ -136,12 +154,14 @@ module.exports = {
      * @param {Object} Channel - The channel from which to get 'uploads' playlist items
      * @returns {PlaylistItem[]} The list of playlist items
      */
-    async getPlaylistItems(channelData, channel) {
+    // async getPlaylistItems(channelData, channel) {
+    async getPlaylistItems(channel, channelData, publishedAfter) {
+    // async getPlaylistItems(channelData, publishedAfter, channel) {
       // Use `playlistId` of [uploads](https://bit.ly/3FuJiC3) playlist
       const playlistId = channel.contentDetails.relatedPlaylists.uploads;
-      const publishedAfter = channelData[channel.id].lastPublishedAt
+      publishedAfter = channelData[channel.id].lastPublishedAt
         ? Date.parse(channelData[channel.id].lastPublishedAt)
-        : Date.parse(this._getPublishedAfter());
+        : Date.parse(publishedAfter);
       return await toArray(this.youtube.paginateUntil(
         this.youtube.getPlaylistItems.bind(this),
         {
@@ -159,11 +179,13 @@ module.exports = {
 
   async run() {
     let channelData = this._getChannelData();
+    const publishedAfter = this._getPublishedAfter();
+
     // Get all subscriptions (each has a totalItemCount) for the current user
     const subscriptions = await this.getSubscriptions();
 
-    // To avoid emitting all of a channels videos, include only channels whose
-    // `totalItemCount` is greater than its previously recorded `totalItemCount`
+    // To avoid making an separate API request for each subscribed channel's uploads, include only
+    // channels whose `totalItemCount` is greater than its previously recorded `totalItemCount`
     const updatedChannelIds = subscriptions
       .filter((s) => (
         channelData[s.snippet.resourceId.channelId]
@@ -179,7 +201,8 @@ module.exports = {
     const channels = await this.getChannels(updatedChannelIds);
 
     const uploadsPlaylists = await Promise.all(
-      channels.map(this.getPlaylistItems.bind(this, channelData)),
+      channels.map((channel) =>
+        this.getPlaylistItems(channel, channelData, publishedAfter)),
     );
 
     this.setChannelData(subscriptions, uploadsPlaylists);

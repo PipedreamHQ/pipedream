@@ -25,6 +25,18 @@ module.exports = {
       label: "Description",
       description: "The video's description",
     },
+    fileUrl: {
+      type: "string",
+      label: "File URL",
+      description: "The URL of the video file you want to upload to YouTube. Must specify either File URL or File Path.",
+      optional: true,
+    },
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description: "Path to the video file to upload (e.g., `/tmp/myVideo.mp4`). Must specify either File URL or File Path.",
+      optional: true,
+    },
     privacyStatus: {
       type: "string",
       label: "Privacy Status",
@@ -85,6 +97,17 @@ module.exports = {
         version: "v3",
         auth,
       });
+    },
+    /**
+     * Returns a new Date object with date corresponding to `days` days ago
+     *
+     * @param {Number} days - The number of days ago
+     * @returns The Date of `days` days ago
+     */
+    daysAgo(days) {
+      const daysAgo = new Date();
+      daysAgo.setDate(daysAgo.getDate() - days);
+      return daysAgo;
     },
     /**
      * Returns a collection of search results that match the query parameters specified in the API
