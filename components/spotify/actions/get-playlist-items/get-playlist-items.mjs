@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import lodash from "lodash";
 import spotify from "../../spotify.app.mjs";
 
 export default {
@@ -54,7 +55,7 @@ export default {
       additionalTypes,
     } = this;
 
-    return axios($, this.spotify._getAxiosParams({
+    const res = await axios($, this.spotify._getAxiosParams({
       method: "GET",
       path: `/playlists/${playlistId}/tracks`,
       params: {
@@ -65,5 +66,6 @@ export default {
         additional_types: additionalTypes && additionalTypes.join(",").toLowerCase(),
       },
     }));
+    return lodash.get(res, "items", []);
   },
 };

@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import lodash from "lodash";
 import spotify from "../../spotify.app.mjs";
 
 export default {
@@ -28,12 +29,13 @@ export default {
       market,
     } = this;
 
-    return axios($, this.spotify._getAxiosParams({
+    const res = await axios($, this.spotify._getAxiosParams({
       method: "GET",
       path: `/artists/${id}/top-tracks`,
       params: {
         market,
       },
     }));
+    return lodash.get(res, "tracks", []);
   },
 };
