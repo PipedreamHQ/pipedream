@@ -1,4 +1,5 @@
 const { v4: uuid } = require("uuid");
+const aws = require("../../aws.app.js");
 const base = require("./sns");
 const { generateBucketSnsPolicy } = require("./policies");
 
@@ -17,18 +18,10 @@ module.exports = {
   props: {
     ...baseProps,
     bucket: {
-      type: "string",
-      label: "Bucket",
-      description: "The S3 bucket to watch for events",
-      async options(context) {
-        const { page = 0 } = context;
-        if (page !== 0) {
-          return [];
-        }
-
-        const buckets = await this._getBuckets();
-        return buckets.map((bucket) => bucket.Name);
-      },
+      propDefinition: [
+        aws,
+        "bucket",
+      ],
     },
   },
   hooks: {

@@ -1,3 +1,4 @@
+const aws = require("../../aws.app.js");
 const {
   props,
   methods,
@@ -15,25 +16,9 @@ module.exports = {
   props: {
     ...props,
     eventTypes: {
-      type: "string[]",
-      label: "Event Types",
-      description: "The type of events to watch",
-      options: [
-        // See the AWS docs for more information about the supported events
-        // emitted by S3: https://amzn.to/3AtmKy1
-        "s3:ObjectCreated:Put",
-        "s3:ObjectCreated:Post",
-        "s3:ObjectCreated:Copy",
-        "s3:ObjectCreated:CompleteMultipartUpload",
-        "s3:ObjectRemoved:Delete",
-        "s3:ObjectRemoved:DeleteMarkerCreated",
-        "s3:ObjectRestore:Post",
-        "s3:ObjectRestore:Completed",
-        "s3:ReducedRedundancyLostObject",
-        "s3:Replication:OperationFailedReplication",
-        "s3:Replication:OperationMissedThreshold",
-        "s3:Replication:OperationReplicatedAfterThreshold",
-        "s3:Replication:OperationNotTracked",
+      propDefinition: [
+        aws,
+        "eventTypes",
       ],
     },
   },

@@ -1,5 +1,5 @@
-const { toSingleLineString } = require("../common/utils");
 const aws = require("../../aws.app.js");
+const { toSingleLineString } = require("../common/utils");
 
 module.exports = {
   type: "source",
@@ -20,40 +20,22 @@ module.exports = {
     },
     db: "$.service.db",
     logGroupNames: {
-      label: "CloudWatch Log Groups",
-      description: "The log groups you'd like to query",
-      type: "string[]",
-      async options({ prevContext }) {
-        const prevToken = prevContext.nextToken;
-        const {
-          logGroups,
-          nextToken,
-        } = await this.aws.logsInsightsDescibeLogGroups(this.region, prevToken);
-        const options = logGroups.map((group) => {
-          return {
-            label: group.logGroupName,
-            value: group.logGroupName,
-          };
-        });
-        return {
-          options,
-          context: {
-            nextToken,
-          },
-        };
-      },
+      propDefinition: [
+        aws,
+        "logGroupNames",
+      ],
     },
     queryString: {
-      label: "Logs Insights Query",
-      description:
-        "The query you'd like to run. See [this AWS doc](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html) for help with query syntax",
-      type: "string",
+      propDefinition: [
+        aws,
+        "queryString",
+      ],
     },
     emitResultsInBatch: {
-      type: "boolean",
-      label: "Emit query results as a single event",
-      description:
-        "If `true`, all events are emitted as an array, within a single Pipedream event. If `false`, each row of results is emitted as its own event. Defaults to `true`",
+      propDefinition: [
+        aws,
+        "emitResultsInBatch",
+      ],
       optional: true,
       default: true,
     },

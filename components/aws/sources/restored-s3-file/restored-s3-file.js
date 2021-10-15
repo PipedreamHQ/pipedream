@@ -1,3 +1,4 @@
+const aws = require("../../aws.app.js");
 const {
   props,
   methods,
@@ -15,9 +16,10 @@ module.exports = {
   props: {
     ...props,
     detectRestoreInitiation: {
-      type: "boolean",
-      label: "Detect Restore Initiation",
-      description: "When enabled, this event source will also emit events whenever a restore is initiated",
+      propDefinition: [
+        aws,
+        "detectRestoreInitiation",
+      ],
       default: false,
     },
   },

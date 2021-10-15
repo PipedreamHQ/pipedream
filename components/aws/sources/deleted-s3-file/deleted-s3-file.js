@@ -1,3 +1,5 @@
+const aws = require("../../aws.app.js");
+
 const {
   props,
   methods,
@@ -15,9 +17,10 @@ module.exports = {
   props: {
     ...props,
     ignoreDeleteMarkers: {
-      type: "boolean",
-      label: "Ignore Delete Markers",
-      description: "When ignoring delete markers this will only emit events for permanently deleted files",
+      propDefinition: [
+        aws,
+        "ignoreDeleteMarkers",
+      ],
       default: false,
     },
   },

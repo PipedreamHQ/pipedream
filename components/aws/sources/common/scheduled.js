@@ -1,50 +1,16 @@
+const aws = require("../../aws.app.js");
 const base = require("./sns");
-const {
-  generateRandomUniqueName,
-  toSingleLineString,
-} = require("./utils");
+const { generateRandomUniqueName } = require("./utils");
 
 module.exports = {
   ...base,
-  hooks: {
-    ...base.hooks,
-    async activate() {
-      await base.hooks.activate.bind(this)();
-
-      const {
-        roleArn,
-        roleName,
-      } = await this._createStateMachineRole();
-      await this._grantNotificationPermissions(roleName);
-      this._setRoleArn(roleArn);
-      this._setRoleName(roleName);
-
-      const { stateMachineArn } = await this._createStateMachine(roleArn);
-      this._setStateMachineArn(stateMachineArn);
-    },
-    async deactivate() {
-      const stateMachineArn = this._getStateMachineArn();
-      await this._deleteStateMachine(stateMachineArn);
-
-      const region = this.getRegion();
-      const roleName = this._getRoleName();
-      await this.aws.deleteRole(region, roleName);
-
-      await base.hooks.deactivate.bind(this)();
-    },
-  },
   props: {
     ...base.props,
     secret: {
-      type: "string",
-      secret: true,
-      label: "Secret",
-      optional: true,
-      description: toSingleLineString(`
-        **Optional but recommended**: if you enter a secret here,
-        you must pass this value in [the
-        \`secret\` parameter of each HTTP POST request](https://git.io/JsJ6m)
-      `),
+      propDefinition: [
+        aws,
+        "secret",
+      ],
     },
   },
   methods: {
@@ -304,6 +270,33 @@ module.exports = {
       }
 
       return base.methods.processEvent.bind(this)(event);
+    },
+  },
+  hooks: {
+    ...base.hooks,
+    async activate() {
+      await base.hooks.activate.bind(this)();
+
+      const {
+        roleArn,
+        roleName,
+      } = await this._createStateMachineRole();
+      await this._grantNotificationPermissions(roleName);
+      this._setRoleArn(roleArn);
+      this._setRoleName(roleName);
+
+      const { stateMachineArn } = await this._createStateMachine(roleArn);
+      this._setStateMachineArn(stateMachineArn);
+    },
+    async deactivate() {
+      const stateMachineArn = this._getStateMachineArn();
+      await this._deleteStateMachine(stateMachineArn);
+
+      const region = this.getRegion();
+      const roleName = this._getRoleName();
+      await this.aws.deleteRole(region, roleName);
+
+      await base.hooks.deactivate.bind(this)();
     },
   },
 };

@@ -1,3 +1,4 @@
+const aws = require("../../aws.app.js");
 const base = require("../common/sns");
 const { toSingleLineString } = require("../common/utils");
 
@@ -15,13 +16,10 @@ module.exports = {
   props: {
     ...base.props,
     topic: {
-      label: "SNS Topic Name",
-      description: toSingleLineString(`
-        **Pipedream will create an SNS topic with this name in your account**,
-        converting it to a [valid SNS topic
-        name](https://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html).
-      `),
-      type: "string",
+      propDefinition: [
+        aws,
+        "topic",
+      ],
     },
   },
   methods: {

@@ -18,23 +18,6 @@ module.exports = {
       ],
     },
   },
-  hooks: {
-    async activate() {
-      const topicName = this.getTopicName();
-      const topicArn = await this._createTopic(topicName);
-      this._setTopicArn(topicArn);
-
-      await this._subscribeToTopic(topicArn);
-    },
-    async deactivate() {
-      const subscriptionArn = this._getSubscriptionArn();
-      await this._unsubscribeFromTopic(subscriptionArn);
-
-      const topicArn = this.getTopicArn();
-      await this._deleteTopic(topicArn);
-      this._setTopicArn(null);
-    },
-  },
   methods: {
     _isSubscriptionConfirmationEvent({ body = {} }) {
       const { Type: type } = body;
@@ -261,6 +244,23 @@ module.exports = {
           rawMessage,
         }, meta);
       }
+    },
+  },
+  hooks: {
+    async activate() {
+      const topicName = this.getTopicName();
+      const topicArn = await this._createTopic(topicName);
+      this._setTopicArn(topicArn);
+
+      await this._subscribeToTopic(topicArn);
+    },
+    async deactivate() {
+      const subscriptionArn = this._getSubscriptionArn();
+      await this._unsubscribeFromTopic(subscriptionArn);
+
+      const topicArn = this.getTopicArn();
+      await this._deleteTopic(topicArn);
+      this._setTopicArn(null);
     },
   },
   /**

@@ -1,4 +1,5 @@
 const { v4: uuid } = require("uuid");
+const aws = require("../../aws.app.js");
 const base = require("../common/ses");
 const { toSingleLineString } = require("../common/utils");
 
@@ -18,12 +19,10 @@ module.exports = {
   props: {
     ...base.props,
     domain: {
-      label: "SES Domain",
-      description: "The domain you'd like to configure a catch-all handler for",
-      type: "string",
-      options() {
-        return this.sesIdentities();
-      },
+      propDefinition: [
+        aws,
+        "domain",
+      ],
     },
   },
   methods: {
