@@ -37,7 +37,7 @@ export default {
           },
         ],
       };
-      const res = await this.makeHttpCreateHookRequest(data);
+      const res = await this.makeHttpRequest("post", "/webhooks", data);
       if (!lodash.get(res, "data.webhooks[0].id")) {
         console.log(res.data);
         throw new Error("No webhook id was returned by Ghost. Please try again.");
@@ -49,24 +49,16 @@ export default {
       if (!hookId) {
         console.warn("No hookId provided. None webhook deleted");
       }
-      await this.makeHttpDeleteHookRequest(hookId);
+      await this.makeHttpRequest("delete", `/webhooks/${hookId}`);
     },
-    async makeHttpCreateHookRequest(data) {
+    async makeHttpRequest(method, path, data) {
       const config = {
-        method: "post",
-        url: `${this._getBaseURL()}/webhooks`,
+        method,
+        url: this._getBaseURL() + path,
         headers: await this._getHeader(),
         data,
       };
       return await axios(config);
-    },
-    async makeHttpDeleteHookRequest(hookId) {
-      const config = {
-        method: "delete",
-        url: `${this._getBaseURL()}/webhooks/${hookId}`,
-        headers: await this._getHeader(),
-      };
-      await axios(config);
     },
   },
 };
