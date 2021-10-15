@@ -5,10 +5,12 @@ module.exports = {
   props: {
     aws,
     db: "$.service.db",
+    /* eslint-disable pipedream/props-label, pipedream/props-description */
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
+    /* eslint-enable pipedream/props-label, pipedream/props-description */
     region: {
       propDefinition: [
         aws,

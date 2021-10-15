@@ -3,6 +3,7 @@ const { toSingleLineString } = require("../common/utils");
 
 module.exports = {
   ...base,
+  type: "source",
   key: "aws-new-scheduled-tasks",
   name: "New Scheduled Tasks",
   description: toSingleLineString(`

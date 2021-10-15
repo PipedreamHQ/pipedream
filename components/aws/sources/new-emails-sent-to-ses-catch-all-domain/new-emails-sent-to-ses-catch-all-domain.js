@@ -4,8 +4,9 @@ const { toSingleLineString } = require("../common/utils");
 
 module.exports = {
   ...base,
+  type: "source",
   key: "aws-new-emails-sent-to-ses-catch-all-domain",
-  name: "New Emails sent to SES Catch-all Domain",
+  name: "New SES Catch-All Email Sent",
   description: toSingleLineString(`
     The source subscribes to all emails delivered to a
     specific domain configured in AWS SES.

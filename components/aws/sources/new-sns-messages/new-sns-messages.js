@@ -3,6 +3,7 @@ const { toSingleLineString } = require("../common/utils");
 
 module.exports = {
   ...base,
+  type: "source",
   key: "aws-new-sns-messages",
   name: "New SNS Messages",
   description: toSingleLineString(`

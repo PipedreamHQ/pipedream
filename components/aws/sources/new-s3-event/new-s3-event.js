@@ -1,10 +1,15 @@
-const { props, methods, ...base } = require("../common/s3");
+const {
+  props,
+  methods,
+  ...base
+} = require("../common/s3");
 
 module.exports = {
   ...base,
+  type: "source",
   key: "aws-new-s3-event",
   name: "New S3 Event",
-  description: "Captures and emits a collection of S3 events for a given bucket",
+  description: "Emit new S3 events for a given bucket",
   version: "0.0.1",
   dedupe: "unique",
   props: {

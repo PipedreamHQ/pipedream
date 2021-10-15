@@ -1,10 +1,14 @@
+const { toSingleLineString } = require("../common/utils");
 const aws = require("../../aws.app.js");
 
 module.exports = {
+  type: "source",
   key: "aws-new-records-returned-by-cloudwatch-logs-insights-query",
-  name: "New Records Returned by CloudWatch Logs Insights Query",
-  description:
-    "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",
+  name: "New CloudWatch Logs Insights",
+  description: toSingleLineString(`
+    Executes a CloudWatch Logs Insights query on a schedule, and
+    emits the records as invidual events (default) or in batch
+  `),
   version: "0.0.3",
   props: {
     aws,
@@ -53,12 +57,14 @@ module.exports = {
       optional: true,
       default: true,
     },
+    /* eslint-disable pipedream/props-label, pipedream/props-description */
     timer: {
       type: "$.interface.timer",
       default: {
         intervalSeconds: 5 * 60,
       },
     },
+    /* eslint-enable pipedream/props-label, pipedream/props-description */
   },
   async run() {
     const now = +new Date();

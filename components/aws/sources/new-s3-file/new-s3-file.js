@@ -1,10 +1,14 @@
-const { methods, ...base } = require("../common/s3");
+const {
+  methods,
+  ...base
+} = require("../common/s3");
 
 module.exports = {
   ...base,
+  type: "source",
   key: "aws-new-s3-file",
   name: "New S3 File",
-  description: "Emits and event whenever a new file is added to an S3 bucket",
+  description: "Emit new S3 file added",
   version: "0.0.1",
   dedupe: "unique",
   methods: {

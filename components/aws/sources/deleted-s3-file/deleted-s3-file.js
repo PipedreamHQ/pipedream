@@ -1,10 +1,15 @@
-const { props, methods, ...base } = require("../common/s3");
+const {
+  props,
+  methods,
+  ...base
+} = require("../common/s3");
 
 module.exports = {
   ...base,
+  type: "source",
   key: "aws-deleted-s3-file",
-  name: "Deleted S3 File",
-  description: "Emits and event whenever a file is deleted from an S3 bucket",
+  name: "New S3 File Deleted",
+  description: "Emit new event whenever a file is deleted from an S3 bucket",
   version: "0.0.1",
   dedupe: "unique",
   props: {

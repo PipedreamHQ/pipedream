@@ -1,10 +1,15 @@
-const { props, methods, ...base } = require("../common/s3");
+const {
+  props,
+  methods,
+  ...base
+} = require("../common/s3");
 
 module.exports = {
   ...base,
+  type: "source",
   key: "aws-restored-s3-file",
-  name: "Restored S3 File",
-  description: "Emits and event whenever a file is restored into an S3 bucket",
+  name: "New S3 File Restored",
+  description: "Emit new S3 file restored event",
   version: "0.0.1",
   dedupe: "unique",
   props: {
