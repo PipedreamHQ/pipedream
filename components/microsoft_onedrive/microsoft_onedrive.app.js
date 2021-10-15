@@ -2,16 +2,47 @@ const axios = require("axios");
 const get = require("lodash/get");
 const querystring = require("querystring");
 const retry = require("async-retry");
+const { mimeTypes } = require("./sources/common/mime-types");
 
 module.exports = {
   type: "app",
   app: "microsoft_onedrive",
+  propDefinitions: {
+    folder: {
+      type: "string",
+      label: "Folder",
+      description: "The OneDrive folder to watch for new files",
+      async options(context) {
+        const { page } = context;
+        if (page !== 0) {
+          return [];
+        }
+
+        const foldersStream = this.microsoft_onedrive.listFolders();
+        const result = [];
+        for await (const folder of foldersStream) {
+          const {
+            name: label,
+            id: value,
+          } = folder;
+          result.push({
+            label,
+            value,
+          });
+        }
+        return result;
+      },
+    },
+    fileTypes: {
+      type: "string[]",
+      label: "Drive Item Types",
+      description: "The types of files that the event source will watch",
+      options: mimeTypes,
+    },
+  },
   methods: {
     _apiUrl() {
       return "https://graph.microsoft.com/v1.0";
-    },
-    _authToken() {
-      return this.$auth.oauth_access_token;
     },
     /**
      * This is a utility method that returns the path to the authenticated
@@ -155,13 +186,11 @@ module.exports = {
         : url;
     },
     _makeRequestConfig() {
-      const authToken = this._authToken();
-      const headers = {
-        "Authorization": `bearer ${authToken}`,
-        "User-Agent": "@PipedreamHQ/pipedream v0.1",
-      };
       return {
-        headers,
+        headers: {
+          "Authorization": `bearer ${this.$auth.oauth_access_token}`,
+          "User-Agent": "@PipedreamHQ/pipedream v0.1",
+        },
       };
     },
     /**

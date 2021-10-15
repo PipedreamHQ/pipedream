@@ -1,8 +1,10 @@
+const onedrive = require("../../microsoft_onedrive.app");
 const base = require("../new-file/new-file");
 const { toSingleLineString } = require("../common/utils");
 
 module.exports = {
   ...base,
+  type: "source",
   key: "microsoft_onedrive-new-file-in-folder",
   name: "New File in Folder (Instant)",
   description: toSingleLineString(`
@@ -14,29 +16,10 @@ module.exports = {
   props: {
     ...base.props,
     folder: {
-      type: "string",
-      label: "Folder",
-      description: "The OneDrive folder to watch for new files",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return [];
-        }
-
-        const foldersStream = this.microsoft_onedrive.listFolders();
-        const result = [];
-        for await (const folder of foldersStream) {
-          const {
-            name: label,
-            id: value,
-          } = folder;
-          result.push({
-            label,
-            value,
-          });
-        }
-        return result;
-      },
+      propDefinition: [
+        onedrive,
+        "folder",
+      ],
     },
   },
   methods: {

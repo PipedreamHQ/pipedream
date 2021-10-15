@@ -9,17 +9,19 @@ module.exports = {
   props: {
     onedrive,
     db: "$.service.db",
+    /* eslint-disable pipedream/props-label, pipedream/props-description */
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
+    /* eslint-enable pipedream/props-label, pipedream/props-description */
     timer: {
+      type: "$.interface.timer",
       label: "Webhook subscription renewal schedule",
       description: toSingleLineString(`
         The OneDrive API requires occasional renewal of webhook notification subscriptions.
         **This runs in the background, so you should not need to modify this schedule**.
       `),
-      type: "$.interface.timer",
       default: {
         intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },

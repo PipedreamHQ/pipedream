@@ -5,6 +5,7 @@ const { toSingleLineString } = require("../common/utils");
 module.exports = {
   ...baseNewFolder,
   ...baseNewFileInFolder,
+  type: "source",
   key: "microsoft_onedrive-new-folder-in-folder",
   name: "New Folder in Folder (Instant)",
   description: toSingleLineString(`
@@ -21,7 +22,7 @@ module.exports = {
     ...baseNewFolder.methods,
     ...baseNewFileInFolder.methods,
     getDeltaLinkParams(...args) {
-      return baseNewFileInFolder.methods.getDeltaLinkParams.bind(this)(...args);
+      return baseNewFileInFolder.methods.getDeltaLinkParams.call(this, ...args);
     },
   },
 };

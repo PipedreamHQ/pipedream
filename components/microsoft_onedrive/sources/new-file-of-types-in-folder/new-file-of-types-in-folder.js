@@ -1,11 +1,11 @@
 const get = require("lodash/get");
-
-const base = require("../new-file-in-folder/new-file-in-folder");
+const onedrive = require("../../microsoft_onedrive.app");
 const { toSingleLineString } = require("../common/utils");
-const { mimeTypes } = require("./mime-types");
+const base = require("../new-file-in-folder/new-file-in-folder");
 
 module.exports = {
   ...base,
+  type: "source",
   key: "microsoft_onedrive-new-file-of-types-in-folder",
   name: "New File of Types in Folder (Instant)",
   description: toSingleLineString(`
@@ -17,7 +17,10 @@ module.exports = {
   props: {
     ...base.props,
     folder: {
-      ...base.props.folder,
+      propDefinition: [
+        onedrive,
+        "folder",
+      ],
       description: toSingleLineString(`
         The OneDrive folder to watch for new files (leave empty to watch the
         entire drive)
@@ -25,10 +28,10 @@ module.exports = {
       optional: true,
     },
     fileTypes: {
-      type: "string[]",
-      label: "Drive Item Types",
-      description: "The types of files that the event source will watch",
-      options: mimeTypes,
+      propDefinition: [
+        onedrive,
+        "fileTypes",
+      ],
     },
   },
   methods: {
@@ -39,7 +42,7 @@ module.exports = {
         "mimeType",
       ]);
       return (
-        base.methods.isItemTypeRelevant.bind(this)(driveItem) &&
+        base.methods.isItemTypeRelevant.call(this, driveItem) &&
         this.fileTypes.includes(fileType)
       );
     },
