@@ -45,6 +45,9 @@ module.exports = {
         forUsername: this.username,
       };
       const channels = (await this.youtube.getChannels(channelParams)).data;
+      if (!channels.items) {
+        throw new Error(`A channel for username "${this.username}" is not found`);
+      }
       const channelIds = channels.items.map((channel) => {
         return channel.id;
       });

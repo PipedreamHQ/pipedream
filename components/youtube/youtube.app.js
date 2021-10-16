@@ -1,4 +1,3 @@
-const axios = require("axios");
 const { google } = require("googleapis");
 const { toArray } = require("./utils");
 const { promisify } = require("util");
@@ -28,13 +27,13 @@ module.exports = {
     fileUrl: {
       type: "string",
       label: "File URL",
-      description: "The URL of the video file you want to upload to YouTube. Must specify either File URL or File Path.",
+      description: "The URL of the video file you want to upload to YouTube. Must specify either **File URL** or **File Path**.",
       optional: true,
     },
     filePath: {
       type: "string",
       label: "File Path",
-      description: "Path to the video file to upload (e.g., `/tmp/myVideo.mp4`). Must specify either File URL or File Path.",
+      description: "Path to the video file to upload (e.g., `/tmp/myVideo.mp4`). Must specify either **File URL** or **File Path**.",
       optional: true,
     },
     privacyStatus: {
@@ -51,7 +50,7 @@ module.exports = {
     publishAt: {
       type: "string",
       label: "Publish At",
-      description: "The date and time when the video is scheduled to publish. If you set this, the Privacy Status must be set to `private`. Only available to Youtube Partner accounts.",
+      description: "The date and time when the video is scheduled to publish. If you set this, the **Privacy Status** must be set to `private`. Only available to Youtube Partner accounts.",
       optional: true,
     },
     tags: {
@@ -69,20 +68,6 @@ module.exports = {
     },
   },
   methods: {
-    _getBaseUrl() {
-      return "https://www.googleapis.com/youtube/v3/";
-    },
-    _getHeaders() {
-      return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-      };
-    },
-    async _makeGetRequest(endpoint, params) {
-      return await axios.get(`${this._getBaseUrl()}${endpoint}`, {
-        headers: this._getHeaders(),
-        params,
-      });
-    },
     /**
      * Returns an instance of the YouTube Data API authenticated with the user's access token
      *
@@ -119,7 +104,8 @@ module.exports = {
      * @returns A list of videos, channels, and/or playlists
      */
     async getVideos(params) {
-      return await this._makeGetRequest("search", params);
+      const youtube = await this.youtube();
+      return await youtube.search.list(params);
     },
     /**
      * Returns channel resources that match the API request criteria
@@ -129,7 +115,8 @@ module.exports = {
      * @returns A list of channels
      */
     async getChannels(params) {
-      return await this._makeGetRequest("channels", params);
+      const youtube = await this.youtube();
+      return await youtube.channels.list(params);
     },
     /**
      * Returns playlist item resources that match the API request criteria
@@ -139,7 +126,8 @@ module.exports = {
      * @returns A list of playlist items
      */
     async getPlaylistItems(params) {
-      return await this._makeGetRequest("playlistItems", params);
+      const youtube = await this.youtube();
+      return await youtube.playlistItems.list(params);
     },
     /**
      * Returns subscription resources that match the API request criteria
@@ -149,7 +137,8 @@ module.exports = {
      * @returns A list of subscriptions
      */
     async getSubscriptions(params) {
-      return await this._makeGetRequest("subscriptions", params);
+      const youtube = await this.youtube();
+      return await youtube.subscriptions.list(params);
     },
     /**
      * Paginate through item results from `resourceFn` and yield each item
@@ -242,31 +231,24 @@ module.exports = {
     /**
      * Uploads a video to YouTube and optionally sets the video's metadata
      *
-     * @param {Sbject} opts - An object representing options used to upload a
-     * video to YouTube
-     * @param {String} opts.title - The video's title. The property value has a
-     * maximum length of 100 characters and may contain all valid UTF-8
-     * characters except < and >.
+     * @param {Sbject} opts - An object representing options used to upload a video to YouTube
+     * @param {String} opts.title - The video's title. The property value has a maximum length of
+     * 100 characters and may contain all valid UTF-8 characters except < and >.
      * @param {String} opts.content - The file stream of the video to upload
-     * @param {String} [opts.description] - The video's description. The
-     * property value has a maximum length of 5000 bytes and may contain all
-     * valid UTF-8 characters except < and >.
-     * @param {String} [opts.privacyStats] - The video's privacy status. Either
-     * `private`, `public`, or `unlisted`.
-     * @param {String} [opts.publishAt] - The date and time when the video is
-     * scheduled to publish. It can be set only if the privacy status of the
-     * video is private. The value is specified in ISO 8601 format.
-     * @param {String[]} [opts.tags] - A list of keyword tags associated with
-     * the video. Tags may contain spaces. The property value has a maximum
-     * length of 500 characters.
-     * @param {Boolean} [opts.notifySubscribers] - The `notifySubscribers`
-     * parameter indicates whether YouTube should send a notification about the
-     * new video to users who subscribe to the video's channel. The default
-     * value is true.
-     * @param {...*} [extraOpts = {}] - Extra/optional parameters to be fed to
-     * the YouTube API call, as defined in [the API
-     * docs](https://bit.ly/3l6xhug)
-    //  * @returns {Promise<youtube_v3.Schema$Video>} - The created video resource
+     * @param {String} [opts.description] - The video's description. The property value has a
+     * maximum length of 5000 bytes and may contain all valid UTF-8 characters except < and >.
+     * @param {String} [opts.privacyStats] - The video's privacy status. Either `private`, `public`,
+     * or `unlisted`.
+     * @param {String} [opts.publishAt] - The date and time when the video is scheduled to publish.
+     * It can be set only if the privacy status of the video is private. The value is specified in
+     * ISO 8601 format.
+     * @param {String[]} [opts.tags] - A list of keyword tags associated with the video. Tags may
+     * contain spaces. The property value has a maximum length of 500 characters.
+     * @param {Boolean} [opts.notifySubscribers] - The `notifySubscribers` parameter indicates
+     * whether YouTube should send a notification about the new video to users who subscribe to the
+     * video's channel. The default value is true.
+     * @param {...*} [extraOpts = {}] - Extra/optional parameters to be fed to the YouTube API call,
+     * as defined in [the API docs](https://bit.ly/3l6xhug)
      * @returns {Promise<import('googleapis').youtube_v3.Schema$Video>} The created video resource
      */
     async insertVideo(opts) {
