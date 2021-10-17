@@ -1,8 +1,8 @@
-const baseNewFileInFolder = require("../new-file-in-folder/new-file-in-folder");
-const baseNewFolder = require("../new-folder/new-folder");
-const { toSingleLineString } = require("../common/utils");
+import baseNewFolder from "../new-folder/new-folder";
+import baseNewFileInFolder from "../new-file-in-folder/new-file-in-folder";
+import { toSingleLineString } from "../common/utils";
 
-module.exports = {
+export default {
   ...baseNewFolder,
   ...baseNewFileInFolder,
   type: "source",
@@ -20,9 +20,6 @@ module.exports = {
   },
   methods: {
     ...baseNewFolder.methods,
-    ...baseNewFileInFolder.methods,
-    getDeltaLinkParams(...args) {
-      return baseNewFileInFolder.methods.getDeltaLinkParams.call(this, ...args);
-    },
+    ...baseNewFileInFolder.methods
   },
 };

@@ -1,9 +1,16 @@
-const get = require("lodash/get");
-const onedrive = require("../../microsoft_onedrive.app");
-const { toSingleLineString } = require("../common/utils");
-const base = require("../new-file-in-folder/new-file-in-folder");
+import get from "lodash.get";
+import onedrive from "../../microsoft_onedrive.app.mjs";
+import { toSingleLineString } from "../common/utils";
+import base from "../new-file-in-folder/new-file-in-folder";
 
-module.exports = {
+const {
+  hooks,
+  props,
+  methods,
+  run,
+} = base;
+
+export default {
   ...base,
   type: "source",
   key: "microsoft_onedrive-new-file-of-types-in-folder",
@@ -15,7 +22,7 @@ module.exports = {
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    ...base.props,
+    ...props,
     folder: {
       propDefinition: [
         onedrive,
@@ -35,16 +42,15 @@ module.exports = {
     },
   },
   methods: {
-    ...base.methods,
+    ...methods,
     isItemTypeRelevant(driveItem) {
-      const fileType = get(driveItem, [
-        "file",
-        "mimeType",
-      ]);
+      const fileType = get(driveItem, "file.mimeType");
       return (
-        base.methods.isItemTypeRelevant.call(this, driveItem) &&
+        methods.isItemTypeRelevant.call(this, driveItem) &&
         this.fileTypes.includes(fileType)
       );
     },
   },
+  hooks,
+  run,
 };

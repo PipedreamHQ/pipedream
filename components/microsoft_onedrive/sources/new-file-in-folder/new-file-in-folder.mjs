@@ -1,9 +1,15 @@
-const onedrive = require("../../microsoft_onedrive.app");
-const base = require("../new-file/new-file");
-const { toSingleLineString } = require("../common/utils");
+import onedrive from "../../microsoft_onedrive.app.mjs";
 
-module.exports = {
-  ...base,
+import {
+  hooks,
+  props,
+  methods,
+  run,
+} from "../common/base.mjs";
+
+import { toSingleLineString } from "../common/utils.mjs";
+
+export default {
   type: "source",
   key: "microsoft_onedrive-new-file-in-folder",
   name: "New File in Folder (Instant)",
@@ -14,7 +20,7 @@ module.exports = {
   version: "0.0.2",
   dedupe: "unique",
   props: {
-    ...base.props,
+    ...props,
     folder: {
       propDefinition: [
         onedrive,
@@ -23,11 +29,13 @@ module.exports = {
     },
   },
   methods: {
-    ...base.methods,
+    ...methods,
     getDeltaLinkParams() {
       return {
         folderId: this.folder,
       };
     },
   },
+  hooks,
+  run,
 };

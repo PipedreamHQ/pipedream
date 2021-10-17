@@ -1,22 +1,27 @@
-const common = require("../common/base");
+import {
+  hooks,
+  props,
+  methods,
+  run,
+} from "../common/base.mjs";
 
-module.exports = {
-  ...common,
+export default {
   type: "source",
   key: "microsoft_onedrive-new-file",
   name: "New File (Instant)",
   description: "Emit new event when a new file is added to a specific drive in OneDrive",
   version: "0.0.2",
   dedupe: "unique",
+  props,
   hooks: {
-    ...common.hooks,
+    ...hooks,
     async activate() {
-      await common.hooks.activate.call(this);
+      await hooks.activate.call(this);
       this._setLastCreatedTimestamp();
     },
   },
   methods: {
-    ...common.methods,
+    ...methods,
     _getLastCreatedTimestamp() {
       return this.db.get("lastCreatedTimestamp") || 0;
     },
@@ -68,4 +73,5 @@ module.exports = {
       this._setLastCreatedTimestamp(maxCreatedTimestamp);
     },
   },
+  run,
 };
