@@ -1,10 +1,10 @@
-const jotform = require("../../jotform.app.js");
+import jotform from "../../jotform.app.mjs";
 
-module.exports = {
+export default {
   key: "jotform-new-submission",
   name: "New Submission (Instant)",
   description: "Emit new event when a form is submitted",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   props: {
     jotform,
@@ -31,11 +31,13 @@ module.exports = {
     },
   },
   async run(event) {
-    event.body.formData = JSON.parse(event.body.rawRequest);
+    const { body } = event;
+    body.formData = JSON.parse(body.rawRequest);
 
-    this.$emit(event.body, {
-      summary: event.body.rawRequest || JSON.stringify(event.body),
-      id: event.body.submissionID,
+    this.$emit(body, {
+      summary: body.formTitle || JSON.stringify(body),
+      id: body.submissionID,
+      ts: Date.now(),
     });
   },
 };
