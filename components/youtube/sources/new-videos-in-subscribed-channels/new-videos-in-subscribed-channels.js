@@ -18,6 +18,11 @@ const youtube = require("../../youtube.app");
 const INITIAL_CHANNEL_COUNT = 10;
 
 /**
+ * The number of days ago to emit videos published after on deploy.
+ */
+const INITIAL_PUBLISHED_AFTER_DAYS_AGO = 7;
+
+/**
  * Uses [YouTube API](https://developers.google.com/youtube/v3/docs) to get the authenticated user's
  * subscriptions with a `totalItemCount` for each. The user's subscriptions are used to get the
  * subscribed-to channels. Then the ID of the 'uploads' playlist in each channel is used to get
@@ -58,7 +63,9 @@ module.exports = {
       });
       this._setChannelData(channelData);
 
-      this._setPublishedAfter(this.youtube.daysAgo(7).toISOString());
+      this._setPublishedAfter(
+        this.youtube.daysAgo(INITIAL_PUBLISHED_AFTER_DAYS_AGO).toISOString(),
+      );
     },
   },
   methods: {
