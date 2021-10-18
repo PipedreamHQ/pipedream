@@ -60,16 +60,29 @@ module.exports = {
     },
   },
   async run() {
-    const body = this.fileUrl
-      ? await got.stream(this.fileUrl)
-      : fs.createReadStream(this.filePath);
+    const {
+      fileUrl,
+      filePath,
+      title,
+      description,
+      privacyStatus,
+      publishAt,
+      tags,
+      notifySubscribers,
+    } = this;
+    if (!fileUrl && !filePath) {
+      throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
+    }
+    const body = fileUrl
+      ? await got.stream(fileUrl)
+      : fs.createReadStream(filePath);
     return await this.youtube.insertVideo({
-      title: this.title,
-      description: this.description,
-      privacyStatus: this.privacyStatus,
-      publishAt: this.publishAt,
-      tags: this.tags,
-      notifySubscribers: this.notifySubscribers,
+      title,
+      description,
+      privacyStatus,
+      publishAt,
+      tags,
+      notifySubscribers,
       content: body,
     });
   },

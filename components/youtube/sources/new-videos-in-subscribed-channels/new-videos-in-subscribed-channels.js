@@ -154,9 +154,7 @@ module.exports = {
      * @param {Object} Channel - The channel from which to get 'uploads' playlist items
      * @returns {PlaylistItem[]} The list of playlist items
      */
-    // async getPlaylistItems(channelData, channel) {
     async getPlaylistItems(channel, channelData, publishedAfter) {
-    // async getPlaylistItems(channelData, publishedAfter, channel) {
       // Use `playlistId` of [uploads](https://bit.ly/3FuJiC3) playlist
       const playlistId = channel.contentDetails.relatedPlaylists.uploads;
       publishedAfter = channelData[channel.id].lastPublishedAt
