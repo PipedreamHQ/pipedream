@@ -18,17 +18,8 @@
     },
     {
       "files": [
-        "**/*.app.js",
-        "**/sources/**/*.js"
-      ],
-      "parserOptions": {
-        "ecmaVersion": 10
-      }
-    },
-    {
-      "files": [
-        "**/actions/**/*.js",
-        "**/sources/**/*.js",
+        "**/actions/**/*.*js",
+        "**/sources/**/*.*js"
       ],
       "rules": {
         "pipedream/required-properties-key": "error",
@@ -38,17 +29,16 @@
         "pipedream/required-properties-type": "error",
         "pipedream/props-label": "error",
         "pipedream/props-description": "error",
-        "pipedream/default-value-required-for-optional-props": "warn",
         "pipedream/source-name": "warn",
         "pipedream/source-description": "warn"
       }
     },
     {
       "files": [
-        "**/actions/**/common*.js",
+        "**/actions/**/common*.*js",
         "**/actions/common/*",
         "**/sources/common/*",
-        "**/sources/**/common*.js"
+        "**/sources/**/common*.*js"
       ],
       "rules": {
         "pipedream/required-properties-key": "off",
@@ -62,14 +52,13 @@
     },
     {
       "files": [
-        "**/*.app.js"
+        "**/*.app.*js"
       ],
       "rules": {
         "pipedream/props-label": "error",
-        "pipedream/props-description": "error",
-        "pipedream/default-value-required-for-optional-props": "warn"
+        "pipedream/props-description": "error"
       }
-    },
+    }
   ],
   "parserOptions": {
     "ecmaVersion": 12,
