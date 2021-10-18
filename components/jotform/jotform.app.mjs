@@ -10,7 +10,7 @@ export default {
       label: "Form",
       description: "The form to watch for new submissions",
       async options({ page = 0 }) {
-        const limit = 3;
+        const limit = 20;
         const offset = page * limit;
         const forms = await this.getForms({
           offset,
