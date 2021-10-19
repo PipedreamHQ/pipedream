@@ -132,7 +132,7 @@ You pass HTTP headers in the `headers` object of the `axios` request:
 ```javascript
 import axios from "axios";
 
-// Make an HTTP GET request using axios
+// Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
   url: `https://jsonplaceholder.typicode.com/posts`,
@@ -154,7 +154,7 @@ Here's an example showing an API key passed in an HTTP header:
 ```javascript
 import axios from "axios";
 
-// Make an HTTP GET request using axios
+// Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
   url: `https://jsonplaceholder.typicode.com/posts`,
