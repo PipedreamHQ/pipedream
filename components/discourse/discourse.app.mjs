@@ -166,13 +166,17 @@ export default {
       tag_names = [],
       web_hook_event_type_ids = [],
     }) {
-      const { data } = await this._makeRequest({
+      const {
+        data,
+        status,
+      } = await this._makeRequest({
         method: "POST",
         path: "/admin/api/web_hooks",
         data: {
           web_hook: {
             payload_url: endpoint,
-            content_type: 1, // 1 for json, 2 for x-www-form-urlencoded
+            // 1 for json, 2 for x-www-form-urlencoded
+            content_type: 1,
             secret,
             wildcard_web_hook,
             verify_certificate: true,
@@ -183,9 +187,12 @@ export default {
             group_ids,
           },
         },
+        validateStatus: () => true,
       });
 
-      return data.web_hook;
+      if (status < 400) return data?.web_hook;
+      console.log(`Request failed with status ${status}`);
+      throw new Error(JSON.stringify(data, null, 2));
     },
     async deleteHook({ hookID }) {
       try {

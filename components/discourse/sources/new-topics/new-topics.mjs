@@ -1,10 +1,10 @@
-import common from "../../common";
+import common from "../../common.mjs";
 import discourse from "../../discourse.app.mjs";
 
 export default {
   name: "New Topics",
   key: "disourse-new-topics",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   description:
     "Emit new events every time a new topic is posted to your chosen categories",

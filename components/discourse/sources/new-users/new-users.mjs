@@ -1,4 +1,4 @@
-import common from "../../common";
+import common from "../../common.mjs";
 
 export default {
   name: "New Users",
