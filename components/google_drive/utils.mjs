@@ -1,7 +1,9 @@
 import fs from "fs";
 import { axios } from "@pipedream/platform";
 import {
-  MY_DRIVE_VALUE, MAX_FILE_OPTION_PATH_SEGMENTS,
+  MY_DRIVE_VALUE,
+  LEGACY_MY_DRIVE_VALUE,
+  MAX_FILE_OPTION_PATH_SEGMENTS,
 } from "./constants.mjs";
 
 /**
@@ -12,7 +14,7 @@ import {
  * @returns `true` only when the specified drive is the user's 'My Drive'
  */
 function isMyDrive(drive) {
-  return drive === MY_DRIVE_VALUE;
+  return drive === MY_DRIVE_VALUE || drive === LEGACY_MY_DRIVE_VALUE;
 }
 
 /**

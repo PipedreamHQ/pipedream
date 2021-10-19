@@ -14,6 +14,7 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
+      description: "The drive you want to watch for changes",
     },
     watchForPropertiesChanges: {
       propDefinition: [

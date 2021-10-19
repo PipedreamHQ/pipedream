@@ -15,6 +15,7 @@ export default {
       ],
       description:
         "Select a [shared drive](https://support.google.com/a/users/answer/9310351) to update",
+      default: "",
     },
     useDomainAdminAccess: {
       propDefinition: [

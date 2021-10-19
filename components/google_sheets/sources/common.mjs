@@ -31,6 +31,7 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
+      description: "The drive you want to watch for changes",
     },
   },
   hooks: {

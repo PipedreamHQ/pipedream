@@ -33,7 +33,8 @@ export default {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "The drive you want to watch for changes",
+      description: "The drive to use. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here by enabling \"Structured Mode\".",
+      default: MY_DRIVE_VALUE,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);
