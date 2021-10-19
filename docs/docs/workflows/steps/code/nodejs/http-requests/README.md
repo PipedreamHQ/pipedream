@@ -87,7 +87,7 @@ import axios from "axios";
 // Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
-  url: `https://jsonplaceholder.typicode.com/posts`
+  url: `https://jsonplaceholder.typicode.com/posts`,
   data: {
     name: "Luke",
   }
