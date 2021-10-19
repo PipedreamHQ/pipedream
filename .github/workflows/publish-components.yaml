@@ -1,7 +1,6 @@
 on: 
-  push:
-    pull_request:
-      types: [ closed ]
+  pull_request:
+    types: [ closed ]
 
 jobs:
   publish-components:
