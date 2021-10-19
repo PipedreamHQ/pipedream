@@ -1,6 +1,5 @@
 const common = require("../common.js");
 const { toArray } = require("../../utils");
-const youtube = require("../../youtube.app");
 
 /**
  * @typedef {import('googleapis').youtube_v3.Schema$Subscription} Subscription
@@ -39,16 +38,13 @@ const INITIAL_PUBLISHED_AFTER_DAYS_AGO = 7;
  * last recorded `totalItemCount`.
  */
 module.exports = {
+  ...common,
   key: "youtube-new-videos-in-subscribed-channels",
   name: "New Videos in Subscribed Channels",
   description: "Emit new event for each new YouTube video posted to a subscribed channel.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    youtube,
-    ...common.props,
-  },
   hooks: {
     ...common.hooks,
     async deploy() {
@@ -107,8 +103,6 @@ module.exports = {
       let channelData = subscriptions.reduce((channels, s) => {
         const channelId = s.snippet.resourceId.channelId;
         channels[channelId] = {
-          subscriptionId: s.id, // Unused
-          channelId, // Unused
           totalItemCount: s.contentDetails.totalItemCount,
           lastPublishedAt: (
             prevChannelData
@@ -181,7 +175,6 @@ module.exports = {
       ));
     },
   },
-
   async run() {
     let channelData = this._getChannelData();
     const publishedAfter = this._getPublishedAfter();
