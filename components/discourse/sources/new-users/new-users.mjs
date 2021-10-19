@@ -1,10 +1,10 @@
-const common = require("../../common");
-const isEmpty = require("lodash.isempty");
+import common from "../../common.mjs";
 
-module.exports = {
+export default {
   name: "New Users",
   key: "disourse-new-users",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   description:
     "Emits an event every time a new user is created on your instance",
   ...common,
@@ -18,18 +18,24 @@ module.exports = {
     },
     async activate() {
       await this.activate({
-        web_hook_event_type_ids: ["3"], // https://github.com/discourse/discourse/blob/master/app/models/web_hook_event_type.rb#L6
+        web_hook_event_type_ids: [
+          "3",
+        ], // https://github.com/discourse/discourse/blob/master/app/models/web_hook_event_type.rb#L6
       });
     },
   },
   methods: {
     ...common.methods,
     generateMeta(user) {
-      const { id, name: summary, created_at } = user;
+      const {
+        id,
+        name: summary,
+        created_at: createdAt,
+      } = user;
       return {
         id,
         summary,
-        ts: +new Date(created_at),
+        ts: +new Date(createdAt),
       };
     },
   },
