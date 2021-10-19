@@ -1,31 +1,23 @@
-import ghost from "../../ghost-admin.app.mjs";
+import common from "../common-webhook.mjs";
 
 export default {
+  ...common,
   type: "source",
   key: "ghost-page-published",
   name: "Page Published (Instant)",
   description: "Emit new event for each new page published on a site.",
   version: "0.0.3",
-  props: {
-    ghost,
-    db: "$.service.db",
-    http: "$.interface.http",
-  },
-
-  hooks: {
-    async activate() {
-      this.db.set("hookId", await this.ghost.createHook("page.published", this.http.endpoint));
+  methods: {
+    ...common.methods,
+    getEvent() {
+      return "page.published";
     },
-    async deactivate() {
-      await this.ghost.deleteHook(this.db.get("hookId"));
+    generateMeta(body) {
+      return ({
+        id: body.page.current.id,
+        summary: body.page.current.title,
+        ts: Date.now(),
+      });
     },
-  },
-
-  async run(event) {
-    this.$emit(event.body, {
-      id: event.body.page.current.id,
-      summary: event.body.page.current.title,
-      ts: Date.now(),
-    });
   },
 };

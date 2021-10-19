@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
-import lodash from "lodash";
 
 export default {
   type: "app",
@@ -38,7 +37,7 @@ export default {
         ],
       };
       const res = await this.makeHttpRequest("post", "/webhooks", data);
-      if (!lodash.get(res, "data.webhooks[0].id")) {
+      if (!res?.data?.webhooks?.[0]?.id) {
         console.log(res.data);
         throw new Error("No webhook id was returned by Ghost. Please try again.");
       }

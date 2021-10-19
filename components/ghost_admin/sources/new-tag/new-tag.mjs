@@ -1,31 +1,23 @@
-import ghost from "../../ghost-admin.app.mjs";
+import common from "../common-webhook.mjs";
 
 export default {
+  ...common,
   type: "source",
   key: "ghost_admin-new-tag",
   name: "Tag Added (Instant)",
   description: "Emit new event for each new tag created on a site.",
   version: "0.0.3",
-  props: {
-    ghost,
-    db: "$.service.db",
-    http: "$.interface.http",
-  },
-
-  hooks: {
-    async activate() {
-      this.db.set("hookId", await this.ghost.createHook("tag.added", this.http.endpoint));
+  methods: {
+    ...common.methods,
+    getEvent() {
+      return "tag.added";
     },
-    async deactivate() {
-      await this.ghost.deleteHook(this.db.get("hookId"));
+    generateMeta(body) {
+      return ({
+        id: body.tag.current.id,
+        summary: body.tag.current.name,
+        ts: Date.now(),
+      });
     },
-  },
-
-  async run(event) {
-    this.$emit(event.body, {
-      id: event.body.tag.current.id,
-      summary: event.body.tag.current.name,
-      ts: Date.now(),
-    });
   },
 };
