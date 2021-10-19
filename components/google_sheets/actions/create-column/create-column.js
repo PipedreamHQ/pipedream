@@ -4,7 +4,7 @@ module.exports = {
   key: "google_sheets-create-column",
   name: "Create Column",
   description: "Create a new column in a spreadsheet",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSheets,

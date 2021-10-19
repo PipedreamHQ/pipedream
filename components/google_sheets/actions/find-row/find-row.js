@@ -4,7 +4,7 @@ module.exports = {
   key: "google_sheets-find-row",
   name: "Find Row",
   description: "Find a row by a column and value",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSheets,

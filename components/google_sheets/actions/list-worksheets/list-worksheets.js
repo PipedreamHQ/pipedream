@@ -4,7 +4,7 @@ module.exports = {
   key: "google_sheets-list-worksheets",
   name: "List Worksheets",
   description: "Get a list of all worksheets in a spreadsheet",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSheets,

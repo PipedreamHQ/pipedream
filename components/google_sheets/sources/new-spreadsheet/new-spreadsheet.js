@@ -7,7 +7,7 @@ module.exports = {
   name: "New Spreadsheet (Instant)",
   description:
     "Emit new event each time a new spreadsheet is created in a drive.",
-  version: "0.0.6",
+  version: "0.0.7",
   methods: {
     ...newFilesInstant.methods,
     shouldProcess(file) {
