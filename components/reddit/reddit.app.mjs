@@ -1,8 +1,8 @@
-const axios = require("axios");
-const get = require("lodash/get");
-const retry = require("async-retry");
+import axios from "axios";
+import lodash from "lodash";
+import retry from "async-retry";
 
-module.exports = {
+export default {
   type: "app",
   app: "reddit",
   propDefinitions: {
@@ -55,6 +55,21 @@ module.exports = {
     },
   },
   methods: {
+    _getAxiosParams(opts) {
+      const res = {
+        ...opts,
+        url: this._apiUrl() + opts.path,
+        headers: this._getHeaders(),
+      };
+      console.log(res);
+      return res;
+    },
+    _getHeaders() {
+      return {
+        "authorization": `Bearer ${this._accessToken()}`,
+        "user-agent": "@PipedreamHQ/pipedream v0.1",
+      };
+    },
     _accessToken() {
       return this.$auth.oauth_access_token;
     },
@@ -87,7 +102,7 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = get(err, [
+          const statusCode = lodash.get(err, [
             "response",
             "status",
           ]);
@@ -248,7 +263,7 @@ module.exports = {
       let after = null;
       do {
         const redditCommunities = await this.searchSubreddits(after, query);
-        const isNewDataAvailable = get(redditCommunities, [
+        const isNewDataAvailable = lodash.get(redditCommunities, [
           "data",
           "children",
           "length",
