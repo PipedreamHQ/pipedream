@@ -1,5 +1,5 @@
 import common from "../../common";
-import discourse from "../../discourse.app";
+import discourse from "../../discourse.app.mjs";
 
 export default {
   name: "New Posts",

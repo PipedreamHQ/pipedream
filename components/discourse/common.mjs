@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import discourse from "./discourse.app";
+import discourse from "./discourse.app.mjs";
 import isEmpty from "lodash.isempty";
 
 export default {

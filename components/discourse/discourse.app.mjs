@@ -1,9 +1,9 @@
-const get = require("lodash.get");
-const sortBy = require("lodash.sortby");
-const axios = require("axios");
-const { nanoid } = require("nanoid");
+import get from "lodash.get";
+import sortBy from "lodash.sortby";
+import axios from "axios";
+import { nanoid } from "nanoid";
 
-module.exports = {
+export default {
   type: "app",
   app: "discourse",
   propDefinitions: {
