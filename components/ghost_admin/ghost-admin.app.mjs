@@ -46,7 +46,7 @@ export default {
     },
     async deleteHook(hookId) {
       if (!hookId) {
-        console.warn("No hookId provided. None webhook deleted");
+        console.warn("No hookId provided. No webhook deleted");
       }
       await this.makeHttpRequest("delete", `/webhooks/${hookId}`);
     },
