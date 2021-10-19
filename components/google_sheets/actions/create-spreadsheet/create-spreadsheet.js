@@ -13,7 +13,7 @@ module.exports = {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive to create the new spreadsheet in",
+      description: "The drive to create the new spreadsheet in. Enable structured mode to select a [shared drive](https://support.google.com/a/users/answer/9310351).",
     },
     title: {
       type: "string",

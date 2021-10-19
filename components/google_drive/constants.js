@@ -73,7 +73,7 @@ const GOOGLE_DRIVE_UPDATE_TYPES = [
  * code by avoiding null values, we assign this special value to the 'My Drive'
  * drive.
  */
-const MY_DRIVE_VALUE = "myDrive";
+const MY_DRIVE_VALUE = "My Drive";
 
 /**
  * The maximum amount of time a subscription can be active without expiring is

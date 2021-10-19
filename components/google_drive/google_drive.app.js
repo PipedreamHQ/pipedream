@@ -20,7 +20,8 @@ module.exports = {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "The drive you want to watch for changes",
+      description: "The drive you want to watch for changes. Enable structured mode to select a [shared drive](https://support.google.com/a/users/answer/9310351).",
+      default: MY_DRIVE_VALUE,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);

@@ -19,6 +19,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
+      description: "The drive to use. Enable structured mode to select a [shared drive](https://support.google.com/a/users/answer/9310351).",
     },
     parent: {
       type: "string",
