@@ -39,7 +39,7 @@ export default {
     } = this;
 
     const data = {
-      tracks: tracks.map((track) => ({
+      tracks: this.spotify.sanitizedArray(tracks).map((track) => ({
         uri: track,
       })),
       snapshot_id: snapshotId,
