@@ -6,7 +6,7 @@ export default {
   key: "ghost_admin-member-created",
   name: "New Member Created (Instant)",
   description: "Emit new event for each new member added to a site.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   methods: {
     ...common.methods,
