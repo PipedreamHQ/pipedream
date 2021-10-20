@@ -35,7 +35,7 @@ export default {
       ],
     },
     additionalTypes: {
-      type: "string",
+      type: "string[]",
       label: "Additional Types",
       description: "A comma-separated list of item types that your client supports besides the default `track` type. Valid types are: `track` and `episode`. **Note**: This parameter was introduced to allow existing clients to maintain their current behaviour and might be deprecated in the future. In addition to providing this parameter, make sure that your client properly handles cases of new types in the future by checking against the `type` field of each object.",
       optional: true,
