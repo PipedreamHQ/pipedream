@@ -16,7 +16,7 @@ export default {
     market: {
       type: "string",
       label: "Market",
-      description: "An [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Synonym for country. Example: `US` for `United States of America`",
+      description: `Search for a country with "Structured Mode" enabled or enter the specific [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) with "Structured Mode" disabled.`,
       options: Countries,
     },
     playlistTracksUris: {
@@ -88,7 +88,7 @@ export default {
     playlistId: {
       type: "string",
       label: "Playlist ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the playlist",
+      description: `Select an existing playlist with "Structured Mode" enabled, or reference a specific [\`playlist_id\`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with "Structured Mode" disabled (for example, \`3cEYpjA9oz9GiPac4AsH4n\`).`,
       async options() {
         const playlists = await this.getPlaylists();
         return {
@@ -102,7 +102,7 @@ export default {
     categoryId: {
       type: "string",
       label: "Category ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the category",
+      description: `Search for a category with "Structured Mode" enabled, or reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with "Structured Mode" disabled (for example, \`party\`).`,
       async options() {
         const categories = await this.getCategories();
         return {
@@ -116,7 +116,7 @@ export default {
     trackId: {
       type: "string",
       label: "Track ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`.",
+      description: `Search for any track on Spotify with "Structured Mode" enabled, or reference a specific [track ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with "Structured Mode" disabled (for example, \`4iV5W9uYEdYUVa79Axb7Rh\`).`,
       useQuery: true,
       async options({
         query,
@@ -140,14 +140,14 @@ export default {
     offset: {
       type: "integer",
       label: "Offset",
-      description: "The index of the first item to return. Default: 0 (the first object). Use with `limit` to get the next set of items",
+      description: "The index of the first item to return. Default: 0 (the first object). Use with `limit` to get the next set of items.",
       optional: true,
       min: 0,
     },
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of items to return. Default: 100.",
+      description: "The maximum number of items to return. The default is 100.",
       optional: true,
       min: 1,
       max: 100,

@@ -4,9 +4,9 @@ import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Get a Playlist's Items",
-  description: "Get full details of the items of a playlist owned by a Spotify user. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlists-tracks)",
+  description: "Get full details of the items of a playlist owned by a Spotify user. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlists-tracks).",
   key: "spotify-get-playlist-items",
-  version: "0.0.1",
+  version: "0.0.5",
   type: "action",
   props: {
     spotify,
@@ -19,7 +19,7 @@ export default {
     fields: {
       type: "string",
       label: "Fields",
-      description: "Filters for the query: a comma-separated list of the fields to return. If omitted, all fields are returned. For example, to get just the total number of items and the request limit: `fields=total,limit`. See [the docs](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlists-tracks) for more information.",
+      description: "Filters for the query: a comma-separated list of the fields to return. If omitted, all fields are returned. For example, to get just the total number of items and the request limit: `total,limit`. See [the docs](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlists-tracks) for more information.",
       optional: true,
     },
     limit: {

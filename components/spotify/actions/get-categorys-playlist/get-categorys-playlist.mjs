@@ -4,9 +4,9 @@ import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Get a Category's Playlists",
-  description: "Get a list of Spotify playlists tagged with a particular category. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-a-categories-playlists)",
+  description: "Get a list of Spotify playlists tagged with a particular category. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-a-categories-playlists).",
   key: "spotify-get-categorys-playlist",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     spotify,
