@@ -1,5 +1,8 @@
 import axios from "axios";
-import lodash from "lodash";
+import get from "lodash/get.js";
+import isNil from "lodash/isNil.js";
+import isArray from "lodash/isArray.js";
+import isString from "lodash/isString.js";
 import { promisify } from "util";
 import {
   ITEM_TYPES,
@@ -16,7 +19,7 @@ export default {
     market: {
       type: "string",
       label: "Market",
-      description: `Search for a country with "Structured Mode" enabled or enter the specific [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) with "Structured Mode" disabled.`,
+      description: "Search for a country with \"Structured Mode\" enabled or enter the specific [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) with \"Structured Mode\" disabled.",
       options: Countries,
     },
     playlistTracksUris: {
@@ -88,7 +91,7 @@ export default {
     playlistId: {
       type: "string",
       label: "Playlist ID",
-      description: `Select an existing playlist with "Structured Mode" enabled, or reference a specific [\`playlist_id\`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with "Structured Mode" disabled (for example, \`3cEYpjA9oz9GiPac4AsH4n\`).`,
+      description: "Select an existing playlist with \"Structured Mode\" enabled, or reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
       async options() {
         const playlists = await this.getPlaylists();
         return {
@@ -102,7 +105,7 @@ export default {
     categoryId: {
       type: "string",
       label: "Category ID",
-      description: `Search for a category with "Structured Mode" enabled, or reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with "Structured Mode" disabled (for example, \`party\`).`,
+      description: "Search for a category with \"Structured Mode\" enabled, or reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `party`).",
       async options() {
         const categories = await this.getCategories();
         return {
@@ -116,7 +119,7 @@ export default {
     trackId: {
       type: "string",
       label: "Track ID",
-      description: `Search for any track on Spotify with "Structured Mode" enabled, or reference a specific [track ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with "Structured Mode" disabled (for example, \`4iV5W9uYEdYUVa79Axb7Rh\`).`,
+      description: "Search for any track on Spotify with \"Structured Mode\" enabled, or reference a specific [track ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `4iV5W9uYEdYUVa79Axb7Rh`).",
       useQuery: true,
       async options({
         query,
@@ -154,6 +157,29 @@ export default {
     },
   },
   methods: {
+    sanitizedArray(value) {
+      if (isArray(value)) {
+        return value;
+      }
+
+      // If is string, try to convert it in an array
+      if (isString(value)) {
+        // If value.length is less than two, it means that it can be an array-like. The minimal
+        // accepted array like is []
+        if (value.length < 2) {
+          throw new Error(`${value} is not a valid notation of an array`);
+        }
+
+        // Checks for the first and the last char
+        if (value[0] !== "[" || value[value.length - 1] !== "]") {
+          throw new Error(`${value} is not a valid notation of an array`);
+        }
+
+        return JSON.parse(value);
+      }
+
+      throw new Error(`${value} is not an array or an array-like`);
+    },
     _getAxiosParams(opts) {
       return {
         ...opts,
@@ -178,7 +204,7 @@ export default {
       const keys = Object.keys(params);
       for (let i = 0; i < keys.length; i++) {
         // Explicity looking for nil values to avoid false negative for Boolean(false)
-        if (!lodash.isNil(params[keys[i]])) {
+        if (!isNil(params[keys[i]])) {
           query += `${keys[i]}=${params[keys[i]]}&`;
         }
       }
@@ -263,24 +289,24 @@ export default {
       };
 
       const res = await this._makeRequest("GET", "/search", params);
-      return lodash.get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, []);
+      return get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, []);
     },
     async getPlaylists(params) {
       const res = await this._makeRequest("GET", "/me/playlists", params);
-      return lodash.get(res, "data.items", null);
+      return get(res, "data.items", null);
     },
     async getCategories() {
       const res = await this._makeRequest("GET", "/browse/categories");
-      return lodash.get(res, "data.categories.items", []);
+      return get(res, "data.categories.items", []);
     },
     async getUserTracks(params) {
       const res = await this._makeRequest("GET", "/me/tracks", params);
-      return lodash.get(res, "data.items", []);
+      return get(res, "data.items", []);
     },
     async getPlaylistItems(params) {
       const { playlistId } = params;
       const res = await this._makeRequest("GET", `/playlists/${playlistId}/tracks`, params);
-      return lodash.get(res, "data.items", []);
+      return get(res, "data.items", []);
     },
   },
 };
