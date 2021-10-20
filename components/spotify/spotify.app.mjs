@@ -3,6 +3,7 @@ import get from "lodash/get.js";
 import isNil from "lodash/isNil.js";
 import isArray from "lodash/isArray.js";
 import isString from "lodash/isString.js";
+import isEmpty from "lodash/isEmpty.js";
 import { promisify } from "util";
 import {
   ITEM_TYPES,
@@ -164,15 +165,18 @@ export default {
 
       // If is string, try to convert it in an array
       if (isString(value)) {
-        // If value.length is less than two, it means that it can be an array-like. The minimal
-        // accepted array like is []
-        if (value.length < 2) {
-          throw new Error(`${value} is not a valid notation of an array`);
+        // Return an empty array if string is empty
+        if (isEmpty(value)) {
+          return [];
+        }
+        // If the string does not start with "[". Add to beginning
+        if (value[0] !== "[") {
+          value = "[" + value;
         }
 
-        // Checks for the first and the last char
-        if (value[0] !== "[" || value[value.length - 1] !== "]") {
-          throw new Error(`${value} is not a valid notation of an array`);
+        // If the string does not end with "]". Add to ending
+        if (value[value.length - 1] !== "]") {
+          value += "]";
         }
 
         return JSON.parse(value);

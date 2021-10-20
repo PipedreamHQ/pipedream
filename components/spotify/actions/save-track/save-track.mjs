@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
+import isEmpty from "lodash/isEmpty.js";
 
 export default {
   name: "Save Tracks for User",
@@ -19,12 +20,15 @@ export default {
     },
   },
   async run({ $ }) {
-    return axios($, this.spotify._getAxiosParams({
+    const res = await axios($, this.spotify._getAxiosParams({
       method: "PUT",
       path: "/me/tracks",
       data: {
         ids: this.spotify.sanitizedArray(this.ids),
       },
     }));
+    return isEmpty(res)
+      ? "Music saved successfully. Check your \"Liked Songs\""
+      : res;
   },
 };
