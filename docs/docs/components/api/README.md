@@ -701,7 +701,7 @@ When you use return, the exported data will appear at `steps.[STEP NAME].$return
 
 **`$.export`**
 
-You can also use `$.export` to return named exports from an action. `$export` takes the name of the export as the first argument, and the value to export as the second argument:
+You can also use `$.export` to return named exports from an action. `$.export` takes the name of the export as the first argument, and the value to export as the second argument:
 
 ```javascript
 async run({ $ }) {
