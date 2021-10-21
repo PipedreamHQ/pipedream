@@ -5,7 +5,12 @@ import dayjs from "dayjs";
 export default {
   props: {
     confection,
-    timer: { type: "$.interface.timer", default: { intervalSeconds: 15 * 60 } },
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 15 * 60,
+      },
+    },
     db: "$.service.db",
   },
   methods: {
@@ -29,7 +34,7 @@ export default {
             headers: {
               Accept: "application/json",
             },
-          }
+          },
         );
 
         Object.assign(output, data.collection);
@@ -46,8 +51,14 @@ export default {
     const url = this.getUrl(lastTimestamp, timestamp);
     const { data } = await axios.post(
       url,
-      { key: this.confection.$auth.secret_key },
-      { headers: { Accept: "application/json" } }
+      {
+        key: this.confection.$auth.secret_key,
+      },
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      },
     );
 
     this.db.set("lastTimestamp", timestamp);
@@ -60,15 +71,24 @@ export default {
         this.confection.$auth.secret_key,
         pageCount,
         data.collection,
-        url
+        url,
       );
 
-      Object.entries(allResults).forEach(([key, value]) => {
+      Object.entries(allResults).forEach(([
+        key,
+        value,
+      ]) => {
         const id = `${key}-${value.updated_time}`;
 
         this.$emit(
-          { ...value, UUID: key },
-          { id, summary: this.getSummary(key) }
+          {
+            ...value,
+            UUID: key,
+          },
+          {
+            id,
+            summary: this.getSummary(key),
+          },
         );
       });
     }

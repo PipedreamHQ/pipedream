@@ -38,12 +38,12 @@ export default {
   async run({ $ }) {
     const data = this.postRequest(
       $,
-      `https://transmission.confection.io/${this.accountId}/${this.uuid}/related/${this.likeness}`
+      `https://transmission.confection.io/${this.accountId}/${this.uuid}/related/${this.likeness}`,
     );
 
     if (data.related.length === 0 && this.stopExecution === false) {
       throw new Error(
-        `No related UUIDs with likeness score greater than or equal to ${this.likeness} were found.`
+        `No related UUIDs with likeness score greater than or equal to ${this.likeness} were found.`,
       );
     }
     return data;

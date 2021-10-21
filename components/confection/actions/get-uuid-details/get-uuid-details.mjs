@@ -19,7 +19,7 @@ export default {
   async run({ $ }) {
     return this.postRequest(
       $,
-      `https://transmission.confection.io/${this.accountId}/${this.uuid}/full`
+      `https://transmission.confection.io/${this.accountId}/${this.uuid}/full`,
     );
   },
 };

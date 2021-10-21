@@ -2,7 +2,9 @@ import { axios } from "@pipedream/platform";
 import confection from "../confection.app.mjs";
 
 export default {
-  props: { confection },
+  props: {
+    confection,
+  },
   methods: {
     /**
      * Send POST request to Confection Live API and return the results
@@ -15,8 +17,12 @@ export default {
       const { data } = await axios($, {
         url,
         method: "POST",
-        data: { key: this.confection.$auth.secret_key },
-        headers: { Accept: "application/json" },
+        data: {
+          key: this.confection.$auth.secret_key,
+        },
+        headers: {
+          Accept: "application/json",
+        },
       });
 
       return data;
