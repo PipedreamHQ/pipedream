@@ -28,14 +28,14 @@ export default {
      * Gets the [Ghost event](https://ghost.org/docs/webhooks/) for which this webhook should
      * receieve events
      *
-     * To receieve webhook requests for the Ghost event `site.changed`, the function would look
-     * like this:
+     * To receieve webhook requests for the Ghost event `site.changed`, the function would look like
+     * this:
      * @example
      * function getEvent() {
      *   return "site.changed";
      * }
      *
-     * @returns {String} The full Ghost event string
+     * @returns {string} The full Ghost event string
      */
     getEvent() {
       throw new Error("getEvent is not implemented");
@@ -43,18 +43,18 @@ export default {
     /**
      * Generates the metadata object to append to the emitted event
      *
-     * @param {object} data the data being processed by the event
-     * source
-     * @returns {object} a metadata object containing a unique ID (`id`), a
-     * summary of the event (`summary`) and its timestamp (`ts`) as
-     * the number of milliseconds since the [Unix Epoch](https://en.wikipedia.org/wiki/Unix_time)
+     * @param {object} data - The data being processed by the event source
+     * @returns {object} A metadata object containing a unique ID (`id`), a summary of the event
+     * (`summary`) and its timestamp (`ts`) as the number of milliseconds since the [Unix
+     * Epoch](https://en.wikipedia.org/wiki/Unix_time)
      */
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
     /**
-     * Default emitEvent. Components should overwrite this function if something more
+     * Emits an event. Components should overwrite this function if something more
      * needs to be emitted in the event.
+     *
      * @param {object} body - The event body to be emitted
      */
     emitEvent(body) {

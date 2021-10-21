@@ -6,7 +6,7 @@ export default {
   key: "ghost_admin-member-deleted",
   name: "Member Deleted (Instant)",
   description: "Emit new event each time a member is deleted from a site.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   methods: {
     ...common.methods,
