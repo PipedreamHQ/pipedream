@@ -26,7 +26,7 @@ export default {
     playlistTracksUris: {
       type: "string[]",
       label: "Tracks",
-      description: "An array of [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) of the tracks or episodes to remove. For example: `spotify:track:4iV5W9uYEdYUVa79Axb7Rh`. A maximum of 100 URIs can be sent at once.",
+      description: "Select tracks or episodes to remove with \"Structured Mode\" enabled, or reference specific [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 URIs can be sent at once.",
       async options({
         page, playlistId,
       }) {
@@ -39,7 +39,7 @@ export default {
 
         return {
           options: items.map((item) => ({
-            label: this.getTrackNameWithArtists(item.track),
+            label: this.getItemOptionLabel(item.track),
             value: item.track.uri,
           })),
         };
@@ -48,8 +48,7 @@ export default {
     savedUserTracksId: {
       type: "string[]",
       label: "Track ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
-      useQuery: true,
+      description: "Search saved user tracks in \"Liked Songs\" with \"Structure Mode\" enabled, or reference specific [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
       async options({ page }) {
         const limit = 20;
         const items = await this.getUserTracks({
@@ -59,7 +58,7 @@ export default {
 
         return {
           options: items.map((item) => ({
-            label: this.getTrackNameWithArtists(item.track),
+            label: this.getItemOptionLabel(item.track),
             value: item.track.id,
           })),
         };
@@ -98,7 +97,10 @@ export default {
         return {
           options: playlists.map((playlist) => ({
             label: playlist.name,
-            value: playlist.id,
+            value: {
+              label: playlist.name,
+              value: playlist.id,
+            },
           })),
         };
       },
@@ -135,9 +137,42 @@ export default {
         );
         return {
           options: tracks.map((track) => ({
-            label: this.getTrackNameWithArtists(track),
+            label: this.getItemOptionLabel(track),
             value: track.id,
           })),
+        };
+      },
+    },
+    uris: {
+      type: "string[]",
+      label: "Track or Episode URIs",
+      description: "Search for any tracks or episodes on Spotify with \"Structured Mode\" enabled, or reference the specific [track or episode URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 items can be added in one request.",
+      useQuery: true,
+      async options({
+        query,
+        page,
+      }) {
+        const limit = 20;
+        const items = await this.getItems(
+          [
+            ITEM_TYPES.TRACK,
+            ITEM_TYPES.EPISODE,
+          ],
+          query,
+          limit,
+          limit * page,
+        );
+        return {
+          options: items.map((item) => {
+            const label = this.getItemOptionLabel(item);
+            return {
+              label,
+              value: {
+                label,
+                value: item.uri,
+              },
+            };
+          }),
         };
       },
     },
@@ -268,23 +303,42 @@ export default {
         return this.retry(config, retries - 1);
       }
     },
-    async getItems(type, q, limit, offset) {
-      if (!Object.values(ITEM_TYPES).includes(type)) {
-        throw new Error("Invalid item type");
+    async getItems(types, q, limit, offset) {
+      if (!Array.isArray(types)) {
+        types = [
+          types,
+        ];
+      }
+      for (const type of types) {
+        if (!Object.values(ITEM_TYPES).includes(type)) {
+          throw new Error("Invalid item type");
+        }
       }
       if (!q) {
         return [];
       }
 
       const params = {
-        type,
+        type: types.join(","),
         q,
         limit,
         offset,
       };
 
       const res = await this._makeRequest("GET", "/search", params);
-      return get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, []);
+      return types.reduce((accumulator, type) => (
+        accumulator.concat(get(res, `data.${ITEM_TYPES_RESULT_NAME[type]}.items`, []))
+      ), []);
+    },
+    getItemOptionLabel(item) {
+      switch (item.type) {
+      case ITEM_TYPES.TRACK:
+        return this.getTrackNameWithArtists(item);
+      case ITEM_TYPES.EPISODE:
+        return `${item.name}`;
+      default:
+        return item.name;
+      }
     },
     async getPlaylists(params) {
       const res = await this._makeRequest("GET", "/me/playlists", params);

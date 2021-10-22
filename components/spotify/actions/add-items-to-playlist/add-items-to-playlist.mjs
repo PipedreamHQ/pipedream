@@ -3,7 +3,7 @@ import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Add Items to a Playlist",
-  description: "Add one or more items to a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-add-tracks-to-playlist).",
+  description: "Add one or more items to a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/add-tracks-to-playlist).",
   key: "spotify-add-item-to-a-playlist",
   version: "0.0.1",
   type: "action",
@@ -16,9 +16,10 @@ export default {
       ],
     },
     uris: {
-      type: "string[]",
-      label: "Track or Episode URIs",
-      description: "Specify the [track or episode URI](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) to add. For example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh` or `spotify:episode:512ojhOuo1ktJprKbVcKyQ`. A maximum of 100 items can be added in one request.",
+      propDefinition: [
+        spotify,
+        "uris",
+      ],
     },
     position: {
       type: "integer",
@@ -36,18 +37,17 @@ export default {
 
     const data = {
       position,
-      uris,
+      uris: uris.map((uri) => uri.value),
     };
 
     const resp = await axios($, this.spotify._getAxiosParams({
       method: "POST",
-      path: `/playlists/${playlistId}/tracks`,
+      path: `/playlists/${playlistId.value}/tracks`,
       data,
     }));
 
-    // it'd be nice to pull in the playlist name here instead of referencing the playlist ID
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully added ${uris.length} ${uris.length == 1 ? "item" : "items"} to ${playlistId} 🎉`);
+    $.export("$summary", `Successfully added ${uris.length} ${uris.length == 1 ? "item" : "items"} to ${playlistId.label} 🎉`);
 
     return resp;
   },
