@@ -47,7 +47,7 @@ export default {
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully added ${uris.length} ${uris.length == 1 ? "item" : "items"} to ${playlistId.label} 🎉`);
+    $.export("$summary", `Successfully added ${uris.length} ${uris.length == 1 ? "item" : "items"} to "${playlistId.label}" 🎉`);
 
     return resp;
   },

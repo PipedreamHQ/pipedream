@@ -1,10 +1,10 @@
 import { axios } from "@pipedream/platform";
-import lodash from "lodash";
+import get from "lodash/get.js";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Get a Category's Playlists",
-  description: "Get a list of Spotify playlists tagged with a particular category. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-a-categories-playlists).",
+  description: "Get a list of Spotify playlists tagged with a particular category. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-a-categories-playlists).",
   key: "spotify-get-categorys-playlist",
   version: "0.0.1",
   type: "action",
@@ -48,7 +48,7 @@ export default {
 
     const res = await axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/browse/categories/${categoryId}/playlists`,
+      path: `/browse/categories/${categoryId.value}/playlists`,
       params: {
         limit,
         offset,
@@ -56,8 +56,8 @@ export default {
       },
     }));
 
-    $.export("$summary", `Successfully fetched playlists for "${this.categoryId}" category. 🎉`);
+    $.export("$summary", `Successfully fetched playlists for "${categoryId.label}" category. 🎉`);
 
-    return lodash.get(res, "playlists.items", []);
+    return get(res, "playlists.items", []);
   },
 };

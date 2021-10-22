@@ -1,10 +1,10 @@
 import { axios } from "@pipedream/platform";
-import lodash from "lodash";
+import get from "lodash/get.js";
 import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Get a Playlist's Items",
-  description: "Get full details of the items of a playlist owned by a Spotify user. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlists-tracks).",
+  description: "Get full details of the items of a playlist owned by a Spotify user. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-playlists-tracks).",
   key: "spotify-get-playlist-items",
   version: "0.0.1",
   type: "action",
@@ -19,7 +19,7 @@ export default {
     fields: {
       type: "string",
       label: "Fields",
-      description: "Filters for the query: a comma-separated list of the fields to return. If omitted, all fields are returned. For example, to get just the total number of items and the request limit: `total,limit`. See [the docs](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlists-tracks) for more information.",
+      description: "Filters for the query: a comma-separated list of the fields to return. If omitted, all fields are returned. For example, to get just the total number of items and the request limit: `total,limit`. [See the docs](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-playlists-tracks) for more information.",
       optional: true,
     },
     limit: {
@@ -57,7 +57,7 @@ export default {
 
     const res = await axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/playlists/${playlistId}/tracks`,
+      path: `/playlists/${playlistId.value}/tracks`,
       params: {
         fields,
         market,
@@ -67,9 +67,8 @@ export default {
       },
     }));
 
-    // can we bring in the playlist name instead of ID?
-    $.export("$summary", `Successfully fetched details for "${this.playlistId}". 🎉`);
+    $.export("$summary", `Successfully fetched details for "${playlistId.label}". 🎉`);
 
-    return lodash.get(res, "items", []);
+    return get(res, "items", []);
   },
 };

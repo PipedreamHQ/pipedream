@@ -3,7 +3,7 @@ import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Get a Track",
-  description: "Get a track by its name or ID. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-search)",
+  description: "Get a track by its name or ID. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/search)",
   key: "spotify-get-a-track",
   version: "0.0.1",
   type: "action",
@@ -30,11 +30,11 @@ export default {
     } = this;
 
     // can we pull in the track name instead of ID?
-    $.export("$summary", `Successfully fetched info for the track, "${this.trackId}". 🎉`);
+    $.export("$summary", `Successfully fetched info for the track, "${trackId.label}". 🎉`);
 
     return axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/tracks/${trackId}`,
+      path: `/tracks/${trackId.value}`,
       params: {
         market,
       },

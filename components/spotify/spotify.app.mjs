@@ -117,7 +117,10 @@ export default {
         return {
           options: categories.map((category) => ({
             label: category.name,
-            value: category.id,
+            value: {
+              label: category.name,
+              value: category.id,
+            },
           })),
         };
       },
