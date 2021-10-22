@@ -169,17 +169,8 @@ export default {
         if (isEmpty(value)) {
           return [];
         }
-        // If the string does not start with "[". Add to beginning
-        if (value[0] !== "[") {
-          value = "[" + value;
-        }
 
-        // If the string does not end with "]". Add to ending
-        if (value[value.length - 1] !== "]") {
-          value += "]";
-        }
-
-        return JSON.parse(value);
+        return value.replace(/["'[\]\s]+/g, "").split(",");
       }
 
       throw new Error(`${value} is not an array or an array-like`);

@@ -5,7 +5,7 @@ export default {
   name: "Add Items to a Playlist",
   description: "Add one or more items to a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-add-tracks-to-playlist).",
   key: "spotify-add-item-to-a-playlist",
-  version: "0.0.18",
+  version: "0.0.1",
   type: "action",
   props: {
     spotify,
@@ -46,8 +46,9 @@ export default {
     }));
 
     // it'd be nice to pull in the playlist name here instead of referencing the playlist ID
-    $.export("$summary", `Successfully added ${uris.length} ${uris.length == 1 ? `item` : `items`} to ${playlistId} 🎉`)
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully added ${uris.length} ${uris.length == 1 ? "item" : "items"} to ${playlistId} 🎉`);
 
-    return resp
+    return resp;
   },
 };

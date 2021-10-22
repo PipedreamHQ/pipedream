@@ -6,7 +6,7 @@ export default {
   name: "Save Tracks for User",
   description: "Save one or more tracks to the current user’s \"Your Music\" library. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-save-tracks-user).",
   key: "spotify-save-track",
-  version: "0.0.27",
+  version: "0.0.1",
   type: "action",
   props: {
     spotify,
@@ -17,6 +17,7 @@ export default {
       ],
       type: "string[]",
       label: "Track IDs",
+      description: "Search for any tracks on Spotify with \"Structured Mode\" enabled, or reference specific [Track IDs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `4iV5W9uYEdYUVa79Axb7Rh` or `4iV5W9uYEdYUVa79Axb7Rh, 0gplL1WMoJ6iYaPgMCL0gX`).",
     },
   },
   async run({ $ }) {
@@ -28,7 +29,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `Successfully added track to "Liked Songs" 🎉`)
+    $.export("$summary", "Successfully added track to \"Liked Songs\" 🎉");
 
     return isEmpty(res)
       ? this.ids

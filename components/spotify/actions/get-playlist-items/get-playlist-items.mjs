@@ -6,7 +6,7 @@ export default {
   name: "Get a Playlist's Items",
   description: "Get full details of the items of a playlist owned by a Spotify user. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-playlists-tracks).",
   key: "spotify-get-playlist-items",
-  version: "0.0.6",
+  version: "0.0.1",
   type: "action",
   props: {
     spotify,
@@ -68,7 +68,7 @@ export default {
     }));
 
     // can we bring in the playlist name instead of ID?
-    $.export("$summary", `Successfully fetched details for "${this.playlistId}". 🎉`)
+    $.export("$summary", `Successfully fetched details for "${this.playlistId}". 🎉`);
 
     return lodash.get(res, "items", []);
   },

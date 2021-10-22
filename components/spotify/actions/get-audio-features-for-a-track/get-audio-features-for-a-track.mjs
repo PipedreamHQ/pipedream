@@ -5,7 +5,7 @@ export default {
   name: "Get Audio Features for a Track",
   description: "Get audio feature information for a single track identified by its unique Spotify ID. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-audio-features).",
   key: "spotify-get-audio-features-for-a-track",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   props: {
     spotify,
@@ -23,8 +23,8 @@ export default {
     }));
 
     //can we pull in track name instead of track ID?
-    $.export("$summary",`Successfully fetched audio features for track ID ${this.id}. 🎉`)
+    $.export("$summary", `Successfully fetched audio features for track ID ${this.id}. 🎉`);
 
-    return resp
+    return resp;
   },
 };
