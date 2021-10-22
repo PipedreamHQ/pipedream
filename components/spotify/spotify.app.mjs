@@ -139,10 +139,16 @@ export default {
           limit * page,
         );
         return {
-          options: tracks.map((track) => ({
-            label: this.getItemOptionLabel(track),
-            value: track.id,
-          })),
+          options: tracks.map((track) => {
+            const label = this.getItemOptionLabel(track);
+            return {
+              label,
+              value: {
+                label,
+                value: track.id,
+              },
+            };
+          }),
         };
       },
     },
