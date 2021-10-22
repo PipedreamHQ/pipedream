@@ -83,7 +83,10 @@ export default {
         return {
           options: artists.map((artist) => ({
             label: artist.name,
-            value: artist.id,
+            value: {
+              label: artist.name,
+              value: artist.id,
+            },
           })),
         };
       },
