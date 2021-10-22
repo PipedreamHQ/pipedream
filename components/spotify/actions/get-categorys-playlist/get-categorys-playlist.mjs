@@ -6,7 +6,7 @@ export default {
   name: "Get a Category's Playlists",
   description: "Get a list of Spotify playlists tagged with a particular category. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-a-categories-playlists).",
   key: "spotify-get-categorys-playlist",
-  version: "0.0.2",
+  version: "0.0.7",
   type: "action",
   props: {
     spotify,
@@ -55,6 +55,9 @@ export default {
         country: market,
       },
     }));
+
+    $.export("$summary", `Successfully fetched playlists for "${this.categoryId}" category. 🎉`)
+
     return lodash.get(res, "playlists.items", []);
   },
 };

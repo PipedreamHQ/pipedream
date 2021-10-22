@@ -6,7 +6,7 @@ export default {
   name: "Save Tracks for User",
   description: "Save one or more tracks to the current user’s \"Your Music\" library. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-save-tracks-user).",
   key: "spotify-save-track",
-  version: "0.0.1",
+  version: "0.0.27",
   type: "action",
   props: {
     spotify,
@@ -27,8 +27,11 @@ export default {
         ids: this.spotify.sanitizedArray(this.ids),
       },
     }));
+
+    $.export("$summary", `Successfully added track to "Liked Songs" 🎉`)
+
     return isEmpty(res)
-      ? "Music saved successfully. Check your \"Liked Songs\""
+      ? this.ids
       : res;
   },
 };

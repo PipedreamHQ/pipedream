@@ -68,7 +68,7 @@ export default {
     artistId: {
       type: "string",
       label: "Artist ID",
-      description: "The [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the artist. For example: `43ZHCT0cAZBISjO8DG9PnE`.",
+      description: "Search for any artist on Spotify with \"Structured Mode\" enabled or enter an artist's [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `43ZHCT0cAZBISjO8DG9PnE`).",
       useQuery: true,
       async options({
         query,

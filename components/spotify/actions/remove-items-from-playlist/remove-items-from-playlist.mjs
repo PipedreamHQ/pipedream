@@ -5,7 +5,7 @@ export default {
   name: "Remove Items from a Playlist",
   description: "Remove one or more items from a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-remove-tracks-playlist)",
   key: "spotify-remove-items-from-playlist",
-  version: "0.0.1",
+  version: "0.0.8",
   type: "action",
   props: {
     spotify,
@@ -45,10 +45,15 @@ export default {
       snapshot_id: snapshotId,
     };
 
-    return axios($, this.spotify._getAxiosParams({
+    const resp = await axios($, this.spotify._getAxiosParams({
       method: "DELETE",
       path: `/playlists/${playlistId}/tracks`,
       data,
     }));
+
+    // we still show this even if no items were removed, since the API returns success and a "snapshot ID" -- is that weird?
+    $.export("$summary", `Successfully removed ${this.tracks.length} ${this.tracks.length == 1 ? `item` : `items`} from the playlist, "${this.playlistId}". 🎉`)
+
+    return resp
   },
 };

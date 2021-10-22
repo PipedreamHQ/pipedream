@@ -5,7 +5,7 @@ export default {
   name: "Create a Playlist",
   description: "Create a playlist for a Spotify user. The playlist will be empty until you add tracks. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-create-playlist).",
   key: "spotify-create-playlist",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     spotify,
@@ -48,10 +48,14 @@ export default {
       collaborative: isCollaborative,
     };
 
-    return axios($, this.spotify._getAxiosParams({
+    const resp = await axios($, this.spotify._getAxiosParams({
       method: "POST",
       path: `/users/${this.spotify.$auth.oauth_uid}/playlists`,
       data,
     }));
+
+    $.export("$summary", `Successfully created a playlist, "${data.name}" 🎉`)
+
+    return resp
   },
 };
