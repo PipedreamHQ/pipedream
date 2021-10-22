@@ -219,7 +219,7 @@ export default {
   methods: {
     sanitizedArray(value) {
       if (isArray(value)) {
-        return value;
+        return value.map((item) => get(item, "value", item));
       }
 
       // If is string, try to convert it in an array
