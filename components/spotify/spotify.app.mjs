@@ -34,14 +34,20 @@ export default {
         const items = await this.getPlaylistItems({
           limit,
           offset: limit * page,
-          playlistId,
+          playlistId: playlistId.value,
         });
 
         return {
-          options: items.map((item) => ({
-            label: this.getItemOptionLabel(item.track),
-            value: item.track.uri,
-          })),
+          options: items.map((item) => {
+            const label = this.getItemOptionLabel(item.track);
+            return {
+              label,
+              value: {
+                label,
+                value: item.track.uri,
+              },
+            };
+          }),
         };
       },
     },
@@ -57,10 +63,16 @@ export default {
         });
 
         return {
-          options: items.map((item) => ({
-            label: this.getItemOptionLabel(item.track),
-            value: item.track.id,
-          })),
+          options: items.map((item) => {
+            const label = this.getItemOptionLabel(item.track);
+            return {
+              label,
+              value: {
+                label,
+                value: item.track.id,
+              },
+            };
+          }),
         };
       },
     },

@@ -3,13 +3,13 @@ import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Remove User's Saved Tracks",
-  description: "Remove one or more tracks from the current user’s ‘Your Music’ library. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-remove-tracks-user)",
+  description: "Remove one or more tracks from the current user’s ‘Your Music’ library. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/remove-tracks-user)",
   key: "spotify-remove-user-saved-tracks",
   version: "0.0.1",
   type: "action",
   props: {
     spotify,
-    ids: {
+    savedUserTracksId: {
       propDefinition: [
         spotify,
         "savedUserTracksId",
@@ -17,18 +17,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const { ids } = this;
+    const { savedUserTracksId } = this;
 
     const resp = await axios($, this.spotify._getAxiosParams({
       method: "DELETE",
       path: "/me/tracks",
       data: {
-        ids,
+        ids: savedUserTracksId.map((track) => track.value),
       },
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully removed ${this.ids.length} ${this.ids.length == 1 ? "item" : "items"} from "Liked Songs". 🎉`);
+    $.export("$summary", `Successfully removed ${savedUserTracksId.length} ${savedUserTracksId.length == 1 ? "item" : "items"} from "Liked Songs". 🎉`);
 
     return resp;
   },

@@ -3,7 +3,7 @@ import spotify from "../../spotify.app.mjs";
 
 export default {
   name: "Remove Items from a Playlist",
-  description: "Remove one or more items from a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#endpoint-remove-tracks-playlist)",
+  description: "Remove one or more items from a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/remove-tracks-playlist)",
   key: "spotify-remove-items-from-playlist",
   version: "0.0.1",
   type: "action",
@@ -15,7 +15,7 @@ export default {
         "playlistId",
       ],
     },
-    tracks: {
+    playlistTracksUris: {
       propDefinition: [
         spotify,
         "playlistTracksUris",
@@ -34,25 +34,25 @@ export default {
   async run({ $ }) {
     const {
       playlistId,
-      tracks,
+      playlistTracksUris,
       snapshotId,
     } = this;
 
     const data = {
-      tracks: this.spotify.sanitizedArray(tracks).map((track) => ({
-        uri: track,
+      tracks: this.spotify.sanitizedArray(playlistTracksUris).map((track) => ({
+        uri: track.value,
       })),
       snapshot_id: snapshotId,
     };
 
     const resp = await axios($, this.spotify._getAxiosParams({
       method: "DELETE",
-      path: `/playlists/${playlistId}/tracks`,
+      path: `/playlists/${playlistId.value}/tracks`,
       data,
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully removed ${this.tracks.length} ${this.tracks.length == 1 ? "item" : "items"} from the playlist, "${this.playlistId}". 🎉`);
+    $.export("$summary", `Successfully removed ${playlistTracksUris.length} ${playlistTracksUris.length == 1 ? "item" : "items"} from the playlist, "${playlistId.label}". 🎉`);
 
     return resp;
   },
