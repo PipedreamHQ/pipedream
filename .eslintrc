@@ -30,7 +30,8 @@
         "pipedream/props-label": "error",
         "pipedream/props-description": "error",
         "pipedream/source-name": "warn",
-        "pipedream/source-description": "warn"
+        "pipedream/source-description": "warn",
+        "pipedream/no-ts-version": "error"
       }
     },
     {
@@ -188,6 +189,6 @@
       "error",
       "always"
     ],
-    "space-infix-ops": "error"
+    "space-infix-ops": "error",
   }
 }
