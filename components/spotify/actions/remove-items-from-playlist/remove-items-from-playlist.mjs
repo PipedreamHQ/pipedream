@@ -38,10 +38,12 @@ export default {
       snapshotId,
     } = this;
 
+    const tracks = this.spotify.sanitizedArray(playlistTracksUris).map((track) => ({
+      uri: track,
+    }));
+
     const data = {
-      tracks: this.spotify.sanitizedArray(playlistTracksUris).map((track) => ({
-        uri: track.value,
-      })),
+      tracks,
       snapshot_id: snapshotId,
     };
 
@@ -52,7 +54,7 @@ export default {
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully removed ${playlistTracksUris.length} ${playlistTracksUris.length == 1 ? "item" : "items"} from the playlist, "${playlistId.label}". 🎉`);
+    $.export("$summary", `Successfully removed ${tracks.length} ${tracks.length == 1 ? "item" : "items"} from the playlist, "${playlistId.label}". 🎉`);
 
     return resp;
   },

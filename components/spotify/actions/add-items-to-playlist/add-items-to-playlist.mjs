@@ -5,7 +5,7 @@ export default {
   name: "Add Items to a Playlist",
   description: "Add one or more items to a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/add-tracks-to-playlist).",
   key: "spotify-add-item-to-a-playlist",
-  version: "0.0.1",
+  version: "0.7.1",
   type: "action",
   props: {
     spotify,
@@ -37,7 +37,7 @@ export default {
 
     const data = {
       position,
-      uris: uris.map((uri) => uri.value),
+      uris: this.spotify.sanitizedArray(uris),
     };
 
     const resp = await axios($, this.spotify._getAxiosParams({
