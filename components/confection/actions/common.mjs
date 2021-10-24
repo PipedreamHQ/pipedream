@@ -14,7 +14,7 @@ export default {
      * @returns {Promise<object>} - Results from the Live API
      */
     async postRequest($, url) {
-      const { data } = await axios($, {
+      const data = await axios($, {
         url,
         method: "POST",
         data: {
