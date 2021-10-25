@@ -1,8 +1,8 @@
-const crypto = require("crypto");
-const discourse = require("./discourse.app");
-const isEmpty = require("lodash.isempty");
+import crypto from "crypto";
+import discourse from "./discourse.app.mjs";
+import isEmpty from "lodash.isempty";
 
-module.exports = {
+export default {
   props: {
     http: "$.interface.http",
     db: "$.service.db",
@@ -12,7 +12,9 @@ module.exports = {
   hooks: {
     async deactivate() {
       const hookID = this.db.get("hookID");
-      await this.discourse.deleteHook({ hookID });
+      await this.discourse.deleteHook({
+        hookID,
+      });
     },
   },
   methods: {
@@ -33,7 +35,7 @@ module.exports = {
       hmac.update(JSON.stringify(body), "utf-8");
       if (header !== `${algo}=${hmac.digest("hex")}`) {
         throw new Error(
-          "Discourse signature does not match computed signature"
+          "Discourse signature does not match computed signature",
         );
       }
     },
@@ -41,7 +43,10 @@ module.exports = {
       throw new Error("Generate meta is not implemented");
     },
     validateEventAndEmit(event, eventName, key) {
-      const { body, headers } = event;
+      const {
+        body,
+        headers,
+      } = event;
       if (isEmpty(headers) || !headers["x-discourse-event-signature"]) {
         throw new Error("Discourse signature header not present. Exiting");
       }
