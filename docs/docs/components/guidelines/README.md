@@ -129,19 +129,19 @@ run the following commands at the root of the project:
 
 ### Process
 
-To create and submit a new or updated component to the Pipedream registry:
+Anyone from the community can build [sources](/event-sources/) and [actions](/components/actions/) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)").
 
-1. Anyone from the community can build [sources](/event-sources/) and [actions](/components/actions/) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)"). If you don't see the app listed in [our marketplace](https://pipedream.com/apps), you can [request it here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D).
-2. Once the Pipedream team integrates the app, ask for the app's "name slug" (you'll need to reference this in your code).
-3. All development happens in this [GitHub repo](https://github.com/PipedreamHQ/pipedream). Fork the repo and refer to the [contribution docs](/components/guidelines/#prerequisites) to get your development environment setup.
-4. After the app is integrated with Pipedream, check if a directory already exists for the app's name slug in the `components` directory of the repo. These directories contain existing sources and actions for the app.
-5. If the directory _doesn't_ exist, create it.
-6. Within that directory, create an "[app file](/components/guidelines/#app-files)" for the integration using the format, `[app_name_slug].app.js` ([see this example for Airtable](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/airtable.app.js)). App files should contain props, methods, and other code you're using across different components.
-7. Refer to the quickstarts for [sources](/components/quickstart/nodejs/sources/) and [actions](/components/quickstart/nodejs/actions/) for guidance.
-8. When you're ready to develop your own components, you can reference the [component API docs](/components/api/) and our [contribution guidelines](/components/guidelines/#guidelines-patterns).
-9. Create a PR for the Pipedream team to review and post a message in our [community forum](https://pipedream.com/community/c/dev/11) or [public Slack](https://pipedream-users.slack.com/archives/C01E5KCTR16).
-10. Address any feedback provided by Pipedream.
-11. Once the review is complete and approved, Pipedream will merge the PR to the `master` branch! :tada:
+All development happens in [this GitHub repo](https://github.com/PipedreamHQ/pipedream). Fork the repo and refer to the [contribution docs](/components/guidelines/#prerequisites) to get your development environment setup.
+
+To submit new components:
+
+1. If you don't see the app listed in [our marketplace](https://pipedream.com/apps), you can [request it here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D).
+2. Once the Pipedream team integrates the app, we'll create a directory for the app in the `components` directory of the GitHub repo. That directory will contain an "[app file](/components/guidelines/#app-files)" that contains the basic code you'll need to get started developing components. App files should contain props, methods, and other code you're using across different components. [See this example for Airtable](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/airtable.app.js)).
+3. Refer to the quickstarts for [sources](/components/quickstart/nodejs/sources/) and [actions](/components/quickstart/nodejs/actions/) to learn how to create components.
+4. When you're ready to develop your own components, you can reference the [component API docs](/components/api/) and our [contribution guidelines](/components/guidelines/#guidelines-patterns).
+5. Create a PR for the Pipedream team to review and post a message in our [community forum](https://pipedream.com/community/c/dev/11) or [public Slack](https://pipedream-users.slack.com/archives/C01E5KCTR16).
+6. Address any feedback provided by Pipedream.
+7. Once the review is complete and approved, Pipedream will merge the PR to the `master` branch! :tada:
 
 Have questions? Reach out in the [#contribute channel](https://pipedream-users.slack.com/archives/C01E5KCTR16) in Slack or [on Discourse](https://pipedream.com/community/c/dev/11).
 
@@ -177,6 +177,40 @@ actions for Pipedream's registry.
 
 ### General
 
+#### Components should be ES modules
+
+The Node.js community has started publishing [ESM-only](https://flaviocopes.com/es-modules/) packages that do not work with [CommonJS modules](https://nodejs.org/docs/latest/api/modules.html#modules_modules_commonjs_modules). This means you must `import` the package. You can't use `require`.
+
+You also cannot mix ESM with CJS. This will **not** work:
+
+```javascript
+// ESM
+import axios from "axios";
+
+// CommonJS - this should be `export default`
+module.exports = {
+  ...
+}
+```
+
+Therefore, all components should be written as ES modules:
+
+```javascript
+import axios from "axios";
+
+export default {
+  ...
+}
+```
+
+**You'll need to use [the `.mjs` file extension](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#aside_%E2%80%94_.mjs_versus_.js) for any components written as ES modules**.
+
+You'll notice that many of the existing components are written as CommonJS modules. Please fix these and submit a pull request as you refactor related code. For example, if you're developing new Spotify actions, and you notice the existing event sources use CommonJS, change them to ESM:
+
+1. Rename the file extension from `.js` to `.mjs` using `git mv` (e.g. `git mv source.js source.mjs`).
+2. Change all `require` statements to `import`s.
+3. Change instances of `module.exports` to `export default`.
+
 #### Component Scope
 
 Create components to address specific use cases whenever possible. For example,
@@ -198,7 +232,7 @@ Registry [components](../api/#component-structure) require a unique `key` and
 future).
 
 ```javascript
-module.exports = {
+export default {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
@@ -212,6 +246,20 @@ When publishing components to the Pipedream registry, the `key` must be unique
 across registry components and should follow the pattern:
 
 `app_name_slug`-`slugified-component-name`
+
+#### Versioning
+
+When you first publish a component to the registry, set its version to `0.0.1`.
+
+Pipedream registry components try to follow [semantic versioning](https://semver.org/). From their site:
+
+Given a version number `MAJOR.MINOR.PATCH`, increment the:
+
+1. `MAJOR` version when you make incompatible API changes,
+2. `MINOR` version when you add functionality in a backwards compatible manner, and
+3. `PATCH` version when you make backwards compatible bug fixes.
+
+When you're developing actions locally, and you've incremented the version in your account multiple times, make sure to set it to the version it should be at in the registry prior to submitting your PR. For example, when you add an action to the registry, the version should be `0.0.1`. If the action was at version `0.1.0` and you've fixed a bug, change it to `0.1.1` when committing your final code.
 
 #### Folder Structure
 
@@ -248,6 +296,14 @@ directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
 If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
+
+#### Error-handling and input validation
+
+When you use the SDK of a popular API, the SDK might raise clear errors to the user. For example, if the user is asked to pass an email address, and that email address doesn't validate, the library might raise that in the error message.
+
+But other libraries will _not_ raise clear errors. In these cases, you may need to `throw` your own custom error that wraps the error from the API / lib. [See the Airtable components](https://github.com/PipedreamHQ/pipedream/blob/9e4e400cda62335dfabfae384d9224e04a585beb/components/airtable/airtable.app.js#L70) for an example of custom error-handling and input validation.
+
+In general, **imagine you are a user troubleshooting an issue. Is the error easy-to-understand? If not, `throw` a better error**.
 
 #### Pagination
 
@@ -291,7 +347,7 @@ e.g., `[foo=bar]`). This data will both help with reusability and will be
 surfaced in documentation for apps in the Pipedream marketplace. For example:
 
 ```javascript
-module.exports = {
+export default {
   methods: {
     /**
      * Get the most recently liked Tweets for a user
@@ -374,11 +430,12 @@ set to “Search Term”.
 #### Descriptions
 
 Include a description for [props](../api/#user-input-props) if it helps the
-user understand what they need to do. Additionally, use Markdown as appropriate
+user understand what they need to do. Use Markdown as appropriate
 to improve the clarity of the description or instructions. When using Markdown:
 
 - Enclose sample input values in backticks (`` ` ``)
 - Use Markdown links with descriptive text rather than displaying a full URL.
+- If the description isn't self-explanatory, link to the API docs of the relevant method to further clarify how the prop works. When the value of the prop is complex (for example, an object with many properties), link to the section of the API docs that include details on this format. Users may pass values from previous steps using [expressions](/workflows/steps/params/#entering-expressions), so they'll need to know how to structure that data.
 
 Examples:
 
@@ -554,4 +611,14 @@ end user. Generate and use a GUID for the shared secret value, save it to a
 
 ### Action Guidelines
 
-_(Coming soon)_
+#### Use `@pipedream/platform` axios for all HTTP requests
+
+By default, the standard `axios` package doesn't return useful debugging data to the user when it `throw`s errors on HTTP 4XX and 5XX status codes. This makes it hard for the user to troubleshoot the issue.
+
+Instead, [use `@pipedream/platform` axios](/pipedream-axios).
+
+#### Return JavaScript objects
+
+When you `return` data from an action, it's exposed as a [step export](/workflows/steps/#step-exports) for users to reference in future steps of their workflow. Return JavaScript objects in all cases, unless there's a specific reason not to.
+
+For example, some APIs return XML responses. If you return XML from the step, it's harder for users to parse and reference in future steps. Convert the XML to a JavaScript object, and return that, instead.

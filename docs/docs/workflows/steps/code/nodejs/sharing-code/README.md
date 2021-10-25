@@ -34,7 +34,7 @@ function random() {
 
 // Read https://www.sitepoint.com/understanding-module-exports-exports-node-js/
 // for more information on this syntax
-module.exports = {
+export default {
   random,
 };
 ```
