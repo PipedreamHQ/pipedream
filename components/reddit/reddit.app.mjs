@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from "qs";
 import lodash from "lodash";
 import retry from "async-retry";
 
@@ -70,8 +71,8 @@ export default {
         ...opts,
         url: this._apiUrl() + opts.path,
         headers: this._getHeaders(),
+        data: opts.data && qs.stringify(opts.data),
       };
-      console.log(res);
       return res;
     },
     _getHeaders() {
