@@ -2,9 +2,10 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
+  type: "source",
   key: "youtube_data_api-new-videos-by-location",
   name: "New Videos by Location",
-  description: "Emits an event for each new YouTube video tied to a location.",
+  description: "Emit new event for each new YouTube video tied to a location.",
   version: "0.0.2",
   dedupe: "unique",
   props: {

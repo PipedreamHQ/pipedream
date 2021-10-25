@@ -4,6 +4,7 @@ module.exports = {
   props: {
     youtube,
     db: "$.service.db",
+    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
       type: "$.interface.timer",
       default: {
@@ -49,7 +50,10 @@ module.exports = {
       return {};
     },
     generateMeta(video) {
-      const { id, snippet } = video;
+      const {
+        id,
+        snippet,
+      } = video;
       return {
         id: id.videoId,
         summary: snippet.title,
@@ -89,7 +93,7 @@ module.exports = {
       return lastPublished;
     },
   },
-  async run(event) {
+  async run() {
     let publishedAfter = this._getPublishedAfter();
     const params = {
       ...this._getBaseParams(),

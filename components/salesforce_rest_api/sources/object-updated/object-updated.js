@@ -4,10 +4,11 @@ const common = require("../../common");
 
 module.exports = {
   ...common,
+  type: "source",
   name: "Object Updated (of Selectable Type)",
   key: "salesforce_rest_api-object-updated",
   description: `
-    Emit an event (at regular intervals) when an object of arbitrary type
+    Emit new event (at regular intervals) when an object of arbitrary type
     (selected as an input parameter by the user) is updated
   `,
   version: "0.0.3",
@@ -31,14 +32,17 @@ module.exports = {
       };
     },
     async processEvent(eventData) {
-      const { startTimestamp, endTimestamp } = eventData;
+      const {
+        startTimestamp,
+        endTimestamp,
+      } = eventData;
       const {
         ids,
         latestDateCovered,
       } = await this.salesforce.getUpdatedForObjectType(
         this.objectType,
         startTimestamp,
-        endTimestamp
+        endTimestamp,
       );
 
       // By the time we try to retrieve an item, it might've been deleted. This
@@ -46,7 +50,7 @@ module.exports = {
       // promise. Hence, we need to filter those items that we still in Salesforce
       // and exclude those that are not.
       const itemRetrievals = await Promise.allSettled(
-        ids.map((id) => this.salesforce.getSObject(this.objectType, id))
+        ids.map((id) => this.salesforce.getSObject(this.objectType, id)),
       );
       itemRetrievals
         .filter((result) => result.status === "fulfilled")

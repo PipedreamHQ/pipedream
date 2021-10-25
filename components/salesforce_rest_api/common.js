@@ -6,7 +6,7 @@ module.exports = {
     db: "$.service.db",
     salesforce,
     timer: {
-      type: '$.interface.timer',
+      type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // 15 minutes
       },
@@ -26,7 +26,7 @@ module.exports = {
         const { sobjects } = await this.salesforce.listSObjectTypes();
         const options = sobjects
           .filter(this.isValidSObject)
-          .map(sobject => ({
+          .map((sobject) => ({
             label: sobject.label,
             value: sobject.name,
           }));
@@ -64,7 +64,7 @@ module.exports = {
     const startTimestamp = this.db.get("latestDateCovered");
     const endTimestamp = new Date(event.timestamp * 1000).toISOString();
     const timeDiffSec = Math.floor(
-      (Date.parse(endTimestamp) - Date.parse(startTimestamp)) / 1000
+      (Date.parse(endTimestamp) - Date.parse(startTimestamp)) / 1000,
     );
     if (timeDiffSec < 60) {
       console.log(`

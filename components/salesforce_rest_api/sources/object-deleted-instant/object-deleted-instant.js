@@ -4,10 +4,11 @@ const common = require("../../common-instant");
 
 module.exports = {
   ...common,
+  type: "source",
   name: "Object Deleted (Instant, of Selectable Type)",
   key: "salesforce_rest_api-object-deleted-instant",
   description: `
-    Emit an event immediately after an object of arbitrary type
+    Emit new event immediately after an object of arbitrary type
     (selected as an input parameter by the user) is deleted
   `,
   version: "0.0.3",

@@ -19,13 +19,15 @@ module.exports = {
       const { path } = opts;
       delete opts.path;
       opts.url = `https://discordapp.com/api${
-        path[0] === "/" ? "" : "/"
+        path[0] === "/"
+          ? ""
+          : "/"
       }${path}`;
       return await require("@pipedreamhq/platform").axios(this, opts);
     },
     async getGuilds() {
       const guilds = await this._makeRequest({
-        path: `/users/@me/guilds`,
+        path: "/users/@me/guilds",
       });
       return guilds.map((guild) => {
         return {

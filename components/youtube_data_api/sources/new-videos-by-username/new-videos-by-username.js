@@ -2,9 +2,10 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
+  type: "source",
   key: "youtube_data_api-new-videos-by-username",
   name: "New Videos by Username",
-  description: "Emits an event for each new Youtube video tied to a username.",
+  description: "Emit new event for each new Youtube video tied to a username.",
   version: "0.0.2",
   dedupe: "unique",
   props: {
@@ -66,7 +67,7 @@ module.exports = {
       return lastPublished;
     },
   },
-  async run(event) {
+  async run() {
     let publishedAfter = this._getPublishedAfter();
     const channelIds = await this.getChannelIds();
 

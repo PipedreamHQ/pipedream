@@ -1,14 +1,17 @@
+// eslint-disable-next-line camelcase
 const ghost_org_content_api = require("../../ghost_org_content_api.app.js");
 
 module.exports = {
+  type: "source",
   key: "ghost_org_content_api-new-author",
   name: "New Author",
-  description: "Emits an event for each new author added on a site.",
+  description: "Emit new event for each new author added on a site.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
     ghost_org_content_api,
     db: "$.service.db",
+    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
       type: "$.interface.timer",
       default: {
@@ -16,8 +19,7 @@ module.exports = {
       },
     },
   },
-
-  async run(event) {
+  async run() {
     let total = 1;
     let page = 1;
 

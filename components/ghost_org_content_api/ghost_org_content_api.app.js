@@ -6,14 +6,14 @@ module.exports = {
   methods: {
     async getAuthors(page) {
       const config = {
-        method: 'GET',
+        method: "GET",
         url: `${this.$auth.admin_domain}/ghost/api/v3/content/authors`,
         params: {
           key: this.$auth.content_api_key,
           limit: 15,
           page,
-        }
-      }
+        },
+      };
       return await axios(config);
     },
   },

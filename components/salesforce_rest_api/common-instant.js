@@ -21,13 +21,13 @@ module.exports = {
           // The list of allowed SObject types is static and exhaustively
           // provided through a single method call
           return {
-            options: []
+            options: [],
           };
         }
 
         const eventType = this.getEventType();
         const supportedObjectTypes = this.salesforce.listAllowedSObjectTypes(eventType);
-        const options = supportedObjectTypes.map(i => ({
+        const options = supportedObjectTypes.map((i) => ({
           label: i.label,
           value: i.name,
         }));
@@ -62,9 +62,7 @@ module.exports = {
   },
   methods: {
     _isValidSource(event) {
-      const {
-        "x-webhook-token": webhookToken,
-      } = event.headers;
+      const { undefined: webhookToken } = event.headers;
       const secretToken = this.db.get("secretToken");
       return webhookToken === secretToken;
     },
@@ -74,10 +72,10 @@ module.exports = {
       this.$emit(body, meta);
     },
     generateMeta() {
-      throw new Error('generateMeta is not implemented');
+      throw new Error("generateMeta is not implemented");
     },
     getEventType() {
-      throw new Error('getEventType is not implemented');
+      throw new Error("getEventType is not implemented");
     },
   },
   async run(event) {

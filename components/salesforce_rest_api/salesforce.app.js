@@ -18,8 +18,8 @@ module.exports = {
       return (
         this._instance() ||
         this._instanceUrl()
-          .replace('https://', '')
-          .replace('.salesforce.com', '')
+          .replace("https://", "")
+          .replace(".salesforce.com", "")
       );
     },
     _apiVersion() {
@@ -106,8 +106,10 @@ module.exports = {
       const url = this._sObjectTypeDescriptionApiUrl(objectType);
       const requestConfig = this._makeRequestConfig();
       const { data } = await axios.get(url, requestConfig);
-      const nameField = data.fields.find(f => f.nameField);
-      return nameField !== undefined ? nameField.name : 'Id';
+      const nameField = data.fields.find((f) => f.nameField);
+      return nameField !== undefined
+        ? nameField.name
+        : "Id";
     },
     async getSObject(objectType, id) {
       const url = this._sObjectDetailsApiUrl(objectType, id);

@@ -2,10 +2,11 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
+  type: "source",
   key: "youtube_data_api-new-videos-by-search",
   name: "New Videos by Search",
   description:
-    "Emits an event for each new YouTube video matching a search query.",
+    "Emit new event for each new YouTube video matching a search query.",
   version: "0.0.3",
   dedupe: "unique",
   props: {
@@ -16,7 +17,10 @@ module.exports = {
       description: "Search for new videos that match these keywords.",
     },
     maxResults: {
-      propDefinition: [common.props.youtube, "maxResults"],
+      propDefinition: [
+        common.props.youtube,
+        "maxResults",
+      ],
     },
   },
   hooks: {

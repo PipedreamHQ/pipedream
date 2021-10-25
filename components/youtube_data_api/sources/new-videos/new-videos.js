@@ -2,15 +2,19 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
+  type: "source",
   key: "youtube_data_api-new-videos",
   name: "New Videos",
-  description: "Emits an event for each new Youtube video the user posts.",
+  description: "Emit new event for each new Youtube video the user posts.",
   version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
     maxResults: {
-      propDefinition: [common.props.youtube, "maxResults"],
+      propDefinition: [
+        common.props.youtube,
+        "maxResults",
+      ],
     },
   },
   hooks: {
@@ -26,7 +30,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const params = {
       ...this._getBaseParams(),
       ...this.getParams(),

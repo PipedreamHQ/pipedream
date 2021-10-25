@@ -2,9 +2,10 @@ const common = require("../common.js");
 
 module.exports = {
   ...common,
+  type: "source",
   key: "youtube_data_api-new-videos-in-playlist",
   name: "New Videos in Playlist",
-  description: "Emits an event for each new Youtube video added to a Playlist.",
+  description: "Emit new event for each new Youtube video added to a Playlist.",
   version: "0.0.3",
   dedupe: "unique",
   hooks: {
@@ -19,13 +20,19 @@ module.exports = {
       description: "The ID of the playlist to search for new videos in.",
     },
     maxResults: {
-      propDefinition: [common.props.youtube, "maxResults"],
+      propDefinition: [
+        common.props.youtube,
+        "maxResults",
+      ],
     },
   },
   methods: {
     ...common.methods,
     generateMeta(video) {
-      const { id, snippet } = video;
+      const {
+        id,
+        snippet,
+      } = video;
       return {
         id,
         summary: snippet.title,
@@ -70,7 +77,7 @@ module.exports = {
       return lastPublished;
     },
   },
-  async run(event) {
+  async run() {
     const publishedAfter = this._getPublishedAfter();
     const params = {
       ...this.getParams(),
@@ -78,7 +85,7 @@ module.exports = {
 
     const lastPublished = await this.paginatePlaylistItems(
       params,
-      publishedAfter
+      publishedAfter,
     );
 
     if (lastPublished) this._setPublishedAfter(lastPublished);
