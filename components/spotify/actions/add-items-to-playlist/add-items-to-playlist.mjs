@@ -48,8 +48,8 @@ export default {
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully added ${uris.length} ${uris.length == 1 ? "item" : "items"} to "${get(playlistId, "label", playlistId)}" 🎉`);
-
+    $.export("$summary", `🎉 Successfully added ${data.uris.length} ${data.uris.length == 1 ? "item" : "items"} to "${get(playlistId, "label", playlistId)}"`);
+    
     return resp;
   },
 };

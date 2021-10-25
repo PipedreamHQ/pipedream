@@ -67,7 +67,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `Successfully fetched details for "${get(playlistId, "label", playlistId)}". 🎉`);
+    $.export("$summary", `🎉 Successfully fetched details for "${get(playlistId, "label", playlistId)}"`);
 
     return get(res, "items", []);
   },

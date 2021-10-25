@@ -56,7 +56,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `Successfully fetched playlists for "${get(categoryId, "label", categoryId)}" category. 🎉`);
+    $.export("$summary", `🎉 Successfully fetched playlists for the "${get(categoryId, "label", categoryId)}" category`);
 
     return get(res, "playlists.items", []);
   },

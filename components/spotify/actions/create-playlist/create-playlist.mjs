@@ -54,7 +54,7 @@ export default {
       data,
     }));
 
-    $.export("$summary", `Successfully created a playlist, "${data.name}" 🎉`);
+    $.export("$summary", `🎉 Successfully created a new playlist, "${data.name}"`);
 
     return resp;
   },
