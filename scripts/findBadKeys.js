@@ -7,12 +7,12 @@ const componentsDir = path.join(rootDir, 'components')
 
 let err = false
 
-// now walk directories looking for components (.js) and for key: ""... but ideally filter for just component keys
+// now walk directories looking for components and for key: ""... but ideally filter for just component keys
 function checkKeys(p, nameSlug) {
   const names = fs.readdirSync(p)
   for (const name of names) {
     const pp = path.join(p, name)
-    if (name.endsWith('.js')) {
+    if (name.endsWith('.mjs') || name.endsWith('.js')) {
       const data = fs.readFileSync(pp, 'utf8')
       const md = data.match(/['"]?key['"]?: ['"]([^'"]+)/)
       if (md) {
@@ -37,7 +37,7 @@ for (const name of dirs) {
   const subnames = fs.readdirSync(p)
   let nameSlug
   for (const subname of subnames) {
-    if (subname.endsWith(".app.js")) {
+    if (subname.endsWith('.app.mjs') || subname.endsWith('.app.js')) {
       const appPath = path.join(p, subname)
       const data = fs.readFileSync(appPath, 'utf8')
       const md = data.match(/['"]?app['"]?: ['"]([^'"]+)/)
