@@ -3,7 +3,7 @@ const { reddit } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-links-by-user",
+  key: "reddit-new-links-by-user",
   name: "New links by user",
   description: "Emits an event each time a user posts a new link.",
   version: "0.0.2",

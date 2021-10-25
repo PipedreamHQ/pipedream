@@ -3,7 +3,7 @@ const { reddit } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-comments-by-user",
+  key: "reddit-new-comments-by-user",
   name: "New comments by user",
   description: "Emits an event each time a user posts a new comment.",
   version: "0.0.2",

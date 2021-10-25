@@ -3,7 +3,7 @@ const { reddit } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-comments-on-a-post",
+  key: "reddit-new-comments-on-a-post",
   name: "New comments on a post",
   description:
     "Emits an event each time a new comment is added to a subreddit.",

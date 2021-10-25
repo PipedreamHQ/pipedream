@@ -4,7 +4,7 @@ const zoom_admin = require("../../zoom_admin.app");
 
 module.exports = {
   name: "Changes to Webinar Panelists",
-  key: "zoom-admin-webinar-changes-to-panelists",
+  key: "zoom_admin-webinar-changes-to-panelists",
   version: "0.0.1",
   description:
     "Emits an event every time a panelist is added or removed from a webinar, or any time their details change",
