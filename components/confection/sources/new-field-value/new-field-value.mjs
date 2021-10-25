@@ -1,20 +1,19 @@
 import common from "../common.mjs";
+import confection from "../../confection.app.mjs";
 
 export default {
   key: "confection-new-field-value",
-  name: "New Lead",
+  name: "New Field Value",
   version: "0.0.1",
   dedupe: "unique",
   description:
-    "Triggers when a UUID is significant enough to be classified as a lead. You define the field of significance and if a UUID gets a value for this field, it will trigger.",
+    "Emit new event when the UUID is significant enough to be classified as a lead. You define the field of significance and if a UUID gets a value for this field, it will trigger.",
   props: {
     ...common.props,
     triggerField: {
-      type: "string",
-      label: "Field of Significance",
+      propDefinition: [confection, "triggerField"],
       description:
         "Define a field to be used to indicate that a UUID is significant enough to be a lead. You must enter the form input name which Confection uses as the api name of the field.",
-      default: "email",
     },
   },
   methods: {
@@ -28,13 +27,17 @@ export default {
       return `New ${this.triggerField} lead with UUID: ${uuid}`;
     },
     /**
-     * Get URL for Confection /leads/field/{field_name} Live API endpoint
+     * Get data from Confection Live API
      *
      * @param {string} lastTimestamp - Start of results time frame
      * @param {string} timestamp - End of results time frame
      */
-    getUrl(lastTimestamp, timestamp) {
-      return `https://transmission.confection.io/${this.confection.$auth.account_id}/leads/field/${this.triggerField}/between/${lastTimestamp}/${timestamp}/`;
+    getSourceData(lastTimestamp, timestamp) {
+      return this.confection.getNewFieldValue(
+        this.triggerField,
+        lastTimestamp,
+        timestamp
+      );
     },
   },
   run: common.run,

@@ -1,25 +1,20 @@
-import common from "../common.mjs";
+import confection from "../../confection.app.mjs";
 
 export default {
   key: "confection-get-uuid-details",
-  name: "Retrieve Full Details of UUID",
+  name: "Get Full Details of UUID",
   type: "action",
   version: "0.0.1",
   description:
     "This action will retrieve the full details of a specified UUID.",
   props: {
-    ...common.props,
+    confection,
     uuid: {
-      type: "string",
-      label: "UUID",
+      propDefinition: [confection, "uuid"],
       description: "Provide the UUID to retrieve details of.",
     },
   },
-  methods: common.methods,
   async run({ $ }) {
-    return this.postRequest(
-      $,
-      `https://transmission.confection.io/${this.accountId}/${this.uuid}/full`,
-    );
+    return this.confection.getUUIDDetails(this.uuid, $);
   },
 };

@@ -2,11 +2,11 @@ import common from "../common.mjs";
 
 export default {
   key: "confection-new-updated-leads",
-  name: "New or Updated UUID",
+  name: "New or Updated Leads",
   version: "0.0.1",
   dedupe: "unique",
   description:
-    "Triggers when any UUID is created or updated. To learn more about how Confection handles UUIDs, visit https://confection.io/main/demo/#uuid.",
+    "Emit new event when any UUID is created or updated. To learn more about how Confection handles UUIDs, visit https://confection.io/main/demo/#uuid.",
   props: common.props,
 
   methods: {
@@ -20,13 +20,13 @@ export default {
       return `New or updated UUID: ${uuid}`;
     },
     /**
-     * Get URL for Confection leads Live API endpoint
+     * Get data from Confection Live API
      *
      * @param {string} lastTimestamp - Start of results time frame
      * @param {string} timestamp - End of results time frame
      */
-    getUrl(lastTimestamp, timestamp) {
-      return `https://transmission.confection.io/${this.confection.$auth.account_id}/leads/between/${lastTimestamp}/${timestamp}/`;
+    getSourceData(lastTimestamp, timestamp) {
+      return this.confection.getNewOrUpdatedLeads(lastTimestamp, timestamp);
     },
   },
   run: common.run,
