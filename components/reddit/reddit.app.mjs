@@ -6,6 +6,16 @@ export default {
   type: "app",
   app: "reddit",
   propDefinitions: {
+    flair: {
+      type: "string",
+      label: "Flair",
+      description: "Your post flair",
+      async options({ subRedditName }) {
+        // console.log(subRedditName);
+        // await this.getSubRedditFlairs(subRedditName);
+        return [];
+      },
+    },
     subreddit: {
       type: "string",
       label: "Subreddit",
@@ -116,6 +126,14 @@ export default {
           throw err;
         }
       }, retryOpts);
+    },
+    async getSubRedditFlairs(subReddit) {
+      const res = await this._makeRequest({
+        method: "get",
+        path: `/r/${subReddit}/api/flairlist`,
+      });
+
+      console.log(res);
     },
     /**
      * This method retrieves the most recent new hot subreddit posts. The

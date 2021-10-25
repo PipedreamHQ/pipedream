@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "action",
   key: "reddit-action-submit-a-post",
-  version: "0.0.4",
+  version: "0.1.3",
   name: "Submit a Post",
   description: "Create a post to a subreddit. [See the docs here](https://www.reddit.com/dev/api/#POST_api_submit)",
   props: {
@@ -36,6 +36,15 @@ export default {
       type: "string",
       label: "Text",
       description: "Text of your post",
+    },
+    flair: {
+      propDefinition: [
+        reddit,
+        "flair",
+        (c) => ({
+          subRedditName: c.subRedditName,
+        }),
+      ],
     },
   },
   async run ({ $ }) {
