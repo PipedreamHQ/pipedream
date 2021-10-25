@@ -57,7 +57,7 @@ export default {
 
     const res = await axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/playlists/${playlistId.value}/tracks`,
+      path: `/playlists/${get(playlistId, "value", playlistId)}/tracks`,
       params: {
         fields,
         market,
@@ -67,7 +67,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `Successfully fetched details for "${playlistId.label}". 🎉`);
+    $.export("$summary", `Successfully fetched details for "${get(playlistId, "label", playlistId)}". 🎉`);
 
     return get(res, "items", []);
   },

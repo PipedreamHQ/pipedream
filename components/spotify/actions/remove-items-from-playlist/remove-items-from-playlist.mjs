@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
+import get from "lodash/get.js";
 
 export default {
   name: "Remove Items from a Playlist",
@@ -49,12 +50,12 @@ export default {
 
     const resp = await axios($, this.spotify._getAxiosParams({
       method: "DELETE",
-      path: `/playlists/${playlistId.value}/tracks`,
+      path: `/playlists/${get(playlistId, "value", playlistId)}/tracks`,
       data,
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully removed ${tracks.length} ${tracks.length == 1 ? "item" : "items"} from the playlist, "${playlistId.label}". 🎉`);
+    $.export("$summary", `Successfully removed ${tracks.length} ${tracks.length == 1 ? "item" : "items"} from the playlist, "${get(playlistId, "label", playlistId)}". 🎉`);
 
     return resp;
   },

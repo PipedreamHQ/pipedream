@@ -48,7 +48,7 @@ export default {
 
     const res = await axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/browse/categories/${categoryId.value}/playlists`,
+      path: `/browse/categories/${get(categoryId, "value", categoryId)}/playlists`,
       params: {
         limit,
         offset,
@@ -56,7 +56,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `Successfully fetched playlists for "${categoryId.label}" category. 🎉`);
+    $.export("$summary", `Successfully fetched playlists for "${get(categoryId, "label", categoryId)}" category. 🎉`);
 
     return get(res, "playlists.items", []);
   },

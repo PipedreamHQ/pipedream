@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
+import get from "lodash/get.js";
 
 export default {
   name: "Get a Track",
@@ -29,15 +30,16 @@ export default {
       market,
     } = this;
 
-    // can we pull in the track name instead of ID?
-    $.export("$summary", `Successfully fetched info for the track, "${trackId.label}". 🎉`);
-
-    return axios($, this.spotify._getAxiosParams({
+    const res = await axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/tracks/${trackId.value}`,
+      path: `/tracks/${get(trackId, "value", trackId)}`,
       params: {
         market,
       },
     }));
+
+    $.export("$summary", `Successfully fetched info for the track, "${get(trackId, "label", trackId)}". 🎉`);
+
+    return res;
   },
 };

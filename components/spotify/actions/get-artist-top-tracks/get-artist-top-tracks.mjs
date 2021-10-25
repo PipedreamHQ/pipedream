@@ -31,13 +31,13 @@ export default {
 
     const res = await axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/artists/${artistId.value}/top-tracks`,
+      path: `/artists/${get(artistId, "value", artistId)}/top-tracks`,
       params: {
         market,
       },
     }));
 
-    $.export("$summary", `Successfully fetched top tracks for artist "${artistId.label}" 🎉`);
+    $.export("$summary", `Successfully fetched top tracks for artist "${get(artistId, "label", artistId)}" 🎉`);
 
     return get(res, "tracks", []);
   },

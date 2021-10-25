@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import spotify from "../../spotify.app.mjs";
+import get from "lodash/get.js";
 
 export default {
   name: "Get Audio Features for a Track",
@@ -17,12 +18,13 @@ export default {
     },
   },
   async run({ $ }) {
+    const { trackId } = this;
     const resp = await axios($, this.spotify._getAxiosParams({
       method: "GET",
-      path: `/audio-features/${this.trackId.value}`,
+      path: `/audio-features/${get(trackId, "value", trackId)}`,
     }));
 
-    $.export("$summary", `Successfully fetched audio features for track "${this.trackId.label}". 🎉`);
+    $.export("$summary", `Successfully fetched audio features for track "${get(trackId, "label", trackId)}". 🎉`);
 
     return resp;
   },
