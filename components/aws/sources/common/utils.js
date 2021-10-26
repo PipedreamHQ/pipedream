@@ -36,6 +36,6 @@ module.exports = {
     return multiLineString
       .trim()
       .replace(/\n/g, " ")
-      .replace(/\s{2,}/g, "");
+      .replace(/\s{2,}/g, " ");
   },
 };
