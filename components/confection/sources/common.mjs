@@ -53,7 +53,7 @@ export default {
       this.getLastTimestamp() || timestamp - intervalSeconds;
     const data = await this.getSourceData(lastTimestamp, timestamp);
 
-    this.setTimestamp(timestamp);
+    this.setLastTimestamp(timestamp);
 
     if (data.results_number >= 0) {
       Object.entries(data).forEach(([key, value]) => {
