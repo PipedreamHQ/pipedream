@@ -2,9 +2,10 @@ const common = require("../common");
 
 module.exports = {
   ...common,
-  key: "twitter-new-message",
+  type: "source",
+  key: "twitter_developer_app-new-message",
   name: "New Message",
-  description: "Emit an event each time the authenticated user receives a Direct Message",
+  description: "Emit new event each time the authenticated user receives a Direct Message",
   version: "0.0.1",
   dedupe: "unique",
   hooks: {
