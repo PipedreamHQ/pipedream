@@ -2,7 +2,7 @@ import common from "../../common.mjs";
 
 export default {
   name: "New Users",
-  key: "disourse-new-users",
+  key: "discourse-new-users",
   version: "0.1.0",
   type: "source",
   description:
