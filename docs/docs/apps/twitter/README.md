@@ -2,7 +2,7 @@
 
 Pipedream facilitates access to the Twitter API and Twitter events in two ways:
 
-- Within [Pipedream workflows](/workflows), you can use [prebuilt actions](/workflows/steps/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom Node.js code](/workflows/steps/code/) that interacts with the Twitter API.
+- Within [Pipedream workflows](/workflows), you can use [prebuilt actions](/components/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom Node.js code](/workflows/steps/code/) that interacts with the Twitter API.
 - You can also _trigger_ Pipedream workflows on new tweets, new followers, and other Twitter events. This allows you to run custom code in response to these events. 
 
 [[toc]]
@@ -11,7 +11,7 @@ Pipedream facilitates access to the Twitter API and Twitter events in two ways:
 
 ### Pipedream's built-in Twitter app and actions
 
-Pipedream provides a **Twitter** OAuth app for interacting with the Twitter API. To use this app, [add a new step](/workflows/steps/) to your workflow, search for "Twitter", and select the Twitter app from the list. This will display a list of [prebuilt actions](/workflows/steps/actions/) (for example, **Post Tweet**, **Search Twitter**) associated with Twitter:
+Pipedream provides a **Twitter** OAuth app for interacting with the Twitter API. To use this app, [add a new step](/workflows/steps/) to your workflow, search for "Twitter", and select the Twitter app from the list. This will display a list of [prebuilt actions](/components/actions/) (for example, **Post Tweet**, **Search Twitter**) associated with Twitter:
 
 <div>
 <img alt="Twitter app / actions" width="600" src="./images/twitter-app-actions.png">
@@ -58,7 +58,7 @@ To use this app, [add a new step](/workflows/steps/) to your workflow, search fo
 Once connected, you can run any custom code that uses these credentials to interact with the Twitter API. The **Post Tweet** action associated with this app, for example, uses the [`twit` Twitter API client](https://github.com/ttezel/twit) to send tweets:
 
 ```javascript
-const Twit = require("twit");
+import Twit from "twit";
 
 const {
   api_key,

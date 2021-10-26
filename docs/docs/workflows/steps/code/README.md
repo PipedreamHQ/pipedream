@@ -1,20 +1,22 @@
 # Code
 
-Often, you'll want to modify events in a highly custom way. You may need to look up additional metadata about the event, parse raw data into more meaningful fields, or end the execution of a workflow early under some conditions. Code steps let you do this and more. 
+_This document details how to use Node.js code steps. If you're building a [component](/components/), please [reference the component API docs](/components/api/)._
 
-Code steps currently let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/dist/latest-v10.x/docs/api/errors.html#errors_errors) (JavaScript) code, using JavaScript's extensive [npm](https://www.npmjs.com/) package ecosystem within your code. Virtually anything you can do in Node.js, you can do in a code step.
+Pipedream comes with thousands of prebuilt [triggers](/workflows/steps/triggers/) and [actions](/components/actions/). Often, these will be sufficient for building simple workflows.
 
-Code steps are optional, but common. If the data received by your source needs no modification, and can be sent directly to a destination, you don't need code steps in a workflow.
+But sometimes you need to run your own custom logic. You may need to make an API request to fetch additional metadata about the event, transform  data into a custom format, or end the execution of a workflow early under some conditions. **Code steps let you do this and more**.
+
+Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/) (JavaScript) code, using JavaScript's extensive [npm](https://www.npmjs.com/) package ecosystem within your code. Virtually anything you can do in Node.js, you can do in a code step.
 
 [[toc]]
 
 ## Language Support
 
-Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/dist/latest-v10.x/docs/api/).
+Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/).
 
-It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or the URL of the page**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
+It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
 
-**Anything you can do with Node.js, you can do in a workflow**. This includes using most of [npm's 400,000 packages](#using-npm-packages).
+**Anything you can do with Node.js, you can do in a workflow**. This includes using most of [npm's 400,000+ packages](#using-npm-packages).
 
 If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).
 
@@ -22,24 +24,22 @@ JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2
 
 ## Adding a code step
 
-[Add a new Action](/workflows/steps/actions/#adding-a-new-action), search for "**code**", and select the **Run Node.js Code** action:
+1. Click the **+** button below any step of your workflow.
+2. Select the option to **Run Node.js code**.
 
 <div>
-<img alt="Code action" width="300" src="./images/new-code-step.png">
+<img alt="Code step" src="./images/new-code-step.png">
 </div>
 
-You can add any Node.js code in the text editor that appears. For example, try:
+You can add any Node.js code in the editor that appears. For example, try:
 
 ```javascript
 console.log("This is Node.js code");
-console.log(
-  `Here are all the keys I sent in my event body: ${Object.keys(event.body)}`
-);
 this.test = "Some test data";
 return "Test data";
 ```
 
-Code steps support syntax highlighting and automatic indentation.
+Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-editor/)) used in Microsoft's [VS Code](https://code.visualstudio.com/), which supports syntax highlighting, automatic indentation, and more.
 
 ## Passing parameters to code steps
 
@@ -76,11 +76,27 @@ When you [connect an account to a step](/connected-accounts/#from-a-code-step), 
 
 ## Logs
 
-You can call `console.log()` or `console.error()` to add logs to the execution of a code step. These logs will appear just below the associated step. `console.log()` messages appear in black, `console.error()` in red.
+You can call `console.log` or `console.error` to add logs to the execution of a code step. These logs will appear just below the associated step. `console.log` messages appear in black, `console.error` in red.
+
+## `console.dir`
+
+If you need to print the contents of JavaScript objects, use `console.dir`:
+
+```javascript
+console.dir({
+  name: "Luke"
+})
+```
+
+This will let you inspect the object properties below the step like you can for [step exports](/workflows/steps/#exporting-data-in-code-steps):
+
+<div>
+<img alt="console.dir output" src="./images/console-dir.png" width="300px">
+</div>
 
 ## Syntax errors
 
-We try to catch any syntax errors when you're writing code, highlighting the lines where the error occurred in red.
+Pipedream will attempt to catch syntax errors when you're writing code, highlighting the lines where the error occurred in red.
 
 ::: warning
 While you can save a workflow with syntax errors, it's unlikely to run correctly on new events. Make sure to fix syntax errors before running your workflow.
@@ -90,19 +106,76 @@ While you can save a workflow with syntax errors, it's unlikely to run correctly
 
 [npm](https://www.npmjs.com/) hosts JavaScript packages: bits of code someone else has written and packaged for others to use. npm has over 400,000 packages and counting. You can use most of those on Pipedream.
 
-To use an npm package in a code step, simply `require()` it:
+### Just `import` it
+
+To use an npm package in a code step, simply `import` it:
 
 ```javascript
-const _ = require("lodash");
+import axios from "axios";
 ```
 
-When we run your workflow code, we download the associated npm package for you before running your code steps.
+If a package only supports the [CommonJS module format](https://nodejs.org/api/modules.html), you may have to `require` it:
 
-If you've used Node before, you'll notice there's no `package.json` file to upload or edit. We want to make package management simple, so just `require()` the module like you would in your code, after package installation, and get to work.
+```javascript
+const axios = require("axios");
+```
 
-The core limitation of packages is one we described above: some packages require access to a web browser to run, and don't work with Node. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `require()` it.
+**Within a single step, you can only use `import` or `require` statements, not both**. See [this section](#require-is-not-defined) for more details.
 
-Moreover, packages that require access to large binaries — for example, how [Puppeteer](https://pptr.dev) requires Chromium — may not work on Pipedream. If you're seeing any issues with a specific package, please [let us know](/support/).
+When Pipedream runs your workflow, we download the associated npm package for you before running your code steps.
+
+If you've used Node before, you'll notice there's no `package.json` file to upload or edit. We want to make package management simple, so just `import` or `require` the module like you would in your code, after package installation, and get to work.
+
+The core limitation of packages is one we described above: some packages require access to a web browser to run, and don't work with Node. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `import` or `require` it.
+
+Moreover, packages that require access to large binaries — for example, how [Puppeteer](https://pptr.dev) requires Chromium — may not work on Pipedream. If you're seeing any issues with a specific package, please [let us know](https://pipedream.com/support/).
+
+### CommonJS vs. ESM imports
+
+In Node.js, you may be used to importing third-party packages using the `require` statement:
+
+```javascript
+const axios = require("axios");
+```
+
+In this example, we're including the `axios` [CommonJS module](https://nodejs.org/api/modules.html) published to npm. You import CommonJS modules using the `require` statement.
+
+But you may encounter this error in workflows:
+
+**Error Must use import to load ES Module**
+
+This means that the package you're trying to `require` uses a different format to export their code, called [ECMAScript modules](https://nodejs.org/api/esm.html#esm_modules_ecmascript_modules) (**ESM**, or **ES modules**, for short). With ES modules, you instead need to `import` the package:
+
+```javascript
+import got from 'got';
+```
+
+Most package publish both CommonJS and ESM versions, so **if you always use `import`, you're less likely to have problems**. In general, refer to the documentation for your package for instructions on importing it correctly.
+
+### `require` is not defined
+
+This error means that you cannot use CommonJS and ESM imports in the same step. For example, if you run code like this:
+
+```javascript
+import fetch from 'node-fetch';
+const axios = require("axios")
+```
+
+your workflow will throw a `require is not defined` error. There are two solutions:
+
+1. Try converting your CommonJS `require` statement into an ESM `import` statement. For example, convert this:
+
+```javascript
+const axios = require("axios")
+```
+
+to this:
+
+```javascript
+import axios from "axios"
+```
+
+2. If the `import` syntax fails to work, separate your imports into different steps, using only CommonJS requires in one step, and only ESM imports in another.
 
 ## Variable scope
 
@@ -114,12 +187,12 @@ Within a step, the [normal rules of JavaScript variable scope](https://developer
 
 ## Making HTTP requests from your workflow
 
-There are two ways to make HTTP requests on Pipedream:
+There are two ways to make HTTP requests in code steps:
 
 - Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/workflows/steps/code/nodejs/http-requests/).
-- [Use `$send.http()`](/destinations/http/#using-send-http), a Pipedream-provided method for making asynchronous HTTP requests.
+- [Use `$send.http()`](/destinations/http/#using-send-http-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
 
-In general, if you just need to make an HTTP request but don't care about the response, [use `$send.http()`](/destinations/http/#using-send-http). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/workflows/steps/code/nodejs/http-requests/).
+In general, if you just need to make an HTTP request but don't care about the response, [use `$send.http()`](/destinations/http/#using-send-http-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/workflows/steps/code/nodejs/http-requests/).
 
 ## Returning HTTP responses
 
@@ -189,7 +262,7 @@ See the [Environment Variables](/environment-variables/) docs for more informati
 
 Code steps operate within the [general constraints on workflows](/limits/#workflows). As long as you stay within those limits and abide by our [acceptable use policy](/limits/#acceptable-use), you can add any number of code steps in a workflow to do virtually anything you'd be able to do in Node.js.
 
-If you're trying to run code that doesn't work or you have questions about any limits on code steps, [please reach out](/support/).
+If you're trying to run code that doesn't work or you have questions about any limits on code steps, [please reach out](https://pipedream.com/support/).
 
 ## Editor settings
 

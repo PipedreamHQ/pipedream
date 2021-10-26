@@ -4,8 +4,9 @@ module.exports = {
   ...common,
   key: "github-new-repository",
   name: "New Repository",
-  description: "Emit an event when a new repository is created",
-  version: "0.0.2",
+  description: "Emit new events when new repositories are created",
+  version: "0.0.4",
+  type: "source",
   dedupe: "last",
   methods: {
     generateMeta(data) {
@@ -17,7 +18,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     let since = this.db.get("since");
 
     const repos = await this.github.getRepos({

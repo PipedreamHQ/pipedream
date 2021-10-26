@@ -4,8 +4,9 @@ module.exports = {
   ...common,
   key: "github-new-team",
   name: "New Team",
-  description: "Emit an event when the user is added to a new team.",
-  version: "0.0.1",
+  description: "Emit new events when the user is added to a new team",
+  version: "0.0.3",
+  type: "source",
   dedupe: "last",
   methods: {
     generateMeta(data) {
@@ -17,7 +18,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const teams = await this.github.getTeams();
 
     for (const team of teams) {

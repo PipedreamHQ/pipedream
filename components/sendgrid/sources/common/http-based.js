@@ -1,7 +1,7 @@
 const {
   EventWebhook,
   EventWebhookHeader,
-} = require('@sendgrid/eventwebhook');
+} = require("@sendgrid/eventwebhook");
 const base = require("./base");
 
 module.exports = {
@@ -17,7 +17,10 @@ module.exports = {
     ...base.hooks,
     async activate() {
       const { endpoint: endpointUrl } = this.http;
-      const { enabled, url } = await this.sendgrid.getWebhookSettings();
+      const {
+        enabled,
+        url,
+      } = await this.sendgrid.getWebhookSettings();
       if (enabled && endpointUrl !== url) {
         throw new Error(`
           Your account already has an active event webhook.
@@ -74,7 +77,7 @@ module.exports = {
       });
 
       const { body: events } = event;
-      events.forEach(e => {
+      events.forEach((e) => {
         const meta = this.generateMeta(e);
         this.$emit(e, meta);
       });

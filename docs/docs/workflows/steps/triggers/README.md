@@ -11,7 +11,7 @@ Today, we support the following triggers:
 - [RSS](#rss)
 - [SDK](#sdk)
 
-If there's a specific trigger you'd like supported, please [let us know](/support/).
+If there's a specific trigger you'd like supported, please [let us know](https://pipedream.com/support/).
 
 [[toc]]
 
@@ -83,7 +83,7 @@ You can send any HTTP requests to this endpoint, from anywhere on the web. You c
 
 ### Accessing HTTP request data
 
-You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/events/#event-format), accessible in any [code](/workflows/steps/code/) or [action](/workflows/steps/actions/) step.
+You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/events/#event-format), accessible in any [code](/workflows/steps/code/) or [action](/components/actions/) step.
 
 ### Valid Requests
 
@@ -170,10 +170,10 @@ This will return the data in the variable `steps.send_http_request.$return_value
 [This workflow](https://pipedream.com/@dylburger/example-download-raw-body-to-tmp-p_YyCoqPb/edit) downloads the HTTP payload, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
-const stream = require("stream");
-const { promisify } = require("util");
-const fs = require("fs");
-const got = require("got");
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(
@@ -190,7 +190,7 @@ Your raw payload is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.am
 
 #### Limits
 
-**You can upload payloads up to 5TB in size**. However, payloads that large may trigger [other Pipedream limits](/limits/). Please [reach out](/support/) with any specific questions or issues.
+**You can upload payloads up to 5TB in size**. However, payloads that large may trigger [other Pipedream limits](/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
 
 ### Large File Support
 
@@ -231,10 +231,10 @@ Within the `image` property of `event.body`, you'll see the value of this URL in
 [This workflow](https://pipedream.com/@dylburger/example-download-an-image-to-tmp-p_KwC2Ad/edit) downloads an image passed in the `image` field in the form request, saving it to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
-const stream = require("stream");
-const { promisify } = require("util");
-const fs = require("fs");
-const got = require("got");
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(
@@ -251,7 +251,7 @@ await pipeline(
 
 Since large files are uploaded using a `Content-Type` of `multipart/form-data`, the limits that apply to [form data](#how-pipedream-handles-multipart-form-data) also apply here.
 
-The content of the file itself does not contribute to the HTTP payload limit imposed for forms. **You can upload files up to 5TB in size**. However, files that large may trigger [other Pipedream limits](/limits/). Please [reach out](/support/) with any specific questions or issues.
+The content of the file itself does not contribute to the HTTP payload limit imposed for forms. **You can upload files up to 5TB in size**. However, files that large may trigger [other Pipedream limits](/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
 
 ### Cross-Origin HTTP Requests
 
@@ -385,7 +385,7 @@ We'll also issue a 404 response on workflows with an HTTP trigger that have been
 
 If you send too many requests to your HTTP source within a small period of time, we may issue a `429 Too Many Requests` response. [Review our limits](/limits/) to understand the conditions where you might be throttled.
 
-You can also [reach out](/support/) to inquire about raising this rate limit.
+You can also [reach out](https://pipedream.com/support/) to inquire about raising this rate limit.
 
 If you control the application sending requests, you should implement [a backoff strategy](https://medium.com/clover-platform-blog/conquering-api-rate-limiting-dcac5552714d) to temporarily slow the rate of events.
 
@@ -447,7 +447,7 @@ Clicking on a specific job shows the execution details for that job — all the 
 
 ### Trigger a notification to an external service (email, Slack, etc.)
 
-You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/workflows/steps/actions/) or [Destination](/destinations/).
+You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/components/actions/) or [Destination](/destinations/).
 
 If you'd like to email yourself when a job finishes successfully, you can use the [Email Destination](/destinations/email/). You can send yourself a Slack message using the Slack Action, or trigger an [HTTP request](/destinations/http/) to an external service.
 
@@ -465,7 +465,7 @@ Any time a cron job runs, you'll see a new execution appear in the [Inspector](/
 
 Code steps show [Logs](/workflows/steps/code/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 
-[Actions](/workflows/steps/actions/) and [Destinations](/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
+[Actions](/components/actions/) and [Destinations](/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
 
 ### Limitations
 
@@ -508,7 +508,7 @@ You can download the email using the **Send HTTP Request** action. [**Copy this 
 This workflow also parses the contents of the email and exposes it as a JavaScript object using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
 
 ```javascript
-const simpleParser = require("mailparser").simpleParser;
+import { simpleParser } from "mailparser";
 this.parsed = await simpleParser(steps.send_http_request.$return_value);
 ```
 
@@ -517,11 +517,10 @@ this.parsed = await simpleParser(steps.send_http_request.$return_value);
 [This workflow](https://pipedream.com/@dylburger/example-download-large-email-content-to-tmp-p_KwC1YOn/edit) downloads the email, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory). Then it reads the same file (as an example), and parses it using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
 
 ```javascript
-const stream = require("stream");
-const { promisify } = require("util");
-const fs = require("fs");
-const got = require("got");
-const simpleParser = require("mailparser").simpleParser;
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(

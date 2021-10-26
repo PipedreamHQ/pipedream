@@ -3,10 +3,11 @@ const common = require("../common");
 module.exports = {
   ...common,
   key: "google_sheets-new-worksheet",
+  type: "source",
   name: "New Worksheet (Instant)",
   description:
-    "Emits an event each time a new worksheet is created in a spreadsheet.",
-  version: "0.0.2",
+    "Emit new event each time a new worksheet is created in a spreadsheet.",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -15,9 +16,7 @@ module.exports = {
         common.props.googleSheets,
         "sheetID",
         (c) => ({
-          driveId: c.watchedDrive === "myDrive" ?
-            null :
-            c.watchedDrive,
+          driveId: common.methods.getDriveId(c.watchedDrive),
         }),
       ],
     },

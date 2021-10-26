@@ -318,11 +318,11 @@ The [same limits](#query-limits) governing SQL queries made in the UI apply to w
 
 ## Triggering workflows on scheduled SQL queries
 
-Just like you can trigger workflows on [HTTP requests](/workflows/steps/triggers/#http) or [cron jobs](/workflows/steps/triggers/#schedule), you can trigger a workflow from the results of a scheduled SQL query using the [Scheduled SQL Source](https://github.com/PipedreamHQ/pipedream/blob/master/components/pipedream/sql/README.md).
+Just like you can trigger workflows on [HTTP requests](/workflows/steps/triggers/#http) or [cron jobs](/workflows/steps/triggers/#schedule), you can trigger a workflow from the results of a scheduled SQL query using the [Scheduled SQL Source](https://github.com/PipedreamHQ/pipedream/blob/master/components/pipedream/sources/new-records-from-sql-query/README.md).
 
 For example, you can schedule a query to run once a day, emitting the results to one or more workflows to send the results to Slack, S3, and more.
 
-[Read the docs on this source here](https://github.com/PipedreamHQ/pipedream/blob/master/components/pipedream/sql/README.md).
+[Read the docs on this source here](https://github.com/PipedreamHQ/pipedream/blob/master/components/pipedream/sources/new-records-from-sql-query/README.md).
 
 ## Query Limits
 
@@ -357,7 +357,7 @@ If you want to test potential table names against a [regular expression](https:/
 
 ## How we handle non-JSON data sent to SQL Destinations
 
-The SQL Service expects JavaScript objects as payloads. If you send a string, a CSV row, or another type of data as the payload, you may see unexpected issues when querying your data via SQL. If you do, please [reach out to our Support team](/support/) and we can help you troubleshoot.
+The SQL Service expects JavaScript objects as payloads. If you send a string, a CSV row, or another type of data as the payload, you may see unexpected issues when querying your data via SQL. If you do, please [reach out to our Support team](https://pipedream.com/support/) and we can help you troubleshoot.
 
 Often, though, we'll just ignore the record when you issue queries. If you see **empty rows** in your result set, that's often an indication of a record we couldn't query using the schema defined for this table.
 
@@ -369,4 +369,4 @@ WHERE field IS NOT NULL
 
 ## Still have questions?
 
-Please [reach out](/support/) if this doc didn't answer your question. We're happy to help!
+Please [reach out](https://pipedream.com/support/) if this doc didn't answer your question. We're happy to help!

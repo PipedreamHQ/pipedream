@@ -1,6 +1,6 @@
 {
   "name": "pipedream",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Components",
   "keywords": [
     "pipedream",
@@ -25,14 +25,15 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
-    "lint": "eslint .",
+    "lint": "eslint . --ext js,mjs",
     "lint:format": "npm run lint --fix"
   },
   "devDependencies": {
     "eslint": "^7.26.0",
-    "eslint-plugin-jsonc": "^1.2.1",
+    "eslint-plugin-jsonc": "^1.6.0",
+    "eslint-plugin-pipedream": "0.2.1",
     "eslint-plugin-putout": "^6.13.1",
     "lerna": "^3.22.1",
-    "putout": "^12.4.0"
+    "putout": "^12.12.0"
   }
 }
