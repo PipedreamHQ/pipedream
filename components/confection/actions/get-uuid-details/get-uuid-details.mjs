@@ -10,7 +10,10 @@ export default {
   props: {
     confection,
     uuid: {
-      propDefinition: [confection, "uuid"],
+      propDefinition: [
+        confection,
+        "uuid",
+      ],
       description: "Provide the UUID to retrieve details of.",
     },
   },

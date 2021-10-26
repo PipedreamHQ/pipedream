@@ -11,7 +11,10 @@ export default {
   props: {
     ...common.props,
     triggerField: {
-      propDefinition: [confection, "triggerField"],
+      propDefinition: [
+        confection,
+        "triggerField",
+      ],
       description:
         "Define a field to be used to indicate that a UUID is significant enough to be a lead. You must enter the form input name which Confection uses as the api name of the field.",
     },
@@ -36,7 +39,7 @@ export default {
       return this.confection.getNewFieldValue(
         this.triggerField,
         lastTimestamp,
-        timestamp
+        timestamp,
       );
     },
   },

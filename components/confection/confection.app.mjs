@@ -53,26 +53,22 @@ export default {
      * Collect results from paginated Confection Live API
      *
      * @param {string} path - Paginated Confection Live API path (relative to base)
-     * @param {object} data - Data from the first page of Confection Live API
      * @returns {Promise<object>}
      */
-    async pagination(path, data) {
-      if (data.results_number > 0) {
-        const pageCount = Math.ceil(
-          data.results_number / CONFECTION_RESULTS_PER_PAGE
-        );
-        const output = data.collection;
+    async requestPaginatedData(path) {
+      const data = await this.postRequest(path);
+      const pageCount = Math.ceil(
+        data.results_number / CONFECTION_RESULTS_PER_PAGE,
+      );
+      const output = data.collection;
 
-        for (let counter = 2; counter <= pageCount; counter++) {
-          const { data } = await this.postRequest(`${path}/page/${counter}`);
+      for (let counter = 2; counter <= pageCount; counter++) {
+        const { data } = await this.postRequest(`${path}/page/${counter}`);
 
-          Object.assign(output, data.collection);
-        }
-
-        return output;
+        Object.assign(output, data.collection);
       }
 
-      return data;
+      return output;
     },
     /**
      * Send POST request to Confection Live API and return the results
@@ -135,10 +131,9 @@ export default {
      * @returns {Promise<object>}
      */
     async getNewOrUpdatedLeads(lastTimestamp, timestamp) {
-      const path = `leads/between/${lastTimestamp}/${timestamp}`;
-      const data = await this.postRequest(path);
-
-      return this.pagination(path, data);
+      return this.requestPaginatedData(
+        `leads/between/${lastTimestamp}/${timestamp}`,
+      );
     },
     /**
      * Get data from Confection /leads/field/{field_name} Live API endpoint
@@ -148,10 +143,9 @@ export default {
      * @returns {Promise<object>}
      */
     async getNewFieldValue(triggerField, lastTimestamp, timestamp) {
-      const path = `leads/field/${triggerField}/between/${lastTimestamp}/${timestamp}`;
-      const data = await this.postRequest(path);
-
-      return this.pagination(path, data);
+      return this.requestPaginatedData(
+        `leads/field/${triggerField}/between/${lastTimestamp}/${timestamp}`,
+      );
     },
     /**
      * Get data from Confection /leads/event/{event_name} Live API endpoint
@@ -161,10 +155,9 @@ export default {
      * @returns {Promise<object>}
      */
     async getNewEvent(eventName, lastTimestamp, timestamp) {
-      const path = `leads/event/${eventName}/between/${lastTimestamp}/${timestamp}`;
-      const data = await this.postRequest(path);
-
-      return this.pagination(path, data);
+      return this.requestPaginatedData(
+        `leads/event/${eventName}/between/${lastTimestamp}/${timestamp}`,
+      );
     },
   },
 };

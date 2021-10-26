@@ -43,7 +43,7 @@ export default {
      * @param {string} timestamp - End of results time frame
      */
     getSourceData() {
-      throw new Error("getSummary is not implemented");
+      throw new Error("getSourceData is not implemented");
     },
   },
   async run(event) {
@@ -54,23 +54,23 @@ export default {
     const data = await this.getSourceData(lastTimestamp, timestamp);
 
     this.setLastTimestamp(timestamp);
+    Object.entries(data).forEach(([
+      key,
+      value,
+    ]) => {
+      const id = `${key}-${value.updated_time}`;
 
-    if (data.results_number >= 0) {
-      Object.entries(data).forEach(([key, value]) => {
-        const id = `${key}-${value.updated_time}`;
-
-        this.$emit(
-          {
-            ...value,
-            UUID: key,
-          },
-          {
-            id,
-            summary: this.getSummary(key),
-            ts: value.updated_time * 1000
-          }
-        );
-      });
-    }
+      this.$emit(
+        {
+          ...value,
+          UUID: key,
+        },
+        {
+          id,
+          summary: this.getSummary(key),
+          ts: value.updated_time * 1000,
+        },
+      );
+    });
   },
 };
