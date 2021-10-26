@@ -29,7 +29,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `🎉 Successfully saved track(s) to "Liked Songs"`);
+    $.export("$summary", "🎉 Successfully saved track(s) to \"Liked Songs\"");
 
     return isEmpty(res)
       ? this.ids
