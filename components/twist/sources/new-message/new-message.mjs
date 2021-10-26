@@ -5,7 +5,7 @@ export default {
   name: "New Message (Instant)",
   version: "0.0.2",
   type: "source",
-  key: "twist-new-message",
+  key: "twist-new-message-instant",
   description: "Emits an event for any new message in a workspace",
   props: {
     ...common.props,

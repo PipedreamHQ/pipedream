@@ -5,7 +5,7 @@ export default {
   name: "New Comment (Instant)",
   version: "0.0.2",
   type: "source",
-  key: "twist-new-comment",
+  key: "twist-new-comment-instant",
   description: "Emits an event for any new comment in a workspace",
   props: {
     ...common.props,

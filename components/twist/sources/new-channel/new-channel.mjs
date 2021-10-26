@@ -5,7 +5,7 @@ export default {
   name: "New Channel (Instant)",
   version: "0.0.2",
   type: "source",
-  key: "twist-new-channel",
+  key: "twist-new-channel-instant",
   description: "Emits an event for any new channel added in a workspace",
   methods: {
     ...common.methods,

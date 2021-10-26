@@ -5,7 +5,7 @@ export default {
   name: "New Event (Instant)",
   version: "0.0.2",
   type: "source",
-  key: "twist-new-event",
+  key: "twist-new-event-instant",
   description: "Emits an event for any new updates in a workspace",
   props: {
     ...common.props,

@@ -5,7 +5,7 @@ export default {
   name: "New Thread (Instant)",
   version: "0.0.2",
   type: "source",
-  key: "twist-new-thread",
+  key: "twist-new-thread-instant",
   description: "Emits an event for any new thread in a workspace",
   props: {
     ...common.props,
