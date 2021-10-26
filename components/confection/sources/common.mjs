@@ -67,6 +67,7 @@ export default {
           {
             id,
             summary: this.getSummary(key),
+            ts: value.updated_time * 1000
           }
         );
       });
