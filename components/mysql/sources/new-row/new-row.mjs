@@ -1,38 +1,46 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mysql-new-row",
   name: "New Row",
-  description: "Emits an event when you add a new row to a table",
+  description: "Emit new event when you add a new row to a table",
+  type: "source",
   version: "0.0.1",
   dedupe: "unique",
   props: {
     ...common.props,
     db: "$.service.db",
-    table: { propDefinition: [common.props.mysql, "table"] },
+    table: {
+      propDefinition: [
+        common.props.mysql,
+        "table",
+      ],
+    },
     column: {
       propDefinition: [
         common.props.mysql,
         "column",
-        (c) => ({ table: c.table }),
+        (c) => ({
+          table: c.table,
+        }),
       ],
       optional: true,
     },
   },
   hooks: {
-    /** If column prop is left blank, get the table's primary key to use for ordering and deduping. */
+    /**
+     * If column prop is left blank, get the table's primary key to use for ordering and deduping.
+     * */
     async deploy() {
-      const connection = await this.mysql.getConnection();
       let column = this.column;
       if (!column) {
-        const keyData = await this.mysql.getPrimaryKey(connection, this.table);
+        const keyData = await this.mysql.getPrimaryKey(this.table);
         column = keyData[0].Column_name;
       }
       this._setColumn(column);
 
-      await this.listTopRows(connection, column);
-      await this.mysql.closeConnection(connection);
+      await this.listTopRows(column);
     },
   },
   methods: {
@@ -43,9 +51,9 @@ module.exports = {
     _setColumn(column) {
       this.db.set("column", column);
     },
-    async listResults(connection) {
+    async listResults() {
       const column = this._getColumn();
-      await this.listRowResults(connection, column);
+      await this.listRowResults(column);
     },
     iterateAndEmitEvents(rows) {
       const column = this._getColumn();

@@ -1,16 +1,22 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "mysql-new-column",
   name: "New Column",
-  description: "Emits an event when you add a new column to a table",
+  description: "Emit new event when you add a new column to a table",
+  type: "source",
   version: "0.0.1",
   dedupe: "unique",
   props: {
     ...common.props,
     db: "$.service.db",
-    table: { propDefinition: [common.props.mysql, "table"] },
+    table: {
+      propDefinition: [
+        common.props.mysql,
+        "table",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -20,19 +26,19 @@ module.exports = {
     _setPreviousColumns(previousColumns) {
       this.db.set("previousColumns", previousColumns);
     },
-    async listResults(connection) {
+    async listResults() {
       let previousColumns = this._getPreviousColumns() || [];
       const columns = await this.mysql.listNewColumns(
-        connection,
         this.table,
-        previousColumns
+        previousColumns,
       );
       this.iterateAndEmitEvents(columns);
 
-      const columnNames = columns.map((column) => column.Field);
-      const newColumnNames = columnNames.filter(
-        (c) => !previousColumns.includes(c)
-      );
+      const newColumnNames =
+        columns
+          .map((column) => column.Field)
+          .filter((c) => !previousColumns.includes(c));
+
       previousColumns = previousColumns.concat(newColumnNames);
       this._setPreviousColumns(previousColumns);
     },
