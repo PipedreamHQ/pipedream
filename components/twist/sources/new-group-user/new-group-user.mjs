@@ -1,16 +1,18 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
-  name: "New Group (Instant)",
+  name: "New Group User (Instant)",
   version: "0.0.1",
-  key: "twist-new-group-instant",
-  description: "Emits an event for any new group added in a workspace",
+  type: "source",
+  key: "twist-new-group-user-instant",
+  description: "Emits an event for any new user added to a workspace group.",
   methods: {
+    ...common.methods,
     getHookActivationData() {
       return {
         target_url: this.http.endpoint,
-        event: "group_added",
+        event: "group_user_added",
         workspace_id: this.workspace,
       };
     },
@@ -18,9 +20,10 @@ module.exports = {
       const {
         id,
         name,
+        user_ids: userIds,
       } = body;
       return {
-        id,
+        id: `${id}${userIds}`,
         summary: name,
         ts: Date.now(),
       };

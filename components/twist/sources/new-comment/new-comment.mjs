@@ -1,17 +1,17 @@
-const twist = require("../../twist.app.js");
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
-  name: "New Event (Instant)",
+  name: "New Comment (Instant)",
   version: "0.0.2",
-  key: "twist-new-event",
-  description: "Emits an event for any new updates in a workspace",
+  type: "source",
+  key: "twist-new-comment",
+  description: "Emits an event for any new comment in a workspace",
   props: {
     ...common.props,
     channel: {
       propDefinition: [
-        twist,
+        common.props.twist,
         "channel",
         (c) => ({
           workspace: c.workspace,
@@ -20,25 +20,20 @@ module.exports = {
     },
     thread: {
       propDefinition: [
-        twist,
+        common.props.twist,
         "thread",
         (c) => ({
           channel: c.channel,
         }),
       ],
     },
-    eventType: {
-      propDefinition: [
-        twist,
-        "eventType",
-      ],
-    },
   },
   methods: {
+    ...common.methods,
     getHookActivationData() {
       return {
         target_url: this.http.endpoint,
-        event: this.eventType,
+        event: "comment_added",
         workspace_id: this.workspace,
         channel_id: this.channel,
         thread_id: this.thread,
@@ -47,14 +42,13 @@ module.exports = {
     getMeta(body) {
       const {
         id,
-        name: summary = "New Event",
-        created = new Date(),
+        content,
+        posted,
       } = body;
-      const ts = Date.parse(created);
       return {
-        id: `${id}${ts}`,
-        summary,
-        ts,
+        id,
+        summary: content,
+        ts: Date.parse(posted),
       };
     },
   },

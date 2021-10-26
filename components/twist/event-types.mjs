@@ -2,7 +2,7 @@
 // The lines commented out are for event types listed in Twist's documentation,
 // but not yet available. Coming Soon!
 
-module.exports = [
+export default [
   {
     label: "Workspace Added",
     value: "workspace_added",

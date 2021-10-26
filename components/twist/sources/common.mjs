@@ -1,6 +1,6 @@
-const twist = require("../twist.app.js");
+import twist from "../twist.app.mjs";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     twist,

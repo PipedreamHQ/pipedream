@@ -1,16 +1,18 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
-  name: "New Channel (Instant)",
+  name: "New Group (Instant)",
   version: "0.0.1",
-  key: "twist-new-channel",
-  description: "Emits an event for any new channel added in a workspace",
+  type: "source",
+  key: "twist-new-group-instant",
+  description: "Emits an event for any new group added in a workspace",
   methods: {
+    ...common.methods,
     getHookActivationData() {
       return {
         target_url: this.http.endpoint,
-        event: "channel_added",
+        event: "group_added",
         workspace_id: this.workspace,
       };
     },
@@ -18,12 +20,11 @@ module.exports = {
       const {
         id,
         name,
-        created_ts: created,
       } = body;
       return {
         id,
         summary: name,
-        ts: Date.parse(created),
+        ts: Date.now(),
       };
     },
   },
