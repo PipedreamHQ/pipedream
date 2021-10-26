@@ -107,8 +107,12 @@ export default {
       type: "string",
       label: "Playlist ID",
       description: "Select an existing playlist with \"Structured Mode\" enabled, or reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
-      async options() {
-        const playlists = await this.getPlaylists();
+      async options({ page }) {
+        const limit = 20;
+        const playlists = await this.getPlaylists({
+          limit,
+          offset: limit * page,
+        });
         return {
           options: playlists.map((playlist) => ({
             label: playlist.name,
@@ -124,8 +128,12 @@ export default {
       type: "string",
       label: "Category ID",
       description: "Search for a category with \"Structured Mode\" enabled, or reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `party`).",
-      async options() {
-        const categories = await this.getCategories();
+      async options({ page }) {
+        const limit = 20;
+        const categories = await this.getCategories({
+          limit,
+          offset: limit * page,
+        });
         return {
           options: categories.map((category) => ({
             label: category.name,
@@ -368,8 +376,8 @@ export default {
       const res = await this._makeRequest("GET", "/me/playlists", params);
       return get(res, "data.items", null);
     },
-    async getCategories() {
-      const res = await this._makeRequest("GET", "/browse/categories");
+    async getCategories(params) {
+      const res = await this._makeRequest("GET", "/browse/categories", params);
       return get(res, "data.categories.items", []);
     },
     async getUserTracks(params) {

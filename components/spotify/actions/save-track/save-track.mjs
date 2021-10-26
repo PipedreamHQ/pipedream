@@ -21,18 +21,19 @@ export default {
     },
   },
   async run({ $ }) {
+    const ids = this.spotify.sanitizedArray(this.trackIds);
     const res = await axios($, this.spotify._getAxiosParams({
       method: "PUT",
       path: "/me/tracks",
       data: {
-        ids: this.spotify.sanitizedArray(this.trackIds),
+        ids,
       },
     }));
 
     $.export("$summary", "🎉 Successfully saved track(s) to \"Liked Songs\"");
 
     return isEmpty(res)
-      ? this.ids
+      ? ids
       : res;
   },
 };
