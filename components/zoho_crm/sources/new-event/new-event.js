@@ -7,7 +7,7 @@ module.exports = {
   key: "zoho_crm-new-event",
   name: "New Event (Instant)",
   description: "Emit new custom events from Zoho CRM",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     ...common.props,
@@ -20,7 +20,7 @@ module.exports = {
           return [];
         }
 
-        const { modules } = await this.zoho_crm.listModules();
+        const { modules } = await this.zohoCrm.listModules();
         return sortBy(modules.flatMap(this._moduleSupportedEvents), "label");
       },
     },
