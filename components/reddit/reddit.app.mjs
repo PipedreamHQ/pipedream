@@ -1,6 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 import lodash from "lodash";
+import isNil from "lodash/isNil.js";
 import retry from "async-retry";
 
 export default {
@@ -10,13 +11,13 @@ export default {
     after: {
       type: "string",
       label: "After",
-      description: "Only one of `after` and `before` should be specified. these indicate the [fullname](https://www.reddit.com/dev/api/#fullnames) of an item in the listing to use as the anchor point of the slice.",
+      description: "Only one of `after` and `before` should be specified. These indicate the [fullname](https://www.reddit.com/dev/api/#fullnames) of an item in the listing to use as the anchor point of the slice.",
       optional: true,
     },
     before: {
       type: "string",
       label: "Before",
-      description: "Only one of `after` and `before` should be specified. these indicate the [fullname](https://www.reddit.com/dev/api/#fullnames) of an item in the listing to use as the anchor point of the slice.",
+      description: "Only one of `after` and `before` should be specified. These indicate the [fullname](https://www.reddit.com/dev/api/#fullnames) of an item in the listing to use as the anchor point of the slice.",
       optional: true,
     },
     count: {
@@ -95,11 +96,28 @@ export default {
     _getAxiosParams(opts) {
       const res = {
         ...opts,
-        url: this._apiUrl() + opts.path,
+        url: this._apiUrl() + opts.path + this._getQuery(opts.params),
         headers: this._getHeaders(),
         data: opts.data && qs.stringify(opts.data),
       };
       return res;
+    },
+    _getQuery(params) {
+      if (!params) {
+        return "";
+      }
+
+      let query = "?";
+      const keys = Object.keys(params);
+      for (let i = 0; i < keys.length; i++) {
+        // Explicity looking for nil values to avoid false negative for Boolean(false)
+        if (!isNil(params[keys[i]])) {
+          query += `${keys[i]}=${params[keys[i]]}&`;
+        }
+      }
+
+      // It removes the last string char, it can be ? or &
+      return query.substr(0, query.length - 1);
     },
     _getHeaders() {
       return {
