@@ -853,9 +853,7 @@ misunderstandings, wasted time and effort:
       associated to an open PR that is waiting for a review.
    2. If the above step does not yield any PR, explicitly look for open pull
       requests without reviews and without reviewers assigned to it in the [pull
-      requests page](/code/pulls). [This
-      link](/code/pulls?q=is%3Apr+is%3Aopen+review%3Anone+no%3Aassignee) already
-      provides a filtered view for the mentioned criteria.
+      requests page](/code/pulls).
 
 2. Quickly go through the main PR view and check if it's actually ready for
    review, or if it's blocked or just not ready yet. Labels are your friend
