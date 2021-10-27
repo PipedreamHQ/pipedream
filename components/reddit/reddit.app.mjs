@@ -7,15 +7,31 @@ export default {
   type: "app",
   app: "reddit",
   propDefinitions: {
-    subRedditName: {
+    after: {
       type: "string",
-      label: "SubRedditName",
-      description: "Name of the SubReddit",
-      useQuery: true,
-      async options({ query }) {
-        console.log(query);
-        return [];
-      },
+      label: "After",
+      description: "Only one of `after` and `before` should be specified. these indicate the [fullname](https://www.reddit.com/dev/api/#fullnames) of an item in the listing to use as the anchor point of the slice.",
+      optional: true,
+    },
+    before: {
+      type: "string",
+      label: "Before",
+      description: "Only one of `after` and `before` should be specified. these indicate the [fullname](https://www.reddit.com/dev/api/#fullnames) of an item in the listing to use as the anchor point of the slice.",
+      optional: true,
+    },
+    count: {
+      type: "integer",
+      label: "Count",
+      description: "The number of items already seen in this listing. on the html site, the builder uses this to determine when to give values for `before` and `after` in the response.",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Default to 25. The maximum number of items desired",
+      min: 1,
+      max: 100,
+      optional: true,
     },
     flair: {
       type: "string",
@@ -274,15 +290,7 @@ export default {
           params,
         }));
     },
-    async searchSubreddits(opts) {
-      const params = {
-        limit: 100,
-        show_users: false,
-        sort: "relevance",
-        sr_detail: false,
-        typeahead_active: false,
-        ...opts,
-      };
+    async searchSubreddits(params) {
       const redditCommunities = await this._withRetries(() =>
         this._makeRequest({
           path: "/subreddits/search",
@@ -297,6 +305,11 @@ export default {
         const redditCommunities = await this.searchSubreddits({
           after,
           q: query,
+          limit: 100,
+          show_users: false,
+          sort: "relevance",
+          sr_detail: false,
+          typeahead_active: false,
         });
         const isNewDataAvailable = lodash.get(redditCommunities, [
           "data",
