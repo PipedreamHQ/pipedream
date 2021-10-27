@@ -1,0 +1,62 @@
+import common from "../common.mjs";
+
+export default {
+  ...common,
+  key: "coinbase-new-transactions",
+  name: "New Transactions",
+  description: "New Transactions. [See the docs here](https://developers.coinbase.com/api/v2#transaction-resource)",
+  type: "source",
+  version: "0.0.1",
+  dedupe: "unique",
+  props: {
+    ...common.props,
+    db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60 * 15,
+      },
+    },
+  },
+  methods: {
+    ...common.methods,
+    getMetadata(transaction) {
+      const { id } = transaction;
+      const summary = `Transaction ${id}`;
+      return {
+        id,
+        summary,
+        ts: Date.now(),
+      };
+    },
+  },
+  async run({ $ }) {
+    let lastTransactionId = this._getLastTransactionId();
+    let totalTransactions;
+
+    do {
+      const { data: transactions } =
+        await this.coinbase.getTransactions({
+          $,
+          accountId: this.accountId,
+          limit: 25,
+          startingAfter: lastTransactionId,
+        });
+
+      totalTransactions = transactions.length;
+      if (totalTransactions) {
+        const [
+          lastTransaction,
+        ] = transactions.slice(-1);
+        lastTransactionId = lastTransaction.id;
+      }
+
+      transactions.forEach((transaction) => {
+        this.$emit(transaction, this.getMetadata(transaction));
+      });
+
+    } while (totalTransactions);
+
+    this._setLastTransactionId(lastTransactionId);
+  },
+};
