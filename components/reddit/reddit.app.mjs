@@ -7,13 +7,23 @@ export default {
   type: "app",
   app: "reddit",
   propDefinitions: {
+    subRedditName: {
+      type: "string",
+      label: "SubRedditName",
+      description: "Name of the SubReddit",
+      useQuery: true,
+      async options({ query }) {
+        console.log(query);
+        return [];
+      },
+    },
     flair: {
       type: "string",
       label: "Flair",
       description: "Your post flair",
       async options({ subRedditName }) {
-        // console.log(subRedditName);
-        // await this.getSubRedditFlairs(subRedditName);
+        console.log(subRedditName);
+        await this.getSubRedditFlairs(subRedditName);
         return [];
       },
     },
@@ -129,12 +139,16 @@ export default {
       }, retryOpts);
     },
     async getSubRedditFlairs(subReddit) {
-      const res = await this._makeRequest({
-        method: "get",
-        path: `/r/${subReddit}/api/flairlist`,
-      });
-
-      console.log(res);
+      try {
+        const res = await this._makeRequest({
+          method: "get",
+          path: `/r/${subReddit}/api/flairlist`,
+        });
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+        console.log(err.response);
+      }
     },
     /**
      * This method retrieves the most recent new hot subreddit posts. The
@@ -260,15 +274,14 @@ export default {
           params,
         }));
     },
-    async searchSubreddits(after, query = "") {
+    async searchSubreddits(opts) {
       const params = {
-        after,
         limit: 100,
-        q: query,
         show_users: false,
         sort: "relevance",
         sr_detail: false,
         typeahead_active: false,
+        ...opts,
       };
       const redditCommunities = await this._withRetries(() =>
         this._makeRequest({
@@ -281,7 +294,10 @@ export default {
       const results = [];
       let after = null;
       do {
-        const redditCommunities = await this.searchSubreddits(after, query);
+        const redditCommunities = await this.searchSubreddits({
+          after,
+          q: query,
+        });
         const isNewDataAvailable = lodash.get(redditCommunities, [
           "data",
           "children",

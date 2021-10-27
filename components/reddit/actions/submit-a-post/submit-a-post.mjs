@@ -5,7 +5,7 @@ import get from "lodash/get.js";
 export default {
   type: "action",
   key: "reddit-action-submit-a-post",
-  version: "0.0.63",
+  version: "0.2.4",
   name: "Submit a Post",
   description: "Create a post to a subreddit. [See the docs here](https://www.reddit.com/dev/api/#POST_api_submit)",
   props: {
@@ -37,16 +37,19 @@ export default {
       type: "string",
       label: "Text",
       description: "The content your post. Applicable for `self`",
+      optional: true,
     },
     url: {
       type: "string",
       label: "URL",
       description: "The URL to be shared in your post. Applicable for `image`, `video`",
+      optional: true,
     },
     videoPosterUrl: {
       type: "string",
       label: "Video Poster URL",
       description: "The URL to be shared in your post. Applicable for `image`, `video`",
+      optional: true,
     },
     spoiler: {
       type: "boolean",
