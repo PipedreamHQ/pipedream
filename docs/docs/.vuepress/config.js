@@ -1,9 +1,14 @@
-const path = require("path");
-const webpack = require("webpack");
-
 module.exports = {
   title: "",
-  head: [["link", { rel: "icon", href: "/favicon.ico" }]],
+  head: [
+    [
+      "link",
+      {
+        rel: "icon",
+        href: "/favicon.ico",
+      },
+    ],
+  ],
   description: "Pipedream Documentation - Connect APIs, remarkably fast",
   base: "/docs/",
   plugins: [
@@ -15,6 +20,15 @@ module.exports = {
       },
     ],
   ],
+  markdown: {
+    lineNumbers: true,
+    code: {},
+    extendMarkdown(md) {
+      md.use(require("markdown-it-task-lists"), {
+        enabled: true,
+      });
+    },
+  },
   themeConfig: {
     algolia: {
       apiKey: "1e23962724b59d018bdedc0f5a214ce5",
@@ -136,7 +150,11 @@ module.exports = {
       {
         title: "CLI",
         collapsable: false,
-        children: ["/cli/install/", "/cli/login/", "/cli/reference/"],
+        children: [
+          "/cli/install/",
+          "/cli/login/",
+          "/cli/reference/",
+        ],
       },
       {
         title: "APIs",
@@ -190,7 +208,10 @@ module.exports = {
           "/subprocessors/",
         ],
       },
-      ["https://pipedream.com/support", "Support and Community"],
+      [
+        "https://pipedream.com/support",
+        "Support and Community",
+      ],
       "/troubleshooting/",
       "/orgs/",
       "/pricing/",
