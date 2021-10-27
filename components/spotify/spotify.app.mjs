@@ -34,7 +34,7 @@ export default {
         const items = await this.getPlaylistItems({
           limit,
           offset: limit * page,
-          playlistId: playlistId.value,
+          playlistId: get(playlistId, "value", playlistId),
         });
 
         return {
