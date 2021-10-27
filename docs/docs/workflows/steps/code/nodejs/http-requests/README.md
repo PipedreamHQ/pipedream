@@ -4,7 +4,9 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 **Below, we'll review how to make HTTP requests using Node.js code on Pipedream.**
 
-We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too. 
+We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
+
+If you're developing Pipedream components, you may find the [`@pipedream/platform` version of `axios`](/pipedream-axios) helpful for displaying error data clearly in the Pipedream UI.
 
 If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/blog/working-with-webhooks/#webhooks-glossary-common-terms) for a helpful introduction.
 
@@ -85,7 +87,7 @@ import axios from "axios";
 // Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
-  url: `https://jsonplaceholder.typicode.com/posts`
+  url: `https://jsonplaceholder.typicode.com/posts`,
   data: {
     name: "Luke",
   }
@@ -130,7 +132,7 @@ You pass HTTP headers in the `headers` object of the `axios` request:
 ```javascript
 import axios from "axios";
 
-// Make an HTTP GET request using axios
+// Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
   url: `https://jsonplaceholder.typicode.com/posts`,
@@ -152,7 +154,7 @@ Here's an example showing an API key passed in an HTTP header:
 ```javascript
 import axios from "axios";
 
-// Make an HTTP GET request using axios
+// Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
   url: `https://jsonplaceholder.typicode.com/posts`,

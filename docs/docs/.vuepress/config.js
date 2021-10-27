@@ -134,6 +134,7 @@ module.exports = {
           "/components/quickstart/nodejs/sources/",
           "/components/api/",
           "/components/guidelines/",
+          "/pipedream-axios/",
           "/components/migrating/",
         ],
       },
@@ -238,5 +239,6 @@ module.exports = {
     DEFAULT_WORKFLOW_QUEUE_SIZE: "100",
     MAX_WORKFLOW_QUEUE_SIZE: "10,000",
     NODE_VERSION: "14",
+    CONFIGURED_PROPS_SIZE_LIMIT: "64KB",
   },
 };
