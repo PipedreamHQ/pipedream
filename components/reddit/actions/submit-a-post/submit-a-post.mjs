@@ -1,11 +1,11 @@
+import { axios } from "@pipedream/platform";
 import reddit from "../../reddit.app.mjs";
-import axios from "axios";
-import get from "lodash/get.js";
+import tzs from "../../pytz-timezones.mjs";
 
 export default {
   type: "action",
   key: "reddit-action-submit-a-post",
-  version: "0.2.4",
+  version: "0.0.1",
   name: "Submit a Post",
   description: "Create a post to a subreddit. [See the docs here](https://www.reddit.com/dev/api/#POST_api_submit)",
   props: {
@@ -19,7 +19,7 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "Post title",
+      description: "The title of your post",
     },
     kind: {
       type: "string",
@@ -29,8 +29,6 @@ export default {
         "link",
         "self",
         "image",
-        "video",
-        "videogif",
       ],
     },
     text: {
@@ -42,13 +40,7 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "The URL to be shared in your post. Applicable for `image`, `video`",
-      optional: true,
-    },
-    videoPosterUrl: {
-      type: "string",
-      label: "Video Poster URL",
-      description: "The URL to be shared in your post. Applicable for `image`, `video`",
+      description: "The URL to be shared in your post. Applicable for `image`, and `link`",
       optional: true,
     },
     spoiler: {
@@ -69,14 +61,24 @@ export default {
       description: "Default to `false`. If your post is not safe for work (+18), please, set `true` for this field.",
       optional: true,
     },
-    flair: {
-      propDefinition: [
-        reddit,
-        "flair",
-        (c) => ({
-          subRedditName: c.subRedditName,
-        }),
-      ],
+    eventStart: {
+      type: "string",
+      label: "Event Start",
+      description: "(beta) a datetime string e.g. `2018-09-11T12:00:00`",
+      optional: true,
+    },
+    eventEnd: {
+      type: "string",
+      label: "Event End",
+      description: "(beta) a datetime string e.g. `2018-09-11T12:00:00`",
+      optional: true,
+    },
+    eventTz: {
+      type: "string",
+      label: "Event End",
+      description: "(beta) a [pytz](https://pypi.org/project/pytz/) timezone e.g. `America/Los_Angeles`",
+      optional: true,
+      options: tzs,
     },
   },
   async run ({ $ }) {
@@ -89,34 +91,20 @@ export default {
       nsfw: this.nsfw,
       url: this.url,
       text: this.text,
-      video_poster_url: this.videoPosterUrl,
+      event_start: this.eventStart,
+      event_end: this.eventEnd,
+      event_tz: this.eventTz,
     };
 
-    //console.log(data);
+    const res = await axios($, this.reddit._getAxiosParams({
+      method: "POST",
+      path: "/api/submit",
+      data,
+    }));
 
-    try {
-      const res = await axios(this.reddit._getAxiosParams({
-        method: "POST",
-        path: "/api/submit",
-        data,
-      }));
+    this.reddit.sanitizeError(res);
 
-      // Find rate limit error
-      const rateLimitMessage = get(
-        JSON.stringify(res.data).match(/(\S*\d+\S* minutes before trying agai)\w/),
-        "[0]",
-      );
-
-      if (rateLimitMessage) {
-        return rateLimitMessage;
-        // throw new Error(`Reddit rate-limit: Please wait ${rateLimitMessage}.`);
-      }
-
-      // console.log(JSON.stringify(res.data));
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
+    return res;
   },
 };
 

@@ -3,6 +3,7 @@ import qs from "qs";
 import lodash from "lodash";
 import isNil from "lodash/isNil.js";
 import retry from "async-retry";
+import get from "lodash/get.js";
 
 export default {
   type: "app",
@@ -33,16 +34,6 @@ export default {
       min: 1,
       max: 100,
       optional: true,
-    },
-    flair: {
-      type: "string",
-      label: "Flair",
-      description: "Your post flair",
-      async options({ subRedditName }) {
-        console.log(subRedditName);
-        await this.getSubRedditFlairs(subRedditName);
-        return [];
-      },
     },
     subreddit: {
       type: "string",
@@ -131,6 +122,43 @@ export default {
     _apiUrl() {
       return "https://oauth.reddit.com";
     },
+    sanitizeError(data) {
+      // Check mod required error
+      if (get(
+        JSON.stringify(data).match(/(MOD_OF_THIS_SR_REQUIRED)/),
+        "[0]",
+      )) {
+        throw new Error("You must be a moderator of this SubReddit to do that");
+      }
+
+      // Check already posted
+      if (get(
+        JSON.stringify(data).match(/(ALREADY_SUB)/),
+        "[0]",
+      )) {
+        throw new Error("This community doesn't allow links to be posted more than once, and this link has already been shared");
+      }
+
+      // Find event limit error
+      const eventLimitMessage = get(
+        JSON.stringify(data).match(/(This event can't be longer than \S*\d+\S* days)/),
+        "[0]",
+      );
+
+      if (eventLimitMessage) {
+        throw new Error(eventLimitMessage);
+      }
+
+      // Find rate limit error
+      const rateLimitMessage = get(
+        JSON.stringify(data).match(/(\S*\d+\S* minute)/),
+        "[0]",
+      );
+
+      if (rateLimitMessage) {
+        throw new Error(`Reddit rate-limit: Please wait ${rateLimitMessage}(s) before post again.`);
+      }
+    },
     async _makeRequest(opts) {
       if (!opts.headers) opts.headers = {};
       opts.headers.authorization = `Bearer ${this._accessToken()}`;
@@ -157,7 +185,7 @@ export default {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = lodash.get(err, [
+          const statusCode = get(err, [
             "response",
             "status",
           ]);
@@ -171,18 +199,6 @@ export default {
           throw err;
         }
       }, retryOpts);
-    },
-    async getSubRedditFlairs(subReddit) {
-      try {
-        const res = await this._makeRequest({
-          method: "get",
-          path: `/r/${subReddit}/api/flairlist`,
-        });
-        console.log(res);
-      } catch (err) {
-        console.log(err);
-        console.log(err.response);
-      }
     },
     /**
      * This method retrieves the most recent new hot subreddit posts. The
