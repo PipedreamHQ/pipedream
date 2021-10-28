@@ -4,7 +4,7 @@ export default {
   ...base,
   hooks: {
     ...base.hooks,
-    async activate() { console.log(this.moduleInfo);
+    async activate() {
       const moduleType = await this._retrieveModuleType();
       this._setModuleType(moduleType);
 
