@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "action",
   key: "reddit-action-list-subreddits",
-  version: "0.0.23",
+  version: "0.0.1",
   name: "List Subreddits",
   description: "List subreddits based in a search criteria. [See the docs here](https://www.reddit.com/dev/api/#GET_subreddits_search)",
   props: {
@@ -93,10 +93,14 @@ export default {
       count: this.count,
       search_query_id: this.searchQueryId,
     };
-    return axios($, this.reddit._getAxiosParams({
+
+    const res = await axios($, this.reddit._getAxiosParams({
       method: "GET",
       path: "/subreddits/search",
       params,
     }));
+
+    $.export("$summary", "🎉 Subreddits successfully fetched");
+    return res;
   },
 };

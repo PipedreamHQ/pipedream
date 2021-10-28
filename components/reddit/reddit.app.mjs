@@ -112,6 +112,7 @@ export default {
     },
     _getHeaders() {
       return {
+        // "authorization": `Bearer ${this._accessToken()}`,
         "authorization": `Bearer ${this._accessToken()}`,
         "user-agent": "@PipedreamHQ/pipedream v0.1",
       };
@@ -122,41 +123,13 @@ export default {
     _apiUrl() {
       return "https://oauth.reddit.com";
     },
-    sanitizeError(data) {
-      // Check mod required error
-      if (get(
-        JSON.stringify(data).match(/(MOD_OF_THIS_SR_REQUIRED)/),
-        "[0]",
-      )) {
-        throw new Error("You must be a moderator of this SubReddit to do that");
-      }
-
-      // Check already posted
-      if (get(
-        JSON.stringify(data).match(/(ALREADY_SUB)/),
-        "[0]",
-      )) {
-        throw new Error("This community doesn't allow links to be posted more than once, and this link has already been shared");
-      }
-
-      // Find event limit error
-      const eventLimitMessage = get(
-        JSON.stringify(data).match(/(This event can't be longer than \S*\d+\S* days)/),
-        "[0]",
-      );
-
-      if (eventLimitMessage) {
-        throw new Error(eventLimitMessage);
-      }
-
-      // Find rate limit error
-      const rateLimitMessage = get(
-        JSON.stringify(data).match(/(\S*\d+\S* minute)/),
-        "[0]",
-      );
-
-      if (rateLimitMessage) {
-        throw new Error(`Reddit rate-limit: Please wait ${rateLimitMessage}(s) before post again.`);
+    checkErrors(data) {
+      if (get(data, "json.errors.length", 0) > 0) {
+        throw new Error(data.json.errors.map((err) => get(
+          err,
+          "[1]",
+          err,
+        )));
       }
     },
     async _makeRequest(opts) {
