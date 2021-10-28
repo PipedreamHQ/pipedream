@@ -1,9 +1,9 @@
-const zoho_crm = require("../../../zoho_crm.app");
+import zohoCrm from "../../../zoho_crm.app.mjs";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
-    zoho_crm,
+    zohoCrm,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",

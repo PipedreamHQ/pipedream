@@ -1,12 +1,13 @@
-const common = require("../common/http-based/custom-single-module");
-const crudOps = require("../common/http-based/crud-operations");
+import common from "../common/http-based/custom-module.mjs";
+import crudOps from "../common/http-based/crud-operations.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "zoho_crm-updated-module-entry",
   name: "Updated Module Entry (Instant)",
   description: "Emits an event each time a new module/record is updated in Zoho CRM",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   methods: {
     ...common.methods,
     getSupportedOps() {

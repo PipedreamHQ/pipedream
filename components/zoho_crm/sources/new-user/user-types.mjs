@@ -1,6 +1,6 @@
 // Based on the Zoho CRM API docs for the /users endpoint:
 // https://www.zoho.com/crm/developer/docs/api/v2/get-users.html
-module.exports = [
+export default [
   {
     value: "AllUsers",
     label: "All users in your organization (both active and inactive users)",

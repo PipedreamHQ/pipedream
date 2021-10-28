@@ -2,7 +2,7 @@ const {
   randomBytes,
   randomInt,
 } = require("crypto");
-const zohoCrm = require("../../../zoho_crm.app");
+const zohoCrm = require("../../../zoho_crm.app.js");
 
 // Zoho CRM webhooks subscriptions have an expiration date of up to 1 day. This
 // event source renews the subscription every 12 hours by default. More info can
@@ -45,22 +45,34 @@ module.exports = {
         Created webhook notification for channel ID: ${channelId}
       `);
 
-      this.db.set("token", token);
-      this.db.set("channelId", channelId);
+      this._setToken(token);
+      this._setChannelId(channelId);
     },
     async deactivate() {
-      const channelId = this.db.get("channelId");
+      const channelId = this._getChannelId();
       await this.zohoCrm.deleteHook(channelId);
 
       console.log(`
         Deleted webhook notification for channel ID: ${channelId}
       `);
 
-      this.db.set("token", null);
-      this.db.set("channelId", null);
+      this._setToken(null);
+      this._setChannelId(null);
     },
   },
   methods: {
+    _getToken() {
+      return this.db.get("token");
+    },
+    _setToken(token) {
+      this.db.set("token", token);
+    },
+    _getChannelId() {
+      return this.db.get("channelId");
+    },
+    _setChannelId(channelId) {
+      this.db.set("channelId", channelId);
+    },
     _generateToken() {
       // The max size of a verification token is 50 chars:
       // https://www.zoho.com/crm/developer/docs/api/v2/notifications/enable.html
@@ -87,19 +99,19 @@ module.exports = {
     },
     _isEventRelevant(event) {
       const { channel_id: eventChannelId } = event.body;
-      const channelId = this.db.get("channelId");
+      const channelId = this._getChannelId();
       return eventChannelId === channelId.toString();
     },
     _isValidSource(event) {
       const { token: eventToken } = event.body;
-      const token = this.db.get("token");
+      const token = this._getToken();
       return eventToken === token;
     },
     _renewHookSubscription() {
-      const channelId = this.db.get("channelId");
+      const channelId = this._getChannelId();
       const channelExpiry = this._getChannelNextExpiryDate();
       const events = this.getEvents();
-      const token = this.db.get("token");
+      const token = this._getToken();
       const renewOpts = {
         channelId,
         channelExpiry,
