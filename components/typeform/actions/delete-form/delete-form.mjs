@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "typeform-delete-form",
   name: "Delete Form",
-  description: "Select the a form to be deleted. [See the docs here](https://developer.typeform.com/create/reference/delete-form/).",
+  description: "Delete a form and all of the form's responses. [See the docs here](https://developer.typeform.com/create/reference/delete-form/).",
   type: "action",
   version: "0.0.1",
   props: {
@@ -29,7 +29,9 @@ export default {
       return {
         id: formId,
         success: true,
-      };
+      },
+      // can we pull in the form title here instead of formId?
+      $.export("$summary", `🎉 Successfully deleted the form, "${formId}"`);
     }
 
     return response;

@@ -79,6 +79,9 @@ export default {
       params,
     });
 
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `🎉 Found ${items.length} form ${items.length == 1 ? `response` : `responses`} based on the provided query`)
+
     return items;
   },
 };

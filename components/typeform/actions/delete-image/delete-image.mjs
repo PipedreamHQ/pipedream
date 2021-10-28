@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "typeform-delete-image",
   name: "Delete an Image",
-  description: "Deletes and image from your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/delete-image/)",
+  description: "Delete an image from your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/delete-image/)",
   type: "action",
   version: "0.0.1",
   props: {
@@ -13,7 +13,7 @@ export default {
     imageId: {
       type: "string",
       label: "Image ID",
-      description: "Unique ID for the image to be deleted",
+      description: "Specify the image ID to be deleted",
     },
   },
   async run({ $ }) {
@@ -29,7 +29,8 @@ export default {
       return {
         id: imageId,
         success: true,
-      };
+      },
+      $.export("$summary", `🎉 Successfully deleted the image, "${imageId}"`)
     }
 
     return response;

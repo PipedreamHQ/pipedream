@@ -76,7 +76,7 @@ export default {
     workspaceHref: {
       type: "string",
       label: "Workspace",
-      description: "URL of the workspace to use for the typeform. If you don't specify a URL for the workspace, Typeform saves the form in the default workspace.",
+      description: `Select an existing workspace with "structured mode" off, or specify the URL of the workspace with "structured mode" on. If you don't specify a workspace, Typeform saves the form in the default workspace.`,
       optional: true,
       async options({ page }) {
         const { items } = await this.getWorkspaces({

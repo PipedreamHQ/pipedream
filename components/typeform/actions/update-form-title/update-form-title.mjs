@@ -3,9 +3,9 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "typeform-update-form",
-  name: "Update a Form",
-  description: "Updates an existing form. Request body must include all the existing form fields. [See the docs here](https://developer.typeform.com/create/reference/update-form-patch/)",
+  key: "typeform-update-form-title",
+  name: "Update a Form Title",
+  description: "Updates an existing form's title. [See the docs here](https://developer.typeform.com/create/reference/update-form-patch/)",
   type: "action",
   version: "0.0.1",
   methods: {
@@ -79,7 +79,8 @@ export default {
       return {
         id: formId,
         success: true,
-      };
+      },
+      $.export("$summary", `🎉 Successfully updated the form, "${this.title}"`)
     }
 
     return response;

@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "typeform-create-form",
   name: "Create a Form",
-  description: "Creates a form with its corresponing fields. [See the docs here](https://developer.typeform.com/create/reference/create-form/)",
+  description: "Create a new form. [See the docs here](https://developer.typeform.com/create/reference/create-form/)",
   type: "action",
   version: "0.0.1",
   methods: {
@@ -45,9 +45,13 @@ export default {
       additionalProps,
     });
 
-    return await this.typeform.createForm({
+    const resp = await this.typeform.createForm({
       $,
       data,
     });
+
+    $.export("$summary", `🎉 Successfully created a new form, "${resp.title}"`)
+    
+    return resp
   },
 };

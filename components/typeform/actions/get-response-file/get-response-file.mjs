@@ -109,6 +109,8 @@ export default {
 
     await pipeline(responseFile, createWriteStream(filePath));
 
+    $.export("$summary", `🎉 Successfully fetched the file, "${formId}"`)
+
     return filePath;
   },
 };

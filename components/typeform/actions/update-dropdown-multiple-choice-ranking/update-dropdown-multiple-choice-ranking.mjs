@@ -170,6 +170,9 @@ export default {
       fields: fieldsToUpdate,
     };
 
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `🎉 Successfully updated... something`)
+
     return await this.typeform.updateForm({
       $,
       formId,

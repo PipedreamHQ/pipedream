@@ -42,9 +42,13 @@ export default {
       ...dataWithoutIds,
     };
 
-    return await this.typeform.createForm({
+    const resp = await this.typeform.createForm({
       $,
       data,
     });
+
+    $.export("$summary", `🎉 Successfully created a new duplicate form, "${resp.title}"`);
+
+    return resp;
   },
 };

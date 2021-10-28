@@ -12,6 +12,11 @@ export default {
     typeform,
   },
   async run({ $ }) {
-    return await this.typeform.getImages($);
+    const resp = await this.typeform.getImages($);
+
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `🎉 Successfully listed ${resp.length} ${resp.length == 1 ? `image` : `images`}`)
+
+    return resp;
   },
 };
