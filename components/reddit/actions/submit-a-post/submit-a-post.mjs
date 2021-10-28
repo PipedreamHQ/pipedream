@@ -106,7 +106,7 @@ export default {
 
     this.reddit.checkErrors(res);
 
-    $.export("$summary", `🎉 The post ${this.title} has been created successfully`);
+    $.export("$summary", `🎉 The post "${this.title}" has been successfully created`);
     return get(res, "json.data", res);
   },
 };

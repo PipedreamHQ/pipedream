@@ -35,7 +35,7 @@ export default {
     }));
 
     this.reddit.checkErrors(res);
-    $.export("$summary", `🎉 Your comment has been posted to ${this.thingId} successfully`);
+    $.export("$summary", "🎉 Your comment has been successfully submitted");
     return get(res, "json.data.things[0]", res);
   },
 };
