@@ -10,6 +10,9 @@ const zohoCrm = require("../../../zoho_crm.app.js");
 // https://www.zoho.com/crm/developer/docs/api/v2/notifications/enable.html
 const hookRenewalPeriod = 60 * 60 * 12;
 
+/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
+  pipedream/required-properties-version, pipedream/required-properties-description,
+  pipedream/required-properties-type */
 module.exports = {
   dedupe: "unique",
   props: {

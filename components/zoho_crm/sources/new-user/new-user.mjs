@@ -13,6 +13,7 @@ export default {
     ...common.props,
     userType: {
       type: "string",
+      label: "User Type",
       description: "The type of users to generate events for",
       options: userTypes,
     },

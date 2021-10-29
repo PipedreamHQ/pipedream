@@ -1,3 +1,7 @@
+/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
+  pipedream/required-properties-version, pipedream/required-properties-description,
+  pipedream/required-properties-type */
+
 // Based on the Zoho CRM API docs for the /users endpoint:
 // https://www.zoho.com/crm/developer/docs/api/v2/get-users.html
 export default [

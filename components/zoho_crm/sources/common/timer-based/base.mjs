@@ -1,4 +1,4 @@
-import zohoCrm from "../../../zoho_crm.app.mjs";
+import zohoCrm from "../../../zoho_crm.app.js";
 
 export default {
   dedupe: "unique",
@@ -7,6 +7,8 @@ export default {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
+      label: "Polling Interval",
+      description: "Pipedream will poll the Zoho API on this schedule",
       default: {
         intervalSeconds: 60 * 15, // 15 minutes
       },
