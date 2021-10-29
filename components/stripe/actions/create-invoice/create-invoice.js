@@ -20,6 +20,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "subscription",
+        (configuredProps) => ({
+          customer: configuredProps.customer,
+        }),
       ],
     },
     description: {
@@ -39,6 +42,8 @@ module.exports = {
         stripe,
         "invoice_collection_method",
       ],
+      default: "charge_automatically",
+      description: "When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.",
     },
     days_until_due: {
       propDefinition: [
@@ -50,6 +55,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "payment_method",
+        (configuredProps) => ({
+          customer: configuredProps.customer,
+        }),
       ],
       label: "Default Payment Method",
       description: "Must belong to the customer associated with the invoice. If not set, " +

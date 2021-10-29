@@ -19,6 +19,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "invoice_item",
+        (configuredProps) => ({
+          invoice: configuredProps.invoice,
+        }),
       ],
       optional: false,
     },

@@ -21,6 +21,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "subscription",
+        (configuredProps) => ({
+          customer: configuredProps.customer,
+        }),
       ],
     },
     // Used to populate invoice item options
@@ -28,12 +31,19 @@ module.exports = {
       propDefinition: [
         stripe,
         "invoice",
+        (configuredProps) => ({
+          customer: configuredProps.customer,
+          subscription: configuredProps.subscription,
+        }),
       ],
     },
     id: {
       propDefinition: [
         stripe,
         "invoice_item",
+        (configuredProps) => ({
+          invoice: configuredProps.invoice,
+        }),
       ],
       optional: false,
     },

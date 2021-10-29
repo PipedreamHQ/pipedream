@@ -23,6 +23,10 @@ module.exports = {
       "propDefinition": [
         stripe,
         "price",
+        () => ({
+          // Only `recurring` prices can be used to filter subscriptions
+          type: "recurring",
+        }),
       ],
     },
     // Required to select subscription item
@@ -30,6 +34,10 @@ module.exports = {
       "propDefinition": [
         stripe,
         "subscription",
+        (configuredProps) => ({
+          customer: configuredProps.customer,
+          price: configuredProps.price,
+        }),
       ],
       "optional": false,
     },
@@ -37,6 +45,9 @@ module.exports = {
       "propDefinition": [
         stripe,
         "subscription_item",
+        (configuredProps) => ({
+          subscription: configuredProps.subscription,
+        }),
       ],
       "optional": false,
     },
@@ -45,9 +56,11 @@ module.exports = {
         stripe,
         "timestamp",
       ],
-      "optional": false,
+      "optional": true,
       "description": "The timestamp for the usage event. This timestamp must be within the " +
-        "current billing period of the subscription of the provided subscription item.",
+        "current billing period of the subscription of the provided subscription item. When " +
+        "passing `now`, Stripe records usage for the current time. Default is `now` if a value " +
+        "is not provided.",
     },
     quantity: {
       "propDefinition": [

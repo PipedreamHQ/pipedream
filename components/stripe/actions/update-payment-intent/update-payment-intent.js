@@ -1,4 +1,5 @@
 const pick = require("lodash.pick");
+const pickBy = require("lodash.pickby");
 const stripe = require("../../stripe.app.js");
 
 module.exports = {
@@ -32,7 +33,11 @@ module.exports = {
       propDefinition: [
         stripe,
         "currency",
+        (configuredProps) => ({
+          country: configuredProps.country,
+        }),
       ],
+      default: "", // currency cannot be used when modifying a PaymentIntent that was created by an invoice
     },
     payment_method_types: {
       propDefinition: [
@@ -62,20 +67,25 @@ module.exports = {
     },
   },
   async run() {
-    const params = pick(this, [
-      "amount",
-      "currency",
-      "payment_method_types",
-      "statement_descriptor",
-      "metadata",
-    ]);
+    const params = {
+      ...pick(this, [
+        "amount",
+        "payment_method_types",
+        "metadata",
+      ]),
+      // Include these props only if truthy since they're required in payment intent
+      ...pickBy(pick(this, [
+        "currency",
+        "statement_descriptor",
+      ])),
+    };
     const advanced = this.advanced;
 
     // Don't fail if the statement descriptor was too long
     if (params.statement_descriptor) {
       params.statement_descriptor = String(params.statement_descriptor).slice(0, 21);
     }
-    if (advanced.statement_descriptor_suffix) {
+    if (advanced?.statement_descriptor_suffix) {
       advanced.statement_descriptor_suffix = String(advanced.statement_descriptor_suffix)
         .slice(0, 21);
     }

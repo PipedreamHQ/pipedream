@@ -19,6 +19,10 @@ module.exports = {
       propDefinition: [
         stripe,
         "subscription",
+        (configuredProps) => ({
+          customer: configuredProps.customer,
+          price: configuredProps.price,
+        }),
       ],
     },
     status: {

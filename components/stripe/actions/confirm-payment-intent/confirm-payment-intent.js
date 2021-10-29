@@ -28,6 +28,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "payment_method",
+        (configuredProps) => ({
+          customer: configuredProps.customer,
+        }),
       ],
     },
     receipt_email: {

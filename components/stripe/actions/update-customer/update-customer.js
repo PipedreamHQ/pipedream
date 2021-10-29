@@ -3,7 +3,7 @@ const stripe = require("../../stripe.app.js");
 
 module.exports = {
   key: "stripe-update-customer",
-  name: "Create a Customer",
+  name: "Update a Customer",
   type: "action",
   version: "0.0.1",
   description: "Update a customer",
@@ -12,7 +12,7 @@ module.exports = {
     customer: {
       propDefinition: [
         stripe,
-        "name",
+        "customer",
       ],
       optional: false,
     },

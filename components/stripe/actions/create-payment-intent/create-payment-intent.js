@@ -27,6 +27,9 @@ module.exports = {
       propDefinition: [
         stripe,
         "currency",
+        (configuredProps) => ({
+          country: configuredProps.country,
+        }),
       ],
       optional: false,
     },
@@ -74,7 +77,7 @@ module.exports = {
     if (params.statement_descriptor) {
       params.statement_descriptor = String(params.statement_descriptor).slice(0, 21);
     }
-    if (advanced.statement_descriptor_suffix) {
+    if (advanced?.statement_descriptor_suffix) {
       advanced.statement_descriptor_suffix = String(advanced.statement_descriptor_suffix)
         .slice(0, 21);
     }
