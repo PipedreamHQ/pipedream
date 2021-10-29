@@ -9,6 +9,40 @@ export default {
   type: "app",
   app: "reddit",
   propDefinitions: {
+    subredditPost: {
+      type: "string",
+      label: "Post",
+      description: "Post of sub-reddit.",
+      optional: false,
+      async options({
+        subReddit,
+        prevContext,
+      }) {
+        const params = {
+          limit: 50,
+          after: get(prevContext, "after"),
+        };
+        const links = await this.getNewSubredditLinks(
+          get(subReddit, "value", subReddit),
+          params,
+        );
+        const options = get(links, "data.children", []).map((item) => ({
+          label: item.data.title,
+          value: {
+            label: item.data.title,
+            value: item.data.id,
+            name: item.data.name,
+          },
+        }));
+
+        return {
+          options,
+          context: {
+            after: options.length > 0 && get(options, `${options.length - 1}.value.name`),
+          },
+        };
+      },
+    },
     after: {
       type: "string",
       label: "After",
@@ -47,7 +81,10 @@ export default {
         for (const subreddit of results) {
           options.push({
             label: subreddit.title,
-            value: subreddit.displayName,
+            value: {
+              label: subreddit.title,
+              value: subreddit.displayName,
+            },
           });
         }
         return options;
@@ -77,9 +114,21 @@ export default {
     includeSubredditDetails: {
       type: "boolean",
       label: "Include subreddit details?",
-      description:
-        "If set to true, subreddit details will be expanded/included in the emitted event.",
-      default: false,
+      description: "If set to `true`, subreddit details will be expanded/included.",
+      optional: true,
+    },
+    numberOfParents: {
+      type: "integer",
+      label: "Number of Parents",
+      description: "When set to `0`, it will only contain the new comment. Otherwise, it will also contain the parents of the comment up to the number indicated in this property.",
+      optional: true,
+      min: 0,
+      max: 8,
+    },
+    depth: {
+      type: "integer",
+      label: "Depth",
+      description: "If set to `1`, it will include, only new comments that are direct children to the subreddit pointed by `SubReddit Post`. Furthermore, `depth` determines the maximum depth of children, within the related subreddit comment tree, of new comments to be included in said emitted event.",
       optional: true,
     },
   },
@@ -209,10 +258,10 @@ export default {
           params,
         }));
     },
-    async getNewSubredditLinks(before, subreddit, limit = 100) {
+    async getNewSubredditLinks(subreddit, opts) {
       const params = {
-        before,
-        limit,
+        limit: 100,
+        ...opts,
       };
       return await this._withRetries(() =>
         this._makeRequest({

@@ -11,7 +11,7 @@ export default {
   description: "Create a post to a subreddit. [See the docs here](https://www.reddit.com/dev/api/#POST_api_submit)",
   props: {
     reddit,
-    subRedditName: {
+    subReddit: {
       propDefinition: [
         reddit,
         "subreddit",
@@ -85,7 +85,7 @@ export default {
   async run ({ $ }) {
     const data = {
       api_type: "json",
-      sr: this.subRedditName,
+      sr: get(this.subReddit, "value", this.subReddit),
       kind: this.kind,
       title: this.title,
       spoiler: this.spoiler,

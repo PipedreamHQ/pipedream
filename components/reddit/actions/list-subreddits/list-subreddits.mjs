@@ -1,4 +1,5 @@
 import reddit from "../../reddit.app.mjs";
+import get from "lodash/get.js";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -9,7 +10,7 @@ export default {
   description: "List subreddits based in a search criteria. [See the docs here](https://www.reddit.com/dev/api/#GET_subreddits_search)",
   props: {
     reddit,
-    q: {
+    subReddit: {
       propDefinition: [
         reddit,
         "subreddit",
@@ -82,7 +83,7 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      q: this.q,
+      q: get(this.subReddit, "value", this.subReddit),
       limit: this.limit,
       show_users: this.showUsers,
       sort: this.sort,
