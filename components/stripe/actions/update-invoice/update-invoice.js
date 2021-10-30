@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-update-invoice",
   name: "Update Invoice",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Update an invoice",
   props: {
     stripe,

@@ -6,7 +6,7 @@ module.exports = {
   key: "stripe-update-payment-intent",
   name: "Update a Payment Intent",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Update a [payment intent](https://stripe.com/docs/payments/payment-intents)",
   props: {
     stripe,

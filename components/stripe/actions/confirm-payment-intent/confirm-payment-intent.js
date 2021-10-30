@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-confirm-payment-intent",
   name: "Confirm a Payment Intent",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Confirm that your customer intends to pay with current or provided payment " +
     "method. Upon confirmation, Stripe will attempt to initiate a payment.",
   props: {

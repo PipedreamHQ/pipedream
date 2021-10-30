@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-create-customer",
   name: "Create a Customer",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Create a customer",
   props: {
     stripe,

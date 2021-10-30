@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-list-payment-intents",
   name: "List Payment Intents",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Retrieves a list of " +
     "[payment intent](https://stripe.com/docs/payments/payment-intents) that were previously " +
     "created",

@@ -5,7 +5,7 @@ module.exports = {
   key: "stripe-list-invoices",
   name: "List Invoices",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Find or list invoices",
   props: {
     stripe,
