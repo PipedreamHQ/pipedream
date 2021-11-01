@@ -1,18 +1,20 @@
-const zoom = require('../../zoom.app.js')
+import zoom from "../../zoom.app.mjs";
 
-module.exports = {
+export default {
   key: "zoom-meeting-started",
   name: "Meeting Started",
   description:
     "Emits an event each time a meeting starts where you're the host",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique", // Dedupe based on meeting ID
   props: {
     zoom,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
-      eventNames: ["meeting.started"],
+      eventNames: [
+        "meeting.started",
+      ],
     },
   },
   async run(event) {

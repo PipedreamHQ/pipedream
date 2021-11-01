@@ -1,6 +1,6 @@
-const zoom = require('../../zoom.app.js')
+import zoom from "../../zoom.app.mjs";
 
-module.exports = {
+export default {
   key: "zoom-meeting-updated",
   name: "Meeting Updated",
   description:
@@ -12,7 +12,9 @@ module.exports = {
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
-      eventNames: ["meeting.updated"],
+      eventNames: [
+        "meeting.updated",
+      ],
     },
   },
   async run(event) {

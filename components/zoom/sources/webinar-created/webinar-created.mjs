@@ -1,30 +1,36 @@
-const zoom = require('../../zoom.app.js')
+import zoom from "../../zoom.app.mjs";
 
-module.exports = {
-  key: "zoom-webinar-deleted",
-  name: "Webinar Deleted",
+export default {
+  key: "zoom-webinar-created",
+  name: "Webinar Created",
   description:
-    "Emits an event each time a webinar is deleted where you're the host",
-  version: "0.0.2",
+    "Emits an event each time a webinar is created where you're the host",
+  version: "0.0.3",
   dedupe: "unique", // Dedupe based on meeting ID
   props: {
     zoom,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoom",
-      eventNames: ["webinar.deleted.by_me", "webinar.deleted.for_me"],
+      eventNames: [
+        "webinar.created.by_me",
+        "webinar.created.for_me",
+      ],
     },
   },
   async run(event) {
     const { payload } = event;
     const { object } = payload;
     this.$emit(
-      { event: "webinar.deleted", payload },
+      {
+        event: "webinar.created",
+        payload,
+      },
       {
         summary: object.topic,
         id: object.uuid,
         ts: +new Date(object.start_time),
-      }
+      },
     );
   },
 };

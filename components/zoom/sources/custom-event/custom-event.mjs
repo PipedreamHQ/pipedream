@@ -1,11 +1,11 @@
-const zoom = require("../../zoom.app.js");
+import zoom from "../../zoom.app.mjs";
 
-module.exports = {
+export default {
   key: "zoom-custom-events",
   name: "Custom Events",
   description:
     "Listen for any events tied to your Zoom user or resources you own",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     zoom,
     eventNameOptions: {

@@ -1,7 +1,8 @@
-const axios = require("axios");
-const zoom = require("../../zoom.app.js");
+/* eslint-disable camelcase */
+import axios from "axios";
+import zoom from "../../zoom.app.mjs";
 
-module.exports = {
+export default {
   key: "zoom-recording-completed",
   name: "Recording Completed",
   description:
@@ -109,7 +110,7 @@ module.exports = {
           host_email,
         },
         {
-          summary: `${object.topic} — ${file.file_type}`,
+          summary: `${object.topic} — ${file.file_type}`,
           id: file.id,
           ts: +new Date(file.recording_end),
         },
