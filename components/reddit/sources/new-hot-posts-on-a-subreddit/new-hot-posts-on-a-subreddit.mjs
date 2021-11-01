@@ -1,15 +1,15 @@
-const common = require("../common");
-const regionData = require("./region-data");
+import common from "../common.mjs";
+import regionData from "./region-data.mjs";
 const { reddit } = common.props;
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   key: "reddit-new-hot-posts-on-a-subreddit",
   name: "New hot posts on a subreddit",
   description:
     "Emit new event each time a new hot post is added to the top 10 items in a subreddit.",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     ...common.props,

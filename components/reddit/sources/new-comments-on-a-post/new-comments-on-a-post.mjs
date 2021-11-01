@@ -1,14 +1,14 @@
-const common = require("../common");
+import common from "../common.mjs";
 const { reddit } = common.props;
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   key: "reddit-new-comments-on-a-post",
   name: "New comments on a post",
   description:
     "Emit new event each time a new comment is added to a subreddit.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,

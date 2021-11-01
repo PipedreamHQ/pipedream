@@ -1,29 +1,54 @@
-const common = require("../common");
+import common from "../common.mjs";
 const { reddit } = common.props;
 
-module.exports = {
+export default {
   ...common,
   type: "source",
-  key: "reddit-new-links-on-a-subreddit",
-  name: "New Links on a subreddit",
-  description: "Emit new event each time a new link is added to a subreddit",
+  key: "reddit-new-links-by-user",
+  name: "New links by user",
+  description: "Emit new event each time a user posts a new link.",
   version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
-    subreddit: {
+    username: {
       propDefinition: [
         reddit,
-        "subreddit",
+        "username",
+      ],
+    },
+    numberOfParents: {
+      type: "integer",
+      label: "Number of parents",
+      description:
+        "The emitted events will contain the new comment plus the parents of said comment up to the number indicated in this property.",
+      optional: true,
+      min: 2,
+      max: 10,
+      default: 2,
+    },
+    timeFilter: {
+      propDefinition: [
+        reddit,
+        "timeFilter",
+      ],
+    },
+    includeSubredditDetails: {
+      propDefinition: [
+        reddit,
+        "includeSubredditDetails",
       ],
     },
   },
   hooks: {
     async deploy() {
-      // Emits 10 sample events on the first run during deploy.
-      var redditLinks = await this.reddit.getNewSubredditLinks(
+      // Emits sample events on the first run during deploy.
+      var redditLinks = await this.reddit.getNewUserLinks(
         null,
-        this.subreddit,
+        this.username,
+        this.numberOfParents,
+        this.timeFilter,
+        this.includeSubredditDetails,
         10,
       );
       const { children: links = [] } = redditLinks.data;
@@ -49,9 +74,12 @@ module.exports = {
   async run() {
     let redditLinks;
     do {
-      redditLinks = await this.reddit.getNewSubredditLinks(
+      redditLinks = await this.reddit.getNewUserLinks(
         this.db.get("before"),
-        this.subreddit,
+        this.username,
+        this.numberOfParents,
+        this.timeFilter,
+        this.includeSubredditDetails,
       );
       const { children: links = [] } = redditLinks.data;
       if (links.length === 0) {

@@ -1,13 +1,13 @@
-const common = require("../common");
+import common from "../common.mjs";
 const { reddit } = common.props;
 
-module.exports = {
+export default {
   ...common,
   type: "source",
-  key: "reddit-new-links-by-user",
-  name: "New links by user",
-  description: "Emit new event each time a user posts a new link.",
-  version: "0.0.2",
+  key: "reddit-new-comments-by-user",
+  name: "New comments by user",
+  description: "Emit new event each time a user posts a new comment.",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -43,7 +43,7 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      var redditLinks = await this.reddit.getNewUserLinks(
+      var redditComments = await this.reddit.getNewUserComments(
         null,
         this.username,
         this.numberOfParents,
@@ -51,14 +51,14 @@ module.exports = {
         this.includeSubredditDetails,
         10,
       );
-      const { children: links = [] } = redditLinks.data;
-      if (links.length === 0) {
+      const { children: comments = [] } = redditComments.data;
+      if (comments.length === 0) {
         console.log("No data available, skipping iteration");
         return;
       }
-      const { name: before = this.db.get("before") } = links[0].data;
+      const { name: before = this.db.get("before") } = comments[0].data;
       this.db.set("before", before);
-      links.reverse().forEach(this.emitRedditEvent);
+      comments.reverse().forEach(this.emitRedditEvent);
     },
   },
   methods: {
@@ -66,29 +66,29 @@ module.exports = {
     generateEventMetadata(redditEvent) {
       return {
         id: redditEvent.data.name,
-        summary: redditEvent.data.title,
+        summary: redditEvent.data.body,
         ts: redditEvent.data.created,
       };
     },
   },
   async run() {
-    let redditLinks;
+    let redditComments;
     do {
-      redditLinks = await this.reddit.getNewUserLinks(
+      redditComments = await this.reddit.getNewUserComments(
         this.db.get("before"),
         this.username,
         this.numberOfParents,
         this.timeFilter,
         this.includeSubredditDetails,
       );
-      const { children: links = [] } = redditLinks.data;
-      if (links.length === 0) {
+      const { children: comments = [] } = redditComments.data;
+      if (comments.length === 0) {
         console.log("No data available, skipping iteration");
         break;
       }
-      const { name: before = this.db.get("before") } = links[0].data;
+      const { name: before = this.db.get("before") } = comments[0].data;
       this.db.set("before", before);
-      links.reverse().forEach(this.emitRedditEvent);
-    } while (redditLinks);
+      comments.reverse().forEach(this.emitRedditEvent);
+    } while (redditComments);
   },
 };
