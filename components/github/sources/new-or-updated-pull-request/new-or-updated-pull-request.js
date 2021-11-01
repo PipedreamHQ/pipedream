@@ -28,7 +28,7 @@ module.exports = {
         "converted_to_draft",
         "labeled",
         "unlabeled",
-        "syncronize",
+        "synchronize",
         "auto_merge_enabled",
         "auto_merge_disabled",
         "locked",
