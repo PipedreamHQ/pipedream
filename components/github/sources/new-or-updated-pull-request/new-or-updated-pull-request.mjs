@@ -1,11 +1,11 @@
-const common = require("../common-webhook.js");
+import common from "../common-webhook.js";
 
-module.exports = {
+export default {
   ...common,
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request (Instant)",
   description: "Emit new events when a pull request is opened or updated",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -28,7 +28,7 @@ module.exports = {
         "converted_to_draft",
         "labeled",
         "unlabeled",
-        "syncronize",
+        "synchronize",
         "auto_merge_enabled",
         "auto_merge_disabled",
         "locked",
