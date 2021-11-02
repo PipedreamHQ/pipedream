@@ -1,29 +1,44 @@
-const common = require("../common-webhook.js");
-const get = require("lodash/get");
+import common from "../common-webhook.mjs";
+import get from "lodash/get.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-custom-webhook-events",
   name: "Custom Webhook Events (Instant)",
   description:
-    "Emit events for activity matching a board, event types, lists and/or cards.",
-  version: "0.0.4",
+    "Emit new events for activity matching a board, event types, lists and/or cards.",
+  version: "0.0.5",
+  type: "source",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
-    eventTypes: { propDefinition: [common.props.trello, "eventTypes"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
+    eventTypes: {
+      propDefinition: [
+        common.props.trello,
+        "eventTypes",
+      ],
+    },
     lists: {
       propDefinition: [
         common.props.trello,
         "lists",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
     cards: {
       propDefinition: [
         common.props.trello,
         "cards",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
   },
@@ -40,19 +55,26 @@ module.exports = {
     async getResult(event) {
       return event.body;
     },
-    isRelevant({ result: body, event }) {
-      const listId = get(body, "action.data.list.id");
+    async isRelevant({ result: body }) {
+      let listId = get(body, "action.data.list.id");
       const cardId = get(body, "action.data.card.id");
-
+      // If listId not returned, see if we can get it from the cardId
+      if (cardId && !listId)
+        listId = (await this.trello.getCardList(cardId)).id;
       return (
         (!this.lists ||
           this.lists.length === 0 ||
+          !listId ||
           this.lists.includes(listId)) &&
-        (!this.cards || this.cards.length === 0 || this.cards.includes(cardId))
+        (!this.cards || this.cards.length === 0 || !cardId || this.cards.includes(cardId))
       );
     },
     generateMeta({ action }) {
-      const { id, type: summary, date } = action;
+      const {
+        id,
+        type: summary,
+        date,
+      } = action;
       return {
         id,
         summary,

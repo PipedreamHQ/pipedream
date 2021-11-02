@@ -1,12 +1,13 @@
-const common = require("../common-webhook.js");
-const get = require("lodash/get");
+import common from "../common-webhook.mjs";
+import get from "lodash/get.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-new-board",
   name: "New Board (Instant)",
-  description: "Emits an event for each new board added.",
-  version: "0.0.5",
+  description: "Emit new event for each new board added.",
+  version: "0.0.6",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
