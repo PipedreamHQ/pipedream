@@ -304,7 +304,7 @@ module.exports = {
       return (await sheets.spreadsheets.values.clear(request)).data;
     },
     async addRowsToSheet({
-      spreadsheetId, range, rows,
+      spreadsheetId, range, rows, params,
     }) {
       const resp = await axios({
         method: "POST",
@@ -316,6 +316,7 @@ module.exports = {
         params: {
           valueInputOption: "USER_ENTERED",
           insertDataOption: "INSERT_ROWS",
+          ...params,
         },
         data: {
           values: rows,
