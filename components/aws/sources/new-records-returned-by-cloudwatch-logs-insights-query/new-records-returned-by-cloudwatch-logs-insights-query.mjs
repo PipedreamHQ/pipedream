@@ -18,28 +18,11 @@ export default {
     },
     db: "$.service.db",
     logGroupNames: {
-      label: "CloudWatch Log Groups",
       description: "The log groups you'd like to query",
-      type: "string[]",
-      async options({ prevContext }) {
-        const prevToken = prevContext.nextToken;
-        const {
-          logGroups,
-          nextToken,
-        } = await this.aws.logsInsightsDescibeLogGroups(this.region, prevToken);
-        const options = logGroups.map((group) => {
-          return {
-            label: group.logGroupName,
-            value: group.logGroupName,
-          };
-        });
-        return {
-          options,
-          context: {
-            nextToken,
-          },
-        };
-      },
+      propDefinition: [
+        aws,
+        "logGroupNames",
+      ],
     },
     queryString: {
       label: "Logs Insights Query",
