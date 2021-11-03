@@ -1,6 +1,18 @@
 import { v4 as uuid } from "uuid";
 import googleSheets from "../../google_sheets.app.js";
 
+/**
+ * This action performs an upsert operation, similar to the MySQL `INSERT INTO ... ON DUPLICATE KEY
+ * UPDATE` operation, on a Google Spreadsheet. If a row in the spreadsheet has `value` in `column`
+ * (i.e., a duplicated key), that row is updated. Otherwise, a new row is appended to the
+ * spreadsheet.
+ *
+ * To determine if and where a duplicate key exists in the spreadsheet, this action uses [Google
+ * Sheet's `MATCH` function](https://support.google.com/docs/answer/3093378) in a new temporary
+ * hidden worksheet. Uses roughly the method described in [this stackoverflow
+ * answer](https://stackoverflow.com/a/49439220) and [this GitHub
+ * comment](https://github.com/PipedreamHQ/pipedream/issues/1824#issuecomment-949940177).
+ */
 export default {
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
@@ -41,39 +53,56 @@ export default {
         "cells",
       ],
       label: "Insert",
+      description: "Insert statement: the row data you want to add to the Google sheet if the key *doesn't* exist. If the key *does* exist and **Update** is not set, the row will be updated using this array. Use structured mode to enter individual cell values. Disable structured mode to pass an array with each element representing a cell/column value (e.g. `{{ [5, \"test\"] }}`).",
     },
     column: {
       propDefinition: [
         googleSheets,
         "column",
       ],
+      description: "The column of the sheet to lookup (e.g. `A`). This column functions as the key column for the upsert operation.",
     },
     value: {
       type: "string",
       label: "Value",
-      description: "The value to search for",
+      description: "The value of the key to search for in **Column**. Defaults to the value in **Insert**'s \"key\" column if left blank.",
       optional: true,
     },
-    update: {
+    updates: {
       type: "object",
-      label: "update",
-      description: "An object of Google Sheets column-value pairs",
+      label: "Update",
+      description: "Update statment: if the spreadsheet contains duplicate key **Value** in some row in specified **Column**, individual cells in the *first* duplicate row will be updated using this object's column-value pairs. Enter the column name for the key and the corresponding column value. You may also disable structured mode to pass a JSON object with key/value pairs representing columns and values (e.g. `{{ { A: 5, B: \"test\" } }}`).",
       optional: true,
     },
   },
   methods: {
+    /**
+     * Gets the ID of a worksheet in a spreadsheet
+     * @param {string} sheetName - The name of the worksheet
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @returns {string} The ID of the worksheet
+     */
     async getSheetId(sheetName = this.sheetName, spreadsheetId = this.sheetId) {
-      const request = {
-        spreadsheetId: spreadsheetId,
+      const fields = [
+        "sheets.properties.sheetId",
+      ];
+      return (await this.googleSheets.getSpreadsheet(spreadsheetId, fields, {
         ranges: [
           sheetName,
         ],
         includeGridData: false,
-      };
-      const res = await this.googleSheets.sheets().spreadsheets.get(request);
-      return res.data.sheets[0].properties.sheetId;
+      })).sheets[0].properties.sheetId;
     },
-    getUpdateRequest(sheetId, row, column, value) {
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#UpdateCellsRequest
+     *
+     * @param {string} sheetId - ID of the worksheet
+     * @param {number} row - The row number (>=1) of the cell to update
+     * @param {string} column - The column letter of the cell to update
+     * @param {string} value - The new value of the cell
+     * @returns An UpdateCellsRequest object
+     */
+    getUpdateRequestObj(sheetId, row, column, value) {
       const colIndex = this.googleSheets._getColumnIndex(column) - 1;
       return {
         "updateCells":
@@ -100,50 +129,122 @@ export default {
         },
       };
     },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#AddSheetRequest
+     *
+     * Creates a worksheet and returns the properties of the newly created sheet
+     * @param {string} spreadsheetId - ID of the spreadsheet in which to create a worksheet
+     * @param {object} properties - The properties the new sheet should have
+     * @returns An object containing the SheetProperties (`properties`) of the newly created sheet
+     */
+    async addSheet(spreadsheetId, properties) {
+      return (await this.googleSheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              addSheet: {
+                properties,
+              },
+            },
+          ],
+        },
+      })).replies[0].addSheet;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#DeleteSheetRequest
+     *
+     * Deletes a worksheet
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @param {string} sheetId - ID of the worksheet to delete
+     */
+    async deleteSheet(spreadsheetId, sheetId) {
+      return (await this.googleSheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              deleteSheet: {
+                sheetId,
+              },
+            },
+          ],
+        },
+      })).replies[0].deleteSheet;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#UpdateCellsRequest
+     *
+     * Updates individual cells in a row using column-value pairs
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @param {string} sheetId - ID of the worksheet
+     * @param {number} row - The row in which to update cells
+     * @param {object} updates - An object whose keys are column letters and values are new cell
+     * values
+     * @returns An object with information about the changes made
+     */
+    async updateRowCells(spreadsheetId, sheetId, row, updates) {
+      const updateRequests = Object.keys(updates)
+        .map((k) => this.getUpdateRequestObj(sheetId, row, k, updates[k]));
+      return await this.googleSheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: updateRequests,
+        },
+      });
+    },
+    /**
+     * Updates a row in a spreadsheet and returns a response body containing an instance of
+     * UpdateValuesResponse
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @param {string} sheetName - Name of the worksheet
+     * @param {number} row - Row number to update
+     * @param {string[]} values - Array of values with which to update the row
+     * @returns An instance of UpdateValuesResponse
+     */
+    async updateRow(spreadsheetId, sheetName, row, values) {
+      return await this.googleSheets.updateSpreadsheet({
+        spreadsheetId,
+        range: `${sheetName}!${row}:${row}`,
+        valueInputOption: "USER_ENTERED",
+        resource: {
+          values: [
+            values,
+          ],
+        },
+      });
+    },
   },
-  async run() {
+  async run({ $ }) {
     const {
       sheetId,
       sheetName,
       insert,
       column,
       value,
-      update,
+      updates,
     } = this;
     const colIndex = this.googleSheets._getColumnIndex(column) - 1;
     const keyValue = value
       ? value
       : insert[colIndex];
 
-    // Create worksheet title
-    const title = uuid();
-    // Create hidden worksheet
-    const addSheetRequest = {
-      spreadsheetId: sheetId,
-      requestBody: {
-        requests: [
-          {
-            addSheet: {
-              properties: {
-                title,
-                hidden: true,
-                gridProperties: {
-                  rowCount: 1,
-                  columnCount: 1,
-                },
-              },
-            },
-          },
-        ],
+    // Create hidden worksheet to add cell with `=MATCH()` formula, used to find duplicate key
+    const hiddenWorksheetTitle = uuid();
+    const addSheetResult = await this.addSheet(sheetId, {
+      title: hiddenWorksheetTitle,
+      hidden: true,
+      gridProperties: {
+        rowCount: 1,
+        columnCount: 1,
       },
-    };
-    const data = await this.googleSheets.batchUpdate(addSheetRequest);
-    const hiddenSheetId = data.replies[0].addSheet.properties.sheetId;
+    });
+    const hiddenSheetId = addSheetResult.properties.sheetId;
 
-    // Add cell with match formula to hidden worksheet
-    const matchData = await this.googleSheets.addRowsToSheet({
+    // Add cell with `=MATCH("<value>", <sheet>!<column>...)` formula to hidden worksheet
+    const matchResult = await this.googleSheets.addRowsToSheet({
       spreadsheetId: sheetId,
-      range: title,
+      range: hiddenWorksheetTitle,
       rows: [
         [
           `=MATCH("${keyValue}", ${sheetName}!${column}:${column}, 0)`,
@@ -155,40 +256,24 @@ export default {
       },
     });
 
-    // Get matching row where the cell's value === `value`
-    const matchedRow = matchData.updatedData?.values?.[0]?.[0];
+    const matchedRow = matchResult.updatedData?.values?.[0]?.[0];
+
+    const deleteSheetPromise = this.deleteSheet(sheetId, hiddenSheetId);
 
     let result; // Return value of this action
 
-    // If there's a row with matching value, update that row. Else, append new row.
-    if (matchedRow && matchedRow !== "#N/A") {
-      // If the `update` prop is set, update cells using `batchUpdate`
-      if (update) {
+    const shouldUpdate = matchedRow && matchedRow !== "#N/A";
+
+    if (shouldUpdate) {
+      // UPDATE ROW
+      if (updates && Object.keys(updates).length) { // (`updates` prop)
         const worksheetId = await this.getSheetId();
-        const updateRequests = Object.keys(update)
-          .map((k) => this.getUpdateRequest(worksheetId, matchedRow, k, update[k]));
-        const batchUpdateRequest = {
-          spreadsheetId: sheetId,
-          requestBody: {
-            requests: updateRequests,
-          },
-        };
-        result = await this.googleSheets.batchUpdate(batchUpdateRequest);
-      // Else the `update` prop isn't set, so update rows with `updateSpreadsheet`
+        result = await this.updateRowCells(sheetId, worksheetId, matchedRow, updates);
       } else {
-        const updateRowRequest = {
-          spreadsheetId: this.sheetId,
-          range: `${sheetName}!${matchedRow}:${matchedRow}`,
-          valueInputOption: "USER_ENTERED",
-          resource: {
-            values: [
-              insert,
-            ],
-          },
-        };
-        result = await this.googleSheets.updateSpreadsheet(updateRowRequest);
+        result = await this.updateRow(sheetId, sheetName, matchedRow, insert);
       }
     } else {
+      // INSERT ROW
       result = await this.googleSheets.addRowsToSheet({
         spreadsheetId: this.sheetId,
         range: this.sheetName,
@@ -198,20 +283,13 @@ export default {
       });
     }
 
-    // Delete hidden worksheet
-    const deleteSheetRequest = {
-      spreadsheetId: this.sheetId,
-      requestBody: {
-        requests: [
-          {
-            deleteSheet: {
-              sheetId: hiddenSheetId,
-            },
-          },
-        ],
-      },
-    };
-    await this.googleSheets.batchUpdate(deleteSheetRequest);
+    await deleteSheetPromise;
+
+    if (shouldUpdate) {
+      $.export("$summary", `Successfully updated row ${matchedRow} with key, "${keyValue}"`);
+    } else {
+      $.export("$summary", `Successfully inserted row with key, "${keyValue}"`);
+    }
     return result;
   },
 };

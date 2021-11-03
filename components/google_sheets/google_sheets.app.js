@@ -127,11 +127,12 @@ module.exports = {
       }
       return this.listFilesOptions(pageToken, request);
     },
-    async getSpreadsheet(spreadsheetId, fields = []) {
+    async getSpreadsheet(spreadsheetId, fields = [], extraOpts = {}) {
       const sheets = this.sheets();
       const request = {
         spreadsheetId,
         fields: fields.join(","),
+        ...extraOpts,
       };
       return (await sheets.spreadsheets.get(request)).data;
     },
