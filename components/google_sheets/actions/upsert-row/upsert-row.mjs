@@ -1,7 +1,7 @@
-const { v4: uuid } = require("uuid");
-const googleSheets = require("../../google_sheets.app");
+import { v4 as uuid } from "uuid";
+import googleSheets from "../../google_sheets.app.js";
 
-module.exports = {
+export default {
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
   description: "Upsert a row of data in a Google Sheet",
@@ -75,7 +75,6 @@ module.exports = {
     },
     getUpdateRequest(sheetId, row, column, value) {
       const colIndex = this.googleSheets._getColumnIndex(column) - 1;
-      console.log("value", value);
       return {
         "updateCells":
         {

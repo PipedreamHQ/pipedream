@@ -1,10 +1,10 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.js";
 
-module.exports = {
-  key: "google_sheets-clear-row",
-  name: "Clear Row",
-  description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows.",
-  version: "0.0.1",
+export default {
+  key: "google_sheets-get-values-in-range",
+  name: "Get Values in Range",
+  description: "Get values from a range of cells using A1 notation.",
+  version: "0.0.5",
   type: "action",
   props: {
     googleSheets,
@@ -13,7 +13,7 @@ module.exports = {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive containing the spreadsheet to edit",
+      description: "",
     },
     sheetId: {
       propDefinition: [
@@ -33,18 +33,19 @@ module.exports = {
         }),
       ],
     },
-    row: {
+    range: {
       propDefinition: [
         googleSheets,
-        "row",
+        "range",
       ],
     },
   },
   async run() {
-    const request = {
+    const sheets = this.googleSheets.sheets();
+
+    return (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.row}:${this.row}`,
-    };
-    return await this.googleSheets.clearSheetValues(request);
+      range: `${this.sheetName}!${this.range}`,
+    })).data.values;
   },
 };

@@ -1,6 +1,6 @@
-const common = require("../common");
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "google_sheets-new-row-added",
   name: "New Row Added (Instant)",

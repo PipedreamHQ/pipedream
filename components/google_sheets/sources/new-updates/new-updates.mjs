@@ -1,7 +1,7 @@
-const crypto = require("crypto");
-const common = require("../common");
+import crypto from "crypto";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "google_sheets-new-updates",
   type: "source",

@@ -1,9 +1,9 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.js";
 
-module.exports = {
-  key: "google_sheets-get-cell",
-  name: "Get Cell",
-  description: "Fetch the contents of a specific cell in a spreadsheet",
+export default {
+  key: "google_sheets-clear-cell",
+  name: "Clear Cell",
+  description: "Delete the content of a specific cell in a spreadsheet",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,7 +13,7 @@ module.exports = {
         googleSheets,
         "watchedDrive",
       ],
-      description: "",
+      description: "The drive containing the spreadsheet to edit",
     },
     sheetId: {
       propDefinition: [
@@ -34,18 +34,16 @@ module.exports = {
       ],
     },
     cell: {
-      propDefinition: [
-        googleSheets,
-        "cell",
-      ],
+      type: "string",
+      label: "Cell",
+      description: "The A1 notation of the cell to clear. E.g., `A1`",
     },
   },
   async run() {
-    const sheets = this.googleSheets.sheets();
-
-    return (await sheets.spreadsheets.values.get({
+    const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.cell}:${this.cell}`,
-    })).data.values;
+      range: `${this.sheetName}!${this.cell}`,
+    };
+    return await this.googleSheets.clearSheetValues(request);
   },
 };

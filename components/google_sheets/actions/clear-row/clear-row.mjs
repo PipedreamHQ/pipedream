@@ -1,9 +1,9 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.js";
 
-module.exports = {
-  key: "google_sheets-clear-cell",
-  name: "Clear Cell",
-  description: "Delete the content of a specific cell in a spreadsheet",
+export default {
+  key: "google_sheets-clear-row",
+  name: "Clear Row",
+  description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -33,16 +33,17 @@ module.exports = {
         }),
       ],
     },
-    cell: {
-      type: "string",
-      label: "Cell",
-      description: "The A1 notation of the cell to clear. E.g., `A1`",
+    row: {
+      propDefinition: [
+        googleSheets,
+        "row",
+      ],
     },
   },
   async run() {
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.cell}`,
+      range: `${this.sheetName}!${this.row}:${this.row}`,
     };
     return await this.googleSheets.clearSheetValues(request);
   },

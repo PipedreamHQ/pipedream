@@ -1,9 +1,9 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.js";
 
-module.exports = {
-  key: "google_sheets-delete-row",
-  name: "Delete Row",
-  description: "Deletes a specific row in a spreadsheet",
+export default {
+  key: "google_sheets-delete-worksheet",
+  name: "Delete Worksheet",
+  description: "Delete a specific worksheet",
   version: "0.0.1",
   type: "action",
   props: {
@@ -35,12 +35,6 @@ module.exports = {
       type: "string",
       label: "Worksheet",
     },
-    row: {
-      propDefinition: [
-        googleSheets,
-        "row",
-      ],
-    },
   },
   async run() {
     const request = {
@@ -48,13 +42,8 @@ module.exports = {
       requestBody: {
         requests: [
           {
-            deleteDimension: {
-              range: {
-                "sheetId": this.worksheetId,
-                "dimension": "ROWS",
-                "startIndex": this.row - 1,
-                "endIndex": this.row,
-              },
+            deleteSheet: {
+              sheetId: this.worksheetId,
             },
           },
         ],

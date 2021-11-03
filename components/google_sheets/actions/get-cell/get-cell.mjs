@@ -1,9 +1,9 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.js";
 
-module.exports = {
-  key: "google_sheets-update-cell",
-  name: "Update Cell",
-  description: "Update a cell in a spreadsheet",
+export default {
+  key: "google_sheets-get-cell",
+  name: "Get Cell",
+  description: "Fetch the contents of a specific cell in a spreadsheet",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,7 +13,7 @@ module.exports = {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive containing the worksheet to update",
+      description: "",
     },
     sheetId: {
       propDefinition: [
@@ -23,7 +23,6 @@ module.exports = {
           driveId: googleSheets.methods.getDriveId(c.drive),
         }),
       ],
-      description: "The spreadsheet containing the worksheet to update",
     },
     sheetName: {
       propDefinition: [
@@ -39,29 +38,14 @@ module.exports = {
         googleSheets,
         "cell",
       ],
-      label: "Cell",
-    },
-    newCell: {
-      propDefinition: [
-        googleSheets,
-        "cell",
-      ],
-      description: "The new cell value",
     },
   },
   async run() {
-    const request = {
+    const sheets = this.googleSheets.sheets();
+
+    return (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
       range: `${this.sheetName}!${this.cell}:${this.cell}`,
-      valueInputOption: "USER_ENTERED",
-      resource: {
-        values: [
-          [
-            this.newCell,
-          ],
-        ],
-      },
-    };
-    return await this.googleSheets.updateSpreadsheet(request);
+    })).data.values;
   },
 };

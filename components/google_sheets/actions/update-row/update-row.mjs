@@ -1,6 +1,6 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.js";
 
-module.exports = {
+export default {
   key: "google_sheets-update-row",
   name: "Update Row",
   description: "Update a row in a spreadsheet",

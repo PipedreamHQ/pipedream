@@ -1,6 +1,6 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.js";
 
-module.exports = {
+export default {
   key: "google_sheets-create-column",
   name: "Create Column",
   description: "Create a new column in a spreadsheet",

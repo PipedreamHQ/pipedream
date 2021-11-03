@@ -1,6 +1,6 @@
-const newFilesInstant = require("../../../google_drive/sources/new-files-instant/new-files-instant.js");
+import newFilesInstant from "../../../google_drive/sources/new-files-instant/new-files-instant.js";
 
-module.exports = {
+export default {
   ...newFilesInstant,
   key: "google_sheets-new-spreadsheet",
   type: "source",
