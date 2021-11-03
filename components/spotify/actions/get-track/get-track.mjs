@@ -38,7 +38,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `🎉 Successfully fetched info for the track, "${res.name}"`);
+    $.export("$summary", `Successfully fetched info for the track, "${res.name}"`);
 
     return res;
   },

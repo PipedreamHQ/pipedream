@@ -30,7 +30,8 @@ export default {
       },
     }));
 
-    $.export("$summary", "🎉 Successfully saved track(s) to \"Liked Songs\"");
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully saved ${ids.length} ${ids.length == 1 ? `track` : `tracks`} to "Liked Songs"`);
 
     return isEmpty(res)
       ? ids

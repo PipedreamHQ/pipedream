@@ -37,7 +37,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `🎉 Successfully fetched top tracks for "${get(artistId, "label", artistId)}"`);
+    $.export("$summary", `Successfully fetched top tracks for "${get(artistId, "label", artistId)}"`);
 
     return get(res, "tracks", []);
   },

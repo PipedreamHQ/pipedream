@@ -24,7 +24,7 @@ export default {
       path: `/audio-features/${get(trackId, "value", trackId)}`,
     }));
 
-    $.export("$summary", `🎉 Successfully fetched audio info for the track, "${get(trackId, "label", trackId)}"`);
+    $.export("$summary", `Successfully fetched audio info for the track, "${get(trackId, "label", trackId)}"`);
 
     return resp;
   },

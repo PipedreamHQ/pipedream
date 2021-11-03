@@ -30,7 +30,7 @@ export default {
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `🎉 Successfully removed ${ids.length} ${ids.length == 1 ? "item" : "items"} from "Liked Songs"`);
+    $.export("$summary", `Successfully removed ${ids.length} ${ids.length == 1 ? "item" : "items"} from "Liked Songs"`);
 
     return resp;
   },

@@ -55,7 +55,7 @@ export default {
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `🎉 Successfully removed ${tracks.length} ${tracks.length == 1 ? "item" : "items"} from the playlist, "${get(playlistId, "label", playlistId)}"`);
+    $.export("$summary", `Successfully removed ${tracks.length} ${tracks.length == 1 ? "item" : "items"} from the playlist, "${get(playlistId, "label", playlistId)}"`);
 
     return resp;
   },
