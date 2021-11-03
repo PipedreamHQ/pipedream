@@ -1,7 +1,7 @@
 // List extracted from the official AWS documentation:
 // https://docs.aws.amazon.com/general/latest/gr/rande.html
 
-module.exports = [
+export default [
   {
     label: "US East (Ohio) - us-east-2",
     value: "us-east-2",

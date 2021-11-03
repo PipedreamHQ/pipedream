@@ -1,6 +1,6 @@
-const { nanoid } = require("nanoid");
+import { nanoid } from "nanoid";
 
-module.exports = {
+export default {
   /**
    * This function creates a unique name composed of the component ID and
    * another random ID. The component is included so it's clear to the user

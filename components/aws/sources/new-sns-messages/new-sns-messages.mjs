@@ -1,7 +1,7 @@
-const base = require("../common/sns");
-const { toSingleLineString } = require("../common/utils");
+import base from "../common/sns.mjs";
+import { toSingleLineString } from "../common/utils";
 
-module.exports = {
+export default {
   ...base,
   key: "aws-new-sns-messages",
   name: "New SNS Messages",
@@ -9,7 +9,8 @@ module.exports = {
     Creates an SNS topic in your AWS account.
     Messages published to this topic are emitted from the Pipedream source.
   `),
-  version: "0.1.0",
+  version: "0.2.0",
+  type: "source",
   dedupe: "unique", // Dedupe on SNS message ID
   props: {
     ...base.props,

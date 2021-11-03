@@ -1,7 +1,7 @@
-const awsRegions = require("./regions");
-const { generateRandomUniqueName } = require("./sources/common/utils");
+import awsRegions from "./regions.mjs";
+import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 
-module.exports = {
+export default {
   type: "app",
   app: "aws",
   propDefinitions: {

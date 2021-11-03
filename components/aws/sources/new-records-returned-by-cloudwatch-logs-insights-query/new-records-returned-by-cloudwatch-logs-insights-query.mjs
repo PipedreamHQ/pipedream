@@ -1,11 +1,13 @@
-const aws = require("../../aws.app.js");
+import aws from "../../aws.app.mjs";
 
-module.exports = {
+export default {
   key: "aws-new-records-returned-by-cloudwatch-logs-insights-query",
   name: "New Records Returned by CloudWatch Logs Insights Query",
+  // eslint-disable-next-line pipedream/source-description
   description:
     "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",
-  version: "0.0.3",
+  version: "0.1.0",
+  type: "source",
   props: {
     aws,
     region: {
@@ -54,6 +56,8 @@ module.exports = {
       default: true,
     },
     timer: {
+      label: "Polling schedule",
+      description: "How often you want to query CloudWatch Logs Insights for results",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 5 * 60,

@@ -1,5 +1,5 @@
-const { v4: uuid } = require("uuid");
-const base = require("../common/sns");
+import { v4 as uuid } from "uuid";
+import base from "../common/sns.mjs";
 
 module.exports = {
   ...base,
