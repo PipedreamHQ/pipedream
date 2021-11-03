@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import base from "../common/sns.mjs";
 
-module.exports = {
+export default {
   ...base,
   hooks: {
     ...base.hooks,
