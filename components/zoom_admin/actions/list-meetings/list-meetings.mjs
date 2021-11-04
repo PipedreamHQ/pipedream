@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "List meetings",
   description: "List all meetings. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetings)",
-  key: "zoom-admin-action-lis-meetings",
+  key: "zoom-admin-action-list-meetings",
   version: "0.0.1",
   type: "action",
   props: {
@@ -53,6 +53,8 @@ export default {
         next_page_token: this.nextPageToken,
       },
     }));
+
+    $.export("$summary", "Meetings successfully fetched");
 
     return res;
   },

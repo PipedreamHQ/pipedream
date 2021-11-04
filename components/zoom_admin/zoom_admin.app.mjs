@@ -1,11 +1,27 @@
 /* eslint-disable camelcase */
 import axios from "axios";
+import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
 
 export default {
   type: "app",
   app: "zoom_admin",
   propDefinitions: {
+    meetingId: {
+      type: "string",
+      label: "Meeting",
+      description: "The ID of the meeting",
+      async options({ page }) {
+        const meetings = await this.listMeetings(page + 1);
+        return meetings.map((meeting) => ({
+          label: meeting.topic,
+          value: {
+            label: meeting.topic,
+            value: meeting.id,
+          },
+        }));
+      },
+    },
     locationId: {
       type: "string",
       label: "LocationId",
@@ -75,6 +91,19 @@ export default {
       // eslint-disable-next-line multiline-ternary
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return await axios(opts);
+    },
+    async listMeetings(pageNumber) {
+      const res = await this._makeRequest({
+        path: "/users/me/meetings",
+        params: {
+          page_size: 30,
+          page_number: pageNumber,
+        },
+      });
+      if (pageNumber > get(res, ("data.page_count"))) {
+        return [];
+      }
+      return get(res, "data.meetings", []);
     },
     async listWebinars({
       pageSize,

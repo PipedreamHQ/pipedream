@@ -436,12 +436,13 @@ export default {
         allow_multiple_devices: this.settingsAllowMultipleDevices,
       },
     };
-    console.log(data);
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "POST",
       path: "/users/me/meetings",
       data,
     }));
+
+    $.export("$summary", `The meeting "${this.topic}" was successfully created`);
 
     return res;
   },
