@@ -1,7 +1,7 @@
-const base = require("../common/scheduled");
-const { toSingleLineString } = require("../common/utils");
+import base from "../common/scheduled.mjs";
+import { toSingleLineString } from "../common/utils.mjs";
 
-module.exports = {
+export default {
   ...base,
   key: "aws-new-scheduled-tasks",
   name: "New Scheduled Tasks",
@@ -10,7 +10,8 @@ module.exports = {
     to an SNS topic at a specific timestamp. The SNS topic delivers
     the message to this Pipedream source, and the source emits it as a new event.
   `),
-  version: "0.1.0",
+  version: "0.2.0",
+  type: "source",
   dedupe: "unique", // Dedupe on SNS message ID
   methods: {
     ...base.methods,

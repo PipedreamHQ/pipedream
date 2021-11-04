@@ -1,9 +1,10 @@
-const { BigQuery } = require("@google-cloud/bigquery");
-const { GoogleAuth } = require("google-auth-library");
-const chunk = require("lodash/chunk");
-const google_cloud = require("../../google_cloud.app");
+/* eslint-disable camelcase */
+import { BigQuery } from "@google-cloud/bigquery";
+import { GoogleAuth } from "google-auth-library";
+import { chunk } from "lodash-es";
+import google_cloud from "../../google_cloud.app.mjs";
 
-module.exports = {
+export default {
   props: {
     google_cloud,
     db: "$.service.db",

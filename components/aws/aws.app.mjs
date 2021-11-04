@@ -1,7 +1,8 @@
-const awsRegions = require("./regions");
-const { generateRandomUniqueName } = require("./sources/common/utils");
+import AWS from "aws-sdk";
+import awsRegions from "./regions.mjs";
+import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 
-module.exports = {
+export default {
   type: "app",
   app: "aws",
   propDefinitions: {
@@ -18,6 +19,58 @@ module.exports = {
         return this._getAvailableRegions();
       },
     },
+    logGroupNames: {
+      label: "CloudWatch Log Groups",
+      description: "The name of the log group",
+      type: "string[]",
+      async options({
+        region, prevContext,
+      }) {
+        const prevToken = prevContext.nextToken;
+        const {
+          logGroups,
+          nextToken,
+        } = await this.logsInsightsDescibeLogGroups(region, prevToken);
+        const options = logGroups.map((group) => {
+          return {
+            label: group.logGroupName,
+            value: group.logGroupName,
+          };
+        });
+        return {
+          options,
+          context: {
+            nextToken,
+          },
+        };
+      },
+    },
+    logStreamNames: {
+      label: "CloudWatch Log Streams",
+      description: "The name of the log stream for the chosen log group",
+      type: "string[]",
+      async options({
+        logGroupName, region, prevContext,
+      }) {
+        const prevToken = prevContext.nextToken;
+        const {
+          logStreams,
+          nextToken,
+        } = await this.logsInsightsDescibeLogStreams(region, logGroupName, prevToken);
+        const options = logStreams.map((group) => {
+          return {
+            label: group.logStreamName,
+            value: group.logStreamName,
+          };
+        });
+        return {
+          options,
+          context: {
+            nextToken,
+          },
+        };
+      },
+    },
   },
   methods: {
     /**
@@ -28,12 +81,11 @@ module.exports = {
      *
      * @param {string} region - The AWS region to which the AWS SDK will
      * connect. This string should be an acceptable value by the AWS SDK, which
-     * you can find in the ${@linkcode ./regions.js regions.js} file, as well as
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file, as well as
      * by calling the EC2 `DescribeRegions` API.
      * @returns A new configured instance of the AWS SDK
      */
     sdk(region) {
-      const AWS = require("aws-sdk");
       const {
         accessKeyId,
         secretAccessKey,
@@ -67,6 +119,10 @@ module.exports = {
         .map((regionInfo) => regionInfo.RegionName)
         .sort();
     },
+    _getCloudWatchLogsClient(region) {
+      const AWS = this.sdk(region);
+      return new AWS.CloudWatchLogs();
+    },
     _getEc2Client(region = "us-east-1") {
       const AWS = this.sdk(region);
       return new AWS.EC2();
@@ -96,7 +152,7 @@ module.exports = {
      *
      * @param {string} region - The AWS region to which the AWS SDK will
      * connect. This string should be an acceptable value by the AWS SDK, which
-     * you can find in the ${@linkcode ./regions.js regions.js} file.
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
      * @param {string}  service - The service that will be granted
      * `sts:AssumeRole` permissions (e.g. `states.amazonaws.com` for Step
      * Functions). You can see [this
@@ -137,7 +193,7 @@ module.exports = {
      *
      * @param {string} region - The AWS region to which the AWS SDK will
      * connect. This string should be an acceptable value by the AWS SDK, which
-     * you can find in the ${@linkcode ./regions.js regions.js} file.
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
      * @param {string} roleName - The name of the role to add permissions to
      * @param {object} permissions - An object containing the name and policy
      * document of the permissions to attach to the specified role
@@ -195,7 +251,7 @@ module.exports = {
      *
      * @param {string} region - The AWS region to which the AWS SDK will
      * connect. This string should be an acceptable value by the AWS SDK, which
-     * you can find in the ${@linkcode ./regions.js regions.js} file.
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
      * @param {string} roleName - The name of the role to add permissions to
      * @returns {Promise<void>}
      */
@@ -212,13 +268,24 @@ module.exports = {
         .deleteRole(params)
         .promise();
     },
+    /**
+     * This method describes CloudWatch Log groups
+     *
+     * @param {string} region - The AWS region to which the AWS SDK will
+     * connect. This string should be an acceptable value by the AWS SDK, which
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
+     * @param {string} nextToken - The token for the next set of items to return.
+     * (You received this token from a previous call.)
+     * @returns {Promise<object>} An object containing the log groups and a nextToken
+     * to use in subsequent calls (`logGroups` and `nextToken` respectively)
+     */
     async logsInsightsDescibeLogGroups(region, lastToken) {
-      const AWS = this.sdk(region);
-      const cloudwatchlogs = new AWS.CloudWatchLogs();
-      const data = await cloudwatchlogs
-        .describeLogGroups({
-          nextToken: lastToken,
-        })
+      const params = {
+        nextToken: lastToken,
+      };
+      const data = await this.
+        _getCloudWatchLogsClient(region)
+        .describeLogGroups(params)
         .promise();
       const {
         logGroups,
@@ -227,6 +294,72 @@ module.exports = {
       return {
         logGroups,
         nextToken,
+      };
+    },
+    /**
+     * This method describes CloudWatch Log streams for a given log group
+     *
+     * @param {string} region - The AWS region to which the AWS SDK will
+     * connect. This string should be an acceptable value by the AWS SDK, which
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
+     * @param {string} logGroupName - The name of the log group.
+     * @param {string} nextToken - The token for the next set of items to return.
+     * (You received this token from a previous call.)
+     * @returns {Promise<object>} An object containing the log streams and a nextToken
+     * to use in subsequent calls (`logStreams` and `nextToken` respectively)
+     */
+    async logsInsightsDescibeLogStreams(region, logGroupName, lastToken) {
+      const params = {
+        logGroupName,
+        nextToken: lastToken,
+      };
+      const data = await this.
+        _getCloudWatchLogsClient(region)
+        .describeLogStreams(params)
+        .promise();
+      const {
+        logStreams,
+        nextToken,
+      } = data;
+      return {
+        logStreams,
+        nextToken,
+      };
+    },
+    /**
+     * This method uploads a batch of log events to the specified log stream.
+     *
+     * @param {string} region - The AWS region to which the AWS SDK will
+     * connect. This string should be an acceptable value by the AWS SDK, which
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
+     * @param {string} logGroupName - The name of the log group.
+     * @param {string} logStreamName - The name of the log stream.
+     * @param {Array.<Object>} logEvents - An array of log events. Each log event
+     * must contain a `timestamp` (the time the event occurred) and a `message`
+     * @param {string} sequenceToken - The sequence token obtained from the
+     * response of the previous PutLogEvents call
+     * @returns {Promise<object>} An object containing the sequenceToken to use
+     * to use in subsequent calls and rejected log events (`nextSequenceToken`
+     * and `rejectedLogEventsInfo` respectively)
+     */
+    async logsPutLogEvents(region, logGroupName, logStreamName, logEvents, sequenceToken) {
+      const params = {
+        logGroupName,
+        logStreamName,
+        logEvents,
+        sequenceToken,
+      };
+      const data = await this.
+        _getCloudWatchLogsClient(region)
+        .putLogEvents(params)
+        .promise();
+      const {
+        nextSequenceToken,
+        rejectedLogEventsInfo,
+      } = data;
+      return {
+        nextSequenceToken,
+        rejectedLogEventsInfo,
       };
     },
   },
