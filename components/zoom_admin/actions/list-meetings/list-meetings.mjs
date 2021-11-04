@@ -21,25 +21,22 @@ export default {
       ],
     },
     pageSize: {
-      type: "integer",
-      label: "Page Size",
-      description: "The number of records returned within a single API call. Defaults to `30`",
-      optional: true,
-      min: 1,
-      max: 300,
+      propDefinition: [
+        zoomAdmin,
+        "pageSize",
+      ],
     },
     pageNumber: {
-      type: "integer",
-      label: "Page Number",
-      description: "The page number of the current page in the returned records.",
-      optional: true,
-      min: 1,
+      propDefinition: [
+        zoomAdmin,
+        "pageNumber",
+      ],
     },
     nextPageToken: {
-      type: "string",
-      label: "Next Page Token",
-      description: "The next page token is used to paginate through large result sets. A next page token will be returned whenever the set of available results exceeds the current page size. The expiration period for this token is 15 minutes.",
-      optional: true,
+      propDefinition: [
+        zoomAdmin,
+        "nextPageToken",
+      ],
     },
   },
   async run ({ $ }) {
