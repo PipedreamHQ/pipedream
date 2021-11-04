@@ -6,22 +6,25 @@ export default {
   name: "Delete meeting",
   description: "Delete a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingdelete)",
   key: "zoom-admin-action-delete-meeting",
-  version: "0.0.12",
+  version: "0.0.14",
   type: "action",
   props: {
     zoomAdmin,
-    meetingId: {
+    meeting: {
       propDefinition: [
         zoomAdmin,
-        "meetingId",
+        "meeting",
       ],
     },
     occurrenceId: {
       propDefinition: [
         zoomAdmin,
         "occurrenceId",
+        ({ meeting }) => ({
+          meeting,
+        }),
       ],
-      description: "The [meeting occurrence ID](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings).",
+      description: "The [meeting occurrence ID](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings). If you send this param, just the occurrence will be deleted. Otherwise, the entire meeting will be deleted",
     },
     scheduleForReminder: {
       type: "boolean",
@@ -39,7 +42,7 @@ export default {
   async run ({ $ }) {
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "DELETE",
-      path: `/meetings/${get(this.meetingId, "value", this.meetingId)}`,
+      path: `/meetings/${get(this.meeting, "value", this.meeting)}`,
       params: {
         occurrence_id: this.occurrenceId,
         schedule_for_reminder: this.scheduleForReminder,
@@ -47,7 +50,12 @@ export default {
       },
     }));
 
-    $.export("$summary", `The meeting "${get(this.meetingId, "label", this.meetingId)}" was successfully deleted`);
+    if (this.occurrenceId) {
+      $.export("$summary", `The occurrence "${this.occurrenceId}" related to the meeting "${get(this.meeting, "label", this.meeting)}" was successfully deleted`);
+
+    } else {
+      $.export("$summary", `The meeting "${get(this.meeting, "label", this.meeting)}" was successfully deleted`);
+    }
 
     return res;
   },

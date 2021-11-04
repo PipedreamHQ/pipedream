@@ -6,20 +6,23 @@ export default {
   name: "Get Meeting",
   description: "Retrieve the details of a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meeting)",
   key: "zoom-admin-action-get-meeting",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     zoomAdmin,
-    meetingId: {
+    meeting: {
       propDefinition: [
         zoomAdmin,
-        "meetingId",
+        "meeting",
       ],
     },
     occurrenceId: {
       propDefinition: [
         zoomAdmin,
         "occurrenceId",
+        ({ meeting }) => ({
+          meeting,
+        }),
       ],
     },
     showPreviousOccurrences: {
@@ -32,14 +35,14 @@ export default {
   async run ({ $ }) {
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "GET",
-      path: `/meetings/${get(this.meetingId, "value", this.meetingId)}`,
+      path: `/meetings/${get(this.meeting, "value", this.meeting)}`,
       params: {
         occurrence_id: this.occurrenceId,
         show_previous_occurrences: this.showPreviousOccurrences,
       },
     }));
 
-    $.export("$summary", `"${get(this.meetingId, "label", this.meetingId)}" meeting details successfully fetched`);
+    $.export("$summary", `"${get(this.meeting, "label", this.meeting)}" meeting details successfully fetched`);
 
     return res;
   },

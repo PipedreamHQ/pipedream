@@ -8,7 +8,7 @@ export default {
   type: "app",
   app: "zoom_admin",
   propDefinitions: {
-    meetingId: {
+    meeting: {
       type: "string",
       label: "Meeting",
       description: "The ID of the meeting",
@@ -28,6 +28,16 @@ export default {
       label: "Occurrence ID",
       description: "Provide this field to view meeting details of a particular occurrence of the [recurring meeting](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings).",
       optional: true,
+      async options({ meeting }) {
+        if (!meeting) {
+          return [];
+        }
+        const occurrences = await this.listMeetingsOccurrences(get(meeting, "value", meeting));
+        return occurrences.map((occurrence) => ({
+          label: `${occurrence.start_time} (${occurrence.status})`,
+          value: occurrence.occurrence_id,
+        }));
+      },
     },
     locationId: {
       type: "string",
@@ -88,6 +98,7 @@ export default {
       };
     },
     _getAxiosParams(opts = {}) {
+      console.log(opts);
       return {
         ...opts,
         url: this._apiUrl() + opts.path,
@@ -118,6 +129,13 @@ export default {
         return [];
       }
       return get(res, "data.meetings", []);
+    },
+    async listMeetingsOccurrences(meetingId) {
+      const res = await this._makeRequest({
+        path: `/meetings/${meetingId}`,
+      });
+
+      return get(res, "data.occurrences", []);
     },
     async listWebinars({
       pageSize,

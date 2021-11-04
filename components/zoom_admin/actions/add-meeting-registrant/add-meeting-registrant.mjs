@@ -1,26 +1,32 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
+import zoomLangs from "../../zoom_languages.mjs";
 import get from "lodash/get.js";
+import isArray from "lodash/isArray.js";
 import { axios } from "@pipedream/platform";
 
 export default {
   name: "Add meeting registrant",
   description: "Register a participant for a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantcreate)",
   key: "zoom-admin-action-add-meeting-registrant",
-  version: "0.0.3",
+  version: "0.0.9",
   type: "action",
   props: {
     zoomAdmin,
-    meetingId: {
+    meeting: {
       propDefinition: [
         zoomAdmin,
-        "meetingId",
+        "meeting",
       ],
     },
     occurrenceId: {
       propDefinition: [
         zoomAdmin,
         "occurrenceId",
+        ({ meeting }) => ({
+          meeting,
+        }),
       ],
+      type: "string[]",
       description: "The [meeting occurrence ID](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings).",
     },
     email: {
@@ -145,20 +151,7 @@ export default {
       label: "Language",
       description: "Registrant's language preference for confirmation emails.",
       optional: true,
-      options: [
-        "en-US",
-        "de-DE",
-        "es-ES",
-        "fr-FR",
-        "jp-JP",
-        "pt-PT",
-        "ru-RU",
-        "zh-CN",
-        "zh-TW",
-        "ko-KO",
-        "it-IT",
-        "vi-VN",
-      ],
+      options: zoomLangs,
     },
     autoApprove: {
       type: "boolean",
@@ -170,7 +163,12 @@ export default {
   async run ({ $ }) {
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "POST",
-      path: `/meetings/${get(this.meetingId, "value", this.meetingId)}/registrants`,
+      path: `/meetings/${get(this.meeting, "value", this.meeting)}/registrants`,
+      params: {
+        occurrence_ids: isArray(this.occurrenceId)
+          ? this.occurrenceId.join(",")
+          : this.occurrenceId,
+      },
       data: {
         email: this.email,
         first_name: this.firstName,
@@ -193,7 +191,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `"${this.firstName}" was successfully invited to the meeting "${get(this.meetingId, "label", this.meetingId)}"`);
+    $.export("$summary", `"${this.firstName}" was successfully invited to the meeting "${get(this.meeting, "label", this.meeting)}"`);
 
     return res;
   },
