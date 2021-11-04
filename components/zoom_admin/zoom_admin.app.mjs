@@ -2,6 +2,7 @@
 import axios from "axios";
 import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
+import zoomCountries from "./zoom_countries.mjs";
 
 export default {
   type: "app",
@@ -33,6 +34,13 @@ export default {
       label: "LocationId",
       description: "Location ID of the lowest level location in the (location hierarchy)[https://support.zoom.us/hc/en-us/articles/115000342983-Zoom-Rooms-Location-Hierarchy] where the Zoom Room is to be added. For instance if the structure of the location hierarchy is set up as “country, states, city, campus, building, floor”, a room can only be added under the floor level location.",
       optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Registrant’s country. The value of this field must be in two-letter abbreviated form and must match the ID field provided in the [Countries](https://marketplace.zoom.us/docs/api-reference/other-references/abbreviation-lists#countries) table.",
+      optional: true,
+      options: zoomCountries,
     },
     webinars: {
       type: "string[]",
