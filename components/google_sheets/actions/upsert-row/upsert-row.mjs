@@ -77,56 +77,22 @@ export default {
   },
   methods: {
     /**
-     * Gets the ID of a worksheet in a spreadsheet
-     * @param {string} sheetName - The name of the worksheet
-     * @param {string} spreadsheetId - ID of the spreadsheet
-     * @returns {string} The ID of the worksheet
-     */
-    async getSheetId(sheetName = this.sheetName, spreadsheetId = this.sheetId) {
-      const fields = [
-        "sheets.properties.sheetId",
-      ];
-      return (await this.googleSheets.getSpreadsheet(spreadsheetId, fields, {
-        ranges: [
-          sheetName,
-        ],
-        includeGridData: false,
-      })).sheets[0].properties.sheetId;
-    },
-    /**
      * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#UpdateCellsRequest
      *
-     * @param {string} sheetId - ID of the worksheet
+     * @param {string} sheetName - Name of the worksheet
      * @param {number} row - The row number (>=1) of the cell to update
      * @param {string} column - The column letter of the cell to update
      * @param {string} value - The new value of the cell
      * @returns An UpdateCellsRequest object
      */
-    getUpdateRequestObj(sheetId, row, column, value) {
-      const colIndex = this.googleSheets._getColumnIndex(column) - 1;
+    getUpdateRequestData(sheetName, row, column, value) {
       return {
-        "updateCells":
-        {
-          "range": {
-            "sheetId": sheetId,
-            "startRowIndex": row - 1,
-            "endRowIndex": row,
-            "startColumnIndex": colIndex,
-            "endColumnIndex": colIndex + 1,
-          },
-          "rows": [
-            {
-              "values": [
-                {
-                  "userEnteredValue": {
-                    "stringValue": value,
-                  },
-                },
-              ],
-            },
+        range: `${sheetName}!${column}${row}:${column}${row}`,
+        values: [
+          [
+            value,
           ],
-          "fields": "*",
-        },
+        ],
       };
     },
     /**
@@ -173,25 +139,25 @@ export default {
       })).replies[0].deleteSheet;
     },
     /**
-     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#UpdateCellsRequest
-     *
      * Updates individual cells in a row using column-value pairs
+     *
      * @param {string} spreadsheetId - ID of the spreadsheet
-     * @param {string} sheetId - ID of the worksheet
+     * @param {string} sheetName - Name of the worksheet
      * @param {number} row - The row in which to update cells
      * @param {object} updates - An object whose keys are column letters and values are new cell
      * values
-     * @returns An object with information about the changes made
+     * @returns An object containing an array of UpdateValuesResponse (`responses`)
      */
-    async updateRowCells(spreadsheetId, sheetId, row, updates) {
-      const updateRequests = Object.keys(updates)
-        .map((k) => this.getUpdateRequestObj(sheetId, row, k, updates[k]));
-      return await this.googleSheets.batchUpdate({
+    async updateRowCells(spreadsheetId, sheetName, row, updates) {
+      const updateData = Object.keys(updates)
+        .map((k) => this.getUpdateRequestData(sheetName, row, k, updates[k]));
+      return await this.googleSheets.batchUpdateValues(
         spreadsheetId,
-        requestBody: {
-          requests: updateRequests,
+        updateData,
+        {
+          valueInputOption: "USER_ENTERED",
         },
-      });
+      );
     },
     /**
      * Updates a row in a spreadsheet and returns a response body containing an instance of
@@ -267,8 +233,7 @@ export default {
     if (shouldUpdate) {
       // UPDATE ROW
       if (updates && Object.keys(updates).length) { // (`updates` prop)
-        const worksheetId = await this.getSheetId();
-        result = await this.updateRowCells(sheetId, worksheetId, matchedRow, updates);
+        result = await this.updateRowCells(sheetId, sheetName, matchedRow, updates);
       } else {
         result = await this.updateRow(sheetId, sheetName, matchedRow, insert);
       }

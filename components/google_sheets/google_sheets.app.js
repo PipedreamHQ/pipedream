@@ -328,5 +328,25 @@ module.exports = {
       }
       return resp.data.updates;
     },
+    /**
+   * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate
+   *
+   * Sets values in one or more ranges of a spreadsheet
+   * @param {string} spreadsheetId - ID of the spreadsheet
+   * @param {array} data - Array of ValueRange objects with which to update the spreadsheet
+   * @param {object} opts - An object containing extra options to pass to the API call as defined in
+   * the [API docs](https://bit.ly/3CQzXCw)
+   * @returns An object containing an array of UpdateValuesResponse (`responses`)
+   */
+    async batchUpdateValues(spreadsheetId, data, opts) {
+      const sheets = this.sheets();
+      return (await sheets.spreadsheets.values.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          data,
+          ...opts,
+        },
+      })).data;
+    },
   },
 };
