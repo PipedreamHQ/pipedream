@@ -14,7 +14,7 @@ const EVENT_TYPES = {
   VIDEO_MADE_PRIMARY: "video-made-primary",
   VIDEO_MOVED_PROJECT: "video-moved-project",
   SUBTITLES_PUBLISHED: "subtitles-published",
-  SUBTITLE_UNPUBLISHED: "subtitle-unpublished",
+  SUBTITLES_UNPUBLISHED: "subtitle-unpublished",
 };
 
 export default {

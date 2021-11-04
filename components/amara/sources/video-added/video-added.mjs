@@ -2,16 +2,16 @@ import constants from "../../constants.mjs";
 import common from "../common.mjs";
 
 const allowedEvents = [
-  constants.EVENT_TYPES.SUBTITLES_PUBLISHED,
+  constants.EVENT_TYPES.VIDEO_ADDED,
 ];
 
 export default {
   ...common,
-  key: "amara-subtitles-published",
-  name: "Subtitles published",
-  description: "Emit new event when subtitles have been published. [See the docs here](https://apidocs.amara.org/#video-notifications)",
+  key: "amara-video-added",
+  name: "Video added",
+  description: "Emit new event when a video is added. [See the docs here](https://apidocs.amara.org/#video-notifications)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   async run({ $ }) {
     await this.emitEvents({
