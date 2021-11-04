@@ -22,6 +22,12 @@ export default {
         }));
       },
     },
+    occurrenceId: {
+      type: "string",
+      label: "Occurrence ID",
+      description: "Provide this field to view meeting details of a particular occurrence of the [recurring meeting](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings).",
+      optional: true,
+    },
     locationId: {
       type: "string",
       label: "LocationId",

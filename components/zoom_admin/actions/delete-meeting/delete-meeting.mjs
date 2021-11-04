@@ -17,10 +17,11 @@ export default {
       ],
     },
     occurrenceId: {
-      type: "string",
-      label: "Occurrence ID",
-      description: "The meeting occurrence ID.",
-      optional: true,
+      propDefinition: [
+        zoomAdmin,
+        "occurrenceId",
+      ],
+      description: "The [meeting occurrence ID](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings).",
     },
     scheduleForReminder: {
       type: "boolean",
@@ -40,10 +41,9 @@ export default {
       method: "DELETE",
       path: `/meetings/${get(this.meetingId, "value", this.meetingId)}`,
       params: {
-        type: this.type,
-        page_size: this.pageSize,
-        page_number: this.pageNumber,
-        next_page_token: this.nextPageToken,
+        occurrence_id: this.occurrenceId,
+        schedule_for_reminder: this.scheduleForReminder,
+        cancel_meeting_reminder: this.cancelMeetingReminder,
       },
     }));
 
