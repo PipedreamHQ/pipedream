@@ -3,7 +3,7 @@ import aws from "../../aws.app.mjs";
 export default {
   name: "Cloudwatch Logs - Put Log Events",
   version: "0.0.1",
-  key: "cloudwatch-logs-put-log-events",
+  key: "aws-cloudwatch-logs-put-log-events",
   description: "Uploads a batch of log events to the specified log stream. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#putLogEvents-property) for more information",
   props: {
     aws,

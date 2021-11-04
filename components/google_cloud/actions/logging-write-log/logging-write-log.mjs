@@ -5,7 +5,7 @@ import logSeverity from "../../utils/logSeverity.mjs";
 export default {
   name: "Logging - Write Log",
   version: "0.0.1",
-  key: "logging-write-log",
+  key: "google_cloud-logging-write-log",
   description: "Writes log data to the Logging service",
   props: {
     google_cloud,
