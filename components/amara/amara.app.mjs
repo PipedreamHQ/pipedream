@@ -34,7 +34,44 @@ export default {
     project: {
       type: "string",
       label: "Project",
-      description: "Project slug for the video or null to put it in the default project.",
+      description: "Project slug for the video or null to put it in the default project",
+      optional: true,
+    },
+    videoId: {
+      type: "string",
+      label: "Video ID",
+      description: "Video ID as the Amara video identifier",
+      async options({ prevContext }) {
+        const { url } = prevContext ?? {};
+
+        const {
+          meta,
+          objects: videos,
+        } = await this.listVideos({
+          url,
+          params: {
+            limit: 20,
+            // order_by: constants.ORDER_BY.CREATED_DESC,
+          },
+        });
+
+        const options = videos.map((video) => ({
+          label: video.title,
+          value: video.id,
+        }));
+
+        return {
+          options,
+          context: {
+            url: meta.next,
+          },
+        };
+      },
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Limit the number of results",
       optional: true,
     },
   },
@@ -61,9 +98,37 @@ export default {
         params: url
           ? undefined
           : params,
+        timeout: 10000,
       };
 
       return await axios($ ?? this, config);
+    },
+    async listVideos({
+      $, url, params,
+    }) {
+      return await this._makeRequest({
+        $,
+        url,
+        path: "/videos",
+        params,
+      });
+    },
+    async getVideo({
+      $, videoId,
+    }) {
+      return await this._makeRequest({
+        $,
+        path: `/videos/${videoId}`,
+      });
+    },
+    async deleteVideo({
+      $, videoId,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "delete",
+        path: `/videos/${videoId}`,
+      });
     },
     async addVideo({
       $, data,
@@ -75,8 +140,102 @@ export default {
         data,
       });
     },
+    async getVideoSubtitleLanguages({
+      $, url, videoId, params,
+    }) {
+      return await this._makeRequest({
+        $,
+        url,
+        path: `/videos/${videoId}/languages`,
+        params,
+      });
+    },
+    async getSubtitleLanguage({
+      $, videoId, language,
+    }) {
+      return await this._makeRequest({
+        $,
+        path: `/videos/${videoId}/languages/${language}`,
+      });
+    },
+    async createSubtitleLanguage({
+      $, videoId, data,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "post",
+        path: `/videos/${videoId}/languages`,
+        data,
+      });
+    },
+    async updateSubtitleLanguage({
+      $, videoId, language, data,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "put",
+        path: `/videos/${videoId}/languages/${language}`,
+        data,
+      });
+    },
+    async getSubtitles({
+      $, videoId, language, params,
+    }) {
+      return await this._makeRequest({
+        $,
+        path: `/videos/${videoId}/languages/${language}/subtitles`,
+        params,
+      });
+    },
+    async addSubtitles({
+      $, videoId, language, data,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "post",
+        path: `/videos/${videoId}/languages/${language}/subtitles`,
+        data,
+      });
+    },
+    async deleteSubtitles({
+      $, videoId, language,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "delete",
+        path: `/videos/${videoId}/languages/${language}/subtitles`,
+      });
+    },
+    async listActions({
+      $, videoId, language,
+    }) {
+      return await this._makeRequest({
+        $,
+        path: `/videos/${videoId}/languages/${language}/subtitles/actions`,
+      });
+    },
+    async performAction({
+      $, videoId, language, action,
+    }) {
+      return await this._makeRequest({
+        $,
+        method: "post",
+        path: `/videos/${videoId}/languages/${language}/subtitles/actions`,
+        data: {
+          action,
+        },
+      });
+    },
+    async getTeam({
+      $, teamId,
+    }) {
+      return await this._makeRequest({
+        $,
+        path: `/teams/${teamId}`,
+      });
+    },
     async getTeams({
-      $, limit, url,
+      $, url, limit,
     }) {
       return await this._makeRequest({
         $,
@@ -88,7 +247,7 @@ export default {
       });
     },
     async getTeamProjects({
-      $, team, limit, url,
+      $, url, team, limit,
     }) {
       return await this._makeRequest({
         $,

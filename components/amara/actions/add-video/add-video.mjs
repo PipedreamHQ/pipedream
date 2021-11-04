@@ -1,14 +1,37 @@
-import common from "../common.mjs";
+import amara from "../../amara.app.mjs";
 
 export default {
-  ...common,
   key: "amara-add-video",
   name: "Add video",
   description: "Add a video. [See the docs here](https://apidocs.amara.org/#add-a-video).",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
+    videoUrl: {
+      propDefinition: [
+        amara,
+        "videoUrl",
+      ],
+    },
+    team: {
+      propDefinition: [
+        amara,
+        "team",
+      ],
+    },
+    primaryAudioLanguageCode: {
+      propDefinition: [
+        amara,
+        "primaryAudioLanguageCode",
+      ],
+    },
+    project: {
+      propDefinition: [
+        amara,
+        "project",
+      ],
+    },
     title: {
       type: "string",
       label: "Title",
