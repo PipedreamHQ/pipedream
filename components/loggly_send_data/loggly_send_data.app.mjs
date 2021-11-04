@@ -31,6 +31,7 @@ export default {
      * This method sends log data to Loggly
      *
      * @param {string} tags - A comma-separated list of tags. See https://documentation.solarwinds.com/en/success_center/loggly/content/admin/tags.htm
+     * @param {string} contentType - The content type of the data to send to Loggly
      * @param {string} data - The data to send to Loggly
      * @returns {Object} The HTTP response from Loggly
      */
