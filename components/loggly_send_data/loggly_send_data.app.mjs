@@ -14,6 +14,17 @@ export default {
       description: "The data you'd like to send to Loggly. [See the docs](https://documentation.solarwinds.com/en/success_center/loggly/content/admin/http-endpoint.htm)",
       type: "string",
     },
+    contentType: {
+      label: "Content type",
+      description: "Plaintext, JSON, etc.",
+      type: "string",
+      optional: true,
+      default: "text/plain",
+      options: [
+        "text/plain",
+        "application/json",
+      ],
+    },
   },
   methods: {
     /**
@@ -24,13 +35,14 @@ export default {
      * @returns {Object} The HTTP response from Loggly
      */
     async logData({
-      $, tags, data,
+      $, contentType, tags, data,
     }) {
       return await axios($, {
         method: "POST",
         url: `https://logs-01.loggly.com/inputs/${this.$auth.token}/tag/${tags}`,
         headers: {
           "user-agent": "@PipedreamHQ/pipedream v0.1",
+          "content-type": contentType,
         },
         data,
       });

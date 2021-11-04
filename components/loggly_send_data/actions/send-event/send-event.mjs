@@ -20,19 +20,27 @@ export default {
         "eventData",
       ],
     },
+    contentType: {
+      propDefinition: [
+        loggly_send_data,
+        "contentType",
+      ],
+    },
   },
   type: "action",
   methods: {},
   async run({ $ }) {
     const {
+      contentType,
       data,
       tags,
     } = this;
-    await this.loggly_send_data.logData({
+    const { response } = await this.loggly_send_data.logData({
       $,
+      contentType,
       tags,
       data,
     });
-    $.export("$summary", "Successfully sent event to Loggly");
+    if (response === "ok") $.export("$summary", "Successfully sent event to Loggly");
   },
 };
