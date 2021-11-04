@@ -1,8 +1,8 @@
-const { v4: uuid } = require("uuid");
-const base = require("../common/ses");
-const { toSingleLineString } = require("../common/utils");
+import { v4 as uuid } from "uuid";
+import base from "../common/ses.mjs";
+import { toSingleLineString } from "../common/utils.mjs";
 
-module.exports = {
+export default {
   ...base,
   key: "aws-new-emails-sent-to-ses-catch-all-domain",
   name: "New Emails sent to SES Catch-all Domain",
@@ -13,7 +13,8 @@ module.exports = {
     this event source emits that email as a formatted event.
     These events can trigger a Pipedream workflow and can be consumed via SSE or REST API.
   `),
-  version: "0.3.0",
+  type: "source",
+  version: "0.4.0",
   props: {
     ...base.props,
     domain: {

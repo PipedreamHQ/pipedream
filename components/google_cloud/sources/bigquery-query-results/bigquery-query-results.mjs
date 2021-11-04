@@ -1,13 +1,14 @@
-const crypto = require("crypto");
-const { v4: uuidv4 } = require("uuid");
-const common = require("../common/bigquery");
+import crypto from "crypto";
+import { v4 as uuidv4 } from "uuid";
+import common from "../common/bigquery.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "google_cloud-bigquery-query-results",
+  // eslint-disable-next-line pipedream/source-name
   name: "BigQuery - Query Results",
   description: "Emit new events with the results of an arbitrary query",
-  version: "0.0.2",
+  version: "0.1.0",
   dedupe: "unique",
   type: "source",
   props: {

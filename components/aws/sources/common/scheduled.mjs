@@ -1,10 +1,10 @@
-const base = require("./sns");
-const {
+import base from "./sns.mjs";
+import {
   generateRandomUniqueName,
   toSingleLineString,
-} = require("./utils");
+} from "./utils.mjs";
 
-module.exports = {
+export default {
   ...base,
   hooks: {
     ...base.hooks,

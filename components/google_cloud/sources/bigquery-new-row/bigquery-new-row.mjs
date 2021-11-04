@@ -1,14 +1,16 @@
-const crypto = require("crypto");
-const isString = require("lodash/isString");
-const common = require("../common/bigquery");
+import crypto from "crypto";
+import { isString } from "lodash-es";
+import common from "../common/bigquery.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "google_cloud-bigquery-new-row",
+  // eslint-disable-next-line pipedream/source-name
   name: "BigQuery - New Row",
-  description: "Emit an event when a new row is added to a table",
-  version: "0.0.1",
+  description: "Emit new events when a new row is added to a table",
+  version: "0.1.0",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
     tableId: {
@@ -163,9 +165,9 @@ module.exports = {
     generateMetaForCollection(rows, ts) {
       const hash = crypto.createHash("sha1");
       rows
-        .map(i => i[this.uniqueKey])
-        .map(i => i.toString())
-        .forEach(i => hash.update(i));
+        .map((i) => i[this.uniqueKey])
+        .map((i) => i.toString())
+        .forEach((i) => hash.update(i));
       const id = hash.digest("base64");
 
       const rowCount = rows.length;
