@@ -1,18 +1,20 @@
-const zoomAdmin = require('../../zoom_admin.app.js');
+/* eslint-disable camelcase */
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
-module.exports = {
+export default {
   key: "zoom_admin-recording-completed",
   name: "Recording Completed",
-  description:
-    "Emits an event each time a recording is ready for viewing in your Zoom account",
-  version: "0.0.2",
+  description: "Emits an event each time a recording is ready for viewing in your Zoom account",
+  version: "0.0.3",
   dedupe: "unique", // Dedupe events based on the ID of the recording file
   props: {
     zoomAdmin,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
-      eventNames: ["recording.completed"],
+      eventNames: [
+        "recording.completed",
+      ],
     },
     includeAudioRecordings: {
       type: "boolean",
@@ -36,9 +38,16 @@ module.exports = {
       console.log("Not a recording.completed event. Exiting");
       return;
     }
-    const { download_token, payload } = event;
+    const {
+      download_token,
+      payload,
+    } = event;
     const { object } = payload;
-    const { recording_files, host_id, host_email } = object;
+    const {
+      recording_files,
+      host_id,
+      host_email,
+    } = object;
     if (!recording_files || recording_files.length === 0) {
       console.log("No files in recording. Exiting");
       return;
@@ -64,10 +73,10 @@ module.exports = {
           host_email,
         },
         {
-          summary: `${object.topic} — ${file.file_type}`,
+          summary: `${object.topic} — ${file.file_type}`,
           id: file.id,
           ts: +new Date(file.recording_end),
-        }
+        },
       );
     }
   },

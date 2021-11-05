@@ -1,17 +1,19 @@
-const zoomAdmin = require('../../zoom_admin.app.js');
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
-module.exports = {
+export default {
   key: "zoom_admin-meeting-started",
   name: "Meeting Started",
   description: "Emits an event each time a meeting starts in your Zoom account",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique", // Dedupe based on meeting ID
   props: {
     zoomAdmin,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
-      eventNames: ["meeting.started"],
+      eventNames: [
+        "meeting.started",
+      ],
     },
   },
   async run(event) {

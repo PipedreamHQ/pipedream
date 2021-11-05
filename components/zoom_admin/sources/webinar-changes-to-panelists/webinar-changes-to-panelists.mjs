@@ -1,26 +1,23 @@
-const crypto = require("crypto");
-const difference = require("lodash/difference");
-// eslint-disable-next-line camelcase
-const zoom_admin = require("../../zoom_admin.app");
+import crypto from "crypto";
+import difference from "lodash/difference.js";
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
-module.exports = {
+export default {
   type: "source",
   name: "Changes to Webinar Panelists",
   key: "zoom_admin-webinar-changes-to-panelists",
-  version: "0.0.1",
-  description:
-    "Emit new event every time a panelist is added or removed from a webinar, or any time their details change",
+  version: "0.0.2",
+  description: "Emit new event every time a panelist is added or removed from a webinar, or any time their details change",
   dedupe: "unique",
   props: {
-    zoom_admin,
+    zoomAdmin,
     webinars: {
       propDefinition: [
-        zoom_admin, // eslint-disable-line camelcase
+        zoomAdmin,
         "webinars",
       ],
     },
     db: "$.service.db",
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
       type: "$.interface.timer",
       default: {
@@ -60,7 +57,7 @@ module.exports = {
       if (!this.webinars || !this.webinars.length) {
         let nextPageToken;
         do {
-          const resp = await this.zoom_admin.listWebinars({
+          const resp = await this.zoomAdmin.listWebinars({
             nextPageToken,
           });
           for (const webinar of resp.webinars) {
@@ -71,7 +68,7 @@ module.exports = {
       }
 
       for (const webinarID of webinars) {
-        const { panelists } = await this.zoom_admin.listWebinarPanelists(
+        const { panelists } = await this.zoomAdmin.listWebinarPanelists(
           webinarID,
         );
         // We keep a DB key for each webinar, which contains an object

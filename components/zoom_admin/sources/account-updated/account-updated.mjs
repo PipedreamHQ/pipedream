@@ -1,17 +1,18 @@
-const zoomAdmin = require('../../zoom_admin.app.js')
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
-module.exports = {
+export default {
   key: "zoom_admin-account-updated",
   name: "Account Updated",
-  description:
-    "Emits an event each time your master account or sub-account profile is updated",
-  version: "0.0.2",
+  description: "Emits an event each time your master account or sub-account profile is updated",
+  version: "0.0.3",
   props: {
     zoomAdmin,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
-      eventNames: ["account.updated"],
+      eventNames: [
+        "account.updated",
+      ],
     },
   },
   async run(event) {

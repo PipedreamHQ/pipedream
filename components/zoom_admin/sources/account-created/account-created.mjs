@@ -1,18 +1,19 @@
-const zoomAdmin = require('../../zoom_admin.app.js')
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
-module.exports = {
+export default {
   key: "zoom_admin-account-created",
   name: "Account Created",
-  description:
-    "Emits an event each time a sub-account is created in your master account",
-  version: "0.0.2",
+  description: "Emits an event each time a sub-account is created in your master account",
+  version: "0.0.3",
   dedupe: "unique", // Dedupe based on account ID
   props: {
     zoomAdmin,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
-      eventNames: ["account.created"],
+      eventNames: [
+        "account.created",
+      ],
     },
   },
   async run(event) {

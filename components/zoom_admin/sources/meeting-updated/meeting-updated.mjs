@@ -1,18 +1,19 @@
-const zoomAdmin = require('../../zoom_admin.app.js')
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
-module.exports = {
+export default {
   key: "zoom_admin-meeting-updated",
   name: "Meeting Updated",
-  description:
-    "Emits an event each time a meeting is updated in your Zoom account",
-  version: "0.0.2",
+  description: "Emits an event each time a meeting is updated in your Zoom account",
+  version: "0.0.3",
   dedupe: "unique", // dedupe on the meeting ID + timestamp
   props: {
     zoomAdmin,
     zoomApphook: {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
-      eventNames: ["meeting.updated"],
+      eventNames: [
+        "meeting.updated",
+      ],
     },
   },
   async run(event) {
