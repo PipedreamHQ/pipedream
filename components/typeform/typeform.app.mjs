@@ -94,12 +94,12 @@ export default {
         }));
       },
     },
-    field: {
+    fieldId: {
       type: "string",
       label: "Field",
       description: "Unique ID for the field",
       async options({
-        formId, allowedFields = constants.ALL_FIELD_TYPES, returnFieldObject,
+        formId, allowedFields = constants.ALL_FIELD_TYPES,
       }) {
         const { fields } =
           await this.getForm({
@@ -115,19 +115,12 @@ export default {
             return reduction;
           }
 
-          const value =
-            returnFieldObject
-              ? JSON.stringify(field)
-              : field.id;
-
-          const option = {
-            label: field.title,
-            value,
-          };
-
           return [
             ...reduction,
-            option,
+            {
+              label: field.title,
+              value: field.id,
+            },
           ];
         }, []);
       },
@@ -159,6 +152,27 @@ export default {
         }));
       },
     },
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "Retrieve typeforms for the specified workspace.",
+      optional: true,
+      async options({ page }) {
+        const { items } = await this.getWorkspaces({
+          params: {
+            page_size: 10,
+            page: page + 1, // pipedream page 0-indexed, github is 1
+          },
+        });
+
+        return items.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     async _makeRequest(opts) {
@@ -169,8 +183,7 @@ export default {
         ...otherOpts
       } = opts;
 
-      const basePath = "https://api.typeform.com";
-      const baseUrl = `${basePath}${path}`;
+      const baseUrl = `${constants.BASE_URL}${path}`;
       const url = fileUrl ?? baseUrl;
 
       const authorization = `Bearer ${this.$auth.oauth_access_token}`;

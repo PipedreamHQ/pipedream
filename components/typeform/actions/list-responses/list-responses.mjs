@@ -11,6 +11,12 @@ export default {
   version: "0.0.1",
   props: {
     ...common.props,
+    formId: {
+      propDefinition: [
+        typeform,
+        "formId",
+      ],
+    },
     pageSize: {
       propDefinition: [
         typeform,
@@ -100,7 +106,7 @@ export default {
       optional: true,
       propDefinition: [
         typeform,
-        "field",
+        "fieldId",
         ({ formId }) => ({
           formId,
         }),
@@ -113,11 +119,19 @@ export default {
       optional: true,
       propDefinition: [
         typeform,
-        "field",
+        "fieldId",
         ({ formId }) => ({
           formId,
         }),
       ],
+    },
+  },
+  methods: {
+    ...common.methods,
+    commaSeparatedList(items) {
+      return Array.isArray(items)
+        ? items.join(",")
+        : items;
     },
   },
   async run({ $ }) {
@@ -143,13 +157,13 @@ export default {
       until,
       after,
       before,
-      included_response_ids: includedResponseIds?.join(","),
-      excluded_response_ids: excludedResponseIds?.join(","),
+      included_response_ids: this.commaSeparatedList(includedResponseIds),
+      excluded_response_ids: this.commaSeparatedList(excludedResponseIds),
       completed,
       sort,
       query,
-      fields: fields?.join(","),
-      answered_fields: answeredFields?.join(","),
+      fields: this.commaSeparatedList(fields),
+      answered_fields: this.commaSeparatedList(answeredFields),
     };
 
     const { items } = await this.typeform.getResponses({

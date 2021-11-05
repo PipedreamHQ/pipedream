@@ -1,7 +1,5 @@
 import common from "../common.mjs";
 
-const { typeform } = common.props;
-
 export default {
   ...common,
   key: "typeform-delete-image",
@@ -10,7 +8,7 @@ export default {
   type: "action",
   version: "0.0.1",
   props: {
-    typeform,
+    ...common.props,
     imageId: {
       type: "string",
       label: "Image ID",

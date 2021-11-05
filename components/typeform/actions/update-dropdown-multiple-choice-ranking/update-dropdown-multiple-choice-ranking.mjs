@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+import omit from "lodash.omit";
 import common from "../common.mjs";
 import constants from "../../constants.mjs";
 
@@ -13,11 +13,17 @@ export default {
   version: "0.0.1",
   props: {
     ...common.props,
-    field: {
-      description: "Please select a field. Update Dropdown, Multiple Choice or Ranking",
+    formId: {
       propDefinition: [
         typeform,
-        "field",
+        "formId",
+      ],
+    },
+    fieldId: {
+      description: "Please select a field. Dropdown, multiple choice or ranking",
+      propDefinition: [
+        typeform,
+        "fieldId",
         ({ formId }) => ({
           formId,
           allowedFields: [
@@ -25,20 +31,19 @@ export default {
             constants.FIELD_TYPES.MULTIPLE_CHOICE,
             constants.FIELD_TYPES.RANKING,
           ],
-          returnFieldObject: true,
         }),
       ],
     },
     choice: {
       type: "string",
       label: "New choice",
-      description: "Please add the new choice you want to include in your Question",
+      description: "Please add the new choice you want to include in your Field",
     },
   },
   methods: {
     ...common.methods,
     getUpdatedFields({
-      fieldId, fields, existingChoices = [], addedChoices = [],
+      fields, fieldId, newChoice,
     }) {
       return fields.reduce((reduction, field) => {
         const {
@@ -59,80 +64,32 @@ export default {
           ...otherProperties
         } = properties;
 
-        const keptChoices = existingChoices.map(({ id }) => id);
-        const choicesToUpdate =
-          choices.filter(({ id }) => keptChoices.includes(id));
-
-        const propertiesToUpdate = {
-          choices: [
-            ...choicesToUpdate,
-            ...addedChoices,
-          ],
-          ...otherProperties,
-        };
-
         const updatedField = {
-          id,
-          properties: propertiesToUpdate,
           ...fieldProperties,
+          id,
+          properties: {
+            ...otherProperties,
+            choices: [
+              ...choices,
+              newChoice,
+            ],
+          },
         };
 
         return [
           ...reduction,
           updatedField,
         ];
-      }, []);
-    },
-    getExistingAndAddedChoices(choices = []) {
-      return choices.reduce((reduction, choice) => {
-        const [
-          existingChoices = [],
-          addedChoices = [],
-        ] = reduction;
 
-        if (choice.id) {
-          return [
-            [
-              ...existingChoices,
-              choice,
-            ],
-            addedChoices,
-          ];
-        }
-
-        return [
-          existingChoices,
-          [
-            ...addedChoices,
-            choice,
-          ],
-        ];
       }, []);
     },
   },
   async run({ $ }) {
     const {
       formId,
-      field,
+      fieldId,
       choice,
     } = this;
-
-    const {
-      id: fieldId,
-      properties,
-    } = JSON.parse(field);
-
-    const { choices: currentChoices } = properties;
-    const choices = [
-      ...currentChoices,
-      {
-        label: choice,
-      },
-    ];
-
-    if (!fieldId) {
-      throw new Error("Field ID not found");
-    }
 
     const {
       fields,
@@ -143,23 +100,26 @@ export default {
         formId,
       });
 
-    const [
-      existingChoices,
-      addedChoices,
-    ] = this.getExistingAndAddedChoices(choices);
+    const field = fields.find(({ id }) => id === fieldId);
+
+    if (!field) {
+      throw new Error("Field not found");
+    }
+
+    const newChoice = {
+      label: choice,
+    };
 
     const fieldsToUpdate = this.getUpdatedFields({
-      fieldId,
       fields,
-      existingChoices,
-      addedChoices,
+      fieldId,
+      newChoice,
     });
 
-    const {
-      id,
-      _links,
-      ...otherFormProperties
-    } = formProperties;
+    const otherFormProperties = omit(formProperties, [
+      "id",
+      "_links",
+    ]);
 
     const data = {
       ...otherFormProperties,

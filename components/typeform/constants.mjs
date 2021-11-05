@@ -1,3 +1,4 @@
+const BASE_URL = "https://api.typeform.com";
 const SECRET = "secret";
 const TAG = "tag";
 const TYPEFORM_SIGNATURE = "Typeform-Signature";
@@ -38,6 +39,7 @@ const ALL_FIELD_TYPES =
     .map((key) => FIELD_TYPES[key]);
 
 export default {
+  BASE_URL,
   SECRET,
   TAG,
   TYPEFORM_SIGNATURE,

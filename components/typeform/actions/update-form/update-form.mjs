@@ -11,6 +11,12 @@ export default {
   version: "0.0.1",
   props: {
     ...common.props,
+    formId: {
+      propDefinition: [
+        typeform,
+        "formId",
+      ],
+    },
     title: {
       propDefinition: [
         typeform,

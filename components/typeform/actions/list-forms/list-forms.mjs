@@ -10,7 +10,7 @@ export default {
   type: "action",
   version: "0.0.1",
   props: {
-    typeform,
+    ...common.props,
     search: {
       propDefinition: [
         typeform,
@@ -32,25 +32,10 @@ export default {
       ],
     },
     workspaceId: {
-      type: "string",
-      label: "Workspace ID",
-      description: "Retrieve typeforms for the specified workspace.",
-      optional: true,
-      async options({ page }) {
-        const { items } = await this.typeform.getWorkspaces({
-          params: {
-            page_size: 10,
-            page: page + 1, // pipedream page 0-indexed, github is 1
-          },
-        });
-
-        return items.map(({
-          name, id,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      propDefinition: [
+        typeform,
+        "workspaceId",
+      ],
     },
   },
   async run({ $ }) {

@@ -1,7 +1,9 @@
-import common from "../common.mjs";
+import typeform from "../typeform.app.mjs";
 
 export default {
-  ...common,
+  props: {
+    typeform,
+  },
   methods: {
     addProperty({
       src, validation, addition,

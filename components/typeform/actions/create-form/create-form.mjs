@@ -10,7 +10,7 @@ export default {
   type: "action",
   version: "0.0.1",
   props: {
-    typeform,
+    ...common.props,
     title: {
       propDefinition: [
         typeform,

@@ -1,7 +1,5 @@
 import common from "../common.mjs";
 
-const { typeform } = common.props;
-
 export default {
   ...common,
   key: "typeform-list-images",
@@ -9,9 +7,6 @@ export default {
   description: "Retrieves a list of JSON descriptions for all images in your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/retrieve-images-collection/)",
   type: "action",
   version: "0.0.1",
-  props: {
-    typeform,
-  },
   async run({ $ }) {
     return await this.typeform.getImages($);
   },

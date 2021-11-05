@@ -1,6 +1,7 @@
 import { createHmac } from "crypto";
 import { uuid } from "uuidv4";
 import { DateTime } from "luxon";
+import typeform from "../../typeform.app.mjs";
 import common from "../common.mjs";
 import constants from "../../constants.mjs";
 
@@ -24,9 +25,15 @@ export default {
   type: "source",
   description: "Emit new submission",
   props: {
-    ...common.props,
+    typeform,
     http: "$.interface.http",
     db: "$.service.db",
+    formId: {
+      propDefinition: [
+        typeform,
+        "formId",
+      ],
+    },
   },
   methods: {
     ...common.methods,

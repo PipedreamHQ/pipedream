@@ -1,8 +1,6 @@
-import common from "../common.mjs";
 import constants from "../constants.mjs";
 
 export default {
-  ...common,
   methods: {
     _setSecret(secret) {
       this.db.set(constants.SECRET, secret);
