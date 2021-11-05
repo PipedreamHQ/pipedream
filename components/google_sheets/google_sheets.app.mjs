@@ -328,5 +328,133 @@ export default {
       }
       return resp.data.updates;
     },
+    /**
+   * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate
+   *
+   * Sets values in one or more ranges of a spreadsheet
+   * @param {string} spreadsheetId - ID of the spreadsheet
+   * @param {array} data - Array of ValueRange objects with which to update the spreadsheet
+   * @param {object} [opts={}] - An object containing extra options to pass to the API call as
+   * defined in the [API docs](https://bit.ly/3CQzXCw)
+   * @returns An object containing an array of UpdateValuesResponse (`responses`)
+   */
+    async batchUpdateValues(spreadsheetId, data, opts = {}) {
+      const sheets = this.sheets();
+      return (await sheets.spreadsheets.values.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          data,
+          ...opts,
+        },
+      })).data;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#AddSheetRequest
+     *
+     * Creates a worksheet in a spreadsheet and returns the properties of the newly created
+     * worksheet
+     * @param {string} spreadsheetId - ID of the spreadsheet in which to create a worksheet
+     * @param {object} [properties={}] - The properties the new sheet should have
+     * @returns An object containing the SheetProperties (`properties`) of the newly created
+     * worksheet
+     */
+    async createWorksheet(spreadsheetId, properties = {}) {
+      return (await this.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              addSheet: {
+                properties,
+              },
+            },
+          ],
+        },
+      })).replies[0].addSheet;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#DeleteSheetRequest
+     *
+     * Deletes a worksheet
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @param {string} sheetId - ID of the worksheet to delete
+     */
+    async deleteWorksheet(spreadsheetId, sheetId) {
+      return (await this.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              deleteSheet: {
+                sheetId,
+              },
+            },
+          ],
+        },
+      })).replies[0].deleteSheet;
+    },
+    /**
+     * Updates a row in a spreadsheet and returns a response body containing an instance of
+     * UpdateValuesResponse
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @param {string} sheetName - Name of the worksheet
+     * @param {number} row - Row number to update
+     * @param {string[]} values - Array of values with which to update the row
+     * @returns An instance of UpdateValuesResponse
+     */
+    async updateRow(spreadsheetId, sheetName, row, values) {
+      return await this.updateSpreadsheet({
+        spreadsheetId,
+        range: `${sheetName}!${row}:${row}`,
+        valueInputOption: "USER_ENTERED",
+        resource: {
+          values: [
+            values,
+          ],
+        },
+      });
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values#ValueRange
+     *
+     * Get a ValueRange object from a sheet name, row, column, and array of values
+     * @param {string} sheetName - Name of the worksheet
+     * @param {number} row - The row number (>=1) of the cell to update
+     * @param {string} column - The column letter of the cell to update
+     * @param {string} value - The new value of the cell
+     * @returns An ValueRange object
+     */
+    getValueRange(sheetName, row, column, value) {
+      return {
+        range: `${sheetName}!${column}${row}:${column}${row}`,
+        values: [
+          [
+            value,
+          ],
+        ],
+      };
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate
+     *
+     * Updates individual cells in a row using column-value pairs
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @param {string} sheetName - Name of the worksheet
+     * @param {number} row - The row in which to update cells
+     * @param {object} updates - An object whose keys are column letters and values are new cell
+     * values
+     * @returns An object containing an array of UpdateValuesResponse (`responses`)
+     */
+    async updateRowCells(spreadsheetId, sheetName, row, updates) {
+      const updateData = Object.keys(updates)
+        .map((k) => this.getValueRange(sheetName, row, k, updates[k]));
+      return await this.batchUpdateValues(
+        spreadsheetId,
+        updateData,
+        {
+          valueInputOption: "USER_ENTERED",
+        },
+      );
+    },
   },
 };

@@ -75,112 +75,6 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    /**
-     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#UpdateCellsRequest
-     *
-     * @param {string} sheetName - Name of the worksheet
-     * @param {number} row - The row number (>=1) of the cell to update
-     * @param {string} column - The column letter of the cell to update
-     * @param {string} value - The new value of the cell
-     * @returns An UpdateCellsRequest object
-     */
-    getUpdateRequestData(sheetName, row, column, value) {
-      return {
-        range: `${sheetName}!${column}${row}:${column}${row}`,
-        values: [
-          [
-            value,
-          ],
-        ],
-      };
-    },
-    /**
-     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#AddSheetRequest
-     *
-     * Creates a worksheet and returns the properties of the newly created sheet
-     * @param {string} spreadsheetId - ID of the spreadsheet in which to create a worksheet
-     * @param {object} properties - The properties the new sheet should have
-     * @returns An object containing the SheetProperties (`properties`) of the newly created sheet
-     */
-    async addSheet(spreadsheetId, properties) {
-      return (await this.googleSheets.batchUpdate({
-        spreadsheetId,
-        requestBody: {
-          requests: [
-            {
-              addSheet: {
-                properties,
-              },
-            },
-          ],
-        },
-      })).replies[0].addSheet;
-    },
-    /**
-     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#DeleteSheetRequest
-     *
-     * Deletes a worksheet
-     * @param {string} spreadsheetId - ID of the spreadsheet
-     * @param {string} sheetId - ID of the worksheet to delete
-     */
-    async deleteSheet(spreadsheetId, sheetId) {
-      return (await this.googleSheets.batchUpdate({
-        spreadsheetId,
-        requestBody: {
-          requests: [
-            {
-              deleteSheet: {
-                sheetId,
-              },
-            },
-          ],
-        },
-      })).replies[0].deleteSheet;
-    },
-    /**
-     * Updates individual cells in a row using column-value pairs
-     *
-     * @param {string} spreadsheetId - ID of the spreadsheet
-     * @param {string} sheetName - Name of the worksheet
-     * @param {number} row - The row in which to update cells
-     * @param {object} updates - An object whose keys are column letters and values are new cell
-     * values
-     * @returns An object containing an array of UpdateValuesResponse (`responses`)
-     */
-    async updateRowCells(spreadsheetId, sheetName, row, updates) {
-      const updateData = Object.keys(updates)
-        .map((k) => this.getUpdateRequestData(sheetName, row, k, updates[k]));
-      return await this.googleSheets.batchUpdateValues(
-        spreadsheetId,
-        updateData,
-        {
-          valueInputOption: "USER_ENTERED",
-        },
-      );
-    },
-    /**
-     * Updates a row in a spreadsheet and returns a response body containing an instance of
-     * UpdateValuesResponse
-     * @param {string} spreadsheetId - ID of the spreadsheet
-     * @param {string} sheetName - Name of the worksheet
-     * @param {number} row - Row number to update
-     * @param {string[]} values - Array of values with which to update the row
-     * @returns An instance of UpdateValuesResponse
-     */
-    async updateRow(spreadsheetId, sheetName, row, values) {
-      return await this.googleSheets.updateSpreadsheet({
-        spreadsheetId,
-        range: `${sheetName}!${row}:${row}`,
-        valueInputOption: "USER_ENTERED",
-        resource: {
-          values: [
-            values,
-          ],
-        },
-      });
-    },
-  },
   async run({ $ }) {
     const {
       sheetId,
@@ -197,7 +91,7 @@ export default {
 
     // Create hidden worksheet to add cell with `=MATCH()` formula, used to find duplicate key
     const hiddenWorksheetTitle = uuid();
-    const addSheetResult = await this.addSheet(sheetId, {
+    const addSheetResult = await this.googleSheets.createWorksheet(sheetId, {
       title: hiddenWorksheetTitle,
       hidden: true,
       gridProperties: {
@@ -224,7 +118,7 @@ export default {
 
     const matchedRow = matchResult.updatedData?.values?.[0]?.[0];
 
-    const deleteSheetPromise = this.deleteSheet(sheetId, hiddenSheetId);
+    const deleteSheetPromise = this.googleSheets.deleteWorksheet(sheetId, hiddenSheetId);
 
     let result; // Return value of this action
 
@@ -233,9 +127,9 @@ export default {
     if (shouldUpdate) {
       // UPDATE ROW
       if (updates && Object.keys(updates).length) { // (`updates` prop)
-        result = await this.updateRowCells(sheetId, sheetName, matchedRow, updates);
+        result = await this.googleSheets.updateRowCells(sheetId, sheetName, matchedRow, updates);
       } else {
-        result = await this.updateRow(sheetId, sheetName, matchedRow, insert);
+        result = await this.googleSheets.updateRow(sheetId, sheetName, matchedRow, insert);
       }
     } else {
       // INSERT ROW
