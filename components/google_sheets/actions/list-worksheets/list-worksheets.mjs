@@ -1,4 +1,4 @@
-import googleSheets from "../../google_sheets.app.js";
+import googleSheets from "../../google_sheets.app.mjs";
 
 export default {
   key: "google_sheets-list-worksheets",

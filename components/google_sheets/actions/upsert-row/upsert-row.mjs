@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import googleSheets from "../../google_sheets.app.js";
+import googleSheets from "../../google_sheets.app.mjs";
 
 /**
  * This action performs an upsert operation, similar to the MySQL `INSERT INTO ... ON DUPLICATE KEY
