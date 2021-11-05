@@ -1,16 +1,13 @@
-import common from "../common.mjs";
-
-const { typeform } = common.props;
+import typeform from "../../typeform.app.mjs";
 
 export default {
-  ...common,
   key: "typeform-delete-form",
   name: "Delete Form",
-  description: "Select the a form to be deleted. [See the docs here](https://developer.typeform.com/create/reference/delete-form/).",
+  description: "Select a form to be deleted. [See the docs here](https://developer.typeform.com/create/reference/delete-form/).",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    typeform,
     formId: {
       propDefinition: [
         typeform,

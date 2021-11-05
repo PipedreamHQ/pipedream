@@ -1,16 +1,16 @@
-import common from "../common.mjs";
+import typeform from "../../typeform.app.mjs";
+import utils from "../utils.mjs";
 
-const { typeform } = common.props;
+const { reduceProperties } = utils;
 
 export default {
-  ...common,
   key: "typeform-create-form",
   name: "Create a Form",
   description: "Creates a form with its corresponing fields. [See the docs here](https://developer.typeform.com/create/reference/create-form/)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    typeform,
     title: {
       propDefinition: [
         typeform,
@@ -38,7 +38,7 @@ export default {
       ],
     };
 
-    const data = this.reduceProperties({
+    const data = reduceProperties({
       initialProps,
       additionalProps,
     });

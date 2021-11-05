@@ -1,16 +1,16 @@
-import common from "../common.mjs";
+import typeform from "../../typeform.app.mjs";
+import utils from "../utils.mjs";
 
-const { typeform } = common.props;
+const { reduceProperties } = utils;
 
 export default {
-  ...common,
   key: "typeform-update-form",
   name: "Update a Form",
   description: "Updates an existing form. Request body must include all the existing form fields. [See the docs here](https://developer.typeform.com/create/reference/update-form-patch/)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    typeform,
     formId: {
       propDefinition: [
         typeform,
@@ -58,7 +58,7 @@ export default {
       ],
     };
 
-    const dataObj = this.reduceProperties({
+    const dataObj = reduceProperties({
       initialProps,
       additionalProps,
     });

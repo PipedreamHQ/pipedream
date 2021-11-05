@@ -1,14 +1,13 @@
-import common from "../common.mjs";
+import typeform from "../../typeform.app.mjs";
 
 export default {
-  ...common,
   key: "typeform-delete-image",
   name: "Delete an Image",
-  description: "Deletes and image from your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/delete-image/)",
+  description: "Deletes an image from your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/delete-image/)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    typeform,
     imageId: {
       type: "string",
       label: "Image ID",

@@ -1,16 +1,16 @@
-import common from "../common.mjs";
+import typeform from "../../typeform.app.mjs";
+import utils from "../utils.mjs";
 
-const { typeform } = common.props;
+const { commaSeparatedList } = utils;
 
 export default {
-  ...common,
   key: "typeform-list-responses",
   name: "List Responses",
   description: "Returns form responses and date and time of form landing and submission. [See the docs here](https://developer.typeform.com/responses/reference/retrieve-responses/)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    typeform,
     formId: {
       propDefinition: [
         typeform,
@@ -82,13 +82,13 @@ export default {
     completed: {
       type: "boolean",
       label: "Completed",
-      description: "Limit responses only to those which were submitted. This parameter changes `since/until` filter, so if `completed=true`, it will filter by `submitted_at`, otherwise - `landed_at`.",
+      description: "Limit responses only to those which were submitted. This parameter changes `since`/`until` filter, so if `completed=true`, it will filter by `submitted_at`, otherwise - `landed_at`.",
       optional: true,
     },
     sort: {
       type: "string",
       label: "Sort",
-      description: "Responses order in `{fieldID},{asc|desc}` format. You can use built-in `submitted_at/landed_at` field IDs or any field ID from your typeform, possible directions are `asc/desc`. Default value is `submitted_at,desc`.",
+      description: "Responses order in `{fieldID},{asc|desc}` format. You can use built-in `submitted_at`/`landed_at` field IDs or any field ID from your typeform, possible directions are `asc`/`desc`. Default value is `submitted_at,desc`.",
       optional: true,
       default: "submitted_at,desc",
     },
@@ -126,14 +126,6 @@ export default {
       ],
     },
   },
-  methods: {
-    ...common.methods,
-    commaSeparatedList(items) {
-      return Array.isArray(items)
-        ? items.join(",")
-        : items;
-    },
-  },
   async run({ $ }) {
     const {
       formId,
@@ -157,13 +149,13 @@ export default {
       until,
       after,
       before,
-      included_response_ids: this.commaSeparatedList(includedResponseIds),
-      excluded_response_ids: this.commaSeparatedList(excludedResponseIds),
+      included_response_ids: commaSeparatedList(includedResponseIds),
+      excluded_response_ids: commaSeparatedList(excludedResponseIds),
       completed,
       sort,
       query,
-      fields: this.commaSeparatedList(fields),
-      answered_fields: this.commaSeparatedList(answeredFields),
+      fields: commaSeparatedList(fields),
+      answered_fields: commaSeparatedList(answeredFields),
     };
 
     const { items } = await this.typeform.getResponses({

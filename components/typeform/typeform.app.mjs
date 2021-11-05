@@ -8,7 +8,7 @@ export default {
     formId: {
       type: "string",
       label: "Form",
-      description: "Form ID",
+      description: "Unique ID for the form. Find in your form URL. For example, in the URL \"https://mysite.typeform.com/to/u6nXL7\" the form_id is `u6nXL7`.",
       async options({ page }) {
         const { items } = await this.getForms({
           params: {
@@ -33,7 +33,7 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page size",
-      description: "Maximum number of responses. Maximum value is 1000. If your typeform has more than 1000 responses, use the `since/until` or `before/after` parameters to narrow the scope of your request.",
+      description: "Maximum number of responses. Maximum value is 1000. If your typeform has more than 1000 responses, use the `since`/`until` or `before`/`after` parameters to narrow the scope of your request.",
       optional: true,
       default: 25,
     },
@@ -47,25 +47,25 @@ export default {
     since: {
       type: "string",
       label: "Since",
-      description: "Limit request to responses submitted since the specified date and time. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with `T` as a delimiter between the date and time `(2020-03-20T14:00:59)`.",
+      description: "Limit request to responses submitted since the specified date and time. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with `T` as a delimiter between the date and time (`2020-03-20T14:00:59`).",
       optional: true,
     },
     until: {
       type: "string",
       label: "Until",
-      description: "Limit request to responses submitted until the specified date and time. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with `T` as a delimiter between the date and time `(2020-03-20T14:00:59)`.",
+      description: "Limit request to responses submitted until the specified date and time. Could be passed as int (timestamp in seconds) or in ISO 8601 format, UTC time, to the second, with `T` as a delimiter between the date and time (`2020-03-20T14:00:59`).",
       optional: true,
     },
     after: {
       type: "string",
       label: "After",
-      description: "Limit request to responses submitted after the specified token. Could not be used together with `sort` parameter, as it sorts responses in the order that the system processed them `(submitted_at)`. This ensures that you can traverse the complete set of responses without repeating entries.",
+      description: "Limit request to responses submitted after the specified token. Could not be used together with `sort` parameter, as it sorts responses in the order that the system processed them (`submitted_at`). This ensures that you can traverse the complete set of responses without repeating entries.",
       optional: true,
     },
     before: {
       type: "string",
       label: "Before",
-      description: "Limit request to responses submitted after the specified token. Could not be used together with `sort` parameter, as it sorts responses in the order that the system processed them `(submitted_at)`. This ensures that you can traverse the complete set of responses without repeating entries.",
+      description: "Limit request to responses submitted before the specified token. Could not be used together with `sort` parameter, as it sorts responses in the order that the system processed them (`submitted_at`). This ensures that you can traverse the complete set of responses without repeating entries.",
       optional: true,
     },
     title: {

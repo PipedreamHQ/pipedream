@@ -1,16 +1,13 @@
-import common from "../common.mjs";
-
-const { typeform } = common.props;
+import typeform from "../../typeform.app.mjs";
 
 export default {
-  ...common,
   key: "typeform-lookup-responses",
   name: "Lookup Responses",
   description: "Search for responses with the `query` property. [See the docs here](https://developer.typeform.com/responses/reference/retrieve-responses/)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    typeform,
     formId: {
       propDefinition: [
         typeform,

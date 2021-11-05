@@ -1,14 +1,13 @@
-import common from "../common.mjs";
+import typeform from "../../typeform.app.mjs";
 
 export default {
-  ...common,
   key: "typeform-create-image",
   name: "Create an Image",
   description: "Adds an image in your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/create-image/)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    typeform,
     fileName: {
       type: "string",
       label: "File name",
@@ -28,6 +27,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.image && !this.url) {
+      throw new Error("This action requires either Base64 image or Image's URL. Please enter one or the other above.");
+    }
+
     const data = {
       file_name: this.fileName,
       image: this.image,
