@@ -1,4 +1,3 @@
-const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
@@ -18,23 +17,7 @@ module.exports = {
         "An string array of email addresses to be added to the global suppressions group. Example `[\"email1@example.com\",\"email2@example.com\"]`",
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    const constraints = {
-      recipientEmails: {
-        presence: true,
-        type: "array",
-      },
-    };
-    const validationResult = validate(
-      {
-        recipientEmails: this.recipientEmails,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     return await this.sendgrid.addEmailToGlobalSupression(this.recipientEmails);
   },
 };

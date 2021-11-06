@@ -1,4 +1,3 @@
-const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
@@ -21,18 +20,6 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const constraints = {
-      query: {
-        presence: true,
-      },
-    };
-    const validationResult = validate(
-      {
-        query: this.query,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     return await this.sendgrid.searchContacts(this.query);
   },
 };

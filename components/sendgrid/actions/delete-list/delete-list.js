@@ -1,6 +1,4 @@
-const validate = require("validate.js");
 const common = require("../common");
-
 module.exports = {
   ...common,
   key: "sendgrid-delete-list",
@@ -27,18 +25,6 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const constraints = {
-      id: {
-        presence: true,
-      },
-    };
-    const validationResult = validate(
-      {
-        id: this.id,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     this.deleteContacts = !!this.deleteContacts;
     return await this.sendgrid.deleteList(this.id, this.deleteContacts);
   },

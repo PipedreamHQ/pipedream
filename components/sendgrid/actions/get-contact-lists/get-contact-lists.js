@@ -22,7 +22,6 @@ module.exports = {
   async run() {
     const constraints = {
       numberOfLists: {
-        presence: true,
         numericality: {
           onlyInteger: true,
           greaterThan: 0,
@@ -37,17 +36,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    const contactListGenerator = this.sendgrid.getAllContactLists(
-      this.numberOfLists,
-    );
-    const contactLists = [];
-    let contactList;
-    do {
-      contactList = await contactListGenerator.next();
-      if (contactList.value) {
-        contactLists.push(contactList.value);
-      }
-    } while (!contactList.done);
-    return contactLists;
+    return this.sendgrid.getAllContactLists(this.numberOfLists);
   },
 };

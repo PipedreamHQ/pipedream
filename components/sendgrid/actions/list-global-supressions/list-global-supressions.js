@@ -7,7 +7,7 @@ module.exports = {
   name: "List Global Supressions",
   description:
     "Allows you to get a list of all email address that are globally suppressed.",
-  version: "0.0.1",
+  version: "0.0.49",
   type: "action",
   props: {
     ...common.props,
@@ -37,7 +37,6 @@ module.exports = {
   async run() {
     const constraints = {
       numberOfSupressions: {
-        presence: true,
         numericality: {
           onlyInteger: true,
           greaterThan: 0,
@@ -45,11 +44,11 @@ module.exports = {
         },
       },
     };
-    this.startTime = this.convertEmptyStringToNull(this.startTime);
+    this.startTime = this.convertEmptyStringToUndefined(this.startTime);
     if (this.startTime != null) {
       constraints.startTime = this.getIntegerGtZeroConstraint();
     }
-    this.endTime = this.convertEmptyStringToNull(this.endTime);
+    this.endTime = this.convertEmptyStringToUndefined(this.endTime);
     if (this.endTime != null) {
       constraints.endTime = {
         numericality: {
@@ -70,20 +69,10 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    const globalSupressionsGenerator =
-      await this.sendgrid.listGlobalSupressions(
-        this.startTime,
-        this.endTime,
-        this.numberOfSupressions,
-      );
-    const globalSupressions = [];
-    let globalSupression;
-    do {
-      globalSupression = await globalSupressionsGenerator.next();
-      if (globalSupression.value) {
-        globalSupressions.push(globalSupression.value);
-      }
-    } while (!globalSupression.done);
-    return globalSupressions;
+    return await this.sendgrid.listGlobalSupressions(
+      this.startTime,
+      this.endTime,
+      this.numberOfSupressions,
+    );
   },
 };

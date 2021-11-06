@@ -37,15 +37,14 @@ module.exports = {
   async run() {
     const constraints = {
       numberOfBlocks: {
-        presence: true,
         type: "integer",
       },
     };
-    this.startTime = this.convertEmptyStringToNull(this.startTime);
+    this.startTime = this.convertEmptyStringToUndefined(this.startTime);
     if (this.startTime != null) {
       constraints.startTime = this.getIntegerGtZeroConstraint();
     }
-    this.endTime = this.convertEmptyStringToNull(this.endTime);
+    this.endTime = this.convertEmptyStringToUndefined(this.endTime);
     if (this.endTime != null) {
       constraints.endTime = {
         numericality: {
@@ -57,7 +56,7 @@ module.exports = {
         },
       };
     }
-    this.numberOfBlocks = this.convertEmptyStringToNull(this.numberOfBlocks);
+    this.numberOfBlocks = this.convertEmptyStringToUndefined(this.numberOfBlocks);
     if (this.numberOfBlocks != null) {
       constraints.numberOfBlocks = this.getIntegerGtZeroConstraint();
     }
@@ -70,19 +69,10 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    const blocksGenerator = await this.sendgrid.listBlocks(
+    return await this.sendgrid.listBlocks(
       this.startTime,
       this.endTime,
       this.numberOfBlocks,
     );
-    const blocks = [];
-    let block;
-    do {
-      block = await blocksGenerator.next();
-      if (block.value) {
-        blocks.push(block.value);
-      }
-    } while (!block.done);
-    return blocks;
   },
 };

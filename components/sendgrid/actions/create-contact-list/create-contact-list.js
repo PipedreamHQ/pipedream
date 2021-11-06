@@ -1,4 +1,3 @@
-const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
@@ -16,22 +15,7 @@ module.exports = {
       description: "Your name for your list. maxLength: 100",
     },
   },
-  methods: {
-    ...common.methods,
-  },
   async run() {
-    const constraints = {
-      name: {
-        presence: true,
-        length: {
-          maximum: 100,
-        },
-      },
-    };
-    const validationResult = validate({
-      name: this.name,
-    }, constraints);
-    this.checkValidationResults(validationResult);
     return await this.sendgrid.createContactList(this.name);
   },
 };

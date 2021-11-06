@@ -1,4 +1,3 @@
-const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
@@ -27,23 +26,6 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const constraints = {
-      id: {
-        presence: true,
-      },
-      contactIds: {
-        presence: true,
-        type: "array",
-      },
-    };
-    const validationResult = validate(
-      {
-        id: this.id,
-        contactIds: this.contactIds,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     return await this.sendgrid.removeContactFromList(this.id, this.contactIds);
   },
 };

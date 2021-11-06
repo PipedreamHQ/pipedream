@@ -175,18 +175,12 @@ module.exports = {
     //Defines constraints for required parameters
     const constraints = {
       toEmail: {
-        presence: true,
         email: true,
       },
       fromEmail: {
-        presence: true,
         email: true,
       },
-      subject: {
-        presence: true,
-      },
       content: {
-        presence: true,
         arrayValidator: {
           value: this.content,
           key: "content",
@@ -228,11 +222,11 @@ module.exports = {
         email: true,
       };
     }
-    this.sendAt = this.convertEmptyStringToNull(this.sendAt);
+    this.sendAt = this.convertEmptyStringToUndefined(this.sendAt);
     if (this.sendAt != null) {
       constraints.sendAt = this.getIntegerGtZeroConstraint();
     }
-    this.batchId = this.convertEmptyStringToNull(this.batchId);
+    this.batchId = this.convertEmptyStringToUndefined(this.batchId);
     if (this.batchId != null) {
       constraints.batchId = this.getIntegerGtZeroConstraint();
     }
@@ -244,7 +238,6 @@ module.exports = {
         bcc: this.bcc,
         fromEmail: this.fromEmail,
         replyToEmail: this.replyToEmail,
-        subject: this.subject,
         content: this.content,
         attachments: this.attachments,
         categories: this.categories,
@@ -305,15 +298,15 @@ module.exports = {
       content: this.getArrayObject(this.content),
       attachments: this.getArrayObject(this.attachments),
       template_id: this.templateId,
-      headers: this.convertEmptyStringToNull(this.headers),
-      categories: this.convertEmptyStringToNull(this.categories),
+      headers: this.convertEmptyStringToUndefined(this.headers),
+      categories: this.convertEmptyStringToUndefined(this.categories),
       custom_args: this.customArgs,
       send_at: this.sendAt,
       batch_id: this.batchId,
-      asm: this.convertEmptyStringToNull(this.asm),
+      asm: this.convertEmptyStringToUndefined(this.asm),
       ip_pool_name: this.ipPoolName,
-      mail_settings: this.convertEmptyStringToNull(this.mailSettings),
-      tracking_settings: this.convertEmptyStringToNull(this.trackingSettings),
+      mail_settings: this.convertEmptyStringToUndefined(this.mailSettings),
+      tracking_settings: this.convertEmptyStringToUndefined(this.trackingSettings),
     };
     return await this.sendgrid.sendEmail(config);
   },

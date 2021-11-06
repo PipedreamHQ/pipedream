@@ -1,4 +1,3 @@
-const validate = require("validate.js");
 const common = require("../common");
 
 module.exports = {
@@ -29,23 +28,12 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    if (this.emails) {
-      const constraints = {
-        emails: {
-          type: "array",
-        },
-      };
-      const validationResult = validate({
-        emails: this.emails,
-      }, constraints);
-      this.checkValidationResults(validationResult);
-    }
+    const deleteAll = !!(this.convertEmptyStringToUndefined(this.deleteAll));
     if (this.deleteAll && this.emails) {
       throw new Error(
         "Must provide only one of `deleteAll` or `emails` parameters.",
       );
     }
-    const deleteAll = !!this.deleteAll;
     return await this.sendgrid.deleteBounces(deleteAll, this.emails);
   },
 };

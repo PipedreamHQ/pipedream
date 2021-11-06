@@ -30,7 +30,6 @@ module.exports = {
   async run() {
     const constraints = {
       email: {
-        presence: true,
         email: true,
       },
     };
@@ -41,12 +40,10 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    const config = {
+    const body = {
       email: this.email,
+      source: this.convertEmptyStringToUndefined(this.source),
     };
-    if (this.source) {
-      config.source = this.source;
-    }
-    return await this.sendgrid.validateEmail(config);
+    return await this.sendgrid.validateEmail(body);
   },
 };

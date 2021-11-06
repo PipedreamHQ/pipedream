@@ -1,4 +1,4 @@
-const axios = require("axios");
+const sendgrid = require("@sendgrid/client");
 const get = require("lodash/get");
 const retry = require("async-retry");
 
@@ -6,47 +6,21 @@ module.exports = {
   type: "app",
   app: "sendgrid",
   methods: {
-    _authToken() {
-      return this.$auth.api_key;
-    },
-    _apiUrl() {
-      return "https://api.sendgrid.com/v3";
+    api() {
+      sendgrid.setDefaultHeader({
+        "Content-Type": "application/json",
+        "User-Agent": "@PipedreamHQ/pipedream v0.1",
+      });
+      sendgrid.setApiKey(this.$auth.api_key);
+      return sendgrid;
     },
     _emailValidationsUrl() {
       const baseUrl = this._apiUrl();
-      return `${baseUrl}/validatiogns/email`;
-    },
-    _contactListUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/marketing/lists`;
-    },
-    _contactsSearchUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/marketing/contacts/search`;
-    },
-    _contactsUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/marketing/contacts`;
-    },
-    _asmGlobalSupressionsUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/asm/suppressions/global`;
+      return `${baseUrl}/validations/email`;
     },
     _globalSupressionsUrl() {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/suppression/unsubscribes`;
-    },
-    _sendMailUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/mail/send`;
-    },
-    _supressionBlocksUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/suppression/blocks`;
-    },
-    _supressionBouncesUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/suppression/bounces`;
     },
     _webhookSettingsUrl() {
       const baseUrl = this._apiUrl();
@@ -55,17 +29,6 @@ module.exports = {
     _setSignedWebhookUrl() {
       const baseUrl = this._webhookSettingsUrl();
       return `${baseUrl}/signed`;
-    },
-    _makeRequestConfig() {
-      const authToken = this._authToken();
-      const headers = {
-        "Authorization": `Bearer ${authToken}`,
-        "Content-Type": "application/json",
-        "User-Agent": "@PipedreamHQ/pipedream v0.1",
-      };
-      return {
-        headers,
-      };
     },
     async _makeRequest(opts = {}) {
       opts = {
@@ -157,13 +120,15 @@ module.exports = {
      * @returns {recipient_emails: array} the email addresses that are globally suppressed.
      */
     async addEmailToGlobalSupression(recipientEmails) {
-      const url = this._asmGlobalSupressionsUrl();
-      const requestData = {
-        recipient_emails: recipientEmails,
+      const config = {
+        method: "POST",
+        url: "/v3/asm/suppressions/global",
+        body: {
+          recipient_emails: recipientEmails,
+        },
       };
-      const requestConfig = this._makeRequestConfig();
       const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig));
+        this.api().request(config));
       return data;
     },
     /**
@@ -177,11 +142,15 @@ module.exports = {
      * https://docs.sendgrid.com/api-reference/contacts/import-contacts-status
      */
     async addOrUpdateContacts(opts) {
-      const url = this._contactsUrl();
-      const requestConfig = this._makeRequestConfig();
-      requestConfig.headers["Content-Type"] = "application/json";
+      const config = {
+        method: "PUT",
+        url: "/v3/marketing/contacts",
+        body: {
+          ...opts,
+        },
+      };
       const { data } = await this._withRetries(() =>
-        axios.put(url, opts, requestConfig));
+        this.api().request(config));
       return data;
     },
     /**
@@ -193,13 +162,15 @@ module.exports = {
      * currently stored on the list.
      */
     async createContactList(name) {
-      const url = this._contactListUrl();
-      const requestData = {
-        name,
+      const config = {
+        method: "POST",
+        url: "/v3/marketing/lists",
+        body: {
+          name,
+        },
       };
-      const requestConfig = this._makeRequestConfig();
       const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig));
+        this.api().request(config));
       return data;
     },
     /**
@@ -211,19 +182,19 @@ module.exports = {
      * @returns This endpoint replies with HTTP 204 code "No content".
      */
     async deleteBlocks(deleteAll, emails) {
-      const requestConfig = this._makeRequestConfig();
-      requestConfig.method = "DELETE";
-      requestConfig.url = this._supressionBlocksUrl();
-      if (deleteAll) {
-        requestConfig.data = {
-          delete_all: deleteAll,
-        };
-      } else {
-        requestConfig.data = {
-          emails,
-        };
-      }
-      const { data } = await this._withRetries(() => axios(requestConfig));
+      const config = {
+        method: "DELETE",
+        url: "/v3/suppression/blocks",
+        body: {
+          delete_all: deleteAll ?
+            deleteAll :
+            undefined,
+          emails: emails ?
+            emails :
+            undefined,
+        },
+      };
+      const { data } = await this._withRetries(() => this.api().request(config));
       return data;
     },
     /**
@@ -236,19 +207,19 @@ module.exports = {
      * @returns this endpoint replies with HTTP 204 code "No content".
      */
     async deleteBounces(deleteAll, emails) {
-      const requestConfig = this._makeRequestConfig();
-      requestConfig.method = "DELETE";
-      requestConfig.url = this._supressionBouncesUrl();
-      if (deleteAll) {
-        requestConfig.data = {
-          delete_all: deleteAll,
-        };
-      } else {
-        requestConfig.data = {
-          emails,
-        };
-      }
-      const { data } = await this._withRetries(() => axios(requestConfig));
+      const config = {
+        method: "DELETE",
+        url: "/v3/suppression/bounces",
+        body: {
+          delete_all: deleteAll ?
+            deleteAll :
+            undefined,
+          emails: emails ?
+            emails :
+            undefined,
+        },
+      };
+      const { data } = await this._withRetries(() => this.api().request(config));
       return data;
     },
     /**
@@ -261,16 +232,19 @@ module.exports = {
      * and is being processed. Contact deletion jobs are processed asynchronously.
      */
     async deleteContacts(deleteAllContacts, ids) {
-      const requestConfig = this._makeRequestConfig();
-      requestConfig.method = "DELETE";
-      requestConfig.url = this._contactsUrl();
-      requestConfig.params = {
-        delete_all_contacts: deleteAllContacts.toString(),
+      const config = {
+        method: "DELETE",
+        url: "/v3/marketing/contacts",
+        qs: {
+          ids: ids ?
+            ids.join(",") :
+            undefined,
+          delete_all_contacts: deleteAllContacts ?
+            deleteAllContacts.toString() :
+            undefined,
+        },
       };
-      if (ids) {
-        requestConfig.params.ids = ids.join(",");
-      }
-      const { data } = await this._withRetries(() => axios(requestConfig));
+      const { data } = await this._withRetries(() => this.api().request(config));
       return data;
     },
     /**
@@ -280,10 +254,12 @@ module.exports = {
      * @returns this endpoint replies with HTTP 204 code "No content".
      */
     async deleteGlobalSupression(email) {
-      const requestConfig = this._makeRequestConfig();
-      const url = `${this._asmGlobalSupressionsUrl()}/${email}`;
+      const config = {
+        method: "DELETE",
+        url: `/v3/asm/suppressions/global/${email}`,
+      };
       const { data } = await this._withRetries(() =>
-        axios.delete(url, requestConfig));
+        this.api().request(config));
       return data;
     },
     /**
@@ -296,13 +272,14 @@ module.exports = {
      * and is being processed. Contact deletion jobs are processed asynchronously.
      */
     async deleteList(id, deleteContacts) {
-      const requestConfig = this._makeRequestConfig();
-      requestConfig.method = "DELETE";
-      requestConfig.url = `${this._contactListUrl()}/${id}`;
-      requestConfig.params = {
-        delete_contacts: deleteContacts,
+      const config = {
+        method: "DELETE",
+        url: `/v3/marketing/lists/${id}`,
+        body: {
+          delete_contacts: deleteContacts,
+        },
       };
-      const { data } = await this._withRetries(() => axios(requestConfig));
+      const { data } = await this._withRetries(() => this.api().request(config));
       return data;
     },
     /**
@@ -315,11 +292,9 @@ module.exports = {
      * explanation for the reason of the block, and `status` with the status of the block.
      */
     async getBlock(email) {
-      const requestConfig = this._makeRequestConfig();
-      const url = `${this._supressionBlocksUrl()}/${email}`;
-      const { data } = await this._withRetries(() =>
-        axios.get(url, requestConfig));
-      return data;
+      return (await this._withRetries(() => this.api().request({
+        url: `/v3/suppression/blocks/${email}`,
+      })))[1];
     },
     /**
      * Gets a global supression
@@ -329,11 +304,9 @@ module.exports = {
      * be an empty object if the email address you included in your call is not globally suppressed.
      */
     async getGlobalSupression(email) {
-      const requestConfig = this._makeRequestConfig();
-      const url = `${this._asmGlobalSupressionsUrl()}/${email}`;
-      const { data } = await this._withRetries(() =>
-        axios.get(url, requestConfig));
-      return data;
+      return (await this._withRetries(() => this.api().request({
+        url: `/v3/asm/suppressions/global/${email}`,
+      })))[1];
     },
     /**
      * Get all the associated account's bounces.
@@ -349,15 +322,13 @@ module.exports = {
      * description), and `status` for the enhanced SMTP bounce response.
      */
     async getAllBounces(startTime, endTime) {
-      const requestConfig = this._makeRequestConfig();
-      requestConfig.params = {
-        start_time: startTime,
-        end_time: endTime,
-      };
-      const url = this._supressionBouncesUrl();
-      const { data } = await this._withRetries(() =>
-        axios.get(url, requestConfig));
-      return data;
+      return (await this._withRetries(() => this.api().request({
+        url: "v3/suppression/bounces",
+        qs: {
+          start_time: startTime,
+          end_time: endTime,
+        },
+      })))[1];
     },
     /**
      * Get all the associated account's contact lists.
@@ -368,25 +339,22 @@ module.exports = {
      * a link to the contat list, a `contact_count` with the count of contacts in the list, an `id`
      * as a unique identifier to the contat list, and the `name` of the list.
      */
-    async *getAllContactLists(maxItems) {
-      let url = this._contactListUrl();
-      while (url && maxItems > 0) {
-        const params = {
-          page_size: Math.min(maxItems, 1000),
-        };
-        const requestConfig = {
-          ...this._makeRequestConfig(),
-          params,
-        };
-        const { data } = await this._withRetries(() =>
-          axios.get(url, requestConfig));
-        const contactLists = data.result.slice(0, maxItems);
-        for (const contactList of contactLists) {
-          yield contactList;
+    async getAllContactLists(maxItems) {
+      const pageSize = Math.min(maxItems, 1000);
+      const contactLists = [];
+      let url = `/v3/marketing/lists?page_size=${pageSize}`;
+      do {
+        const data  = (await this._withRetries(() => this.api().request({
+          url,
+        })))[1];
+        contactLists.push(...data.result);
+        if (!data._metadata.next)
+        {
+          break;
         }
-        maxItems -= contactLists.length;
-        url = data._metadata.next;
-      }
+        url = data._metadata.next.replace("https://api.sendgrid.com", "");
+      } while (true && contactLists.length < maxItems);
+      return contactLists.slice(0, maxItems);
     },
     /**
      * Lists all email addresses that are currently the associated account blocks list.
@@ -401,32 +369,48 @@ module.exports = {
      * was created at SendGrid, `email` for the email address that was added to the block  list,
      * `reason` with the reason for the block, and the `status` of the block.
      */
-    async *listBlocks(startTime, endTime, maxItems) {
-      const url = this._supressionBlocksUrl();
-      let offset = 0;
-      while (maxItems > 0) {
-        const params = {
-          start_time: startTime,
-          end_time: endTime,
-          limit: Math.min(maxItems, 1000),
-          offset: offset,
-        };
-        const requestConfig = {
-          ...this._makeRequestConfig(),
-          params,
-        };
-        const { data } = await this._withRetries(() =>
-          axios.get(url, requestConfig));
-        if (!data.length) {
-          return;
+    async listBlocks(startTime, endTime, maxItems) {
+      const pageSize = Math.min(maxItems, 100);
+      const blocks = [];
+      let url = `/v3/suppression/blocks?limit=${pageSize}`;
+      let config = {
+        method: "GET",
+        url,
+        start_time: startTime,
+        end_time: endTime,
+      };
+      let lastIteration = false;
+      do {
+        const data  = (await this._withRetries(() => this.api().request(config)));
+        blocks.push(...data[1]);
+        if (lastIteration) {
+          break;
         }
-        const blocks = data.slice(0, maxItems);
-        for (const block of blocks) {
-          yield block;
-        }
-        maxItems -= blocks.length;
-        offset += blocks.length;
-      }
+        const links = data[0].headers.link.split(",");
+        url = "";
+        links.forEach( (link) => {
+          let next = "";
+          let last = "";
+          if ( link.indexOf("next") > -1) {
+            const idx = link.indexOf(";");
+            next = link.substring(0, idx).replace("<", "")
+              .replace(">", "");
+            url = next;
+          }
+          if ( link.indexOf("last") > -1) {
+            const idx = link.indexOf(";");
+            last = link.substring(0, idx).replace("<", "")
+              .replace(">", "");
+          }
+          const nextArr = [];
+          nextArr.push(next);
+          if (nextArr.includes(last)) {
+            lastIteration = true;
+          }
+        });
+        config.url = url;
+      } while (blocks.length < maxItems);
+      return blocks.slice(0, maxItems);
     },
     /**
      * Lists all email addresses that are globally suppressed.
@@ -441,32 +425,48 @@ module.exports = {
      * the recipient was added to the global suppression list, `email` for the email address of
      * the recipient who is globally suppressed.
      */
-    async *listGlobalSupressions(startTime, endTime, maxItems) {
-      const url = this._globalSupressionsUrl();
-      let offset = 0;
-      while (maxItems > 0) {
-        const params = {
-          start_time: startTime,
-          end_time: endTime,
-          limit: Math.min(maxItems, 1000),
-          offset: offset,
-        };
-        const requestConfig = {
-          ...this._makeRequestConfig(),
-          params,
-        };
-        const { data } = await this._withRetries(() =>
-          axios.get(url, requestConfig));
-        if (!data.length) {
-          return;
+    async listGlobalSupressions(startTime, endTime, maxItems) {
+      const pageSize = Math.min(maxItems, 100);
+      const globalSupressions = [];
+      let url = `/v3/suppression/unsubscribes?limit=${pageSize}`;
+      let config = {
+        method: "GET",
+        url,
+        start_time: startTime,
+        end_time: endTime,
+      };
+      let lastIteration = false;
+      do {
+        const data  = (await this._withRetries(() => this.api().request(config)));
+        globalSupressions.push(...data[1]);
+        if (lastIteration) {
+          break;
         }
-        const globalSupressions = data.slice(0, maxItems);
-        for (const globalSupression of globalSupressions) {
-          yield globalSupression;
-        }
-        maxItems -= globalSupressions.length;
-        offset += globalSupressions.length;
-      }
+        const links = data[0].headers.link.split(",");
+        url = "";
+        links.forEach( (link) => {
+          let next = "";
+          let last = "";
+          if ( link.indexOf("next") > -1) {
+            const idx = link.indexOf(";");
+            next = link.substring(0, idx).replace("<", "")
+              .replace(">", "");
+            url = next;
+          }
+          if ( link.indexOf("last") > -1) {
+            const idx = link.indexOf(";");
+            last = link.substring(0, idx).replace("<", "")
+              .replace(">", "");
+          }
+          const nextArr = [];
+          nextArr.push(next);
+          if (nextArr.includes(last)) {
+            lastIteration = true;
+          }
+        });
+        config.url = url;
+      } while (globalSupressions.length < maxItems);
+      return globalSupressions.slice(0, maxItems);
     },
     /**
      * Makes an aribitrary call to Sendgrid API.
@@ -504,14 +504,14 @@ module.exports = {
      * and is being processed. Contact deletion jobs are processed asynchronously.
      */
     async removeContactFromList(id, contactIds) {
-      const url = `${this._contactListUrl()}/${id}/contacts`;
-      const requestConfig = this._makeRequestConfig();
-      requestConfig.params = {
-        contact_ids: contactIds.join(","),
+      const config = {
+        method: "DELETE",
+        url: `/v3/marketing/lists/${id}/contacts`,
+        qs: {
+          contact_ids: contactIds.join(","),
+        },
       };
-      const { data } = await  this._withRetries(() =>
-        axios.delete(url, requestConfig));
-      return data;
+      return await this._withRetries(() => this.api().request(config));
     },
     /**
      * Searches contacts in the associated account with a SGQL query.
@@ -523,23 +523,22 @@ module.exports = {
      * objects at the API docs: https://docs.sendgrid.com/api-reference/contacts/search-contacts
      */
     async searchContacts(query) {
-      const requestConfig = {
+      const config = {
         method: "POST",
-        url: this._contactsSearchUrl(),
-        ...this._makeRequestConfig(),
-        data: {
+        url: "/v3/marketing/contacts/search",
+        body: {
           query,
         },
       };
-      const { data } = await this._withRetries(() => axios(requestConfig));
-      return data;
+      return (await this._withRetries(() => this.api().request(config)))[1];
     },
     async sendEmail(requestData) {
-      const url = this._sendMailUrl();
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig));
-      return data;
+      const config = {
+        method: "POST",
+        url: "/v3/mail/send",
+        body: requestData,
+      };
+      return await this._withRetries(() => this.api().request(config));
     },
     /**
      * Validates an email address.
@@ -556,12 +555,13 @@ module.exports = {
      * address validity, `source`, the source of the validation, as per the API request, the IP
      * address associated with this email.
      */
-    async validateEmail(requestData) {
-      const url = this._emailValidationsUrl();
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await this._withRetries(() =>
-        axios.post(url, requestData, requestConfig));
-      return data;
+    async validateEmail(body) {
+      const config = {
+        method: "POST",
+        url: "/v3/validations/email",
+        body,
+      };
+      return await this._withRetries(() => this.api().request(config));
     },
   },
 };

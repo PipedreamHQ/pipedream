@@ -23,7 +23,6 @@ module.exports = {
   async run() {
     const constraints = {
       email: {
-        presence: true,
         email: true,
       },
     };

@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-add-or-update-contact",
   name: "Add Or Update Contact",
   description: "Adds or updates a contact.",
-  version: "0.0.1",
+  version: "0.0.35",
   type: "action",
   props: {
     ...common.props,
@@ -130,7 +130,7 @@ module.exports = {
       },
     ];
     const config = {
-      list_ids: this.convertEmptyStringToNull(this.listIds),
+      list_ids: this.convertEmptyStringToUndefined(this.listIds),
       contacts,
     };
     return await this.sendgrid.addOrUpdateContacts(config);
