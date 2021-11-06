@@ -6,7 +6,7 @@ export default {
   name: "Remove Items from a Playlist",
   description: "Remove one or more items from a user’s playlist. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/remove-tracks-playlist)",
   key: "spotify-remove-items-from-playlist",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     spotify,
@@ -55,7 +55,7 @@ export default {
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `🎉 Successfully removed ${tracks.length} ${tracks.length == 1 ? "item" : "items"} from the playlist, "${get(playlistId, "label", playlistId)}"`);
+    $.export("$summary", `Successfully removed ${tracks.length} ${tracks.length == 1 ? "item" : "items"} from the playlist, "${get(playlistId, "label", playlistId)}"`);
 
     return resp;
   },

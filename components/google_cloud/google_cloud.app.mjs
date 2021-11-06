@@ -1,4 +1,7 @@
-module.exports = {
+/* eslint-disable camelcase */
+import { Logging } from "@google-cloud/logging";
+
+export default {
   type: "app",
   app: "google_cloud",
   methods: {
@@ -7,7 +10,7 @@ module.exports = {
     },
     sdkParams() {
       const {
-        project_id,
+        project_id: projectId,
         client_email,
         private_key,
       } = this.authKeyJson();
@@ -17,8 +20,11 @@ module.exports = {
       };
       return {
         credentials,
-        projectId: project_id,
+        projectId,
       };
+    },
+    loggingClient() {
+      return new Logging(this.sdkParams());
     },
   },
 };

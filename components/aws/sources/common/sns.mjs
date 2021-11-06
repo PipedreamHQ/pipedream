@@ -1,11 +1,13 @@
-const axios = require("axios");
-const aws = require("../../aws.app");
+import axios from "axios";
+import aws from "../../aws.app.mjs";
 
-module.exports = {
+export default {
   props: {
     aws,
     db: "$.service.db",
     http: {
+      label: "SNS HTTP endpoint",
+      description: "The HTTP endpoint that SNS will send messages to",
       type: "$.interface.http",
       customResponse: true,
     },

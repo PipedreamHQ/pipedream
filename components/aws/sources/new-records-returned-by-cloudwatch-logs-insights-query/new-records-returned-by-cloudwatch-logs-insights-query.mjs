@@ -1,11 +1,13 @@
-const aws = require("../../aws.app.js");
+import aws from "../../aws.app.mjs";
 
-module.exports = {
+export default {
   key: "aws-new-records-returned-by-cloudwatch-logs-insights-query",
   name: "New Records Returned by CloudWatch Logs Insights Query",
+  // eslint-disable-next-line pipedream/source-description
   description:
     "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",
-  version: "0.0.3",
+  version: "0.1.0",
+  type: "source",
   props: {
     aws,
     region: {
@@ -16,28 +18,11 @@ module.exports = {
     },
     db: "$.service.db",
     logGroupNames: {
-      label: "CloudWatch Log Groups",
       description: "The log groups you'd like to query",
-      type: "string[]",
-      async options({ prevContext }) {
-        const prevToken = prevContext.nextToken;
-        const {
-          logGroups,
-          nextToken,
-        } = await this.aws.logsInsightsDescibeLogGroups(this.region, prevToken);
-        const options = logGroups.map((group) => {
-          return {
-            label: group.logGroupName,
-            value: group.logGroupName,
-          };
-        });
-        return {
-          options,
-          context: {
-            nextToken,
-          },
-        };
-      },
+      propDefinition: [
+        aws,
+        "logGroupNames",
+      ],
     },
     queryString: {
       label: "Logs Insights Query",
@@ -54,6 +39,8 @@ module.exports = {
       default: true,
     },
     timer: {
+      label: "Polling schedule",
+      description: "How often you want to query CloudWatch Logs Insights for results",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 5 * 60,
