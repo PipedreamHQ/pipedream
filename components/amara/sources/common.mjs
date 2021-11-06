@@ -3,6 +3,7 @@ import constants from "../constants.mjs";
 
 export default {
   props: {
+    amara,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
