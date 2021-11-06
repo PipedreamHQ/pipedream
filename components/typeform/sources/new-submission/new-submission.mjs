@@ -1,21 +1,11 @@
 import { createHmac } from "crypto";
 import { uuid } from "uuidv4";
-import { DateTime } from "luxon";
-import typeform from "../../typeform.app.mjs";
 import common from "../common.mjs";
 import constants from "../../constants.mjs";
+import utils from "../utils.mjs";
 
-function parseIsoDate(isoDate) {
-  const dt = DateTime.fromISO(isoDate);
-  return {
-    isoDate,
-    date_time: dt.toFormat("yyyy-mm-dd hh:mm:ss a"),
-    date: dt.toFormat("yyyy-mm-dd"),
-    time: dt.toFormat("hh:mm:ss a"),
-    timezone: dt.zoneName,
-    epoch: dt.toMillis(),
-  };
-}
+const { typeform } = common.props;
+const { parseIsoDate } = utils;
 
 export default {
   ...common,
@@ -25,7 +15,7 @@ export default {
   type: "source",
   description: "Emit new submission",
   props: {
-    typeform,
+    ...common.props,
     http: "$.interface.http",
     db: "$.service.db",
     formId: {
@@ -42,6 +32,7 @@ export default {
     },
   },
   hooks: {
+    ...common.hooks,
     async activate() {
       const secret = this.generateSecret();
       this._setSecret(secret);

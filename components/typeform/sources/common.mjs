@@ -1,6 +1,10 @@
+import typeform from "../typeform.app.mjs";
 import constants from "../constants.mjs";
 
 export default {
+  props: {
+    typeform,
+  },
   methods: {
     _setSecret(secret) {
       this.db.set(constants.SECRET, secret);
