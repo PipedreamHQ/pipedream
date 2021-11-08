@@ -116,6 +116,12 @@ export default {
       description: "Limit the number of results",
       optional: true,
     },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "Start pagination after this number",
+      optional: true,
+    },
     isPrimaryAudioLanguage: {
       type: "boolean",
       label: "Is primary audio language",
@@ -180,7 +186,7 @@ export default {
           });
 
         return versions.map(({ version_number: versionNumber }) => ({
-          label: `Revision ${versionNumber}`,
+          label: `Version ${versionNumber}`,
           value: versionNumber,
         }));
       },
@@ -212,7 +218,7 @@ export default {
     action: {
       type: "string",
       label: "Action",
-      description: "Name of the action to perform - optional, but recommended. If given, the `is_complete` param will be ignored. For more details, see the [subtitle actions](https://apidocs.amara.org/#subtitle-actions-resource) documentation.",
+      description: "Name of the action to perform - optional, but recommended. For more details, see the [subtitle actions](https://apidocs.amara.org/#subtitle-actions-resource) documentation.",
       optional: true,
       async options({
         videoId, language,
@@ -315,12 +321,12 @@ export default {
       });
     },
     async createSubtitleLanguage({
-      $, videoId, data,
+      $, videoId, language, data,
     }) {
       return await this._makeRequest({
         $,
         method: "post",
-        path: `/videos/${videoId}/languages`,
+        path: `/videos/${videoId}/languages/${language}/subtitles`,
         data,
       });
     },
@@ -391,7 +397,7 @@ export default {
       });
     },
     async getTeams({
-      $, url, limit,
+      $, url, limit, offset,
     }) {
       return await this._makeRequest({
         $,
@@ -399,6 +405,7 @@ export default {
         path: "/teams",
         params: {
           limit,
+          offset,
         },
       });
     },

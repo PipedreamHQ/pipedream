@@ -63,16 +63,16 @@ export default {
       ],
     },
     limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Limit the number of videos",
-      optional: true,
+      propDefinition: [
+        amara,
+        "limit",
+      ],
     },
     offset: {
-      type: "integer",
-      label: "Offset",
-      description: "Start pagination after this number",
-      optional: true,
+      propDefinition: [
+        amara,
+        "offset",
+      ],
     },
   },
   async run({ $ }) {

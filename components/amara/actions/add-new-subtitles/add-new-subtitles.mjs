@@ -5,8 +5,8 @@ export default {
   name: "Add new subtitles",
   description: "Add new subtitles. [See the docs here](https://apidocs.amara.org/#add-new-subtitles)",
   type: "action",
-  version: "0.0.2",
-  prop: {
+  version: "0.0.1",
+  props: {
     amara,
     videoId: {
       propDefinition: [
@@ -70,6 +70,7 @@ export default {
   async run({ $ }) {
     const {
       videoId,
+      language,
       subFormat,
       subtitles,
       subtitlesUrl,
@@ -90,6 +91,7 @@ export default {
     return await this.amara.createSubtitleLanguage({
       $,
       videoId,
+      language,
       data,
     });
   },
