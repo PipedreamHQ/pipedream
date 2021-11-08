@@ -2,16 +2,33 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 import tzs from "../../zoom_tzs.mjs";
 import daysOfTheWeek from "../../zoom_days_of_the_week.mjs";
 import isArray from "lodash/isArray.js";
+import get from "lodash/get.js";
 import { axios } from "@pipedream/platform";
 
 export default {
-  name: "Create a meeting",
-  description: "Create a new room in zoom. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate)",
-  key: "zoom-admin-action-create-a-meeting",
-  version: "0.0.22",
+  name: "Update a meeting",
+  description: "Update the details of a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingupdate)",
+  key: "zoom-admin-action-update-a-meeting",
+  version: "0.0.2",
   type: "action",
   props: {
     zoomAdmin,
+    meeting: {
+      propDefinition: [
+        zoomAdmin,
+        "meeting",
+      ],
+    },
+    occurrenceId: {
+      propDefinition: [
+        zoomAdmin,
+        "occurrenceId",
+        ({ meeting }) => ({
+          meeting,
+        }),
+      ],
+      description: "The [meeting occurrence ID](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings). If you send this param, just the occurrence will be deleted. Otherwise, the entire meeting will be deleted",
+    },
     topic: {
       type: "string",
       label: "Name",
@@ -79,12 +96,6 @@ export default {
       type: "string",
       label: "Password",
       description: "The password required to join the meeting. By default, a password can **only** have a maximum length of `10` characters and only contain alphanumeric characters and the `@`, `-`, `_` and `*` characters.",
-      optional: true,
-    },
-    defaultPassword: {
-      type: "boolean",
-      label: "Default Password",
-      description: "Whether to generate a default password using the user’s settings. This value defaults to `false`. If the value is `true` and the user has the PMI setting enabled with a password, then the user's meeting will use the PMI password. It will **not** use a default password",
       optional: true,
     },
     agenda: {
@@ -393,7 +404,6 @@ export default {
       start_time: this.startTime,
       duration: this.duration,
       schedule_for: this.scheduleFor,
-      default_password: this.defaultPassword,
       password: this.password,
       agenda: this.agenda,
       recurrence: (this.type === MEETING_TYPE_RECURRING_MEETING_WITH_FIXED_NAME
@@ -438,12 +448,12 @@ export default {
       },
     };
     const res = await axios($, this.zoomAdmin._getAxiosParams({
-      method: "POST",
-      path: "/users/me/meetings",
+      method: "PATCH",
+      path: `/meetings/${get(this.meeting, "value", this.meeting)}`,
       data,
     }));
 
-    $.export("$summary", `The meeting "${this.topic}" was successfully created`);
+    $.export("$summary", `The meeting "${this.topic}" was successfully updated`);
 
     return res;
   },
