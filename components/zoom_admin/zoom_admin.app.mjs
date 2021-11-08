@@ -8,6 +8,45 @@ export default {
   type: "app",
   app: "zoom_admin",
   propDefinitions: {
+    cloudRecording: {
+      type: "string",
+      label: "Recording",
+      description: "The ID of the cloud recording. Please use a valid object with `meetingId` and `value` in non-structured mode. `value` means the recording ID",
+      async options({
+        page,
+        prevContext,
+      }) {
+        const data = await this.listUserRecordings(
+          prevContext.nextPageToken,
+          page + 1,
+        );
+
+        if (!data.meetings) {
+          return [];
+        }
+        const options = [];
+        data.meetings.forEach((meeting) => {
+          meeting.recording_files.forEach((recording) => {
+            const label = `${meeting.topic} - (Format: ${recording.file_type}) (From ${recording.recording_start} to ${recording.recording_end})`;
+            options.push({
+              label,
+              value: {
+                meetingId: meeting.id,
+                label,
+                value: recording.id,
+              },
+            });
+          });
+        });
+
+        return {
+          options,
+          context: {
+            nextPageToken: data.next_page_token,
+          },
+        };
+      },
+    },
     meeting: {
       type: "string",
       label: "Meeting",
@@ -238,6 +277,21 @@ export default {
         console.error(err);
         return [];
       }
+    },
+    async listUserRecordings(nextPageToken, pageNumber) {
+      const res = await this._makeRequest({
+        path: "/users/me/recordings",
+        params: {
+          page_size: 30,
+          next_page_token: nextPageToken,
+        },
+      });
+
+      if (pageNumber > get(res, ("data.page_count"))) {
+        return [];
+      }
+
+      return get(res, "data");
     },
   },
 };
