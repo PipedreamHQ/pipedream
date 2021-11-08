@@ -41,7 +41,7 @@ export default {
     type: {
       type: "integer",
       label: "Type",
-      description: "Default to `Webinar`. The type of the webinar",
+      description: "Defaults to `Webinar`. The type of the webinar",
       options: [
         {
           label: "Webinar",
