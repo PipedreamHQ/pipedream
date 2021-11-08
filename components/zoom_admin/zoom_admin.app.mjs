@@ -39,6 +39,46 @@ export default {
         }));
       },
     },
+    registrants: {
+      type: "string[]",
+      label: "Registrants",
+      description: "The meeting registrant. It should be an object with `id` and `email`",
+      async options({
+        page,
+        meeting,
+        occurrenceId,
+      }) {
+        let registrants = [];
+        const promises = [];
+        const statuses = [
+          "pending",
+          "approved",
+          "denied",
+        ];
+
+        statuses.forEach((status) => {
+          promises.push(this.listMeetingRegistrants(
+            get(meeting, "value", meeting),
+            occurrenceId,
+            page + 1,
+            status,
+          ));
+        });
+
+        const registrantsPromisesResult = await Promise.all(promises);
+        registrantsPromisesResult.forEach((result) => {
+          registrants = registrants.concat(result);
+        });
+
+        return registrants.map((registrant) => ({
+          label: `${registrant.first_name} <${registrant.email}> (${registrant.status})`,
+          value: {
+            email: registrant.email,
+            id: registrant.id,
+          },
+        }));
+      },
+    },
     locationId: {
       type: "string",
       label: "LocationId",
@@ -119,7 +159,7 @@ export default {
       };
     },
     _getAxiosParams(opts = {}) {
-      console.log(opts);
+      console.log(JSON.stringify(opts));
       return {
         ...opts,
         url: this._apiUrl() + opts.path,
@@ -176,6 +216,28 @@ export default {
         path: `/webinars/${webinarID}/panelists`,
       });
       return data;
+    },
+    async listMeetingRegistrants(meetingId, occurrenceId, pageNumber, status) {
+      try {
+        const res = await this._makeRequest({
+          path: `/meetings/${meetingId}/registrants`,
+          params: {
+            occurrence_id: occurrenceId,
+            page_size: 30,
+            page_number: pageNumber,
+            status,
+          },
+        });
+
+        if (pageNumber > get(res, ("data.page_count"))) {
+          return [];
+        }
+
+        return get(res, "data.registrants", []);
+      } catch (err) {
+        console.error(err);
+        return [];
+      }
     },
   },
 };
