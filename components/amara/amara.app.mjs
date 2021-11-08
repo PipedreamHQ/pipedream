@@ -44,6 +44,10 @@ export default {
       async options({ prevContext }) {
         const { url } = prevContext ?? {};
 
+        if (url === null) {
+          return [];
+        }
+
         const {
           meta,
           objects: videos,
@@ -68,11 +72,163 @@ export default {
         };
       },
     },
+    language: {
+      type: "string",
+      label: "Language",
+      description: "Language code for the language of the subtitles",
+      async options({
+        videoId, prevContext,
+      }) {
+        const { url } = prevContext ?? {};
+
+        if (url === null) {
+          return [];
+        }
+
+        const {
+          meta,
+          objects: languages,
+        } =
+          await this.getVideoSubtitleLanguages({
+            url,
+            videoId,
+            params: {
+              limit: 20,
+            },
+          });
+
+        const options = languages.map((language) => ({
+          label: language.name,
+          value: language.language_code,
+        }));
+
+        return {
+          options,
+          context: {
+            url: meta.next,
+          },
+        };
+      },
+    },
     limit: {
       type: "integer",
       label: "Limit",
       description: "Limit the number of results",
       optional: true,
+    },
+    isPrimaryAudioLanguage: {
+      type: "boolean",
+      label: "Is primary audio language",
+      description: "Whether the language is the primary spoken language for the video",
+      optional: true,
+    },
+    subtitlesComplete: {
+      type: "boolean",
+      label: "Subtitles complete",
+      description: "Whether the subtitles are complete",
+      optional: true,
+    },
+    softLimitLines: {
+      type: "integer",
+      label: "Soft limit lines",
+      description: "Controls the max number of lines per subtitle. A warning is shown in the editor if this limit is exceeded.",
+      optional: true,
+    },
+    softLimitMinDuration: {
+      type: "integer",
+      label: "Soft limit minimum duration",
+      description: "Controls the minimum duration of subtitles in milliseconds. A warning is shown in the editor if this limit is exceeded.",
+      optional: true,
+    },
+    softLimitMaxDuration: {
+      type: "integer",
+      label: "Soft limit maximum duration",
+      description: "Controls the maximum duration of subtitles in milliseconds. This controls the message in the guidelines dialog.",
+      optional: true,
+    },
+    softLimitCharactersPerLine: {
+      type: "integer",
+      label: "Soft limit characters per line",
+      description: "Controls the maximum number of characters per line for subtitles. A warning is shown in the editor if this limit is exceeded.",
+      optional: true,
+    },
+    softLimitCharactersPerSubtitles: {
+      type: "integer",
+      label: "Soft limit characters per subtitles",
+      description: "Controls the maximum number of characters per subtitles. A warning is shown in the editor if this limit is exceeded.",
+      optional: true,
+    },
+    subFormat: {
+      type: "string",
+      label: "Subtitles format",
+      description: "The format to return the subtitles in. This can be any format that amara supports including `dfxp`, `srt`, `vtt`, and `sbv`. The default is `json`, which returns subtitle data encoded list of json dicts.",
+      optional: true,
+    },
+    versionNumber: {
+      type: "integer",
+      label: "Version number",
+      description: "Version number of the subtitles to fetch. Versions are listed in the VideoLanguageResouce request. If none is specified, the latest public version will be returned. If you want the latest private version (and have access to it) use “last”.",
+      optional: true,
+      async options({
+        videoId, language,
+      }) {
+
+        const { versions } =
+          await this.getSubtitleLanguage({
+            videoId,
+            language,
+          });
+
+        return versions.map(({ version_number: versionNumber }) => ({
+          label: `Revision ${versionNumber}`,
+          value: versionNumber,
+        }));
+      },
+    },
+    subtitles: {
+      type: "string",
+      label: "Subtitles",
+      description: "The subtitles to submit, as a string. The format depends on the `sub_format` param.",
+      optional: true,
+    },
+    subtitlesUrl: {
+      type: "string",
+      label: "Subtitles URL",
+      description: "Alternatively, subtitles can be given as a text file URL. The format depends on the `sub_format` param.",
+      optional: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Give a title to the new revision.",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Give a description to the new revision.",
+      optional: true,
+    },
+    action: {
+      type: "string",
+      label: "Action",
+      description: "Name of the action to perform - optional, but recommended. If given, the `is_complete` param will be ignored. For more details, see the [subtitle actions](https://apidocs.amara.org/#subtitle-actions-resource) documentation.",
+      optional: true,
+      async options({
+        videoId, language,
+      }) {
+        const actions = await this.listActions({
+          videoId,
+          language,
+        });
+
+        return actions.map(({
+          label, action,
+        }) => ({
+          label,
+          value: action,
+        }));
+      },
     },
   },
   methods: {

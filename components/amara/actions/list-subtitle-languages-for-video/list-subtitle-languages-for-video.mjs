@@ -27,12 +27,14 @@ export default {
       limit,
     } = this;
 
-    return await this.amara.getVideoSubtitleLanguages({
+    const { objects: languages } = await this.amara.getVideoSubtitleLanguages({
       $,
       videoId,
       params: {
         limit,
       },
     });
+
+    return languages;
   },
 };
