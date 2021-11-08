@@ -19,11 +19,24 @@ export default {
       };
     },
     _apiUrl() {
-      return "https://creator.zoho.com/api/v2";
+      return `https://creator.${this.$auth.base_api_uri}/api/v2`;
+    },
+    _apiUsername() {
+      return this.$auth.oauth_uid;
     },
     _applicationsUrl() {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/applications`;
+    },
+    _reportsUrl(appLinkName) {
+      const baseUrl = this._apiUrl();
+      const username = this._apiUsername();
+      return `${baseUrl}/${username}/${appLinkName}/reports`;
+    },
+    _reportDetailsUrl(appLinkName, reportLinkName) {
+      const baseUrl = this._apiUrl();
+      const username = this._apiUsername();
+      return `${baseUrl}/${username}/${appLinkName}/report/${reportLinkName}`;
     },
     async genericApiGetCall(url, params = {}) {
       const baseRequestConfig = this._makeRequestConfig();
@@ -32,15 +45,41 @@ export default {
         params,
         url,
       };
-      const { data } = await axios(this, requestConfig);
-      return data;
+      return await axios(this, requestConfig);
     },
-    async getApplications({ page = 1 }) {
+    async getApplications() {
       const url = this._applicationsUrl();
-      let params = {
-        page,
+      const { applications } = await this.genericApiGetCall(url);
+      return applications;
+    },
+    async getReports() {
+      const applications = await this.getApplications();
+      const reports = [];
+      for (const app of applications) {
+        const url = this._reportsUrl(app.link_name);
+        const appReports = await this.genericApiGetCall(url);
+        appReports.reports.forEach((report) => {
+          report.app_link_name = app.link_name;
+          reports.push(report);
+        });
+      }
+      return reports;
+    },
+    async getLatestReportRow(report) {
+      const url = this._reportDetailsUrl(report.app_link_name, report.link_name);
+      const params = {
+        limit: 1,
       };
-      return await this.genericApiGetCall(url, params);
+      try {
+        const { data } = await this.genericApiGetCall(url, params);
+        return data[0];
+      } catch (e) {
+        // Can be ignored, 404 is returned if report doesn't have any records
+        return null;
+      }
+    },
+    getReportKey(report) {
+      return `${this._apiUsername()}:${report.app_link_name}:${report.link_name}`;
     },
   },
 };
