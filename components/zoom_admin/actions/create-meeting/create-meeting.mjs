@@ -7,7 +7,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Create a meeting",
   description: "Create a new room in zoom. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate)",
-  key: "zoom-admin-action-create-a-meeting",
+  key: "zoom_admin-action-create-a-meeting",
   version: "0.0.22",
   type: "action",
   props: {
