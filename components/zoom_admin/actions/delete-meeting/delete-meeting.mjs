@@ -5,7 +5,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Delete meeting",
   description: "Delete a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingdelete)",
-  key: "zoom-admin-action-delete-meeting",
+  key: "zoom_admin-action-delete-meeting",
   version: "0.0.14",
   type: "action",
   props: {

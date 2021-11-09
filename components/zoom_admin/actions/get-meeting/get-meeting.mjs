@@ -5,7 +5,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Get Meeting",
   description: "Retrieve the details of a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meeting)",
-  key: "zoom-admin-action-get-meeting",
+  key: "zoom_admin-action-get-meeting",
   version: "0.0.4",
   type: "action",
   props: {

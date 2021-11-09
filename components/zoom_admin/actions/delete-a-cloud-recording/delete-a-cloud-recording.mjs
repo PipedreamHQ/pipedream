@@ -5,7 +5,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Delete a Cloud Recording",
   description: "Remove a recording from a meeting or webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingdeleteone)",
-  key: "zoom-admin-action-delete-a-cloud-recording",
+  key: "zoom_admin-action-delete-a-cloud-recording",
   version: "0.0.14",
   type: "action",
   props: {

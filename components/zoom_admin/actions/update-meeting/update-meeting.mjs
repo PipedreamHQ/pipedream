@@ -8,7 +8,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Update a meeting",
   description: "Update the details of a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingupdate)",
-  key: "zoom-admin-action-update-a-meeting",
+  key: "zoom_admin-action-update-a-meeting",
   version: "0.0.2",
   type: "action",
   props: {

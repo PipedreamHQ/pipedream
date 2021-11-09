@@ -5,7 +5,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Update Meeting Registrant Status",
   description: "Update registrant status for a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantstatus)",
-  key: "zoom-admin-action-update-meeting-registrant-status",
+  key: "zoom_admin-action-update-meeting-registrant-status",
   version: "0.0.28",
   type: "action",
   props: {

@@ -8,7 +8,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Create Webinar",
   description: "Create a webinar for an user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarcreate)",
-  key: "zoom-admin-action-create-a-webinar",
+  key: "zoom_admin-action-create-a-webinar",
   version: "0.0.2",
   type: "action",
   props: {

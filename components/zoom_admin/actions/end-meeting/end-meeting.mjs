@@ -5,7 +5,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "End meeting",
   description: "End a meeting for an user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingstatus)",
-  key: "zoom-admin-action-end-meeting",
+  key: "zoom_admin-action-end-meeting",
   version: "0.0.1",
   type: "action",
   props: {

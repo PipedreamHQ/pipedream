@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "List Call Logs",
   description: "List call logs of a user within a month. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-phone-api/call-logs/phoneusercalllogs)",
-  key: "zoom-admin-action-list-call-logs",
+  key: "zoom_admin-action-list-call-logs",
   version: "0.0.2",
   type: "action",
   props: {

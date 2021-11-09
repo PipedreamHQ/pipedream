@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "List Phone Numbers",
   description: "List all phone numbers owned by an user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-phone-api/phone-numbers/listaccountphonenumbers)",
-  key: "zoom-admin-action-list-phone-numbers",
+  key: "zoom_admin-action-list-phone-numbers",
   version: "0.0.1",
   type: "action",
   props: {
