@@ -35,6 +35,15 @@ const EVENT_TYPES = {
   SUBTITLES_UNPUBLISHED: "subtitle-unpublished",
 };
 
+const FORMAT_TYPES = {
+  SRT: "srt",
+  DFXP:	"dfxp",
+  SBV: "sbv",
+  SSA: "ssa",
+  WEBVTT: "vtt",
+  JSON: "json",
+};
+
 export default {
   BASE_URL,
   VERSION_PATH,
@@ -44,4 +53,5 @@ export default {
   LAST_URL,
   EVENT_TYPES,
   ORDER_BY,
+  FORMAT_TYPES,
 };

@@ -169,6 +169,14 @@ export default {
       label: "Subtitles format",
       description: "The format to return the subtitles in. This can be any format that amara supports including `dfxp`, `srt`, `vtt`, and `sbv`. The default is `json`, which returns subtitle data encoded list of json dicts.",
       optional: true,
+      options({ notAllowedFormats = [] }) {
+        return Object.keys(constants.FORMAT_TYPES)
+          .filter((key) => !notAllowedFormats.includes(constants.FORMAT_TYPES[key]))
+          .map((key) => ({
+            label: key,
+            value: constants.FORMAT_TYPES[key],
+          }));
+      },
     },
     versionNumber: {
       type: "integer",
@@ -347,6 +355,17 @@ export default {
         $,
         path: `/videos/${videoId}/languages/${language}/subtitles`,
         params,
+      });
+    },
+    async getRawSubtitles({
+      $, videoId, language, format,
+    }) {
+      return await this._makeRequest({
+        $,
+        path: `/videos/${videoId}/languages/${language}/subtitles`,
+        params: {
+          format,
+        },
       });
     },
     async addSubtitles({
