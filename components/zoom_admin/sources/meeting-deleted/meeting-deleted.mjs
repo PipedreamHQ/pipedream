@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-meeting-deleted",
+  type: "source",
   name: "Meeting Deleted",
   description: "Emits an event each time a meeting is deleted in your Zoom account",
   version: "0.0.3",

@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-webinar-created",
+  type: "source",
   name: "Webinar Created",
   description:
     "Emits an event each time a webinar is created in your Zoom account",

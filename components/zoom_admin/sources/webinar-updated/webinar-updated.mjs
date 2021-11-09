@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-webinar-updated",
+  type: "source",
   name: "Webinar Updated",
   description:
     "Emits an event each time a webinar is updated in your Zoom account",

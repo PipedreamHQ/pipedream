@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-account-settings-updated",
+  type: "source",
   name: "Account Settings Updated",
   description: "Emits an event each time your master account or sub-account settings are updated",
   version: "0.0.3",

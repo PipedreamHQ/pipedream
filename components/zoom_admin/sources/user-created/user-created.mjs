@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-user-created",
+  type: "source",
   name: "User Created",
   description: "Emits an event each time a user is created in your Zoom account",
   version: "0.0.3",

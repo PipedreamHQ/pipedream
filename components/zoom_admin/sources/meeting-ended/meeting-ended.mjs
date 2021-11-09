@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-meeting-ended",
+  type: "source",
   name: "Meeting Ended",
   description: "Emits an event each time a meeting ends in your Zoom account",
   version: "0.0.3",

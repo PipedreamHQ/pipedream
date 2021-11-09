@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-meeting-updated",
+  type: "source",
   name: "Meeting Updated",
   description: "Emits an event each time a meeting is updated in your Zoom account",
   version: "0.0.3",

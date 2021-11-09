@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-custom-events",
+  type: "source",
   name: "Custom Events",
   description: "Listen for any events tied to your Zoom account",
   version: "0.0.3",

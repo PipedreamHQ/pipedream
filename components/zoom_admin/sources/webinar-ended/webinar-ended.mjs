@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-webinar-ended",
+  type: "source",
   name: "Webinar Ended",
   description: "Emits an event each time a webinar ends in your Zoom account",
   version: "0.0.3",

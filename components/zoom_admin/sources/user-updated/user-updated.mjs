@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-user-updated",
+  type: "source",
   name: "User Updated",
   description: "Emits an event each time a user's settings are updated in your Zoom account",
   version: "0.0.3",

@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-meeting-started",
+  type: "source",
   name: "Meeting Started",
   description: "Emits an event each time a meeting starts in your Zoom account",
   version: "0.0.3",

@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-account-created",
+  type: "source",
   name: "Account Created",
   description: "Emits an event each time a sub-account is created in your master account",
   version: "0.0.3",

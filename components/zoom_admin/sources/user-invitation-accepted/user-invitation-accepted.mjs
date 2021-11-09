@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   key: "zoom_admin-user-invitation-accepted",
+  type: "source",
   name: "User Invitation Accepted",
   description: "Emits an event each time a user accepts an invite to your Zoom account",
   version: "0.0.3",
