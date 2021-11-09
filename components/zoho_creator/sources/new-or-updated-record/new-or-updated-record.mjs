@@ -4,10 +4,16 @@ export default {
   key: "zoho_creator-new-or-updated-record",
   description: "Emit events on new or updated records",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.7",
   props: {
     zohoCreator,
     db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: 60,
+      },
+    },
   },
   methods: {},
   async run(event) {
@@ -15,9 +21,11 @@ export default {
 
     for (const report of reports) {
       const key = this.zohoCreator.getReportKey(report);
-      const latestCachedID = this.db.get(key)
-        ? this.db.get(key)
-        : null;
+
+      let latestCachedID = this.db.get(key);
+      if (!latestCachedID) {
+        latestCachedID = null;
+      }
 
       let latestRow = await this.zohoCreator.getLatestReportRow(report);
       if (!latestRow) {
@@ -30,6 +38,7 @@ export default {
         this.$emit(
           {
             event,
+            record: latestRow,
           },
           {
             summary: `Report: ${report.display_name} has been updated`,
