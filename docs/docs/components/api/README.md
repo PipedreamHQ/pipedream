@@ -736,6 +736,24 @@ async run({ $ }) {
 
 It functions the same way as [`$end` in workflow code steps](/workflows/steps/code/#end).
 
+**`$.summary`**
+
+`$.summary` is used to surface brief, user-friendly summaries about what happened when an action step succeeds. For example, when [adding items to a Spotify playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/actions/add-items-to-playlist/add-items-to-playlist.mjs#L51):
+<div>
+<img alt="Spotify example with $summary" src="./images/spotify-$summary-example.png">
+</div>
+
+Example implementation:
+```
+// eslint-disable-next-line multiline-ternary
+$.export("$summary", `Successfully added ${data.uris.length} ${data.uris.length == 1 ? "item" : "items"} to "${get(playlistId, "label", playlistId)}"`);
+```
+
+The ideal implementation should follow these guidelines:
+- The message should be in plain language and provide helpful and contextually relevant information (especially the count of items)
+- Whenever possible, use labeled information, names, and titles, instead of IDs
+- Basic structure: _Successfully [action performed (like added, removed, updated)] “[relevant destination]”_
+
 **`$.send`**
 
 `$.send` allows you to send data to [Pipedream destinations](/destinations/).
