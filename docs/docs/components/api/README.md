@@ -745,14 +745,8 @@ It functions the same way as [`$end` in workflow code steps](/workflows/steps/co
 
 Example implementation:
 ```
-// eslint-disable-next-line multiline-ternary
 $.export("$summary", `Successfully added ${data.uris.length} ${data.uris.length == 1 ? "item" : "items"} to "${get(playlistId, "label", playlistId)}"`);
 ```
-
-The ideal implementation should follow these guidelines:
-- The message should be in plain language and provide helpful and contextually relevant information (especially the count of items)
-- Whenever possible, use labeled information, names, and titles, instead of IDs
-- Basic structure: _Successfully [action performed (like added, removed, updated)] “[relevant destination]”_
 
 **`$.send`**
 
