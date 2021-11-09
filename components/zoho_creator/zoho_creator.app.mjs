@@ -38,6 +38,21 @@ export default {
       const username = this._apiUsername();
       return `${baseUrl}/${username}/${appLinkName}/report/${reportLinkName}`;
     },
+    recordsPageSize() {
+      return 200;
+    },
+    computeLastRecordsPage({
+      count = 0,
+      pageSize = this.recordsPageSize(),
+    }) {
+      return 1 + Math.floor(count / pageSize);
+    },
+    computeRecordsOffset({
+      count = 0,
+      pageSize = this.recordsPageSize(),
+    }) {
+      return count % pageSize;
+    },
     async genericApiGetCall(url, params = {}) {
       const baseRequestConfig = this._makeRequestConfig();
       const requestConfig = {
@@ -65,18 +80,30 @@ export default {
       }
       return reports;
     },
-    async getLatestReportRow(report) {
-      const url = this._reportDetailsUrl(report.app_link_name, report.link_name);
-      const params = {
-        limit: 1,
-      };
-      try {
-        const { data } = await this.genericApiGetCall(url, params);
-        return data[0];
-      } catch (e) {
-        // Can be ignored, 404 is returned if report doesn't have any records
+    async *getReportRecords( report, { page = 1 }) {
+      if (report == null) {
         return null;
       }
+      const url = this._reportDetailsUrl(report.app_link_name, report.link_name);
+      let moreRecords = false;
+      let params = {
+        page,
+      };
+      do {
+        try {
+          const { data } = await this.genericApiGetCall(url, params);
+          for (const record of data) {
+            yield record;
+          }
+          moreRecords = true;
+        } catch (e) {
+          moreRecords = false;
+        }
+        params = {
+          ...params,
+          page: page + 1,
+        };
+      } while (moreRecords);
     },
     getReportKey(report) {
       return `${this._apiUsername()}:${report.app_link_name}:${report.link_name}`;

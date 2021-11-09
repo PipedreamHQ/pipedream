@@ -2,14 +2,17 @@ import zohoCreator from "../../zoho_creator.app.mjs";
 
 export default {
   key: "zoho_creator-new-or-updated-record",
-  description: "Emit events on new or updated records",
+  description: "Emit new events on new or updated records",
   type: "source",
-  version: "0.0.7",
+  name: "New or Updated Record",
+  version: "0.0.9",
   props: {
     zohoCreator,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
+      label: "Timer",
+      description: "Timer to run source periodically",
       default: {
         intervalSeconds: 60,
       },
@@ -20,35 +23,39 @@ export default {
     const reports = await this.zohoCreator.getReports();
 
     for (const report of reports) {
-      const key = this.zohoCreator.getReportKey(report);
+      const reportKey = this.zohoCreator.getReportKey(report);
+      const key = `${reportKey}:count`;
+      const lastRecordsCount = this.db.get(key);
+      const recordsPage = this.zohoCreator.computeLastRecordsPage({
+        count: lastRecordsCount,
+      });
+      const recordsStream = await this.zohoCreator.getReportRecords(report, {
+        page: recordsPage,
+      });
 
-      let latestCachedID = this.db.get(key);
-      if (!latestCachedID) {
-        latestCachedID = null;
-      }
-
-      let latestRow = await this.zohoCreator.getLatestReportRow(report);
-      if (!latestRow) {
-        latestRow = {
-          ID: null,
-        };
-      }
-
-      if (latestRow.ID !== latestCachedID) {
+      let recordsOffset = this.zohoCreator.computeRecordsOffset({
+        count: lastRecordsCount,
+      });
+      let newRecordsCount = lastRecordsCount;
+      for await (const record of recordsStream) {
+        if (recordsOffset > 0) {
+          --recordsOffset;
+          continue;
+        }
         this.$emit(
           {
             event,
-            record: latestRow,
+            record,
           },
           {
             summary: `Report: ${report.display_name} has been updated`,
             ts: Date.now(),
           },
         );
+        ++newRecordsCount;
       }
-      if (latestRow.ID) {
-        this.db.set(key, latestRow.ID);
-      }
+
+      this.db.set(key, newRecordsCount);
     }
   },
 };
