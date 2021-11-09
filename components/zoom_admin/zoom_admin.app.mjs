@@ -67,11 +67,17 @@ export default {
       label: "Occurrence ID",
       description: "Provide this field to view meeting details of a particular occurrence of the [recurring meeting](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings).",
       optional: true,
-      async options({ meeting }) {
+      async options({
+        meeting,
+        isWebinar,
+      }) {
         if (!meeting) {
           return [];
         }
-        const occurrences = await this.listMeetingsOccurrences(get(meeting, "value", meeting));
+        const occurrences = await this.listMeetingsOccurrences(
+          get(meeting, "value", meeting),
+          isWebinar,
+        );
         return occurrences.map((occurrence) => ({
           label: `${occurrence.start_time} (${occurrence.status})`,
           value: occurrence.occurrence_id,
@@ -170,7 +176,10 @@ export default {
         }
         const rawOptions = webinars.map((w) => ({
           label: w.topic,
-          value: w.id,
+          value: {
+            label: w.topic,
+            value: w.id,
+          },
         }));
         const options = sortBy(rawOptions, [
           "label",
@@ -230,11 +239,13 @@ export default {
       }
       return get(res, "data.meetings", []);
     },
-    async listMeetingsOccurrences(meetingId) {
+    async listMeetingsOccurrences(meetingId, isWebinar) {
+      const path = isWebinar
+        ? `/webinars/${meetingId}`
+        : `/meetings/${meetingId}`;
       const res = await this._makeRequest({
-        path: `/meetings/${meetingId}`,
+        path,
       });
-
       return get(res, "data.occurrences", []);
     },
     async listWebinars({
