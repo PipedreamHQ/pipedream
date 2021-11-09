@@ -240,13 +240,17 @@ export default {
       return get(res, "data.meetings", []);
     },
     async listMeetingsOccurrences(meetingId, isWebinar) {
-      const path = isWebinar
-        ? `/webinars/${meetingId}`
-        : `/meetings/${meetingId}`;
-      const res = await this._makeRequest({
-        path,
-      });
-      return get(res, "data.occurrences", []);
+      try {
+        const path = isWebinar
+          ? `/webinars/${meetingId}`
+          : `/meetings/${meetingId}`;
+        const res = await this._makeRequest({
+          path,
+        });
+        return get(res, "data.occurrences", []);
+      } catch {
+        return [];
+      }
     },
     async listWebinars({
       pageSize,
