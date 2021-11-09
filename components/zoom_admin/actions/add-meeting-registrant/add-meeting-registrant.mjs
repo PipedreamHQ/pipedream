@@ -7,8 +7,8 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Add meeting registrant",
   description: "Register a participant for a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantcreate)",
-  key: "zoom-admin-action-add-meeting-registrant",
-  version: "0.0.9",
+  key: "zoom_admin-action-add-meeting-registrant",
+  version: "0.0.10",
   type: "action",
   props: {
     zoomAdmin,
