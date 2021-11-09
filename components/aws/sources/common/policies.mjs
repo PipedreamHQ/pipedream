@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   generateBucketSnsPolicy: (bucketName, topicArn) => ({
     Version: "2012-10-17",
     Id: `pd-bucket-sns-publish-${bucketName}`,
