@@ -1,13 +1,16 @@
-import amara from "../../amara.app.mjs";
+import common from "../common.mjs";
+
+const { amara } = common.props;
 
 export default {
+  ...common,
   key: "amara-add-video",
   name: "Add video",
   description: "Add a video. [See the docs here](https://apidocs.amara.org/#add-a-video).",
   type: "action",
   version: "0.0.1",
   props: {
-    amara,
+    ...common.props,
     videoUrl: {
       propDefinition: [
         amara,

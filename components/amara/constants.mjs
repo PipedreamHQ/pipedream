@@ -4,6 +4,7 @@ const X_API_KEY_HEADER = "X-api-key";
 const CONTENT_TYPE_HEADER = "Content-Type";
 const JSON_CONTENT_TYPE = "application/json";
 const LAST_URL = "lastUrl";
+const DEFAULT_MAX_ITEMS = 60;
 
 /**
  * The list of order by options can be found in the following links
@@ -54,4 +55,5 @@ export default {
   EVENT_TYPES,
   ORDER_BY,
   FORMAT_TYPES,
+  DEFAULT_MAX_ITEMS,
 };

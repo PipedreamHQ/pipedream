@@ -1,14 +1,17 @@
-import amara from "../../amara.app.mjs";
+import common from "../common.mjs";
 import constants from "../../constants.mjs";
 
+const { amara } = common.props;
+
 export default {
+  ...common,
   key: "amara-fetch-raw-subtitles",
   name: "Fetch raw subtitles",
   description: "Fetch raw subtitles. [See the docs here](https://apidocs.amara.org/#fetch-raw-subtitles)",
   type: "action",
   version: "0.0.1",
   props: {
-    amara,
+    ...common.props,
     videoId: {
       propDefinition: [
         amara,

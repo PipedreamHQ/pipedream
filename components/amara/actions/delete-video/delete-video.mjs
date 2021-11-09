@@ -1,13 +1,16 @@
-import amara from "../../amara.app.mjs";
+import common from "../common.mjs";
+
+const { amara } = common.props;
 
 export default {
+  ...common,
   key: "amara-delete-video",
   name: "Delete video",
   description: "Delete a video. In order to delete a video, it must be part of a team that you're an admin of. [See the docs here](https://apidocs.amara.org/#delete-a-video)",
   type: "action",
   version: "0.0.1",
   props: {
-    amara,
+    ...common.props,
     videoId: {
       propDefinition: [
         amara,

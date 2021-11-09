@@ -1,13 +1,16 @@
-import amara from "../../amara.app.mjs";
+import common from "../common.mjs";
+
+const { amara } = common.props;
 
 export default {
+  ...common,
   key: "amara-get-video-details",
   name: "Get video details",
   description: "Get video details. [See the docs here](https://apidocs.amara.org/#view-video-details)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.1",
   props: {
-    amara,
+    ...common.props,
     videoId: {
       propDefinition: [
         amara,

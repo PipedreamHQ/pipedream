@@ -1,14 +1,17 @@
-import amara from "../../amara.app.mjs";
+import common from "../common.mjs";
 import constants from "../../constants.mjs";
 
+const { amara } = common.props;
+
 export default {
+  ...common,
   key: "amara-list-video",
   name: "List videos",
   description: "List videos. [See the docs here](https://apidocs.amara.org/#list-videos).",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.1",
   props: {
-    amara,
+    ...common.props,
     videoUrl: {
       description: "Filter by video URL",
       optional: true,
@@ -96,10 +99,24 @@ export default {
       order_by: orderBy,
     };
 
-    const { objects: videos } = await this.amara.listVideos({
+    if (!offset) {
+      return await this.paginateVideos({
+        $,
+        limit,
+        params,
+      });
+    }
+
+    const response = await this.amara.listVideos({
       $,
       params,
     });
+
+    if (!response) {
+      throw new Error("No response from the Amara API.");
+    }
+
+    const { objects: videos } = response;
 
     return videos;
   },

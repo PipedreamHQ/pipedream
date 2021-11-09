@@ -1,13 +1,16 @@
-import amara from "../../amara.app.mjs";
+import common from "../common.mjs";
+
+const { amara } = common.props;
 
 export default {
+  ...common,
   key: "amara-perform-action",
   name: "Perform action",
   description: "Perform an action on the subtitles. This is equivalent to opening the editor, not changing the subtitles, and clicking an actions button. [See the docs here](https://apidocs.amara.org/#perform-actions)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.1",
   props: {
-    amara,
+    ...common.props,
     videoId: {
       propDefinition: [
         amara,

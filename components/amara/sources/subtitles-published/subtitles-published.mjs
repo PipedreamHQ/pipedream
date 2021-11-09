@@ -7,7 +7,7 @@ export default {
   name: "Subtitles published",
   description: "Emit new event when subtitles have been published. [See the docs here](https://apidocs.amara.org/#video-notifications)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   async run({ $ }) {
     await this.emitEvents({
