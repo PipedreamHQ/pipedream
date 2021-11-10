@@ -745,7 +745,9 @@ It functions the same way as [`$end` in workflow code steps](/workflows/steps/co
 
 Example implementation:
 ```
-$.export("$summary", `Successfully added ${data.uris.length} ${data.uris.length == 1 ? "item" : "items"} to "${get(playlistId, "label", playlistId)}"`);
+const data = [1, 2]
+const playlistName = "Cool jams"
+$.export("$summary", `Successfully added ${data.length} ${data.length == 1 ? "item" : "items"} to "${playlistName}"`);
 ```
 
 **`$.send`**
