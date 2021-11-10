@@ -26,7 +26,6 @@ module.exports = {
       return this.$auth.oauth_access_token;
     },
     _mailchimp(server) {
-      const mailchimp = require("@mailchimp/mailchimp_marketing");
       mailchimp.setConfig({
         accessToken: this._authToken(),
         server,
