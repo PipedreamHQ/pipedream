@@ -17,7 +17,7 @@ module.exports = {
       description: "Pipedream polls Mailchimp for events on this schedule.",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60, // by default, run every 15 minutes.
+        intervalSeconds: 15 * 60, // by default, run every 15 minutes.
       },
     },
   },
