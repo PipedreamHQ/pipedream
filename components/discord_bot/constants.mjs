@@ -1,4 +1,6 @@
 const LAST_MESSAGE_IDS = "lastMessageIDs";
+const DEFAULT_MAX_ITEMS = 60;
+const DEFAULT_PAGE_LIMIT = 20;
 
 /**
  * See the docs about the `type` FIELD [here](https://discord.com/developers/docs/resources/channel#overwrite-object-overwrite-structure)
@@ -59,4 +61,6 @@ export default {
   NOT_ALLOWED_CHANNELS,
   VIDEO_QUALITY_MODES,
   INVITE_TARGET_TYPES,
+  DEFAULT_MAX_ITEMS,
+  DEFAULT_PAGE_LIMIT,
 };

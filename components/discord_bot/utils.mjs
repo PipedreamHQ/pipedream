@@ -113,4 +113,9 @@ export default {
 
     return id;
   },
+  emptyStrToUndefined(str) {
+    return str === ""
+      ? undefined
+      : str;
+  },
 };

@@ -236,6 +236,11 @@ export default {
         };
       },
     },
+    max: {
+      type: "integer",
+      label: "Max records",
+      description: "Max number of records to be paginated (eg. `60`)",
+    },
     limit: {
       type: "integer",
       label: "Limit",
@@ -271,8 +276,10 @@ export default {
 
         const messages = await this.getMessages({
           channelId,
-          after,
-          limit: 10,
+          params: {
+            limit: 10,
+            after,
+          },
         });
 
         const options = utils.getMessageOptions(messages);
@@ -433,17 +440,12 @@ export default {
       });
     },
     async getMessages({
-      $, channelId, after, limit, around, before,
+      $, channelId, params,
     }) {
       return await this._makeRequest({
         $,
         path: `/channels/${channelId}/messages`,
-        params: {
-          after,
-          limit,
-          around,
-          before,
-        },
+        params,
       });
     },
     async getChannelMessage({

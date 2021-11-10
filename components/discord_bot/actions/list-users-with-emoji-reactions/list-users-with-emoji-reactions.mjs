@@ -10,7 +10,7 @@ export default {
   name: "List Users that Reacted with Emoji",
   description: "Return a list of users that reacted with a specified emoji.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.33",
   props: {
     ...common.props,
     emoji: {
@@ -20,29 +20,13 @@ export default {
       ],
     },
     limit: {
-      propDefinition: [
-        discord,
-        "limit",
-      ],
-    },
-    after: {
-      propDefinition: [
-        discord,
-        "after",
-      ],
-    },
-    limitMessages: {
-      label: "Messages limit",
-      description: "Max number of messages to return (1-100)",
       default: 10,
       propDefinition: [
         discord,
         "limit",
       ],
     },
-    afterMessageId: {
-      label: "After message id",
-      description: "Get messages after this message ID",
+    after: {
       propDefinition: [
         discord,
         "after",
@@ -55,18 +39,16 @@ export default {
       channelId,
       after,
       limit,
-      limitMessages,
-      afterMessageId,
     } = this;
 
     const emoji = encodeURIComponent(`${decodedEmoji}`);
 
-    const messages = await this.discord.getMessages({
+    const messages = await this.paginateMessages({
       $,
       channelId,
-      limit: limitMessages,
-      after: afterMessageId,
+      max: 20,
     });
+
     const messageIds = messages.map((message) => message.id);
 
     const requestUserReactions =

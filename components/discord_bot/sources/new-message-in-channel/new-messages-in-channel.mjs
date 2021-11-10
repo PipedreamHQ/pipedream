@@ -55,7 +55,9 @@ export default {
         messages = await this.discord.getMessages({
           $,
           channelId,
-          limit: 100,
+          params: {
+            limit: 100,
+          },
         });
 
         lastMessageID = messages.length
@@ -69,7 +71,9 @@ export default {
           newMessages = await this.discord.getMessages({
             $,
             channelId,
-            after: lastMessageIDs[channelId],
+            params: {
+              after: lastMessageIDs[channelId],
+            },
           });
 
           messages = messages.concat(newMessages);

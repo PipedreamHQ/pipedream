@@ -1,6 +1,8 @@
+import utils from "../../utils.mjs";
 import common from "../common.mjs";
 
 const { discord } = common.props;
+const { emptyStrToUndefined } = utils;
 
 export default {
   ...common,
@@ -8,9 +10,15 @@ export default {
   name: "List Channel Messages",
   description: "Return the messages for a channel. [See the docs here](https://discord.com/developers/docs/resources/channel#get-channel-messages)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.24",
   props: {
     ...common.props,
+    max: {
+      propDefinition: [
+        discord,
+        "max",
+      ],
+    },
     limit: {
       description: "Max number of messages to return (1-100)",
       propDefinition: [
@@ -39,13 +47,34 @@ export default {
     },
   },
   async run({ $ }) {
+    const {
+      channelId,
+      max,
+    } = this;
+
+    const limit = emptyStrToUndefined(this.limit);
+    const after = emptyStrToUndefined(this.after);
+    const before = emptyStrToUndefined(this.before);
+    const around = emptyStrToUndefined(this.around);
+
+    if (!after && !before && !around) {
+      return await this.paginateMessages({
+        $,
+        channelId,
+        max,
+        limit,
+      });
+    }
+
     return await this.discord.getMessages({
       $,
-      channelId: this.channelId,
-      after: this.after,
-      limit: this.limit,
-      around: this.around,
-      before: this.before,
+      channelId,
+      params: {
+        limit,
+        after,
+        before,
+        around,
+      },
     });
   },
 };
