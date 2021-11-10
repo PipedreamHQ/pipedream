@@ -4,16 +4,21 @@ module.exports = {
   ...common,
   key: "github-new-label",
   name: "New Label (Instant)",
-  description: "Emit an event when a new label is created in a repo",
-  version: "0.0.3",
+  description: "Emit new events when new labels are created in a repo",
+  version: "0.0.5",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
-      return ["label"];
+      return [
+        "label",
+      ];
     },
     getEventTypes() {
-      return ["created"];
+      return [
+        "created",
+      ];
     },
     generateMeta(data) {
       const ts = Date.now();

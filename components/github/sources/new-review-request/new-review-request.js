@@ -5,8 +5,9 @@ module.exports = {
   key: "github-new-review-request",
   name: "New Review Request",
   description:
-    "Emit an event when you or a team you're a member of are requested to review a pull request",
-  version: "0.0.2",
+    "Emit new events when you or a team you're a member of are requested to review a pull request",
+  version: "0.0.4",
+  type: "source",
   dedupe: "greatest",
   methods: {
     ...common.methods,
@@ -19,12 +20,15 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const since = this.db.get("since");
 
     const notifications = await this.getFilteredNotifications(
-      { participating: false, since },
-      "review_requested"
+      {
+        participating: false,
+        since,
+      },
+      "review_requested",
     );
 
     let maxDate = since;

@@ -1,43 +1,57 @@
-const airtable=require('../../airtable.app.js')
-const chunk = require('lodash.chunk')
-const Airtable = require('airtable')
+const chunk = require("lodash.chunk");
+const airtable = require("../../airtable.app.js");
+const common = require("../common.js");
+
+const BATCH_SIZE = 10; // The Airtable API allows us to update up to 10 rows per request.
 
 module.exports = {
   key: "airtable-create-multiple-records",
   name: "Create Multiple Records",
   description: "Create one or more records in a table by passing an array of objects containing field names and values as key/value pairs.",
-  version: "0.0.29",
+  version: "0.1.1",
   type: "action",
   props: {
-    airtable,
-    baseId: {type: "$.airtable.baseId", appProp: 'airtable'},
-    tableId: { type: '$.airtable.tableId', baseIdProp: 'baseId' },
-    records: { propDefinition: [airtable, "records"] },
-  },
-  methods: {
-    async addRecords(records) {
-      const base = new Airtable({apiKey: this.airtable.$auth.api_key}).base(this.baseId);
-      return await base(this.tableId).create(records)
+    ...common.props,
+    records: {
+      propDefinition: [
+        airtable,
+        "records",
+      ],
+    },
+    typecast: {
+      propDefinition: [
+        airtable,
+        "typecast",
+      ],
     },
   },
   async run() {
-    const records = []
-    let response_records = []
-    const BATCH_SIZE = 10; // Airtable API allows to update up to 10 rows per request.
+    const table = this.airtable.base(this.baseId)(this.tableId);
 
-    let inputRecords = this.records
-
-    if(!Array.isArray(inputRecords)) {
-      inputRecords = JSON.parse(inputRecords)
+    let data = this.records;
+    if (!Array.isArray(data)) {
+      data = JSON.parse(data);
+    }
+    data = data.map((fields) => ({
+      fields,
+    }));
+    if (!data.length) {
+      throw new Error("No Airtable record data passed to step. Please pass at least one record");
     }
 
-    inputRecords.forEach(record => { records.push({ fields: record }) })
-    
-    const records_sets = chunk(records, BATCH_SIZE)
-    for (const records_set of records_sets) {        
-      response_records = response_records.concat((await this.addRecords(records_set)))
+    const params = {
+      typecast: this.typecast,
+    };
+
+    const responses = [];
+    for (const c of chunk(data, BATCH_SIZE)) {
+      try {
+        responses.push(...(await table.create(c, params)));
+      } catch (err) {
+        this.airtable.throwFormattedError(err);
+      }
     }
 
-    return response_records;
+    return responses;
   },
-}
+};

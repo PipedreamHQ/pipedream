@@ -12,7 +12,7 @@ If you already have a Pipedream account, run
 pd login
 ```
 
-This will open up a new window in your default browser. If you're already logged into your Pipedream account in this browser, this will immediately link the CLI to your account, writing your API key for that account to your [`pd` config file](/cli/reference/#cli-config-file).
+This will open up a new window in your default browser. If you're already logged into your Pipedream account in this browser, this will immediately link the CLI to your account, writing your API key for that account to your [`pd` config file](/cli/reference/#cli-config-file). 
 
 Otherwise, you'll be asked to login.
 

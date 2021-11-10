@@ -65,7 +65,7 @@ See the [CLI reference](/cli/reference/) for detailed usage and examples beyond 
 Here is a simple component that will emit an event with a payload of `{ message: "hello world!" }` on each invocation.
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {
@@ -76,7 +76,7 @@ module.exports = {
 
 To deploy and run it, save the code to a local `.js` file (e.g., `source.js`) and run the following CLI command:
 
-```
+```bash
 pd dev source.js
 ```
 
@@ -84,8 +84,8 @@ The CLI will deploy your code in development mode (the CLI will attach to the de
 
 You should see the following output:
 
-```
-~/code/pipedream/source demo:$ pd dev source.js
+```bash
+$ pd dev source.js
 watch:add     | source.js
 Configuring props...
 Deploying...
@@ -133,7 +133,7 @@ this.db.set("count", ++count);
 Here's the updated code:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -174,7 +174,7 @@ timer: {
 Here's the updated code:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -203,7 +203,7 @@ module.exports = {
 
 Save the changes to your file (your component on Pipedream should automatically update). and then, return to the Pipedream UI and **reload the page**. You should now see the timer settings in the summary and a countdown to the next execution (you can still run your component manually). Your component will now run every 15 seconds.
 
-![source](/images/quickstart/hello-world-3.gif)
+![source](./images/quickstart/hello-world-3.gif)
 
 **Note**: if you'd like to change the schedule of your deployed component, visit the **Configuration** tab in the Pipedream UI and change the schedule accordingly. Changing the value of `intervalSeconds` within the component's code will not change the schedule of the running instance of the component. You can also set one value as the default `intervalSeconds` in the component's code, but run
 
@@ -249,7 +249,7 @@ this.$emit(event.body, {
 Here's the updated code:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -286,7 +286,7 @@ Return to the Pipedream UI and refresh the page. Instead of the countdown timer,
 ```
 curl -d '{ "message": "hello world!" }' \
   -H "Content-Type: application/json" \
-  "INSERT-YOUR-ENDPONT-URL-HERE"
+  "INSERT-YOUR-ENDPOINT-URL-HERE"
 ```
 
 ![source](./images/quickstart/hello-world-4.gif)
@@ -296,7 +296,7 @@ curl -d '{ "message": "hello world!" }' \
 Next, let's cover some real-world examples starting with RSS. Continue editing the same file, but start with the following scaffolding for this example.
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {},
@@ -305,12 +305,12 @@ module.exports = {
 
 ## Emit items in an RSS Feed
 
-> **Note:** The code for the examples below was adapted from the samples provided in the readme for the `rss-parser` package at https://www.npmjs.com/package/rss-parser. To use most npm packages on Pipedream, just require them — there is no `package.json` or `npm install` required.
+> **Note:** The code for the examples below was adapted from the samples provided in the readme for the `rss-parser` package at https://www.npmjs.com/package/rss-parser. To use most npm packages on Pipedream, just `import` them — there is no `package.json` or `npm install` required.
 
 To parse the RSS feed, we'll use the `rss-parser` npm package.
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 ```
 
@@ -329,10 +329,10 @@ feed.items.forEach((item) => {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {
@@ -361,10 +361,10 @@ this.$emit(item, {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {
@@ -404,10 +404,10 @@ this.$emit(item, {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   dedupe: "unique",
@@ -443,10 +443,10 @@ props: {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -477,7 +477,7 @@ module.exports = {
 In the last example, we were able to retrieve data to emit without any authentication. Now we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). Similar to the last example, continue editing the same file, but start with the following scaffolding:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {},
@@ -486,26 +486,28 @@ module.exports = {
 
 ## Get issues for a repo
 
-First, require axios so we can make a request to the Github REST API:
+First, import `axios` so we can make a request to the Github REST API:
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 ```
 
 Next, let's add an **app prop**, which will enable us to use Pipedream managed auth with this component. For this example, we'll add Github:
 
 ```javascript
-github: {
-  type: "app",
-  app: "github",
-}
+props: {
+  github: {
+    type: "app",
+    app: "github",
+  },
+},
 ```
 
 **IMPORTANT: The CLI will prompt you to select a connected account (or connect a new one) when you deploy (or update) this component.**
 
 > **Note:** The value for the `app` property is the name slug for the app in Pipedream. This is not currently discoverable, but it will be in the near future. For the time being, if you want to know how to reference an app, please reach out on our public Slack.
 
-Finally, we'll update the `run()` method to fetch issues from Github using `axios` and emit them. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the app prop `this.github.$auth.oauth_access_token`. Also, similar to the RSS example, it's important that you use the `pddemo/demo` repo so you can test the next dedupe strategy.
+Finally, we'll update the `run()` method to fetch issues from Github using `axios` and emit them. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the app prop `this.github.$auth.oauth_access_token`. Again, it's important that you stick with the `pddemo/demo` repo shown in the below example so you can test the next dedupe strategy.
 
 ```javascript
 async run() {
@@ -525,9 +527,9 @@ async run() {
 Here's the updated code.
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -551,7 +553,7 @@ module.exports = {
 };
 ```
 
-Next save your changes and go to the terminal where you ran `pd dev` **— follow the CLI prompts to select a connected account for Github (or connect a new one)**. Then load the Pipedrem UI, and click **RUN NOW**. Your component should emit 30 issues.
+Next save your changes and go to the terminal where you ran `pd dev` **— follow the CLI prompts to select a connected account for Github (or connect a new one)**. Then load the Pipedream UI, and click **RUN NOW**. Your component should emit 30 issues.
 
 ## Dedupe the events
 
@@ -578,9 +580,9 @@ response.data.forEach((issue) => {
 Here is the updated code.
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -609,11 +611,11 @@ module.exports = {
 };
 ```
 
-Save, load the Pipedrem UI, and click **RUN NOW**. You should see 30 issues emitted, now with summaries. When you click **RUN NOW** again, only new issues will be emitted (if there are any).
+Save, load the Pipedream UI, and click **RUN NOW**. You should see 30 issues emitted, now with summaries. When you click **RUN NOW** again, only new issues will be emitted (if there are any).
 
 ## Add a timer to run on a schedule
 
-As the final step of this walkthrough, we'll update our component to check for new issues every 15 minutes. To do that, we'll add a timer prop.
+As the final step of this walk-through, we'll update our component to check for new issues every 15 minutes. To do that, we'll add a timer prop.
 
 ```javascript
 timer: {
@@ -627,9 +629,9 @@ timer: {
 Here's the updated code.
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -670,4 +672,4 @@ Save and reload your source in the Pipedream UI. You should now see a countdown 
 
 You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](../api/) at any time!
 
-If you have any questions or feedback, please join our [public Slack](https://pipedream.com/community).
+If you have any questions or feedback, please join our [public Slack](https://pipedream.com/support).

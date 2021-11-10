@@ -8,7 +8,7 @@ If you're not familiar with asynchronous programming concepts like [callback fun
 
 **Any asynchronous code within a Node.js code step must complete before the next step runs**. This ensures future steps have access to its data. If Pipedream detects that code is still running by the time the step completes, you'll see the following warning below the code step:
 
-> **This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.**
+> **This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.** 
 
 As the warning notes, this often arises from one of two issues:
 
@@ -19,7 +19,7 @@ As the warning notes, this often arises from one of two issues:
 
 ### `await` all Promises
 
-Most Node.js packages that run async code return Promises as ther result of method calls. For example, [`axios`](https://docs.pipedream.com/workflows/steps/code/nodejs/http-requests/#basic-axios-usage-notes) is an HTTP client. If you make an HTTP request like this in a Pipedream code step:
+Most Node.js packages that run async code return Promises as the result of method calls. For example, [`axios`](https://docs.pipedream.com/workflows/steps/code/nodejs/http-requests/#basic-axios-usage-notes) is an HTTP client. If you make an HTTP request like this in a Pipedream code step:
 
 ```javascript
 const resp = axios({
@@ -55,8 +55,8 @@ runAsyncCode();
 Before support for Promises was widespread, [callback functions](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function) were a popular way to run some code asynchronously, after some operation was completed. For example, [PDFKit](https://pdfkit.org/) lets you pass a callback function that runs when certain events fire, like when the PDF has been finalized:
 
 ```javascript
-const PDFDocument = require("pdfkit");
-const fs = require("fs");
+import PDFDocument from "pdfkit";
+import fs from "fs";
 
 let doc = new PDFDocument({ size: "A4", margin: 50 });
 this.fileName = `tmp/test.pdf`;

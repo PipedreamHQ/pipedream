@@ -4,7 +4,7 @@
 There is a [new version](https://pipedream.com/community/t/actions-improved-open-source-now-in-beta/606) of Pipedream Actions available.  Legacy Actions will be deprecated.  Get started with our [quickstart](/components/quickstart/nodejs/actions/) for new actions or learn how to [migrate](/components/migrating/) legacy actions.
 :::
 
-Actions are reusable [code](/workflows/steps/code/) steps that integrate your apps, data and APIs. For example, you can send HTTP requests to an external service using the [HTTP action](/destinations/http/), or use actions to send data to Slack, [Amazon S3](/destinations/s3/), and more. You can use thousands of actions across 100+ apps today.
+Actions are reusable [code](/workflows/steps/code/) steps that integrate your apps, data and APIs. For example, you can send HTTP requests to an external service using the [HTTP action](/destinations/http/), or use actions to send data to Slack, [Amazon S3](/destinations/s3/), and more. You can use thousands of actions across 100+ apps today. 
 
 Typically, integrating with these services requires a lot of code to manage connection logic, error handling, etc. Actions handle that for you. You only need to specify the parameters required for the Action — for example, for the [HTTP action](/destinations/http/), what data you want to send and the URL you want to send it to.
 
@@ -108,7 +108,7 @@ Otherwise, if you haven't linked an app to the action, it'll show up under the *
 
 Actions are versioned: each time you publish a change, it increments the minor version number (actions have semantic versions of the form `[major].[minor]`).
 
-For example, publishing an action for the first time cuts a `0.1` version of that action. All users will have access to verison `0.1` of your action.
+For example, publishing an action for the first time cuts a `0.1` version of that action. All users will have access to version `0.1` of your action.
 
 If you want to make a change, you can edit and save your action, and those changes will be available only to your account. Once you're ready to ship the new version, click **Publish** again. Now,
 

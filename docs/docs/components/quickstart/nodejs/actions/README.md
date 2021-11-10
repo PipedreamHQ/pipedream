@@ -11,7 +11,7 @@ This document is intended for developers who want to author and edit [Pipedream 
 - Use props to capture user input
 - Update an action
 - Use npm packages
-- Use Pipedream managed auth for a 3rd party app
+- Use Pipedream managed auth for a 3rd party app 
 
 
 ::: tip
@@ -59,7 +59,7 @@ We recommend that you complete the examples below in order.
 The following code represents a simple component that can be published as an action ([learn more](/components/api) about the component structure). When used in a workflow, it will export `hello world!` as the return value for the step.
 
 ```javascript
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -74,7 +74,7 @@ module.exports = {
 
 To get started, save the code to a local `.js` file (e.g., `action.js`) and run the following CLI command:
 
-```
+```bash
 pd publish action.js
 ```
 
@@ -82,13 +82,13 @@ The CLI will publish the component as an action in your account with the key `ac
 
 The CLI output should look similar to this:
 
-```
+```bash
 sc_v4iaWB  Action Demo                             0.0.1    just now             action_demo
 ```
 
 To test the action:
 
-1. Open Pipedream in your browser 
+1. Open Pipedream in your browser
 
 2. Create a new workflow with a **Schedule** trigger
 
@@ -112,7 +112,7 @@ Keep the browser tab open. We'll return to this workflow in the rest of the exam
 Next, let's update the component to capture some user input. First, add a `string` [prop](/components/api/#props) called `name` to the component.
 
 ```java
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -133,7 +133,7 @@ module.exports = {
 Next, update the `run()` function to reference `this.name` in the return value.
 
 ```javascript
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -154,7 +154,7 @@ module.exports = {
 Finally, update the component version to `0.0.2`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -174,13 +174,13 @@ module.exports = {
 
 Save the file and run the `pd publish` command again to update the action in your account.
 
-```
+```bash
 pd publish action.js
 ```
 
 The CLI will update the component in your account with the key `action_demo`. You should see something like this:
 
-```
+```bash
 sc_Egip04  Action Demo                             0.0.2    just now             action_demo
 ```
 
@@ -198,12 +198,12 @@ You should see `hello foo!` (or the value you entered for `Name`) as the value r
 
 ### Use an npm Package
 
-Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. To use the `axios` package, just require it.
+Next, we'll update the component to get data from the Star Wars API using the `axios` npm package. To use the `axios` package, just `import` it.
 
 ```javascript
-const axios = require("axios")
+import axios from "axios";
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -222,7 +222,7 @@ module.exports = {
 ```
 
 ::: tip
-To use most npm packages on Pipedream, just `require` them — there is no `package.json` or `npm install` required.
+To use most npm packages on Pipedream, just `import` or `require` them — there is no `package.json` or `npm install` required.
 :::
 
 Then, update the `run()` method to:
@@ -231,9 +231,9 @@ Then, update the `run()` method to:
 - Reference the `name` field of the payload returned by the API
 
 ```javascript
-const axios = require("axios")
+import axios from "axios"
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -255,9 +255,9 @@ module.exports = {
 Next, remove the `name` prop since we're no longer using it.
 
 ```javascript
-const axios = require("axios")
+import axios from "axios"
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -274,9 +274,9 @@ module.exports = {
 Finally, update the version to `0.0.3`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-const axios = require("axios")
+import axios from "axios"
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -292,13 +292,13 @@ module.exports = {
 
 Save the file and run the `pd publish` command again to update the action in your account.
 
-```
+```bash
 pd publish action.js
 ```
 
 The CLI will update the component in your account with the key `action_demo`. You should see something like this:
 
-```
+```bash
 sc_ZriKEn  Action Demo                             0.0.3    1 second ago         action_demo
 ```
 
@@ -306,10 +306,10 @@ Follow the steps in the previous example to update and run the action in your wo
 
 ### Use Managed Auth
 
-For the last example, we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). First, remove the line that requires `axios` and clear the `run()` function from the last example. Your code should look like this:
+For the last example, we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). First, remove the line that imports `axios` and clear the `run()` function from the last example. Your code should look like this:
 
 ```javascript
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -319,12 +319,12 @@ module.exports = {
 }
 ```
 
-Next, require Github's `octokit` npm package
+Next, import Github's `octokit` npm package
 
 ```javascript
-const { Octokit } = require('@octokit/rest')
+import { Octokit } from '@octokit/rest';
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -337,9 +337,9 @@ module.exports = {
 Then add an [app prop](/components/api/#app-props) to use Pipedream managed auth with this component. For this example, we'll add an app prop for Github:
 
 ```javascript
-const { Octokit } = require('@octokit/rest')
+import { Octokit } from '@octokit/rest';
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -351,9 +351,7 @@ module.exports = {
       app: "github",
     }
   },
-  async run() {
-  	
-  },
+  async run() {},
 }
 ```
 
@@ -364,9 +362,9 @@ The value for the `app` property is the name slug for the app in Pipedream. This
 Next, update the `run()` method to get a repo from Github and return it. For this example, we'll pass static values to get the `pipedreamhq/pipedream` repo. Notice that we're passing the `oauth_access_token` in the authorization header by referencing the `$auth` property of the app prop — `this.github.$auth.oauth_access_token`. You can discover how to reference auth tokens in the **Authentication Strategy** section for each app in the [Pipedream Marketplace](https://pipedream.com/explore). 
 
 ```javascript
-const { Octokit } = require('@octokit/rest')
+import { Octokit } from '@octokit/rest';
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -394,9 +392,9 @@ module.exports = {
 Finally, update the version to `0.0.4`. If you fail to update the version, the CLI will throw an error.
 
 ```javascript
-const { Octokit } = require('@octokit/rest')
+import { Octokit } from '@octokit/rest';
 
-module.exports = {
+export default {
   name: "Action Demo",
   description: "This is a demo action",
   key: "action_demo",
@@ -442,7 +440,7 @@ Select an existing account or connect a new one, and then deploy your workflow a
 
 ## What's Next?
 
-You're ready to start authoring and publishing actions on Pipedream! You can also check out the [detailed component reference](COMPONENT-API.md) at any time!
+You're ready to start authoring and publishing actions on Pipedream! You can also check out the [detailed component reference](/components/api/#component-api) at any time!
 
 If you have any questions or feedback, please [reach out](https://pipedream.com/community)!
 

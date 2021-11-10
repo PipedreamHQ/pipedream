@@ -19,6 +19,10 @@ If you'd like to report a suspected vulnerability, please contact <span style="f
 
 If you need to encrypt sensitive data as part of your report, you can use our [PGP key](/security/pgp-key/).
 
+## Reporting abuse
+
+If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report it here](/abuse/).
+
 ## Hosting Details
 
 Pipedream is hosted on the [Amazon Web Services](https://aws.amazon.com/) (AWS) platform. The physical hardware powering Pipedream, and the data stored by our platform, is hosted in data centers controlled and secured by AWS. You can read more about AWS’s security practices and compliance certifications [here](https://aws.amazon.com/security/).
@@ -39,7 +43,7 @@ When you link an account from a third party application, you may be asked to eit
 
 When a third party application supports an [OAuth integration](https://oauth.net/2/), Pipedream prefers that interface. The OAuth protocol allows Pipedream to request scoped access to specific resources in your third party account without you having to provide long-term credentials directly. Pipedream must request short-term access tokens at regular intervals, and most applications provide a way to revoke Pipedream's access to your account at any time.
 
-Some third party applications do not provide an OAuth interface. To access these services, you must provide the required authorization mechanism (often an API key). As a best practice, if your application provides such functionality, Pipedream recommends you limit that API key's access to only the resources you need access to within Pipedream.
+Some third party applications do not provide an OAuth interface. To access these services, you must provide the required authorization mechanism (often an API key). As a best practice, if your application provides such functionality, Pipedream recommends you limit that API key's access to only the resources you need access to within Pipedream. 
 
 Pipedream encrypts all OAuth grants, key-based credentials, and environment variables at rest in our production database. That database resides in a private network. Backups of that database are encrypted. The key used to encrypt this database is managed by [AWS KMS](https://aws.amazon.com/kms/) and controlled by Pipedream. KMS keys are 256 bit in length and use the Advanced Encryption Standard (AES) in Galois/Counter Mode (GCM). Access to administer these keys is limited to specific members of our team. Keys are automatically rotated once a year. KMS has achieved SOC 1, 2, 3, and ISO 9001, 27001, 27017, 27018 compliance. Copies of these certifications are available from Amazon on request.
 
@@ -53,7 +57,7 @@ You can delete your OAuth grants or key-based credentials at any time by visitin
 
 The **execution environment** refers to the environment in which your sources, workflows, and other Pipedream code is executed.
 
-Each version of a source or workflow is deployed to its own virtual machine. This means your execution environment has its own RAM and disk, isolated from other users's environments. You can read more about the details of the virtualization and isolation mechanisms used to secure your execution environment [here](https://firecracker-microvm.github.io/).
+Each version of a source or workflow is deployed to its own virtual machine. This means your execution environment has its own RAM and disk, isolated from other users' environments. You can read more about the details of the virtualization and isolation mechanisms used to secure your execution environment [here](https://firecracker-microvm.github.io/).
 
 ## Encryption of data in transit, TLS (SSL) Certificates
 
@@ -82,7 +86,15 @@ Pipedream notifies customers of any data breaches according to our [Data Protect
 
 Pipedream is considered both a Controller and a Processor as defined by the GDPR. As a Processor, Pipedream implements policies and practices that secure the personal data you send to the platform, and includes a [Data Protection Addendum](https://pipedream.com/dpa) as part of our standard [Terms of Service](https://pipedream.com/terms).
 
+The Pipedream Data Protection Addendum includes the [Standard Contractual Clauses (SCCs)](https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en). These clarify how Pipedream handles your data, and they update our GDPR policies to cover the latest standards set by the European Commission.
+
 You can find a list of Pipedream subprocessors [here](/subprocessors/).
+
+## Submitting a GDPR deletion request
+
+When you [delete your account](/user-settings/#delete-account), Pipedream deletes all personal data we hold on you in our system and our vendors.
+
+If you need to delete data on behalf of one of your users, you can delete the event data yourself in your workflow or event source (for example, by deleting the events, or by removing the data from `$checkpoint`). Your customer event data is automatically deleted from Pipedream subprocessors.
 
 ## Payment Processor
 
