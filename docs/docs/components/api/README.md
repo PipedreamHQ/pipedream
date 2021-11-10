@@ -744,7 +744,7 @@ It functions the same way as [`$end` in workflow code steps](/workflows/steps/co
 </div>
 
 Example implementation:
-```
+```javascript
 const data = [1, 2]
 const playlistName = "Cool jams"
 $.export("$summary", `Successfully added ${data.length} ${data.length == 1 ? "item" : "items"} to "${playlistName}"`);
