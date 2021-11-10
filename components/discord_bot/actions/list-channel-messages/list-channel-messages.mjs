@@ -10,7 +10,7 @@ export default {
   name: "List Channel Messages",
   description: "Return the messages for a channel. [See the docs here](https://discord.com/developers/docs/resources/channel#get-channel-messages)",
   type: "action",
-  version: "0.0.24",
+  version: "0.0.26",
   props: {
     ...common.props,
     max: {
@@ -57,24 +57,18 @@ export default {
     const before = emptyStrToUndefined(this.before);
     const around = emptyStrToUndefined(this.around);
 
-    if (!after && !before && !around) {
-      return await this.paginateMessages({
-        $,
-        channelId,
-        max,
-        limit,
-      });
+    if (before && after || before && around || after && around) {
+      throw new Error("The before, after, and around keys are mutually exclusive, only one may be passed at a time.");
     }
 
-    return await this.discord.getMessages({
+    return await this.paginateMessages({
       $,
       channelId,
-      params: {
-        limit,
-        after,
-        before,
-        around,
-      },
+      before,
+      after,
+      around,
+      limit,
+      max,
     });
   },
 };
