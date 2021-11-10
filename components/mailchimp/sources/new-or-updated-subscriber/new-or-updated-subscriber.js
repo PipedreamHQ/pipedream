@@ -41,7 +41,7 @@ module.exports = {
         return;
       }
       return {
-        id: `${eventPayload["data[id]"]}`,
+        id: eventPayload["data[id]"],
         summary,
         ts,
       };
