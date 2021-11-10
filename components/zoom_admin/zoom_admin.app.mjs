@@ -62,6 +62,21 @@ export default {
         }));
       },
     },
+    panelist: {
+      type: "string",
+      label: "Panelist",
+      description: "The panelist ID or panelist email",
+      async options({ webinar }) {
+        const data = await this.listWebinarPanelists(get(webinar, "value", webinar));
+        return data?.panelists.map((panelist) => ({
+          label: `${panelist.name} <${panelist.email}>`,
+          value: {
+            label: panelist.name,
+            value: panelist.id,
+          },
+        }));
+      },
+    },
     occurrenceId: {
       type: "string",
       label: "Occurrence ID",
