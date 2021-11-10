@@ -244,7 +244,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Max number of members to return (1-1000)",
+      description: "Max number of members to return per page (1-1000)",
       optional: true,
     },
     after: {

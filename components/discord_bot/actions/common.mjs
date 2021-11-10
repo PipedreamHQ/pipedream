@@ -8,8 +8,11 @@ export default {
   ...common,
   methods: {
     async paginateMessages({
-      $, channelId, max = constants.DEFAULT_MAX_ITEMS, limit = constants.DEFAULT_PAGE_LIMIT,
+      $, channelId, before, after, around,
+      limit = constants.DEFAULT_PAGE_LIMIT,
+      max = constants.DEFAULT_MAX_ITEMS,
     }) {
+      const hasFilter = before || after || around;
       let messages = [];
       let nextMessages = [];
       let lastId;
@@ -17,15 +20,24 @@ export default {
       do {
         const lastLimit = max - messages.length;
 
-        nextMessages = await this.discord.getMessages({
-          $,
-          channelId,
-          params: {
+        const params = !messages.length && hasFilter
+          ? {
+            limit,
+            before,
+            after,
+            around,
+          }
+          : {
             limit: lastLimit < limit
               ? lastLimit
               : limit,
             before: lastId,
-          },
+          };
+
+        nextMessages = await this.discord.getMessages({
+          $,
+          channelId,
+          params,
         });
 
         if (!limit) {
