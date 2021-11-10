@@ -92,6 +92,7 @@ export default {
         page,
         meeting,
         occurrenceId,
+        isWebinar,
       }) {
         let registrants = [];
         const promises = [];
@@ -107,6 +108,7 @@ export default {
             occurrenceId,
             page + 1,
             status,
+            isWebinar,
           ));
         });
 
@@ -271,10 +273,13 @@ export default {
       });
       return data;
     },
-    async listMeetingRegistrants(meetingId, occurrenceId, pageNumber, status) {
+    async listMeetingRegistrants(meetingId, occurrenceId, pageNumber, status, isWebinar) {
+      const path = isWebinar
+        ? `/webinars/${meetingId}/registrants`
+        : `/meetings/${meetingId}/registrants`;
       try {
         const res = await this._makeRequest({
-          path: `/meetings/${meetingId}/registrants`,
+          path,
           params: {
             occurrence_id: occurrenceId,
             page_size: 30,
