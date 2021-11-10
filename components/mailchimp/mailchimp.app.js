@@ -25,7 +25,7 @@ module.exports = {
     _authToken() {
       return this.$auth.oauth_access_token;
     },
-    _mailchimp(server) {
+    _initMailchimpClient() {
       mailchimp.setConfig({
         accessToken: this._authToken(),
         server,
