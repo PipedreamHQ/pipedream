@@ -4,8 +4,9 @@ module.exports = {
   ...common,
   key: "sendgrid-events",
   name: "Events (Instant)",
-  description: "Emit an event when any of the specified SendGrid events is received",
+  description: "Emit new event when any of the specified SendGrid events is received",
   version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -1,11 +1,18 @@
-const sendgrid = require("@sendgrid/client");
+const axios = require("axios");
 const get = require("lodash/get");
 const retry = require("async-retry");
+const sendgrid = require("@sendgrid/client");
 
 module.exports = {
   type: "app",
   app: "sendgrid",
   methods: {
+    _authToken() {
+      return this.$auth.api_key;
+    },
+    _apiUrl() {
+      return "https://api.sendgrid.com/v3";
+    },
     api() {
       sendgrid.setDefaultHeader({
         "Content-Type": "application/json",
@@ -18,10 +25,6 @@ module.exports = {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/validations/email`;
     },
-    _globalSupressionsUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/suppression/unsubscribes`;
-    },
     _webhookSettingsUrl() {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/user/webhooks/event/settings`;
@@ -30,17 +33,15 @@ module.exports = {
       const baseUrl = this._webhookSettingsUrl();
       return `${baseUrl}/signed`;
     },
-    async _makeRequest(opts = {}) {
-      opts = {
-        ...this._makeRequestConfig(),
-        ...opts,
+    _makeRequestConfig() {
+      const authToken = this._authToken();
+      const headers = {
+        "Authorization": `Bearer ${authToken}`,
+        "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
-      const { path } = opts;
-      delete opts.path;
-      opts.url = `${this._apiUrl()}${path[0] === "/"
-        ? ""
-        : "/"}${path}`;
-      return (await axios(opts)).data;
+      return {
+        headers,
+      };
     },
     async _getAllItems(params) {
       const {
@@ -467,33 +468,6 @@ module.exports = {
         config.url = url;
       } while (globalSupressions.length < maxItems);
       return globalSupressions.slice(0, maxItems);
-    },
-    /**
-     * Makes an aribitrary call to Sendgrid API.
-     *
-     * @param {string}  method the http method to use in the request.
-     * @param {string}  path the path relative to Sendgrid API to send the request against.
-     * @param {string}  headers the headers to send in the request. Authorization headers will
-     * already be included.
-     * @param {string}  body the body of the request.
-     * @returns
-     * the return object depends on the parameters specified.
-     */
-    async makeAnAPICall(method, path, headers, body) {
-      const cleanedPath = path.replace(/^\/*/, "").replace(/\/*$/, "");
-      const url = `${this._apiUrl()}/${cleanedPath}`;
-      const { headers: baseHeaders } = this._makeRequestConfig();
-      const config = {
-        method,
-        url,
-        headers: {
-          ...baseHeaders,
-          headers,
-        },
-        data: body,
-      };
-      const { data } = await this._withRetries(() => axios.request(config));
-      return data;
     },
     /**
      * Removes one or more contact from the specified list.

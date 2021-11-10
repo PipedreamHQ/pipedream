@@ -6,8 +6,9 @@ module.exports = {
   ...common,
   key: "sendgrid-new-contact",
   name: "New Contact (Instant)",
-  description: "Emit an event when a new contact is created",
+  description: "Emit new event when a new contact is created",
   version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   hooks: {
     async activate() {
