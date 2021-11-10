@@ -416,7 +416,7 @@ export default {
       repo: `pipedream`,
     })
 
-    $.export("$summary", `Successfully fetched info for ${data.full_name}`)
+    $.export("$summary", `Successfully fetched info for \`${data.full_name}\``)
     
     return data;
   },
@@ -451,7 +451,7 @@ export default {
       repo: `pipedream`,
     })
 
-    $.export("$summary", `Successfully fetched info for ${data.full_name}`)
+    $.export("$summary", `Successfully fetched info for \`${data.full_name}\``)
     
     return data;
   },
