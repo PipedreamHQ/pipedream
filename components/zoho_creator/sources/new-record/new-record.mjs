@@ -1,11 +1,11 @@
 import zohoCreator from "../../zoho_creator.app.mjs";
 
 export default {
-  key: "zoho_creator-new-or-updated-record",
-  description: "Emit new events on new or updated records",
+  key: "zoho_creator-new-record",
+  description: "Emit new events on new record in a form",
   type: "source",
-  name: "New or Updated Record",
-  version: "0.0.9",
+  name: "New Record",
+  version: "0.0.11",
   props: {
     zohoCreator,
     db: "$.service.db",

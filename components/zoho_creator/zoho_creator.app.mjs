@@ -87,7 +87,7 @@ export default {
       const url = this._reportDetailsUrl(report.app_link_name, report.link_name);
       let moreRecords = false;
       let params = {
-        page,
+        from: page,
       };
       do {
         try {
@@ -101,7 +101,7 @@ export default {
         }
         params = {
           ...params,
-          page: page + 1,
+          from: page + 1,
         };
       } while (moreRecords);
     },
