@@ -13,9 +13,8 @@ export default {
     webinar: {
       propDefinition: [
         zoomAdmin,
-        "webinars",
+        "webinar",
       ],
-      type: "string",
     },
     occurrenceId: {
       propDefinition: [

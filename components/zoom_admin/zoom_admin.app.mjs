@@ -50,16 +50,27 @@ export default {
     meeting: {
       type: "string",
       label: "Meeting",
-      description: "The ID of the meeting",
-      async options({ page }) {
-        const meetings = await this.listMeetings(page + 1);
-        return meetings.map((meeting) => ({
-          label: meeting.topic,
-          value: {
+      description: "The meeting ID",
+      async options({
+        prevContext,
+        page,
+      }) {
+        if (!prevContext.nextPageToken && page > 0) {
+          return [];
+        }
+        const data = await this.listMeetings(prevContext.nextPageToken);
+        return {
+          options: data?.meetings.map((meeting) => ({
             label: meeting.topic,
-            value: meeting.id,
+            value: {
+              label: meeting.topic,
+              value: meeting.id,
+            },
+          })),
+          context: {
+            nextPageToken: data.next_page_token,
           },
-        }));
+        };
       },
     },
     panelist: {
@@ -257,18 +268,16 @@ export default {
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return await axios(opts);
     },
-    async listMeetings(pageNumber) {
-      const res = await this._makeRequest({
+    async listMeetings(nextPageToken) {
+      const { data } = await this._makeRequest({
         path: "/users/me/meetings",
         params: {
-          page_size: 30,
-          page_number: pageNumber,
+          page_size: 100,
+          next_page_token: nextPageToken,
         },
       });
-      if (pageNumber > get(res, ("data.page_count"))) {
-        return [];
-      }
-      return get(res, "data.meetings", []);
+
+      return data;
     },
     async listMeetingsOccurrences(meetingId, isWebinar) {
       try {

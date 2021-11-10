@@ -6,16 +6,15 @@ export default {
   name: "Get Webinar",
   description: "Retrieve the details of a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinar)",
   key: "zoom_admin-action-get-webinar",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "action",
   props: {
     zoomAdmin,
     webinar: {
       propDefinition: [
         zoomAdmin,
-        "webinars",
+        "webinar",
       ],
-      type: "string",
     },
     occurrenceId: {
       propDefinition: [

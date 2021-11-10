@@ -8,7 +8,7 @@ export default {
   name: "Create a meeting",
   description: "Create a new room in zoom. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate)",
   key: "zoom_admin-action-create-a-meeting",
-  version: "0.0.22",
+  version: "0.0.1",
   type: "action",
   props: {
     zoomAdmin,
@@ -21,7 +21,7 @@ export default {
     type: {
       type: "integer",
       label: "Type",
-      description: "Default to `A scheduled meeting`. The type of the meeting",
+      description: "Defaults to `A scheduled meeting`. The type of the meeting",
       options: [
         {
           label: "An instant meeting",
@@ -46,7 +46,7 @@ export default {
     preSchedule: {
       type: "boolean",
       label: "Pre Schedule",
-      description: "Default to `false`. Whether to create a pre-scheduled meeting. This field only supports schedule meetings.",
+      description: "Defaults to `false`. Whether to create a pre-scheduled meeting. This field only supports schedule meetings.",
       optional: true,
       default: false,
     },
@@ -71,7 +71,7 @@ export default {
     timezone: {
       type: "string",
       label: "Timezone",
-      description: "The timezome to assign to the `startTime`. This field is only used for scheduled meetings. [Click here for Zoom timezone list documentation](https://marketplace.zoom.us/docs/api-reference/other-references/abbreviation-lists#timezones)",
+      description: "The timezone to assign to the `startTime`. This field is only used for scheduled meetings. [Click here for Zoom timezone list documentation](https://marketplace.zoom.us/docs/api-reference/other-references/abbreviation-lists#timezones)",
       options: tzs,
       optional: true,
     },

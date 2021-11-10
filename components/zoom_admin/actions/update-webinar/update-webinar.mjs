@@ -10,16 +10,15 @@ export default {
   name: "Update Webinar",
   description: "Update the Details of a Webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarupdate)",
   key: "zoom_admin-action-update-a-webinar",
-  version: "0.0.6",
+  version: "0.0.1",
   type: "action",
   props: {
     zoomAdmin,
     webinar: {
       propDefinition: [
         zoomAdmin,
-        "webinars",
+        "webinar",
       ],
-      type: "string",
     },
     occurrenceId: {
       propDefinition: [

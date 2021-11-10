@@ -3,10 +3,10 @@ import isObject from "lodash/isObject.js";
 import { axios } from "@pipedream/platform";
 
 export default {
-  name: "Delete a Cloud Recording",
+  name: "Delete Cloud Recording",
   description: "Remove a recording from a meeting or webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingdeleteone)",
-  key: "zoom_admin-action-delete-a-cloud-recording",
-  version: "0.0.14",
+  key: "zoom_admin-action-delete-cloud-recording",
+  version: "0.0.1",
   type: "action",
   props: {
     zoomAdmin,
@@ -46,7 +46,7 @@ export default {
       },
     }));
 
-    $.export("$summary", "Cloud records successfully deleted");
+    $.export("$summary", "Cloud recording successfully deleted");
 
     return res;
   },

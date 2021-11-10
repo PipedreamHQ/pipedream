@@ -6,7 +6,7 @@ export default {
   name: "Update Meeting Registrant Status",
   description: "Update registrant status for a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantstatus)",
   key: "zoom_admin-action-update-meeting-registrant-status",
-  version: "0.0.28",
+  version: "0.0.1",
   type: "action",
   props: {
     zoomAdmin,
@@ -63,7 +63,11 @@ export default {
       },
     }));
 
-    $.export("$summary", "Registrant(s) status(es) successfully changed");
+    if (this.registrants.length === 1) {
+      $.export("$summary", "Registrant status successfully changed");
+    } else {
+      $.export("$summary", "Registrants statuses successfully changed");
+    }
 
     return res;
   },

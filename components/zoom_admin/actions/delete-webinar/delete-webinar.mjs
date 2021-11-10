@@ -6,16 +6,15 @@ export default {
   name: "Delete webinar",
   description: "Delete a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinardelete)",
   key: "zoom_admin-action-delete-webinar",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     zoomAdmin,
     webinar: {
       propDefinition: [
         zoomAdmin,
-        "webinars",
+        "webinar",
       ],
-      type: "string",
     },
     occurrenceId: {
       propDefinition: [
@@ -26,7 +25,7 @@ export default {
           isWebinar: true,
         }),
       ],
-      description: "The [meeting occurrence ID](https://support.zoom.us/hc/en-us/articles/216354763-How-to-Schedule-A-Recurring-Webinar). If you send this param, just the occurrence will be deleted. Otherwise, the entire webinar will be deleted",
+      description: "The [webinar occurrence ID](https://support.zoom.us/hc/en-us/articles/216354763-How-to-Schedule-A-Recurring-Webinar).",
     },
     cancelMeetingReminder: {
       type: "boolean",
@@ -47,7 +46,6 @@ export default {
 
     if (this.occurrenceId) {
       $.export("$summary", `The occurrence "${this.occurrenceId}" related to the webinar "${get(this.webinar, "label", this.webinar)}" was successfully deleted`);
-
     } else {
       $.export("$summary", `The webinar "${get(this.webinar, "label", this.webinar)}" was successfully deleted`);
     }

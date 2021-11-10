@@ -3,10 +3,10 @@ import get from "lodash/get.js";
 import { axios } from "@pipedream/platform";
 
 export default {
-  name: "Remove webinar panelist",
+  name: "Delete webinar panelist",
   description: "Remove a panelist for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarpanelistdelete)",
   key: "zoom_admin-action-remove-webinar-panelist",
-  version: "0.0.14",
+  version: "0.0.1",
   type: "action",
   props: {
     zoomAdmin,
@@ -15,7 +15,6 @@ export default {
         zoomAdmin,
         "webinar",
       ],
-      type: "string",
     },
     panelist: {
       propDefinition: [

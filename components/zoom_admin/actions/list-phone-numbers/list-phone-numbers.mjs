@@ -95,7 +95,7 @@ export default {
       },
     }));
 
-    $.export("$summary", "Phones number successfully fetched");
+    $.export("$summary", "Phone numbers successfully fetched");
 
     return res;
   },
