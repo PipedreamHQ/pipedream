@@ -67,14 +67,21 @@ export default {
       label: "Panelist",
       description: "The panelist ID or panelist email",
       async options({ webinar }) {
-        const data = await this.listWebinarPanelists(get(webinar, "value", webinar));
-        return data?.panelists.map((panelist) => ({
-          label: `${panelist.name} <${panelist.email}>`,
-          value: {
-            label: panelist.name,
-            value: panelist.id,
-          },
-        }));
+        if (!webinar) {
+          return [];
+        }
+        try {
+          const data = await this.listWebinarPanelists(get(webinar, "value", webinar));
+          return data?.panelists.map((panelist) => ({
+            label: `${panelist.name} <${panelist.email}>`,
+            value: {
+              label: panelist.name,
+              value: panelist.id,
+            },
+          }));
+        } catch {
+          return [];
+        }
       },
     },
     occurrenceId: {
@@ -175,18 +182,25 @@ export default {
       description: "The next page token is used to paginate through large result sets. A next page token will be returned whenever the set of available results exceeds the current page size. The expiration period for this token is 15 minutes.",
       optional: true,
     },
-    webinars: {
-      type: "string[]",
-      label: "Webinars",
+    webinar: {
+      type: "string",
+      label: "Webinar",
       optional: true,
-      description:
-        "Webinars you want to watch for new events. **Leave blank to watch all webinars**.",
-      async options({ nextPageToken }) {
+      description: "The Webinar ID",
+      async options({
+        prevContext,
+        page,
+      }) {
+        if (!prevContext.nextPageToken && page > 0) {
+          return [];
+        }
+
         const {
           webinars,
           next_page_token,
         } = await this.listWebinars({
-          nextPageToken,
+          nextPageToken: prevContext.nextPageToken,
+          pageSize: 2,
         });
         if (!webinars.length) {
           return [];
