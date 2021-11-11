@@ -101,7 +101,7 @@ export default {
       params,
     }));
 
-    $.export("$summary", "🎉 Subreddits successfully fetched");
+    $.export("$summary", "Subreddits successfully fetched");
     return res;
   },
 };

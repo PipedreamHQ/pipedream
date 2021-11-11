@@ -83,7 +83,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `🎉 Comments for "${get(subredditPost, "label", subredditPost)}" in "${get(subreddit, "label", subreddit)}" sub-reddit successfully fetched"`);
+    $.export("$summary", `Comments for "${get(subredditPost, "label", subredditPost)}" in "${get(subreddit, "label", subreddit)}" subreddit successfully fetched"`);
     return res;
   },
 };
