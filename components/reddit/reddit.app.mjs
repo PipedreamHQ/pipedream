@@ -15,7 +15,7 @@ export default {
       description: "Post of sub-reddit.",
       optional: false,
       async options({
-        subReddit,
+        subreddit,
         prevContext,
       }) {
         const params = {
@@ -23,7 +23,7 @@ export default {
           after: get(prevContext, "after"),
         };
         const links = await this.getNewSubredditLinks(
-          get(subReddit, "value", subReddit),
+          get(subreddit, "value", subreddit),
           params,
         );
         const options = get(links, "data.children", []).map((item) => ({

@@ -10,7 +10,7 @@ export default {
   description: "List subreddits based in a search criteria. [See the docs here](https://www.reddit.com/dev/api/#GET_subreddits_search)",
   props: {
     reddit,
-    subReddit: {
+    subreddit: {
       propDefinition: [
         reddit,
         "subreddit",
@@ -83,7 +83,7 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      q: get(this.subReddit, "value", this.subReddit),
+      q: get(this.subreddit, "value", this.subreddit),
       limit: this.limit,
       show_users: this.showUsers,
       sort: this.sort,

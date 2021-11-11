@@ -10,18 +10,18 @@ export default {
   description: "List comments for a specific post. [See the docs here](https://www.reddit.com/dev/api/#GET_comments_{article})",
   props: {
     reddit,
-    subReddit: {
+    subreddit: {
       propDefinition: [
         reddit,
         "subreddit",
       ],
     },
-    subRedditPost: {
+    subredditPost: {
       propDefinition: [
         reddit,
         "subredditPost",
-        ({ subReddit }) => ({
-          subReddit,
+        ({ subreddit }) => ({
+          subreddit,
         }),
       ],
     },
@@ -62,8 +62,8 @@ export default {
   },
   async run({ $ }) {
     const {
-      subReddit,
-      subRedditPost,
+      subreddit,
+      subredditPost,
       numberOfParents,
       depth,
       includeSubredditDetails,
@@ -72,9 +72,9 @@ export default {
 
     const res = await axios($, this.reddit._getAxiosParams({
       method: "GET",
-      path: `/r/${get(subReddit, "value", subReddit)}/comments/article`,
+      path: `/r/${get(subreddit, "value", subreddit)}/comments/article`,
       params: {
-        article: get(subRedditPost, "value", subRedditPost),
+        article: get(subredditPost, "value", subredditPost),
         context: numberOfParents,
         depth: depth,
         sr_detail: includeSubredditDetails,
@@ -83,7 +83,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `🎉 Comments for "${get(subRedditPost, "label", subRedditPost)}" in "${get(subReddit, "label", subReddit)}" sub-reddit successfully fetched"`);
+    $.export("$summary", `🎉 Comments for "${get(subredditPost, "label", subredditPost)}" in "${get(subreddit, "label", subreddit)}" sub-reddit successfully fetched"`);
     return res;
   },
 };
