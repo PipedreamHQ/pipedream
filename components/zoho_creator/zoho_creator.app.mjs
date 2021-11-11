@@ -64,7 +64,13 @@ export default {
     },
     async getApplications() {
       const url = this._applicationsUrl();
-      const { applications } = await this.genericApiGetCall(url);
+      let applications = [];
+      try {
+        const data = await this.genericApiGetCall(url);
+        applications = data.applications
+      } catch (e) {
+        applications = [];
+      }
       return applications;
     },
     async getReports() {
