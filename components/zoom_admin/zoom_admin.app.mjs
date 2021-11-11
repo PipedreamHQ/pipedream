@@ -14,7 +14,7 @@ export default {
     cloudRecording: {
       type: "string",
       label: "Recording",
-      description: "The ID of the cloud recording. Please use a valid object with `meetingId` and `value` in non-structured mode. `value` means the recording ID",
+      description: "The ID of the cloud recording. Please use a valid object with `meetingId` and `value` with \"Structured Mode\" disabled. `value` means the recording ID",
       async options({
         page,
         prevContext,
@@ -123,7 +123,7 @@ export default {
     registrants: {
       type: "string[]",
       label: "Registrants",
-      description: "The meeting registrant. It should be an object with `id` and `email`",
+      description: "The meeting registrant. If you disable the \"Structured Mode\", please provide an array of objects with `id` and `email`",
       async options({
         page,
         meeting,

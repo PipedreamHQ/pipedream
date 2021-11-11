@@ -1,5 +1,6 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import get from "lodash/get.js";
+import isObject from "lodash/isObject.js";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -51,6 +52,10 @@ export default {
     },
   },
   async run ({ $ }) {
+    const registrants = isObject(this.registrants)
+      ? this.registrants
+      : JSON.parse(this.registrants);
+
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "PUT",
       path: `/meetings/${get(this.meeting, "value", this.meeting)}/registrants/status`,
@@ -59,11 +64,11 @@ export default {
       },
       body: {
         action: this.action,
-        registrants: this.registrants,
+        registrants: registrants,
       },
     }));
 
-    if (this.registrants.length === 1) {
+    if (registrants.length === 1) {
       $.export("$summary", "Registrant status successfully changed");
     } else {
       $.export("$summary", "Registrants statuses successfully changed");
