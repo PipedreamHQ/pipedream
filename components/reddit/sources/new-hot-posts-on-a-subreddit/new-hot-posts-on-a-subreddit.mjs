@@ -1,5 +1,6 @@
 import common from "../common.mjs";
 import regionData from "./region-data.mjs";
+import get from "lodash/get.js";
 const { reddit } = common.props;
 
 export default {
@@ -47,7 +48,7 @@ export default {
     async deploy() {
       // Emits sample events on the first run during deploy.
       var redditHotPosts = await this.reddit.getNewHotSubredditPosts(
-        this.subreddit,
+        get(this.subreddit, "value", this.subreddit),
         this.region,
         this.excludeFilters,
         this.includeSubredditDetails,
@@ -73,7 +74,7 @@ export default {
   },
   async run() {
     const redditHotPosts = await this.reddit.getNewHotSubredditPosts(
-      this.subreddit,
+      get(this.subreddit, "value", this.subreddit),
       this.region,
       this.excludeFilters,
       this.includeSubredditDetails,

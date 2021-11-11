@@ -1,4 +1,5 @@
 import common from "../common.mjs";
+import get from "lodash/get.js";
 const { reddit } = common.props;
 
 export default {
@@ -64,7 +65,7 @@ export default {
     async deploy() {
       // Emits sample events on the first run during deploy.
       var redditComments = await this.reddit.getNewSubredditComments(
-        this.subreddit,
+        get(this.subreddit, "value", this.subreddit),
         this.subredditPost,
         this.numberOfParents,
         this.depth,
@@ -93,8 +94,10 @@ export default {
       let before = null;
       do {
         const redditLinks = await this.reddit.getNewSubredditLinks(
-          before,
-          this.subreddit,
+          get(this.subreddit, "value", this.subreddit),
+          {
+            before,
+          },
         );
         const { children: links = [] } = redditLinks.data;
         if (links.length === 0) {
@@ -117,7 +120,7 @@ export default {
   },
   async run() {
     const redditComments = await this.reddit.getNewSubredditComments(
-      this.subreddit,
+      get(this.subreddit, "value", this.subreddit),
       this.subredditPost,
       this.numberOfParents,
       this.depth,
