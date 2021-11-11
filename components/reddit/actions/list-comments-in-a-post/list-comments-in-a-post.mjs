@@ -37,6 +37,7 @@ export default {
         reddit,
         "depth",
       ],
+      description: "If set to `1`, include only new comments that are direct children to the subreddit pointed at by **Post**. Furthermore, `depth` determines the maximum depth of children, within the related subreddit comment tree, of new comments to be included.",
     },
     includeSubredditDetails: {
       propDefinition: [

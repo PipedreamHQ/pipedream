@@ -47,12 +47,11 @@ export default {
       default: 0,
     },
     depth: {
-      type: "integer",
-      label: "Depth",
-      description:
-        "If set to 1, it will include, in the emitted event, only new comments that are direct children to the subreddit pointed by \"subredditPost\". Furthermore, \"depth\" determines the maximum depth of children, within the related subreddit comment tree, of new comments to be included in said emitted event.",
+      propDefinition: [
+        reddit,
+        "depth",
+      ],
       default: 1,
-      optional: true,
     },
     includeSubredditDetails: {
       propDefinition: [
