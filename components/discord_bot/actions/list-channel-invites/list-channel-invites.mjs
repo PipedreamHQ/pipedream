@@ -27,7 +27,7 @@ export default {
     },
   },
   async run({ $ }) {
-    return await this.discord.getChannelInvites({
+    return this.discord.getChannelInvites({
       $,
       channelId: this.channelId,
     });

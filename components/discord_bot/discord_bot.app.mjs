@@ -14,8 +14,10 @@ export default {
 
         const guilds =
           await this.getGuilds({
-            after,
-            limit: 10,
+            params: {
+              after,
+              limit: 50,
+            },
           });
 
         const options =
@@ -239,7 +241,7 @@ export default {
     max: {
       type: "integer",
       label: "Max records",
-      description: "Max number of records to be paginated (eg. `60`)",
+      description: "Max number of records in the whole pagination (eg. `60`)",
     },
     limit: {
       type: "integer",
@@ -299,6 +301,11 @@ export default {
       label: "Emoji",
       description: "Emoji (eg. 👍). To use custom emoji, you must encode it in the format `name:id` with the emoji name and emoji id.",
     },
+    messageId: {
+      type: "string",
+      label: "Message ID",
+      description: "Copy the specific Message ID from your channel (eg. `907292892995932230`)",
+    },
   },
   methods: {
     async _makeRequest(opts) {
@@ -322,20 +329,18 @@ export default {
         ...otherOpts,
         headers,
         url,
+        timeout: 10000,
       };
 
       return await axios($ ?? this, config);
     },
     async getGuildMembers({
-      $, guildId, after, limit,
+      $, guildId, params,
     }) {
       return await this._makeRequest({
         $,
         path: `/guilds/${guildId}/members`,
-        params: {
-          after,
-          limit,
-        },
+        params,
       });
     },
     async getGuildMember({
@@ -397,15 +402,12 @@ export default {
       });
     },
     async getUserReactions({
-      $, channelId, messageId, emoji, after, limit,
+      $, channelId, messageId, emoji, params,
     }) {
       return await this._makeRequest({
         $,
         path: `/channels/${channelId}/messages/${messageId}/reactions/${emoji}`,
-        params: {
-          after,
-          limit,
-        },
+        params,
       });
     },
     async createReaction({
@@ -419,16 +421,12 @@ export default {
       });
     },
     async getGuilds({
-      $, before, after, limit,
+      $, params,
     }) {
       return await this._makeRequest({
         $,
         path: "/users/@me/guilds",
-        params: {
-          before,
-          after,
-          limit,
-        },
+        params,
       });
     },
     async getChannels({

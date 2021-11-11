@@ -8,7 +8,7 @@ export default {
   type: "action",
   version: "0.0.1",
   async run({ $ }) {
-    return await this.discord.getGuildChannels({
+    return this.discord.getGuildChannels({
       $,
       guildId: this.guildId,
     });

@@ -1,8 +1,9 @@
-import flatten from "lodash.flatten";
-import uniqBy from "lodash.uniqby";
 import common from "../common.mjs";
+import constants from "../../constants.mjs";
+import utils from "../../utils.mjs";
 
 const { discord } = common.props;
+const { emptyStrToUndefined } = utils;
 
 export default {
   ...common,
@@ -13,10 +14,22 @@ export default {
   version: "0.0.1",
   props: {
     ...common.props,
-    emoji: {
+    messageId: {
+      propDefinition: [
+        discord,
+        "messageId",
+      ],
+    },
+    decodedEmoji: {
       propDefinition: [
         discord,
         "emoji",
+      ],
+    },
+    max: {
+      propDefinition: [
+        discord,
+        "max",
       ],
     },
     limit: {
@@ -35,46 +48,29 @@ export default {
   },
   async run({ $ }) {
     const {
-      emoji: decodedEmoji,
+      decodedEmoji,
       channelId,
-      after,
-      limit,
+      messageId,
+      max,
     } = this;
+
+    const limit = emptyStrToUndefined(this.limit);
+    const after = emptyStrToUndefined(this.after);
 
     const emoji = encodeURIComponent(`${decodedEmoji}`);
 
-    const messages = await this.paginateMessages({
-      $,
-      channelId,
-      max: 20,
+    return this.paginateResources({
+      resourceFn: this.discord.getUserReactions,
+      resourceFnArgs: {
+        $,
+        channelId,
+        emoji,
+        messageId,
+      },
+      after,
+      limit,
+      max,
+      paginationKey: constants.PAGINATION_KEY.AFTER,
     });
-
-    const messageIds = messages.map((message) => message.id);
-
-    const requestUserReactions =
-      messageIds
-        .map((messageId) => {
-          return this.discord.getUserReactions({
-            $,
-            channelId,
-            emoji,
-            messageId,
-            after,
-            limit,
-          });
-        });
-
-    const userReactionsResults = await Promise.allSettled(requestUserReactions);
-
-    const userReactions = userReactionsResults.map(({
-      status, value, reason,
-    }) => {
-      return status === "fulfilled"
-        ? value
-        : reason.response.data;
-    });
-
-    const usersFlatten = flatten(userReactions);
-    return uniqBy(usersFlatten, (user) => user.id);
   },
 };

@@ -85,7 +85,7 @@ export default {
       target_application_id: targetApplicationId,
     };
 
-    return await this.discord.createChannelInvite({
+    return this.discord.createChannelInvite({
       $,
       channelId,
       data,

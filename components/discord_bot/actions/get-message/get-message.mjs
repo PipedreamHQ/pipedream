@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    return await this.discord.getChannelMessage({
+    return this.discord.getChannelMessage({
       $,
       channelId: this.channelId,
       messageId: this.messageId,

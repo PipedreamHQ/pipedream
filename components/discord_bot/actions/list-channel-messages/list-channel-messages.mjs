@@ -1,5 +1,5 @@
-import utils from "../../utils.mjs";
 import common from "../common.mjs";
+import utils from "../../utils.mjs";
 
 const { discord } = common.props;
 const { emptyStrToUndefined } = utils;
@@ -61,9 +61,12 @@ export default {
       throw new Error("The before, after, and around keys are mutually exclusive, only one may be passed at a time.");
     }
 
-    return await this.paginateMessages({
-      $,
-      channelId,
+    return this.paginateResources({
+      resourceFn: this.discord.getMessages,
+      resourceFnArgs: {
+        $,
+        channelId,
+      },
       before,
       after,
       around,

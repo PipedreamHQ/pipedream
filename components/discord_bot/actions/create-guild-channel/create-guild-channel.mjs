@@ -145,7 +145,7 @@ export default {
       permission_overwrites: permissionOverwrites,
     };
 
-    return await this.discord.createChannel({
+    return this.discord.createChannel({
       $,
       guildId,
       data,

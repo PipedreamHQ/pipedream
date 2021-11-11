@@ -214,7 +214,7 @@ export default {
       permission_overwrites: permissionOverwrites,
     };
 
-    return await this.discord.modifyChannel({
+    return this.discord.modifyChannel({
       $,
       channelId,
       data,

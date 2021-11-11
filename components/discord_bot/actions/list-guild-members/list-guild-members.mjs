@@ -1,6 +1,9 @@
-import common from "../../common.mjs";
+import utils from "../../utils.mjs";
+import common from "../common.mjs";
+import constants from "../../constants.mjs";
 
 const { discord } = common.props;
+const { emptyStrToUndefined } = utils;
 
 export default {
   ...common,
@@ -10,10 +13,19 @@ export default {
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    discord,
     guildId: {
-      ...common.props.guildId,
       description: "In order to get members you migth want to take a look at these [docs](https://support.discord.com/hc/en-us/articles/360040720412#privileged-intent-whitelisting).",
+      propDefinition: [
+        discord,
+        "guild",
+      ],
+    },
+    max: {
+      propDefinition: [
+        discord,
+        "max",
+      ],
     },
     limit: {
       propDefinition: [
@@ -29,11 +41,25 @@ export default {
     },
   },
   async run({ $ }) {
-    return await this.discord.getGuildMembers({
-      $,
-      guildId: this.guildId,
-      limit: this.limit,
-      after: this.after,
+    const {
+      guildId,
+      max,
+    } = this;
+
+    const limit = emptyStrToUndefined(this.limit);
+    const after = emptyStrToUndefined(this.after);
+
+    return this.paginateResources({
+      resourceFn: this.discord.getGuildMembers,
+      resourceFnArgs: {
+        $,
+        guildId,
+      },
+      max,
+      limit,
+      after,
+      paginationKey: constants.PAGINATION_KEY.AFTER,
+      mapper: ({ user }) => user,
     });
   },
 };
