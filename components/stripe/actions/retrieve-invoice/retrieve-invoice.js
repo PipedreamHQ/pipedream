@@ -5,7 +5,8 @@ module.exports = {
   name: "Retrieve an Invoice",
   type: "action",
   version: "0.0.2",
-  description: "Retrieves the details of an existing invoice.",
+  description: "Retrieves the details of an existing invoice. [See the " +
+    "docs](https://stripe.com/docs/api/invoices/retrieve) for more information",
   props: {
     stripe,
     id: {

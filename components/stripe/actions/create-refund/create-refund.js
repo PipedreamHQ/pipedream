@@ -10,7 +10,8 @@ module.exports = {
     "not yet refunded. Funds will be refunded to the credit or debit card that was originally " +
     "charged. You can optionally refund only part of a charge. You can do so multiple times, " +
     "until the entire charge has been refunded. Once entirely refunded, a charge can't be " +
-    "refunded again. ",
+    "refunded again. [See the docs](https://stripe.com/docs/api/refunds/create) for more " +
+    "information",
   props: {
     stripe,
     charge: {

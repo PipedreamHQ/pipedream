@@ -5,7 +5,8 @@ module.exports = {
   name: "Retrieve Invoice Line Item",
   type: "action",
   version: "0.0.2",
-  description: "Retrieve a single line item on an invoice",
+  description: "Retrieve a single line item on an invoice. [See the " +
+    "docs](https://stripe.com/docs/api/invoiceitems/retrieve) for more information",
   props: {
     stripe,
     // Used to filter subscription and invoice options

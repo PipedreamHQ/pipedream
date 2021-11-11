@@ -7,7 +7,8 @@ module.exports = {
   name: "Update a Payment Intent",
   type: "action",
   version: "0.0.2",
-  description: "Update a [payment intent](https://stripe.com/docs/payments/payment-intents)",
+  description: "Update a [payment intent](https://stripe.com/docs/payments/payment-intents). [See" +
+    " the docs](https://stripe.com/docs/api/payment_intents/update) for more information",
   props: {
     stripe,
     id: {

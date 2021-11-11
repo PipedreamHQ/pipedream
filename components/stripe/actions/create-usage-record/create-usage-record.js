@@ -9,7 +9,8 @@ module.exports = {
   version: "0.0.2",
   description: "With metered billing, you charge your customers based on their consumption of " +
     "your service during the billing cycle, instead of explicitly setting quantities. Use this " +
-    " action to create a usage record for metered billing.",
+    " action to create a usage record for metered billing. [See the " +
+    "docs](https://stripe.com/docs/api/usage_records/create) for more information",
   props: {
     stripe,
     // Used to filter subscription

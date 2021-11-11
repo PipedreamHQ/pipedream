@@ -6,7 +6,8 @@ module.exports = {
   name: "Create Invoice Line Item",
   type: "action",
   version: "0.0.2",
-  description: "Add a line item to an invoice",
+  description: "Add a line item to an invoice. [See the " +
+    "docs](https://stripe.com/docs/api/invoiceitems/create) for more information",
   props: {
     stripe,
     customer: {

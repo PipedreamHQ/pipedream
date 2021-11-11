@@ -5,7 +5,8 @@ module.exports = {
   name: "Update a Payout",
   type: "action",
   version: "0.0.2",
-  description: "Update the metadata on a payout.",
+  description: "Update the metadata on a payout. [See the " +
+    "docs](https://stripe.com/docs/api/payouts/update) for more information",
   props: {
     stripe,
     id: {

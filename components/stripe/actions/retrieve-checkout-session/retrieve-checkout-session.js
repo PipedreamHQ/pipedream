@@ -6,7 +6,8 @@ module.exports = {
   type: "action",
   version: "0.0.2",
   description: "A Checkout Session represents your customer's session as they pay for one-time " +
-    "purchases or subscriptions through Stripe Checkout.",
+    "purchases or subscriptions through Stripe Checkout. [See the " +
+    "docs](https://stripe.com/docs/api/checkout/sessions/retrieve) for more information",
   props: {
     stripe,
     id: {

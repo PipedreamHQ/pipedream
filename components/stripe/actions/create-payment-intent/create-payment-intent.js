@@ -6,7 +6,8 @@ module.exports = {
   name: "Create a Payment Intent",
   type: "action",
   version: "0.0.2",
-  description: "Create a [payment intent](https://stripe.com/docs/payments/payment-intents)",
+  description: "Create a [payment intent](https://stripe.com/docs/payments/payment-intents). [See" +
+    "the docs](https://stripe.com/docs/api/payment_intents/create) for more information",
   props: {
     stripe,
     amount: {

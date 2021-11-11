@@ -7,7 +7,8 @@ module.exports = {
   version: "0.0.2",
   description: "Retrieves the details of a " +
     "[payment intent](https://stripe.com/docs/payments/payment-intents) that was previously " +
-    "created",
+    "created. [See the docs](https://stripe.com/docs/api/payment_intents/retrieve) for more " +
+    "information",
   props: {
     stripe,
     client_secret: {

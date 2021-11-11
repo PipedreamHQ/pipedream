@@ -6,7 +6,8 @@ module.exports = {
   name: "List Payouts",
   type: "action",
   version: "0.0.2",
-  description: "Find or list payouts",
+  description: "Find or list payouts. [See the docs](https://stripe.com/docs/api/payouts/list) " +
+    "for more information",
   props: {
     stripe,
     status: {

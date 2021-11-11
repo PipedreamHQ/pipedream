@@ -5,7 +5,8 @@ module.exports = {
   name: "Void Invoice",
   type: "action",
   version: "0.0.2",
-  description: "Void an invoice",
+  description: "Void an invoice. [See the docs](https://stripe.com/docs/api/invoices/void) for " +
+    "more information",
   props: {
     stripe,
     id: {

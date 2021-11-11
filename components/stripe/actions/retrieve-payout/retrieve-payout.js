@@ -5,7 +5,8 @@ module.exports = {
   name: "Retrieve a Payout",
   type: "action",
   version: "0.0.2",
-  description: "Retrieves the details of an existing payout.",
+  description: "Retrieves the details of an existing payout. [See the " +
+    "docs](https://stripe.com/docs/api/payouts/retrieve) for more information",
   props: {
     stripe,
     id: {

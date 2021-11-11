@@ -5,7 +5,8 @@ module.exports = {
   name: "Delete Invoice Line Item",
   type: "action",
   version: "0.0.2",
-  description: "Delete a line item from an invoice",
+  description: "Delete a line item from an invoice. [See the " +
+    "docs](https://stripe.com/docs/api/invoiceitems/delete) for more information",
   props: {
     stripe,
     // Used to populate invoice_item options

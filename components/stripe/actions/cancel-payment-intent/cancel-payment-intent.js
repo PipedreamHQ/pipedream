@@ -9,7 +9,8 @@ module.exports = {
   description: "Cancel a [payment intent](https://stripe.com/docs/payments/payment-intents). " +
     "Once canceled, no additional charges will be made by the payment intent and any operations " +
     "on the payment intent will fail with an error. For payment intents with status=" +
-    "`requires_capture`, the remaining amount_capturable will automatically be refunded.",
+    "`requires_capture`, the remaining amount_capturable will automatically be refunded. [See the" +
+    " docs](https://stripe.com/docs/api/payment_intents/cancel) for more information",
   props: {
     stripe,
     id: {

@@ -5,7 +5,8 @@ module.exports = {
   name: "Delete a Customer",
   type: "action",
   version: "0.0.2",
-  description: "Delete a customer",
+  description: "Delete a customer. [See the docs](https://stripe.com/docs/api/customers/delete) " +
+    "for more information",
   props: {
     stripe,
     customer: {

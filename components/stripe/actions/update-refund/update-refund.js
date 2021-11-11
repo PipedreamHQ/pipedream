@@ -5,7 +5,8 @@ module.exports = {
   name: "Update a Refund",
   type: "action",
   version: "0.0.2",
-  description: "Update the metadata on a refund.",
+  description: "Update the metadata on a refund. [See the " +
+    "docs](https://stripe.com/docs/api/refunds/update) for more information",
   props: {
     stripe,
     id: {

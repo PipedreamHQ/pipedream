@@ -7,7 +7,8 @@ module.exports = {
   version: "0.0.2",
   description: "Cancel or reverse a [payout](https://stripe.com/docs/payouts). " +
     "A payout can be canceled only if it has not yet been paid out. A payout can be reversed " +
-    "only if it has already been paid out. Funds will be refunded to your available balance.",
+    "only if it has already been paid out. Funds will be refunded to your available balance. [See" +
+    " the docs](https://stripe.com/docs/api/payouts/cancel) for more information",
   props: {
     stripe,
     id: {

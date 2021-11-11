@@ -6,7 +6,8 @@ module.exports = {
   name: "Capture a Payment Intent",
   type: "action",
   version: "0.0.2",
-  description: "Capture the funds of an existing uncaptured payment intent.",
+  description: "Capture the funds of an existing uncaptured payment intent. [See the " +
+  "docs](https://stripe.com/docs/api/payment_intents/capture) for more information",
   props: {
     stripe,
     id: {

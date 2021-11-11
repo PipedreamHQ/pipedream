@@ -6,7 +6,8 @@ module.exports = {
   name: "Update Invoice Line Item",
   type: "action",
   version: "0.0.2",
-  description: "Update an invoice line item",
+  description: "Update an invoice line item. [See the " +
+    "docs](https://stripe.com/docs/api/invoiceitems/update) for more information",
   props: {
     stripe,
     // Used to filter subscription and invoice options

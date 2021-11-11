@@ -6,7 +6,8 @@ module.exports = {
   name: "List Invoices",
   type: "action",
   version: "0.0.2",
-  description: "Find or list invoices",
+  description: "Find or list invoices. [See the docs](https://stripe.com/docs/api/invoices/list) " +
+    "for more information",
   props: {
     stripe,
     customer: {

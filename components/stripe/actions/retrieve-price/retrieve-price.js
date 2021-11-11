@@ -5,7 +5,8 @@ module.exports = {
   name: "Retrieve a Price",
   type: "action",
   version: "0.0.2",
-  description: "Retrieves the details of an existing product price.",
+  description: "Retrieves the details of an existing product price. [See the " +
+    "docs](https://stripe.com/docs/api/prices/retrieve) for more information",
   props: {
     stripe,
     id: {

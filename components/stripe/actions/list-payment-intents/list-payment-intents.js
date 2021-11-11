@@ -8,7 +8,8 @@ module.exports = {
   version: "0.0.2",
   description: "Retrieves a list of " +
     "[payment intent](https://stripe.com/docs/payments/payment-intents) that were previously " +
-    "created",
+    "created. [See the docs](https://stripe.com/docs/api/payment_intents/list) for more " +
+    "information",
   props: {
     stripe,
     customer: {

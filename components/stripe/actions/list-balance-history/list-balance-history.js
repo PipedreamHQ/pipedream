@@ -8,7 +8,8 @@ module.exports = {
   version: "0.0.2",
   description: "Returns the last 100 transactions that have contributed to the Stripe account " +
     "balance (e.g., charges, transfers, and so forth). The transactions are returned in " +
-    "sorted order, with the most recent transactions appearing first.",
+    "sorted order, with the most recent transactions appearing first. [See the " +
+    "docs](https://stripe.com/docs/api/balance_transactions/list) for more information",
   props: {
     stripe,
     payout: {

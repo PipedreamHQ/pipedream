@@ -5,7 +5,8 @@ module.exports = {
   name: "Delete Or Void Invoice",
   type: "action",
   version: "0.0.2",
-  description: "Delete a draft invoice, or void a non-draft or subscription invoice",
+  description: "Delete a draft invoice, or void a non-draft or subscription invoice. [See the " +
+    "docs](https://stripe.com/docs/api/invoiceitems/delete) for more information",
   props: {
     stripe,
     id: {

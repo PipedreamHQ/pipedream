@@ -7,7 +7,8 @@ module.exports = {
   type: "action",
   version: "0.0.2",
   description: "Send funds to your own bank account. Your Stripe balance must be able to cover " +
-    "the payout amount, or you'll receive an 'Insufficient Funds' error.",
+    "the payout amount, or you'll receive an 'Insufficient Funds' error. [See the " +
+    "docs](https://stripe.com/docs/api/payouts/create) for more information",
   props: {
     stripe,
     amount: {
