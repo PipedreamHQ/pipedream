@@ -4,7 +4,7 @@ import get from "lodash/get.js";
 
 export default {
   type: "action",
-  key: "reddit-action-submit-a-comment",
+  key: "reddit-submit-a-comment",
   version: "0.0.1",
   name: "Submit a Comment",
   description: "Submit a new comment or reply to a message. [See the docs here](https://www.reddit.com/dev/api/#POST_api_comment)",

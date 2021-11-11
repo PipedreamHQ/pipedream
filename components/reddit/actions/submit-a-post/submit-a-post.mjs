@@ -5,7 +5,7 @@ import get from "lodash/get.js";
 
 export default {
   type: "action",
-  key: "reddit-action-submit-a-post",
+  key: "reddit-submit-a-post",
   version: "0.0.1",
   name: "Submit a Post",
   description: "Create a post to a subreddit. [See the docs here](https://www.reddit.com/dev/api/#POST_api_submit)",

@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "action",
-  key: "reddit-action-list-comments",
+  key: "reddit-list-comments",
   version: "0.0.1",
   name: "List Comments",
   description: "List comments for a specific post. [See the docs here](https://www.reddit.com/dev/api/#GET_comments_{article})",

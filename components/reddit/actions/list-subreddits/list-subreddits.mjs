@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "action",
-  key: "reddit-action-list-subreddits",
+  key: "reddit-list-subreddits",
   version: "0.0.1",
   name: "List Subreddits",
   description: "List subreddits based in a search criteria. [See the docs here](https://www.reddit.com/dev/api/#GET_subreddits_search)",
