@@ -8,6 +8,21 @@ export default {
   type: "app",
   app: "reddit",
   propDefinitions: {
+    thingId: {
+      type: "string",
+      label: "Thing ID",
+      description: "[Fullname](https://www.reddit.com/dev/api/#fullnames) of parent thing",
+    },
+    sort: {
+      type: "string",
+      label: "Sort",
+      description: "One of: `relevance`, `activity`",
+      options: [
+        "relevance",
+        "activity",
+      ],
+      optional: true,
+    },
     subredditPost: {
       type: "string",
       label: "Post",

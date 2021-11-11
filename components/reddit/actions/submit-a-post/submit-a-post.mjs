@@ -76,7 +76,7 @@ export default {
     },
     eventTz: {
       type: "string",
-      label: "Event End",
+      label: "Event Timezone",
       description: "(beta) a [pytz](https://pypi.org/project/pytz/) timezone e.g. `America/Los_Angeles`",
       optional: true,
       options: tzs,

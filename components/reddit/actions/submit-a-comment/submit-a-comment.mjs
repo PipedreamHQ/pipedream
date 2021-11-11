@@ -15,9 +15,10 @@ export default {
       description: "The content of your comment.",
     },
     thingId: {
-      type: "string",
-      label: "Thing ID",
-      description: "[Fullname](https://www.reddit.com/dev/api/#fullnames) of parent thing",
+      propDefinition: [
+        reddit,
+        "thingId",
+      ],
     },
   },
   async run ({ $ }) {
