@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "Changes to Webinar Panelists",
   key: "zoom_admin-webinar-changes-to-panelists",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new event every time a panelist is added or removed from a webinar, or any time their details change",
   dedupe: "unique",
   props: {
@@ -14,8 +14,10 @@ export default {
     webinars: {
       propDefinition: [
         zoomAdmin,
-        "webinars",
+        "webinar",
       ],
+      type: "string[]",
+      description: "Webinars you want to watch for new events. **Leave blank to watch all webinars**.",
     },
     db: "$.service.db",
     timer: {
@@ -53,7 +55,7 @@ export default {
     async fetchAndEmitParticipants() {
       // This endpoint allows for no time filter, so we fetch all participants from
       // all configured webinars and let the deduper handle duplicates
-      const webinars = this.webinars || [];
+      const webinars = this.zoomAdmin.sanitizedArray(this.webinars || []);
       if (!this.webinars || !this.webinars.length) {
         let nextPageToken;
         do {

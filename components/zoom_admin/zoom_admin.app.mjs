@@ -2,6 +2,9 @@
 import axios from "axios";
 import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
+import isArray from "lodash/isArray.js";
+import isEmpty from "lodash/isEmpty.js";
+import isString from "lodash/isString.js";
 import zoomCountries from "./zoom_countries.mjs";
 
 export default {
@@ -249,7 +252,6 @@ export default {
       };
     },
     _getAxiosParams(opts = {}) {
-      console.log(JSON.stringify(opts));
       return {
         ...opts,
         url: this._apiUrl() + opts.path,
@@ -267,6 +269,23 @@ export default {
       // eslint-disable-next-line multiline-ternary
       opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
       return await axios(opts);
+    },
+    sanitizedArray(value) {
+      if (isArray(value)) {
+        return value.map((item) => get(item, "value", item));
+      }
+
+      // If is string, try to convert it in an array
+      if (isString(value)) {
+        // Return an empty array if string is empty
+        if (isEmpty(value)) {
+          return [];
+        }
+
+        return value.replace(/["'[\]\s]+/g, "").split(",");
+      }
+
+      throw new Error(`${value} is not an array or an array-like`);
     },
     async listMeetings(nextPageToken) {
       const { data } = await this._makeRequest({
