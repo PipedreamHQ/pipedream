@@ -4,10 +4,10 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "action",
-  key: "reddit-list-subreddits",
+  key: "reddit-list-subreddits-by-query",
   version: "0.0.1",
-  name: "List Subreddits",
-  description: "List subreddits based in a search criteria. [See the docs here](https://www.reddit.com/dev/api/#GET_subreddits_search)",
+  name: "List Subreddits by Query",
+  description: "List subreddits based on a search criteria. [See the docs here](https://www.reddit.com/dev/api/#GET_subreddits_search)",
   props: {
     reddit,
     subreddit: {
@@ -57,27 +57,15 @@ export default {
       optional: true,
     },
     srDetails: {
-      type: "boolean",
-      label: "Subreddit Details",
-      description: "Expand Subreddits",
-      optional: true,
+      propDefinition: [
+        reddit,
+        "includeSubredditDetails",
+      ],
     },
     typeaheadActive: {
       type: "boolean",
       label: "Typeahead Active",
       description: "Boolean value or None",
-      optional: true,
-    },
-    show: {
-      type: "string",
-      label: "Show",
-      description: "The string `all`",
-      optional: true,
-    },
-    searchQueryId: {
-      type: "string",
-      label: "Search Queue ID",
-      description: "An `uuid`",
       optional: true,
     },
   },

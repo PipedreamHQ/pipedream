@@ -1,6 +1,5 @@
 import axios from "axios";
 import qs from "qs";
-import lodash from "lodash";
 import isNil from "lodash/isNil.js";
 import retry from "async-retry";
 import get from "lodash/get.js";
@@ -12,7 +11,7 @@ export default {
     subredditPost: {
       type: "string",
       label: "Post",
-      description: "Post of sub-reddit.",
+      description: "Select a subreddit post with \"Structured Mode\" enabled, or reference specific Post ID in [base36](http://en.wikipedia.org/wiki/Base36) with \"Structured Mode\" disabled (for example, `15bfi0`).",
       optional: false,
       async options({
         subreddit,
@@ -58,7 +57,7 @@ export default {
     count: {
       type: "integer",
       label: "Count",
-      description: "The number of items already seen in this listing. on the html site, the builder uses this to determine when to give values for `before` and `after` in the response.",
+      description: "The number of items already seen in this listing on the html site, the builder uses this to determine when to give values for `before` and `after` in the response.",
       optional: true,
     },
     limit: {
@@ -161,7 +160,6 @@ export default {
     },
     _getHeaders() {
       return {
-        // "authorization": `Bearer ${this._accessToken()}`,
         "authorization": `Bearer ${this._accessToken()}`,
         "user-agent": "@PipedreamHQ/pipedream v0.1",
       };
@@ -367,7 +365,7 @@ export default {
           sr_detail: false,
           typeahead_active: false,
         });
-        const isNewDataAvailable = lodash.get(redditCommunities, [
+        const isNewDataAvailable = get(redditCommunities, [
           "data",
           "children",
           "length",

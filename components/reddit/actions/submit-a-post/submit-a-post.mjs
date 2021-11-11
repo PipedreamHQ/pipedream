@@ -35,25 +35,25 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "The content your post. Applicable for `self`",
+      description: "The content your post. Applicable if **Kind** is `self`",
       optional: true,
     },
     url: {
       type: "string",
       label: "URL",
-      description: "The URL to be shared in your post. Applicable for `image`, and `link`",
+      description: "The URL to be shared in your post. Applicable if **Kind** is `image` or `link`",
       optional: true,
     },
     spoiler: {
       type: "boolean",
       label: "Spoiler",
-      description: "Default to `false`. Flag it as `true` if your post contains some spoiler",
+      description: "Default to `false`. Flag it as `true` if your post contains some spoiler.",
       optional: true,
     },
     sendReplies: {
       type: "boolean",
       label: "Send Replies",
-      description: "Default to `true`. If `true`, you will receive email notification if your post has some reply",
+      description: "Default to `true`. If `true`, you will receive email notification if your post has some reply.",
       optional: true,
     },
     nsfw: {

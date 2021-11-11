@@ -4,9 +4,9 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "action",
-  key: "reddit-list-comments",
+  key: "reddit-list-comments-in-a-post",
   version: "0.0.1",
-  name: "List Comments",
+  name: "List Comments in a Post",
   description: "List comments for a specific post. [See the docs here](https://www.reddit.com/dev/api/#GET_comments_{article})",
   props: {
     reddit,
@@ -15,6 +15,7 @@ export default {
         reddit,
         "subreddit",
       ],
+      description: "Search for a subreddit on Reddit with \"Structured Mode\" enabled, or enter a subreddit display name with \"Structured Mode\" disabled (for example, `happycowgifs`).",
     },
     subredditPost: {
       propDefinition: [

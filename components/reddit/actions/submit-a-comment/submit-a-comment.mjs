@@ -1,6 +1,5 @@
 import { axios } from "@pipedream/platform";
 import reddit from "../../reddit.app.mjs";
-import get from "lodash/get.js";
 
 export default {
   type: "action",
@@ -13,7 +12,7 @@ export default {
     text: {
       type: "string",
       label: "Text",
-      description: "The content your comment.",
+      description: "The content of your comment.",
     },
     thingId: {
       type: "string",
@@ -36,7 +35,7 @@ export default {
 
     this.reddit.checkErrors(res);
     $.export("$summary", "Your comment has been successfully submitted");
-    return get(res, "json.data.things[0]", res);
+    return res?.json?.data?.things?.[0] ?? res;
   },
 };
 
