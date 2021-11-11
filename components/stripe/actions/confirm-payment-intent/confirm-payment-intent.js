@@ -28,8 +28,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "payment_method",
-        (configuredProps) => ({
-          customer: configuredProps.customer,
+        ({ customer }) => ({
+          customer,
         }),
       ],
     },

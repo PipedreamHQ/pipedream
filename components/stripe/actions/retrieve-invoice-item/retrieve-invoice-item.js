@@ -20,8 +20,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "subscription",
-        (configuredProps) => ({
-          customer: configuredProps.customer,
+        ({ customer }) => ({
+          customer,
         }),
       ],
     },
@@ -30,9 +30,11 @@ module.exports = {
       propDefinition: [
         stripe,
         "invoice",
-        (configuredProps) => ({
-          customer: configuredProps.customer,
-          subscription: configuredProps.subscription,
+        ({
+          customer, subscription,
+        }) => ({
+          customer,
+          subscription,
         }),
       ],
     },
@@ -40,8 +42,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "invoice_item",
-        (configuredProps) => ({
-          invoice: configuredProps.invoice,
+        ({ invoice }) => ({
+          invoice,
         }),
       ],
       optional: false,

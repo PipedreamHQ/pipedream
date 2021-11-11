@@ -2,10 +2,60 @@
 
 const stripe = require("stripe");
 
+/**
+ * Options used to generate options for a prop
+ *
+ * @see {@link https://pipedream.com/docs/components/api/#async-options-example Components API docs}
+ *
+ * @typedef {Object} OptionsMethodOptions
+ * @property {Object} [opts.prevContext] - An object representing the context for the previous
+ * `options` invocation
+ * @property {...*} [opts.values] - Additional values used to generate options
+ */
+
+/**
+ * Typically returns an array of values matching the prop type (e.g., `string`) or an array of
+ * object that define the `label` and `value` for each option
+ *
+ * * @see {@link https://pipedream.com/docs/components/api/#async-options-example Components API docs}
+ *
+ * @callback optionsMethod
+ * @param {OptionsMethodOptions} opts - Options used to generate options for a prop
+ * @returns {{ options: String[], context: Object }} An object with an `options` array and a context
+ * object with a `nextPageToken` key
+ */
+
+/**
+ * Returns a Stripe collection object
+ * @callback collectionFn
+ *
+ * @see {@link https://stripe.com/docs/api/pagination Stripe Pagination Docs}
+ *
+ * @param {OptionsMethodOptions} opts - Options used to call a Stripe collection function
+ * @returns {{ data: Array }} A object with a data property that contains an array of items
+ */
+
+/**
+ * Returns a prop option string or object
+ * @callback keyFn
+ *
+ * @param {Object} object - An item object used to create a prop option
+ * @returns {(String|{label:String,value:String})} A prop option string or object
+ */
+
+/**
+ * Creates an async options method to be used as the `options` property of a component prop
+ *
+ * @param {(String|collectionFn)} collectionOrFn - A stripe collection name or function that returns
+ * a Stripe collection object
+ * @param {([valueKey:String,labelKey:String]|keyFn)} keysOrFn - An array pair whose values define a
+ * mapping from Stripe item to prop option, or a function that returns a prop option
+ * @returns {optionsMethod} The created options method
+ */
 const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({
   prevContext, ...opts
 }) {
-  const { nextPageToken: pageToken } = prevContext;
+  let { startingAfter } = prevContext;
   let result;
   if (typeof collectionOrFn === "function") {
     result = await collectionOrFn.call(this, {
@@ -14,7 +64,7 @@ const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({
     });
   } else {
     result = await this.sdk()[collectionOrFn].list({
-      starting_after: pageToken,
+      starting_after: startingAfter,
     });
   }
 
@@ -28,15 +78,14 @@ const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({
     }));
   }
 
-  let nextPageToken;
   if (options[options.length - 1]) {
-    nextPageToken = options[options.length - 1].value;
+    startingAfter = options[options.length - 1].value;
   }
 
   return {
     options,
     context: {
-      nextPageToken,
+      startingAfter,
     },
   };
 };
@@ -69,7 +118,7 @@ module.exports = {
       description: "Example: `pm_card_visa`",
       options: createOptionsMethod(
         function({
-          prevContext: { nextPageToken }, customer, type,
+          prevContext: { startingAfter }, customer, type,
         }) {
           // payment `type` is a required param
           if (!customer || !type) {
@@ -78,7 +127,7 @@ module.exports = {
             };
           }
           return this.sdk().paymentMethods.list({
-            starting_after: nextPageToken,
+            starting_after: startingAfter,
             customer: customer,
           });
         },
@@ -106,10 +155,10 @@ module.exports = {
       description: "Example: `price_0HuVAoGHO3mdGsgAi0l1fEtm`",
       options: createOptionsMethod(
         function({
-          prevContext: { nextPageToken }, type,
+          prevContext: { startingAfter }, type,
         }) {
           const params = {
-            starting_after: nextPageToken,
+            starting_after: startingAfter,
           };
           if (type) {
             params.type = type;
@@ -129,10 +178,10 @@ module.exports = {
       description: "Example: `in_0JMBoWGHO3mdGsgA6zwttRva`",
       options: createOptionsMethod(
         function({
-          prevContext: { nextPageToken }, customer, subscription,
+          prevContext: { startingAfter }, customer, subscription,
         }) {
           const params = {
-            starting_after: nextPageToken,
+            starting_after: startingAfter,
           };
           if (customer) {
             params.customer = customer;
@@ -155,10 +204,10 @@ module.exports = {
       description: "Example: `ii_0JMBoYGHO3mdGsgAgSUuIOan`",
       options: createOptionsMethod(
         function({
-          prevContext: { nextPageToken }, invoice,
+          prevContext: { startingAfter }, invoice,
         }) {
           const params = {
-            starting_after: nextPageToken,
+            starting_after: startingAfter,
           };
           if (invoice) {
             params.invoice = invoice;
@@ -178,10 +227,10 @@ module.exports = {
       description: "Example: `sub_K0CC9GlXAWpBQg`",
       options: createOptionsMethod(
         function({
-          prevContext: { nextPageToken }, customer, price,
+          prevContext: { startingAfter }, customer, price,
         }) {
           const params = {
-            starting_after: nextPageToken,
+            starting_after: startingAfter,
           };
           if (customer) {
             params.customer = customer;
@@ -204,13 +253,13 @@ module.exports = {
       description: "Example: `si_K0CCMs2vNHPxV2`",
       options: createOptionsMethod(
         function({
-          prevContext: { nextPageToken }, subscription,
+          prevContext: { startingAfter }, subscription,
         }) {
           if (!subscription) {
             return [];
           }
           return this.sdk().subscriptionItems.list({
-            starting_after: nextPageToken,
+            starting_after: startingAfter,
             subscription: subscription,
           });
         },
@@ -271,10 +320,10 @@ module.exports = {
       type: "string",
       label: "Country",
       description: "Two-letter ISO country code",
-      options: createOptionsMethod("countrySpecs", function (obj) {
+      options: createOptionsMethod("countrySpecs", function ({ id }) {
         return {
-          value: obj.id,
-          label: obj.id,
+          value: id,
+          label: id,
         };
       }),
       default: "US",

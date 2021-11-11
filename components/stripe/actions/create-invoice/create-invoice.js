@@ -20,8 +20,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "subscription",
-        (configuredProps) => ({
-          customer: configuredProps.customer,
+        ({ customer }) => ({
+          customer,
         }),
       ],
     },
@@ -55,8 +55,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "payment_method",
-        (configuredProps) => ({
-          customer: configuredProps.customer,
+        ({ customer }) => ({
+          customer,
         }),
       ],
       label: "Default Payment Method",

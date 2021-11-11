@@ -1,4 +1,5 @@
 const pick = require("lodash.pick");
+const { STRIPE_PRICE_TYPE } = require("../../constants.js");
 const stripe = require("../../stripe.app.js");
 
 module.exports = {
@@ -25,7 +26,7 @@ module.exports = {
         "price",
         () => ({
           // Only `recurring` prices can be used to filter subscriptions
-          type: "recurring",
+          type: STRIPE_PRICE_TYPE.RECURRING,
         }),
       ],
     },
@@ -34,9 +35,11 @@ module.exports = {
       "propDefinition": [
         stripe,
         "subscription",
-        (configuredProps) => ({
-          customer: configuredProps.customer,
-          price: configuredProps.price,
+        ({
+          customer, price,
+        }) => ({
+          customer,
+          price,
         }),
       ],
       "optional": false,
@@ -45,8 +48,8 @@ module.exports = {
       "propDefinition": [
         stripe,
         "subscription_item",
-        (configuredProps) => ({
-          subscription: configuredProps.subscription,
+        ({ subscription }) => ({
+          subscription,
         }),
       ],
       "optional": false,

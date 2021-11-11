@@ -33,8 +33,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "currency",
-        (configuredProps) => ({
-          country: configuredProps.country,
+        ({ country }) => ({
+          country,
         }),
       ],
       default: "", // currency cannot be used when modifying a PaymentIntent that was created by an invoice

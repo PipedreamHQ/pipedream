@@ -27,8 +27,8 @@ module.exports = {
       propDefinition: [
         stripe,
         "currency",
-        (configuredProps) => ({
-          country: configuredProps.country,
+        ({ country }) => ({
+          country,
         }),
       ],
       optional: false,
