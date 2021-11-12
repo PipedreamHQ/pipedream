@@ -524,7 +524,7 @@ export default {
     async getPendingFollowers(params = null) {
       const config = {
         url: "https://api.twitter.com/1.1/friendships/incoming.json",
-      }
+      };
       if (params && Object.keys(params).length !== 0) config.params = params;
       return (await this._makeRequest(config)).data;
     },
