@@ -1,6 +1,8 @@
 import { v4 as uuid } from "uuid";
 import googleSheets from "../../google_sheets.app.mjs";
-import { omitEmptyKey } from "../../utils.mjs";
+import {
+  omitEmptyKey, toSingleLineString,
+} from "../../utils.mjs";
 
 /**
  * This action performs an upsert operation, similar to the MySQL `INSERT INTO ... ON DUPLICATE KEY
@@ -54,7 +56,13 @@ export default {
         "cells",
       ],
       label: "Insert",
-      description: "Insert statement: the row data you want to add to the Google sheet if the key *doesn't* exist. If the key *does* exist and **Update** is not set, the row will be updated using this array. Use structured mode to enter individual cell values. Disable structured mode to pass an array with each element representing a cell/column value (e.g. `{{ [5, \"test\"] }}`).",
+      description: toSingleLineString(`
+        Insert statement: the row data you want to add to the Google sheet if the key *doesn't*
+        exist. If the key *does* exist and **Update** is not set, the row will be updated using
+        this array.
+        Use structured mode to enter individual cell values. Disable structured mode to pass an
+        array with each element representing a cell/column value (e.g. \`{{ [5, "test"] }}\`).
+      `),
     },
     column: {
       propDefinition: [
@@ -72,7 +80,14 @@ export default {
     updates: {
       type: "object",
       label: "Update",
-      description: "Update statment: if the spreadsheet contains duplicate key **Value** in some row in specified **Column**, individual cells in the *first* duplicate row will be updated using this object's column-value pairs.<br />Enter the column name for the key and the corresponding column value. You may also disable structured mode to pass a JSON object with key/value pairs representing columns and values (e.g. `{{ { A: 5, B: \"test\" } }}`).",
+      description: toSingleLineString(`
+        Update statment: if the spreadsheet contains duplicate key **Value** in some row in
+        specified **Column**, individual cells in the *first* duplicate row will be updated using
+        this object's column-value pairs.<br />
+        Enter the column name for the key and the corresponding column value. You may also disable
+        structured mode to pass a JSON object with key/value pairs representing columns and values
+        (e.g. \`{{ { A: 5, B: "test" } }}\`).
+      `),
       optional: true,
     },
   },
