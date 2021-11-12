@@ -95,19 +95,21 @@ export default {
       title: hiddenWorksheetTitle,
       hidden: true,
       gridProperties: {
-        rowCount: 1,
+        rowCount: 2,
         columnCount: 1,
       },
     });
     const hiddenSheetId = addSheetResult.properties.sheetId;
 
-    // Add cell with `=MATCH("<value>", <sheet>!<column>...)` formula to hidden worksheet
     const matchResult = await this.googleSheets.addRowsToSheet({
       spreadsheetId: sheetId,
       range: hiddenWorksheetTitle,
       rows: [
         [
-          `=MATCH("${keyValue}", ${sheetName}!${column}:${column}, 0)`,
+          keyValue, // A1
+        ],
+        [
+          `=MATCH(A1, ${sheetName}!${column}:${column}, 0)`, // A2
         ],
       ],
       params: {
@@ -116,7 +118,7 @@ export default {
       },
     });
 
-    const matchedRow = matchResult.updatedData?.values?.[0]?.[0];
+    const matchedRow = matchResult.updatedData?.values?.[1]?.[0]; // A2
 
     const deleteSheetPromise = this.googleSheets.deleteWorksheet(sheetId, hiddenSheetId);
 
