@@ -34,7 +34,7 @@ export default {
       }) {
         const params = {
           limit: 50,
-          after: get(prevContext, "after"),
+          after: prevContext?.after,
         };
         const links = await this.getNewSubredditLinks(
           get(subreddit, "value", subreddit),
@@ -88,20 +88,36 @@ export default {
       label: "Subreddit",
       description: "The subreddit you'd like to watch.",
       useQuery: true,
-      async options(context) {
-        const q = context.query;
-        const options = [];
-        const results = await this.getAllSearchSubredditsResults(q);
-        for (const subreddit of results) {
-          options.push({
-            label: subreddit.title,
-            value: {
-              label: subreddit.title,
-              value: subreddit.displayName,
-            },
-          });
-        }
-        return options;
+      async options({
+        query,
+        prevContext,
+      }) {
+        const res = await this.searchSubreddits({
+          after: prevContext?.after,
+          q: query,
+          limit: 30,
+          show_users: false,
+          sort: "relevance",
+          sr_detail: false,
+          typeahead_active: false,
+        });
+
+        const subreddits = get(res, "data.children", []);
+        const options = subreddits.map((subreddit) => ({
+          label: subreddit.data.title,
+          value: {
+            label: subreddit.data.title,
+            value: subreddit.data.displayName,
+            name: subreddit.data.name,
+          },
+        }));
+
+        return {
+          options,
+          context: {
+            after: options.length > 0 && get(options, `${options.length - 1}.value.name`),
+          },
+        };
       },
     },
     username: {
