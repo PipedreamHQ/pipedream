@@ -78,9 +78,7 @@ const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({
     }));
   }
 
-  if (options[options.length - 1]) {
-    startingAfter = options[options.length - 1].value;
-  }
+  startingAfter = options?.[options.length - 1]?.value;
 
   return {
     options,
