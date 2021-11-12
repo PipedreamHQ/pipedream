@@ -15,7 +15,6 @@ export default {
         common.props.trello,
         "board",
       ],
-      default: "me",
     },
     timeBefore: {
       type: "integer",
