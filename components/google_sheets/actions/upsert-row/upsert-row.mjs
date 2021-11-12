@@ -84,9 +84,9 @@ export default {
         Update statment: if the spreadsheet contains duplicate key **Value** in some row in
         specified **Column**, individual cells in the *first* duplicate row will be updated using
         this object's column-value pairs.<br />
-        Enter the column name for the key and the corresponding column value. You may also disable
-        structured mode to pass a JSON object with key/value pairs representing columns and values
-        (e.g. \`{{ { A: 5, B: "test" } }}\`).
+        Enter the column name for the key (e.g. \`B\`) and the corresponding column value (e.g.
+        \`test\`). You may also disable structured mode to pass a JSON object with key/value pairs
+        representing columns and values (e.g. \`{{ { A: 5, B: "test" } }}\`).
       `),
       optional: true,
     },
