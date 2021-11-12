@@ -3,7 +3,7 @@ import discourse from "../../discourse.app.mjs";
 
 export default {
   name: "New Topics",
-  key: "disourse-new-topics",
+  key: "discourse-new-topics",
   version: "0.1.0",
   type: "source",
   description:
