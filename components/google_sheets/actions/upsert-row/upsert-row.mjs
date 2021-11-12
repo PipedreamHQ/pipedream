@@ -55,7 +55,7 @@ export default {
         googleSheets,
         "cells",
       ],
-      label: "Insert",
+      label: "Insert - Cells / Column Values",
       description: toSingleLineString(`
         Insert statement: the row data you want to add to the Google sheet if the key *doesn't*
         exist. If the key *does* exist and **Update** is not set, the row will be updated using
@@ -69,17 +69,18 @@ export default {
         googleSheets,
         "column",
       ],
+      label: "Key Column",
       description: "The column of the sheet to lookup (e.g. `A`). This column functions as the key column for the upsert operation.",
     },
     value: {
       type: "string",
-      label: "Value",
-      description: "The value of the key to search for in **Column**. Defaults to the value in **Insert**'s \"key\" column if left blank.",
+      label: "Key Value",
+      description: "The value of the key to search for in **Key Column**. Defaults to the value in **Insert**'s \"key\" column if left blank.",
       optional: true,
     },
     updates: {
       type: "object",
-      label: "Update",
+      label: "Update - Column / Values",
       description: toSingleLineString(`
         Update statment: if the spreadsheet contains duplicate key **Value** in some row in
         specified **Column**, individual cells in the *first* duplicate row will be updated using
