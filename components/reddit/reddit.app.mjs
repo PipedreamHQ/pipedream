@@ -72,7 +72,7 @@ export default {
     count: {
       type: "integer",
       label: "Count",
-      description: "The number of items already seen in this listing on the html site, the builder uses this to determine when to give values for `before` and `after` in the response.",
+      description: "The number of items already seen in this listing. On the html site, the builder uses this to determine when to give values for `before` and `after` in the response.",
       optional: true,
     },
     limit: {

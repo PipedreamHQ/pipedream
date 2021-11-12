@@ -16,6 +16,7 @@ export default {
         reddit,
         "subreddit",
       ],
+      description: "Search for a subreddit with \"Structured Mode\" enabled, or enter a subreddit display name with \"Structured Mode\" disabled (for example, `happycowgifs`).",
     },
     title: {
       type: "string",
