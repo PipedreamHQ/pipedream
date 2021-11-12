@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 import googleSheets from "../../google_sheets.app.mjs";
+import { omitEmptyKey } from "../../utils.mjs";
 
 /**
  * This action performs an upsert operation, similar to the MySQL `INSERT INTO ... ON DUPLICATE KEY
@@ -128,8 +129,14 @@ export default {
 
     if (shouldUpdate) {
       // UPDATE ROW
-      if (updates && Object.keys(updates).length) { // (`updates` prop)
-        result = await this.googleSheets.updateRowCells(sheetId, sheetName, matchedRow, updates);
+      const sanitizedUpdates = omitEmptyKey(updates);
+      if (sanitizedUpdates && Object.keys(sanitizedUpdates).length) {
+        result = await this.googleSheets.updateRowCells(
+          sheetId,
+          sheetName,
+          matchedRow,
+          sanitizedUpdates,
+        );
       } else {
         result = await this.googleSheets.updateRow(sheetId, sheetName, matchedRow, insert);
       }
