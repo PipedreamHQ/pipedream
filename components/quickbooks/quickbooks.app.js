@@ -1,5 +1,5 @@
 // const QuickBooks = require('node-quickbooks')
-const axios = require("axios");
+const { axios } = require("@pipedream/platform");
 
 const WEBHOOK_ENTITIES = [
   "Account",
@@ -72,17 +72,73 @@ module.exports = {
     },
   },
   methods: {
-    async getRecordDetails(endpoint, id) {
-      const config = {
-        url: `https://quickbooks.api.intuit.com/v3/company/${this.$auth.company_id}/${endpoint.toLowerCase()}/${id}`,
+    _apiUrl(){
+      return "https://quickbooks.api.intuit.com/v3";
+    },
+
+    _authToken() {
+      return this.$auth.oauth_access_token;
+    },
+
+    _companyId() {
+      return this.$auth.company_id;
+    },
+
+    _makeRequestConfig(config = {}) {
+      const {
+        headers,
+        path = "",
+        ...extraConfig
+      } = config;
+      const authToken = this._authToken();
+      const baseUrl = this._apiUrl();
+      const url = `${baseUrl}/${path[0] === "/"
+        ? ""
+        : "/"}${path}`;
+      return {
         headers: {
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "accept": "application/json",
-          "content-type": "application/json",
+          "Authorization": `Bearer ${authToken}`,
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          ...headers,
         },
+        url,
+        ...extraConfig,
       };
-      const { data } = await axios(config);
-      return data;
+    },
+
+    async _makeRequest($ = this, config) {
+      const requestConfig = this._makeRequestConfig(config);
+      return await axios($, requestConfig);
+    },
+
+    async getPDF($, entity, id) {
+      const companyId = this._companyId();
+      return await this._makeRequest($, {
+        path: `company/${companyId}/${entity.toLowerCase()}/${id}/pdf`,
+        headers: {
+          "Accept": "application/pdf",
+        },
+        responseType: "stream",
+      });
+    },
+    
+    async getRecordDetails(endpoint, id) {
+      const companyId = this._companyId();
+      return await this._makeRequest(this, {
+        path: `company/${companyId}/${endpoint.toLowerCase()}/${id}`,
+      });
+
+      // const config = {
+      //   url: `https://quickbooks.api.intuit.com/v3/company/${this.$auth.company_id}/${endpoint.toLowerCase()}/${id}`,
+      //   headers: {
+      //     "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      //     "accept": "application/json",
+      //     "content-type": "application/json",
+      //   },
+      // };
+      // const { data } = await axios(config);
+      // return data;
     },
   },
 };
