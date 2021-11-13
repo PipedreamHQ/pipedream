@@ -72,7 +72,7 @@ module.exports = {
     },
   },
   methods: {
-    _apiUrl(){
+    _apiUrl() {
       return "https://quickbooks.api.intuit.com/v3";
     },
 
@@ -122,7 +122,7 @@ module.exports = {
         responseType: "stream",
       });
     },
-    
+
     async getRecordDetails(endpoint, id) {
       const companyId = this._companyId();
       return await this._makeRequest(this, {
