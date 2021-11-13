@@ -36,8 +36,8 @@ module.exports = {
     },
   },
   methods: {
-    async downloadPDF(entity, id, fileName) {
-      const file = await require("@pipedreamhq/platform").axios(this, {
+    async downloadPDF($, entity, id, fileName) {
+      const file = await require("@pipedreamhq/platform").axios($, {
         url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/${entity.toLowerCase()}/${id}/pdf`,
         headers: {
           "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
@@ -57,7 +57,7 @@ module.exports = {
       ? fileName
       : fileName + ".pdf";
 
-    const filePath = await this.downloadPDF(this.entity, this.id, fileNameWithExtension);
+    const filePath = await this.downloadPDF($, this.entity, this.id, fileNameWithExtension);
     $.export("file_path", filePath);
     $.export("file_name", fileNameWithExtension);
   },
