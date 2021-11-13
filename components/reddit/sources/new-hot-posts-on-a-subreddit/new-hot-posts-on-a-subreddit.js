@@ -4,10 +4,11 @@ const { reddit } = common.props;
 
 module.exports = {
   ...common,
-  key: "new-hot-posts-on-a-subreddit",
+  type: "source",
+  key: "reddit-new-hot-posts-on-a-subreddit",
   name: "New hot posts on a subreddit",
   description:
-    "Emits an event each time a new hot post is added to the top 10 items in a subreddit.",
+    "Emit new event each time a new hot post is added to the top 10 items in a subreddit.",
   version: "0.1.1",
   dedupe: "unique",
   props: {

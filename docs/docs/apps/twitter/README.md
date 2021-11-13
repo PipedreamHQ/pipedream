@@ -58,7 +58,7 @@ To use this app, [add a new step](/workflows/steps/) to your workflow, search fo
 Once connected, you can run any custom code that uses these credentials to interact with the Twitter API. The **Post Tweet** action associated with this app, for example, uses the [`twit` Twitter API client](https://github.com/ttezel/twit) to send tweets:
 
 ```javascript
-const Twit = require("twit");
+import Twit from "twit";
 
 const {
   api_key,

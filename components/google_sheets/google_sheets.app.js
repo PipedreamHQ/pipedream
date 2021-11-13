@@ -7,6 +7,11 @@ module.exports = {
   app: "google_sheets",
   propDefinitions: {
     ...googleDrive.propDefinitions,
+    cell: {
+      type: "string",
+      label: "Cell Number",
+      description: "The A1 notation of the cell. E.g., `A1`",
+    },
     cells: {
       type: "string[]",
       label: "Cells / Column Values",
@@ -17,6 +22,16 @@ module.exports = {
       type: "string",
       label: "Range",
       description: "The A1 notation of the values to retrieve. E.g., `A1:E5`",
+    },
+    column: {
+      type: "string",
+      label: "Column Letter",
+      description: "Column Letter",
+    },
+    row: {
+      type: "integer",
+      label: "Row Number",
+      description: "Row Number",
     },
     rows: {
       type: "string",
@@ -39,7 +54,7 @@ module.exports = {
     sheetName: {
       type: "string",
       label: "Sheet Name",
-      description: "The name of the worksheet within your Google spreadsheet, e.g. `Sheet1`",
+      description: "Sheet Name",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
         return sheets.map((sheet) => sheet.properties.title);
@@ -49,7 +64,7 @@ module.exports = {
     worksheetIDs: {
       type: "string[]",
       label: "Worksheet(s)",
-      description: "The name of the worksheet within your Google spreadsheet, e.g. `Sheet1`",
+      description: "Worksheet(s)",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
 
@@ -80,6 +95,20 @@ module.exports = {
         version: "v4",
         auth,
       });
+    },
+    /**
+     * Converts column letter(s) (E.g. 'A', 'B', 'AA', etc.) into a numerical value representing
+     * the columnIndex of the column.
+     * @returns {integer} The columnIndex of the column
+     * @param {string} column - The column letter(s)
+     */
+    _getColumnIndex(column) {
+      let sum = 0;
+      for (const col of column) {
+        sum *= 26;
+        sum += col.charCodeAt(0) - "A".charCodeAt(0) + 1;
+      }
+      return sum;
     },
     async listSheetsOptions(driveId, pageToken = null) {
       const q = "mimeType='application/vnd.google-apps.spreadsheet'";
@@ -193,6 +222,86 @@ module.exports = {
             };
           }),
       );
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/create
+     *
+     * Creates a new spreadsheet and returns the newly created instance of Spreadsheet.
+     * @returns {object} The new Spreadsheet instance.
+     * @param {object} request - Contains an instance of Spreadsheet.
+     */
+    async createSpreadsheet(request) {
+      const sheets = this.sheets();
+      return (await sheets.spreadsheets.create(request)).data;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update
+     *
+     * Updates a spreadsheet and returns a response body containing an instance of
+     * UpdateValuesResponse.
+     * @returns {object} An instance of UpdateValuesResponse.
+     * @param {object} request - Contains an instance of ValueRange.
+     */
+    async updateSpreadsheet(request) {
+      const sheets = this.sheets();
+      return (await sheets.spreadsheets.values.update(request)).data;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate
+     *
+     * Updates a spreadsheet and returns an object containing information about the changes made.
+     * @returns {object} An object with information about the changes made.
+     * @param {object} request - An object containing information about what to update.
+     */
+    async batchUpdate(request) {
+      const sheets = this.sheets();
+      return (await sheets.spreadsheets.batchUpdate(request)).data;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.sheets/copyTo
+     *
+     * Copies a worksheet and returns the properties of the newly created sheet.
+     * @returns {object} Contains an instance of SheetProperties.
+     * @param {object} request - An object containing information about the worksheet to copy
+     * and the destination of the new worksheet.
+     */
+    async copyWorksheet(request) {
+      const sheets = this.sheets();
+      return (await sheets.spreadsheets.sheets.copyTo(request)).data;
+    },
+    /**
+     * https://developers.google.com/drive/api/v3/reference/files/copy
+     *
+     * Copies a spreadsheet and returns a Files resource in the response body.
+     * @returns {object} Contains an instance of Files.
+     * @param {string} fileId - The ID of the file to copy.
+     * @param {string} name - The name of the new spreadsheet.
+     */
+    async copySpreadsheet(fileId, name) {
+      const drive = this.drive();
+      const resource = {
+        name,
+      };
+      return (
+        await drive.files.copy({
+          fileId,
+          fields: "*",
+          supportsAllDrives: true,
+          resource,
+        })
+      ).data;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/clear
+     *
+     * Clears values from a spreadsheet and returns an object with spreadsheetId and clearedRange.
+     * @returns {object} An object containing the spreadsheetId and clearedRange.
+     * @param {object} request - An object containing the spreadsheetId and the range to
+     * clear in A1 notation.
+     */
+    async clearSheetValues(request) {
+      const sheets = this.sheets();
+      return (await sheets.spreadsheets.values.clear(request)).data;
     },
     async addRowsToSheet({
       spreadsheetId, range, rows,
