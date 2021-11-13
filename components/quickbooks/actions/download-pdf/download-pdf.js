@@ -4,7 +4,7 @@ const fs = require("fs");
 module.exports = {
   name: "Download PDF",
   description: "Download an invoice, bill, purchase order, etc. as a PDF and save it in the temporary file system for use in a later step.",
-  key: "download_pdf",
+  key: "quickbooks-download-pdf",
   version: "0.2.3",
   type: "action",
   props: {
