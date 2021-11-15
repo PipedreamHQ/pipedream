@@ -7,7 +7,7 @@ const fs = require("fs");
 module.exports = {
   key: "twilio-download-recording-media",
   name: "Download Recording Media",
-  description: "Download a recording media file",
+  description: "Download a recording media file. [See the docs](https://www.twilio.com/docs/voice/api/recording#fetch-a-recording-media-file) for more information",
   version: "0.0.1",
   type: "action",
   props: {

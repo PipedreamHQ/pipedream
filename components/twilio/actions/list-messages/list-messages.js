@@ -4,7 +4,7 @@ const { phone } = require("phone");
 module.exports = {
   key: "twilio-list-messages",
   name: "List Messages",
-  description: "Return a list of messages associated with your account",
+  description: "Return a list of messages associated with your account. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#read-multiple-message-resources) for more information",
   version: "0.0.1",
   type: "action",
   props: {

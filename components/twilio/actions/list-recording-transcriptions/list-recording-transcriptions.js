@@ -3,7 +3,7 @@ const twilio = require("../../twilio.app.js");
 module.exports = {
   key: "twilio-list-recording-transcriptions",
   name: "List Recording Transcriptions",
-  description: "Return a set of transcriptions available for a recording",
+  description: "Return a set of transcriptions available for a recording. [See the docs](https://www.twilio.com/docs/voice/api/recording#fetch-a-recordings-transcriptions) for more information",
   version: "0.0.1",
   type: "action",
   props: {
