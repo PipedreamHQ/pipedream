@@ -73,18 +73,34 @@ module.exports = {
       label: "Message ID",
       description: "The SID of the Message",
       optional: true,
+      async options() {
+        const messages = await this.listMessages();
+        return messages.map((message) => {
+          const dateString = new Date(message.dateSent).toDateString();
+          return {
+            label: `${message.to} ${dateString} ${message.body}`,
+            value: message.sid,
+          };
+        });
+      },
     },
     parentCallSid: {
       type: "string",
       label: "Parent Call SID",
       description: "Only include calls spawned by calls with this SID.",
       optional: true,
+      async options() {
+        return this.listCallsOptions();
+      },
     },
     sid: {
       type: "string",
       label: "Call ID",
       description: "The SID of the Call",
       optional: true,
+      async options() {
+        return this.listCallsOptions();
+      },
     },
     recordingID: {
       type: "string",
@@ -247,6 +263,16 @@ module.exports = {
     async listCalls(params) {
       const client = this.getClient();
       return await client.calls.list(params);
+    },
+    async listCallsOptions(params = {}) {
+      const calls = await this.listCalls(params);
+      return calls.map((call) => {
+        const dateString = new Date(call.startTime).toDateString();
+        return {
+          label: `From ${call.toFormatted} on ${dateString}`,
+          value: call.sid,
+        };
+      });
     },
     /**
      * Returns the Call resource of an individual call, identified by its Call `sid`
