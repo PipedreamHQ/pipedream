@@ -1,4 +1,4 @@
-const common = require("../board-based.js");
+const common = require("../common-board-based.js");
 const get = require("lodash/get");
 
 module.exports = {
@@ -6,7 +6,8 @@ module.exports = {
   key: "trello-new-label",
   name: "New Label (Instant)",
   description: "Emits an event for each new label added to a board.",
-  version: "0.0.4",
+  version: "0.0.5",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -18,8 +19,12 @@ module.exports = {
       const labelId = get(event, "body.action.data.label.id");
       return await this.trello.getLabel(labelId);
     },
-    generateMeta({ id, name, color: summary }) {
-      summary += name ? ` - ${name}` : "";
+    generateMeta({
+      id, name, color: summary,
+    }) {
+      summary += name
+        ? ` - ${name}`
+        : "";
       return {
         id,
         summary,

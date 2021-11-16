@@ -6,15 +6,23 @@ module.exports = {
   key: "trello-card-updates",
   name: "Card Updates (Instant)",
   description: "Emits an event for each update to a Trello card.",
-  version: "0.0.4",
+  version: "0.0.5",
+  type: "source",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     cards: {
       propDefinition: [
         common.props.trello,
         "cards",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
   },

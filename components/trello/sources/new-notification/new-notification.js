@@ -6,7 +6,8 @@ module.exports = {
   name: "New Notification",
   description:
     "Emits an event for each new Trello notification for the authenticated user.",
-  version: "0.0.4",
+  version: "0.0.5",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -16,7 +17,9 @@ module.exports = {
     _setLastNotificationId(lastNotificationId) {
       this.db.set("lastNotificationId", lastNotificationId);
     },
-    generateMeta({ id, type, date, data }) {
+    generateMeta({
+      id, type, date, data,
+    }) {
       return {
         id,
         summary: `${type} : ${data.card.name}`,
@@ -24,7 +27,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const since = this._getLastNotificationId();
     const params = {
       since,

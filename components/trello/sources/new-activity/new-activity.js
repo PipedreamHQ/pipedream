@@ -6,10 +6,16 @@ module.exports = {
   key: "trello-new-activity",
   name: "New Activity (Instant)",
   description: "Emits an event for new activity on a board.",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -21,7 +27,11 @@ module.exports = {
       return !this.board || this.board === boardId;
     },
     generateMeta({ action }) {
-      const { id, type: summary, date } = action;
+      const {
+        id,
+        type: summary,
+        date,
+      } = action;
       return {
         id,
         summary,

@@ -6,7 +6,8 @@ module.exports = {
   key: "trello-new-board",
   name: "New Board (Instant)",
   description: "Emits an event for each new board added.",
-  version: "0.0.5",
+  version: "0.0.6",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,

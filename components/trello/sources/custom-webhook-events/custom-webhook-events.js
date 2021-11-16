@@ -7,23 +7,38 @@ module.exports = {
   name: "Custom Webhook Events (Instant)",
   description:
     "Emit events for activity matching a board, event types, lists and/or cards.",
-  version: "0.0.4",
+  version: "0.0.5",
+  type: "source",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
-    eventTypes: { propDefinition: [common.props.trello, "eventTypes"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
+    eventTypes: {
+      propDefinition: [
+        common.props.trello,
+        "eventTypes",
+      ],
+    },
     lists: {
       propDefinition: [
         common.props.trello,
         "lists",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
     cards: {
       propDefinition: [
         common.props.trello,
         "cards",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
   },
@@ -40,7 +55,7 @@ module.exports = {
     async getResult(event) {
       return event.body;
     },
-    isRelevant({ result: body, event }) {
+    isRelevant({ result: body } ) {
       const listId = get(body, "action.data.list.id");
       const cardId = get(body, "action.data.card.id");
 
@@ -52,7 +67,11 @@ module.exports = {
       );
     },
     generateMeta({ action }) {
-      const { id, type: summary, date } = action;
+      const {
+        id,
+        type: summary,
+        date,
+      } = action;
       return {
         id,
         summary,

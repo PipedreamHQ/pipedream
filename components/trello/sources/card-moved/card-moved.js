@@ -6,15 +6,23 @@ module.exports = {
   key: "trello-card-moved",
   name: "Card Moved (Instant)",
   description: "Emits an event each time a card is moved to a list.",
-  version: "0.0.4",
+  version: "0.0.5",
+  type: "source",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     lists: {
       propDefinition: [
         common.props.trello,
         "lists",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
   },
@@ -23,7 +31,7 @@ module.exports = {
     isCorrectEventType(event) {
       const eventTranslationKey = get(
         event,
-        "body.action.display.translationKey"
+        "body.action.display.translationKey",
       );
       return eventTranslationKey === "action_move_card_from_list_to_list";
     },
@@ -34,7 +42,9 @@ module.exports = {
       this.db.set("listAfter", listAfter);
       return await this.trello.getCard(cardId);
     },
-    isRelevant({ result: card, event }) {
+    isRelevant({
+      result: card, event,
+    }) {
       const listIdAfter = get(event, "body.action.data.listAfter.id");
       const listIdBefore = get(event, "body.action.data.listBefore.id");
 
@@ -46,7 +56,9 @@ module.exports = {
           this.lists.includes(listIdBefore))
       );
     },
-    generateMeta({ id, name }) {
+    generateMeta({
+      id, name,
+    }) {
       const listAfter = this.db.get("listAfter");
       return {
         id,

@@ -6,15 +6,23 @@ module.exports = {
   key: "trello-card-archived",
   name: "Card Archived (Instant)",
   description: "Emits an event for each card archived.",
-  version: "0.0.5",
+  version: "0.0.6",
+  type: "source",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     lists: {
       propDefinition: [
         common.props.trello,
         "lists",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
   },
@@ -23,7 +31,7 @@ module.exports = {
     isCorrectEventType(event) {
       const eventTranslationKey = get(
         event,
-        "body.action.display.translationKey"
+        "body.action.display.translationKey",
       );
       return eventTranslationKey === "action_archived_card";
     },

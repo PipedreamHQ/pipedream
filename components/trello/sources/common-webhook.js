@@ -1,5 +1,4 @@
 const common = require("./common.js");
-const get = require("lodash/get");
 
 module.exports = {
   ...common,
@@ -18,7 +17,9 @@ module.exports = {
     },
     async deactivate() {
       const hookId = this.db.get("hookId");
-      await this.trello.deleteHook({ hookId });
+      await this.trello.deleteHook({
+        hookId,
+      });
     },
   },
   methods: {
@@ -65,7 +66,10 @@ module.exports = {
     if (!this.isCorrectEventType(event)) return;
 
     const result = await this.getResult(event);
-    if (!this.isRelevant({ result, event })) return;
+    if (!this.isRelevant({
+      result,
+      event,
+    })) return;
 
     this.emitEvent(result);
   },
