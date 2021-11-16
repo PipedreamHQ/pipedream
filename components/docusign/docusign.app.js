@@ -7,6 +7,7 @@ module.exports = {
     account: {
       type: "string",
       label: "Account",
+      description: "Docusign Account",
       async options() {
         const { accounts } = await this.getUserInfo();
         return accounts.map((account) => {
@@ -20,6 +21,7 @@ module.exports = {
     template: {
       type: "string",
       label: "Template",
+      description: "Document Template",
       async options({ account }) {
         const baseUri = await this.getBaseUri(account);
         const { envelopeTemplates } = await this.listTemplates(baseUri);
