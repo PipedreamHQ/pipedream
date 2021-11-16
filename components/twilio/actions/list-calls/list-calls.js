@@ -1,4 +1,5 @@
 const twilio = require("../../twilio.app.js");
+const { omitEmptyStringValues } = require("../../utils.js");
 
 module.exports = {
   key: "twilio-list-calls",
@@ -44,12 +45,12 @@ module.exports = {
     },
   },
   async run() {
-    return this.twilio.listCalls({
+    return this.twilio.listCalls(omitEmptyStringValues({
       to: this.to || undefined, // Use `undefined` if `to` is empty because Twilio API doesn't
       from: this.from || undefined,
       parentCallSid: this.parentCallSid || undefined,
       status: this.status || undefined,
       limit: this.limit,
-    });
+    }));
   },
 };

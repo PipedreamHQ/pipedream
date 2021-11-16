@@ -1,4 +1,5 @@
 const twilio = require("../../twilio.app.js");
+const { omitEmptyStringValues } = require("../../utils.js");
 
 module.exports = {
   key: "twilio-list-recording-transcriptions",
@@ -22,8 +23,8 @@ module.exports = {
     },
   },
   async run() {
-    return this.twilio.listRecordingTranscriptions(this.recordingID, {
+    return this.twilio.listRecordingTranscriptions(this.recordingID, omitEmptyStringValues({
       limit: this.limit,
-    });
+    }));
   },
 };

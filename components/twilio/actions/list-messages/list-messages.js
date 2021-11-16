@@ -1,5 +1,6 @@
 const twilio = require("../../twilio.app.js");
 const { phone } = require("phone");
+const { omitEmptyStringValues } = require("../../utils.js");
 
 module.exports = {
   key: "twilio-list-messages",
@@ -46,10 +47,10 @@ module.exports = {
       to = toParsed.phoneNumber;
     }
 
-    return this.twilio.listMessages({
-      to: to || undefined, // Use `undefined` if `to` is empty because Twilio API doesn't
-      from: this.from || undefined,
+    return this.twilio.listMessages(omitEmptyStringValues({
+      to,
+      from: this.from,
       limit: this.limit,
-    });
+    }));
   },
 };

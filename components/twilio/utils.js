@@ -29,7 +29,14 @@ function timeBetween(date1, date2) {
   return formatTimeElapsed(seconds);
 }
 
+function omitEmptyStringValues(obj) {
+  return Object.fromEntries(
+    Object.entries(obj).filter((kVpair) => kVpair[1] !== ""),
+  );
+}
+
 module.exports = {
   formatTimeElapsed,
   timeBetween,
+  omitEmptyStringValues,
 };

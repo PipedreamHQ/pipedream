@@ -1,4 +1,5 @@
 const twilio = require("../../twilio.app.js");
+const { omitEmptyStringValues } = require("../../utils.js");
 
 module.exports = {
   key: "twilio-list-message-media",
@@ -22,8 +23,8 @@ module.exports = {
     },
   },
   async run() {
-    return this.twilio.listMessageMedia(this.messageId, {
+    return this.twilio.listMessageMedia(this.messageId, omitEmptyStringValues({
       limit: this.limit,
-    });
+    }));
   },
 };
