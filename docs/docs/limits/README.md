@@ -101,6 +101,8 @@ This `30MB` limit cannot be raised.
 
 By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}}`.
 
+Increasing your workflow's memory gives you a proportional increase in CPU. If your workflow is limited by memory or compute, increasing your workflow's memory can reduce its overall runtime and make it more performant.
+
 **Pipedream charges invocations proportional to your memory configuration**. [Read more here](/pricing/#how-does-workflow-memory-affect-billable-invocations).
 
 ## Disk

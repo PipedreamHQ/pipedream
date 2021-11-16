@@ -957,3 +957,17 @@ favicon
 ico
 ESM
 exfiltrates
+tada
+httpstat
+validateStatus
+DateTime
+luxon
+fromSeconds
+toFormat
+autocomplete
+SCCs
+performant
+EEs
+appendFile
+readFile
+CJS

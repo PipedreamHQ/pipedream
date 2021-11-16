@@ -55,8 +55,8 @@ runAsyncCode();
 Before support for Promises was widespread, [callback functions](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function) were a popular way to run some code asynchronously, after some operation was completed. For example, [PDFKit](https://pdfkit.org/) lets you pass a callback function that runs when certain events fire, like when the PDF has been finalized:
 
 ```javascript
-const PDFDocument = require("pdfkit");
-const fs = require("fs");
+import PDFDocument from "pdfkit";
+import fs from "fs";
 
 let doc = new PDFDocument({ size: "A4", margin: 50 });
 this.fileName = `tmp/test.pdf`;

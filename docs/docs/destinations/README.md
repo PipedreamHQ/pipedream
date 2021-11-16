@@ -65,7 +65,7 @@ you won't have to `await` the execution of the HTTP requests in your workflow. W
 If you're authoring a [component action](/components/actions/), you can deliver data to destinations, too. `$send` isn't directly available to actions like it is for workflow code steps. **Instead, you use `$.send` to access the destination-specific functions**:
 
 ```javascript
-module.exports = {
+export default {
   name: "Action Demo",
   key: "action_demo",
   version: "0.0.1",
