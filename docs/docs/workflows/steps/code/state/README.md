@@ -123,7 +123,7 @@ Often, a specific step needs to maintain state that isn't relevant for the rest 
 
 Pipedream provides two ways to manage step-level state in workflows:
 
-- If you're writing [Node.js code steps]((/workflows/steps/code/)) within a workflow, [use `$this.$checkpoint`](#workflow-code-steps-this-checkpoint)
+- If you're writing [Node.js code steps](/workflows/steps/code/) within a workflow, [use `$this.$checkpoint`](#workflow-code-steps-this-checkpoint)
 - If you're authoring [components](/components/), [use `$.service.db`](/components/api/#db)
 
 ### Workflow code steps - `this.$checkpoint`
