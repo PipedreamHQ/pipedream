@@ -15,6 +15,7 @@ export default {
         reddit,
         "subreddit",
       ],
+      description: "Search subreddit titles, and select a subreddit if \"Structured Mode\" is enabled.",
     },
     limit: {
       propDefinition: [

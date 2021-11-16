@@ -5,7 +5,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "action",
   key: "reddit-list-comments-in-a-post",
-  version: "0.3.11",
+  version: "0.0.1",
   name: "List Comments in a Post",
   description: "List comments for a specific post. [See the docs here](https://www.reddit.com/dev/api/#GET_comments_{article})",
   props: {
@@ -70,9 +70,6 @@ export default {
       depth,
       includeSubredditDetails,
       sort,
-      after,
-      before,
-      limit,
     } = this;
 
     const res = await axios($, this.reddit._getAxiosParams({
@@ -85,9 +82,6 @@ export default {
         sr_detail: includeSubredditDetails,
         threaded: true,
         sort: sort,
-        after: after,
-        before: before,
-        limit: limit,
       },
     }));
 
