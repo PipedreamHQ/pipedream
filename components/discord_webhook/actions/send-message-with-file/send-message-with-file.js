@@ -50,7 +50,7 @@ module.exports = {
       optional: true,
     },
   },
-  async run() {
+  async run({$}) {
     const {
       message: content,
       avatarURL,
@@ -73,12 +73,16 @@ module.exports = {
       : fs.createReadStream(filePath);
 
     // No interesting data is returned from Discord
-    await this.discordWebhook.sendMessageWithFile({
+    const resp = await this.discordWebhook.sendMessageWithFile({
       content,
       avatarURL,
       threadID,
       username,
       file,
     });
+
+    $.export("$summary",`Message sent successfully`)
+
+    return resp;
   },
 };
