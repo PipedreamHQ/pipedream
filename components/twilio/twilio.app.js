@@ -332,16 +332,5 @@ module.exports = {
       const client = this.getClient();
       return await client.recordings(sid).transcriptions.list(params);
     },
-    // /**
-    //  * Download a recording media file
-    //  *
-    //  * @param {String} sid - the Twilio-provided string that uniquely identifies
-    //  * the Recording to download
-    //  * @returns
-    //  */
-    // async downloadRecordingMedia(sid) {
-    //   const client = this.getClient();
-    //   return await client.recordings(sid).fetch();
-    // },
   },
 };
