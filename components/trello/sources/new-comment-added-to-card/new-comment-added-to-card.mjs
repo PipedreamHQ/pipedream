@@ -1,21 +1,29 @@
-const common = require("../common-webhook.js");
-const get = require("lodash/get");
+import common from "../common-webhook.mjs";
+import get from "lodash/get.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-new-comment-added-to-card",
   name: "New Comment Added to Card (Instant)",
-  description: "Emits an event for each new comment added to a card.",
-  version: "0.0.4",
+  description: "Emit new event for each new comment added to a card.",
+  version: "0.0.5",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     cards: {
       propDefinition: [
         common.props.trello,
         "cards",
-        (c) => ({ board: c.board }),
+        (c) => ({
+          board: c.board,
+        }),
       ],
     },
   },
@@ -32,7 +40,7 @@ module.exports = {
       this.db.set("comment", comment);
       return await this.trello.getCard(cardId);
     },
-    isRelevant({ result: card, event }) {
+    isRelevant({ result: card }) {
       return (
         (!this.board || this.board === card.idBoard) &&
         (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))

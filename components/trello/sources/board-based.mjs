@@ -1,11 +1,17 @@
-const base = require("./common-webhook.js");
+/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
+  pipedream/required-properties-version, pipedream/required-properties-description,
+  pipedream/required-properties-type */
+import base from "./common-webhook.mjs";
 
-module.exports = {
+export default {
   ...base,
   props: {
     ...base.props,
     board: {
-      propDefinition: [base.props.trello, "board"],
+      propDefinition: [
+        base.props.trello,
+        "board",
+      ],
     },
   },
   methods: {
