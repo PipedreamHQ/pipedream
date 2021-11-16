@@ -136,6 +136,6 @@ export default {
       cardUri,
     };
     Object.keys(params).forEach((k) => params[k] == "" && delete params[k]);
-    return await this.twitter.createTweet(params);
+    return this.twitter.createTweet(params);
   },
 };

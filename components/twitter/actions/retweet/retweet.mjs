@@ -17,7 +17,7 @@ export default {
     },
   },
   async run() {
-    return await this.twitter.retweet({
+    return this.twitter.retweet({
       tweetID: this.tweetID,
     });
   },

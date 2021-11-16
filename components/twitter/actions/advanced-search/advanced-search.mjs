@@ -94,7 +94,7 @@ export default {
     const limitFirstPage = !sinceId;
 
     // run paginated search
-    return await this.twitter.paginatedSearch({
+    return this.twitter.paginatedSearch({
       q,
       sinceId,
       lang,

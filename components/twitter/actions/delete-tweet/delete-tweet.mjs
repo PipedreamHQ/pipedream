@@ -32,6 +32,6 @@ export default {
       trimUser,
     };
 
-    return await this.twitter.deleteTweet(params);
+    return this.twitter.deleteTweet(params);
   },
 };

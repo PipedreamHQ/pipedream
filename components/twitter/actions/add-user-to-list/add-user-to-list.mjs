@@ -49,6 +49,6 @@ export default {
     if (userId) params.userId = userId;
     if (screenName) params.screenName = screenName;
 
-    return await this.twitter.addUserToList(params);
+    return this.twitter.addUserToList(params);
   },
 };

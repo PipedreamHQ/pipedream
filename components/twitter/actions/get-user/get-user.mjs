@@ -33,7 +33,7 @@ export default {
       throw new Error("This action requires either User ID or Screen Name. Please enter one or the other above.");
     }
 
-    return await this.twitter.lookupUsers([
+    return this.twitter.lookupUsers([
       userId,
     ], [
       screenName,

@@ -32,6 +32,6 @@ export default {
       includeEntities,
     };
 
-    return await this.twitter.getTweet(params);
+    return this.twitter.getTweet(params);
   },
 };

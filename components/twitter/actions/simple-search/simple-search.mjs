@@ -47,7 +47,7 @@ export default {
     limitFirstPage = true;
 
     // run paginated search
-    return await this.twitter.paginatedSearch({
+    return this.twitter.paginatedSearch({
       q,
       resultType,
       enrichTweets,
