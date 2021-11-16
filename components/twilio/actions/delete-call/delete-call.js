@@ -16,6 +16,6 @@ module.exports = {
     },
   },
   async run() {
-    return await this.twilio.deleteCall(this.sid);
+    return this.twilio.deleteCall(this.sid);
   },
 };

@@ -52,6 +52,6 @@ module.exports = {
       mediaUrl: this.mediaUrl,
     };
 
-    return await this.twilio.getClient().messages.create(data);
+    return this.twilio.getClient().messages.create(data);
   },
 };

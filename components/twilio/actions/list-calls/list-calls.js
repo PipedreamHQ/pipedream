@@ -44,7 +44,7 @@ module.exports = {
     },
   },
   async run() {
-    return await this.twilio.listCalls({
+    return this.twilio.listCalls({
       to: this.to || undefined, // Use `undefined` if `to` is empty because Twilio API doesn't
       from: this.from || undefined,
       parentCallSid: this.parentCallSid || undefined,

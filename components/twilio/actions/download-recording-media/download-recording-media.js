@@ -40,7 +40,7 @@ module.exports = {
     // https://www.twilio.com/docs/voice/api/recording#fetch-a-recording-media-file
     const downloadUrl = uri + this.format;
     const pipeline = promisify(stream.pipeline);
-    return await pipeline(
+    return pipeline(
       got.stream(downloadUrl),
       fs.createWriteStream(this.filePath),
     );

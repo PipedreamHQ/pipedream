@@ -45,6 +45,6 @@ module.exports = {
       twiml: `<Response><Say>${this.text}</Say></Response>`,
     };
 
-    return await this.twilio.getClient().calls.create(data);
+    return this.twilio.getClient().calls.create(data);
   },
 };

@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    return await this.twilio.listMessageMedia(this.messageId, {
+    return this.twilio.listMessageMedia(this.messageId, {
       limit: this.limit,
     });
   },

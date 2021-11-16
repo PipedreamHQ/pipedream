@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   async run() {
-    return await this.twilio.listRecordingTranscriptions(this.recordingID, {
+    return this.twilio.listRecordingTranscriptions(this.recordingID, {
       limit: this.limit,
     });
   },

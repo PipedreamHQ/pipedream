@@ -45,6 +45,6 @@ module.exports = {
       body: this.body,
     };
 
-    return await this.twilio.getClient().messages.create(data);
+    return this.twilio.getClient().messages.create(data);
   },
 };
