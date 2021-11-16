@@ -31,7 +31,7 @@
   "devDependencies": {
     "eslint": "^7.26.0",
     "eslint-plugin-jsonc": "^1.6.0",
-    "eslint-plugin-pipedream": "0.2.1",
+    "eslint-plugin-pipedream": "0.2.3",
     "eslint-plugin-putout": "^6.13.1",
     "lerna": "^3.22.1",
     "putout": "^12.12.0"
