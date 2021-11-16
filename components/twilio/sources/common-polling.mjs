@@ -1,6 +1,6 @@
-const twilio = require("../twilio.app.js");
+import twilio from "../twilio.app.mjs";
 
-module.exports = {
+export default {
   props: {
     twilio,
     db: "$.service.db",
@@ -26,6 +26,7 @@ module.exports = {
     },
   },
   async run() {
+    console.log("run");
     let dateCreatedAfter = this._getCreatedAfter();
     const params = {
       dateCreatedAfter,

@@ -1,7 +1,7 @@
-const twilio = require("../../twilio.app.js");
-const { omitEmptyStringValues } = require("../../utils.js");
+import twilio from "../../twilio.app.mjs";
+import { omitEmptyStringValues } from "../../utils.mjs";
 
-module.exports = {
+export default {
   key: "twilio-list-message-media",
   name: "List Message Media",
   description: "Return a list of media associated with your message. [See the docs](https://www.twilio.com/docs/sms/api/media-resource#read-multiple-media-resources) for more information",

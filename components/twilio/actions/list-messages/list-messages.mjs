@@ -1,8 +1,8 @@
-const twilio = require("../../twilio.app.js");
-const { phone } = require("phone");
-const { omitEmptyStringValues } = require("../../utils.js");
+import twilio from "../../twilio.app.mjs";
+import { phone } from "phone";
+import { omitEmptyStringValues } from "../../utils.mjs";
 
-module.exports = {
+export default {
   key: "twilio-list-messages",
   name: "List Messages",
   description: "Return a list of messages associated with your account. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#read-multiple-message-resources) for more information",

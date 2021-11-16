@@ -35,7 +35,7 @@ function omitEmptyStringValues(obj) {
   );
 }
 
-module.exports = {
+export {
   formatTimeElapsed,
   timeBetween,
   omitEmptyStringValues,

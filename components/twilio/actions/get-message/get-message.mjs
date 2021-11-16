@@ -1,6 +1,6 @@
-const twilio = require("../../twilio.app.js");
+import twilio from "../../twilio.app.mjs";
 
-module.exports = {
+export default {
   key: "twilio-get-message",
   name: "Get Message",
   description: "Return details of a message. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#fetch-a-message-resource) for more information",

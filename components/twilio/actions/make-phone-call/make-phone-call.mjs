@@ -1,13 +1,13 @@
 // Read the Twilio docs at https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource
-const twilio = require("../../twilio.app.js");
-const { phone } = require("phone");
+import twilio from "../../twilio.app.mjs";
+import { phone } from "phone";
 
-module.exports = {
-  key: "twilio-send-mms",
-  name: "Send MMS",
-  description: "Send an SMS with text and media files. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource) for more information",
+export default {
+  key: "twilio-make-phone-call",
+  name: "Make a Phone Call",
+  description: "Make a phone call, passing text that Twilio will speak to the recipient of the call. [See the docs](https://www.twilio.com/docs/voice/api/call-resource#create-a-call-resource) for more information",
+  version: "0.0.6",
   type: "action",
-  version: "0.0.5",
   props: {
     twilio,
     from: {
@@ -22,17 +22,10 @@ module.exports = {
         "to",
       ],
     },
-    body: {
-      propDefinition: [
-        twilio,
-        "body",
-      ],
-    },
-    mediaUrl: {
-      propDefinition: [
-        twilio,
-        "mediaUrl",
-      ],
+    text: {
+      label: "Text",
+      type: "string",
+      description: "The text you'd like Twilio to speak to the user when they pick up the phone.",
     },
   },
   async run() {
@@ -41,6 +34,7 @@ module.exports = {
     // of the array, but the array will be empty if parsing fails.
     // See https://www.npmjs.com/package/phone
     const toParsed = phone(this.to);
+    console.log(toParsed);
     if (!toParsed || !toParsed.phoneNumber) {
       throw new Error(`Phone number ${this.to} couldn't be parsed as a valid number.`);
     }
@@ -48,10 +42,9 @@ module.exports = {
     const data = {
       to: toParsed.phoneNumber,
       from: this.from,
-      body: this.body,
-      mediaUrl: this.mediaUrl,
+      twiml: `<Response><Say>${this.text}</Say></Response>`,
     };
 
-    return this.twilio.getClient().messages.create(data);
+    return this.twilio.getClient().calls.create(data);
   },
 };

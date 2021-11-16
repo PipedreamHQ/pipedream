@@ -1,7 +1,8 @@
-const common = require("../common-webhook.js");
-const MessagingResponse = require("twilio").twiml.MessagingResponse;
+import common from "../common-webhook.mjs";
+import twilio from "twilio";
+const MessagingResponse = twilio.twiml.MessagingResponse;
 
-module.exports = {
+export default {
   ...common,
   key: "twilio-new-incoming-sms",
   name: "New Incoming SMS (Instant)",

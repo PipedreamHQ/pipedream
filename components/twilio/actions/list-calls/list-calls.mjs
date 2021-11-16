@@ -1,7 +1,7 @@
-const twilio = require("../../twilio.app.js");
-const { omitEmptyStringValues } = require("../../utils.js");
+import twilio from "../../twilio.app.mjs";
+import { omitEmptyStringValues } from "../../utils.mjs";
 
-module.exports = {
+export default {
   key: "twilio-list-calls",
   name: "List Calls",
   description: "Return a list of calls associated with your account. [See the docs](https://www.twilio.com/docs/voice/api/call-resource#read-multiple-call-resources) for more information",

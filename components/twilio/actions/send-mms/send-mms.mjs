@@ -1,11 +1,11 @@
 // Read the Twilio docs at https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource
-const twilio = require("../../twilio.app.js");
-const { phone } = require("phone");
+import twilio from "../../twilio.app.mjs";
+import { phone } from "phone";
 
-module.exports = {
-  key: "twilio-send-sms",
-  name: "Send SMS",
-  description: "Send a simple text-only SMS. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource) for more information",
+export default {
+  key: "twilio-send-mms",
+  name: "Send MMS",
+  description: "Send an SMS with text and media files. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource) for more information",
   type: "action",
   version: "0.0.5",
   props: {
@@ -28,6 +28,12 @@ module.exports = {
         "body",
       ],
     },
+    mediaUrl: {
+      propDefinition: [
+        twilio,
+        "mediaUrl",
+      ],
+    },
   },
   async run() {
     // Parse the given number into its E.164 equivalent
@@ -43,6 +49,7 @@ module.exports = {
       to: toParsed.phoneNumber,
       from: this.from,
       body: this.body,
+      mediaUrl: this.mediaUrl,
     };
 
     return this.twilio.getClient().messages.create(data);

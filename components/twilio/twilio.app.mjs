@@ -1,7 +1,7 @@
-const twilioClient = require("twilio");
-const { formatTimeElapsed } = require("./utils");
+import twilioClient from "twilio";
+import { formatTimeElapsed } from "./utils.mjs";
 
-module.exports = {
+export default {
   type: "app",
   app: "twilio",
   propDefinitions: {
@@ -22,10 +22,12 @@ module.exports = {
       label: "From",
       description: "The phone number or alphanumeric sender ID the message is from",
       async options() {
-        const client = this.getClient();
-        const numbers = await client.incomingPhoneNumbers.list();
+        const numbers = await this.listIncomingPhoneNumbers();
         return numbers.map((number) => {
-          return number.friendlyName;
+          return {
+            label: number.friendlyName,
+            value: number.phoneNumber,
+          };
         });
       },
     },

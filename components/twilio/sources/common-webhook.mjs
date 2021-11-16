@@ -1,7 +1,7 @@
-const twilio = require("../twilio.app.js");
-const twilioClient = require("twilio");
+import twilio from "../twilio.app.mjs";
+import twilioClient from "twilio";
 
-module.exports = {
+export default {
   props: {
     twilio,
     incomingPhoneNumber: {

@@ -1,10 +1,10 @@
-const twilio = require("../../twilio.app.js");
-const got = require("got");
-const stream = require("stream");
-const { promisify } = require("util");
-const fs = require("fs");
+import twilio from "../../twilio.app.mjs";
+import got from "got";
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
 
-module.exports = {
+export default {
   key: "twilio-download-recording-media",
   name: "Download Recording Media",
   description: "Download a recording media file. [See the docs](https://www.twilio.com/docs/voice/api/recording#fetch-a-recording-media-file) for more information",

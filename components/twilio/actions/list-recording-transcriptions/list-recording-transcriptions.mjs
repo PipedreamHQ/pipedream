@@ -1,7 +1,7 @@
-const twilio = require("../../twilio.app.js");
-const { omitEmptyStringValues } = require("../../utils.js");
+import twilio from "../../twilio.app.mjs";
+import { omitEmptyStringValues } from "../../utils.mjs";
 
-module.exports = {
+export default {
   key: "twilio-list-recording-transcriptions",
   name: "List Recording Transcriptions",
   description: "Return a set of transcriptions available for a recording. [See the docs](https://www.twilio.com/docs/voice/api/recording#fetch-a-recordings-transcriptions) for more information",

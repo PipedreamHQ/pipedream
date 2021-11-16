@@ -1,6 +1,6 @@
-const common = require("../common-polling.js");
+import common from "../common-polling.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "twilio-new-phone-number",
   name: "New Phone Number",
