@@ -90,7 +90,7 @@ module.exports = {
     async getUserInfo() {
       return await this._makeRequest(
         "GET",
-        "https://account-d.docusign.com/oauth/userinfo",
+        "https://account.docusign.com/oauth/userinfo",
       );
     },
     async getBaseUri(accountId) {

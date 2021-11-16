@@ -5,7 +5,7 @@ module.exports = {
   name: "Envelope Sent or Complete",
   description:
     "Emits an event when an envelope status is set to sent or complete",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     docusign,

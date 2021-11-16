@@ -4,7 +4,7 @@ module.exports = {
   key: "docusign-new-folder",
   name: "New Folder",
   description: "Emits an event when a new folder is created",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     docusign,
