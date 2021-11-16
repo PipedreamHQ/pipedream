@@ -21,12 +21,16 @@ export default {
   methods: {
     ...common.methods,
     getMetadata(transaction) {
-      const { id } = transaction;
+      const {
+        id,
+        created_at: createdAt,
+      } = transaction;
       const summary = `Transaction ${id}`;
+      const ts = Date.parse(createdAt);
       return {
         id,
         summary,
-        ts: Date.now(),
+        ts,
       };
     },
   },
