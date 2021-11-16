@@ -1,4 +1,5 @@
 const twilioClient = require("twilio");
+const { formatTimeElapsed } = require("./utils");
 
 module.exports = {
   type: "app",
@@ -106,6 +107,16 @@ module.exports = {
       type: "string",
       label: "Recording ID",
       description: "The SID of the Recording",
+      async options() {
+        const recordings = await this.listRecordings();
+        return recordings.map((recording) => {
+          const dateString = new Date(recording.startTime).toDateString();
+          const durationString = formatTimeElapsed(recording.duration);
+          return {
+            label: `${dateString} - ${durationString}`,
+            value: recording.sid,
+          };});
+      },
     },
     format: {
       type: "string",
