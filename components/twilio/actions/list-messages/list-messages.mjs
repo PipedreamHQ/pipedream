@@ -10,22 +10,20 @@ export default {
   type: "action",
   props: {
     twilio,
-    to: {
-      propDefinition: [
-        twilio,
-        "to",
-      ],
-      description: "Read messages sent to only this phone number. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
-      optional: true,
-    },
-    // Not inheriting `propDefinition` from `twilio` because it has value for
-    // `options` property
     from: {
       propDefinition: [
         twilio,
         "from",
       ],
       description: "Read messages sent from only this phone number or alphanumeric sender ID. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
+      optional: true,
+    },
+    to: {
+      propDefinition: [
+        twilio,
+        "to",
+      ],
+      description: "Read messages sent to only this phone number. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
       optional: true,
     },
     limit: {

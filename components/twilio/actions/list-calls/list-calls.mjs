@@ -9,22 +9,20 @@ export default {
   type: "action",
   props: {
     twilio,
-    to: {
-      propDefinition: [
-        twilio,
-        "to",
-      ],
-      description: "Only show calls made to this phone number, SIP address, Client identifier or SIM SID. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
-      optional: true,
-    },
-    // Not inheriting `propDefinition` from `twilio` because it has value for
-    // `options` property
     from: {
       propDefinition: [
         twilio,
         "from",
       ],
       description: "Only include calls from this phone number, SIP address, Client identifier or SIM SID. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
+      optional: true,
+    },
+    to: {
+      propDefinition: [
+        twilio,
+        "to",
+      ],
+      description: "Only show calls made to this phone number, SIP address, Client identifier or SIM SID. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
       optional: true,
     },
     parentCallSid: {
