@@ -52,7 +52,7 @@ export default {
         return {
           options,
           context: {
-            after: options.length > 0 && get(options, `${options.length - 1}.value.name`),
+            after: get(options, `${options.length - 1}.value.name`),
           },
         };
       },
@@ -115,7 +115,7 @@ export default {
         return {
           options,
           context: {
-            after: options.length > 0 && get(options, `${options.length - 1}.value.name`),
+            after: get(options, `${options.length - 1}.value.name`),
           },
         };
       },
