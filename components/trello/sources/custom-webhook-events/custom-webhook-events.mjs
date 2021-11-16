@@ -47,9 +47,10 @@ export default {
     isCorrectEventType(event) {
       const eventType = get(event, "body.action.type");
       return (
-        !this.eventTypes ||
+        (eventType) &&
+        (!this.eventTypes ||
         this.eventTypes.length === 0 ||
-        this.eventTypes.includes(eventType)
+        this.eventTypes.includes(eventType))
       );
     },
     async getResult(event) {
