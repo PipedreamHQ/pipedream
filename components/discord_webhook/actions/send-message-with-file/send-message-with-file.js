@@ -15,6 +15,7 @@ module.exports = {
         discordWebhook,
         "message",
       ],
+      optional: true,
     },
     threadID: {
       propDefinition: [
