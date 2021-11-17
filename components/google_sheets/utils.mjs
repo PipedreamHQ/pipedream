@@ -1,3 +1,15 @@
+/**
+ * This method creates an object composed of the own and inherited enumerable string keyed
+ * properties of `object` whose keys are not empty strings
+ *
+ * @example
+ * // returns {}
+ * omitEmptykey({ "": "bar" });
+ *
+ * @param {object} object the source object
+ * @param {...*} [object.omittedObj] the properties of `object` whose keys are not empty strings
+ * @returns {object} the new object
+ */
 function omitEmptyKey({
   /* eslint-disable-next-line no-unused-vars */
   "": _, ...omittedObj
