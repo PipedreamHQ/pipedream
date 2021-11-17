@@ -107,7 +107,7 @@ export default {
           label: subreddit.data.title,
           value: {
             label: subreddit.data.title,
-            value: subreddit.data.displayName,
+            value: subreddit.data.display_name,
             name: subreddit.data.name,
           },
         }));
