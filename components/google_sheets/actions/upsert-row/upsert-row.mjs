@@ -144,37 +144,44 @@ export default {
 
     const shouldUpdate = matchedRow && matchedRow !== "#N/A";
 
-    if (shouldUpdate) {
-      // UPDATE ROW
-      const sanitizedUpdates = omitEmptyKey(updates);
-      if (sanitizedUpdates && Object.keys(sanitizedUpdates).length) {
-        result = await this.googleSheets.updateRowCells(
-          sheetId,
-          sheetName,
-          matchedRow,
-          sanitizedUpdates,
-        );
-      } else {
-        result = await this.googleSheets.updateRow(sheetId, sheetName, matchedRow, insert);
-      }
-    } else {
+    if (!shouldUpdate) {
       // INSERT ROW
-      result = await this.googleSheets.addRowsToSheet({
-        spreadsheetId: this.sheetId,
-        range: this.sheetName,
-        rows: [
-          insert,
-        ],
-      });
-    }
-
-    await deleteSheetPromise;
-
-    if (shouldUpdate) {
-      $.export("$summary", `Successfully updated row ${matchedRow} with key, "${keyValue}"`);
-    } else {
+      ([
+        result,
+      ] = await Promise.all([
+        this.googleSheets.addRowsToSheet({
+          spreadsheetId: sheetId,
+          range: sheetName,
+          rows: [
+            insert,
+          ],
+        }),
+        deleteSheetPromise,
+      ]));
       $.export("$summary", `Successfully inserted row with key, "${keyValue}"`);
+      return result;
     }
+
+    // UPDATE ROW
+    const updateParams = [
+      sheetId,
+      sheetName,
+      matchedRow,
+    ];
+    const sanitizedUpdates = omitEmptyKey(updates);
+    const updateRowCells = sanitizedUpdates && Object.keys(sanitizedUpdates).length;
+    const updatePromise =
+      updateRowCells
+        ? this.googleSheets.updateRowCells(...updateParams, sanitizedUpdates)
+        : this.googleSheets.updateRow(...updateParams, insert);
+
+    ([
+      result,
+    ] = await Promise.all([
+      updatePromise,
+      deleteSheetPromise,
+    ]));
+    $.export("$summary", `Successfully updated row ${matchedRow} with key, "${keyValue}"`);
     return result;
   },
 };
