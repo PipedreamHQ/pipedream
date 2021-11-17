@@ -1,13 +1,13 @@
 {
-    "name": "@pipedream/telegram",
+    "name": "@pipedream/telegram_bot_api",
     "version": "0.3.3",
-    "description": "Pipedream Telegram Components",
-    "main": "telegram.app.js",
+    "description": "Pipedream Telegram_bot_api Components",
+    "main": "telegram_bot_api.app.js",
     "keywords": [
         "pipedream",
-        "telegram"
+        "telegram_bot_api"
     ],
-    "homepage": "https://pipedream.com/apps/telegram",
+    "homepage": "https://pipedream.com/apps/telegram_bot_api",
     "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
     "license": "MIT",
     "dependencies": {
