@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { VALUE_RENDER_OPTION } from "../../constants.mjs";
 import googleSheets from "../../google_sheets.app.mjs";
 import {
   omitEmptyKey, toSingleLineString,
@@ -131,7 +132,7 @@ export default {
       ],
       params: {
         includeValuesInResponse: true,
-        responseValueRenderOption: "FORMATTED_VALUE",
+        responseValueRenderOption: VALUE_RENDER_OPTION.FORMATTED_VALUE,
       },
     });
 

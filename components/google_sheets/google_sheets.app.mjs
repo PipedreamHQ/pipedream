@@ -1,6 +1,9 @@
 import axios from "axios";
 import { google } from "googleapis";
 import googleDrive from "../google_drive/google_drive.app.js";
+import {
+  INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
+} from "./constants.mjs";
 
 export default {
   ...googleDrive,
@@ -315,8 +318,8 @@ export default {
         },
         validateStatus: () => true,
         params: {
-          valueInputOption: "USER_ENTERED",
-          insertDataOption: "INSERT_ROWS",
+          valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
+          insertDataOption: INSERT_DATA_OPTION.INSERT_ROWS,
           ...params,
         },
         data: {
@@ -406,7 +409,7 @@ export default {
       return await this.updateSpreadsheet({
         spreadsheetId,
         range: `${sheetName}!${row}:${row}`,
-        valueInputOption: "USER_ENTERED",
+        valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
         resource: {
           values: [
             values,
@@ -452,7 +455,7 @@ export default {
         spreadsheetId,
         updateData,
         {
-          valueInputOption: "USER_ENTERED",
+          valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
         },
       );
     },
