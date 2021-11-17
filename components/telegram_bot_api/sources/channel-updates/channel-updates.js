@@ -6,7 +6,7 @@ module.exports = {
   key: "telegram_bot_api-channel-updates",
   name: "Channel Updates (Instant)",
   description: "Emit new event each time a channel message is created or updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     db: "$.service.db",
