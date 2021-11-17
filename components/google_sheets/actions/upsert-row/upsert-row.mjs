@@ -127,7 +127,10 @@ export default {
           keyValue, // A1
         ],
         [
-          `=MATCH(A1, ${sheetName}!${column}:${column}, 0)`, // A2
+          this.googleSheets.buildMatchFormula("A1", sheetName, {
+            column,
+            searchType: 0,
+          }), // A2
         ],
       ],
       params: {

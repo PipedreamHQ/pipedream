@@ -100,6 +100,38 @@ export default {
       });
     },
     /**
+     * Builds a formula using the Google Sheets [MATCH
+     * function]{@see {@link https://support.google.com/docs/answer/3093378}}. If a range with both
+     * height and width greater than 1 is used, `MATCH` will return `#N/A!`.
+     *
+     * @param {string} searchKey - The value to search for. For example, 42, "Cats", or I24.
+     * @param {string} sheetName - The name of the sheet containing the range to search
+     * @param {object} [opts={}] - Additional options used to build the match formula
+     * @param {string} [opts.row=""] - The row of the range to search
+     * @param {string} [opts.startRow=opts.row] - The starting row of the range to search
+     * @param {string} [opts.endRow=opts.row] - The ending row of the range to search
+     * @param {string} [opts.column=""] - The column of the range to search
+     * @param {string} [opts.startColumn=opts.column] - The starting column of the range to search
+     * @param {string} [opts.endColumn=opts.column] - The ending column of the range to search
+     * @param {number} [opts.searchType=1] - The manner in which to search. `1`, the default,
+     * causes `MATCH` to assume that the range is sorted in ascending order and return the largest
+     * value less than or equal to `searchKey`. `0` indicates exact match. -`1` causes `MATCH` to
+     * assume that the range is sorted in descending order and return the smallest value greater
+     * than or equal to `searchKey`.
+     * @returns {string} The match formula
+     */
+    buildMatchFormula(searchKey, sheetName, {
+      row = "",
+      startRow = row,
+      endRow = row,
+      column = "",
+      startColumn = column,
+      endColumn = column,
+      searchType = 1,
+    } = {}) {
+      return `=MATCH(${searchKey}, ${sheetName}!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
+    },
+    /**
      * Converts column letter(s) (E.g. 'A', 'B', 'AA', etc.) into a numerical value representing
      * the columnIndex of the column.
      * @returns {integer} The columnIndex of the column
