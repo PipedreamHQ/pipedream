@@ -1,12 +1,13 @@
-const common = require("../board-based.js");
-const get = require("lodash/get");
+import common from "../board-based.mjs";
+import get from "loadsh/get.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-new-checklist",
   name: "New Checklist (Instant)",
-  description: "Emits an event for each new checklist added to a board.",
-  version: "0.0.4",
+  description: "Emit new event for each new checklist added to a board.",
+  version: "0.0.5",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,

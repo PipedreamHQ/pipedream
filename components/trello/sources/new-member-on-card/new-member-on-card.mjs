@@ -1,13 +1,14 @@
-const common = require("../board-based.js");
-const get = require("lodash/get");
+import common from "../board-based.mjs";
+import get from "lodash/get.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-new-member-on-card",
   name: "New Member on Card (Instant)",
   description:
-    "Emits an event for each card joined by the authenticated Trello user.",
-  version: "0.0.5",
+    "Emit new event for each card joined by the authenticated Trello user.",
+  version: "0.0.6",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
