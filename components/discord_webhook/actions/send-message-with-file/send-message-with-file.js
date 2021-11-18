@@ -50,7 +50,7 @@ module.exports = {
       optional: true,
     },
   },
-  async run({$}) {
+  async run({ $ }) {
     const {
       message: content,
       avatarURL,
@@ -81,7 +81,7 @@ module.exports = {
       file,
     });
 
-    $.export("$summary",`Message sent successfully`)
+    $.export("$summary", "Message sent successfully");
 
     return resp;
   },
