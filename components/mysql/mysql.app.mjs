@@ -25,11 +25,6 @@ export default {
         return this.listColumnNames(table);
       },
     },
-    query: {
-      type: "string",
-      label: "SQL Query",
-      description: "Your custom SQL query",
-    },
     whereCondition: {
       type: "string",
       label: "Where condition",
@@ -47,27 +42,27 @@ export default {
       options() {
         return [
           {
-            label: "Equal operator",
+            label: "Equal to",
             value: "=",
           },
           {
-            label: "Greater than operator",
+            label: "Greater than",
             value: ">",
           },
           {
-            label: "Greater than or equal operator",
+            label: "Greater than or equal to",
             value: ">=",
           },
           {
-            label: "Less than operator",
+            label: "Less than",
             value: "<",
           },
           {
-            label: "Not equal operator",
+            label: "Not equal to",
             value: "!=",
           },
           {
-            label: "Less than or equal operator",
+            label: "Less than or equal to",
             value: "<=",
           },
           {
@@ -106,7 +101,7 @@ export default {
         password,
         database,
       } = this.$auth;
-      return await mysqlClient.createConnection({
+      return mysqlClient.createConnection({
         host,
         port,
         user: username,
@@ -121,18 +116,24 @@ export default {
       await connection.end();
       await connectionClosed;
     },
-    async executeQuery(connection, query) {
+    async executeQuery({
+      connection, preparedStatement,
+    }) {
       const [
         result,
-      ] = await connection.execute(query);
+      ] = await connection.execute(preparedStatement);
       return result;
     },
-    async executeQueryConnectionHandler(options) {
+    async executeQueryConnectionHandler(preparedStatement) {
       let connection;
 
       try {
         connection = await this.getConnection();
-        return await this.executeQuery(connection, options);
+
+        return await this.executeQuery({
+          connection,
+          preparedStatement,
+        });
 
       // eslint-disable-next-line no-useless-catch
       } catch (error) {
@@ -145,10 +146,10 @@ export default {
       }
     },
     async listStoredProcedures() {
-      const options = {
+      const preparedStatement = {
         sql: "SHOW PROCEDURE STATUS",
       };
-      const procedures = await this.executeQueryConnectionHandler(options);
+      const procedures = await this.executeQueryConnectionHandler(preparedStatement);
       return procedures.map(({
         Db: db, Name: name,
       }) => {
@@ -160,42 +161,47 @@ export default {
       });
     },
     async listTables() {
-      const options = {
+      const preparedStatement = {
         sql: "SHOW FULL TABLES",
       };
-      return await this.executeQueryConnectionHandler(options);
+      return this.executeQueryConnectionHandler(preparedStatement);
     },
     async listBaseTables(lastResult) {
-      const options = {
+      const preparedStatement = {
         sql: `
           SELECT * FROM INFORMATION_SCHEMA.TABLES 
-          WHERE TABLE_TYPE = 'BASE TABLE'
-          AND CREATE_TIME > ?
-          ORDER BY CREATE_TIME DESC
+            WHERE TABLE_TYPE = 'BASE TABLE'
+            AND CREATE_TIME > ?
+            ORDER BY CREATE_TIME DESC
         `,
         values: [
           lastResult,
         ],
       };
-      return await this.executeQueryConnectionHandler(options);
+      return this.executeQueryConnectionHandler(preparedStatement);
     },
     async listTopTables(maxCount = 10) {
-      const sql = `
-        SELECT * FROM INFORMATION_SCHEMA.TABLES 
-          WHERE TABLE_TYPE = 'BASE TABLE'
-          ORDER BY CREATE_TIME DESC
-          LIMIT ${maxCount}
-      `;
-      return await this.executeQueryConnectionHandler(sql);
+      const preparedStatement = {
+        sql: `
+          SELECT * FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_TYPE = 'BASE TABLE'
+            ORDER BY CREATE_TIME DESC
+            LIMIT ?
+        `,
+        values: [
+          maxCount,
+        ],
+      };
+      return this.executeQueryConnectionHandler(preparedStatement);
     },
     async listColumns(table) {
-      const options = {
+      const preparedStatement = {
         sql: `SHOW COLUMNS FROM \`${table}\``,
       };
-      return await this.executeQueryConnectionHandler(options);
+      return this.executeQueryConnectionHandler(preparedStatement);
     },
     async listNewColumns(table, previousColumns) {
-      const options = {
+      const preparedStatement = {
         sql: `
           SHOW COLUMNS FROM \`${table}\`
           WHERE Field NOT IN (?)
@@ -204,7 +210,7 @@ export default {
           previousColumns.join(),
         ],
       };
-      return await this.executeQueryConnectionHandler(options);
+      return this.executeQueryConnectionHandler(preparedStatement);
     },
     /**
      * Returns rows from a specified table.
@@ -214,7 +220,7 @@ export default {
      * that has been previously returned.
      */
     async listRows(table, column, lastResult) {
-      const options = {
+      const preparedStatement = {
         sql: `
           SELECT * FROM \`${table}\`
           WHERE \`${column}\` > ? 
@@ -224,7 +230,7 @@ export default {
           lastResult,
         ],
       };
-      return await this.executeQueryConnectionHandler(options);
+      return this.executeQueryConnectionHandler(preparedStatement);
     },
     /**
      * Returns rows from a specified table. Used when lastResult has not yet been set.
@@ -234,21 +240,26 @@ export default {
      * @param {string} column - Name of the table column to order by
      */
     async listMaxRows(table, column, maxCount = 10) {
-      const sql = `
-        SELECT * FROM \`${table}\`
-          ORDER BY \`${column}\` DESC
-          LIMIT ${maxCount}
-      `;
-      return await this.executeQueryConnectionHandler(sql);
+      const preparedStatement = {
+        sql: `
+          SELECT * FROM \`${table}\`
+            ORDER BY \`${column}\` DESC
+            LIMIT ?
+        `,
+        values: [
+          maxCount,
+        ],
+      };
+      return this.executeQueryConnectionHandler(preparedStatement);
     },
     async getPrimaryKey(table) {
-      const options = {
+      const preparedStatement = {
         sql: "SHOW KEYS FROM ? WHERE Key_name = 'PRIMARY'",
         values: [
           table,
         ],
       };
-      return await this.executeQueryConnectionHandler(options);
+      return this.executeQueryConnectionHandler(preparedStatement);
     },
     async listColumnNames(table) {
       const columns = await this.listColumns(table);
@@ -257,11 +268,64 @@ export default {
     async findRows({
       table, condition, values = [],
     }) {
-      const options = {
+      const preparedStatement = {
         sql: `SELECT * FROM \`${table}\` WHERE ${condition}`,
         values,
       };
-      return await this.executeQueryConnectionHandler(options);
+      return this.executeQueryConnectionHandler(preparedStatement);
+    },
+    async deleteRows({
+      table, condition, values = [],
+    }) {
+      const preparedStatement = {
+        sql: `DELETE FROM \`${table}\` WHERE ${condition}`,
+        values,
+      };
+      return this.executeQueryConnectionHandler(preparedStatement);
+    },
+    async insertRow({
+      table, columns = [], values = [],
+    }) {
+      const placehorder = values.map(() => "?").join(",");
+      const preparedStatement = {
+        sql: `
+          INSERT INTO \`${table}\` (${columns.join(",")})
+            VALUES (${placehorder})
+        `,
+        values,
+      };
+      return this.executeQueryConnectionHandler(preparedStatement);
+    },
+    async updateRow({
+      table, condition, conditionValues = [], columnsToUpdate = [], valuesToUpdate = [],
+    }) {
+      const updates =
+        columnsToUpdate
+          .map((column) => `\`${column}\` = ?`);
+
+      const preparedStatement = {
+        sql: `
+          UPDATE \`${table}\`
+            SET ${updates}
+            WHERE ${condition}`,
+        values: [
+          ...valuesToUpdate,
+          ...conditionValues,
+        ],
+      };
+      return this.executeQueryConnectionHandler(preparedStatement);
+    },
+    async executeStoredProcedure({
+      storedProcedure, values = [],
+    }) {
+      const preparedStatement = {
+        sql: `CALL ${storedProcedure}(${values.map(() => "?")})`,
+        values,
+      };
+      const [
+        result,
+      ] = await this.executeQueryConnectionHandler(preparedStatement);
+      return result;
     },
   },
 };

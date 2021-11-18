@@ -1,38 +1,16 @@
-import mysql from "../../mysql.app.mjs";
+import commonTable from "../common/table.mjs";
+
+const { mysql } = commonTable.props;
 
 export default {
+  ...commonTable,
   key: "mysql-new-row",
   name: "New Row",
   description: "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
   type: "action",
   version: "0.0.1",
-  methods: {
-    async insertRow({
-      table, columns = [], values = [],
-    }) {
-      if (columns.length !== values.length) {
-        throw new Error("The number of columns doesn't match the number of values");
-      }
-
-      const placehorder = values.map(() => "?").join(",");
-      const options = {
-        sql: `
-          INSERT INTO \`${table}\` (${columns.join(",")})
-            VALUES (${placehorder})
-        `,
-        values,
-      };
-      return await this.mysql.executeQueryConnectionHandler(options);
-    },
-  },
   props: {
-    mysql,
-    table: {
-      propDefinition: [
-        mysql,
-        "table",
-      ],
-    },
+    ...commonTable.props,
     columns: {
       type: "string[]",
       description: "Select the columns you want to use to insert the values",
@@ -52,11 +30,25 @@ export default {
       ],
     },
   },
-  async run() {
-    return await this.insertRow({
-      table: this.table,
-      columns: this.columns,
-      values: this.values,
+  async run({ $ }) {
+    const {
+      table,
+      columns,
+      values,
+    } = this;
+
+    if (columns.length !== values.length) {
+      throw new Error("The number of columns doesn't match the number of values");
+    }
+
+    const result = await this.mysql.insertRow({
+      table,
+      columns,
+      values,
     });
+
+    $.export("$summary", `Successfully added ${result.affectedRows} row(s) to table ${table}`);
+
+    return result;
   },
 };

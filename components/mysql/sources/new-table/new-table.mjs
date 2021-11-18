@@ -4,9 +4,9 @@ export default {
   ...common,
   key: "mysql-new-table",
   name: "New Table",
-  description: "Emit new event when a new table is added to a database",
+  description: "Emit new event when a new table is added to a database. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

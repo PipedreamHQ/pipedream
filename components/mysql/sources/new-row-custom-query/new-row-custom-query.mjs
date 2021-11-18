@@ -1,25 +1,21 @@
-import common from "../common.mjs";
+import common from "../common/table.mjs";
 import { v4 as uuidv4 } from "uuid";
+
+const { mysql } = common.props;
 
 export default {
   ...common,
   key: "mysql-new-row-custom-query",
   name: "New Row (Custom Query)",
-  description: "Emit new event when new rows are returned from a custom query",
-  version: "0.0.1",
+  description: "Emit new event when new rows are returned from a custom query. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
-    table: {
-      propDefinition: [
-        common.props.mysql,
-        "table",
-      ],
-    },
     column: {
       propDefinition: [
-        common.props.mysql,
+        mysql,
         "column",
         (c) => ({
           table: c.table,
@@ -30,17 +26,47 @@ export default {
         "The name of a column in the table to use for de-duplication",
       optional: true,
     },
-    query: {
+    condition: {
       propDefinition: [
-        common.props.mysql,
-        "query",
+        mysql,
+        "whereCondition",
+      ],
+    },
+    values: {
+      propDefinition: [
+        mysql,
+        "whereValues",
       ],
     },
   },
   methods: {
     ...common.methods,
     async listResults() {
-      const rows = await this.mysql.executeQueryConnectionHandler(this.query);
+      const {
+        table,
+        condition,
+        values,
+      } = this;
+
+      const numberOfQuestionMarks = condition?.match(/\?/g)?.length;
+
+      if (!numberOfQuestionMarks) {
+        throw new Error("No valid condition provided. At least one question mark character ? must be provided.");
+      }
+
+      if (!Array.isArray(values)) {
+        throw new Error("No valid values provided. The values property must be an array.");
+      }
+
+      if (values.length !== numberOfQuestionMarks) {
+        throw new Error("The number of values provided does not match the number of question marks ? in the condition.");
+      }
+
+      const rows = await this.mysql.findRows({
+        table,
+        condition,
+        values,
+      });
       this.iterateAndEmitEvents(rows);
     },
     generateMeta(row) {

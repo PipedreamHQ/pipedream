@@ -1,25 +1,21 @@
-import common from "../common.mjs";
+import common from "../common/table.mjs";
+
+const { mysql } = common.props;
 
 export default {
   ...common,
   key: "mysql-new-or-updated-row",
   name: "New or Updated Row",
-  description: "Emit new event when you add or modify a new row in a table",
+  description: "Emit new event when you add or modify a new row in a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
     db: "$.service.db",
-    table: {
-      propDefinition: [
-        common.props.mysql,
-        "table",
-      ],
-    },
     column: {
       propDefinition: [
-        common.props.mysql,
+        mysql,
         "column",
         (c) => ({
           table: c.table,

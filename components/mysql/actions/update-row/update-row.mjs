@@ -1,53 +1,16 @@
-import mysql from "../../mysql.app.mjs";
+import commonTable from "../common/table.mjs";
+
+const { mysql } = commonTable.props;
 
 export default {
+  ...commonTable,
   key: "mysql-update-row",
   name: "Update Row",
-  description: "Updates an existing row",
+  description: "Updates an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/update.html)",
   type: "action",
   version: "0.0.1",
-  methods: {
-    async updateRow({
-      table, condition, conditionValues = [], columnsToUpdate = [], valuesToUpdate = [],
-    }) {
-      if (!conditionValues.length) {
-        throw new Error("Please provide some values to match the condition");
-      }
-
-      if (!valuesToUpdate.length) {
-        throw new Error("Please provide some values to update");
-      }
-
-      if (columnsToUpdate.length !== valuesToUpdate.length) {
-        throw new Error("The number of columns doesn't match with the number of values to update");
-      }
-
-      const updates =
-        columnsToUpdate
-          .map((column) => `SET \`${column}\` = ?`)
-          .join(", ");
-
-      const options = {
-        sql: `
-          UPDATE \`${table}\`
-            ${updates}
-            WHERE ${condition}`,
-        values: [
-          ...valuesToUpdate,
-          ...conditionValues,
-        ],
-      };
-      return await this.mysql.executeQueryConnectionHandler(options);
-    },
-  },
   props: {
-    mysql,
-    table: {
-      propDefinition: [
-        mysql,
-        "table",
-      ],
-    },
+    ...commonTable.props,
     condition: {
       propDefinition: [
         mysql,
@@ -79,13 +42,52 @@ export default {
       ],
     },
   },
-  async run() {
-    return await this.updateRow({
-      table: this.table,
-      condition: this.condition,
-      conditionValues: this.conditionValues,
-      columnsToUpdate: this.columnsToUpdate,
-      valuesToUpdate: this.valuesToUpdate,
+  async run({ $ }) {
+    const {
+      table,
+      condition,
+      columnsToUpdate,
+      valuesToUpdate,
+      conditionValues,
+    } = this;
+    const numberOfQuestionMarks = condition.match(/\?/g)?.length;
+
+    if (!numberOfQuestionMarks) {
+      throw new Error("No valid condition provided. At least one question mark character ? must be provided.");
+    }
+
+    const isAllArrays = [
+      conditionValues,
+      columnsToUpdate,
+      valuesToUpdate,
+    ].every(Array.isArray);
+
+    if (!isAllArrays) {
+      throw new Error("Either condition values, columns to update or values to update is not an array.");
+    }
+
+    if (conditionValues.length !== numberOfQuestionMarks) {
+      throw new Error("The number of values provided does not match the number of question marks ? in the condition");
+    }
+
+    if (!columnsToUpdate.length) {
+      throw new Error("No columns to update provided");
+    }
+
+    if (columnsToUpdate.length !== valuesToUpdate.length) {
+      throw new Error("The number of columns doesn't match with the number of values to update");
+    }
+
+    const result = await this.mysql.updateRow({
+      table,
+      condition,
+      conditionValues,
+      columnsToUpdate,
+      valuesToUpdate,
     });
+
+    $.export("$summary", `Successfully updated ${result.affectedRows} row(s) in table ${table}`);
+
+    return result;
   },
 };

@@ -1,19 +1,16 @@
-import mysql from "../../mysql.app.mjs";
+import commonTable from "../common/table.mjs";
+
+const { mysql } = commonTable.props;
 
 export default {
+  ...commonTable,
   key: "mysql-find-row",
   name: "Find Row",
   description: "Finds a row in a table via a lookup column. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "action",
   version: "0.0.1",
   props: {
-    mysql,
-    table: {
-      propDefinition: [
-        mysql,
-        "table",
-      ],
-    },
+    ...commonTable.props,
     column: {
       description: "Select the column you want to filter by",
       propDefinition: [
@@ -37,16 +34,26 @@ export default {
       ],
     },
   },
-  async run() {
-    const condition = `${this.column} ${this.operator} ?`;
-    const values = [
-      this.value,
-    ];
+  async run({ $ }) {
+    const {
+      table,
+      column,
+      operator,
+      value,
+    } = this;
 
-    return await this.mysql.findRows({
-      table: this.table,
+    const condition = `${column} ${operator} ?`;
+
+    const result = await this.mysql.findRows({
+      table,
       condition,
-      values,
+      values: [
+        value,
+      ],
     });
+
+    $.export("$summary", `Successfully found ${result.length} row(s) from table ${table}`);
+
+    return result;
   },
 };

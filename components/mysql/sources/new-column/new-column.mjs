@@ -1,22 +1,16 @@
-import common from "../common.mjs";
+import common from "../common/table.mjs";
 
 export default {
   ...common,
   key: "mysql-new-column",
   name: "New Column",
-  description: "Emit new event when you add a new column to a table",
+  description: "Emit new event when you add a new column to a table. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/show-columns.html)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
     db: "$.service.db",
-    table: {
-      propDefinition: [
-        common.props.mysql,
-        "table",
-      ],
-    },
   },
   methods: {
     ...common.methods,
