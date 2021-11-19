@@ -1,17 +1,16 @@
-const common = require("../common-webhook");
-const { mailchimp } = common.props;
+const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
   key: "mailchimp-new-segment-tag-subscriber",
   name: "New Segment Tag Subscriber",
   description:
-    "Emit an event when an subscriber is added to a segment or tags within an audience list.",
+    "Emit new event when an subscriber is added to a segment or tags within an audience list.",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
-    mailchimp,
-    server: { propDefinition: [mailchimp, "server"] },
+    ...common.props,
     listId: {
       type: "string",
       label: "Audience List Id",
@@ -32,20 +31,17 @@ module.exports = {
       default: false,
       optional: true,
     },
-    timer: { propDefinition: [mailchimp, "timer"] },
-    db: "$.service.db",
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
       const mailchimpSegmentMembersInfo =
         await this.mailchimp.getSegmentMembersList(
-          this.server,
           this.listId,
           this.segmentId,
           10,
           0,
-          this.includeTransactional
+          this.includeTransactional,
         );
 
       const { members: mailchimpSegmentMembers = [] } =
@@ -54,7 +50,7 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpSegmentMembers.forEach(this.emitEvent);
+      mailchimpSegmentMembers.forEach(this.processEvent);
     },
   },
   methods: {
@@ -67,7 +63,7 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(eventPayload) {
+    processEvent(eventPayload) {
       const meta = this.generateMeta(eventPayload);
       this.$emit(eventPayload, meta);
     },
@@ -78,19 +74,18 @@ module.exports = {
     let offset = 0;
     do {
       mailchimpSegmentMembersInfo = await this.mailchimp.getSegmentMembersList(
-        this.server,
         this.listId,
         this.segmentId,
         1000,
         offset,
-        this.includeTransactional
+        this.includeTransactional,
       );
       mailchimpSegmentMembers = mailchimpSegmentMembersInfo.members;
       if (!mailchimpSegmentMembers.length) {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpSegmentMembers.forEach(this.emitEvent);
+      mailchimpSegmentMembers.forEach(this.processEvent);
       offset = offset + mailchimpSegmentMembers.length;
     } while (mailchimpSegmentMembers.length > 0);
   },

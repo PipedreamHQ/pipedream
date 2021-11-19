@@ -1,13 +1,13 @@
-const common = require("../common-webhook");
-const { mailchimp } = common.props;
+const common = require("../common/http-based");
 
 module.exports = {
   ...common,
   key: "mailchimp-new-unsubscriber",
   name: "New Unsubscriber",
   description:
-    "Emit an event when a subscriber is removed from an audience list.",
+    "Emit new event when a subscriber is removed from an audience list.",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -17,15 +17,18 @@ module.exports = {
       description:
         "The unique ID of the audience list you'd like to watch for new unsubscribers.",
     },
-    server: { propDefinition: [mailchimp, "server"] },
   },
   methods: {
     ...common.methods,
     getEventName() {
-      return ["unsubscribe"];
+      return [
+        "unsubscribe",
+      ];
     },
     getEventType() {
-      return ["unsubscribe"];
+      return [
+        "unsubscribe",
+      ];
     },
     generateMeta(eventPayload) {
       const ts = +new Date(eventPayload.fired_at);

@@ -1,17 +1,16 @@
-const common = require("../common-webhook");
-const { mailchimp } = common.props;
+const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
   key: "mailchimp-new-order",
   name: "New Order",
   description:
-    "Emit an event when a new order is added to your store, or Mailchimp account.",
+    "Emit new event when an order is added to your store, or Mailchimp account.",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
-    mailchimp,
-    server: { propDefinition: [mailchimp, "server"] },
+    ...common.props,
     storeId: {
       type: "string",
       label: "Store Id",
@@ -26,13 +25,6 @@ module.exports = {
         "Watch only for new orders with a specific Campaign Id value.",
       optional: true,
     },
-    outreachId: {
-      type: "string",
-      label: "Outreach Id",
-      description:
-        "Watch only for new orders with a specific Outreach Id value.",
-      optional: true,
-    },
     customerId: {
       type: "string",
       label: "Customer Id",
@@ -45,24 +37,32 @@ module.exports = {
       label: "Has Outreach?",
       description:
         "Watch only for new orders that have an outreach attached. For example, an email campaign or Facebook ad.",
-      options: ["Yes","No","Both"],
-      default: "Both"
+      options: [
+        "Yes",
+        "No",
+        "Both",
+      ],
+      default: "Both",
     },
-    timer: { propDefinition: [mailchimp, "timer"] },
-    db: "$.service.db",
+    outreachId: {
+      type: "string",
+      label: "Outreach Id",
+      description:
+        "Ignored if `hasOutreach` is marked as 'No'.",
+      optional: true,
+    },
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
       const mailchimpOrdersInfo = await this.mailchimp.getAllOrders(
-        this.server,
         this.storeId,
         10,
         0,
         this.campaignId,
         this.outreachId,
         this.customerId,
-        this.hasOutreach
+        this.hasOutreach,
       );
       console.log(this.hasOutreach);
       const { orders: mailchimpOrders = [] } = mailchimpOrdersInfo;
@@ -70,7 +70,7 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpOrders.forEach(this.emitEvent);
+      mailchimpOrders.forEach(this.processEvent);
     },
   },
   methods: {
@@ -79,11 +79,11 @@ module.exports = {
       const ts = +new Date(eventPayload.created_at);
       return {
         id: eventPayload.id,
-        summary: `A new order has been submitted.`,
+        summary: "A new order has been submitted.",
         ts,
       };
     },
-    emitEvent(eventPayload) {
+    processEvent(eventPayload) {
       const meta = this.generateMeta(eventPayload);
       this.$emit(eventPayload, meta);
     },
@@ -94,21 +94,20 @@ module.exports = {
     let offset = 0;
     do {
       mailchimpOrdersInfo = await this.mailchimp.getAllOrders(
-        this.server,
         this.storeId,
         1000,
         offset,
         this.campaignId,
         this.outreachId,
         this.customerId,
-        this.hasOutreach
+        this.hasOutreach,
       );
       mailchimpOrders = mailchimpOrdersInfo.orders;
       if (!mailchimpOrders.length) {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpOrders.forEach(this.emitEvent);
+      mailchimpOrders.forEach(this.processEvent);
       offset = offset + mailchimpOrders.length;
     } while (mailchimpOrders.length > 0);
   },

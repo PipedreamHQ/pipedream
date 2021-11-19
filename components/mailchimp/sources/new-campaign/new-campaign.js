@@ -1,45 +1,50 @@
-const common = require("../common-webhook");
-const { mailchimp } = common.props;
+const common = require("../common/timer-based");
 const moment = require("moment");
 
 module.exports = {
   ...common,
   key: "mailchimp-new-campaign",
   name: "New Campaign",
-  description: "Emit an event when a campaign is created or sent.",
+  description: "Emit new event when a campaign is created or sent.",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
-    mailchimp,
+    ...common.props,
     type: {
       type: "string",
       label: "type",
       description:
         "There are four types of campaigns you can create in Mailchimp. A/B Split campaigns have been deprecated and variate campaigns should be used instead. ",
-      options: ["regular", "plaintext", "absplit", "rss", "variate"],
+      options: [
+        "regular",
+        "plaintext",
+        "absplit",
+        "rss",
+        "variate",
+      ],
       optional: false,
     },
     status: {
       type: "string",
       label: "status",
       description: "Campaign status to watch for.",
-      options: ["created", "sent"],
+      options: [
+        "created",
+        "sent",
+      ],
       default: "created",
     },
-    server: { propDefinition: [mailchimp, "server"] },
-    timer: { propDefinition: [mailchimp, "timer"] },
-    db: "$.service.db",
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
       const mailchimpCampaignsInfo = await this.mailchimp.getMailchimpCampaigns(
-        this.server,
         10,
         0,
         this.status,
         null,
-        null
+        null,
       );
       const { campaigns: mailchimpCampaigns = [] } = mailchimpCampaignsInfo;
       if (!mailchimpCampaigns.length) {
@@ -50,7 +55,7 @@ module.exports = {
         ? mailchimpCampaigns[0].send_time
         : mailchimpCampaigns[0].create_time;
       this.db.set("lastSinceDate", sinceDate);
-      mailchimpCampaigns.reverse().forEach(this.emitEvent);
+      mailchimpCampaigns.reverse().forEach(this.processEvent);
     },
   },
   methods: {
@@ -66,7 +71,7 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(eventPayload) {
+    processEvent(eventPayload) {
       const meta = this.generateMeta(eventPayload);
       this.$emit(eventPayload, meta);
     },
@@ -79,12 +84,11 @@ module.exports = {
     let offset = 0;
     do {
       mailchimpCampaignsInfo = await this.mailchimp.getMailchimpCampaigns(
-        this.server,
         1000,
         offset,
         this.status,
         beforeDate,
-        sinceDate
+        sinceDate,
       );
       mailchimpCampaigns = mailchimpCampaignsInfo.campaigns;
       if (!mailchimpCampaigns.length) {
@@ -95,7 +99,7 @@ module.exports = {
         ? mailchimpCampaigns[0].send_time
         : mailchimpCampaigns[0].create_time;
       this.db.set("lastSinceDate", sinceDate);
-      mailchimpCampaigns.reverse().forEach(this.emitEvent);
+      mailchimpCampaigns.reverse().forEach(this.processEvent);
       offset = offset + mailchimpCampaigns.length;
     } while (mailchimpCampaigns.length > 0);
   },

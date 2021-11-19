@@ -1,35 +1,31 @@
-const common = require("../common-webhook");
-const { mailchimp } = common.props;
+const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
   key: "mailchimp-new-customer",
   name: "New Customer",
   description:
-    "Emit an event when a new customer is added to a selected store.",
+    "Emit new event when a new customer is added to a selected store.",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
-    mailchimp,
-    server: { propDefinition: [mailchimp, "server"] },
+    ...common.props,
     storeId: {
       type: "string",
       label: "Store Id",
       description:
         "The unique ID of the store you'd like to watch for new customers.",
     },
-    timer: { propDefinition: [mailchimp, "timer"] },
-    db: "$.service.db",
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
       const mailchimpStoreCustomersInfo =
         await this.mailchimp.getAllStoreCustomers(
-          this.server,
           this.storeId,
           10,
-          0
+          0,
         );
       const { customers: mailchimpStoreCustomers = [] } =
         mailchimpStoreCustomersInfo;
@@ -37,7 +33,7 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpStoreCustomers.forEach(this.emitEvent);
+      mailchimpStoreCustomers.forEach(this.processEvent);
     },
   },
   methods: {
@@ -50,7 +46,7 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(eventPayload) {
+    processEvent(eventPayload) {
       const meta = this.generateMeta(eventPayload);
       this.$emit(eventPayload, meta);
     },
@@ -61,17 +57,16 @@ module.exports = {
     let offset = 0;
     do {
       mailchimpStoreCustomersInfo = await this.mailchimp.getAllStoreCustomers(
-        this.server,
         this.storeId,
         1000,
-        offset
+        offset,
       );
       mailchimpStoreCustomers = mailchimpStoreCustomersInfo.customers;
       if (!mailchimpStoreCustomers.length) {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpStoreCustomers.forEach(this.emitEvent);
+      mailchimpStoreCustomers.forEach(this.processEvent);
       offset = offset + mailchimpStoreCustomers.length;
     } while (mailchimpStoreCustomers.length > 0);
   },

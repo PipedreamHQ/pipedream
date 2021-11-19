@@ -1,44 +1,68 @@
-const mailchimp = require("../mailchimp.app");
+const base = require("./base");
 
 module.exports = {
+  ...base,
   props: {
-    mailchimp,
+    ...base.props,
+    // eslint-disable-next-line pipedream/props-description, pipedream/props-label
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     triggeredByUser: {
       type: "boolean",
       label: "Trigger on subscriber actions?",
       description:
-        "If set to true, events will be emitted on subscriber-initiated actions.",
+          "If set to true, events will be emitted on subscriber-initiated actions.",
       default: false,
     },
     triggeredByAdmin: {
       type: "boolean",
       label: "Trigger on actions by Mailchimp admin?",
       description:
-        "If set to true, events will be emitted on admin-initiated actions in the web interface.",
+          "If set to true, events will be emitted on admin-initiated actions in the web interface.",
       default: false,
     },
     triggeredByApi: {
       type: "boolean",
       label: "Trigger via actions on the API?",
       description:
-        "If set to true, events will be emitted on actions initiated via the API.",
+          "If set to true, events will be emitted on actions initiated via the API.",
       default: false,
     },
-    http: "$.interface.http",
-    db: "$.service.db",
+  },
+  hooks: {
+    ...base.hooks,
+    async activate() {
+      const eventsCfg = this.getEventsConfig();
+      const webhook = await this.mailchimp.createWebhook(
+        this.listId,
+        this.http.endpoint,
+        eventsCfg.subscribedEvents,
+        eventsCfg.eventSources,
+      );
+      this.db.set("webhookId", webhook.id);
+    },
+    async deactivate() {
+      await this.mailchimp.deleteWebhook(
+        this.listId,
+        this.db.get("webhookId"),
+      );
+    },
   },
   methods: {
+    ...base.methods,
     getEventName() {
       throw new Error("getEventName is not implemented");
     },
     getEventType() {
       throw new Error("getEventType is not implemented");
     },
-    emitEvent(eventPayload) {
+    processEvent(event) {
       const eventTypes = this.getEventType();
-      if (eventTypes.includes(eventPayload.type)) {
-        const meta = this.generateMeta(eventPayload);
-        this.$emit(eventPayload, meta);
+      if (eventTypes.includes(event.type)) {
+        const meta = this.generateMeta(event);
+        this.$emit(event, meta);
       }
     },
     getEventsConfig() {
@@ -48,7 +72,7 @@ module.exports = {
       eventsCfg.eventSources = {};
       eventsCfg.subscribedEvents.subscribe = eventName.includes("subscribe");
       eventsCfg.subscribedEvents.unsubscribe =
-        eventName.includes("unsubscribe");
+          eventName.includes("unsubscribe");
       eventsCfg.subscribedEvents.profile = eventName.includes("profile");
       eventsCfg.subscribedEvents.cleaned = eventName.includes("cleaned");
       eventsCfg.subscribedEvents.upemail = eventName.includes("upemail");
@@ -59,26 +83,6 @@ module.exports = {
       return eventsCfg;
     },
   },
-  hooks: {
-    async activate() {
-      const eventsCfg = this.getEventsConfig();
-      const webhook = await this.mailchimp.createWebhook(
-        this.server,
-        this.listId,
-        this.http.endpoint,
-        eventsCfg.subscribedEvents,
-        eventsCfg.eventSources
-      );
-      this.db.set("webhookId", webhook.id);
-    },
-    async deactivate() {
-      await this.mailchimp.deleteWebhook(
-        this.server,
-        this.listId,
-        this.db.get("webhookId")
-      );
-    },
-  },
   async run(event) {
     const { body } = event;
     if (!body) {
@@ -86,6 +90,6 @@ module.exports = {
       console.log("No body present in event");
       return;
     }
-    this.emitEvent(body);
+    this.processEvent(body);
   },
 };

@@ -1,16 +1,16 @@
-const common = require("../common-webhook");
-const { mailchimp } = common.props;
+const common = require("../common/timer-based");
 const moment = require("moment");
 
 module.exports = {
   ...common,
   key: "mailchimp-new-or-updated-list-segment",
   name: "New Or Updated List Segment",
-  description: "Emit an event when segment is either created or updated.",
+  description: "Emit new event when segment is either created or updated.",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
-    mailchimp,
+    ...common.props,
     listId: {
       type: "string",
       label: "Audience List Id",
@@ -22,7 +22,10 @@ module.exports = {
       label: "Watch for new created or updated segments?",
       description:
         "If set to `Created`, it will include new created segments only.  When set to `Updated`, it will only include recently updated segments.",
-      options: ["Created", "Updated"],
+      options: [
+        "Created",
+        "Updated",
+      ],
       optional: false,
     },
     includeTransactional: {
@@ -33,23 +36,19 @@ module.exports = {
       default: false,
       optional: true,
     },
-    server: { propDefinition: [mailchimp, "server"] },
-    timer: { propDefinition: [mailchimp, "timer"] },
-    db: "$.service.db",
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
       const mailchimpAudienceSegmentsInfo =
         await this.mailchimp.getAudienceSegments(
-          this.server,
           this.listId,
           10,
           0,
           null,
           null,
           null,
-          null
+          null,
         );
       const { segments: mailchimpAudienceSegments = [] } =
         mailchimpAudienceSegmentsInfo;
@@ -57,17 +56,21 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      const relevantDate = ["Created"].includes(this.watchFor)
+      const relevantDate = [
+        "Created",
+      ].includes(this.watchFor)
         ? mailchimpAudienceSegments[0].created_at
         : mailchimpAudienceSegments[0].updated_at;
       this.db.set("lastRelevantDate", relevantDate);
-      mailchimpAudienceSegments.forEach(this.emitEvent);
+      mailchimpAudienceSegments.forEach(this.processEvent);
     },
   },
   methods: {
     ...common.methods,
     generateMeta(eventPayload) {
-      if (["Created"].includes(this.watchFor)) {
+      if ([
+        "Created",
+      ].includes(this.watchFor)) {
         return {
           id: eventPayload.id,
           summary: `A new segment "${eventPayload.name}" was created.`,
@@ -82,7 +85,7 @@ module.exports = {
         };
       }
     },
-    emitEvent(eventPayload) {
+    processEvent(eventPayload) {
       const meta = this.generateMeta(eventPayload);
       this.$emit(eventPayload, meta);
     },
@@ -92,7 +95,9 @@ module.exports = {
     let beforeCreatedAt;
     let sinceUpdatedAt;
     let beforeUpdatedAt;
-    if (["Created"].includes(this.watchFor)) {
+    if ([
+      "Created",
+    ].includes(this.watchFor)) {
       sinceCreatedAt = this.db.get("lastRelevantDate");
       beforeCreatedAt = moment().toISOString();
     } else {
@@ -104,22 +109,23 @@ module.exports = {
     let offset = 0;
     do {
       mailchimpAudienceSegmentsInfo = await this.mailchimp.getAudienceSegments(
-        this.server,
         this.listId,
         1000,
         offset,
         sinceCreatedAt,
         beforeCreatedAt,
         sinceUpdatedAt,
-        beforeUpdatedAt
+        beforeUpdatedAt,
       );
       mailchimpAudienceSegments = mailchimpAudienceSegmentsInfo.segments;
       if (!mailchimpAudienceSegments.length) {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpAudienceSegments.forEach(this.emitEvent);
-      const relevantDate = ["Created"].includes(this.watchFor)
+      mailchimpAudienceSegments.forEach(this.processEvent);
+      const relevantDate = [
+        "Created",
+      ].includes(this.watchFor)
         ? mailchimpAudienceSegments[0].created_at
         : mailchimpAudienceSegments[0].updated_at;
       this.db.set("lastRelevantDate", relevantDate);

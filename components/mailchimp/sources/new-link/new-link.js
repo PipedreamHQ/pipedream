@@ -1,40 +1,35 @@
-const common = require("../common-webhook");
-const { mailchimp } = common.props;
-const moment = require("moment");
+const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
   key: "mailchimp-new-link",
   name: "New Link",
   description:
-    "Emit an event when a recipient clicks a pre-specified link in an specific campaign.",
+    "Emit new event when a recipient clicks a pre-specified link in an specific campaign.",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
-    mailchimp,
+    ...common.props,
     campaignId: {
       type: "string",
       label: "Campaign Id",
       description:
         "The unique ID of the campaign you'd like to watch for new clicks on links.",
     },
-    server: { propDefinition: [mailchimp, "server"] },
-    timer: { propDefinition: [mailchimp, "timer"] },
-    db: "$.service.db",
   },
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
       const mailchimpCampaign = await this.mailchimp.getMailchimpCampaignInfo(
-        this.server,
-        this.campaignId
+        this.campaignId,
       );
       if (!mailchimpCampaign) {
         console.log("No data available, skipping iteration");
         return;
       }
       this.db.set("recipientClicks", mailchimpCampaign.report_summary.clicks);
-      this.emitEvent(mailchimpCampaign);
+      this.processEvent(mailchimpCampaign);
     },
   },
   methods: {
@@ -47,7 +42,7 @@ module.exports = {
         ts,
       };
     },
-    emitEvent(eventPayload) {
+    processEvent(eventPayload) {
       const meta = this.generateMeta(eventPayload);
       this.$emit(eventPayload, meta);
     },
@@ -55,19 +50,18 @@ module.exports = {
   async run() {
     const savedRecipientClicks = parseInt(this.db.get("recipientClicks"));
     const mailchimpCampaign = await this.mailchimp.getMailchimpCampaignInfo(
-      this.server,
-      this.campaignId
+      this.campaignId,
     );
     if (!mailchimpCampaign) {
       console.log("No data available, skipping iteration");
       return;
     }
     const currentRecipientClicks = parseInt(
-      mailchimpCampaign.report_summary.clicks
+      mailchimpCampaign.report_summary.clicks,
     );
     if (currentRecipientClicks > savedRecipientClicks) {
       this.db.set("recipientClicks", currentRecipientClicks);
-      this.emitEvent(mailchimpCampaign);
+      this.processEvent(mailchimpCampaign);
     }
   },
 };
