@@ -1,16 +1,20 @@
-import commonTable from "../common/table.mjs";
-
-const { mysql } = commonTable.props;
+import mysql from "../../mysql.app.mjs";
 
 export default {
-  ...commonTable,
   key: "mysql-execute-query",
   name: "Execute Query",
   description: "Find row(s) via a custom query. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...commonTable.props,
+    mysql,
+    table: {
+      description: "The table where the query will be executed",
+      propDefinition: [
+        mysql,
+        "table",
+      ],
+    },
     condition: {
       propDefinition: [
         mysql,

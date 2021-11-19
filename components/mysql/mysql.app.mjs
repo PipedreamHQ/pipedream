@@ -28,7 +28,7 @@ export default {
     whereCondition: {
       type: "string",
       label: "Where condition",
-      description: "In this **expression** you can write your own conditions (eg. `columnd1 = ? or column2 = ?`). Depending on the number of `?` symbols likewise you need to add the same number of **values**.",
+      description: "In this **expression** you can write your own conditions (eg. `column1 = ? or column2 = ?`). Depending on the number of `?` symbols likewise you need to add the same number of **values**.",
     },
     whereValues: {
       type: "string[]",
@@ -134,10 +134,6 @@ export default {
           connection,
           preparedStatement,
         });
-
-      // eslint-disable-next-line no-useless-catch
-      } catch (error) {
-        throw error;
 
       } finally {
         if (connection) {
@@ -286,11 +282,11 @@ export default {
     async insertRow({
       table, columns = [], values = [],
     }) {
-      const placehorder = values.map(() => "?").join(",");
+      const placeholder = values.map(() => "?").join(",");
       const preparedStatement = {
         sql: `
           INSERT INTO \`${table}\` (${columns.join(",")})
-            VALUES (${placehorder})
+            VALUES (${placeholder})
         `,
         values,
       };
