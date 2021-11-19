@@ -24,13 +24,17 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({$}) {
     const params = pick(this, [
       "email",
     ]);
-    return await this.stripe.sdk().customers.list(params)
+    const resp = await this.stripe.sdk().customers.list(params)
       .autoPagingToArray({
         limit: this.limit,
       });
+
+    $.export("$summary", `Successfully fetched customer info`)
+
+    return resp;
   },
 };
