@@ -1,13 +1,13 @@
-const common = require("../common");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "google_sheets-new-worksheet",
   type: "source",
   name: "New Worksheet (Instant)",
   description:
     "Emit new event each time a new worksheet is created in a spreadsheet.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   props: {
     ...common.props,

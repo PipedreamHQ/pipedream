@@ -1,10 +1,10 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.mjs";
 
-module.exports = {
+export default {
   key: "google_sheets-find-row",
   name: "Find Row",
   description: "Find a row by a column and value",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSheets,

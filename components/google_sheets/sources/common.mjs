@@ -1,7 +1,7 @@
-const { v4: uuid } = require("uuid");
+import { v4 as uuid } from "uuid";
 
-const { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } = require("../../google_drive/constants");
-const googleSheets = require("../google_sheets.app");
+import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../google_drive/constants.js";
+import googleSheets from "../google_sheets.app.mjs";
 
 /**
  * The number of events that will be automatically sent whenever the event
@@ -12,7 +12,7 @@ const googleSheets = require("../google_sheets.app");
  */
 const INITIAL_EVENT_COUNT = 10;
 
-module.exports = {
+export default {
   props: {
     googleSheets,
     db: "$.service.db",

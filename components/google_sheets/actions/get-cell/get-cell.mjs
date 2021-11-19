@@ -1,10 +1,10 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.mjs";
 
-module.exports = {
-  key: "google_sheets-get-values",
-  name: "Get Values",
-  description: "Get all values from a sheet.",
-  version: "0.0.13",
+export default {
+  key: "google_sheets-get-cell",
+  name: "Get Cell",
+  description: "Fetch the contents of a specific cell in a spreadsheet",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSheets,
@@ -33,13 +33,19 @@ module.exports = {
         }),
       ],
     },
+    cell: {
+      propDefinition: [
+        googleSheets,
+        "cell",
+      ],
+    },
   },
   async run() {
     const sheets = this.googleSheets.sheets();
 
     return (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}`,
+      range: `${this.sheetName}!${this.cell}:${this.cell}`,
     })).data.values;
   },
 };

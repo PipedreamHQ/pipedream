@@ -1,12 +1,12 @@
-const common = require("../common");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "google_sheets-new-row-added",
   name: "New Row Added (Instant)",
   description:
     "Emit new events each time a row or rows are added to the bottom of a spreadsheet",
-  version: "0.0.19",
+  version: "0.0.20",
   dedupe: "unique",
   type: "source",
   props: {

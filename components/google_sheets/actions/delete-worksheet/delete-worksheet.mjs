@@ -1,10 +1,10 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.mjs";
 
-module.exports = {
+export default {
   key: "google_sheets-delete-worksheet",
   name: "Delete Worksheet",
   description: "Delete a specific worksheet",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSheets,

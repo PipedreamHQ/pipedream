@@ -1,10 +1,10 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.mjs";
 
-module.exports = {
+export default {
   key: "google_sheets-create-worksheet",
   name: "Create Worksheet",
   description: "Create a blank worksheet with a title",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSheets,

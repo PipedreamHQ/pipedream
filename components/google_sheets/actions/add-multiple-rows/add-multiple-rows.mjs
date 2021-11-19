@@ -1,10 +1,10 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.mjs";
 
-module.exports = {
+export default {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
   description: "Add multiple rows of data to a Google Sheet",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     googleSheets,
