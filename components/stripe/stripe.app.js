@@ -104,10 +104,14 @@ module.exports = {
       type: "string",
       label: "Customer ID",
       description: "Example: `cus_Jz4ErxGo9t1agg`",
-      options: createOptionsMethod("customers", [
-        "id",
-        "name",
-      ]),
+      options: createOptionsMethod("customers", function ({
+        id, name, email,
+      }) {
+        return {
+          value: id,
+          label: name || email || id,
+        };
+      }),
       optional: true,
     },
     payment_method: {
