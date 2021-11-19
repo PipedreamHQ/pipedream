@@ -1,17 +1,20 @@
-const common = require("../common-polling.js");
+import common from "../common-polling.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-card-due-date-reminder",
   name: "Card Due Date Reminder",
-  description: "Emits an event at a specified time before a card is due.",
-  version: "0.0.3",
+  description: "Emit new event at a specified time before a card is due.",
+  version: "0.0.4",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
     board: {
-      propDefinition: [common.props.trello, "board"],
-      default: "me",
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
     },
     timeBefore: {
       type: "integer",
@@ -20,23 +23,35 @@ module.exports = {
       default: 5,
     },
     timeBeforeUnit: {
-      type: "string",
+      type: "integer",
       label: "Time Before (Unit)",
       description: "Unit of time for Time Before.",
-      async options() {
-        return [
-          { label: "Minutes", value: 60000 },
-          { label: "Hours", value: 3600000 },
-          { label: "Days", value: 86400000 },
-          { label: "Weeks", value: 604800000 },
-        ];
-      },
-      default: "Minutes",
+      options: [
+        {
+          label: "Minutes",
+          value: 60000,
+        },
+        {
+          label: "Hours",
+          value: 3600000,
+        },
+        {
+          label: "Days",
+          value: 86400000,
+        },
+        {
+          label: "Weeks",
+          value: 604800000,
+        },
+      ],
+      default: 60000,
     },
   },
   methods: {
     ...common.methods,
-    generateMeta({ id, name: summary }, now) {
+    generateMeta({
+      id, name: summary,
+    }, now) {
       return {
         id,
         summary,

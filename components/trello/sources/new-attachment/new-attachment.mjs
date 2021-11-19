@@ -1,15 +1,21 @@
-const common = require("../common-webhook.js");
-const get = require("lodash/get");
+import common from "../common-webhook.mjs";
+import get from "lodash/get.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-new-attachment",
   name: "New Attachment (Instant)",
-  description: "Emits an event for new attachment on a board.",
-  version: "0.0.1",
+  description: "Emit new event for new attachment on a board.",
+  version: "0.0.2",
+  type: "source",
   props: {
     ...common.props,
-    board: { propDefinition: [common.props.trello, "board"] },
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
   },
   methods: {
     ...common.methods,

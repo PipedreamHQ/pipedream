@@ -1,7 +1,9 @@
-const common = require("./common.js");
-const get = require("lodash/get");
+/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
+  pipedream/required-properties-version, pipedream/required-properties-description,
+  pipedream/required-properties-type */
+import common from "./common.js";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,
@@ -18,7 +20,9 @@ module.exports = {
     },
     async deactivate() {
       const hookId = this.db.get("hookId");
-      await this.trello.deleteHook({ hookId });
+      await this.trello.deleteHook({
+        hookId,
+      });
     },
   },
   methods: {
@@ -65,7 +69,10 @@ module.exports = {
     if (!this.isCorrectEventType(event)) return;
 
     const result = await this.getResult(event);
-    if (!this.isRelevant({ result, event })) return;
+    if (!(await this.isRelevant({
+      result,
+      event,
+    }))) return;
 
     this.emitEvent(result);
   },
