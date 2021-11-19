@@ -109,7 +109,11 @@ module.exports = {
       }) {
         return {
           value: id,
-          label: name || email || id,
+          label: [
+            name,
+            email,
+            id,
+          ].filter((v) => v).join(" | "),
         };
       }),
       optional: true,
