@@ -161,7 +161,7 @@ export default {
         }),
         deleteSheetPromise,
       ]));
-      $.export("$summary", `Successfully inserted row with key, "${keyValue}"`);
+      $.export("$summary", `Cound't find the key, "${keyValue}", so inserted new row: "${insert}"`);
       return result;
     }
 
@@ -184,7 +184,7 @@ export default {
       updatePromise,
       deleteSheetPromise,
     ]));
-    $.export("$summary", `Successfully updated row ${matchedRow} with key, "${keyValue}"`);
+    $.export("$summary", `Successfully updated row ${matchedRow}`);
     return result;
   },
 };
