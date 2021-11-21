@@ -1,4 +1,4 @@
-const common = require("../common/http-based/custom-single-module");
+const common = require("../common/http-based/custom-module");
 const crudOps = require("../common/http-based/crud-operations");
 
 module.exports = {
