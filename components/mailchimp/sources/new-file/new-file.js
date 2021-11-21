@@ -6,9 +6,9 @@ module.exports = {
   key: "mailchimp-new-file",
   name: "New File",
   description:
-    "Emit an event when a new file is added to the File Manager of the connected Mailchimp account.",
+    "Emit new event when a new file is added to the File Manager of the connected Mailchimp account.",
   version: "0.0.1",
-  type: "server",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,

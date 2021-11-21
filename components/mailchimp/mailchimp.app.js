@@ -17,11 +17,14 @@ module.exports = {
     },
   },
   methods: {
+    _auths() {
+      return this.$auth;
+    },
     _authToken() {
       return this.$auth.oauth_access_token;
     },
     _server() {
-      return this.$auth.dc;
+      return "us20";
     },
     _initMailchimpClient() {
       mailchimp.setConfig({
