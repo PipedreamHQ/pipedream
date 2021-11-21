@@ -15,7 +15,7 @@ module.exports = {
           return [];
         }
 
-        const { modules } = await this.zoho_crm.listModules();
+        const { modules } = await this.zohoCrm.listModules();
         const options = modules
           .filter(this.areEventsSupportedByModule)
           .map(({

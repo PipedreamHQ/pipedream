@@ -28,7 +28,7 @@ module.exports = {
      * source
      */
     async _retrieveModuleType() {
-      const { modules } = await this.zoho_crm.listModules();
+      const { modules } = await this.zohoCrm.listModules();
       const { api_name: moduleType } = modules
         .find(({ singular_label: moduleName }) => moduleName === this.getModuleName());
       return moduleType;

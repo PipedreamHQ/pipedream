@@ -18,7 +18,7 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      const userCount = await this.zoho_crm.getUserCount({
+      const userCount = await this.zohoCrm.getUserCount({
         type: this.userType,
       });
       this.db.set("userCount", userCount);
@@ -46,14 +46,14 @@ module.exports = {
     },
     async processEvent(event) {
       const lastUserCount = this.db.get("userCount");
-      const usersPage = this.zoho_crm.computeLastUsersPage({
+      const usersPage = this.zohoCrm.computeLastUsersPage({
         userCount: lastUserCount,
       });
-      let usersOffset = this.zoho_crm.computeUsersOffset({
+      let usersOffset = this.zohoCrm.computeUsersOffset({
         userCount: lastUserCount,
       });
       let newUserCount = lastUserCount;
-      const userScan = await this.zoho_crm.getUsers({
+      const userScan = await this.zohoCrm.getUsers({
         page: usersPage,
         type: this.userType,
       });
