@@ -1,7 +1,7 @@
 const sortBy = require("lodash/sortBy");
 const base = require("./predefined-module");
 
-module.exports = {
+module.exports = { // eslint-disable-line
   ...base,
   props: {
     ...base.props,

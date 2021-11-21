@@ -5,13 +5,15 @@ module.exports = {
   ...common,
   key: "zoho_crm-new-user",
   name: "New User",
-  description: "Emits an event each time a new user is created in Zoho CRM",
-  version: "0.0.1",
+  description: "Emit new event each time a new user is created in Zoho CRM",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
     userType: {
       type: "string",
+      label: "User Type",
       description: "The type of users to generate events for",
       options: userTypes,
     },
@@ -31,10 +33,12 @@ module.exports = {
     }) {
       const {
         id,
-        first_name: firstName = '',
-        last_name: lastName = '',
+        first_name: firstName = "",
+        last_name: lastName = "",
       } = user;
-      const lastNameInitial = lastName ? `${lastName.slice(0, 1)}.` : '';
+      const lastNameInitial = lastName
+        ? `${lastName.slice(0, 1)}.`
+        : "";
       const userNameDisplay = `${firstName} ${lastNameInitial}`;
       const summary = `New User: ${userNameDisplay}`;
       const { timestamp: ts } = event;

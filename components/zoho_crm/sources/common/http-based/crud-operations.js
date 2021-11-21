@@ -23,7 +23,7 @@ const crudOpsData = [
 
 const getOpData = (inputOp) => crudOpsData.find(({ op }) => op === inputOp);
 
-module.exports = {
+module.exports = {  // eslint-disable-line
   createOpData() {
     return getOpData("create");
   },

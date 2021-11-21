@@ -7,14 +7,14 @@ module.exports = {
   key: "zoho_crm-new-event",
   name: "New Event (Instant)",
   description: "Emit new custom events from Zoho CRM",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   props: {
     ...common.props,
     events: {
       type: "string[]",
       label: "Events",
-      description: "List of CRUD events that will trigger this event source",
+      description: "Choose one or more module events to trigger this event source.",
       async options({ page = 0 }) {
         if (page !== 0) {
           return [];

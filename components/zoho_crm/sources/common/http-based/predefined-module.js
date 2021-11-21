@@ -1,6 +1,6 @@
 const base = require("./base");
 
-module.exports = {
+module.exports = {  // eslint-disable-line
   ...base,
   hooks: {
     ...base.hooks,

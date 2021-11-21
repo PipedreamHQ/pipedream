@@ -5,8 +5,9 @@ module.exports = {
   ...common,
   key: "zoho_crm-new-or-updated-module-entry",
   name: "New or Updated Module Entry (Instant)",
-  description: "Emits an event each time a module/record is created or edited in Zoho CRM",
-  version: "0.0.1",
+  description: "Emit new event each time a module/record is created or edited in Zoho CRM",
+  version: "0.0.2",
+  type: "source",
   methods: {
     ...common.methods,
     getSupportedOps() {
