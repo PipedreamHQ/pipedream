@@ -1,10 +1,10 @@
-const googleSheets = require("../../google_sheets.app");
+import googleSheets from "../../google_sheets.app.mjs";
 
-module.exports = {
+export default {
   key: "google_sheets-clear-row",
   name: "Clear Row",
   description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSheets,

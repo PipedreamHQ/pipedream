@@ -1,8 +1,11 @@
-const { default: axios } = require("axios");
-const { google } = require("googleapis");
-const googleDrive = require("../google_drive/google_drive.app");
+import axios from "axios";
+import { google } from "googleapis";
+import googleDrive from "../google_drive/google_drive.app.js";
+import {
+  INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
+} from "./constants.mjs";
 
-module.exports = {
+export default {
   ...googleDrive,
   app: "google_sheets",
   propDefinitions: {
@@ -97,6 +100,38 @@ module.exports = {
       });
     },
     /**
+     * Builds a formula using the Google Sheets [MATCH
+     * function]{@see {@link https://support.google.com/docs/answer/3093378}}. If a range with both
+     * height and width greater than 1 is used, `MATCH` will return `#N/A!`.
+     *
+     * @param {string} searchKey - The value to search for. For example, 42, "Cats", or I24.
+     * @param {string} sheetName - The name of the sheet containing the range to search
+     * @param {object} [opts={}] - Additional options used to build the match formula
+     * @param {string} [opts.row=""] - The row of the range to search
+     * @param {string} [opts.startRow=opts.row] - The starting row of the range to search
+     * @param {string} [opts.endRow=opts.row] - The ending row of the range to search
+     * @param {string} [opts.column=""] - The column of the range to search
+     * @param {string} [opts.startColumn=opts.column] - The starting column of the range to search
+     * @param {string} [opts.endColumn=opts.column] - The ending column of the range to search
+     * @param {number} [opts.searchType=1] - The manner in which to search. `1`, the default,
+     * causes `MATCH` to assume that the range is sorted in ascending order and return the largest
+     * value less than or equal to `searchKey`. `0` indicates exact match. -`1` causes `MATCH` to
+     * assume that the range is sorted in descending order and return the smallest value greater
+     * than or equal to `searchKey`.
+     * @returns {string} The match formula
+     */
+    buildMatchFormula(searchKey, sheetName, {
+      row = "",
+      startRow = row,
+      endRow = row,
+      column = "",
+      startColumn = column,
+      endColumn = column,
+      searchType = 1,
+    } = {}) {
+      return `=MATCH(${searchKey}, ${sheetName}!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
+    },
+    /**
      * Converts column letter(s) (E.g. 'A', 'B', 'AA', etc.) into a numerical value representing
      * the columnIndex of the column.
      * @returns {integer} The columnIndex of the column
@@ -127,11 +162,12 @@ module.exports = {
       }
       return this.listFilesOptions(pageToken, request);
     },
-    async getSpreadsheet(spreadsheetId, fields = []) {
+    async getSpreadsheet(spreadsheetId, fields = [], extraOpts = {}) {
       const sheets = this.sheets();
       const request = {
         spreadsheetId,
         fields: fields.join(","),
+        ...extraOpts,
       };
       return (await sheets.spreadsheets.get(request)).data;
     },
@@ -304,7 +340,7 @@ module.exports = {
       return (await sheets.spreadsheets.values.clear(request)).data;
     },
     async addRowsToSheet({
-      spreadsheetId, range, rows,
+      spreadsheetId, range, rows, params,
     }) {
       const resp = await axios({
         method: "POST",
@@ -314,8 +350,9 @@ module.exports = {
         },
         validateStatus: () => true,
         params: {
-          valueInputOption: "USER_ENTERED",
-          insertDataOption: "INSERT_ROWS",
+          valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
+          insertDataOption: INSERT_DATA_OPTION.INSERT_ROWS,
+          ...params,
         },
         data: {
           values: rows,
@@ -325,6 +362,134 @@ module.exports = {
         throw new Error(JSON.stringify(resp.data));
       }
       return resp.data.updates;
+    },
+    /**
+   * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate
+   *
+   * Sets values in one or more ranges of a spreadsheet
+   * @param {string} spreadsheetId - ID of the spreadsheet
+   * @param {array} data - Array of ValueRange objects with which to update the spreadsheet
+   * @param {object} [opts={}] - An object containing extra options to pass to the API call as
+   * defined in the [API docs](https://bit.ly/3CQzXCw)
+   * @returns An object containing an array of UpdateValuesResponse (`responses`)
+   */
+    async batchUpdateValues(spreadsheetId, data, opts = {}) {
+      const sheets = this.sheets();
+      return (await sheets.spreadsheets.values.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          data,
+          ...opts,
+        },
+      })).data;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#AddSheetRequest
+     *
+     * Creates a worksheet in a spreadsheet and returns the properties of the newly created
+     * worksheet
+     * @param {string} spreadsheetId - ID of the spreadsheet in which to create a worksheet
+     * @param {object} [properties={}] - The properties the new sheet should have
+     * @returns An object containing the SheetProperties (`properties`) of the newly created
+     * worksheet
+     */
+    async createWorksheet(spreadsheetId, properties = {}) {
+      return (await this.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              addSheet: {
+                properties,
+              },
+            },
+          ],
+        },
+      })).replies[0].addSheet;
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#DeleteSheetRequest
+     *
+     * Deletes a worksheet
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @param {string} sheetId - ID of the worksheet to delete
+     */
+    async deleteWorksheet(spreadsheetId, sheetId) {
+      return (await this.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              deleteSheet: {
+                sheetId,
+              },
+            },
+          ],
+        },
+      })).replies[0].deleteSheet;
+    },
+    /**
+     * Updates a row in a spreadsheet and returns a response body containing an instance of
+     * UpdateValuesResponse
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @param {string} sheetName - Name of the worksheet
+     * @param {number} row - Row number to update
+     * @param {string[]} values - Array of values with which to update the row
+     * @returns An instance of UpdateValuesResponse
+     */
+    async updateRow(spreadsheetId, sheetName, row, values) {
+      return await this.updateSpreadsheet({
+        spreadsheetId,
+        range: `${sheetName}!${row}:${row}`,
+        valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
+        resource: {
+          values: [
+            values,
+          ],
+        },
+      });
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values#ValueRange
+     *
+     * Get a ValueRange object from a sheet name, row, column, and array of values
+     * @param {string} sheetName - Name of the worksheet
+     * @param {number} row - The row number (>=1) of the cell to update
+     * @param {string} column - The column letter of the cell to update
+     * @param {string} value - The new value of the cell
+     * @returns An ValueRange object
+     */
+    getValueRange(sheetName, row, column, value) {
+      return {
+        range: `${sheetName}!${column}${row}:${column}${row}`,
+        values: [
+          [
+            value,
+          ],
+        ],
+      };
+    },
+    /**
+     * https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate
+     *
+     * Updates individual cells in a row using column-value pairs
+     * @param {string} spreadsheetId - ID of the spreadsheet
+     * @param {string} sheetName - Name of the worksheet
+     * @param {number} row - The row in which to update cells
+     * @param {object} updates - An object whose keys are column letters and values are new cell
+     * values
+     * @returns An object containing an array of UpdateValuesResponse (`responses`)
+     */
+    async updateRowCells(spreadsheetId, sheetName, row, updates) {
+      const updateData = Object.keys(updates)
+        .map((k) => this.getValueRange(sheetName, row, k, updates[k]));
+      return await this.batchUpdateValues(
+        spreadsheetId,
+        updateData,
+        {
+          valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
+        },
+      );
     },
   },
 };
