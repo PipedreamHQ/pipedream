@@ -4,7 +4,7 @@ import utils from "../utils.mjs";
 const { reduceProperties } = utils;
 
 export default {
-  key: "typeform-update-form",
+  key: "typeform-update-form-title",
   name: "Update Form Title",
   description: "Updates an existing form's title. [See the docs here](https://developer.typeform.com/create/reference/update-form-patch/)",
   type: "action",
