@@ -1,7 +1,7 @@
-const common = require("../common/timer-based/base");
-const userTypes = require("./user-types");
+import common from "../common-timer-based.mjs";
+import userTypes from "./user-types.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "zoho_crm-new-user",
   name: "New User",
