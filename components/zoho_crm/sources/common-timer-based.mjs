@@ -1,4 +1,4 @@
-import zohoCrm from "../zoho_crm.app";
+import zohoCrm from "../zoho_crm.app.mjs";
 
 export default {
   dedupe: "unique",
