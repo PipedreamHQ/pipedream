@@ -5,8 +5,8 @@ const { reduceProperties } = utils;
 
 export default {
   key: "typeform-update-form",
-  name: "Update a Form",
-  description: "Updates an existing form. Request body must include all the existing form fields. [See the docs here](https://developer.typeform.com/create/reference/update-form-patch/)",
+  name: "Update Form Title",
+  description: "Updates an existing form's title. [See the docs here](https://developer.typeform.com/create/reference/update-form-patch/)",
   type: "action",
   version: "0.0.1",
   props: {
