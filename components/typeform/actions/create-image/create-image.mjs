@@ -42,7 +42,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully added a new image to your account`)
+    $.export("$summary", "Successfully added a new image to your account");
 
     return resp;
   },

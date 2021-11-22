@@ -48,7 +48,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully created a new form, "${resp.title}"`)
+    $.export("$summary", `Successfully created a new form, "${resp.title}"`);
 
     return resp;
   },

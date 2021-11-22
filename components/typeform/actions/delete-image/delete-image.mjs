@@ -31,7 +31,7 @@ export default {
       });
 
     if (!response) {
-      $.export("$summary", `Successfully deleted the image, "${imageId}" from your account`)
+      $.export("$summary", `Successfully deleted the image, "${imageId}" from your account`);
       return {
         id: imageId,
         success: true,

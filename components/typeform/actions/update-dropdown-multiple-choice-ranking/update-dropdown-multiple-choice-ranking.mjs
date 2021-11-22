@@ -128,7 +128,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully added a new choice, "${this.choice}"`)
+    $.export("$summary", `Successfully added a new choice, "${this.choice}"`);
 
     return resp;
   },

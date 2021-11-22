@@ -55,7 +55,8 @@ export default {
       params,
     });
 
-    $.export("$summary", `Successfully retrieved ${items.length} ${items.length == 1 ? 'form' : 'forms'}`)
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully retrieved ${items.length} ${items.length == 1 ? "form" : "forms"}`);
 
     return items;
   },

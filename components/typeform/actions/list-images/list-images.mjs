@@ -12,7 +12,8 @@ export default {
   async run({ $ }) {
     const resp = await this.typeform.getImages($);
 
-    $.export("$summary", `Successfully retrieved ${resp.length} ${resp.length == 1 ? 'image' : 'images'}`)
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully retrieved ${resp.length} ${resp.length == 1 ? "image" : "images"}`);
 
     return resp;
   },

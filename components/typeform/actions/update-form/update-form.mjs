@@ -74,7 +74,7 @@ export default {
     });
 
     if (!response) {
-      $.export("$summary", `Successfully updated the form title to "${this.title}"`)
+      $.export("$summary", `Successfully updated the form title to "${this.title}"`);
       return {
         id: formId,
         title: this.title,

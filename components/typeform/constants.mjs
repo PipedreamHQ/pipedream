@@ -32,6 +32,11 @@ const FIELD_TYPES = {
   PHONE_NUMBER: "phone_number",
 };
 
+const RESPONSE_FIELDS = {
+  LANDED_AT: "landed_at",
+  SUBMITTED_AT: "submitted_at",
+};
+
 const CONTENT_DISPOSITION_HEADER = "content-disposition";
 const CONTENT_DISPOSITION_SEPARATOR = "filename=";
 const ALL_FIELD_TYPES =
@@ -49,4 +54,5 @@ export default {
   ALL_FIELD_TYPES,
   CONTENT_DISPOSITION_HEADER,
   CONTENT_DISPOSITION_SEPARATOR,
+  RESPONSE_FIELDS,
 };

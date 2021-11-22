@@ -21,7 +21,7 @@ export default {
       formId: this.formId,
     });
 
-    $.export("$summary", `Successfully fetched details for the form, "${resp.title}"`)
+    $.export("$summary", `Successfully fetched details for the form, "${resp.title}"`);
 
     return resp;
   },

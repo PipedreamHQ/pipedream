@@ -1,5 +1,6 @@
 import typeform from "../../typeform.app.mjs";
 import utils from "../utils.mjs";
+import constants from "../../constants.mjs";
 
 const { commaSeparatedList } = utils;
 
@@ -8,7 +9,7 @@ export default {
   name: "List Responses",
   description: "Returns form responses and date and time of form landing and submission. [See the docs here](https://developer.typeform.com/responses/reference/retrieve-responses/)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.24",
   props: {
     typeform,
     formId: {
@@ -90,7 +91,7 @@ export default {
       label: "Sort",
       description: "Responses order in `{fieldID},{asc|desc}` format. You can use built-in `submitted_at`/`landed_at` field IDs or any field ID from your typeform, possible directions are `asc`/`desc`. Default value is `submitted_at,desc`.",
       optional: true,
-      default: "submitted_at,desc",
+      default: `${constants.RESPONSE_FIELDS.SUBMITTED_AT},desc`,
     },
     query: {
       optional: true,
@@ -152,7 +153,9 @@ export default {
       included_response_ids: commaSeparatedList(includedResponseIds),
       excluded_response_ids: commaSeparatedList(excludedResponseIds),
       completed,
-      sort,
+      sort: completed === false
+        ? constants.RESPONSE_FIELDS.LANDED_AT
+        : sort,
       query,
       fields: commaSeparatedList(fields),
       answered_fields: commaSeparatedList(answeredFields),
@@ -164,8 +167,8 @@ export default {
       params,
     });
 
-      // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully listed ${items.length} ${items.length == 1 ? 'response' : 'responses'}`)
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully listed ${items.length} ${items.length == 1 ? "response" : "responses"}`);
 
     return items;
   },
