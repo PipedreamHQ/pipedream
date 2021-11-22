@@ -38,5 +38,9 @@ module.exports = { // eslint-disable-line
       const { type } = JSON.parse(this.moduleInfo);
       return type;
     },
+    getModuleName() {
+      const { name } = JSON.parse(this.moduleInfo);
+      return name;
+    },
   },
 };
