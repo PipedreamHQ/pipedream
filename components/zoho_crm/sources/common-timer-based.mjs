@@ -1,12 +1,14 @@
-import zoho_crm from "../zoho_crm.app";
+import zohoCrm from "../zoho_crm.app";
 
 export default {
   dedupe: "unique",
   props: {
-    zoho_crm,
+    zohoCrm,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
+      label: "Schedule",
+      description: "Specify how often to check for new events.",
       default: {
         intervalSeconds: 60 * 15, // 15 minutes
       },
