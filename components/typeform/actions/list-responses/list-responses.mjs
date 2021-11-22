@@ -164,6 +164,9 @@ export default {
       params,
     });
 
+      // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully listed ${items.length} ${items.length == 1 ? 'response' : 'responses'}`)
+
     return items;
   },
 };

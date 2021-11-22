@@ -16,9 +16,13 @@ export default {
     },
   },
   async run({ $ }) {
-    return await this.typeform.getForm({
+    const resp = await this.typeform.getForm({
       $,
       formId: this.formId,
     });
+
+    $.export("$summary", `Successfully fetched details for the form, "${resp.title}"`)
+
+    return resp;
   },
 };

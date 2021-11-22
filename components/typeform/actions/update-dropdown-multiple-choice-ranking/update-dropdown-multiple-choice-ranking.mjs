@@ -17,7 +17,7 @@ export default {
       ],
     },
     fieldId: {
-      description: "Please select a field. Dropdown, multiple choice or ranking",
+      description: "Select the question whose choices you'd like to modify.",
       propDefinition: [
         typeform,
         "fieldId",
@@ -34,7 +34,7 @@ export default {
     choice: {
       type: "string",
       label: "New choice",
-      description: "Please add the new choice you want to include in your Field",
+      description: "Add the new choice, which will be added to the end of the existing choices for this question.",
     },
   },
   methods: {
@@ -122,10 +122,14 @@ export default {
       fields: fieldsToUpdate,
     };
 
-    return await this.typeform.updateForm({
+    const resp = await this.typeform.updateForm({
       $,
       formId,
       data,
     });
+
+    $.export("$summary", `Successfully added a new choice, "${this.choice}"`)
+
+    return resp;
   },
 };

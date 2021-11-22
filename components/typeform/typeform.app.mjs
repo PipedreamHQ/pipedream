@@ -8,7 +8,7 @@ export default {
     formId: {
       type: "string",
       label: "Form",
-      description: "Unique ID for the form. Find in your form URL. For example, in the URL \"https://mysite.typeform.com/to/u6nXL7\" the form_id is `u6nXL7`.",
+      description: "Unique ID for the form, which you can find in your form URL. For example, in the URL, `https://mysite.typeform.com/to/u6nXL7`, the form_id is `u6nXL7`.",
       async options({ page }) {
         const { items } = await this.getForms({
           params: {

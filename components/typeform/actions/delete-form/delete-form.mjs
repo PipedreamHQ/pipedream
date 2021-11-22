@@ -24,6 +24,7 @@ export default {
     });
 
     if (!response) {
+      $.export("$summary", `Successfully deleted the form, "${formId}"`)
       return {
         id: formId,
         success: true,

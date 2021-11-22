@@ -43,9 +43,13 @@ export default {
       additionalProps,
     });
 
-    return await this.typeform.createForm({
+    const resp = await this.typeform.createForm({
       $,
       data,
     });
+
+    $.export("$summary", `Successfully created a new form, "${resp.title}"`)
+
+    return resp;
   },
 };

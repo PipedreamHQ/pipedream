@@ -77,6 +77,8 @@ export default {
       params,
     });
 
+    $.export("$summary", `Fetched ${items.length} ${items.length == 1 ? 'response' : 'responses'} based on the search query`)
+    
     return items;
   },
 };

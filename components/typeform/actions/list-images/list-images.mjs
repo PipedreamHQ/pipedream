@@ -10,6 +10,10 @@ export default {
     typeform,
   },
   async run({ $ }) {
-    return await this.typeform.getImages($);
+    const resp = await this.typeform.getImages($);
+
+    $.export("$summary", `Successfully retrieved ${resp.length} ${resp.length == 1 ? 'image' : 'images'}`)
+
+    return resp;
   },
 };
