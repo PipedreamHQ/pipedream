@@ -1,6 +1,6 @@
-const zoho_crm = require("../zoho_crm.app");
+import zoho_crm from "../zoho_crm.app";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     zoho_crm,
