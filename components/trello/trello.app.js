@@ -9,23 +9,27 @@ module.exports = {
     cards: {
       type: "string[]",
       label: "Cards",
+      description: "The Trello cards you wish to select",
       optional: true,
       async options(opts) {
         const cards = await this.getCards(opts.board);
-        return cards.map((card) => {
-          return { label: card.name, value: card.id };
-        });
+        return cards.map((card) => ({
+          label: card.name,
+          value: card.id,
+        }));
       },
     },
     board: {
       type: "string",
       label: "Board",
-      async options(opts) {
+      description: "The Trello board you wish to select",
+      async options() {
         const boards = await this.getBoards(this.$auth.oauth_uid);
         const activeBoards = boards.filter((board) => board.closed === false);
-        return activeBoards.map((board) => {
-          return { label: board.name, value: board.id };
-        });
+        return activeBoards.map((board) => ({
+          label: board.name,
+          value: board.id,
+        }));
       },
     },
     eventTypes: {
@@ -39,12 +43,14 @@ module.exports = {
     lists: {
       type: "string[]",
       label: "Lists",
+      description: "The Trello lists you wish to select",
       optional: true,
       async options(opts) {
         const lists = await this.getLists(opts.board);
-        return lists.map((list) => {
-          return { label: list.name, value: list.id };
-        });
+        return lists.map((list) => ({
+          label: list.name,
+          value: list.id,
+        }));
       },
     },
   },
@@ -52,7 +58,9 @@ module.exports = {
     _getBaseUrl() {
       return "https://api.trello.com/1/";
     },
-    async _getAuthorizationHeader({ data, method, url }) {
+    async _getAuthorizationHeader({
+      data, method, url,
+    }) {
       const requestData = {
         data,
         method,
@@ -95,7 +103,8 @@ module.exports = {
     async verifyTrelloWebhookRequest(request, callbackURL) {
       let secret = this.$auth.oauth_refresh_token;
       const base64Digest = function (s) {
-        return crypto.createHmac("sha1", secret).update(s).digest("base64");
+        return crypto.createHmac("sha1", secret).update(s)
+          .digest("base64");
       };
       const content = JSON.stringify(request.body) + callbackURL;
       const doubleHash = base64Digest(content);
@@ -134,10 +143,15 @@ module.exports = {
     },
     async getAttachment(cardId, attachmentId) {
       return await this.getResource(
-        `cards/${cardId}/attachments/${attachmentId}`
+        `cards/${cardId}/attachments/${attachmentId}`,
       );
     },
-    async createHook({ id, endpoint }) {
+    async getCardList(cardId) {
+      return await this.getResource(`cards/${cardId}/list`);
+    },
+    async createHook({
+      id, endpoint,
+    }) {
       const resp = await this._makeRequest({
         method: "post",
         url: `${this._getBaseUrl()}webhooks/`,
