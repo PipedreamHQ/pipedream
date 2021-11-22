@@ -1,10 +1,10 @@
-const sortBy = require("lodash/sortBy");
-const base = require("./predefined-module");
+import sortBy from "lodash/sortBy.js";
+import common from "./common-http-based-predefined-module.mjs";
 
-module.exports = { // eslint-disable-line
-  ...base,
+export default {
+  ...common,
   props: {
-    ...base.props,
+    ...common.props,
     moduleInfo: {
       type: "string",
       label: "Module",
@@ -33,7 +33,7 @@ module.exports = { // eslint-disable-line
     },
   },
   methods: {
-    ...base.methods,
+    ...common.methods,
     getModuleType() {
       const { type } = JSON.parse(this.moduleInfo);
       return type;
