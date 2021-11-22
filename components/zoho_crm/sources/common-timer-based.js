@@ -1,4 +1,4 @@
-const zoho_crm = require("../../../zoho_crm.app");
+const zoho_crm = require("../zoho_crm.app");
 
 module.exports = {
   dedupe: "unique",
