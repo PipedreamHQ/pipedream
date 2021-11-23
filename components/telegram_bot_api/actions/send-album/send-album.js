@@ -5,7 +5,7 @@ const { toSingleLineString } = require("../../utils.js");
 module.exports = {
   key: "telegram_bot_api-send-album",
   name: "Send an Album (Media Group)",
-  description: "Sends a group of photos or videos as an album",
+  description: "Sends a group of photos or videos as an album. [See the docs](https://core.telegram.org/bots/api#sendmediagroup) for more information",
   version: "0.0.1",
   type: "action",
   props: {

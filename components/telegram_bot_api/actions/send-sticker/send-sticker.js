@@ -4,7 +4,7 @@ const telegramBotApi = require("../../telegram_bot_api.app.js");
 module.exports = {
   key: "telegram_bot_api-send-sticker",
   name: "Send a Sticker",
-  description: "Sends a .webp sticker to you Telegram Desktop application",
+  description: "Sends a .webp sticker to you Telegram Desktop application. [See the docs](https://core.telegram.org/bots/api#sendsticker) for more information",
   version: "0.0.1",
   type: "action",
   props: {

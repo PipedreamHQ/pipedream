@@ -4,7 +4,7 @@ const telegramBotApi = require("../../telegram_bot_api.app.js");
 module.exports = {
   key: "telegram_bot_api-restrict-chat-member",
   name: "Restrict a Chat Member",
-  description: "Use this method to restrict a user in a supergroup",
+  description: "Use this method to restrict a user in a supergroup. [See the docs](https://core.telegram.org/bots/api#restrictchatmember) for more information",
   version: "0.0.1",
   type: "action",
   props: {

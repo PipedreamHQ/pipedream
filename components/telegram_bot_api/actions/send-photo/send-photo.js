@@ -5,7 +5,7 @@ const contentTypes = require("../../content-types");
 module.exports = {
   key: "telegram_bot_api-send-photo",
   name: "Send a Photo",
-  description: "Sends a photo to your Telegram Desktop application",
+  description: "Sends a photo to your Telegram Desktop application. [See the docs](https://core.telegram.org/bots/api#sendphoto) for more information",
   version: "0.0.1",
   type: "action",
   props: {

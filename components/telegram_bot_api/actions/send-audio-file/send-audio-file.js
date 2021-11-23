@@ -5,7 +5,7 @@ const contentTypes = require("../../content-types");
 module.exports = {
   key: "telegram_bot_api-send-audio-file",
   name: "Send an Audio File",
-  description: "Sends an audio file to your Telegram Desktop application",
+  description: "Sends an audio file to your Telegram Desktop application. [See the docs](https://core.telegram.org/bots/api#sendaudio) for more information",
   version: "0.0.1",
   type: "action",
   props: {

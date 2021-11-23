@@ -4,7 +4,7 @@ const telegramBotApi = require("../../telegram_bot_api.app.js");
 module.exports = {
   key: "telegram_bot_api-edit-text-message",
   name: "Edit a Text Message",
-  description: "Edits text or game messages",
+  description: "Edits text or game messages. [See the docs](https://core.telegram.org/bots/api#editmessagetext) for more information",
   version: "0.0.1",
   type: "action",
   props: {

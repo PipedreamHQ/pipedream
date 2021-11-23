@@ -5,7 +5,7 @@ const { TELEGRAM_BOT_API_UI_MEDIA_TYPES } = require("../../constants.js");
 module.exports = {
   key: "telegram_bot_api-send-media-by-url-or-id",
   name: "Send Media by URL or ID",
-  description: "Sends a file (document, photo, video, audio, ...) by HTTP URL or by ID that exists on the Telegram servers",
+  description: "Sends a file (document, photo, video, audio, ...) by HTTP URL or by ID that exists on the Telegram servers. [See the docs](https://core.telegram.org/bots/api#inputmedia) for more information",
   version: "0.0.1",
   type: "action",
   props: {

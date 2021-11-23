@@ -5,7 +5,7 @@ const contentTypes = require("../../content-types");
 module.exports = {
   key: "telegram_bot_api-send-voice-message",
   name: "Send a Voice Message",
-  description: "Sends a voice message",
+  description: "Sends a voice message. [See the docs](https://core.telegram.org/bots/api#sendvoice) for more information",
   version: "0.0.1",
   type: "action",
   props: {

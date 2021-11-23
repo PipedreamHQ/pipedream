@@ -4,7 +4,7 @@ const telegramBotApi = require("../../telegram_bot_api.app.js");
 module.exports = {
   key: "telegram_bot_api-forward-message",
   name: "Forward a Message",
-  description: "Forwards messages of any kind",
+  description: "Forwards messages of any kind. [See the docs](https://core.telegram.org/bots/api#forwardmessage) for more information",
   version: "0.0.1",
   type: "action",
   props: {

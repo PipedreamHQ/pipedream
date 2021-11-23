@@ -4,7 +4,7 @@ const telegramBotApi = require("../../telegram_bot_api.app.js");
 module.exports = {
   key: "telegram_bot_api-promote-chat-member",
   name: "Promote a Chat Member",
-  description: "Use this method to promote or demote a user in a supergroup or a channel",
+  description: "Use this method to promote or demote a user in a supergroup or a channel. [See the docs](https://core.telegram.org/bots/api#promotechatmember) for more information",
   version: "0.0.1",
   type: "action",
   props: {

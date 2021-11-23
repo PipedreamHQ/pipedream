@@ -4,7 +4,7 @@ const telegramBotApi = require("../../telegram_bot_api.app.js");
 module.exports = {
   key: "telegram_bot_api-list-updates",
   name: "List Updates",
-  description: "Retrieves a list of updates from the Telegram server",
+  description: "Retrieves a list of updates from the Telegram server. [See the docs](https://core.telegram.org/bots/api#getupdates) for more information",
   version: "0.0.1",
   type: "action",
   props: {

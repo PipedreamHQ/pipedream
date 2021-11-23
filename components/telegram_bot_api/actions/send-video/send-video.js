@@ -5,7 +5,7 @@ const contentTypes = require("../../content-types");
 module.exports = {
   key: "telegram_bot_api-send-video",
   name: "Send a Video",
-  description: "Sends a video file to your Telegram Desktop application",
+  description: "Sends a video file to your Telegram Desktop application. [See the docs](https://core.telegram.org/bots/api#sendvideo) for more information",
   version: "0.0.1",
   type: "action",
   props: {
