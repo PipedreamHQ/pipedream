@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 const contentTypes = require("../../content-types");
 
 module.exports = {
@@ -9,67 +9,67 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     caption: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "caption",
       ],
       description: "Enter the file caption.",
     },
     filename: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "filename",
       ],
     },
     doc: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "media",
       ],
       label: "Document or Image",
     },
     parse_mode: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "parse_mode",
       ],
     },
     contentType: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "contentType",
       ],
       options: contentTypes.all,
     },
     disable_notification: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "disable_notification",
       ],
     },
     reply_to_message_id: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_to_message_id",
       ],
     },
     reply_markup: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_markup",
       ],
     },
   },
   async run() {
-    return await this.telegram_bot_api.sendDocument(this.chatId, this.doc, {
+    return await this.telegramBotApi.sendDocument(this.chatId, this.doc, {
       caption: this.caption,
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,

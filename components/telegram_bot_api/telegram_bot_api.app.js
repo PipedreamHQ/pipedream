@@ -1,11 +1,9 @@
 // If unset, set `process.env.NTBA_FIX_319` to true to enable cancellation of
 // Promises. See: https://github.com/yagop/node-telegram-bot-api/issues/319 for
 // more information.
-process.env.NTBA_FIX_319 = (process.env.NTBA_FIX_319 !== undefined)
-  ? process.env.NTBA_FIX_319
-  : true;
+process.env.NTBA_FIX_319 = process.env.NTBA_FIX_319 ?? true;
 const TelegramBot = require("node-telegram-bot-api");
-const axios = require("axios");
+const { axios } = require("@pipedream/platform");
 const {
   TELEGRAM_BOT_API_UI_MEDIA_AUDIO,
   TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT,
@@ -14,53 +12,10 @@ const {
   TELEGRAM_BOT_API_UI_MEDIA_VIDEO_NOTE,
   TELEGRAM_BOT_API_UI_MEDIA_STICKER,
   TELEGRAM_BOT_API_UI_MEDIA_VOICE,
+  TELEGRAM_BOT_API_FORMATTING_MODES,
 } = require("./constants");
-const updateTypes = [
-  {
-    label: "Message",
-    value: "message",
-  },
-  {
-    label: "Edited Message",
-    value: "edited_message",
-  },
-  {
-    label: "Channel Post",
-    value: "channel_post",
-  },
-  {
-    label: "Edited Channel Post",
-    value: "edited_channel_post",
-  },
-  {
-    label: "Inline Query",
-    value: "inline_query",
-  },
-  {
-    label: "Chosen Inline Result",
-    value: "chosen_inline_result",
-  },
-  {
-    label: "Callback Query",
-    value: "callback_query",
-  },
-  {
-    label: "Shipping Query",
-    value: "shipping_query",
-  },
-  {
-    label: "Pre Checkout Query",
-    value: "pre_checkout_query",
-  },
-  {
-    label: "Poll",
-    value: "poll",
-  },
-  {
-    label: "Poll Answer",
-    value: "poll_answer",
-  },
-];
+const updateTypes = require("./update-types");
+const { toSingleLineString } = require("./utils");
 
 module.exports = {
   type: "app",
@@ -77,7 +32,11 @@ module.exports = {
     chatId: {
       type: "string",
       label: "Chat ID",
-      description: "Enter the unique identifier for the target chat or username of the target channel (in the format `@channelusername` or `@supergroupusername`).",
+      description: toSingleLineString(`
+        Enter the unique identifier for the target chat (e.g. \`1035597319\`) or username of the
+        target public chat (in the format \`@channelusername\` or \`@supergroupusername\`). For
+        example, if the group's public link is \`t.me/mygroup\`, the username is \`@mygroup\`.
+      `),
     },
     text: {
       type: "string",
@@ -88,18 +47,22 @@ module.exports = {
     parse_mode: {
       type: "string",
       label: "Parse Mode",
-      description: "Select [MarkdownV2-style](https://core.telegram.org/bots/api#markdownv2-style), [HTML-style](https://core.telegram.org/bots/api#html-style), or [Markdown-style](https://core.telegram.org/bots/api#markdown-style) of the text if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.",
-      options: [
-        "MarkdownV2",
-        "HTML",
-        "Markdown",
-      ],
+      description: toSingleLineString(`
+        Select [MarkdownV2-style](https://core.telegram.org/bots/api#markdownv2-style),
+        [HTML-style](https://core.telegram.org/bots/api#html-style), or
+        [Markdown-style](https://core.telegram.org/bots/api#markdown-style) of the text if you want
+        Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+      `),
+      options: TELEGRAM_BOT_API_FORMATTING_MODES,
       optional: true,
     },
     disable_notification: {
       type: "boolean",
       label: "Disable Notifications",
-      description: "Choose if to send the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.",
+      description: toSingleLineString(`
+        Choose if to send the message silently. iOS users will not receive a notification, Android
+        users will receive a notification with no sound.
+      `),
       optional: true,
     },
     disable_web_page_preview: {
@@ -117,7 +80,15 @@ module.exports = {
     reply_markup: {
       type: "string",
       label: "Reply Markup",
-      description: "Enter additional interface options that are a JSON-serialized object including an inline keyboard, a custom reply keyboard, instructions to remove the reply keyboard or instructions to force a reply from the user, e.g. `{\"inline_keyboard\":[[{\"text\":\"Some button text 2\",\"url\":\"https://botpress.org\"}]]}` or `{\"keyboard\":[[\"Yes\",\"No\"],[\"Maybe\"]]}`. Note: keyboard cannot be used with channels.",
+      description: toSingleLineString(`
+        Enter additional interface options that are a JSON-serialized object including an [inline
+        keyboard](https://core.telegram.org/bots#inline-keyboards-and-on-the-fly-updating), a
+        [custom reply keyboard](https://core.telegram.org/bots#keyboards), instructions to remove
+        the reply keyboard or instructions to force a reply from the user, e.g.
+        \`{"inline_keyboard":[[{"text":"Some button text 2","url":"https://botpress.org"}]]}\` or
+        \`{"keyboard":[["Yes","No"],["Maybe"]]}\`. Note: keyboard cannot be used with channels. [See
+        the docs](https://core.telegram.org/bots/api#inlinekeyboardmarkup) for more information.
+      `),
       optional: true,
     },
     messageId: {
@@ -128,7 +99,10 @@ module.exports = {
     fromChatId: {
       type: "string",
       label: "From Chat ID",
-      description: "Enter the unique identifier for the chat where the original message was sent (or channel username in the format @channelusername).",
+      description: toSingleLineString(`
+        Enter the unique identifier for the chat where the original message was sent (or channel
+        username in the format @channelusername).
+      `),
       optional: true,
     },
     caption: {
@@ -146,7 +120,14 @@ module.exports = {
     media: {
       type: "string",
       label: "Media File Source",
-      description: "File to send. Pass a file_id to send a file that exists on the Telegram servers, pass an HTTP URL for Telegram to get a file from the Internet, or pass the path to the file (e.g., `/tmp/myFile.ext`) to upload a new one using a file [downloaded to `/tmp`](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#download-a-file-to-tmp). File must meet Telegram's [requirements](https://core.telegram.org/bots/api#sending-files) for MIME type and size.",
+      description: toSingleLineString(`
+        File to send. Pass a file_id to send a file that exists on the Telegram servers, pass an
+        HTTP URL for Telegram to get a file from the Internet, or pass the path to the file (e.g.,
+        \`/tmp/myFile.ext\`) to upload a new one using a file [downloaded to
+        \`/tmp\`](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#download-a-file-to-tmp).
+        File must meet Telegram's [requirements](https://core.telegram.org/bots/api#sending-files)
+        for MIME type and size.
+      `),
     },
     duration: {
       type: "integer",
@@ -187,7 +168,7 @@ module.exports = {
     length: {
       type: "integer",
       label: "Length",
-      description: "Enter the video width and height.",
+      description: "Enter the video width and height, i.e. diameter of the video message, in pixels (px).",
       optional: true,
     },
     type: {
@@ -195,14 +176,18 @@ module.exports = {
       label: "Media Type",
       description: "Select the media type.",
       options: [
-        "Photo",
-        "Video",
+        TELEGRAM_BOT_API_UI_MEDIA_PHOTO,
+        TELEGRAM_BOT_API_UI_MEDIA_VIDEO,
       ],
     },
     offset: {
       type: "string",
       label: "Start offset (Update ID)",
-      description: "Enter the update ID <1, last update ID> you want to list from. Note: you can use this field to set your pagination - map last update ID from the result and increase this value by one to get next page.",
+      description: toSingleLineString(`
+        Enter the update ID <1, last update ID> you want to list from. Note: you can use this field
+        to set your pagination - map last update ID from the result and increase this value by one
+        to get next page.
+      `),
       optional: true,
     },
     limit: {
@@ -214,7 +199,10 @@ module.exports = {
     autoPaging: {
       type: "boolean",
       label: "Confirm processed requests by increasing the offset in the Telegram server [auto-paging]",
-      description: "Check if to increasing the offset for the next request automatically. Caution: updates listed with `auto-paging` can be listed only once.",
+      description: toSingleLineString(`
+        Check if to increasing the offset for the next request automatically. Caution: updates
+        listed with \`auto-paging\` can be listed only once.
+      `),
       optional: true,
     },
     userId: {
@@ -226,7 +214,10 @@ module.exports = {
     until_date: {
       type: "string",
       label: "Until Date",
-      description: "Enter the date when the restrictions on the user will be lifted, in [unix time](https://en.wikipedia.org/wiki/Unix_time) (e.g. `1567780450`).",
+      description: toSingleLineString(`
+        Enter the date when the restrictions on the user will be lifted, in [unix
+        time](https://en.wikipedia.org/wiki/Unix_time) (e.g. \`1567780450\`).
+      `),
       optional: true,
     },
   },
@@ -261,7 +252,7 @@ module.exports = {
           allowed_updates: allowedUpdates,
         },
       };
-      return await axios(config);
+      return axios(this, config);
     },
     async deleteHook() {
       const config = {
@@ -269,7 +260,7 @@ module.exports = {
         url: `${await this._getBaseUrl()}/deleteWebhook`,
         headers: await this._getHeaders(),
       };
-      return await axios(config);
+      return axios(this, config);
     },
     /**
      * Send a text message
@@ -284,7 +275,7 @@ module.exports = {
      * @returns The sent Message
      */
     async sendMessage(chatId, text, opts) {
-      return await this.sdk().sendMessage(chatId, text, opts);
+      return this.sdk().sendMessage(chatId, text, opts);
     },
     /**
      * Edit a text message
@@ -314,10 +305,11 @@ module.exports = {
         inlineMessageId,
         ...extraOpts
       } = opts;
-      if (!(chatId && messageId) && !inlineMessageId) {
+      const hasChatIdAndMessageId = chatId && messageId;
+      if (!hasChatIdAndMessageId && !inlineMessageId) {
         throw new Error("chatId, messageId, or inlineMessageId is required");
       }
-      return await this.sdk().editMessageText(text, {
+      return this.sdk().editMessageText(text, {
         chat_id: chatId,
         message_id: messageId,
         inline_message_id: inlineMessageId,
@@ -338,7 +330,7 @@ module.exports = {
      * @return The sent message
      */
     async forwardMessage(chatId, fromChatId, messageId, opts) {
-      return await this.sdk().forwardMessage(chatId, fromChatId, messageId, opts);
+      return this.sdk().forwardMessage(chatId, fromChatId, messageId, opts);
     },
     /**
      * Delete a message
@@ -348,7 +340,7 @@ module.exports = {
      * @returns `True` on success
      */
     async deleteMessage(chatId, messageId) {
-      return await this.sdk().deleteMessage(chatId, messageId);
+      return this.sdk().deleteMessage(chatId, messageId);
     },
     /**
      * Use this method to add a message to the list of pinned messages in a
@@ -365,7 +357,7 @@ module.exports = {
      * @return `True` on success
      */
     async pinChatMessage(chatId, messageId, opts) {
-      return await this.sdk().pinChatMessage(chatId, messageId, opts);
+      return this.sdk().pinChatMessage(chatId, messageId, opts);
     },
     /**
      * Use this method to remove a message from the list of pinned messages in a
@@ -381,7 +373,7 @@ module.exports = {
      * @return `True` on success
      */
     async unpinChatMessage(chatId, messageId) {
-      return await this.sdk().unpinChatMessage(chatId, {
+      return this.sdk().unpinChatMessage(chatId, {
         message_id: messageId,
       });
     },
@@ -426,18 +418,16 @@ module.exports = {
         contentType,
         ...extraOpts
       } = opts;
-      return await sendFn(chatId, media, extraOpts, {
+      return sendFn(chatId, media, extraOpts, {
         filename,
         contentType,
       });
     },
     /**
-     * @typedef {import("./constants.js").UIMediaType} UIMediaType
-     *
-     */
-    /**
      * Send a file (Document/Image, Photo, Audio, Video, Video Note, Voice,
      * Sticker) as the media type specified by the `type` parameter
+     *
+     * @typedef {import("./constants.js").UIMediaType} UIMediaType
      *
      * @param {UIMediaType} type - The media type of the file
      * @param {string} chatId - Unique identifier for the target chat or
@@ -472,42 +462,42 @@ module.exports = {
      * @type {SendMediaFn}
      */
     async sendAudio(chatId, audio, opts) {
-      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_AUDIO, chatId, audio, opts);
+      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_AUDIO, chatId, audio, opts);
     },
     /**
      * @type {SendMediaFn}
      */
     async sendDocument(chatId, doc, opts) {
-      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT, chatId, doc, opts);
+      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT, chatId, doc, opts);
 
     },
     async sendMediaGroup(chatId, media, opts) {
-      return await this.sdk().sendMediaGroup(chatId, media, opts);
+      return this.sdk().sendMediaGroup(chatId, media, opts);
     },
     /**
      * @type {SendMediaFn}
      */
     async sendPhoto(chatId, photo, opts) {
-      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_PHOTO, chatId, photo, opts);
+      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_PHOTO, chatId, photo, opts);
 
     },
     /**
      * @type {SendMediaFn}
      */
     async sendSticker(chatId, sticker, opts) {
-      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_STICKER, chatId, sticker, opts);
+      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_STICKER, chatId, sticker, opts);
     },
     /**
      * @type {SendMediaFn}
      */
     async sendVideo(chatId, video, opts) {
-      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_VIDEO, chatId, video, opts);
+      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_VIDEO, chatId, video, opts);
     },
     /**
      * @type {SendMediaFn}
      */
     async sendVideoNote(chatId, videoNote, opts) {
-      return await this.sendMediaByType(
+      return this.sendMediaByType(
         TELEGRAM_BOT_API_UI_MEDIA_VIDEO_NOTE,
         chatId,
         videoNote,
@@ -518,7 +508,7 @@ module.exports = {
      * @type {SendMediaFn}
      */
     async sendVoice(chatId, voice, opts) {
-      return await this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_VOICE, chatId, voice, opts);
+      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_VOICE, chatId, voice, opts);
     },
     /**
      * Use this method to edit audio, document, photo, or video messages. If a
@@ -555,10 +545,11 @@ module.exports = {
         inlineMessageId,
         ...extraOpts
       } = opts;
-      if (!(chatId && messageId) && !inlineMessageId) {
+      const hasChatIdAndMessageId = chatId && messageId;
+      if (!hasChatIdAndMessageId && !inlineMessageId) {
         throw new Error("chatId, messageId, or inlineMessageId is required");
       }
-      return await this.sdk().editMessageMedia(media, {
+      return this.sdk().editMessageMedia(media, {
         chat_id: chatId,
         message_id: messageId,
         inline_message_id: inlineMessageId,
@@ -574,7 +565,7 @@ module.exports = {
      * @returns An Array of Update objects
      */
     async getUpdates(opts) {
-      return await this.sdk().getUpdates(opts);
+      return this.sdk().getUpdates(opts);
     },
     /**
      * Use this method to get a list of administrators in a chat
@@ -585,7 +576,7 @@ module.exports = {
      * all chat administrators except other bots
      */
     async getChatAdministrators(chatId) {
-      return await this.sdk().getChatAdministrators(chatId);
+      return this.sdk().getChatAdministrators(chatId);
     },
     /**
      * Use this method to get the number of members in a chat
@@ -598,7 +589,7 @@ module.exports = {
      * @returns The number of members in the chat
      */
     async getChatMemberCount(chatId) {
-      return await this.sdk().getChatMemberCount(chatId);
+      return this.sdk().getChatMemberCount(chatId);
     },
     /**
      * Use this method to ban a user in a group, a supergroup or a channel. In
@@ -616,7 +607,7 @@ module.exports = {
      * @returns `True` on success
      */
     async banChatMember(chatId, userId, opts) {
-      return await this.sdk().banChatMember(chatId, userId, opts);
+      return this.sdk().banChatMember(chatId, userId, opts);
     },
     /**
      * Use this method to promote or demote a user in a supergroup or a channel.
@@ -633,7 +624,7 @@ module.exports = {
      * @returns `True` on success
      */
     async promoteChatMember(chatId, userId, opts) {
-      return await this.sdk().promoteChatMember(chatId, userId, opts);
+      return this.sdk().promoteChatMember(chatId, userId, opts);
     },
     /**
      * Use this method to restrict a user in a supergroup. The bot must be an
@@ -650,7 +641,7 @@ module.exports = {
      * @returns `True` on success
      */
     async restrictChatMember(chatId, userId, opts) {
-      return await this.sdk().restrictChatMember(chatId, userId, opts);
+      return this.sdk().restrictChatMember(chatId, userId, opts);
     },
   },
 };

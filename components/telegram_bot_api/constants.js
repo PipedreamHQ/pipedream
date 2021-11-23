@@ -117,6 +117,63 @@ const TELEGRAM_BOT_API_UI_MEDIA_TYPES = [
   TELEGRAM_BOT_API_UI_MEDIA_STICKER,
 ];
 
+/**
+ * @typedef {string} FormattingMode - a formatting mode used to parse entities in text, as defined
+ * by the [Telegram Bot API docs](@see{@link https://core.telegram.org/bots/api#formatting-options})
+ */
+
+/**
+ * Mode used to parse text using MarkdownV2 style
+ *
+ * @example
+ * *bold \*text*
+ * _italic \*text_
+ * __underline__
+ * ~strikethrough~
+ * *bold _italic bold ~italic bold strikethrough~ __underline italic bold___ bold*
+ * [inline URL](http://www.example.com/)
+ *
+ * @type {FormattingMode}
+ */
+const TELEGRAM_BOT_API_MARKDOWNV2_STYLE = "MarkdownV2";
+
+/**
+ * Mode used to parse text using HTML style
+ *
+ * @example
+ * <b>bold</b>, <strong>bold</strong> <i>italic</i>, <em>italic</em> <u>underline</u>,
+ * <ins>underline</ins> <s>strikethrough</s>, <strike>strikethrough</strike>,
+ * <del>strikethrough</del> <b>bold <i>italic bold <s>italic bold strikethrough</s> <u>underline
+ * italic bold</u></i> bold</b>
+ *
+ * @type {FormattingMode}
+ */
+const TELEGRAM_BOT_API_HTML_STYLE = "HTML";
+
+/**
+ * Mode used to parse text using Markdown style
+ *
+ * @example
+ * *bold text*
+ * _italic text_
+ * [inline URL](http://www.example.com/)
+ * [inline mention of a user](tg://user?id=123456789)
+ * `inline fixed-width code`
+ *
+ * @type {FormattingMode}
+ */
+const TELEGRAM_BOT_API_MARKDOWN_STYLE = "Markdown";
+
+/**
+  * All the available Telegram Bot formatting modes
+  * @type {FormattingMode[]}
+  */
+const TELEGRAM_BOT_API_FORMATTING_MODES = [
+  TELEGRAM_BOT_API_MARKDOWNV2_STYLE,
+  TELEGRAM_BOT_API_HTML_STYLE,
+  TELEGRAM_BOT_API_MARKDOWN_STYLE,
+];
+
 module.exports = {
   // Media types
   TELEGRAM_BOT_API_MEDIA_PHOTO,
@@ -136,4 +193,6 @@ module.exports = {
   TELEGRAM_BOT_API_UI_MEDIA_STICKER,
   // Array of UI media types
   TELEGRAM_BOT_API_UI_MEDIA_TYPES,
+  // Array of formatting modes
+  TELEGRAM_BOT_API_FORMATTING_MODES,
 };

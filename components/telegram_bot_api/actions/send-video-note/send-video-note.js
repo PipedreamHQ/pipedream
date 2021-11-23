@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 const contentTypes = require("../../content-types");
 
 module.exports = {
@@ -9,60 +9,60 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     filename: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "filename",
       ],
     },
     videoNote: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "media",
       ],
       label: "Video Note",
     },
     contentType: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "contentType",
       ],
       options: contentTypes.video,
     },
     length: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "length",
       ],
     },
     duration: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "duration",
       ],
     },
     reply_to_message_id: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_to_message_id",
       ],
     },
     reply_markup: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_markup",
       ],
     },
   },
   async run() {
-    return await this.telegram_bot_api.sendVideoNote(this.chatId, this.videoNote, {
+    return await this.telegramBotApi.sendVideoNote(this.chatId, this.videoNote, {
       length: this.length,
       duration: this.duration,
       reply_to_message_id: this.reply_to_message_id,

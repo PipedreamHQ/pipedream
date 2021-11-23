@@ -3,7 +3,7 @@ const {
   TELEGRAM_BOT_API_MEDIA_VIDEO,
 } = require("../../constants.js");
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 
 module.exports = {
   key: "telegram_bot_api-edit-media-message",
@@ -12,22 +12,22 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     messageId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "messageId",
       ],
     },
     type: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "type",
       ],
       options: [
@@ -43,38 +43,38 @@ module.exports = {
     },
     caption: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "caption",
       ],
     },
     filename: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "filename",
       ],
     },
     media: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "media",
       ],
       label: "Media",
     },
     parse_mode: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "parse_mode",
       ],
     },
     reply_markup: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_markup",
       ],
     },
   },
   async run() {
-    return await this.telegram_bot_api.editMessageMedia({
+    return await this.telegramBotApi.editMessageMedia({
       type: this.type,
       media: this.media,
       caption: this.caption,

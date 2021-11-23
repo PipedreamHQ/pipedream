@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 const { TELEGRAM_BOT_API_UI_MEDIA_TYPES } = require("../../constants.js");
 
 module.exports = {
@@ -9,29 +9,29 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     caption: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "caption",
       ],
     },
     mediaType: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "type",
       ],
       options: TELEGRAM_BOT_API_UI_MEDIA_TYPES,
     },
     media: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "media",
       ],
       label: "Media",
@@ -39,25 +39,25 @@ module.exports = {
     },
     disable_notification: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "disable_notification",
       ],
     },
     reply_to_message_id: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_to_message_id",
       ],
     },
     reply_markup: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_markup",
       ],
     },
   },
   async run() {
-    return await this.telegram_bot_api.sendMediaByType(
+    return await this.telegramBotApi.sendMediaByType(
       this.mediaType,
       this.chatId,
       this.media,

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 
 module.exports = {
   key: "telegram_bot_api-promote-chat-member",
@@ -8,16 +8,16 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     userId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "userId",
       ],
     },
@@ -71,7 +71,7 @@ module.exports = {
     },
   },
   async run() {
-    return this.telegram_bot_api.promoteChatMember(this.chatId, this.userId, {
+    return this.telegramBotApi.promoteChatMember(this.chatId, this.userId, {
       can_change_info: this.can_change_info,
       can_post_messages: this.can_post_messages,
       can_edit_messages: this.can_edit_messages,

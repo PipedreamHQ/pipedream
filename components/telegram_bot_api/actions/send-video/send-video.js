@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 const contentTypes = require("../../content-types");
 
 module.exports = {
@@ -9,67 +9,67 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     caption: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "caption",
       ],
       description: "Enter the video caption.",
     },
     filename: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "filename",
       ],
     },
     video: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "media",
       ],
       label: "Video",
     },
     contentType: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "contentType",
       ],
       options: contentTypes.video,
     },
     duration: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "duration",
       ],
     },
     width: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "width",
       ],
     },
     height: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "height",
       ],
     },
     reply_markup: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_markup",
       ],
     },
   },
   async run() {
-    return await this.telegram_bot_api.sendVideo(this.chatId, this.video, {
+    return await this.telegramBotApi.sendVideo(this.chatId, this.video, {
       caption: this.caption,
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,

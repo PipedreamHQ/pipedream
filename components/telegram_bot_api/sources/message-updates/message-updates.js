@@ -1,5 +1,5 @@
 // eslint-disable-next-line camelcase
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 
 module.exports = {
   type: "source",
@@ -15,21 +15,21 @@ module.exports = {
       type: "$.interface.http",
       customResponse: true,
     },
-    telegram_bot_api,
+    telegramBotApi,
   },
   hooks: {
     async activate() {
-      await this.telegram_bot_api.createHook(this.http.endpoint, [
+      await this.telegramBotApi.createHook(this.http.endpoint, [
         "message",
         "edited_message",
       ]);
     },
     async deactivate() {
-      await this.telegram_bot_api.deleteHook();
+      await this.telegramBotApi.deleteHook();
     },
   },
   async run(event) {
-    if ((event.path).substring(1) !== this.telegram_bot_api.$auth.token) {
+    if ((event.path).substring(1) !== this.telegramBotApi.$auth.token) {
       return;
     }
     this.http.respond({

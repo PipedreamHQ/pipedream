@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 const contentTypes = require("../../content-types");
 
 module.exports = {
@@ -9,80 +9,80 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     caption: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "caption",
       ],
       description: "Enter the audio caption.",
     },
     filename: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "filename",
       ],
     },
     audio: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "media",
       ],
       label: "Audio",
     },
     parse_mode: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "parse_mode",
       ],
     },
     disable_notification: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "disable_notification",
       ],
     },
     duration: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "duration",
       ],
       description: "Enter duration of sent audio in seconds.",
     },
     performer: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "performer",
       ],
     },
     title: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "title",
       ],
     },
     reply_markup: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_markup",
       ],
     },
     contentType: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "contentType",
       ],
       options: contentTypes.audio,
     },
   },
   async run() {
-    return await this.telegram_bot_api.sendAudio(this.chatId, this.audio, {
+    return await this.telegramBotApi.sendAudio(this.chatId, this.audio, {
       caption: this.caption,
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,

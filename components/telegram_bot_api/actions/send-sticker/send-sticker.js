@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 
 module.exports = {
   key: "telegram_bot_api-send-sticker",
@@ -8,41 +8,41 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     filename: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "filename",
       ],
     },
     sticker: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "media",
       ],
       label: "Sticker",
     },
     reply_to_message_id: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_to_message_id",
       ],
     },
     reply_markup: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_markup",
       ],
     },
   },
   async run() {
-    return await this.telegram_bot_api.sendSticker(this.chatId, this.sticker, {
+    return await this.telegramBotApi.sendSticker(this.chatId, this.sticker, {
       reply_to_message_id: this.reply_to_message_id,
       reply_markup: this.reply_markup,
       filename: this.filename,

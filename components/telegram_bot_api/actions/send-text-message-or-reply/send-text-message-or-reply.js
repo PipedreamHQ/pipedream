@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 
 module.exports = {
   key: "telegram_bot_api-send-text-message-or-reply",
@@ -8,52 +8,52 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     text: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "text",
       ],
     },
     parse_mode: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "parse_mode",
       ],
     },
     disable_notification: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "disable_notification",
       ],
     },
     disable_web_page_preview: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "disable_web_page_preview",
       ],
     },
     reply_to_message_id: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_to_message_id",
       ],
     },
     reply_markup: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "reply_markup",
       ],
     },
   },
   async run() {
-    return await this.telegram_bot_api.sendMessage(this.chatId, this.text, {
+    return await this.telegramBotApi.sendMessage(this.chatId, this.text, {
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,
       disable_web_page_preview: this.disable_web_page_preview,

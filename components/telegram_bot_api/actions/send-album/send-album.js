@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
+const { toSingleLineString } = require("../../utils.js");
 
 module.exports = {
   key: "telegram_bot_api-send-album",
@@ -8,22 +9,28 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     media: {
       type: "any",
       label: "Media",
-      description: "A JSON-serialized array describing photos and videos to be sent, must include 2–10 items (e.g., `[{\"type\":\"photo\",\"media\":\"https://example.com/myImage.jpeg\"},{\"type\":\"video\",\"media\":\"/tmp/myVideo.mp4\"}]`)",
+      description: toSingleLineString(`
+        A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
+        (e.g.,
+        \`[{"type":"photo","media":"https://example.com/myImage.jpeg"},{"type":"video","media":"/tmp/myVideo.mp4"}]\`).
+        [See the docs](https://core.telegram.org/bots/api#inputmedia) for more information about the
+        input media object.
+      `),
       optional: false,
     },
     disable_notification: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "disable_notification",
       ],
     },
@@ -37,7 +44,7 @@ module.exports = {
         throw new Error("media must be deserializable to JSON");
       }
     }
-    return await this.telegram_bot_api.sendMediaGroup(this.chatId, media, {
+    return await this.telegramBotApi.sendMediaGroup(this.chatId, media, {
       disable_notification: this.disable_notification,
     });
   },

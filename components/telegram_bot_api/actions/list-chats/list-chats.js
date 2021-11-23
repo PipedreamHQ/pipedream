@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 
 module.exports = {
   key: "telegram_bot_api-list-chats",
@@ -8,22 +8,22 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     offset: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "offset",
       ],
     },
     limit: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "limit",
       ],
     },
     autoPaging: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "autoPaging",
       ],
     },
@@ -53,7 +53,7 @@ module.exports = {
     },
   },
   async run() {
-    const updates = await this.telegram_bot_api.getUpdates({
+    const updates = await this.telegramBotApi.getUpdates({
       offset: this.offset,
       limit: this.limit,
     });
@@ -62,7 +62,7 @@ module.exports = {
       // "Confirm" updates by calling API to get updates using an offset of the
       // last `update_id + 1` See [documentation for getUpdates in the Telegram
       // Bot API reference](https://core.telegram.org/bots/api#getupdates)
-      await this.telegram_bot_api.getUpdates({
+      await this.telegramBotApi.getUpdates({
         offset: lastUpdateId + 1,
         limit: 1,
       });

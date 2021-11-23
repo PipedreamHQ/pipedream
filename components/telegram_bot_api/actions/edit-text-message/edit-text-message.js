@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 
 module.exports = {
   key: "telegram_bot_api-edit-text-message",
@@ -8,34 +8,34 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     messageId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "messageId",
       ],
     },
     text: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "text",
       ],
     },
     disable_notification: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "disable_notification",
       ],
     },
   },
   async run() {
-    return await this.telegram_bot_api.editMessageText(this.text, {
+    return await this.telegramBotApi.editMessageText(this.text, {
       chatId: this.chatId,
       messageId: this.messageId,
       disable_notification: this.disable_notification,

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+const telegramBotApi = require("../../telegram_bot_api.app.js");
 
 module.exports = {
   key: "telegram_bot_api-forward-message",
@@ -8,34 +8,34 @@ module.exports = {
   version: "0.0.1",
   type: "action",
   props: {
-    telegram_bot_api,
+    telegramBotApi,
     chatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "chatId",
       ],
     },
     fromChatId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "fromChatId",
       ],
     },
     messageId: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "messageId",
       ],
     },
     disable_notification: {
       propDefinition: [
-        telegram_bot_api,
+        telegramBotApi,
         "disable_notification",
       ],
     },
   },
   async run() {
-    return await this.telegram_bot_api.forwardMessage(
+    return await this.telegramBotApi.forwardMessage(
       this.chatId,
       this.fromChatId,
       this.messageId,
