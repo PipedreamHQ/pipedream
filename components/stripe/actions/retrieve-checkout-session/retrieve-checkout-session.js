@@ -18,7 +18,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().checkout.sessions.retrieve(this.id);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().checkout.sessions.retrieve(this.id);
+    $.export("$summary", `Successfully retrieved the checkout session, "${resp.id}"`);
+    return resp;
   },
 };

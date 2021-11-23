@@ -65,8 +65,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoices.update(this.id, {
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoices.update(this.id, {
       ...pick(this, [
         "description",
         "auto_advance",
@@ -77,5 +77,7 @@ module.exports = {
       ]),
       ...this.advanced,
     });
+    $.export("$summary", `Successfully updated the invoice, "${resp.number || resp.id}"`);
+    return resp;
   },
 };

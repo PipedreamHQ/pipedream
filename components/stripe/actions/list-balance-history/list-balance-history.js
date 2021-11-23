@@ -37,14 +37,16 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "payout",
       "type",
     ]);
-    return await this.stripe.sdk().balanceTransactions.list(params)
+    const resp = await this.stripe.sdk().balanceTransactions.list(params)
       .autoPagingToArray({
         limit: this.limit,
       });
+    $.export("$summary", "Successfully fetched balance transactions");
+    return resp;
   },
 };

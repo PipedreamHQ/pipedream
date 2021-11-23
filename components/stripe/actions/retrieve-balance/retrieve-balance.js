@@ -5,12 +5,15 @@ module.exports = {
   name: "Retrieve the Current Balance",
   type: "action",
   version: "0.0.2",
-  description: "Retrieves the details of an existing refund. [See the " +
-    "docs](https://stripe.com/docs/api/balance/balance_retrieve) for more information",
+  description: "Retrieves the current account balance, based on the authentication that was used " +
+    "to make the request. [See the docs](https://stripe.com/docs/api/balance/balance_retrieve) " +
+    "for more information",
   props: {
     stripe,
   },
-  async run() {
-    return await this.stripe.sdk().balance.retrieve();
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().balance.retrieve();
+    $.export("$summary", "Successfully retrieved the current balance");
+    return resp;
   },
 };

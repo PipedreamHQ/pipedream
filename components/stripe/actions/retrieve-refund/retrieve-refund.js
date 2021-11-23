@@ -17,7 +17,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().refunds.retrieve(this.id);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().refunds.retrieve(this.id);
+    $.export("$summary", `Successfully retrieved the refund, "${resp.id}"`);
+    return resp;
   },
 };

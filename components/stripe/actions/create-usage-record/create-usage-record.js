@@ -81,12 +81,15 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const data = pick(this, [
       "timestamp",
       "quantity",
       "action",
     ]);
-    return await this.stripe.sdk().subscriptionItems.createUsageRecord(this.id, data);
+    const resp = await this.stripe.sdk().subscriptionItems.createUsageRecord(this.id, data);
+    $.export("$summary", `Successfully created a new usage record for subscription item, 
+    "${resp.subscription_item}", with a usage quantity of ${resp.quantity}`);
+    return resp;
   },
 };

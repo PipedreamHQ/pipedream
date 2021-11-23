@@ -47,16 +47,18 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "customer",
       "subscription",
       "status",
       "collection_method",
     ]);
-    return await this.stripe.sdk().invoices.list(params)
+    const resp = await this.stripe.sdk().invoices.list(params)
       .autoPagingToArray({
         limit: this.limit,
       });
+    $.export("$summary", "Successfully fetched invoices");
+    return resp;
   },
 };

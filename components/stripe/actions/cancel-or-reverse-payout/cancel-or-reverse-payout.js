@@ -19,13 +19,18 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
+  async run({ $ }) {
     const payout = await this.stripe.sdk().payouts.retrieve(this.id);
+    let resp;
     switch (payout.status) {
     case "paid":
-      return await this.stripe.sdk().payouts.reverse(this.id);
+      resp = await this.stripe.sdk().payouts.reverse(this.id);
+      $.export("$summary", "Successfully reversed paid payout");
+      return resp;
     case "pending":
-      return await this.stripe.sdk().payouts.cancel(this.id);
+      resp = await this.stripe.sdk().payouts.cancel(this.id);
+      $.export("$summary", "Successfully cancelled pending payout");
+      return resp;
     case "in_transit":
       throw new Error("Payment is in transit");
     case "canceled":

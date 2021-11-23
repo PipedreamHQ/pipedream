@@ -27,7 +27,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoiceItems.del(this.id);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoiceItems.del(this.id);
+    $.export("$summary", `Successfully deleted the invoice item, "${resp.id}"`);
+    return resp;
   },
 };

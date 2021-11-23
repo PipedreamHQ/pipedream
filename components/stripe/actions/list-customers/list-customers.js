@@ -24,7 +24,7 @@ module.exports = {
       ],
     },
   },
-  async run({$}) {
+  async run({ $ }) {
     const params = pick(this, [
       "email",
     ]);
@@ -33,7 +33,7 @@ module.exports = {
         limit: this.limit,
       });
 
-    $.export("$summary", `Successfully fetched customer info`)
+    $.export("$summary", "Successfully fetched customer info");
 
     return resp;
   },

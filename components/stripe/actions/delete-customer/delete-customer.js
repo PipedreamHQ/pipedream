@@ -17,7 +17,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().customers.del(this.customer);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().customers.del(this.customer);
+    $.export("$summary", `Successfully deleted the customer, "${resp.id}"`);
+    return resp;
   },
 };

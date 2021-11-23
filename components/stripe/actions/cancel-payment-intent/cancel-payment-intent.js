@@ -27,10 +27,12 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "cancellation_reason",
     ]);
-    return await this.stripe.sdk().paymentIntents.cancel(this.id, params);
+    const resp = await this.stripe.sdk().paymentIntents.cancel(this.id, params);
+    $.export("$summary", "Successfully cancelled payment intent");
+    return resp;
   },
 };

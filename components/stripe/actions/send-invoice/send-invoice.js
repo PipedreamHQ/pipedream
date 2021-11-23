@@ -18,7 +18,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoices.sendInvoice(this.id);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoices.sendInvoice(this.id);
+    $.export("$summary", `Successfully sent the invoice, "${resp.number || resp.id}"`);
+    return resp;
   },
 };

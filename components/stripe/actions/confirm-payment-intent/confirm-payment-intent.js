@@ -56,15 +56,17 @@ module.exports = {
         "(https://stripe.com/docs/api/payment_intents/confirm) for a list of supported options.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "payment_method",
       "receipt_email",
       "setup_future_usage",
     ]);
-    return await this.stripe.sdk().paymentIntents.confirm(this.id, {
+    const resp = await this.stripe.sdk().paymentIntents.confirm(this.id, {
       ...params,
       ...this.advanced,
     });
+    $.export("$summary", "Successfully confirmed the payment intent");
+    return resp;
   },
 };

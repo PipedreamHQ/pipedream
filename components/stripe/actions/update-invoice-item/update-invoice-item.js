@@ -87,8 +87,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoiceItems.update(this.id, {
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoiceItems.update(this.id, {
       ...pick(this, [
         "amount",
         "currency",
@@ -98,5 +98,7 @@ module.exports = {
       ]),
       ...this.advanced,
     });
+    $.export("$summary", `Successfully updated the invoice item, "${resp.description || resp.id}"`);
+    return resp;
   },
 };

@@ -57,7 +57,7 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const data = pick(this, [
       "charge",
       "payment_intent",
@@ -67,6 +67,8 @@ module.exports = {
       "reverse_transfer",
       "metadata",
     ]);
-    return await this.stripe.sdk().refunds.create(data);
+    const resp = await this.stripe.sdk().refunds.create(data);
+    $.export("$summary", `Successfully created a refund for ${resp.amount} of the smallest currency unit of ${resp.currency}`);
+    return resp;
   },
 };

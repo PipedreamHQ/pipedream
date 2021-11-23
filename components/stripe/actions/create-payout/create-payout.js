@@ -56,7 +56,7 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const data = pick(this, [
       "amount",
       "currency",
@@ -66,6 +66,8 @@ module.exports = {
       "source_type",
       "metadata",
     ]);
-    return await this.stripe.sdk().payouts.create(data);
+    const resp = await this.stripe.sdk().payouts.create(data);
+    $.export("$summary", `Successfully created a new payout for ${resp.amount} of the smallest unit of currency of ${resp.currency}`);
+    return resp;
   },
 };

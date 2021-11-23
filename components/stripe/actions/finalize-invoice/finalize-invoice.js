@@ -24,9 +24,11 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoices.finalizeInvoice(this.id, pick(this, [
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoices.finalizeInvoice(this.id, pick(this, [
       "auto_advance",
     ]));
+    $.export("$summary", `Successfully finalized the invoice, "${resp.id}"`);
+    return resp;
   },
 };

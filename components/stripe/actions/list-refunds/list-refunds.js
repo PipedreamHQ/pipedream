@@ -29,14 +29,18 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "charge",
       "payment_intent",
     ]);
-    return await this.stripe.sdk().refunds.list(params)
+    const resp = await this.stripe.sdk().refunds.list(params)
       .autoPagingToArray({
         limit: this.limit,
       });
+
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully fetched ${resp.length} refund${resp.length === 1 ? "" : "s"}`);
+    return resp;
   },
 };

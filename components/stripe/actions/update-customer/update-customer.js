@@ -92,7 +92,7 @@ module.exports = {
         "(https://stripe.com/docs/api/customers/create) for a list of supported options.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "name",
       "email",
@@ -108,10 +108,12 @@ module.exports = {
       "postal_code",
       "country",
     ]);
-    return await this.stripe.sdk().customers.update(this.customer, {
+    const resp = await this.stripe.sdk().customers.update(this.customer, {
       ...params,
       address,
       ...this.advanced,
     });
+    $.export("$summary", `Successfully updated the customer, "${resp.id}"`);
+    return resp;
   },
 };

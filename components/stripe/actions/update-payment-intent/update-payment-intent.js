@@ -67,7 +67,7 @@ module.exports = {
         "(https://stripe.com/docs/api/payment_intents/update) for a list of supported options.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = {
       ...pick(this, [
         "amount",
@@ -90,9 +90,11 @@ module.exports = {
       advanced.statement_descriptor_suffix = String(advanced.statement_descriptor_suffix)
         .slice(0, 21);
     }
-    return await this.stripe.sdk().paymentIntents.update(this.id, {
+    const resp = await this.stripe.sdk().paymentIntents.update(this.id, {
       ...params,
       ...advanced,
     });
+    $.export("$summary", `Successfully updated the payment intent, "${resp.description || resp.id}"`);
+    return resp;
   },
 };

@@ -81,7 +81,7 @@ module.exports = {
       ],
     },
   },
-  async run({$}) {
+  async run({ $ }) {
     const resp = await this.stripe.sdk().invoiceItems.create({
       ...pick(this, [
         "customer",
@@ -97,7 +97,7 @@ module.exports = {
       ...this.advanced,
     });
 
-    $.export("$summary", `Successfully added new invoice item`)
+    $.export("$summary", "Successfully added new invoice item");
 
     return resp;
   },

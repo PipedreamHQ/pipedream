@@ -23,13 +23,17 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "status",
     ]);
-    return await this.stripe.sdk().payouts.list(params)
+    const resp = await this.stripe.sdk().payouts.list(params)
       .autoPagingToArray({
         limit: this.limit,
       });
+
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully fetched ${params.status ? `${params.status} ` : ""}payouts`);
+    return resp;
   },
 };

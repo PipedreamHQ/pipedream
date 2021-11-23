@@ -17,14 +17,18 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       status,
       subscription,
     } = await this.stripe.sdk().invoices.retrieve(this.id);
     if (status === "draft" && !subscription) {
-      return await this.stripe.sdk().invoices.del(this.id);
+      const resp = await this.stripe.sdk().invoices.del(this.id);
+      $.export("$summary", `Successfully deleted the draft invoice, "${resp.id}"`);
+      return resp;
     }
-    return await this.stripe.sdk().invoices.voidInvoice(this.id);
+    const resp = await this.stripe.sdk().invoices.voidInvoice(this.id);
+    $.export("$summary", `Successfully voided the invoice, "${resp.id}"`);
+    return resp;
   },
 };

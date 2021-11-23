@@ -17,7 +17,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoices.markUncollectible(this.id);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoices.markUncollectible(this.id);
+    $.export("$summary", `Successfully marked off the invoice, "${resp.number || resp.id}"`);
+    return resp;
   },
 };

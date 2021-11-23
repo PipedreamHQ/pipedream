@@ -35,13 +35,17 @@ module.exports = {
         "(https://stripe.com/docs/api/payment_intents/capture) for a list of supported options.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "amount_to_capture",
     ]);
-    return await this.stripe.sdk().paymentIntents.capture(this.id, {
+    const resp = await this.stripe.sdk().paymentIntents.capture(this.id, {
       ...params,
       ...this.advanced,
     });
+    $.export("$summary", `Successfully captured ${params.amount_to_capture
+      ? params.amount_to_capture
+      : `the full ${resp.amount_capturable}`} from the payment intent`);
+    return resp;
   },
 };

@@ -19,7 +19,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().paymentIntents.retrieve(this.client_secret);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().paymentIntents.retrieve(this.client_secret);
+    $.export("$summary", `Successfully retrieved the payment intent, "${resp.description || resp.id}"`);
+    return resp;
   },
 };

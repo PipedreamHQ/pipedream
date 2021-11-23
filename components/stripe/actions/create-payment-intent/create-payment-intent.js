@@ -64,7 +64,7 @@ module.exports = {
         "(https://stripe.com/docs/api/payment_intents/create) for a list of supported options.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "amount",
       "currency",
@@ -82,9 +82,11 @@ module.exports = {
       advanced.statement_descriptor_suffix = String(advanced.statement_descriptor_suffix)
         .slice(0, 21);
     }
-    return await this.stripe.sdk().paymentIntents.create({
+    const resp = await this.stripe.sdk().paymentIntents.create({
       ...params,
       ...advanced,
     });
+    $.export("$summary", `Successfully created a new payment intent for ${resp.amount} of the smallest currency unit of ${resp.currency}`);
+    return resp;
   },
 };

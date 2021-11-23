@@ -34,16 +34,18 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = {
       ...pick(this, [
         "customer",
       ]),
       ...this.advanced,
     };
-    return await this.stripe.sdk().paymentIntents.list(params)
+    const resp = await this.stripe.sdk().paymentIntents.list(params)
       .autoPagingToArray({
         limit: this.limit,
       });
+    $.export("$summary", "Successfully fetched payment intents");
+    return resp;
   },
 };

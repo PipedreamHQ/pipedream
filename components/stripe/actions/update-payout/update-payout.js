@@ -24,9 +24,11 @@ module.exports = {
       "optional": false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().payouts.update(this.id, {
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().payouts.update(this.id, {
       metadata: this.metadata,
     });
+    $.export("$summary", `Successfully updated the payout, "${resp.description || resp.id}"`);
+    return resp;
   },
 };
