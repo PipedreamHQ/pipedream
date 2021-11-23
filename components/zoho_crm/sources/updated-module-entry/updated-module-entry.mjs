@@ -1,7 +1,7 @@
-const common = require("../common/http-based/custom-module");
-const crudOps = require("../common/http-based/crud-operations");
+import common from "../common-http-based-predefined-module.mjs";
+import crudOps from "../common-util-crud-operations.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "zoho_crm-updated-module-entry",
   name: "Updated Module Entry (Instant)",  // eslint-disable-line
