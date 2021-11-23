@@ -1,19 +1,19 @@
-const base = require("./base");
+import common from "./common-http-based.mjs";
 
-module.exports = {
-  ...base,
+export default {
+  ...common,
   hooks: {
-    ...base.hooks,
+    ...common.hooks,
     async activate() {
       const moduleType = await this._retrieveModuleType();
       this.db.set("moduleType", moduleType);
 
       // Call "super" method
-      await base.hooks.activate.bind(this)();
+      await common.hooks.activate.bind(this)();
     },
   },
   methods: {
-    ...base.methods,
+    ...common.methods,
     /**
      * This function retrieves the "formal" API type name of the Zoho CRM module
      * to which the event source will listen for notifications. The function
@@ -28,7 +28,7 @@ module.exports = {
      * source
      */
     async _retrieveModuleType() {
-      const { modules } = await this.zoho_crm.listModules();
+      const { modules } = await this.zohoCrm.listModules();
       const { api_name: moduleType } = modules
         .find(({ singular_label: moduleName }) => moduleName === this.getModuleName());
       return moduleType;
@@ -71,7 +71,7 @@ module.exports = {
       event, resource,
     }) {
       // Call "super" method
-      const baseMeta = base.methods.generateMeta.bind(this)({
+      const commonMeta = common.methods.generateMeta.bind(this)({
         event,
         resource,
       });
@@ -82,7 +82,7 @@ module.exports = {
       const summary = `${moduleName} ${operation}: ${id}`;
 
       return {
-        ...baseMeta,
+        ...commonMeta,
         summary,
       };
     },

@@ -1,24 +1,26 @@
-const common = require("../common/timer-based/base");
-const userTypes = require("./user-types");
+import common from "../common-timer-based.mjs";
+import userTypes from "./user-types.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "zoho_crm-new-user",
   name: "New User",
-  description: "Emits an event each time a new user is created in Zoho CRM",
-  version: "0.0.1",
+  description: "Emit new event each time a new user is created in Zoho CRM",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
     userType: {
       type: "string",
+      label: "User Type",
       description: "The type of users to generate events for",
       options: userTypes,
     },
   },
   hooks: {
     async activate() {
-      const userCount = await this.zoho_crm.getUserCount({
+      const userCount = await this.zohoCrm.getUserCount({
         type: this.userType,
       });
       this.db.set("userCount", userCount);
@@ -31,10 +33,12 @@ module.exports = {
     }) {
       const {
         id,
-        first_name: firstName = '',
-        last_name: lastName = '',
+        first_name: firstName = "",
+        last_name: lastName = "",
       } = user;
-      const lastNameInitial = lastName ? `${lastName.slice(0, 1)}.` : '';
+      const lastNameInitial = lastName
+        ? `${lastName.slice(0, 1)}.`
+        : "";
       const userNameDisplay = `${firstName} ${lastNameInitial}`;
       const summary = `New User: ${userNameDisplay}`;
       const { timestamp: ts } = event;
@@ -46,14 +50,14 @@ module.exports = {
     },
     async processEvent(event) {
       const lastUserCount = this.db.get("userCount");
-      const usersPage = this.zoho_crm.computeLastUsersPage({
+      const usersPage = this.zohoCrm.computeLastUsersPage({
         userCount: lastUserCount,
       });
-      let usersOffset = this.zoho_crm.computeUsersOffset({
+      let usersOffset = this.zohoCrm.computeUsersOffset({
         userCount: lastUserCount,
       });
       let newUserCount = lastUserCount;
-      const userScan = await this.zoho_crm.getUsers({
+      const userScan = await this.zohoCrm.getUsers({
         page: usersPage,
         type: this.userType,
       });

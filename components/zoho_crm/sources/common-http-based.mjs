@@ -1,8 +1,8 @@
-const {
+import {
   randomBytes,
   randomInt,
-} = require("crypto");
-const zohoCrm = require("../../../zoho_crm.app");
+}  from "crypto";
+import zohoCrm from "../zoho_crm.app.mjs";
 
 // Zoho CRM webhooks subscriptions have an expiration date of up to 1 day. This
 // event source renews the subscription every 12 hours by default. More info can
@@ -10,7 +10,7 @@ const zohoCrm = require("../../../zoho_crm.app");
 // https://www.zoho.com/crm/developer/docs/api/v2/notifications/enable.html
 const hookRenewalPeriod = 60 * 60 * 12;
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     zohoCrm,
@@ -208,7 +208,7 @@ module.exports = {
      * reacts to creation or edition events can implement this function in the
      * following way:
      * @example
-     * const { createOpData, editOpData } = require("./crud-operations");
+     * import { createOpData, editOpData } from "./crud-operations";
      * function getEvents() {
      *   return [
      *     createOpData(),

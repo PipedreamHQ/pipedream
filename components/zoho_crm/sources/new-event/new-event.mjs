@@ -1,20 +1,20 @@
-const sortBy = require("lodash/sortBy");
-const common = require("../common/http-based/base");
-const crudOps = require("../common/http-based/crud-operations");
+import sortBy from "lodash/sortBy.js";
+import common from "../common-http-based-custom-module.mjs";
+import crudOps from "../common-util-crud-operations.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "zoho_crm-new-event",
-  name: "New Event (Instant)",
-  description: "Emit new custom events from Zoho CRM",
-  version: "0.0.5",
+  name: "Custom Event from Any Module (Instant)",  // eslint-disable-line
+  description: "Emit new, updated, or deleted records from one or more selected Zoho CRM Modules.",  // eslint-disable-line
+  version: "0.0.7",
   type: "source",
   props: {
     ...common.props,
     events: {
       type: "string[]",
       label: "Events",
-      description: "List of CRUD events that will trigger this event source",
+      description: "Choose one or more module events to trigger this event source.",
       async options({ page = 0 }) {
         if (page !== 0) {
           return [];

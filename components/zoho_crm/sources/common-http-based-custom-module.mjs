@@ -1,10 +1,10 @@
-const sortBy = require("lodash/sortBy");
-const base = require("./predefined-module");
+import sortBy from "lodash/sortBy.js";
+import common from "./common-http-based-predefined-module.mjs";
 
-module.exports = {
-  ...base,
+export default {
+  ...common,
   props: {
-    ...base.props,
+    ...common.props,
     moduleInfo: {
       type: "string",
       label: "Module",
@@ -15,7 +15,7 @@ module.exports = {
           return [];
         }
 
-        const { modules } = await this.zoho_crm.listModules();
+        const { modules } = await this.zohoCrm.listModules();
         const options = modules
           .filter(this.areEventsSupportedByModule)
           .map(({
@@ -33,10 +33,14 @@ module.exports = {
     },
   },
   methods: {
-    ...base.methods,
+    ...common.methods,
     getModuleType() {
       const { type } = JSON.parse(this.moduleInfo);
       return type;
+    },
+    getModuleName() {
+      const { name } = JSON.parse(this.moduleInfo);
+      return name;
     },
   },
 };

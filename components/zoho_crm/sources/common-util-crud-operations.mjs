@@ -7,23 +7,23 @@ const crudOpsData = [
   {
     op: "create",
     flagName: "creatable",
-    description: "Creation",
+    description: "Created",
   },
   {
     op: "delete",
     flagName: "deletable",
-    description: "Deletion",
+    description: "Deleted",
   },
   {
     op: "edit",
     flagName: "editable",
-    description: "Edition",
+    description: "Updated",
   },
 ];
 
 const getOpData = (inputOp) => crudOpsData.find(({ op }) => op === inputOp);
 
-module.exports = {
+export default {
   createOpData() {
     return getOpData("create");
   },
