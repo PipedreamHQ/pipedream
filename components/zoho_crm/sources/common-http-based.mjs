@@ -208,7 +208,7 @@ export default {
      * reacts to creation or edition events can implement this function in the
      * following way:
      * @example
-     * const { createOpData, editOpData } = require("./crud-operations");
+     * import { createOpData, editOpData } from "./crud-operations";
      * function getEvents() {
      *   return [
      *     createOpData(),
