@@ -1,8 +1,8 @@
-const sortBy = require("lodash/sortBy");
-const common = require("../common/http-based/base");
-const crudOps = require("../common/http-based/crud-operations");
+import sortBy from "lodash/sortBy.js";
+import common from "../common-http-based-predefined-module.mjs";
+import crudOps from "../common-util-crud-operations.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "zoho_crm-new-event",
   name: "Custom Event from Any Module (Instant)",  // eslint-disable-line
