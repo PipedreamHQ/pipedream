@@ -6,7 +6,7 @@ export default {
   key: "zoho_crm-updated-module-entry",
   name: "Updated Module Entry (Instant)",  // eslint-disable-line
   description: "Emit new event each time a new module/record is updated in Zoho CRM",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   methods: {
     ...common.methods,

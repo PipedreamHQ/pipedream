@@ -6,7 +6,7 @@ export default {
   key: "zoho_crm-new-or-updated-lead",
   name: "New or Updated Lead (Instant)",
   description: "Emit new event each time a new lead is created or updated in Zoho CRM",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

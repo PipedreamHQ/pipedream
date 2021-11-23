@@ -6,7 +6,7 @@ export default {
   key: "zoho_crm-new-user",
   name: "New User",
   description: "Emit new event each time a new user is created in Zoho CRM",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

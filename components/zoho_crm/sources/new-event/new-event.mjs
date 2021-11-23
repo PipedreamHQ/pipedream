@@ -7,7 +7,7 @@ export default {
   key: "zoho_crm-new-event",
   name: "Custom Event from Any Module (Instant)",  // eslint-disable-line
   description: "Emit new, updated, or deleted records from one or more selected Zoho CRM Modules.",  // eslint-disable-line
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     ...common.props,

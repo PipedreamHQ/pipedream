@@ -6,7 +6,7 @@ export default {
   key: "zoho_crm-new-contact",
   name: "New Contact (Instant)",
   description: "Emit new event each time a new contact is created in Zoho CRM",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,
