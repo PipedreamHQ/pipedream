@@ -38,5 +38,16 @@ export default {
       const { type } = JSON.parse(this.moduleInfo);
       return type;
     },
+<<<<<<< HEAD
+    getModuleName() {
+      const { name } = JSON.parse(this.moduleInfo);
+      return name;
+    },
+=======
+    getModuleName(){
+      const { name } = JSON.parse(this.moduleInfo);
+      return name;
+    }
+>>>>>>> b4504cafe0ab032f571253d7610dfa143fb55c2c
   },
 };
