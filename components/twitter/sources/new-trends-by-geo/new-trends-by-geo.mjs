@@ -27,7 +27,7 @@ export default {
   async run() {
     (await this.twitter.getTrends({
       id: this.trendLocation,
-    } )).forEach((geo) => {
+    })).forEach((geo) => {
       geo.trends.reverse().forEach((trend) => {
         this.$emit(trend, {
           id: trend.query,

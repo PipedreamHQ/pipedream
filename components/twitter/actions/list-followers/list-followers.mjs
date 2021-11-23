@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "twitter-list-followers",
   name: "List Followers",
-  description: "Return a collection of user objects for users following the specified user",
+  description: "Return a collection of user objects for users following the specified user. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-followers-list)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -23,6 +23,12 @@ export default {
       ],
       optional: true,
     },
+    maxRequests: {
+      propDefinition: [
+        common.props.twitter,
+        "maxRequests",
+      ],
+    },
     includeUserEntities: {
       propDefinition: [
         common.props.twitter,
@@ -30,10 +36,11 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       userId,
       screenName,
+      maxRequests,
       includeUserEntities,
     } = this;
 
@@ -42,8 +49,10 @@ export default {
     }
 
     const params = {
+      $,
       userId,
       screenName,
+      maxRequests,
       includeUserEntities,
     };
 
@@ -52,6 +61,7 @@ export default {
     for await (const follower of followers) {
       results.push(follower);
     }
+    $.export("$summary", "Successfully retrieved followers");
     return results;
   },
 };

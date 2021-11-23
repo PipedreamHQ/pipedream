@@ -20,11 +20,17 @@ export default {
   },
   methods: {
     ...common.methods,
+    _getHasExecuted() {
+      return this.db.get("hasExecuted");
+    },
+    _setHasExecuted(hasExecuted) {
+      this.db.set("hasExecuted", hasExecuted);
+    },
     _wasComponentExecuted() {
-      return !!this.db.get("hasExecuted");
+      return !!this._getHasExecuted();
     },
     _markComponentAsExecuted() {
-      this.db.set("hasExecuted", true);
+      this._setHasExecuted(true);
     },
     getFollowersCacheSize() {
       return this.followersCacheSize;

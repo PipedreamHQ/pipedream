@@ -3,12 +3,12 @@ import twitter from "../../twitter.app.mjs";
 export default {
   key: "twitter-unlike-tweet",
   name: "Unike Tweet",
-  description: "Unike the tweet specified specified in the ID parameter",
+  description: "Unike the tweet specified specified in the ID parameter. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-destroy)",
   version: "0.0.1",
   type: "action",
   props: {
     twitter,
-    tweetID: {
+    id: {
       propDefinition: [
         twitter,
         "tweetID",
@@ -21,17 +21,20 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
-      tweetID,
+      id,
       includeEntities,
     } = this;
 
     const params = {
-      id: tweetID,
+      $,
+      id,
       includeEntities,
     };
 
-    return this.twitter.unlikeTweet(params);
+    const res = this.twitter.unlikeTweet(params);
+    $.export("$summary", "Successfully unliked tweet");
+    return res;
   },
 };

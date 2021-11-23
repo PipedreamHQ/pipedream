@@ -142,7 +142,9 @@ export default {
       return;
     }
 
-    const users = await this.twitter.lookupUsers(relevantIds);
+    const users = await this.twitter.lookupUsers({
+      userIdArray: relevantIds,
+    });
     users.forEach((user) => {
       const data = {
         timestamp,

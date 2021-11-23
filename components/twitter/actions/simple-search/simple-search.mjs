@@ -3,7 +3,7 @@ import twitter from "../../twitter.app.mjs";
 export default {
   key: "twitter-simple-search",
   name: "Simple Search",
-  description: "Return Tweets that matches your search criteria",
+  description: "Return Tweets that matches your search criteria. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets)",
   version: "0.0.7",
   type: "action",
   props: {
@@ -33,7 +33,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       resultType,
       enrichTweets,
@@ -42,12 +42,11 @@ export default {
       maxRequests,
       count,
     } = this;
-    let q = this.q, limitFirstPage;
-
-    limitFirstPage = true;
+    let q = this.q;
 
     // run paginated search
-    return this.twitter.paginatedSearch({
+    const res = await this.twitter.paginatedSearch({
+      $,
       q,
       resultType,
       enrichTweets,
@@ -55,7 +54,9 @@ export default {
       includeRetweets,
       maxRequests,
       count,
-      limitFirstPage,
+      limitFirstPage: false,
     });
+    $.export("$summary", "Search completed successfully");
+    return res;
   },
 };

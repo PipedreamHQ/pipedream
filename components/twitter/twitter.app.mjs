@@ -1,7 +1,6 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import { DateTime } from "luxon";
-import querystring from "querystring";
 import retry from "async-retry";
 import isoLanguages from "./sources/language-codes.mjs";
 
@@ -154,7 +153,7 @@ export default {
     sinceId: {
       type: "string",
       label: "Since ID",
-      description: "Returns results with an ID greater than (that is, more recent than) the specified ID. There are limits to the number of Tweets which can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available.",
+      description: "Returns results with an ID greater than (that is, more recent than) the specified ID. There are limits to the number of Tweets that can be accessed through the API. If the limit of Tweets has occurred since the `since_id`, the 'since_id` will be forced to the oldest ID available.",
       optional: true,
     },
     screenName: {
@@ -209,7 +208,9 @@ export default {
             cursor,
           }
           : null;
-        const lists = await this.getLists(params);
+        const lists = await this.getLists({
+          params,
+        });
         const { next_cursor: nextCursor } = lists;
         return {
           options: lists.map((list) => {
@@ -235,7 +236,9 @@ export default {
             cursor,
           }
           : null;
-        const lists = await this.getLists(params);
+        const lists = await this.getLists({
+          params,
+        });
         const { next_cursor: nextCursor } = lists;
         return {
           options: lists.map((list) => {
@@ -331,8 +334,7 @@ export default {
     placeId: {
       type: "string",
       label: "Place ID",
-      description: `A place in the world. These IDs can be retrieved from geo/reverse_geocode.
-        https://developer.twitter.com/en/docs/twitter-api/v1/geo/place-information/api-reference/get-geo-id-place_id`,
+      description: "A place in the world. These IDs can be retrieved from [geo/reverse_geocode](https://developer.twitter.com/en/docs/twitter-api/v1/geo/place-information/api-reference/get-geo-id-place_id)",
       optional: true,
     },
     displayCoordinates: {
@@ -390,27 +392,6 @@ export default {
     },
   },
   methods: {
-    async _getAuthorizationHeader({
-      data, method, url,
-    }) {
-      const requestData = {
-        data,
-        method,
-        url,
-      };
-      const token = {
-        key: this.$auth.oauth_access_token,
-        secret: this.$auth.oauth_refresh_token,
-      };
-      return (await axios({
-        method: "POST",
-        url: this.$auth.oauth_signer_uri,
-        data: {
-          requestData,
-          token,
-        },
-      })).data;
-    },
     _isRetriableStatusCode(statusCode) {
       // Taken from the Twitter API docs:
       // https://developer.twitter.com/en/docs/twitter-ads-api/response-codes
@@ -440,7 +421,6 @@ export default {
               "response",
               "data",
             ], {});
-            console.log(err.response);
             return bail(new Error(`
               Unexpected error (status code: ${statusCode}):
               ${JSON.stringify(errData, null, 2)}
@@ -454,35 +434,18 @@ export default {
         }
       }, retryOpts);
     },
-    async _makeRequest(config) {
-      if (!config.headers) config.headers = {};
-      if (config.params) {
-        const query = querystring.stringify(config.params);
-        delete config.params;
-        const sep = config.url.indexOf("?") === -1
-          ? "?"
-          : "&";
-        config.url += `${sep}${query}`;
-        config.url = config.url.replace("?&", "?");
-      }
-      let authorization, count = 0;
-      const maxTries = 3;
-      while (true) {
-        try {
-          authorization = await this._getAuthorizationHeader(config);
-          break;
-        } catch (err) {
-          // handle exception
-          if (++count == maxTries) {
-            throw err;
-          }
-          const milliseconds = 1000 * count;
-          await new Promise((resolve) => setTimeout(resolve, milliseconds));
-        }
-      }
-      config.headers.authorization = authorization;
+    async _makeRequest({
+      $, config,
+    }) {
+      const token = {
+        key: this.$auth.oauth_access_token,
+        secret: this.$auth.oauth_refresh_token,
+      };
       return this._withRetries(
-        () => axios(config),
+        () => axios($ ?? this, config, {
+          oauthSignerUri: this.$auth.oauth_signer_uri,
+          token,
+        }),
       );
     },
     parseDate(dateStr) {
@@ -506,6 +469,7 @@ export default {
     },
     async getFollowers(opts = {}) {
       const {
+        $,
         userId,
         screenName,
         includeUserEntities,
@@ -516,17 +480,26 @@ export default {
         screen_name: screenName,
         include_user_entities: includeUserEntities,
       };
-      return (await this._makeRequest({
+      const config = {
         url: "https://api.twitter.com/1.1/followers/list.json",
         params,
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
-    async getPendingFollowers(params = null) {
+    async getPendingFollowers({
+      $, params,
+    }) {
       const config = {
         url: "https://api.twitter.com/1.1/friendships/incoming.json",
       };
       if (params && Object.keys(params).length !== 0) config.params = params;
-      return (await this._makeRequest(config)).data;
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async *scanFollowerIds(screenName) {
       const url = "https://api.twitter.com/1.1/followers/ids.json?";
@@ -538,12 +511,13 @@ export default {
         url,
         params: baseParams,
       };
-      const { data } = await this._makeRequest(config);
       let {
         ids,
         next_cursor: nextCursor,
         previous_cursor: prevCursor,
-      } = data;
+      } = await this._makeRequest({
+        config,
+      });
       while (nextCursor !== 0 || prevCursor === 0) {
         for (const id of ids) {
           yield id;
@@ -561,22 +535,30 @@ export default {
           url,
           params,
         };
-        const { data } = await this._makeRequest(config);
         ({
           ids,
           next_cursor: nextCursor,
           previous_cursor: prevCursor,
-        } = data);
+        } = await this._makeRequest({
+          config,
+        }));
       }
     },
-    async getLists(params = null) {
-      return (await this._makeRequest({
+    async getLists({
+      $, params,
+    }) {
+      const config = {
         url: "https://api.twitter.com/1.1/lists/list.json",
         params,
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async getListTweets(opts = {}) {
       const {
+        $,
         listId,
         count,
         sinceId = "1",
@@ -595,35 +577,52 @@ export default {
         url,
         params,
       };
-      const { data } = await this._makeRequest(config);
-      return data;
+      return await this._makeRequest({
+        $,
+        config,
+      });
     },
     async getLikedTweets(opts = {}) {
       const {
+        $,
         screenName,
         count = 200,
         tweetMode = "extended",
       } = opts;
-      return (await this._makeRequest({
+      const config = {
         url: "https://api.twitter.com/1.1/favorites/list.json",
         params: {
           screen_name: screenName,
           count,
           tweet_mode: tweetMode,
         },
-      })).data;
-    },
-    async lookupUsers(userIdArray, screenNameArray = []) {
+      };
       return (await this._makeRequest({
+        $,
+        config,
+      }));
+    },
+    async lookupUsers(opts = {}) {
+      const {
+        $,
+        userIdArray = [],
+        screenNameArray = [],
+      } = opts;
+      const config = {
         url: "https://api.twitter.com/1.1/users/lookup.json",
         params: {
           user_id: userIdArray.join(),
           screen_name: screenNameArray.join(),
         },
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async search(opts = {}) {
       const {
+        $,
         q,
         sinceId,
         tweetMode,
@@ -633,36 +632,54 @@ export default {
         geocode,
         maxId,
       } = opts;
-      return (await this._makeRequest({
+      const params = {
+        q,
+        since_id: sinceId,
+        max_id: maxId,
+        tweet_mode: tweetMode,
+        count,
+        result_type: resultType,
+        locale,
+        geocode,
+      };
+      const config = {
         url: "https://api.twitter.com/1.1/search/tweets.json",
-        params: {
-          q,
-          since_id: sinceId,
-          max_id: maxId,
-          tweet_mode: tweetMode,
-          count,
-          result_type: resultType,
-          locale,
-          geocode,
-        },
+        params,
+      };
+      return (await this._makeRequest({
+        $,
+        config,
       }));
     },
-    async getTrendLocations() {
-      return (await this._makeRequest({
+    async getTrendLocations(opts = {}) {
+      const { $ } = opts;
+      const config = {
         url: "https://api.twitter.com/1.1/trends/available.json",
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async getTrends(opts = {}) {
-      const { id = 1 } = opts;
-      return (await this._makeRequest({
+      const {
+        $,
+        id = 1,
+      } = opts;
+      const config = {
         url: "https://api.twitter.com/1.1/trends/place.json",
         params: {
           id,
         },
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async getUserTimeline(opts = {}) {
       const {
+        $,
         screenName,
         count = 100,
         excludeReplies,
@@ -682,14 +699,19 @@ export default {
         params.since_id = sinceId;
       }
 
-      return (await this._makeRequest({
+      const config = {
         url: "https://api.twitter.com/1.1/statuses/user_timeline.json",
         method: "get",
         params,
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async getMentionsTimeline(opts = {}) {
       const {
+        $,
         count,
         includeEntities = false,
       } = opts;
@@ -699,14 +721,19 @@ export default {
         include_entities: includeEntities,
       };
 
-      return (await this._makeRequest({
+      const config = {
         url: "https://api.twitter.com/1.1/statuses/mentions_timeline.json",
         method: "GET",
         params,
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async getRetweets(opts = {}) {
       const {
+        $,
         id,
         count = 100,
         sinceId = "1",
@@ -718,14 +745,19 @@ export default {
         since_id: sinceId,
       };
 
-      return (await this._makeRequest({
+      const config = {
         url: `https://api.twitter.com/1.1/statuses/retweets/${id}.json`,
         method: "get",
         params,
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async getRetweetsOfMe(opts = {}) {
       const {
+        $,
         count = 100,
         sinceId = "1",
         includeEntities = false,
@@ -740,22 +772,33 @@ export default {
         include_user_entities: includeUserEntities,
       };
 
-      return (await this._makeRequest({
+      const config = {
         url: "https://api.twitter.com/1.1/statuses/retweets_of_me.json",
         method: "get",
         params,
-      })).data;
-    },
-    async retweet({ tweetID }) {
+      };
       return (await this._makeRequest({
+        $,
+        config,
+      }));
+    },
+    async retweet({
+      $, tweetID,
+    }) {
+      const config = {
         url: `https://api.twitter.com/1.1/statuses/retweet/${tweetID}.json`,
         method: "post",
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async searchHelper(opts = {}) {
       const tweets = [];
 
       const {
+        $,
         tweetMode = "extended",
         resultType,
         count = 100,
@@ -782,6 +825,7 @@ export default {
       q = `${q} ${includeRetweets}:nativeretweets`;
 
       const response = await this.search({
+        $,
         q,
         sinceId,
         tweetMode,
@@ -799,7 +843,7 @@ export default {
         };
       }
 
-      for (const tweet of response.data.statuses) {
+      for (const tweet of response.statuses) {
         if ((!sinceId || (sinceId && tweet.id_str !== sinceId)) &&
             (!maxId || (maxId && tweet.id_str !== maxId))) {
           if (enrichTweets) {
@@ -824,12 +868,12 @@ export default {
         maxId,
         minId,
         count,
-        resultCount: response.data.statuses.length,
-        statusCode: response.status,
+        resultCount: response.statuses.length,
       };
     },
     async paginatedSearch(opts = {}) {
       const {
+        $,
         count = 100,
         q,
         sinceId,
@@ -856,6 +900,7 @@ export default {
 
       for (let request = 0; request < maxRequests; request++) {
         const response = await this.searchHelper({
+          $,
           count,
           q,
           sinceId,
@@ -892,21 +937,32 @@ export default {
 
       return tweets;
     },
-    async verifyCredentials() {
-      return (await this._makeRequest({
+    async verifyCredentials(opts = {}) {
+      const { $ } = opts;
+      const config = {
         url: "https://api.twitter.com/1.1/account/verify_credentials.json",
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
-    async createTweet(params) {
+    async createTweet({
+      $, params,
+    }) {
       const config = {
         url: "https://api.twitter.com/1.1/statuses/update.json",
         method: "POST",
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async getTweet(opts = {}) {
       const {
+        $,
         id,
         includeEntities = false,
       } = opts;
@@ -914,13 +970,18 @@ export default {
         id,
         include_entities: includeEntities,
       };
-      return (await this._makeRequest({
+      const config = {
         url: "https://api.twitter.com/1.1/statuses/show.json",
         params,
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async likeTweet(opts = {}) {
       const {
+        $,
         id,
         includeEntities = false,
       } = opts;
@@ -928,14 +989,19 @@ export default {
         id,
         include_entities: includeEntities,
       };
-      return (await this._makeRequest({
+      const config = {
         url: "https://api.twitter.com/1.1/favorites/create.json",
         method: "POST",
         params,
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async unlikeTweet(opts = {}) {
       const {
+        $,
         id,
         includeEntities = false,
       } = opts;
@@ -943,14 +1009,19 @@ export default {
         id,
         include_entities: includeEntities,
       };
-      return (await this._makeRequest({
+      const config = {
         url: "https://api.twitter.com/1.1/favorites/destroy.json",
         method: "POST",
         params,
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async addUserToList(opts = {}) {
       const {
+        $,
         slug,
         ownerScreenName,
         userId,
@@ -962,14 +1033,19 @@ export default {
         user_id: userId,
         screen_name: screenName,
       };
-      return (await this._makeRequest({
+      const config = {
         url: "https://api.twitter.com/1.1/lists/members/create.json",
         method: "POST",
         params,
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     async deleteTweet(opts = {}) {
       const {
+        $,
         tweetID: id,
         trimUser,
       } = opts;
@@ -977,16 +1053,24 @@ export default {
         id,
         trim_user: trimUser,
       };
-      return (await this._makeRequest({
+      const config = {
         url: `https://api.twitter.com/1.1/statuses/destroy/${id}.json`,
         method: "POST",
         params,
-      })).data;
-    },
-    async listDirectMessages() {
+      };
       return (await this._makeRequest({
+        $,
+        config,
+      }));
+    },
+    async listDirectMessages({ $ }) {
+      const config = {
         url: "https://api.twitter.com/1.1/direct_messages/events/list.json",
-      })).data;
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
     },
     webhooks: {},
   },

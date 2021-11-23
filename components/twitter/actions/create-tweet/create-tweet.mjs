@@ -3,7 +3,7 @@ import twitter from "../../twitter.app.mjs";
 export default {
   key: "twitter-create-tweet",
   name: "Create Tweet",
-  description: "Create a new tweet",
+  description: "Create a new tweet. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -99,7 +99,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       status,
       inReplyToStatusId,
@@ -136,6 +136,11 @@ export default {
       cardUri,
     };
     Object.keys(params).forEach((k) => params[k] == "" && delete params[k]);
-    return this.twitter.createTweet(params);
+    const res = await this.twitter.createTweet({
+      $,
+      params,
+    });
+    $.export("$summary", "Successfully posted tweet");
+    return res;
   },
 };

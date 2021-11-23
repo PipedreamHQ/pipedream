@@ -4,7 +4,7 @@ import moment from "moment";
 export default {
   key: "twitter-search-mentions",
   name: "Search Mentions",
-  description: "Emit new Tweets that matches your search criteria",
+  description: "Emit new Tweets that match your search criteria",
   version: "0.0.6",
   type: "source",
   props: {
@@ -79,8 +79,16 @@ export default {
       },
     },
   },
+  methods: {
+    _getSinceId() {
+      return this.db.get("sinceId");
+    },
+    _setSinceId(sinceId) {
+      this.db.set("sinceId", sinceId);
+    },
+  },
   async run() {
-    const sinceId = this.db.get("sinceId");
+    const sinceId = this._getSinceId();
     const {
       lang,
       locale,
@@ -129,7 +137,7 @@ export default {
       });
     }
     if (maxId) {
-      this.db.set("sinceId", maxId);
+      this._setSinceId(maxId);
     }
   },
 };

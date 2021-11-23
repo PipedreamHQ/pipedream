@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "twitter-list-mentions",
   name: "List Mentions",
-  description: "Return the 20 most recent mentions for the authenticated user",
+  description: "Return the 20 most recent mentions for the authenticated user. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-mentions_timeline)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,9 +14,15 @@ export default {
         common.props.twitter,
         "count",
       ],
-      description: "Specifies the number of records to retrieve. Must be less than or equal to 200; defaults to 20.",
+      description: "Specifies the number of records to retrieve. Must be less than or equal to `200`; defaults to `20`.",
       optional: true,
       default: 20,
+    },
+    maxRequests: {
+      propDefinition: [
+        common.props.twitter,
+        "maxRequests",
+      ],
     },
     includeEntities: {
       propDefinition: [
@@ -25,14 +31,17 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       count,
+      maxRequests,
       includeEntities,
     } = this;
 
     const params = {
+      $,
       count,
+      maxRequests,
       includeEntities,
     };
     const tweets = await this.paginate(this.twitter.getMentionsTimeline.bind(this), params);
@@ -40,6 +49,7 @@ export default {
     for await (const tweet of tweets) {
       results.push(tweet);
     }
+    $.export("$summary", "Sucessfully retrieved mentions");
     return results;
   },
 };

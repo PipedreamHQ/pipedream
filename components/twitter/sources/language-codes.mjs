@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default [
   {
     English: "Undetected",

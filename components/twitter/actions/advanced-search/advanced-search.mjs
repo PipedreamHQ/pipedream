@@ -3,7 +3,7 @@ import twitter from "../../twitter.app.mjs";
 export default {
   key: "twitter-advanced-search",
   name: "Advanced Search",
-  description: "Return Tweets that matches your search criteria.",
+  description: "Return Tweets that matches your search criteria. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets)",
   version: "0.0.3",
   type: "action",
   props: {
@@ -76,7 +76,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       lang,
       locale,
@@ -91,10 +91,9 @@ export default {
       q,
     } = this;
 
-    const limitFirstPage = !sinceId;
-
     // run paginated search
-    return this.twitter.paginatedSearch({
+    const res = await this.twitter.paginatedSearch({
+      $,
       q,
       sinceId,
       lang,
@@ -106,7 +105,9 @@ export default {
       includeRetweets,
       maxRequests,
       count,
-      limitFirstPage,
+      limitFirstPage: false,
     });
+    $.export("$summary", "Search completed successfully");
+    return res;
   },
 };

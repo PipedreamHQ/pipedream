@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "twitter-list-lists",
   name: "List Lists",
-  description: "Return all lists the authenticated or specified user subscribes to including their own",
+  description: "Return all lists the authenticated or specified user subscribes to including their own. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-list)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -21,6 +21,7 @@ export default {
         common.props.twitter,
         "screenName",
       ],
+      optional: true,
     },
     reverse: {
       type: "boolean",
@@ -29,12 +30,19 @@ export default {
       optional: true,
       default: false,
     },
+    maxRequests: {
+      propDefinition: [
+        common.props.twitter,
+        "maxRequests",
+      ],
+    },
   },
-  async run() {
+  async run({ $ }) {
     const {
       userId,
       screenName,
       reverse,
+      maxRequests,
     } = this;
 
     if (!userId && !screenName) {
@@ -42,15 +50,20 @@ export default {
     }
 
     const params = {
-      user_id: userId,
-      screen_name: screenName,
-      reverse,
+      $,
+      maxRequests,
+      params: {
+        user_id: userId,
+        screen_name: screenName,
+        reverse,
+      },
     };
     const lists = await this.paginate(this.twitter.getLists.bind(this), params);
     const results = [];
     for await (const list of lists) {
       results.push(list);
     }
+    $.export("$summary", "Successfully retrieved lists");
     return results;
   },
 };

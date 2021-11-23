@@ -73,7 +73,7 @@ export default {
       } = prevContext;
 
       const userTimelineOpts = {
-        screen_name: screenName,
+        screenName,
         sinceId,
         count: 10,
         trim_user: true,
@@ -90,10 +90,10 @@ export default {
       }
 
       const sortedTweets = this.sortTweets(tweets);
-      const { idStr: lastId } = sortedTweets[sortedTweets.length - 1];
+      const { id_str: lastId } = sortedTweets[sortedTweets.length - 1];
       const options = sortedTweets.map(({
         full_text: fullText,
-        idStr,
+        id_str: idStr,
       }) => ({
         label: fullText,
         value: idStr,

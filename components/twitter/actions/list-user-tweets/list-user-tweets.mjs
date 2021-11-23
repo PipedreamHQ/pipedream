@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "twitter-list-user-tweets",
   name: "List User Tweets",
-  description: "Return a collection of the most recent tweets posted by a user",
+  description: "Return a collection of the most recent tweets posted by a user. [See the docs here](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-user_timeline)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -23,6 +23,12 @@ export default {
       ],
       optional: true,
       default: 20,
+    },
+    maxRequests: {
+      propDefinition: [
+        common.props.twitter,
+        "maxRequests",
+      ],
     },
     includeRetweets: {
       propDefinition: [
@@ -46,17 +52,20 @@ export default {
       return includeRetweets !== "exclude";
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       screenName,
       count,
+      maxRequests,
       includeRetweets,
       includeReplies,
     } = this;
 
     const params = {
+      $,
       screenName,
       count,
+      maxRequests,
       exclude_replies: this.shouldExcludeReplies(includeReplies),
       include_rts: this.shouldIncludeRetweets(includeRetweets),
     };
@@ -65,6 +74,7 @@ export default {
     for await (const tweet of tweets) {
       results.push(tweet);
     }
+    $.export("$summary", "Successfully retrieved user tweets");
     return results;
   },
 };
