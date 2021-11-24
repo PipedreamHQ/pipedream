@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-const telegramBotApi = require("../../telegram_bot_api.app.js");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
-module.exports = {
+export default {
   key: "telegram_bot_api-forward-message",
   name: "Forward a Message",
   description: "Forwards messages of any kind. [See the docs](https://core.telegram.org/bots/api#forwardmessage) for more information",

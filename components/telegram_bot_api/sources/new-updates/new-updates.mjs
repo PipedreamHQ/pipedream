@@ -1,7 +1,7 @@
 // eslint-disable-next-line camelcase
-const telegramBotApi = require("../../telegram_bot_api.app.js");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
-module.exports = {
+export default {
   key: "telegram_bot_api-new-updates",
   name: "New Updates (Instant)",
   description: "Emit new event for each new Telegram event.",

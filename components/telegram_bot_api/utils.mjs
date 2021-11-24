@@ -22,6 +22,6 @@ function toSingleLineString(multiLineString) {
     .replace(/\s{2,}/g, " ");
 }
 
-module.exports = {
+export {
   toSingleLineString,
 };

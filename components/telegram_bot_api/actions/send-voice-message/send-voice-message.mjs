@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
-const telegramBotApi = require("../../telegram_bot_api.app.js");
-const contentTypes = require("../../content-types");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
+import contentTypes from "../../content-types.mjs";
 
-module.exports = {
-  key: "telegram_bot_api-send-audio-file",
-  name: "Send an Audio File",
-  description: "Sends an audio file to your Telegram Desktop application. [See the docs](https://core.telegram.org/bots/api#sendaudio) for more information",
+export default {
+  key: "telegram_bot_api-send-voice-message",
+  name: "Send a Voice Message",
+  description: "Sends a voice message. [See the docs](https://core.telegram.org/bots/api#sendvoice) for more information",
   version: "0.0.1",
   type: "action",
   props: {
@@ -21,7 +21,7 @@ module.exports = {
         telegramBotApi,
         "caption",
       ],
-      description: "Enter the audio caption.",
+      description: "Enter the voice message caption.",
     },
     filename: {
       propDefinition: [
@@ -29,12 +29,12 @@ module.exports = {
         "filename",
       ],
     },
-    audio: {
+    voice: {
       propDefinition: [
         telegramBotApi,
         "media",
       ],
-      label: "Audio",
+      label: "Voice Message",
     },
     parse_mode: {
       propDefinition: [
@@ -48,24 +48,19 @@ module.exports = {
         "disable_notification",
       ],
     },
+    contentType: {
+      propDefinition: [
+        telegramBotApi,
+        "contentType",
+      ],
+      options: contentTypes.voice,
+    },
     duration: {
       propDefinition: [
         telegramBotApi,
         "duration",
       ],
-      description: "Enter duration of sent audio in seconds.",
-    },
-    performer: {
-      propDefinition: [
-        telegramBotApi,
-        "performer",
-      ],
-    },
-    title: {
-      propDefinition: [
-        telegramBotApi,
-        "title",
-      ],
+      description: "Enter the duration of sent voice message in seconds.",
     },
     reply_markup: {
       propDefinition: [
@@ -73,27 +68,19 @@ module.exports = {
         "reply_markup",
       ],
     },
-    contentType: {
-      propDefinition: [
-        telegramBotApi,
-        "contentType",
-      ],
-      options: contentTypes.audio,
-    },
   },
   async run({ $ }) {
-    const resp = await this.telegramBotApi.sendAudio(this.chatId, this.audio, {
+    const resp = await this.telegramBotApi.sendAudio(this.chatId, this.voice, {
       caption: this.caption,
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,
       duration: this.duration,
-      performer: this.performer,
-      title: this.title,
       reply_markup: this.reply_markup,
       filename: this.filename,
       contentType: this.contentType,
     });
-    $.export("$summary", `Successfully sent the audio file, "${resp.audio?.file_name} to chat, "${this.chatId}""`);
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully sent the voice message${this.fileName ? `, ${this.filename}` : ""} to chat, "${this.chatId}"`);
     return resp;
   },
 };

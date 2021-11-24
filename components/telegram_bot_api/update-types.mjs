@@ -2,7 +2,7 @@
  * Based on the Telegram Bot API docs for the getUpdates endpoint.
  * {@see {@link https://core.telegram.org/bots/api#update Telegram Bot API Update object}}
  */
-module.exports = [
+export default [
   {
     label: "Message",
     value: "message",

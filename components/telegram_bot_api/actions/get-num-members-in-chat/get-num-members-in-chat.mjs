@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-const telegramBotApi = require("../../telegram_bot_api.app.js");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
-module.exports = {
+export default {
   key: "telegram_bot_api-get-num-members-in-chat",
   name: "Get the Number of Members in a Chat",
   description: "Use this module to get the number of members in a chat. [See the docs](https://core.telegram.org/bots/api#getchatmembercount) for more information",

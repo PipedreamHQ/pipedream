@@ -1,11 +1,11 @@
-const {
+import {
   TELEGRAM_BOT_API_MEDIA_PHOTO,
   TELEGRAM_BOT_API_MEDIA_VIDEO,
-} = require("../../constants.js");
+} from "../../constants.mjs";
 /* eslint-disable camelcase */
-const telegramBotApi = require("../../telegram_bot_api.app.js");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
-module.exports = {
+export default {
   key: "telegram_bot_api-edit-media-message",
   name: "Edit a Media Message",
   description: "Edits photo or video messages. [See the docs](https://core.telegram.org/bots/api#editmessagemedia) for more information",

@@ -1,11 +1,11 @@
 // eslint-disable-next-line camelcase
-const telegramBotApi = require("../../telegram_bot_api.app.js");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
-module.exports = {
+export default {
   type: "source",
-  key: "telegram_bot_api-message-updates",
-  name: "Message Updates (Instant)",
-  description: "Emit new event each time a Telegram message is created or updated.",
+  key: "telegram_bot_api-channel-updates",
+  name: "Channel Updates (Instant)",
+  description: "Emit new event each time a channel message is created or updated.",
   version: "0.0.2",
   dedupe: "unique",
   props: {
@@ -20,8 +20,8 @@ module.exports = {
   hooks: {
     async activate() {
       await this.telegramBotApi.createHook(this.http.endpoint, [
-        "message",
-        "edited_message",
+        "channel_post",
+        "edited_channel_post",
       ]);
     },
     async deactivate() {
@@ -42,7 +42,7 @@ module.exports = {
     this.$emit(body,
       {
         id: body.update_id,
-        summary: body.message.text,
+        summary: `${body.channel_post.chat.title} - ${body.channel_post.text}`,
         ts: Date.now(),
       });
   },

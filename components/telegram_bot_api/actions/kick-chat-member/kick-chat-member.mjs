@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-const telegramBotApi = require("../../telegram_bot_api.app.js");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
-module.exports = {
+export default {
   key: "telegram_bot_api-kick-chat-member",
   name: "Kick a Chat Member",
   description: "Use this method to kick a user from a group, a supergroup or channel. [See the docs](https://core.telegram.org/bots/api#banchatmember) for more information",

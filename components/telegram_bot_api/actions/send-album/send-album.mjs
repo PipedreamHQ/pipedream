@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-const telegramBotApi = require("../../telegram_bot_api.app.js");
-const { toSingleLineString } = require("../../utils.js");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
+import { toSingleLineString } from "../../utils.mjs";
 
-module.exports = {
+export default {
   key: "telegram_bot_api-send-album",
   name: "Send an Album (Media Group)",
   description: "Sends a group of photos or videos as an album. [See the docs](https://core.telegram.org/bots/api#sendmediagroup) for more information",

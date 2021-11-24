@@ -105,7 +105,7 @@ const all = [
   ...audio,
 ];
 
-module.exports = {
+export default {
   image,
   video,
   audio,

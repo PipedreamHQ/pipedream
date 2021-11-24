@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-const telegramBotApi = require("../../telegram_bot_api.app.js");
-const contentTypes = require("../../content-types");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
+import contentTypes from "../../content-types.mjs";
 
-module.exports = {
+export default {
   key: "telegram_bot_api-send-video",
   name: "Send a Video",
   description: "Sends a video file to your Telegram Desktop application. [See the docs](https://core.telegram.org/bots/api#sendvideo) for more information",
