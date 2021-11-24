@@ -28,9 +28,11 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.pinChatMessage(this.chatId, this.messageId, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.pinChatMessage(this.chatId, this.messageId, {
       disable_notification: this.disable_notification,
     });
+    $.export("$summary", `Successfully pinned the message in chat, "${this.chatId}"`);
+    return resp;
   },
 };

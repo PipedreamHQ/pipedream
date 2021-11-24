@@ -22,7 +22,9 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.deleteMessage(this.chatId, this.messageId);
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.deleteMessage(this.chatId, this.messageId);
+    $.export("$summary", `Successfully deleted the message from chat, "${this.chatId}"`);
+    return resp;
   },
 };

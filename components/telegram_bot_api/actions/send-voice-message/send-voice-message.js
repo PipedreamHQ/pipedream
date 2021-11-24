@@ -69,8 +69,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.sendAudio(this.chatId, this.voice, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.sendAudio(this.chatId, this.voice, {
       caption: this.caption,
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,
@@ -79,5 +79,8 @@ module.exports = {
       filename: this.filename,
       contentType: this.contentType,
     });
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully sent the voice message${this.fileName ? `, ${this.filename}` : ""} to chat, "${this.chatId}"`);
+    return resp;
   },
 };

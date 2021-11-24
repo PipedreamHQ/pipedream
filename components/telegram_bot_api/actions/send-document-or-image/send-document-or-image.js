@@ -68,8 +68,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.sendDocument(this.chatId, this.doc, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.sendDocument(this.chatId, this.doc, {
       caption: this.caption,
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,
@@ -78,5 +78,7 @@ module.exports = {
       filename: this.filename,
       contentType: this.contentType,
     });
+    $.export("$summary", `Successfully sent the document, "${resp.document?.file_name}" to chat, "${this.chatId}"`);
+    return resp;
   },
 };

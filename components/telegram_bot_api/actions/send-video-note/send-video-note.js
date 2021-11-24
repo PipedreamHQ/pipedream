@@ -61,8 +61,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.sendVideoNote(this.chatId, this.videoNote, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.sendVideoNote(this.chatId, this.videoNote, {
       length: this.length,
       duration: this.duration,
       reply_to_message_id: this.reply_to_message_id,
@@ -70,5 +70,8 @@ module.exports = {
       filename: this.filename,
       contentType: this.contentType,
     });
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully sent the video note${this.fileName ? `, ${this.filename}` : ""} to chat, "${this.chatId}"`);
+    return resp;
   },
 };

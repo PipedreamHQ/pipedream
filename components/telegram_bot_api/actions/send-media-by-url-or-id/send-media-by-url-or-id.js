@@ -56,8 +56,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.sendMediaByType(
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.sendMediaByType(
       this.mediaType,
       this.chatId,
       this.media,
@@ -68,5 +68,7 @@ module.exports = {
         reply_markup: this.reply_markup,
       },
     );
+    $.export("$summary", `Successfully sent the media file to chat, "${this.chatId}"`);
+    return resp;
   },
 };

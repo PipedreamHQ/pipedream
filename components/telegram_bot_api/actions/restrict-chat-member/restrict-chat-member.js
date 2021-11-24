@@ -53,13 +53,15 @@ module.exports = {
       optional: true,
     },
   },
-  async run() {
-    return await this.telegramBotApi.restrictChatMember(this.chatId, this.userId, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.restrictChatMember(this.chatId, this.userId, {
       until_date: this.until_date,
       can_send_messages: this.can_send_messages,
       can_send_media_messages: this.can_send_media_messages,
       can_send_other_messages: this.can_send_other_messages,
       can_add_web_page_previews: this.can_add_web_page_previews,
     });
+    $.export("$summary", `Successfully restricted the user, "${this.userId}", in supergroup, "${this.chatId}"`);
+    return resp;
   },
 };

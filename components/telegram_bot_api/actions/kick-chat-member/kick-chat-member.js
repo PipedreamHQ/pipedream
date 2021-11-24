@@ -29,9 +29,11 @@ module.exports = {
       description: "Enter the date when the user will be unbanned, in [unix time](https://en.wikipedia.org/wiki/Unix_time) (e.g. `1567780450`).",
     },
   },
-  async run() {
-    return await this.telegramBotApi.banChatMember(this.chatId, this.userId, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.banChatMember(this.chatId, this.userId, {
       until_date: this.until_date,
     });
+    $.export("$summary", `Successfully kicked user, "${this.userId}", from the chat, "${this.chatId}"`);
+    return resp;
   },
 };

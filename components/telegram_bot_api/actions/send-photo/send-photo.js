@@ -68,8 +68,8 @@ module.exports = {
       options: contentTypes.image,
     },
   },
-  async run() {
-    return await this.telegramBotApi.sendPhoto(this.chatId, this.photo, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.sendPhoto(this.chatId, this.photo, {
       caption: this.caption,
       disable_notification: this.disable_notification,
       parse_mode: this.parse_mode,
@@ -78,5 +78,8 @@ module.exports = {
       filename: this.filename,
       contentType: this.contentType,
     });
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully sent the photo${this.fileName ? `, ${this.filename}` : ""} to chat, "${this.chatId}"`);
+    return resp;
   },
 };

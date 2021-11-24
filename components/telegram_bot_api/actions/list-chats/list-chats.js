@@ -52,7 +52,7 @@ module.exports = {
       };
     },
   },
-  async run() {
+  async run({ $ }) {
     const updates = await this.telegramBotApi.getUpdates({
       offset: this.offset,
       limit: this.limit,
@@ -67,6 +67,8 @@ module.exports = {
         limit: 1,
       });
     }
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully fetched ${updates.length} available Telegram chat${updates.length === 1 ? "" : "s"}`);
     return updates.map(this.generateResultFromUpdate);
   },
 };

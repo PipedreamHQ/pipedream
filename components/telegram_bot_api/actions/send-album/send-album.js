@@ -35,7 +35,7 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     let media = this.media;
     if (typeof media === "string") {
       try {
@@ -44,8 +44,11 @@ module.exports = {
         throw new Error("media must be deserializable to JSON");
       }
     }
-    return await this.telegramBotApi.sendMediaGroup(this.chatId, media, {
+    const resp = await this.telegramBotApi.sendMediaGroup(this.chatId, media, {
       disable_notification: this.disable_notification,
     });
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully sent an album of ${resp.length} media file${resp.length === 1 ? "" : "s"} to chat, "${this.chatId}"`);
+    return resp;
   },
 };

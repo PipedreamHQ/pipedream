@@ -81,8 +81,8 @@ module.exports = {
       options: contentTypes.audio,
     },
   },
-  async run() {
-    return await this.telegramBotApi.sendAudio(this.chatId, this.audio, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.sendAudio(this.chatId, this.audio, {
       caption: this.caption,
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,
@@ -93,5 +93,7 @@ module.exports = {
       filename: this.filename,
       contentType: this.contentType,
     });
+    $.export("$summary", `Successfully sent the audio file, "${resp.audio?.file_name} to chat, "${this.chatId}""`);
+    return resp;
   },
 };

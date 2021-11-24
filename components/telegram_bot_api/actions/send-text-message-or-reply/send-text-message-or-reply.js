@@ -52,13 +52,16 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.sendMessage(this.chatId, this.text, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.sendMessage(this.chatId, this.text, {
       parse_mode: this.parse_mode,
       disable_notification: this.disable_notification,
       disable_web_page_preview: this.disable_web_page_preview,
       reply_to_message_id: this.reply_to_message_id,
       reply_markup: this.reply_markup,
     });
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully sent a ${this.reply_to_message_id ? "reply" : "text message"} to chat, "${this.chatId}"`);
+    return resp;
   },
 };

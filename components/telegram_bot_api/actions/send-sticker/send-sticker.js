@@ -41,11 +41,14 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.sendSticker(this.chatId, this.sticker, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.sendSticker(this.chatId, this.sticker, {
       reply_to_message_id: this.reply_to_message_id,
       reply_markup: this.reply_markup,
       filename: this.filename,
     });
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully sent the sticker${this.fileName ? `, ${this.filename}` : ""} to chat, "${this.chatId}"`);
+    return resp;
   },
 };

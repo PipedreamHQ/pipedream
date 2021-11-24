@@ -16,7 +16,9 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.getChatMemberCount(this.chatId);
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.getChatMemberCount(this.chatId);
+    $.export("$summary", `Successfully fetched the number of members in chat, "${this.chatId}"`);
+    return resp;
   },
 };

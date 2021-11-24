@@ -22,7 +22,9 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.unpinChatMessage(this.chatId, this.messageId);
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.unpinChatMessage(this.chatId, this.messageId);
+    $.export("$summary", `Successfully unpinned the message from chat, "${this.chatId}"`);
+    return resp;
   },
 };

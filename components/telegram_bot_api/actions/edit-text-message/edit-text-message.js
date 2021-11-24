@@ -34,11 +34,13 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.editMessageText(this.text, {
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.editMessageText(this.text, {
       chatId: this.chatId,
       messageId: this.messageId,
       disable_notification: this.disable_notification,
     });
+    $.export("$summary", `Successfully edited the message in chat, "${resp.chatId}"`);
+    return resp;
   },
 };

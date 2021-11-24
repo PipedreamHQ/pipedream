@@ -34,8 +34,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.forwardMessage(
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.forwardMessage(
       this.chatId,
       this.fromChatId,
       this.messageId,
@@ -43,5 +43,7 @@ module.exports = {
         disable_notification: this.disable_notification,
       },
     );
+    $.export("$summary", `Successfully forwarded the message from chat, "${this.fromChatId}", to chat, "${this.chatId}"`);
+    return resp;
   },
 };

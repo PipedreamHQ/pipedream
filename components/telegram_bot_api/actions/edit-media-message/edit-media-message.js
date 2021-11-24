@@ -73,8 +73,8 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    return await this.telegramBotApi.editMessageMedia({
+  async run({ $ }) {
+    const resp = await this.telegramBotApi.editMessageMedia({
       type: this.type,
       media: this.media,
       caption: this.caption,
@@ -83,5 +83,7 @@ module.exports = {
       chatId: this.chatId,
       messageId: this.messageId,
     });
+    $.export("$summary", `Successfully edited the ${this.type || "media"} message in chat, "${this.chatId}"`);
+    return resp;
   },
 };
