@@ -2,7 +2,6 @@ import {
   TELEGRAM_BOT_API_MEDIA_PHOTO,
   TELEGRAM_BOT_API_MEDIA_VIDEO,
 } from "../../constants.mjs";
-/* eslint-disable camelcase */
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
 export default {

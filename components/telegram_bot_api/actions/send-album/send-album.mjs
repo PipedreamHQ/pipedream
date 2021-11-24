@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
 import { toSingleLineString } from "../../utils.mjs";
 

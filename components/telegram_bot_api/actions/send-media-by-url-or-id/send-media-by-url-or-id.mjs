@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import telegramBotApi from "../../telegram_bot_api.app.mjs";
 import { TELEGRAM_BOT_API_UI_MEDIA_TYPES } from "../../constants.mjs";
 
