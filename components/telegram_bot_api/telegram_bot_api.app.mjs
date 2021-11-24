@@ -285,7 +285,7 @@ export default {
      * options for this method
      * @param {Number|String} [opts.chatId] - Required if `inline_message_id` is
      * not specified. Unique identifier for the target chat or username of the
-     * target channel (in the format @channelusername)
+     * target channel (in the format `@channelusername`)
      * @param {Number|String} [opts.messageId] - Required if inline_message_id
      * is not specified. Identifier of the message to edit
      * @param {Number|String} [opts.inlineMessageId] - Required if chat_id and
@@ -375,28 +375,22 @@ export default {
       });
     },
     /**
-     * @typedef {function} SendMediaFn
-     * @param {string} chatId - Unique identifier for the target chat or
-     * username of the target channel (in the format @channelusername)
-     * @param {String|stream.Stream|Buffer} media - A file path or a Stream. Can
-     * also be a `file_id` previously uploaded
-     * @param {Object} [opts] - An object containing additional configuration
-     * options for this method
-     * @param {Number|String} [opts.filename] - The name of the file to send
-     * @param {Number|String} [opts.contentType] - The MIME type of the file to
-     * send
-     * @param {...*} [opts.extraOpts] - Additional Telegram query options to be
-     * fed to the Telegram Bot API call, as defined in [the API
-     * docs](https://core.telegram.org/bots/api)
-     * @returns {Promise<TelegramBot.Message>} The sent message
-    */
+     * A function used to send media, defined in the TelegramBot sdk
+     * @typedef {Function} SendMediaTypeFn
+     * @param  {Number|String} chatId  Unique identifier for the message recipient
+     * @param  {String|stream.Stream|Buffer} audio A file path, Stream or Buffer.
+     * Can also be a `file_id` previously uploaded.
+     * @param  {Object} [options] Additional Telegram query options
+     * @param  {Object} [fileOptions] Optional file related meta-data
+     * @return {Promise}
+     */
     /**
      * Send a file (Document/Image, Photo, Audio, Video, Video Note, Voice,
      * Sticker)
      *
-     * @param {SendMediaFn} sendFn - the function to use to send the media
-     * @param {string} chatId - Unique identifier for the target chat or
-     * username of the target channel (in the format @channelusername)
+     * @param {SendMediaTypeFn} sendFn - the function to use to send the media
+     * @param {String} chatId - Unique identifier for the target chat or
+     * username of the target channel (in the format `@channelusername`)
      * @param  {String|stream.Stream|Buffer} media - A file path or a Stream. Can
      * also be a `file_id` previously uploaded
      * @param {Object} [opts] - An object containing additional configuration
@@ -427,8 +421,8 @@ export default {
      * @typedef {import("./constants.js").UIMediaType} UIMediaType
      *
      * @param {UIMediaType} type - The media type of the file
-     * @param {string} chatId - Unique identifier for the target chat or
-     * username of the target channel (in the format @channelusername)
+     * @param {String} chatId - Unique identifier for the target chat or
+     * username of the target channel (in the format `@channelusername`)
      * @param {String|stream.Stream|Buffer} media - A file path or a Stream. Can
      * also be a `file_id` previously uploaded
      * @param {Object} [opts] - An object containing additional configuration
@@ -456,22 +450,52 @@ export default {
       return this.sendMedia(sendFn, chatId, media, opts);
     },
     /**
+     * @typedef {function} SendMediaFn
+     * @param {string} chatId - Unique identifier for the target chat or
+     * username of the target channel (in the format `@channelusername`)
+     * @param {String|stream.Stream|Buffer} media - A file path or a Stream. Can
+     * also be a `file_id` previously uploaded
+     * @param {Object} [opts] - An object containing additional configuration
+     * options for this method
+     * @param {Number|String} [opts.filename] - The name of the file to send
+     * @param {Number|String} [opts.contentType] - The MIME type of the file to
+     * send
+     * @param {...*} [opts.extraOpts] - Additional Telegram query options to be
+     * fed to the Telegram Bot API call, as defined in [the API
+     * docs](https://core.telegram.org/bots/api)
+     * @returns {Promise<TelegramBot.Message>} The sent message
+    */
+    /**
+     * Send audio
      * @type {SendMediaFn}
      */
     async sendAudio(chatId, audio, opts) {
       return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_AUDIO, chatId, audio, opts);
     },
     /**
+     * Send Document
      * @type {SendMediaFn}
      */
     async sendDocument(chatId, doc, opts) {
       return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT, chatId, doc, opts);
 
     },
+    /**
+     * Use this method to send a group of photos or videos as an album. On success, an array of the
+     * sent [Messages](https://core.telegram.org/bots/api#message) is returned.
+     *
+     * @param {String} chatId - Unique identifier for the target chat or
+     * username of the target channel (in the format `@channelusername`)
+     * @param  {Array} media A JSON-serialized array describing photos and videos to be sent, must
+     * include 2–10 items
+     * @param  {Object} [options] Additional Telegram query options
+     * @return {Promise}
+     */
     async sendMediaGroup(chatId, media, opts) {
       return this.sdk().sendMediaGroup(chatId, media, opts);
     },
     /**
+     * Send photo
      * @type {SendMediaFn}
      */
     async sendPhoto(chatId, photo, opts) {
@@ -479,18 +503,21 @@ export default {
 
     },
     /**
+     * Send sticker
      * @type {SendMediaFn}
      */
     async sendSticker(chatId, sticker, opts) {
       return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_STICKER, chatId, sticker, opts);
     },
     /**
+     * Send video
      * @type {SendMediaFn}
      */
     async sendVideo(chatId, video, opts) {
       return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_VIDEO, chatId, video, opts);
     },
     /**
+     * Send video note
      * @type {SendMediaFn}
      */
     async sendVideoNote(chatId, videoNote, opts) {
@@ -502,6 +529,7 @@ export default {
       );
     },
     /**
+     * Send voice
      * @type {SendMediaFn}
      */
     async sendVoice(chatId, voice, opts) {
@@ -524,7 +552,7 @@ export default {
      * chat_id, message_id, or inline_message_is required)
      * @param {Number|String} [opts.chatId] - Required if `inline_message_id` is
      * not specified. Unique identifier for the target chat or username of the
-     * target channel (in the format @channelusername)
+     * target channel (in the format `@channelusername`)
      * @param {Number|String} [opts.messageId] - Required if inline_message_id
      * is not specified. Identifier of the message to edit
      * @param {Number|String} [opts.inlineMessageId] - Required if chat_id and
