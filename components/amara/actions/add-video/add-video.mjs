@@ -1,16 +1,14 @@
-import common from "../common.mjs";
-
-const { amara } = common.props;
+import amara from "../../amara.app.mjs";
+import utils from "../../utils.mjs";
 
 export default {
-  ...common,
   key: "amara-add-video",
-  name: "Add video",
+  name: "Add Video",
   description: "Add a video. [See the docs here](https://apidocs.amara.org/#add-a-video).",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
     videoUrl: {
       propDefinition: [
         amara,
@@ -33,23 +31,28 @@ export default {
       propDefinition: [
         amara,
         "project",
+        ({ team }) => ({
+          team,
+        }),
       ],
     },
     title: {
       type: "string",
       label: "Title",
       description: "Title of the video",
+      optional: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "About this video.",
+      description: "About this video",
       optional: true,
     },
     duration: {
       type: "integer",
       label: "Duration",
       description: "Duration in seconds, in case it can not be retrieved automatically by Amara.",
+      optional: true,
     },
     thumbnail: {
       type: "string",
@@ -69,13 +72,14 @@ export default {
       videoUrl,
       title,
       description,
-      duration,
       primaryAudioLanguageCode,
       thumbnail,
       metadata,
       team,
       project,
     } = this;
+
+    const duration = utils.emptyStrToUndefined(this.duration);
 
     const data = {
       video_url: videoUrl,
@@ -89,9 +93,13 @@ export default {
       project,
     };
 
-    return await this.amara.addVideo({
+    const response = await this.amara.addVideo({
       $,
       data,
     });
+
+    $.export("$summary", "Successfully added video");
+
+    return response;
   },
 };

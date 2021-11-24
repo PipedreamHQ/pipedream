@@ -1,20 +1,27 @@
-import common from "../common.mjs";
-
-const { amara } = common.props;
+import amara from "../../amara.app.mjs";
+import utils from "../../utils.mjs";
 
 export default {
-  ...common,
   key: "amara-fetch-subtitles-data",
-  name: "Fetch subtitles data",
+  name: "Fetch Subtitles Data",
   description: "Fetch subtitles data. [See the docs here](https://apidocs.amara.org/#fetch-subtitles-data)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
+    team: {
+      propDefinition: [
+        amara,
+        "team",
+      ],
+    },
     videoId: {
       propDefinition: [
         amara,
         "videoId",
+        ({ team }) => ({
+          team: utils.emptyStrToUndefined(team),
+        }),
       ],
     },
     language: {
@@ -53,7 +60,7 @@ export default {
       subFormat,
     } = this;
 
-    return await this.amara.getSubtitles({
+    const response = await this.amara.getSubtitles({
       $,
       videoId,
       language,
@@ -62,5 +69,9 @@ export default {
         sub_format: subFormat,
       },
     });
+
+    $.export("$summary", "Successfully fetched subtitles");
+
+    return response;
   },
 };

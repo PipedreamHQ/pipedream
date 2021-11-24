@@ -1,29 +1,36 @@
-import common from "../common.mjs";
-
-const { amara } = common.props;
+import amara from "../../amara.app.mjs";
+import utils from "../../utils.mjs";
 
 export default {
-  ...common,
   key: "amara-add-new-subtitles",
-  name: "Add new subtitles",
+  name: "Add New Subtitles",
   description: "Add new subtitles. [See the docs here](https://apidocs.amara.org/#add-new-subtitles)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
+    team: {
+      propDefinition: [
+        amara,
+        "team",
+      ],
+    },
     videoId: {
       propDefinition: [
         amara,
         "videoId",
+        ({ team }) => ({
+          team: utils.emptyStrToUndefined(team),
+        }),
       ],
     },
     language: {
+      label: "Language",
+      description: "Language code for the language of the subtitles",
+      optional: false,
       propDefinition: [
         amara,
-        "language",
-        ({ videoId }) => ({
-          videoId,
-        }),
+        "primaryAudioLanguageCode",
       ],
     },
     subFormat: {
@@ -91,11 +98,15 @@ export default {
       action,
     };
 
-    return await this.amara.createSubtitleLanguage({
+    const response = await this.amara.addNewSubtitles({
       $,
       videoId,
       language,
       data,
     });
+
+    $.export("$summary", "Successfully added subtitles");
+
+    return response;
   },
 };

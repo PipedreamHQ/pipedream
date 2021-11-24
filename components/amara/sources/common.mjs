@@ -7,11 +7,14 @@ export default {
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
+      label: "Polling schedule",
+      description: "How often to poll the Amara API",
       default: {
         intervalSeconds: 60 * 15,
       },
     },
     team: {
+      description: "The team slug of the team to watch",
       optional: true,
       propDefinition: [
         amara,
@@ -26,48 +29,65 @@ export default {
     getLastUrl() {
       return this.db.get(constants.LAST_URL);
     },
-    getMetadata(notification) {
-      const {
-        number: id,
-        event,
-      } = notification.data;
-      const summary = `${id} ${event}`;
+    /**
+     * For Team notifications returns resource.data.event and
+     * resource.data.number as the identifier.
+     *  - For response data look at the docs [here](https://apidocs.amara.org/#list-team-notifications)
+     * For Team activity returns resource.type and resource.video as the identifier.
+     *  - For response data look at the docs [here](https://apidocs.amara.org/#team-activity)
+     * @param {object} resource
+     * @returns {Array}
+     */
+    getEventIdAndType(resource) {
+      if (resource.data) {
+        return [
+          resource.data.event,
+          resource.data.number,
+        ];
+      }
+      return [
+        resource.type,
+        resource.video,
+      ];
+    },
+    getMetadata(resource) {
+      const [
+        eventType,
+        eventId,
+      ] = this.getEventIdAndType(resource);
       return {
-        id: JSON.stringify(notification),
-        summary,
+        id: JSON.stringify(resource),
+        summary: `${eventId} ${eventType}`,
         ts: Date.now(),
       };
     },
-    async emitEvents({
-      $, team, allowedEvents = [],
-    }) {
-      let lastUrl = this.getLastUrl();
-      let nextUrl;
+    buildCallback (allowedEvents) {
+      return (resource) => {
+        const [
+          eventType,
+        ] = this.getEventIdAndType(resource);
 
-      do {
-        const {
-          meta,
-          objects: notifications,
-        } =
-          await this.amara.getTeamNotifications({
-            $,
-            url: lastUrl,
-            team,
-            limit: 20,
-          });
-
-        nextUrl = meta.next;
-        if (nextUrl) {
-          lastUrl = nextUrl;
+        if (allowedEvents.includes(eventType)) {
+          this.$emit(resource, this.getMetadata(resource));
         }
+      };
+    },
+    async emitEvents({
+      resourceFn,
+      resourceFnArgs,
+      allowedEvents = [],
+    }) {
+      const url = this.getLastUrl();
 
-        notifications
-          .filter(({ data }) => allowedEvents.includes(data.event))
-          .forEach((notification) => {
-            this.$emit(notification, this.getMetadata(notification));
-          });
-
-      } while (nextUrl);
+      const { lastUrl } = await this.amara.paginateResources({
+        resourceFn,
+        resourceFnArgs: {
+          ...resourceFnArgs,
+          url,
+        },
+        limit: 40,
+        callback: this.buildCallback(allowedEvents),
+      });
 
       this.setLastUrl(lastUrl);
     },

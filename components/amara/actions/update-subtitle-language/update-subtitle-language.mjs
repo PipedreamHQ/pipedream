@@ -1,20 +1,27 @@
-import common from "../common.mjs";
-
-const { amara } = common.props;
+import amara from "../../amara.app.mjs";
+import utils from "../../utils.mjs";
 
 export default {
-  ...common,
   key: "amara-update-subtitle-language",
-  name: "Update subtitle language",
+  name: "Update Subtitle Language",
   description: "Update a subtitle language. [See the docs here](https://apidocs.amara.org/#update-a-subtitle-language)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
+    team: {
+      propDefinition: [
+        amara,
+        "team",
+      ],
+    },
     videoId: {
       propDefinition: [
         amara,
         "videoId",
+        ({ team }) => ({
+          team: utils.emptyStrToUndefined(team),
+        }),
       ],
     },
     language: {
@@ -92,11 +99,15 @@ export default {
       soft_limit_cps: softLimitCharactersPerSubtitles,
     };
 
-    return await this.amara.updateSubtitleLanguage({
+    const respones = await this.amara.updateSubtitleLanguage({
       $,
       videoId,
       language,
       data,
     });
+
+    $.export("$summary", `Successfully updated subtitle language ${language}`);
+
+    return respones;
   },
 };

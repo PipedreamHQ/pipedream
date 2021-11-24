@@ -36,13 +36,39 @@ export default {
       label: "Project",
       description: "Project slug for the video or null to put it in the default project",
       optional: true,
+      async options({
+        prevContext, team,
+      }) {
+        const { url } = prevContext;
+        if (url === null || !team) {
+          return [];
+        }
+        const {
+          meta,
+          objects: projects,
+        } = await this.getTeamProjects({
+          team,
+        });
+        const options = projects.map((project) => ({
+          label: project.name,
+          value: project.slug,
+        }));
+        return {
+          options,
+          context: {
+            url: meta.next,
+          },
+        };
+      },
     },
     videoId: {
       type: "string",
       label: "Video ID",
       description: "Video ID as the Amara video identifier",
-      async options({ prevContext }) {
-        const { url } = prevContext ?? {};
+      async options({
+        prevContext, team,
+      }) {
+        const { url } = prevContext;
 
         if (url === null) {
           return [];
@@ -55,6 +81,7 @@ export default {
           url,
           params: {
             limit: 20,
+            team: team ?? null,
             // order_by: constants.ORDER_BY.CREATED_DESC,
           },
         });
@@ -79,7 +106,7 @@ export default {
       async options({
         videoId, prevContext,
       }) {
-        const { url } = prevContext ?? {};
+        const { url } = prevContext;
 
         if (url === null) {
           return [];
@@ -202,13 +229,13 @@ export default {
     subtitles: {
       type: "string",
       label: "Subtitles",
-      description: "The subtitles to submit, as a string. The format depends on the `sub_format` param.",
+      description: "The subtitles to submit, as a string, depending on **Subtitles format**. Enter an [expression](https://pipedream.com/docs/workflows/steps/params/#entering-expressions) to preserve escape sequences (e.g. `{{\"WEBVTT\\n\\n00:01.000 --> 00:04.000\\nNever drink liquid nitrogen.\\n\\n00:05.000 --> 00:09.000\\n- It will perforate your stomach.\\n- You could die.\"}}`).",
       optional: true,
     },
     subtitlesUrl: {
       type: "string",
       label: "Subtitles URL",
-      description: "Alternatively, subtitles can be given as a text file URL. The format depends on the `sub_format` param.",
+      description: "Alternatively, subtitles can be given as a text file URL. The format depends on **Subtitles format**.",
       optional: true,
     },
     title: {
@@ -244,6 +271,13 @@ export default {
         }));
       },
     },
+    max: {
+      type: "integer",
+      label: "Max records",
+      description: "Max number of records in the whole pagination (eg. `60`)",
+      optional: false,
+      default: constants.DEFAULT_MAX_ITEMS,
+    },
   },
   methods: {
     async _makeRequest(opts) {
@@ -276,7 +310,7 @@ export default {
     async listVideos({
       $, url, params,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         url,
         path: "/videos",
@@ -286,7 +320,7 @@ export default {
     async getVideo({
       $, videoId,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         path: `/videos/${videoId}`,
       });
@@ -294,7 +328,7 @@ export default {
     async deleteVideo({
       $, videoId,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         method: "delete",
         path: `/videos/${videoId}`,
@@ -303,7 +337,7 @@ export default {
     async addVideo({
       $, data,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         method: "post",
         path: "/videos",
@@ -313,25 +347,35 @@ export default {
     async getVideoSubtitleLanguages({
       $, url, videoId, params,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         url,
         path: `/videos/${videoId}/languages`,
         params,
       });
     },
+    async createSubtitleLanguage({
+      $, videoId, data,
+    }) {
+      return this._makeRequest({
+        $,
+        method: "post",
+        path: `/videos/${videoId}/languages`,
+        data,
+      });
+    },
     async getSubtitleLanguage({
       $, videoId, language,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         path: `/videos/${videoId}/languages/${language}`,
       });
     },
-    async createSubtitleLanguage({
+    async addNewSubtitles({
       $, videoId, language, data,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         method: "post",
         path: `/videos/${videoId}/languages/${language}/subtitles`,
@@ -341,7 +385,7 @@ export default {
     async updateSubtitleLanguage({
       $, videoId, language, data,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         method: "put",
         path: `/videos/${videoId}/languages/${language}`,
@@ -351,7 +395,7 @@ export default {
     async getSubtitles({
       $, videoId, language, params,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         path: `/videos/${videoId}/languages/${language}/subtitles`,
         params,
@@ -360,7 +404,7 @@ export default {
     async getRawSubtitles({
       $, videoId, language, format,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         path: `/videos/${videoId}/languages/${language}/subtitles`,
         params: {
@@ -368,20 +412,10 @@ export default {
         },
       });
     },
-    async addSubtitles({
-      $, videoId, language, data,
-    }) {
-      return await this._makeRequest({
-        $,
-        method: "post",
-        path: `/videos/${videoId}/languages/${language}/subtitles`,
-        data,
-      });
-    },
     async deleteSubtitles({
       $, videoId, language,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         method: "delete",
         path: `/videos/${videoId}/languages/${language}/subtitles`,
@@ -390,7 +424,7 @@ export default {
     async listActions({
       $, videoId, language,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         path: `/videos/${videoId}/languages/${language}/subtitles/actions`,
       });
@@ -398,7 +432,7 @@ export default {
     async performAction({
       $, videoId, language, action,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         method: "post",
         path: `/videos/${videoId}/languages/${language}/subtitles/actions`,
@@ -410,28 +444,25 @@ export default {
     async getTeam({
       $, teamId,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         path: `/teams/${teamId}`,
       });
     },
     async getTeams({
-      $, url, limit, offset,
+      $, url, params,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         url,
         path: "/teams",
-        params: {
-          limit,
-          offset,
-        },
+        params,
       });
     },
     async getTeamProjects({
       $, url, team, limit,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         url,
         path: `/teams/${team}/projects`,
@@ -441,22 +472,72 @@ export default {
       });
     },
     async getLanguages({ $ } = {}) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         path: "/languages",
       });
     },
     async getTeamNotifications({
-      $, url, team, limit,
+      $, url, team, params,
     }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         url,
         path: `/teams/${team}/notifications`,
-        params: {
-          limit,
-        },
+        params,
       });
+    },
+    async getTeamActivity({
+      $, url, team, params,
+    }) {
+      return this._makeRequest({
+        $,
+        url,
+        path: `/teams/${team}/activity`,
+        params,
+      });
+    },
+    async paginateResources({
+      resourceFn,
+      resourceFnArgs,
+      offset,
+      limit = constants.DEFAULT_PAGE_LIMIT,
+      max = constants.DEFAULT_MAX_ITEMS,
+      callback,
+    }) {
+      let resources = [];
+      let nextResources = [];
+      let lastUrl = resourceFnArgs.url;
+
+      do {
+        const nextResponse = await resourceFn({
+          ...resourceFnArgs,
+          url: lastUrl,
+          params: {
+            ...resourceFnArgs.params,
+            limit,
+            offset,
+          },
+        });
+
+        if (!nextResponse) {
+          throw new Error("No response from the Amara API.");
+        }
+
+        nextResources = nextResponse.objects;
+        lastUrl = nextResponse.meta.next;
+        resources = resources.concat(nextResources);
+
+        if (callback) {
+          nextResources.forEach(callback);
+        }
+
+      } while (nextResources.length && resources.length < max);
+
+      return {
+        lastUrl,
+        resources,
+      };
     },
   },
 };

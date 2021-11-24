@@ -1,27 +1,38 @@
-import common from "../common.mjs";
-
-const { amara } = common.props;
+import amara from "../../amara.app.mjs";
+import utils from "../../utils.mjs";
 
 export default {
-  ...common,
   key: "amara-get-video-details",
-  name: "Get video details",
+  name: "Get Video Details",
   description: "Get video details. [See the docs here](https://apidocs.amara.org/#view-video-details)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
+    team: {
+      propDefinition: [
+        amara,
+        "team",
+      ],
+    },
     videoId: {
       propDefinition: [
         amara,
         "videoId",
+        ({ team }) => ({
+          team: utils.emptyStrToUndefined(team),
+        }),
       ],
     },
   },
   async run({ $ }) {
-    return await this.amara.getVideo({
+    const response = await this.amara.getVideo({
       $,
       videoId: this.videoId,
     });
+
+    $.export("$summary", "Successfully fetched video details");
+
+    return response;
   },
 };

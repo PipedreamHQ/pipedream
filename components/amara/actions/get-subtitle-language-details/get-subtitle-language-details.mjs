@@ -1,20 +1,27 @@
-import common from "../common.mjs";
-
-const { amara } = common.props;
+import amara from "../../amara.app.mjs";
+import utils from "../../utils.mjs";
 
 export default {
-  ...common,
-  key: "amara-get-details-on-single-subtitle-language",
-  name: "Get details on a single subtitle language",
+  key: "amara-get-subtitle-language-details",
+  name: "Get Subtitle Language Details",
   description: "Get details on a single subtitle language. [See the docs here](https://apidocs.amara.org/#get-details-on-a-single-subtitle-language)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
+    team: {
+      propDefinition: [
+        amara,
+        "team",
+      ],
+    },
     videoId: {
       propDefinition: [
         amara,
         "videoId",
+        ({ team }) => ({
+          team: utils.emptyStrToUndefined(team),
+        }),
       ],
     },
     language: {
@@ -33,10 +40,14 @@ export default {
       language,
     } = this;
 
-    return await this.amara.getSubtitleLanguage({
+    const response = await this.amara.getSubtitleLanguage({
       $,
       videoId,
       language,
     });
+
+    $.export("$summary", "Successfully fetched subtitle language details");
+
+    return response;
   },
 };

@@ -5,6 +5,7 @@ const CONTENT_TYPE_HEADER = "Content-Type";
 const JSON_CONTENT_TYPE = "application/json";
 const LAST_URL = "lastUrl";
 const DEFAULT_MAX_ITEMS = 60;
+const DEFAULT_PAGE_LIMIT = 20;
 
 /**
  * The list of order by options can be found in the following links
@@ -36,6 +37,35 @@ const EVENT_TYPES = {
   SUBTITLES_UNPUBLISHED: "subtitle-unpublished",
 };
 
+const ACTIVITY_TYPES = {
+  VIDEO_ADDED: "video-added",
+  COMMENT_ADDED: "comment-added",
+  VERSION_ADDED: "version-added",
+  VIDEO_TITLE_CHANGED: "video-title-changed",
+  VIDEO_URL_ADDED: "video-url-added",
+  VIDEO_URL_EDITED: "video-url-edited",
+  VIDEO_URL_DELETED: "video-url-deleted",
+  VIDEO_DELETED: "video-deleted",
+  MEMBER_JOINED: "member-joined",
+  MEMBER_LEFT: "member-left",
+  VIDEO_MOVED_FROM_TEAM: "video-moved-from-team",
+  VIDEO_MOVED_TO_TEAM: "video-moved-to-team",
+  VERSION_APPROVED: "version-approved",
+  VERSION_REJECTED: "version-rejected",
+  VERSION_ACCEPTED: "version-accepted",
+  VERSION_DECLINED: "version-declined",
+  COLLAB_JOIN: "collab-join",
+  COLLAB_LEAVE: "collab-leave",
+  COLLAB_ASSIGN: "collab-assign",
+  COLLAB_REASSIGN: "collab-reassign",
+  COLLAB_UNASSIGN: "collab-unassign",
+  COLLAB_AUTO_UNASSIGNED: "collab-auto-unassigned",
+  COLLAB_DEADLINE_PASSED: "collab-deadline-passed",
+  COLLAB_DELETE: "collab-delete",
+  COLLAB_STATE_CHANGE: "collab-state-change",
+  COLLAB_TEAM_CHANGE: "collab-team-change",
+};
+
 const FORMAT_TYPES = {
   SRT: "srt",
   DFXP:	"dfxp",
@@ -56,4 +86,6 @@ export default {
   ORDER_BY,
   FORMAT_TYPES,
   DEFAULT_MAX_ITEMS,
+  DEFAULT_PAGE_LIMIT,
+  ACTIVITY_TYPES,
 };

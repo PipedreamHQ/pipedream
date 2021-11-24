@@ -1,23 +1,33 @@
-import common from "../common.mjs";
-
-const { amara } = common.props;
+import amara from "../../amara.app.mjs";
+import utils from "../../utils.mjs";
 
 export default {
-  ...common,
   key: "amara-create-subtitle-language",
-  name: "Create subtitle language",
+  name: "Create Subtitle Language",
   description: "Create a subtitle language. [See the docs here](https://apidocs.amara.org/#create-a-subtitle-language)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
+    team: {
+      propDefinition: [
+        amara,
+        "team",
+      ],
+    },
     videoId: {
       propDefinition: [
         amara,
         "videoId",
+        ({ team }) => ({
+          team: utils.emptyStrToUndefined(team),
+        }),
       ],
     },
     languageCode: {
+      label: "Subtitle Language",
+      description: "bcp-47 code for the language.",
+      optional: false,
       propDefinition: [
         amara,
         "primaryAudioLanguageCode",
@@ -90,10 +100,14 @@ export default {
       soft_limit_cps: softLimitCharactersPerSubtitles,
     };
 
-    return await this.amara.createSubtitleLanguage({
+    const response = await this.amara.createSubtitleLanguage({
       $,
       videoId,
       data,
     });
+
+    $.export("$summary", "Successfully created subtitle language");
+
+    return response;
   },
 };

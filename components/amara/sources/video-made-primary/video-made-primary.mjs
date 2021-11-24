@@ -4,15 +4,18 @@ import common from "../common.mjs";
 export default {
   ...common,
   key: "amara-video-made-primary",
-  name: "Video made primary",
+  name: "Video Made Primary",
   description: "Emit new event when a video has been made primary. [See the docs here](https://apidocs.amara.org/#video-notifications)",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
   async run({ $ }) {
     await this.emitEvents({
-      $,
-      team: this.team,
+      resourceFn: this.amara.getTeamNotifications,
+      resourceFnArgs: {
+        $,
+        team: this.team,
+      },
       allowedEvents: [
         constants.EVENT_TYPES.VIDEO_MADE_PRIMARY,
       ],

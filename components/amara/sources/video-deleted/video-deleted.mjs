@@ -3,21 +3,21 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  key: "amara-subtitles-unpublished",
-  name: "Subtitles Unpublished",
-  description: "Emit new event when subtitles have been unpublished. [See the docs here](https://apidocs.amara.org/#video-notifications)",
+  key: "amara-video-deleted",
+  name: "Video Deleted",
+  description: "Emit new event when a video is deleted. [See the docs here](https://apidocs.amara.org/#team-activity)",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
   async run({ $ }) {
     await this.emitEvents({
-      resourceFn: this.amara.getTeamNotifications,
+      resourceFn: this.amara.getTeamActivity,
       resourceFnArgs: {
         $,
         team: this.team,
       },
       allowedEvents: [
-        constants.EVENT_TYPES.SUBTITLES_UNPUBLISHED,
+        constants.ACTIVITY_TYPES.VIDEO_DELETED,
       ],
     });
   },

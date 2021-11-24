@@ -1,17 +1,15 @@
-import common from "../common.mjs";
+import amara from "../../amara.app.mjs";
 import constants from "../../constants.mjs";
-
-const { amara } = common.props;
+import utils from "../../utils.mjs";
 
 export default {
-  ...common,
-  key: "amara-list-video",
-  name: "List videos",
+  key: "amara-list-videos",
+  name: "List Videos",
   description: "List videos. [See the docs here](https://apidocs.amara.org/#list-videos).",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
     videoUrl: {
       description: "Filter by video URL",
       optional: true,
@@ -39,6 +37,9 @@ export default {
       propDefinition: [
         amara,
         "project",
+        ({ team }) => ({
+          team,
+        }),
       ],
     },
     orderBy: {
@@ -65,6 +66,12 @@ export default {
         },
       ],
     },
+    max: {
+      propDefinition: [
+        amara,
+        "max",
+      ],
+    },
     limit: {
       propDefinition: [
         amara,
@@ -80,8 +87,6 @@ export default {
   },
   async run({ $ }) {
     const {
-      limit,
-      offset,
       videoUrl,
       team,
       project,
@@ -89,9 +94,10 @@ export default {
       orderBy,
     } = this;
 
+    const limit = utils.emptyStrToUndefined(this.limit);
+    const offset = utils.emptyStrToUndefined(this.offset);
+
     const params = {
-      limit,
-      offset,
       video_url: videoUrl,
       team,
       project,
@@ -99,24 +105,19 @@ export default {
       order_by: orderBy,
     };
 
-    if (!offset) {
-      return await this.paginateVideos({
+    const { resources: videos } = await this.amara.paginateResources({
+      resourceFn: this.amara.listVideos,
+      resourceFnArgs: {
         $,
-        limit,
         params,
-      });
-    }
-
-    const response = await this.amara.listVideos({
-      $,
-      params,
+      },
+      offset,
+      limit,
+      max: this.max,
     });
 
-    if (!response) {
-      throw new Error("No response from the Amara API.");
-    }
-
-    const { objects: videos } = response;
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully fetched ${videos.length} ${videos.length === 1 ? "video" : "videos"}`);
 
     return videos;
   },

@@ -1,20 +1,27 @@
-import common from "../common.mjs";
-
-const { amara } = common.props;
+import amara from "../../amara.app.mjs";
+import utils from "../../utils.mjs";
 
 export default {
-  ...common,
   key: "amara-delete-video",
-  name: "Delete video",
+  name: "Delete Video",
   description: "Delete a video. In order to delete a video, it must be part of a team that you're an admin of. [See the docs here](https://apidocs.amara.org/#delete-a-video)",
   type: "action",
   version: "0.0.1",
   props: {
-    ...common.props,
+    amara,
+    team: {
+      propDefinition: [
+        amara,
+        "team",
+      ],
+    },
     videoId: {
       propDefinition: [
         amara,
         "videoId",
+        ({ team }) => ({
+          team: utils.emptyStrToUndefined(team),
+        }),
       ],
     },
   },
@@ -27,6 +34,8 @@ export default {
     });
 
     if (!response) {
+      $.export("$summary", "Successfully deleted video");
+
       return {
         id: videoId,
         success: true,
