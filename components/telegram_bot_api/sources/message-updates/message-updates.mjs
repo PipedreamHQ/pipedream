@@ -39,10 +39,11 @@ export default {
     if (!body) {
       return;
     }
+    const message = body.edited_message ?? body.message;
     this.$emit(body,
       {
         id: body.update_id,
-        summary: body.message.text,
+        summary: message.text,
         ts: Date.now(),
       });
   },

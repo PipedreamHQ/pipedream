@@ -39,10 +39,11 @@ export default {
     if (!body) {
       return;
     }
+    const channelPost = body.edited_channel_post ?? body.channel_post;
     this.$emit(body,
       {
         id: body.update_id,
-        summary: `${body.channel_post.chat.title} - ${body.channel_post.text}`,
+        summary: `${channelPost.chat.title} - ${channelPost.text}`,
         ts: Date.now(),
       });
   },
