@@ -375,20 +375,10 @@ export default {
       });
     },
     /**
-     * A function used to send media, defined in the TelegramBot sdk
-     * @typedef {Function} SendMediaTypeFn
-     * @param  {Number|String} chatId  Unique identifier for the message recipient
-     * @param  {String|stream.Stream|Buffer} audio A file path, Stream or Buffer.
-     * Can also be a `file_id` previously uploaded.
-     * @param  {Object} [options] Additional Telegram query options
-     * @param  {Object} [fileOptions] Optional file related meta-data
-     * @return {Promise}
-     */
-    /**
      * Send a file (Document/Image, Photo, Audio, Video, Video Note, Voice,
      * Sticker)
      *
-     * @param {SendMediaTypeFn} sendFn - the function to use to send the media
+     * @param {Function} sendFn - the function to use to send the media
      * @param {String} chatId - Unique identifier for the target chat or
      * username of the target channel (in the format `@channelusername`)
      * @param  {String|stream.Stream|Buffer} media - A file path or a Stream. Can
@@ -414,6 +404,27 @@ export default {
         contentType,
       });
     },
+    async sendAudio(chatId, audio, opts) {
+      return this.sendMedia(this.sdk().sendAudio, chatId, audio, opts);
+    },
+    async sendDocument(chatId, doc, opts) {
+      return this.sendMedia(this.sdk().sendDocument, chatId, doc, opts);
+    },
+    async sendPhoto(chatId, photo, opts) {
+      return this.sendMedia(this.sdk().sendPhoto, chatId, photo, opts);
+    },
+    async sendSticker(chatId, sticker, opts) {
+      return this.sendMedia(this.sdk().sendSticker, chatId, sticker, opts);
+    },
+    async sendVideo(chatId, video, opts) {
+      return this.sendMedia(this.sdk().sendVideo, chatId, video, opts);
+    },
+    async sendVideoNote(chatId, videoNote, opts) {
+      return this.sendMedia(this.sdk().sendVideoNote, chatId, videoNote, opts);
+    },
+    async sendVoice(chatId, voice, opts) {
+      return this.sendMedia(this.sdk().sendVoice, chatId, voice, opts);
+    },
     /**
      * Send a file (Document/Image, Photo, Audio, Video, Video Note, Voice,
      * Sticker) as the media type specified by the `type` parameter
@@ -436,49 +447,19 @@ export default {
      * @returns {Promise<TelegramBot.Message>} The sent message
      */
     async sendMediaByType(type, chatId, media, opts) {
-      const sdk = this.sdk();
-      const typeToSendFn = {
-        [TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT]: sdk.sendDocument,
-        [TELEGRAM_BOT_API_UI_MEDIA_PHOTO]: sdk.sendPhoto,
-        [TELEGRAM_BOT_API_UI_MEDIA_AUDIO]: sdk.sendAudio,
-        [TELEGRAM_BOT_API_UI_MEDIA_VIDEO]: sdk.sendVideo,
-        [TELEGRAM_BOT_API_UI_MEDIA_VIDEO_NOTE]: sdk.sendVideoNote,
-        [TELEGRAM_BOT_API_UI_MEDIA_VOICE]: sdk.sendVoice,
-        [TELEGRAM_BOT_API_UI_MEDIA_STICKER]: sdk.sendSticker,
+      const typeToSendMediaFn = {
+        [TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT]: this.sendDocument,
+        [TELEGRAM_BOT_API_UI_MEDIA_PHOTO]: this.sendPhoto,
+        [TELEGRAM_BOT_API_UI_MEDIA_AUDIO]: this.sendAudio,
+        [TELEGRAM_BOT_API_UI_MEDIA_VIDEO]: this.sendVideo,
+        [TELEGRAM_BOT_API_UI_MEDIA_VIDEO_NOTE]: this.sendVideoNote,
+        [TELEGRAM_BOT_API_UI_MEDIA_VOICE]: this.sendVoice,
+        [TELEGRAM_BOT_API_UI_MEDIA_STICKER]: this.sendSticker,
       };
-      const sendFn = typeToSendFn[type].bind(sdk);
-      return this.sendMedia(sendFn, chatId, media, opts);
-    },
-    /**
-     * @typedef {function} SendMediaFn
-     * @param {string} chatId - Unique identifier for the target chat or
-     * username of the target channel (in the format `@channelusername`)
-     * @param {String|stream.Stream|Buffer} media - A file path or a Stream. Can
-     * also be a `file_id` previously uploaded
-     * @param {Object} [opts] - An object containing additional configuration
-     * options for this method
-     * @param {Number|String} [opts.filename] - The name of the file to send
-     * @param {Number|String} [opts.contentType] - The MIME type of the file to
-     * send
-     * @param {...*} [opts.extraOpts] - Additional Telegram query options to be
-     * fed to the Telegram Bot API call, as defined in [the API
-     * docs](https://core.telegram.org/bots/api)
-     * @returns {Promise<TelegramBot.Message>} The sent message
-    */
-    /**
-     * Send audio
-     * @type {SendMediaFn}
-     */
-    async sendAudio(chatId, audio, opts) {
-      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_AUDIO, chatId, audio, opts);
-    },
-    /**
-     * Send Document
-     * @type {SendMediaFn}
-     */
-    async sendDocument(chatId, doc, opts) {
-      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_DOCUMENT, chatId, doc, opts);
-
+      if (!typeToSendMediaFn[type]) {
+        throw new Error("type is not a valid file media type");
+      }
+      return typeToSendMediaFn[type](chatId, media, opts);
     },
     /**
      * Use this method to send a group of photos or videos as an album. On success, an array of the
@@ -493,47 +474,6 @@ export default {
      */
     async sendMediaGroup(chatId, media, opts) {
       return this.sdk().sendMediaGroup(chatId, media, opts);
-    },
-    /**
-     * Send photo
-     * @type {SendMediaFn}
-     */
-    async sendPhoto(chatId, photo, opts) {
-      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_PHOTO, chatId, photo, opts);
-
-    },
-    /**
-     * Send sticker
-     * @type {SendMediaFn}
-     */
-    async sendSticker(chatId, sticker, opts) {
-      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_STICKER, chatId, sticker, opts);
-    },
-    /**
-     * Send video
-     * @type {SendMediaFn}
-     */
-    async sendVideo(chatId, video, opts) {
-      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_VIDEO, chatId, video, opts);
-    },
-    /**
-     * Send video note
-     * @type {SendMediaFn}
-     */
-    async sendVideoNote(chatId, videoNote, opts) {
-      return this.sendMediaByType(
-        TELEGRAM_BOT_API_UI_MEDIA_VIDEO_NOTE,
-        chatId,
-        videoNote,
-        opts,
-      );
-    },
-    /**
-     * Send voice
-     * @type {SendMediaFn}
-     */
-    async sendVoice(chatId, voice, opts) {
-      return this.sendMediaByType(TELEGRAM_BOT_API_UI_MEDIA_VOICE, chatId, voice, opts);
     },
     /**
      * Use this method to edit audio, document, photo, or video messages. If a
