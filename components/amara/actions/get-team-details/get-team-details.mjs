@@ -9,7 +9,7 @@ export default {
   props: {
     amara,
     teamId: {
-      description: "Name for the team slug (used in URLs) (eg. `amplify` in `https://amara.org/en/teams/amplify/`)",
+      description: "Name for the team slug (used in URLs) (e.g. `amplify` in `https://amara.org/en/teams/amplify/`)",
       propDefinition: [
         amara,
         "team",

@@ -1,5 +1,4 @@
 import amara from "../../amara.app.mjs";
-import utils from "../../utils.mjs";
 
 export default {
   key: "amara-update-subtitle-language",
@@ -20,7 +19,7 @@ export default {
         amara,
         "videoId",
         ({ team }) => ({
-          team: utils.emptyStrToUndefined(team),
+          team,
         }),
       ],
     },

@@ -20,7 +20,7 @@ export default {
         amara,
         "videoId",
         ({ team }) => ({
-          team: utils.emptyStrToUndefined(team),
+          team,
         }),
       ],
     },

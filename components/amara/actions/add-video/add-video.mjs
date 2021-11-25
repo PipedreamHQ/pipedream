@@ -16,6 +16,7 @@ export default {
       ],
     },
     team: {
+      description: "Team slug for the video or null to remove it from its team",
       propDefinition: [
         amara,
         "team",

@@ -8,7 +8,7 @@ export default {
     team:	{
       type: "string",
       label: "Team",
-      description: "Team slug for the video or null to remove it from its team.",
+      description: "Filter by team (e.g. `amplify` in `https://amara.org/en/teams/amplify/`). Leave blank for videos that are in the public area.",
       optional: true,
     },
     videoUrl: {
@@ -81,7 +81,7 @@ export default {
           url,
           params: {
             limit: 20,
-            team: team ?? null,
+            team: team || null,
             // order_by: constants.ORDER_BY.CREATED_DESC,
           },
         });
@@ -112,17 +112,22 @@ export default {
           return [];
         }
 
-        const {
-          meta,
-          objects: languages,
-        } =
-          await this.getVideoSubtitleLanguages({
-            url,
-            videoId,
-            params: {
-              limit: 20,
-            },
-          });
+        let meta, languages;
+        try {
+          ({
+            meta,
+            objects: languages,
+          } =
+            await this.getVideoSubtitleLanguages({
+              url,
+              videoId,
+              params: {
+                limit: 20,
+              },
+            }));
+        } catch (error) {
+          return [];
+        }
 
         const options = languages.map((language) => ({
           label: language.name,
@@ -213,17 +218,21 @@ export default {
       async options({
         videoId, language,
       }) {
+        try {
+          const { versions } =
+            await this.getSubtitleLanguage({
+              videoId,
+              language,
+            });
 
-        const { versions } =
-          await this.getSubtitleLanguage({
-            videoId,
-            language,
-          });
+          return versions.map(({ version_number: versionNumber }) => ({
+            label: `Version ${versionNumber}`,
+            value: versionNumber,
+          }));
 
-        return versions.map(({ version_number: versionNumber }) => ({
-          label: `Version ${versionNumber}`,
-          value: versionNumber,
-        }));
+        } catch (error) {
+          return [];
+        }
       },
     },
     subtitles: {
@@ -258,17 +267,23 @@ export default {
       async options({
         videoId, language,
       }) {
-        const actions = await this.listActions({
-          videoId,
-          language,
-        });
+        try {
+          const actions = await this.listActions({
+            videoId,
+            language,
+          });
 
-        return actions.map(({
-          label, action,
-        }) => ({
-          label,
-          value: action,
-        }));
+          return actions.map(({
+            label, action,
+          }) => ({
+            label,
+            value: action,
+          }));
+
+        } catch (error) {
+          return [];
+        }
+
       },
     },
     max: {

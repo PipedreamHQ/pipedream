@@ -9,16 +9,21 @@ export default {
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
-  async run({ $ }) {
-    await this.emitEvents({
-      resourceFn: this.amara.getTeamNotifications,
-      resourceFnArgs: {
-        $,
+  methods: {
+    ...common.methods,
+    getResourceFn() {
+      return this.amara.getTeamNotifications;
+    },
+    getResourceFnArgs(args) {
+      return {
+        ...args,
         team: this.team,
-      },
-      allowedEvents: [
-        constants.EVENT_TYPES.SUBTITLES_UNPUBLISHED,
-      ],
-    });
+      };
+    },
+    getAllowedEvents() {
+      return [
+        constants.ACTIVITY_TYPES.SUBTITLES_UNPUBLISHED,
+      ];
+    },
   },
 };

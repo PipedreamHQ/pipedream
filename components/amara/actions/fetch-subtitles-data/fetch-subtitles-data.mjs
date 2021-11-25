@@ -20,7 +20,7 @@ export default {
         amara,
         "videoId",
         ({ team }) => ({
-          team: utils.emptyStrToUndefined(team),
+          team,
         }),
       ],
     },
@@ -65,7 +65,7 @@ export default {
       videoId,
       language,
       params: {
-        version_number: versionNumber,
+        version_number: utils.emptyStrToUndefined(versionNumber),
         sub_format: subFormat,
       },
     });

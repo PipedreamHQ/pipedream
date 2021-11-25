@@ -29,6 +29,15 @@ export default {
     getLastUrl() {
       return this.db.get(constants.LAST_URL);
     },
+    getResourceFn() {
+      throw new Error("getResourceFn is not implemented");
+    },
+    getResourceFnArgs() {
+      throw new Error("getResourceFn is not implemented");
+    },
+    getAllowedEvents() {
+      throw new Error("getAllowedEvents is not implemented");
+    },
     /**
      * For Team notifications returns resource.data.event and
      * resource.data.number as the identifier.
@@ -38,7 +47,7 @@ export default {
      * @param {object} resource
      * @returns {Array}
      */
-    getEventIdAndType(resource) {
+    getEventTypeAndId(resource) {
       if (resource.data) {
         return [
           resource.data.event,
@@ -47,49 +56,47 @@ export default {
       }
       return [
         resource.type,
-        resource.video,
+        resource.title || resource.video,
       ];
     },
-    getMetadata(resource) {
+    generateMeta(resource) {
       const [
         eventType,
         eventId,
-      ] = this.getEventIdAndType(resource);
+      ] = this.getEventTypeAndId(resource);
       return {
         id: JSON.stringify(resource),
         summary: `${eventId} ${eventType}`,
         ts: Date.now(),
       };
     },
-    buildCallback (allowedEvents) {
-      return (resource) => {
-        const [
-          eventType,
-        ] = this.getEventIdAndType(resource);
-
-        if (allowedEvents.includes(eventType)) {
-          this.$emit(resource, this.getMetadata(resource));
-        }
-      };
+    isRelevant(resource) {
+      const [
+        eventType,
+      ] = this.getEventTypeAndId(resource);
+      const allowedEvents = this.getAllowedEvents();
+      return allowedEvents.includes(eventType);
     },
-    async emitEvents({
-      resourceFn,
-      resourceFnArgs,
-      allowedEvents = [],
-    }) {
-      const url = this.getLastUrl();
-
-      const { lastUrl } = await this.amara.paginateResources({
-        resourceFn,
-        resourceFnArgs: {
-          ...resourceFnArgs,
-          url,
-        },
-        limit: 40,
-        callback: this.buildCallback(allowedEvents),
-      });
-
-      this.setLastUrl(lastUrl);
+    processEvent(resource) {
+      if (this.isRelevant(resource)) {
+        const meta = this.generateMeta(resource);
+        this.$emit(resource, meta);
+      }
     },
+  },
+  async run({ $ }) {
+    const url = this.getLastUrl();
+
+    const { lastUrl } = await this.amara.paginateResources({
+      resourceFn: this.getResourceFn(),
+      resourceFnArgs: this.getResourceFnArgs({
+        $,
+        url,
+      }),
+      limit: 40,
+      callback: this.processEvent,
+    });
+
+    this.setLastUrl(lastUrl);
   },
 };
