@@ -122,6 +122,61 @@ You can combine the `-n` and `-f` options to list historical events _and_ follow
 
 Displays help for any command. Run `pd help events`, `pd help describe`, etc.
 
+### `pd init`
+
+Generate new app and component files from templates.
+
+#### `pd init app`
+
+Creates a directory and [an app file](/components/guidelines/#app-files) from a template
+
+```
+# Creates google_calendar/ directory and google_calendar.mjs file
+pd init app google_calendar
+```
+
+#### `pd init action`
+
+Creates a new directory and [a component action](/components/actions/) from a template.
+
+```
+# Creates add-new-event/ directory and add-new-event.mjs file
+pd init action add-new-event
+```
+
+#### `pd init source`
+
+Creates a new directory and [an event source](/event-sources/) from a template.
+
+```
+# Creates cancelled-event/ directory and cancelled_event.mjs file
+pd init source cancelled-event
+```
+
+You can attach [database](/components/api/#db), [HTTP](/components/api/#http), or [Timer](/components/api/#timer) props to your template using the following flags:
+
+| Prop type        | Flag           |
+| ------------- |-------------|
+| Database      | `--db` |
+| HTTP      | `--http`      |
+| Timer | `--timer`      |
+
+For example, running:
+
+```
+pd init source cancelled-event --db --http --timer
+```
+
+will include the following props in your new event source:
+
+```javascript
+props: {
+  db: "$.service.db",
+  http: "$.interface.http",
+  timer: "$.interface.timer",
+}
+```
+
 ### `pd list`
 
 Lists Pipedream sources running in your account. Running `pd list` without any arguments prompts you to select the type of resource you'd like to list.
@@ -245,11 +300,10 @@ You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pip
 
 ### Creating a profile for an organization
 
-If you're working with resources in an [organization](/orgs/), you'll need to add an `org_id` to your profile. 
+If you're working with resources in an [organization](/orgs/), you'll need to add an `org_id` to your profile.
 
-1. Visit [pipedream.com](https://pipedream.com) and [switch your context](/orgs/#switching-context) to your organization.
-2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Access** section.
-3. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
+1. [Retrieve your organization's ID](/orgs/#finding-your-organization-s-id)
+2. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
 
 ```
 [profile_name]

@@ -1,6 +1,6 @@
 # Working with the filesystem in Node.js
 
-You'll commonly need to work with files in a workflow, for example: downloading content from some service to upload to another. This doc explains how to work with files in Pipedream workflows and provides some sample code for common operations. 
+You'll commonly need to work with files in a workflow, for example: downloading content from some service to upload to another. This doc explains how to work with files in Pipedream workflows and provides some sample code for common operations.
 
 [[toc]]
 
@@ -8,36 +8,49 @@ You'll commonly need to work with files in a workflow, for example: downloading 
 
 Within a workflow, you have full read-write access to the `/tmp` directory. You have `512 MB` of available space in `/tmp` to save any file.
 
-**Data in `/tmp` is cleared after your workflow runs. Subsequent runs of a workflow will not have access to data saved in previous executions.** For high-volume workflows, data _may_ get retained across workflow executions, but you should never expect to have access to these files outside of the current workflow run.
+## Managing `/tmp` across workflow runs
+
+The `/tmp` directory is stored on the virtual machine that runs your workflow. We call this the execution environment ("EE"). More than one EE may be created to handle high-volume workflows. And EEs can be destroyed at any time (for example, after about 10 minutes of receiving no events). This means that you should not expect to have access to files across invocations. At the same time, files _may_ remain, so you should clean them up to make sure that doesn't affect your workflow. **Use [the `tmp-promise` package](https://github.com/benjamingr/tmp-promise) to cleanup files after use, or [delete the files manually](#delete-a-file).**
 
 ## Writing a file to `/tmp`
 
 Use the [`fs` module](https://nodejs.org/api/fs.html) to write data to `/tmp`:
 
 ```javascript
-const fs = require("fs");
+import fs from "fs"
+import { file } from 'tmp-promise'
 
-fs.writeFileSync(`/tmp/myfile`, Buffer.from("hello, world"));
+const { path, cleanup } = await file();
+await fs.promises.appendFile(path, Buffer.from("hello, world"))
+await cleanup();
 ```
 
 ## Listing files in `/tmp`
 
-This code sample uses [step exports](/workflows/steps/#step-exports) to return a list of the files saved in `/tmp` that you can use in future steps of your workflow:
+Return a list of the files saved in `/tmp`:
 
 ```javascript
-const fs = require("fs");
+import fs from "fs";
 
-this.tmpFiles = fs.readdirSync("/tmp");
+return fs.readdirSync("/tmp");
 ```
 
 ## Reading a file from `/tmp`
 
-This code sample uses [step exports](/workflows/steps/#step-exports) to return the contents of a test file saved in `/tmp`, returned as a string ([`fs.readFileSync` returns a `Buffer`](https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options))
+This example uses [step exports](/workflows/steps/#step-exports) to return the contents of a test file saved in `/tmp`, returned as a string ([`fs.readFileSync` returns a `Buffer`](https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options)):
 
 ```javascript
-const fs = require("fs");
+import fs from "fs";
 
-this.fileData = fs.readFileSync(`/tmp/myfile`).toString();
+this.fileData = (await fs.promises.readFile('/tmp/your-file')).toString()
+```
+
+## Delete a file
+
+```javascript
+import fs from "fs";
+
+return await fs.promises.unlink('/tmp/your-file')
 ```
 
 ## Download a file to `/tmp`
