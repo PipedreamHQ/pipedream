@@ -37,16 +37,12 @@ export default {
         googleDrive,
         "fileUrl",
       ],
-      description:
-        "The URL of the file to upload. Must specify either **File URL** or **File Path**.",
     },
     filePath: {
       propDefinition: [
         googleDrive,
         "filePath",
       ],
-      description:
-        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either **File URL** or **File Path**.",
     },
     name: {
       propDefinition: [
@@ -62,7 +58,7 @@ export default {
         "mimeType",
       ],
       description:
-        "The file's MIME type, (e.g., `image/jpeg`). Google Drive will attempt to automatically detect an appropriate value from uploaded content if no value is provided.",
+        "The file's MIME type (e.g., `image/jpeg`). Google Drive will attempt to automatically detect an appropriate value from uploaded content if no value is provided.",
     },
   },
   async run({ $ }) {

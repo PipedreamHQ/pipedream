@@ -1,6 +1,6 @@
 import googleDrive from "../../google_drive.app.mjs";
+import { toSingleLineString } from "../../utils.mjs";
 import { getFileStream } from "../../utils.mjs";
-import isoLanguages from "../language-codes.mjs";
 
 export default {
   key: "google_drive-update-file",
@@ -15,8 +15,11 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
-      description:
-        "The drive to use. If not specified, your personal Google Drive will be used. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
+      description: toSingleLineString(`
+        The drive to use. If not specified, your personal Google Drive will be used. If you are
+        connected with any [Google Shared
+        Drives](https://support.google.com/a/users/answer/9310351), you can select it here.
+      `),
       optional: true,
     },
     fileId: {
@@ -41,8 +44,11 @@ export default {
         googleDrive,
         "filePath",
       ],
-      description:
-        "The path to the file to saved to the /tmp (e.g., `/tmp/myFile.csv`) with which to update content",
+      description: toSingleLineString(`
+        The path to the file saved to the [\`/tmp\`
+        directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
+        (e.g., \`/tmp/myFile.csv\`) with which to update content
+      `),
     },
     name: {
       propDefinition: [
@@ -72,33 +78,32 @@ export default {
       optional: true,
     },
     keepRevisionForever: {
-      type: "boolean",
-      label: "Keep Revision Forever",
-      description:
-        "Whether to set the `keepForever` field in the new head revision",
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "keepRevisionForever",
+      ],
     },
     ocrLanguage: {
-      type: "string",
-      label: "OCR Language",
-      description:
-        "A language hint for OCR processing during image import (ISO 639-1 code)",
-      optional: true,
-      options: isoLanguages,
+      propDefinition: [
+        googleDrive,
+        "ocrLanguage",
+      ],
     },
     useContentAsIndexableText: {
-      type: "boolean",
-      label: "Use Content As Indexable Text",
-      description: "Whether to use the uploaded content as indexable text",
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "useContentAsIndexableText",
+      ],
     },
     advanced: {
       type: "object",
       label: "Advanced Options",
       optional: true,
-      description:
-        "Specify less-common properties that you want to use. See [Files: update]" +
-        "(https://developers.google.com/drive/api/v3/reference/files/update#request-body) for a list of supported properties.",
+      description: toSingleLineString(`
+        Specify less-common properties that you want to use. See [Files: update]
+        (https://developers.google.com/drive/api/v3/reference/files/update#request-body) for a list
+        of supported properties.
+      `),
     },
   },
   async run({ $ }) {

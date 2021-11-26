@@ -1,6 +1,7 @@
 import axios from "axios";
 import { google } from "googleapis";
 import { uuid } from "uuidv4";
+import isoLanguages from "./actions/language-codes.mjs";
 import mimeDb from "mime-db";
 const mimeTypes = Object.keys(mimeDb);
 
@@ -20,8 +21,9 @@ import {
   isMyDrive,
   getDriveId,
   getListFilesOpts,
+  omitEmptyStringValues,
+  toSingleLineString,
 } from "./utils.mjs";
-import { omitEmptyStringValues } from "./utils.mjs";
 
 export default {
   type: "app",
@@ -97,14 +99,20 @@ export default {
     fileUrl: {
       type: "string",
       label: "File URL",
-      description: "The URL of the file to upload",
+      description: toSingleLineString(`
+        The URL of the file you want to upload to Google Drive. Must specify either **File URL** 
+        or **File Path**.
+      `),
       optional: true,
     },
     filePath: {
       type: "string",
       label: "File Path",
-      description:
-        "The path to the file saved to the /tmp (e.g., `/tmp/myFile.csv`)",
+      description: toSingleLineString(`
+        The path to the file saved to the [\`/tmp\`
+        directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
+        (e.g. \`/tmp/myFile.csv\`). Must specify either **File URL** or **File Path**.
+      `),
       optional: true,
     },
     fileName: {
@@ -121,8 +129,14 @@ export default {
     },
     mimeType: {
       type: "string",
-      label: "MIME Type",
-      description: "The file's MIME type (e.g., `image/jpeg`)",
+      label: "Mime Type",
+      description: toSingleLineString(`
+        The MIME type of the file (e.g., \`image/jpeg\`). Google Drive will attempt to automatically
+        detect an appropriate value from uploaded content if no value is provided. The value cannot
+        be changed unless a new revision is uploaded. If a file is created with a [Google Doc MIME
+        type](https://developers.google.com/drive/api/v3/mime-types), the uploaded content will be
+        imported if possible.
+      `),
       optional: true,
       async options({ page = 0 }) {
         const allTypes = googleMimeTypes.concat(mimeTypes);
@@ -130,6 +144,22 @@ export default {
         const end = start + 10;
         return allTypes.slice(start, end);
       },
+    },
+    uploadType: {
+      type: "string",
+      label: "Upload Type",
+      description: `The type of upload request to the /upload URI. If you are uploading data
+        (using an /upload URI), this field is required. If you are creating a metadata-only file,
+        this field is not required. 
+        media - Simple upload. Upload the media only, without any metadata.
+        multipart - Multipart upload. Upload both the media and its metadata, in a single request.
+        resumable - Resumable upload. Upload the file in a resumable fashion, using a series of 
+        at least two requests where the first request includes the metadata.`,
+      options: [
+        "media",
+        "multipart",
+        "resumable",
+      ],
     },
     useDomainAdminAccess: {
       type: "boolean",
@@ -167,6 +197,31 @@ export default {
       label: "Email Address",
       description:
         "The email address of the user or group to which this permission refers if **Type** is `user` or `group`",
+      optional: true,
+    },
+    ocrLanguage: {
+      type: "string",
+      label: "OCR Language",
+      description:
+        "A language hint for OCR processing during image import (ISO 639-1 code)",
+      optional: true,
+      options: isoLanguages,
+    },
+    useContentAsIndexableText: {
+      type: "boolean",
+      label: "Use Content As Indexable Text",
+      description:
+        "Whether to use the uploaded content as indexable text",
+      optional: true,
+    },
+    keepRevisionForever: {
+      type: "boolean",
+      label: "Keep Revision Forever",
+      description: toSingleLineString(`
+        Whether to set the 'keepForever' field in the new head revision. This is only applicable
+        to files with binary content in Google Drive. Only 200 revisions for the file can be kept 
+        forever. If the limit is reached, try deleting pinned revisions.
+      `),
       optional: true,
     },
   },

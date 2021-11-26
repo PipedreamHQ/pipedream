@@ -4,6 +4,7 @@ import stream from "stream";
 import { promisify } from "util";
 import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../constants.mjs";
 import googleWorkspaceExportFormats from "../google-workspace-export-formats.mjs";
+import { toSingleLineString } from "../../utils.mjs";
 
 /**
  * Uses Google Drive API to download files to a `filePath` in the /tmp
@@ -26,8 +27,11 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
-      description:
-        "The drive to use. If not specified, your personal Google Drive will be used. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
+      description: toSingleLineString(`
+        The drive to use. If not specified, your personal Google Drive will be used. If you are
+        connected with any [Google Shared
+        Drives](https://support.google.com/a/users/answer/9310351), you can select it here.
+      `),
       optional: true,
     },
     fileId: {
@@ -43,8 +47,11 @@ export default {
     filePath: {
       type: "string",
       label: "Destination File Path",
-      description:
-        "The destination path for the file in /tmp (e.g., `/tmp/myFile.csv`).",
+      description: toSingleLineString(`
+        The destination path for the file in the [\`/tmp\`
+        directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
+        (e.g., \`/tmp/myFile.csv\`)
+      `),
     },
     mimeType: {
       propDefinition: [
@@ -52,8 +59,10 @@ export default {
         "mimeType",
       ],
       label: "Conversion Format",
-      description:
-        "The format to which to convert the downloaded file if it is a [Google Workspace document](https://developers.google.com/drive/api/v3/ref-export-formats)",
+      description: toSingleLineString(`
+        The format to which to convert the downloaded file if it is a [Google Workspace
+        document](https://developers.google.com/drive/api/v3/ref-export-formats)
+      `),
       options: googleWorkspaceExportFormats,
       optional: false,
       default: "application/pdf",

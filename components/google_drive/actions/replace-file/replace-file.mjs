@@ -37,16 +37,12 @@ export default {
         googleDrive,
         "fileUrl",
       ],
-      description:
-        "The URL of the file to attach. Must specify either **File URL** or **File Path**.",
     },
     filePath: {
       propDefinition: [
         googleDrive,
         "filePath",
       ],
-      description:
-        "The path to the file saved to the /tmp (e.g., `/tmp/myFile.csv`). Must specify either **File URL** or **File Path**.",
     },
     name: {
       propDefinition: [
