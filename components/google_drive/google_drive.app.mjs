@@ -17,6 +17,7 @@ import {
   getDriveId,
   getListFilesOpts,
 } from "./utils.mjs";
+import { omitEmptyStringValues } from "./utils.mjs";
 
 export default {
   type: "app",
@@ -1025,12 +1026,12 @@ export default {
       return (
         await drive.permissions.create({
           fileId,
-          requestBody: {
+          requestBody: omitEmptyStringValues({
             role,
             type,
-            domain: domain || undefined,
-            emailAddress: emailAddress || undefined,
-          },
+            domain,
+            emailAddress,
+          }),
         })
       ).data;
     },

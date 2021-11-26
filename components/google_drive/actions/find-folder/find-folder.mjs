@@ -29,7 +29,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = getListFilesOpts(this.drive || undefined, {
+    const opts = getListFilesOpts(this.drive, {
       q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}'`,
     });
     const folders = (await this.googleDrive.listFilesInPage(null, opts)).files;

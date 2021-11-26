@@ -1,6 +1,7 @@
 import googleDrive from "../../google_drive.app.mjs";
 import path from "path";
 import { getFileStream } from "../../utils.mjs";
+import { omitEmptyStringValues } from "../../utils.mjs";
 
 export default {
   key: "google_drive-upload-file",
@@ -79,12 +80,12 @@ export default {
       fileUrl,
       filePath,
     });
-    const resp = await this.googleDrive.createFileFromOpts({
+    const resp = await this.googleDrive.createFileFromOpts(omitEmptyStringValues({
       file,
-      mimeType: mimeType || undefined,
+      mimeType,
       name: name || path.basename(fileUrl || filePath),
       parentId,
-    });
+    }));
     $.export("$summary", `Successfully uploaded a new file, "${resp.name}"`);
     return resp;
   },

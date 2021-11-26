@@ -1,5 +1,6 @@
 import path from "path";
 import googleDrive from "../../google_drive.app.mjs";
+import { omitEmptyStringValues } from "../../utils.mjs";
 
 import { getFileStream } from "../../utils.mjs";
 
@@ -81,13 +82,13 @@ export default {
     // Update file media separately from metadata to prevent multipart upload,
     // which `google-apis-nodejs-client` doesn't seem to support for
     // [files.update](https://bit.ly/3lP5sWn)
-    await this.googleDrive.updateFileMedia(fileId, fileStream, {
-      mimeType: mimeType || undefined,
-    });
-    const resp = await this.googleDrive.updateFile(fileId, {
+    await this.googleDrive.updateFileMedia(fileId, fileStream, omitEmptyStringValues({
+      mimeType,
+    }));
+    const resp = await this.googleDrive.updateFile(fileId, omitEmptyStringValues({
       name: name || path.basename(fileUrl || filePath),
       mimeType,
-    });
+    }));
     $.export("$summary", "Successfully replaced the file");
     return resp;
   },

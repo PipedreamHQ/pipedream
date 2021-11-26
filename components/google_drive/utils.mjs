@@ -79,10 +79,28 @@ async function getFileStream({
     : fs.createReadStream(filePath);
 }
 
+/**
+ * Return an object compose of non-empty string valued properties of `obj`
+ *
+ * @param {Object} obj - the source object
+ * @param {String[]} [fromKeys] - keys of properties in `obj` to omit if corresponding value is
+ * empty string, or all keys by default
+ * @returns the new object
+ */
+function omitEmptyStringValues(obj, fromKeys) {
+  return Object.fromEntries(
+    // eslint-disable-next-line multiline-ternary,array-element-newline,array-bracket-newline
+    Object.entries(obj).filter(([ k, v ]) => {
+      return (fromKeys && !fromKeys.includes(k)) || v !== "";
+    }),
+  );
+}
+
 export {
   MY_DRIVE_VALUE,
   isMyDrive,
   getDriveId,
   getListFilesOpts,
   getFileStream,
+  omitEmptyStringValues,
 };

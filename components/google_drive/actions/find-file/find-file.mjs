@@ -26,7 +26,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = getListFilesOpts(this.drive || undefined, {
+    const opts = getListFilesOpts(this.drive, {
       q: `name contains '${this.nameSearchTerm}'`,
     });
     const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
