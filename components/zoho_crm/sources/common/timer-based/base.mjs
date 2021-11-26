@@ -1,12 +1,14 @@
-const zoho_crm = require("../../../zoho_crm.app");
+import zohoCrm from "../../../zoho_crm.app.js";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
-    zoho_crm,
+    zohoCrm,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
+      label: "Polling Interval",
+      description: "Pipedream will poll the Zoho API on this schedule",
       default: {
         intervalSeconds: 60 * 15, // 15 minutes
       },
