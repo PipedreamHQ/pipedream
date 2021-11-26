@@ -26,7 +26,7 @@ export default {
       type: "string",
       label: "Background Image Link",
       description:
-        "A link to the newbackround image for the shared drive. Cannot be set if `Theme ID` is set in the same request.",
+        "A link to the new backround image for the shared drive. Cannot be set if `Theme ID` is set in the same request.",
       optional: true,
     },
     colorRgb: {

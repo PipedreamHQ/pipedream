@@ -445,7 +445,7 @@ export default {
       });
     },
     /**
-     * Gets a list of prop options for a GDrive file in a particalar GDrive
+     * Gets a list of prop options for a GDrive file in a particular GDrive
      * drive, if provided
      *
      * @param {String} [drive] the ID value of a Google Drive, as provided by the
