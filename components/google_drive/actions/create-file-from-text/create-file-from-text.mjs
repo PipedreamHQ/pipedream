@@ -46,7 +46,7 @@ export default {
       default: "",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       parentId,
       name,
@@ -55,11 +55,13 @@ export default {
     const file = Readable.from([
       content,
     ]);
-    return await this.googleDrive.createFileFromOpts({
+    const resp = await this.googleDrive.createFileFromOpts({
       mimeType: "text/plain",
       file,
       name,
       parentId,
     });
+    $.export("$summary", `Successfully created a new file, "${resp.name}"`);
+    return resp;
   },
 };

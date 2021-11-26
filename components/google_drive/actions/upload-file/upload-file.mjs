@@ -64,7 +64,7 @@ export default {
         "The file's MIME type, (e.g., `image/jpeg`). Google Drive will attempt to automatically detect an appropriate value from uploaded content if no value is provided.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       parentId,
       fileUrl,
@@ -79,11 +79,13 @@ export default {
       fileUrl,
       filePath,
     });
-    return await this.googleDrive.createFileFromOpts({
+    const resp = await this.googleDrive.createFileFromOpts({
       file,
       mimeType: mimeType || undefined,
       name: name || path.basename(fileUrl || filePath),
       parentId,
     });
+    $.export("$summary", `Successfully uploaded a new file, "${resp.name}"`);
+    return resp;
   },
 };

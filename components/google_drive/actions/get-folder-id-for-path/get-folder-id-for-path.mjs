@@ -33,7 +33,7 @@ export default {
       optional: false,
     },
   },
-  async run() {
+  async run({ $ }) {
     // Convert path to array (e.g., `"folder1/subFolderA/subFolderB" ->
     // ["folder1","subFolderA","subFolderB"]`)
     const parts = this.path.split("");
@@ -56,6 +56,7 @@ export default {
       parentId = folders[0] && folders[0].id;
     }
 
+    $.export("$summary", `Successfully retrieved the folderId for the path, "${this.path}"`);
     // Return id of last folder that is found
     return parentId;
   },

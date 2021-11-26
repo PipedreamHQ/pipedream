@@ -101,7 +101,7 @@ export default {
         "(https://developers.google.com/drive/api/v3/reference/files/update#request-body) for a list of supported properties.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       fileId,
       fileUrl,
@@ -133,7 +133,7 @@ export default {
       });
     }
 
-    return await this.googleDrive.updateFile(fileId, {
+    const resp = await this.googleDrive.updateFile(fileId, {
       name,
       mimeType,
       addParents,
@@ -146,5 +146,8 @@ export default {
       },
       fields: "*",
     });
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully updated the file, "${name ? resp.id : resp.name}"`);
+    return resp;
   },
 };

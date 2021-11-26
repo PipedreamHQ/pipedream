@@ -39,14 +39,16 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       parentId,
       name,
     } = this;
-    return await this.googleDrive.createFolder({
+    const resp = await this.googleDrive.createFolder({
       name,
       parentId,
     });
+    $.export("$summary", `Successfully created a new folder, "${resp.name}"`);
+    return resp;
   },
 };

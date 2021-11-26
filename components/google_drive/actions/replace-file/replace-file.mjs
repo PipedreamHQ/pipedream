@@ -63,7 +63,7 @@ export default {
       description: "The MIME type of the new file (e.g., `image/jpeg`)",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       fileId,
       fileUrl,
@@ -84,9 +84,11 @@ export default {
     await this.googleDrive.updateFileMedia(fileId, fileStream, {
       mimeType: mimeType || undefined,
     });
-    return await this.googleDrive.updateFile(fileId, {
+    const resp = await this.googleDrive.updateFile(fileId, {
       name: name || path.basename(fileUrl || filePath),
       mimeType,
     });
+    $.export("$summary", "Successfully replaced the file");
+    return resp;
   },
 };

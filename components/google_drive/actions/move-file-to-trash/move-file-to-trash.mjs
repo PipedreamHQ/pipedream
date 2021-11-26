@@ -1,4 +1,5 @@
 import googleDrive from "../../google_drive.app.mjs";
+import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../constants.mjs";
 
 export default {
   key: "google_drive-move-file-to-trash",
@@ -28,11 +29,15 @@ export default {
       description: "The file or folder to move to trash",
     },
   },
-  async run() {
-    return await this.googleDrive.updateFile(this.fileId, {
+  async run({ $ }) {
+    const resp = await this.googleDrive.updateFile(this.fileId, {
       requestBody: {
         trashed: true,
       },
     });
+    $.export("$summary", `Successfully moved the ${resp.mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE
+      ? "folder"
+      : "file"} "${resp.name}" to trash`);
+    return resp;
   },
 };

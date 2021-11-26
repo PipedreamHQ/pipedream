@@ -15,9 +15,11 @@ export default {
       optional: true,
     },
   },
-  async run() {
-    return await this.googleDrive.createDrive({
+  async run({ $ }) {
+    const resp = await this.googleDrive.createDrive({
       name: this.name,
     });
+    $.export("$summary", `Successfully created a new shared drive, "${resp.name}"`);
+    return resp;
   },
 };

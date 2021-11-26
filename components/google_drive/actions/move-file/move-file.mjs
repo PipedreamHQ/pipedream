@@ -39,14 +39,16 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     // Get file to get parents to remove
     const file = await this.googleDrive.getFile(this.fileId);
     // Update file, removing old parents, adding new parent folder
-    return await this.googleDrive.updateFile(this.fileId, {
+    const resp = await this.googleDrive.updateFile(this.fileId, {
       fields: "*",
       removeParents: file.parents.join(","),
       addParents: this.folderId,
     });
+    $.export("$summary", `Successfully moved the file, "${file.name}"`);
+    return resp;
   },
 };

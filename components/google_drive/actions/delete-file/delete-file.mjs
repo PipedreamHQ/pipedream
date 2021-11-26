@@ -29,7 +29,9 @@ export default {
       description: "The file or folder to delete",
     },
   },
-  async run() {
-    return await this.googleDrive.deleteFile(this.fileId);
+  async run({ $ }) {
+    const resp = await this.googleDrive.deleteFile(this.fileId);
+    $.export("$summary", "Successfully deleted the file");
+    return resp;
   },
 };

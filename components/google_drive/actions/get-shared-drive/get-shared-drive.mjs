@@ -23,12 +23,14 @@ export default {
       ],
     },
   },
-  async run() {
-    return this.googleDrive.getSharedDrive(
+  async run({ $ }) {
+    const resp = await this.googleDrive.getSharedDrive(
       this.googleDrive.getDriveId(this.drive),
       {
         useDomainAdminAccess: this.useDomainAdminAccess,
       },
     );
+    $.export("$summary", `Successfully fetched the shared drive, "${resp.name}"`);
+    return resp;
   },
 };

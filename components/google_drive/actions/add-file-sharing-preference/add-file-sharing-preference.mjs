@@ -82,7 +82,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       fileId,
       role,
@@ -99,6 +99,9 @@ export default {
     });
 
     // Get the file to get the `webViewLink` sharing URL
-    return (await this.googleDrive.getFile(this.fileId)).webViewLink;
+    const resp = await this.googleDrive.getFile(this.fileId);
+    const webViewLink = resp.webViewLink;
+    $.export("$summary", `Successfully added a sharing permission to the file, "${resp.name}"`);
+    return webViewLink;
   },
 };

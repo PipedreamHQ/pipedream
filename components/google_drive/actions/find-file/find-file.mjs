@@ -25,10 +25,13 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const opts = getListFilesOpts(this.drive || undefined, {
       q: `name contains '${this.nameSearchTerm}'`,
     });
-    return (await this.googleDrive.listFilesInPage(null, opts)).files;
+    const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully found ${files.length} file${files.length === 1 ? "" : "s"} containing the term, "${this.nameSearchTerm}"`);
+    return files;
   },
 };

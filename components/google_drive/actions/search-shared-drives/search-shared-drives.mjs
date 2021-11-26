@@ -21,12 +21,14 @@ export default {
       ],
     },
   },
-  async run() {
-    return (
+  async run({ $ }) {
+    const drives = (
       await this.googleDrive.searchDrives({
         q: this.q,
         useDomainAdminAccess: this.useDomainAdminAccess,
       })
     ).drives;
+    $.export("$summary", `Successfully found ${drives.length} shared drives using the search query "${this.q}"`);
+    return drives;
   },
 };

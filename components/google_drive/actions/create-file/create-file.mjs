@@ -222,48 +222,48 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const body = this.fileUrl
       ? await got.stream(this.fileUrl)
       : fs.createReadStream(this.filePath);
-    return (
-      await this.googleDrive.createFile({
-        ignoreDefaultVisibility: this.ignoreDefaultVisibility,
-        includePermissionsForView: this.includePermissionsForView,
-        keepRevisionForever: this.keeprevisionForever,
-        ocrLanguage: this.ocrLanguage,
-        useContentAsIndexableText: this.useContentAsIndexableText,
-        supportsAllDrives: this.supportsAllDrives,
-        resource: {
-          name: this.name,
-          originalFilename: this.originalFilename,
-          parents: [
-            this.parent,
-          ],
-          mimeType: this.mimeType,
-          description: this.description,
-          folderColorRgb: this.folderColorRgb,
-          shortcutDetails: {
-            targetId: this.shortcutDetailsTargetId,
-          },
-          starred: this.starred,
-          writersCanShare: this.writersCanShare,
-          contentHints: {
-            indexableText: this.contentHintsIndexableText,
-          },
-          contentRestrictions: {
-            readOnly: this.contentRestrictionsReadOnly,
-            reason: this.contentRestrictionsReason,
-          },
-          copyRequiresWriterPermission: this.copyRequiresWriterPermission,
+    const resp = await this.googleDrive.createFile({
+      ignoreDefaultVisibility: this.ignoreDefaultVisibility,
+      includePermissionsForView: this.includePermissionsForView,
+      keepRevisionForever: this.keeprevisionForever,
+      ocrLanguage: this.ocrLanguage,
+      useContentAsIndexableText: this.useContentAsIndexableText,
+      supportsAllDrives: this.supportsAllDrives,
+      resource: {
+        name: this.name,
+        originalFilename: this.originalFilename,
+        parents: [
+          this.parent,
+        ],
+        mimeType: this.mimeType,
+        description: this.description,
+        folderColorRgb: this.folderColorRgb,
+        shortcutDetails: {
+          targetId: this.shortcutDetailsTargetId,
         },
-        media: {
-          mimeType: this.mimeType,
-          uploadType: this.uploadType,
-          body,
+        starred: this.starred,
+        writersCanShare: this.writersCanShare,
+        contentHints: {
+          indexableText: this.contentHintsIndexableText,
         },
-        fields: "*",
-      })
-    );
+        contentRestrictions: {
+          readOnly: this.contentRestrictionsReadOnly,
+          reason: this.contentRestrictionsReason,
+        },
+        copyRequiresWriterPermission: this.copyRequiresWriterPermission,
+      },
+      media: {
+        mimeType: this.mimeType,
+        uploadType: this.uploadType,
+        body,
+      },
+      fields: "*",
+    });
+    $.export("$summary", `Successfully created a new file, "${resp.name}"`);
+    return resp;
   },
 };

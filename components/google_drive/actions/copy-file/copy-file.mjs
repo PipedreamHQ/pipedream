@@ -28,7 +28,9 @@ export default {
       description: "The file to copy",
     },
   },
-  async run() {
-    return await this.googleDrive.copyFile(this.fileId);
+  async run({ $ }) {
+    const resp = await this.googleDrive.copyFile(this.fileId);
+    $.export("$summary", `Successfully created a copy of the file, "${resp.name}"`);
+    return resp;
   },
 };

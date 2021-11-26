@@ -17,9 +17,11 @@ export default {
         "Select a [shared drive](https://support.google.com/a/users/answer/9310351) to delete.",
     },
   },
-  async run() {
-    return await this.googleDrive.deleteSharedDrive(
+  async run({ $ }) {
+    const resp = await this.googleDrive.deleteSharedDrive(
       this.googleDrive.getDriveId(this.drive),
     );
+    $.export("$summary", "Successfully deleted the shared drive");
+    return resp;
   },
 };

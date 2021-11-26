@@ -52,7 +52,7 @@ export default {
       default: {},
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       useDomainAdminAccess,
       backgroundImageLink,
@@ -60,7 +60,7 @@ export default {
       themeId,
       restrictions,
     } = this;
-    return await this.googleDrive.updateSharedDrive(this.driveId, {
+    const resp = await this.googleDrive.updateSharedDrive(this.driveId, {
       useDomainAdminAccess,
       requestBody: {
         backgroundImageLink,
@@ -69,5 +69,7 @@ export default {
         restrictions,
       },
     });
+    $.export("$summary", `Successfully updated the shared drive, "${resp.name}"`);
+    return resp;
   },
 };

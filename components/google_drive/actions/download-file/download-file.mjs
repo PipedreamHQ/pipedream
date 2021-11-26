@@ -59,10 +59,10 @@ export default {
       default: "application/pdf",
     },
   },
-  async run() {
+  async run({ $ }) {
     // Get file metadata to get file's MIME type
     const fileMetadata = await this.googleDrive.getFile(this.fileId, {
-      fields: "mimeType",
+      fields: "name,mimeType",
     });
     const mimeType = fileMetadata.mimeType;
 
@@ -86,6 +86,7 @@ export default {
     // Stream file to `filePath`
     const pipeline = promisify(stream.pipeline);
     await pipeline(file, fs.createWriteStream(this.filePath));
+    $.export("$summary", `Successfully downloaded the file, "${file.name}"`);
     return fileMetadata;
   },
 };
