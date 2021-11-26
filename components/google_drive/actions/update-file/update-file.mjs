@@ -97,7 +97,7 @@ export default {
       label: "Advanced Options",
       optional: true,
       description:
-        "Specify less-common properties that you require. See [Files: update]" +
+        "Specify less-common properties that you want to use. See [Files: update]" +
         "(https://developers.google.com/drive/api/v3/reference/files/update#request-body) for a list of supported properties.",
     },
   },
