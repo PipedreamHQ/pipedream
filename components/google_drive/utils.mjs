@@ -1,5 +1,5 @@
 import fs from "fs";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import { MY_DRIVE_VALUE } from "./constants.mjs";
 
 /**
@@ -66,16 +66,14 @@ function getListFilesOpts(drive, baseOpts = {}) {
  * @returns {stream.Readable} a Readable stream from the file URL or file path
  */
 async function getFileStream({
-  fileUrl, filePath,
+  $, fileUrl, filePath,
 }) {
   return fileUrl
-    ? (
-      await axios({
-        url: fileUrl,
-        method: "GET",
-        responseType: "stream",
-      })
-    ).data
+    ? (await axios($ ?? this, {
+      url: fileUrl,
+      method: "GET",
+      responseType: "stream",
+    }))
     : fs.createReadStream(filePath);
 }
 

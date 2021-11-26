@@ -76,6 +76,7 @@ export default {
       throw new Error("One of File URL and File Path is required.");
     }
     const fileStream = await getFileStream({
+      $,
       fileUrl,
       filePath,
     });

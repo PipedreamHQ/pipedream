@@ -119,6 +119,7 @@ export default {
     const fileStream =
       fileUrl || filePath
         ? await getFileStream({
+          $,
           fileUrl,
           filePath,
         })
