@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../google_drive/constants.js";
+import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../google_drive/constants.mjs";
 import googleSheets from "../google_sheets.app.mjs";
 
 /**

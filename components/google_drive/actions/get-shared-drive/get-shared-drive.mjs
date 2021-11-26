@@ -1,0 +1,34 @@
+import googleDrive from "../../google_drive.app.mjs";
+
+export default {
+  key: "google_drive-get-shared-drive",
+  name: "Get Shared Drive",
+  description: "Get a shared drive's metadata by ID",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    googleDrive,
+    drive: {
+      propDefinition: [
+        googleDrive,
+        "watchedDrive",
+      ],
+      description:
+        "Select a [shared drive](https://support.google.com/a/users/answer/9310351).",
+    },
+    useDomainAdminAccess: {
+      propDefinition: [
+        googleDrive,
+        "useDomainAdminAccess",
+      ],
+    },
+  },
+  async run() {
+    return this.googleDrive.getSharedDrive(
+      this.googleDrive.getDriveId(this.drive),
+      {
+        useDomainAdminAccess: this.useDomainAdminAccess,
+      },
+    );
+  },
+};

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { google } from "googleapis";
-import googleDrive from "../google_drive/google_drive.app.js";
+import googleDrive from "../google_drive/google_drive.app.mjs";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
 } from "./constants.mjs";

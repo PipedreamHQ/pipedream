@@ -1,0 +1,23 @@
+import googleDrive from "../../google_drive.app.mjs";
+
+export default {
+  key: "google_drive-create-shared-drive",
+  name: "Create Shared Drive",
+  description: "Create Shared Drive",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    googleDrive,
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the new shared drive",
+      optional: true,
+    },
+  },
+  async run() {
+    return await this.googleDrive.createDrive({
+      name: this.name,
+    });
+  },
+};
