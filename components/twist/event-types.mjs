@@ -1,6 +1,4 @@
 // The Twist event types that can be subscribed to via webhook.
-// The lines commented out are for event types listed in Twist's documentation,
-// but not yet available. Coming Soon!
 
 export default [
   {
@@ -11,7 +9,6 @@ export default [
     label: "Workspace Updated",
     value: "workspace_updated",
   },
-  //  { label: "Workspace Deleted", value: `workspace_deleted` },
   {
     label: "Workspace User Added",
     value: "workspace_user_added",
@@ -40,7 +37,6 @@ export default [
     label: "Channel User Added",
     value: "channel_user_added",
   },
-  //  { label: "Channel User Updated", value: `channel_user_updated` },
   {
     label: "Channel User Removed",
     value: "channel_user_removed",
@@ -77,7 +73,6 @@ export default [
     label: "Message Updated",
     value: "message_updated",
   },
-  //  { label: "Message Deleted", value: `message_deleted` },
   {
     label: "Group Added",
     value: "group_added",

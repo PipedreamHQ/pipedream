@@ -6,7 +6,7 @@ export default {
   version: "0.0.2",
   type: "source",
   key: "twist-new-event-instant",
-  description: "Emits an event for any new updates in a workspace",
+  description: "Emit new event for any new updates in a workspace [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",
   props: {
     ...common.props,
     channel: {

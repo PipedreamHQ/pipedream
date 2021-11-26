@@ -6,7 +6,7 @@ export default {
   version: "0.0.2",
   type: "source",
   key: "twist-new-channel-instant",
-  description: "Emits an event for any new channel added in a workspace",
+  description: "Emit new event for any new channel added in a workspace [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",
   methods: {
     ...common.methods,
     getHookActivationData() {

@@ -6,7 +6,7 @@ export default {
   version: "0.0.1",
   type: "source",
   key: "twist-new-group-user-instant",
-  description: "Emits an event for any new user added to a workspace group.",
+  description: "Emit new event for any new user added to a workspace group [See the docs here](https://developer.twist.com/v3/#outgoing-webhook)",
   methods: {
     ...common.methods,
     getHookActivationData() {
