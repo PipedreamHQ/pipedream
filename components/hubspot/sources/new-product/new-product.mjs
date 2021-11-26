@@ -1,29 +1,30 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
-  key: "hubspot-new-line-item",
-  name: "New Line Item",
-  description: "Emits an event for each new line item added.",
+  key: "hubspot-new-product",
+  name: "New Products",
+  description: "Emits an event for each new product created.",
   version: "0.0.1",
   dedupe: "unique",
   hooks: {},
   methods: {
     ...common.methods,
-    generateMeta(lineItem) {
+    generateMeta(product) {
       const {
         id,
+        properties,
         createdAt,
-      } = lineItem;
+      } = product;
       const ts = Date.parse(createdAt);
       return {
         id,
-        summary: `New Line Item ID: ${id}`,
+        summary: properties.name,
         ts,
       };
     },
-    isRelevant(lineItem, createdAfter) {
-      return Date.parse(lineItem.createdAt) > createdAfter;
+    isRelevant(product, createdAfter) {
+      return Date.parse(product.createdAt) > createdAfter;
     },
     getParams() {
       return {
@@ -34,7 +35,7 @@ module.exports = {
             direction: "DESCENDING",
           },
         ],
-        object: "lineItems",
+        object: "products",
       };
     },
     async processResults(after, params) {

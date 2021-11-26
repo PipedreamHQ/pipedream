@@ -1,6 +1,6 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
@@ -42,7 +42,7 @@ module.exports = {
       const filter = {
         propertyName: "dealstage",
         operator: "EQ",
-        value: stage.value,
+        value: stage,
       };
       const filterGroup = {
         filters: [
@@ -65,7 +65,6 @@ module.exports = {
     },
     async processResults(after) {
       for (let stage of this.stages) {
-        stage = JSON.parse(stage);
         const params = this.getStageParams(stage);
         await this.searchCRM(params, after);
       }

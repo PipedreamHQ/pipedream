@@ -1,6 +1,6 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-contact-in-list",
   name: "New Contact in List",
@@ -51,8 +51,8 @@ module.exports = {
     },
     async processResults() {
       const properties = this._getProperties();
-      for (let list of this.lists) {
-        list = JSON.parse(list);
+      for (let list of this.lists) { console.log(list);
+        list = JSON.parse(list); console.log(list);
         const params = this.getParams();
         let hasMore = true;
         while (hasMore) {

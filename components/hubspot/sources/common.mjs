@@ -1,6 +1,6 @@
-const hubspot = require("../hubspot.app.js");
+import hubspot from "../hubspot.app.mjs";
 
-module.exports = {
+export default {
   props: {
     hubspot,
     db: "$.service.db",
@@ -36,9 +36,14 @@ module.exports = {
       let results = null;
       while (!results || params.after) {
         results = await resourceFn(params);
-        if (results.paging) params.after = results.paging.next.after;
-        else delete params.after;
-        if (resultType) results = results[resultType];
+        if (results.paging) {
+          params.after = results.paging.next.after;
+        } else {
+          delete params.after;
+        }
+        if (resultType) {
+          results = results[resultType];
+        }
         for (const result of results) {
           if (this.isRelevant(result, after)) {
             this.emitEvent(result);
@@ -60,9 +65,14 @@ module.exports = {
       while (hasMore) {
         results = await resourceFn(params);
         hasMore = results.hasMore;
-        if (hasMore) params.offset = results.offset;
-        if (resultType) items = results[resultType];
-        else items = results;
+        if (hasMore) {
+          params.offset = results.offset;
+        }
+        if (resultType) {
+          items = results[resultType];
+        } else {
+          items = results;
+        }
         for (const item of items) {
           if (this.isRelevant(item, after)) this.emitEvent(item);
         }

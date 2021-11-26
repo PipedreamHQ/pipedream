@@ -1,6 +1,6 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
@@ -42,10 +42,9 @@ module.exports = {
     async processResults(after, baseParams) {
       await Promise.all(
         this.forms
-          .map(JSON.parse)
-          .map(({ value }) => ({
+          .map((form) => ({
             ...baseParams,
-            formId: value,
+            formId: form,
           }))
           .map((params) =>
             this.paginate(

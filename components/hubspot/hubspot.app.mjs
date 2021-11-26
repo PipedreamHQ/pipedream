@@ -1,7 +1,7 @@
-const axios = require("axios");
-const hubspotSDK = require("@hubspot/api-client");
+import axios from "axios";
+import hubspotSDK from "@hubspot/api-client";
 
-module.exports = {
+export default {
   type: "app",
   app: "hubspot",
   propDefinitions: {
@@ -24,10 +24,10 @@ module.exports = {
           } = result;
           return {
             label,
-            value: JSON.stringify({
+            value: {
               label,
               value: listId,
-            }),
+            },
           };
         });
         return options;
@@ -42,14 +42,11 @@ module.exports = {
         const options = results.results[0].stages.map((result) => {
           const {
             label,
-            stageId,
+            stageId: value,
           } = result;
           return {
             label,
-            value: JSON.stringify({
-              label,
-              value: stageId,
-            }),
+            value,
           };
         });
         return options;
@@ -130,14 +127,11 @@ module.exports = {
         const options = results.map((result) => {
           const {
             name: label,
-            guid,
+            guid: value,
           } = result;
           return {
             label,
-            value: JSON.stringify({
-              label,
-              value: guid,
-            }),
+            value,
           };
         });
         return options;
