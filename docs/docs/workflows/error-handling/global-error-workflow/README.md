@@ -5,7 +5,7 @@ The global error workflow allows you to run code in response to errors from any 
 When you sign up for Pipedream, this workflow is automatically created for you. You can access it from your workflow dashboard, by clicking on the **Error Workflow** label: 
 
 <div>
-<img width="150" alt="global error workflow" src="./images/global-error-workflow.png">
+<img width="400" alt="global error workflow" src="./images/global-error-workflow.png">
 </div>
 
 By default, any time an unhandled error is raised in a workflow, it gets sent to the global error workflow.
@@ -30,7 +30,7 @@ Events sent to the global error workflow have the following properties:
 
 - `error` : contains information about the error, for example the `code` (its type), the `msg`, and the `stack`, which contains its stack trace.
 - `original_event` : contains the original event (see the [event format](/workflows/events/#event-format) docs for an explanation of the event properties).
-- `original_context` : contains the original workflow context object.
+- `original_context` : contains the original workflow [context object](/workflows/events/#steps-trigger-context), which includes the workflow's name, ID, and more.
 
 For example, an error event might look something like this:
 

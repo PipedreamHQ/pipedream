@@ -1,14 +1,23 @@
 # Auth in code steps
 
-When you use [prebuilt actions](/workflows/steps/actions/) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
+::: warning This doc doesn't apply to components
+This document applies only to [Node.js workflow code steps](/workflows/steps/code/). If you're developing a component, like a source or action, see [the component API docs](/components/api/#app-props).
+:::
 
-Often, though, you'll need to write your own code. You can also connect apps to custom code steps, utilizing the auth information to authorize requests to that app. 
+When you use [prebuilt actions](/components/actions/) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
+
+But sometimes you'll need to [write your own code](/workflows/steps/code/). You can also connect apps to custom code steps, using the auth information to authorize requests to that app.
 
 For example, you may want to send a Slack message from a step. We use Slack's OAuth integration to authorize requests to Slack, so you can connect your account to this step and send a message using the access token Pipedream generates for you at `auths.slack.oauth_access_token`:
 
-<div>
-<img alt="Slack code step using access token" width="500" src="./images/slack-token.png">
-</div>
+```javascript
+import { WebClient } from '@slack/web-api'
+const web = new WebClient(auths.slack.oauth_access_token)
+return await web.chat.postMessage({
+  text: "Hello, world!",
+  channel: "#general",
+})
+```
 
 [[toc]]
 
@@ -33,43 +42,45 @@ async (event, steps, auths) => {
 You can view the named properties of the `auths` object for connected accounts next to the account connections:
 
 <div>
-<img alt="Slack auths object" width="300" src="./images/auths-property.png">
+<img alt="Slack auths object" width="500" src="./images/auths-property.png">
 </div>
 
 The names of the properties for each connected account will differ with the account. Pipedream typically exposes OAuth access tokens as `oauth_access_token`, and API keys under the property `api_key`. But if there's a service-specific name for the tokens (for example, if the service calls it `server_token`), we prefer that name, instead.
 
+To list the `auths` properties available to you for a given app, run `Object.keys` on the app:
+
+```javascript
+console.log(Object.keys(auths.slack)) // Replace auths.slack with your app's name
+```
+
+and run your workflow. You'll see the property names in the logs below your step.
+
 ## Writing custom steps to use `auths`
 
-There are a couple of ways to write code that utilizes connected accounts:
+You can write code that utilizes connected accounts in a couple of different ways:
 
 ### Using the code templates tied to apps
 
-When we integrate new apps, we'll create a code snippet that functions as the **test request** for that app. When you search for an app in a step:
+When you write custom code that connects to an app, you can start with a code snippet Pipedream provides for each app. This is called the **test request**.
+
+When you search for an app in a step:
+
+1. Click the **+** button below any step.
+2. Search for the app you're looking for and select it from the list.
+3. Select the option to **Run Node.js code with [app]**.
 
 <div>
-<img alt="Search for Slack" width="300" src="./images/search-for-slack.png">
+<img alt="Slack test request" width="400" src="./images/run-node-with-slack.png">
 </div>
 
-and select it, you'll be presented with its actions. You'll see the **Run Node.js code with [APP]** step at the top of the list:
-
-<div>
-<img alt="Run Node.js code with app (Slack)" width="350" src="./images/run-node-js-code-with-slack.png">
-</div>
-
-In Slack's case, the test request retrieves basic profile information:
-
-<div>
-<img alt="Slack test request" width="500" src="./images/slack-test-request.png">
-</div>
-
-This code operates as a template you can extend, and comes preconfigured with the connection to the target app and the code for authorizing requests to the API. You can extend this code however you'd like.
+This code operates as a template you can extend, and comes preconfigured with the connection to the target app and the code for authorizing requests to the API. You can modify this code however you'd like.
 
 ### Manually connecting apps to steps
 
 See the Connected Accounts docs for [connecting an account to a code step](/connected-accounts/#from-a-code-step).
 
-## Custom auth tokens
+## Custom auth tokens / secrets
 
-For situations where you have a secret that you're using to connect to a 3rd party service that isn't supported by Pipedream, you can store those secrets in [Environment Variables](/environment-variables/).
+When you want to connect to a 3rd party service that isn't supported by Pipedream, you can store those secrets in [Environment Variables](/environment-variables/).
 
 <Footer />

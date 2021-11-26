@@ -1,6 +1,8 @@
 # Organizations
 
-Organizations provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+Organizations ("orgs") provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+
+[[toc]]
 
 ## Creating an org
 
@@ -33,3 +35,23 @@ This is called the **context switcher**, and sets the context for creating resou
 By default, you operate within your **user context**. All resources (workflows, event sources, connected accounts, etc.) you create within this context are owned by your core Pipedream user: the username you created when you signed up for Pipedream.
 
 When you [create an org](#creating-an-org), you'll see that org listed in the context switcher. When you select that org from the context switcher, you'll switch your context to that org. You'll see resources owned by the org here. Any resources you create in this context are owned by the org, not your personal user.
+
+## Migrating workflows from your user to your org
+
+If you are running resources in your user account, but want to move those to your organization, [reach out to the Pipedream team](https://pipedream.com/support).
+
+## Org admins
+
+Org admins have permission to:
+
+- Remove users from orgs
+- Manage the org's billing details
+
+## Adding new org admins
+
+By default, the user who created the org is the org admin. To change ownership or assign new admins, [reach out to the Pipedream team](https://pipedream.com/support).
+
+## Finding your organization's ID
+
+1. Visit [pipedream.com](https://pipedream.com) and [switch your context](#switching-context) to your organization.
+2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Access** section. You'll see your org ID here.

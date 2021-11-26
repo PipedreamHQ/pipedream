@@ -18,11 +18,46 @@
     },
     {
       "files": [
-        "**/*.app.js",
-        "**/sources/**/*.js"
+        "**/actions/**/*.*js",
+        "**/sources/**/*.*js"
       ],
-      "parserOptions": {
-        "ecmaVersion": 10
+      "rules": {
+        "pipedream/required-properties-key": "error",
+        "pipedream/required-properties-name": "error",
+        "pipedream/required-properties-version": "error",
+        "pipedream/required-properties-description": "error",
+        "pipedream/required-properties-type": "error",
+        "pipedream/props-label": "error",
+        "pipedream/props-description": "error",
+        "pipedream/source-name": "warn",
+        "pipedream/source-description": "warn",
+        "pipedream/no-ts-version": "error"
+      }
+    },
+    {
+      "files": [
+        "**/actions/**/common*.*js",
+        "**/actions/common/*",
+        "**/sources/common/*",
+        "**/sources/**/common*.*js"
+      ],
+      "rules": {
+        "pipedream/required-properties-key": "off",
+        "pipedream/required-properties-name": "off",
+        "pipedream/required-properties-version": "off",
+        "pipedream/required-properties-description": "off",
+        "pipedream/required-properties-type": "off",
+        "pipedream/source-name": "off",
+        "pipedream/source-description": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.app.*js"
+      ],
+      "rules": {
+        "pipedream/props-label": "error",
+        "pipedream/props-description": "error"
       }
     }
   ],
@@ -32,7 +67,8 @@
   },
   "plugins": [
     "jsonc",
-    "putout"
+    "putout",
+    "pipedream"
   ],
   "root": true,
   "rules": {

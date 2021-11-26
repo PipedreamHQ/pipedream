@@ -1,18 +1,26 @@
 const crypto = require("crypto");
 const difference = require("lodash/difference");
+// eslint-disable-next-line camelcase
 const zoom_admin = require("../../zoom_admin.app");
 
 module.exports = {
+  type: "source",
   name: "Changes to Webinar Panelists",
-  key: "zoom-admin-webinar-changes-to-panelists",
+  key: "zoom_admin-webinar-changes-to-panelists",
   version: "0.0.1",
   description:
-    "Emits an event every time a panelist is added or removed from a webinar, or any time their details change",
+    "Emit new event every time a panelist is added or removed from a webinar, or any time their details change",
   dedupe: "unique",
   props: {
     zoom_admin,
-    webinars: { propDefinition: [zoom_admin, "webinars"] },
+    webinars: {
+      propDefinition: [
+        zoom_admin, // eslint-disable-line camelcase
+        "webinars",
+      ],
+    },
     db: "$.service.db",
+    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
       type: "$.interface.timer",
       default: {
@@ -28,7 +36,11 @@ module.exports = {
   },
   methods: {
     generateMeta(eventType, panelist) {
-      const { id: panelistID, email, name } = panelist;
+      const {
+        id: panelistID,
+        email,
+        name,
+      } = panelist;
       const summary = name
         ? `${eventType} - ${name} - ${email}`
         : `${eventType} - ${email}`;
@@ -38,7 +50,8 @@ module.exports = {
       };
     },
     hash(str) {
-      return crypto.createHash("sha256").update(str).digest("hex");
+      return crypto.createHash("sha256").update(str)
+        .digest("hex");
     },
     async fetchAndEmitParticipants() {
       // This endpoint allows for no time filter, so we fetch all participants from
@@ -57,9 +70,9 @@ module.exports = {
         } while (nextPageToken);
       }
 
-      for (webinarID of webinars) {
+      for (const webinarID of webinars) {
         const { panelists } = await this.zoom_admin.listWebinarPanelists(
-          webinarID
+          webinarID,
         );
         // We keep a DB key for each webinar, which contains an object
         // of panelists with the content of the panelist metadata,
@@ -75,8 +88,12 @@ module.exports = {
         for (const panelistID of deletedPanelistIDs) {
           const panelist = oldPanelists[panelistID];
           this.$emit(
-            { eventType, ...panelist, webinarID },
-            this.generateMeta(eventType, panelist)
+            {
+              eventType,
+              ...panelist,
+              webinarID,
+            },
+            this.generateMeta(eventType, panelist),
           );
         }
 
@@ -89,8 +106,12 @@ module.exports = {
           if (addedPanelistIDs.includes(panelist.id)) {
             eventType = "panelist.added";
             this.$emit(
-              { eventType, ...panelist, webinarID },
-              this.generateMeta(eventType, panelist)
+              {
+                eventType,
+                ...panelist,
+                webinarID,
+              },
+              this.generateMeta(eventType, panelist),
             );
           }
           if (
@@ -100,8 +121,12 @@ module.exports = {
           ) {
             eventType = "panelist.changed";
             this.$emit(
-              { eventType, ...panelist, webinarID },
-              this.generateMeta(eventType, panelist)
+              {
+                eventType,
+                ...panelist,
+                webinarID,
+              },
+              this.generateMeta(eventType, panelist),
             );
           }
         }
@@ -110,7 +135,7 @@ module.exports = {
       }
     },
   },
-  async run(event) {
+  async run() {
     await this.fetchAndEmitParticipants();
   },
 };

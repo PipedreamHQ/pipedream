@@ -5,8 +5,9 @@ module.exports = {
   key: "github-new-mention",
   name: "New Mention",
   description:
-    "Emit an event when you are @mentioned in a new commit, comment, issue or pull request",
-  version: "0.0.2",
+    "Emit new events when you are @mentioned in a new commit, comment, issue or pull request",
+  version: "0.0.4",
+  type: "source",
   hooks: {
     async activate() {
       const user = await this.github.getUser();
@@ -25,13 +26,16 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const since = this.db.get("since");
     const login = this.db.get("login");
 
     const mentions = await this.getFilteredNotifications(
-      { participating: true, since },
-      "mention"
+      {
+        participating: true,
+        since,
+      },
+      "mention",
     );
 
     let maxDate = since;

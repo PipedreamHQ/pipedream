@@ -4,73 +4,70 @@ Pipedream allows you to connect accounts for various apps and services within ou
 
 For example, you can connect to Slack from Pipedream (via their OAuth integration), and use the access token Pipedream generates to authorize requests:
 
-<div>
-<img alt="Slack code step using access token" width="500" src="./images/slack-token.png">
-</div>
+```javascript
+import { WebClient } from '@slack/web-api';
 
-Let's review how all of this works below.
+const web = new WebClient(auths.slack.oauth_access_token)
+return await web.chat.postMessage({
+  text: "Hello, world!",
+  channel: "#general",
+})
+```
 
 [[toc]]
 
 ## Supported Apps
 
-Pipedream supports many apps today and will be adding hundreds more over the coming months. To see if we support a specific app, try [connecting your account](#connecting-accounts).
+Pipedream supports [400+ apps](https://pipedream.com/apps), with more added every day.
 
-If we don't support a service you need, please [open a request on Github](/new-feature-or-bug) or [reach out](/support/) and let us know.
+If we don't support a service you need, please [request an app here](#requesting-a-new-app-or-service).
 
 ## Connecting accounts
 
 ### From an action
 
-Prebuilt actions that connect to a specific service will require you connect your account for that service below the action:
+Prebuilt actions that connect to a specific service require you connect your account for that service before you run your workflow. Click the **Connect [APP]** button to get started.
 
-<div>
-<img alt="Connect Slack account" width="350" src="./images/slack-connect-account.png">
-</div>
+Depending on the integration, this will either:
 
-Clicking **Connect Account** will either initiate the OAuth flow for the target service, prompting you to authorize Pipedream to access your account, or present a modal for API key integrations that asks for the necessary keys.
+- Open the OAuth flow for the target service, prompting you to authorize Pipedream to access your account, or
+- Open a modal asking for your API credentials for key-based services
 
-If you've already connected an account for this app, you can also connect that without going through a new auth flow:
-
-<div>
-<img alt="Connect existing account" width="500" src="./images/connect-existing-account.png">
-</div>
+If you've already connected an account for this app, you'll also see a list of existing accounts to select from.
 
 ### From a code step
 
-You can connect accounts to code steps, too. First, click the **+** button to the left of any step:
+You can connect accounts to code steps, too:
 
-<div>
-<img alt="Add new account to code step" width="350" src="./images/add-new-app.png">
-</div>
+1. Click the **+** button to the left of any step.
+2. Search for your app from the list.
 
-and search for your app in the list that appears:
+Selecting an app will present the same **Connect Account** button you'll see for actions.
 
-<div>
-<img alt="Search for app" width="350" src="./images/search-for-slack.png">
-</div>
+## Managing Connected Accounts from Apps
 
-If you can't find the app you're looking for, we can [add it for you](#requesting-a-new-app-or-service).
+Visit [https://pipedream.com/accounts](https://pipedream.com/accounts) to see the list of your connected accounts.
 
-Selecting an app will present the same **Connect Account** button you'll see for actions. Clicking **Connect Account** will either initiate the OAuth flow for the target service, prompting you to authorize Pipedream to access your account, or present a modal for API key integrations that asks for the necessary keys.
+You can perform the following operations on accounts:
 
-If you've already connected an account for this app, you can also connect that without going through a new auth flow:
+- Add a new account
+- Delete an account
+- Reconnect an account
+- Change the nickname associated with an account
 
-<div>
-<img alt="Connect existing account" width="500" src="./images/connect-existing-account.png">
-</div>
+You'll also see some data associated with these accounts:
 
-## Managing Connected Account from Apps
+- For OAuth apps, the scopes you've granted Pipedream access to
+- The workflows where you're using the account.
 
-Visit [https://pipedream.com/accounts](https://pipedream.com/accounts) to see the list of accounts you've previously connected.
+## Reconnect an account
 
-You can add or remove accounts from here, and see data associated with those connections: the scopes you've granted Pipedream access to, the number of workflows where you're using the account, and more.
+If you encounter errors in a step that appear to be related to credentials / authorization, you can reconnect your account:
 
-<div>
-<img alt="Manage connected account" src="./images/manage-connected-account.png">
-</div>
-
-You can also add nicknames to accounts here, making it easier to select the right account when linking these accounts to code steps.
+1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts)
+2. Search for your account
+3. Click on the *...* next to your account, on the right side of the page
+4. Select the option to **Reconnect** your account
 
 ## Types of Integrations
 
@@ -86,16 +83,14 @@ We also support services that use API keys or other long-lived tokens to authori
 
 For those services, you'll have to create your keys in the service itself, then add them to your connected accounts in Pipedream.
 
-For example, if you add a new connected account for **Sendgrid**, you'll be asked to add your Sendgrid API key:
+For example, if you add a new connected account for **Sendgrid**, you'll be asked to add your Sendgrid API key.
 
-<div>
-<img alt="Sendgrid API key form" width="500" src="./images/api-key.png">
-</div>
+## Account Security
 
-When you connect this Sendgrid account to a step, your API key will be available for use in the variable `auths.sendgrid.api_key_id`. See the docs on [auth in code steps](/workflows/steps/code/auth/) for more information.
+[See our security docs](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables) for details on how Pipedream secures your connected accounts.
 
 ## Requesting a new app or service
 
-If we don't support a service you need to connect to, please [open a request on Github](/new-feature-or-bug) or [reach out](/support/) and let us know.
+Please request new apps by [opening an issue on GitHub](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D).
 
 <Footer />

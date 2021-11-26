@@ -4,7 +4,9 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 **Below, we'll review how to make HTTP requests using Node.js code on Pipedream.**
 
-We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too. 
+We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
+
+If you're developing Pipedream components, you may find the [`@pipedream/platform` version of `axios`](/pipedream-axios) helpful for displaying error data clearly in the Pipedream UI.
 
 If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/blog/working-with-webhooks/#webhooks-glossary-common-terms) for a helpful introduction.
 
@@ -12,10 +14,10 @@ If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/b
 
 ## Basic `axios` usage notes
 
-To use `axios` on Pipedream, you'll just need to require the `axios` npm package:
+To use `axios` on Pipedream, you'll just need to import the `axios` npm package:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 ```
 
 You make HTTP requests by passing a [JavaScript object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects) to `axios` that defines the parameters of the request. For example, you'll typically want to define the HTTP method and the URL you're sending data to:
@@ -61,7 +63,7 @@ const { data } = resp;
 Make a request to retrieve Star Wars films from the Star Wars API:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // Make an HTTP GET request using axios
 const resp = await axios({
@@ -80,12 +82,12 @@ const { data } = resp;
 POST sample JSON to [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
-  url: `https://jsonplaceholder.typicode.com/posts`
+  url: `https://jsonplaceholder.typicode.com/posts`,
   data: {
     name: "Luke",
   }
@@ -104,7 +106,7 @@ When you make a `POST` request, you pass `POST` as the `method`, and include the
 Retrieve fake comment data on a specific post using [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service. Here, you fetch data from the `/comments` resource, retrieving data for a specific post by query string parameter: `/comments?postId=1`.
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // Make an HTTP GET request using axios
 const resp = await axios({
@@ -128,9 +130,9 @@ You should pass query string parameters using the `params` object, like above. W
 You pass HTTP headers in the `headers` object of the `axios` request:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
-// Make an HTTP GET request using axios
+// Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
   url: `https://jsonplaceholder.typicode.com/posts`,
@@ -150,9 +152,9 @@ Most APIs require you authenticate HTTP requests with an API key or other token.
 Here's an example showing an API key passed in an HTTP header:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
-// Make an HTTP GET request using axios
+// Make an HTTP POST request using axios
 const resp = await axios({
   method: "POST",
   url: `https://jsonplaceholder.typicode.com/posts`,
@@ -168,12 +170,12 @@ const resp = await axios({
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/send-an-http-request-with-headers-p_q6ClzO/edit).
 
-## Send multiple HTTP requests using a loop
+## Send multiple HTTP requests in sequence
 
 There are many ways to make multiple HTTP requests. This code shows you a simple example that sends the numbers `1`, `2`, and `3` in the body of an HTTP POST request:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
 // We'll store each response and return them in this array
 const responses = [];
@@ -192,15 +194,45 @@ for (const num of [1, 2, 3]) {
 return responses;
 ```
 
-This sends each HTTP request _in sequence_, one after another, and returns an array of response data returned from the URL to which you send the POST request.
+This sends each HTTP request _in sequence_, one after another, and returns an array of response data returned from the URL to which you send the POST request. If you need to make requests _in parallel_, [see these docs](#send-multiple-http-requests-in-parallel).
 
 [Copy this workflow](https://pipedream.com/@dylburger/iterate-over-a-pipedream-step-export-sending-multiple-http-requests-p_ljCAPN/edit) and fill in your destination URL to see how this works. **This workflow iterates over the value of a Pipedream [step export](/workflows/steps/#step-exports)** - data returned from a previous step. Since you often want to iterate over data returned from a Pipedream action or other code step, this is a common use case.
+
+## Send multiple HTTP requests in parallel
+
+Sometimes you'll want to make multiple HTTP requests in parallel. If one request doesn't depend on the results of another, this is a nice way to save processing time in a workflow. It can significantly cut down on the time you spend waiting for one request to finish, and for the next to begin.
+
+To make requests in parallel, you can use two techniques. By default, we recommend using [`promise.allSettled`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled), which makes all HTTP requests and returns data on their success / failure. If an HTTP request fails, all other requests will proceed.
+
+```javascript
+import axios from "axios"
+const arr = ["https://www.example.com", "https://www.cnn.com", "https://www.espn.com"]
+const promises = arr.map(url => axios.get(url))
+return Promise.allSettled(promises)
+```
+
+First, we generate an array of `axios.get` requests (which are all [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)), and then call `Promise.allSettled` to run them in parallel.
+
+When you want to stop future requests when _one_ of the requests fails, you can use [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all), instead:
+
+```javascript
+import axios from "axios"
+const arr = ["https://www.example.com", "https://www.cnn.com", "https://www.espn.com"]
+const promises = arr.map(url => axios.get(url))
+return Promise.all(promises)
+```
+
+The Mozilla docs expand on the difference between these methods, and when you may want to use one or the other:
+
+>The `Promise.allSettled()` method returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.<br /></br >
+> It is typically used when you have multiple asynchronous tasks that are not dependent on one another to complete successfully, or you'd always like to know the result of each promise.<br /></br >
+> In comparison, the Promise returned by `Promise.all()` may be more appropriate if the tasks are dependent on each other / if you'd like to immediately reject upon any of them rejecting.
 
 ## Send a `multipart/form-data` request
 
 ```javascript
-const axios = require("axios");
-const FormData = require("form-data");
+import axios from "axios";
+import FormData from "form-data";
 
 const formData = new FormData();
 formData.append("name", "Luke Skywalker");
@@ -222,10 +254,10 @@ return await axios(config);
 This example shows you how to download a file to a file in [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
 
 ```javascript
-const fs = require("fs");
-const got = require("got");
-const stream = require("stream");
-const { promisify } = require("util");
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 // DOWNLOAD
 const pipeline = promisify(stream.pipeline);
@@ -244,9 +276,9 @@ This example shows you how to make a `multipart/form-data` request with a file a
 This can be especially helpful for uploading large files: it streams the file from disk, minimizing the memory the workflow uses when uploading the file.
 
 ```javascript
-const axios = require("axios");
-const fs = require("fs");
-const FormData = require("form-data");
+import axios from "axios";
+import fs from "fs";
+import FormData from "form-data";
 
 const formData = new FormData();
 formData.append("file", fs.createReadStream(params.pathToYourFile));
@@ -270,9 +302,9 @@ When you make HTTP requests to certain services, they might require you whitelis
 By default, HTTP requests made from Pipedream can come from a range of IP addresses. **If you need to make requests from a single IP address, you can route traffic through an HTTP proxy**:
 
 ```javascript
-const axios = require("axios");
+import axios from "axios";
 
-let httpsProxyAgent = require("https-proxy-agent");
+import httpsProxyAgent from "https-proxy-agent";
 const agent = new httpsProxyAgent(`http://${user}:${pass}@${host}:${port}`);
 
 const config = {
@@ -284,7 +316,7 @@ const config = {
 const resp = await axios.request(config);
 ```
 
-**If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
+**If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
 
 [Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/make-an-http-request-through-a-proxy-p_ezC6RD/edit).
 
@@ -341,10 +373,10 @@ This method is especially effective for large files that exceed the [limits of t
 [Copy this workflow](https://pipedream.com/@dylburger/stream-download-to-upload-p_5VCLoa1/edit) or paste this code into a [new Node.js code step](/workflows/steps/code/#adding-a-code-step):
 
 ```javascript
-const stream = require("stream");
-const { promisify } = require("util");
-const fs = require("fs");
-const got = require("got");
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 const pipeline = promisify(stream.pipeline);
 
@@ -357,3 +389,29 @@ await pipeline(
 You'll be asked to provide the **Download URL** — the URL of the content you want to download — and the **Upload URL** — the place you want to upload the content to. `got` streams the content directly, downloading the file using a `GET` request and uploading it as a `POST` request.
 
 If you need to modify this behavior, [see the `got` Stream API](https://github.com/sindresorhus/got#gotstreamurl-options).
+
+## Catch and process HTTP errors
+
+By default, `axios` throws an error when the HTTP response code is in the 400-500 range (a client or server error). If you'd like to process the error data instead of throwing an error, you can pass a custom function to the `validateStatus` property:
+
+```javascript
+import axios from "axios";
+
+const resp = await axios({
+  url: "https://httpstat.us/400",
+  validateStatus: () => true, // will not throw error when axios gets a 400+ status code (the default behavior)
+})
+if (resp.status >= 400) {
+  this.debug = resp
+  throw new Error(JSON.stringify(resp.data)) // This can be modified to throw any error you'd like
+}
+return resp
+```
+
+See [the `axios` docs](https://github.com/axios/axios#request-config) for more details.
+
+## Paginating API requests
+
+When you fetch data from an API, the API may return records in "pages". For example, if you're trying to fetch a list of 1,000 records, the API might return those in groups of 100 items.
+
+Different APIs paginate data in different ways. You'll need to consult the docs of your API provider to see how they suggest you paginate through records.
