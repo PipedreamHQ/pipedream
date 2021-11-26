@@ -5,7 +5,9 @@ import sortBy from "lodash/sortBy.js";
 import isArray from "lodash/isArray.js";
 import isEmpty from "lodash/isEmpty.js";
 import isString from "lodash/isString.js";
+import flatten from "lodash/flatten.js";
 import zoomCountries from "./zoom_countries.mjs";
+import consts from "./consts.mjs";
 
 export default {
   type: "app",
@@ -14,7 +16,7 @@ export default {
     cloudRecording: {
       type: "string",
       label: "Recording",
-      description: "The ID of the cloud recording. Please use a valid object with `meetingId` and `value` with \"Structured Mode\" disabled. `value` means the recording ID",
+      description: "The ID of the cloud recording. Please use a valid object with `meetingId` and `value` with \"Structured Mode\" disabled. `value` means the recording ID. (Eg. `{ meetingId:123, value:123 }`)",
       async options({
         page,
         prevContext,
@@ -123,35 +125,25 @@ export default {
     registrants: {
       type: "string[]",
       label: "Registrants",
-      description: "The meeting registrant. If you disable the \"Structured Mode\", please provide an array of objects with `id` and `email`",
+      description: "The meeting registrant. If you disable the \"Structured Mode\", please provide an array of objects with `id` and `email`. (Eg. `[ { id: 123, email: \"123@mail.com\" } ]`)",
       async options({
         page,
         meeting,
         occurrenceId,
         isWebinar,
       }) {
-        let registrants = [];
-        const promises = [];
-        const statuses = [
-          "pending",
-          "approved",
-          "denied",
-        ];
-
-        statuses.forEach((status) => {
-          promises.push(this.listMeetingRegistrants(
+        const promises = consts.REGISTRANT_STATUSES.map((status) => (
+          this.listMeetingRegistrants(
             get(meeting, "value", meeting),
             occurrenceId,
             page + 1,
             status,
             isWebinar,
-          ));
-        });
+          )
+        ));
 
         const registrantsPromisesResult = await Promise.all(promises);
-        registrantsPromisesResult.forEach((result) => {
-          registrants = registrants.concat(result);
-        });
+        const registrants = flatten(registrantsPromisesResult);
 
         return registrants.map((registrant) => ({
           label: `${registrant.first_name} <${registrant.email}> (${registrant.status})`,
@@ -211,7 +203,7 @@ export default {
 
         const {
           webinars,
-          next_page_token,
+          next_page_token: nextPageToken,
         } = await this.listWebinars({
           nextPageToken: prevContext.nextPageToken,
           pageSize: 2,
@@ -233,7 +225,7 @@ export default {
         return {
           options,
           context: {
-            nextPageToken: next_page_token,
+            nextPageToken,
           },
         };
       },
