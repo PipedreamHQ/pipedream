@@ -150,7 +150,7 @@ export default {
       type: "string",
       label: "Type",
       description:
-        "The type of the grantee. If type is `user` or `group`, you must provide an `Email Address` for the user or group. When `type` is `domain`, you must provide a `Domain`. Sharing with a domain is only valid for G Suite users.",
+        "The type of the grantee. If **Type** is `user` or `group`, you must provide an **Email Address** for the user or group. When **Type** is `domain`, you must provide a `Domain`. Sharing with a domain is only valid for G Suite users.",
       optional: true,
       default: GOOGLE_DRIVE_GRANTEE_ANYONE,
       options: GOOGLE_DRIVE_GRANTEE_TYPES,
@@ -159,14 +159,14 @@ export default {
       type: "string",
       label: "Domain",
       description:
-        "The domain of the G Suite organization to which this permission refers if `type` is `domain` (e.g., `yourcomapany.com`)",
+        "The domain of the G Suite organization to which this permission refers if **Type** is `domain` (e.g., `yourcomapany.com`)",
       optional: true,
     },
     emailAddress: {
       type: "string",
       label: "Email Address",
       description:
-        "The email address of the user or group to which this permission refers if `type` is `user` or `group`",
+        "The email address of the user or group to which this permission refers if **Type** is `user` or `group`",
       optional: true,
     },
   },

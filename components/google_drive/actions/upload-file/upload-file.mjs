@@ -38,7 +38,7 @@ export default {
         "fileUrl",
       ],
       description:
-        "The URL of the file to upload. Must specify either `File URL` or `File Path`.",
+        "The URL of the file to upload. Must specify either **File URL** or **File Path**.",
     },
     filePath: {
       propDefinition: [
@@ -46,7 +46,7 @@ export default {
         "filePath",
       ],
       description:
-        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either `File URL` or `File Path`.",
+        "The path to the file saved to the /tmp (e.g. `/tmp/myFile.csv`). Must specify either **File URL** or **File Path**.",
     },
     name: {
       propDefinition: [
