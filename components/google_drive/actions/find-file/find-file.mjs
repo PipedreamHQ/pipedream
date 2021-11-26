@@ -4,7 +4,7 @@ import { getListFilesOpts } from "../../utils.mjs";
 export default {
   key: "google_drive-find-file",
   name: "Find File",
-  description: "Search for a specific file by name",
+  description: "Search for a specific file by name. [See the docs](https://developers.google.com/drive/api/v3/search-files) for more information",
   version: "0.0.1",
   type: "action",
   props: {

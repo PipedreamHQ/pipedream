@@ -6,7 +6,7 @@ import { getFileStream } from "../../utils.mjs";
 export default {
   key: "google_drive-replace-file",
   name: "Replace File",
-  description: "Upload a file that replaces an existing file",
+  description: "Upload a file that replaces an existing file. [See the docs](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
   version: "0.0.1",
   type: "action",
   props: {

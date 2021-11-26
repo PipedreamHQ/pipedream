@@ -3,7 +3,7 @@ import googleDrive from "../../google_drive.app.mjs";
 export default {
   key: "google_drive-update-shared-drive",
   name: "Update Shared Drive",
-  description: "Update an existing shared drive",
+  description: "Update an existing shared drive. [See the docs](https://developers.google.com/drive/api/v3/reference/drives/update) for more information",
   version: "0.0.1",
   type: "action",
   props: {

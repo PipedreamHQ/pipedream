@@ -10,7 +10,7 @@ export default {
   key: "google_drive-add-file-sharing-preference",
   name: "Add File Sharing Preference",
   description:
-    "Add a [sharing](https://support.google.com/drive/answer/7166529) permission to the sharing preferences of a file and provide a sharing URL",
+    "Add a [sharing](https://support.google.com/drive/answer/7166529) permission to the sharing preferences of a file and provide a sharing URL. [See the docs](https://developers.google.com/drive/api/v3/reference/permissions/create) for more information",
   version: "0.0.1",
   type: "action",
   props: {

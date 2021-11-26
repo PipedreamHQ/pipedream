@@ -3,7 +3,7 @@ import googleDrive from "../../google_drive.app.mjs";
 export default {
   key: "google_drive-delete-shared-drive",
   name: "Delete Shared Drive",
-  description: "Delete a shared drive without any content",
+  description: "Delete a shared drive without any content. [See the docs](https://developers.google.com/drive/api/v3/reference/drives/delete) for more information",
   version: "0.0.1",
   type: "action",
   props: {

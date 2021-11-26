@@ -5,7 +5,7 @@ import isoLanguages from "../language-codes.mjs";
 export default {
   key: "google_drive-update-file",
   name: "Update File",
-  description: "Update a file's metadata and/or content",
+  description: "Update a file's metadata and/or content. [See the docs](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
   version: "0.0.1",
   type: "action",
   props: {
