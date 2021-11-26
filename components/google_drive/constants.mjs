@@ -110,6 +110,40 @@ const GOOGLE_DRIVE_MIME_TYPE_PREFIX = "application/vnd.google-apps";
  */
 const GOOGLE_DRIVE_FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
 
+const GOOGLE_DRIVE_ROLE_OWNER = "owner";
+const GOOGLE_DRIVE_ROLE_ORGANIZER = "organizer";
+const GOOGLE_DRIVE_ROLE_FILEORGANIZER = "fileOrganizer";
+const GOOGLE_DRIVE_ROLE_WRITER = "writer";
+const GOOGLE_DRIVE_ROLE_COMMENTER = "commenter";
+const GOOGLE_DRIVE_ROLE_READER = "reader";
+/**
+ * All of the available Google Drive roles granted by a permission as defined by the [Google
+ * Drive API docs](https://developers.google.com/drive/api/v3/reference/permissions)
+ */
+const GOOGLE_DRIVE_ROLES = [
+  GOOGLE_DRIVE_ROLE_OWNER,
+  GOOGLE_DRIVE_ROLE_ORGANIZER,
+  GOOGLE_DRIVE_ROLE_FILEORGANIZER,
+  GOOGLE_DRIVE_ROLE_WRITER,
+  GOOGLE_DRIVE_ROLE_COMMENTER,
+  GOOGLE_DRIVE_ROLE_READER,
+];
+
+const GOOGLE_DRIVE_GRANTEE_USER = "user";
+const GOOGLE_DRIVE_GRANTEE_GROUP = "group";
+const GOOGLE_DRIVE_GRANTEE_DOMAIN = "domain";
+const GOOGLE_DRIVE_GRANTEE_ANYONE = "anyone";
+/**
+ * All of the available Google Drive grantee types as defined by the [Google Drive API
+ * docs](https://developers.google.com/drive/api/v3/reference/permissions)
+ */
+const GOOGLE_DRIVE_GRANTEE_TYPES = [
+  GOOGLE_DRIVE_GRANTEE_USER,
+  GOOGLE_DRIVE_GRANTEE_GROUP,
+  GOOGLE_DRIVE_GRANTEE_DOMAIN,
+  GOOGLE_DRIVE_GRANTEE_ANYONE,
+];
+
 export {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
@@ -124,4 +158,18 @@ export {
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
   GOOGLE_DRIVE_MIME_TYPE_PREFIX,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
+  // Google Drive Roles
+  GOOGLE_DRIVE_ROLE_OWNER,
+  GOOGLE_DRIVE_ROLE_ORGANIZER,
+  GOOGLE_DRIVE_ROLE_FILEORGANIZER,
+  GOOGLE_DRIVE_ROLE_WRITER,
+  GOOGLE_DRIVE_ROLE_COMMENTER,
+  GOOGLE_DRIVE_ROLE_READER,
+  GOOGLE_DRIVE_ROLES,
+  // Google Drive Grantee Types
+  GOOGLE_DRIVE_GRANTEE_USER,
+  GOOGLE_DRIVE_GRANTEE_GROUP,
+  GOOGLE_DRIVE_GRANTEE_DOMAIN,
+  GOOGLE_DRIVE_GRANTEE_ANYONE,
+  GOOGLE_DRIVE_GRANTEE_TYPES,
 };

@@ -39,47 +39,28 @@ export default {
       description: "The file to share",
     },
     role: {
-      type: "string",
-      label: "Role",
-      description: "The role granted by this permission",
-      optional: true,
-      default: "reader",
-      options: [
-        "owner",
-        "organizer",
-        "fileOrganizer",
-        "writer",
-        "commenter",
-        "reader",
+      propDefinition: [
+        googleDrive,
+        "role",
       ],
     },
     type: {
-      type: "string",
-      label: "Type",
-      description:
-        "The type of the grantee. If type is `user` or `group`, you must provide an `Email Address` for the user or group. When `type` is `domain`, you must provide a `Domain`. Sharing with a domain is only valid for G Suite users.",
-      optional: true,
-      default: "anyone",
-      options: [
-        "user",
-        "group",
-        "domain",
-        "anyone",
+      propDefinition: [
+        googleDrive,
+        "type",
       ],
     },
     domain: {
-      type: "string",
-      label: "Domain",
-      description:
-        "The domain of the G Suite organization to which this permission refers if `type` is `domain` (e.g., `yourcomapany.com`)",
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "domain",
+      ],
     },
     emailAddress: {
-      type: "string",
-      label: "Email Address",
-      description:
-        "The email address of the user or group to which this permission refers if `type` is `user` or `group`",
-      optional: true,
+      propDefinition: [
+        googleDrive,
+        "emailAddress",
+      ],
     },
   },
   async run({ $ }) {

@@ -9,6 +9,10 @@ import {
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
+  GOOGLE_DRIVE_ROLES,
+  GOOGLE_DRIVE_GRANTEE_TYPES,
+  GOOGLE_DRIVE_GRANTEE_ANYONE,
+  GOOGLE_DRIVE_ROLE_READER,
 } from "./constants.mjs";
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 
@@ -79,7 +83,6 @@ export default {
       description: `The types of updates you want to watch for on these files. 
         [See Google's docs]
         (https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
-      // https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events
       default: GOOGLE_DRIVE_UPDATE_TYPES,
       options: GOOGLE_DRIVE_UPDATE_TYPES,
     },
@@ -134,6 +137,37 @@ export default {
       description: "Issue the request as a domain administrator",
       optional: true,
       default: false,
+    },
+    role: {
+      type: "string",
+      label: "Role",
+      description: "The role granted by this permission",
+      optional: true,
+      default: GOOGLE_DRIVE_ROLE_READER,
+      options: GOOGLE_DRIVE_ROLES,
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description:
+        "The type of the grantee. If type is `user` or `group`, you must provide an `Email Address` for the user or group. When `type` is `domain`, you must provide a `Domain`. Sharing with a domain is only valid for G Suite users.",
+      optional: true,
+      default: GOOGLE_DRIVE_GRANTEE_ANYONE,
+      options: GOOGLE_DRIVE_GRANTEE_TYPES,
+    },
+    domain: {
+      type: "string",
+      label: "Domain",
+      description:
+        "The domain of the G Suite organization to which this permission refers if `type` is `domain` (e.g., `yourcomapany.com`)",
+      optional: true,
+    },
+    emailAddress: {
+      type: "string",
+      label: "Email Address",
+      description:
+        "The email address of the user or group to which this permission refers if `type` is `user` or `group`",
+      optional: true,
     },
   },
   methods: {
