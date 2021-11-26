@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-deal",
   name: "New Deals",
-  description: "Emits an event for each new deal created.",
+  description: "Emit new event for each new deal created.",
   version: "0.0.3",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,

@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-product",
   name: "New Products",
-  description: "Emits an event for each new product created.",
+  description: "Emit new event for each new product created.",
   version: "0.0.1",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,

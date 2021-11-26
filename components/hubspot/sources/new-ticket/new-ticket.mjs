@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-ticket",
   name: "New Tickets",
-  description: "Emits an event for each new ticket created.",
+  description: "Emit new event for each new ticket created.",
   version: "0.0.1",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,

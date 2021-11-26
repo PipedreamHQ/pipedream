@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-task",
   name: "New Calendar Task",
-  description: "Emits an event for each new task added.",
+  description: "Emit new event for each new task added.",
   version: "0.0.3",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,
@@ -33,6 +34,6 @@ export default {
         const meta = this.generateMeta(task);
         this.$emit(task, meta);
       }
-    }
+    },
   },
 };

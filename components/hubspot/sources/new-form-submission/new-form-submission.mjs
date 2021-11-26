@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
-  description: "Emits an event for each new submission of a form.",
+  description: "Emit new event for each new submission of a form.",
   version: "0.0.3",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
     forms: {

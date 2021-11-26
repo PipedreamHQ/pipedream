@@ -140,6 +140,7 @@ export default {
     channel: {
       type: "string",
       label: "Social Media Channel",
+      description: "Watch for new events from the specified channel",
       async options() {
         const channels = await this.getPublishingChannels();
         const options = channels.map((channel) => {

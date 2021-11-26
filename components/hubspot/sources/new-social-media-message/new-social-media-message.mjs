@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-social-media-message",
   name: "New Social Media Message",
-  description: `Emits an event when a message is posted from HubSpot to the specified 
+  description: `Emit new event when a message is posted from HubSpot to the specified 
     social media channel`,
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,

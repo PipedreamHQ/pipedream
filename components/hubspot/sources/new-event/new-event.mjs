@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-event",
   name: "New Events",
-  description: "Emits an event for each new Hubspot event.",
+  description: "Emit new event for each new Hubspot event.",
   version: "0.0.3",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
     objectType: {

@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-contact",
   name: "New Contacts",
-  description: "Emits an event for each new contact added.",
+  description: "Emit new event for each new contact added.",
   version: "0.0.3",
   dedupe: "unique",
+  type: "source",
   methods: {
     ...common.methods,
     generateMeta(contact) {

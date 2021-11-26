@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-email-event",
   name: "New Email Event",
-  description: "Emits an event for each new Hubspot email event.",
+  description: "Emit new event for each new Hubspot email event.",
   version: "0.0.3",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,

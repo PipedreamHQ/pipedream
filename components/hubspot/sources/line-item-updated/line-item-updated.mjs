@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-line-item-updated",
   name: "Line Item Updated",
-  description: "Emits an event each time a line item is updated.",
+  description: "Emit new event each time a line item is updated.",
   version: "0.0.1",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,

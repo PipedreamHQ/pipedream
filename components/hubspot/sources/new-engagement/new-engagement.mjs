@@ -4,9 +4,10 @@ export default {
   ...common,
   key: "hubspot-new-engagement",
   name: "New Engagement",
-  description: "Emits an event for each new engagement created.",
+  description: "Emit new event for each new engagement created.",
   version: "0.0.3",
   dedupe: "unique",
+  type: "source",
   hooks: {},
   methods: {
     ...common.methods,
