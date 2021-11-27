@@ -42,7 +42,7 @@ export default {
       type: "string",
       label: "Folder",
       description: "The folder in the drive",
-      options({
+      async options({
         prevContext,
         drive,
         baseOpts = {
@@ -57,7 +57,7 @@ export default {
       type: "string",
       label: "File",
       description: "The file in the drive",
-      options({
+      async options({
         prevContext,
         drive,
         baseOpts = {
@@ -72,11 +72,41 @@ export default {
       type: "string",
       label: "File or Folder",
       description: "The file or folder in the drive",
-      options({
+      async options({
         prevContext, drive, baseOpts = {},
       }) {
         const { nextPageToken } = prevContext;
         return this.listDriveFilesOptions(drive, nextPageToken, baseOpts);
+      },
+    },
+    fileParents: {
+      type: "string[]",
+      label: "File Parents",
+      description: "The folder IDs of the file's parents",
+      optional: true,
+      async options({ fileId }) {
+        if (!fileId) {
+          return [];
+        }
+        let file;
+        try {
+          file = await this.getFile(fileId, {
+            fields: "parents",
+          });
+        } catch (err) {
+          return [];
+        }
+        let parentFolders = await Promise.all(
+          file.parents.map((parentId) => this.getFile(parentId, {
+            fields: "id,name",
+          })),
+        );
+        return parentFolders.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
+        }));
       },
     },
     updateTypes: {

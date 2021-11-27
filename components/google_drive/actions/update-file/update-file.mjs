@@ -66,16 +66,25 @@ export default {
         "The file's MIME type (e.g., `image/jpeg`). The value cannot be changed unless a new revision is uploaded.",
     },
     addParents: {
-      type: "string",
+      propDefinition: [
+        googleDrive,
+        "folderId",
+      ],
+      type: "string[]",
       label: "Add Parents",
-      description: "A comma-separated list of parent folder IDs to add",
+      description: "A list of parent folder IDs to add",
       optional: true,
     },
     removeParents: {
-      type: "string",
+      propDefinition: [
+        googleDrive,
+        "fileParents",
+        ({ fileId }) => ({
+          fileId,
+        }),
+      ],
       label: "Remove Parents",
-      description: "A comma-separated list of parent folder IDs to remove",
-      optional: true,
+      description: "A list of parent folder IDs to remove",
     },
     keepRevisionForever: {
       propDefinition: [
@@ -142,8 +151,8 @@ export default {
     const resp = await this.googleDrive.updateFile(fileId, {
       name,
       mimeType,
-      addParents,
-      removeParents,
+      addParents: addParents?.join(","),
+      removeParents: removeParents?.join(","),
       keepRevisionForever,
       ocrLanguage,
       useContentAsIndexableText,
