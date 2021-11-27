@@ -1276,5 +1276,32 @@ export default {
         })
       ).data;
     },
+    /**
+     * Gets information about the user, the user's Drive, and system capabilities. It is a wrapper
+     * around the [the `about.get`
+     * API]{@link https://developers.google.com/drive/api/v3/reference/about/get}.
+     *
+     * @param {string} [fields="*"] - the paths of the fields to include in the response
+     * @returns an About resource
+     */
+    async getAbout(fields = "*") {
+      const drive = this.drive();
+      return (
+        await drive.about.get({
+          fields,
+        })
+      ).data;
+    },
+    /**
+     * Get a list of all supported export formats supported by the system for this user
+     *
+     * @see
+     * {@link https://bit.ly/3HRbUqd Google Workspace documents and corresponding export MIME types}
+     *
+     * @returns a list of supported export formats for each Google Workspace format
+     */
+    async getExportFormats() {
+      return (await this.getAbout("exportFormats")).exportFormats;
+    },
   },
 };

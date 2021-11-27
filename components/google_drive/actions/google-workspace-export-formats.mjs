@@ -20,7 +20,7 @@ export default [
     label: "Open Office presentation",
   },
   {
-    value: "application/vnd.oasis.opendocument.spreadsheet",
+    value: "application/x-vnd.oasis.opendocument.spreadsheet",
     label: "Open Office sheet",
   },
   {
@@ -69,7 +69,6 @@ export default [
   },
   {
     value: "text/tab-separated-values",
-    label: "(sheet only)",
+    label: "TSV (sheet only)",
   },
-]
-;
+];

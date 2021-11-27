@@ -54,14 +54,41 @@ export default {
       `),
     },
     mimeType: {
+      type: "string",
       label: "Conversion Format",
       description: toSingleLineString(`
         The format to which to convert the downloaded file if it is a [Google Workspace
         document](https://developers.google.com/drive/api/v3/ref-export-formats)
       `),
-      options: googleWorkspaceExportFormats,
-      optional: false,
-      default: "application/pdf",
+      optional: true,
+      async options() {
+        const fileId = this.fileId;
+        if (!fileId) {
+          return googleWorkspaceExportFormats;
+        }
+        let file, exportFormats;
+        try {
+          ([
+            file,
+            exportFormats,
+          ] = await Promise.all([
+            this.googleDrive.getFile(fileId, {
+              fields: "mimeType",
+            }),
+            this.googleDrive.getExportFormats(),
+          ]));
+        } catch (err) {
+          return googleWorkspaceExportFormats;
+        }
+        const mimeTypes = exportFormats[file.mimeType];
+        if (!mimeTypes) {
+          return [];
+        }
+        return exportFormats[file.mimeType].map((f) =>
+          googleWorkspaceExportFormats.find(
+            (format) => format.value === f,
+          ) ?? f);
+      },
     },
   },
   async run({ $ }) {
@@ -71,16 +98,16 @@ export default {
     });
     const mimeType = fileMetadata.mimeType;
 
+    const isWorkspaceDocument = mimeType.includes(GOOGLE_DRIVE_MIME_TYPE_PREFIX);
+    if (isWorkspaceDocument && !this.mimeType) {
+      throw new Error("Conversion Format is required when File is a Google Workspace Document");
+    }
     // Download file
-    // If `mimeType` is a Google MIME type, use `downloadWorkspaceFile`.
-    // Otherwise, use `getFile`. See
-    // https://developers.google.com/drive/api/v3/mime-types for a list of
-    // Google MIME types. Converting Google Workspace formats to
-    // `application/pdf` by default because it is supported for all Google
-    // Workspace formats other than Apps Scripts. Google Workspace format to
-    // MIME type map:
+    // If `mimeType` is a Google MIME type, use `downloadWorkspaceFile`. Otherwise, use `getFile`.
+    // See https://developers.google.com/drive/api/v3/mime-types for a list of Google MIME types.
+    // Google Workspace format to MIME type map:
     // https://developers.google.com/drive/api/v3/ref-export-formats
-    const file = mimeType.includes(GOOGLE_DRIVE_MIME_TYPE_PREFIX)
+    const file = isWorkspaceDocument
       ? await this.googleDrive.downloadWorkspaceFile(this.fileId, {
         mimeType: this.mimeType,
       })
