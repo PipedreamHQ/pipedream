@@ -54,10 +54,6 @@ export default {
       `),
     },
     mimeType: {
-      propDefinition: [
-        googleDrive,
-        "mimeType",
-      ],
       label: "Conversion Format",
       description: toSingleLineString(`
         The format to which to convert the downloaded file if it is a [Google Workspace
