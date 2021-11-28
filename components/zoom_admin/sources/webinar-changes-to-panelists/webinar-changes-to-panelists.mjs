@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import difference from "lodash/difference.js";
 import zoomAdmin from "../../zoom_admin.app.mjs";
+import { sanitizedArray } from "../../utils.mjs";
 
 export default {
   type: "source",
@@ -55,7 +56,7 @@ export default {
     async fetchAndEmitParticipants() {
       // This endpoint allows for no time filter, so we fetch all participants from
       // all configured webinars and let the deduper handle duplicates
-      const webinars = this.zoomAdmin.sanitizedArray(this.webinars || []);
+      const webinars = sanitizedArray(this.webinars || []);
       if (!this.webinars || !this.webinars.length) {
         let nextPageToken;
         do {

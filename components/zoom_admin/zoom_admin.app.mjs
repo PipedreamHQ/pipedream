@@ -2,9 +2,6 @@
 import axios from "axios";
 import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
-import isArray from "lodash/isArray.js";
-import isEmpty from "lodash/isEmpty.js";
-import isString from "lodash/isString.js";
 import flatten from "lodash/flatten.js";
 import zoomCountries from "./zoom_countries.mjs";
 import consts from "./consts.mjs";
@@ -21,12 +18,13 @@ export default {
         page,
         prevContext,
       }) {
+        const pageNumber = page + 1;
         const data = await this.listUserRecordings(
           prevContext.nextPageToken,
-          page + 1,
+          pageNumber,
         );
 
-        if (!data.meetings) {
+        if (!data.meetings || pageNumber > data?.page_count) {
           return [];
         }
         const options = [];
@@ -251,33 +249,7 @@ export default {
       };
     },
     async _makeRequest(opts) {
-      if (!opts.headers) opts.headers = {};
-      opts.headers["Accept"] = "application/json";
-      opts.headers["Content-Type"] = "application/json";
-      opts.headers["Authorization"] = `Bearer ${this.$auth.oauth_access_token}`;
-      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
-      const { path } = opts;
-      delete opts.path;
-      // eslint-disable-next-line multiline-ternary
-      opts.url = `${this._apiUrl()}${path[0] === "/" ? "" : "/"}${path}`;
-      return await axios(opts);
-    },
-    sanitizedArray(value) {
-      if (isArray(value)) {
-        return value.map((item) => get(item, "value", item));
-      }
-
-      // If is string, try to convert it in an array
-      if (isString(value)) {
-        // Return an empty array if string is empty
-        if (isEmpty(value)) {
-          return [];
-        }
-
-        return value.replace(/["'[\]\s]+/g, "").split(",");
-      }
-
-      throw new Error(`${value} is not an array or an array-like`);
+      return axios(this._getAxiosParams(opts));
     },
     async listMeetings(nextPageToken) {
       const { data } = await this._makeRequest({
@@ -343,11 +315,10 @@ export default {
 
         return get(res, "data.registrants", []);
       } catch (err) {
-        console.error(err);
         return [];
       }
     },
-    async listUserRecordings(nextPageToken, pageNumber) {
+    async listUserRecordings(nextPageToken) {
       const res = await this._makeRequest({
         path: "/users/me/recordings",
         params: {
@@ -355,10 +326,6 @@ export default {
           next_page_token: nextPageToken,
         },
       });
-
-      if (pageNumber > get(res, ("data.page_count"))) {
-        return [];
-      }
 
       return get(res, "data");
     },
