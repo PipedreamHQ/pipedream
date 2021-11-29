@@ -45,9 +45,7 @@ Your quota is reset, daily, at 00:00 (midnight) UTC.
 
 ## Compute time per day
 
-Users on the [Developer (free) tier](/pricing/#developer-tier), and free Organizations, have a default compute time quota of
-
-**30 minutes (1,800,000 milliseconds) per day** across all workflows and event sources. **You are _not_ limited on compute time on paid plans like the [Professional tier](/pricing/#professional-tier)**.
+Users on the [Developer (free) tier](/pricing/#developer-tier), and free Organizations, have a default compute time quota of **30 minutes (1,800,000 milliseconds) per day** across all workflows and event sources. **You are _not_ limited on compute time on paid plans like the [Professional tier](/pricing/#professional-tier)**.
 
 You can view your current usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing).
 
