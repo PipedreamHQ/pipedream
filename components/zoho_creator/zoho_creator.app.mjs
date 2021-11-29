@@ -1,4 +1,5 @@
-import { axios } from "@pipedreamhq/platform";
+import { axios } from "@pipedream/platform";
+import constants from "./constants.mjs";
 
 export default {
   type: "app",
@@ -38,18 +39,15 @@ export default {
       const username = this._apiUsername();
       return `${baseUrl}/${username}/${appLinkName}/report/${reportLinkName}`;
     },
-    recordsPageSize() {
-      return 200;
-    },
     computeLastRecordsPage({
       count = 0,
-      pageSize = this.recordsPageSize(),
+      pageSize = constants.RECORDS_PAGE_SIZE,
     }) {
       return 1 + Math.floor(count / pageSize);
     },
     computeRecordsOffset({
       count = 0,
-      pageSize = this.recordsPageSize(),
+      pageSize = constants.RECORDS_PAGE_SIZE,
     }) {
       return count % pageSize;
     },
@@ -67,7 +65,7 @@ export default {
       let applications = [];
       try {
         const data = await this.genericApiGetCall(url);
-        applications = data.applications
+        applications = data.applications;
       } catch (e) {
         applications = [];
       }
