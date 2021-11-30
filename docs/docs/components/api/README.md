@@ -701,7 +701,7 @@ When you use return, the exported data will appear at `steps.[STEP NAME].$return
 
 **`$.export`**
 
-You can also use `$.export` to return named exports from an action. `$export` takes the name of the export as the first argument, and the value to export as the second argument:
+You can also use `$.export` to return named exports from an action. `$.export` takes the name of the export as the first argument, and the value to export as the second argument:
 
 ```javascript
 async run({ $ }) {
@@ -735,6 +735,20 @@ async run({ $ }) {
 ```
 
 It functions the same way as [`$end` in workflow code steps](/workflows/steps/code/#end).
+
+**`$.summary`**
+
+`$.summary` is used to surface brief, user-friendly summaries about what happened when an action step succeeds. For example, when [adding items to a Spotify playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/actions/add-items-to-playlist/add-items-to-playlist.mjs#L51):
+<div>
+<img alt="Spotify example with $summary" src="./images/spotify-$summary-example.png">
+</div>
+
+Example implementation:
+```javascript
+const data = [1, 2]
+const playlistName = "Cool jams"
+$.export("$summary", `Successfully added ${data.length} ${data.length == 1 ? "item" : "items"} to "${playlistName}"`);
+```
 
 **`$.send`**
 

@@ -3,8 +3,8 @@ import discourse from "../../discourse.app.mjs";
 
 export default {
   name: "New Posts",
-  key: "disourse-new-posts",
-  version: "0.0.5",
+  key: "discourse-new-posts",
+  version: "0.1.0",
   type: "source",
   description:
     "Emits an event every time a new post is added to a topic in one of your chosen categories",
