@@ -1,8 +1,5 @@
 export default {
-	name: "New Folder",
-  description: "Emit new event when a new folder is created",
   dedupe: "unique",
-  type: "source",
   props: {
     db: "$.service.db",
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
@@ -60,9 +57,11 @@ export default {
       };
     },
   },
-  async run(event) { 
+  async run(event) {
     const { timestamp: ts } = event;
-    const baseUri =  await this.docusign.getBaseUri({ accountId: this.account });
+    const baseUri =  await this.docusign.getBaseUri({
+      accountId: this.account,
+    });
     let done = false;
     const params = {
       start_position: 0,
@@ -81,5 +80,5 @@ export default {
       await this.processFolders(baseUri, params, folders, ts);
 
     } while (!done);
-  },	
-}
+  },
+};

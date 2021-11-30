@@ -1,11 +1,8 @@
 export default {
-  name: "Create Signature Request",
-  description: "Creates a signature request from a template",
-  type: "action",
   async run({ $ }) {
     const baseUri = await this.docusign.getBaseUri({
       $,
-      accountId: this.account
+      accountId: this.account,
     });
     const data = {
       status: "sent",
@@ -21,9 +18,13 @@ export default {
     };
     if (this.emailBlurb) data.emailBlurb = this.emailBlurb;
     try {
-      return await this.docusign.createEnvelope({ $, baseUri, data });
+      return await this.docusign.createEnvelope({
+        $,
+        baseUri,
+        data,
+      });
     } catch (err) {
       throw new Error(err.message);
     }
   },
-}
+};

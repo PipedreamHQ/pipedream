@@ -1,9 +1,5 @@
 export default {
-  name: "Envelope Sent or Complete",
-  description:
-    "Emit new event when an envelope status is set to sent or complete",
   dedupe: "unique",
-  type: "source",
   props: {
     db: "$.service.db",
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
@@ -51,7 +47,9 @@ export default {
   async run(event) {
     const { timestamp: ts } = event;
     const lastEvent = this._getLastEvent() || this.monthAgo().toISOString();
-    const baseUri = await this.docusign.getBaseUri({ accountId: this.account });
+    const baseUri = await this.docusign.getBaseUri({
+      accountId: this.account,
+    });
     let done = false;
     const params = {
       from_date: lastEvent,
@@ -73,4 +71,4 @@ export default {
     } while (!done);
     this._setLastEvent(new Date(ts * 1000).toISOString());
   },
-}
+};

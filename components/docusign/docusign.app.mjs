@@ -10,8 +10,11 @@ export default {
       const config = {
         method: "GET",
         url: "https://account.docusign.com/oauth/userinfo",
-      }
-      return await this._makeRequest({ $, config });
+      };
+      return await this._makeRequest({
+        $,
+        config,
+      });
     },
-  }
+  },
 };

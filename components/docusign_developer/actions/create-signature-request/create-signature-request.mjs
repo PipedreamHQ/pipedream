@@ -5,6 +5,9 @@ export default {
   ...common,
   key: "docusign_developer-create-signature-request",
   version: "0.0.1",
+  name: "Create Signature Request",
+  description: "Creates a signature request from a template",
+  type: "action",
   props: {
     ...common.props,
     docusign,
@@ -57,5 +60,5 @@ export default {
         }),
       ],
     },
-  }
+  },
 };
