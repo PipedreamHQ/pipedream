@@ -99,6 +99,13 @@ const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS =
   (WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS * 0.95) / 1000;
 
 /**
+ * The maximum number of path segments to include in an option label for a prop whose value is a
+ * file ID. To make sure the file name is displayed in the option label in the UI, we truncate paths
+ * with more than this many path segments.
+ */
+const MAX_FILE_OPTION_PATH_SEGMENTS = 3;
+
+/**
  * The MIME type prefix of Google Drive MIME types as defined by the [Google
  * Drive API docs](https://developers.google.com/drive/api/v3/mime-types)
  */
@@ -156,6 +163,7 @@ export {
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+  MAX_FILE_OPTION_PATH_SEGMENTS,
   GOOGLE_DRIVE_MIME_TYPE_PREFIX,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
   // Google Drive Roles

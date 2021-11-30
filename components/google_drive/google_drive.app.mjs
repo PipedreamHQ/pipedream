@@ -23,6 +23,7 @@ import {
   getListFilesOpts,
   omitEmptyStringValues,
   toSingleLineString,
+  getFilePaths,
 } from "./utils.mjs";
 
 export default {
@@ -259,6 +260,7 @@ export default {
     // Static methods
     isMyDrive,
     getDriveId,
+    getFilePaths,
 
     // Returns a drive object authenticated with the user's access token
     drive() {
@@ -578,8 +580,41 @@ export default {
      * @returns a list of prop options
      */
     async listDriveFilesOptions(drive, pageToken = null, extraOpts = {}) {
-      const opts = getListFilesOpts(drive, extraOpts);
-      return this.listFilesOptions(pageToken, opts);
+      const opts = {
+        ...getListFilesOpts(drive, extraOpts),
+        fields: "nextPageToken,files(id,name,parents)",
+      };
+      // Fetch folders to use to build file paths. If num folders in a drive exceeds 1000, file
+      // paths may be incomplete.
+      const foldersPromise = this.listFilesInPage(null, {
+        ...opts,
+        pageSize: 1000, // Max pageSize
+        q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}'`,
+      });
+      const filesPromise = this.listFilesInPage(
+        pageToken,
+        opts,
+      );
+      const [
+        { files: folders },
+        {
+          files, nextPageToken,
+        },
+      ] = await Promise.all([
+        foldersPromise,
+        filesPromise,
+      ]);
+      const filePaths = this.getFilePaths(files, folders);
+      const options = files.map((file) => ({
+        label: filePaths[file.id],
+        value: file.id,
+      }));
+      return {
+        options,
+        context: {
+          nextPageToken,
+        },
+      };
     },
     /**
      * Creates a new file in a drive

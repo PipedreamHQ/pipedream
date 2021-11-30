@@ -1,6 +1,8 @@
 import fs from "fs";
 import { axios } from "@pipedream/platform";
-import { MY_DRIVE_VALUE } from "./constants.mjs";
+import {
+  MY_DRIVE_VALUE, MAX_FILE_OPTION_PATH_SEGMENTS,
+} from "./constants.mjs";
 
 /**
  * Returns whether the specified drive ID corresponds to the authenticated
@@ -78,6 +80,118 @@ async function getFileStream({
 }
 
 /**
+ * Truncate an array of path segments from its base
+ *
+ * @param {String[]} pathArr - the array of path segments
+ * @returns the truncated array whose first element is "..." if truncated
+ */
+function truncatePath(pathArr) {
+  if (pathArr.length <= MAX_FILE_OPTION_PATH_SEGMENTS) {
+    return pathArr;
+  }
+  return [
+    "...",
+    ...pathArr.slice(-1 * (MAX_FILE_OPTION_PATH_SEGMENTS - 1)),
+  ];
+}
+
+/**
+ * Builds an object mapping file IDs to arrays of file/folder ID path segments from the drive's root
+ * folder to each file, using the `file.parents` property and a list of folders in the drive
+ *
+ * @see
+ * {@link https://developers.google.com/drive/api/v3/reference/files Google Drive File Resource}
+ *
+ * @param {object[]} files - the array of files for which to build paths
+ * @param {object[]} folders - the array of folders in the drive
+ * @returns {Object.<string, string[]>} the object mapping file IDs to arrays of path segments
+ */
+function buildFilePaths(files = [], folders = []) {
+  const folderIdToFolder = folders.reduce((acc, cur) => {
+    acc[cur.id] = cur;
+    return acc;
+  }, {});
+  const paths = {};
+  // Recursive function that returns an array of file `id`s representing the path to a file if
+  // requisite parent folders are available (in `file.parents`) to the requesting user, or an array
+  // containing the file ID otherwise
+  const pathToFile = (file) => {
+    if (!file) {
+      // unretrieved folder or root folder
+      return [];
+    }
+    if (paths[file.id] !== undefined) {
+      return paths[file.id];
+    }
+    if (!file.parents) {
+      // file belongs to a different drive and user does not have access to the parent
+      return [
+        file.id,
+      ];
+    }
+    let parentPath;
+    for (const parent of file.parents) {
+      parentPath = pathToFile(folderIdToFolder[parent]);
+      paths[parent] = parentPath;
+      if (parentPath?.[0]) {
+        break;
+      }
+    }
+    return [
+      ...parentPath,
+      file.id,
+    ];
+  };
+  files.forEach((file) => {
+    paths[file.id] = pathToFile(file);
+  });
+  return paths;
+}
+
+/**
+ * Builds an object mapping file IDs to arrays of file/folder name path segments from the drive's
+ * root folder to each file, using the `file.parents` property and a list of folders in the drive
+ *
+ * @param {object[]} files - the array of files for which to build paths
+ * @param {object[]} folders - the array of folders in the drive
+ * @returns {Object.<string, string[]>} the object mapping file IDs to arrays of path segments
+ */
+function buildFileNamePaths(files = [], folders = []) {
+  const fileIdToFile = files.concat(folders).reduce((acc, cur) => {
+    acc[cur.id] = cur;
+    return acc;
+  }, {});
+  const fileIdToPath = buildFilePaths(files, folders);
+  return Object.fromEntries(Object.entries(fileIdToPath).map(([
+    id,
+    path,
+  ]) => ([
+    id,
+    path.filter((id) => fileIdToFile[id]?.name)
+      .map((id) => fileIdToFile[id]?.name),
+  ])));
+}
+
+/**
+ * Gets an object mapping file IDs to string paths from the drive's root folder to each file, if the
+ * file's `parents` are available to the requesting user
+ *
+ * @param {object[]} files - the array of files for which to get file paths
+ * @param {object[]} folders - the array of folders in the drive
+ * @returns {Object.<string, string>} the object mapping file IDs to file paths
+ */
+function getFilePaths(files = [], folders = []) {
+  const fileIdToNamePath = buildFileNamePaths(files, folders);
+  return Object.fromEntries(Object.entries(fileIdToNamePath).map(([
+    id,
+    path,
+  ]) => ([
+    id,
+    truncatePath(path).join(" > "),
+  ])));
+}
+
+/**
  * Return an object compose of non-empty string valued properties of `obj`
  *
  * @param {Object} obj - the source object
@@ -126,4 +240,6 @@ export {
   getFileStream,
   omitEmptyStringValues,
   toSingleLineString,
+  buildFilePaths,
+  getFilePaths,
 };
