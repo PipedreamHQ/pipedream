@@ -7,7 +7,7 @@ export default {
       label: "Account",
       description: "Docusign Account",
       async options() {
-        const { accounts } = await this.getUserInfo();
+        const { accounts } = await this.getUserInfo({});
         return accounts.map((account) => ({
           label: account.account_name,
           value: account.account_id,
@@ -19,7 +19,7 @@ export default {
       label: "Template",
       description: "Document Template",
       async options({ account }) {
-        const baseUri = await this.getBaseUri(account);
+        const baseUri = await this.getBaseUri({ accountId: account });
         const { envelopeTemplates } = await this.listTemplates(baseUri);
         return envelopeTemplates.map((template) => ({
           label: template.name,
@@ -55,7 +55,7 @@ export default {
       async options({
         account, template,
       }) {
-        const baseUri = await this.getBaseUri(account);
+        const baseUri = await this.getBaseUri({ accountId: account });
         const { signers } = await this.listTemplateRecipients(
           baseUri,
           template,
@@ -74,10 +74,7 @@ export default {
       };
     },
     async _makeRequest({ $, config }) {
-      const config = {
-        ...config,
-        headers: this._getHeaders(),
-      };
+      config.headers = this._getHeaders();
       return (await axios($ ?? this, config));
     },
     async getBaseUri({ $, accountId }) {
