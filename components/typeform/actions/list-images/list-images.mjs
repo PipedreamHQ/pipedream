@@ -5,7 +5,7 @@ export default {
   name: "List Images",
   description: "Retrieves a list of JSON descriptions for all images in your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/retrieve-images-collection/)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     typeform,
   },
