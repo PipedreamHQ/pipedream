@@ -1,12 +1,13 @@
-const docusign = require("../../docusign.app.js");
+import docusign from "../../docusign_developer.app.mjs";
+import common from "../../../docusign/actions/create-signature-request/common.mjs";
 
-module.exports = {
-  key: "docusign-create-signature-request",
-  name: "Create Signature Request",
-  description: "Creates a signature request from a template",
+export default {
+  ...common,
+  key: "docusign_developer-create-signature-request",
+//  version: "0.0.1",
   version: "0.0.2",
-  type: "action",
   props: {
+    ...common.props,
     docusign,
     account: {
       propDefinition: [
@@ -57,26 +58,5 @@ module.exports = {
         }),
       ],
     },
-  },
-  async run() {
-    const baseUri = await this.docusign.getBaseUri(this.account);
-    const data = {
-      status: "sent",
-      templateId: this.template,
-      templateRoles: [
-        {
-          roleName: this.role,
-          name: this.recipientName,
-          email: this.recipientEmail,
-        },
-      ],
-      emailSubject: this.emailSubject,
-    };
-    if (this.emailBlurb) data.emailBlurb = this.emailBlurb;
-    try {
-      return await this.docusign.createEnvelope(baseUri, data);
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  },
+  }
 };

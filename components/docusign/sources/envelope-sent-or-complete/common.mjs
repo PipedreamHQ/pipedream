@@ -1,15 +1,10 @@
-const docusign = require("../../docusign.app.js");
-
-module.exports = {
-  key: "docusign-envelope-sent-or-complete",
+export default {
   name: "Envelope Sent or Complete",
   description:
     "Emit new event when an envelope status is set to sent or complete",
-  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
-    docusign,
     db: "$.service.db",
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
@@ -17,12 +12,6 @@ module.exports = {
       default: {
         intervalSeconds: 60 * 15,
       },
-    },
-    account: {
-      propDefinition: [
-        docusign,
-        "account",
-      ],
     },
     status: {
       type: "string[]",
@@ -84,4 +73,4 @@ module.exports = {
     } while (!done);
     this._setLastEvent(new Date(ts * 1000).toISOString());
   },
-};
+}

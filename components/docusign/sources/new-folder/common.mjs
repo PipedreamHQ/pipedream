@@ -1,14 +1,9 @@
-const docusign = require("../../docusign.app.js");
-
-module.exports = {
-  key: "docusign-new-folder",
-  name: "New Folder",
+export default {
+	name: "New Folder",
   description: "Emit new event when a new folder is created",
-  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
-    docusign,
     db: "$.service.db",
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
@@ -16,12 +11,6 @@ module.exports = {
       default: {
         intervalSeconds: 60 * 15,
       },
-    },
-    account: {
-      propDefinition: [
-        docusign,
-        "account",
-      ],
     },
     include: {
       type: "string[]",
@@ -71,7 +60,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run(event) { 
     const { timestamp: ts } = event;
     const baseUri =  await this.docusign.getBaseUri(this.account);
     let done = false;
@@ -92,5 +81,5 @@ module.exports = {
       await this.processFolders(baseUri, params, folders, ts);
 
     } while (!done);
-  },
-};
+  },	
+}

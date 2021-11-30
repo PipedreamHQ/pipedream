@@ -1,8 +1,6 @@
-const axios = require("axios");
+import axios from "axios";
 
-module.exports = {
-  type: "app",
-  app: "docusign",
+export default {
   propDefinitions: {
     account: {
       type: "string",
@@ -89,12 +87,6 @@ module.exports = {
       };
       return (await axios(config)).data;
     },
-    async getUserInfo() {
-      return await this._makeRequest(
-        "GET",
-        "https://account.docusign.com/oauth/userinfo",
-      );
-    },
     async getBaseUri(accountId) {
       const { accounts } = await this.getUserInfo();
       const account = accounts.find((a) => a.account_id === accountId);
@@ -128,4 +120,4 @@ module.exports = {
       );
     },
   },
-};
+}
