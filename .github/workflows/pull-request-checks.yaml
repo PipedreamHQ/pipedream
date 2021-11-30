@@ -67,3 +67,6 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_JSON: true
+
+      - name: Check component keys
+        run: node scripts/findBadKeys.js

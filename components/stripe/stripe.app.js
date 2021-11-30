@@ -2,15 +2,69 @@
 
 const stripe = require("stripe");
 
-const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({ prevContext }) {
+/**
+ * Options used to generate options for a prop
+ *
+ * @see {@link https://pipedream.com/docs/components/api/#async-options-example Components API docs}
+ *
+ * @typedef {Object} OptionsMethodOptions
+ * @property {Object} [opts.prevContext] - An object representing the context for the previous
+ * `options` invocation
+ * @property {...*} [opts.values] - Additional values used to generate options
+ */
+
+/**
+ * Typically returns an array of values matching the prop type (e.g., `string`) or an array of
+ * object that define the `label` and `value` for each option
+ *
+ * * @see {@link https://pipedream.com/docs/components/api/#async-options-example Components API docs}
+ *
+ * @callback optionsMethod
+ * @param {OptionsMethodOptions} opts - Options used to generate options for a prop
+ * @returns {{ options: String[], context: Object }} An object with an `options` array and a context
+ * object with a `nextPageToken` key
+ */
+
+/**
+ * Returns a Stripe collection object
+ * @callback collectionFn
+ *
+ * @see {@link https://stripe.com/docs/api/pagination Stripe Pagination Docs}
+ *
+ * @param {OptionsMethodOptions} opts - Options used to call a Stripe collection function
+ * @returns {{ data: Array }} A object with a data property that contains an array of items
+ */
+
+/**
+ * Returns a prop option string or object
+ * @callback keyFn
+ *
+ * @param {Object} object - An item object used to create a prop option
+ * @returns {(String|{label:String,value:String})} A prop option string or object
+ */
+
+/**
+ * Creates an async options method to be used as the `options` property of a component prop
+ *
+ * @param {(String|collectionFn)} collectionOrFn - A stripe collection name or function that returns
+ * a Stripe collection object
+ * @param {([valueKey:String,labelKey:String]|keyFn)} keysOrFn - An array pair whose values define a
+ * mapping from Stripe item to prop option, or a function that returns a prop option
+ * @returns {optionsMethod} The created options method
+ */
+const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({
+  prevContext, ...opts
+}) {
+  let { startingAfter } = prevContext;
   let result;
   if (typeof collectionOrFn === "function") {
     result = await collectionOrFn.call(this, {
       prevContext,
+      ...opts,
     });
   } else {
-    result = await this.stripe.sdk()[collectionOrFn].list({
-      starting_after: prevContext,
+    result = await this.sdk()[collectionOrFn].list({
+      starting_after: startingAfter,
     });
   }
 
@@ -24,14 +78,13 @@ const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({ prev
     }));
   }
 
-  let nextPageToken = null;
-  if (options[options.length - 1]) {
-    nextPageToken = options[options.length - 1].value;
-  }
+  startingAfter = options?.[options.length - 1]?.value;
 
   return {
     options,
-    nextPageToken,
+    context: {
+      startingAfter,
+    },
   };
 };
 
@@ -51,10 +104,18 @@ module.exports = {
       type: "string",
       label: "Customer ID",
       description: "Example: `cus_Jz4ErxGo9t1agg`",
-      options: createOptionsMethod("customers", [
-        "id",
-        "name",
-      ]),
+      options: createOptionsMethod("customers", function ({
+        id, name, email,
+      }) {
+        return {
+          value: id,
+          label: [
+            name,
+            email,
+            id,
+          ].filter((v) => v).join(" | "),
+        };
+      }),
       optional: true,
     },
     payment_method: {
@@ -62,15 +123,18 @@ module.exports = {
       label: "Payment Method",
       description: "Example: `pm_card_visa`",
       options: createOptionsMethod(
-        function({ prevContext }) {
-          if (!this.customer) {
+        function({
+          prevContext: { startingAfter }, customer, type,
+        }) {
+          // payment `type` is a required param
+          if (!customer || !type) {
             return {
               data: [],
             };
           }
-          return this.stripe.sdk().paymentMethods.list({
-            starting_after: prevContext,
-            customer: this.customer,
+          return this.sdk().paymentMethods.list({
+            starting_after: startingAfter,
+            customer: customer,
           });
         },
         function ({
@@ -95,10 +159,23 @@ module.exports = {
       type: "string",
       label: "Price ID",
       description: "Example: `price_0HuVAoGHO3mdGsgAi0l1fEtm`",
-      options: createOptionsMethod("prices", [
-        "id",
-        "nickname",
-      ]),
+      options: createOptionsMethod(
+        function({
+          prevContext: { startingAfter }, type,
+        }) {
+          const params = {
+            starting_after: startingAfter,
+          };
+          if (type) {
+            params.type = type;
+          }
+          return this.sdk().prices.list(params);
+        },
+        [
+          "id",
+          "nickname",
+        ],
+      ),
       optional: true,
     },
     invoice: {
@@ -106,17 +183,19 @@ module.exports = {
       label: "Invoice ID",
       description: "Example: `in_0JMBoWGHO3mdGsgA6zwttRva`",
       options: createOptionsMethod(
-        function({ prevContext }) {
+        function({
+          prevContext: { startingAfter }, customer, subscription,
+        }) {
           const params = {
-            starting_after: prevContext,
+            starting_after: startingAfter,
           };
-          if (this.customer) {
-            params.customer = this.customer;
+          if (customer) {
+            params.customer = customer;
           }
-          if (this.subscription) {
-            params.subscription = this.subscription;
+          if (subscription) {
+            params.subscription = subscription;
           }
-          return this.stripe.sdk().invoices.list(params);
+          return this.sdk().invoices.list(params);
         },
         [
           "id",
@@ -130,14 +209,16 @@ module.exports = {
       label: "Invoice Item ID",
       description: "Example: `ii_0JMBoYGHO3mdGsgAgSUuIOan`",
       options: createOptionsMethod(
-        function({ prevContext }) {
+        function({
+          prevContext: { startingAfter }, invoice,
+        }) {
           const params = {
-            starting_after: prevContext,
+            starting_after: startingAfter,
           };
-          if (this.invoice) {
-            params.invoice = this.invoice;
+          if (invoice) {
+            params.invoice = invoice;
           }
-          return this.stripe.sdk().invoiceItems.list(params);
+          return this.sdk().invoiceItems.list(params);
         },
         [
           "id",
@@ -151,17 +232,19 @@ module.exports = {
       label: "Subscription ID",
       description: "Example: `sub_K0CC9GlXAWpBQg`",
       options: createOptionsMethod(
-        function({ prevContext }) {
+        function({
+          prevContext: { startingAfter }, customer, price,
+        }) {
           const params = {
-            starting_after: prevContext,
+            starting_after: startingAfter,
           };
-          if (this.customer) {
-            params.customer = this.customer;
+          if (customer) {
+            params.customer = customer;
           }
-          if (this.price) {
-            params.price = this.price;
+          if (price) {
+            params.price = price;
           }
-          return this.stripe.sdk().subscriptions.list(params);
+          return this.sdk().subscriptions.list(params);
         },
         [
           "id",
@@ -175,13 +258,15 @@ module.exports = {
       label: "Subscription Item ID",
       description: "Example: `si_K0CCMs2vNHPxV2`",
       options: createOptionsMethod(
-        function({ prevContext }) {
-          if (!this.subscription) {
+        function({
+          prevContext: { startingAfter }, subscription,
+        }) {
+          if (!subscription) {
             return [];
           }
-          return this.stripe.sdk().subscriptions.list({
-            starting_after: prevContext,
-            subscription: this.subscription,
+          return this.sdk().subscriptionItems.list({
+            starting_after: startingAfter,
+            subscription: subscription,
           });
         },
         [
@@ -240,14 +325,14 @@ module.exports = {
     country: {
       type: "string",
       label: "Country",
-      description: "Two-letter ISO country code, in lowercase",
-      options: createOptionsMethod("countrySpecs", function (id) {
+      description: "Two-letter ISO country code",
+      options: createOptionsMethod("countrySpecs", function ({ id }) {
         return {
           value: id,
           label: id,
         };
       }),
-      default: "us",
+      default: "US",
       optional: true,
     },
     currency: {
@@ -256,21 +341,21 @@ module.exports = {
       description: "Three-letter ISO currency code, in lowercase; must be a [supported currency]" +
         "(https://stripe.com/docs/currencies)",
       options: createOptionsMethod(
-        function() {
-          if (!this.country) {
+        async function({ country }) {
+          if (!country) {
             return {
               data: [],
             };
           }
-          const spec = this.stripe.sdk().countrySpecs.retrieve(this.country);
+          const spec = await this.sdk().countrySpecs.retrieve(country);
           return {
             data: spec.supported_payment_currencies,
           };
         },
-        function (id) {
+        function (code) {
           return {
-            value: id,
-            label: id,
+            value: code,
+            label: code,
           };
         },
       ),
@@ -400,7 +485,7 @@ module.exports = {
       optional: true,
     },
     setup_future_usage: {
-      type: "boolean",
+      type: "string",
       label: "Setup Future Usage",
       description: "Indicate if you intend to use the specified payment method for a future " +
         "payment. If you intend to only reuse the payment method when your customer is present " +
