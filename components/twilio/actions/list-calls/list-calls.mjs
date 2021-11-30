@@ -44,13 +44,17 @@ export default {
       ],
     },
   },
-  async run() {
-    return this.twilio.listCalls(omitEmptyStringValues({
-      to: this.to || undefined, // Use `undefined` if `to` is empty because Twilio API doesn't
-      from: this.from || undefined,
-      parentCallSid: this.parentCallSid || undefined,
-      status: this.status || undefined,
+  async run({ $ }) {
+    const resp = await this.twilio.listCalls(omitEmptyStringValues({
+      to: this.to,
+      from: this.from,
+      parentCallSid: this.parentCallSid,
+      status: this.status,
       limit: this.limit,
     }));
+    /* eslint-disable multiline-ternary */
+    $.export("$summary", `Successfully fetched ${resp.length} call${resp.length === 1 ? "" : "s"}${
+      this.from ? ` from ${this.from}` : ""}${this.to ? ` to ${this.to}` : ""}`);
+    return resp;
   },
 };

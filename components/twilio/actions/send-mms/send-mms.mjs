@@ -35,7 +35,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     // Parse the given number into its E.164 equivalent
     // The E.164 phone number will be included in the first element
     // of the array, but the array will be empty if parsing fails.
@@ -52,6 +52,8 @@ export default {
       mediaUrl: this.mediaUrl,
     };
 
-    return this.twilio.getClient().messages.create(data);
+    const resp = await this.twilio.getClient().messages.create(data);
+    $.export("$summary", `Successfully sent a new MMS, "${this.twilio.messageToString(resp)}"`);
+    return resp;
   },
 };

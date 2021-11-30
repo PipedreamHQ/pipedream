@@ -30,7 +30,7 @@ export default {
       description: "The path in `/tmp` which to download the file (e.g., `/tmp/myFile.mp3`)",
     },
   },
-  async run() {
+  async run({ $ }) {
     // Get Recording resource to get `uri`
     const recording = await this.twilio.getRecording(this.recordingID);
     const client = this.twilio.getClient();
@@ -40,9 +40,11 @@ export default {
     // https://www.twilio.com/docs/voice/api/recording#fetch-a-recording-media-file
     const downloadUrl = uri + this.format;
     const pipeline = promisify(stream.pipeline);
-    return pipeline(
+    const resp = await pipeline(
       got.stream(downloadUrl),
       fs.createWriteStream(this.filePath),
     );
+    $.export("$summary", `Successfully downloaded the recording media file to "${this.filePath}"`);
+    return resp;
   },
 };

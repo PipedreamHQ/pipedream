@@ -28,7 +28,7 @@ export default {
       description: "The text you'd like Twilio to speak to the user when they pick up the phone.",
     },
   },
-  async run() {
+  async run({ $ }) {
     // Parse the given number into its E.164 equivalent
     // The E.164 phone number will be included in the first element
     // of the array, but the array will be empty if parsing fails.
@@ -45,6 +45,8 @@ export default {
       twiml: `<Response><Say>${this.text}</Say></Response>`,
     };
 
-    return this.twilio.getClient().calls.create(data);
+    const resp = await this.twilio.getClient().calls.create(data);
+    $.export("$summary", `Successfully made a new phone call, "${this.twilio.callToString(resp)}"`);
+    return resp;
   },
 };

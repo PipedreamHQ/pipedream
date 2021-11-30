@@ -22,9 +22,16 @@ export default {
       ],
     },
   },
-  async run() {
-    return this.twilio.listRecordingTranscriptions(this.recordingID, omitEmptyStringValues({
-      limit: this.limit,
-    }));
+  async run({ $ }) {
+    const resp = await this.twilio.listRecordingTranscriptions(
+      this.recordingID,
+      omitEmptyStringValues({
+        limit: this.limit,
+      }),
+    );
+    $.export("$summary", `Successfully fetched ${resp.length} recording transcription${resp.length === 1
+      ? ""
+      : "s"} for the recording, "${this.recordingId}"`);
+    return resp;
   },
 };

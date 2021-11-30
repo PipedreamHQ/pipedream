@@ -15,7 +15,9 @@ export default {
       ],
     },
   },
-  async run() {
-    return this.twilio.deleteMessage(this.messageId);
+  async run({ $ }) {
+    const resp = await this.twilio.deleteMessage(this.messageId);
+    $.export("$summary", `Successfully deleted the message, "${this.messageId}"`);
+    return resp;
   },
 };

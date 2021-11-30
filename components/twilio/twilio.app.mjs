@@ -1,5 +1,9 @@
 import twilioClient from "twilio";
-import { formatTimeElapsed } from "./utils.mjs";
+import {
+  callToString,
+  messageToString,
+  recordingToString,
+} from "./utils.mjs";
 
 export default {
   type: "app",
@@ -79,9 +83,9 @@ export default {
       async options() {
         const messages = await this.listMessages();
         return messages.map((message) => {
-          const dateString = new Date(message.dateSent).toDateString();
+          // const dateString = new Date(message.dateSent).toDateString();
           return {
-            label: `${message.to} ${dateString} ${message.body}`,
+            label: this.messageToString(message),
             value: message.sid,
           };
         });
@@ -112,10 +116,8 @@ export default {
       async options() {
         const recordings = await this.listRecordings();
         return recordings.map((recording) => {
-          const dateString = new Date(recording.startTime).toDateString();
-          const durationString = formatTimeElapsed(recording.duration);
           return {
-            label: `${dateString} - ${durationString}`,
+            label: this.recordingToString(recording),
             value: recording.sid,
           };});
       },
@@ -154,6 +156,11 @@ export default {
     },
   },
   methods: {
+    // Static methods
+    callToString,
+    messageToString,
+    recordingToString,
+
     getClient() {
       return twilioClient(this.$auth.Sid, this.$auth.Secret, {
         accountSid: this.$auth.AccountSid,
@@ -280,9 +287,8 @@ export default {
     async listCallsOptions(params = {}) {
       const calls = await this.listCalls(params);
       return calls.map((call) => {
-        const dateString = new Date(call.startTime).toDateString();
         return {
-          label: `From ${call.toFormatted} on ${dateString}`,
+          label: this.callToString(call),
           value: call.sid,
         };
       });

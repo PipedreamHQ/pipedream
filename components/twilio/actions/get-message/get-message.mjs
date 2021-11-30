@@ -15,7 +15,9 @@ export default {
       ],
     },
   },
-  async run() {
-    return this.twilio.getMessage(this.messageId);
+  async run({ $ }) {
+    const resp = await this.twilio.getMessage(this.messageId);
+    $.export("$summary", `Successfully fetched the message, "${this.twilio.messageToString(resp)}"`);
+    return resp;
   },
 };

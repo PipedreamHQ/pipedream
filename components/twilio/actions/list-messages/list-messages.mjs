@@ -33,7 +33,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     // Parse the given number into its E.164 equivalent
     // The E.164 phone number will be included in the first element
     // of the array, but the array will be empty if parsing fails.
@@ -47,10 +47,14 @@ export default {
       to = toParsed.phoneNumber;
     }
 
-    return this.twilio.listMessages(omitEmptyStringValues({
+    const resp = await this.twilio.listMessages(omitEmptyStringValues({
       to,
       from: this.from,
       limit: this.limit,
     }));
+    /* eslint-disable multiline-ternary */
+    $.export("$summary", `Successfully fetched ${resp.length} message${resp.length === 1 ? "" : "s"}${
+      this.from ? ` from ${this.from}` : ""}${this.to ? ` to ${this.to}` : ""}`);
+    return resp;
   },
 };

@@ -15,7 +15,9 @@ export default {
       ],
     },
   },
-  async run() {
-    return this.twilio.deleteCall(this.sid);
+  async run({ $ }) {
+    const resp = await this.twilio.deleteCall(this.sid);
+    $.export("$summary", `Successfully deleted the call, "${this.sid}"`);
+    return resp;
   },
 };

@@ -26,7 +26,6 @@ export default {
     },
   },
   async run() {
-    console.log("run");
     let dateCreatedAfter = this._getCreatedAfter();
     const params = {
       dateCreatedAfter,

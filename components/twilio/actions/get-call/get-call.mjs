@@ -15,7 +15,9 @@ export default {
       ],
     },
   },
-  async run() {
-    return this.twilio.getCall(this.sid);
+  async run({ $ }) {
+    const resp = await this.twilio.getCall(this.sid);
+    $.export("$summary", `Successfully fetched the call, "${this.twilio.callToString(resp)}"`);
+    return resp;
   },
 };
