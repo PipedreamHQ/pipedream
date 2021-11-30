@@ -118,11 +118,14 @@ Every event sent to a workflow triggers a new execution of that workflow. Workfl
 
 If your code exceeds your workflow-level limit, we'll throw a **Timeout** error and stop your workflow. Any partial logs and observability associated with code cells that ran successfully before the timeout will be attached to the event in the UI, so you can examine the state of your workflow and troubleshoot where it may have failed.
 
-**You can change this default timeout in your [workflow's settings](/workflows/settings/), up to 300 seconds (5 minutes), or down to 1 second**.
+You can increase the timeout limit, up to a max value set by your plan:
+
+|     Tier     |                                             Maximum time per execution                                             |
+| :----------: | :---------------------------------------------------------------------------------------------------: |
+|  Free tiers   |                     300 seconds (5 min)                      |
+| Paid tiers | 750 seconds (12.5 min) |
 
 Events that trigger a **Timeout** error will appear in red in the [Inspector](/workflows/events/inspect/). You'll see the timeout error, also in red, in the cell at which the code timed out.
-
-If you need to run a workflow that exceeds 5 minutes, please [reach out to our team](https://pipedream.com/support/).
 
 ### Event / Execution History
 
