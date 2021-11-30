@@ -6,11 +6,12 @@ export default {
   app: "docusign_developer",
   methods: {
     ...common.methods,
-    async getUserInfo() {
-      return await this._makeRequest(
-        "GET",
-        "https://account-d.docusign.com/oauth/userinfo",
-      );
+    async getUserInfo({ $ }) {
+      const config = {
+        method: "GET",
+        url: "https://account-d.docusign.com/oauth/userinfo",
+      }
+      return await this._makeRequest({ $, config });
     },
   }
 };

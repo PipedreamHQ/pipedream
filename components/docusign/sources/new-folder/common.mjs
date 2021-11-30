@@ -62,7 +62,7 @@ export default {
   },
   async run(event) { 
     const { timestamp: ts } = event;
-    const baseUri =  await this.docusign.getBaseUri(this.account);
+    const baseUri =  await this.docusign.getBaseUri({ accountId: this.account });
     let done = false;
     const params = {
       start_position: 0,

@@ -4,8 +4,7 @@ import common from "./common.mjs";
 export default {
   ...common,
   key: "docusign-create-signature-request",
-//  version: "0.0.2",
-  version: "0.0.72",
+  version: "0.0.2",
   props: {
     ...common.props,
     docusign,

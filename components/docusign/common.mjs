@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform"
 
 export default {
   propDefinitions: {
@@ -8,12 +8,10 @@ export default {
       description: "Docusign Account",
       async options() {
         const { accounts } = await this.getUserInfo();
-        return accounts.map((account) => {
-          return {
-            label: account.account_name,
-            value: account.account_id,
-          };
-        });
+        return accounts.map((account) => ({
+          label: account.account_name,
+          value: account.account_id,
+        }));
       },
     },
     template: {
@@ -23,12 +21,10 @@ export default {
       async options({ account }) {
         const baseUri = await this.getBaseUri(account);
         const { envelopeTemplates } = await this.listTemplates(baseUri);
-        return envelopeTemplates.map((template) => {
-          return {
-            label: template.name,
-            value: template.templateId,
-          };
-        });
+        return envelopeTemplates.map((template) => ({
+          label: template.name,
+          value: template.templateId,
+        }));
       },
     },
     emailSubject: {
@@ -77,47 +73,64 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    async _makeRequest(method, url, data = null, params = null) {
+    async _makeRequest({ $, config }) {
       const config = {
-        method,
-        url,
+        ...config,
         headers: this._getHeaders(),
-        data,
-        params,
       };
-      return (await axios(config)).data;
+      return (await axios($ ?? this, config));
     },
-    async getBaseUri(accountId) {
-      const { accounts } = await this.getUserInfo();
+    async getBaseUri({ $, accountId }) {
+      const { accounts } = await this.getUserInfo({ $ });
       const account = accounts.find((a) => a.account_id === accountId);
       const { base_uri: baseUri } = account;
       return `${baseUri}/restapi/v2.1/accounts/${accountId}/`;
     },
     async listTemplates(baseUri) {
-      return await this._makeRequest("GET", `${baseUri}templates`);
+      const config = {
+        method: "GET",
+        url: `${baseUri}templates`,
+      }
+      return await this._makeRequest({ config });
     },
     async listTemplateRecipients(baseUri, templateId) {
-      return await this._makeRequest(
-        "GET",
-        `${baseUri}templates/${templateId}/recipients`,
-      );
+      const config = {
+        method: "GET",
+        url: `${baseUri}templates/${templateId}/recipients`,
+      }
+      return await this._makeRequest({ config });
     },
-    async createEnvelope(baseUri, data) {
-      return await this._makeRequest("POST", `${baseUri}envelopes`, data);
+    async createEnvelope({ $, baseUri, data }) {
+      const config = {
+        method: "POST", 
+        url: `${baseUri}envelopes`,
+        data,
+      }
+      return await this._makeRequest({ $, config });
     },
     async listFolders(baseUri, params) {
-      return await this._makeRequest("GET", `${baseUri}folders`, null, params);
+      const config = {
+        method: "GET", 
+        url: `${baseUri}folders`,
+        params,
+      }
+      return await this._makeRequest({ config });
     },
     async listFolderItems(baseUri, params, folderId) {
-      return await this._makeRequest("GET", `${baseUri}folders/${folderId}`, null, params);
+      const config = {
+        method: "GET",
+        url: `${baseUri}folders/${folderId}`,
+        params,
+      }
+      return await this._makeRequest({ config });
     },
     async listEnvelopes(baseUri, params) {
-      return await this._makeRequest(
-        "GET",
-        `${baseUri}envelopes`,
-        null,
+      const config = {
+        method: "GET",
+        url: `${baseUri}envelopes`,
         params,
-      );
+      }
+      return await this._makeRequest({ config });
     },
   },
 }
