@@ -1,4 +1,7 @@
-const { MY_DRIVE_VALUE } = require("./constants");
+const {
+  MY_DRIVE_VALUE,
+  LEGACY_MY_DRIVE_VALUE,
+} = require("./constants");
 
 /**
  * Returns whether the specified drive ID corresponds to the authenticated
@@ -8,7 +11,7 @@ const { MY_DRIVE_VALUE } = require("./constants");
  * @returns `true` only when the specified drive is the user's 'My Drive'
  */
 function isMyDrive(drive) {
-  return drive === MY_DRIVE_VALUE;
+  return drive === MY_DRIVE_VALUE || drive === LEGACY_MY_DRIVE_VALUE;
 }
 
 /**

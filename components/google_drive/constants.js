@@ -76,6 +76,12 @@ const GOOGLE_DRIVE_UPDATE_TYPES = [
 const MY_DRIVE_VALUE = "My Drive";
 
 /**
+ * This is a legacy value for the `MY_DRIVE_VALUE` constant, supporting workflow configurations
+ * using this value.
+ */
+const LEGACY_MY_DRIVE_VALUE = "myDrive";
+
+/**
  * The maximum amount of time a subscription can be active without expiring is
  * 24 hours. In order to minimize subscription renewals (which involve the
  * execution of an event source) we set the expiration of subscriptions to its
@@ -109,6 +115,7 @@ module.exports = {
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_UPDATE_TYPES,
   MY_DRIVE_VALUE,
+  LEGACY_MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
 };
