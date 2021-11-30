@@ -1,5 +1,4 @@
 import typeform from "../../typeform.app.mjs";
-import common from "../common.mjs";
 
 export default {
   key: "typeform-list-images",
@@ -7,16 +6,15 @@ export default {
   description: "Retrieves a list of JSON descriptions for all images in your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/retrieve-images-collection/)",
   type: "action",
   version: "0.0.1",
-  methods: common.methods,
   props: {
     typeform,
   },
   async run({ $ }) {
-    try {
-      return await this.typeform.getImages($);
+    const resp = await this.typeform.getImages($);
 
-    } catch (error) {
-      throw new Error(error);
-    }
+    // eslint-disable-next-line multiline-ternary
+    $.export("$summary", `Successfully retrieved ${resp.length} ${resp.length == 1 ? "image" : "images"}`);
+
+    return resp;
   },
 };
