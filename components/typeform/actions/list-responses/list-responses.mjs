@@ -9,7 +9,7 @@ export default {
   name: "List Responses",
   description: "Returns form responses and date and time of form landing and submission. [See the docs here](https://developer.typeform.com/responses/reference/retrieve-responses/)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     typeform,
     formId: {
