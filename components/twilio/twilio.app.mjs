@@ -83,7 +83,6 @@ export default {
       async options() {
         const messages = await this.listMessages();
         return messages.map((message) => {
-          // const dateString = new Date(message.dateSent).toDateString();
           return {
             label: this.messageToString(message),
             value: message.sid,
