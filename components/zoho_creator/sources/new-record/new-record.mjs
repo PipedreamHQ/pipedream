@@ -1,12 +1,12 @@
 import zohoCreator from "../../zoho_creator.app.mjs";
-import utils from "../../utils.mjs";
 
 export default {
   key: "zoho_creator-new-record",
   description: "Emit new events on new record in a form",
   type: "source",
   name: "New Record",
-  version: "0.0.12",
+  version: "0.0.1",
+  dedupe: "greatest",
   props: {
     zohoCreator,
     db: "$.service.db",
@@ -20,27 +20,17 @@ export default {
     },
   },
   methods: {
-    reportCounterKey({
-      appLinkName, reportLinkName,
+    getMetadata({
+      report, record,
     }) {
-      return `${appLinkName.toLowerCase()}:${reportLinkName.toLowerCase()}:count`;
-    },
-    getReportCounter(args) {
-      return this.db.get(this.reportCounterKey(args));
-    },
-    setReportCounter({
-      value, ...args
-    }) {
-      return this.db.set(this.reportCounterKey(args), value);
-    },
-    getMetadata(report) {
       return {
-        summary: `Report: ${report.display_name} has been updated`,
+        id: record.ID,
+        summary: `New Report Record: ${report.display_name} has been created`,
         ts: Date.now(),
       };
     },
   },
-  async run(event) {
+  async run() {
     const reports = await this.zohoCreator.getApplicationsReports();
 
     const promises = reports.map(async (report) => {
@@ -49,47 +39,28 @@ export default {
         link_name: reportLinkName,
       } = report;
 
-      const args = {
+      const records = await this.zohoCreator.paginateRecords({
         appLinkName,
         reportLinkName,
-      };
-
-      const recordsCount = this.getReportCounter(args);
-
-      const [
-        page,
-        offset,
-      ] = utils.computePageAndOffset({
-        recordsCount,
       });
 
-      const records =
-        await this.zohoCreator.paginateRecords({
-          ...args,
-          page,
-        });
-
       return [
-        recordsCount,
-        page,
-        offset,
         report,
         records,
       ];
     });
 
-    const response = await Promise.all(promises);
+    const responses = await Promise.all(promises);
 
-    response.forEach(([
-      ,,,
+    responses.forEach(([
       report,
       records,
     ]) => {
       records.forEach((record) => {
-        this.$emit({
-          event,
+        this.$emit(record, this.getMetadata({
+          report,
           record,
-        }, this.getMetadata(report));
+        }));
       });
     });
   },
