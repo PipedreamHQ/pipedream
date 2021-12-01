@@ -59,7 +59,7 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       fileUrl,
       filePath,
@@ -76,7 +76,7 @@ module.exports = {
     const body = fileUrl
       ? await got.stream(fileUrl)
       : fs.createReadStream(filePath);
-    return await this.youtube.insertVideo({
+    const resp = await this.youtube.insertVideo({
       title,
       description,
       privacyStatus,
@@ -85,5 +85,7 @@ module.exports = {
       notifySubscribers,
       content: body,
     });
+    $.export("$summary", `Successfully uploaded a new video, "${title}"`);
+    return resp;
   },
 };
