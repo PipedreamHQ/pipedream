@@ -1,5 +1,5 @@
-const common = require("../common.js");
-const { toArray } = require("../../utils");
+import common from "../common.mjs";
+import { toArray } from "../../utils.mjs";
 
 /**
  * @typedef {import('googleapis').youtube_v3.Schema$Subscription} Subscription
@@ -37,7 +37,7 @@ const INITIAL_PUBLISHED_AFTER_DAYS_AGO = 7;
  * for channels (subscriptions) whose [totalItemCount](https://bit.ly/3ldUYAR) is greater than the
  * last recorded `totalItemCount`.
  */
-module.exports = {
+export default {
   ...common,
   key: "youtube_data_api-new-videos-in-subscribed-channels",
   name: "New Videos in Subscribed Channels",
@@ -60,7 +60,7 @@ module.exports = {
       this._setChannelData(channelData);
 
       this._setPublishedAfter(
-        this.youtube.daysAgo(INITIAL_PUBLISHED_AFTER_DAYS_AGO).toISOString(),
+        this.youtubeDataApi.daysAgo(INITIAL_PUBLISHED_AFTER_DAYS_AGO).toISOString(),
       );
     },
   },
@@ -129,7 +129,7 @@ module.exports = {
     async getSubscriptions() {
       // `part.snippet` contains the `resourceId.channelId`
       // `part.contentDetails` contains the `totalItemCount`
-      return await this.youtube.listAll(this.youtube.getSubscriptions.bind(this), {
+      return await this.youtubeDataApi.listAll(this.youtubeDataApi.getSubscriptions.bind(this), {
         part: "contentDetails,id,snippet",
         mine: true,
       });
@@ -141,7 +141,7 @@ module.exports = {
      * @returns {Channel[]} The list of subscriptions
      */
     async getChannels(channelIds) {
-      return await this.youtube.listAll(this.youtube.getChannels.bind(this), {
+      return await this.youtubeDataApi.listAll(this.youtubeDataApi.getChannels.bind(this), {
         part: "contentDetails,id",
         id: channelIds.join(","),
       });
@@ -161,8 +161,8 @@ module.exports = {
       publishedAfter = channelData[channel.id].lastPublishedAt
         ? Date.parse(channelData[channel.id].lastPublishedAt)
         : Date.parse(publishedAfter);
-      return await toArray(this.youtube.paginateUntil(
-        this.youtube.getPlaylistItems.bind(this),
+      return await toArray(this.youtubeDataApi.paginateUntil(
+        this.youtubeDataApi.getPlaylistItems.bind(this),
         {
           part: "contentDetails,id,snippet",
           playlistId,

@@ -1,6 +1,6 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   key: "youtube_data_api-new-videos-in-playlist",
@@ -21,7 +21,7 @@ module.exports = {
     },
     maxResults: {
       propDefinition: [
-        common.props.youtube,
+        common.props.youtubeDataApi,
         "maxResults",
       ],
     },
@@ -58,7 +58,7 @@ module.exports = {
       let lastPublished;
 
       while (count < totalResults && countEmitted < params.maxResults) {
-        const results = (await this.youtube.getPlaylistItems(params)).data;
+        const results = (await this.youtubeDataApi.getPlaylistItems(params)).data;
         totalResults = results.pageInfo.totalResults;
         for (const video of results.items) {
           if (this.isRelevant(video, publishedAfter)) {

@@ -4,6 +4,6 @@ async function toArray(asyncIterator) {
   return arr;
 }
 
-module.exports = {
+export {
   toArray,
 };

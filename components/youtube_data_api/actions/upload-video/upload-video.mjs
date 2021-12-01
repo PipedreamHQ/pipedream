@@ -1,60 +1,60 @@
-const youtube = require("../../youtube.app.js");
-const fs = require("fs");
-const got = require("got");
+import youtubeDataApi from "../../youtube_data_api.app.mjs";
+import fs from "fs";
+import got from "got";
 
-module.exports = {
+export default {
   key: "youtube_data_api-upload-video",
   name: "Upload Video",
   description: "Post a video to your channel",
   version: "0.0.1",
   type: "action",
   props: {
-    youtube,
+    youtubeDataApi,
     title: {
       propDefinition: [
-        youtube,
+        youtubeDataApi,
         "title",
       ],
     },
     description: {
       propDefinition: [
-        youtube,
+        youtubeDataApi,
         "description",
       ],
     },
     fileUrl: {
       propDefinition: [
-        youtube,
+        youtubeDataApi,
         "fileUrl",
       ],
     },
     filePath: {
       propDefinition: [
-        youtube,
+        youtubeDataApi,
         "filePath",
       ],
     },
     privacyStatus: {
       propDefinition: [
-        youtube,
+        youtubeDataApi,
         "privacyStatus",
       ],
     },
     publishAt: {
       propDefinition: [
-        youtube,
+        youtubeDataApi,
         "publishAt",
       ],
     },
     tags: {
       propDefinition: [
-        youtube,
+        youtubeDataApi,
         "tags",
       ],
     },
     notifySubscribers: {
       propDefinition: [
-        youtube,
+        youtubeDataApi,
         "notifySubscribers",
       ],
     },
@@ -76,7 +76,7 @@ module.exports = {
     const body = fileUrl
       ? await got.stream(fileUrl)
       : fs.createReadStream(filePath);
-    const resp = await this.youtube.insertVideo({
+    const resp = await this.youtubeDataApi.insertVideo({
       title,
       description,
       privacyStatus,

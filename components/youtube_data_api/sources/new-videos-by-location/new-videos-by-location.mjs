@@ -1,6 +1,6 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   key: "youtube_data_api-new-videos-by-location",
