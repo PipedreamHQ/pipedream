@@ -39,7 +39,7 @@ const INITIAL_PUBLISHED_AFTER_DAYS_AGO = 7;
  */
 module.exports = {
   ...common,
-  key: "youtube-new-videos-in-subscribed-channels",
+  key: "youtube_data_api-new-videos-in-subscribed-channels",
   name: "New Videos in Subscribed Channels",
   description: "Emit new event for each new YouTube video posted to a subscribed channel.",
   version: "0.0.1",

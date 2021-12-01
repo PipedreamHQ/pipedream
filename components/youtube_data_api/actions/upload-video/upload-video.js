@@ -3,7 +3,7 @@ const fs = require("fs");
 const got = require("got");
 
 module.exports = {
-  key: "youtube-upload-video",
+  key: "youtube_data_api-upload-video",
   name: "Upload Video",
   description: "Post a video to your channel",
   version: "0.0.1",
