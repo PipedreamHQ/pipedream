@@ -1,7 +1,6 @@
-import get from "lodash.get";
 import onedrive from "../../microsoft_onedrive.app.mjs";
-import { toSingleLineString } from "../common/utils";
-import base from "../new-file-in-folder/new-file-in-folder";
+import { toSingleLineString } from "../common/utils.mjs";
+import base from "../new-file-in-folder/new-file-in-folder.mjs";
 
 const {
   hooks,
@@ -44,7 +43,7 @@ export default {
   methods: {
     ...methods,
     isItemTypeRelevant(driveItem) {
-      const fileType = get(driveItem, "file.mimeType");
+      const fileType = driveItem?.file?.mimeType;
       return (
         methods.isItemTypeRelevant.call(this, driveItem) &&
         this.fileTypes.includes(fileType)

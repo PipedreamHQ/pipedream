@@ -1,6 +1,6 @@
-import baseNewFolder from "../new-folder/new-folder";
-import baseNewFileInFolder from "../new-file-in-folder/new-file-in-folder";
-import { toSingleLineString } from "../common/utils";
+import baseNewFolder from "../new-folder/new-folder.mjs";
+import baseNewFileInFolder from "../new-file-in-folder/new-file-in-folder.mjs";
+import { toSingleLineString } from "../common/utils.mjs";
 
 export default {
   ...baseNewFolder,
@@ -20,6 +20,6 @@ export default {
   },
   methods: {
     ...baseNewFolder.methods,
-    ...baseNewFileInFolder.methods
+    ...baseNewFileInFolder.methods,
   },
 };

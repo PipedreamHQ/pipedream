@@ -1,4 +1,4 @@
-const base = require("../new-file/new-file");
+import base from "../new-file/new-file.mjs";
 
 const {
   props,
@@ -10,7 +10,7 @@ const {
 export default {
   type: "source",
   key: "microsoft_onedrive-new-folder",
-  name: "New Folder in Folder (Instant)",
+  name: "New Folder (Instant)",
   description: "Emit new event when a new folder is created in a OneDrive drive",
   version: "0.0.1",
   dedupe: "unique",
