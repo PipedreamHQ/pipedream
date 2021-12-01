@@ -1,11 +1,12 @@
 import zohoCreator from "../../zoho_creator.app.mjs";
+import utils from "../../utils.mjs";
 
 export default {
   key: "zoho_creator-new-record",
   description: "Emit new events on new record in a form",
   type: "source",
   name: "New Record",
-  version: "0.0.11",
+  version: "0.0.12",
   props: {
     zohoCreator,
     db: "$.service.db",
@@ -18,44 +19,78 @@ export default {
       },
     },
   },
-  methods: {},
+  methods: {
+    reportCounterKey({
+      appLinkName, reportLinkName,
+    }) {
+      return `${appLinkName.toLowerCase()}:${reportLinkName.toLowerCase()}:count`;
+    },
+    getReportCounter(args) {
+      return this.db.get(this.reportCounterKey(args));
+    },
+    setReportCounter({
+      value, ...args
+    }) {
+      return this.db.set(this.reportCounterKey(args), value);
+    },
+    getMetadata(report) {
+      return {
+        summary: `Report: ${report.display_name} has been updated`,
+        ts: Date.now(),
+      };
+    },
+  },
   async run(event) {
-    const reports = await this.zohoCreator.getReports();
+    const reports = await this.zohoCreator.getApplicationsReports();
 
-    for (const report of reports) {
-      const reportKey = this.zohoCreator.getReportKey(report);
-      const key = `${reportKey}:count`;
-      const lastRecordsCount = this.db.get(key);
-      const recordsPage = this.zohoCreator.computeLastRecordsPage({
-        count: lastRecordsCount,
-      });
-      const recordsStream = await this.zohoCreator.getReportRecords(report, {
-        page: recordsPage,
+    const promises = reports.map(async (report) => {
+      const {
+        appLinkName,
+        link_name: reportLinkName,
+      } = report;
+
+      const args = {
+        appLinkName,
+        reportLinkName,
+      };
+
+      const recordsCount = this.getReportCounter(args);
+
+      const [
+        page,
+        offset,
+      ] = utils.computePageAndOffset({
+        recordsCount,
       });
 
-      let recordsOffset = this.zohoCreator.computeRecordsOffset({
-        count: lastRecordsCount,
-      });
-      let newRecordsCount = lastRecordsCount;
-      for await (const record of recordsStream) {
-        if (recordsOffset > 0) {
-          --recordsOffset;
-          continue;
-        }
-        this.$emit(
-          {
-            event,
-            record,
-          },
-          {
-            summary: `Report: ${report.display_name} has been updated`,
-            ts: Date.now(),
-          },
-        );
-        ++newRecordsCount;
-      }
+      const records =
+        await this.zohoCreator.paginateRecords({
+          ...args,
+          page,
+        });
 
-      this.db.set(key, newRecordsCount);
-    }
+      return [
+        recordsCount,
+        page,
+        offset,
+        report,
+        records,
+      ];
+    });
+
+    const response = await Promise.all(promises);
+
+    response.forEach(([
+      ,,,
+      report,
+      records,
+    ]) => {
+      records.forEach((record) => {
+        this.$emit({
+          event,
+          record,
+        }, this.getMetadata(report));
+      });
+    });
   },
 };

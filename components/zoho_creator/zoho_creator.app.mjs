@@ -6,111 +6,130 @@ export default {
   app: "zoho_creator",
   propDefinitions: {},
   methods: {
-    _authToken() {
-      return this.$auth.oauth_access_token;
-    },
-    _makeRequestConfig() {
-      const authToken = this._authToken();
-      const headers = {
-        "Authorization": `Zoho-oauthtoken ${authToken}`,
-        "User-Agent": "@PipedreamHQ/pipedream v0.1",
-      };
-      return {
-        headers,
-      };
-    },
-    _apiUrl() {
-      return `https://creator.${this.$auth.base_api_uri}/api/v2`;
-    },
-    _apiUsername() {
+    getAccount() {
       return this.$auth.oauth_uid;
     },
-    _applicationsUrl() {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/applications`;
-    },
-    _reportsUrl(appLinkName) {
-      const baseUrl = this._apiUrl();
-      const username = this._apiUsername();
-      return `${baseUrl}/${username}/${appLinkName}/reports`;
-    },
-    _reportDetailsUrl(appLinkName, reportLinkName) {
-      const baseUrl = this._apiUrl();
-      const username = this._apiUsername();
-      return `${baseUrl}/${username}/${appLinkName}/report/${reportLinkName}`;
-    },
-    computeLastRecordsPage({
-      count = 0,
-      pageSize = constants.RECORDS_PAGE_SIZE,
-    }) {
-      return 1 + Math.floor(count / pageSize);
-    },
-    computeRecordsOffset({
-      count = 0,
-      pageSize = constants.RECORDS_PAGE_SIZE,
-    }) {
-      return count % pageSize;
-    },
-    async genericApiGetCall(url, params = {}) {
-      const baseRequestConfig = this._makeRequestConfig();
-      const requestConfig = {
-        ...baseRequestConfig,
-        params,
+    async makeRequest(customConfig) {
+      const {
+        $,
         url,
+        path,
+        params: customParams,
+        ...additionalConfig
+      } = customConfig;
+
+      const {
+        base_api_uri: baseApiUri,
+        oauth_access_token: oauthAccessToken,
+      } = this.$auth;
+
+      const authorization = `${constants.TOKEN_PREFIX} ${oauthAccessToken}`;
+      const headers = {
+        authorization,
+        ...constants.DEFAULT_HEADERS,
       };
-      return await axios(this, requestConfig);
-    },
-    async getApplications() {
-      const url = this._applicationsUrl();
-      let applications = [];
-      try {
-        const data = await this.genericApiGetCall(url);
-        applications = data.applications;
-      } catch (e) {
-        applications = [];
-      }
-      return applications;
-    },
-    async getReports() {
-      const applications = await this.getApplications();
-      const reports = [];
-      for (const app of applications) {
-        const url = this._reportsUrl(app.link_name);
-        const appReports = await this.genericApiGetCall(url);
-        appReports.reports.forEach((report) => {
-          report.app_link_name = app.link_name;
-          reports.push(report);
-        });
-      }
-      return reports;
-    },
-    async *getReportRecords( report, { page = 1 }) {
-      if (report == null) {
-        return null;
-      }
-      const url = this._reportDetailsUrl(report.app_link_name, report.link_name);
-      let moreRecords = false;
-      let params = {
-        from: page,
+
+      const builtUrl = `${constants.BASE_PREFIX_URL}${baseApiUri}${constants.VERSION_PATH}${path}`;
+
+      const params = url
+        ? undefined
+        : customParams;
+
+      const config = {
+        ...additionalConfig,
+        headers,
+        url: url || builtUrl,
+        params,
       };
+
+      return await axios($ || this, config);
+    },
+    async getApplications($) {
+      return this.makeRequest({
+        $,
+        path: "/applications",
+      });
+    },
+    async getReports({
+      $, appLinkName, params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/${this.getAccount()}/${appLinkName}/reports`,
+        params,
+      });
+    },
+    async getRecords({
+      $, appLinkName, reportLinkName, params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/${this.getAccount()}/${appLinkName}/report/${reportLinkName}`,
+        params,
+      });
+    },
+    async getApplicationsReports() {
+      const { applications = [] } = await this.getApplications();
+
+      const deferredPromises =
+        applications
+          .map(async ({ link_name: appLinkName }) => ([
+            appLinkName,
+            await this.getReports({
+              appLinkName,
+            }),
+          ]));
+
+      const applicationReports = await Promise.all(deferredPromises);
+
+      // Reports flatten
+      return applicationReports
+        .reduce((reduction, [
+          appLinkName,
+          { reports = [] },
+        ]) => {
+          const appReports =
+            reports.map((report) => ({
+              ...report,
+              appLinkName,
+            }));
+          return reduction.concat(appReports);
+        }, []);
+    },
+    async paginateRecords({
+      appLinkName, reportLinkName, page = 0,
+    } = {}) {
+      let records = [];
+
       do {
         try {
-          const { data } = await this.genericApiGetCall(url, params);
-          for (const record of data) {
-            yield record;
+          const { data: nextRecords } =
+            await this.getRecords({
+              appLinkName,
+              reportLinkName,
+              params: {
+                from: page,
+              },
+            });
+
+          records = records.concat(nextRecords);
+          console.log("records", records);
+
+          page += 1;
+
+        } catch (error) {
+          const { response } = error;
+
+          if (response.status !== 404) {
+            throw error;
           }
-          moreRecords = true;
-        } catch (e) {
-          moreRecords = false;
+
+          records = [];
         }
-        params = {
-          ...params,
-          from: page + 1,
-        };
-      } while (moreRecords);
-    },
-    getReportKey(report) {
-      return `${this._apiUsername()}:${report.app_link_name}:${report.link_name}`;
+
+      } while (records.length);
+
+      return records;
     },
   },
 };
