@@ -1,5 +1,9 @@
 # Pipedream SQL Service
 
+::: danger
+The SQL Service will shut down on February 10th, 2022. [Read our blog post](https://pipedream.com/blog/shutting-down-the-sql-service/) for more details, and reach out to [Pipedream Support](https://pipedream.com/support) with any questions.
+:::
+
 Pipedream operates a hosted data warehouse as a [Destination](/destinations/) you can send events to from a workflow. You can run SQL on any JSON you send here. We call this the **SQL Service**.
 
 Using the SQL Service is simple: 
