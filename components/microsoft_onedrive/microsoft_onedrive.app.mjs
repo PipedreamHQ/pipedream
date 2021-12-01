@@ -1,7 +1,7 @@
 import "isomorphic-fetch";
 import { Client } from "@microsoft/microsoft-graph-client";
 import get from "lodash.get";
-import mimeTypes from "./sources/common/mime-types.json";
+import mimeTypes from "./sources/common/mime-types.mjs";
 
 export default {
   type: "app",
@@ -120,15 +120,18 @@ export default {
       driveId,
       expirationDateTime = this._getDefaultHookExpirationDateTime(),
     } = {}) {
-      return await this.client()
-        .api(this._subscriptionsEndpoint())
-        .post({
-          notificationUrl,
-          resource: this._getDrivePath(driveId) + "/root",
-          expirationDateTime,
-          changeType: "updated",
-        })
-        .id;
+      return new Promise((resolve, reject) => {
+        this.client()
+          .api(this._subscriptionsEndpoint())
+          .post({
+            notificationUrl,
+            resource: this._getDrivePath(driveId) + "/root",
+            expirationDateTime,
+            changeType: "updated",
+          })
+          .then((data) => resolve(data.id))
+          .catch((err) => reject(err));
+      });
     },
     /**
      * This method performs an update to a [OneDrive
