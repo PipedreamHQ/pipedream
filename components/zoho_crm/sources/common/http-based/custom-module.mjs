@@ -1,7 +1,7 @@
-const sortBy = require("lodash/sortBy");
-const base = require("./predefined-module");
+import sortBy from "loadsh/sortBy.js";
+import base from "./predefined-module.mjs";
 
-module.exports = {
+export default {
   ...base,
   props: {
     ...base.props,
@@ -15,7 +15,7 @@ module.exports = {
           return [];
         }
 
-        const { modules } = await this.zoho_crm.listModules();
+        const { modules } = await this.zohoCrm.listModules();
         const options = modules
           .filter(this.areEventsSupportedByModule)
           .map(({
@@ -37,6 +37,10 @@ module.exports = {
     getModuleType() {
       const { type } = JSON.parse(this.moduleInfo);
       return type;
+    },
+    getModuleName() {
+      const { name } = JSON.parse(this.moduleInfo);
+      return name;
     },
   },
 };

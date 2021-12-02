@@ -71,6 +71,20 @@ including all fields). Pass as a string of comma-separated values:
 
 ---
 
+`org_id` **string**
+
+Some endpoints require you to specify [the org ID](/orgs/#finding-your-organization-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific org, you'll want to pass the org ID in the `org_id` query string parameter.
+
+[Find your org's ID here](/orgs/#finding-your-organization-s-id).
+
+## Working with resources owned by an organization
+
+If you're interacting with resources owned by an [organization](/orgs/), you may need to specify the org ID as a part of the request's query string parameter or route:
+
+- When fetching specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), you should not need to pass your org's ID. If your user is a part of the org, you should have access to that resource, and the API will return the details of the resource.
+- When _creating_ new resources, you'll need to specify the `org_id` where you want the resource to live as a query string parameter (`?org_id=o_abc123`). Read more about the `org_id` parameter in the [Common Parameters section](#common-parameters).
+- When _listing_ resources, use [the org-specific endpoints here](#organizations).
+
 ## Pagination
 
 Most API endpoints below support pagination, **with a default page size of 10
@@ -529,6 +543,60 @@ curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
       "emitter_id": "dc_def456",
       "listener_id": "p_def456",
       "event_name": ""
+    }
+  ]
+}
+```
+
+### Get Org's Sources
+
+---
+
+Retrieve all the [event sources](#sources) configured for a specific organization.
+
+#### Endpoint
+
+```
+GET /orgs/<org_id>/sources
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 19,
+    "count": 10,
+    "start_cursor": "ZGNfSzB1QWVl",
+    "end_cursor": "ZGNfeUx1alJx"
+  },
+  "data": [
+    {
+      "id": "dc_abc123",
+      "component_id": "sc_def456",
+      "configured_props": {
+        "http": {
+          "endpoint_url": "https://myendpoint.m.pipedream.net"
+        }
+      },
+      "active": true,
+      "created_at": 1587679599,
+      "updated_at": 1587764467,
+      "name": "test",
+      "name_slug": "test"
     }
   ]
 }

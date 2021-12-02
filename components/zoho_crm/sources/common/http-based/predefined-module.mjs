@@ -1,12 +1,12 @@
-const base = require("./base");
+import base from "./base.js";
 
-module.exports = {
+export default {
   ...base,
   hooks: {
     ...base.hooks,
     async activate() {
       const moduleType = await this._retrieveModuleType();
-      this.db.set("moduleType", moduleType);
+      this._setModuleType(moduleType);
 
       // Call "super" method
       await base.hooks.activate.bind(this)();
@@ -28,7 +28,7 @@ module.exports = {
      * source
      */
     async _retrieveModuleType() {
-      const { modules } = await this.zoho_crm.listModules();
+      const { modules } = await this.zohoCrm.listModules();
       const { api_name: moduleType } = modules
         .find(({ singular_label: moduleName }) => moduleName === this.getModuleName());
       return moduleType;
@@ -44,8 +44,11 @@ module.exports = {
      * @returns {string}  The API name of the module supported by this event
      * source
      */
-    getModuleType() {
+    _getModuleType() {
       return this.db.get("moduleType");
+    },
+    _setModuleType(moduleType) {
+      this.db.set("moduleType", moduleType);
     },
     /**
      * This function returns the type name of the Zoho CRM module to which the
@@ -62,7 +65,7 @@ module.exports = {
       throw new Error("getModuleName is not implemented");
     },
     getEvents() {
-      const moduleType = this.getModuleType();
+      const moduleType = this._getModuleType();
       return this
         .getSupportedOps()
         .map(({ op }) => `${moduleType}.${op}`);

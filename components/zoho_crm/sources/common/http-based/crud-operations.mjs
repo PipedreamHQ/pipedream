@@ -23,7 +23,7 @@ const crudOpsData = [
 
 const getOpData = (inputOp) => crudOpsData.find(({ op }) => op === inputOp);
 
-module.exports = {
+export default {
   createOpData() {
     return getOpData("create");
   },
