@@ -73,7 +73,7 @@ The Enterprise Plan includes all of the features of the Team plan, as well as:
 - SSO support
 - A 99.95% uptime SLA
 - Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
-- Premium support. This includes onboarding, ongoing training, and anything y'all need to be successful.
+- Premium support: onboarding, ongoing training, and anything your team needs to be successful
 - Custom, prioritized [component](https://pipedream.com/docs/components/) development. If you need new sources or actions, The Pipedream team will develop them for you and prioritize that work on our [component backlog](https://github.com/PipedreamHQ/pipedream/projects/1).
 
 To discuss an Enterprise plan, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
