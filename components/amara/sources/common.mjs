@@ -33,7 +33,7 @@ export default {
       throw new Error("getResourceFn is not implemented");
     },
     getResourceFnArgs() {
-      throw new Error("getResourceFn is not implemented");
+      throw new Error("getResourceFnArgs is not implemented");
     },
     getAllowedEvents() {
       throw new Error("getAllowedEvents is not implemented");
@@ -67,7 +67,7 @@ export default {
       return {
         id: JSON.stringify(resource),
         summary: `${eventId} ${eventType}`,
-        ts: Date.now(),
+        ts: Date.parse(resource.data ?? resource.timestamp ?? Date.now()),
       };
     },
     isRelevant(resource) {

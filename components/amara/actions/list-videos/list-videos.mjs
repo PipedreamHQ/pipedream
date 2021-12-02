@@ -26,7 +26,7 @@ export default {
       ],
     },
     primaryAudioLanguageCode: {
-      description: "Filter team videos by video language (only works when the team parameter is also present).",
+      description: "Filter team videos by video language (only works when **Team** is given a non-null value).",
       propDefinition: [
         amara,
         "primaryAudioLanguageCode",

@@ -22,7 +22,7 @@ export default {
     },
     getAllowedEvents() {
       return [
-        constants.ACTIVITY_TYPES.SUBTITLES_UNPUBLISHED,
+        constants.EVENT_TYPES.SUBTITLES_UNPUBLISHED,
       ];
     },
   },

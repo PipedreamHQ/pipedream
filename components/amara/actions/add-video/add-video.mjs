@@ -90,7 +90,7 @@ export default {
       primary_audio_language_code: primaryAudioLanguageCode,
       thumbnail,
       metadata,
-      team,
+      team: team || null,
       project,
     };
 

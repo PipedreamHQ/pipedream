@@ -22,7 +22,7 @@ export default {
     },
     getAllowedEvents() {
       return [
-        constants.ACTIVITY_TYPES.VIDEO_MOVED_PROJECT,
+        constants.EVENT_TYPES.VIDEO_MOVED_PROJECT,
       ];
     },
   },

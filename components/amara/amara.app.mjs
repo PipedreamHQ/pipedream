@@ -14,12 +14,12 @@ export default {
     videoUrl: {
       type: "string",
       label: "Video URL",
-      description: "The url for the video. Any url that Amara accepts will work here. You can send the URL for a file (e.g. `http:///www.example.com/my-video.ogv`), or a link to one of the accepted providers (YouTube, Vimeo).",
+      description: "The URL for the video. Any URL that Amara accepts will work here. You can send the URL for a file (e.g. `http:///www.example.com/my-video.ogv`), or a link to one of the accepted providers (YouTube, Vimeo).",
     },
     primaryAudioLanguageCode: {
       type: "string",
       label: "Primary audio language code",
-      description: "Language code for the main language spoken in the video.",
+      description: "Language code for the main language spoken in the video ([ISO 639-1 two-letter code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes))",
       optional: true,
       async options() {
         const { languages } = await this.getLanguages();
@@ -40,19 +40,29 @@ export default {
         prevContext, team,
       }) {
         const { url } = prevContext;
+
         if (url === null || !team) {
           return [];
         }
-        const {
-          meta,
-          objects: projects,
-        } = await this.getTeamProjects({
-          team,
-        });
+
+        let meta, projects;
+        try {
+          ({
+            meta,
+            objects: projects,
+          } = await this.getTeamProjects({
+            team,
+          }));
+
+        } catch (error) {
+          return [];
+        }
+
         const options = projects.map((project) => ({
           label: project.name,
           value: project.slug,
         }));
+
         return {
           options,
           context: {
@@ -102,7 +112,7 @@ export default {
     language: {
       type: "string",
       label: "Language",
-      description: "Language code for the language of the subtitles",
+      description: "Language code for the language of the subtitles ([ISO 639-1 two-letter code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes))",
       async options({
         videoId, prevContext,
       }) {
@@ -213,7 +223,7 @@ export default {
     versionNumber: {
       type: "integer",
       label: "Version number",
-      description: "Version number of the subtitles to fetch. Versions are listed in the VideoLanguageResouce request. If none is specified, the latest public version will be returned. If you want the latest private version (and have access to it) use “last”.",
+      description: "Version number of the subtitles to fetch. Versions are listed in the [VideoLanguageResouce](https://apidocs.amara.org/#list-subtitle-languages-for-a-video) request. If none is specified, the latest public version will be returned. If you want the latest private version (and have access to it) use “last”.",
       optional: true,
       async options({
         videoId, language,
@@ -547,7 +557,7 @@ export default {
           nextResources.forEach(callback);
         }
 
-      } while (nextResources.length && resources.length < max);
+      } while (lastUrl && resources.length < max);
 
       return {
         lastUrl,
