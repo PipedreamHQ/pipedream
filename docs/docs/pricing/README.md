@@ -69,7 +69,7 @@ Teams have access to support from the Pipedream team via email or a shared Slack
 
 The Enterprise Plan includes all of the features of the Team plan, as well as:
 
-- A base of 100,000 {{$site.themeConfig.ENTERPRISE_MONTHLY_INVOCATIONS}} invocations per month
+- A base of {{$site.themeConfig.ENTERPRISE_MONTHLY_INVOCATIONS}} invocations per month
 - SSO support
 - A 99.95% uptime SLA
 - Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
