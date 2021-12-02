@@ -2,7 +2,7 @@ import zohoCreator from "../../zoho_creator.app.mjs";
 
 export default {
   key: "zoho_creator-new-record",
-  description: "Emit new events on new record in a form",
+  description: "Emit new events on new record in a form. For more information about the endpoints involved in this component, please see [Get Applications](https://www.zoho.com/creator/help/api/v2/get-applications.html), [Get Reports](https://www.zoho.com/creator/help/api/v2/get-reports.html), [Get Records](https://www.zoho.com/creator/help/api/v2/get-records.html).",
   type: "source",
   name: "New Record",
   version: "0.0.1",
