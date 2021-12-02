@@ -9,6 +9,12 @@ module.exports = {
       type: "$.interface.http",
       customResponse: true,
     },
+    listId: {
+      type: "string",
+      label: "Audience List Id",
+      description:
+        "The unique ID of the audience list you'd like to watch for events.",
+    },
     triggeredByUser: {
       type: "boolean",
       label: "Trigger on subscriber actions?",
@@ -35,18 +41,13 @@ module.exports = {
     ...base.hooks,
     async activate() {
       const eventsCfg = this.getEventsConfig();
-      try {
-        this.db.set("isActivatingWebhook", true);
-        const webhook = await this.mailchimp.createWebhook(
-          this.listId,
-          this.http.endpoint,
-          eventsCfg.subscribedEvents,
-          eventsCfg.eventSources,
-        );
-        this.db.set("webhookId", webhook.id);
-      } catch (err) {
-        console.log(JSON.stringify(err));
-      }
+      const webhook = await this.mailchimp.createWebhook(
+        this.listId,
+        this.http.endpoint,
+        eventsCfg.subscribedEvents,
+        eventsCfg.eventSources,
+      );
+      this.db.set("webhookId", webhook.id);
     },
     async deactivate() {
       await this.mailchimp.deleteWebhook(
@@ -89,15 +90,21 @@ module.exports = {
     },
   },
   async run(event) {
-    this.http.respond({
-      status: 200,
-    });
     const { body } = event;
-    if (!body) {
-      //Probably a Mailchimp response sent on webhook registration.
-      console.log("No body present in event");
+    const isMailChimpWebhookValidator = [
+      "MailChimp.com WebHook Validator",
+    ].includes(event.headers["user-agent"]);
+    if (body) {
+      this.processEvent(body);
+    }
+    if (body || isMailChimpWebhookValidator) {
+      this.http.respond({
+        status: 200,
+      });
       return;
     }
-    this.processEvent(body);
+    this.http.respond({
+      status: 400,
+    });
   },
 };

@@ -10,12 +10,6 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    listId: {
-      type: "string",
-      label: "Audience List Id",
-      description:
-        "The unique ID of the audience list you'd like to watch for new subscribers.",
-    },
   },
   methods: {
     ...common.methods,
