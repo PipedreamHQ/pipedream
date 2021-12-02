@@ -49,7 +49,7 @@ Users on the Professional Tier have access to community support, on [our forum](
 
 You can create as many [organizations](/orgs) as you'd like for free. But the quota for free orgs is set to {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}} invocations per day. To lift this limit, you can upgrade the org to the **Team Plan**.
 
-Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please reach out about an [Enterprise Plan](#enterprise-plan).
+Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please [reach out](https://pipedream.com/support).
 
 The Team Plan also includes all of the features of the Professional Plan.
 
@@ -66,6 +66,15 @@ See [https://pipedream.com/pricing](https://pipedream.com/pricing) for pricing i
 Teams have access to support from the Pipedream team via email or a shared Slack channel between our organizations. [Visit out Support page](https://pipedream.com/support) for more information.
 
 ## Enterprise Plan
+
+The Enterprise Plan includes all of the features of the Team plan, as well as:
+
+- A base of 100,000 invocations per month (5x the Team plan)
+- SSO support
+- A 99.95% uptime SLA
+- Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
+- Premium support. This includes onboarding, ongoing training, and anything y'all need to be successful.
+- Custom, prioritized [component](https://pipedream.com/docs/components/) development. If you need new sources or actions, The Pipedream team will develop them for you and prioritize that work on our [component backlog](https://github.com/PipedreamHQ/pipedream/projects/1).
 
 To discuss an Enterprise plan, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
 
