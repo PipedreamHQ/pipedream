@@ -35,12 +35,11 @@ module.exports = {
     ...base.hooks,
     async activate() {
       const eventsCfg = this.getEventsConfig();
-      const endpoint = "https://503b39783ae49ef8ae6a07b05f64100b.m.pipedream.net";
       try {
+        this.db.set("isActivatingWebhook", true);
         const webhook = await this.mailchimp.createWebhook(
           this.listId,
-          endpoint,
-          //this.http.endpoint,
+          this.http.endpoint,
           eventsCfg.subscribedEvents,
           eventsCfg.eventSources,
         );
@@ -90,16 +89,15 @@ module.exports = {
     },
   },
   async run(event) {
+    this.http.respond({
+      status: 200,
+    });
     const { body } = event;
     if (!body) {
       //Probably a Mailchimp response sent on webhook registration.
       console.log("No body present in event");
       return;
     }
-    // Acknowledge the event back to Mailchimp.
-    this.http.respond({
-      status: 200,
-    });
     this.processEvent(body);
   },
 };
