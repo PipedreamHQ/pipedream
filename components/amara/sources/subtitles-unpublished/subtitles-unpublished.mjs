@@ -25,5 +25,9 @@ export default {
         constants.EVENT_TYPES.SUBTITLES_UNPUBLISHED,
       ];
     },
+    getSummary(resource) {
+      const { data } = resource;
+      return `${data.amara_video_id} (${data.language_code})`;
+    },
   },
 };

@@ -5,7 +5,7 @@ import utils from "../../utils.mjs";
 export default {
   key: "amara-list-videos",
   name: "List Videos",
-  description: "List videos. [See the docs here](https://apidocs.amara.org/#list-videos).",
+  description: "List videos. [See the docs here](https://apidocs.amara.org/#list-videos)",
   type: "action",
   version: "0.0.1",
   props: {

@@ -98,15 +98,15 @@ export default {
       soft_limit_cps: softLimitCharactersPerSubtitles,
     };
 
-    const respones = await this.amara.updateSubtitleLanguage({
+    const response = await this.amara.updateSubtitleLanguage({
       $,
       videoId,
       language,
       data,
     });
 
-    $.export("$summary", `Successfully updated subtitle language ${language}`);
+    $.export("$summary", `Successfully updated subtitle language "${language}"`);
 
-    return respones;
+    return response;
   },
 };

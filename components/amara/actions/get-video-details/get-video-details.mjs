@@ -31,7 +31,7 @@ export default {
       videoId: this.videoId,
     });
 
-    $.export("$summary", "Successfully fetched video details");
+    $.export("$summary", `Successfully fetched video details for "${response.title}"`);
 
     return response;
   },

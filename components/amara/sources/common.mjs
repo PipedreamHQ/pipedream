@@ -59,15 +59,18 @@ export default {
         resource.title || resource.video,
       ];
     },
-    generateMeta(resource) {
+    getSummary(resource) {
       const [
         eventType,
         eventId,
       ] = this.getEventTypeAndId(resource);
+      return `${eventId} ${eventType}`;
+    },
+    generateMeta(resource) {
       return {
         id: JSON.stringify(resource),
-        summary: `${eventId} ${eventType}`,
-        ts: Date.parse(resource.data ?? resource.timestamp ?? Date.now()),
+        summary: this.getSummary(resource),
+        ts: Date.parse(resource.date ?? resource.timestamp ?? new Date()),
       };
     },
     isRelevant(resource) {

@@ -45,7 +45,7 @@ export default {
       language,
     });
 
-    $.export("$summary", "Successfully fetched subtitle language details");
+    $.export("$summary", `Successfully fetched ${response.name} subtitle language details`);
 
     return response;
   },

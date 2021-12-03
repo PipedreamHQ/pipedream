@@ -104,7 +104,7 @@ export default {
       data,
     });
 
-    $.export("$summary", "Successfully added subtitles");
+    $.export("$summary", `Successfully added ${response.language.name} subtitles for "${response.video_title}"`);
 
     return response;
   },

@@ -25,5 +25,8 @@ export default {
         constants.ACTIVITY_TYPES.VIDEO_DELETED,
       ];
     },
+    getSummary(resource) {
+      return `Video deleted: ${resource.title ?? resource.video}`;
+    },
   },
 };

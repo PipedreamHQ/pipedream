@@ -22,7 +22,7 @@ export default {
       teamId: this.teamId,
     });
 
-    $.export("$summary", "Successfully fetched team details");
+    $.export("$summary", `Successfully fetched team details for "${response.name}"`);
 
     return response;
   },

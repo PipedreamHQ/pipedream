@@ -25,5 +25,9 @@ export default {
         constants.EVENT_TYPES.VIDEO_MOVED_PROJECT,
       ];
     },
+    getSummary(resource) {
+      const { data } = resource;
+      return `${data.old_project} to ${data.project} (${data.amara_video_id})`;
+    },
   },
 };

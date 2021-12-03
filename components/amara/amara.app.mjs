@@ -533,9 +533,10 @@ export default {
       let resources = [];
       let nextResources = [];
       let lastUrl = resourceFnArgs.url;
+      let nextResponse;
 
       do {
-        const nextResponse = await resourceFn({
+        nextResponse = await resourceFn({
           ...resourceFnArgs,
           url: lastUrl,
           params: {
@@ -550,14 +551,17 @@ export default {
         }
 
         nextResources = nextResponse.objects;
-        lastUrl = nextResponse.meta.next;
         resources = resources.concat(nextResources);
+
+        if (nextResponse.meta.next) {
+          lastUrl = nextResponse.meta.next;
+        }
 
         if (callback) {
           nextResources.forEach(callback);
         }
 
-      } while (lastUrl && resources.length < max);
+      } while (nextResponse?.meta.next && resources.length < max);
 
       return {
         lastUrl,

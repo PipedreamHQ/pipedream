@@ -4,7 +4,7 @@ import utils from "../../utils.mjs";
 export default {
   key: "amara-add-video",
   name: "Add Video",
-  description: "Add a video. [See the docs here](https://apidocs.amara.org/#add-a-video).",
+  description: "Add a video. [See the docs here](https://apidocs.amara.org/#add-a-video)",
   type: "action",
   version: "0.0.1",
   props: {
@@ -52,13 +52,13 @@ export default {
     duration: {
       type: "integer",
       label: "Duration",
-      description: "Duration in seconds, in case it can not be retrieved automatically by Amara.",
+      description: "Duration in seconds, in case it can not be retrieved automatically by Amara",
       optional: true,
     },
     thumbnail: {
       type: "string",
       label: "Thumbnail",
-      description: "URL to the video thumbnail.",
+      description: "URL to the video thumbnail",
       optional: true,
     },
     metadata:	{
@@ -99,7 +99,7 @@ export default {
       data,
     });
 
-    $.export("$summary", "Successfully added video");
+    $.export("$summary", `Successfully added video, "${response.title}"`);
 
     return response;
   },

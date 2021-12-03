@@ -70,7 +70,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully fetched subtitles");
+    $.export("$summary", `Successfully fetched ${response.language.name} subtitles for "${response.video_title}"`);
 
     return response;
   },

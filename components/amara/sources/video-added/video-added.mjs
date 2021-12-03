@@ -25,5 +25,9 @@ export default {
         constants.ACTIVITY_TYPES.VIDEO_ADDED,
       ];
     },
+    getSummary(resource) {
+      // eslint-disable-next-line multiline-ternary
+      return `Video Added: ${resource.video}${resource.language ? ` (${resource.language})` : ""}`;
+    },
   },
 };

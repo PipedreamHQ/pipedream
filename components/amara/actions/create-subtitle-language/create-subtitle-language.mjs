@@ -105,7 +105,7 @@ export default {
       data,
     });
 
-    $.export("$summary", "Successfully created subtitle language");
+    $.export("$summary", `Successfully created ${response.name} subtitle language for "${response.title}"`);
 
     return response;
   },

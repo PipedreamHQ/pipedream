@@ -25,5 +25,9 @@ export default {
         constants.EVENT_TYPES.VIDEO_MADE_PRIMARY,
       ];
     },
+    getSummary(resource) {
+      const { data } = resource;
+      return `${data.amara_video_id}: ${data.url}`;
+    },
   },
 };
