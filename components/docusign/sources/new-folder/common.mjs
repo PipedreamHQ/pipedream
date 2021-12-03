@@ -2,8 +2,9 @@ export default {
   dedupe: "unique",
   props: {
     db: "$.service.db",
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
+      label: "Polling Interval",
+      description: "Pipedream will poll the Docusign API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,

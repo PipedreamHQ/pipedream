@@ -21,6 +21,9 @@ export default {
       async options({ account }) {
         const baseUri = await this.getBaseUri({ accountId: account });
         const { envelopeTemplates } = await this.listTemplates(baseUri);
+        if (!envelopeTemplates) {
+          throw new Error("No templates found");
+        }
         return envelopeTemplates.map((template) => ({
           label: template.name,
           value: template.templateId,
@@ -75,7 +78,7 @@ export default {
     },
     async _makeRequest({ $, config }) {
       config.headers = this._getHeaders();
-      return (await axios($ ?? this, config));
+      return (axios($ ?? this, config));
     },
     async getBaseUri({ $, accountId }) {
       const { accounts } = await this.getUserInfo({ $ });
@@ -88,14 +91,14 @@ export default {
         method: "GET",
         url: `${baseUri}templates`,
       }
-      return await this._makeRequest({ config });
+      return this._makeRequest({ config });
     },
     async listTemplateRecipients(baseUri, templateId) {
       const config = {
         method: "GET",
         url: `${baseUri}templates/${templateId}/recipients`,
       }
-      return await this._makeRequest({ config });
+      return this._makeRequest({ config });
     },
     async createEnvelope({ $, baseUri, data }) {
       const config = {
@@ -103,7 +106,7 @@ export default {
         url: `${baseUri}envelopes`,
         data,
       }
-      return await this._makeRequest({ $, config });
+      return this._makeRequest({ $, config });
     },
     async listFolders(baseUri, params) {
       const config = {
@@ -111,7 +114,7 @@ export default {
         url: `${baseUri}folders`,
         params,
       }
-      return await this._makeRequest({ config });
+      return this._makeRequest({ config });
     },
     async listFolderItems(baseUri, params, folderId) {
       const config = {
@@ -119,7 +122,7 @@ export default {
         url: `${baseUri}folders/${folderId}`,
         params,
       }
-      return await this._makeRequest({ config });
+      return this._makeRequest({ config });
     },
     async listEnvelopes(baseUri, params) {
       const config = {
@@ -127,7 +130,7 @@ export default {
         url: `${baseUri}envelopes`,
         params,
       }
-      return await this._makeRequest({ config });
+      return this._makeRequest({ config });
     },
   },
 }

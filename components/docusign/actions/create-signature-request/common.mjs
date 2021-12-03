@@ -16,15 +16,17 @@ export default {
       ],
       emailSubject: this.emailSubject,
     };
-    if (this.emailBlurb) data.emailBlurb = this.emailBlurb;
-    try {
-      return await this.docusign.createEnvelope({
-        $,
-        baseUri,
-        data,
-      });
-    } catch (err) {
-      throw new Error(err.message);
+    if (this.emailBlurb) {
+      data.emailBlurb = this.emailBlurb;
     }
+    const resp = await this.docusign.createEnvelope({
+      $,
+      baseUri,
+      data,
+    });
+
+    $.export("$summary", "Successfully created a new signature request");
+
+    return resp;
   },
 };

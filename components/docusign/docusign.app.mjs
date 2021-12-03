@@ -11,7 +11,7 @@ export default {
         method: "GET",
         url: "https://account.docusign.com/oauth/userinfo",
       };
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         config,
       });

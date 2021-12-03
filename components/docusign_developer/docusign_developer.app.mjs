@@ -11,14 +11,10 @@ export default {
         method: "GET",
         url: "https://account-d.docusign.com/oauth/userinfo",
       };
-      return await this._makeRequest({
+      return this._makeRequest({
         $,
         config,
       });
-    },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };

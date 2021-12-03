@@ -2,8 +2,9 @@ export default {
   dedupe: "unique",
   props: {
     db: "$.service.db",
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
+      label: "Polling Interval",
+      description: "Pipedream will poll the Docusign API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
@@ -61,7 +62,9 @@ export default {
         nextUri,
         endPosition,
       } = await this.docusign.listEnvelopes(baseUri, params);
-      if (nextUri) params.start_position += endPosition + 1;
+      if (nextUri) {
+        params.start_position += endPosition + 1;
+      }
       else done = true;
 
       for (const envelope of envelopes) {

@@ -6,7 +6,7 @@ export default {
   key: "docusign-create-signature-request",
   version: "0.0.2",
   name: "Create Signature Request",
-  description: "Creates a signature request from a template",
+  description: "Creates a signature request from a template [See the docs here](https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/envelopes/create)",
   type: "action",
   props: {
     ...common.props,
