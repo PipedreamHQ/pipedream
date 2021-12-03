@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import querystring from "querystring";
 
 export default {
@@ -16,12 +16,10 @@ export default {
           offset,
           limit,
         });
-        return forms.content.map((form) => {
-          return {
-            label: form.title,
-            value: form.id,
-          };
-        });
+        return forms.content.map((form) => ({
+          label: form.title,
+          value: form.id,
+        }));
       },
     },
     formTitle: {
@@ -68,16 +66,25 @@ export default {
       description: "Height of the form",
       optional: true,
     },
+    max: {
+      type: "integer",
+      label: "Max Items",
+      description: "Maximum number of items to return",
+      default: 20,
+    },
   },
   methods: {
     _getBaseUrl() {
       return `https://${this.$auth.region}.jotform.com/`;
     },
     _ensureTrailingSlash(str) {
-      if (str.endsWith("/")) return str;
-      return `${str}/`;
+      return (str.endsWith("/"))
+        ? str
+        : `${str}/`;
     },
-    async _makeRequest(endpoint, method = "GET", params = null) {
+    async _makeRequest({
+      $, endpoint, method = "GET", params = null,
+    }) {
       const config = {
         url: `${this._getBaseUrl()}${endpoint}`,
         headers: {
@@ -93,20 +100,20 @@ export default {
         config.url += `${sep}${query}`;
         config.url = config.url.replace("?&", "?");
       }
-      return await axios(config);
+      return axios($ ?? this, config);
     },
     async createHook(opts = {}) {
       const {
         formId,
         endpoint,
       } = opts;
-      return (await this._makeRequest(
-        `form/${encodeURIComponent(formId)}/webhooks`,
-        "POST",
-        {
+      return this._makeRequest({
+        endpoint: `form/${encodeURIComponent(formId)}/webhooks`,
+        method: "POST",
+        params: {
           webhookURL: this._ensureTrailingSlash(endpoint),
         },
-      ));
+      });
     },
     async deleteHook(opts = {}) {
       const {
@@ -128,45 +135,47 @@ export default {
         return;
       }
       console.log(`Deleting webhook at index ${webhookIdx}...`);
-      return (await this._makeRequest(
-        `form/${encodeURIComponent(formId)}/webhooks/${encodeURIComponent(webhookIdx)}`,
-        "DELETE",
-      ));
+      return this._makeRequest({
+        endpoint: `form/${encodeURIComponent(formId)}/webhooks/${encodeURIComponent(webhookIdx)}`,
+        method: "DELETE",
+      });
     },
     async getForms(params) {
-      return (await this._makeRequest(
-        "user/forms",
-        "GET",
+      return this._makeRequest({
+        endpoint: "user/forms",
+        method: "GET",
         params,
-      )).data;
+      });
     },
-    async getFormSubmissions(params) {
-      const { formId } = params;
-      return (await this._makeRequest(
-        `form/${formId}/submissions`,
-        "GET",
-        params,
-      )).data;
+    async getFormSubmissions({
+      $, formId,
+    }) {
+      return this._makeRequest({
+        $,
+        endpoint: `form/${formId}/submissions`,
+        method: "GET",
+      });
     },
-    async getUserSubmissions(params) {
-      return (await this._makeRequest(
-        "user/submissions",
-        "GET",
-        params,
-      )).data;
+    async getUserSubmissions({ $ }) {
+      return this._makeRequest({
+        $,
+        endpoint: "user/submissions",
+        method: "GET",
+      });
     },
-    async getUserUsage() {
-      return (await this._makeRequest(
-        "user/usage",
-        "GET",
-      )).data;
+    async getUserUsage({ $ }) {
+      return this._makeRequest({
+        $,
+        endpoint: "user/usage",
+        method: "GET",
+      });
     },
     async getWebhooks(opts = {}) {
       const { formId } = opts;
-      return (await this._makeRequest(
-        `form/${encodeURIComponent(formId)}/webhooks`,
-        "GET",
-      )).data;
+      return this._makeRequest({
+        endpoint: `form/${encodeURIComponent(formId)}/webhooks`,
+        method: "GET",
+      });
     },
   },
 };
