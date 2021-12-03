@@ -17,7 +17,9 @@ module.exports = {
     _usersUrl(id) {
       const baseUrl = this._apiUrl();
       const basePath = `${baseUrl}/users`;
-      return id ? `${basePath}/${id}` : basePath;
+      return id
+        ? `${basePath}/${id}`
+        : basePath;
     },
     _watchActionsUrl() {
       const baseUrl = this._apiUrl();
