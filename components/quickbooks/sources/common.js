@@ -81,20 +81,19 @@ module.exports = {
       await this.processEvent(entity);
     },
     async processEvent(entity) {
-      const {name, id, operation} = entity
-      const eventToEmit = {
-        event_notification: entity,
-        record_details: {},
-      };
+      const {name, id, operation, lastUpdated} = entity
       // Unless the record has been deleted, use the id received in the webhook
       // to get the full record data
-      if (entity.operation !== "Delete") {
-        eventToEmit.record_details = await this.quickbooks
-          .getRecordDetails(name, id);
-      }
+      const eventToEmit = {
+        event_notification: entity,
+        record_details: operation === "Delete" 
+          ? {}
+          : await this.quickbooks.getRecordDetails(name, id),
+      };
+
       const summary = `${name} ${id} ${this.toPastTense(operation)}`;
-      const ts = entity?.lastUpdated
-        ? Date.parse(entity.lastUpdated)
+      const ts = lastUpdated
+        ? Date.parse(lastUpdated)
         : Date.now();
       const event_id = [
         name,
@@ -102,7 +101,6 @@ module.exports = {
         operation,
         ts,
       ].join("-");
-      console.log(event_id)
       this.$emit(eventToEmit, {
         id: event_id,
         summary,
