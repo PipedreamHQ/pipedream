@@ -11,6 +11,12 @@ module.exports = {
       label: "HTTP",
       description: "",
     },
+    webhookVerifierToken: {
+      propDefinition: [
+        quickbooks,
+        "webhookVerifierToken",
+      ],
+    },
   },
   methods: {
     getSupportedOperations(entityName) {

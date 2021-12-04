@@ -14,12 +14,6 @@ module.exports = {
   type: "source",
   props: {
     ...common.props,
-    webhook_verifier_token: {
-      propDefinition: [
-        quickbooks,
-        "webhook_verifier_token",
-      ],
-    },
     operations_to_emit: {
       propDefinition: [
         quickbooks,
