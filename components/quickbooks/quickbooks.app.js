@@ -8,14 +8,14 @@ module.exports = {
   type: "app",
   app: "quickbooks",
   propDefinitions: {
-    webhook_names: {
+    webhookNames: {
       type: "string[]",
       label: "Entities",
       description: "Select which QuickBooks entities to emit or just leave it blank to emit them all.",
       options: WEBHOOK_ENTITIES,
       optional: true,
     },
-    webhook_operations: {
+    webhookOperations: {
       type: "string[]",
       label: "Operations",
       description: "Select which operations to emit or just leave it blank to emit them all.",
@@ -23,7 +23,7 @@ module.exports = {
       default: WEBHOOK_OPERATIONS,
       optional: true,
     },
-    webhook_verifier_token: {
+    webhookVerifierToken: {
       type: "string",
       label: "Verifier Token",
       description: "[Create an app](https://developer.intuit.com/app/developer/qbo/docs/build-your-first-app) " +

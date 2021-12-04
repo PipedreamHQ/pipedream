@@ -10,22 +10,22 @@ module.exports = {
   type: "source",
   props: {
     ...common.props,
-    webhook_verifier_token: {
+    webhookVerifierToken: {
       propDefinition: [
         quickbooks,
-        "webhook_verifier_token",
+        "webhookVerifierToken",
       ],
     },
-    names_to_emit: {
+    namesToEmit: {
       propDefinition: [
         quickbooks,
-        "webhook_names",
+        "webhookNames",
       ],
     },
-    operations_to_emit: {
+    operationsToEmit: {
       propDefinition: [
         quickbooks,
-        "webhook_operations",
+        "webhookOperations",
       ],
     },
   },
@@ -35,10 +35,10 @@ module.exports = {
       // only emit events that match the entity names and operations indicated by the user
       // but if the props are left empty, emit all events rather than filtering them all out
       // (it would a hassle for the user to select every option if they wanted to emit everything)
-      if (this.names_to_emit.length > 0 && !this.names_to_emit.includes(entity.name)) {
+      if (this.namesToEmit.length > 0 && !this.namesToEmit.includes(entity.name)) {
         console.log(`Entity Type '${entity.name}' not found in list of selected Entity Types`);
-      } else if (this.operations_to_emit.length > 0
-        && !this.operations_to_emit.includes(entity.operation)) {
+      } else if (this.operationsToEmit.length > 0
+        && !this.operationsToEmit.includes(entity.operation)) {
         console.log(`Operation '${entity.operation}' not found in list of selected Operations`);
       } else {
         await this.emitEvent(event, entity);

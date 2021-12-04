@@ -212,7 +212,7 @@ module.exports = {
     },
 
     async emitEvent(eventReceived, entity) {
-      const token = this.webhook_verifier_token;
+      const token = this.webhookVerifierToken;
       const payload = eventReceived.bodyRaw;
       const header = eventReceived.headers["intuit-signature"];
       const isWebhookValid = this.verifyWebhookRequest(token, payload, header);
