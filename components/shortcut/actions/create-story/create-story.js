@@ -200,7 +200,7 @@ module.exports = {
       type: "object",
       label: "Story Link",
       description:
-        "An story link object attached to the story. Each story link object must have the following structure: `object_id` which is an integer, unique ID of the story defined as object, `subject_id` which is an integer, unique ID of the story defined as subject, and `verb` which indicates how the subject story acts on the object story, valid values are `blocks`, `duplicates`, or `relates to`. See [CreateStoryLinkParams](https://shortcut.com/api/rest/v3#CreateStoryLinkParams) for more info.",
+        "An story link object attached to the story must have the following structure: `object_id` is the unique ID of the story defined as object, `subject_id` is the unique ID of the story defined as subject, and `verb` which indicates how the subject story acts on the object story, valid values are `blocks`, `duplicates`, or `relates to`. See [CreateStoryLinkParams](https://shortcut.com/api/rest/v3#CreateStoryLinkParams) for more info.",
       optional: true,
     },
     storyType: {
