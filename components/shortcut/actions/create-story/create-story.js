@@ -6,7 +6,7 @@ module.exports = {
   key: "shortcut-create-story",
   name: "Create Story",
   description: "Creates a new story in your Shortcut account.",
-  version: "0.0.1",
+  version: "0.0.30",
   type: "action",
   props: {
     shortcut,
@@ -173,14 +173,11 @@ module.exports = {
       label: "Project Id",
       description: "The ID of the project the story belongs to.",
       async options() {
-        const options = [];
         const projects = await this.shortcut.callWithRetry("listProjects");
-        projects.forEach((project) => {
-          options.push({
-            label: project.name,
-            value: project.id,
-          });
-        });
+        const options = projects.map((project) => ({
+          label: project.name,
+          value: project.id,
+        }));
         return options;
       },
     },
@@ -242,13 +239,14 @@ module.exports = {
             "states",
             "length",
           ]);
-          if (hasState) {
-            workflow.states.map((state) => (options.push({
-              label: `${state.name} (${workflow.name})`,
-              value: `${state.id}`,
-            })));
+          if (!hasState) {
+            return options;
           }
-          return options;
+          const optionsToAdd = workflow.states.map((state) => ({
+            label: `${state.name} (${workflow.name})`,
+            value: `${state.id}`,
+          }));
+          return options.concat(optionsToAdd);
         }, []);
       },
       optional: true,

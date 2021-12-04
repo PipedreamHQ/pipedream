@@ -1,4 +1,4 @@
-const shortcut = require("clubhouse-lib");
+const { ShortcutClient } = require("@useshortcut/client");
 const get = require("lodash/get");
 const retry = require("async-retry");
 
@@ -7,7 +7,7 @@ module.exports = {
   app: "shortcut",
   methods: {
     api() {
-      return shortcut.create(this.$auth.api_key);
+      return new ShortcutClient(this.$auth.api_key);
     },
     _isRetriableStatusCode(statusCode) {
       [
@@ -199,22 +199,24 @@ module.exports = {
      */
     async searchStories(query, numberOfStories) {
       let stories = [];
-      const processResult = async function(result) {
-        stories = stories.concat(result.data);
-        if (stories.length >= numberOfStories || !result.fetchNext) {
-          return stories.slice(0, numberOfStories);
-        }
-        const nextResult = await this._withRetries( () => result.fetchNext());
-        return await processResult(nextResult);
-      };
-      let result;
-      try {
-        result = await this._withRetries(() =>
-          this.api().searchStories(query, Math.min(numberOfStories, 25)));
-      } catch (err) {
-        throw new Error(err.message);
-      }
-      return await processResult(result);
+      // eslint-disable-next-line camelcase
+      const page_size = Math.min(numberOfStories, 2);
+      let next = undefined;
+      do {
+        const results = await this._withRetries(() =>
+          this.api().searchStories({
+            query,
+            page_size,
+            next,
+          }));
+        stories.push(...results.data.data);
+        const decodedNext = decodeURIComponent(results.data.next);
+        const idxQuestionMark = decodedNext.indexOf("?");
+        const nextQueryString = decodedNext.substring(idxQuestionMark + 1);
+        let searchParams = new URLSearchParams(nextQueryString);
+        next = searchParams.get("next");
+      } while (stories.length < numberOfStories && next);
+      return stories.slice(0, numberOfStories);
     },
   },
 };
