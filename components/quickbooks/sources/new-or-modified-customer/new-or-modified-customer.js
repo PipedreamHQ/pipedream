@@ -14,10 +14,10 @@ module.exports = {
   type: "source",
   props: {
     ...common.props,
-    operations_to_emit: {
+    operationsToEmit: {
       propDefinition: [
         quickbooks,
-        "webhook_operations",
+        "webhookOperations",
       ],
       // overwrite the default options from the propDefinition to list only the options supported
       // by this source's entity
@@ -35,8 +35,8 @@ module.exports = {
       // if they wanted to emit everything)
       if (entity.name !== sourceEntity) {
         console.log(`${entity.name} webhook received and ignored, since it is not a Customer`);
-      } else if (this.operations_to_emit.length > 0
-        && !this.operations_to_emit.includes(entity.operation)) {
+      } else if (this.operationsToEmit.length > 0
+        && !this.operationsToEmit.includes(entity.operation)) {
         console.log(`Operation '${entity.operation}' not found in list of selected Operations`);
       } else {
         await this.emitEvent(event, entity);
