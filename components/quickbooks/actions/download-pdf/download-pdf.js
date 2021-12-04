@@ -50,19 +50,6 @@ module.exports = {
         fs.createWriteStream(filePath),
       );
       return filePath;
-
-      // const file = await require("@pipedreamhq/platform").axios($, {
-      //   url: `https://quickbooks.api.intuit.com/v3/company/${this.quickbooks.$auth.company_id}/${entity.toLowerCase()}/${id}/pdf`,
-      //   headers: {
-      //     "Authorization": `Bearer ${this.quickbooks.$auth.oauth_access_token}`,
-      //     "accept": "application/pdf",
-      //   },
-      //   responseType: "arraybuffer",
-      // });
-
-      // const filePath = "/tmp/" + fileName;
-      // fs.writeFileSync(filePath, file);
-      // return filePath;
     },
   },
   async run({ $ }) {
