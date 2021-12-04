@@ -22,7 +22,6 @@ module.exports = {
     getSupportedOperations(entityName) {
       return SUPPORTED_WEBHOOK_OPERATIONS[entityName];
     },
-
     toPastTense(operations) {
       const pastTenseVersion = {
         Create: "Created",
@@ -38,7 +37,6 @@ module.exports = {
         return pastTenseVersion[operations];
       }
     },
-
     sendHttpResponse(event, entities) {
       this.http.respond({
         status: 200,
@@ -48,7 +46,6 @@ module.exports = {
         },
       });
     },
-
     isValidSource(event, webhookCompanyId) {
       const isWebhookValid = this.verifyWebhookRequest(event);
       if (!isWebhookValid) {
@@ -66,7 +63,6 @@ module.exports = {
       }
       return true;
     },
-
     verifyWebhookRequest(event) {
       const token = this.webhookVerifierToken;
       const payload = event.bodyRaw;
@@ -79,13 +75,11 @@ module.exports = {
       // console.log('Header: ', converted_header)
       return hash === convertedHeader;
     },
-
     async validateAndEmit(entity) {
       // individual source modules can redefine this method to specify criteria
       // for which events to emit
       await this.processEvent(entity);
     },
-
     async processEvent(entity) {
       const eventToEmit = {
         event_notification: entity,
