@@ -20,7 +20,7 @@ module.exports = {
       type: "object",
       label: "Comment",
       description:
-        "A comment object attached to the story. Each comment object must have the following structure: `author_id` which is the member ID of the Comment’s author  (defaults to the user identified by the API token), a date `created_at` which defaults to the time/date the comment is created, but can be set to reflect another date, `external_id` a field that can be set to another unique ID. In the case that the comment has been imported from another tool, the ID in the other tool can be indicated here `text` with the comment text, and `updated_at` which defaults to the time/date the comment is last updated in Shortcut but can be set to reflect another time/date. See [CreateStoryCommentParams](https://shortcut.com/api/rest/v3#CreateStoryCommentParams) for more info.",
+        "A comment object attached to the story must have the following structure: `author_id` which is the member ID of the Comment’s author  (defaults to the user identified by the API token), `created_at` which defaults to the time/date the comment is created, but can be set to reflect another date, `external_id` field that can be set to another unique ID. In the case that the comment has been imported from another tool, the ID in the other tool can be indicated here, `text` is the comment text, and `updated_at` which defaults to the time/date the comment is last updated in Shortcut but can be set to reflect another time/date. See [CreateStoryCommentParams](https://shortcut.com/api/rest/v3#CreateStoryCommentParams) for more info.",
       optional: true,
     },
     completedAtOverride: {
