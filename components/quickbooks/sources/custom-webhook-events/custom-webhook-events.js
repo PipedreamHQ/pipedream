@@ -37,7 +37,7 @@ module.exports = {
         && !this.operationsToEmit.includes(entity.operation)) {
         console.log(`Operation '${entity.operation}' not found in list of selected Operations`);
         return;
-      } 
+      }
       await this.processEvent(entity);
     },
   },

@@ -78,12 +78,17 @@ module.exports = {
       await this.processEvent(entity);
     },
     async processEvent(entity) {
-      const {name, id, operation, lastUpdated} = entity
+      const {
+        name,
+        id,
+        operation,
+        lastUpdated,
+      } = entity;
       // Unless the record has been deleted, use the id received in the webhook
       // to get the full record data
       const eventToEmit = {
         event_notification: entity,
-        record_details: operation === "Delete" 
+        record_details: operation === "Delete"
           ? {}
           : await this.quickbooks.getRecordDetails(name, id),
       };
@@ -92,14 +97,14 @@ module.exports = {
       const ts = lastUpdated
         ? Date.parse(lastUpdated)
         : Date.now();
-      const event_id = [
+      const eventId = [
         name,
         id,
         operation,
         ts,
       ].join("-");
       this.$emit(eventToEmit, {
-        id: event_id,
+        id: eventId,
         summary,
         ts,
       });
@@ -113,12 +118,11 @@ module.exports = {
     if (!this.isValidSource(event, webhookCompanyId)) {
       console.log("Skipping event from unrecognized source.");
       return;
-    } 
+    }
 
     await Promise.all(entities.map((entity) => {
       entity.realmId = webhookCompanyId;
       return this.validateAndEmit(entity);
     }));
-    }
   },
 };

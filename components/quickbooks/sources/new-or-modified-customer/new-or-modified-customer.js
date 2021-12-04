@@ -36,11 +36,11 @@ module.exports = {
       if (entity.name !== sourceEntity) {
         console.log(`${entity.name} webhook received and ignored, since it is not a Customer`);
         return;
-      } 
+      }
       if (this.operationsToEmit.length > 0
         && !this.operationsToEmit.includes(entity.operation)) {
         console.log(`Operation '${entity.operation}' not found in list of selected Operations`);
-      return;
+        return;
       }
       await this.processEvent(entity);
     },
