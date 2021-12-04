@@ -81,6 +81,7 @@ module.exports = {
       await this.processEvent(entity);
     },
     async processEvent(entity) {
+      const {name, id, operation} = entity
       const eventToEmit = {
         event_notification: entity,
         record_details: {},
@@ -89,14 +90,21 @@ module.exports = {
       // to get the full record data
       if (entity.operation !== "Delete") {
         eventToEmit.record_details = await this.quickbooks
-          .getRecordDetails(entity.name, entity.id);
+          .getRecordDetails(name, id);
       }
-
-      const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`;
+      const summary = `${name} ${id} ${this.toPastTense(operation)}`;
       const ts = entity?.lastUpdated
         ? Date.parse(entity.lastUpdated)
         : Date.now();
+      const event_id = [
+        name,
+        id,
+        operation,
+        ts,
+      ].join("-");
+      console.log(event_id)
       this.$emit(eventToEmit, {
+        id: event_id,
         summary,
         ts,
       });
