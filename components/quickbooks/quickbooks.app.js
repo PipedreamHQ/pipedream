@@ -40,7 +40,7 @@ module.exports = {
     _authToken() {
       return this.$auth.oauth_access_token;
     },
-    _companyId() {
+    companyId() {
       return this.$auth.company_id;
     },
     _makeRequestConfig(config = {}) {
@@ -70,7 +70,7 @@ module.exports = {
       return await axios($, requestConfig);
     },
     async getPDF($, entity, id) {
-      const companyId = this._companyId();
+      const companyId = this.companyId();
       return await this._makeRequest($, {
         path: `company/${companyId}/${entity.toLowerCase()}/${id}/pdf`,
         headers: {
@@ -80,7 +80,7 @@ module.exports = {
       });
     },
     async getRecordDetails(entityName, id) {
-      const companyId = this._companyId();
+      const companyId = this.companyId();
       return await this._makeRequest(this, {
         path: `company/${companyId}/${entityName.toLowerCase()}/${id}`,
       });

@@ -54,7 +54,7 @@ module.exports = {
         return false;
       }
 
-      const connectedCompanyId = this.quickbooks.$auth.company_id;
+      const connectedCompanyId = this.quickbooks.companyId();
       if (webhookCompanyId !== connectedCompanyId) {
         console.log(`Error: Cannot retrieve record details for incoming webhook. The QuickBooks company id 
         of the incoming event (${webhookCompanyId}) does not match the company id of the account 
