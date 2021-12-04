@@ -70,9 +70,6 @@ module.exports = {
       const hash = createHmac("sha256", token).update(payload)
         .digest("hex");
       const convertedHeader = Buffer.from(header, "base64").toString("hex");
-      // console.log('Payload: ', payload)
-      // console.log('Hash: ', hash)
-      // console.log('Header: ', converted_header)
       return hash === convertedHeader;
     },
     async validateAndEmit(entity) {
