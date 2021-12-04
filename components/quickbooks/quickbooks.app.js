@@ -1,46 +1,8 @@
-// const QuickBooks = require('node-quickbooks')
 const { axios } = require("@pipedream/platform");
-
-const WEBHOOK_ENTITIES = [
-  "Account",
-  "Bill",
-  "BillPayment",
-  "Budget",
-  "Class",
-  "CreditMemo",
-  "Currency",
-  "Customer",
-  "Department",
-  "Deposit",
-  "Employee",
-  "Estimate",
-  "Invoice",
-  "Item",
-  "JournalCode",
-  "JournalEntry",
-  "Payment",
-  "PaymentMethod",
-  "Preferences",
-  "Purchase",
-  "PurchaseOrder",
-  "RefundReceipt",
-  "SalesReceipt",
-  "TaxAgency",
-  "Term",
-  "TimeActivity",
-  "Transfer",
-  "Vendor",
-  "VendorCredit",
-];
-
-const WEBHOOK_OPERATIONS = [
-  "Create",
-  "Update",
-  "Merge",
-  "Delete",
-  "Void",
-  "Emailed",
-];
+const {
+  WEBHOOK_ENTITIES,
+  WEBHOOK_OPERATIONS,
+} = require("./constants");
 
 module.exports = {
   type: "app",
