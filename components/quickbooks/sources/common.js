@@ -93,8 +93,12 @@ module.exports = {
       }
 
       const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`;
+      const ts = entity?.lastUpdated
+        ? Date.parse(entity.lastUpdated)
+        : Date.now();
       this.$emit(eventToEmit, {
         summary,
+        ts,
       });
     },
   },
