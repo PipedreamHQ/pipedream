@@ -112,11 +112,13 @@ module.exports = {
     const webhookCompanyId = event.body.eventNotifications[0].realmId;
     if (!this.isValidSource(event, webhookCompanyId)) {
       console.log("Skipping event from unrecognized source.");
-    } else {
-      await Promise.all(entities.map((entity) => {
-        entity.realmId = webhookCompanyId;
-        return this.validateAndEmit(entity);
-      }));
+      return;
+    } 
+
+    await Promise.all(entities.map((entity) => {
+      entity.realmId = webhookCompanyId;
+      return this.validateAndEmit(entity);
+    }));
     }
   },
 };

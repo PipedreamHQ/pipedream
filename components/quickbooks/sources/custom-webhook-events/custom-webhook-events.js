@@ -31,12 +31,14 @@ module.exports = {
       // (it would a hassle for the user to select every option if they wanted to emit everything)
       if (this.namesToEmit.length > 0 && !this.namesToEmit.includes(entity.name)) {
         console.log(`Entity Type '${entity.name}' not found in list of selected Entity Types`);
-      } else if (this.operationsToEmit.length > 0
+        return;
+      }
+      if (this.operationsToEmit.length > 0
         && !this.operationsToEmit.includes(entity.operation)) {
         console.log(`Operation '${entity.operation}' not found in list of selected Operations`);
-      } else {
-        await this.processEvent(entity);
-      }
+        return;
+      } 
+      await this.processEvent(entity);
     },
   },
 };
