@@ -52,10 +52,10 @@ module.exports = {
     async validateAndEmit(event, entity) {
       // individual source modules can redefine this method to specify criteria
       // for which events to emit
-      await this.emitEvent(event, entity);
+      await this.processEvent(event, entity);
     },
 
-    async emitEvent(eventReceived, entity) {
+    async processEvent(eventReceived, entity) {
       const token = this.webhookVerifierToken;
       const payload = eventReceived.bodyRaw;
       const header = eventReceived.headers["intuit-signature"];
