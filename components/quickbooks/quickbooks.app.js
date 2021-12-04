@@ -54,7 +54,7 @@ module.exports = {
       } = config;
       const authToken = this._authToken();
       const baseUrl = this._apiUrl();
-      const url = `${baseUrl}/${path[0] === "/"
+      const url = `${baseUrl}${path[0] === "/"
         ? ""
         : "/"}${path}`;
       return {
