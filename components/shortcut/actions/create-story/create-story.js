@@ -89,7 +89,7 @@ module.exports = {
     fileIds: {
       type: "integer[]",
       label: "File Ids",
-      description: "An integer array of IDs of files attached to the story.",
+      description: "An array of IDs of files attached to the story.",
       async options() {
         const options = [];
         const files = await this.shortcut.callWithRetry("listFiles");
