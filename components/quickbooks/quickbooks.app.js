@@ -37,15 +37,12 @@ module.exports = {
     _apiUrl() {
       return "https://quickbooks.api.intuit.com/v3";
     },
-
     _authToken() {
       return this.$auth.oauth_access_token;
     },
-
     _companyId() {
       return this.$auth.company_id;
     },
-
     _makeRequestConfig(config = {}) {
       const {
         headers,
@@ -68,12 +65,10 @@ module.exports = {
         ...extraConfig,
       };
     },
-
     async _makeRequest($ = this, config) {
       const requestConfig = this._makeRequestConfig(config);
       return await axios($, requestConfig);
     },
-
     async getPDF($, entity, id) {
       const companyId = this._companyId();
       return await this._makeRequest($, {
@@ -84,7 +79,6 @@ module.exports = {
         responseType: "stream",
       });
     },
-
     async getRecordDetails(endpoint, id) {
       const companyId = this._companyId();
       return await this._makeRequest(this, {
