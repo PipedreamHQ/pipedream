@@ -49,52 +49,28 @@ module.exports = {
       });
     },
 
-    async validateAndEmit(event, entity) {
-      // individual source modules can redefine this method to specify criteria
-      // for which events to emit
-      await this.processEvent(event, entity);
-    },
-
-    async processEvent(eventReceived, entity) {
-      const token = this.webhookVerifierToken;
-      const payload = eventReceived.bodyRaw;
-      const header = eventReceived.headers["intuit-signature"];
-      const isWebhookValid = this.verifyWebhookRequest(token, payload, header);
+    isValidSource(event, webhookCompanyId) {
+      const isWebhookValid = this.verifyWebhookRequest(event);
       if (!isWebhookValid) {
-        const message = `Error: Webhook did not pass verification. Try reentering the verifier token, 
-        making sure it's from the correct section on the Intuit Developer Dashboard.`;
-        console.log(message);
-        throw new Error(message);
-      } else {
-        const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`;
-        const webhookCompanyId = eventReceived.body.eventNotifications[0].realmId;
-        const connectedCompanyId = this.quickbooks.$auth.company_id;
-        if (webhookCompanyId !== connectedCompanyId) {
-          const message = `Error: Cannot retrieve record details for ${summary}. The QuickBooks company id 
-          of the incoming event (${webhookCompanyId}) does not match the company id of the account 
-          currently connected to this source in Pipedream (${connectedCompanyId}).`;
-          console.log(message);
-          throw new Error(message);
-        } else {
-          entity.realmId = webhookCompanyId;
-          const eventToEmit = {
-            event_notification: entity,
-            record_details: {},
-          };
-          // Unless the record has been deleted, use the id received in the webhook
-          // to get the full record data
-          if (entity.operation !== "Delete") {
-            eventToEmit.record_details = await this.quickbooks
-              .getRecordDetails(entity.name, entity.id);
-          }
-          this.$emit(eventToEmit, {
-            summary,
-          });
-        }
+        console.log(`Error: Webhook did not pass verification. Try reentering the verifier token, 
+        making sure it's from the correct section on the Intuit Developer Dashboard.`);
+        return false;
       }
+
+      const connectedCompanyId = this.quickbooks.$auth.company_id;
+      if (webhookCompanyId !== connectedCompanyId) {
+        console.log(`Error: Cannot retrieve record details for incoming webhook. The QuickBooks company id 
+        of the incoming event (${webhookCompanyId}) does not match the company id of the account 
+        currently connected to this source in Pipedream (${connectedCompanyId}).`);
+        return false;
+      }
+      return true;
     },
 
-    verifyWebhookRequest(token, payload, header) {
+    verifyWebhookRequest(event) {
+      const token = this.webhookVerifierToken;
+      const payload = event.bodyRaw;
+      const header = event.headers["intuit-signature"];
       const hash = createHmac("sha256", token).update(payload)
         .digest("hex");
       const convertedHeader = Buffer.from(header, "base64").toString("hex");
@@ -103,10 +79,43 @@ module.exports = {
       // console.log('Header: ', converted_header)
       return hash === convertedHeader;
     },
+
+    async validateAndEmit(entity) {
+      // individual source modules can redefine this method to specify criteria
+      // for which events to emit
+      await this.processEvent(entity);
+    },
+
+    async processEvent(entity) {
+      const eventToEmit = {
+        event_notification: entity,
+        record_details: {},
+      };
+      // Unless the record has been deleted, use the id received in the webhook
+      // to get the full record data
+      if (entity.operation !== "Delete") {
+        eventToEmit.record_details = await this.quickbooks
+          .getRecordDetails(entity.name, entity.id);
+      }
+
+      const summary = `${entity.name} ${entity.id} ${this.toPastTense(entity.operation)}`;
+      this.$emit(eventToEmit, {
+        summary,
+      });
+    },
   },
   async run(event) {
     const { entities } = event.body.eventNotifications[0].dataChangeEvent;
     this.sendHttpResponse(event, entities);
-    await Promise.all(entities.map((entity) => this.validateAndEmit(event, entity)));
+
+    const webhookCompanyId = event.body.eventNotifications[0].realmId;
+    if (!this.isValidSource(event, webhookCompanyId)) {
+      console.log("Skipping event from unrecognized source.");
+    } else {
+      await Promise.all(entities.map((entity) => {
+        entity.realmId = webhookCompanyId;
+        return this.validateAndEmit(entity);
+      }));
+    }
   },
 };

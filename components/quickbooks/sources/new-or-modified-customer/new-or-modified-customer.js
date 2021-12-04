@@ -27,7 +27,7 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    async validateAndEmit(event, entity) {
+    async validateAndEmit(entity) {
       // only emit events that match the specified entity name and operation
       // but if the operations prop is left empty, emit all events rather
       // than filtering them all out
@@ -39,7 +39,7 @@ module.exports = {
         && !this.operationsToEmit.includes(entity.operation)) {
         console.log(`Operation '${entity.operation}' not found in list of selected Operations`);
       } else {
-        await this.processEvent(event, entity);
+        await this.processEvent(entity);
       }
     },
   },
