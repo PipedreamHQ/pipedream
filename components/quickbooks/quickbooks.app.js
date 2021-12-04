@@ -79,10 +79,10 @@ module.exports = {
         responseType: "stream",
       });
     },
-    async getRecordDetails(endpoint, id) {
+    async getRecordDetails(entityName, id) {
       const companyId = this._companyId();
       return await this._makeRequest(this, {
-        path: `company/${companyId}/${endpoint.toLowerCase()}/${id}`,
+        path: `company/${companyId}/${entityName.toLowerCase()}/${id}`,
       });
 
       // const config = {
