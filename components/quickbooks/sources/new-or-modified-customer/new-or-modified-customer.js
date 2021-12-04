@@ -8,7 +8,7 @@ const supportedOperations = common.methods.getSupportedOperations(sourceEntity);
 module.exports = {
   ...common,
   key: "quickbooks-new-or-modified-customer",
-  name: "New or Modified Customer (Created, Updated, Merged or Deleted)",
+  name: "New or Modified Customer: Created, Updated, Merged or Deleted (Instant)",
   description: "Emit new or modified customers. Visit the documentation page to learn how to configure webhooks for your QuickBooks company: https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks",
   version: "0.0.1",
   type: "source",
