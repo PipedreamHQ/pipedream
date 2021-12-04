@@ -61,5 +61,6 @@ module.exports = {
     const filePath = await this.downloadPDF($, this.entity, this.id, fileNameWithExtension);
     $.export("file_path", filePath);
     $.export("file_name", fileNameWithExtension);
+    $.export("$summary", `Successfully downloaded file: ${fileNameWithExtension}`);
   },
 };
