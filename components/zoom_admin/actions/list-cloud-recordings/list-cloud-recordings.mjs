@@ -1,4 +1,5 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
+import consts from "../../consts.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -38,16 +39,7 @@ export default {
       label: "Trash Type",
       description: "Should be used together with `Trash`. The type of Cloud recording that you would like to retrieve from trash",
       optional: true,
-      options: [
-        {
-          label: "List all meeting recordings from the trash",
-          value: "meeting_recordings",
-        },
-        {
-          label: "List all individual recording files from the trash",
-          value: "recording_file",
-        },
-      ],
+      options: consts.CLOUD_RECORD_TRASH_TYPE_OPTIONS,
     },
     from: {
       type: "string",

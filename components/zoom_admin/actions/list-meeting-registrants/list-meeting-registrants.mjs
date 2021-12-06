@@ -1,5 +1,6 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import get from "lodash/get.js";
+import consts from "../../consts.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -30,11 +31,7 @@ export default {
       label: "Status",
       description: "The registrant status. Defaults to `approved`",
       optional: true,
-      options: [
-        "pending",
-        "approved",
-        "denied",
-      ],
+      options: consts.REGISTRANT_STATUSES_OPTIONS,
     },
     pageSize: {
       propDefinition: [

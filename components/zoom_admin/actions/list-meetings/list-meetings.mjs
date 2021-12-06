@@ -1,4 +1,5 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
+import consts from "../../consts.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -14,11 +15,7 @@ export default {
       label: "Type",
       description: "The meeting type. Defaults to `live`",
       optional: true,
-      options: [
-        "scheduled",
-        "live",
-        "upcoming",
-      ],
+      options: consts.LIST_MEETINGS_TYPE_OPTIONS,
     },
     pageSize: {
       propDefinition: [

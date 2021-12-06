@@ -1,6 +1,7 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import isObject from "lodash/isObject.js";
 import { axios } from "@pipedream/platform";
+import consts from "../../consts.mjs";
 
 export default {
   name: "Delete Cloud Recording",
@@ -21,16 +22,7 @@ export default {
       label: "Action",
       description: "The recording delete action",
       optional: true,
-      options: [
-        {
-          label: "Move recording to trash",
-          value: "trash",
-        },
-        {
-          label: "Delete recording permanently",
-          value: "delete",
-        },
-      ],
+      options: consts.CLOUD_RECORD_ACTION_OPTIONS,
     },
   },
   async run ({ $ }) {

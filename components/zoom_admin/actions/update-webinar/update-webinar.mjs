@@ -1,10 +1,21 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import tzs from "../../zoom_tzs.mjs";
 import zoomLangs from "../../zoom_languages.mjs";
-import daysOfTheWeek from "../../zoom_days_of_the_week.mjs";
 import isArray from "lodash/isArray.js";
 import get from "lodash/get.js";
+import consts from "../../consts.mjs";
 import { axios } from "@pipedream/platform";
+
+const {
+  RECURRENCE_TYPE_OPTIONS,
+  WEBINAR_TYPE_OPTIONS,
+  RECURRENCE_MONTHLY_WEEK_OPTIONS,
+  SETTINGS_APPROVAL_TYPE_OPTIONS,
+  REGISTRATION_TYPE_OPTIONS,
+  SETTINGS_AUDIO_OPTIONS,
+  SETTINGS_AUDIO_RECORDING_OPTIONS,
+  DAYS_OF_THE_WEEK_OPTIONS,
+} = consts;
 
 export default {
   name: "Update Webinar",
@@ -35,20 +46,7 @@ export default {
       type: "integer",
       label: "Recurrence Type",
       description: "Recurrence webinar types",
-      options: [
-        {
-          label: "Daily",
-          value: 1,
-        },
-        {
-          label: "Weekly",
-          value: 2,
-        },
-        {
-          label: "Monthly",
-          value: 3,
-        },
-      ],
+      options: RECURRENCE_TYPE_OPTIONS,
     },
     topic: {
       type: "string",
@@ -60,20 +58,7 @@ export default {
       type: "integer",
       label: "Type",
       description: "Defaults to `Webinar`. The type of the webinar",
-      options: [
-        {
-          label: "Webinar",
-          value: 5,
-        },
-        {
-          label: "Recurring webinar with no fixed time",
-          value: 6,
-        },
-        {
-          label: "recurring webinar with fixed time",
-          value: 9,
-        },
-      ],
+      options: WEBINAR_TYPE_OPTIONS,
       default: 8,
       optional: true,
     },
@@ -119,7 +104,7 @@ export default {
       label: "Weekly Days",
       description: "Use this field **only if you're scheduling a recurring webinar with `type=Weekly`** to state which day(s) of the week the webinar should repeat. The value for this field could be a number between `1` and `7`. `1` means **Sunday** and `7` means **Saturday**",
       optional: true,
-      options: daysOfTheWeek,
+      options: DAYS_OF_THE_WEEK_OPTIONS,
     },
     recurrenceMonthlyDay: {
       type: "integer",
@@ -134,35 +119,14 @@ export default {
       label: "Monthly Week",
       description: "Use this field **only if you are scheduling a recurring webinar with `type=Monthly`** to state the week of the month when the webinar should recur. If you use this field **you must also use the `Monthly Week Day` field to state the day of the week when the meeting should recur**.",
       optional: true,
-      options: [
-        {
-          label: "Last week of the month.",
-          value: -1,
-        },
-        {
-          label: "First week of the month.",
-          value: 1,
-        },
-        {
-          label: "Second week of the month.",
-          value: 2,
-        },
-        {
-          label: "Third week of the month.",
-          value: 3,
-        },
-        {
-          label: "Fourth week of the month.",
-          value: 4,
-        },
-      ],
+      options: RECURRENCE_MONTHLY_WEEK_OPTIONS,
     },
     recurrenceMonthlyWeekDay: {
       type: "integer",
       label: "Monthly Week Day",
       description: "Use this field **only if you are scheduling a monthly recurring webinar** to state a specific day in a week when the monthly meeting should recur. To use this field, you must also use the `Monthly Week` field.",
       optional: true,
-      options: daysOfTheWeek,
+      options: DAYS_OF_THE_WEEK_OPTIONS,
     },
     recurrenceEndTimes: {
       type: "integer",
@@ -223,80 +187,28 @@ export default {
       label: "(Settings) Approval Type",
       description: "Enable meeting registration approval. Defaults to `No registration required`",
       optional: true,
-      options: [
-        {
-          label: "Automatically approve registration.",
-          value: 0,
-        },
-        {
-          label: "Manually approve registration.",
-          value: 1,
-        },
-        {
-          label: "No registration required.",
-          value: 2,
-        },
-      ],
+      options: SETTINGS_APPROVAL_TYPE_OPTIONS,
     },
     settingsRegistrationType: {
       type: "integer",
       label: "(Settings) Registration Type",
       description: "The meeting's registration type. This field is only for **Recurring meetings with fixed times**. Defaults to `Attendees register once and can attend any meeting occurrence.`",
       optional: true,
-      options: [
-        {
-          label: "Attendees register once and can attend any meeting occurrence.",
-          value: 1,
-        },
-        {
-          label: "Attendees must register for each meeting occurrence.",
-          value: 2,
-        },
-        {
-          label: "Attendees register once and can select one or more meeting occurrences to attend.",
-          value: 3,
-        },
-      ],
+      options: REGISTRATION_TYPE_OPTIONS,
     },
     settingsAudio: {
       type: "string",
       label: "(Settings) Audio",
       description: "How participants join the audio portion of the meeting. Defaults to `Both telephony and VoIP`",
       optional: true,
-      options: [
-        {
-          label: "Both telephony and VoIP.",
-          value: "both",
-        },
-        {
-          label: "VoIP only.",
-          value: "voip",
-        },
-        {
-          label: "Telephony only.",
-          value: "telephony",
-        },
-      ],
+      options: SETTINGS_AUDIO_OPTIONS,
     },
     settingsAudioRecording: {
       type: "string",
       label: "(Settings) Audio Recording",
       description: "The automatic recording settings. Defaults to `Auto-recording disabled.`",
       optional: true,
-      options: [
-        {
-          label: "Auto-recording disabled.",
-          value: "none",
-        },
-        {
-          label: "Record the meeting locally.",
-          value: "local",
-        },
-        {
-          label: "Record the meeting to the cloud.",
-          value: "cloud",
-        },
-      ],
+      options: SETTINGS_AUDIO_RECORDING_OPTIONS,
     },
     settingsAlternativeHosts: {
       type: "string[]",

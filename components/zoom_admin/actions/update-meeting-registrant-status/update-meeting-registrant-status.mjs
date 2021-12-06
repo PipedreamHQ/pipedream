@@ -2,6 +2,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 import get from "lodash/get.js";
 import isObject from "lodash/isObject.js";
 import { axios } from "@pipedream/platform";
+import consts from "../../consts.mjs";
 
 export default {
   name: "Update Meeting Registrant Status",
@@ -44,11 +45,7 @@ export default {
       type: "string",
       label: "Action",
       description: "Registrant Status",
-      options: [
-        "approve",
-        "cancel",
-        "deny",
-      ],
+      options: consts.UPDATE_MEETING_REGISTRANT_ACTION_OPTIONS,
     },
   },
   async run ({ $ }) {

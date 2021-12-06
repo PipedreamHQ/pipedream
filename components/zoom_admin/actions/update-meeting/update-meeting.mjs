@@ -1,9 +1,21 @@
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import tzs from "../../zoom_tzs.mjs";
-import daysOfTheWeek from "../../zoom_days_of_the_week.mjs";
 import isArray from "lodash/isArray.js";
 import get from "lodash/get.js";
+import consts from "../../consts.mjs";
 import { axios } from "@pipedream/platform";
+
+const {
+  MEETING_TYPE_OPTIONS,
+  RECURRENCE_TYPE_OPTIONS,
+  RECURRENCE_MONTHLY_WEEK_OPTIONS,
+  SETTINGS_JOIN_BEFORE_HOST_TIME_OPTIONS,
+  SETTINGS_APPROVAL_TYPE_OPTIONS,
+  REGISTRATION_TYPE_OPTIONS,
+  SETTINGS_AUDIO_OPTIONS,
+  SETTINGS_AUDIO_RECORDING_OPTIONS,
+  DAYS_OF_THE_WEEK_OPTIONS,
+} = consts;
 
 export default {
   name: "Update a meeting",
@@ -39,24 +51,7 @@ export default {
       type: "integer",
       label: "Type",
       description: "Default to `A scheduled meeting`. The type of the meeting",
-      options: [
-        {
-          label: "An instant meeting",
-          value: 1,
-        },
-        {
-          label: "A scheduled meeting",
-          value: 2,
-        },
-        {
-          label: "A recurring meeting with no fixed time",
-          value: 3,
-        },
-        {
-          label: "A recurring meeting with fixed time",
-          value: 8,
-        },
-      ],
+      options: MEETING_TYPE_OPTIONS,
       default: 8,
       optional: true,
     },
@@ -109,20 +104,7 @@ export default {
       label: "Recurrence Type",
       description: "Recurrence meeting types. This field will only be taken into consideration if the meeting type is `Meeting with fixed time`",
       optional: true,
-      options: [
-        {
-          label: "Daily",
-          value: 1,
-        },
-        {
-          label: "Weekly",
-          value: 2,
-        },
-        {
-          label: "Monthly",
-          value: 3,
-        },
-      ],
+      options: RECURRENCE_TYPE_OPTIONS,
     },
     recurrenceRepeatInterval: {
       type: "integer",
@@ -135,7 +117,7 @@ export default {
       label: "Weekly Days",
       description: "This field is required **if you are scheduling a weekly recurring meeting** to state which days(s) of the week the meeting should repeat. The value for this field could be a number between `1` and `7`. The number `1` means Sunday. You can choose more than one day per week. This field will only be taken into consideration if the meeting type is `Meeting with fixed time`",
       optional: true,
-      options: daysOfTheWeek,
+      options: DAYS_OF_THE_WEEK_OPTIONS,
     },
     recurrenceMonthlyDay: {
       type: "integer",
@@ -150,35 +132,14 @@ export default {
       label: "Monthly Week",
       description: "Use this field **only if you are scheduling a monthly recurring meeting** to state the week of the month when the meeting should recur. If you use this field **you must also use the `Monthly Week Day` field to state the day of the week when the meeting should recur**. This field will only be taken into consideration if the meeting type is `Meeting with fixed time`",
       optional: true,
-      options: [
-        {
-          label: "Last week of the month.",
-          value: -1,
-        },
-        {
-          label: "First week of the month.",
-          value: 1,
-        },
-        {
-          label: "Second week of the month.",
-          value: 2,
-        },
-        {
-          label: "Third week of the month.",
-          value: 3,
-        },
-        {
-          label: "Fourth week of the month.",
-          value: 4,
-        },
-      ],
+      options: RECURRENCE_MONTHLY_WEEK_OPTIONS,
     },
     recurrenceMonthlyWeekDay: {
       type: "integer",
       label: "Monthly Week Day",
       description: "Use this field **only if you are scheduling a monthly recurring meeting** to state a specific day in a week when the monthly meeting should recur. To use this field, you must also use the `Monthly Week` field. This field will only be taken into consideration if the meeting type is `Meeting with fixed time`",
       optional: true,
-      options: daysOfTheWeek,
+      options: DAYS_OF_THE_WEEK_OPTIONS,
     },
     recurrenceEndTimes: {
       type: "integer",
@@ -215,20 +176,7 @@ export default {
       label: "(Settings) Join Before Host Time",
       description: "If the value of `Join Before Host` field is `true`, this field indicates the time limits within which a participant can join a meeting before the meeting's host.",
       optional: true,
-      options: [
-        {
-          label: "Allow the participant to join the meeting anytime",
-          value: 0,
-        },
-        {
-          label: "Allow the participant to join 5 minutes before the meeting's start time",
-          value: 5,
-        },
-        {
-          label: "Allow the participant to join 5 minutes before the meeting's start time",
-          value: 10,
-        },
-      ],
+      options: SETTINGS_JOIN_BEFORE_HOST_TIME_OPTIONS,
     },
     settingsMuteUponEntry: {
       type: "boolean",
@@ -253,80 +201,28 @@ export default {
       label: "(Settings) Approval Type",
       description: "Enable meeting registration approval. Defaults to `No registration required`",
       optional: true,
-      options: [
-        {
-          label: "Automatically approve registration.",
-          value: 0,
-        },
-        {
-          label: "Manually approve registration.",
-          value: 1,
-        },
-        {
-          label: "No registration required.",
-          value: 2,
-        },
-      ],
+      options: SETTINGS_APPROVAL_TYPE_OPTIONS,
     },
     settingsRegistrationType: {
       type: "integer",
       label: "(Settings) Registration Type",
       description: "The meeting's registration type. This field is only for **Recurring meetings with fixed times**. Defaults to `Attendees register once and can attend any meeting occurrence.`",
       optional: true,
-      options: [
-        {
-          label: "Attendees register once and can attend any meeting occurrence.",
-          value: 1,
-        },
-        {
-          label: "Attendees must register for each meeting occurrence.",
-          value: 2,
-        },
-        {
-          label: "Attendees register once and can select one or more meeting occurrences to attend.",
-          value: 3,
-        },
-      ],
+      options: REGISTRATION_TYPE_OPTIONS,
     },
     settingsAudio: {
       type: "string",
       label: "(Settings) Audio",
       description: "How participants join the audio portion of the meeting. Defaults to `Both telephony and VoIP`",
       optional: true,
-      options: [
-        {
-          label: "Both telephony and VoIP.",
-          value: "both",
-        },
-        {
-          label: "VoIP only.",
-          value: "voip",
-        },
-        {
-          label: "Telephony only.",
-          value: "telephony",
-        },
-      ],
+      options: SETTINGS_AUDIO_OPTIONS,
     },
     settingsAudioRecording: {
       type: "string",
       label: "(Settings) Audio Recording",
       description: "The automatic recording settings. Defaults to `Auto-recording disabled.`",
       optional: true,
-      options: [
-        {
-          label: "Auto-recording disabled.",
-          value: "none",
-        },
-        {
-          label: "Record the meeting locally.",
-          value: "local",
-        },
-        {
-          label: "Record the meeting to the cloud.",
-          value: "cloud",
-        },
-      ],
+      options: SETTINGS_AUDIO_RECORDING_OPTIONS,
     },
     settingsAlternativeHosts: {
       type: "string[]",

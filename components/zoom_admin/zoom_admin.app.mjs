@@ -130,7 +130,7 @@ export default {
         occurrenceId,
         isWebinar,
       }) {
-        const promises = consts.REGISTRANT_STATUSES.map((status) => (
+        const promises = consts.REGISTRANT_STATUSES_OPTIONS.map((status) => (
           this.listMeetingRegistrants(
             get(meeting, "value", meeting),
             occurrenceId,

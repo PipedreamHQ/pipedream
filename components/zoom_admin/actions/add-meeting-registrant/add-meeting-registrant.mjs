@@ -3,6 +3,13 @@ import zoomLangs from "../../zoom_languages.mjs";
 import get from "lodash/get.js";
 import isArray from "lodash/isArray.js";
 import { axios } from "@pipedream/platform";
+import consts from "../../consts.mjs";
+
+const {
+  PURCHASING_TIME_FRAME_OPTIONS,
+  ROLE_IN_PURCHASE_PROCESS_OPTIONS,
+  NUMBER_OF_EMPLOYEES_OPTIONS,
+} = consts;
 
 export default {
   name: "Add meeting registrant",
@@ -104,41 +111,21 @@ export default {
       label: "Purchasing Time Frame",
       description: "This field can be included to gauge interest of webinar attendees towards buying your product or service.",
       optional: true,
-      options: [
-        "Within a month",
-        "1-3 months",
-        "4-6 months",
-        "More than 6 months",
-        "No timeframe",
-      ],
+      options: PURCHASING_TIME_FRAME_OPTIONS,
     },
     roleInPurchaseProcess: {
       type: "string",
       label: "Role in Purchase Process",
       description: "Role in Purchase Process.",
       optional: true,
-      options: [
-        "Decision Maker",
-        "Evaluator/Recommender",
-        "Influencer",
-        "Not involved",
-      ],
+      options: ROLE_IN_PURCHASE_PROCESS_OPTIONS,
     },
     numberOfEmployees: {
       type: "string",
       label: "Number of Employees",
       description: "Number of Employees.",
       optional: true,
-      options: [
-        "1-20",
-        "21-50",
-        "51-100",
-        "101-500",
-        "501-1,000",
-        "1,001-5,000",
-        "5,001-10,000",
-        "More than 10,000",
-      ],
+      options: NUMBER_OF_EMPLOYEES_OPTIONS,
     },
     comments: {
       type: "string",
