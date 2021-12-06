@@ -8,15 +8,15 @@ export const sanitizedArray = (value) => {
     return value.map((item) => get(item, "value", item));
   }
 
-  // If is string, try to convert it in an array
-  if (isString(value)) {
-    // Return an empty array if string is empty
-    if (isEmpty(value)) {
-      return [];
-    }
-
-    return value.replace(/["'[\]\s]+/g, "").split(",");
+  if (!isString(value)) {
+    throw new Error(`${value} is not an array-like string`);
   }
 
-  throw new Error(`${value} is not an array or an array-like`);
+  // Return an empty array if string is empty
+  if (isEmpty(value)) {
+    return [];
+  }
+
+  // It is string, try to convert it in an array
+  return value.replace(/["'[\]\s]+/g, "").split(",");
 };

@@ -1,12 +1,12 @@
-/*
-  Source: https://marketplace.zoom.us/docs/api-reference/other-references/abbreviation-lists#timezones
-  Create a simple crawler if you want to get the up to date timezones
-  1. Add "timezones-zoom" as the timezone table ID
-  2. Run the following code on your terminal https://pastebin.com/raw/npG4G0cU
-  4. Beatify your console.log (e.g. http://jsonviewer.stack.hu/)
-  3. Copy and paste your JSON after the "export default"
-  4. On the project root, execute "npx eslint --fix components/zoom_admin/zoom_tz.mjs" to fix
-  any ESLINT error.
+/**
+ * Source: https://marketplace.zoom.us/docs/api-reference/other-references/abbreviation-lists#timezones
+ * Create a simple crawler if you want to get the up to date timezones
+ * 1. Add "timezones-zoom" as the timezone table ID
+ * 2. Run the following code on your terminal https://pastebin.com/raw/npG4G0cU
+ * 4. Beatify your console.log (e.g. http://jsonviewer.stack.hu/)
+ * 3. Copy and paste your JSON after the "export default"
+ * 4. On the project root, execute "npx eslint --fix components/zoom_admin/zoom_tz.mjs" to fix
+ * any ESLINT error.
 */
 
 export default [

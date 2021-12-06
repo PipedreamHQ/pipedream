@@ -1,10 +1,11 @@
-/*
-  Source: https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantcreate
-          https://www.andiamo.co.uk/resources/iso-language-codes/
-          http://www.mathguide.de/info/tools/languagecode.html
-          https://en.wikipedia.org/wiki/Zh-TW
-          http://www.lingoes.net/en/translator/langcode.htm
-*/
+/**
+ * Source:
+ * https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantcreate
+ * https://www.andiamo.co.uk/resources/iso-language-codes/
+ * http://www.mathguide.de/info/tools/languagecode.html
+ * https://en.wikipedia.org/wiki/Zh-TW
+ * http://www.lingoes.net/en/translator/langcode.htm
+ */
 
 export default [
   {
