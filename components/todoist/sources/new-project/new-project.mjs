@@ -1,10 +1,10 @@
-const common = require("../common-project.js");
+import common from "../common-project.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "todoist-new-project",
   name: "New Project",
   description: "Emit an event for each new project",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "greatest",
 };

@@ -1,7 +1,7 @@
-const todoist = require("../todoist.app.js");
-const common = require("./common.js");
+import todoist from "../todoist.app.mjs";
+import common from "./common.mjs";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,

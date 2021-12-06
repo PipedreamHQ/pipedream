@@ -1,15 +1,14 @@
-const todoist = require("../../todoist.app.js");
-const common = require("../common-project.js");
+import common from "../common-project.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "todoist-sync-resources",
   name: "Sync Resources",
   description: "Emit updates for your selected resources",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
-    includeResourceTypes: { propDefinition: [todoist, "includeResourceTypes"] },
+    includeResourceTypes: { propDefinition: [common.props.todoist, "includeResourceTypes"] },
   },
   async run(event) {
     let emitCount = 0;

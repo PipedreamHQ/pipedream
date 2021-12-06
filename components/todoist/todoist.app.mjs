@@ -1,8 +1,8 @@
-const axios = require("axios");
-const querystring = require("querystring");
-const resourceTypes = require("./resource-types.js")
+import axios from "axios";
+import querystring from "querystring";
+import resourcetypes from "./resource-types.mjs";
 
-module.exports = {
+export default {
   type: "app",
   app: "todoist",
   propDefinitions: {

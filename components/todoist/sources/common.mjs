@@ -1,6 +1,6 @@
-const todoist = require("../todoist.app.js");
+import todoist from "../todoist.app.mjs";
 
-module.exports = {
+export default {
   props: {
     todoist,
     timer: {

@@ -1,6 +1,6 @@
-const common = require("./common.js");
+import common from "./common.js";
 
-module.exports = {
+export default {
   ...common,
   async run(event) {
     const syncResult = await this.todoist.syncProjects(this.db);

@@ -1,11 +1,11 @@
-const common = require("../common-task.js");
+import common from "../common-task.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "todoist-new-task",
   name: "New Task",
   description: "Emit updates for your selected resources",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "greatest",
   methods: {
     ...common.methods,
