@@ -5,6 +5,8 @@ export default {
     todoist,
     timer: {
       type: "$.interface.timer",
+      label: "Polling Interval",
+      description: "Pipedream will poll the Todoist API on this schedule",
       default: {
         intervalSeconds: 60 * 5,
       },

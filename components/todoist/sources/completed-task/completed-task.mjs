@@ -4,8 +4,9 @@ export default {
   ...common,
   key: "todoist-completed-task",
   name: "Completed Task",
-  description: "Emit an event for each completed task",
+  description: "Emit new event for each completed task",
   version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,

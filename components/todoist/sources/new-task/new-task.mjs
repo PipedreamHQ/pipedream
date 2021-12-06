@@ -4,12 +4,13 @@ export default {
   ...common,
   key: "todoist-new-task",
   name: "New Task",
-  description: "Emit updates for your selected resources",
+  description: "Emit new updates for your selected resources",
   version: "0.0.2",
+  type: "source",
   dedupe: "greatest",
   methods: {
     ...common.methods,
-    isElementRelevant(element) {
+    isElementRelevant() {
       return true;
     },
   },

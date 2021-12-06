@@ -1,11 +1,15 @@
-import todoist from "../todoist.app.mjs";
 import common from "./common.mjs";
 
 export default {
   ...common,
   props: {
     ...common.props,
-    selectProjects: { propDefinition: [todoist, "selectProjects"] },
+    selectProjects: {
+      propDefinition: [
+        common.props.todoist,
+        "selectProjects",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -13,7 +17,7 @@ export default {
       return true;
     },
   },
-  async run(event) {
+  async run() {
     const syncResult = await this.todoist.syncItems(this.db);
 
     Object.values(syncResult)
@@ -21,8 +25,7 @@ export default {
       .flat()
       .filter(this.isElementRelevant)
       .filter((element) =>
-        this.todoist.isProjectInList(element.project_id, this.selectProjects)
-      )
+        this.todoist.isProjectInList(element.project_id, this.selectProjects))
       .forEach((element) => {
         element.summary = `Task: ${element.id}`;
         const meta = this.generateMeta(element);

@@ -4,18 +4,24 @@ export default {
   ...common,
   key: "todoist-sync-resources",
   name: "Sync Resources",
-  description: "Emit updates for your selected resources",
+  description: "Emit new updates for your selected resources",
   version: "0.0.2",
+  type: "source",
   props: {
     ...common.props,
-    includeResourceTypes: { propDefinition: [common.props.todoist, "includeResourceTypes"] },
+    includeResourceTypes: {
+      propDefinition: [
+        common.props.todoist,
+        "includeResourceTypes",
+      ],
+    },
   },
-  async run(event) {
+  async run() {
     let emitCount = 0;
 
     const syncResult = await this.todoist.syncResources(
       this.db,
-      this.includeResourceTypes
+      this.includeResourceTypes,
     );
 
     for (const property in syncResult) {
