@@ -8,10 +8,18 @@ export default {
       label: "Polling Interval",
       description: "Pipedream will poll the Todoist API on this schedule",
       default: {
-        intervalSeconds: 60 * 5,
+        intervalSeconds: 60 * 15,
       },
     },
     db: "$.service.db",
+  },
+  hooks: {
+    async deploy() {
+      // Emit no more than 20 items on first run
+      const syncResult = await this.getSyncResult();
+      const results = (this.filterResults(syncResult)).slice(0, 20);
+      this.emitResults(results);
+    }
   },
   methods: {
     generateMeta(element) {
@@ -20,7 +28,7 @@ export default {
         summary,
         date_completed: dateCompleted,
       } = element;
-      const ts = new Date(dateCompleted).getTime();
+      const ts = Date.parse(dateCompleted);
       const id = `${elementId}-${ts}`;
       return {
         id,
@@ -28,5 +36,19 @@ export default {
         ts,
       };
     },
+    getSyncResult() {
+      throw new Error("getSyncResult is not implemented");
+    },
+    filterResults() {
+      throw new Error("filterResults is not implemented");
+    },
+    emitResults() {
+      throw new Error("emitResults is not implemented");
+    },
   },
+  async run() {
+    const syncResult = await this.getSyncResult();
+    const results = this.filterResults(syncResult);
+    this.emitResults(results);
+  }
 };

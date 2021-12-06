@@ -8,10 +8,4 @@ export default {
   version: "0.0.2",
   type: "source",
   dedupe: "greatest",
-  methods: {
-    ...common.methods,
-    isElementRelevant() {
-      return true;
-    },
-  },
 };

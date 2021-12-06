@@ -1,16 +1,23 @@
-import common from "./common.js";
+import common from "./common.mjs";
 
 export default {
   ...common,
-  async run() {
-    const syncResult = await this.todoist.syncProjects(this.db);
-    Object.values(syncResult)
+  methods: {
+    ...common.methods,
+    async getSyncResult() {
+      return this.todoist.syncProjects(this.db);
+    },
+    filterResults(syncResult) {
+      return Object.values(syncResult)
       .filter(Array.isArray)
-      .flat()
-      .forEach((element) => {
+      .flat();
+    },
+    emitResults(results) {
+      for (const element of results) {
         element.summary = `Project: ${element.id}`;
         const meta = this.generateMeta(element);
         this.$emit(element, meta);
-      });
+      }
+    }
   },
 };

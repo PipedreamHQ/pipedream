@@ -16,28 +16,49 @@ export default {
       ],
     },
   },
-  async run() {
-    let emitCount = 0;
-
-    const syncResult = await this.todoist.syncResources(
-      this.db,
-      this.includeResourceTypes,
-    );
-
-    for (const property in syncResult) {
-      if (Array.isArray(syncResult[property])) {
-        syncResult[property].forEach((element) => {
-          let data = {};
-          data.resource = property;
-          data.data = element;
-          this.$emit(data, {
-            summary: property,
-          });
-          emitCount++;
-        });
+  hooks: {
+    ...common.hooks,
+    async deploy() {
+      // Emit no more than 20 events on first run by setting a max value of 20
+      const syncResult = await this.getSyncResult();
+      this.emitResults(syncResult, 20);
+    },
+  },
+  methods: {
+    ...common.methods,
+    async getSyncResult() {
+      return this.todoist.syncResources(
+        this.db,
+        this.includeResourceTypes,
+      );
+    },
+    filterResults(syncResult) {
+      return syncResult;
+    },
+    processResults(results, max = null) {
+      let emitCount = 0;
+      for (const property in results) {
+        if (Array.isArray(results[property])) {
+          for (const element of results[property]) {
+            const data = {
+              resource: property,
+              data: element,
+            };
+            this.$emit(data, {
+              summary: property,
+            });
+            emitCount++;
+            if (max && emitCount >= max) {
+              return emitCount;
+            }
+          }
+        }
       }
-    }
-
-    console.log(`Emitted ${emitCount} events.`);
+      return emitCount;
+    },
+    emitResults(results, max = null) {
+      const emitCount = this.processResults(results, max);
+      console.log(`Emitted ${emitCount} events.`);
+    },
   },
 };

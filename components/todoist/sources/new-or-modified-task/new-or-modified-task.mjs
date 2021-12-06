@@ -7,10 +7,4 @@ export default {
   description: "Emit new event for each new or modified task",
   version: "0.0.2",
   type: "source",
-  methods: {
-    ...common.methods,
-    isElementRelevant() {
-      return true;
-    },
-  },
 };
