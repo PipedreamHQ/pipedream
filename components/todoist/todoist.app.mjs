@@ -142,6 +142,11 @@ export default {
         "projects",
       ]);
     },
+    async syncSections(db) {
+      return this.syncResources(db, [
+        "sections",
+      ]);
+    },
     async syncResources(db, resourceTypes) {
       const syncToken = this._getSyncToken(db) || "*";
       const result = await this.sync({

@@ -36,11 +36,13 @@ export default {
         ts,
       };
     },
+    filterResults(syncResult) {
+      return Object.values(syncResult)
+      .filter(Array.isArray)
+      .flat();
+    },
     getSyncResult() {
       throw new Error("getSyncResult is not implemented");
-    },
-    filterResults() {
-      throw new Error("filterResults is not implemented");
     },
     emitResults() {
       throw new Error("emitResults is not implemented");
