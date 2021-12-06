@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import querystring from "querystring";
 import resourceTypes from "./resource-types.mjs";
 
@@ -22,12 +22,10 @@ export default {
         "Filter for events that match one or more projects. Leave this blank to emit results for any project.",
       optional: true,
       async options() {
-        return (await this.getProjects()).map((project) => {
-          return {
-            label: project.name,
-            value: project.id,
-          };
-        });
+        return (await this.getProjects()).map((project) => ({
+          label: project.name,
+          value: project.id,
+        }));
       },
     },
   },
@@ -42,15 +40,19 @@ export default {
      * a JSON object containing the requested resources and also a new `sync_token`.
      */
     async _makeSyncRequest(opts) {
-      const { path = "/sync/v8/sync" } = opts;
+      const {
+        $,
+        path = "/sync/v8/sync",
+      } = opts;
       delete opts.path;
+      delete opts.$;
       opts.url = `https://api.todoist.com${path[0] === "/"
         ? ""
         : "/"}${path}`;
       opts.payload.token = this.$auth.oauth_access_token;
       opts.data = querystring.stringify(opts.payload);
       delete opts.payload;
-      return await axios(opts);
+      return axios($ ?? this, opts);
     },
     /**
      * Make a request to Todoist's REST API.
@@ -60,15 +62,35 @@ export default {
      * @returns {*} The response may vary depending the specific API request.
      */
     async _makeRestRequest(opts) {
-      const { path } = opts;
+      const {
+        $,
+        path,
+      } = opts;
       delete opts.path;
+      delete opts.$;
       opts.url = `https://api.todoist.com${path[0] === "/"
         ? ""
         : "/"}${path}`;
       opts.headers = {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
-      return await axios(opts);
+      return axios($ ?? this, opts);
+    },
+    /**
+     * Get syncToken from a db
+     * @params {Object} db - a database instance
+     * @returns {*} Returns what is stored as "syncToken" in the db specified
+     */
+    _getSyncToken(db) {
+      return db.get("syncToken");
+    },
+    /**
+     * Set the syncToken in a db
+     * @params {Object} db - a database instance
+     * @syncToken {*} - The data to be stored as "syncToken" in the db specified
+     */
+    _setSyncToken(db, syncToken) {
+      db.set("syncToken", syncToken);
     },
     /**
      * Check whether an array of project IDs contains the given proejct ID. This method is
@@ -91,46 +113,42 @@ export default {
      * with a JSON object containing the requested resources and also a new `sync_token`.
      */
     async sync(opts) {
-      return (
-        await this._makeSyncRequest({
-          path: "/sync/v8/sync",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          payload: opts,
-        })
-      ).data;
+      return this._makeSyncRequest({
+        path: "/sync/v8/sync",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        payload: opts,
+      });
     },
     /**
      * Get the list of project for the authenticated user
      * @returns {Array} Returns a JSON-encoded array containing all user projects
      */
     async getProjects() {
-      return (
-        await this._makeRestRequest({
-          path: "/rest/v1/projects",
-          method: "GET",
-        })
-      ).data;
+      return this._makeRestRequest({
+        path: "/rest/v1/projects",
+        method: "GET",
+      });
     },
     async syncItems(db) {
-      return await this.syncResources(db, [
+      return this.syncResources(db, [
         "items",
       ]);
     },
     async syncProjects(db) {
-      return await this.syncResources(db, [
+      return this.syncResources(db, [
         "projects",
       ]);
     },
     async syncResources(db, resourceTypes) {
-      const syncToken = db.get("syncToken") || "*";
+      const syncToken = this._getSyncToken(db) || "*";
       const result = await this.sync({
         resource_types: JSON.stringify(resourceTypes),
         sync_token: syncToken,
       });
-      db.set("syncToken", result.sync_token);
+      this._setSyncToken(db, result.sync_token);
       return result;
     },
   },
