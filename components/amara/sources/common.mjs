@@ -23,11 +23,11 @@ export default {
     },
   },
   methods: {
-    setLastUrl(lastUrl) {
-      this.db.set(constants.LAST_URL, lastUrl);
+    setLastResourceStr(resource) {
+      this.db.set(constants.LAST_RESOURCE_STR, JSON.stringify(resource));
     },
-    getLastUrl() {
-      return this.db.get(constants.LAST_URL);
+    getLastResourceStr() {
+      return this.db.get(constants.LAST_RESOURCE_STR);
     },
     getResourceFn() {
       throw new Error("getResourceFn is not implemented");
@@ -88,18 +88,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const url = this.getLastUrl();
+    const lastResourceStr = this.getLastResourceStr();
 
-    const { lastUrl } = await this.amara.paginateResources({
+    const [
+      resource,
+    ] = await this.amara.paginateResources({
       resourceFn: this.getResourceFn(),
       resourceFnArgs: this.getResourceFnArgs({
         $,
-        url,
       }),
-      limit: 40,
       callback: this.processEvent,
+      lastResourceStr,
     });
 
-    this.setLastUrl(lastUrl);
+    this.setLastResourceStr(resource);
   },
 };

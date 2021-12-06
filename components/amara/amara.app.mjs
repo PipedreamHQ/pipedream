@@ -522,6 +522,19 @@ export default {
         params,
       });
     },
+    /**
+     * paginateResources always gets the latest resources from the API.
+     * @param {Object} args - all arguments to pass to the paginateResources method
+     * @param {Function} args.resouceFn - the name of the resource function to call
+     * @param {Object} args.resourceFnArgs - the arguments object to pass to the resource function
+     * @param {number} args.offset - the offset to start at
+     * @param {number} args.limit - the number of resources to get per page
+     * @param {number} args.max - the maximum number of resources to get
+     * @param {Function} args.callback - the function to call for each resource
+     * @param {string} args.lastResourceStr - the last resource string in cache to validate against
+     * @returns {Promise<Array>} - Promise that resolves to an array of resources,
+     *  the first element is the last resource string in cache
+     */
     async paginateResources({
       resourceFn,
       resourceFnArgs,
@@ -529,11 +542,12 @@ export default {
       limit = constants.DEFAULT_PAGE_LIMIT,
       max = constants.DEFAULT_MAX_ITEMS,
       callback,
+      lastResourceStr,
     }) {
       let resources = [];
-      let nextResources = [];
-      let lastUrl = resourceFnArgs.url;
+      let lastUrl;
       let nextResponse;
+      let lastResourceIndex;
 
       do {
         nextResponse = await resourceFn({
@@ -550,8 +564,16 @@ export default {
           throw new Error("No response from the Amara API.");
         }
 
-        nextResources = nextResponse.objects;
-        resources = resources.concat(nextResources);
+        const nextResources = nextResponse.objects;
+
+        lastResourceIndex =
+          nextResources.findIndex((resource) => JSON.stringify(resource) === lastResourceStr);
+
+        resources = resources.concat(
+          lastResourceIndex < 0
+            ? nextResources
+            : nextResources.slice(0, lastResourceIndex),
+        );
 
         if (nextResponse.meta.next) {
           lastUrl = nextResponse.meta.next;
@@ -561,12 +583,12 @@ export default {
           nextResources.forEach(callback);
         }
 
-      } while (nextResponse?.meta.next && resources.length < max);
+        // if lastResourceIndex is -1, then the last resource string in cache was not found
+        // if nextResponse?.meta.next is not null, then there are more resources to fetch
+        // if resources.length < max is the max number of resources to be fetched
+      } while (lastResourceIndex < 0 && nextResponse?.meta.next && resources.length < max);
 
-      return {
-        lastUrl,
-        resources,
-      };
+      return resources;
     },
   },
 };
