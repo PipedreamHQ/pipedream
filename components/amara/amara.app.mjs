@@ -522,6 +522,30 @@ export default {
         params,
       });
     },
+    processResources({
+      resources, nextResources, lastResourceStr,
+    }) {
+      if (!lastResourceStr) {
+        return {
+          resources: resources.concat(nextResources),
+          resourceNotFound: true,
+        };
+      }
+
+      const lastResourceIndex =
+        resources.findIndex((resource) => JSON.stringify(resource) === lastResourceStr);
+
+      const resourceNotFound = lastResourceIndex < 0;
+
+      return {
+        resources: resources.concat(
+          resourceNotFound
+            ? nextResources
+            : nextResources.slice(0, lastResourceIndex),
+        ),
+        resourceNotFound,
+      };
+    },
     /**
      * paginateResources always gets the latest resources from the API.
      * @param {Object} args - all arguments to pass to the paginateResources method
@@ -532,6 +556,7 @@ export default {
      * @param {number} args.max - the maximum number of resources to get
      * @param {Function} args.callback - the function to call for each resource
      * @param {string} args.lastResourceStr - the last resource string in cache to validate against
+     *  This parameter is only passed in from sources
      * @returns {Promise<Array>} - Promise that resolves to an array of resources,
      *  the first element is the last resource string in cache
      */
@@ -547,7 +572,7 @@ export default {
       let resources = [];
       let lastUrl;
       let nextResponse;
-      let lastResourceIndex;
+      let resourceNotFound = true;
 
       do {
         nextResponse = await resourceFn({
@@ -566,14 +591,14 @@ export default {
 
         const nextResources = nextResponse.objects;
 
-        lastResourceIndex =
-          nextResources.findIndex((resource) => JSON.stringify(resource) === lastResourceStr);
-
-        resources = resources.concat(
-          lastResourceIndex < 0
-            ? nextResources
-            : nextResources.slice(0, lastResourceIndex),
-        );
+        ({
+          resourceNotFound,
+          resources,
+        } = this.processResources({
+          resources,
+          nextResources,
+          lastResourceStr,
+        }));
 
         if (nextResponse.meta.next) {
           lastUrl = nextResponse.meta.next;
@@ -583,10 +608,10 @@ export default {
           nextResources.forEach(callback);
         }
 
-        // if lastResourceIndex is -1, then the last resource string in cache was not found
+        // if resourceNotFound is true, then keeps looping until found
         // if nextResponse?.meta.next is not null, then there are more resources to fetch
         // if resources.length < max is the max number of resources to be fetched
-      } while (lastResourceIndex < 0 && nextResponse?.meta.next && resources.length < max);
+      } while (resourceNotFound && nextResponse?.meta.next && resources.length < max);
 
       return resources;
     },

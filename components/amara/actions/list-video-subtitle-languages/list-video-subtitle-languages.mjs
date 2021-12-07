@@ -40,7 +40,7 @@ export default {
   async run({ $ }) {
     const limit = utils.emptyStrToUndefined(this.limit);
 
-    const { resources: subtitleLanguages } = await this.amara.paginateResources({
+    const subtitleLanguages = await this.amara.paginateResources({
       resourceFn: this.amara.getVideoSubtitleLanguages,
       resourceFnArgs: {
         $,
@@ -51,7 +51,7 @@ export default {
     });
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully fetched ${subtitleLanguages.length} subtitle ${subtitleLanguages.length === 1 ? "language" : "languages"}`);
+    $.export("$summary", `Successfully fetched ${subtitleLanguages?.length} subtitle ${subtitleLanguages?.length === 1 ? "language" : "languages"}`);
 
     return subtitleLanguages;
   },

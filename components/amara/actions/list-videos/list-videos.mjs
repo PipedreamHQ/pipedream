@@ -88,7 +88,6 @@ export default {
   async run({ $ }) {
     const {
       videoUrl,
-      team,
       project,
       primaryAudioLanguageCode,
       orderBy,
@@ -96,6 +95,7 @@ export default {
 
     const limit = utils.emptyStrToUndefined(this.limit);
     const offset = utils.emptyStrToUndefined(this.offset);
+    const team = utils.emptyStrToUndefined(this.team);
 
     const params = {
       video_url: videoUrl,
@@ -105,7 +105,7 @@ export default {
       order_by: orderBy,
     };
 
-    const { resources: videos } = await this.amara.paginateResources({
+    const videos = await this.amara.paginateResources({
       resourceFn: this.amara.listVideos,
       resourceFnArgs: {
         $,
@@ -117,7 +117,7 @@ export default {
     });
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully fetched ${videos.length} ${videos.length === 1 ? "video" : "videos"}`);
+    $.export("$summary", `Successfully fetched ${videos?.length} ${videos?.length === 1 ? "video" : "videos"}`);
 
     return videos;
   },

@@ -32,7 +32,7 @@ export default {
     const limit = utils.emptyStrToUndefined(this.limit);
     const offset = utils.emptyStrToUndefined(this.offset);
 
-    const { resources: teams } = await this.amara.paginateResources({
+    const teams = await this.amara.paginateResources({
       resourceFn: this.amara.getTeams,
       resourceFnArgs: {
         $,
@@ -43,7 +43,7 @@ export default {
     });
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully fetched ${teams.length} ${teams.length === 1 ? "team" : "teams"}`);
+    $.export("$summary", `Successfully fetched ${teams?.length} ${teams?.length === 1 ? "team" : "teams"}`);
 
     return teams;
   },
