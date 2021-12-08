@@ -160,14 +160,19 @@ module.exports = {
      * of the shortcut member, and `label` to the member's name.
      */
     async listMembersAsOptions() {
+      let options = [];
       const members = await this.callWithRetry("listMembers");
-      const options = [];
-      members.forEach((member) => {
-        options.push({
-          label: member.profile.name,
-          value: member.id,
-        });
-      });
+      const isMembersDataAvailable = get(members, [
+        "data",
+        "length",
+      ]);
+      if (!isMembersDataAvailable) {
+        return options;
+      }
+      options = members.data.map((member) => ({
+        label: member.profile.name,
+        value: member.id,
+      }));
       return options;
     },
     /**
@@ -200,7 +205,7 @@ module.exports = {
     async searchStories(query, numberOfStories) {
       let stories = [];
       // eslint-disable-next-line camelcase
-      const page_size = Math.min(numberOfStories, 2);
+      const page_size = Math.min(numberOfStories, 25);
       let next = undefined;
       do {
         const results = await this._withRetries(() =>
@@ -209,6 +214,14 @@ module.exports = {
             page_size,
             next,
           }));
+        const isStoryDataAvailable = get(results, [
+          "data",
+          "data",
+          "length",
+        ]);
+        if (!isStoryDataAvailable) {
+          break;
+        }
         stories.push(...results.data.data);
         const decodedNext = decodeURIComponent(results.data.next);
         const idxQuestionMark = decodedNext.indexOf("?");

@@ -5,8 +5,8 @@ const validate = require("validate.js");
 module.exports = {
   key: "shortcut-create-story",
   name: "Create Story",
-  description: "Creates a new story in your Shortcut account.",
-  version: "0.0.30",
+  description: "Creates a new story in your Shortcut account. See [Create Story](https://shortcut.com/api/rest/v3#Create-Story) in Shortcut Rest API, V3 reference for endpoint documentation.",
+  version: "0.0.36",
   type: "action",
   props: {
     shortcut,
@@ -54,14 +54,19 @@ module.exports = {
       label: "Epic ID",
       description: "The unique identifier of the epic the story belongs to.",
       async options() {
-        const options = [];
+        let options = [];
         const epics = await this.shortcut.callWithRetry("listEpics");
-        epics.forEach((epic) => {
-          options.push({
-            label: epic.name,
-            value: epic.id,
-          });
-        });
+        const isEpicDataAvailable = get(epics, [
+          "data",
+          "length",
+        ]);
+        if (!isEpicDataAvailable) {
+          return options;
+        }
+        options = epics.data.map((epic) => ({
+          label: epic.name,
+          value: epic.id,
+        }));
         return options;
       },
       optional: true,
@@ -91,14 +96,19 @@ module.exports = {
       label: "File Ids",
       description: "An array of IDs of files attached to the story.",
       async options() {
-        const options = [];
+        let options = [];
         const files = await this.shortcut.callWithRetry("listFiles");
-        files.forEach((file) => {
-          options.push({
-            label: file.name,
-            value: file.id,
-          });
-        });
+        const isFileDataAvailable = get(files, [
+          "data",
+          "length",
+        ]);
+        if (!isFileDataAvailable) {
+          return options;
+        }
+        options = files.data.map((file) => ({
+          label: file.name,
+          value: file.id,
+        }));
         return options;
       },
       optional: true,
@@ -117,14 +127,19 @@ module.exports = {
       label: "Iteration Id",
       description: "The ID of the iteration the story belongs to.",
       async options() {
-        const options = [];
+        let options = [];
         const iterations = await this.shortcut.callWithRetry("listIterations");
-        iterations.forEach((iteration) => {
-          options.push({
-            label: iteration.name,
-            value: iteration.id,
-          });
-        });
+        const isIterationDataAvailable = get(iterations, [
+          "data",
+          "length",
+        ]);
+        if (!isIterationDataAvailable) {
+          return options;
+        }
+        options = iterations.data.map((iteration) => ({
+          label: iteration.name,
+          value: iteration.id,
+        }));
         return options;
       },
       optional: true,
@@ -142,14 +157,19 @@ module.exports = {
       description:
         "An array of IDs of linked files attached to the story.",
       async options() {
-        const options = [];
+        let options = [];
         const linkedFiles = await this.shortcut.callWithRetry("listLinkedFiles");
-        linkedFiles.forEach((linkedFile) => {
-          options.push({
-            label: linkedFile.name,
-            value: linkedFile.id,
-          });
-        });
+        const isLinkedFilesDataAvailable = get(linkedFiles, [
+          "data",
+          "length",
+        ]);
+        if (!isLinkedFilesDataAvailable) {
+          return options;
+        }
+        options = linkedFiles.data.map((linkedFile) => ({
+          label: linkedFile.name,
+          value: linkedFile.id,
+        }));
         return options;
       },
       optional: true,
@@ -173,8 +193,16 @@ module.exports = {
       label: "Project Id",
       description: "The ID of the project the story belongs to.",
       async options() {
+        let options = [];
         const projects = await this.shortcut.callWithRetry("listProjects");
-        const options = projects.map((project) => ({
+        const isProjectDataAvailable = get(projects, [
+          "data",
+          "length",
+        ]);
+        if (!isProjectDataAvailable) {
+          return options;
+        }
+        options = projects.data.map((project) => ({
           label: project.name,
           value: project.id,
         }));
@@ -233,8 +261,16 @@ module.exports = {
       label: "Workflow State Id",
       description: "The ID of the workflow state the story will be in.",
       async options() {
+        let options = [];
         const workflows = await this.shortcut.callWithRetry("listWorkflows");
-        return workflows.reduce(function (options, workflow) {
+        const isWorkflowDataAvailable = get(workflows, [
+          "data",
+          "length",
+        ]);
+        if (!isWorkflowDataAvailable) {
+          return options;
+        }
+        return workflows.data.reduce(function (options, workflow) {
           const hasState = get(workflow, [
             "states",
             "length",
