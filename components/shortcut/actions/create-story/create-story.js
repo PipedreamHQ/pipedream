@@ -300,32 +300,12 @@ module.exports = {
           maximum: 100000,
         },
       },
+      externalLinks: validateArrayWhenPresent,
+      fileIds: validateArrayWhenPresent,
+      followerIds: validateArrayWhenPresent,
+      inkedFileIds: validateArrayWhenPresent,
+      ownerIds: validateArrayWhenPresent,
     };
-    if (this.externalLinks) {
-      constraints.externalLinks = {
-        type: "array",
-      };
-    }
-    if (this.fileIds) {
-      constraints.fileIds = {
-        type: "array",
-      };
-    }
-    if (this.followerIds) {
-      constraints.followerIds = {
-        type: "array",
-      };
-    }
-    if (this.linkedFileIds) {
-      constraints.linkedFileIds = {
-        type: "array",
-      };
-    }
-    if (this.ownerIds) {
-      constraints.ownerIds = {
-        type: "array",
-      };
-    }
     const validationResult = validate(
       {
         name: this.name,
