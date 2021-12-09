@@ -1,12 +1,14 @@
 const shortcut = require("../../shortcut.app");
 const get = require("lodash/get");
 const validate = require("validate.js");
+const utils = require("../../utils");
+const constants = require("../../constants");
 
 module.exports = {
   key: "shortcut-create-story",
   name: "Create Story",
   description: "Creates a new story in your Shortcut account. See [Create Story](https://shortcut.com/api/rest/v3#Create-Story) in Shortcut Rest API, V3 reference for endpoint documentation.",
-  version: "0.0.36",
+  version: "0.0.1",
   type: "action",
   props: {
     shortcut,
@@ -235,11 +237,7 @@ module.exports = {
       type: "string",
       label: "Story Type",
       description: "The type of story (feature, bug, chore).",
-      options: [
-        "bug",
-        "chore",
-        "feature",
-      ],
+      options: constants.STORY_TYPES,
       default: "feature",
       optional: true,
     },
@@ -300,11 +298,11 @@ module.exports = {
           maximum: 100000,
         },
       },
-      externalLinks: validateArrayWhenPresent,
-      fileIds: validateArrayWhenPresent,
-      followerIds: validateArrayWhenPresent,
-      inkedFileIds: validateArrayWhenPresent,
-      ownerIds: validateArrayWhenPresent,
+      externalLinks: utils.validateArrayWhenPresent,
+      fileIds: utils.validateArrayWhenPresent,
+      followerIds: utils.validateArrayWhenPresent,
+      inkedFileIds: utils.validateArrayWhenPresent,
+      ownerIds: utils.validateArrayWhenPresent,
     };
     const validationResult = validate(
       {
@@ -318,7 +316,7 @@ module.exports = {
       },
       constraints,
     );
-    this.shortcut.checkValidationResults(validationResult);
+    utils.checkValidationResults(validationResult);
     const story = {
       archived: this.archived,
       completed_at_override: this.completedAtOverride,
@@ -328,13 +326,13 @@ module.exports = {
       epic_id: this.epicId,
       estimate: this.estimate,
       external_id: this.externalId,
-      external_links: this.shortcut.convertEmptyStringToUndefined(this.externalLinks),
-      file_ids: this.shortcut.convertEmptyStringToUndefined(this.fileIds),
-      follower_ids: this.shortcut.convertEmptyStringToUndefined(this.followerIds),
+      external_links: this.externalLinks,
+      file_ids: this.fileIds,
+      follower_ids: this.followerIds,
       iteration_id: this.iterationId,
-      linked_file_ids: this.shortcut.convertEmptyStringToUndefined(this.linkedFileIds),
+      linked_file_ids: this.linkedFileIds,
       name: this.name,
-      owner_ids: this.shortcut.convertEmptyStringToUndefined(this.ownerIds),
+      owner_ids: this.ownerIds,
       project_id: this.projectId,
       requested_by_id: this.requestedById,
       started_at_override: this.startedAtOverride,
@@ -342,30 +340,30 @@ module.exports = {
       updated_at: this.updatedAt,
       workflow_state_id: this.workflowStateId,
     };
-    const comment = this.shortcut.convertEmptyStringToUndefined(this.comment);
+    const comment = utils.convertEmptyStringToUndefined(this.comment);
     if (comment) {
       story.comments = [
         comment,
       ];
     }
-    const label = this.shortcut.convertEmptyStringToUndefined(this.label);
+    const label = utils.convertEmptyStringToUndefined(this.label);
     if (label) {
       story.labels = [
         label,
       ];
     }
-    const storyLink = this.shortcut.convertEmptyStringToUndefined(this.storyLink);
+    const storyLink = utils.convertEmptyStringToUndefined(this.storyLink);
     if (storyLink) {
       story.story_links = [
         storyLink,
       ];
     }
-    const task = this.shortcut.convertEmptyStringToUndefined(this.task);
+    const task = utils.convertEmptyStringToUndefined(this.task);
     if (task) {
       story.tasks = [
         task,
       ];
     }
-    return await this.shortcut.callWithRetry("createStory", story);
+    return this.shortcut.callWithRetry("createStory", story);
   },
 };

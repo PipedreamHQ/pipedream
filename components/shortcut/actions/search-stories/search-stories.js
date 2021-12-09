@@ -4,7 +4,7 @@ module.exports = {
   key: "shortcut-search-stories",
   name: "Search Stories",
   description: "Searches for stories in your Shortcut account.",
-  version: "0.0.68",
+  version: "0.0.1",
   type: "action",
   props: {
     shortcut,
@@ -22,6 +22,6 @@ module.exports = {
     },
   },
   async run() {
-    return await this.shortcut.searchStories(this.query, this.numberOfStories);
+    return this.shortcut.searchStories(this.query, this.numberOfStories);
   },
 };
