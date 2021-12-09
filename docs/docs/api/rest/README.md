@@ -860,13 +860,19 @@ in your workflow's URL - it's the string `p_2gCPml` in
 
 `event_name` **string** (optional)
 
-The name of the event stream whose events you'd like to receive:
+**Only pass `event_name` when you're listening for events on a custom channel, with the name of the custom channel**:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+```
+event_name=<custom_channel>
+```
+
+See [the `this.$emit` docs](/components/api/#emit) for more information on how to emit events on custom channels.
+
+Pipedream also exposes channels for logs and errors:
+
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -926,11 +932,9 @@ POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_i
 
 The name of the event stream whose events you'd like to receive:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
