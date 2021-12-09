@@ -59,6 +59,15 @@ For example, you might create a single source to listen for new Twitter mentions
 
 Moreover, you can access events emitted by sources using Pipedream's [SSE](/api/sse/) and [REST APIs](/api/rest/). This allows you to access these events in your own app, outside Pipedream's platform.
 
+### Dependent and Independent Sources
+
+In order to reduce unintentional workflow invocations, certain sources are classified as "dependent" and will mirror the state of their parent workflow. For example,
+
+- When adding a source to a new workflow, that source will initially be set as dependent. If you pause or delete the workflow, that source will also be paused or deleted. If you re-enable the workflow after pausing it, the source will be re-enabled as well.
+- If you add that same source to another workflow, or create a workflow then later remove and add a different source, the source will be independent from the workflow, which means pausing, re-enabling, or deleting the workflow will not impact the source.
+
+There is not currently any user-facing indication for dependent vs. independent sources at this time.
+
 ### Shape of the `steps.trigger.event` object
 
 In all workflows, you have access to [event data](/workflows/events/#event-format) using one the variable `steps.trigger.event`.
@@ -170,10 +179,10 @@ This will return the data in the variable `steps.send_http_request.$return_value
 [This workflow](https://pipedream.com/@dylburger/example-download-raw-body-to-tmp-p_YyCoqPb/edit) downloads the HTTP payload, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
-const stream = require("stream");
-const { promisify } = require("util");
-const fs = require("fs");
-const { default: got } = await import("got");
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(
@@ -231,10 +240,10 @@ Within the `image` property of `event.body`, you'll see the value of this URL in
 [This workflow](https://pipedream.com/@dylburger/example-download-an-image-to-tmp-p_KwC2Ad/edit) downloads an image passed in the `image` field in the form request, saving it to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
-const stream = require("stream");
-const { promisify } = require("util");
-const fs = require("fs");
-const { default: got } = await import("got");
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(
@@ -508,7 +517,7 @@ You can download the email using the **Send HTTP Request** action. [**Copy this 
 This workflow also parses the contents of the email and exposes it as a JavaScript object using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
 
 ```javascript
-const simpleParser = require("mailparser").simpleParser;
+import { simpleParser } from "mailparser";
 this.parsed = await simpleParser(steps.send_http_request.$return_value);
 ```
 
@@ -517,11 +526,10 @@ this.parsed = await simpleParser(steps.send_http_request.$return_value);
 [This workflow](https://pipedream.com/@dylburger/example-download-large-email-content-to-tmp-p_KwC1YOn/edit) downloads the email, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory). Then it reads the same file (as an example), and parses it using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
 
 ```javascript
-const stream = require("stream");
-const { promisify } = require("util");
-const fs = require("fs");
-const { default: got } = await import("got");
-const simpleParser = require("mailparser").simpleParser;
+import stream from "stream";
+import { promisify } from "util";
+import fs from "fs";
+import got from "got";
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(

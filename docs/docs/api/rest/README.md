@@ -71,6 +71,20 @@ including all fields). Pass as a string of comma-separated values:
 
 ---
 
+`org_id` **string**
+
+Some endpoints require you to specify [the org ID](/orgs/#finding-your-organization-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific org, you'll want to pass the org ID in the `org_id` query string parameter.
+
+[Find your org's ID here](/orgs/#finding-your-organization-s-id).
+
+## Working with resources owned by an organization
+
+If you're interacting with resources owned by an [organization](/orgs/), you may need to specify the org ID as a part of the request's query string parameter or route:
+
+- When fetching specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), you should not need to pass your org's ID. If your user is a part of the org, you should have access to that resource, and the API will return the details of the resource.
+- When _creating_ new resources, you'll need to specify the `org_id` where you want the resource to live as a query string parameter (`?org_id=o_abc123`). Read more about the `org_id` parameter in the [Common Parameters section](#common-parameters).
+- When _listing_ resources, use [the org-specific endpoints here](#organizations).
+
 ## Pagination
 
 Most API endpoints below support pagination, **with a default page size of 10
@@ -176,7 +190,7 @@ POST /components
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream component](components/api/).
+The full code for a [Pipedream component](/components/api/).
 
 ---
 
@@ -484,6 +498,110 @@ curl -X DELETE \
 Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
 code in response to any deletion requests.
 
+## Organizations
+
+[Organizations](/orgs/) provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+
+### Get Org's Subscriptions
+
+---
+
+Retrieve all the [subscriptions](#subscriptions) configured for a specific organization.
+
+#### Endpoint
+
+```
+GET /orgs/<org_id>/subscriptions
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sub_abc123",
+      "emitter_id": "dc_abc123",
+      "listener_id": "p_abc123",
+      "event_name": ""
+    },
+    {
+      "id": "sub_def456",
+      "emitter_id": "dc_def456",
+      "listener_id": "p_def456",
+      "event_name": ""
+    }
+  ]
+}
+```
+
+### Get Org's Sources
+
+---
+
+Retrieve all the [event sources](#sources) configured for a specific organization.
+
+#### Endpoint
+
+```
+GET /orgs/<org_id>/sources
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 19,
+    "count": 10,
+    "start_cursor": "ZGNfSzB1QWVl",
+    "end_cursor": "ZGNfeUx1alJx"
+  },
+  "data": [
+    {
+      "id": "dc_abc123",
+      "component_id": "sc_def456",
+      "configured_props": {
+        "http": {
+          "endpoint_url": "https://myendpoint.m.pipedream.net"
+        }
+      },
+      "active": true,
+      "created_at": 1587679599,
+      "updated_at": 1587764467,
+      "name": "test",
+      "name_slug": "test"
+    }
+  ]
+}
+```
+
 ## Sources
 
 Event sources run code to collect events from an API, or receive events via
@@ -715,7 +833,7 @@ display the sources configured as listeners using this API**.
 #### Endpoint
 
 ```
-POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}listener_id={receiving_source_id}
+POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}&listener_id={receiving_source_id}
 ```
 
 #### Parameters
@@ -742,13 +860,19 @@ in your workflow's URL - it's the string `p_2gCPml` in
 
 `event_name` **string** (optional)
 
-The name of the event stream whose events you'd like to receive:
+**Only pass `event_name` when you're listening for events on a custom channel, with the name of the custom channel**:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+```
+event_name=<custom_channel>
+```
+
+See [the `this.$emit` docs](/components/api/#emit) for more information on how to emit events on custom channels.
+
+Pipedream also exposes channels for logs and errors:
+
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -808,11 +932,9 @@ POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_i
 
 The name of the event stream whose events you'd like to receive:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -1216,7 +1338,14 @@ Free user:
     "id": "u_abc123",
     "username": "dylburger",
     "email": "dylan@pipedream.com",
-    "api_key": "XXX",
+    "orgs": [
+      {
+        "name": "MyTestOrg",
+        "id": "o_abc123",
+        "orgname": "mytestorg",
+        "email": "test@pipedream.com"
+      }
+    ],
     "daily_compute_time_quota": 95400000,
     "daily_compute_time_used": 8420300,
     "daily_invocations_quota": 27344,

@@ -4,12 +4,15 @@ module.exports = {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     googleDrive,
     db: "$.service.db",
     timer: {
+      label: "Polling interval",
+      description: "Interval to poll the Google Drive API for new shared drives",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // 30 minutes
