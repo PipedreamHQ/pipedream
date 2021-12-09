@@ -42,21 +42,7 @@ export default {
       // are not relevant to this event source
       const { createdDateTime } = driveItem;
       const createdTimestamp =  Date.parse(createdDateTime);
-      return createdTimestamp > this._getLastCreatedTimestamp();
-    },
-    generateMeta(driveItem) {
-      const {
-        id,
-        createdDateTime,
-        name,
-      } = driveItem;
-      const summary = `New file: ${name}`;
-      const ts = Date.parse(createdDateTime);
-      return {
-        id,
-        summary,
-        ts,
-      };
+      return createdTimestamp > this._getLastCreatedTimestamp() && !!(driveItem.file);
     },
     processEvent(driveItem) {
       const meta = this.generateMeta(driveItem);

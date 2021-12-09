@@ -12,12 +12,10 @@ const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS = 43200 * 60 / 2;
 export const props = {
   onedrive,
   db: "$.service.db",
-  /* eslint-disable pipedream/props-label, pipedream/props-description */
   http: {
     type: "$.interface.http",
     customResponse: true,
   },
-  /* eslint-enable pipedream/props-label, pipedream/props-description */
   timer: {
     type: "$.interface.timer",
     label: "Webhook subscription renewal schedule",
@@ -194,9 +192,18 @@ export const methods = {
    * metadata object
    * @returns an event metadata object containing, as described in the docs
    */
-  generateMeta() {
+  generateMeta(driveItem) {
+    const {
+      id,
+      createdDateTime,
+      name,
+    } = driveItem;
+    const summary = `New file: ${name}`;
+    const ts = Date.parse(createdDateTime);
     return {
-      ts: Date.now(),
+      id,
+      summary,
+      ts,
     };
   },
   /**

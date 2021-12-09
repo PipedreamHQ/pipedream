@@ -7,16 +7,11 @@ import {
   run,
 } from "../common/base.mjs";
 
-import { toSingleLineString } from "../common/utils.mjs";
-
 export default {
   type: "source",
   key: "microsoft_onedrive-new-file-in-folder",
   name: "New File in Folder (Instant)",
-  description: toSingleLineString(`
-    Emit an event when a new file is added to a
-    specific directory tree in a OneDrive drive
-  `),
+  description: "Emit an event when a new file is added to a specific directory tree in a OneDrive drive",
   version: "0.0.2",
   dedupe: "unique",
   props: {
@@ -34,6 +29,9 @@ export default {
       return {
         folderId: this.folder,
       };
+    },
+    isItemRelevant(driveItem) {
+      return !!(driveItem.file);
     },
   },
   hooks,

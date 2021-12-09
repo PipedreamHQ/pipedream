@@ -23,6 +23,20 @@ export default {
         methods.isItemTypeRelevant.call(this, driveItem)
       );
     },
+    generateMeta(driveItem) {
+      const {
+        id,
+        createdDateTime,
+        name,
+      } = driveItem;
+      const summary = `New folder: ${name}`;
+      const ts = Date.parse(createdDateTime);
+      return {
+        id,
+        summary,
+        ts,
+      };
+    },
   },
   hooks,
   run,
