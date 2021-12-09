@@ -533,7 +533,7 @@ export default {
       }
 
       const lastResourceIndex =
-        resources.findIndex((resource) => JSON.stringify(resource) === lastResourceStr);
+        nextResources.findIndex((resource) => JSON.stringify(resource) === lastResourceStr);
 
       const resourceNotFound = lastResourceIndex < 0;
 
@@ -548,15 +548,15 @@ export default {
     },
     /**
      * paginateResources always gets the latest resources from the API.
-     * @param {Object} args - all arguments to pass to the paginateResources method
+     * @param {Object} args - all arguments to pass to the `paginateResources` function
      * @param {Function} args.resouceFn - the name of the resource function to call
      * @param {Object} args.resourceFnArgs - the arguments object to pass to the resource function
-     * @param {number} args.offset - the offset to start at
-     * @param {number} args.limit - the number of resources to get per page
-     * @param {number} args.max - the maximum number of resources to get
-     * @param {Function} args.callback - the function to call for each resource
-     * @param {string} args.lastResourceStr - the last resource string in cache to validate against
-     *  This parameter is only passed in from sources
+     * @param {number} [args.offset] - the offset to start at
+     * @param {number} [args.limit] - the number of resources to get per page
+     * @param {number} [args.max] - the maximum number of resources to get
+     * @param {Function} [args.callback] - the function to call for each resource
+     * @param {string} [args.lastResourceStr] - the last resource string in cache
+     * to validate against. This parameter is only passed in from sources.
      * @returns {Promise<Array>} - Promise that resolves to an array of resources,
      *  the first element is the last resource string in cache
      */
@@ -565,7 +565,7 @@ export default {
       resourceFnArgs,
       offset,
       limit = constants.DEFAULT_PAGE_LIMIT,
-      max = constants.DEFAULT_MAX_ITEMS,
+      max,
       callback,
       lastResourceStr,
     }) {
@@ -573,6 +573,7 @@ export default {
       let lastUrl;
       let nextResponse;
       let resourceNotFound = true;
+      let keepFetching;
 
       do {
         nextResponse = await resourceFn({
@@ -610,8 +611,14 @@ export default {
 
         // if resourceNotFound is true, then keeps looping until found
         // if nextResponse?.meta.next is not null, then there are more resources to fetch
-        // if resources.length < max is the max number of resources to be fetched
-      } while (resourceNotFound && nextResponse?.meta.next && resources.length < max);
+        const resourceNotFoundAndNexUrl = resourceNotFound && nextResponse?.meta.next;
+
+        keepFetching = max
+          // if resources.length < max is the max number of resources to be fetched
+          ? resourceNotFoundAndNexUrl && resources.length < max
+          : resourceNotFoundAndNexUrl;
+
+      } while (keepFetching);
 
       return resources;
     },

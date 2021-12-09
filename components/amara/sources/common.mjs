@@ -14,12 +14,25 @@ export default {
       },
     },
     team: {
-      description: "The team slug of the team to watch",
+      description: "The team slug of the team to watch. Passing in `null` or empty will return only resources that are in the public area.",
       optional: true,
       propDefinition: [
         amara,
         "team",
       ],
+    },
+  },
+  hooks: {
+    async deploy() {
+      const [
+        resource,
+      ] = await this.amara.paginateResources({
+        resourceFn: this.getResourceFn(),
+        resourceFnArgs: this.getResourceFnArgs(),
+        callback: this.processEvent,
+        max: constants.DEFAULT_MAX_ITEMS,
+      });
+      this.setLastResourceStr(resource);
     },
   },
   methods: {
@@ -44,7 +57,7 @@ export default {
      *  - For response data look at the docs [here](https://apidocs.amara.org/#list-team-notifications)
      * For Team activity returns resource.type and resource.video as the identifier.
      *  - For response data look at the docs [here](https://apidocs.amara.org/#team-activity)
-     * @param {object} resource
+     * @param {Object} resource
      * @returns {Array}
      */
     getEventTypeAndId(resource) {
@@ -101,6 +114,8 @@ export default {
       lastResourceStr,
     });
 
-    this.setLastResourceStr(resource);
+    if (resource) {
+      this.setLastResourceStr(resource);
+    }
   },
 };
