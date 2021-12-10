@@ -1,9 +1,14 @@
-import baseNewFolder from "../new-folder/new-folder.mjs";
-import baseNewFileInFolder from "../new-file-in-folder/new-file-in-folder.mjs";
+import base from "../new-file/new-file.mjs";
+import onedrive from "../../microsoft_onedrive.app.mjs";
+
+const {
+  props,
+  methods,
+  hooks,
+  run,
+} = base;
 
 export default {
-  ...baseNewFolder,
-  ...baseNewFileInFolder,
   type: "source",
   key: "microsoft_onedrive-new-folder-in-folder",
   name: "New Folder in Folder (Instant)",
@@ -11,11 +16,39 @@ export default {
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    ...baseNewFolder.props,
-    ...baseNewFileInFolder.props,
+    ...props,
+    folder: {
+      propDefinition: [
+        onedrive,
+        "folder",
+      ],
+    },
   },
   methods: {
-    ...baseNewFolder.methods,
-    ...baseNewFileInFolder.methods,
+    ...methods,
+    getDeltaLinkParams() {
+      return {
+        folderId: this.folder,
+      };
+    },
+    isItemRelevant(driveItem) {
+      return !!(driveItem.folder) && driveItem.parentReference?.path !== "/drive/root:";
+    },
+    generateMeta(driveItem) {
+      const {
+        id,
+        createdDateTime,
+        name,
+      } = driveItem;
+      const summary = `New folder: ${name}`;
+      const ts = Date.parse(createdDateTime);
+      return {
+        id,
+        summary,
+        ts,
+      };
+    },
   },
+  hooks,
+  run,
 };
