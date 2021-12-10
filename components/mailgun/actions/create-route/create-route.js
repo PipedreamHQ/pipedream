@@ -6,7 +6,7 @@ const {
 
 module.exports = {
   key: "mailgun-create-route",
-  name: "Mailgun Create Route",
+  name: "Create Route",
   description: "Create a new route",
   version: "0.0.1",
   type: "action",
@@ -45,7 +45,8 @@ module.exports = {
     action: {
       type: "string",
       label: "Action",
-      description: "For more information, see the [route actions API documentation]" +
+      description: "The route action to execute when the route expression evaluates to True. For" +
+        "more information, see the [route actions API documentation]" +
         "[https://documentation.mailgun.com/en/latest/api-routes.html#actions]",
       options: [
         "forward",

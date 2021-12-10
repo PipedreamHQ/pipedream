@@ -6,7 +6,7 @@ const {
 
 module.exports = {
   key: "mailgun-list-mailinglist-members",
-  name: "Mailgun Get Mailing List Members",
+  name: "Get Mailing List Members",
   description: "List all mailing list members",
   version: "0.0.1",
   type: "action",

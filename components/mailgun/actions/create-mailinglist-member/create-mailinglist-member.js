@@ -1,5 +1,4 @@
 const mailgun = require("../../mailgun.app.js");
-const pick = require("lodash.pick");
 const {
   props,
   methods,
@@ -7,7 +6,7 @@ const {
 
 module.exports = {
   key: "mailgun-create-mailinglist-member",
-  name: "Mailgun Create Mailing List Member",
+  name: "Create Mailing List Member",
   description: "Add to an existing mailing list",
   version: "0.0.1",
   type: "action",
@@ -61,20 +60,7 @@ module.exports = {
     ...methods,
   },
   async run() {
-    const createMailinglistMember = async function (mailgun, opts) {
-      const data = pick(opts, [
-        "address",
-        "name",
-        "subscribed",
-        "upsert",
-      ]);
-      const vars = JSON.stringify(opts.vars);
-      if (vars) {
-        data.vars = vars;
-      }
-      return await mailgun.api("lists").members.createMember(opts.list, data);
-    };
-    return await this.withErrorHandler(createMailinglistMember, {
+    return await this.withErrorHandler(this.mailgun.createMailinglistMember, {
       address: this.address,
       name: this.name,
       subscribed: this.subscribed,

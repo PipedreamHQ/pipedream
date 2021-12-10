@@ -26,7 +26,9 @@ module.exports = {
       ];
     },
     getEventSubtype() {
-      return "temporary";
+      return [
+        "temporary",
+      ];
     },
     generateMeta(payload) {
       const id = payload.message.headers["message-id"];

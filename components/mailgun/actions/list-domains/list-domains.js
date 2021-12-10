@@ -7,7 +7,7 @@ const {
 
 module.exports = {
   key: "mailgun-list-domains",
-  name: "Mailgun List Domains",
+  name: "List Domains",
   description: "List domains in Mailgun",
   version: "0.0.1",
   type: "action",

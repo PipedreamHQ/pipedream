@@ -1,7 +1,7 @@
 /* eslint-disable pipedream/props-description */
-
 const formData = require("form-data");
 const Mailgun = require("mailgun.js");
+const pick = require("lodash.pick");
 
 module.exports = {
   type: "app",
@@ -138,6 +138,19 @@ module.exports = {
         key: this.$auth.api_key,
       });
       return mg[api];
+    },
+    async createMailinglistMember(mailgun, opts) {
+      const data = pick(opts, [
+        "address",
+        "name",
+        "subscribed",
+        "upsert",
+      ]);
+      const vars = JSON.stringify(opts.vars);
+      if (vars) {
+        data.vars = vars;
+      }
+      return await this.api("lists").members.createMember(opts.list, data);
     },
     async paginate (next, perPage = 100) {
       const results = [];

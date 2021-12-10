@@ -22,27 +22,30 @@ module.exports = {
   },
   methods: {
     async getWebhook(domain, webhook) {
+      console.log("webhook");
       const response = await this.mailgun.api("request")
-        .get(`/domains/${domain}/webhooks/${webhook}`);
+        .get(`/v3/domains/${domain}/webhooks/${webhook}`);
+      console.log(JSON.stringify(response));
       return response.body.webhook.urls;
     },
     async createWebhook(domain, webhook, urls) {
-      const response = await this.mailgun.api("request").post(`/domains/${domain}/webhooks`, {
+      const response = await this.mailgun.api("request").post(`/v3/domains/${domain}/webhooks`, {
         id: webhook,
         url: urls,
       });
       return response.body.webhook.urls;
     },
     async updateWebhook(domain, webhook, urls) {
+      console.log(JSON.stringify(urls));
       const response = await this.mailgun.api("request")
-        .put(`/domains/${domain}/webhooks/${webhook}`, {
+        .put(`/v3/domains/${domain}/webhooks/${webhook}`, {
           url: urls,
         });
       return response.body.webhook.urls;
     },
     async deleteWebhook(domain, webhook) {
       const response = await this.mailgun.api("request")
-        .delete(`/domains/${domain}/webhooks/${webhook}`);
+        .delete(`/v3/domains/${domain}/webhooks/${webhook}`);
       return response.body.webhook.urls;
     },
     isSubscribed(urls = []) {
@@ -85,48 +88,49 @@ module.exports = {
   hooks: {
     async activate() {
       for (let webhook of this.getEventName()) {
-        const urls = await this.mailgun.getWebhook(this.domain, webhook);
-
+        console.log("actiavte look");
+        const urls = await this.getWebhook(this.domain, webhook);
         if (this.isSubscribed(urls)) {
+          console.log("subscribed continueing");
           continue;
         }
-
+        console.log("not subscribed");
         if (urls.length > 0) {
-          await this.mailgun.updateWebhook(
+          console.log("updating webhook");
+          await this.updateWebhook(
             this.domain,
             webhook,
             urls.concat(this.http.endpoint),
           );
+          console.log("continue after updating webhook");
           continue;
         }
-
-        await this.mailgun.createWebhook(
+        console.log("creating webhook");
+        await this.createWebhook(
           this.domain,
           webhook,
           [
             this.http.endpoint,
           ],
         );
+        console.log("continue after creating webhook");
       }
     },
     async deactivate() {
       for (let webhook of this.getEventName()) {
-        const urls = await this.mailgun.getWebhook(this.domain, webhook);
-
+        const urls = await this.getWebhook(this.domain, webhook);
         if (!this.isSubscribed(urls)) {
           continue;
         }
-
         if (urls.length > 1) {
-          await this.mailgun.updateWebhook(
+          await this.updateWebhook(
             this.domain,
             webhook,
             urls.filter((url) => url !== this.http.endpoint),
           );
           continue;
         }
-
-        await this.mailgun.deleteWebhook(this.domain, webhook);
+        await this.deleteWebhook(this.domain, webhook);
       }
     },
   },

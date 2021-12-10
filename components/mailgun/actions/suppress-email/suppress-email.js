@@ -6,7 +6,7 @@ const {
 
 module.exports = {
   key: "mailgun-suppress-email",
-  name: "Mailgun Suppress Email",
+  name: "Suppress Email",
   description: "Add email to the Mailgun suppression list.",
   version: "0.0.1",
   type: "action",
