@@ -1,10 +1,38 @@
 import { axios } from "@pipedream/platform";
+import dateFormat from "dateformat";
 import constants from "./constants.mjs";
 
 export default {
   type: "app",
   app: "zoho_creator",
-  propDefinitions: {},
+  propDefinitions: {
+    appLinkName: {
+      type: "string",
+      label: "Application",
+      description: "The link name of the target application",
+      async options() {
+        const { applications = [] } = await this.getApplications();
+        return applications.map((application) => ({
+          label: application.application_name,
+          value: application.link_name,
+        }));
+      },
+    },
+    reportLinkName: {
+      type: "string",
+      label: "Report",
+      description: "The link name of the target report",
+      async options({ appLinkName }) {
+        const { reports = [] } = await this.getReports({
+          appLinkName,
+        });
+        return reports.map((report) => ({
+          label: report.display_name,
+          value: report.link_name,
+        }));
+      },
+    },
+  },
   methods: {
     getAccount() {
       return this.$auth.oauth_uid;
@@ -60,90 +88,107 @@ export default {
       });
     },
     async getRecords({
-      $, appLinkName, reportLinkName, params,
+      $, appLinkName, reportLinkName, afterAddedTime, afterModifiedTime, params,
     }) {
+      const criteria = [
+        afterAddedTime && `${constants.ADDED_TIME_FIELD} > '${afterAddedTime}'`,
+        afterModifiedTime && `${constants.MODIFIED_TIME_FIELD} > '${afterModifiedTime}'`,
+      ].reduce(
+        (reduction, criteria) =>
+          (criteria && reduction.concat(criteria) || reduction),
+        [],
+      ).join("&&") || undefined;
+
       return this.makeRequest({
         $,
         path: `/${this.getAccount()}/${appLinkName}/report/${reportLinkName}`,
-        params,
+        params: {
+          ...params,
+          criteria,
+        },
       });
-    },
-    async getApplicationsReports() {
-      const { applications = [] } = await this.getApplications();
-
-      const deferredPromises =
-        applications
-          .map(async ({ link_name: appLinkName }) => ([
-            appLinkName,
-            await this.getReports({
-              appLinkName,
-            }),
-          ]));
-
-      const applicationReports = await Promise.all(deferredPromises);
-
-      // Reports flatten
-      return applicationReports
-        .reduce((reduction, [
-          appLinkName,
-          { reports = [] },
-        ]) => {
-          const appReports =
-            reports.map((report) => ({
-              ...report,
-              appLinkName,
-            }));
-          return reduction.concat(appReports);
-        }, []);
     },
     /**
      * This function should always be called with `from` property set to `1`
      * Because if someone decides to remove records from Zoho Creator UI,
      * then the call should start again to count the records from the last record created as index 1
-     * @param {object} arguments - arguments object
-     * @param {string} arguments.appLinkName - application link name
-     * @param {string} arguments.reportLinkName - report link name
-     * @param {number} arguments.from - 1 index based query string parameter
-     * @param {number} arguments.limit - query string parameter for limit the records by page
+     * @param {Object} args - arguments object
+     * @param {string} args.appLinkName - application link name
+     * @param {string} args.reportLinkName - report link name
+     * @param {number} args.max - maximum number of records to fetch
+     * @param {number} args.from - 1 index based query string parameter
+     * @param {number} args.limit - query string parameter for limit the records by page
+     * @param {string} args.afterAddedTime
+     * - string criteria to filter records after added time
+     * @param {string} args.afterModifiedTime
+     * - string criteria to filter records after modified time
      * @returns {Array} Array of records
      */
-    async paginateRecords({
-      appLinkName, reportLinkName, from = 1, limit = constants.DEFAULT_PAGE_LIMIT,
+    async *getRecordsStream({
+      appLinkName,
+      reportLinkName,
+      max,
+      from = 1,
+      limit = constants.DEFAULT_PAGE_LIMIT,
+      afterAddedTime,
+      afterModifiedTime,
     } = {}) {
-      let records = [];
-      let nextRecords = [];
+      let recordsCounter = 0;
 
-      do {
-        try {
-          ({ data: nextRecords } =
-            await this.getRecords({
-              appLinkName,
-              reportLinkName,
-              params: {
-                from,
-                limit,
-              },
-            }));
+      while (true) {
+        const { data: records } =
+          await this.getRecords({
+            appLinkName,
+            reportLinkName,
+            afterAddedTime,
+            afterModifiedTime,
+            params: {
+              from,
+              limit,
+            },
+          });
 
-          // Reverse order to make sure the last record is the first record
-          // in the UI to show up as an event. Sorting from the API was not found.
-          records = nextRecords.reverse().concat(records);
-
-          from += limit;
-
-        } catch (error) {
-          const { response } = error;
-
-          if (response.status !== constants.HTTP_STATUS_NOT_FOUND) {
-            throw error;
-          }
-
-          nextRecords = [];
+        if (!records || records.length === 0) {
+          return;
         }
 
-      } while (nextRecords.length === limit);
+        for (const record of records) {
+          yield record;
 
-      return records;
+          recordsCounter += 1;
+
+          if (max && recordsCounter >= max) {
+            return;
+          }
+        }
+
+        from += limit;
+      }
+    },
+    /**
+     * Return the "date" portion of a Date object representing a date a number of days prior to the
+     * current date as a string in an application's [date format]{@link https://bit.ly/3IAvcjW}
+     *
+     * @param {String} appLinkName - the application link name
+     * @param {Number} days - the number of days ago
+     * @returns {String} a string representation of the prior date
+     */
+    async daysAgoString({
+      appLinkName, days,
+    }) {
+      const daysAgo = new Date();
+      daysAgo.setDate(daysAgo.getDate() - days);
+
+      const { applications = [] } = await this.getApplications();
+      const application = applications.find((app) => app.link_name === appLinkName);
+
+      if (!application) {
+        return daysAgo.toDateString();
+      }
+
+      // Convert Zoho Creator mask to "dateformat" mask
+      const format = application.date_format.replace("E", "ddd").toLowerCase();
+      return dateFormat(daysAgo, format);
     },
   },
 };
