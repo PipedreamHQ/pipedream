@@ -88,24 +88,12 @@ export default {
       });
     },
     async getRecords({
-      $, appLinkName, reportLinkName, afterAddedTime, afterModifiedTime, params,
+      $, appLinkName, reportLinkName, params,
     }) {
-      const criteria = [
-        afterAddedTime && `${constants.ADDED_TIME_FIELD} > '${afterAddedTime}'`,
-        afterModifiedTime && `${constants.MODIFIED_TIME_FIELD} > '${afterModifiedTime}'`,
-      ].reduce(
-        (reduction, criteria) =>
-          (criteria && reduction.concat(criteria) || reduction),
-        [],
-      ).join("&&") || undefined;
-
       return this.makeRequest({
         $,
         path: `/${this.getAccount()}/${appLinkName}/report/${reportLinkName}`,
-        params: {
-          ...params,
-          criteria,
-        },
+        params,
       });
     },
     /**
@@ -130,23 +118,35 @@ export default {
       max,
       from = 1,
       limit = constants.DEFAULT_PAGE_LIMIT,
-      afterAddedTime,
-      afterModifiedTime,
+      addedTime,
+      modifiedTime,
     } = {}) {
       let recordsCounter = 0;
+      let records = [];
 
       while (true) {
-        const { data: records } =
-          await this.getRecords({
-            appLinkName,
-            reportLinkName,
-            afterAddedTime,
-            afterModifiedTime,
-            params: {
-              from,
-              limit,
-            },
-          });
+        try {
+          ({ data: records } =
+            await this.getRecords({
+              appLinkName,
+              reportLinkName,
+              params: {
+                from,
+                limit,
+                criteria: this.getCriteria({
+                  addedTime,
+                  modifiedTime,
+                }),
+              },
+            }));
+
+        } catch (error) {
+          if (error?.response?.data?.code === constants.API_STATUS_CODE.NOT_FOUND) {
+            return;
+          }
+
+          throw error;
+        }
 
         if (!records || records.length === 0) {
           return;
@@ -164,6 +164,18 @@ export default {
 
         from += limit;
       }
+    },
+    getCriteria({
+      addedTime, modifiedTime,
+    }) {
+      return [
+        addedTime && `${constants.ADDED_TIME_FIELD} > '${addedTime}'`,
+        modifiedTime && `${constants.MODIFIED_TIME_FIELD} > '${modifiedTime}'`,
+      ].reduce(
+        (reduction, criteria) =>
+          (criteria && reduction.concat(criteria) || reduction),
+        [],
+      ).join(" || ") || undefined;
     },
     /**
      * Return the "date" portion of a Date object representing a date a number of days prior to the
@@ -183,11 +195,14 @@ export default {
       const application = applications.find((app) => app.link_name === appLinkName);
 
       if (!application) {
-        return daysAgo.toDateString();
+        return dateFormat(daysAgo.toDateString(), "dd-mmm-yyyy HH:MM:ss");
       }
 
       // Convert Zoho Creator mask to "dateformat" mask
-      const format = application.date_format.replace("E", "ddd").toLowerCase();
+      const format = application.date_format
+        .replace("E", "dd")
+        .toLowerCase()
+        .concat(" HH:MM:ss");
       return dateFormat(daysAgo, format);
     },
   },

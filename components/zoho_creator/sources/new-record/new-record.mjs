@@ -1,10 +1,12 @@
-import zohoCreator from "../../zoho_creator.app.mjs";
+import common from "../common.mjs";
 import utils from "../../utils.mjs";
 import constants from "../../constants.mjs";
 
+const { zohoCreator } = common.props;
 const { toSingleLineString } = utils;
 
 export default {
+  ...common,
   key: "zoho_creator-new-record",
   description: toSingleLineString(`
     Emit new records in a report. The \`Added Time\` field must be added as a **Grouping** field
@@ -19,22 +21,7 @@ export default {
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    zohoCreator,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      label: "Polling interval",
-      description: "How often to poll the Zoho Creator API for new records",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
-    appLinkName: {
-      propDefinition: [
-        zohoCreator,
-        "appLinkName",
-      ],
-    },
+    ...common.props,
     reportLinkName: {
       propDefinition: [
         zohoCreator,
@@ -52,12 +39,7 @@ export default {
     },
   },
   methods: {
-    getLastTimestamp() {
-      return this.db.get(constants.LAST_TIMESTAMP);
-    },
-    setLastTimestamp(timestamp) {
-      return this.db.set(constants.LAST_TIMESTAMP, timestamp);
-    },
+    ...common.methods,
     getMetadata(record) {
       return {
         id: record.ID,
@@ -67,7 +49,7 @@ export default {
     },
     processEvent(record) {
       this.$emit(record, this.getMetadata(record));
-      this.setLastTimestamp(record[constants.ADDED_TIME_FIELD]);
+      this.setLastAddedTime(record[constants.ADDED_TIME_FIELD]);
     },
   },
   async run() {
@@ -78,8 +60,8 @@ export default {
 
     // If last timestamp is not set, use timestamp of 1 day ago
     // to avoid fetching all records on first run of the source
-    const lastTimestamp =
-      this.getLastTimestamp()
+    const lastAddedTime =
+      this.getLastAddedTime()
       ?? await this.zohoCreator.daysAgoString({
         appLinkName,
         days: 1,
@@ -89,7 +71,7 @@ export default {
       await this.zohoCreator.getRecordsStream({
         appLinkName,
         reportLinkName,
-        afterAddedTime: lastTimestamp,
+        afterAddedTime: lastAddedTime,
       });
 
     for await (const record of recordsStream) {
