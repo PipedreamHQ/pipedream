@@ -62,7 +62,7 @@ module.exports = {
   },
   methods: {
     _isValidSource(event) {
-      const { undefined: webhookToken } = event.headers;
+      const webhookToken = event.headers["x-webhook-token"];
       const secretToken = this.db.get("secretToken");
       return webhookToken === secretToken;
     },
