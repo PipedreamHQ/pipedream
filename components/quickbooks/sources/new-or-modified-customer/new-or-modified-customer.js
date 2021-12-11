@@ -27,22 +27,11 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    async validateAndEmit(entity) {
-      // only emit events that match the specified entity name and operation
-      // but if the operations prop is left empty, emit all events rather
-      // than filtering them all out
-      // (it would a hassle for the user to select every single option
-      // if they wanted to emit everything)
-      if (entity.name !== sourceEntity) {
-        console.log(`${entity.name} webhook received and ignored, since it is not a Customer`);
-        return;
-      }
-      if (this.operationsToEmit.length > 0
-        && !this.operationsToEmit.includes(entity.operation)) {
-        console.log(`Operation '${entity.operation}' not found in list of selected Operations`);
-        return;
-      }
-      await this.processEvent(entity);
+    getEntities() {
+      return [sourceEntity];
+    },
+    getOperations() {
+      return this.operationsToEmit;
     },
   },
 };
