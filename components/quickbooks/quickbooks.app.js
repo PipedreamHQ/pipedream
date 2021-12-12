@@ -70,14 +70,22 @@ module.exports = {
       return await axios($, requestConfig);
     },
     async getPDF($, entity, id) {
-      const companyId = this.companyId();
-      return await this._makeRequest($, {
-        path: `company/${companyId}/${entity.toLowerCase()}/${id}/pdf`,
-        headers: {
-          "Accept": "application/pdf",
-        },
-        responseType: "stream",
-      });
+      try {
+        const companyId = this.companyId();
+        return await this._makeRequest($, {
+          path: `company/${companyId}/${entity.toLowerCase()}/${id}/pdf`,
+          headers: {
+            "Accept": "application/pdf",
+          },
+          responseType: "stream",
+        });
+      } catch (ex) {
+        if (ex.response.data.statusCode === 400) {
+          throw new Error(`Request failed with status code 400. Double-check that '${id}' is a valid ${entity} record ID.`);
+        } else {
+          throw ex;
+        }
+      }
     },
     async getRecordDetails(entityName, id) {
       const companyId = this.companyId();
