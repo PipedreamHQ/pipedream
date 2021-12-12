@@ -28,7 +28,9 @@ module.exports = {
   methods: {
     ...common.methods,
     getEntities() {
-      return [sourceEntity];
+      return [
+        sourceEntity,
+      ];
     },
     getOperations() {
       return this.operationsToEmit;
