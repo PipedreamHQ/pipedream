@@ -3,16 +3,17 @@ const stripe = require("../../stripe.app.js");
 
 module.exports = {
   key: "stripe-update-customer",
-  name: "Create a Customer",
+  name: "Update a Customer",
   type: "action",
-  version: "0.0.1",
-  description: "Update a customer",
+  version: "0.0.2",
+  description: "Update a customer. [See the docs](https://stripe.com/docs/api/customers/update) " +
+    "for more information",
   props: {
     stripe,
     customer: {
       propDefinition: [
         stripe,
-        "name",
+        "customer",
       ],
       optional: false,
     },
@@ -91,7 +92,7 @@ module.exports = {
         "(https://stripe.com/docs/api/customers/create) for a list of supported options.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "name",
       "email",
@@ -107,10 +108,12 @@ module.exports = {
       "postal_code",
       "country",
     ]);
-    return await this.stripe.sdk().customers.update(this.customer, {
+    const resp = await this.stripe.sdk().customers.update(this.customer, {
       ...params,
       address,
       ...this.advanced,
     });
+    $.export("$summary", `Successfully updated the customer, "${resp.id}"`);
+    return resp;
   },
 };
