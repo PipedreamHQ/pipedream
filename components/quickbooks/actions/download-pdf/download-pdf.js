@@ -6,10 +6,8 @@ const stream = require("stream");
 module.exports = {
   name: "Download PDF",
   description: "Download an invoice, bill, purchase order or other QuickBooks entity as a PDF and save it in [Pipedream's temporary file system](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory) for use in a later step.",
-  key: "download-pdf",
-  version: "0.2.8",
-  // key: "quickbooks-download-pdf",
-  // version: "0.0.1",
+  key: "quickbooks-download-pdf",
+  version: "0.0.1",
   type: "action",
   props: {
     quickbooks,
