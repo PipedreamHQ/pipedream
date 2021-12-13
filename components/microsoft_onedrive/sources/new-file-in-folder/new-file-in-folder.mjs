@@ -1,13 +1,8 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
-
-import {
-  hooks,
-  props,
-  methods,
-  run,
-} from "../common/base.mjs";
+import base from "../common/base.mjs";
 
 export default {
+  ...base,
   type: "source",
   key: "microsoft_onedrive-new-file-in-folder",
   name: "New File in Folder (Instant)",
@@ -15,7 +10,7 @@ export default {
   version: "0.0.2",
   dedupe: "unique",
   props: {
-    ...props,
+    ...base.props,
     folder: {
       propDefinition: [
         onedrive,
@@ -24,7 +19,7 @@ export default {
     },
   },
   methods: {
-    ...methods,
+    ...base.methods,
     getDeltaLinkParams() {
       return {
         folderId: this.folder,
@@ -34,6 +29,4 @@ export default {
       return !!(driveItem.file);
     },
   },
-  hooks,
-  run,
 };

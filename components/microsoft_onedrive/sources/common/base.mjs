@@ -9,7 +9,7 @@ import { toSingleLineString } from "./utils.mjs";
 // https://docs.microsoft.com/en-us/onedrive/developer/rest-api/concepts/using-webhooks?view=odsp-graph-online#expiration
 const WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS = 43200 * 60 / 2;
 
-export const props = {
+const props = {
   onedrive,
   db: "$.service.db",
   http: {
@@ -29,7 +29,7 @@ export const props = {
   },
 };
 
-export const hooks = {
+const hooks = {
   async deploy() {
     const deltaLink = this.onedrive.getDeltaLink();
     const itemsStream = this.onedrive.scanDeltaItems(deltaLink);
@@ -63,7 +63,7 @@ export const hooks = {
   },
 };
 
-export const methods = {
+const methods = {
   _getNextExpirationDateTime() {
     const nowTimestamp = Date.now();
     const expirationTimestampDelta = 2 * WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS * 1000;
@@ -226,7 +226,7 @@ export const methods = {
   postProcessEvent() {},
 };
 
-export async function run(event) {
+async function run(event) {
   // The very first HTTP call that the event source receives is from the
   // OneDrive API to verify the webhook subscription. The response for such
   // call should be as fast as possible in order for the subscription to be
@@ -259,3 +259,10 @@ export async function run(event) {
   const deltaLink = this._getDeltaLink();
   await this._processEventsFromDeltaLink(deltaLink);
 }
+
+export default {
+  props,
+  hooks,
+  methods,
+  run,
+};

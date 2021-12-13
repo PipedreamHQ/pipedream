@@ -1,12 +1,5 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
-import base from "../new-file-in-folder/new-file-in-folder.mjs";
-
-const {
-  hooks,
-  props,
-  methods,
-  run,
-} = base;
+import base from "../common/base.mjs";
 
 export default {
   ...base,
@@ -17,7 +10,7 @@ export default {
   version: "0.0.1",
   dedupe: "unique",
   props: {
-    ...props,
+    ...base.props,
     folder: {
       propDefinition: [
         onedrive,
@@ -34,15 +27,13 @@ export default {
     },
   },
   methods: {
-    ...methods,
+    ...base.methods,
     isItemTypeRelevant(driveItem) {
       const fileType = driveItem?.file?.mimeType;
       return (
-        methods.isItemTypeRelevant.call(this, driveItem) &&
+        base.methods.isItemTypeRelevant.call(this, driveItem) &&
         this.fileTypes.includes(fileType)
       );
     },
   },
-  hooks,
-  run,
 };
