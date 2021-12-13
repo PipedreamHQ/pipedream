@@ -39,8 +39,9 @@ export default {
   },
   async run({ $ }) {
     const limit = utils.emptyStrToUndefined(this.limit);
+    let subtitleLanguages = [];
 
-    const subtitleLanguages = await this.amara.paginateResources({
+    const resourcesStream = await this.amara.getResourcesStream({
       resourceFn: this.amara.getVideoSubtitleLanguages,
       resourceFnArgs: {
         $,
@@ -49,6 +50,10 @@ export default {
       limit,
       max: this.max,
     });
+
+    for await (const subtitleLanguage of resourcesStream) {
+      subtitleLanguages.push(subtitleLanguage);
+    }
 
     // eslint-disable-next-line multiline-ternary
     $.export("$summary", `Successfully fetched ${subtitleLanguages?.length} subtitle ${subtitleLanguages?.length === 1 ? "language" : "languages"}`);

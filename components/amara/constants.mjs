@@ -5,8 +5,8 @@ const CONTENT_TYPE_HEADER = "Content-Type";
 const JSON_CONTENT_TYPE = "application/json";
 const LAST_URL = "lastUrl";
 const LAST_RESOURCE_STR = "lastResourceStr";
-const DEFAULT_MAX_ITEMS = 100;
-const DEFAULT_PAGE_LIMIT = 50;
+const DEFAULT_MAX_ITEMS = 300;
+const DEFAULT_PAGE_LIMIT = 100;
 
 /**
  * The list of order by options can be found in the following links

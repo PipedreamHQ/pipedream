@@ -299,7 +299,7 @@ export default {
     max: {
       type: "integer",
       label: "Max records",
-      description: "Max number of records in the whole pagination (eg. `60`)",
+      description: "Max number of records in the whole pagination",
       optional: false,
       default: constants.DEFAULT_MAX_ITEMS,
     },
@@ -528,6 +528,7 @@ export default {
       if (!lastResourceStr) {
         return {
           resources: resources.concat(nextResources),
+          nextResources,
           resourceNotFound: true,
         };
       }
@@ -537,46 +538,44 @@ export default {
 
       const resourceNotFound = lastResourceIndex < 0;
 
+      nextResources =
+        resourceNotFound
+          ? nextResources
+          : nextResources.slice(0, lastResourceIndex);
+
       return {
-        resources: resources.concat(
-          resourceNotFound
-            ? nextResources
-            : nextResources.slice(0, lastResourceIndex),
-        ),
+        resources: resources.concat(nextResources),
+        nextResources,
         resourceNotFound,
       };
     },
     /**
-     * paginateResources always gets the latest resources from the API.
+     * getResourcesStream always gets the latest resources from the API.
      * @param {Object} args - all arguments to pass to the `paginateResources` function
      * @param {Function} args.resouceFn - the name of the resource function to call
      * @param {Object} args.resourceFnArgs - the arguments object to pass to the resource function
      * @param {number} [args.offset] - the offset to start at
-     * @param {number} [args.limit] - the number of resources to get per page
-     * @param {number} [args.max] - the maximum number of resources to get
-     * @param {Function} [args.callback] - the function to call for each resource
+     * @param {number} [args.limit=100] - the number of resources to get per page
+     * @param {number} [args.max=300] - the maximum number of resources to get
      * @param {string} [args.lastResourceStr] - the last resource string in cache
      * to validate against. This parameter is only passed in from sources.
-     * @returns {Promise<Array>} - Promise that resolves to an array of resources,
+     * @returns {Iterable} - Iterable that yields resources,
      *  the first element is the last resource string in cache
      */
-    async paginateResources({
+    async *getResourcesStream({
       resourceFn,
       resourceFnArgs,
       offset,
       limit = constants.DEFAULT_PAGE_LIMIT,
-      max,
-      callback,
+      max = constants.DEFAULT_MAX_ITEMS,
       lastResourceStr,
     }) {
       let resources = [];
       let lastUrl;
-      let nextResponse;
       let resourceNotFound = true;
-      let keepFetching;
 
-      do {
-        nextResponse = await resourceFn({
+      while (true) {
+        const nextResponse = await resourceFn({
           ...resourceFnArgs,
           url: lastUrl,
           params: {
@@ -590,11 +589,12 @@ export default {
           throw new Error("No response from the Amara API.");
         }
 
-        const nextResources = nextResponse.objects;
+        let nextResources = nextResponse.objects;
 
         ({
-          resourceNotFound,
           resources,
+          nextResources,
+          resourceNotFound,
         } = this.processResources({
           resources,
           nextResources,
@@ -605,22 +605,21 @@ export default {
           lastUrl = nextResponse.meta.next;
         }
 
-        if (callback) {
-          nextResources.forEach(callback);
+        for (const resource of nextResources) {
+          yield resource;
         }
 
         // if resourceNotFound is true, then keeps looping until found
         // if nextResponse?.meta.next is not null, then there are more resources to fetch
         const resourceNotFoundAndNexUrl = resourceNotFound && nextResponse?.meta.next;
 
-        keepFetching = max
-          // if resources.length < max is the max number of resources to be fetched
-          ? resourceNotFoundAndNexUrl && resources.length < max
-          : resourceNotFoundAndNexUrl;
+        // if resources.length < max is the max number of resources to be fetched
+        const keepFetching = resourceNotFoundAndNexUrl && resources.length < max;
 
-      } while (keepFetching);
-
-      return resources;
+        if (!keepFetching) {
+          return;
+        }
+      }
     },
   },
 };

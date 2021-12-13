@@ -24,15 +24,13 @@ export default {
   },
   hooks: {
     async deploy() {
-      const [
-        resource,
-      ] = await this.amara.paginateResources({
+      const resourcesStream = await this.amara.getResourcesStream({
         resourceFn: this.getResourceFn(),
         resourceFnArgs: this.getResourceFnArgs(),
-        callback: this.processEvent,
         max: constants.DEFAULT_MAX_ITEMS,
       });
-      this.setLastResourceStr(resource);
+
+      await this.processStreamEvents(resourcesStream);
     },
   },
   methods: {
@@ -50,6 +48,16 @@ export default {
     },
     getAllowedEvents() {
       throw new Error("getAllowedEvents is not implemented");
+    },
+    async processStreamEvents(resourcesStream) {
+      let counter = 0;
+      for await (const resource of resourcesStream) {
+        this.processEvent(resource);
+        if (counter === 0) {
+          this.setLastResourceStr(resource);
+        }
+        counter += 1;
+      }
     },
     /**
      * For Team notifications returns resource.data.event and
@@ -103,19 +111,14 @@ export default {
   async run({ $ }) {
     const lastResourceStr = this.getLastResourceStr();
 
-    const [
-      resource,
-    ] = await this.amara.paginateResources({
+    const resourcesStream = await this.amara.getResourcesStream({
       resourceFn: this.getResourceFn(),
       resourceFnArgs: this.getResourceFnArgs({
         $,
       }),
-      callback: this.processEvent,
       lastResourceStr,
     });
 
-    if (resource) {
-      this.setLastResourceStr(resource);
-    }
+    await this.processStreamEvents(resourcesStream);
   },
 };

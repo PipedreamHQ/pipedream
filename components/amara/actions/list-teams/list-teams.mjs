@@ -31,8 +31,9 @@ export default {
   async run({ $ }) {
     const limit = utils.emptyStrToUndefined(this.limit);
     const offset = utils.emptyStrToUndefined(this.offset);
+    let teams = [];
 
-    const teams = await this.amara.paginateResources({
+    const resourcesStream = await this.amara.getResourcesStream({
       resourceFn: this.amara.getTeams,
       resourceFnArgs: {
         $,
@@ -42,8 +43,12 @@ export default {
       max: this.max,
     });
 
+    for await (const team of resourcesStream) {
+      teams.push(team);
+    }
+
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully fetched ${teams?.length} ${teams?.length === 1 ? "team" : "teams"}`);
+    $.export("$summary", `Successfully fetched ${teams.length} ${teams.length === 1 ? "team" : "teams"}`);
 
     return teams;
   },
