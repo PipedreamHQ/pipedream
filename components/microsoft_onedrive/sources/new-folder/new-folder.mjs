@@ -17,11 +17,8 @@ export default {
   props,
   methods: {
     ...methods,
-    isItemTypeRelevant(driveItem) {
-      return (
-        !!driveItem.folder &&
-        methods.isItemTypeRelevant.call(this, driveItem)
-      );
+    isItemRelevant(driveItem) {
+      return !!(driveItem.folder);
     },
     generateMeta(driveItem) {
       const {
