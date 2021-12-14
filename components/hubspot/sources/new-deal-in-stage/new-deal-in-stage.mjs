@@ -11,10 +11,19 @@ export default {
   hooks: {},
   props: {
     ...common.props,
+    pipeline: {
+      propDefinition: [
+        common.props.hubspot,
+        "dealPipeline",
+      ],
+    },
     stages: {
       propDefinition: [
         common.props.hubspot,
         "stages",
+        (c) => ({
+          pipeline: c.pipeline,
+        }),
       ],
     },
   },

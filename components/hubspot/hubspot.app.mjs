@@ -33,16 +33,35 @@ export default {
         return options;
       },
     },
+    dealPipeline: {
+      type: "string",
+      label: "Pipeline",
+      description: "Select the pipeline to watch for new deals in",
+      async options() {
+        const results = await this.getPipelines("deal");
+        const options = results.map((result) => {
+          const {
+            label,
+            id: value,
+          } = result;
+          return {
+            label,
+            value,
+          };
+        });
+        return options;
+      },
+    },
     stages: {
       type: "string[]",
       label: "Stages",
       description: "Select the stages to watch for new deals in.",
-      async options() {
-        const results = await this.getDealStages();
-        const options = results.results[0].stages.map((result) => {
+      async options({ pipeline }) {
+        const results = await this.getDealStages(pipeline);
+        const options = results.map((result) => {
           const {
             label,
-            stageId: value,
+            id: value,
           } = result;
           return {
             label,
@@ -204,41 +223,43 @@ export default {
         startDate: Date.now(),
         endDate,
       };
-      return await this.makeAxiosRequest("GET", "/calendar/v1/events/task", params);
+      return this.makeAxiosRequest("GET", "/calendar/v1/events/task", params);
     },
     async getContactProperties() {
-      return await this.makeAxiosRequest("GET", "/properties/v1/contacts/properties");
+      return this.makeAxiosRequest("GET", "/properties/v1/contacts/properties");
     },
     async createPropertiesArray() {
       const allProperties = await this.getContactProperties();
       return allProperties.map((property) => property.name);
     },
     async getDealProperties() {
-      return await this.makeAxiosRequest("GET", "/properties/v1/deals/properties");
+      return this.makeAxiosRequest("GET", "/properties/v1/deals/properties");
     },
-    async getDealStages() {
-      return await this.makeAxiosRequest("GET", "/crm-pipelines/v1/pipelines/deal");
+    async getDealStages(pipelineId) {
+      const pipelines = await this.getPipelines("deal");
+      const pipeline = pipelines.filter((pipeline) => pipeline.id == pipelineId);
+      return pipeline[0].stages;
     },
     async getEmailEvents(params) {
-      return await this.makeAxiosRequest("GET", "/email/public/v1/events", params);
+      return this.makeAxiosRequest("GET", "/email/public/v1/events", params);
     },
     async getEngagements(params) {
-      return await this.makeAxiosRequest(
+      return this.makeAxiosRequest(
         "GET",
         "/engagements/v1/engagements/paged",
         params,
       );
     },
     async getEvents(params) {
-      return await this.makeAxiosRequest("GET", "/events/v3/events", params);
+      return this.makeAxiosRequest("GET", "/events/v3/events", params);
     },
     async getForms(params) {
-      return await this.makeAxiosRequest("GET", "/forms/v2/forms", params);
+      return this.makeAxiosRequest("GET", "/forms/v2/forms", params);
     },
     async getFormSubmissions(params) {
       const { formId } = params;
       delete params.formId;
-      return await this.makeAxiosRequest(
+      return this.makeAxiosRequest(
         "GET",
         `/form-integrations/v1/submissions/forms/${formId}`,
         params,
@@ -249,7 +270,7 @@ export default {
       return lists;
     },
     async getListContacts(params, listId) {
-      return await this.makeAxiosRequest(
+      return this.makeAxiosRequest(
         "GET",
         `/contacts/v1/lists/${listId}/contacts/all`,
         params,
@@ -257,29 +278,34 @@ export default {
     },
     async getObjects(objectType) {
       const client = this._client();
-      return await client.crm[objectType].getAll();
+      return client.crm[objectType].getAll();
     },
     async getContact(contactId, properties) {
       const params = {
         properties,
       };
-      return await this.makeRequest(
+      return this.makeRequest(
         "GET",
         `/crm/v3/objects/contacts/${contactId}`,
         params,
       );
     },
     async getLineItem(lineItemId) {
-      return await this.makeRequest("GET", `/crm/v3/objects/line_items/${lineItemId}`);
+      return this.makeRequest("GET", `/crm/v3/objects/line_items/${lineItemId}`);
     },
     async getPublishingChannels() {
-      return await this.makeAxiosRequest("GET", "/broadcast/v1/channels/setting/publish/current");
+      return this.makeAxiosRequest("GET", "/broadcast/v1/channels/setting/publish/current");
     },
     async getBroadcastMessages(params) {
-      return await this.makeAxiosRequest("GET", "/broadcast/v1/broadcasts", params);
+      return this.makeAxiosRequest("GET", "/broadcast/v1/broadcasts", params);
     },
     async getEmailSubscriptionsTimeline(params) {
-      return await this.makeAxiosRequest("GET", "/email/public/v1/subscriptions/timeline", params);
+      return this.makeAxiosRequest("GET", "/email/public/v1/subscriptions/timeline", params);
+    },
+    async getPipelines(objectType) {
+      const client = this._client();
+      const archived = false;
+      return (await client.crm.pipelines.pipelinesApi.getAll(objectType, archived)).body.results;
     },
   },
 };
