@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-issue",
   name: "New Issue (Instant)",
   description: "Emit new events when new issues are created in a repo",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

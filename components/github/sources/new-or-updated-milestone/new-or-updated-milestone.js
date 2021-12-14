@@ -6,7 +6,7 @@ module.exports = {
   name: "New or Updated Milestone (Instant)",
   description:
     "Emit new events when a milestone is created or updated in a repo",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
