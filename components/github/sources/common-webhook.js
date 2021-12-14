@@ -46,13 +46,12 @@ module.exports = {
       body,
       headers,
     } = event;
-
-    if (headers["X-Hub-Signature"]) {
+    if (headers["x-hub-signature"]) {
       const crypto = require("crypto");
       const algo = "sha1";
       const hmac = crypto.createHmac(algo, this.db.get("secret"));
-      hmac.update(body, "utf-8");
-      if (headers["X-Hub-Signature"] !== `${algo}=${hmac.digest("hex")}`) {
+      hmac.update(JSON.stringify(body), "utf-8");
+      if (headers["x-hub-signature"] !== `${algo}=${hmac.digest("hex")}`) {
         throw new Error("signature mismatch");
       }
     }
