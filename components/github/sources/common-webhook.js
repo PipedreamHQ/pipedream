@@ -54,6 +54,8 @@ module.exports = {
       if (headers["x-hub-signature"] !== `${algo}=${hmac.digest("hex")}`) {
         throw new Error("signature mismatch");
       }
+    } else {
+      throw new Error("signature missing");
     }
 
     if ("zen" in body) {
