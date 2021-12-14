@@ -47,9 +47,15 @@ export default {
         ts: Date.parse(record[constants.ADDED_TIME_FIELD]),
       };
     },
+    validateRecord(record) {
+      if (!record[constants.ADDED_TIME_FIELD]) {
+        throw new Error("Record is missing the \"Added Time\" field. Add the \"Added Time\" Grouping field in the Zoho Creator record properties for the Report.");
+      }
+    },
     processEvent(record) {
+      this.validateRecord(record);
       this.$emit(record, this.getMetadata(record));
-      this.setLastAddedTime(record[constants.ADDED_TIME_FIELD]);
+      this.setLastTimestamp(record[constants.ADDED_TIME_FIELD]);
     },
   },
   async run() {
@@ -61,7 +67,7 @@ export default {
     // If last timestamp is not set, use timestamp of 1 day ago
     // to avoid fetching all records on first run of the source
     const lastAddedTime =
-      this.getLastAddedTime()
+      this.getLastTimestamp()
       ?? await this.zohoCreator.daysAgoString({
         appLinkName,
         days: 1,
@@ -71,7 +77,7 @@ export default {
       await this.zohoCreator.getRecordsStream({
         appLinkName,
         reportLinkName,
-        afterAddedTime: lastAddedTime,
+        addedTime: lastAddedTime,
       });
 
     for await (const record of recordsStream) {

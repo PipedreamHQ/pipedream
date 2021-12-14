@@ -21,17 +21,11 @@ export default {
     },
   },
   methods: {
-    getLastAddedTime() {
-      return this.db.get(constants.LAST_ADDED_TIME);
+    getLastTimestamp() {
+      return this.db.get(constants.LAST_TIMESTAMP);
     },
-    setLastAddedTime(timestamp) {
-      return this.db.set(constants.LAST_ADDED_TIME, timestamp);
-    },
-    getLastModifiedTime() {
-      return this.db.get(constants.LAST_MODIFIED_TIME);
-    },
-    setLastModifiedTime(timestamp) {
-      return this.db.set(constants.LAST_MODIFIED_TIME, timestamp);
+    setLastTimestamp(timestamp) {
+      return this.db.set(constants.LAST_TIMESTAMP, timestamp);
     },
   },
 };

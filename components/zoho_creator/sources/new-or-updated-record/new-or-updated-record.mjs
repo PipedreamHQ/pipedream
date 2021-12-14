@@ -9,8 +9,8 @@ export default {
   ...common,
   key: "zoho_creator-new-or-updated-record",
   description: toSingleLineString(`
-    Emit new or updated records in a report. The \`Added Time\` and \`Modified Time\` fields must be added as
-    **Grouping** fields in the Zoho Creator *record properties* for the **Report** chosen in
+    Emit new or updated records in a report. The \`Modified Time\` field must be added as
+    **Grouping** field in the Zoho Creator *record properties* for the **Report** chosen in
     the dropdown below. See [the grouping help
     article](https://www.zoho.com/creator/newhelp/reports/display-records-as-groups-list-report.html)
     and [the docs](https://www.zoho.com/creator/help/api/v2/get-records.html) for more
@@ -31,8 +31,8 @@ export default {
         }),
       ],
       description: toSingleLineString(`
-        The link name of the target report. The \`Added Time\` and \`Modified Time\` fields must be added as
-        **Grouping** fields in the Zoho Creator *record properties* for the chosen report. See [the
+        The link name of the target report. The \`Modified Time\` field must be added as a
+        **Grouping** field in the Zoho Creator *record properties* for the chosen report. See [the
         grouping help
         article](https://www.zoho.com/creator/newhelp/reports/display-records-as-groups-list-report.html).
       `),
@@ -45,13 +45,18 @@ export default {
       return {
         id,
         summary: id,
-        ts: Date.parse(record[constants.MODIFIED_TIME_FIELD] ?? record[constants.ADDED_TIME_FIELD]),
+        ts: Date.parse(record[constants.MODIFIED_TIME_FIELD]),
       };
     },
+    validateRecord(record) {
+      if (!record[constants.MODIFIED_TIME_FIELD]) {
+        throw new Error("Record is missing the \"Modified Time\" field. Add the \"Modified Time\" Grouping field in the Zoho Creator record properties for the Report.");
+      }
+    },
     processEvent(record) {
+      this.validateRecord(record);
       this.$emit(record, this.getMetadata(record));
-      this.setLastAddedTime(record[constants.ADDED_TIME_FIELD]);
-      this.setLastModifiedTime(record[constants.MODIFIED_TIME_FIELD]);
+      this.setLastTimestamp(record[constants.MODIFIED_TIME_FIELD]);
     },
   },
   async run() {
@@ -62,19 +67,17 @@ export default {
 
     // If last timestamp is not set, use timestamp of 1 day ago
     // to avoid fetching all records on first run of the source
-    const aDayAgo = await this.zohoCreator.daysAgoString({
-      appLinkName,
-      days: 1,
-    });
-
-    const lastAddedTime = this.getLastAddedTime() ?? aDayAgo;
-    const lastModifiedTime = this.getLastModifiedTime() ?? aDayAgo;
+    const lastModifiedTime =
+      this.getLastTimestamp()
+      ?? await this.zohoCreator.daysAgoString({
+        appLinkName,
+        days: 1,
+      });
 
     const recordsStream =
       await this.zohoCreator.getRecordsStream({
         appLinkName,
         reportLinkName,
-        addedTime: lastAddedTime,
         modifiedTime: lastModifiedTime,
       });
 

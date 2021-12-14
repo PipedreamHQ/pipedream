@@ -7,10 +7,14 @@ const BASE_PREFIX_URL = "https://creator.";
 const VERSION_PATH = "/api/v2";
 const HTTP_STATUS_NOT_FOUND = 404;
 const DEFAULT_PAGE_LIMIT = 200;
-const LAST_ADDED_TIME = "lastAddedTime";
-const LAST_MODIFIED_TIME = "lastModifiedTime";
+const LAST_TIMESTAMP = "lastTimestamp";
 const ADDED_TIME_FIELD = "Added_Time";
 const MODIFIED_TIME_FIELD = "Modified_Time";
+const RETRIABLE_STATUS_CODE = [
+  408,
+  429,
+  500,
+];
 
 // API Status Codes: https://www.zoho.com/creator/help/api/v2/status-codes.html
 const API_STATUS_CODE = {
@@ -25,9 +29,9 @@ export default {
   VERSION_PATH,
   HTTP_STATUS_NOT_FOUND,
   DEFAULT_PAGE_LIMIT,
-  LAST_ADDED_TIME,
-  LAST_MODIFIED_TIME,
+  LAST_TIMESTAMP,
   ADDED_TIME_FIELD,
   MODIFIED_TIME_FIELD,
   API_STATUS_CODE,
+  RETRIABLE_STATUS_CODE,
 };

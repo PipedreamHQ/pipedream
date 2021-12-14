@@ -1,6 +1,8 @@
 import { axios } from "@pipedream/platform";
 import dateFormat from "dateformat";
+import retry from "async-retry";
 import constants from "./constants.mjs";
+import get from "lodash.get";
 
 export default {
   type: "app",
@@ -37,6 +39,28 @@ export default {
     getAccount() {
       return this.$auth.oauth_uid;
     },
+    isRetriableStatusCode(statusCode) {
+      return constants.RETRIABLE_STATUS_CODE.includes(statusCode);
+    },
+    async withRetries(apiCall) {
+      const retryOpts = {
+        retries: 3,
+      };
+      return retry(async (bail) => {
+        try {
+          return await apiCall();
+        } catch (err) {
+          const statusCode = this.getStatusCode(err);
+
+          if (!this.isRetriableStatusCode(statusCode)) {
+            bail(`Stop retrying with status code: ${statusCode}`);
+          }
+
+          console.log(`Retrying with temporary error: ${err.message}`);
+          throw err;
+        }
+      }, retryOpts);
+    },
     async makeRequest(customConfig) {
       const {
         $,
@@ -70,7 +94,13 @@ export default {
         params,
       };
 
-      return await axios($ || this, config);
+      return this.withRetries(() => axios($ || this, config));
+    },
+    getStatusCode(error) {
+      return get(error, [
+        "response",
+        "status",
+      ]);
     },
     async getApplications($) {
       return this.makeRequest({
@@ -103,14 +133,12 @@ export default {
      * @param {Object} args - arguments object
      * @param {string} args.appLinkName - application link name
      * @param {string} args.reportLinkName - report link name
-     * @param {number} args.max - maximum number of records to fetch
-     * @param {number} args.from - 1 index based query string parameter
-     * @param {number} args.limit - query string parameter for limit the records by page
-     * @param {string} args.afterAddedTime
-     * - string criteria to filter records after added time
-     * @param {string} args.afterModifiedTime
-     * - string criteria to filter records after modified time
-     * @returns {Array} Array of records
+     * @param {number} [args.max] - maximum number of records to fetch
+     * @param {number} [args.from=1] - index based query string parameter
+     * @param {number} [args.limit=200] - query string parameter for limit the records by page
+     * @param {string} [args.addedTime] - string criteria to filter records after added time
+     * @param {string} [args.modifiedTime] - string criteria to filter records after modified time
+     * @yields {Object} a Zoho Creator Record object
      */
     async *getRecordsStream({
       appLinkName,
@@ -122,37 +150,23 @@ export default {
       modifiedTime,
     } = {}) {
       let recordsCounter = 0;
-      let records = [];
 
       while (true) {
-        try {
-          ({ data: records } =
-            await this.getRecords({
-              appLinkName,
-              reportLinkName,
-              params: {
-                from,
-                limit,
-                criteria: this.getCriteria({
-                  addedTime,
-                  modifiedTime,
-                }),
-              },
-            }));
+        const { data: nextRecords } =
+          await this.getRecords({
+            appLinkName,
+            reportLinkName,
+            params: {
+              from,
+              limit,
+              criteria: this.getCriteria({
+                addedTime,
+                modifiedTime,
+              }),
+            },
+          });
 
-        } catch (error) {
-          if (error?.response?.data?.code === constants.API_STATUS_CODE.NOT_FOUND) {
-            return;
-          }
-
-          throw error;
-        }
-
-        if (!records || records.length === 0) {
-          return;
-        }
-
-        for (const record of records) {
+        for (const record of nextRecords) {
           yield record;
 
           recordsCounter += 1;
@@ -181,8 +195,9 @@ export default {
      * Return the "date" portion of a Date object representing a date a number of days prior to the
      * current date as a string in an application's [date format]{@link https://bit.ly/3IAvcjW}
      *
-     * @param {String} appLinkName - the application link name
-     * @param {Number} days - the number of days ago
+     * @param {Object} opts - An object representing the configuration options for this method
+     * @param {String} opts.appLinkName - the application link name
+     * @param {Number} opts.days - the number of days ago
      * @returns {String} a string representation of the prior date
      */
     async daysAgoString({
