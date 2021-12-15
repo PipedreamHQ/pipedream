@@ -53,7 +53,8 @@ export default {
           const statusCode = this.getStatusCode(err);
 
           if (!this.isRetriableStatusCode(statusCode)) {
-            bail(`Stop retrying with status code: ${statusCode}`);
+            // return bail(`Stop retrying with status code: ${statusCode}`);
+            return bail(err);
           }
 
           console.log(`Retrying with temporary error: ${err.message}`);
@@ -152,19 +153,29 @@ export default {
       let recordsCounter = 0;
 
       while (true) {
-        const { data: nextRecords } =
-          await this.getRecords({
-            appLinkName,
-            reportLinkName,
-            params: {
-              from,
-              limit,
-              criteria: this.getCriteria({
-                addedTime,
-                modifiedTime,
-              }),
-            },
-          });
+        let nextRecords;
+        try {
+          ({ data: nextRecords } =
+            await this.getRecords({
+              appLinkName,
+              reportLinkName,
+              params: {
+                from,
+                limit,
+                criteria: this.getCriteria({
+                  addedTime,
+                  modifiedTime,
+                }),
+              },
+            }));
+
+        } catch (error) {
+          if (error?.response?.data?.code === constants.API_STATUS_CODE.NOT_FOUND) {
+            return;
+          }
+
+          throw error;
+        }
 
         for (const record of nextRecords) {
           yield record;

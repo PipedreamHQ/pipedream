@@ -1,7 +1,7 @@
 {
-  "name": "zoho_creator",
-  "version": "1.0.0",
-  "description": "Pipedream Zoho Creator Components",
+  "name": "@pipedream/zoho_creator",
+  "version": "0.3.3",
+  "description": "Pipedream Zoho_creator Components",
   "main": "zoho_creator.app.mjs",
   "keywords": [
     "pipedream",
