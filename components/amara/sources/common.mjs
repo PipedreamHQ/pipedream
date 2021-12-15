@@ -15,7 +15,7 @@ export default {
     },
     team: {
       description: "The team slug of the team to watch. Passing in `null` or empty will return only resources that are in the public area.",
-      optional: true,
+      optional: false,
       propDefinition: [
         amara,
         "team",
@@ -50,14 +50,21 @@ export default {
       throw new Error("getAllowedEvents is not implemented");
     },
     async processStreamEvents(resourcesStream) {
-      let counter = 0;
+      let resources = [];
       for await (const resource of resourcesStream) {
-        this.processEvent(resource);
-        if (counter === 0) {
-          this.setLastResourceStr(resource);
-        }
-        counter += 1;
+        resources.push(resource);
       }
+
+      const relevantResources = resources.filter(this.isRelevant);
+      if (relevantResources.length === 0) {
+        console.log("No new events detected. Skipping...");
+        return;
+      }
+
+      relevantResources.reverse().forEach(this.processEvent);
+
+      const lastResource = relevantResources.pop();
+      this.setLastResourceStr(lastResource);
     },
     /**
      * For Team notifications returns resource.data.event and
@@ -102,10 +109,8 @@ export default {
       return allowedEvents.includes(eventType);
     },
     processEvent(resource) {
-      if (this.isRelevant(resource)) {
-        const meta = this.generateMeta(resource);
-        this.$emit(resource, meta);
-      }
+      const meta = this.generateMeta(resource);
+      this.$emit(resource, meta);
     },
   },
   async run({ $ }) {

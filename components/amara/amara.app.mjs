@@ -157,12 +157,14 @@ export default {
       label: "Limit",
       description: "Limit the number of results",
       optional: true,
+      min: 1,
     },
     offset: {
       type: "integer",
       label: "Offset",
       description: "Start pagination after this number",
       optional: true,
+      min: 0,
     },
     isPrimaryAudioLanguage: {
       type: "boolean",
@@ -302,6 +304,7 @@ export default {
       description: "Max number of records in the whole pagination",
       optional: false,
       default: constants.DEFAULT_MAX_ITEMS,
+      min: 1,
     },
   },
   methods: {
@@ -522,36 +525,9 @@ export default {
         params,
       });
     },
-    processResources({
-      resources, nextResources, lastResourceStr,
-    }) {
-      if (!lastResourceStr) {
-        return {
-          resources: resources.concat(nextResources),
-          nextResources,
-          resourceNotFound: true,
-        };
-      }
-
-      const lastResourceIndex =
-        nextResources.findIndex((resource) => JSON.stringify(resource) === lastResourceStr);
-
-      const resourceNotFound = lastResourceIndex < 0;
-
-      nextResources =
-        resourceNotFound
-          ? nextResources
-          : nextResources.slice(0, lastResourceIndex);
-
-      return {
-        resources: resources.concat(nextResources),
-        nextResources,
-        resourceNotFound,
-      };
-    },
     /**
      * getResourcesStream always gets the latest resources from the API.
-     * @param {Object} args - all arguments to pass to the `paginateResources` function
+     * @param {Object} args - all arguments to pass to the `getResourcesStream` function
      * @param {Function} args.resouceFn - the name of the resource function to call
      * @param {Object} args.resourceFnArgs - the arguments object to pass to the resource function
      * @param {number} [args.offset] - the offset to start at
@@ -570,9 +546,8 @@ export default {
       max = constants.DEFAULT_MAX_ITEMS,
       lastResourceStr,
     }) {
-      let resources = [];
       let lastUrl;
-      let resourceNotFound = true;
+      let resourcesCount = 0;
 
       while (true) {
         const nextResponse = await resourceFn({
@@ -591,32 +566,21 @@ export default {
 
         let nextResources = nextResponse.objects;
 
-        ({
-          resources,
-          nextResources,
-          resourceNotFound,
-        } = this.processResources({
-          resources,
-          nextResources,
-          lastResourceStr,
-        }));
-
         if (nextResponse.meta.next) {
           lastUrl = nextResponse.meta.next;
         }
 
         for (const resource of nextResources) {
+          if (lastResourceStr && JSON.stringify(resource) === lastResourceStr) {
+            return;
+          }
+
           yield resource;
+
+          resourcesCount += 1;
         }
 
-        // if resourceNotFound is true, then keeps looping until found
-        // if nextResponse?.meta.next is not null, then there are more resources to fetch
-        const resourceNotFoundAndNexUrl = resourceNotFound && nextResponse?.meta.next;
-
-        // if resources.length < max is the max number of resources to be fetched
-        const keepFetching = resourceNotFoundAndNexUrl && resources.length < max;
-
-        if (!keepFetching) {
+        if (!nextResponse?.meta.next || resourcesCount >= max) {
           return;
         }
       }
