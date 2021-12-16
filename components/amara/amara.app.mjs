@@ -532,7 +532,7 @@ export default {
      * @param {Object} args.resourceFnArgs - the arguments object to pass to the resource function
      * @param {number} [args.offset] - the offset to start at
      * @param {number} [args.limit=100] - the number of resources to get per page
-     * @param {number} [args.max=300] - the maximum number of resources to get
+     * @param {number} [args.max] - the maximum number of resources to get
      * @param {string} [args.lastResourceStr] - the last resource string in cache
      * to validate against. This parameter is only passed in from sources.
      * @returns {Iterable} - Iterable that yields resources,
@@ -543,7 +543,7 @@ export default {
       resourceFnArgs,
       offset,
       limit = constants.DEFAULT_PAGE_LIMIT,
-      max = constants.DEFAULT_MAX_ITEMS,
+      max,
       lastResourceStr,
     }) {
       let lastUrl;
@@ -580,7 +580,7 @@ export default {
           resourcesCount += 1;
         }
 
-        if (!nextResponse?.meta.next || resourcesCount >= max) {
+        if (!nextResponse?.meta.next || (max && resourcesCount >= max)) {
           return;
         }
       }

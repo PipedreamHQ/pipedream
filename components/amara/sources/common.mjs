@@ -14,7 +14,7 @@ export default {
       },
     },
     team: {
-      description: "The team slug of the team to watch. Passing in `null` or empty will return only resources that are in the public area.",
+      description: "The team slug of the team to watch",
       optional: false,
       propDefinition: [
         amara,
