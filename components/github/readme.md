@@ -6,7 +6,7 @@
 
 Integrate Github + 1000s of apps, remarkably fast. Connect apps and develop, execute and maintain event-driven workflows.
 
-<a href="https://pipedream.com/auth/login?r=%2Fapps%2Fgithub&utm_source=github.com&utm_medium=referral&utm_campaign=repo"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
+<a href="https://bit.ly/3ma3CQW&utm_source=github.com&utm_medium=referral&utm_campaign=repo"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
 
 **Key Features**:
 
