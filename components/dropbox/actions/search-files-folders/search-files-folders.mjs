@@ -6,7 +6,7 @@ export default {
   name: "Search files and folders",
   description: "Searches for files and folders by name",
   key: "dropbox-search-files-and-folders",
-  version: "0.0.47",
+  version: "0.0.58",
   type: "action",
   props: {
     dropbox,
@@ -44,6 +44,19 @@ export default {
       description: "Restricts search to only match on filenames.",
       optional: true,
     },
+    fileCategories: {
+      type: "string[]",
+      label: "File Categories",
+      description: "Restricts search to only the file categories specified. Only supported for active file search.",
+      optional: true,
+      options: consts.FILES_CATEGORIES_OPTIONS,
+    },
+    fileExtensions: {
+      type: "string[]",
+      label: "File Extensions",
+      description: "Restricts search to only the extensions specified. Only supported for active file search.",
+      optional: true,
+    },
     includeHighlights: {
       type: "boolean",
       label: "Include Highlights",
@@ -66,6 +79,8 @@ export default {
       orderBy,
       fileStatus,
       filenameOnly,
+      fileExtensions,
+      fileCategories,
     } = this;
     const res = await this.dropbox.searchFilesFolders({
       query,
@@ -85,6 +100,11 @@ export default {
           ? { ".tag": fileStatus }
           : undefined,
         filename_only: filenameOnly,
+        file_extensions: fileExtensions,
+        file_categories: fileCategories
+          // eslint-disable-next-line object-curly-newline
+          ? fileCategories.map((category) => ({ ".tag": category }))
+          : undefined,
       },
     }, limit);
     $.export("$summary", "Query successfully fetched");

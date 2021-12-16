@@ -7,4 +7,17 @@ export default {
     "active",
     "deleted",
   ],
+  FILES_CATEGORIES_OPTIONS: [
+    "image",
+    "document",
+    "pdf",
+    "spreadsheet",
+    "presentation",
+    "audio",
+    "video",
+    "folder",
+    "paper",
+    "others",
+    "other",
+  ],
 };
