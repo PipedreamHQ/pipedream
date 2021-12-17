@@ -237,8 +237,8 @@ export default {
     },
     async getDealStages(pipelineId) {
       const pipelines = await this.getPipelines("deal");
-      const pipeline = pipelines.filter((pipeline) => pipeline.id == pipelineId);
-      return pipeline[0].stages;
+      const pipeline = pipelines.find((pipeline) => pipeline.id == pipelineId);
+      return pipeline?.stages;
     },
     async getEmailEvents(params) {
       return this.makeAxiosRequest("GET", "/email/public/v1/events", params);
