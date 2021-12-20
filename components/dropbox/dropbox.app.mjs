@@ -18,6 +18,12 @@ export default {
         return this.getPathOptions(query);
       },
     },
+    pathFile: {
+      type: "string",
+      label: "Path",
+      description: "The file path",
+      optional: false,
+    },
     recursive: {
       type: "boolean",
       label: "Recursive",
@@ -160,6 +166,10 @@ export default {
     async createFolder(args) {
       const dpx = await this.sdk();
       return dpx.filesCreateFolderV2(args);
+    },
+    async listFileRevisions(args) {
+      const dpx = await this.sdk();
+      return dpx.filesListRevisions(args);
     },
     async searchFilesFolders(params, limit) {
       try {

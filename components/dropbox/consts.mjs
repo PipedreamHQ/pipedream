@@ -20,4 +20,9 @@ export default {
     "others",
     "other",
   ],
+  LIST_FILE_REVISIONS_OPTIONS: [
+    "path",
+    "id",
+    "other",
+  ],
 };
