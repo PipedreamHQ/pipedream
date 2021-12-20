@@ -2,18 +2,18 @@ import common from "../common.mjs";
 
 export default {
   ...common,
-  name: "New Ticket",
-  key: "zendesk-new-ticket",
+  name: "Closed Ticket",
+  key: "zendesk-closed-ticket",
   type: "source",
-  description: "Emit new event when a ticket is created",
+  description: "Emit new event when a ticket is closed",
   version: "0.0.1",
   methods: {
     ...common.methods,
     getWebhookName() {
-      return "New Ticket Webhook";
+      return "Closed Ticket Webhook";
     },
     getTriggerTitle() {
-      return "New Ticket Trigger";
+      return "Closed Ticket Trigger";
     },
     getTriggerConditions() {
       return {
@@ -21,12 +21,7 @@ export default {
           {
             field: "status",
             operator: "is",
-            value: "new",
-          },
-          {
-            field: "status",
-            operator: "is",
-            value: "open",
+            value: "closed",
           },
         ],
       };
@@ -41,6 +36,7 @@ export default {
         assignee: "{{ticket.assignee.first_name}} {{ticket.assignee.last_name}} <{{ticket.assignee.email}}>",
         status: "{{ticket.status}}",
         createdAt: "{{ticket.created_at}}",
+        updatedAt: "{{ticket.updated_at}}",
       };
     },
   },
@@ -50,7 +46,7 @@ export default {
     this.$emit(payload, {
       id: payload.ticketId,
       summary: JSON.stringify(payload),
-      ts: Date.parse(payload.createdAt),
+      ts: Date.parse(payload.updatedAt),
     });
   },
 };
