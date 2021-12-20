@@ -157,6 +157,10 @@ export default {
       }
       return state;
     },
+    async createFolder(args) {
+      const dpx = await this.sdk();
+      return dpx.filesCreateFolderV2(args);
+    },
     async searchFilesFolders(params, limit) {
       try {
         const dpx = await this.sdk();
