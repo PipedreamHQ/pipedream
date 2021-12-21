@@ -4,6 +4,33 @@ const { SalesforceClient } = require("salesforce-webhooks");
 module.exports = {
   type: "app",
   app: "salesforce_rest_api",
+  propDefinitions: {
+    field: {
+      type: "string",
+      label: "Field",
+      description: "The object field to watch for changes",
+      async options(context) {
+        const {
+          page,
+          objectType,
+        } = context;
+        if (page !== 0) {
+          return {
+            options: [],
+          };
+        }
+
+        const fields = await this.getFieldsForObjectType(objectType);
+        return fields.map((field) => field.name);
+      },
+    },
+    fieldUpdatedTo: {
+      type: "string",
+      label: "Field Updated to",
+      description: "If provided, the trigger will only fire when the updated field is an EXACT MATCH (including spacing and casing) to the value you provide in this field",
+      optional: true,
+    },
+  },
   methods: {
     _authToken() {
       return this.$auth.oauth_access_token;
@@ -31,7 +58,7 @@ module.exports = {
         `https://${this._subdomain()}.salesforce.com`
       );
     },
-    _userApiUrl() {
+    userApiUrl() {
       const baseUrl = this._baseApiUrl();
       return `${baseUrl}/services/oauth2/userinfo`;
     },
@@ -78,17 +105,26 @@ module.exports = {
       };
       return new SalesforceClient(clientOpts);
     },
+    isHistorySObject(sobject) {
+      return sobject.associateEntityType === "History" && sobject.name.includes("History");
+    },
     listAllowedSObjectTypes(eventType) {
       const verbose = true;
       return SalesforceClient.getAllowedSObjects(eventType, verbose);
     },
-    async createWebhook(endpointUrl, sObjectType, event, secretToken) {
+    async createWebhook(endpointUrl, sObjectType, event, secretToken, opts) {
+      const {
+        fieldsToCheck,
+        fieldsToCheckMode,
+      } = opts;
       const client = this._getSalesforceClient();
       const webhookOpts = {
         endpointUrl,
         sObjectType,
         event,
         secretToken,
+        fieldsToCheck,
+        fieldsToCheckMode,
       };
       return client.createWebhook(webhookOpts);
     },
@@ -110,6 +146,20 @@ module.exports = {
       return nameField !== undefined
         ? nameField.name
         : "Id";
+    },
+    async getFieldsForObjectType(objectType) {
+      const url = this._sObjectTypeDescriptionApiUrl(objectType);
+      const requestConfig = this._makeRequestConfig();
+      const { data } = await axios.get(url, requestConfig);
+      return data.fields;
+    },
+    async getHistorySObjectForObjectType(objectType) {
+      const { sobjects } = await this.listSObjectTypes();
+      const historyObject = sobjects.find(
+        (sobject) => sobject.associateParentEntity === objectType
+            && this.isHistorySObject(sobject),
+      );
+      return historyObject;
     },
     async getSObject(objectType, id) {
       const url = this._sObjectDetailsApiUrl(objectType, id);
