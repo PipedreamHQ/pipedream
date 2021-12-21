@@ -13,15 +13,12 @@ export default {
     getWebhookType() {
       return constants.WEBHOOK_TYPE.PURCHASE_ORDER_AUTHORISED;
     },
-  },
-  async run(event) {
-    const payload = event.body;
-    console.log("payload", payload);
-
-    this.$emit(payload, {
-      id: payload.TaskID,
-      summary: JSON.stringify(payload),
-      ts: Date.now(),
-    });
+    getMetadata(payload) {
+      return {
+        id: payload.TaskID,
+        summary: JSON.stringify(payload),
+        ts: Date.now(),
+      };
+    },
   },
 };

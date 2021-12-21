@@ -31,9 +31,8 @@ export default {
         url: url ?? `${constants.BASE_URL}${constants.VERSION_PATH}${path}`,
         timeout: 10000,
       };
-      console.log("config", config);
 
-      return await axios($ ?? this, config);
+      return axios($ ?? this, config);
     },
     async createWebhook({
       $, data,

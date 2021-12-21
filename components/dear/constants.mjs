@@ -2,6 +2,7 @@ const BASE_URL = "https://inventory.dearsystems.com";
 const VERSION_PATH = "/ExternalApi/v2";
 const API_AUTH_ACCOUNT_ID_HEADER = "api-auth-accountid";
 const API_AUTH_APPLICATION_KEY_HEADER = "api-auth-applicationkey";
+const WEBHOOK_ID = "webhookId";
 
 /**
  * All available values for Webhook Type.
@@ -36,4 +37,5 @@ export default {
   API_AUTH_ACCOUNT_ID_HEADER,
   API_AUTH_APPLICATION_KEY_HEADER,
   WEBHOOK_TYPE,
+  WEBHOOK_ID,
 };

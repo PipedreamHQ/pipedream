@@ -14,7 +14,6 @@ export default {
       const webhook = await this.dear.createWebhook({
         data: this.setupWebhookData(this.http.endpoint),
       });
-      console.log("webhook", webhook);
 
       const { ID: webhookId } = webhook;
       this.setWebhookId(webhookId);
@@ -37,6 +36,9 @@ export default {
     getWebhookType() {
       throw new Error("getWebhookType Not implemented");
     },
+    getMetadata() {
+      throw new Error("getMetadata Not implemented");
+    },
     setupWebhookData(endpoint) {
       return {
         Type: this.getWebhookType(),
@@ -45,5 +47,9 @@ export default {
         ExternalAuthorizationType: "noauth",
       };
     },
+  },
+  async run(event) {
+    const payload = event.body;
+    this.$emit(payload, this.getMetadata(payload));
   },
 };
