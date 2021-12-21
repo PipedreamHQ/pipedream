@@ -1,5 +1,5 @@
 import amara from "../amara.app.mjs";
-import constants from "../common-constants.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   props: {
