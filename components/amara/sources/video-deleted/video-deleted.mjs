@@ -7,7 +7,7 @@ export default {
   name: "Video Deleted",
   description: "Emit new event when a video is deleted. [See the docs here](https://apidocs.amara.org/#team-activity)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
