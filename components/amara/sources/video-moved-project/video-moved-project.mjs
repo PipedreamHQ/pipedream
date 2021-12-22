@@ -7,7 +7,7 @@ export default {
   name: "Video Moved Project",
   description: "Emit new event when a video has been moved from project. [See the docs here](https://apidocs.amara.org/#video-notifications)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,

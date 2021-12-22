@@ -6,7 +6,7 @@ export default {
   name: "Get Video Details",
   description: "Get video details. [See the docs here](https://apidocs.amara.org/#view-video-details)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     amara,
     team: {
