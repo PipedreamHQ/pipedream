@@ -1,5 +1,5 @@
 import amara from "../../amara.app.mjs";
-import utils from "../../utils.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "amara-get-video-details",
