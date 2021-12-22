@@ -1,5 +1,5 @@
 import common from "../common.mjs";
-import utils from "../../utils.mjs";
+import utils from "../../common/utils.mjs";
 import constants from "../../constants.mjs";
 
 const { zohoCreator } = common.props;
