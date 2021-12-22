@@ -1,5 +1,5 @@
-import constants from "../constants.mjs";
 import dear from "../dear.app.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   props: {
