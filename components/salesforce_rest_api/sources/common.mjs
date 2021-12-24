@@ -1,10 +1,11 @@
-import salesforce from "./salesforce_rest_api.app.mjs";
+import salesforce from "../salesforce_rest_api.app.mjs";
 
 export default {
   dedupe: "unique",
   props: {
     db: "$.service.db",
     salesforce,
+    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
       type: "$.interface.timer",
       default: {

@@ -1,6 +1,6 @@
 import startCase from "lodash/startCase.js";
 
-import common from "../../common-instant.mjs";
+import common from "../common-instant.mjs";
 import { toSingleLineString } from "../../utils.mjs";
 const { salesforce } = common.props;
 

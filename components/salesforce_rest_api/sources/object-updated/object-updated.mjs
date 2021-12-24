@@ -1,6 +1,6 @@
 import startCase from "lodash/startCase.js";
 
-import common from "../../common.mjs";
+import common from "../common.mjs";
 import { toSingleLineString } from "../../utils.mjs";
 
 export default {

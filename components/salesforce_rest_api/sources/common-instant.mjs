@@ -1,11 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 
-import salesforce from "./salesforce_rest_api.app.mjs";
+import salesforce from "../salesforce_rest_api.app.mjs";
 
 export default {
   dedupe: "unique",
   props: {
     db: "$.service.db",
+    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     http: {
       type: "$.interface.http",
       customResponse: true,
