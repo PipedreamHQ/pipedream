@@ -6,7 +6,7 @@
 
 Integrate Github + 1000s of apps, remarkably fast. Connect apps and develop, execute and maintain event-driven workflows.
 
-<a href="https://bit.ly/3yt8PZ7"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
+<a href="https://bit.ly/32eKudX"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
 
 **Key Features**:
 
