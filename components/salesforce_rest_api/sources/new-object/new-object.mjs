@@ -13,7 +13,7 @@ export default {
     input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for
     more information.
   `),
-  version: "0.0.3",
+  version: "0.0.4",
   methods: {
     ...common.methods,
     isItemRelevant(item, startTimestamp, endTimestamp) {

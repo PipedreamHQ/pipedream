@@ -13,7 +13,7 @@ export default {
     input parameter by the user) is deleted. [See the docs](https://sforce.co/3msDDEE) for
     more information.
   `),
-  version: "0.0.3",
+  version: "0.0.4",
   methods: {
     ...common.methods,
     generateMeta(item) {
