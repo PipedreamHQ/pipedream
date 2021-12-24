@@ -1,9 +1,9 @@
-const { axios } = require("@pipedream/platform");
-const { XMLParser } = require("fast-xml-parser");
-const salesforce = require("../../salesforce.app.js");
-const { toSingleLineString } = require("../../utils.js");
+import { axios } from "@pipedream/platform";
+import { XMLParser } from "fast-xml-parser";
+import salesforce from "../../salesforce_rest_api.app.mjs";
+import { toSingleLineString } from "../../utils.mjs";
 
-module.exports = {
+export default {
   type: "source",
   name: "New Outbound Message (Instant)",
   key: "salesforce_rest_api-new-outbound-message",

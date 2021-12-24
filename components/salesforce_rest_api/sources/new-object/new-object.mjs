@@ -1,9 +1,9 @@
-const startCase = require("lodash/startCase");
+import startCase from "lodash/startCase.js";
 
-const common = require("../../common");
-const { toSingleLineString } = require("../../utils");
+import common from "../../common.mjs";
+import { toSingleLineString } from "../../utils.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   name: "New Object (of Selectable Type)",

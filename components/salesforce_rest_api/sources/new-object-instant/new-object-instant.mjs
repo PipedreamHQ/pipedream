@@ -1,9 +1,9 @@
-const startCase = require("lodash/startCase");
+import startCase from "lodash/startCase.js";
 
-const common = require("../../common-instant");
-const { toSingleLineString } = require("../../utils");
+import common from "../../common-instant.mjs";
+import { toSingleLineString } from "../../utils.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   name: "New Object (Instant, of Selectable Type)",

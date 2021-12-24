@@ -1,7 +1,7 @@
-const startCase = require("lodash/startCase");
+import startCase from "lodash/startCase.js";
 
-const common = require("../../common");
-const { toSingleLineString } = require("../../utils");
+import common from "../../common.mjs";
+import { toSingleLineString } from "../../utils.mjs";
 const { salesforce } = common.props;
 
 /**
@@ -10,7 +10,7 @@ const { salesforce } = common.props;
  * an sObject type. Associated sObject records are retrieved and emitted for history object records
  * matching configured `field` and `fieldUpdatedTo` prop values.
  */
-module.exports = {
+export default {
   ...common,
   type: "source",
   name: "Updated Field on Record (of Selectable Type)",

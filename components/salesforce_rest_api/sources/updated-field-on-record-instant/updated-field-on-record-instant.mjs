@@ -1,10 +1,10 @@
-const startCase = require("lodash/startCase");
+import startCase from "lodash/startCase.js";
 
-const common = require("../../common-instant");
-const { toSingleLineString } = require("../../utils");
+import common from "../../common-instant.mjs";
+import { toSingleLineString } from "../../utils.mjs";
 const { salesforce } = common.props;
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   name: "Updated Field on Record (Instant, of Selectable Type)",

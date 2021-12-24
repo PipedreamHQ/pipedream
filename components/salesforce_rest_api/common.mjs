@@ -1,6 +1,6 @@
-const salesforce = require("./salesforce.app");
+import salesforce from "./salesforce_rest_api.app.mjs";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     db: "$.service.db",

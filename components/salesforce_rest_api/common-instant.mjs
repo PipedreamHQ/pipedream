@@ -1,8 +1,8 @@
-const { v4: uuidv4 } = require("uuid");
+import { v4 as uuidv4 } from "uuid";
 
-const salesforce = require("./salesforce.app");
+import salesforce from "./salesforce_rest_api.app.mjs";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     db: "$.service.db",
@@ -102,7 +102,7 @@ module.exports = {
     /**
      * This method returns the fields in the SObject type (e.g. Account, Lead, etc.) that the event
      * source should listen for updates to. This base implementation returns `undefined`, to not
-     * require any specific fields to be updated.
+     * necessitate any specific fields to be updated.
      *
      * @returns the fields in the SObject type for which to receive updates
      */
