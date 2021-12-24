@@ -5,12 +5,12 @@ const { toSingleLineString } = require("../../utils.js");
 
 module.exports = {
   type: "source",
-  name: "New Outbound Message",
+  name: "New Outbound Message (Instant)",
   key: "salesforce_rest_api-new-outbound-message",
   description: toSingleLineString(`
-    Emit new event (at regular intervals) when a new outbound message is received in
-    Salesforce. See Salesforce's guide on setting up [Outbound
-    Messaging](https://sforce.co/3JbZJom).
+    Emit new event when a new outbound message is received in Salesforce. See Salesforce's
+    guide on setting up [Outbound Messaging](https://sforce.co/3JbZJom). Set the Outbound
+    Message's Endpoint URL to the endpoint of the created source.
   `),
   version: "0.0.1",
   dedupe: "unique",
