@@ -1,6 +1,6 @@
 const { axios } = require("@pipedream/platform");
-const salesforce = require("../../salesforce.app.js");
 const { XMLParser } = require("fast-xml-parser");
+const salesforce = require("../../salesforce.app.js");
 const { toSingleLineString } = require("../../utils.js");
 
 module.exports = {

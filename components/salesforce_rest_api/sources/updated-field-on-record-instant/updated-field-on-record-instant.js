@@ -1,6 +1,7 @@
 const startCase = require("lodash/startCase");
 
 const common = require("../../common-instant");
+const { toSingleLineString } = require("../../utils");
 const { salesforce } = common.props;
 
 module.exports = {
@@ -8,10 +9,10 @@ module.exports = {
   type: "source",
   name: "Updated Field on Record (Instant, of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record-instant",
-  description: `
-    Emit new event immediately after an object of arbitrary type
-    (selected as an input parameter by the user) is updated
-  `,
+  description: toSingleLineString(`
+    Emit new event immediately (at regular intervals) after a field of your choosing is updated on
+    any record of a specified Salesforce object
+  `),
   version: "0.0.1",
   props: {
     ...common.props,

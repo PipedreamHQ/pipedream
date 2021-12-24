@@ -1,16 +1,18 @@
 const startCase = require("lodash/startCase");
 
 const common = require("../../common");
+const { toSingleLineString } = require("../../utils");
 
 module.exports = {
   ...common,
   type: "source",
   name: "New Object (of Selectable Type)",
   key: "salesforce_rest_api-new-object",
-  description: `
-    Emit new event (at regular intervals) when an object of arbitrary type
-    (selected as an input parameter by the user) is created
-  `,
+  description: toSingleLineString(`
+    Emit new event (at regular intervals) when an object of arbitrary type (selected as an
+    input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for
+    more information.
+  `),
   version: "0.0.3",
   methods: {
     ...common.methods,
