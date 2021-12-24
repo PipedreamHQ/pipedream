@@ -102,7 +102,7 @@ module.exports = {
       return isFieldRelevant && isFieldValueRelevant;
     },
     generateMeta(event) {
-      const nameField = this.db.get("nameField");
+      const nameField = this.getNameField();
       const {
         record: item = {},
         update,
@@ -179,7 +179,7 @@ module.exports = {
         this.$emit(event, meta);
       });
 
-      this.db.set("latestDateCovered", latestDateCovered);
+      this.setLatestDateCovered(latestDateCovered);
     },
   },
 };

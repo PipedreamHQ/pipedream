@@ -51,7 +51,7 @@ module.exports = {
         this.$emit(item, meta);
       });
 
-      this.db.set("latestDateCovered", latestDateCovered);
+      this.setLatestDateCovered(latestDateCovered);
     },
   },
 };

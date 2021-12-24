@@ -23,7 +23,7 @@ module.exports = {
       return startDate <= createdDate && endDate >= createdDate;
     },
     generateMeta(item) {
-      const nameField = this.db.get("nameField");
+      const nameField = this.getNameField();
       const {
         CreatedDate: createdDate,
         Id: id,
@@ -68,7 +68,7 @@ module.exports = {
           this.$emit(item, meta);
         });
 
-      this.db.set("latestDateCovered", latestDateCovered);
+      this.setLatestDateCovered(latestDateCovered);
     },
   },
 };

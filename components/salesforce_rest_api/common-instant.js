@@ -41,7 +41,7 @@ module.exports = {
     async activate() {
       // Retrieve metadata about the SObject specified by the user
       const nameField = await this.salesforce.getNameFieldForObjectType(this.objectType);
-      this.db.set("nameField", nameField);
+      this.setNameField(nameField);
 
       // Create the webhook in the Salesforce platform
       const secretToken = uuidv4();
@@ -55,19 +55,37 @@ module.exports = {
           fieldsToCheckMode: this.getFieldsToCheckMode(),
         },
       );
-      this.db.set("secretToken", secretToken);
-      this.db.set("webhookData", webhookData);
+      this._setSecretToken(secretToken);
+      this._setWebhookData(webhookData);
     },
     async deactivate() {
       // Create the webhook from the Salesforce platform
-      const webhookData = this.db.get("webhookData");
+      const webhookData = this._getWebhookData();
       await this.salesforce.deleteWebhook(webhookData);
     },
   },
   methods: {
+    _getSecretToken() {
+      return this.db.get("secretToken");
+    },
+    _setSecretToken(secretToken) {
+      this.db.set("secretToken", secretToken);
+    },
+    _getWebhookData() {
+      return this.db.get("webhookData");
+    },
+    _setWebhookData(webhookData) {
+      this.db.set("webhookData", webhookData);
+    },
+    getNameField() {
+      return this.db.get("nameField");
+    },
+    setNameField(nameField) {
+      this.db.set("nameField", nameField);
+    },
     _isValidSource(event) {
       const webhookToken = event.headers["x-webhook-token"];
-      const secretToken = this.db.get("secretToken");
+      const secretToken = this._getSecretToken();
       return webhookToken === secretToken;
     },
     processEvent(event) {

@@ -38,17 +38,29 @@ module.exports = {
   },
   hooks: {
     async activate() {
-      const latestDateCovered = this.db.get("latestDateCovered");
+      const latestDateCovered = this.getLatestDateCovered();
       if (!latestDateCovered) {
         const now = new Date().toISOString();
-        this.db.set("latestDateCovered", now);
+        this.setLatestDateCovered(now);
       }
 
       const nameField = await this.salesforce.getNameFieldForObjectType(this.objectType);
-      this.db.set("nameField", nameField);
+      this.setNameField(nameField);
     },
   },
   methods: {
+    getLatestDateCovered() {
+      return this.db.get("latestDateCovered");
+    },
+    setLatestDateCovered(latestDateCovered) {
+      this.db.set("latestDateCovered", latestDateCovered);
+    },
+    getNameField() {
+      return this.db.get("nameField");
+    },
+    setNameField(nameField) {
+      this.db.set("nameField", nameField);
+    },
     isValidSObject(sobject) {
       // Only the activity of those SObject types that have the `replicateable`
       // flag set is published via the `getUpdated` API.
@@ -61,7 +73,7 @@ module.exports = {
     },
   },
   async run(event) {
-    const startTimestamp = this.db.get("latestDateCovered");
+    const startTimestamp = this.getLatestDateCovered();
     const endTimestamp = new Date(event.timestamp * 1000).toISOString();
     const timeDiffSec = Math.floor(
       (Date.parse(endTimestamp) - Date.parse(startTimestamp)) / 1000,

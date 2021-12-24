@@ -43,7 +43,7 @@ module.exports = {
       return !this.fieldUpdatedTo || this.fieldUpdatedTo === newFieldValue;
     },
     generateMeta(data) {
-      const nameField = this.db.get("nameField");
+      const nameField = this.getNameField();
       const { New: newObject } = data.body;
       const {
         LastModifiedDate: lastModifiedDate,
