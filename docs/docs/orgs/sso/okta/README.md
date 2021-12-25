@@ -75,7 +75,7 @@ Click the **Identity Provider metadata** link and copy the URL from your browser
 <img alt="Okta - Pipdeream Metadata URL" src="./images/step-10.png">
 </div>
 
-11. Back in Okta, click on the **Assignments** tab of the Pipedream appllication. Click on the **Assign** dropdown and select **Assign to People**:
+11. Back in Okta, click on the **Assignments** tab of the Pipedream application. Click on the **Assign** dropdown and select **Assign to People**:
 
 <div>
 <img alt="Okta - Assign Users" src="./images/step-11.png">
