@@ -18,6 +18,16 @@ export default {
         return this.getPathOptions(query);
       },
     },
+    pathFileFolder: {
+      type: "string",
+      label: "Path",
+      description: "File/Folder Path",
+    },
+    pathFolder: {
+      type: "string",
+      label: "Path",
+      description: "The folder path",
+    },
     pathFile: {
       type: "string",
       label: "Path",
