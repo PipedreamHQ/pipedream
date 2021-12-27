@@ -3,10 +3,10 @@ import isNil from "lodash/isNil.js";
 import consts from "../../consts.mjs";
 
 export default {
-  name: "Search files and folders",
-  description: "Searches for files and folders by name. [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
-  key: "dropbox-search-files-and-folders",
-  version: "0.0.70",
+  name: "List All Files/Subfolders in a Folder",
+  description: "Searches for files and folders by name [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
+  key: "dropbox-list-all-files-subfolders-in-a-folder",
+  version: "0.0.7",
   type: "action",
   props: {
     dropbox,
@@ -21,8 +21,7 @@ export default {
         dropbox,
         "pathFolder",
       ],
-      optional: true,
-      description: "Scopes the search to a path in the user's Dropbox. Searches the entire Dropbox if not specified. (Please use a valid path to filter the values)",
+      description: "Scopes the search to a path in the user's Dropbox. (Please use a valid path to filter the values)",
     },
     orderBy: {
       type: "string",

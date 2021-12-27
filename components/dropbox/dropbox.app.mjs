@@ -206,44 +206,38 @@ export default {
       return dpx.filesMoveV2(args);
     },
     async searchFilesFolders(params, limit) {
-      try {
-        const dpx = await this.sdk();
-        let data = [];
-        let cursor = null;
+      const dpx = await this.sdk();
+      let data = [];
+      let cursor = null;
 
-        const args = {
-          ...params,
-          options: {
-            ...params.options,
-            max_results: limit <= config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS
-              ? limit
-              : config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS,
-          },
-        };
-        console.log(args);
-        let res = await dpx.filesSearchV2(args);
+      const args = {
+        ...params,
+        options: {
+          ...params.options,
+          max_results: limit <= config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS
+            ? limit
+            : config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS,
+        },
+      };
+      let res = await dpx.filesSearchV2(args);
 
-        if (!res.result?.has_more || limit <= config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS) {
-          return res.result?.matches;
-        }
-
-        data = res.result?.matches;
-        cursor = res.result?.cursor;
-        do {
-          const res = await dpx.filesSearchContinueV2({
-            cursor,
-          });
-          data = data.concat(res.result?.matches);
-          cursor = res.result?.cursor;
-          if (!res.result?.has_more || data.length >= limit) {
-            break;
-          }
-        } while (true);
-        return data;
-      } catch (err) {
-        console.log(err);
-        throw err;
+      if (!res.result?.has_more || limit <= config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS) {
+        return res.result?.matches;
       }
+
+      data = res.result?.matches;
+      cursor = res.result?.cursor;
+      do {
+        const res = await dpx.filesSearchContinueV2({
+          cursor,
+        });
+        data = data.concat(res.result?.matches);
+        cursor = res.result?.cursor;
+        if (!res.result?.has_more || data.length >= limit) {
+          break;
+        }
+      } while (true);
+      return data;
     },
   },
 };
