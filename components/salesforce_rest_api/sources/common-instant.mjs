@@ -46,16 +46,22 @@ export default {
 
       // Create the webhook in the Salesforce platform
       const secretToken = uuidv4();
-      const webhookData = await this.salesforce.createWebhook(
-        this.http.endpoint,
-        this.objectType,
-        this.getEventType(),
-        secretToken,
-        {
-          fieldsToCheck: this.getFieldsToCheck(),
-          fieldsToCheckMode: this.getFieldsToCheckMode(),
-        },
-      );
+      let webhookData;
+      try {
+        webhookData = await this.salesforce.createWebhook(
+          this.http.endpoint,
+          this.objectType,
+          this.getEventType(),
+          secretToken,
+          {
+            fieldsToCheck: this.getFieldsToCheck(),
+            fieldsToCheckMode: this.getFieldsToCheckMode(),
+          },
+        );
+      } catch (err) {
+        console.log("Create webhook error:", err.response?.data ?? err);
+        throw err;
+      }
       this._setSecretToken(secretToken);
       this._setWebhookData(webhookData);
     },
