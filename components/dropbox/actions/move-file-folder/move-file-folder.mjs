@@ -1,10 +1,11 @@
 import dropbox from "../../dropbox.app.mjs";
+import get from "lodash/get.js";
 
 export default {
   name: "Move a File/Folder",
   description: "Moves a file or folder to a different location in the user's Dropbox [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesMoveV2__anchor)",
   key: "dropbox-move-file-folder",
-  version: "0.0.1",
+  version: "0.0.26",
   type: "action",
   props: {
     dropbox,
@@ -13,6 +14,7 @@ export default {
         dropbox,
         "pathFileFolder",
       ],
+      label: "Path From",
       description: "The file/folder that you want to move.",
     },
     pathTo: {
@@ -20,7 +22,8 @@ export default {
         dropbox,
         "pathFolder",
       ],
-      description: "The new path",
+      label: "Path To",
+      description: "The new path of your file/folder",
     },
     autorename: {
       type: "boolean",
@@ -38,14 +41,24 @@ export default {
   async run({ $ }) {
     const {
       pathFrom,
-      pathTo,
       autorename,
       allowOwnershipTransfer,
+      pathTo,
     } = this;
 
+    let normalizedPathTo;
+    const normalizedPathFrom = get(pathFrom, "value", pathFrom);
+
+    // If path is a file, we need to move it as a file
+    if (pathFrom?.type == "file" && pathFrom.value) {
+      const splited = normalizedPathFrom.split("/");
+      const fileName = splited[splited.length - 1];
+      normalizedPathTo = `${get(pathTo, "value", pathTo)}/${fileName}`;
+    }
+
     const res = await this.dropbox.filesMove({
-      from_path: pathFrom,
-      to_path: pathTo,
+      from_path: pathFrom.value,
+      to_path: normalizedPathTo,
       autorename,
       allow_ownership_transfer: allowOwnershipTransfer,
     });

@@ -32,7 +32,7 @@ export default {
         });
       },
     },
-    pathFileFolders: {
+    pathFileFolder: {
       type: "string",
       label: "Path",
       description: "The file or folder path. (Please use a valid path to filter the values)",
@@ -86,7 +86,7 @@ export default {
         pathRoot,
       });
     },
-    async getPathOptions(path, opts) {
+    async getPathOptions(path, opts = {}) {
       const {
         omitFolders,
         omitFiles,
@@ -110,14 +110,18 @@ export default {
       if (!res.result.has_more) {
         data = res.result.entries.map((folder) => ({
           label: folder.path_display,
-          value: folder.path_lower,
-          type: folder[".tag"],
+          value: {
+            value: folder.path_lower,
+            type: folder[".tag"],
+          },
         }));
       } else {
         data = res.result.entries.map((folder) => ({
           label: folder.path_display,
-          value: folder.path_lower,
-          type: folder[".tag"],
+          value: {
+            value: folder.path_lower,
+            type: folder[".tag"],
+          },
         }));
         cursor = res.result.cursor;
         do {
@@ -126,8 +130,10 @@ export default {
           });
           data = data.concat(res.result?.entries.map((folder) => ({
             label: folder.path_display,
-            value: folder.path_lower,
-            type: folder[".tag"],
+            value: {
+              value: folder.path_lower,
+              type: folder[".tag"],
+            },
           })));
           cursor = res.result.cursor;
           if (!res.result.has_more) {
@@ -137,12 +143,13 @@ export default {
       }
 
       if (omitFiles) {
-        data = data.filter((item) => item.type !== "file");
+        data = data.filter((item) => item.value.type !== "file");
       }
 
       if (omitFolders) {
-        data = data.filter((item) => item.type !== "folder");
+        data = data.filter((item) => item.value.type !== "folder");
       }
+
       // eslint-disable-next-line multiline-ternary
       return data.sort((a, b) => a.label < b.label ? 1 : -1);
     },
