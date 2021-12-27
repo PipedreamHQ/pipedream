@@ -192,7 +192,14 @@ module.exports = {
       },
       ["https://pipedream.com/support", "Support and Community"],
       "/troubleshooting/",
-      "/orgs/",
+      {
+        title: "Organizations",
+        collapsable: false,
+        children: [
+          "/orgs/",
+          "/orgs/sso/okta/",
+        ],
+      },
       "/pricing/",
       "/status/",
     ],

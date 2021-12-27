@@ -5,10 +5,11 @@
 First, install the dependencies for the repo:
 
 ```bash
-yarn install
+# As of this writing, node-sass doesn't have an ARM build
+npm_config_arch=x64 yarn install
 ```
 
-Then, run the Vuepress app locally using
+Then, run the Vuepress app locally:
 
 ```bash
 yarn docs:dev
