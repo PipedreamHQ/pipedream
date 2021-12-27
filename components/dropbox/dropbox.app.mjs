@@ -171,6 +171,10 @@ export default {
       const dpx = await this.sdk();
       return dpx.filesListRevisions(args);
     },
+    async filesMove(args) {
+      const dpx = await this.sdk();
+      return dpx.filesMoveV2(args);
+    },
     async searchFilesFolders(params, limit) {
       try {
         const dpx = await this.sdk();
