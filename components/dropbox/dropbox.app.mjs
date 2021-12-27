@@ -8,31 +8,39 @@ export default {
   type: "app",
   app: "dropbox",
   propDefinitions: {
-    path: {
+    pathFolder: {
       type: "string",
       label: "Path",
-      description: "Path to the folder you want to watch for changes.",
+      description: "The folder path. (Please use a valid path to filter the values)",
+      optional: false,
+      useQuery: true,
+      async options({ query }) {
+        return this.getPathOptions(query, {
+          omitFiles: true,
+        });
+      },
+    },
+    pathFile: {
+      type: "string",
+      label: "Path",
+      description: "The file path. (Please use a valid path to filter the values)",
+      optional: false,
+      useQuery: true,
+      async options({ query }) {
+        return this.getPathOptions(query, {
+          omitFolders: true,
+        });
+      },
+    },
+    pathFileFolders: {
+      type: "string",
+      label: "Path",
+      description: "The file or folder path. (Please use a valid path to filter the values)",
       optional: false,
       useQuery: true,
       async options({ query }) {
         return this.getPathOptions(query);
       },
-    },
-    pathFileFolder: {
-      type: "string",
-      label: "Path",
-      description: "File/Folder Path",
-    },
-    pathFolder: {
-      type: "string",
-      label: "Path",
-      description: "The folder path",
-    },
-    pathFile: {
-      type: "string",
-      label: "Path",
-      description: "The file path",
-      optional: false,
     },
     recursive: {
       type: "boolean",
@@ -78,33 +86,38 @@ export default {
         pathRoot,
       });
     },
-    async getPathOptions(path) {
-      // todo: IMPROVE 409 ERROR, THERE IS SOME WAY TO DO IT?
-      try {
-        const LIMIT = 100;
+    async getPathOptions(path, opts) {
+      const {
+        omitFolders,
+        omitFiles,
+      } = opts;
 
-        let data = [];
-        let cursor = null;
-        path = path === "/" || path === null
-          ? ""
-          : path;
-        const dpx = await this.sdk();
+      const LIMIT = 100;
 
-        let res = await dpx.filesListFolder({
-          path,
-          limit: LIMIT,
-        });
+      let data = [];
+      let cursor = null;
+      path = path === "/" || path === null
+        ? ""
+        : path;
+      const dpx = await this.sdk();
 
-        if (!res.result.has_more) {
-          return res.result.entries.map((folder) => ({
-            label: folder.path_display,
-            value: folder.path_lower,
-          }));
-        }
+      let res = await dpx.filesListFolder({
+        path,
+        limit: LIMIT,
+        recursive: true,
+      });
 
+      if (!res.result.has_more) {
         data = res.result.entries.map((folder) => ({
           label: folder.path_display,
           value: folder.path_lower,
+          type: folder[".tag"],
+        }));
+      } else {
+        data = res.result.entries.map((folder) => ({
+          label: folder.path_display,
+          value: folder.path_lower,
+          type: folder[".tag"],
         }));
         cursor = res.result.cursor;
         do {
@@ -114,17 +127,24 @@ export default {
           data = data.concat(res.result?.entries.map((folder) => ({
             label: folder.path_display,
             value: folder.path_lower,
+            type: folder[".tag"],
           })));
           cursor = res.result.cursor;
           if (!res.result.has_more) {
             break;
           }
         } while (true);
-        return data;
-      } catch (err) {
-        console.log(err);
-        throw err;
       }
+
+      if (omitFiles) {
+        data = data.filter((item) => item.type !== "file");
+      }
+
+      if (omitFolders) {
+        data = data.filter((item) => item.type !== "folder");
+      }
+      // eslint-disable-next-line multiline-ternary
+      return data.sort((a, b) => a.label < b.label ? 1 : -1);
     },
     async initState(context) {
       const {

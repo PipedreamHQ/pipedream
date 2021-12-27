@@ -6,7 +6,7 @@ export default {
   name: "Search files and folders",
   description: "Searches for files and folders by name",
   key: "dropbox-search-files-and-folders",
-  version: "0.0.58",
+  version: "0.0.70",
   type: "action",
   props: {
     dropbox,
@@ -19,10 +19,10 @@ export default {
     path: {
       propDefinition: [
         dropbox,
-        "path",
+        "pathFolder",
       ],
       optional: true,
-      description: "Scopes the search to a path in the user's Dropbox. Searches the entire Dropbox if not specified.",
+      description: "Scopes the search to a path in the user's Dropbox. Searches the entire Dropbox if not specified. (Please use a valid path to filter the values)",
     },
     orderBy: {
       type: "string",
