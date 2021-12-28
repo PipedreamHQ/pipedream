@@ -64,7 +64,6 @@ module.exports = {
         },
       },
     };
-
     while (true) {
       result = await this.getLatestEvents(result.pages.next.id, 300);
       if (result.items.length === 0) {

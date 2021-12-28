@@ -22,31 +22,40 @@ module.exports = {
   },
   methods: {
     async getWebhook(domain, webhook) {
-      console.log("webhook");
-      const response = await this.mailgun.api("request")
-        .get(`/v3/domains/${domain}/webhooks/${webhook}`);
-      console.log(JSON.stringify(response));
-      return response.body.webhook.urls;
+      const response = await this.mailgun.api("webhooks").list(domain);
+      const webhookChek = [];
+      webhookChek.push(webhook);
+      if (webhookChek.includes("unsubscribed")) {
+        return get(response, "unsubscribed.urls", []);
+      } else if (webhookChek.includes("bounce")) {
+        if (response.bounce) {
+          const bounceUrlAsArr = [];
+          bounceUrlAsArr.push(response.bounce.url);
+          return bounceUrlAsArr;
+        }
+      } else if (webhookChek.includes("clicked")) {
+        return get(response, "clicked.urls", []);
+      } else if (webhookChek.includes("complained")) {
+        return get(response, "complained.urls", []);
+      } else if (webhookChek.includes("delivered")) {
+        return get(response, "delivered.urls", []);
+      } else if (webhookChek.includes("opened")) {
+        return get(response, "opened.urls", []);
+      } else if (webhookChek.includes("permanent_fail")) {
+        return get(response, "permanent_fail.urls", []);
+      } else if (webhookChek.includes("temporary_fail")) {
+        return get(response, "temporary_fail.urls", []);
+      }
+      return [];
     },
-    async createWebhook(domain, webhook, urls) {
-      const response = await this.mailgun.api("request").post(`/v3/domains/${domain}/webhooks`, {
-        id: webhook,
-        url: urls,
-      });
-      return response.body.webhook.urls;
+    async createWebhook(domain, webhook, url) {
+      return this.mailgun.api("webhooks").create(domain, webhook, url);
     },
     async updateWebhook(domain, webhook, urls) {
-      console.log(JSON.stringify(urls));
-      const response = await this.mailgun.api("request")
-        .put(`/v3/domains/${domain}/webhooks/${webhook}`, {
-          url: urls,
-        });
-      return response.body.webhook.urls;
+      return this.mailgun.api("webhooks").update(domain, webhook, urls);
     },
     async deleteWebhook(domain, webhook) {
-      const response = await this.mailgun.api("request")
-        .delete(`/v3/domains/${domain}/webhooks/${webhook}`);
-      return response.body.webhook.urls;
+      return this.mailgun.api("request").delete(`/v3/domains/${domain}/webhooks/${webhook}`);
     },
     isSubscribed(urls = []) {
       return (
@@ -88,32 +97,23 @@ module.exports = {
   hooks: {
     async activate() {
       for (let webhook of this.getEventName()) {
-        console.log("actiavte look");
         const urls = await this.getWebhook(this.domain, webhook);
         if (this.isSubscribed(urls)) {
-          console.log("subscribed continueing");
           continue;
         }
-        console.log("not subscribed");
         if (urls.length > 0) {
-          console.log("updating webhook");
           await this.updateWebhook(
             this.domain,
             webhook,
             urls.concat(this.http.endpoint),
           );
-          console.log("continue after updating webhook");
           continue;
         }
-        console.log("creating webhook");
         await this.createWebhook(
           this.domain,
           webhook,
-          [
-            this.http.endpoint,
-          ],
+          this.http.endpoint,
         );
-        console.log("continue after creating webhook");
       }
     },
     async deactivate() {
@@ -139,7 +139,6 @@ module.exports = {
       console.warn("Webhook signature missing, skipping");
       return;
     }
-
     if (!this.verifySignature(event.body.signature)) {
       this.http.respond({
         status: 401,
@@ -147,7 +146,6 @@ module.exports = {
       console.warn("Webhook signature invalid, skipping");
       return;
     }
-
     this.emitEvent(event.body["event-data"]);
   },
 };

@@ -25,6 +25,7 @@ module.exports = {
     getEventType() {
       return [
         "CLICKED",
+        "clicked",
       ];
     },
   },

@@ -2,6 +2,7 @@ const {
   methods,
   ...common
 } = require("../common-webhook");
+const get = require("lodash.get");
 
 module.exports = {
   ...common,
@@ -23,5 +24,19 @@ module.exports = {
         "bounced",
       ];
     },
+  },
+  async run(event) {
+    if (!get(event, "body.signature", false)) {
+      console.warn("Webhook signature missing, skipping");
+      return;
+    }
+    if (!this.verifySignature(event.body)) {
+      this.http.respond({
+        status: 401,
+      });
+      console.warn("Webhook signature invalid, skipping");
+      return;
+    }
+    this.emitEvent(event.body);
   },
 };

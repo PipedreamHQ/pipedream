@@ -34,28 +34,59 @@ module.exports = {
   },
   hooks: {
     async deploy() {
-      // Emits sample events on the first run during deploy.
-      const lists = await this.mailgun.api("lists").list({
-        limit: 5,
+      const result = await this.mailgun.api("lists").list({
+        limit: 100,
       });
-      for (let list of lists) {
+      const sortedList = result.slice().sort((a, b) => b.created_at - a.created_at);
+      for (let list of sortedList.slice(0, 5)) {
         this.$emit(list, this.generateMeta(list));
       }
     },
   },
   async run() {
-    const perPage = 100;
-    for (let page = 0; ; page += perPage) {
-      const lists = await this.mailgun.api("lists").list({
-        skip: 0 * perPage,
-        limit: perPage,
-      });
-      if (lists.length === 0) {
-        return;
+    let result = [];
+    let mailinglists = [];
+    let address = null;
+    do {
+      if (address) {
+        result = await this.mailgun.api("lists").list({
+          limit: 100,
+          address: address,
+        });
+      } else {
+        result = await this.mailgun.api("lists").list({
+          limit: 100,
+        });
       }
-      for (let list of lists) {
-        this.$emit(list, this.generateMeta(list));
+      mailinglists.push(...result);
+      console.log("result per page");
+      console.log(JSON.stringify(result));
+      if (result.length) {
+        address = result[result.length - 1].address;
       }
+    } while (result.length);
+    //filters by domain
+    console.log("before filter");
+    console.log(JSON.stringify(mailinglists));
+    const filter = mailinglists.filter((r) => {
+      const idxAt = r.address.indexOf("@");
+      const compareDomain = [];
+      compareDomain.push(this.domain);
+      return compareDomain.includes(r.address.substring(idxAt + 1));
+    });
+    console.log("before sorting");
+    console.log(JSON.stringify(filter));
+    //sort by created_at date
+    const sortedList = filter.sort((a, b) => {
+      const tsa = +new Date(a.created_at);
+      const tsb = +new Date(b.created_at);
+      return tsa - tsb;
+    });
+    console.log("sorted");
+    console.log(JSON.stringify(sortedList));
+    for (let list of sortedList) {
+      console.log(list.created_at);
+      this.$emit(list, this.generateMeta(list));
     }
   },
 };

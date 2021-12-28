@@ -24,6 +24,7 @@ module.exports = {
     getEventType() {
       return [
         "UNSUBSCRIBED",
+        "unsubscribed",
       ];
     },
     generateMeta(payload) {
