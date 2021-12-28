@@ -240,6 +240,14 @@ export default {
         this.normalizeError(err);
       }
     },
+    async deleteFileFolder(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesDeleteV2(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
     async searchFilesFolders(params, limit) {
       try {
         const dpx = await this.sdk();
