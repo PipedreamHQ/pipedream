@@ -1,18 +1,20 @@
 import dropbox from "../../dropbox.app.mjs";
+import get from "lodash/get.js";
 
 export default {
   name: "Rename a File/Folder",
   description: "Renames a file or folder in the user's Dropbox [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesMoveV2__anchor)",
   key: "dropbox-rename-file-folder",
-  version: "0.0.3",
+  version: "0.0.7",
   type: "action",
   props: {
     dropbox,
     pathFrom: {
       propDefinition: [
         dropbox,
-        "pathFile",
+        "pathFileFolder",
       ],
+      label: "Path From",
       description: "The file that you want to rename.",
     },
     newName: {
@@ -41,15 +43,16 @@ export default {
       allowOwnershipTransfer,
     } = this;
 
-    const splitedPath = pathFrom.split("/");
+    const normalizedPathFrom = get(pathFrom, "value", pathFrom);
+    const splitedPath = normalizedPathFrom.split("/");
     splitedPath[splitedPath.length - 1] = newName;
     const res = await this.dropbox.filesMove({
-      from_path: pathFrom,
+      from_path: normalizedPathFrom,
       to_path: splitedPath.join("/"),
       autorename,
       allow_ownership_transfer: allowOwnershipTransfer,
     });
-    $.export("$summary", "File successfully renamed");
+    $.export("$summary", "File/Folder successfully renamed");
     return res;
   },
 };
