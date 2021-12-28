@@ -10,7 +10,7 @@ module.exports = {
       return new ShortcutClient(this.$auth.api_key);
     },
     _isRetriableStatusCode(statusCode) {
-      [
+      return [
         408,
         429,
         500,
@@ -25,12 +25,10 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = [
-            get(err, [
-              "response",
-              "status",
-            ]),
-          ];
+          const statusCode = get(err, [
+            "response",
+            "status",
+          ]);
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
