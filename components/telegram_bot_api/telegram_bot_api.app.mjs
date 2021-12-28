@@ -98,7 +98,7 @@ export default {
       label: "From Chat ID",
       description: toSingleLineString(`
         Enter the unique identifier for the chat where the original message was sent (or channel
-        username in the format @channelusername).
+        username in the format \`@channelusername\`).
       `),
       optional: true,
     },
@@ -405,25 +405,32 @@ export default {
       });
     },
     async sendAudio(chatId, audio, opts) {
-      return this.sendMedia(this.sdk().sendAudio, chatId, audio, opts);
+      const sdk = this.sdk();
+      return this.sendMedia(sdk.sendAudio.bind(sdk), chatId, audio, opts);
     },
     async sendDocument(chatId, doc, opts) {
-      return this.sendMedia(this.sdk().sendDocument, chatId, doc, opts);
+      const sdk = this.sdk();
+      return this.sendMedia(sdk.sendDocument.bind(sdk), chatId, doc, opts);
     },
     async sendPhoto(chatId, photo, opts) {
-      return this.sendMedia(this.sdk().sendPhoto, chatId, photo, opts);
+      const sdk = this.sdk();
+      return this.sendMedia(sdk.sendPhoto.bind(sdk), chatId, photo, opts);
     },
     async sendSticker(chatId, sticker, opts) {
-      return this.sendMedia(this.sdk().sendSticker, chatId, sticker, opts);
+      const sdk = this.sdk();
+      return this.sendMedia(sdk.sendSticker.bind(sdk), chatId, sticker, opts);
     },
     async sendVideo(chatId, video, opts) {
-      return this.sendMedia(this.sdk().sendVideo, chatId, video, opts);
+      const sdk = this.sdk();
+      return this.sendMedia(sdk.sendVideo.bind(sdk), chatId, video, opts);
     },
     async sendVideoNote(chatId, videoNote, opts) {
-      return this.sendMedia(this.sdk().sendVideoNote, chatId, videoNote, opts);
+      const sdk = this.sdk();
+      return this.sendMedia(sdk.sendVideoNote.bind(sdk), chatId, videoNote, opts);
     },
     async sendVoice(chatId, voice, opts) {
-      return this.sendMedia(this.sdk().sendVoice, chatId, voice, opts);
+      const sdk = this.sdk();
+      return this.sendMedia(sdk.sendVoice.bind(sdk), chatId, voice, opts);
     },
     /**
      * Send a file (Document/Image, Photo, Audio, Video, Video Note, Voice,

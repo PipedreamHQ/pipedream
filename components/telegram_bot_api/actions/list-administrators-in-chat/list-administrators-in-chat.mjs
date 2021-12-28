@@ -17,7 +17,9 @@ export default {
   },
   async run({ $ }) {
     const resp = await this.telegramBotApi.getChatAdministrators(this.chatId);
-    $.export("$summary", `Successfully fetched administrators in the chat, "${this.chatId}"`);
+    $.export("$summary", `Successfully fetched ${resp.length} administrator${resp.length === 1
+      ? ""
+      : "s"} in the chat, "${this.chatId}"`);
     return resp;
   },
 };

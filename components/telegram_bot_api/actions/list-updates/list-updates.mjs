@@ -43,7 +43,7 @@ export default {
       });
     }
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully fetched ${updates.length} updates${updates.length === 1 ? "" : "s"}`);
+    $.export("$summary", `Successfully fetched ${updates.length} update${updates.length === 1 ? "" : "s"}`);
     return updates;
   },
 };

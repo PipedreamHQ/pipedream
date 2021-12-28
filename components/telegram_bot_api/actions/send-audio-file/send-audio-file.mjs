@@ -92,7 +92,7 @@ export default {
       filename: this.filename,
       contentType: this.contentType,
     });
-    $.export("$summary", `Successfully sent the audio file, "${resp.audio?.file_name} to chat, "${this.chatId}""`);
+    $.export("$summary", `Successfully sent the audio file "${resp.audio?.file_name}" to chat, "${this.chatId}""`);
     return resp;
   },
 };

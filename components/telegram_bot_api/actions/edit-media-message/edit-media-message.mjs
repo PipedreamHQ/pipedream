@@ -81,6 +81,7 @@ export default {
     }, {
       chatId: this.chatId,
       messageId: this.messageId,
+      reply_markup: this.reply_markup,
     });
     $.export("$summary", `Successfully edited the ${this.type || "media"} message in chat, "${this.chatId}"`);
     return resp;

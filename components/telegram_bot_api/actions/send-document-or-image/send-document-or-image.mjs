@@ -77,7 +77,7 @@ export default {
       filename: this.filename,
       contentType: this.contentType,
     });
-    $.export("$summary", `Successfully sent the document, "${resp.document?.file_name}" to chat, "${this.chatId}"`);
+    $.export("$summary", `Successfully sent the document "${resp.document?.file_name}" to chat, "${this.chatId}"`);
     return resp;
   },
 };

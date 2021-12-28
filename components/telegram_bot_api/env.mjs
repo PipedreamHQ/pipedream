@@ -7,3 +7,8 @@
 // Promises. See: https://github.com/yagop/node-telegram-bot-api/issues/319 for
 // more information.
 process.env.NTBA_FIX_319 = process.env.NTBA_FIX_319 ?? true;
+
+// If unset, set `process.env.NTBA_FIX_350` to true to enable automatic resolution of `filename`
+// and `contentType` properties. See: https://github.com/yagop/node-telegram-bot-api/issues/350
+// for more information.
+process.env.NTBA_FIX_350 = process.env.NTBA_FIX_350 ?? true;

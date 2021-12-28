@@ -39,7 +39,7 @@ export default {
       messageId: this.messageId,
       disable_notification: this.disable_notification,
     });
-    $.export("$summary", `Successfully edited the message in chat, "${resp.chatId}"`);
+    $.export("$summary", `Successfully edited the message in chat, "${this.chatId}"`);
     return resp;
   },
 };

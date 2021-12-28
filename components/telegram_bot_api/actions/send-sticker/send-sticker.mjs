@@ -47,7 +47,7 @@ export default {
       filename: this.filename,
     });
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully sent the sticker${this.fileName ? `, ${this.filename}` : ""} to chat, "${this.chatId}"`);
+    $.export("$summary", `Successfully sent the sticker${this.fileName ? ` "${this.filename}"` : ""} to chat, "${this.chatId}"`);
     return resp;
   },
 };

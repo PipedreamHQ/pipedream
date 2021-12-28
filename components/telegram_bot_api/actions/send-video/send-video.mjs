@@ -80,7 +80,7 @@ export default {
       contentType: this.contentType,
     });
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully sent the video${this.fileName ? `, ${this.filename}` : ""} to chat, "${this.chatId}"`);
+    $.export("$summary", `Successfully sent the video${this.fileName ? ` "${this.filename}"` : ""} to chat, "${this.chatId}"`);
     return resp;
   },
 };
