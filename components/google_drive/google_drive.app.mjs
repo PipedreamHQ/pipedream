@@ -771,6 +771,8 @@ export default {
      * get a file
      * @param {string} [params.fields="*"] - the paths of the fields to include
      * in the response
+     * @param {string} [params.alt] - if set to `media`, then the response
+     * includes the file contents in the response body
      * @param {...*} [params.extraParams] - extra/optional parameters to be fed
      * to the GDrive API call, as defined in [the API
      * docs](https://bit.ly/3i5ctkS)
@@ -779,6 +781,7 @@ export default {
     async getFile(fileId, params = {}) {
       const {
         fields = "*",
+        alt,
         ...extraParams
       } = params;
       const drive = this.drive();
@@ -786,9 +789,14 @@ export default {
         await drive.files.get({
           fileId,
           fields,
+          alt,
           supportsAllDrives: true,
           ...extraParams,
-        })
+        }, (alt === "media")
+          ? {
+            responseType: "stream",
+          }
+          : undefined)
       ).data;
     },
     async getDrive(driveId) {
@@ -1149,6 +1157,8 @@ export default {
           fileId,
           mimeType,
           ...extraParams,
+        }, {
+          responseType: "stream",
         })
       ).data;
     },
