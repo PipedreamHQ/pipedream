@@ -1,12 +1,13 @@
 import dropbox from "../../dropbox.app.mjs";
 import isNil from "lodash/isNil.js";
+import get from "lodash/get.js";
 import consts from "../../consts.mjs";
 
 export default {
   name: "Search files and folders",
   description: "Searches for files and folders by name. [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
   key: "dropbox-search-files-and-folders",
-  version: "0.0.70",
+  version: "0.0.75",
   type: "action",
   props: {
     dropbox,
@@ -90,7 +91,7 @@ export default {
           include_highlights: includeHighlights,
         },
       options: {
-        path,
+        path: get(path, "value", path) || "",
         order_by: orderBy
           // eslint-disable-next-line object-curly-newline
           ? { ".tag": orderBy }

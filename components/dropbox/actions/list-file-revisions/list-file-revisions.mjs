@@ -1,3 +1,4 @@
+import get from "lodash/get.js";
 import consts from "../../consts.mjs";
 import dropbox from "../../dropbox.app.mjs";
 
@@ -5,7 +6,7 @@ export default {
   name: "List File Revisions",
   description: "Retrieves a list of file revisions needed to recover previous content. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesListRevisions__anchor)",
   key: "dropbox-list-file-revisions",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     dropbox,
@@ -39,7 +40,7 @@ export default {
       limit,
     } = this;
     const res = await this.dropbox.listFileRevisions({
-      path,
+      path: get(path, "value", path),
       mode: mode
         // eslint-disable-next-line object-curly-newline
         ? { ".tag": mode }

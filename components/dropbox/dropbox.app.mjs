@@ -1,6 +1,7 @@
 import dropbox from "dropbox";
 import fetch from "isomorphic-fetch";
 import config from "./config.mjs";
+import isString from "lodash/isString.js";
 
 const Dropbox = dropbox.Dropbox;
 
@@ -85,6 +86,21 @@ export default {
         ...baseClientOpts,
         pathRoot,
       });
+    },
+    normalizeError(err) {
+      if (!err) {
+        throw new Error("Unknown error");
+      }
+
+      if (isString(err.error)) {
+        throw new Error(err.error);
+      }
+
+      if (err.error?.error_summary) {
+        throw new Error(err.error.error_summary);
+      }
+
+      throw new Error(JSON.stringify(err));
     },
     async getPathOptions(path, opts = {}) {
       const {
@@ -201,54 +217,66 @@ export default {
       return state;
     },
     async createFolder(args) {
-      const dpx = await this.sdk();
-      return dpx.filesCreateFolderV2(args);
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesCreateFolderV2(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
     },
     async listFileRevisions(args) {
-      const dpx = await this.sdk();
-      return dpx.filesListRevisions(args);
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesListRevisions(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
     },
     async filesMove(args) {
       try {
         const dpx = await this.sdk();
         return await dpx.filesMoveV2(args);
       } catch (err) {
-        throw new Error(err?.error.error_summary);
+        this.normalizeError(err);
       }
     },
     async searchFilesFolders(params, limit) {
-      const dpx = await this.sdk();
-      let data = [];
-      let cursor = null;
+      try {
+        const dpx = await this.sdk();
+        let data = [];
+        let cursor = null;
 
-      const args = {
-        ...params,
-        options: {
-          ...params.options,
-          max_results: limit <= config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS
-            ? limit
-            : config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS,
-        },
-      };
-      let res = await dpx.filesSearchV2(args);
+        const args = {
+          ...params,
+          options: {
+            ...params.options,
+            max_results: limit <= config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS
+              ? limit
+              : config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS,
+          },
+        };
+        let res = await dpx.filesSearchV2(args);
 
-      if (!res.result?.has_more || limit <= config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS) {
-        return res.result?.matches;
-      }
-
-      data = res.result?.matches;
-      cursor = res.result?.cursor;
-      do {
-        const res = await dpx.filesSearchContinueV2({
-          cursor,
-        });
-        data = data.concat(res.result?.matches);
-        cursor = res.result?.cursor;
-        if (!res.result?.has_more || data.length >= limit) {
-          break;
+        if (!res.result?.has_more || limit <= config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS) {
+          return res.result?.matches;
         }
-      } while (true);
-      return data;
+
+        data = res.result?.matches;
+        cursor = res.result?.cursor;
+        do {
+          const res = await dpx.filesSearchContinueV2({
+            cursor,
+          });
+          data = data.concat(res.result?.matches);
+          cursor = res.result?.cursor;
+          if (!res.result?.has_more || data.length >= limit) {
+            break;
+          }
+        } while (true);
+        return data;
+      } catch (err) {
+        this.normalizeError(err);
+      }
     },
   },
 };

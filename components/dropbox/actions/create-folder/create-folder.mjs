@@ -1,12 +1,13 @@
 import dropbox from "../../dropbox.app.mjs";
 import isNil from "lodash/isNil.js";
+import get from "lodash/get.js";
 import isEmpty from "lodash/isEmpty.js";
 
 export default {
   name: "Create folder",
   description: "Create a folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesCreateFolderV2__anchor)",
   key: "dropbox-create-folder",
-  version: "0.0.4",
+  version: "0.0.7",
   type: "action",
   props: {
     dropbox,
@@ -34,23 +35,24 @@ export default {
     const {
       autorename,
       name,
+      path,
     } = this;
 
-    let { path } = this;
+    let normalizedPath = get(path, "value", path);
 
     // Check for empties path
-    if (isNil(path) || isEmpty(path)) {
-      path = "/";
+    if (isNil(normalizedPath) || isEmpty(normalizedPath)) {
+      normalizedPath = "/";
     }
 
     // Check if last char is not /
-    if (path[path.length - 1] !== "/") {
-      path += "/";
+    if (normalizedPath[normalizedPath.length - 1] !== "/") {
+      normalizedPath += "/";
     }
 
     const res = await this.dropbox.createFolder({
       autorename,
-      path: path + name,
+      path: normalizedPath + name,
     });
     $.export("$summary", "Folder successfully created");
     return res;
