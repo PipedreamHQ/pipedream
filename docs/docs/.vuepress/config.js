@@ -170,6 +170,7 @@ module.exports = {
         children: [
           "/apps/all-apps/",
           "/apps/discord/",
+          "/apps/hubspot/",
           "/apps/servicenow/",
           "/apps/slack/",
           "/apps/strava/",
