@@ -1,4 +1,4 @@
-# Organizations
+# Managing your Organization
 
 Organizations ("orgs") provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
 
@@ -55,3 +55,11 @@ By default, the user who created the org is the org admin. To change ownership o
 
 1. Visit [pipedream.com](https://pipedream.com) and [switch your context](#switching-context) to your organization.
 2. Visit [https://pipedream.com/settings/account](https://pipedream.com/settings/account), and expand the **Programmatic Access** section. You'll see your org ID here.
+
+## Configuring Single-sign on (SS0)
+
+Organizations on the [Enterprise Plan](/pricing/#enterprise-plan) can configure Single-sign on in their account, so that your users can login to Pipedream using your identity provider.
+
+Pipedream supports SSO with GSuite, Okta, and other SAML providers. See the guides below to configure SSO for your identity provider:
+
+- [Okta](/orgs/sso/okta/)

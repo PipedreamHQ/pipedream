@@ -31,7 +31,7 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.14.0
+    - uses: rojopolis/spellcheck-github-actions@0.20.0
       name: Spellcheck
       if: ${{ env.files }}
       with:
@@ -58,7 +58,7 @@ jobs:
         run: npm ci
 
       - name: Lint Code Base
-        uses: github/super-linter@v3
+        uses: github/super-linter@v4
         env:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
