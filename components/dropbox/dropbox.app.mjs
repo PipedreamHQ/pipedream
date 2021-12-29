@@ -1,5 +1,6 @@
 import dropbox from "dropbox";
 import fetch from "isomorphic-fetch";
+import get from "lodash/get.js";
 import config from "./config.mjs";
 import isString from "lodash/isString.js";
 
@@ -41,6 +42,14 @@ export default {
       useQuery: true,
       async options({ query }) {
         return this.getPathOptions(query);
+      },
+    },
+    fileRevision: {
+      type: "string",
+      label: "Path",
+      description: "The file revision",
+      async options({ path }) {
+        return this.getFileRevisionOptions(get(path, "value", path));
       },
     },
     recursive: {
@@ -101,6 +110,23 @@ export default {
       }
 
       throw new Error(JSON.stringify(err));
+    },
+    async getFileRevisionOptions(path) {
+      try {
+        const dpx = await this.sdk();
+        const revisions = await dpx.filesListRevisions({
+          path,
+          mode: {
+            ".tag": "id",
+          },
+        });
+        return revisions.result?.entries?.map((revision) => ({
+          label: `${revision.name} - ${revision.server_modified}`,
+          value: revision.rev,
+        }));
+      } catch (err) {
+        this.normalizeError(err);
+      }
     },
     async getPathOptions(path, opts = {}) {
       const {
@@ -236,6 +262,14 @@ export default {
       try {
         const dpx = await this.sdk();
         return await dpx.filesMoveV2(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async restoreFile(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesRestore(args);
       } catch (err) {
         this.normalizeError(err);
       }
