@@ -28,8 +28,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.googleDrive.deleteFile(this.fileId);
+    await this.googleDrive.deleteFile(this.fileId);
     $.export("$summary", "Successfully deleted the file");
-    return resp;
+    return {
+      success: true,
+    };
   },
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { google } from "googleapis";
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 import isoLanguages from "./actions/language-codes.mjs";
 import mimeDb from "mime-db";
 const mimeTypes = Object.keys(mimeDb);
@@ -172,8 +172,8 @@ export default {
       optional: true,
       async options({ page = 0 }) {
         const allTypes = googleMimeTypes.concat(mimeTypes);
-        const start = (page - 1) * 10;
-        const end = start + 10;
+        const start = page * 500;
+        const end = start + 500;
         return allTypes.slice(start, end);
       },
     },
@@ -1282,6 +1282,7 @@ export default {
     /**
      * Update a shared drive
      *
+     * @param {string} driveId - the ID value of the drive
      * @param {object} [opts={}] - an object representing configuration options
      * used to update a shared drive
      * @param {boolean} [opts.useDomainAccess] - if the request should issued a
@@ -1311,13 +1312,13 @@ export default {
     /**
      * Delete a shared drive
      *
-     * @param {string} fileId - the ID value of the drive to delete
+     * @param {string} driveId - the ID value of the drive to delete
      * @returns {void}
      */
     async deleteSharedDrive(driveId) {
       const drive = this.drive();
       return (
-        await drive.files.delete({
+        await drive.drives.delete({
           driveId,
         })
       ).data;

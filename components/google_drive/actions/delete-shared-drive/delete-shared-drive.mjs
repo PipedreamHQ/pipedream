@@ -19,10 +19,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.googleDrive.deleteSharedDrive(
+    await this.googleDrive.deleteSharedDrive(
       this.googleDrive.getDriveId(this.drive),
     );
     $.export("$summary", "Successfully deleted the shared drive");
-    return resp;
+    return {
+      success: true,
+    };
   },
 };

@@ -34,7 +34,7 @@ export default {
   async run({ $ }) {
     // Convert path to array (e.g., `"folder1/subFolderA/subFolderB" ->
     // ["folder1","subFolderA","subFolderB"]`)
-    const parts = this.path.split("");
+    const parts = this.path.split("/");
 
     let part;
     let parentId;
@@ -48,6 +48,7 @@ export default {
       });
       if (!folders[0]) {
         // Folder at path is not found
+        $.export("$summary", `Couldn't find a folderId for the path, "${this.path}"`);
         return undefined;
       }
       // Set parentId of next folder in path to find

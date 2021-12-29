@@ -61,7 +61,8 @@ export default {
       themeId,
       restrictions,
     } = this;
-    const resp = await this.googleDrive.updateSharedDrive(this.driveId, {
+    const driveId = this.googleDrive.getDriveId(this.drive);
+    const resp = await this.googleDrive.updateSharedDrive(driveId, {
       useDomainAdminAccess,
       requestBody: {
         backgroundImageLink,

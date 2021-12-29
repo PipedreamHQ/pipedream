@@ -32,7 +32,7 @@ export default {
     });
     const folders = (await this.googleDrive.listFilesInPage(null, opts)).files;
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully found ${folders.length} folder${folders.length === 1 ? "" : "s"} containing the term "${this.nameSearchTerm}"`);
+    $.export("$summary", `Successfully found ${folders.length} folder${folders.length === 1 ? "" : "s"} containing the term, "${this.nameSearchTerm}"`);
     return folders;
   },
 };
