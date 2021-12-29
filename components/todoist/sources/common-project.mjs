@@ -13,6 +13,6 @@ export default {
         const meta = this.generateMeta(element);
         this.$emit(element, meta);
       }
-    }
+    },
   },
 };

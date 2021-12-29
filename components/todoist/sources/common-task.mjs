@@ -25,7 +25,7 @@ export default {
         .flat()
         .filter(this.isElementRelevant)
         .filter((element) =>
-          this.todoist.isProjectInList(element.project_id, this.selectProjects))
+          this.todoist.isProjectInList(element.project_id, this.selectProjects));
     },
     emitResults(results) {
       for (const element of results) {
@@ -33,6 +33,6 @@ export default {
         const meta = this.generateMeta(element);
         this.$emit(element, meta);
       }
-    }
+    },
   },
 };

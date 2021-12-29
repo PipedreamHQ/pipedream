@@ -19,7 +19,7 @@ export default {
       const syncResult = await this.getSyncResult();
       const results = (this.filterResults(syncResult)).slice(0, 20);
       this.emitResults(results);
-    }
+    },
   },
   methods: {
     generateMeta(element) {
@@ -38,8 +38,8 @@ export default {
     },
     filterResults(syncResult) {
       return Object.values(syncResult)
-      .filter(Array.isArray)
-      .flat();
+        .filter(Array.isArray)
+        .flat();
     },
     getSyncResult() {
       throw new Error("getSyncResult is not implemented");
@@ -52,5 +52,5 @@ export default {
     const syncResult = await this.getSyncResult();
     const results = this.filterResults(syncResult);
     this.emitResults(results);
-  }
+  },
 };

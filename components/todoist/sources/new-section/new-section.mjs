@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "todoist-new-section",
   name: "New Section",
-  description: "Emit new event for each new section added",
+  description: "Emit new event for each new section added [See the docs here](https://developer.todoist.com/sync/v8/#read-resources)",
   version: "0.0.1",
   type: "source",
   dedupe: "greatest",
@@ -19,6 +19,6 @@ export default {
         const meta = this.generateMeta(element);
         this.$emit(element, meta);
       }
-    }
-  }
+    },
+  },
 };
