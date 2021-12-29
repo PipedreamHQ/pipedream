@@ -25,4 +25,23 @@ export default {
     "id",
     "other",
   ],
+  CREATE_SHARED_LINK_AUDIENCE_OPTIONS: [
+    "public",
+    "team",
+    "no_one",
+    "password",
+    "members",
+    "other",
+  ],
+  CREATE_SHARED_LINK_ACCESS_OPTIONS: [
+    "viewer",
+    "editor",
+    "max",
+    "other",
+  ],
+  CREATE_SHARED_LINK_REQUESTED_VISIBILITY_OPTIONS: [
+    "public",
+    "team_only",
+    "password",
+  ],
 };

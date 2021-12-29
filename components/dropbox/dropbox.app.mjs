@@ -3,6 +3,7 @@ import fetch from "isomorphic-fetch";
 import get from "lodash/get.js";
 import config from "./config.mjs";
 import isString from "lodash/isString.js";
+import isEmpty from "lodash/isEmpty.js";
 
 const Dropbox = dropbox.Dropbox;
 
@@ -270,6 +271,31 @@ export default {
       try {
         const dpx = await this.sdk();
         return await dpx.filesRestore(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async createSharedLink(args) {
+      try {
+        const dpx = await this.sdk();
+        const links = await dpx.sharingListSharedLinks({
+          path: args.path,
+        });
+        if (links.result?.links.length > 0) {
+          return await dpx.sharingModifySharedLinkSettings({
+            ...args,
+            path: undefined,
+            url: links.result?.links[0].url,
+            remove_expiration: isEmpty(args.remove_expiration)
+              ? false
+              : args.remove_expiration,
+          });
+        } else {
+          return await dpx.sharingCreateSharedLinkWithSettings({
+            ...args,
+            remove_expiration: undefined,
+          });
+        }
       } catch (err) {
         this.normalizeError(err);
       }
