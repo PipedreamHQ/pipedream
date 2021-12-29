@@ -9,18 +9,6 @@ export default {
   type: "source",
   props: {
     ...base.props,
-    q: {
-      propDefinition: [
-        base.props.twitter,
-        "keywordFilter",
-      ],
-    },
-    resultType: {
-      propDefinition: [
-        base.props.twitter,
-        "resultType",
-      ],
-    },
     includeRetweets: {
       propDefinition: [
         base.props.twitter,
@@ -33,70 +21,27 @@ export default {
         "includeReplies",
       ],
     },
-    lang: {
-      propDefinition: [
-        base.props.twitter,
-        "lang",
-      ],
-    },
-    locale: {
-      propDefinition: [
-        base.props.twitter,
-        "locale",
-      ],
-    },
-    geocode: {
-      propDefinition: [
-        base.props.twitter,
-        "geocode",
-      ],
-    },
-    enrichTweets: {
-      propDefinition: [
-        base.props.twitter,
-        "enrichTweets",
-      ],
-    },
   },
   methods: {
     ...base.methods,
-    async getSearchQuery() {
-      const account = await this.twitter.verifyCredentials();
-      const from = `from:${account.screen_name}`;
-      return this.q
-        ? `${from} ${this.q}`
-        : from;
+    shouldExcludeReplies() {
+      return this.includeReplies === "exclude";
+    },
+    shouldIncludeRetweets() {
+      return this.includeRetweets !== "exclude";
+    },
+    async getScreenName() {
+      const { screen_name: screenName } = await this.twitter.verifyCredentials();
+      return screenName;
     },
     async retrieveTweets() {
-      const {
-        lang,
-        locale,
-        geocode,
-        resultType,
-        enrichTweets,
-        includeReplies,
-        includeRetweets,
-        maxRequests,
-        count,
-      } = this;
-      const sinceId = this.getSinceId();
-      const limitFirstPage = !sinceId;
-      const q = await this.getSearchQuery();
-
-      // run paginated search
-      return this.twitter.paginatedSearch({
-        q,
-        sinceId,
-        lang,
-        locale,
-        geocode,
-        resultType,
-        enrichTweets,
-        includeReplies,
-        includeRetweets,
-        maxRequests,
-        count,
-        limitFirstPage,
+      const screenName = await this.getScreenName();
+      return this.twitter.getUserTimeline({
+        screenName,
+        count: this.count,
+        sinceId: this.getSinceId(),
+        exclude_replies: this.shouldExcludeReplies(),
+        include_rts: this.shouldIncludeRetweets(),
       });
     },
   },
