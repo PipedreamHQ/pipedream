@@ -13,7 +13,7 @@ You can install the Pipedream HubSpot app in the [Accounts](https://pipedream.co
 3. Search for "HubSpot" among the list of apps, and select it.
 4. You will be prompted to sign in to HubSpot and select the account you'd like to connect.
 5. Finally, HubSpot will ask to give Pipedream access to your account. Click "Connect app" to proceed.
-6. That's it! You can now use this HubSpot account in any [actions](#workflow-actions), or [link it to any code step](/connected-accounts/#connecting-accounts).
+6. That's it! You can now use this HubSpot account to trigger a workflow, or [link it to any code step](/connected-accounts/#connecting-accounts).
 
 ### Within a workflow
 
