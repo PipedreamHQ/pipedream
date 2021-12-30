@@ -197,7 +197,6 @@ export default {
         // eslint-disable-next-line multiline-ternary
         return data.sort((a, b) => a.label < b.label ? 1 : -1);
       } catch (err) {
-        console.log(err);
         this.normalizeError(err);
       }
     },
@@ -318,7 +317,14 @@ export default {
         const dpx = await this.sdk();
         return await dpx.filesUpload(args);
       } catch (err) {
-        console.log(err);
+        this.normalizeError(err);
+      }
+    },
+    async downloadFile(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesDownload(args);
+      } catch (err) {
         this.normalizeError(err);
       }
     },
