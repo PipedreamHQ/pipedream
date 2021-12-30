@@ -1,25 +1,35 @@
-const dropbox = require("../../dropbox.app.js");
+import dropbox from "../../dropbox.app.mjs";
 
-module.exports = {
+export default {
   key: "dropbox-new-or-modified-file-or-folder",
   name: "New or Modified File or Folder",
-  version: "0.0.4",
-  description:
-    "Emits an event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
+  version: "0.0.5",
+  description: "Emits an event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     dropbox,
-    path: { propDefinition: [dropbox, "path"] },
-    recursive: { propDefinition: [dropbox, "recursive"] },
+    path: {
+      propDefinition: [
+        dropbox,
+        "pathFolder",
+        () => ({
+          returnSimpleString: true,
+        }),
+      ],
+    },
+    recursive: {
+      propDefinition: [
+        dropbox,
+        "recursive",
+      ],
+    },
     includeMediaInfo: {
       type: "boolean",
-      description:
-        "Emit media info for photo and video files (incurs an additional API call)",
+      description: "Emit media info for photo and video files (incurs an additional API call)",
       default: false,
     },
     includeLink: {
       type: "boolean",
-      description:
-        "Emit temporary download link for files (incurs an additional API call)",
+      description: "Emit temporary download link for files (incurs an additional API call)",
       default: false,
     },
     dropboxApphook: {
@@ -34,9 +44,18 @@ module.exports = {
       await this.dropbox.initState(this);
     },
   },
-  async run(event) {
+  methods: {
+    getMeta(id, summary) {
+      return {
+        id,
+        summary,
+        tz: Date.now(),
+      };
+    },
+  },
+  async run() {
     const updates = await this.dropbox.getUpdates(this);
-    for (update of updates) {
+    for (let update of updates) {
       if (update[".tag"] == "file") {
         if (this.includeMediaInfo) {
           const dpx = await this.dropbox.sdk();
@@ -56,11 +75,11 @@ module.exports = {
           if (response.result) {
             response = response.result;
           }
-          const { link, metadata } = response;
+          const { link } = response;
           update.link = link;
         }
       }
-      this.$emit(update);
+      this.$emit(update, this.getMeta(update.id, update.path_display || update.id));
     }
   },
 };
