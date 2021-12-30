@@ -1,16 +1,14 @@
 import dropbox from "../../dropbox.app.mjs";
-import isNil from "lodash/isNil.js";
-import get from "lodash/get.js";
-import isEmpty from "lodash/isEmpty.js";
 import consts from "../../consts.mjs";
 import fs from "fs";
 import got from "got";
+import common from "../../common.mjs";
 
 export default {
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-a-file",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     dropbox,
@@ -70,6 +68,9 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    ...common.methods,
+  },
   async run({ $ }) {
     const {
       fileUrl,
@@ -87,17 +88,7 @@ export default {
       ? await got.stream(fileUrl)
       : fs.createReadStream(filePath);
 
-    let normalizedPath = get(path, "value", path);
-
-    // Check for empties path
-    if (isNil(normalizedPath) || isEmpty(normalizedPath)) {
-      normalizedPath = "/";
-    }
-
-    // Check if last char is not /
-    if (normalizedPath[normalizedPath.length - 1] !== "/") {
-      normalizedPath += "/";
-    }
+    let normalizedPath = this.getNormalizedPath(path, true);
 
     const res = await this.dropbox.uploadFile({
       contents,

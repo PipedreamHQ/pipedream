@@ -1,13 +1,11 @@
 import dropbox from "../../dropbox.app.mjs";
-import get from "lodash/get.js";
-import isNil from "lodash/isNil.js";
-import isEmpty from "lodash/isEmpty.js";
+import common from "../../common.mjs";
 
 export default {
   name: "Create or Append to a Text File",
   description: "Adds a new line to an existing text file, or creates a file if it doesn't exist. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-or-append-to-a-text-file",
-  version: "0.0.14",
+  version: "0.0.1",
   type: "action",
   props: {
     dropbox,
@@ -31,18 +29,7 @@ export default {
     },
   },
   methods: {
-    getNormalizedPath(path, name) {
-      // Normalize path
-      let normalizedPath = get(path, "value", path);
-
-      if (isNil(normalizedPath) || isEmpty(normalizedPath)) {
-        normalizedPath = "/";
-      } else if (normalizedPath[normalizedPath.length - 1] !== "/") {
-        normalizedPath += "/";
-      }
-      normalizedPath += name;
-      return normalizedPath;
-    },
+    ...common.methods,
     async getFileInfo(path, content) {
       let file;
       try {
@@ -80,7 +67,7 @@ export default {
       path,
     } = this;
 
-    const normalizedPath = this.getNormalizedPath(path, name);
+    const normalizedPath = this.getNormalizedPath(path, true);
     const {
       fileExists,
       content: normalizedContent,
@@ -89,7 +76,7 @@ export default {
     const res = await this.dropbox.uploadFile(this.getArgs(
       fileExists,
       normalizedContent,
-      normalizedPath,
+      normalizedPath + name,
     ));
 
     // eslint-disable-next-line multiline-ternary
