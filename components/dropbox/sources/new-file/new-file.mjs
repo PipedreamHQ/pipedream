@@ -4,14 +4,16 @@ export default {
   key: "dropbox-new-file",
   name: "New File",
   version: "0.0.5",
-  description:
-    "Emits an event when a new file is added to your account or a specific folder. Make sure the number of files/folders in the watched folder does not exceed 4000.",
+  description: "Emits an event when a new file is added to your account or a specific folder. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     dropbox,
     path: {
       propDefinition: [
         dropbox,
         "pathFolder",
+        () => ({
+          returnSimpleString: true,
+        }),
       ],
     },
     recursive: {
@@ -44,6 +46,15 @@ export default {
       const startTime = new Date();
       await this.dropbox.initState(this);
       this.db.set("last_file_mod_time", startTime);
+    },
+  },
+  methods: {
+    getMeta(id, summary) {
+      return {
+        id,
+        summary,
+        tz: Date.now(),
+      };
     },
   },
   async run() {
@@ -98,7 +109,7 @@ export default {
           console.log(err);
           throw `Error looking up revisions for file: ${update.name}`;
         }
-        this.$emit(update);
+        this.$emit(update, this.getMeta(update.id, update.path_display));
       }
     }
     if (currFileModTime != "") {

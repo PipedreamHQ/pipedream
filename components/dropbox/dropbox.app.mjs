@@ -11,15 +11,20 @@ export default {
   type: "app",
   app: "dropbox",
   propDefinitions: {
+    dropbox,
     pathFolder: {
       type: "string",
       label: "Path",
       description: "The folder path. (Please use a valid path to filter the values)",
       optional: false,
       useQuery: true,
-      async options({ query }) {
+      async options({
+        query,
+        returnSimpleString,
+      }) {
         return this.getPathOptions(query, {
           omitFiles: true,
+          returnSimpleString,
         });
       },
     },
@@ -29,9 +34,13 @@ export default {
       description: "The file path. (Please use a valid path to filter the values)",
       optional: false,
       useQuery: true,
-      async options({ query }) {
+      async options({
+        query,
+        returnSimpleString,
+      }) {
         return this.getPathOptions(query, {
           omitFolders: true,
+          returnSimpleString,
         });
       },
     },
@@ -41,8 +50,13 @@ export default {
       description: "The file or folder path. (Please use a valid path to filter the values)",
       optional: false,
       useQuery: true,
-      async options({ query }) {
-        return this.getPathOptions(query);
+      async options({
+        query,
+        returnSimpleString,
+      }) {
+        return this.getPathOptions(query, {
+          returnSimpleString,
+        });
       },
     },
     fileRevision: {
@@ -134,6 +148,7 @@ export default {
         const {
           omitFolders,
           omitFiles,
+          returnSimpleString,
         } = opts;
 
         const LIMIT = 100;
@@ -194,6 +209,13 @@ export default {
           data = data.filter((item) => item.value.type !== "folder");
         }
 
+        if (returnSimpleString) {
+          data = data.map((item) => ({
+            label: item.label,
+            value: item.value.value,
+          }));
+        }
+
         // eslint-disable-next-line multiline-ternary
         return data.sort((a, b) => a.label < b.label ? 1 : -1);
       } catch (err) {
@@ -246,6 +268,45 @@ export default {
         state = await this.initState(context);
       }
       return state;
+    },
+    async getUpdates(context) {
+      let ret = [];
+      const state = await this.getState(context);
+      if (state) {
+        try {
+          const { db } = context;
+          let [
+            cursor,
+            hasMore,
+            entries,
+          ] = [
+            state.cursor,
+            true,
+            null,
+          ];
+          while (hasMore) {
+            const dpx = await this.sdk();
+            let response = await dpx.filesListFolderContinue({
+              cursor,
+            });
+            if (response.result) {
+              response = response.result;
+            }
+            ({
+              entries,
+              cursor,
+              has_more: hasMore,
+            } = response);
+            ret = ret.concat(entries);
+          }
+          state.cursor = cursor;
+          db.set("dropbox_state", state);
+        } catch (err) {
+          console.log(err);
+          throw `Error connecting to Dropbox API to get list of updated files/folders for cursor: ${state.cursor}`;
+        }
+      }
+      return ret;
     },
     async createFolder(args) {
       try {
