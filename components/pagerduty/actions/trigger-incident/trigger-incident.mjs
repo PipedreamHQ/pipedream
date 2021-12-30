@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 const {
   reduceProperties,
   emptyStrToUndefined,
-  commaSeparatedList,
+  commaSeparatedListToArray,
 } = utils;
 
 export default {
@@ -13,7 +13,7 @@ export default {
   name: "Trigger Incident",
   description: "Trigger an incident. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE0MA-create-an-incident)",
   type: "action",
-  version: "0.0.13",
+  version: "0.0.19",
   props: {
     pagerduty,
     title: {
@@ -61,7 +61,7 @@ export default {
     assigneeIds: {
       type: "string[]",
       label: "Assignee IDs",
-      description: "The IDs of the users to assign to the incident. Use a comma-separated list when structured mode is `off` specifying the ids as values.",
+      description: "The IDs of the users to assign to the incident. Use a comma-separated list when structured mode is `off` specifying the ids as values. (e.g. `P97DSQO,PWLDHXC,P1M4QLY`)",
       propDefinition: [
         pagerduty,
         "userId",
@@ -93,7 +93,7 @@ export default {
     const bodyDetails = emptyStrToUndefined(this.bodyDetails);
     const urgency = emptyStrToUndefined(this.urgency);
     const incidenKey = emptyStrToUndefined(this.incidenKey);
-    const assigneeIds = commaSeparatedList(this.assigneeIds);
+    const assigneeIds = commaSeparatedListToArray(this.assigneeIds);
 
     const initialProps = {
       type: constants.INCIDENT_TYPE,
@@ -158,7 +158,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Incident ${incident.summary} has been created`);
+    $.export("$summary", `Incident ${incident.summary} has been triggered`);
 
     return incident;
   },

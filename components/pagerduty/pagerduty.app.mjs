@@ -20,7 +20,7 @@ export default {
     incidenKey: {
       type: "string",
       label: "Incident Key",
-      description: "A string which identifies the incident. Sending subsequent requests referencing the same service and with the same *Incident Key* will result in those requests being rejected if an open incident matches that *Incident Key*.",
+      description: "A string which identifies the incident. Sending subsequent requests referencing the same service and with the same **Incident Key** will result in those requests being rejected if an open incident matches that **Incident Key**.",
       optional: true,
     },
     incidentBodyDetails: {
@@ -246,6 +246,55 @@ export default {
         };
       },
     },
+    oncallScheduleId: {
+      type: "string",
+      label: "On-Call Schedule ID",
+      description: "Filters the results, showing only on-calls for the specified schedule ID. If `null` is provided, it includes permanent on-calls due to direct user escalation targets.",
+      async options({ prevContext }) {
+        const {
+          offset: prevOffset,
+          more: prevMore,
+        } = prevContext;
+
+        if (prevMore === false) {
+          return [];
+        }
+
+        const {
+          schedules,
+          offset,
+          more,
+        } =
+          await this.listSchedules({
+            params: {
+              offset: prevOffset,
+            },
+          });
+
+        const options = schedules.map((schedule) => ({
+          label: schedule.name,
+          value: schedule.id,
+        }));
+
+        return {
+          options,
+          context: {
+            offset,
+            more,
+          },
+        };
+      },
+    },
+    oncallSince: {
+      type: "string",
+      label: "Oncall Since",
+      description: "The start of the time range over which you want to search. If an on-call period overlaps with the range, it will be included in the result. Defaults to current time. The search range cannot exceed 3 months.",
+    },
+    oncallUntil: {
+      type: "string",
+      label: "Oncall Until",
+      description: "The end of the time range over which you want to search. If an on-call period overlaps with the range, it will be included in the result. Defaults to current time. The search range cannot exceed 3 months, and the **Until** time cannot be before the **Since** time.",
+    },
   },
   methods: {
     async makeRequest(customConfig) {
@@ -373,6 +422,24 @@ export default {
       return this.makeRequest({
         $,
         path: "/users",
+        params,
+      });
+    },
+    async listSchedules({
+      $, params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: "/schedules",
+        params,
+      });
+    },
+    async listUsersOncall({
+      $, scheduleId, params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/schedules/${scheduleId}/users`,
         params,
       });
     },
