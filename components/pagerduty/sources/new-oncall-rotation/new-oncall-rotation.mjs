@@ -13,9 +13,12 @@ export default {
     pagerduty,
     db: "$.service.db",
     escalationPoliciesIds: {
+      type: "string[]",
+      label: "Escalation Policies",
+      description: "To filter your on-call rotations to specific escalation policies, select them here. **To listen for rotations across all escalation policies, leave this blank**.",
       propDefinition: [
         pagerduty,
-        "escalationPoliciesIds",
+        "escalationPolicyId",
       ],
     },
     timer: {
