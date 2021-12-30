@@ -1,15 +1,25 @@
-const dropbox = require("../../dropbox.app.js");
+import dropbox from "../../dropbox.app.mjs";
 
-module.exports = {
+export default {
   key: "dropbox-new-file",
   name: "New File",
-  version: "0.0.4",
+  version: "0.0.5",
   description:
     "Emits an event when a new file is added to your account or a specific folder. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     dropbox,
-    path: { propDefinition: [dropbox, "path"] },
-    recursive: { propDefinition: [dropbox, "recursive"] },
+    path: {
+      propDefinition: [
+        dropbox,
+        "pathFolder",
+      ],
+    },
+    recursive: {
+      propDefinition: [
+        dropbox,
+        "recursive",
+      ],
+    },
     includeMediaInfo: {
       type: "boolean",
       description:
@@ -36,11 +46,11 @@ module.exports = {
       this.db.set("last_file_mod_time", startTime);
     },
   },
-  async run(event) {
+  async run() {
     const lastFileModTime = this.db.get("last_file_mod_time");
     let currFileModTime = "";
     const updates = await this.dropbox.getUpdates(this);
-    for (update of updates) {
+    for (let update of updates) {
       if (update[".tag"] == "file") {
         if (update.server_modified > currFileModTime) {
           currFileModTime = update.server_modified;
@@ -49,7 +59,9 @@ module.exports = {
           const dpx = await this.dropbox.sdk();
           let revisions = await dpx.filesListRevisions({
             path: update.id,
-            mode: { ".tag": "id" },
+            mode: {
+              ".tag": "id",
+            },
             limit: 10,
           });
           if (revisions.result) {
@@ -79,7 +91,7 @@ module.exports = {
             if (response.result) {
               response = response.result;
             }
-            const { link, metadata } = response;
+            const { link } = response;
             update.link = link;
           }
         } catch (err) {

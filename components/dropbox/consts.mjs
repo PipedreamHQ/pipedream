@@ -44,4 +44,9 @@ export default {
     "team_only",
     "password",
   ],
+  UPLOAD_FILE_MODE_OPTIONS: [
+    "add",
+    "overwrite",
+    "update",
+  ],
 };

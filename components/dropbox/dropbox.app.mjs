@@ -130,71 +130,76 @@ export default {
       }
     },
     async getPathOptions(path, opts = {}) {
-      const {
-        omitFolders,
-        omitFiles,
-      } = opts;
+      try {
+        const {
+          omitFolders,
+          omitFiles,
+        } = opts;
 
-      const LIMIT = 100;
+        const LIMIT = 100;
 
-      let data = [];
-      let cursor = null;
-      path = path === "/" || path === null
-        ? ""
-        : path;
-      const dpx = await this.sdk();
+        let data = [];
+        let cursor = null;
+        path = path === "/" || path === null
+          ? ""
+          : path;
+        const dpx = await this.sdk();
 
-      let res = await dpx.filesListFolder({
-        path,
-        limit: LIMIT,
-        recursive: true,
-      });
+        let res = await dpx.filesListFolder({
+          path,
+          limit: LIMIT,
+          recursive: true,
+        });
 
-      if (!res.result.has_more) {
-        data = res.result.entries.map((folder) => ({
-          label: folder.path_display,
-          value: {
-            value: folder.path_lower,
-            type: folder[".tag"],
-          },
-        }));
-      } else {
-        data = res.result.entries.map((folder) => ({
-          label: folder.path_display,
-          value: {
-            value: folder.path_lower,
-            type: folder[".tag"],
-          },
-        }));
-        cursor = res.result.cursor;
-        do {
-          const res = await dpx.filesListFolderContinue({
-            cursor,
-          });
-          data = data.concat(res.result?.entries.map((folder) => ({
+        if (!res.result.has_more) {
+          data = res.result.entries.map((folder) => ({
             label: folder.path_display,
             value: {
               value: folder.path_lower,
               type: folder[".tag"],
             },
-          })));
+          }));
+        } else {
+          data = res.result.entries.map((folder) => ({
+            label: folder.path_display,
+            value: {
+              value: folder.path_lower,
+              type: folder[".tag"],
+            },
+          }));
           cursor = res.result.cursor;
-          if (!res.result.has_more) {
-            break;
-          }
-        } while (true);
-      }
+          do {
+            const res = await dpx.filesListFolderContinue({
+              cursor,
+            });
+            data = data.concat(res.result?.entries.map((folder) => ({
+              label: folder.path_display,
+              value: {
+                value: folder.path_lower,
+                type: folder[".tag"],
+              },
+            })));
+            cursor = res.result.cursor;
+            if (!res.result.has_more) {
+              break;
+            }
+          } while (true);
+        }
 
-      if (omitFiles) {
-        data = data.filter((item) => item.value.type !== "file");
-      }
+        if (omitFiles) {
+          data = data.filter((item) => item.value.type !== "file");
+        }
 
-      if (omitFolders) {
-        data = data.filter((item) => item.value.type !== "folder");
-      }
+        if (omitFolders) {
+          data = data.filter((item) => item.value.type !== "folder");
+        }
 
-      // eslint-disable-next-line multiline-ternary
-      return data.sort((a, b) => a.label < b.label ? 1 : -1);
+        // eslint-disable-next-line multiline-ternary
+        return data.sort((a, b) => a.label < b.label ? 1 : -1);
+      } catch (err) {
+        console.log(err);
+        this.normalizeError(err);
+      }
     },
     async initState(context) {
       const {
@@ -305,6 +310,15 @@ export default {
         const dpx = await this.sdk();
         return await dpx.filesDeleteV2(args);
       } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async uploadFile(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesUpload(args);
+      } catch (err) {
+        console.log(err);
         this.normalizeError(err);
       }
     },
