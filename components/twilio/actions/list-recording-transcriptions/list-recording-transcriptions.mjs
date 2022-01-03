@@ -31,7 +31,7 @@ export default {
     );
     $.export("$summary", `Successfully fetched ${resp.length} recording transcription${resp.length === 1
       ? ""
-      : "s"} for the recording, "${this.recordingId}"`);
+      : "s"} for the recording, "${this.recordingID}"`);
     return resp;
   },
 };

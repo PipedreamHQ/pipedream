@@ -26,7 +26,7 @@ export default {
     const resp = await this.twilio.listMessageMedia(this.messageId, omitEmptyStringValues({
       limit: this.limit,
     }));
-    $.export("$summary", `Successfully fetched ${resp.length} media objects${resp.length === 1
+    $.export("$summary", `Successfully fetched ${resp.length} media object${resp.length === 1
       ? ""
       : "s"} associated with the message, "${this.messageId}"`);
     return resp;
