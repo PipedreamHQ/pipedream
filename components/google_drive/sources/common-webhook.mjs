@@ -1,10 +1,10 @@
-const includes = require("lodash/includes");
-const { v4: uuid } = require("uuid");
+import includes from "lodash/includes.js";
+import { v4 as uuid } from "uuid";
 
-const googleDrive = require("../google_drive.app.js");
-const { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } = require("../constants.js");
+import googleDrive from "../google_drive.app.mjs";
+import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../constants.mjs";
 
-module.exports = {
+export default {
   props: {
     googleDrive,
     db: "$.service.db",
@@ -14,6 +14,7 @@ module.exports = {
         googleDrive,
         "watchedDrive",
       ],
+      description: "The drive you want to watch for changes",
     },
     watchForPropertiesChanges: {
       propDefinition: [

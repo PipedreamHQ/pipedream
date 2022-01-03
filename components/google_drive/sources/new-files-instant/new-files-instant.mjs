@@ -1,16 +1,16 @@
-const common = require("../common-webhook.js");
-const {
+import common from "../common-webhook.mjs";
+import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
-} = require("../../constants");
+} from "../../constants.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description:
     "Emits a new event any time a new file is added in your linked Google Drive",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   props: {

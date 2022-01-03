@@ -1,10 +1,10 @@
-const googleDrive = require("../../google_drive.app.js");
+import googleDrive from "../../google_drive.app.mjs";
 
-module.exports = {
+export default {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

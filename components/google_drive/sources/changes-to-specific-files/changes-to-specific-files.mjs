@@ -7,20 +7,20 @@
 // 1) The HTTP requests tied to changes in the user's Google Drive
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
-const cronParser = require("cron-parser");
-const includes = require("lodash/includes");
-const { v4: uuid } = require("uuid");
+import cronParser from "cron-parser";
+import includes from "lodash/includes.js";
+import { v4 as uuid } from "uuid";
 
-const googleDrive = require("../../google_drive.app.js");
-const common = require("../common-webhook.js");
+import googleDrive from "../../google_drive.app.mjs";
+import common from "../common-webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "google_drive-changes-to-specific-files",
   name: "Changes to Specific Files",
   description:
     "Watches for changes to specific files, emitting an event any time a change is made to one of those files",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests

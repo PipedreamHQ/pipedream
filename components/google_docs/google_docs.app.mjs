@@ -1,7 +1,7 @@
-const { google } = require("googleapis");
-const googleDrive = require("../google_drive/google_drive.app");
+import { google } from "googleapis";
+import googleDrive from "../google_drive/google_drive.app.mjs";
 
-module.exports = {
+export default {
   type: "app",
   app: "google_docs",
   propDefinitions: {

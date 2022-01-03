@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   "application/vnd.google-apps.audio",
   "application/vnd.google-apps.document",
   "application/vnd.google-apps.drive-sdk",

@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     label: "Undetected",
     value: "und",

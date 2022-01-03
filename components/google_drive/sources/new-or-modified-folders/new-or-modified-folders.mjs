@@ -8,20 +8,20 @@
 // 1) The HTTP requests tied to changes in the user's Google Drive
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
-const common = require("../common-webhook.js");
-const {
+import common from "../common-webhook.mjs";
+import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
-} = require("../../constants");
+} from "../../constants.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "google_drive-new-or-modified-folders",
   name: "New or Modified Folders",
   description:
     "Emits a new event any time any folder in your linked Google Drive is added, modified, or deleted",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests

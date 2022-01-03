@@ -1,10 +1,10 @@
-const googleDocs = require("../../google_docs.app");
+import googleDocs from "../../google_docs.app.mjs";
 
-module.exports = {
+export default {
   key: "google_docs-get-document",
   name: "Get Document",
   description: "Get the contents of the latest version of a document.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     googleDocs,

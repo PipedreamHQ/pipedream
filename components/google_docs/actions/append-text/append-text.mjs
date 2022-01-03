@@ -1,10 +1,10 @@
-const googleDocs = require("../../google_docs.app");
+import googleDocs from "../../google_docs.app.mjs";
 
-module.exports = {
+export default {
   key: "google_docs-append-text",
   name: "Append Text",
   description: "Append text to an existing document",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
   props: {
     googleDocs,
@@ -16,6 +16,7 @@ module.exports = {
     },
     text: {
       type: "string",
+      label: "Text",
       description: "Enter static text (e.g., `hello world`) or a reference to a string exported by a previous step (e.g., `{{steps.foo.$return_value}}`).",
 
     },
