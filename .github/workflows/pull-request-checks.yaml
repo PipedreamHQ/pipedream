@@ -15,7 +15,7 @@ jobs:
     name: Spellcheck
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2.4.0
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
     - id: md_changed_files
@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
