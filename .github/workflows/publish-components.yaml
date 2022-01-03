@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
       - name: Install pd cli
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
