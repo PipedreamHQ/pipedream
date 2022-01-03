@@ -95,8 +95,9 @@ export default {
       autorename,
       path: normalizedPath + name,
       mode: mode
-        // eslint-disable-next-line object-curly-newline
-        ? { ".tag": mode }
+        ? {
+          ".tag": mode,
+        }
         : undefined,
       client_modified: clientModified,
       mute,

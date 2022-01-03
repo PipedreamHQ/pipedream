@@ -6,7 +6,7 @@ import consts from "../../consts.mjs";
 export default {
   name: "Search files and folders",
   description: "Searches for files and folders by name. [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
-  key: "dropbox-search-files-and-folders",
+  key: "dropbox-search-files-folders",
   version: "0.0.1",
   type: "action",
   props: {
@@ -93,18 +93,21 @@ export default {
       options: {
         path: get(path, "value", path) || "",
         order_by: orderBy
-          // eslint-disable-next-line object-curly-newline
-          ? { ".tag": orderBy }
+          ? {
+            ".tag": orderBy,
+          }
           : undefined,
         file_status: fileStatus
-          // eslint-disable-next-line object-curly-newline
-          ? { ".tag": fileStatus }
+          ? {
+            ".tag": fileStatus,
+          }
           : undefined,
         filename_only: filenameOnly,
         file_extensions: fileExtensions,
         file_categories: fileCategories
-          // eslint-disable-next-line object-curly-newline
-          ? fileCategories.map((category) => ({ ".tag": category }))
+          ? fileCategories.map((category) => ({
+            ".tag": category,
+          }))
           : undefined,
       },
     }, limit);

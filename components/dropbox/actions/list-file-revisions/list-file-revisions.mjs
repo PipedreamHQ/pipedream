@@ -42,8 +42,9 @@ export default {
     const res = await this.dropbox.listFileRevisions({
       path: get(path, "value", path),
       mode: mode
-        // eslint-disable-next-line object-curly-newline
-        ? { ".tag": mode }
+        ? {
+          ".tag": mode,
+        }
         : undefined,
       limit,
     });

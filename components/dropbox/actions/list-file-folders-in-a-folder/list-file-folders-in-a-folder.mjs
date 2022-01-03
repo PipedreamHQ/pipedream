@@ -6,7 +6,7 @@ import consts from "../../consts.mjs";
 export default {
   name: "List All Files/Subfolders in a Folder",
   description: "Searches for files and folders by name [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
-  key: "dropbox-list-all-files-subfolders-in-a-folder",
+  key: "dropbox-list-file-folders-in-a-folder",
   version: "0.0.1",
   type: "action",
   props: {

@@ -11,12 +11,10 @@ export default {
   type: "app",
   app: "dropbox",
   propDefinitions: {
-    dropbox,
     pathFolder: {
       type: "string",
       label: "Path",
       description: "The folder path. (Please use a valid path to filter the values)",
-      optional: false,
       useQuery: true,
       async options({
         query,
@@ -32,7 +30,6 @@ export default {
       type: "string",
       label: "Path",
       description: "The file path. (Please use a valid path to filter the values)",
-      optional: false,
       useQuery: true,
       async options({
         query,
@@ -48,7 +45,6 @@ export default {
       type: "string",
       label: "Path",
       description: "The file or folder path. (Please use a valid path to filter the values)",
-      optional: false,
       useQuery: true,
       async options({
         query,
@@ -71,7 +67,6 @@ export default {
       type: "boolean",
       label: "Recursive",
       description: "Also watch sub-directories and their contents.",
-      optional: false,
       default: false,
     },
     query: {
@@ -216,8 +211,9 @@ export default {
           }));
         }
 
-        // eslint-disable-next-line multiline-ternary
-        return data.sort((a, b) => a.label < b.label ? 1 : -1);
+        return data.sort((a, b) => a.label < b.label
+          ? 1 :
+          -1);
       } catch (err) {
         this.normalizeError(err);
       }

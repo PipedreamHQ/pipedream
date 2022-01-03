@@ -5,7 +5,7 @@ export default {
   name: "Create or Append to a Text File",
   description: "Adds a new line to an existing text file, or creates a file if it doesn't exist. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-or-append-to-a-text-file",
-  version: "0.0.1",
+  version: "0.1.2",
   type: "action",
   props: {
     dropbox,
@@ -43,7 +43,7 @@ export default {
       return {
         fileExists: !!(file?.result?.fileBinary),
         content: file?.result?.fileBinary
-          ? file.result.fileBinary.toString() + content
+          ? `${file.result.fileBinary.toString()}\n${content}`
           : content,
       };
     },
@@ -67,7 +67,7 @@ export default {
       path,
     } = this;
 
-    const normalizedPath = this.getNormalizedPath(path, true);
+    const normalizedPath = this.getNormalizedPath(path, true) + name;
     const {
       fileExists,
       content: normalizedContent,
@@ -76,11 +76,12 @@ export default {
     const res = await this.dropbox.uploadFile(this.getArgs(
       fileExists,
       normalizedContent,
-      normalizedPath + name,
+      normalizedPath,
     ));
 
-    // eslint-disable-next-line multiline-ternary
-    $.export("$summary", fileExists ? "Text successfully appended to the file" : "Text file successfully created");
+    $.export("$summary", fileExists
+      ? "Text successfully appended to the file"
+      : "Text file successfully created");
     return res;
   },
 };

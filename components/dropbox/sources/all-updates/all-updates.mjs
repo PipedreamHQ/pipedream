@@ -1,7 +1,7 @@
 import dropbox from "../../dropbox.app.mjs";
 
 export default {
-  key: "dropbox-new-or-modified-file-or-folder",
+  key: "dropbox-all-updates",
   name: "New or Modified File or Folder",
   version: "0.0.5",
   description: "Emits an event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
