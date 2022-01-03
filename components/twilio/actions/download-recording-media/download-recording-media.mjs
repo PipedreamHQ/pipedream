@@ -27,7 +27,7 @@ export default {
     filePath: {
       type: "string",
       label: "File Path",
-      description: "The path in `/tmp` which to download the file (e.g., `/tmp/myFile.mp3`)",
+      description: "The destination path in [`/tmp`](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory) for the downloaded the file (e.g., `/tmp/myFile.mp3`)",
     },
   },
   async run({ $ }) {

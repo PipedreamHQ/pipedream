@@ -15,7 +15,7 @@ export default {
         twilio,
         "from",
       ],
-      description: "Read messages sent from only this phone number or alphanumeric sender ID. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
+      description: "Read messages sent from only this phone number or alphanumeric sender ID. Format the phone number in E.164 format with a `+` and country code (e.g., `+16175551212`).",
       optional: true,
     },
     to: {
@@ -23,7 +23,7 @@ export default {
         twilio,
         "to",
       ],
-      description: "Read messages sent to only this phone number. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
+      description: "Read messages sent to only this phone number. Format the phone number in E.164 format with a `+` and country code (e.g., `+16175551212`).",
       optional: true,
     },
     limit: {

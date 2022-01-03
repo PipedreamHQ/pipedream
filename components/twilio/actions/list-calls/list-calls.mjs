@@ -14,7 +14,7 @@ export default {
         twilio,
         "from",
       ],
-      description: "Only include calls from this phone number, SIP address, Client identifier or SIM SID. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
+      description: "Only include calls from this phone number, SIP address, Client identifier or SIM SID. Format the phone number in E.164 format with a `+` and country code (e.g., `+16175551212`).",
       optional: true,
     },
     to: {
@@ -22,7 +22,7 @@ export default {
         twilio,
         "to",
       ],
-      description: "Only show calls made to this phone number, SIP address, Client identifier or SIM SID. Format the phone number in E.164 format with a + and country code (e.g., +16175551212).",
+      description: "Only show calls made to this phone number, SIP address, Client identifier or SIM SID. Format the phone number in E.164 format with a `+` and country code (e.g., `+16175551212`).",
       optional: true,
     },
     parentCallSid: {
