@@ -1,13 +1,13 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   key: "youtube_data_api-new-videos-by-search",
   name: "New Videos by Search",
   description:
     "Emit new event for each new YouTube video matching a search query.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -18,7 +18,7 @@ module.exports = {
     },
     maxResults: {
       propDefinition: [
-        common.props.youtube,
+        common.props.youtubeDataApi,
         "maxResults",
       ],
     },

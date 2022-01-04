@@ -1,12 +1,12 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   key: "youtube_data_api-new-videos-in-playlist",
   name: "New Videos in Playlist",
   description: "Emit new event for each new Youtube video added to a Playlist.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   hooks: {
     ...common.hooks,
@@ -21,7 +21,7 @@ module.exports = {
     },
     maxResults: {
       propDefinition: [
-        common.props.youtube,
+        common.props.youtubeDataApi,
         "maxResults",
       ],
     },
@@ -58,7 +58,7 @@ module.exports = {
       let lastPublished;
 
       while (count < totalResults && countEmitted < params.maxResults) {
-        const results = (await this.youtube.getPlaylistItems(params)).data;
+        const results = (await this.youtubeDataApi.getPlaylistItems(params)).data;
         totalResults = results.pageInfo.totalResults;
         for (const video of results.items) {
           if (this.isRelevant(video, publishedAfter)) {

@@ -1,12 +1,12 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   key: "youtube_data_api-new-videos-by-username",
   name: "New Videos by Username",
   description: "Emit new event for each new Youtube video tied to a username.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -44,7 +44,10 @@ module.exports = {
         part: "id",
         forUsername: this.username,
       };
-      const channels = (await this.youtube.getChannels(channelParams)).data;
+      const channels = (await this.youtubeDataApi.getChannels(channelParams)).data;
+      if (!channels.items) {
+        throw new Error(`A channel for username "${this.username}" is not found`);
+      }
       const channelIds = channels.items.map((channel) => {
         return channel.id;
       });

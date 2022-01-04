@@ -1,11 +1,12 @@
-const youtube = require("../youtube.app.js");
+import youtubeDataApi from "../youtube_data_api.app.mjs";
 
-module.exports = {
+export default {
   props: {
-    youtube,
+    youtubeDataApi,
     db: "$.service.db",
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     timer: {
+      label: "Polling interval",
+      description: "Pipedream will poll the YouTube API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // every 15 minutes
@@ -79,7 +80,7 @@ module.exports = {
         count < totalResults &&
         (!params.maxResults || count < params.maxResults)
       ) {
-        const results = (await this.youtube.getVideos(params)).data;
+        const results = (await this.youtubeDataApi.getVideos(params)).data;
         totalResults = results.pageInfo.totalResults;
         for (const video of results.items) {
           if (!lastPublished) lastPublished = video.snippet.publishedAt;
