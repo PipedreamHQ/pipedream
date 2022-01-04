@@ -1,12 +1,12 @@
 // eslint-disable-next-line camelcase
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
-module.exports = {
+export default {
   type: "source",
   key: "telegram_bot_api-message-updates",
   name: "Message Updates (Instant)",
   description: "Emit new event each time a Telegram message is created or updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     db: "$.service.db",
@@ -15,21 +15,21 @@ module.exports = {
       type: "$.interface.http",
       customResponse: true,
     },
-    telegram_bot_api,
+    telegramBotApi,
   },
   hooks: {
     async activate() {
-      await this.telegram_bot_api.createHook(this.http.endpoint, [
+      await this.telegramBotApi.createHook(this.http.endpoint, [
         "message",
         "edited_message",
       ]);
     },
     async deactivate() {
-      await this.telegram_bot_api.deleteHook();
+      await this.telegramBotApi.deleteHook();
     },
   },
   async run(event) {
-    if ((event.path).substring(1) !== this.telegram_bot_api.$auth.token) {
+    if ((event.path).substring(1) !== this.telegramBotApi.$auth.token) {
       return;
     }
     this.http.respond({
@@ -39,10 +39,11 @@ module.exports = {
     if (!body) {
       return;
     }
+    const message = body.edited_message ?? body.message;
     this.$emit(body,
       {
         id: body.update_id,
-        summary: body.message.text,
+        summary: message.text,
         ts: Date.now(),
       });
   },

@@ -1,34 +1,36 @@
 // eslint-disable-next-line camelcase
-const telegram_bot_api = require("../../telegram_bot_api.app.js");
+import telegramBotApi from "../../telegram_bot_api.app.mjs";
 
-module.exports = {
-  type: "source",
+export default {
   key: "telegram_bot_api-new-updates",
   name: "New Updates (Instant)",
   description: "Emit new event for each new Telegram event.",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   props: {
     db: "$.service.db",
     // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     http: {
+      label: "HTTP Responder",
+      description: "Exposes a `respond()` method that lets the source issue HTTP responses",
       type: "$.interface.http",
       customResponse: true,
     },
-    telegram_bot_api,
+    telegramBotApi,
     updateTypes: {
       propDefinition: [
-        telegram_bot_api, // eslint-disable-line camelcase
+        telegramBotApi, // eslint-disable-line camelcase
         "updateTypes",
       ],
     },
   },
   hooks: {
     async activate() {
-      await this.telegram_bot_api.createHook(this.http.endpoint, this.updateTypes);
+      await this.telegramBotApi.createHook(this.http.endpoint, this.updateTypes);
     },
     async deactivate() {
-      await this.telegram_bot_api.deleteHook();
+      await this.telegramBotApi.deleteHook();
     },
   },
   methods: {
@@ -46,7 +48,7 @@ module.exports = {
     },
   },
   async run(event) {
-    if ((event.path).substring(1) !== this.telegram_bot_api.$auth.token) {
+    if ((event.path).substring(1) !== this.telegramBotApi.$auth.token) {
       return;
     }
     this.http.respond({
