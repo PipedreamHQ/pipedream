@@ -1,10 +1,12 @@
-const twilio = require("../twilio.app.js");
+import twilio from "../twilio.app.mjs";
 
-module.exports = {
+export default {
   props: {
     twilio,
     db: "$.service.db",
     timer: {
+      label: "Polling schedule",
+      description: "Pipedream polls Twilio for events on this schedule.",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
@@ -23,7 +25,7 @@ module.exports = {
       this.$emit(result, meta);
     },
   },
-  async run(event) {
+  async run() {
     let dateCreatedAfter = this._getCreatedAfter();
     const params = {
       dateCreatedAfter,

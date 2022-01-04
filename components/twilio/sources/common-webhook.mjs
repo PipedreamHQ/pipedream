@@ -1,12 +1,24 @@
-const twilio = require("../twilio.app.js");
-const twilioClient = require("twilio");
+import twilio from "../twilio.app.mjs";
+import twilioClient from "twilio";
 
-module.exports = {
+export default {
   props: {
     twilio,
-    incomingPhoneNumber: { propDefinition: [twilio, "incomingPhoneNumber"] },
-    authToken: { propDefinition: [twilio, "authToken"] },
+    incomingPhoneNumber: {
+      propDefinition: [
+        twilio,
+        "incomingPhoneNumber",
+      ],
+    },
+    authToken: {
+      propDefinition: [
+        twilio,
+        "authToken",
+      ],
+    },
     http: {
+      label: "HTTP Responder",
+      description: "Exposes a `respond()` method that lets the source issue HTTP responses",
       type: "$.interface.http",
       customResponse: true,
     },
@@ -15,14 +27,14 @@ module.exports = {
     async activate() {
       const createWebhookResp = await this.setWebhook(
         this.incomingPhoneNumber,
-        this.http.endpoint
+        this.http.endpoint,
       );
       console.log(createWebhookResp);
     },
     async deactivate() {
       const deleteWebhookResp = await this.setWebhook(
         this.incomingPhoneNumber,
-        "" // remove the webhook URL
+        "", // remove the webhook URL
       );
       console.log(deleteWebhookResp);
     },
@@ -31,7 +43,7 @@ module.exports = {
     getResponseBody() {
       return null;
     },
-    isRelevant(body) {
+    isRelevant() {
       return true;
     },
     validateRequest(body, headers) {
@@ -47,7 +59,7 @@ module.exports = {
         twilioSignature,
         /** This must match the incoming URL exactly, which contains a / */
         `${this.http.endpoint}/`,
-        body
+        body,
       );
     },
     emitEvent(body, headers) {
@@ -56,13 +68,18 @@ module.exports = {
     },
   },
   async run(event) {
-    let { body, headers } = event;
+    let {
+      body,
+      headers,
+    } = event;
 
     const responseBody = this.getResponseBody();
     if (responseBody) {
       this.http.respond({
         status: 200,
-        headers: { "Content-Type": "text/xml" },
+        headers: {
+          "Content-Type": "text/xml",
+        },
         body: responseBody,
       });
     }

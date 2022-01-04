@@ -1,13 +1,13 @@
 // Read the Twilio docs at https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource
-const twilio = require("../../twilio.app.js");
-const { phone } = require("phone");
+import twilio from "../../twilio.app.mjs";
+import { phone } from "phone";
 
-module.exports = {
+export default {
   key: "twilio-send-sms",
   name: "Send SMS",
-  description: "Send a simple text-only SMS.",
+  description: "Send a simple text-only SMS. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource) for more information",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     twilio,
     from: {
@@ -29,7 +29,7 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     // Parse the given number into its E.164 equivalent
     // The E.164 phone number will be included in the first element
     // of the array, but the array will be empty if parsing fails.
@@ -45,6 +45,8 @@ module.exports = {
       body: this.body,
     };
 
-    return await this.twilio.getClient().messages.create(data);
+    const resp = await this.twilio.getClient().messages.create(data);
+    $.export("$summary", `Successfully sent a new SMS, "${this.twilio.messageToString(resp)}"`);
+    return resp;
   },
 };

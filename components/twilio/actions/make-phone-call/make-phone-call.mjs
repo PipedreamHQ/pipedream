@@ -1,12 +1,12 @@
 // Read the Twilio docs at https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource
-const twilio = require("../../twilio.app.js");
-const { phone } = require("phone");
+import twilio from "../../twilio.app.mjs";
+import { phone } from "phone";
 
-module.exports = {
+export default {
   key: "twilio-make-phone-call",
   name: "Make a Phone Call",
-  description: "Make a phone call, passing text that Twilio will speak to the recipient of the call.",
-  version: "0.0.5",
+  description: "Make a phone call, passing text that Twilio will speak to the recipient of the call. [See the docs](https://www.twilio.com/docs/voice/api/call-resource#create-a-call-resource) for more information",
+  version: "0.0.6",
   type: "action",
   props: {
     twilio,
@@ -23,11 +23,12 @@ module.exports = {
       ],
     },
     text: {
+      label: "Text",
       type: "string",
       description: "The text you'd like Twilio to speak to the user when they pick up the phone.",
     },
   },
-  async run() {
+  async run({ $ }) {
     // Parse the given number into its E.164 equivalent
     // The E.164 phone number will be included in the first element
     // of the array, but the array will be empty if parsing fails.
@@ -44,6 +45,8 @@ module.exports = {
       twiml: `<Response><Say>${this.text}</Say></Response>`,
     };
 
-    return await this.twilio.getClient().calls.create(data);
+    const resp = await this.twilio.getClient().calls.create(data);
+    $.export("$summary", `Successfully made a new phone call, "${this.twilio.callToString(resp)}"`);
+    return resp;
   },
 };
