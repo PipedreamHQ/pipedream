@@ -1,64 +1,44 @@
-import dropbox from "../../dropbox.app.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "dropbox-new-file",
   name: "New File",
   version: "0.0.5",
   description: "Emits an event when a new file is added to your account or a specific folder. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
-    dropbox,
-    path: {
-      propDefinition: [
-        dropbox,
-        "pathFolder",
-        () => ({
-          returnSimpleString: true,
-        }),
-      ],
-    },
-    recursive: {
-      propDefinition: [
-        dropbox,
-        "recursive",
-      ],
-    },
+    ...common.props,
     includeMediaInfo: {
+      label: "Include Media Info",
       type: "boolean",
-      description:
-        "Emit media info for photos and videos (incurs an additional API call)",
+      description: "Emit media info for photos and videos (incurs an additional API call)",
       default: false,
     },
     includeLink: {
+      label: "Include Link",
       type: "boolean",
-      description:
-        "Emit temporary download link to file (incurs an additional API call)",
+      description: "Emit temporary download link to file (incurs an additional API call)",
       default: false,
     },
-    dropboxApphook: {
-      type: "$.interface.apphook",
-      appProp: "dropbox",
-      static: [],
-    },
-    db: "$.service.db",
   },
   hooks: {
     async activate() {
       const startTime = new Date();
       await this.dropbox.initState(this);
-      this.db.set("last_file_mod_time", startTime);
+      this._setLastFileModTime(startTime);
     },
   },
   methods: {
-    getMeta(id, summary) {
-      return {
-        id,
-        summary,
-        tz: Date.now(),
-      };
+    ...common.methods,
+    _setLastFileModTime(time) {
+      this.db.set("last_file_mod_time", time);
+    },
+    _getLastFileModTime() {
+      return this.db.get("last_file_mod_time");
     },
   },
   async run() {
-    const lastFileModTime = this.db.get("last_file_mod_time");
+    const lastFileModTime = this._getLastFileModTime();
     let currFileModTime = "";
     const updates = await this.dropbox.getUpdates(this);
     for (let update of updates) {
@@ -113,7 +93,7 @@ export default {
       }
     }
     if (currFileModTime != "") {
-      this.db.set("last_file_mod_time", currFileModTime);
+      this._setLastFileModTime(currFileModTime);
     }
   },
 };

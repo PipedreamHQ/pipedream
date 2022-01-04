@@ -1,7 +1,8 @@
 import dropbox from "../../dropbox.app.mjs";
-import common from "../../common.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   name: "Create folder",
   description: "Create a folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesCreateFolderV2__anchor)",
   key: "dropbox-create-folder",
@@ -28,9 +29,6 @@ export default {
       description: "If there's a conflict, have the Dropbox server try to autorename the folder to avoid the conflict.",
       default: true,
     },
-  },
-  methods: {
-    ...common.methods,
   },
   async run({ $ }) {
     const {

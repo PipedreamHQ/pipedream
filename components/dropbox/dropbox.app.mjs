@@ -211,7 +211,7 @@ export default {
           }));
         }
 
-        return data.sort((a, b) => a.label < b.label
+        return data.sort((a, b) => a.label > b.label
           ? 1 :
           -1);
       } catch (err) {

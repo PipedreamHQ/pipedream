@@ -1,7 +1,8 @@
 import dropbox from "../../dropbox.app.mjs";
-import common from "../../common.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   name: "Create a Text File",
   description: "Creates a brand new text file from plain text content you specify. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-a-text-file",
@@ -26,9 +27,6 @@ export default {
       label: "Content",
       description: "The content of you new file",
     },
-  },
-  methods: {
-    ...common.methods,
   },
   async run({ $ }) {
     const {

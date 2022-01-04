@@ -1,56 +1,24 @@
-import dropbox from "../../dropbox.app.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "dropbox-all-updates",
   name: "New or Modified File or Folder",
   version: "0.0.5",
   description: "Emits an event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
-    dropbox,
-    path: {
-      propDefinition: [
-        dropbox,
-        "pathFolder",
-        () => ({
-          returnSimpleString: true,
-        }),
-      ],
-    },
-    recursive: {
-      propDefinition: [
-        dropbox,
-        "recursive",
-      ],
-    },
+    ...common.props,
     includeMediaInfo: {
+      label: "Include Media Info",
       type: "boolean",
       description: "Emit media info for photo and video files (incurs an additional API call)",
       default: false,
     },
     includeLink: {
+      label: "Include Link",
       type: "boolean",
       description: "Emit temporary download link for files (incurs an additional API call)",
       default: false,
-    },
-    dropboxApphook: {
-      type: "$.interface.apphook",
-      appProp: "dropbox",
-      static: [],
-    },
-    db: "$.service.db",
-  },
-  hooks: {
-    async activate() {
-      await this.dropbox.initState(this);
-    },
-  },
-  methods: {
-    getMeta(id, summary) {
-      return {
-        id,
-        summary,
-        tz: Date.now(),
-      };
     },
   },
   async run() {

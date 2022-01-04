@@ -2,9 +2,10 @@ import dropbox from "../../dropbox.app.mjs";
 import consts from "../../consts.mjs";
 import fs from "fs";
 import got from "got";
-import common from "../../common.mjs";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-a-file",
@@ -67,9 +68,6 @@ export default {
       description: "The value to store as the client_modified timestamp. Dropbox automatically records the time at which the file was written to the Dropbox servers. It can also record an additional timestamp, provided by Dropbox desktop clients, mobile clients, and API apps of when the file was actually created or modified. (Please provide a valid [timestamp](https://dropbox.github.io/dropbox-sdk-js/global.html#Timestamp) value)",
       optional: true,
     },
-  },
-  methods: {
-    ...common.methods,
   },
   async run({ $ }) {
     const {
