@@ -24,38 +24,37 @@ export default {
           table: c.table,
         }),
       ],
+      optional: true,
+    },
+  },
+  hooks: {
+    /** If column prop is left blank, get the table's primary key to use
+     * for ordering and deduping. */
+    async deploy() {
+      const column = this.column
+        ? this.column
+        : await this.postgresql.getPrimaryKey(this.table);
+      this._setColumn(column);
     },
   },
   methods: {
     ...common.methods,
-    /**
-     * Sets lastResult in db. Since results are ordered by the specified column, we can assume the maximum
-     * result for that column is in the first row returned.
-     * @param {object} rows - The rows returned to be emitted.
-     * @param {string} column - Name of the table column to order by
-     */
-    _setPreviousValues(rows, column) {
-      if (rows.length) this.db.set("previousValues", rows[0][column]);
+    _getColumn() {
+      return this.db.get("column");
+    },
+    _setColumn(column) {
+      this.db.set("column", column);
     },
     generateMeta(row, column) {
       return {
         id: row[column],
         summary: "New Row Added",
         ts: Date.now(),
-      }
+      };
     },
   },
   async run() {
-    const {
-      table,
-      column,
-    } = this;
-    const lastResult = this._getPreviousValues() || null;
-    const rows = await this.postgresql.getRows(table, column, lastResult);
-    for (const row of rows) {
-      const meta = this.generateMeta(row, column);
-      this.$emit(row, meta);
-    }
-    this._setPreviousValues(rows, column);
+    const column = this._getColumn();
+    await this.newRows(this.table, column);
   },
 };

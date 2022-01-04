@@ -15,7 +15,7 @@ export default {
     column: {
       type: "string",
       label: "Column",
-      description: "The name of a column in the table to use for deduplication",
+      description: "The name of a column in the table to use for deduplication. Defaults to the table's primary key",
       async options({ table }) {
         return this.getColumns(table);
       },
@@ -44,25 +44,29 @@ export default {
     async endClient(client) {
       client.end();
     },
-    async getTables() {
+    async executeQuery(query) {
       const client = await this.getClient();
-      const { rows } = await client.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+      const { rows } = await client.query(query);
       await this.endClient(client);
+      return rows;
+    },
+    async getTables() {
+      const rows = await this.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
       return rows.map((row) => row.table_name);
     },
     async getColumns(table) {
-      const client = await this.getClient();
-      const { rows } = await client.query(`SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table}'`);
-      await this.endClient(client);
+      const rows = await this.executeQuery(`SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table}'`);
       return rows.map((row) => row.column_name);
     },
+    async getPrimaryKey(table) {
+      const rows = await this.executeQuery(`SELECT a.attname FROM pg_index i JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE i.indrelid = '${table}'::regclass AND i.indisprimary`);
+      return rows[0].attname;
+    },
     async getRows(table, column, lastResult = null) {
-      const client = await this.getClient();
       const query = `SELECT * FROM ${table} ${lastResult
         ? "WHERE " + column + ">" + lastResult
         : ""} ORDER BY ${column} DESC`;
-      const { rows } = await client.query(query);
-      await this.endClient(client);
+      const { rows } = await this.executeQuery(query);
       return rows;
     },
   },
