@@ -3,7 +3,16 @@ import pg from "pg";
 export default {
   type: "app",
   app: "postgresql",
-  propDefinitions: {},
+  propDefinitions: {
+    table: {
+      type: "string",
+      label: "Table",
+      description: "Database table",
+      async options() {
+        return this.getTables();
+      },
+    },
+  },
   methods: {
     async getClient() {
       const { Client } = pg;
@@ -27,9 +36,17 @@ export default {
     async endClient(client) {
       client.end();
     },
-    async getTables(client) {
+    async getTables() {
+      const client = await this.getClient();
       const { rows } = await client.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
-      return rows;
+      await this.endClient(client);
+      return rows.map((row) => row.table_name);
+    },
+    async getColumns(table) {
+      const client = await this.getClient();
+      const { rows } = await client.query(`SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table}'`);
+      await this.endClient(client);
+      return rows.map((row) => row.column_name);
     },
   },
 };
