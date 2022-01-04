@@ -76,7 +76,7 @@ export default {
     const body = fileUrl
       ? await got.stream(fileUrl)
       : fs.createReadStream(filePath);
-    const resp = await this.youtubeDataApi.insertVideo({
+    const resp = (await this.youtubeDataApi.insertVideo({
       title,
       description,
       privacyStatus,
@@ -84,7 +84,7 @@ export default {
       tags,
       notifySubscribers,
       content: body,
-    });
+    })).data;
     $.export("$summary", `Successfully uploaded a new video, "${title}"`);
     return resp;
   },
