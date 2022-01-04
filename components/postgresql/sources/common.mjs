@@ -32,6 +32,19 @@ export default {
     _setLastResult(rows, column) {
       if (rows.length) this.db.set("lastResult", rows[0][column]);
     },
+    generateMeta(result) {
+      return {
+        id: result,
+        summary: result,
+        ts: Date.now(),
+      };
+    },
+    /**
+     * For sources that emit new rows. Retrieves new rows since lastResult of dedupe column,
+     * emits new rows found, and sets lastResult for next run.
+     * @param {object} table - Name of the table to get rows from.
+     * @param {string} column - Name of the table column to order by
+     */
     async newRows(table, column) {
       const lastResult = this._getLastResult() || null;
       const rows = await this.postgresql.getRows(table, column, lastResult);
@@ -40,13 +53,6 @@ export default {
         this.$emit(row, meta);
       }
       this._setLastResult(rows, column);
-    },
-    generateMeta(result) {
-      return {
-        id: result,
-        summary: result,
-        ts: Date.now(),
-      };
     },
   },
 };

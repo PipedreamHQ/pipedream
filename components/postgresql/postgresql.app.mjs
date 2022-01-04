@@ -20,6 +20,11 @@ export default {
         return this.getColumns(table);
       },
     },
+    query: {
+      type: "string",
+      label: "SQL Query",
+      description: "Your custom SQL query",
+    },
   },
   methods: {
     async getClient() {
