@@ -21,7 +21,7 @@ export default {
       type: "boolean",
       label: "Require Password",
       description: "Boolean flag to enable or disable password protection.",
-      optional: true,
+      default: false,
     },
     linkPassword: {
       type: "string",
@@ -81,6 +81,10 @@ export default {
       allowDownload,
       removeExpiration,
     } = this;
+
+    if (requirePassword && !linkPassword) {
+      throw new Error("Since the password is required, please add a linkPassword");
+    }
 
     const res = await this.dropbox.createSharedLink({
       path: get(path, "value", path),

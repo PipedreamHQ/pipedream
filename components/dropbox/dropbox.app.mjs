@@ -320,6 +320,42 @@ export default {
         this.normalizeError(err);
       }
     },
+    async listFilesFolders(params, limit) {
+      try {
+        const dpx = await this.sdk();
+        let data = [];
+        let cursor = null;
+
+        const args = {
+          ...params,
+          limit: limit <= config.LIST_FILES_IN_FOLDER.DEFAULT_MAX_RESULTS
+            ? limit
+            : config.LIST_FILES_IN_FOLDER.DEFAULT_MAX_RESULTS,
+        };
+
+        let res = await dpx.filesListFolder(args);
+
+        if (!res.result?.has_more || limit <= config.LIST_FILES_IN_FOLDER.DEFAULT_MAX_RESULTS) {
+          return res.result?.entries;
+        }
+
+        data = res.result?.entries;
+        cursor = res.result?.cursor;
+        do {
+          const res = await dpx.filesListFolderContinue({
+            cursor,
+          });
+          data = data.concat(res.result?.entries);
+          cursor = res.result?.cursor;
+          if (!res.result?.has_more || data.length >= limit) {
+            break;
+          }
+        } while (true);
+        return data;
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
     async filesMove(args) {
       try {
         const dpx = await this.sdk();
