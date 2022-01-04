@@ -127,6 +127,15 @@ export default {
       `),
       optional: true,
     },
+    copyRequiresWriterPermission: {
+      type: "boolean",
+      label: "Copy Requires Writer Permission",
+      description: toSingleLineString(`
+        Whether the options to copy, print, or download this file, should be disabled for 
+        readers and commenters
+      `),
+      optional: true,
+    },
     description: {
       type: "string",
       label: "Description",
@@ -214,6 +223,7 @@ export default {
           readOnly: this.contentRestrictionsReadOnly,
           reason: this.contentRestrictionsReason,
         },
+        copyRequiresWriterPermission: this.copyRequiresWriterPermission,
       },
       media: {
         mimeType: this.mimeType,
