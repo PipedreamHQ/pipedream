@@ -17,35 +17,26 @@ export default {
   },
   hooks: {
     async activate() {
-      try {
-        const {
-          serviceId,
-          http,
-        } = this;
+      const {
+        serviceId,
+        http,
+      } = this;
 
-        const data = this.setupWebhookData({
-          endpoint: http.endpoint,
-          serviceId,
-        });
+      const data = this.setupExtensionData({
+        endpoint: http.endpoint,
+        serviceId,
+        outboundIntegrationId: constants.GENERIC_V2_WEBHOOK_OUTBOUND_INTEGRATION_ID,
+      });
 
-        const { id: webhookId } = await this.pagerduty.createWebhookSubscription({
-          data,
-          headers: {
-            Authorization: `Token token=${constants.API_KEY}`,
-          },
-        });
-        this.setWebhookId(webhookId);
+      const { extension } = await this.pagerduty.createExtension({
+        data,
+      });
 
-      } catch (error) {
-        console.log("error", error);
-      }
+      this.setExtensionId(extension.id);
     },
     async deactivate() {
-      await this.pagerduty.deleteWebhookSubscription({
-        webhookId: this.getWebhookId(),
-        headers: {
-          Authorization: `Token token=${constants.API_KEY}`,
-        },
+      await this.pagerduty.deleteExtension({
+        extensionId: this.getExtensionId(),
       });
     },
   },
@@ -56,33 +47,76 @@ export default {
     getWebhookId() {
       return this.db.get(constants.WEBHOOK_ID);
     },
+    setExtensionId(extensionId) {
+      this.db.set(constants.EXTENSION_ID, extensionId);
+    },
+    getExtensionId() {
+      return this.db.get(constants.EXTENSION_ID);
+    },
     getMetadata() {
       throw new Error("getMetadata Not implemented");
     },
     getEventTypes() {
       throw new Error("getEventTypes Not implemented");
     },
+    getExtensionName() {
+      throw new Error("getExtensionName Not implemented");
+    },
     setupWebhookData({
       endpoint, serviceId,
     }) {
       return {
         webhook_subscription: {
-          type: "webhook_subscription",
+          type: constants.WEBHOOK_TYPE,
           delivery_method: {
-            type: "http_delivery_method",
+            type: constants.HTTP_DELIVERY_METHOD_TYPE,
             url: endpoint,
           },
           events: this.getEventTypes(),
           filter: {
             id: serviceId,
-            type: "service_reference",
+            type: constants.REFERENCE.SERVICE,
           },
+        },
+      };
+    },
+    setupExtensionData({
+      endpoint, outboundIntegrationId, serviceId,
+    }) {
+      return {
+        extension: {
+          name: this.getExtensionName(),
+          endpoint_url: endpoint,
+          extension_schema: {
+            id: outboundIntegrationId,
+            type: constants.REFERENCE.EXTENSION_SCHEMA,
+          },
+          extension_objects: [
+            {
+              id: serviceId,
+              type: constants.REFERENCE.SERVICE,
+            },
+          ],
         },
       };
     },
   },
   async run(event) {
-    const payload = event.body.event;
+    const { messages } = event.body;
+    const [
+      {
+        id,
+        event: messageEvent,
+        incident,
+      },
+    ] = messages;
+
+    const payload = {
+      id,
+      event: messageEvent,
+      incident,
+    };
+
     this.$emit(payload, this.getMetadata(payload));
   },
 };

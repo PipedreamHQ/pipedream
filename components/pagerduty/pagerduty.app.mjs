@@ -1,6 +1,12 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
+const {
+  BASE_URL_V1,
+  SUBDOMAIN_PLACEHOLDER,
+  VERSION_PATH_V1,
+} = constants;
+
 export default {
   type: "app",
   app: "pagerduty",
@@ -166,46 +172,6 @@ export default {
         };
       },
     },
-    priorityId: {
-      type: "string",
-      label: "Priority ID",
-      description: "The ID of the priority. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE2NA-list-priorities)",
-      optional: true,
-      async options({ prevContext }) {
-        const {
-          offset: prevOffset,
-          more: prevMore,
-        } = prevContext;
-
-        if (prevMore === false) {
-          return [];
-        }
-
-        const {
-          priorities,
-          offset,
-          more,
-        } =
-          await this.listPriorities({
-            params: {
-              offset: prevOffset,
-            },
-          });
-
-        const options = priorities.map((priority) => ({
-          label: priority.name,
-          value: priority.id,
-        }));
-
-        return {
-          options,
-          context: {
-            offset,
-            more,
-          },
-        };
-      },
-    },
     userId: {
       type: "string",
       label: "User ID",
@@ -297,26 +263,41 @@ export default {
     },
   },
   methods: {
+    getRequestUrl({
+      url, path, subdomain,
+    }) {
+      const builtUrl = subdomain
+        ? `${BASE_URL_V1.replace(SUBDOMAIN_PLACEHOLDER, subdomain)}${VERSION_PATH_V1}${path}`
+        : `${constants.BASE_URL}${path}`;
+
+      return url || builtUrl;
+    },
+    getRequestHeaders(additionalHeaders) {
+      const { oauth_access_token: oauthAccessToken } = this.$auth;
+
+      return {
+        Authorization: `Bearer ${oauthAccessToken}`,
+        ...additionalHeaders,
+        ...constants.API_HEADERS,
+      };
+    },
     async makeRequest(customConfig) {
       const {
         $,
+        service,
         url,
         path,
         ...additionalConfig
       } = customConfig;
 
-      const { oauth_access_token: oauthAccessToken } = this.$auth;
-
-      const headers = {
-        Authorization: `Bearer ${oauthAccessToken}`,
-        ...additionalConfig?.headers,
-        ...constants.API_HEADERS,
-      };
-
       const config = {
         ...additionalConfig,
-        headers,
-        url: url || `${constants.BASE_URL}${path}`,
+        headers: this.getRequestHeaders(additionalConfig?.headers),
+        url: this.getRequestUrl({
+          url,
+          path,
+          service,
+        }),
         timeout: 10000,
       };
 
@@ -348,6 +329,12 @@ export default {
         params,
       });
     },
+    /**
+     * Webhooks V3
+     * According to the docs, this endpoint should be used
+     * after March 31, 2022
+     * https://support.pagerduty.com/docs/v1v2-webhook-extensions
+     */
     async createWebhookSubscription({
       $, data, ...additionalConfig
     }) {
@@ -359,6 +346,12 @@ export default {
         ...additionalConfig,
       });
     },
+    /**
+     * Webhooks V3
+     * According to the docs, this endpoint should be used
+     * after March 31, 2022
+     * https://support.pagerduty.com/docs/v1v2-webhook-extensions
+     */
     async deleteWebhookSubscription({
       $, webhookId, ...additionalConfig
     }) {
@@ -367,6 +360,33 @@ export default {
         method: "delete",
         path: `/webhook_subscriptions/${webhookId}`,
         ...additionalConfig,
+      });
+    },
+    /**
+     * Webhooks V2
+     * https://support.pagerduty.com/docs/v1v2-webhook-extensions
+     */
+    async createExtension({
+      $, data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: "/extensions",
+        data,
+      });
+    },
+    /**
+     * Webhooks V2
+     * https://support.pagerduty.com/docs/v1v2-webhook-extensions
+     */
+    async deleteExtension({
+      $, extensionId,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "delete",
+        path: `/extensions/${extensionId}`,
       });
     },
     async listServices({
@@ -405,15 +425,6 @@ export default {
         method: "put",
         path: `/incidents/${incidentId}`,
         data,
-      });
-    },
-    async listPriorities({
-      $, params,
-    }) {
-      return this.makeRequest({
-        $,
-        path: "/priorities",
-        params,
       });
     },
     async listUsers({

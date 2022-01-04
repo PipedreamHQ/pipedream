@@ -19,5 +19,8 @@ export default {
     getEventTypes() {
       return constants.INCIDENT_EVENT_TYPES;
     },
+    getExtensionName() {
+      return "New or Updated Incident";
+    },
   },
 };

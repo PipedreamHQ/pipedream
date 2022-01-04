@@ -13,7 +13,7 @@ export default {
   name: "Trigger Incident",
   description: "Trigger an incident. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE0MA-create-an-incident)",
   type: "action",
-  version: "0.0.19",
+  version: "0.0.1",
   props: {
     pagerduty,
     title: {
@@ -28,12 +28,6 @@ export default {
         "serviceId",
       ],
     },
-    // priorityId: {
-    //   propDefinition: [
-    //     pagerduty,
-    //     "priorityId",
-    //   ],
-    // },
     urgency: {
       propDefinition: [
         pagerduty,
@@ -84,7 +78,6 @@ export default {
     const {
       title,
       serviceId,
-      priorityId,
     } = this;
 
     const conferenceBridgeNumber = emptyStrToUndefined(this.conferenceBridgeNumber);
@@ -105,13 +98,6 @@ export default {
     };
 
     const additionalProps = {
-      priority: [
-        {
-          id: priorityId,
-          type: constants.REFERENCE.PRIORITY,
-        },
-        priorityId,
-      ],
       urgency,
       inciden_key: incidenKey,
       body: [
@@ -158,7 +144,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Incident ${incident.summary} has been triggered`);
+    $.export("$summary", `Incident ${incident.summary} has been ${incident.status}`);
 
     return incident;
   },

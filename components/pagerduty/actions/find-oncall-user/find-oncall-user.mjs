@@ -5,7 +5,7 @@ export default {
   name: "Find Oncall User",
   description: "Find the user on call for a specific schedule. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE0MA-create-an-incident)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.1",
   props: {
     pagerduty,
     scheduleId: {

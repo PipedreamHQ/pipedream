@@ -1,4 +1,5 @@
 import pagerduty from "../../pagerduty.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "pagerduty-resolve-incident",
@@ -14,8 +15,8 @@ export default {
         "incidentId",
         () => ({
           statuses: [
-            "triggered",
-            "acknowledged",
+            constants.INCIDENT_STATUS.TRIGGERED,
+            constants.INCIDENT_STATUS.ACKNOWLEDGED,
           ],
         }),
       ],
@@ -29,13 +30,13 @@ export default {
       incidentId,
       data: {
         incident: {
-          type: "incident_reference",
-          status: "resolved",
+          type: constants.REFERENCE.INCIDENT,
+          status: constants.INCIDENT_STATUS.RESOLVED,
         },
       },
     });
 
-    $.export("$summary", `Incident ${incident.summary} has been resolved`);
+    $.export("$summary", `Incident ${incident.summary} has been ${incident.status}`);
 
     return incident;
   },
