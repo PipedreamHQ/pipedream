@@ -5,7 +5,7 @@ import got from "got";
 export default {
   key: "youtube_data_api-upload-video",
   name: "Upload Video",
-  description: "Post a video to your channel",
+  description: "Post a video to your channel. [See the docs](https://developers.google.com/youtube/v3/docs/videos/insert) for more information",
   version: "0.0.1",
   type: "action",
   props: {
