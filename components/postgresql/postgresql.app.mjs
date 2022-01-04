@@ -12,6 +12,14 @@ export default {
         return this.getTables();
       },
     },
+    column: {
+      type: "string",
+      label: "Column",
+      description: "The name of a column in the table to use for deduplication",
+      async options({ table }) {
+        return this.getColumns(table);
+      },
+    },
   },
   methods: {
     async getClient() {
@@ -47,6 +55,15 @@ export default {
       const { rows } = await client.query(`SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table}'`);
       await this.endClient(client);
       return rows.map((row) => row.column_name);
+    },
+    async getRows(table, column, lastResult = null) {
+      const client = await this.getClient();
+      const query = `SELECT * FROM ${table} ${lastResult
+        ? "WHERE " + column + ">" + lastResult
+        : ""} ORDER BY ${column} DESC`;
+      const { rows } = await client.query(query);
+      await this.endClient(client);
+      return rows;
     },
   },
 };
