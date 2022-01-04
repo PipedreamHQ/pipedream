@@ -57,6 +57,7 @@ const hooks = {
     const deltaLinkParams = this.getDeltaLinkParams();
     const deltaLink = await this.onedrive.getLatestDeltaLink(deltaLinkParams);
     this._setDeltaLink(deltaLink);
+    this._setLastCreatedTimestamp();
   },
   async deactivate() {
     await this._deactivateSubscription();
@@ -64,6 +65,12 @@ const hooks = {
 };
 
 const methods = {
+  _getLastCreatedTimestamp() {
+    return this.db.get("lastCreatedTimestamp") || 0;
+  },
+  _setLastCreatedTimestamp(lastCreatedTimestamp = Date.now()) {
+    this.db.set("lastCreatedTimestamp", lastCreatedTimestamp);
+  },
   _getNextExpirationDateTime() {
     const nowTimestamp = Date.now();
     const expirationTimestampDelta = 2 * WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS * 1000;
@@ -141,7 +148,10 @@ const methods = {
         continue;
       }
 
-      await this.processEvent(value);
+      const createdDateTime = new Date(value.createdDateTime);
+      if (createdDateTime >= this._getLastCreatedTimestamp()) {
+        await this.processEvent(value);
+      }
     }
 
     await this.postProcessEvent();
@@ -198,7 +208,10 @@ const methods = {
       createdDateTime,
       name,
     } = driveItem;
-    const summary = `New file: ${name}`;
+    const summaryPrefix = driveItem.folder
+      ? "New Folder: "
+      : "New File: ";
+    const summary = summaryPrefix + name;
     const ts = Date.parse(createdDateTime);
     return {
       id,

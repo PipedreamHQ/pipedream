@@ -7,7 +7,7 @@ export default {
   key: "microsoft_onedrive-new-folder-in-folder",
   name: "New Folder in Folder (Instant)",
   description: "Emit an event when a new folder is created under a directory tree in a OneDrive drive",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...base.props,
@@ -27,20 +27,6 @@ export default {
     },
     isItemRelevant(driveItem) {
       return !!(driveItem.folder) && driveItem.parentReference?.path !== "/drive/root:";
-    },
-    generateMeta(driveItem) {
-      const {
-        id,
-        createdDateTime,
-        name,
-      } = driveItem;
-      const summary = `New folder: ${name}`;
-      const ts = Date.parse(createdDateTime);
-      return {
-        id,
-        summary,
-        ts,
-      };
     },
   },
 };
