@@ -14,7 +14,7 @@ const dataEntry = {
 const headerProp = { 
   type: "string", 
   label: "Header Row?",
-  description: "If the first row of your document has a header we'll retrieve it to make it easy to enter the value for each column.",
+  description: "If the first row of your document has headers we'll retrieve them to make it easy to enter the value for each column.",
   options: [
     { label: "First row has headers", value: "hasHeaders" },
     { label: "There is no header row", value: "noHeaders" },
@@ -23,8 +23,8 @@ const headerProp = {
 }
 
 module.exports = {
-  key: "pravin-add-single-row",
-  name: "Computed Props Test - Add Single Row",
+  key: "google_sheets-add-single-row",
+  name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
   version: "1.0.0",
   type: "action",
