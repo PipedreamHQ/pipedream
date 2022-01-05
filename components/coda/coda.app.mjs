@@ -3,7 +3,25 @@ import axios from "axios";
 export default {
   type: "app",
   app: "coda",
-  propDefinitions: {},
+  propDefinitions: {
+    docTitle: {
+      type: "string",
+      label: "Doc Title",
+      description: "Title of the doc",
+      optional: true,
+    },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of the folder",
+      optional: true,
+    },
+    sourceDoc: {
+      type: "string",
+      label: "Source Doc ID",
+      description: "A doc ID from which to create a copy.",
+    },
+  },
   methods: {
     // this.$auth contains connected account data
     authKeys() {
