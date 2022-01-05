@@ -18,9 +18,10 @@ export default {
     title: {
       propDefinition: [
         coda,
-        "docTitle",
+        "title",
       ],
       description: "Title of the newly copied doc. Defaults to 'Untitled'.",
+      optional: true,
     },
     folderId: {
       propDefinition: [
@@ -28,6 +29,7 @@ export default {
         "folderId",
       ],
       description: "The ID of the folder within which to copy this doc. Defaults to your \"My docs\" folder in the oldest workspace you joined; this is subject to change. You can get this ID by opening the folder in the docs list on your computer and grabbing the folderId query parameter.",
+      optional: true,
     },
   },
   async run() {

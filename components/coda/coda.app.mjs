@@ -4,17 +4,15 @@ export default {
   type: "app",
   app: "coda",
   propDefinitions: {
-    docTitle: {
+    title: {
       type: "string",
       label: "Doc Title",
       description: "Title of the doc",
-      optional: true,
     },
     folderId: {
       type: "string",
       label: "Folder ID",
       description: "The ID of the folder",
-      optional: true,
     },
     sourceDoc: {
       type: "string",
