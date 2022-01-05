@@ -1,14 +1,19 @@
-import hash from 'object-hash';
+import hash from "object-hash";
 import axios from "axios";
 
 export default {
+  key: "nordigen-new-transation",
   name: "New transaction",
   description: "This source emits an event when a new transaction occurs",
+  version: "0.0.1",
+  type: "source",
   props: {
     db: "$.service.db",
     nordigen: {
       type: "app",
       app: "nordigen",
+      label: "Nordigen account",
+      description: "Nordigen account on which your bank account is connected to",
       propDefinitions: {},
       methods: {
         // this.$auth contains connected account data
@@ -19,6 +24,8 @@ export default {
     },
     timer: {
       type: "$.interface.timer",
+      label: "Timer",
+      description: "When should the source check for a new event",
       default: {
         intervalSeconds: 60 * 5,
       },
@@ -38,8 +45,8 @@ export default {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
-            "accept": `application/json`,
-          }
+            "accept": "application/json",
+          },
         });
         return institutions.data.map((institution) => {
           return {
