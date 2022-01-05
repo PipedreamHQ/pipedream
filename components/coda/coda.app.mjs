@@ -21,6 +21,11 @@ export default {
       label: "Source Doc ID",
       description: "A doc ID from which to create a copy.",
       optional: true,
+      async options () {
+        return this._getKeyValuePair(
+          (await this.listDocs()).items
+        );
+      },
     },
     isOwner: {
       type: "boolean",
@@ -84,6 +89,14 @@ export default {
     },
   },
   methods: {
+    _getKeyValuePair(list) {
+      return list.map(
+        (e) => ({
+          label: e.name,
+          value: e.id,
+        })
+      );
+    },
     // this.$auth contains connected account data
     authKeys() {
       console.log(Object.keys(this.$auth));

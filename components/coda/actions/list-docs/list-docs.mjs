@@ -4,7 +4,7 @@ export default {
   key: "coda_list-docs",
   name: "List Docs",
   description: "Returns a list of Coda docs accessible by the user. These are returned in the same order as on the docs page: reverse chronological by the latest event relevant to the user (last viewed, edited, or shared).",
-  version: "0.0.24",
+  version: "0.0.26",
   type: "action",
   props: {
     coda,
@@ -30,6 +30,7 @@ export default {
       propDefinition: [
         coda,
         "sourceDoc",
+        (c) => c,
       ],
       description: "Show only docs copied from the specified doc ID.",
     },
