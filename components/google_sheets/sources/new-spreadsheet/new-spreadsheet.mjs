@@ -7,7 +7,7 @@ export default {
   name: "New Spreadsheet (Instant)",
   description:
     "Emit new event each time a new spreadsheet is created in a drive.",
-  version: "0.0.7",
+  version: "0.0.8",
   methods: {
     ...newFilesInstant.methods,
     shouldProcess(file) {
