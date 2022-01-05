@@ -62,6 +62,11 @@ export default {
       label: "Page Token",
       description: "An opaque token used to fetch the next page of results.",
     },
+    paginate: {
+      type: "boolean",
+      label: "Auto-Paginate",
+      description: "By default, list all docs matching search results across all result pages. Set to `false` to limit results to the first page.",
+    },
   },
   methods: {
     // this.$auth contains connected account data

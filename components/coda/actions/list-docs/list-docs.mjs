@@ -4,7 +4,7 @@ export default {
   key: "coda_list-docs",
   name: "List Docs",
   description: "Returns a list of Coda docs accessible by the user. These are returned in the same order as on the docs page: reverse chronological by the latest event relevant to the user (last viewed, edited, or shared).",
-  version: "0.0.13",
+  version: "0.0.24",
   type: "action",
   props: {
     coda,
@@ -82,6 +82,14 @@ export default {
       ],
       optional: true,
     },
+    paginate: {
+      propDefinition: [
+        coda,
+        "paginate",
+      ],
+      optional: true,
+      default: true,
+    },
   },
   async run() {
     var params = {
@@ -100,6 +108,27 @@ export default {
       || params[key] === undefined
       || params[key] === "")
       && delete params[key]);
-    return await this.coda.listDocs(params);
+
+    var result = await this.coda.listDocs(params);
+
+    if (!this.paginate) {
+      return {
+        items: result.items,
+      };
+    }
+
+    var docList = result.items;
+    while (result.nextPageToken) {
+      params["pageToken"] = result.nextPageToken;
+      result = await this.coda.listDocs(params);
+      docList = [
+        ...docList,
+        ...result.items,
+      ];
+    }
+
+    return {
+      items: docList,
+    };
   },
 };
