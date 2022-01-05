@@ -68,6 +68,60 @@ export default {
     },
   },
 
+  async create_requisition_link() {
+    // ========== 5 CREATE END USER AGREEMENT ==========
+
+    const step5 = await axios({
+      url: "https://ob.nordigen.com/api/v2/agreements/enduser/",
+      method: "POST",
+      headers: {
+        "accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
+      },
+      data: {
+        "institution_id": this.institution_id,
+        "max_historical_days": this.max_historical_days,
+        "access_valid_for_days": this.access_valid_for_days,
+        "access_scope": [
+          "balances",
+          "details",
+          "transactions",
+        ],
+      },
+    });
+
+    // ========== 6 BUILD REQUISITION LINK ==========
+
+    const step6 = await axios({
+      url: "https://ob.nordigen.com/api/v2/requisitions/",
+      method: "POST",
+      headers: {
+        "accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
+      },
+      data: {
+        "redirect": "https://pipedream.com",
+        "institution_id": this.institution_id,
+        "reference": Date.now(),
+        "agreement": step5.id,
+        "user_language": "EN",
+      },
+    });
+
+    // ========== 7 SAVE REQUISITION ID ==========
+
+    this.db.set("requisitionId", step6.data.id);
+    console.log("New requisition link: " + step6.data.link);
+
+    // ========== 8 SEND LINK ==========
+
+    this.$emit({
+      "requisition": step6.data.link,
+    });
+  },
+
   async run() {
 
     // ========== 2 GET REQUISITION ID ==========
@@ -139,59 +193,5 @@ export default {
       console.log("No requisition id found");
       create_requisition_link();
     }
-  },
-
-  async create_requisition_link() {
-    // ========== 5 CREATE END USER AGREEMENT ==========
-
-    const step5 = await axios({
-      url: "https://ob.nordigen.com/api/v2/agreements/enduser/",
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
-      },
-      data: {
-        "institution_id": this.institution_id,
-        "max_historical_days": this.max_historical_days,
-        "access_valid_for_days": this.access_valid_for_days,
-        "access_scope": [
-          "balances",
-          "details",
-          "transactions",
-        ],
-      },
-    });
-
-    // ========== 6 BUILD REQUISITION LINK ==========
-
-    const step6 = await axios({
-      url: "https://ob.nordigen.com/api/v2/requisitions/",
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
-      },
-      data: {
-        "redirect": "https://pipedream.com",
-        "institution_id": this.institution_id,
-        "reference": Date.now(),
-        "agreement": step5.id,
-        "user_language": "EN",
-      },
-    });
-
-    // ========== 7 SAVE REQUISITION ID ==========
-
-    this.db.set("requisitionId", step6.data.id);
-    console.log("New requisition link: " + step6.data.link);
-
-    // ========== 8 SEND LINK ==========
-
-    this.$emit({
-      "requisition": step6.data.link,
-    });
   },
 };
