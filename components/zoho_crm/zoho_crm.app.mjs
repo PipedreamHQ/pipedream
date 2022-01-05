@@ -1,12 +1,9 @@
-const axios = require("axios");
+import axios from "axios";
 
-module.exports = {
+export default {
   type: "app",
   app: "zoho_crm",
   methods: {
-    _authToken() {
-      return this.$auth.oauth_access_token;
-    },
     _apiUrl() {
       return "https://www.zohoapis.com/crm/v2";
     },
@@ -33,6 +30,26 @@ module.exports = {
       };
       return {
         headers,
+      };
+    },
+    _getAxiosParams(opts) {
+      console.log({
+        ...opts,
+        url: `${this.$auth.api_domain}/crm/v2${opts.path}`,
+        headers: {
+          "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
+          "User-Agent": "@PipedreamHQ/pipedream v0.1",
+        },
+        path: undefined,
+      });
+      return {
+        ...opts,
+        url: `https://www.zohoapis.com/crm/v2.1${opts.path}`,
+        headers: {
+          "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
+          "User-Agent": "@PipedreamHQ/pipedream v0.1",
+        },
+        path: undefined,
       };
     },
     async genericApiGetCall(url, params = {}) {
