@@ -3,15 +3,20 @@ const github = require("../github.app.js");
 module.exports = {
   props: {
     github,
-    repoFullName: { propDefinition: [github, "repoFullName"] },
+    repoFullName: {
+      propDefinition: [
+        github,
+        "repoFullName",
+      ],
+    },
     http: "$.interface.http",
     db: "$.service.db",
   },
   methods: {
-    emitEvent(body) {
+    emitEvent(body, id) {
       const eventTypes = this.getEventTypes();
       if (eventTypes.includes(body.action)) {
-        const meta = this.generateMeta(body);
+        const meta = this.generateMeta(body, id);
         this.$emit(body, meta);
       }
     },
@@ -37,16 +42,20 @@ module.exports = {
     },
   },
   async run(event) {
-    const { body, headers } = event;
+    const {
+      body,
+      headers,
+    } = event;
+    if (!headers["x-hub-signature"]) {
+      throw new Error("signature missing");
+    }
 
-    if (headers["X-Hub-Signature"]) {
-      const crypto = require("crypto");
-      const algo = "sha1";
-      const hmac = crypto.createHmac(algo, this.db.get("secret"));
-      hmac.update(body, "utf-8");
-      if (headers["X-Hub-Signature"] !== `${algo}=${hmac.digest("hex")}`) {
-        throw new Error("signature mismatch");
-      }
+    const crypto = require("crypto");
+    const algo = "sha1";
+    const hmac = crypto.createHmac(algo, this.db.get("secret"));
+    hmac.update(JSON.stringify(body), "utf-8");
+    if (headers["x-hub-signature"] !== `${algo}=${hmac.digest("hex")}`) {
+      throw new Error("signature mismatch");
     }
 
     if ("zen" in body) {
@@ -54,6 +63,6 @@ module.exports = {
       return;
     }
 
-    this.emitEvent(body);
+    this.emitEvent(body, headers["x-github-delivery"]);
   },
 };

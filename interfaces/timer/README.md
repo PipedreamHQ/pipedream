@@ -384,7 +384,7 @@ Each time your job runs, Pipedream marks its start and end times in the **LOGS**
 
 Pipedream refers to logs as "observations" in certain contexts, since they contain a superset of standard output / error, as well as [events emitted by your component](#consuming-event-data-from-your-own-app-outside-pipedream), and start and end markers for each job run.
 
-Any standard output or errors raised by your component are also logged here. You can watch these logs in realtime using the `pd logs` CLI command:
+Any standard output or errors raised by your component are also logged here. You can watch these logs in real time using the `pd logs` CLI command:
 
 ```bash
 pd logs <component-name>

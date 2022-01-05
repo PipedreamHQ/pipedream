@@ -16,15 +16,11 @@ SSE is typically used by web developers to update a webpage with new events in r
 
 Beyond web browsers, any program that's able to create an [`EventSource` interface](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) can listen for server-sent events delivered from Pipedream. You can run a Node.js script or a Ruby on Rails app that receives server-sent events, for example.
 
-## Sending data to an SSE Destination
+## Sending data to an SSE Destination in workflows
 
 You can send data to an SSE Destination in [Node.js code steps](/workflows/steps/code/) using the `$send.sse()` function.
 
-[Add a new Action](/workflows/steps/actions/#adding-a-new-action), then search for "**Code**":
-
-<div>
-<img alt="Code action" width="300" src="./images/new-code-step.png">
-</div>
+[Add a new step to your workflow](/workflows/steps/actions/#adding-a-new-action), then search for "**Code**":
 
 Then add this code to that step:
 
@@ -65,6 +61,23 @@ names.forEach(name => {
 ```
 
 you won't have to `await` the execution of the SSE Destination requests in your workflow. We'll collect every `$send.sse()` call and defer those requests, sending them after your workflow finishes.
+
+## Using `$.send.sse` in component actions
+
+If you're authoring a [component action](/components/actions/), you can send events to an SSE destination using `$.send.sse`.
+
+`$.send.sse` functions the same as [`$send.sse` in workflow code steps](#sending-data-to-an-sse-destination-in-workflows):
+
+```javascript
+async run({ $ }) {
+  $.send.sse({
+    channel: "events",
+    payload: {
+      name: "Luke Skywalker"
+    }
+  });
+}
+```
 
 ## Receiving events
 

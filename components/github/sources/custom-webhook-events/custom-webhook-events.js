@@ -6,27 +6,33 @@ module.exports = {
   key: "github-custom-events",
   name: "Custom Webhook Events",
   description:
-    "Subscribe to one or more event types and emit an event on each webhook request",
-  version: "0.0.3",
+    "Emit new events of selected types",
+  type: "source",
+  version: "0.0.7",
   props: {
     ...common.props,
-    events: { propDefinition: [github, "events"] },
+    events: {
+      propDefinition: [
+        github,
+        "events",
+      ],
+    },
   },
   dedupe: "unique",
   methods: {
     getEventNames() {
       return this.events;
     },
-    generateMeta(data) {
+    generateMeta(data, id) {
       const ts = Date.now();
       return {
-        id: `${data.repository.id}${ts}`,
+        id,
         summary: `${data.action} event by ${data.sender.login}`,
         ts,
       };
     },
-    emitEvent(body) {
-      const meta = this.generateMeta(body);
+    emitEvent(body, id) {
+      const meta = this.generateMeta(body, id);
       this.$emit(body, meta);
     },
   },

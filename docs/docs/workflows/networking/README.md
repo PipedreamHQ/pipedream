@@ -16,8 +16,8 @@ Then, in your Pipedream workflow, you can [tunnel the connection](https://linuxi
 
 Here are two example workflows that show you how to connect to services through a bastion server:
 
-- [Run a MySQL query through an SSH tunnel](https://frontend-canary.pipedream.com/@dylburger/run-a-query-on-mysql-via-ssh-tunnel-p_rvCxrNB/edit)
-- [Run a PostgreSQL query through an SSH tunnel](https://frontend-canary.pipedream.com/@dylburger/run-a-query-on-postgres-via-ssh-tunnel-p_13CvRz/edit)
+- [Run a MySQL query through an SSH tunnel](https://pipedream.com/@dylburger/run-a-query-on-mysql-via-ssh-tunnel-p_rvCxrNB/edit)
+- [Run a PostgreSQL query through an SSH tunnel](https://pipedream.com/@dylburger/run-a-query-on-postgres-via-ssh-tunnel-p_13CvRz/edit)
 
 ## Feature request for Pipedream restricting its IP range
 

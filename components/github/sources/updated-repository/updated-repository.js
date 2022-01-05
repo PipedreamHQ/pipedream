@@ -15,19 +15,22 @@ module.exports = {
   ...common,
   key: "github-updated-repository",
   name: "Updated Repository (Instant)",
-  description: "Emit an event when an existing repository is updated.",
-  version: "0.0.1",
+  description: "Emit new events when an existing repository is updated",
+  version: "0.0.4",
+  type: "source",
   dedupe: "unique",
   methods: {
     getEventNames() {
-      return ["repository"];
+      return [
+        "repository",
+      ];
     },
-    generateMeta(data) {
+    generateMeta(data, id) {
       const ts = data.repository.updated_at
         ? Date.parse(data.repository.updated_at)
         : Date.parse(data.repository.created_at);
       return {
-        id: `${data.repository.id}${ts}`,
+        id,
         summary: `${data.repository.full_name} ${data.action} by ${data.sender.login}`,
         ts,
       };

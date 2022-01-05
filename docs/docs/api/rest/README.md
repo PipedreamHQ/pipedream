@@ -17,7 +17,7 @@ You authenticate to the REST API using your [Pipedream API
 key](/api/auth/#pipedream-api-key). When you make API requests, pass an
 `Authorization` header of the following format:
 
-```text
+```
 Authorization: Bearer <api key>
 ```
 
@@ -42,7 +42,7 @@ header set to `application/json`. For example:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
 ```
 
 ## Common Parameters
@@ -70,6 +70,20 @@ including all fields). Pass as a string of comma-separated values:
 `comma,separated,fields,to,include`
 
 ---
+
+`org_id` **string**
+
+Some endpoints require you to specify [the org ID](/orgs/#finding-your-organization-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific org, you'll want to pass the org ID in the `org_id` query string parameter.
+
+[Find your org's ID here](/orgs/#finding-your-organization-s-id).
+
+## Working with resources owned by an organization
+
+If you're interacting with resources owned by an [organization](/orgs/), you may need to specify the org ID as a part of the request's query string parameter or route:
+
+- When fetching specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), you should not need to pass your org's ID. If your user is a part of the org, you should have access to that resource, and the API will return the details of the resource.
+- When _creating_ new resources, you'll need to specify the `org_id` where you want the resource to live as a query string parameter (`?org_id=o_abc123`). Read more about the `org_id` parameter in the [Common Parameters section](#common-parameters).
+- When _listing_ resources, use [the org-specific endpoints here](#organizations).
 
 ## Pagination
 
@@ -166,7 +180,7 @@ metadata you'll need to [deploy a source](#create-a-source) from this component.
 
 #### Endpoint
 
-```text
+```
 POST /components
 ```
 
@@ -176,8 +190,7 @@ POST /components
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream
-component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+The full code for a [Pipedream component](/components/api/).
 
 ---
 
@@ -186,7 +199,7 @@ component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
 
 ---
 
@@ -202,7 +215,7 @@ Here's an example of how to create an RSS component from a Github URL:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
 ```
 
 #### Example Response
@@ -245,7 +258,7 @@ This endpoint returns the component's metadata and configurable props.
 
 #### Endpoint
 
-```text
+```
 GET /components/{key|id}
 ```
 
@@ -314,7 +327,7 @@ component.
 
 #### Endpoint
 
-```text
+```
 GET /components/registry/{key}
 ```
 
@@ -377,7 +390,7 @@ Retrieve up to the last 100 events emitted by a source.
 
 #### Endpoint
 
-```text
+```
 GET /sources/{id}/event_summaries
 ```
 
@@ -387,13 +400,13 @@ The event data for events larger than `1KB` may get truncated in the response.
 If you're processing larger events, and need to see the full event data, pass
 `?expand=event`:
 
-```text
+```
 GET /sources/{id}/event_summaries?expand=event
 ```
 
 Pass `?limit=N` to retrieve the last **N** events:
 
-```text
+```
 GET /sources/{id}/event_summaries?limit=10
 ```
 
@@ -414,7 +427,7 @@ ordered by time.
 
 #### Endpoint
 
-```text
+```
 DELETE /sources/{id}/events
 ```
 
@@ -485,6 +498,110 @@ curl -X DELETE \
 Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
 code in response to any deletion requests.
 
+## Organizations
+
+[Organizations](/orgs/) provide your team a way to manage resources in a shared workspace. Any resources created by the org are owned by the org and accessible to its members.
+
+### Get Org's Subscriptions
+
+---
+
+Retrieve all the [subscriptions](#subscriptions) configured for a specific organization.
+
+#### Endpoint
+
+```
+GET /orgs/<org_id>/subscriptions
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/subscriptions' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sub_abc123",
+      "emitter_id": "dc_abc123",
+      "listener_id": "p_abc123",
+      "event_name": ""
+    },
+    {
+      "id": "sub_def456",
+      "emitter_id": "dc_def456",
+      "listener_id": "p_def456",
+      "event_name": ""
+    }
+  ]
+}
+```
+
+### Get Org's Sources
+
+---
+
+Retrieve all the [event sources](#sources) configured for a specific organization.
+
+#### Endpoint
+
+```
+GET /orgs/<org_id>/sources
+```
+
+#### Path Parameters
+
+`org_id` **string**
+
+[Switch to your org's context](/docs/orgs/#switching-context) and [find your org's ID](/orgs/#finding-your-organization-s-id).
+
+#### Example Request
+
+```shell
+curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
+  -H 'Authorization: Bearer <api_key>'
+```
+
+#### Example Response
+
+```json
+{
+  "page_info": {
+    "total_count": 19,
+    "count": 10,
+    "start_cursor": "ZGNfSzB1QWVl",
+    "end_cursor": "ZGNfeUx1alJx"
+  },
+  "data": [
+    {
+      "id": "dc_abc123",
+      "component_id": "sc_def456",
+      "configured_props": {
+        "http": {
+          "endpoint_url": "https://myendpoint.m.pipedream.net"
+        }
+      },
+      "active": true,
+      "created_at": 1587679599,
+      "updated_at": 1587764467,
+      "name": "test",
+      "name_slug": "test"
+    }
+  ]
+}
+```
+
 ## Sources
 
 Event sources run code to collect events from an API, or receive events via
@@ -497,7 +614,7 @@ as workflow triggers. [Read more here](/event-sources/).
 
 #### Endpoint
 
-```text
+```
 GET /users/me/sources/
 ```
 
@@ -547,7 +664,7 @@ curl 'https://api.pipedream.com/v1/users/me/sources' \
 
 #### Endpoint
 
-```text
+```
 POST /sources/
 ```
 
@@ -564,8 +681,7 @@ endpoints](/api/rest/#components) for information on how to retrieve this ID.
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream
-component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+The full code for a [Pipedream component](/components/api/).
 
 ---
 
@@ -574,7 +690,7 @@ component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
 
 ---
 
@@ -589,7 +705,7 @@ as metadata to identify the location of the code.
 The name of the source.
 
 If absent, this defaults to using the [name
-slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure)
+slug](/components/api/#component-structure)
 of the component used to create the source.
 
 #### Example Request
@@ -598,7 +714,7 @@ of the component used to create the source.
 curl https://api.pipedream.com/v1/sources \
   -H "Authorization: Bearer <api_key>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/components/rss/rss.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
 
 #### Example Response
@@ -635,7 +751,7 @@ Example response from creating an RSS source that runs once a minute:
 
 #### Endpoint
 
-```text
+```
 PUT /sources/{id}
 ```
 
@@ -653,7 +769,7 @@ endpoints](/api/rest/#components) for information on how to retrieve this ID.
 `component_code` **string** (_optional_)
 
 The full code for a [Pipedream
-component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md).
+component](/components/api/).
 
 ---
 
@@ -662,7 +778,7 @@ component](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/components/rss/rss.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
 
 ---
 
@@ -676,8 +792,7 @@ as metadata to identify the location of the code.
 
 The name of the source.
 
-If absent, this defaults to using the [name
-slug](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md#component-structure)
+If absent, this defaults to using the [name slug](/components/api/#component-structure)
 of the component used to create the source.
 
 ---
@@ -717,8 +832,8 @@ display the sources configured as listeners using this API**.
 
 #### Endpoint
 
-```text
-POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}listener_id={receiving_source_id}
+```
+POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}&listener_id={receiving_source_id}
 ```
 
 #### Parameters
@@ -745,13 +860,19 @@ in your workflow's URL - it's the string `p_2gCPml` in
 
 `event_name` **string** (optional)
 
-The name of the event stream whose events you'd like to receive:
+**Only pass `event_name` when you're listening for events on a custom channel, with the name of the custom channel**:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+```
+event_name=<custom_channel>
+```
+
+See [the `this.$emit` docs](/components/api/#emit) for more information on how to emit events on custom channels.
+
+Pipedream also exposes channels for logs and errors:
+
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -799,7 +920,7 @@ display the sources configured as listeners using this API**.
 
 #### Endpoint
 
-```text
+```
 POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_id}
 ```
 
@@ -811,11 +932,9 @@ POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_i
 
 The name of the event stream whose events you'd like to receive:
 
-- `$errors`: any errors thrown by workflows or sources are emitted to this
+- `$errors`: Any errors thrown by workflows or sources are emitted to this
   stream
-- `default`: any events emitted by event sources (or from workflows, using
-  `$send.emit()`) are included in this stream
-- `$logs`: any logs produced by **event sources** are emitted to this stream
+- `$logs`: Any logs produced by **event sources** are emitted to this stream
 
 ---
 
@@ -855,7 +974,7 @@ subscriptions.
 
 #### Endpoint
 
-```text
+```
 DELETE /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_source_id}&event_name={event_name}
 ```
 
@@ -949,7 +1068,7 @@ to deliver events to this webhook.
 
 #### Endpoint
 
-```text
+```
 POST /webhooks?url={your_endpoint_url}&name={name}&description={description}
 ```
 
@@ -965,7 +1084,7 @@ webhook object will be delivered to this endpoint URL.
 This URL **must** contain, at a minimum, a protocol — one of `http` or `https` —
 and hostname, but can specify resources or ports. For example, these URLs work:
 
-```text
+```
 https://example.com
 http://example.com
 https://example.com:12345/endpoint
@@ -973,7 +1092,7 @@ https://example.com:12345/endpoint
 
 but these do not:
 
-```text
+```
 # No protocol - needs http(s)://
 example.com
 
@@ -1044,7 +1163,7 @@ Retrieve up to the last 100 events emitted from a workflow using
 
 #### Endpoint
 
-```text
+```
 GET /workflows/{workflow_id}/event_summaries
 ```
 
@@ -1054,13 +1173,13 @@ The event data for events larger than `1KB` may get truncated in the response.
 If you're retrieving larger events, and need to see the full event data, pass
 `?expand=event`:
 
-```text
+```
 GET /workflows/{workflow_id}/event_summaries&expand=event
 ```
 
 Pass `?limit=N` to retrieve the last **N** events:
 
-```text
+```
 GET /v1/workflows/{workflow_id}/event_summaries?expand=event&limit=1
 ```
 
@@ -1112,7 +1231,7 @@ details of the error, along with the original event data, will be included
 
 #### Endpoint
 
-```text
+```
 GET /workflows/{workflow_id}/$errors/event_summaries
 ```
 
@@ -1122,13 +1241,13 @@ The event data for events larger than `1KB` may get truncated in the response.
 If you're processing larger events, and need to see the full event data, pass
 `?expand=event`:
 
-```text
+```
 GET /workflows/{workflow_id}/$errors/event_summaries&expand=event
 ```
 
 Pass `?limit=N` to retrieve the last **N** events:
 
-```text
+```
 GET /v1/workflows/{workflow_id}/$errors/event_summaries?expand=event&limit=1
 ```
 
@@ -1194,7 +1313,7 @@ Retrieve information on the authenticated user.
 
 #### Endpoint
 
-```text
+```
 GET /users/me
 ```
 
@@ -1219,7 +1338,14 @@ Free user:
     "id": "u_abc123",
     "username": "dylburger",
     "email": "dylan@pipedream.com",
-    "api_key": "XXX",
+    "orgs": [
+      {
+        "name": "MyTestOrg",
+        "id": "o_abc123",
+        "orgname": "mytestorg",
+        "email": "test@pipedream.com"
+      }
+    ],
     "daily_compute_time_quota": 95400000,
     "daily_compute_time_used": 8420300,
     "daily_invocations_quota": 27344,
@@ -1252,7 +1378,7 @@ authenticated user.
 
 #### Endpoint
 
-```text
+```
 GET /users/me/subscriptions
 ```
 
@@ -1296,7 +1422,7 @@ Retrieve all the [webhooks](#webhooks) configured for the authenticated user.
 
 #### Endpoint
 
-```text
+```
 GET /users/me/webhooks
 ```
 

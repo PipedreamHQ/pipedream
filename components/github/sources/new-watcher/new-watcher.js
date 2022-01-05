@@ -5,12 +5,18 @@ module.exports = {
   ...common,
   key: "github-new-watcher",
   name: "New Watcher",
-  description: "Emit an event when a new watcher is added to a repository.",
-  version: "0.0.1",
+  description: "Emit new events when new watchers are added to a repository",
+  version: "0.0.3",
+  type: "source",
   dedupe: "last",
   props: {
     ...common.props,
-    repoFullName: { propDefinition: [github, "repoFullName"] },
+    repoFullName: {
+      propDefinition: [
+        github,
+        "repoFullName",
+      ],
+    },
   },
   methods: {
     generateMeta(data) {
@@ -22,7 +28,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const watchers = await this.github.getWatchers({
       repoFullName: this.repoFullName,
     });

@@ -45,11 +45,7 @@ Your quota is reset, daily, at 00:00 (midnight) UTC.
 
 ## Compute time per day
 
-Users on the [Developer (free) tier](/pricing/#developer-tier), and free Organizations, have a default compute time quota of
-
-**30 minutes (1,800,000 milliseconds) per day**
-
-across all workflows and event sources. **You are _not_ limited on compute time on paid plans like the [Professional tier](/pricing/#professional-tier)**.
+Users on the [Developer (free) tier](/pricing/#developer-tier), and free Organizations, have a default compute time quota of **30 minutes (1,800,000 milliseconds) per day** across all workflows and event sources. **You are _not_ limited on compute time on paid plans like the [Professional tier](/pricing/#professional-tier)**.
 
 You can view your current usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing).
 
@@ -85,7 +81,7 @@ Generally the rate of HTTP requests sent to an endpoint is quantified by QPS, or
 
 We'll also accept short bursts of traffic, as long as you remain close to an average of 10 QPS (e.g. sending a batch of 50 requests every 30 seconds should not trigger rate limiting).
 
-**This limit can be raised for Professional, Teams, and Enterprise customers**. To request an increase, [reach out to our Support team](/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
+**This limit can be raised for Professional, Teams, and Enterprise customers**. To request an increase, [reach out to our Support team](https://pipedream.com/support/) with the HTTP endpoint whose QPS you'd like to increase, with the new, desired limit.
 
 ## Email Triggers
 
@@ -100,6 +96,8 @@ This `30MB` limit cannot be raised.
 ## Memory
 
 By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}}`.
+
+Increasing your workflow's memory gives you a proportional increase in CPU. If your workflow is limited by memory or compute, increasing your workflow's memory can reduce its overall runtime and make it more performant.
 
 **Pipedream charges invocations proportional to your memory configuration**. [Read more here](/pricing/#how-does-workflow-memory-affect-billable-invocations).
 
@@ -120,11 +118,14 @@ Every event sent to a workflow triggers a new execution of that workflow. Workfl
 
 If your code exceeds your workflow-level limit, we'll throw a **Timeout** error and stop your workflow. Any partial logs and observability associated with code cells that ran successfully before the timeout will be attached to the event in the UI, so you can examine the state of your workflow and troubleshoot where it may have failed.
 
-**You can change this default timeout in your [workflow's settings](/workflows/settings/), up to 300 seconds (5 minutes), or down to 1 second**.
+You can increase the timeout limit, up to a max value set by your plan:
+
+|     Tier     |                                             Maximum time per execution                                             |
+| :----------: | :---------------------------------------------------------------------------------------------------: |
+|  Free tiers   |                     300 seconds (5 min)                      |
+| Paid tiers | 750 seconds (12.5 min) |
 
 Events that trigger a **Timeout** error will appear in red in the [Inspector](/workflows/events/inspect/). You'll see the timeout error, also in red, in the cell at which the code timed out.
-
-If you need to run a workflow that exceeds 5 minutes, please [reach out to our team](/support/).
 
 ### Event / Execution History
 

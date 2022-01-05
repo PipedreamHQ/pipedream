@@ -4,16 +4,21 @@ module.exports = {
   ...common,
   key: "github-new-issue",
   name: "New Issue (Instant)",
-  description: "Emit an event when a new issue is created in a repo",
-  version: "0.0.3",
+  description: "Emit new events when new issues are created in a repo",
+  version: "0.0.6",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
-      return ["issues"];
+      return [
+        "issues",
+      ];
     },
     getEventTypes() {
-      return ["opened"];
+      return [
+        "opened",
+      ];
     },
     generateMeta(data) {
       const ts = new Date(data.issue.created_at).getTime();

@@ -10,6 +10,8 @@ Steps are the building blocks you use to create workflows. You can easily combin
 
 - You can observe the execution results for each step including export values, logs and errors.
 
+[[toc]]
+
 ## Types of Steps
 
 ### Trigger
@@ -18,7 +20,9 @@ Every workflow begins with a single [**trigger**](/workflows/steps/triggers/) st
 
 ### Code, Actions
 
-[**Code**](/workflows/steps/code/) and [**Actions**](/workflows/steps/actions/) steps cannot precede triggers, since they'll have no data to operate on.
+[**Actions**](/components/actions/) and [**code**](/workflows/steps/code/) steps drive the logic of your workflow. Anytime your workflow runs, Pipedream will execute each step of your workflow in order. Actions are prebuilt code steps that let you connect to hundreds of APIs without writing code. When you need more control than the default actions provide, code steps let you write any custom Node.js code.
+
+Code and action steps cannot precede triggers, since they'll have no data to operate on.
 
 Once you save a workflow, we deploy it to our servers. Each event triggers the workflow code, whether you have the workflow open in your browser, or not.
 
@@ -40,9 +44,11 @@ You can rename a step by clicking on its name and typing a new one in its place:
 
 After changing a step name, you'll need to update any references to the old step. In this example, you'd now reference this step as `steps.my_awesome_code_step`.
 
-## Passing data to steps (step parameters)
+## Passing data to steps
 
-[Steps are just functions](/workflows/steps/code/#async-function-declaration). As functions, they can accept parameters.
+### Passing data to code steps (step parameters)
+
+[Code steps are just functions](/workflows/steps/code/#async-function-declaration). As functions, they can accept parameters.
 
 To define a parameter, simply reference it in your code. For example, try adding this code to your step:
 
@@ -54,7 +60,13 @@ then save or deploy your workflow. You'll see a form appear above your code step
 
 Parameters promote reusability. They make it easier for others to use your workflow, since it's clear what values they need to pass to the step to get it working.
 
-[Read more about params here](params/).
+[Read more about params here](/workflows/steps/params/).
+
+### Passing data to components
+
+When you're developing [components](/components/), you can accept input [using props](/components/api/#props).
+
+When you use a [component action](/components/actions/) in a workflow, you can pass data to its props using [the params form](/workflows/steps/params/#entering-expressions).
 
 ## Step Exports
 
@@ -76,9 +88,11 @@ console.log(steps.trigger.event);
 
 When you export your own data from steps, you'll access it at the variable `steps.[STEP NAME].[EXPORT NAME]`. For example, a code step might export data at `steps.nodejs.myData`. You can reference this variable in any code step or [step parameter](#passing-data-to-steps-step-parameters).
 
-You can export data from steps in one of two ways: using named exports or `return`. The examples below are also included in [this workflow](https://pipedream.com/@dylburger/step-exports-example-p_xMC86w/edit), so you can copy and run it to see how this works.
+### Exporting data in code steps
 
-### Use named exports
+You can export data from code steps in one of two ways: using named exports or `return`. The examples below are also included in [this workflow](https://pipedream.com/@dylburger/step-exports-example-p_xMC86w/edit), so you can copy and run it to see how this works.
+
+#### Use named exports
 
 The variable `this` is a reference to the current step. `this` is a JavaScript object, and it's mutable. You can export any [JSON-serializable](https://stackoverflow.com/a/3316779/10795955) data from a step by setting properties of `this`:
 
@@ -99,7 +113,7 @@ console.log(steps.myStep.exportedData);
 console.log(steps.myStep.anotherProperty);
 ```
 
-### Use `return`
+#### Use `return`
 
 You can also export data from steps using `return`:
 
@@ -112,5 +126,33 @@ return {
 When you use `return`, the exported data will appear at `steps.[STEP NAME].$return_value`. For example, if you ran the code above in a step named `nodejs`, you'd reference the returned data using `steps.nodejs.$return_value.data`.
 
 Like with named exports, the returned data will appear below the step.
+
+### Exporting data from component actions
+
+The syntax for exporting data in [component actions](/components/actions/) is slightly different than in code steps.
+
+#### Using `return`
+
+Use `return` to return data from an action:
+
+```javascript
+async run({ $ }) {
+  return "data"
+}
+```
+
+When you use return, the exported data will appear at `steps.[STEP NAME].$return_value`. For example, if you ran the code above in a step named `nodejs`, you'd reference the returned data using `steps.nodejs.$return_value`.
+
+#### Using `$.export`
+
+You can also use `$.export` to return named exports from an action. `$export` takes the name of the export as the first argument, and the value to export as the second argument:
+
+```javascript
+async run({ $ }) {
+  $.export("name", "value")
+}
+```
+
+When your workflow runs, you'll see the named exports appear below your step, with the data you exported. You can reference these exports in other steps using `steps.[STEP NAME].[EXPORT NAME]`.
 
 <Footer />

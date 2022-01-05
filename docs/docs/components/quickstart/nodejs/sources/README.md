@@ -9,7 +9,7 @@ This document is intended for a technical audience (including those interested i
 - Use Pipedream managed OAuth for an app
 - Use npm packages in components
 
-We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples. 
+We recommend that you execute the examples in order — each one builds on the concepts and practices of earlier examples.
 
 [[toc]]
 
@@ -65,7 +65,7 @@ See the [CLI reference](/cli/reference/) for detailed usage and examples beyond 
 Here is a simple component that will emit an event with a payload of `{ message: "hello world!" }` on each invocation.
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {
@@ -133,7 +133,7 @@ this.db.set("count", ++count);
 Here's the updated code:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -174,7 +174,7 @@ timer: {
 Here's the updated code:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -249,7 +249,7 @@ this.$emit(event.body, {
 Here's the updated code:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -296,7 +296,7 @@ curl -d '{ "message": "hello world!" }' \
 Next, let's cover some real-world examples starting with RSS. Continue editing the same file, but start with the following scaffolding for this example.
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {},
@@ -305,12 +305,12 @@ module.exports = {
 
 ## Emit items in an RSS Feed
 
-> **Note:** The code for the examples below was adapted from the samples provided in the readme for the `rss-parser` package at https://www.npmjs.com/package/rss-parser. To use most npm packages on Pipedream, just require them — there is no `package.json` or `npm install` required.
+> **Note:** The code for the examples below was adapted from the samples provided in the readme for the `rss-parser` package at https://www.npmjs.com/package/rss-parser. To use most npm packages on Pipedream, just `import` them — there is no `package.json` or `npm install` required.
 
 To parse the RSS feed, we'll use the `rss-parser` npm package.
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 ```
 
@@ -329,10 +329,10 @@ feed.items.forEach((item) => {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {
@@ -361,10 +361,10 @@ this.$emit(item, {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {
@@ -404,10 +404,10 @@ this.$emit(item, {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   dedupe: "unique",
@@ -443,10 +443,10 @@ props: {
 Here's the updated code:
 
 ```javascript
-let Parser = require("rss-parser");
+import Parser from "rss-parser";
 let parser = new Parser();
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -477,7 +477,7 @@ module.exports = {
 In the last example, we were able to retrieve data to emit without any authentication. Now we'll use Pipedream managed auth to retrieve and emit data from the Github API (which uses OAuth for authentication). Similar to the last example, continue editing the same file, but start with the following scaffolding:
 
 ```javascript
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   async run() {},
@@ -486,10 +486,10 @@ module.exports = {
 
 ## Get issues for a repo
 
-First, require axios so we can make a request to the Github REST API:
+First, import `axios` so we can make a request to the Github REST API:
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 ```
 
 Next, let's add an **app prop**, which will enable us to use Pipedream managed auth with this component. For this example, we'll add Github:
@@ -527,9 +527,9 @@ async run() {
 Here's the updated code.
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -580,9 +580,9 @@ response.data.forEach((issue) => {
 Here is the updated code.
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -629,9 +629,9 @@ timer: {
 Here's the updated code.
 
 ```javascript
-let axios = require("axios");
+import axios from "axios";
 
-module.exports = {
+export default {
   name: "Source Demo",
   description: "This is a demo source",
   props: {
@@ -670,6 +670,6 @@ Save and reload your source in the Pipedream UI. You should now see a countdown 
 
 # What's Next?
 
-You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](../api/) at any time!
+You're ready to start authoring and deploying components on Pipedream! You can also check out the [detailed component reference](../../../api/) at any time!
 
 If you have any questions or feedback, please join our [public Slack](https://pipedream.com/support).

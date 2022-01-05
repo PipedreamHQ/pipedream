@@ -4,12 +4,15 @@ module.exports = {
   ...common,
   key: "github-new-fork",
   name: "New Fork (Instant)",
-  description: "Emit an event when a new fork is created",
-  version: "0.0.1",
+  description: "Emit new events on new forks",
+  version: "0.0.4",
+  type: "source",
   dedupe: "unique",
   methods: {
     getEventNames() {
-      return ["fork"];
+      return [
+        "fork",
+      ];
     },
     generateMeta(data) {
       const ts = new Date(data.forkee.created_at).getTime();

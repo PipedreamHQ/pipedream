@@ -19,6 +19,10 @@ If you'd like to report a suspected vulnerability, please contact <span style="f
 
 If you need to encrypt sensitive data as part of your report, you can use our [PGP key](/security/pgp-key/).
 
+## Reporting abuse
+
+If you suspect Pipedream resources are being used for illegal purposes, or otherwise violate [the Pipedream Terms](https://pipedream.com/terms), [report it here](/abuse/).
+
 ## Hosting Details
 
 Pipedream is hosted on the [Amazon Web Services](https://aws.amazon.com/) (AWS) platform. The physical hardware powering Pipedream, and the data stored by our platform, is hosted in data centers controlled and secured by AWS. You can read more about AWS’s security practices and compliance certifications [here](https://aws.amazon.com/security/).
@@ -82,7 +86,15 @@ Pipedream notifies customers of any data breaches according to our [Data Protect
 
 Pipedream is considered both a Controller and a Processor as defined by the GDPR. As a Processor, Pipedream implements policies and practices that secure the personal data you send to the platform, and includes a [Data Protection Addendum](https://pipedream.com/dpa) as part of our standard [Terms of Service](https://pipedream.com/terms).
 
+The Pipedream Data Protection Addendum includes the [Standard Contractual Clauses (SCCs)](https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en). These clarify how Pipedream handles your data, and they update our GDPR policies to cover the latest standards set by the European Commission.
+
 You can find a list of Pipedream subprocessors [here](/subprocessors/).
+
+## Submitting a GDPR deletion request
+
+When you [delete your account](/user-settings/#delete-account), Pipedream deletes all personal data we hold on you in our system and our vendors.
+
+If you need to delete data on behalf of one of your users, you can delete the event data yourself in your workflow or event source (for example, by deleting the events, or by removing the data from `$checkpoint`). Your customer event data is automatically deleted from Pipedream subprocessors.
 
 ## Payment Processor
 

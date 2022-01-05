@@ -1,4 +1,4 @@
-# What are Event Sources?
+# Sources
 
 Event sources operate primarily as workflow triggers. When you add a new app-based [trigger](/workflows/steps/triggers/) to your workflow, you're creating an event source.
 
@@ -6,7 +6,7 @@ Event sources operate primarily as workflow triggers. When you add a new app-bas
 <img alt="New-app-based trigger" width="600px" src="./images/app-based-trigger.png">
 </div>
 
-Event sources run as their own resources, separate from workflows, for two reasons: 
+Event sources run as their own resources, separate from workflows, for two reasons:
 
 - A single event sources can trigger more than one workflow. If you have a data source that you want to run _multiple_ workflows, you can create an event source once and use it as the trigger for each workflow.
 - If you need to consume events emitted by event sources in your own application, you don't need to run a workflow: you can use Pipedream's [REST API](/api/rest/) or a [private, real-time SSE stream](/api/sse/) to access the event data directly.
@@ -77,8 +77,6 @@ HTTP sources are a good example of how you can turn an event stream into an API:
 
 You can also use event sources to run any Node code on a schedule, allowing you to poll a service or API for data and emit that data as an event. The emitted events can trigger Pipedream workflows, and can be retrieved using Pipedream's [**REST API**](/api/rest/) or [SSE interface](/api/sse/).
 
-[**See the Github quickstart for more information and documentation**](https://github.com/PipedreamHQ/pipedream/tree/master/interfaces/timer).
-
 ## Example: RSS
 
 You can run an event source that polls an RSS for new items and emits them in real time as formatted JSON.
@@ -87,7 +85,7 @@ You can run an event source that polls an RSS for new items and emits them in re
 
 ## Publishing a new event source, or modifying an existing source
 
-Anyone can create an event source or edit an existing one. The code for all event sources is public, and kept in the [`PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream). [Read this quickstart](https://github.com/PipedreamHQ/pipedream/blob/master/QUICKSTART.md) and see the [event source API docs](https://github.com/PipedreamHQ/pipedream/blob/master/COMPONENT-API.md) to learn more about the source development process.
+Anyone can create an event source or edit an existing one. The code for all event sources is public, and kept in the [`PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream). [Read this quickstart](/components/quickstart/nodejs/sources/) and see the [event source API docs](/components/api/) to learn more about the source development process.
 
 You can chat about source development with the Pipedream team in the `#contribute` channel of our [public Slack](https://join.slack.com/t/pipedream-users/shared_invite/zt-ernlymsn-UHfPg~Dfp08uGkAd8dpkww), and in the `#dev` topic in the [Pipedream community](https://pipedream.com/community/c/dev/11).
 

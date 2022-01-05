@@ -1,6 +1,8 @@
 # Managing Concurrency and Throttling
 
-Pipedream makes it easy to manage the concurrency and rate at which events from a source trigger your workflow code using execution controls. 
+Pipedream makes it easy to manage the concurrency and rate at which events trigger your workflow code using execution controls.
+
+Concurrency and throttling controls are only available on workflows triggered by [event sources](/sources), and are _not_ available on [native triggers](/docs/workflows/steps/triggers/) like **HTTP** and **Email**. We plan to add support for this in the future.
 
 [[toc]]
 

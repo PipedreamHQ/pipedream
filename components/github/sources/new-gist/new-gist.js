@@ -4,8 +4,9 @@ module.exports = {
   ...common,
   key: "github-new-gist",
   name: "New Gist",
-  description: "Emit an event when a new gist is created by the user.",
-  version: "0.0.1",
+  description: "Emit new events when new gists are created by the authenticated user",
+  version: "0.0.3",
+  type: "source",
   dedupe: "last",
   methods: {
     generateMeta(data) {
@@ -17,7 +18,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const since = this.db.get("since");
 
     const gists = await this.github.getGists({

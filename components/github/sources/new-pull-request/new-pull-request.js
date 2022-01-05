@@ -4,16 +4,21 @@ module.exports = {
   ...common,
   key: "github-new-pull-request",
   name: "New Pull Request (Instant)",
-  description: "Emit an event when a new pull request is opened",
-  version: "0.0.3",
+  description: "Emit new event on new pull requests",
+  version: "0.0.6",
+  type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getEventNames() {
-      return ["pull_request"];
+      return [
+        "pull_request",
+      ];
     },
     getEventTypes() {
-      return ["opened"];
+      return [
+        "opened",
+      ];
     },
     generateMeta(data) {
       const ts = new Date(data.pull_request.updated_at).getTime();
