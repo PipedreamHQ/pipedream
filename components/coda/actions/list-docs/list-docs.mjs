@@ -13,22 +13,18 @@ export default {
         coda,
         "isOwner",
       ],
-      optional: true,
     },
     isPublished: {
       propDefinition: [
         coda,
         "isPublished",
       ],
-      optional: true,
-      default: false,
     },
     query: {
       propDefinition: [
         coda,
         "query",
       ],
-      optional: true,
     },
     sourceDoc: {
       propDefinition: [
@@ -36,30 +32,24 @@ export default {
         "sourceDoc",
       ],
       description: "Show only docs copied from the specified doc ID.",
-      optional: true,
     },
     isStarred: {
       propDefinition: [
         coda,
         "isStarred",
       ],
-      optional: true,
-      default: false,
     },
     inGallery: {
       propDefinition: [
         coda,
         "inGallery",
       ],
-      optional: true,
-      default: false,
     },
     workspaceId: {
       propDefinition: [
         coda,
         "workspaceId",
       ],
-      optional: true,
     },
     folderId: {
       propDefinition: [
@@ -67,7 +57,6 @@ export default {
         "folderId",
       ],
       description: "Show only docs belonging to the given folder.",
-      optional: true,
     },
     limit: {
       propDefinition: [
@@ -80,15 +69,12 @@ export default {
         coda,
         "pageToken",
       ],
-      optional: true,
     },
     paginate: {
       propDefinition: [
         coda,
         "paginate",
       ],
-      optional: true,
-      default: true,
     },
   },
   async run() {
