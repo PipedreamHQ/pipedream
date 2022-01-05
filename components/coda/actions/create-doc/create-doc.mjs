@@ -14,12 +14,6 @@ export default {
       description: "Title of the new doc. Defaults to 'Untitled'.",
       optional: true,
     },
-    timezone: {
-      type: "string",
-      label: "Timezone",
-      description: "The timezone to use for the newly created doc.",
-      optional: true,
-    },
     folderId: {
       type: "string",
       label: "Folder ID",
@@ -30,7 +24,6 @@ export default {
   async run() {
     return await this.coda.createDoc(
       this.title,
-      this.timezone,
       this.folderId,
     );
   },

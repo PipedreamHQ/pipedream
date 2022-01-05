@@ -13,13 +13,13 @@ export default {
      * Creates a new Coda doc
      *
      * @param {string} title - Title of the new doc
-     * @param {string} timezone - The timezone to use for the newly created
+     * @param {string} folderId - The ID of the folder within to create this
      * doc
-     * @param {string} [folderId] - The ID of the folder within to create
-     * this doc
-     * @returns {string} ID of the new doc
+     * @param {string} [sourceDoc] - An optional doc ID from which to create a
+     * copy
+     * @returns {string} ID of the newly created doc
      */
-    async createDoc(title, timezone, folderId, sourceDoc = "") {
+    async createDoc(title, folderId, sourceDoc = "") {
       const config = {
         method: "post",
         url: "https://coda.io/apis/v1/docs",
@@ -28,7 +28,6 @@ export default {
         },
         data: {
           title,
-          timezone,
           folderId,
           sourceDoc,
         },
