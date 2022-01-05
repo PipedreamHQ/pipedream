@@ -4,16 +4,13 @@
 <img style="display: inline-block;" src="./images/discord_plus_pipedream.png" alt="Discord" width="200px">
 </div>
 
-Pipedream supports two [Discord](https://discordapp.com) integrations: 
+Pipedream supports a few distinct [Discord](https://discordapp.com) integrations: 
 
-- [Discord Webhook](#discord-webhook)
-- [Discord Bot](#discord-bot)
+- **[Discord Webhook](#discord-webhook):** If you just need to send messages to a channel, use this integration.
+- **[Discord Bot](#discord-bot):** This integration lets you interact with the [Discord API](https://discordapp.com/developers/docs/intro) to programmatically create channel invites, kick users from a guild, and more. You'll need to create your own bot and add it to your guild before using this integration ([details below](#discord-bot)).
+- **[Pipedream bot in Discord](#pipedream-bot-in-discord):** Use this integration to create a Discord source that emits messages from your guild to a Pipedream workflow.
 
-If you just need to send messages to a channel, use the [**Webhook integration**](#discord-webhook).
-
-The [**Bot integration**](#discord-bot) lets you interact with the [Discord API](https://discordapp.com/developers/docs/intro) to programmatically create channel invites, kick users from a guild, and more. You'll need to create your own bot and add it to your guild before using this integration. We describe that process [below](#discord-bot).
-
-You can also use both types of integrations in the same workflow. Read on to learn more.
+**You can also use any combination of Discord integrations in the same workflow! Read on to learn more.**
 
 [[toc]]
 
@@ -122,7 +119,9 @@ Right now, the Discord Bot integration cannot utilize the [Discord Gateway](http
 
 Please [reach out](https://pipedream.com/support) if prevents you from building a workflow. We're happy to prioritize support for this in the future.
 
-## Discord Event Sources
+## Pipedream bot in Discord
+
+### Discord Event Sources
 
 [Event sources](/event-sources/) let you trigger workflows on new events from Discord. For example, you can create a source that listens for new messages in a Discord channel, triggering a workflow on each new message.
 
