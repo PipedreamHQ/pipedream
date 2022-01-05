@@ -2,7 +2,10 @@ const BASE_URL = "https://inventory.dearsystems.com";
 const VERSION_PATH = "/ExternalApi/v2";
 const API_AUTH_ACCOUNT_ID_HEADER = "api-auth-accountid";
 const API_AUTH_APPLICATION_KEY_HEADER = "api-auth-applicationkey";
+const X_AMZN_TRACE_ID_HEADER = "x-amzn-trace-id";
 const WEBHOOK_ID = "webhookId";
+const VERIFICATION_TOKEN = "verificationToken";
+const VERIFICATION_TOKEN_HEADER = "verification-token";
 
 /**
  * All available values for Webhook Type.
@@ -36,6 +39,9 @@ export default {
   VERSION_PATH,
   API_AUTH_ACCOUNT_ID_HEADER,
   API_AUTH_APPLICATION_KEY_HEADER,
+  X_AMZN_TRACE_ID_HEADER,
+  VERIFICATION_TOKEN,
+  VERIFICATION_TOKEN_HEADER,
   WEBHOOK_TYPE,
   WEBHOOK_ID,
 };
