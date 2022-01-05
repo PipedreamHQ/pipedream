@@ -4,7 +4,7 @@ import axios from "axios";
 export default {
   key: "nordigen-new-transation",
   name: "New transaction",
-  description: "This source emits an event when a new transaction occurs",
+  description: "Emit new event when a transaction occurs",
   version: "0.0.1",
   type: "source",
   props: {
