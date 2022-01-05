@@ -66,6 +66,12 @@ export default {
       description: "Show only docs belonging to the given workspace.",
       optional: true,
     },
+    sortBy: {
+      type: "string",
+      label: "sortBy",
+      description: "Determines how to sort the given objects.",
+      optional: true,
+    },
     limit: {
       type: "integer",
       label: "Limit",
@@ -154,6 +160,27 @@ export default {
       const config = {
         method: "get",
         url: "https://coda.io/apis/v1/docs",
+        headers: {
+          Authorization: `Bearer ${this.$auth.api_token}`,
+        },
+        params: this._removeEmptyKeyValues(params),
+      };
+      return (await axios(config)).data;
+    },
+    /**
+     * Returns a list of tables in a Coda doc according to parameters
+     * @param {object} [params] - Optional Query Parameters
+     * @param {int} params.limit
+     * @param {string} params.pageToken
+     * @param {string} params.sortBy
+     * @param {string} params.tableTypes
+     *
+     * @returns {object[]} Array of tables
+     */
+    async listTables(docId, params = {}) {
+      const config = {
+        method: "get",
+        url: `https://coda.io/apis/v1/docs/${docId}/tables`,
         headers: {
           Authorization: `Bearer ${this.$auth.api_token}`,
         },
