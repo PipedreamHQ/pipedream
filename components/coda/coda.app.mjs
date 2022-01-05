@@ -19,7 +19,7 @@ export default {
      * this doc
      * @returns {string} ID of the new doc
      */
-    async createDoc(title, timezone, folderId) {
+    async createDoc(title, timezone, folderId, sourceDoc = "") {
       const config = {
         method: "post",
         url: "https://coda.io/apis/v1/docs",
@@ -30,6 +30,7 @@ export default {
           title,
           timezone,
           folderId,
+          sourceDoc,
         },
       };
       return (await axios(config)).data.id;

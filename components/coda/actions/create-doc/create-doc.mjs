@@ -1,9 +1,9 @@
 import coda from "../../coda.app.mjs";
 
 export default {
+  key: "coda_create-doc",
   name: "Create Doc",
   description: "Creates a new Coda doc",
-  key: "coda_create-doc",
   version: "0.0.19",
   type: "action",
   props: {
