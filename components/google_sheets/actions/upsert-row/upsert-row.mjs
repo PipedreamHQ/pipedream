@@ -30,8 +30,6 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "",
-      optional: true,
     },
     sheetId: {
       propDefinition: [
