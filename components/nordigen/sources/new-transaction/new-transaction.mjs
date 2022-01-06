@@ -1,6 +1,8 @@
 import hash from "object-hash";
-import axios from "axios";
+import nordigen from "../../nordigen.app.mjs";
+import { axios } from "@pipedream/platform";
 
+// TODO: Add description docs
 export default {
   key: "nordigen-new-transation",
   name: "New transaction",
@@ -9,189 +11,155 @@ export default {
   type: "source",
   props: {
     db: "$.service.db",
-    nordigen: {
-      type: "app",
-      app: "nordigen",
-      label: "Nordigen account",
-      description: "Nordigen account on which your bank account is connected to",
-      propDefinitions: {},
-      methods: {
-        // this.$auth contains connected account data
-        authKeys() {
-          console.log(Object.keys(this.$auth));
-        },
-      },
-    },
+    nordigen,
     timer: {
       type: "$.interface.timer",
       label: "Timer",
       description: "When should the source check for a new event",
       default: {
-        intervalSeconds: 60 * 5,
+        intervalSeconds: 60 * 60 * 24,
       },
     },
     country_code: {
-      type: "string",
-      label: "Enter a country code",
-      description: "ISO 3166 two-character code for the country (eg. `FR`). Full list: https://www.iso.org/obp/ui/en/#iso:pub:PUB500001:en",
+      propDefinition: [
+        nordigen,
+        "country_code",
+      ],
     },
     institution_id: {
-      type: "string",
-      label: "Institution",
-      description: "Select your institution",
-      async options() {
-        const institutions = await axios({
-          url: `https://ob.nordigen.com/api/v2/institutions/?country=${this.country_code}`,
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
-            "accept": "application/json",
-          },
-        });
-        return institutions.data.map((institution) => {
-          return {
-            label: institution.name,
-            value: institution.id,
-          };
-        });
-      },
+      propDefinition: [
+        nordigen,
+        "institution_id",
+      ],
     },
     access_valid_for_days: {
-      type: "string",
+      type: "integer",
       label: "Validity days",
       description: "Number of days the user agreement will be valid.",
     },
     max_historical_days: {
-      type: "string",
+      type: "integer",
       label: "Maximum historical days",
       description: "Number of days the user agreement will grand acess to when listing transactions.",
     },
   },
-
-  async create_requisition_link() {
-    // ========== 5 CREATE END USER AGREEMENT ==========
-
-    const step5 = await axios({
-      url: "https://ob.nordigen.com/api/v2/agreements/enduser/",
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
-      },
-      data: {
-        "institution_id": this.institution_id,
-        "max_historical_days": this.max_historical_days,
-        "access_valid_for_days": this.access_valid_for_days,
-        "access_scope": [
-          "balances",
-          "details",
-          "transactions",
-        ],
-      },
-    });
-
-    // ========== 6 BUILD REQUISITION LINK ==========
-
-    const step6 = await axios({
-      url: "https://ob.nordigen.com/api/v2/requisitions/",
-      method: "POST",
-      headers: {
-        "accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
-      },
-      data: {
-        "redirect": "https://pipedream.com",
-        "institution_id": this.institution_id,
-        "reference": Date.now(),
-        "agreement": step5.id,
-        "user_language": "EN",
-      },
-    });
-
-    // ========== 7 SAVE REQUISITION ID ==========
-
-    this.db.set("requisitionId", step6.data.id);
-    console.log("New requisition link: " + step6.data.link);
-
-    // ========== 8 SEND LINK ==========
-
-    this.$emit({
-      "requisition": step6.data.link,
-    });
-  },
-
-  async run() {
-
-    // ========== 2 GET REQUISITION ID ==========
-
-    const requisitionId = this.db.get("requisitionId");
-
-    // ========== 3 LIST ACCOUNTS ==========
-
-    if (requisitionId != null) {
-
-      const step3 = await axios({
-        url: `https://ob.nordigen.com/api/v2/requisitions/${requisitionId}`,
-        method: "GET",
-        headers: {
-          "accept": "application/json",
-          "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
-        },
+  methods: {
+    _getRequisitionId() {
+      return this.db.get("requisitionId")
+    },
+    _setRequisitionId(data) {
+      this.db.set("requisitionId", data)
+    },
+    _getPreviousTransactions() {
+      return this.db.get("previousTransactions") || [];
+    },
+    _setPreviousTransactions(data) {
+      this.db.set("previousTransactions", data);
+    },
+    _emitEvent(data) {
+      this.$emit(data, {
+        // TODO: Summary and id???
+        ts: Date.now(),
       });
+    },
+    async createRequisitionLink($) {
+      const agreementRes = await axios($, this.nordigen._getAxiosParams({
+        method: "POST",
+        path: "/agreements/enduser/",
+        data: {
+          "institution_id": this.institution_id,
+          "max_historical_days": this.max_historical_days,
+          "access_valid_for_days": this.access_valid_for_days,
+          "access_scope": [
+            "balances",
+            "details",
+            "transactions",
+          ],
+        },
+      }));
 
-      if (step3.data.accounts.length > 0) {
-        console.log("Account found: " + step3.data.accounts[0]);
+      const requisitionLinkRes = await axios($, this.nordigen._getAxiosParams({
+        method: "POST",
+        path: "/requisitions",
+        data: {
+          "redirect": "https://pipedream.com",
+          "institution_id": this.institution_id,
+          "reference": Date.now(),
+          "agreement": agreementRes.id,
+          "user_language": "EN",
+        },
+      }))
+      this._setRequisitionId(requisitionLinkRes.id)
+      console.log("New requisition link: " + requisitionLinkRes.link);
 
-        // ========== 4 LIST TRANSACTIONS ==========
-
-        const step4 = await axios({
-          url: `https://ob.nordigen.com/api/v2/accounts/${step3.data.accounts[0]}/transactions`,
-          method: "GET",
-          headers: {
-            "accept": "application/json",
-            "Authorization": `Bearer ${this.nordigen.$auth.oauth_access_token}`,
-          },
-        });
-
-        const transactions = step4.data.transactions.booked;
-
-        var newTransactions = [];
-        var currentTransactions = [];
-
-        //Retrieve the previous transaction ids
-        const previousTransactions = this.db.get("previousTransactions") || [];
-
-        //For each transaction
-        for (const transaction of transactions) {
-          const transactionHash = hash(transaction);
-
-          //Add the transaction id to the current transactions list
-          currentTransactions.push(transactionHash);
-
-          //If the transaction id is not in the previous transactions list
-          if (!previousTransactions.includes(transactionHash)) {
-            //Add it to the new transactions list
-            newTransactions.push(transaction);
-          }
-        }
-
-        //Save the current transactions ids list
-        this.db.set("previousTransactions", currentTransactions);
-
-        newTransactions.forEach((newTransaction) => {
-          this.$emit(newTransaction);
-        });
+      // TODO: Summary and id???
+      this._emitEvent({
+        "requisition": requisitionLinkRes.data.link,
+      });
+    },
+    async getRequisitionId($) {
+      const requisitionId = this._getRequisitionId();
+      if (!requisitionId) {
+        console.log("No requisition id found");
+        await this.createRequisitionLink($);
+        return null
       }
-      else {
+      return requisitionId;
+    },
+    async getAccount($, requisitionId) {
+      const requisitionsRes = await axios($, this.nordigen._getAxiosParams({
+        method: "GET",
+        path: `/requisitions/${requisitionId}`,
+      }))
+  
+      if (requisitionsRes.data.accounts.length === 0) {
         console.log("No account found");
-        create_requisition_link();
+        await this.createRequisitionLink($);
+        return null
       }
+
+      return requisitionsRes.data.accounts[0]
+    },
+    async listTransactions($, account) {
+      // List Transactions
+      const transactionsRes = await axios($, this.nordigen._getAxiosParams({
+        method: "GET",
+        path: `/accounts/${account}/transaction`,
+      }))
+      const transactions = transactionsRes.data.transactions.booked;
+
+      var newTransactions = [];
+      var currentTransactions = [];
+      const previousTransactions = this._getPreviousTransactions()
+
+      for (const transaction of transactions) {
+        const transactionHash = hash(transaction);
+        currentTransactions.push(transactionHash);
+
+        if (!previousTransactions.includes(transactionHash)) {
+          newTransactions.push(transaction);
+        }
+      }
+
+      this._setPreviousTransactions(currentTransactions);
+      return newTransactions
     }
-    else {
-      console.log("No requisition id found");
-      create_requisition_link();
+  },
+  async run({ $ }) {
+    const requisitionId = await this.getRequisitionId($);
+    if (!requisitionId) {
+      return
     }
+
+    const account = await this.getAccount($, requisitionId)
+    if (!account) {
+      return
+    }
+    console.log("Account found: " + account);
+
+    const transactions = await this.listTransactions($, account)
+    transactions.forEach((newTransaction) => {
+      this._emitEvent(newTransaction);
+    });
   },
 };
