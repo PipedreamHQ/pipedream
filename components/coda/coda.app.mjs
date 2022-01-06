@@ -97,6 +97,13 @@ export default {
         })
       );
     },
+    _removeEmptyKeyValues(dict) {
+      Object.keys(dict).forEach((key) => (dict[key] === null
+        || dict[key] === undefined
+        || dict[key] === "")
+        && delete dict[key]);
+      return dict;
+    },
     // this.$auth contains connected account data
     authKeys() {
       console.log(Object.keys(this.$auth));
@@ -150,7 +157,7 @@ export default {
         headers: {
           Authorization: `Bearer ${this.$auth.api_token}`,
         },
-        params,
+        params: this._removeEmptyKeyValues(params),
       };
       return (await axios(config)).data;
     },

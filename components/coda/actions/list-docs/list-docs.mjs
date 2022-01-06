@@ -91,10 +91,6 @@ export default {
       limit: this.limit,
       pageToken: this.pageToken,
     };
-    Object.keys(params).forEach((key) => (params[key] === null
-      || params[key] === undefined
-      || params[key] === "")
-      && delete params[key]);
 
     var result = await this.coda.listDocs(params);
 
