@@ -27,6 +27,16 @@ export default {
         );
       },
     },
+    tableId: {
+      type: "string",
+      label: "Table ID",
+      description: "ID or name of the table",
+      async options({ docId }) {
+        return this._getKeyValuePair(
+          (await this.listTables(docId)).items
+        );
+      },
+    },
     isOwner: {
       type: "boolean",
       label: "Is Owner Docs",
@@ -64,6 +74,12 @@ export default {
       type: "string",
       label: "Workspace ID",
       description: "Show only docs belonging to the given workspace.",
+      optional: true,
+    },
+    visibleOnly: {
+      type: "boolean",
+      label: "visibleOnly",
+      description: "If true, returns only visible rows and columns for the table",
       optional: true,
     },
     sortBy: {
@@ -181,6 +197,28 @@ export default {
       const config = {
         method: "get",
         url: `https://coda.io/apis/v1/docs/${docId}/tables`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.api_token}`,
+        },
+        params: this._removeEmptyKeyValues(params),
+      };
+      return (await axios(config)).data;
+    },
+    /**
+     * Returns a list of columns in a doc table.
+     *
+     * @param {string} docId
+     * @param {string} tableId
+     * @param {object} [params]
+     * @param {object} params.limit
+     * @param {object} params.pageToken
+     * @param {object} params.visibleOnly
+     * @returns {object[]} Array of columns
+     */
+    async listColumns(docId, tableId, params = {}) {
+      const config = {
+        method: "get",
+        url: `https://coda.io/apis/v1/docs/${docId}/tables/${tableId}/columns`,
         headers: {
           Authorization: `Bearer ${this.$auth.api_token}`,
         },
