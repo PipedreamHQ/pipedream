@@ -37,6 +37,16 @@ export default {
         );
       },
     },
+    columnId: {
+      type: "string",
+      label: "Column ID",
+      description: "ID or name of the column",
+      async options({ docId, tableId }) {
+        return this._getKeyValuePair(
+          (await this.listColumns(docId, tableId)).items
+        );
+      },
+    },
     isOwner: {
       type: "boolean",
       label: "Is Owner Docs",
@@ -223,6 +233,32 @@ export default {
           Authorization: `Bearer ${this.$auth.api_token}`,
         },
         params: this._removeEmptyKeyValues(params),
+      };
+      return (await axios(config)).data;
+    },
+    /**
+     * Inserts rows into a table, optionally updating existing rows if any upsert key columns are provided.
+     * This endpoint will always return a 202, so long as the doc and table exist and are accessible (and the update is
+     * structurally valid). Row inserts/upserts are generally processed within several seconds.
+     *
+     * @param {string} docId
+     * @param {string} tableId
+     * @param {object} data
+     * @param {object} data.rows
+     * @param {string[]} [data.keyColumns]
+     * @param {object} [params]
+     * @param {boolean} [params.disableParsing]
+     * @returns {object[]} Array of addedRows and requestId
+     */
+    async createRows(docId, tableId, data, params = {}) {
+      const config = {
+        method: "post",
+        url: `https://coda.io/apis/v1/docs/${docId}/tables/${tableId}/rows`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.api_token}`,
+        },
+        params: this._removeEmptyKeyValues(params),
+        data,
       };
       return (await axios(config)).data;
     },
