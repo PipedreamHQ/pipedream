@@ -22,11 +22,11 @@ const headerProp = {
   reloadProps: true
 }
 
-module.exports = {
-  key: "pravin-add-single-row",
+export default {
+  key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "1.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     googleSheets,
@@ -84,7 +84,7 @@ module.exports = {
       return rv
     }
   },
-  async run() {
+  async run({$}) {
     const sheets = this.googleSheets.sheets()
     let cells
     if(this.dataFormat === "column") {
@@ -100,7 +100,7 @@ module.exports = {
       }
     }
 
-    // validate input
+    // validate input 
     if (!cells || !cells.length) {
       throw new Error("Please enter an array of elements in `Cells / Column Values`.");
     } else if (!Array.isArray(cells)) {
@@ -109,12 +109,16 @@ module.exports = {
       throw new Error("Cell / Column data is a multi-dimensional array. A one-dimensional is expected. If you're trying to send multiple rows to Google Sheets, search for the action to add multiple rows to Sheets.");
     }
 
-    return await this.googleSheets.addRowsToSheet({
+    const data = await this.googleSheets.addRowsToSheet({
       spreadsheetId: this.sheetId,
       range: this.sheetName,
       rows: [
         cells,
       ],
     });
+
+    $.export("$summary", `Successfully added 1 row to [${data.updatedRange} in Google Sheets](https://docs.google.com/spreadsheets/d/${data.spreadsheetId})`)
+  
+    return data
   },
 };
