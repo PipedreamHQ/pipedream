@@ -1,0 +1,19 @@
+{
+    "name": "@pipedream/postgresql",
+    "version": "0.0.1",
+    "description": "Pipedream PostgreSQL Components",
+    "main": "postgresql.app.mjs",
+    "keywords": [
+        "pipedream",
+        "postgresql"
+    ],
+    "homepage": "https://pipedream.com/apps/postgresql",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "dependencies": {
+        "pg": "^8.7.1"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}
