@@ -170,6 +170,7 @@ module.exports = {
         children: [
           "/apps/all-apps/",
           "/apps/discord/",
+          "/apps/hubspot/",
           "/apps/servicenow/",
           "/apps/slack/",
           "/apps/strava/",
@@ -192,7 +193,14 @@ module.exports = {
       },
       ["https://pipedream.com/support", "Support and Community"],
       "/troubleshooting/",
-      "/orgs/",
+      {
+        title: "Organizations",
+        collapsable: false,
+        children: [
+          "/orgs/",
+          "/orgs/sso/okta/",
+        ],
+      },
       "/pricing/",
       "/status/",
     ],

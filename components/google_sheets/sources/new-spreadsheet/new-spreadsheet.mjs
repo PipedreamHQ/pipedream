@@ -1,4 +1,4 @@
-import newFilesInstant from "../../../google_drive/sources/new-files-instant/new-files-instant.js";
+import newFilesInstant from "../../../google_drive/sources/new-files-instant/new-files-instant.mjs";
 
 export default {
   ...newFilesInstant,
