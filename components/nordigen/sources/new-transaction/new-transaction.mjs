@@ -30,6 +30,9 @@ export default {
       propDefinition: [
         nordigen,
         "institution_id",
+		(({ country_code }) => ({
+          country_code
+        }))
       ],
     },
     access_valid_for_days: {
@@ -121,7 +124,6 @@ export default {
       return requisitionsRes.data.accounts[0]
     },
     async listTransactions($, account) {
-      // List Transactions
       const transactionsRes = await axios($, this.nordigen._getAxiosParams({
         method: "GET",
         path: `/accounts/${account}/transaction`,

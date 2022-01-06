@@ -14,7 +14,7 @@ export default {
       label: "Institution",
       description: "Select your institution",
       async options({ country_code }) {
-        const institutions = await this.listInstitutions(country_code); //TODO: Why isn't it working ?
+        const institutions = await this.listInstitutions(country_code);
         return institutions.map((institution) => {
           return {
             label: institution.name,
@@ -43,9 +43,7 @@ export default {
       }
     },
     async _makeRequest(method, endpoint, data, params) {
-	  const config = {
-	  };
-      return await axios({	//TODO: use platform.axios instead
+      return axios({
         method,
         url: this._getHost() + endpoint,
         headers: this._getHeaders(),
