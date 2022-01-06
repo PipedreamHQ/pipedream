@@ -64,6 +64,19 @@ export default {
         );
       },
     },
+    keyColumns: {
+      type: "string[]",
+      label: "Key of columns to be upserted",
+      description: "Optional column IDs, URLs, or names (fragile and discouraged), specifying columns to be used as upsert keys",
+      async options({ docId, tableId }) {
+        return (await this.listColumns(docId, tableId)).items.map(
+          (column) => ({
+            label: `id[${column.id}] value[${column.name}]`,
+            value: column.id,
+          })
+        );
+      }
+    },
     isOwner: {
       type: "boolean",
       label: "Is Owner Docs",
