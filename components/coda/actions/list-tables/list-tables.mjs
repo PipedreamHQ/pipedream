@@ -1,7 +1,7 @@
 import coda from "../../coda.app.mjs";
 
 export default {
-  key: "coda_list-tables",
+  key: "coda-list-tables",
   name: "List Tables",
   description: "Lists tables in a Coda Doc",
   version: "0.0.1",

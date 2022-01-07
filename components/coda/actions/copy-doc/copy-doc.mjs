@@ -1,7 +1,7 @@
 import coda from "../../coda.app.mjs";
 
 export default {
-  key: "coda_copy-doc",
+  key: "coda-copy-doc",
   name: "Copy Doc",
   description: "Creates a copy of the specified Coda doc",
   version: "0.0.1",

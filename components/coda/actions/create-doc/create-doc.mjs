@@ -1,7 +1,7 @@
 import coda from "../../coda.app.mjs";
 
 export default {
-  key: "coda_create-doc",
+  key: "coda-create-doc",
   name: "Create Doc",
   description: "Creates a new Coda doc",
   version: "0.0.1",

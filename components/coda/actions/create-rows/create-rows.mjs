@@ -1,7 +1,7 @@
 import coda from "../../coda.app.mjs";
 
 export default {
-  key: "coda_create-rows",
+  key: "coda-create-rows",
   name: "Create Rows",
   description: "Creates rows in a selected table",
   version: "0.0.1",
