@@ -11,12 +11,9 @@ export default {
     docId: {
       propDefinition: [
         coda,
-        "sourceDoc",
+        "docId",
         (c) => c,
       ],
-      label: "Doc ID",
-      description: "ID of the Doc",
-      optional: false,
     },
     tableId: {
       propDefinition: [

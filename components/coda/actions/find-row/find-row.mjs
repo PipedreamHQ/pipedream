@@ -11,12 +11,9 @@ export default {
     docId: {
       propDefinition: [
         coda,
-        "sourceDoc",
+        "docId",
         (c) => c,
       ],
-      label: "Doc ID",
-      description: "ID of the Doc",
-      optional: false,
     },
     tableId: {
       propDefinition: [
@@ -46,6 +43,12 @@ export default {
         "updatedAt",
       ],
     },
+    visibleOnly: {
+      propDefinition: [
+        coda,
+        "visibleOnly",
+      ],
+    },
     useColumnNames: {
       type: "boolean",
       label: "Use Column Names",
@@ -62,12 +65,6 @@ export default {
         "simple",
         "simpleWithArrays",
         "rich",
-      ],
-    },
-    visibleOnly: {
-      propDefinition: [
-        coda,
-        "visibleOnly",
       ],
     },
     limit: {

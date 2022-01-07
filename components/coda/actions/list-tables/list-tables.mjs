@@ -11,12 +11,25 @@ export default {
     docId: {
       propDefinition: [
         coda,
-        "sourceDoc",
+        "docId",
         (c) => c,
       ],
-      label: "Doc ID",
-      description: "ID of the Doc",
-      optional: false,
+    },
+    sortBy: {
+      propDefinition: [
+        coda,
+        "sortBy",
+      ],
+    },
+    tableTypes: {
+      type: "string[]",
+      label: "tableTypes",
+      description: "Comma-separated list of table types to include in results. If omitted, includes both tables and views.",
+      optional: true,
+      default: [
+        "table",
+        "view",
+      ],
     },
     limit: {
       propDefinition: [
@@ -30,28 +43,9 @@ export default {
         "pageToken",
       ],
     },
-    sortBy: {
-      propDefinition: [
-        coda,
-        "sortBy",
-      ],
-      options: [
-        "name",
-      ],
-    },
-    tableTypes: {
-      type: "string[]",
-      label: "tableTypes",
-      description: "Comma-separated list of table types to include in results. If omitted, includes both tables and views.",
-      optional: true,
-      default: [
-        "table",
-        "view",
-      ],
-    },
   },
   async run() {
-    var params = {
+    let params = {
       limit: this.limit,
       pageToken: this.pageToken,
       sortBy: this.sortBy,

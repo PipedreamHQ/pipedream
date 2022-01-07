@@ -11,12 +11,9 @@ export default {
     docId: {
       propDefinition: [
         coda,
-        "sourceDoc",
+        "docId",
         (c) => c,
       ],
-      label: "Doc ID",
-      description: "ID of the Doc",
-      optional: false,
     },
     tableId: {
       propDefinition: [
@@ -50,12 +47,12 @@ export default {
     },
   },
   async run() {
-    var data = {
+    let data = {
       rows: JSON.parse(this.rows),
       keyColumns: this.keyColumns,
     };
 
-    var params = {
+    let params = {
       disableParsing: this.disableParsing,
     };
 

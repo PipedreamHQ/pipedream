@@ -8,17 +8,27 @@ export default {
   type: "action",
   props: {
     coda,
-    isOwner: {
+    docId: {
       propDefinition: [
         coda,
-        "isOwner",
+        "docId",
+        (c) => c,
       ],
+      description: "Show only docs copied from the specified doc ID",
+      optional: true,
     },
-    isPublished: {
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "Show only docs belonging to the given workspace",
+      optional: true,
+    },
+    folderId: {
       propDefinition: [
         coda,
-        "isPublished",
+        "folderId",
       ],
+      description: "Show only docs belonging to the given folder",
     },
     query: {
       propDefinition: [
@@ -26,38 +36,29 @@ export default {
         "query",
       ],
     },
-    sourceDoc: {
-      propDefinition: [
-        coda,
-        "sourceDoc",
-        (c) => c,
-      ],
-      description: "Show only docs copied from the specified doc ID.",
+    isOwner: {
+      type: "boolean",
+      label: "Is Owner Docs",
+      description: "Show only docs owned by the user.",
+      optional: true,
+    },
+    isPublished: {
+      type: "boolean",
+      label: "Is Published Docs",
+      description: "Show only published docs.",
+      optional: true,
     },
     isStarred: {
-      propDefinition: [
-        coda,
-        "isStarred",
-      ],
+      type: "boolean",
+      label: "Is Starred Docs",
+      description: "If true, returns docs that are starred. If false, returns docs that are not starred.",
+      optional: true,
     },
     inGallery: {
-      propDefinition: [
-        coda,
-        "inGallery",
-      ],
-    },
-    workspaceId: {
-      propDefinition: [
-        coda,
-        "workspaceId",
-      ],
-    },
-    folderId: {
-      propDefinition: [
-        coda,
-        "folderId",
-      ],
-      description: "Show only docs belonging to the given folder.",
+      type: "boolean",
+      label: "In Gallery Docs",
+      description: "Show only docs visible within the gallery.",
+      optional: true,
     },
     limit: {
       propDefinition: [
@@ -79,11 +80,11 @@ export default {
     },
   },
   async run() {
-    var params = {
+    let params = {
       isOwner: this.isOwner,
       isPublished: this.isPublished,
       query: this.query,
-      sourceDoc: this.sourceDoc,
+      docId: this.docId,
       isStarred: this.isStarred,
       inGallery: this.inGallery,
       workspaceId: this.workspaceId,
@@ -92,7 +93,7 @@ export default {
       pageToken: this.pageToken,
     };
 
-    var result = await this.coda.listDocs(params);
+    let result = await this.coda.listDocs(params);
 
     if (!this.paginate) {
       return {
@@ -100,7 +101,7 @@ export default {
       };
     }
 
-    var docList = result.items;
+    let docList = result.items;
     while (result.nextPageToken) {
       params["pageToken"] = result.nextPageToken;
       result = await this.coda.listDocs(params);

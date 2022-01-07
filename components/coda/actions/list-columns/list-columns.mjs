@@ -11,12 +11,9 @@ export default {
     docId: {
       propDefinition: [
         coda,
-        "sourceDoc",
+        "docId",
         (c) => c,
       ],
-      label: "Doc ID",
-      description: "ID of the Doc",
-      optional: false,
     },
     tableId: {
       propDefinition: [
@@ -26,6 +23,13 @@ export default {
           docId: c.docId,
         }),
       ],
+    },
+    visibleOnly: {
+      propDefinition: [
+        coda,
+        "visibleOnly",
+      ],
+      description: "If true, returns only visible columns for the table",
     },
     limit: {
       propDefinition: [
@@ -39,16 +43,9 @@ export default {
         "pageToken",
       ],
     },
-    visibleOnly: {
-      propDefinition: [
-        coda,
-        "visibleOnly",
-      ],
-      description: "If true, returns only visible columns for the table",
-    },
   },
   async run() {
-    var params = {
+    let params = {
       limit: this.limit,
       pageToken: this.pageToken,
       visibleOnly: this.visibleOnly,

@@ -6,31 +6,30 @@ export default {
   propDefinitions: {
     title: {
       type: "string",
-      label: "Doc Title",
-      description: "Title of the doc",
+      label: "Title",
+      description: "Title of the doc. Defaults to `\"Untitled\"`",
       optional: true,
     },
-    folderId: {
+    docId: {
       type: "string",
-      label: "Folder ID",
-      description: "The ID of the folder",
-      optional: true,
-    },
-    sourceDoc: {
-      type: "string",
-      label: "Source Doc ID",
-      description: "A doc ID from which to create a copy.",
-      optional: true,
+      label: "Doc ID",
+      description: "ID of the Doc",
       async options () {
         return this._getKeyValuePair(
           (await this.listDocs()).items
         );
       },
     },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of the folder. Defaults to your `\"My docs\"` folder in the oldest workspace you joined",
+      optional: true,
+    },
     tableId: {
       type: "string",
       label: "Table ID",
-      description: "ID or name of the table",
+      description: "ID of the table",
       async options({ docId }) {
         return this._getKeyValuePair(
           (await this.listTables(docId)).items
@@ -54,7 +53,7 @@ export default {
     columnId: {
       type: "string",
       label: "Column ID",
-      description: "ID or name of the column",
+      description: "ID of the column",
       async options({ docId, tableId }) {
         return (await this.listColumns(docId, tableId)).items.map(
           (column) => ({
@@ -77,43 +76,25 @@ export default {
         );
       }
     },
-    isOwner: {
-      type: "boolean",
-      label: "Is Owner Docs",
-      description: "Show only docs owned by the user.",
-      optional: true,
-    },
-    isPublished: {
-      type: "boolean",
-      label: "Is Published Docs",
-      description: "Show only published docs.",
-      optional: true,
-      default: false,
-    },
     query: {
       type: "string",
       label: "Search Query",
       description: "Search term used to filter down results.",
       optional: true,
     },
-    isStarred: {
-      type: "boolean",
-      label: "Is Starred Docs",
-      description: "If true, returns docs that are starred. If false, returns docs that are not starred.",
-      optional: true,
-      default: false,
-    },
-    inGallery: {
-      type: "boolean",
-      label: "In Gallery Docs",
-      description: "Show only docs visible within the gallery.",
-      optional: true,
-      default: false,
-    },
-    workspaceId: {
+    sortBy: {
       type: "string",
-      label: "Workspace ID",
-      description: "Show only docs belonging to the given workspace.",
+      label: "sortBy",
+      description: "Determines how to sort the given objects.",
+      optional: true,
+      options: [
+        "name",
+      ],
+    },
+    disableParsing: {
+      type: "boolean",
+      label: "Disable Parsing",
+      description: "If true, the API will not attempt to parse the data in any way",
       optional: true,
     },
     visibleOnly: {
@@ -122,25 +103,14 @@ export default {
       description: "If true, returns only visible rows and columns for the table",
       optional: true,
     },
-    sortBy: {
-      type: "string",
-      label: "sortBy",
-      description: "Determines how to sort the given objects.",
-      optional: true,
-    },
     limit: {
       type: "integer",
       label: "Limit",
       description: "Maximum number of results to return in this query.",
+      optional: true,
       default: 25,
       min: 1,
       max: 50,
-    },
-    disableParsing: {
-      type: "boolean",
-      label: "Disable Parsing",
-      description: "If true, the API will not attempt to parse the data in any way",
-      optional: true,
     },
     pageToken: {
       type: "string",
@@ -182,11 +152,11 @@ export default {
      * @param {string} title - Title of the new doc
      * @param {string} folderId - The ID of the folder within to create this
      * doc
-     * @param {string} [sourceDoc] - An optional doc ID from which to create a
+     * @param {string} [docId] - An optional doc ID from which to create a
      * copy
      * @returns {string} ID of the newly created doc
      */
-    async createDoc(title, folderId, sourceDoc = "") {
+    async createDoc(title, folderId, docId = "") {
       const config = {
         method: "post",
         url: "https://coda.io/apis/v1/docs",
@@ -196,7 +166,7 @@ export default {
         data: {
           title,
           folderId,
-          sourceDoc,
+          docId,
         },
       };
       return (await axios(config)).data.id;
@@ -208,7 +178,7 @@ export default {
      * @param {boolean} params.isOwner
      * @param {boolean} params.isPublished
      * @param {string} params.query
-     * @param {string} params.sourceDoc
+     * @param {string} params.docId
      * @param {boolean} params.isStarred
      * @param {boolean} params.inGallery
      * @param {string} params.workspaceId
