@@ -1,8 +1,8 @@
-const admin = require("firebase-admin");
-const axios = require("axios");
-const googleAuth = require('google-auth-library');
+import admin from "firebase-admin";
+import { axios } from "@pipedream/platform";
+import googleAuth from "google-auth-library";
 
-module.exports = {
+export default {
   type: "app",
   app: "firebase_admin_sdk",
   propDefinitions: {
@@ -29,7 +29,7 @@ module.exports = {
         privateKey,
       } = this.$auth;
       const formattedPrivateKey = privateKey.replace(/\\n/g, "\n");
-      return await admin.initializeApp({
+      return admin.initializeApp({
         credential: admin.credential.cert({
           projectId,
           clientEmail,
@@ -70,7 +70,7 @@ module.exports = {
         data,
         params,
       };
-      return (await axios(config)).data;
+      return axios(this, config);
     },
     /**
      * Retrieves a Bearer token for use with the Firebase REST API.
@@ -82,13 +82,15 @@ module.exports = {
         privateKey,
       } = this.$auth;
       const formattedPrivateKey = privateKey.replace(/\\n/g, "\n");
-      const SCOPES = ['https://www.googleapis.com/auth/cloud-platform'];
+      const SCOPES = [
+        "https://www.googleapis.com/auth/cloud-platform",
+      ];
       const jwtClient = await new googleAuth.JWT(
         clientEmail,
         null,
         formattedPrivateKey,
         SCOPES,
-        null
+        null,
       );
       return jwtClient.authorize().then((tokens) => tokens.access_token);
     },
@@ -105,7 +107,7 @@ module.exports = {
       const data = {
         structuredQuery,
       };
-      return await this._makeRequest(
+      return this._makeRequest(
         "POST",
         `https://firestore.googleapis.com/v1/${parent}:runQuery`,
         data,

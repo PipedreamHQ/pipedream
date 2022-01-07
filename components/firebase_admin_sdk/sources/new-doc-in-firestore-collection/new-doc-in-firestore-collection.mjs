@@ -1,11 +1,12 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "firebase_admin_sdk-new-doc-in-firestore-collection",
   name: "New Document in Firestore Collection",
-  description: "Emits an event when a structured query returns new documents",
-  version: "0.0.1",
+  description: "Emit new event when a structured query returns new documents",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
