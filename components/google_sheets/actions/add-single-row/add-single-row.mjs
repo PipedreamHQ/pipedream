@@ -1,26 +1,38 @@
 import googleSheets from "../../google_sheets.app.mjs";
 
-const dataFormat = { 
+const dataFormat = {
   type: "string",
   label: "Data Format",
   description: "You may enter individual values for each column or provide a single array representing the entire row.",
   options: [
-    { label: "Enter a value for each column", value: "column" },
-    { label: "Pass an array of values", value: "array" }
+    {
+      label: "Enter a value for each column",
+      value: "column",
+    },
+    {
+      label: "Pass an array of values",
+      value: "array",
+    },
   ],
   reloadProps: true,
-}
+};
 
-const headerProp = { 
-  type: "string", 
+const headerProp = {
+  type: "string",
   label: "Header Row?",
   description: "If the first row of your document has headers we'll retrieve them to make it easy to enter the value for each column.",
   options: [
-    { label: "First row has headers", value: "hasHeaders" },
-    { label: "There is no header row", value: "noHeaders" },
+    {
+      label: "First row has headers",
+      value: "hasHeaders",
+    },
+    {
+      label: "There is no header row",
+      value: "noHeaders",
+    },
   ],
-  reloadProps: true
-}
+  reloadProps: true,
+};
 
 export default {
   key: "google_sheets-add-single-row",
@@ -43,64 +55,77 @@ export default {
         (c) => ({
           driveId: googleSheets.methods.getDriveId(c.drive),
         }),
-      ]
+      ],
     },
-    sheetName: { propDefinition: [googleSheets, "sheetName", (c) => ({ sheetId: c.sheetId })] },
+    sheetName: {
+      propDefinition: [
+        googleSheets,
+        "sheetName",
+        (c) => ({
+          sheetId: c.sheetId,
+        }),
+      ],
+    },
     dataFormat,
   },
   async additionalProps() {
     if (this.dataFormat == "column") {
-      if(!this.header) {
-        const rv = {}
-        rv['header'] = headerProp
-        return rv
+      if (!this.header) {
+        const rv = {};
+        rv.header = headerProp;
+        return rv;
       } else {
-        if(this.header === "hasHeaders") {
-          const rv = {}
-          rv['header'] = headerProp
-          const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId, `${this.sheetName}!1:1`)
+        if (this.header === "hasHeaders") {
+          const rv = {};
+          rv.header = headerProp;
+          const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId, `${this.sheetName}!1:1`);
           for (let i = 0; i < values[0].length; i++) {
-            rv[`col_${i.toString().padStart(4, "0")}`] = { type: "string", label: values[0][i], optional: true }
+            rv[`col_${i.toString().padStart(4, "0")}`] = {
+              type: "string",
+              label: values[0][i],
+              optional: true,
+            };
           }
-          return rv
+          return rv;
         } else {
-          const rv = {}
-          rv['header'] = headerProp
-          rv['myColumnData'] = { 
-            type: "string[]", 
+          const rv = {};
+          rv.header = headerProp;
+          rv.myColumnData = {
+            type: "string[]",
             label: "Row Data",
-            description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string."
-          }
-          return rv
+            description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+          };
+          return rv;
         }
       }
     } else {
-      const rv = {}
-      rv['arrayData'] = { 
-        type: "any", 
+      const rv = {};
+      rv.arrayData = {
+        type: "any",
         label: "Values",
-        description: `Pass an array that represents a row of values. Each array element will be treated as a cell (e.g., entering \`["Foo",1,2]\` will insert a new row of data with values in 3 cells). The most common pattern is to reference an array exported by a previous step (e.g., \`{{steps.foo.$return_value}}\`). Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.`
-      }
-      return rv
+        description: "Pass an array that represents a row of values. Each array element will be treated as a cell (e.g., entering `[\"Foo\",1,2]` will insert a new row of data with values in 3 cells). The most common pattern is to reference an array exported by a previous step (e.g., `{{steps.foo.$return_value}}`). Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+      };
+      return rv;
     }
   },
-  async run({$}) {
-    const sheets = this.googleSheets.sheets()
-    let cells
-    if(this.dataFormat === "column") {
-      if(this.header === "hasHeaders") {
-        cells = Object.keys(this).filter(prop => prop.startsWith("col_")).sort().map(prop => this[prop])
+  async run({ $ }) {
+    let cells;
+    if (this.dataFormat === "column") {
+      if (this.header === "hasHeaders") {
+        cells = Object.keys(this).filter((prop) => prop.startsWith("col_"))
+          .sort()
+          .map((prop) => this[prop]);
       } else {
-        cells = this.myColumnData
+        cells = this.myColumnData;
       }
     } else {
-      cells = this.arrayData
-      if(!Array.isArray(cells)) {
-        cells = JSON.parse(cells)
+      cells = this.arrayData;
+      if (!Array.isArray(cells)) {
+        cells = JSON.parse(cells);
       }
     }
 
-    // validate input 
+    // validate input
     if (!cells || !cells.length) {
       throw new Error("Please enter an array of elements in `Cells / Column Values`.");
     } else if (!Array.isArray(cells)) {
@@ -117,8 +142,8 @@ export default {
       ],
     });
 
-    $.export("$summary", `Successfully added 1 row to [${data.updatedRange} in Google Sheets](https://docs.google.com/spreadsheets/d/${data.spreadsheetId})`)
-  
-    return data
+    $.export("$summary", `Successfully added 1 row to [${data.updatedRange} in [Google Sheets](https://docs.google.com/spreadsheets/d/${data.spreadsheetId})`);
+
+    return data;
   },
 };
