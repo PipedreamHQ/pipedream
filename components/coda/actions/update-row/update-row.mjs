@@ -44,7 +44,6 @@ export default {
           tableId: c.tableId,
         }),
       ],
-      description: "This prop is not used in the API call, it is a helper to find the columnId for the `row` object."
     },
     disableParsing: {
       propDefinition: [

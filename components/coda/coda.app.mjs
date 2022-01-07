@@ -57,7 +57,9 @@ export default {
     columnId: {
       type: "string",
       label: "Column ID",
-      description: "ID of the column",
+      description: `ID of the column
+        This prop is not used in the API call, it is a helper to find the \`columnId\` for the \`row\` object.`,
+      optional: true,
       async options({
         docId, tableId,
       }) {

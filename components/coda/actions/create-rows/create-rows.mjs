@@ -25,6 +25,16 @@ export default {
         }),
       ],
     },
+    columnId: {
+      propDefinition: [
+        coda,
+        "columnId",
+        (c) => ({
+          docId: c.docId,
+          tableId: c.tableId,
+        }),
+      ],
+    },
     disableParsing: {
       propDefinition: [
         coda,
