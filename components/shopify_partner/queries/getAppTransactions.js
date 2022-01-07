@@ -1,13 +1,23 @@
 const { gql } = require("graphql-request");
 
 const query = gql`
-  query getTransactions($createdAtMin: DateTime, $createdAtMax: DateTime) {
+  query getTransactions(
+    $createdAtMin: DateTime
+    $createdAtMax: DateTime
+    $after: String
+  ) {
     transactions(
       types: [APP_USAGE_SALE, APP_ONE_TIME_SALE, APP_SUBSCRIPTION_SALE]
       createdAtMin: $createdAtMin
       createdAtMax: $createdAtMax
+      after: $after
     ) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+      }
       edges {
+        cursor
         node {
           id
           createdAt

@@ -2,7 +2,7 @@ const shopify = require("../shopify_partner.app.js");
 const getAppTransactions = require("../queries/getAppTransactions");
 
 module.exports = {
-  key: "new-app-charges",
+  key: "shopify_partner-new-app-charges",
   name: "New App Charges",
   type: "source",
   version: "0.0.1",
@@ -10,6 +10,7 @@ module.exports = {
     "Emit new events when new app charges made to your partner account.",
   props: {
     shopify,
+    db: "$service.db",
     createdAtMin: {
       type: "string",
       description:
@@ -33,20 +34,25 @@ module.exports = {
   },
   dedupe: "unique",
   async run() {
-    const { createdAtMin, createdAtMax } = this;
+    const { createdAtMin, createdAtMax, after, db } = this;
 
     const variables = {
       ...(createdAtMin || {}),
       ...(createdAtMax || {}),
+      ...(after || {}),
     };
 
-    const data = await this.shopify.query({
+    await this.shopify.query({
+      db,
       query: getAppTransactions,
       variables,
-    });
-
-    data.transactions.edges.map(({ node: { ...txn } }) => {
-      this.$emit(txn, { id: txn.id });
+      hasNextPagePath: "transactions.pageInfo.hasNextPage",
+      cursorPath: "transactions[0].cursor",
+      handleEmit: (data) => {
+        data.transactions.edges.map(({ node: { ...txn } }) => {
+          this.$emit(txn, { id: txn.id });
+        });
+      },
     });
   },
 };

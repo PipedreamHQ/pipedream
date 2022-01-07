@@ -5,12 +5,14 @@ const query = gql`
     $appId: ID!
     $occurredAtMin: DateTime
     $occurredAtMax: DateTime
+    $after: String
   ) {
     app(id: $appId) {
       events(
         types: [RELATIONSHIP_UNINSTALLED]
         occurredAtMin: $occurredAtMin
         occurredAtMax: $occurredAtMax
+        after: $after
       ) {
         edges {
           node {

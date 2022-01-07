@@ -2,15 +2,16 @@ const shopify = require("../shopify_partner.app.js");
 const getAppInstalls = require("../queries/getAppInstalls");
 
 module.exports = {
-  key: "new-app-installs",
+  key: "shopify_partner-new-app-installs",
   name: "New App Installs",
   type: "source",
   version: "0.0.1",
   description: "Emit new events when new shops install your app.",
   props: {
     shopify,
+    db: "$service.db",
     appId: {
-      type: "string",
+      type: "secret",
       optional: false,
       description: "gid://partners/App/<your App ID here>",
       label: "Shopify App ID",
@@ -40,7 +41,7 @@ module.exports = {
   },
   dedupe: "unique",
   async run() {
-    const { appId, occurredAtMin, occurredAtMax } = this;
+    const { appId, occurredAtMin, occurredAtMax, db } = this;
 
     const variables = {
       appId,
@@ -48,15 +49,17 @@ module.exports = {
       ...(occurredAtMax || {}),
     };
 
-    const data = await this.shopify.query({
+    await this.shopify.query({
+      db,
       query: getAppInstalls,
       variables,
-    });
-
-    console.log("response", data);
-
-    data.app.events.edges.map(({ node: { ...event } }) => {
-      this.$emit(event, { id: event.occurredAt });
+      handleEmit: (data) => {
+        data.app.events.edges.map(({ node: { ...event } }) => {
+          this.$emit(event, { id: event.occurredAt });
+        });
+      },
+      cursorPath: "app.events[0].edges[0].cursor",
+      hasNextPagePath: "app.events.pageInfo.hasNextPage",
     });
   },
 };
