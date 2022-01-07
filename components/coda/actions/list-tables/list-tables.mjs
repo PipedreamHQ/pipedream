@@ -24,7 +24,7 @@ export default {
     tableTypes: {
       type: "string[]",
       label: "tableTypes",
-      description: "Comma-separated list of table types to include in results",
+      description: "Comma-separated list of table types to include in results. Items: `\"table\"` `\"view\"`",
       optional: true,
       default: [
         "table",
@@ -46,10 +46,10 @@ export default {
   },
   async run() {
     let params = {
-      limit: this.limit,
-      pageToken: this.pageToken,
       sortBy: this.sortBy,
       tableTypes: this.tableTypes.toString(),
+      limit: this.limit,
+      pageToken: this.pageToken,
     };
     return await this.coda.listTables(
       this.docId,

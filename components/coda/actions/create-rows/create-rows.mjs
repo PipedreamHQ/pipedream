@@ -3,7 +3,8 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-create-rows",
   name: "Create Rows",
-  description: "Creates rows in a selected table",
+  description: `Inserts rows in a selected table.
+    More information at [Coda API](https://coda.io/developers/apis/v1#operation/upsertRows)`,
   version: "0.0.1",
   type: "action",
   props: {

@@ -3,9 +3,8 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-update-row",
   name: "Update a Row",
-  description: `Updates the specified row in the table. This endpoint will always return a 202, so long as the row
-    exists and is accessible (and the update is structurally valid). Row updates are generally processed within several
-    seconds`,
+  description: `Updates the specified row in the table.
+    More information at [Coda API](https://coda.io/developers/apis/v1#operation/updateRow)`,
   version: "0.0.1",
   type: "action",
   props: {
@@ -45,6 +44,7 @@ export default {
           tableId: c.tableId,
         }),
       ],
+      description: "This prop is not used in the API call, it is a helper to find the columnId for the `row` object."
     },
     disableParsing: {
       propDefinition: [

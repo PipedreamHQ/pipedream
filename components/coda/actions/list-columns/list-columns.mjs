@@ -45,9 +45,9 @@ export default {
   },
   async run() {
     let params = {
+      visibleOnly: this.visibleOnly,
       limit: this.limit,
       pageToken: this.pageToken,
-      visibleOnly: this.visibleOnly,
     };
     return await this.coda.listColumns(
       this.docId,

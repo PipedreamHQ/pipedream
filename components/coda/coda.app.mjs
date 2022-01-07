@@ -23,7 +23,7 @@ export default {
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "ID of the folder. Defaults to your `\"My docs\"` folder in the oldest workspace you joined",
+      description: "ID of the folder",
       optional: true,
     },
     tableId: {

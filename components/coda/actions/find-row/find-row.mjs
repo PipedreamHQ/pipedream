@@ -29,11 +29,9 @@ export default {
         coda,
         "query",
       ],
-      description: `Example: \`query=c-tuVwxYz:"Apple"\`.
-        Query used to filter returned rows, specified as \`<column_id>:<value>\`.
-        If you'd like to use a column name instead of an ID, you must quote it (e.g., \`"My Column":123\`).
-        Also note that value is a JSON value; if you'd like to use a string, you must surround it in quotes
-        (e.g., \`"groceries"\`)`,
+      description: `Query used to filter returned rows, specified as \`<column_id>:<value>\`.
+        Example: \`query=c-tuVwxYz:"Apple"\`.
+        More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)`,
     },
     sortBy: {
       propDefinition: [
@@ -42,13 +40,7 @@ export default {
       ],
       description: `Specifies the sort order of the rows returned. If left unspecified, rows are returned by creation
         time ascending.
-        \`"UpdatedAt"\` sort ordering is the order of rows based upon when they were last updated. This does not
-        include updates to calculated values.
-        \`"Natural"\` sort ordering is the order that the rows appear in the table view in the application.
-        This ordering is only meaningfully defined for rows that are visible (unfiltered). Because of this, using this
-        sort order will imply \`visibleOnly=true\`, that is, to only return visible rows. If you pass \`sortBy=natural\`
-        and \`visibleOnly=false\` explicitly, this will result in a Bad Request error as this condition cannot be
-        satisfied`,
+        More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)`,
       options: [
         "createdAt",
         "natural",
@@ -71,7 +63,8 @@ export default {
     valueFormat: {
       type: "string",
       label: "Value Format",
-      description: "The format that cell values are returned as",
+      description: `The format that individual cell values are returned as.
+        More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)`,
       optional: true,
       options: [
         "simple",
@@ -103,9 +96,9 @@ export default {
     let params = {
       query: this.query,
       sortBy: this.sortBy,
+      visibleOnly: this.visibleOnly,
       useColumnNames: this.useColumnNames,
       valueFormat: this.valueFormat,
-      visibleOnly: this.visibleOnly,
       limit: this.limit,
       pageToken: this.pageToken,
       syncToken: this.syncToken,

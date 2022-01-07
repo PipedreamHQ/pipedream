@@ -82,14 +82,14 @@ export default {
   },
   async run() {
     let params = {
-      isOwner: this.isOwner,
-      isPublished: this.isPublished,
-      query: this.query,
-      docId: this.docId,
-      isStarred: this.isStarred,
-      inGallery: this.inGallery,
+      sourceDoc: this.docId,
       workspaceId: this.workspaceId,
       folderId: this.folderId,
+      query: this.query,
+      isOwner: this.isOwner,
+      isPublished: this.isPublished,
+      isStarred: this.isStarred,
+      inGallery: this.inGallery,
       limit: this.limit,
       pageToken: this.pageToken,
     };
