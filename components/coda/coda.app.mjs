@@ -15,7 +15,7 @@ export default {
       label: "Doc ID",
       description: "ID of the doc",
       async options () {
-        return this._getKeyValuePair(
+        return this._makeOptionsResponse(
           (await this.listDocs()).items,
         );
       },
@@ -31,7 +31,7 @@ export default {
       label: "Table ID",
       description: "ID of the table",
       async options({ docId }) {
-        return this._getKeyValuePair(
+        return this._makeOptionsResponse(
           (await this.listTables(docId)).items,
         );
       },
@@ -135,20 +135,33 @@ export default {
     },
   },
   methods: {
-    _getKeyValuePair(list) {
+    async _makeRequest(opts) {
+      if (!opts.headers) opts.headers = {};
+      opts.headers.Authorization = `Bearer ${this.$auth.api_token}`;
+      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
+      if (!opts.method) opts.method = "get";
+      if (opts.params) this._removeEmptyKeyValues(opts.params);
+      const { path } = opts;
+      delete opts.path;
+      opts.url = `https://coda.io/apis/v1${path[0] === "/"
+        ? ""
+        : "/"}${path}`;
+      return await axios(opts);
+    },
+    _removeEmptyKeyValues(opts) {
+      Object.keys(opts).forEach((k) => (opts[k] === null
+        || opts[k] === undefined
+        || opts[k] === "")
+        && delete opts[k]);
+      return opts;
+    },
+    _makeOptionsResponse(list) {
       return list.map(
         (e) => ({
           label: e.name,
           value: e.id,
         }),
       );
-    },
-    _removeEmptyKeyValues(dict) {
-      Object.keys(dict).forEach((key) => (dict[key] === null
-        || dict[key] === undefined
-        || dict[key] === "")
-        && delete dict[key]);
-      return dict;
     },
     /**
      * Creates a new doc or copies a doc from a source docId
@@ -159,15 +172,12 @@ export default {
      * @return {object} Created or copied doc
      */
     async createDoc(data = {}) {
-      const config = {
+      let opts = {
         method: "post",
-        url: "https://coda.io/apis/v1/docs",
-        headers: {
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
+        path: "/docs",
         data,
       };
-      return (await axios(config)).data;
+      return (await this._makeRequest(opts)).data;
     },
     /**
      * List docs according to query parameters
@@ -185,15 +195,11 @@ export default {
      * @return {object[]} List of docs
      */
     async listDocs(params = {}) {
-      const config = {
-        method: "get",
-        url: "https://coda.io/apis/v1/docs",
-        headers: {
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
-        params: this._removeEmptyKeyValues(params),
+      let opts = {
+        path: "/docs",
+        params,
       };
-      return (await axios(config)).data;
+      return (await this._makeRequest(opts)).data;
     },
     /**
      * Lists tables in a doc according to parameters
@@ -205,15 +211,11 @@ export default {
      * @return {object[]} List of tables
      */
     async listTables(docId, params = {}) {
-      const config = {
-        method: "get",
-        url: `https://coda.io/apis/v1/docs/${docId}/tables`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
-        params: this._removeEmptyKeyValues(params),
+      let opts = {
+        path: `/docs/${docId}/tables`,
+        params,
       };
-      return (await axios(config)).data;
+      return (await this._makeRequest(opts)).data;
     },
     /**
      * Searches for a row in the selected table using a column match search
@@ -231,15 +233,11 @@ export default {
      * @return {object[]} List of rows
      */
     async findRow(docId, tableId, params = {}) {
-      const config = {
-        method: "get",
-        url: `https://coda.io/apis/v1/docs/${docId}/tables/${tableId}/rows`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
-        params: this._removeEmptyKeyValues(params),
+      let opts = {
+        path: `/docs/${docId}/tables/${tableId}/rows`,
+        params,
       };
-      return (await axios(config)).data;
+      return (await this._makeRequest(opts)).data;
     },
     /**
      * Returns a list of columns in a doc table.
@@ -252,15 +250,11 @@ export default {
      * @return {object[]} List of columns
      */
     async listColumns(docId, tableId, params = {}) {
-      const config = {
-        method: "get",
-        url: `https://coda.io/apis/v1/docs/${docId}/tables/${tableId}/columns`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
-        params: this._removeEmptyKeyValues(params),
+      let opts = {
+        path: `/docs/${docId}/tables/${tableId}/columns`,
+        params,
       };
-      return (await axios(config)).data;
+      return (await this._makeRequest(opts)).data;
     },
     /**
      * Inserts rows into a table, optionally updating existing rows using upsert key columns
@@ -274,16 +268,13 @@ export default {
      * @return {object[]} List of added rows and requestId
      */
     async createRows(docId, tableId, data, params = {}) {
-      const config = {
+      let opts = {
         method: "post",
-        url: `https://coda.io/apis/v1/docs/${docId}/tables/${tableId}/rows`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
-        params: this._removeEmptyKeyValues(params),
+        path: `/docs/${docId}/tables/${tableId}/rows`,
+        params,
         data,
       };
-      return (await axios(config)).data;
+      return (await this._makeRequest(opts)).data;
     },
     /**
      * Updates the specified row in the table
@@ -297,16 +288,13 @@ export default {
      * @return {object[]} Updated rowId and requestId
      */
     async updateRow(docId, tableId, rowId, data, params = {}) {
-      const config = {
+      let opts = {
         method: "put",
-        url: `https://coda.io/apis/v1/docs/${docId}/tables/${tableId}/rows/${rowId}`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
-        params: this._removeEmptyKeyValues(params),
+        path: `/docs/${docId}/tables/${tableId}/rows/${rowId}`,
+        params,
         data,
       };
-      return (await axios(config)).data;
+      return (await this._makeRequest(opts)).data;
     },
   },
 };
