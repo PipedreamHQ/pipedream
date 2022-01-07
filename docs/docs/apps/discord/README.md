@@ -1,14 +1,14 @@
 # Discord
 
 <div>
-<img style="display: inline-block;" src="./images/discord_plus_pipedream.png" alt="Discord" width="200px">
+<img style="display: inline-block;" src="./images/discord_plus_pipedream_transparent.png" alt="Discord" width="130px">
 </div>
 
-Pipedream supports a few distinct [Discord](https://discordapp.com) integrations: 
+Pipedream supports a few different ways to connect to [Discord](https://discordapp.com):
 
 - **[Discord Webhook](#discord-webhook):** If you just need to send messages to a channel, use this integration.
 - **[Discord Bot](#discord-bot):** This integration lets you interact with the [Discord API](https://discordapp.com/developers/docs/intro) to programmatically create channel invites, kick users from a guild, and more. You'll need to create your own bot and add it to your guild before using this integration ([details below](#discord-bot)).
-- **[Pipedream bot in Discord](#pipedream-bot-in-discord):** Use this integration to create a Discord source that emits messages from your guild to a Pipedream workflow.
+- **[Pipedream Bot in Discord](#pipedream-bot-in-discord):** This integration creates a Discord source that emits messages from your guild to a Pipedream workflow.
 
 **You can also use any combination of Discord integrations in the same workflow! Read on to learn more.**
 
@@ -119,7 +119,21 @@ Right now, the Discord Bot integration cannot utilize the [Discord Gateway](http
 
 Please [reach out](https://pipedream.com/support) if prevents you from building a workflow. We're happy to prioritize support for this in the future.
 
-## Pipedream bot in Discord
+## Pipedream Bot in Discord
+
+### Using the Pipedream Bot integration
+
+To get started with this integration, [create a new workflow](https://pipedream.com/new). When setting up the trigger, select "Discord" as the app, then choose "New Message".
+
+<div>
+<img alt="Discord App integration" src="./images/discord-app-trigger.png" width="800">
+</div>
+
+You'll be prompted to sign in to your Discord account if you haven't already connected it to Pipedream, then you can select the channel(s) to which you'd like to add the Pipedream Bot, and create the source. You should now see the Pipedream Bot in your relevant Discord channel(s).
+
+<div>
+<img alt="Pipedream Bot" src="./images/pipedream-bot.png" width="350">
+</div>
 
 ### Discord Event Sources
 
