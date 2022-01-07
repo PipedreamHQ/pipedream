@@ -79,7 +79,7 @@ export default {
       rv['arrayData'] = { 
         type: "any", 
         label: "Values",
-        description: "Pass an array that represents a row of values. Each array element will be treated as a cell (e.g., entering `['Foo',1,2]` will insert a new row of data with values in 3 cells). The most common pattern is to reference an array exported by a previous step (e.g., `{{steps.foo.$return_value}}`). Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string."
+        description: `Pass an array that represents a row of values. Each array element will be treated as a cell (e.g., entering \`["Foo",1,2]\` will insert a new row of data with values in 3 cells). The most common pattern is to reference an array exported by a previous step (e.g., \`{{steps.foo.$return_value}}\`). Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.`
       }
       return rv
     }

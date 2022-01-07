@@ -45,7 +45,6 @@ export default {
     sheetID: {
       type: "string",
       label: "Spreadsheet",
-      description: "The Google spreadsheet",
       options({
         prevContext,
         driveId,
@@ -57,7 +56,6 @@ export default {
     sheetName: {
       type: "string",
       label: "Sheet Name",
-      description: "Sheet Name",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
         return sheets.map((sheet) => sheet.properties.title);
@@ -67,7 +65,6 @@ export default {
     worksheetIDs: {
       type: "string[]",
       label: "Worksheet(s)",
-      description: "Worksheet(s)",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
 
