@@ -13,17 +13,17 @@ export default {
     docId: {
       type: "string",
       label: "Doc ID",
-      description: "ID of the Doc",
+      description: "ID of the doc",
       async options () {
         return this._getKeyValuePair(
-          (await this.listDocs()).items
+          (await this.listDocs()).items,
         );
       },
     },
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "The ID of the folder. Defaults to your `\"My docs\"` folder in the oldest workspace you joined",
+      description: "ID of the folder. Defaults to your `\"My docs\"` folder in the oldest workspace you joined",
       optional: true,
     },
     tableId: {
@@ -32,7 +32,7 @@ export default {
       description: "ID of the table",
       async options({ docId }) {
         return this._getKeyValuePair(
-          (await this.listTables(docId)).items
+          (await this.listTables(docId)).items,
         );
       },
     },
@@ -40,13 +40,17 @@ export default {
       type: "string",
       label: "Row ID",
       description: "ID of the row",
-      async options({ docId, tableId }) {
+      async options({
+        docId, tableId,
+      }) {
         let counter = 0;
-        return (await this.findRow(docId, tableId, { sortBy: "natural" })).items.map(
+        return (await this.findRow(docId, tableId, {
+          sortBy: "natural",
+        })).items.map(
           (row) => ({
             label: `Row ${counter++}: id[${row.id}] value[${row.name}]`,
             value: row.id,
-          })
+          }),
         );
       },
     },
@@ -54,38 +58,42 @@ export default {
       type: "string",
       label: "Column ID",
       description: "ID of the column",
-      async options({ docId, tableId }) {
+      async options({
+        docId, tableId,
+      }) {
         return (await this.listColumns(docId, tableId)).items.map(
           (column) => ({
             label: `id[${column.id}] value[${column.name}]`,
             value: column.id,
-          })
+          }),
         );
       },
     },
     keyColumns: {
       type: "string[]",
       label: "Key of columns to be upserted",
-      description: "Optional column IDs, URLs, or names (fragile and discouraged), specifying columns to be used as upsert keys",
-      async options({ docId, tableId }) {
+      description: "Optional column IDs, specifying columns to be used as upsert keys",
+      async options({
+        docId, tableId,
+      }) {
         return (await this.listColumns(docId, tableId)).items.map(
           (column) => ({
             label: `id[${column.id}] value[${column.name}]`,
             value: column.id,
-          })
+          }),
         );
-      }
+      },
     },
     query: {
       type: "string",
       label: "Search Query",
-      description: "Search term used to filter down results.",
+      description: "Search term used to filter down results",
       optional: true,
     },
     sortBy: {
       type: "string",
       label: "sortBy",
-      description: "Determines how to sort the given objects.",
+      description: "Determines how to sort the given objects",
       optional: true,
       options: [
         "name",
@@ -106,7 +114,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of results to return in this query.",
+      description: "Maximum number of results to return in this query",
       optional: true,
       default: 25,
       min: 1,
@@ -115,7 +123,7 @@ export default {
     pageToken: {
       type: "string",
       label: "Page Token",
-      description: "An opaque token used to fetch the next page of results.",
+      description: "An opaque token used to fetch the next page of results",
       optional: true,
     },
     paginate: {
@@ -132,7 +140,7 @@ export default {
         (e) => ({
           label: e.name,
           value: e.id,
-        })
+        }),
       );
     },
     _removeEmptyKeyValues(dict) {
@@ -186,7 +194,7 @@ export default {
      * @param {int} params.limit
      * @param {string} params.pageToken
      *
-     * @returns {object[]} Array of listed Docs
+     * @returns {object[]} List of listed Docs
      */
     async listDocs(params = {}) {
       const config = {
@@ -207,7 +215,7 @@ export default {
      * @param {string} params.sortBy
      * @param {string} params.tableTypes
      *
-     * @returns {object[]} Array of tables
+     * @returns {object[]} List of tables
      */
     async listTables(docId, params = {}) {
       const config = {
@@ -233,7 +241,7 @@ export default {
      * @param {int} [params.limit]
      * @param {string} [params.pageToken]
      * @param {string} [params.syncToken]
-     * @returns {object[]} Array of rows
+     * @returns {object[]} List of rows
      */
     async findRow(docId, tableId, params = {}) {
       const config = {
@@ -255,7 +263,7 @@ export default {
      * @param {object} params.limit
      * @param {object} params.pageToken
      * @param {object} params.visibleOnly
-     * @returns {object[]} Array of columns
+     * @returns {object[]} List of columns
      */
     async listColumns(docId, tableId, params = {}) {
       const config = {
@@ -269,9 +277,10 @@ export default {
       return (await axios(config)).data;
     },
     /**
-     * Inserts rows into a table, optionally updating existing rows if any upsert key columns are provided.
-     * This endpoint will always return a 202, so long as the doc and table exist and are accessible (and the update is
-     * structurally valid). Row inserts/upserts are generally processed within several seconds.
+     * Inserts rows into a table, optionally updating existing rows if any upsert key columns are
+     * provided. This endpoint will always return a 202, so long as the doc and table exist and are
+     * accessible (and the update is structurally valid). Row inserts/upserts are generally
+     * processed within several seconds.
      *
      * @param {string} docId
      * @param {string} tableId
@@ -280,7 +289,7 @@ export default {
      * @param {string[]} [data.keyColumns]
      * @param {object} [params]
      * @param {boolean} [params.disableParsing]
-     * @returns {object[]} Array of addedRows and requestId
+     * @returns {object[]} List of addedRows and requestId
      */
     async createRows(docId, tableId, data, params = {}) {
       const config = {
@@ -295,9 +304,10 @@ export default {
       return (await axios(config)).data;
     },
     /**
-     * Updates the specified row in the table. This endpoint will always return a 202, so long as the row exists and is
-     * accessible (and the update is structurally valid). Row updates are generally processed within several seconds.
-     * When updating using a name as opposed to an ID, an arbitrary row will be affected.
+     * Updates the specified row in the table. This endpoint will always return a 202, so long as
+     * the row exists and is accessible (and the update is structurally valid). Row updates are
+     * generally processed within several seconds. When updating using a name as opposed to an ID,
+     * an arbitrary row will be affected.
      *
      * @param {string} docId
      * @param {string} tableId
@@ -319,6 +329,6 @@ export default {
         data,
       };
       return (await axios(config)).data;
-    }
+    },
   },
 };

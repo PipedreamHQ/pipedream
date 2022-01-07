@@ -33,7 +33,9 @@ export default {
     rows: {
       type: "string",
       label: "Rows to create",
-      description: "Array of rows objects to create. Example: `[{cells:[{column:\"<columnId>\",value:\"<value>\"}]}]`. More information at [Coda API](https://coda.io/developers/apis/v1#operation/upsertRows)",
+      description: `List of rows objects to create.
+        Example: \`[{cells:[{column:"<columnId>",value:"<value>"}]}]\`.
+        More information at [Coda API](https://coda.io/developers/apis/v1#operation/upsertRows)`,
     },
   },
   async run() {

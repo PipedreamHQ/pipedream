@@ -29,7 +29,6 @@ export default {
         coda,
         "visibleOnly",
       ],
-      description: "If true, returns only visible columns for the table",
     },
     limit: {
       propDefinition: [

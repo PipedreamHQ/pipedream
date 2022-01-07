@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-list-tables",
   name: "List Tables",
-  description: "Lists tables in a Coda Doc",
+  description: "Lists tables in a doc",
   version: "0.0.1",
   type: "action",
   props: {
@@ -24,7 +24,7 @@ export default {
     tableTypes: {
       type: "string[]",
       label: "tableTypes",
-      description: "Comma-separated list of table types to include in results. If omitted, includes both tables and views.",
+      description: "Comma-separated list of table types to include in results",
       optional: true,
       default: [
         "table",
