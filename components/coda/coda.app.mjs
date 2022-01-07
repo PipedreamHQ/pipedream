@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -139,7 +139,7 @@ export default {
       opts.url = `https://coda.io/apis/v1${path[0] === "/"
         ? ""
         : "/"}${path}`;
-      return await axios(opts);
+      return await axios(this, opts);
     },
     _removeEmptyKeyValues(opts) {
       Object.keys(opts).forEach((k) => (opts[k] === null
@@ -170,7 +170,7 @@ export default {
         path: "/docs",
         data,
       };
-      return (await this._makeRequest(opts)).data;
+      return await this._makeRequest(opts);
     },
     /**
      * List docs according to query parameters
@@ -192,7 +192,7 @@ export default {
         path: "/docs",
         params,
       };
-      return (await this._makeRequest(opts)).data;
+      return await this._makeRequest(opts);
     },
     /**
      * Lists tables in a doc according to parameters
@@ -208,7 +208,7 @@ export default {
         path: `/docs/${docId}/tables`,
         params,
       };
-      return (await this._makeRequest(opts)).data;
+      return await this._makeRequest(opts);
     },
     /**
      * Searches for a row in the selected table using a column match search
@@ -230,7 +230,7 @@ export default {
         path: `/docs/${docId}/tables/${tableId}/rows`,
         params,
       };
-      return (await this._makeRequest(opts)).data;
+      return await this._makeRequest(opts);
     },
     /**
      * Returns a list of columns in a doc table.
@@ -247,7 +247,7 @@ export default {
         path: `/docs/${docId}/tables/${tableId}/columns`,
         params,
       };
-      return (await this._makeRequest(opts)).data;
+      return await this._makeRequest(opts);
     },
     /**
      * Inserts rows into a table, optionally updating existing rows using upsert key columns
@@ -267,7 +267,7 @@ export default {
         params,
         data,
       };
-      return (await this._makeRequest(opts)).data;
+      return await this._makeRequest(opts);
     },
     /**
      * Updates the specified row in the table
@@ -287,7 +287,7 @@ export default {
         params,
         data,
       };
-      return (await this._makeRequest(opts)).data;
+      return await this._makeRequest(opts);
     },
   },
 };
