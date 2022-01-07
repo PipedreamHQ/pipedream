@@ -1,5 +1,6 @@
 const admin = require("firebase-admin");
 const axios = require("axios");
+const googleAuth = require('google-auth-library');
 
 module.exports = {
   type: "app",
@@ -15,13 +16,6 @@ module.exports = {
       label: "Structured Query",
       description:
         "Enter a [structured query](https://cloud.google.com/firestore/docs/reference/rest/v1beta1/StructuredQuery) that returns new records from your target collection. Example: `{ \"select\": { \"fields\": [] }, \"from\": [ { \"collectionId\": \"<YOUR COLLECTION>\", \"allDescendants\": \"true\" } ] }`",
-    },
-    apiKey: {
-      type: "string",
-      label: "Web API Key",
-      description:
-        "You can find the Web API key in the **Project Settings** of your Firebase admin console",
-      secret: true,
     },
   },
   methods: {
@@ -80,42 +74,32 @@ module.exports = {
     },
     /**
      * Retrieves a Bearer token for use with the Firebase REST API.
-     * @param {string} apiKey - the Web API Key, which is obtained from the project
-     * settings page in the admin console
      * @returns {object} returns an object containing a new token and refresh token
      */
-    async _getToken(apiKey) {
-      const { clientEmail } = this.$auth;
-      const newCustomToken = await admin
-        .auth()
-        .createCustomToken(clientEmail)
-        .catch((error) => {
-          console.log("Error creating custom token:", error);
-        });
-      const data = {
-        token: newCustomToken,
-        returnSecureToken: true,
-      };
-      const params = {
-        key: apiKey,
-      };
-      return await this._makeRequest(
-        "POST",
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken",
-        data,
-        params,
+    async _getToken() {
+      const {
+        clientEmail,
+        privateKey,
+      } = this.$auth;
+      const formattedPrivateKey = privateKey.replace(/\\n/g, "\n");
+      const SCOPES = ['https://www.googleapis.com/auth/cloud-platform'];
+      const jwtClient = await new googleAuth.JWT(
+        clientEmail,
+        null,
+        formattedPrivateKey,
+        SCOPES,
+        null
       );
+      return jwtClient.authorize().then((tokens) => tokens.access_token);
     },
     /**
      * @param {string} structuredQuery - A structured query in the format specified in
      * this documentation:
      * https://cloud.google.com/firestore/docs/reference/rest/v1/StructuredQuery
-     * @param {string} apiKey - the Web API Key, which is obtained from the project settings
-     * page in the admin console
      * @returns {array} an array of the documents returned from the structured query
      */
-    async runQuery(structuredQuery, apiKey) {
-      const { idToken } = await this._getToken(apiKey);
+    async runQuery(structuredQuery) {
+      const idToken = await this._getToken();
       const { projectId } = this.$auth;
       const parent = `projects/${projectId}/databases/(default)/documents`;
       const data = {

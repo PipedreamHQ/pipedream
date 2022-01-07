@@ -9,12 +9,6 @@ module.exports = {
   dedupe: "unique",
   props: {
     ...common.props,
-    apiKey: {
-      propDefinition: [
-        common.props.firebase,
-        "apiKey",
-      ],
-    },
     query: {
       propDefinition: [
         common.props.firebase,
@@ -27,10 +21,7 @@ module.exports = {
     async processEvent() {
       const structuredQuery = JSON.parse(this.query);
 
-      const queryResults = await this.firebase.runQuery(
-        structuredQuery,
-        this.apiKey,
-      );
+      const queryResults = await this.firebase.runQuery(structuredQuery);
 
       for (const result of queryResults) {
         const meta = this.generateMeta(result);
