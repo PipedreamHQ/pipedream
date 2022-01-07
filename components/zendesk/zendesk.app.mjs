@@ -14,7 +14,7 @@ export default {
         const { trigger_categories: categories } =
           await this.listTriggerCategories({
             params: {
-              [constants.PAGE_SIZE_PARAM]: 50,
+              [constants.PAGE_SIZE_PARAM]: 100,
               sort: constants.SORT_BY_POSITION_ASC,
             },
           });
@@ -115,6 +115,14 @@ export default {
         $,
         method: "delete",
         path: `/webhooks/${webhookId}`,
+      });
+    },
+    async showWebhookSigningSecret({
+      $, webhookId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/webhooks/${webhookId}/signing_secret`,
       });
     },
   },

@@ -1,5 +1,6 @@
-import constants from "../constants.mjs";
-import zendesk from "../zendesk.app.mjs";
+import crypto from "crypto";
+import zendesk from "../../zendesk.app.mjs";
+import constants from "../../constants.mjs";
 
 export default {
   props: {
@@ -18,17 +19,20 @@ export default {
   hooks: {
     async activate() {
       const { categoryId } = this;
-      const { oauth_access_token: oauthAccessToken } = this.zendesk.$auth;
 
       const { webhook } = await this.zendesk.createWebhook({
-        data: this.setupWebhookData({
-          endpoint: this.http.endpoint,
-          token: oauthAccessToken,
-        }),
+        data: this.setupWebhookData(),
       });
 
       const { id: webhookId } = webhook;
       this.setWebhookId(webhookId);
+
+      const { signing_secret: signingSecret } = await this.zendesk.showWebhookSigningSecret({
+        webhookId,
+      });
+
+      const { secret } = signingSecret;
+      this.setSigningSecret(secret);
 
       const { trigger } = await this.zendesk.createTrigger({
         data: this.setupTriggerData({
@@ -64,11 +68,17 @@ export default {
     getTriggerId() {
       return this.db.get(constants.TRIGGER_ID);
     },
+    setSigningSecret(secret) {
+      return this.db.set(constants.SIGNING_SECRET, secret);
+    },
+    getSigningSecret() {
+      return this.db.get(constants.SIGNING_SECRET);
+    },
     getWebhookName() {
-      throw new Error("webhookName Not implemented");
+      throw new Error("getWebhookName is not implemented");
     },
     getTriggerTitle() {
-      throw new Error("triggerTitle Not implemented");
+      throw new Error("getTriggerTitle is not implemented");
     },
     /**
      * If you want to use this function, you need to implement it in your component.
@@ -76,7 +86,7 @@ export default {
      * https://developer.zendesk.com/documentation/ticketing/reference-guides/conditions-reference/
      */
     getTriggerConditions() {
-      throw new Error("triggerConditions Not implemented");
+      throw new Error("getTriggerConditions is not implemented");
     },
     /**
      * If you want to use this function, you need to implement it in your component.
@@ -84,14 +94,12 @@ export default {
      * https://developer.zendesk.com/api-reference/ticketing/ticket-management/dynamic_content/
      */
     getTriggerPayload() {
-      throw new Error("triggerPayload Not implemented");
+      throw new Error("getTriggerPayload is not implemented");
     },
-    setupWebhookData({
-      token, endpoint,
-    }) {
+    setupWebhookData() {
       return {
         webhook: {
-          endpoint,
+          endpoint: this.http.endpoint,
           http_method: "POST",
           name: this.getWebhookName(),
           status: "active",
@@ -99,13 +107,6 @@ export default {
           subscriptions: [
             "conditional_ticket_events",
           ],
-          authentication: {
-            type: "bearer_token",
-            data: {
-              token,
-            },
-            add_position: "header",
-          },
         },
       };
     },
@@ -129,5 +130,55 @@ export default {
         },
       };
     },
+    isValidSource({
+      signature, bodyRaw, timestamp,
+    }) {
+      const secret = this.getSigningSecret();
+
+      const sig =
+        crypto
+          .createHmac(constants.SIGNING_SECRET_ALGORITHM, secret)
+          .update(timestamp + bodyRaw)
+          .digest(constants.BASE_64);
+
+      return (
+        Buffer.compare(
+          Buffer.from(signature),
+          Buffer.from(sig.toString(constants.BASE_64)),
+        ) === 0
+      );
+    },
+  },
+  async run(event) {
+    const {
+      body: payload,
+      headers,
+      bodyRaw,
+    } = event;
+
+    const {
+      [constants.X_ZENDESK_WEBHOOK_SIGNATURE_HEADER]: signature,
+      [constants.X_ZENDESK_WEBHOOK_SIGNATURE_TIMESTAMP_HEADER]: timestamp,
+    } = headers;
+
+    const isValid = this.isValidSource({
+      signature,
+      bodyRaw,
+      timestamp,
+    });
+
+    if (!isValid) {
+      console.log("Skipping event due to invalid signature");
+      return;
+    }
+
+    const ts = Date.parse(payload.updatedAt);
+    const id = `${payload.ticketId}-${ts}`;
+
+    this.$emit(payload, {
+      id,
+      summary: payload.title,
+      ts,
+    });
   },
 };
