@@ -1,5 +1,5 @@
 import nordigen from "../../nordigen.app.mjs";
-import { axios } from "@pipedream/platform";
+import axios from "axios";
 
 // TODO: Add description docs
 export default {
@@ -65,32 +65,36 @@ export default {
         ts: Date.now(),
       });
     },
-    async createRequisitionLink($) {
-      const agreementRes = await axios($, this.nordigen._getAxiosParams({
+    async createRequisitionLink() {
+      const agreementRes = await axios(this.nordigen._getAxiosParams({
         method: "POST",
         path: "/agreements/enduser/",
         data: {
-          "institution_id": this.institution_id,
-          "max_historical_days": this.max_historical_days,
-          "access_valid_for_days": this.access_valid_for_days,
-          "access_scope": [
+          institution_id: this.institution_id,
+          max_historical_days: this.max_historical_days,
+          access_valid_for_days: this.access_valid_for_days,
+          access_scope: [
             "transactions",
           ],
         },
       }));
 
-      const requisitionLinkRes = await axios($, this.nordigen._getAxiosParams({
+      const requisitionLinkRes = await axios(this.nordigen._getAxiosParams({
         method: "POST",
         path: "/requisitions",
         data: {
           "redirect": "https://pipedream.com",
           "institution_id": this.institution_id,
           "reference": Date.now(),
-          "agreement": agreementRes.id,
+          "agreement": agreementRes.data.id,
           "user_language": "EN",
         },
       }))
-      this._setRequisitionId(requisitionLinkRes.id)
+      console.log(requisitionLinkRes)
+      // TODO: THere is a lot of results here, which one should be used as requisition id?
+      return;
+      
+      this._setRequisitionId(requisitionLinkRes.data?.id)
       console.log("New requisition link: " + requisitionLinkRes.link);
 
       // TODO: Summary and id???
@@ -101,56 +105,58 @@ export default {
          summary: "Requisition link",
       });
     },
-    async getRequisitionId($) {
+    async getRequisitionId() {
       const requisitionId = this._getRequisitionId();
       if (!requisitionId) {
         console.log("No requisition id found");
-        await this.createRequisitionLink($);
+        await this.createRequisitionLink();
         return null
       }
       return requisitionId;
     },
-    async getAccount($, requisitionId) {
-      const requisitionsRes = await axios($, this.nordigen._getAxiosParams({
+    async getAccount(requisitionId) {
+      const requisitionsRes = await axios(this.nordigen._getAxiosParams({
         method: "GET",
         path: `/requisitions/${requisitionId}`,
       }))
   
       if (requisitionsRes.data.accounts.length === 0) {
         console.log("No account found");
-        await this.createRequisitionLink($);
+        await this.createRequisitionLink();
         return null
       }
 
       return requisitionsRes.data.accounts[0]
     },
-    async listTransactions($, account) {
-      const transactionsRes = await axios($, this.nordigen._getAxiosParams({
+    async listTransactions(account) {
+      const transactionsRes = await axios(this.nordigen._getAxiosParams({
         method: "GET",
         path: `/accounts/${account}/transaction`,
       }))
       return transactionsRes.data.transactions.booked;
     }
   },
-  async run({ $ }) {
-    const requisitionId = await this.getRequisitionId($);
-    if (!requisitionId) {
+  async run() {
+    const requisitionId = await this.getRequisitionId();
+    console.log(requisitionId);
+    /* if (!requisitionId) {
       return
     }
 
-    const account = await this.getAccount($, requisitionId)
+    const account = await this.getAccount(requisitionId)
+    console.log(account);
     if (!account) {
       return
     }
     console.log("Account found: " + account);
 
-    const transactions = await this.listTransactions($, account)
+    const transactions = await this.listTransactions(account)
     transactions.forEach((transaction) => {
       this._emitEvent(transaction, {
         summary: transaction.remittanceInformationUnstructuredArray[0],
         id: transaction.transactionId,
         ts: new Date(),
       });
-    });
+    }); */
   },
 };
