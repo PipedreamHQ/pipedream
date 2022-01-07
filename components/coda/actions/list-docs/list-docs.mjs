@@ -3,8 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-list-docs",
   name: "List Docs",
-  description: `Returns a list of docs accessible by the user. These are returned in the same order as on the docs page:
-    reverse chronological by the latest event relevant to the user (last viewed, edited, or shared)`,
+  description: `Returns a list of docs accessible by the user. These are returned in the same order as on the docs page: reverse chronological by the latest event relevant to the user (last viewed, edited, or shared)`,
   version: "0.0.1",
   type: "action",
   props: {

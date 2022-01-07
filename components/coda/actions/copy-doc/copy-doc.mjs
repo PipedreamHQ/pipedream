@@ -21,7 +21,7 @@ export default {
         coda,
         "title",
       ],
-      description: "Title of the newly copied doc. Defaults to `\"Untitled\"`",
+      description: "Title of the newly copied doc. Defaults to `\"Copy of <originalTitle>\"`",
     },
     folderId: {
       propDefinition: [

@@ -29,7 +29,7 @@ export default {
         coda,
         "query",
       ],
-      description: `Query used to filter returned rows, specified as \`<column_id>:<value>\`.
+      description: `Query used to filter returned rows, specified as \`<columnId>:"<value>"\`.
         Example: \`query=c-tuVwxYz:"Apple"\`.
         More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)`,
     },
@@ -38,8 +38,7 @@ export default {
         coda,
         "sortBy",
       ],
-      description: `Specifies the sort order of the rows returned. If left unspecified, rows are returned by creation
-        time ascending.
+      description: `Specifies the sort order of the rows returned. If left unspecified, rows are returned by creation time ascending.
         More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)`,
       options: [
         "createdAt",
@@ -58,7 +57,6 @@ export default {
       label: "Use Column Names",
       description: "Use column names instead of column IDs in the returned output",
       optional: true,
-      default: false,
     },
     valueFormat: {
       type: "string",
@@ -87,8 +85,7 @@ export default {
     syncToken: {
       type: "string",
       label: "Sync Token",
-      description: `An opaque token returned from a previous call that can be used to return results that are relevant
-        to the query since the call where the syncToken was generated`,
+      description: `An opaque token returned from a previous call that can be used to return results that are relevant to the query since the call where the syncToken was generated`,
       optional: true,
     },
   },

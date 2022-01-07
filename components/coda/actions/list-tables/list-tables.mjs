@@ -24,7 +24,7 @@ export default {
     tableTypes: {
       type: "string[]",
       label: "tableTypes",
-      description: "Comma-separated list of table types to include in results. Items: `\"table\"` `\"view\"`",
+      description: "Comma-separated list of table types to include in results. Items: `\"table\"`,`\"view\"`",
       optional: true,
       default: [
         "table",

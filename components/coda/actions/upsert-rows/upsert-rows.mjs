@@ -3,8 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-upsert-rows",
   name: "Upsert Rows",
-  description: `Creates a new row or updates existing rows if any upsert key columns are provided. When upserting,
-    if multiple rows match the specified key column(s), they will all be updated with the specified value.
+  description: `Creates a new row or updates existing rows if any upsert key columns are provided. When upserting, if multiple rows match the specified key column(s), they will all be updated with the specified value.
     More information at [Coda API](https://coda.io/developers/apis/v1#operation/upsertRows)`,
   version: "0.0.1",
   type: "action",
