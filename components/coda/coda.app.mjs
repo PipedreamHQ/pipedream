@@ -215,6 +215,32 @@ export default {
       return (await axios(config)).data;
     },
     /**
+     * Searches for a Coda row in the selected table using a column match search
+     * @param {*} docId
+     * @param {*} tableId
+     * @param {object} [params] - Optional Query Parameters
+     * @param {string} [params.query]
+     * @param {string} [params.sortBy]
+     * @param {boolean} [params.useColumnNames]
+     * @param {string} [params.valueFormat]
+     * @param {boolean} [params.visibleOnly]
+     * @param {int} [params.limit]
+     * @param {string} [params.pageToken]
+     * @param {string} [params.syncToken]
+     * @returns {object[]} Array of rows
+     */
+    async findRow(docId, tableId, params = {}) {
+      const config = {
+        method: "get",
+        url: `https://coda.io/apis/v1/docs/${docId}/tables/${tableId}/rows`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.api_token}`,
+        },
+        params: this._removeEmptyKeyValues(params),
+      };
+      return (await axios(config)).data;
+    },
+    /**
      * Returns a list of columns in a doc table.
      *
      * @param {string} docId
