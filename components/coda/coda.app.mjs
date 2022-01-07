@@ -135,20 +135,12 @@ export default {
       opts.headers.Authorization = `Bearer ${this.$auth.api_token}`;
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
       if (!opts.method) opts.method = "get";
-      if (opts.params) this._removeEmptyKeyValues(opts.params);
       const { path } = opts;
       delete opts.path;
       opts.url = `https://coda.io/apis/v1${path[0] === "/"
         ? ""
         : "/"}${path}`;
       return await axios(this, opts);
-    },
-    _removeEmptyKeyValues(opts) {
-      Object.keys(opts).forEach((k) => (opts[k] === null
-        || opts[k] === undefined
-        || opts[k] === "")
-        && delete opts[k]);
-      return opts;
     },
     _makeOptionsResponse(list) {
       return list.map(
