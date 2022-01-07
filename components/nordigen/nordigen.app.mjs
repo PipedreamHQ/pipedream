@@ -7,7 +7,7 @@ export default {
     country_code: {
       type: "string",
       label: "Enter a country code",
-      description: "ISO 3166 two-character code for the country (eg. `FR`). Full list: https://www.iso.org/obp/ui/en/#iso:pub:PUB500001:en",
+      description: "[ISO 3166](https://www.iso.org/obp/ui/en/#iso:pub:PUB500001:en) two-character code for the country (eg. `FR`)",
     },
     institution_id: {
       type: "string",

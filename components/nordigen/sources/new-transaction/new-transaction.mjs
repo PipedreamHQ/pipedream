@@ -1,4 +1,3 @@
-import hash from "object-hash";
 import nordigen from "../../nordigen.app.mjs";
 import { axios } from "@pipedream/platform";
 
@@ -9,6 +8,7 @@ export default {
   description: "Emit new event when a transaction occurs",
   version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     db: "$.service.db",
     nordigen,
@@ -30,7 +30,7 @@ export default {
       propDefinition: [
         nordigen,
         "institution_id",
-		(({ country_code }) => ({
+        (({ country_code }) => ({
           country_code
         }))
       ],
@@ -74,8 +74,6 @@ export default {
           "max_historical_days": this.max_historical_days,
           "access_valid_for_days": this.access_valid_for_days,
           "access_scope": [
-            "balances",
-            "details",
             "transactions",
           ],
         },
@@ -98,6 +96,9 @@ export default {
       // TODO: Summary and id???
       this._emitEvent({
         "requisition": requisitionLinkRes.data.link,
+      },
+      {
+         summary: "Requisition link",
       });
     },
     async getRequisitionId($) {
@@ -128,23 +129,7 @@ export default {
         method: "GET",
         path: `/accounts/${account}/transaction`,
       }))
-      const transactions = transactionsRes.data.transactions.booked;
-
-      var newTransactions = [];
-      var currentTransactions = [];
-      const previousTransactions = this._getPreviousTransactions()
-
-      for (const transaction of transactions) {
-        const transactionHash = hash(transaction);
-        currentTransactions.push(transactionHash);
-
-        if (!previousTransactions.includes(transactionHash)) {
-          newTransactions.push(transaction);
-        }
-      }
-
-      this._setPreviousTransactions(currentTransactions);
-      return newTransactions
+      return transactionsRes.data.transactions.booked;
     }
   },
   async run({ $ }) {
@@ -160,8 +145,12 @@ export default {
     console.log("Account found: " + account);
 
     const transactions = await this.listTransactions($, account)
-    transactions.forEach((newTransaction) => {
-      this._emitEvent(newTransaction);
+    transactions.forEach((transaction) => {
+      this._emitEvent(transaction, {
+        summary: transaction.remittanceInformationUnstructuredArray[0],
+        id: transaction.transactionId,
+        ts: new Date(),
+      });
     });
   },
 };
