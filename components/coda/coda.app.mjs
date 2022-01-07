@@ -151,14 +151,11 @@ export default {
       return dict;
     },
     /**
-     * Creates a new Coda doc
-     *
+     * Creates a new doc or copies a doc from a source docId
      * @param {string} title - Title of the new doc
-     * @param {string} folderId - The ID of the folder within to create this
-     * doc
-     * @param {string} [docId] - An optional doc ID from which to create a
-     * copy
-     * @returns {string} ID of the newly created doc
+     * @param {string} folderId - The ID of the folder within to create this doc
+     * @param {string} [docId] - An optional source doc ID from which to create a copy
+     * @return {string} ID of the newly created doc
      */
     async createDoc(title, folderId, docId = "") {
       const config = {
@@ -176,21 +173,19 @@ export default {
       return (await axios(config)).data.id;
     },
     /**
-     * List Coda docs according to parameters
-     *
-     * @param {object} [params] - Optional Query Parameters
-     * @param {boolean} params.isOwner
-     * @param {boolean} params.isPublished
-     * @param {string} params.query
-     * @param {string} params.docId
-     * @param {boolean} params.isStarred
-     * @param {boolean} params.inGallery
-     * @param {string} params.workspaceId
-     * @param {string} params.folderId
-     * @param {int} params.limit
-     * @param {string} params.pageToken
-     *
-     * @returns {object[]} List of listed Docs
+     * List docs according to query parameters
+     * @param {object}  [params]
+     * @param {string}  [params.docId]
+     * @param {string}  [params.workspaceId]
+     * @param {string}  [params.folderId]
+     * @param {string}  [params.query]
+     * @param {boolean} [params.isOwner]
+     * @param {boolean} [params.isPublished]
+     * @param {boolean} [params.isStarred]
+     * @param {boolean} [params.inGallery]
+     * @param {number}  [params.limit]
+     * @param {string}  [params.pageToken]
+     * @return {object[]} List of docs
      */
     async listDocs(params = {}) {
       const config = {
@@ -204,14 +199,13 @@ export default {
       return (await axios(config)).data;
     },
     /**
-     * Returns a list of tables in a Coda doc according to parameters
-     * @param {object} [params] - Optional Query Parameters
-     * @param {int} params.limit
-     * @param {string} params.pageToken
-     * @param {string} params.sortBy
-     * @param {string} params.tableTypes
-     *
-     * @returns {object[]} List of tables
+     * Lists tables in a doc according to parameters
+     * @param {object} [params]
+     * @param {string} [params.sortBy]
+     * @param {string} [params.tableTypes]
+     * @param {number} [params.limit]
+     * @param {string} [params.pageToken]
+     * @return {object[]} List of tables
      */
     async listTables(docId, params = {}) {
       const config = {
@@ -225,19 +219,19 @@ export default {
       return (await axios(config)).data;
     },
     /**
-     * Searches for a Coda row in the selected table using a column match search
-     * @param {*} docId
-     * @param {*} tableId
-     * @param {object} [params] - Optional Query Parameters
-     * @param {string} [params.query]
-     * @param {string} [params.sortBy]
-     * @param {boolean} [params.useColumnNames]
-     * @param {string} [params.valueFormat]
+     * Searches for a row in the selected table using a column match search
+     * @param {string}  docId
+     * @param {string}  tableId
+     * @param {object}  [params]
+     * @param {string}  [params.query]
+     * @param {string}  [params.sortBy]
      * @param {boolean} [params.visibleOnly]
-     * @param {int} [params.limit]
-     * @param {string} [params.pageToken]
-     * @param {string} [params.syncToken]
-     * @returns {object[]} List of rows
+     * @param {boolean} [params.useColumnNames]
+     * @param {string}  [params.valueFormat]
+     * @param {number}  [params.limit]
+     * @param {string}  [params.pageToken]
+     * @param {string}  [params.syncToken]
+     * @return {object[]} List of rows
      */
     async findRow(docId, tableId, params = {}) {
       const config = {
@@ -252,14 +246,13 @@ export default {
     },
     /**
      * Returns a list of columns in a doc table.
-     *
      * @param {string} docId
      * @param {string} tableId
      * @param {object} [params]
-     * @param {object} params.limit
-     * @param {object} params.pageToken
-     * @param {object} params.visibleOnly
-     * @returns {object[]} List of columns
+     * @param {object} [params.visibleOnly]
+     * @param {object} [params.limit]
+     * @param {object} [params.pageToken]
+     * @return {object[]} List of columns
      */
     async listColumns(docId, tableId, params = {}) {
       const config = {
@@ -273,19 +266,15 @@ export default {
       return (await axios(config)).data;
     },
     /**
-     * Inserts rows into a table, optionally updating existing rows if any upsert key columns are
-     * provided. This endpoint will always return a 202, so long as the doc and table exist and are
-     * accessible (and the update is structurally valid). Row inserts/upserts are generally
-     * processed within several seconds.
-     *
-     * @param {string} docId
-     * @param {string} tableId
-     * @param {object} data
-     * @param {object} data.rows
-     * @param {string[]} [data.keyColumns]
-     * @param {object} [params]
-     * @param {boolean} [params.disableParsing]
-     * @returns {object[]} List of addedRows and requestId
+     * Inserts rows into a table, optionally updating existing rows using upsert key columns
+     * @param {string}    docId
+     * @param {string}    tableId
+     * @param {object}    data
+     * @param {object}    data.rows
+     * @param {string[]}  [data.keyColumns]
+     * @param {object}    [params]
+     * @param {boolean}   [params.disableParsing]
+     * @return {object[]} List of added rows and requestId
      */
     async createRows(docId, tableId, data, params = {}) {
       const config = {
@@ -300,19 +289,15 @@ export default {
       return (await axios(config)).data;
     },
     /**
-     * Updates the specified row in the table. This endpoint will always return a 202, so long as
-     * the row exists and is accessible (and the update is structurally valid). Row updates are
-     * generally processed within several seconds. When updating using a name as opposed to an ID,
-     * an arbitrary row will be affected.
-     *
-     * @param {string} docId
-     * @param {string} tableId
-     * @param {string} rowId
-     * @param {object} data
-     * @param {object} data.row
-     * @param {object} [params]
+     * Updates the specified row in the table
+     * @param {string}  docId
+     * @param {string}  tableId
+     * @param {string}  rowId
+     * @param {object}  data
+     * @param {object}  data.row
+     * @param {object}  [params]
      * @param {boolean} [params.disableParsing]
-     * @returns {object[]} Updated row ID and requestId
+     * @return {object[]} Updated rowId and requestId
      */
     async updateRow(docId, tableId, rowId, data, params = {}) {
       const config = {
