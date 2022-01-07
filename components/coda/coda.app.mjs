@@ -150,10 +150,6 @@ export default {
         && delete dict[key]);
       return dict;
     },
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     /**
      * Creates a new Coda doc
      *
