@@ -4,7 +4,7 @@ export default {
   key: "coda_list-columns",
   name: "List Columns",
   description: "Lists columns in a table",
-  version: "0.0.10",
+  version: "0.0.1",
   type: "action",
   props: {
     coda,

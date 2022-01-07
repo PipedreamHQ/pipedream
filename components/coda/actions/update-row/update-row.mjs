@@ -4,7 +4,7 @@ export default {
   key: "coda_update-row",
   name: "Update a Row",
   description: "Updates the specified row in the table. This endpoint will always return a 202, so long as the row exists and is accessible (and the update is structurally valid). Row updates are generally processed within several seconds. When updating using a name as opposed to an ID, an arbitrary row will be affected.",
-  version: "0.0.16",
+  version: "0.0.1",
   type: "action",
   props: {
     coda,

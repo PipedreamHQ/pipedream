@@ -4,7 +4,7 @@ export default {
   key: "coda_create-rows",
   name: "Create Rows",
   description: "Creates rows in a selected table",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     coda,
