@@ -73,12 +73,6 @@ export default {
         "pageToken",
       ],
     },
-    paginate: {
-      propDefinition: [
-        coda,
-        "paginate",
-      ],
-    },
   },
   async run() {
     let params = {
@@ -94,26 +88,18 @@ export default {
       pageToken: this.pageToken,
     };
 
-    let result = await this.coda.listDocs(params);
-
-    if (!this.paginate) {
-      return {
-        items: result.items,
-      };
-    }
-
-    let docList = result.items;
-    while (result.nextPageToken) {
-      params["pageToken"] = result.nextPageToken;
+    let items = [];
+    let result;
+    do {
       result = await this.coda.listDocs(params);
-      docList = [
-        ...docList,
-        ...result.items,
-      ];
-    }
+      items.push(...result.items);
+      params.pageToken = result.nextPageToken;
+    } while (params.pageToken && items.length < this.limit);
+
+    if (items.length > this.limit) items.length = this.limit;
 
     return {
-      items: docList,
+      items,
     };
   },
 };

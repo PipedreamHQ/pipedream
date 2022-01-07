@@ -126,13 +126,6 @@ export default {
       description: "An opaque token used to fetch the next page of results",
       optional: true,
     },
-    paginate: {
-      type: "boolean",
-      label: "Auto-Paginate",
-      description: "By default, list all docs matching search results across all result pages. Set to `false` to limit results to the first page.",
-      optional: true,
-      default: true,
-    },
   },
   methods: {
     async _makeRequest(opts) {
