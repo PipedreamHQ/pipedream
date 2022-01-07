@@ -23,9 +23,10 @@ export default {
     },
   },
   async run() {
-    return await this.coda.createDoc(
-      this.title,
-      this.folderId,
-    );
+    let data = {
+      title: this.title,
+      folderId: this.folderId,
+    };
+    return await this.coda.createDoc(data);
   },
 };

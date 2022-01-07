@@ -152,25 +152,22 @@ export default {
     },
     /**
      * Creates a new doc or copies a doc from a source docId
-     * @param {string} title - Title of the new doc
-     * @param {string} folderId - The ID of the folder within to create this doc
-     * @param {string} [docId] - An optional source doc ID from which to create a copy
-     * @return {string} ID of the newly created doc
+     * @param {object} [data]
+     * @param {object} [data.title]
+     * @param {object} [data.folderId]
+     * @param {object} [data.sourceDoc]
+     * @return {object} Created or copied doc
      */
-    async createDoc(title, folderId, docId = "") {
+    async createDoc(data = {}) {
       const config = {
         method: "post",
         url: "https://coda.io/apis/v1/docs",
         headers: {
           Authorization: `Bearer ${this.$auth.api_token}`,
         },
-        data: {
-          title,
-          folderId,
-          docId,
-        },
+        data,
       };
-      return (await axios(config)).data.id;
+      return (await axios(config)).data;
     },
     /**
      * List docs according to query parameters
