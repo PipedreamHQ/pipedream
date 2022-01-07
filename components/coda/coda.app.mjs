@@ -37,13 +37,30 @@ export default {
         );
       },
     },
+    rowId: {
+      type: "string",
+      label: "Row ID",
+      description: "ID of the row",
+      async options({ docId, tableId }) {
+        let counter = 0;
+        return (await this.findRow(docId, tableId, { sortBy: "natural" })).items.map(
+          (row) => ({
+            label: `Row ${counter++}: id[${row.id}] value[${row.name}]`,
+            value: row.id,
+          })
+        );
+      },
+    },
     columnId: {
       type: "string",
       label: "Column ID",
       description: "ID or name of the column",
       async options({ docId, tableId }) {
-        return this._getKeyValuePair(
-          (await this.listColumns(docId, tableId)).items
+        return (await this.listColumns(docId, tableId)).items.map(
+          (column) => ({
+            label: `id[${column.id}] value[${column.name}]`,
+            value: column.id,
+          })
         );
       },
     },
@@ -105,6 +122,12 @@ export default {
       default: 25,
       min: 1,
       max: 50,
+    },
+    disableParsing: {
+      type: "boolean",
+      label: "Disable Parsing",
+      description: "If true, the API will not attempt to parse the data in any way",
+      optional: true,
     },
     pageToken: {
       type: "string",
@@ -288,5 +311,31 @@ export default {
       };
       return (await axios(config)).data;
     },
+    /**
+     * Updates the specified row in the table. This endpoint will always return a 202, so long as the row exists and is
+     * accessible (and the update is structurally valid). Row updates are generally processed within several seconds.
+     * When updating using a name as opposed to an ID, an arbitrary row will be affected.
+     *
+     * @param {string} docId
+     * @param {string} tableId
+     * @param {string} rowId
+     * @param {object} data
+     * @param {object} data.row
+     * @param {object} [params]
+     * @param {boolean} [params.disableParsing]
+     * @returns {object[]} Updated row ID and requestId
+     */
+    async updateRow(docId, tableId, rowId, data, params = {}) {
+      const config = {
+        method: "put",
+        url: `https://coda.io/apis/v1/docs/${docId}/tables/${tableId}/rows/${rowId}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.api_token}`,
+        },
+        params: this._removeEmptyKeyValues(params),
+        data,
+      };
+      return (await axios(config)).data;
+    }
   },
 };
