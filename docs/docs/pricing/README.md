@@ -70,7 +70,7 @@ Teams have access to support from the Pipedream team via email or a shared Slack
 The Enterprise Plan includes all of the features of the Team plan, as well as:
 
 - A base of {{$site.themeConfig.ENTERPRISE_MONTHLY_INVOCATIONS}} invocations per month
-- SSO support
+- SSO support (GSuite and [Okta](/orgs/sso/okta/))
 - A 99.95% uptime SLA
 - Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
 - Premium support: onboarding, ongoing training, and anything your team needs to be successful

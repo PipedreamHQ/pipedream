@@ -418,6 +418,8 @@ be maintained in the app file.
 
 ### Props
 
+As a general rule of thumb, we should strive to only incorporate the 3-4 most relevant options from a given API as props. This is not a hard limit, but the goal is to optimize for usability. We should aim to solve specific use cases as simply as possible.
+
 #### Labels
 
 Use [prop](../api/#user-input-props) labels to customize the name of a prop or
