@@ -59,12 +59,6 @@ export default {
     _setPreviousTransactions(data) {
       this.db.set("previousTransactions", data);
     },
-    _emitEvent(data) {
-      this.$emit(data, {
-        // TODO: Summary and id???
-        ts: Date.now(),
-      });
-    },
     async createRequisitionLink() {
       const agreementRes = await axios(this.nordigen._getAxiosParams({
         method: "POST",
@@ -81,7 +75,7 @@ export default {
 
       const requisitionLinkRes = await axios(this.nordigen._getAxiosParams({
         method: "POST",
-        path: "/requisitions",
+        path: "/requisitions/",
         data: {
           "redirect": "https://pipedream.com",
           "institution_id": this.institution_id,
@@ -90,19 +84,17 @@ export default {
           "user_language": "EN",
         },
       }))
-      console.log(requisitionLinkRes)
-      // TODO: THere is a lot of results here, which one should be used as requisition id?
-      return;
       
-      this._setRequisitionId(requisitionLinkRes.data?.id)
-      console.log("New requisition link: " + requisitionLinkRes.link);
+      this._setRequisitionId(requisitionLinkRes.data.id)
+      console.log("New requisition link: " + requisitionLinkRes.data.link);
 
-      // TODO: Summary and id???
-      this._emitEvent({
+      this.$emit({
         "requisition": requisitionLinkRes.data.link,
       },
       {
          summary: "Requisition link",
+        id: requisitionLinkRes.data.id,
+        ts: new Date(),
       });
     },
     async getRequisitionId() {
@@ -131,20 +123,18 @@ export default {
     async listTransactions(account) {
       const transactionsRes = await axios(this.nordigen._getAxiosParams({
         method: "GET",
-        path: `/accounts/${account}/transaction`,
+        path: `/accounts/${account}/transactions/`,
       }))
       return transactionsRes.data.transactions.booked;
     }
   },
   async run() {
     const requisitionId = await this.getRequisitionId();
-    console.log(requisitionId);
-    /* if (!requisitionId) {
+    if (!requisitionId) {
       return
     }
 
     const account = await this.getAccount(requisitionId)
-    console.log(account);
     if (!account) {
       return
     }
@@ -152,11 +142,11 @@ export default {
 
     const transactions = await this.listTransactions(account)
     transactions.forEach((transaction) => {
-      this._emitEvent(transaction, {
+      this.$emit(transaction, {
         summary: transaction.remittanceInformationUnstructuredArray[0],
         id: transaction.transactionId,
         ts: new Date(),
       });
-    }); */
+    });
   },
 };
