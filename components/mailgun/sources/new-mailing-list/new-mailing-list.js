@@ -59,33 +59,22 @@ module.exports = {
         });
       }
       mailinglists.push(...result);
-      console.log("result per page");
-      console.log(JSON.stringify(result));
       if (result.length) {
         address = result[result.length - 1].address;
       }
     } while (result.length);
-    //filters by domain
-    console.log("before filter");
-    console.log(JSON.stringify(mailinglists));
     const filter = mailinglists.filter((r) => {
       const idxAt = r.address.indexOf("@");
       const compareDomain = [];
       compareDomain.push(this.domain);
       return compareDomain.includes(r.address.substring(idxAt + 1));
     });
-    console.log("before sorting");
-    console.log(JSON.stringify(filter));
-    //sort by created_at date
     const sortedList = filter.sort((a, b) => {
       const tsa = +new Date(a.created_at);
       const tsb = +new Date(b.created_at);
       return tsa - tsb;
     });
-    console.log("sorted");
-    console.log(JSON.stringify(sortedList));
     for (let list of sortedList) {
-      console.log(list.created_at);
       this.$emit(list, this.generateMeta(list));
     }
   },

@@ -36,17 +36,19 @@ module.exports = {
       date.setDate(date.getDate() - 1);
       const config = {
         begin: Math.floor(date.valueOf() / 1000),
-        page,
         ascending: "yes",
         limit,
       };
+      if (page) {
+        config.page = page;
+      }
       return this.mailgun.api("events").get(this.domain, config);
     },
   },
   hooks: {
     async deploy() {
       // Emit sample events on the first run during deploy
-      const { items } = await this.getLatestEvents("last", 5);
+      const { items } = await this.getLatestEvents(null, 5);
       if (items.length === 0) {
         return;
       }
