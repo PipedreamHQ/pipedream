@@ -42,11 +42,10 @@ export default {
       ],
     },
     rows: {
-      type: "string",
-      label: "Rows to create",
-      description: `List of rows objects to create.
-        Example: \`[{"cells":[{"column":"<columnId>","value":"<value>"}]}]\`.
-        More information at [Coda API](https://coda.io/developers/apis/v1#operation/upsertRows)`,
+      propDefinition: [
+        coda,
+        "rows",
+      ],
     },
   },
   async run({ $ }) {

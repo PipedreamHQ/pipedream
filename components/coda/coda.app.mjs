@@ -87,6 +87,13 @@ export default {
         );
       },
     },
+    rows: {
+      type: "string",
+      label: "Rows to create or upsert",
+      description: `List of rows to create or upsert.
+        Example: \`[{"cells":[{"column":"<columnId>","value":"<value>"}]}]\`.
+        More information at [Coda API](https://coda.io/developers/apis/v1#operation/upsertRows)`,
+    },
     query: {
       type: "string",
       label: "Search Query",
