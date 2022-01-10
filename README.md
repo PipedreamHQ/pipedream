@@ -100,13 +100,14 @@ You can [create your own actions](https://pipedream.com/docs/components/quicksta
 Here's the code for an action to make an HTTP GET request:
 
 ```javascript
-const axios = require('axios')
-const http = require('../../http.app.js')
+const axios = require("axios");
+const http = require("../../http.app.js");
 
-module.exports = {  
+module.exports = {
   key: "http-get-request",
   name: "GET Request",
-  description: "Make an HTTP `GET` request to any URL. Optionally configure query string parameters, headers and basic auth.",
+  description:
+    "Make an HTTP `GET` request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
   version: "0.0.1",
   props: {
@@ -123,11 +124,11 @@ module.exports = {
       method: "GET",
       params: this.params,
       headers: this.headers,
-    }
-    if (this.auth) config.auth = this.http.parseAuth(this.auth)
-    return (await axios(config)).data
+    };
+    if (this.auth) config.auth = this.http.parseAuth(this.auth);
+    return (await axios(config)).data;
   },
-}
+};
 ```
 
 ## Destinations
@@ -177,6 +178,10 @@ If an issue _doesn't_ yet exist, please use these templates to create one:
 **[New API integration](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D)**
 
 **[New action](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=action%2C+enhancement%2C+good+first+issue%2C+help+wanted&template=action-request.md&title=%5BACTION%5D)**
+
+## Want to contribute?
+
+[Check out our contributing guide](https://github.com/PipedreamHQ/pipedream/blob/master/CONTRIBUTING.md) to learn how to involved in our community, learn how to build your own components, and more.
 
 ## Security
 
