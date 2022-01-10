@@ -34,7 +34,12 @@ module.exports = {
   },
   dedupe: "unique",
   async run() {
-    const { createdAtMin, createdAtMax, after, db } = this;
+    const {
+      createdAtMin,
+      createdAtMax,
+      after,
+      db,
+    } = this;
 
     const variables = {
       ...(createdAtMin || {}),
@@ -50,7 +55,9 @@ module.exports = {
       cursorPath: "transactions[0].cursor",
       handleEmit: (data) => {
         data.transactions.edges.map(({ node: { ...txn } }) => {
-          this.$emit(txn, { id: txn.id });
+          this.$emit(txn, {
+            id: txn.id,
+          });
         });
       },
     });

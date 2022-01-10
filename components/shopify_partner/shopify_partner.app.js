@@ -10,6 +10,14 @@ module.exports = {
      * Handle a Shopify Partner GraphQL query
      *
      * Includes pagination, based off of a recusion or the last stored cursor in the $service.db
+     * @param {String} query - the query passed to the Shopify Partner API
+     * @param {Db} db - the Pipedream database for getting/setting cursors for pagination
+     * @param {String} mutation - the mutation passed to the Shopify Partner API
+     * @param {Object} variables - variables passed to a query or mutation
+     * @param {Funciton} handleEmit - handles event emission given the response data
+     * @param {String} key - the unique key to retrieve the cursor from the db
+     * @param {String} hasNextPagePath - the path to test if a next page is discoverable
+     * @param {String} cursorPath - the path to find the pagination cursor in the response
      */
     async query({
       query,
@@ -34,7 +42,11 @@ module.exports = {
 
       const data = await client.request(query || mutation, {
         ...variables,
-        ...(lastCursor || key ? { after: lastCursor } : {}),
+        ...(lastCursor || key
+          ? {
+            after: lastCursor,
+          }
+          : {}),
       });
 
       console.log(JSON.stringify(data, null, 2));

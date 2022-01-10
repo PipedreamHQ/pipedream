@@ -41,7 +41,12 @@ module.exports = {
   },
   dedupe: "unique",
   async run() {
-    const { appId, occurredAtMin, occurredAtMax, db } = this;
+    const {
+      appId,
+      occurredAtMin,
+      occurredAtMax,
+      db,
+    } = this;
 
     const variables = {
       appId,
@@ -55,7 +60,9 @@ module.exports = {
       variables,
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
-          this.$emit(event, { id: event.occurredAt });
+          this.$emit(event, {
+            id: event.occurredAt,
+          });
         });
       },
       cursorPath: "app.events[0].edges[0].cursor",
