@@ -148,7 +148,15 @@ export default {
       opts.url = `https://coda.io/apis/v1${path[0] === "/"
         ? ""
         : "/"}${path}`;
-      return await axios(this, opts);
+      try {
+        return await axios(this, opts);
+      } catch (err) {
+        this._throwFormattedError(err);
+      }
+    },
+    _throwFormattedError(err) {
+      err = err.response.data;
+      throw Error(`${err.statusCode} - ${err.statusMessage} - ${err.message}`);
     },
     _makeOptionsResponse(list) {
       return list.map(
