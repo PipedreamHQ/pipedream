@@ -53,7 +53,7 @@ export default {
     meeting: {
       type: "string",
       label: "Meeting",
-      description: "The meeting ID",
+      // description: "The meeting ID",
       async options({
         prevContext,
         page,
@@ -101,7 +101,7 @@ export default {
     occurrenceId: {
       type: "string",
       label: "Occurrence ID",
-      description: "Provide this field to view meeting details of a particular occurrence of the [recurring meeting](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings).",
+      description: "Provide this field to view meeting details of a particular occurrence of a [recurring meeting](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings).",
       optional: true,
       async options({
         meeting,
@@ -190,7 +190,7 @@ export default {
       type: "string",
       label: "Webinar",
       optional: true,
-      description: "The Webinar ID",
+      // description: "The Webinar ID",
       async options({
         prevContext,
         page,

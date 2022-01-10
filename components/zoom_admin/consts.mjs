@@ -161,7 +161,7 @@ export default {
       value: 6,
     },
     {
-      label: "recurring webinar with fixed time",
+      label: "Recurring webinar with fixed time",
       value: 9,
     },
   ],

@@ -24,18 +24,18 @@ export default {
         "webinar",
       ],
     },
-    occurrenceId: {
-      propDefinition: [
-        zoomAdmin,
-        "occurrenceId",
-        ({ webinar }) => ({
-          meeting: webinar,
-          isWebinar: true,
-        }),
-      ],
-      type: "string[]",
-      description: "The [webinar occurrence ID](https://support.zoom.us/hc/en-us/articles/216354763-How-to-Schedule-A-Recurring-Webinar).",
-    },
+    // occurrenceId: {
+    //   propDefinition: [
+    //     zoomAdmin,
+    //     "occurrenceId",
+    //     ({ webinar }) => ({
+    //       meeting: webinar,
+    //       isWebinar: true,
+    //     }),
+    //   ],
+    //   type: "string[]",
+    //   description: "The [webinar occurrence ID](https://support.zoom.us/hc/en-us/articles/216354763-How-to-Schedule-A-Recurring-Webinar).",
+    // },
     email: {
       type: "string",
       label: "Email",
@@ -50,89 +50,88 @@ export default {
       type: "string",
       label: "Last Name",
       description: "Registrant's last name",
-      optional: true,
     },
-    address: {
-      type: "string",
-      label: "Address",
-      description: "Registrant's address",
-      optional: true,
-    },
-    city: {
-      type: "string",
-      label: "City",
-      description: "Registrant's city",
-      optional: true,
-    },
-    country: {
-      propDefinition: [
-        zoomAdmin,
-        "country",
-      ],
-    },
-    zip: {
-      type: "string",
-      label: "ZIP Code",
-      description: "Registrant's Zip/Postal Code.",
-      optional: true,
-    },
-    state: {
-      type: "string",
-      label: "State",
-      description: "Registrant's State/Province.",
-      optional: true,
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      description: "Registrant's Phone number.",
-      optional: true,
-    },
-    industry: {
-      type: "string",
-      label: "Industry",
-      description: "Registrant's Industry.",
-      optional: true,
-    },
-    org: {
-      type: "string",
-      label: "Organization",
-      description: "Registrant's Organization.",
-      optional: true,
-    },
-    jobTitle: {
-      type: "string",
-      label: "Job Title",
-      description: "Registrant's Job Title.",
-      optional: true,
-    },
-    purchasingTimeFrame: {
-      type: "string",
-      label: "Purchasing Time Frame",
-      description: "This field can be included to gauge interest of webinar attendees towards buying your product or service.",
-      optional: true,
-      options: PURCHASING_TIME_FRAME_OPTIONS,
-    },
-    roleInPurchaseProcess: {
-      type: "string",
-      label: "Role in Purchase Process",
-      description: "Role in Purchase Process.",
-      optional: true,
-      options: ROLE_IN_PURCHASE_PROCESS_OPTIONS,
-    },
-    numberOfEmployees: {
-      type: "string",
-      label: "Number of Employees",
-      description: "Number of Employees.",
-      optional: true,
-      options: NUMBER_OF_EMPLOYEES_OPTIONS,
-    },
-    comments: {
-      type: "string",
-      label: "Comments",
-      description: "A field that allows registrants to provide any questions or comments that they might have.",
-      optional: true,
-    },
+    // address: {
+    //   type: "string",
+    //   label: "Address",
+    //   description: "Registrant's address",
+    //   optional: true,
+    // },
+    // city: {
+    //   type: "string",
+    //   label: "City",
+    //   description: "Registrant's city",
+    //   optional: true,
+    // },
+    // country: {
+    //   propDefinition: [
+    //     zoomAdmin,
+    //     "country",
+    //   ],
+    // },
+    // zip: {
+    //   type: "string",
+    //   label: "ZIP Code",
+    //   description: "Registrant's Zip/Postal Code.",
+    //   optional: true,
+    // },
+    // state: {
+    //   type: "string",
+    //   label: "State",
+    //   description: "Registrant's State/Province.",
+    //   optional: true,
+    // },
+    // phone: {
+    //   type: "string",
+    //   label: "Phone",
+    //   description: "Registrant's Phone number.",
+    //   optional: true,
+    // },
+    // industry: {
+    //   type: "string",
+    //   label: "Industry",
+    //   description: "Registrant's Industry.",
+    //   optional: true,
+    // },
+    // org: {
+    //   type: "string",
+    //   label: "Organization",
+    //   description: "Registrant's Organization.",
+    //   optional: true,
+    // },
+    // jobTitle: {
+    //   type: "string",
+    //   label: "Job Title",
+    //   description: "Registrant's Job Title.",
+    //   optional: true,
+    // },
+    // purchasingTimeFrame: {
+    //   type: "string",
+    //   label: "Purchasing Time Frame",
+    //   description: "This field can be included to gauge interest of webinar attendees towards buying your product or service.",
+    //   optional: true,
+    //   options: PURCHASING_TIME_FRAME_OPTIONS,
+    // },
+    // roleInPurchaseProcess: {
+    //   type: "string",
+    //   label: "Role in Purchase Process",
+    //   description: "Role in Purchase Process.",
+    //   optional: true,
+    //   options: ROLE_IN_PURCHASE_PROCESS_OPTIONS,
+    // },
+    // numberOfEmployees: {
+    //   type: "string",
+    //   label: "Number of Employees",
+    //   description: "Number of Employees.",
+    //   optional: true,
+    //   options: NUMBER_OF_EMPLOYEES_OPTIONS,
+    // },
+    // comments: {
+    //   type: "string",
+    //   label: "Comments",
+    //   description: "A field that allows registrants to provide any questions or comments that they might have.",
+    //   optional: true,
+    // },
   },
   async run ({ $ }) {
     const res = await axios($, this.zoomAdmin._getAxiosParams({
@@ -163,7 +162,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `"${this.firstName}" was successfully invited to the webinar "${get(this.webinar, "label", this.webinar)}"`);
+    $.export("$summary", `"${this.firstName} ${this.lastName}" was successfully invited to the webinar, "${get(this.webinar, "label", this.webinar)}"`);
 
     return res;
   },

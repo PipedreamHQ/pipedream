@@ -48,7 +48,7 @@ export default {
       },
     }));
 
-    $.export("$summary", "Meetings successfully fetched");
+    $.export("$summary", `Successfully fetched ${res.meetings.length} ${res.meetings.length == 1 ? "meeting" : "meetings"}`);
 
     return res;
   },
