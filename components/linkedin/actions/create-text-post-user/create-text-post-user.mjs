@@ -1,51 +1,30 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
+import linkedin from "../../linkedin.app.mjs";
 
 export default {
-  key: "linkedin_create-text-post-user",
+  key: "linkedin-create-text-share-user",
   name: "Create a Text Post (User)",
-  description: "Create shares on LinkedIn using text, URLs, and images. [See the docs](https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin#creating-a-share-on-linkedin) for more information",
-  version: "0.0.11",
+  description: "Create shares on LinkedIn using text and URLs. [See the docs](https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin#creating-a-share-on-linkedin) for more information",
+  version: "0.0.1",
   type: "action",
   props: {
+    linkedin,
     name: {
-      type: "string",
-      label: "Text",
-      description: "Text to be posted on LinkedIn timeline",
-    },
-    linkedin: {
-      label: "LinkedIn",
-      description: "LinkedIn Integration",
-      type: "app",
-      app: "linkedin",
+      propDefinition: [
+        linkedin,
+        "name",
+      ],
     },
   },
   async run({ $ }) {
-    const data = {
-      "author": `urn:li:person:${this.linkedin.$auth.oauth_uid}`,
-      "lifecycleState": "PUBLISHED",
-      "specificContent": {
-        "com.linkedin.ugc.ShareContent": {
-          "shareCommentary": {
-            "text": this.name,
-          },
-          "shareMediaCategory": "NONE",
-        },
-      },
-      "visibility": {
-        "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
-      },
-    };
+    const payload = this.linkedin.getPayload("NONE", this.name);
+    let response = "It wasn't posible to create Post";
     try {
-      await axios.post("https://api.linkedin.com/v2/ugcPosts", data, {
-        headers: {
-          "Authorization": `Bearer ${this.linkedin.$auth.oauth_access_token}`,
-          "X-Restli-Protocol-Version": "2.0.0",
-        },
-      });
+      response = await axios($, this.linkedin.getRequestConfig(payload));
       $.export("$summary", "Successfully created a new Text Post as User");
     } catch (err) {
-      console.error(err);
-      $.export("$summary", "It wasn't posible to create Post");
+      $.export("$summary", response);
     }
+    return response;
   },
 };
