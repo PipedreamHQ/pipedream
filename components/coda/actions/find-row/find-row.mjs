@@ -95,11 +95,11 @@ export default {
     syncToken: {
       type: "string",
       label: "Sync Token",
-      description: `An opaque token returned from a previous call that can be used to return results that are relevant to the query since the call where the syncToken was generated`,
+      description: "An opaque token returned from a previous call that can be used to return results that are relevant to the query since the call where the syncToken was generated",
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     let params = {
       query: this.query,
       sortBy: this.sortBy,
@@ -110,10 +110,18 @@ export default {
       pageToken: this.pageToken,
       syncToken: this.syncToken,
     };
-    return await this.coda.findRow(
+
+    let response = await this.coda.findRow(
       this.docId,
       this.tableId,
       params,
     );
+
+    if (response.items.length > 0) {
+      $.export("$summary", `Found ${response.items.length} rows`);
+    } else {
+      $.export("$summary", `No rows found with the search query: ${this.query}`);
+    }
+    return response;
   },
 };

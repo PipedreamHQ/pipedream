@@ -31,12 +31,15 @@ export default {
       description: "The ID of the folder within which to copy this doc",
     },
   },
-  async run() {
+  async run({ $ }) {
     let data = {
       title: this.title,
       folderId: this.folderId,
       sourceDoc: this.docId,
     };
-    return await this.coda.createDoc(data);
+
+    let response = await this.coda.createDoc(data);
+    $.export("$summary", `Copied to new doc "${response.name}" in folderId: "${response.folderId}" and workspaceId: "${response.workspaceId}"`);
+    return response;
   },
 };

@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-list-docs",
   name: "List Docs",
-  description: `Returns a list of docs accessible by the user. These are returned in the same order as on the docs page: reverse chronological by the latest event relevant to the user (last viewed, edited, or shared)`,
+  description: "Returns a list of docs accessible by the user. These are returned in the same order as on the docs page: reverse chronological by the latest event relevant to the user (last viewed, edited, or shared)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -73,7 +73,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     let params = {
       sourceDoc: this.docId,
       workspaceId: this.workspaceId,
@@ -88,14 +88,16 @@ export default {
     };
 
     let items = [];
-    let result;
+    let response;
     do {
-      result = await this.coda.listDocs(params);
-      items.push(...result.items);
-      params.pageToken = result.nextPageToken;
+      response = await this.coda.listDocs(params);
+      items.push(...response.items);
+      params.pageToken = response.nextPageToken;
     } while (params.pageToken && items.length < this.limit);
 
     if (items.length > this.limit) items.length = this.limit;
+
+    $.export("$summary", `Retrieved ${items.length} doc(s)`);
 
     return {
       items,

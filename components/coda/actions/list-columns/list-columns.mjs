@@ -43,16 +43,20 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     let params = {
       visibleOnly: this.visibleOnly,
       limit: this.limit,
       pageToken: this.pageToken,
     };
-    return await this.coda.listColumns(
+
+    let response = await this.coda.listColumns(
       this.docId,
       this.tableId,
       params,
     );
+
+    $.export("$summary", `Retrieved ${response.items.length} column(s)`);
+    return response;
   },
 };

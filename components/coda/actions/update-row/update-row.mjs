@@ -57,19 +57,24 @@ export default {
       description: "An edit made to a particular row",
     },
   },
-  async run() {
+  async run({ $ }) {
     let params = {
       disableParsing: this.disableParsing,
     };
+
     let data = {
       row: JSON.parse(this.row),
     };
-    return await this.coda.updateRow(
+
+    let response = await this.coda.updateRow(
       this.docId,
       this.tableId,
       this.rowId,
       data,
       params,
     );
+
+    $.export("$summary", "Updated row successfully");
+    return response;
   },
 };

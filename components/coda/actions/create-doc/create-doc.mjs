@@ -22,11 +22,14 @@ export default {
       description: "The ID of the folder within which to create this doc",
     },
   },
-  async run() {
+  async run({ $ }) {
     let data = {
       title: this.title,
       folderId: this.folderId,
     };
-    return await this.coda.createDoc(data);
+
+    let response = await this.coda.createDoc(data);
+    $.export("$summary", `Created "${response.name}" doc in folderId: "${response.folderId}" and workspaceId: "${response.workspaceId}"`);
+    return response;
   },
 };

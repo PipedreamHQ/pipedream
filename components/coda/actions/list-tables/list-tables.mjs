@@ -44,16 +44,20 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     let params = {
       sortBy: this.sortBy,
       tableTypes: this.tableTypes.toString(),
       limit: this.limit,
       pageToken: this.pageToken,
     };
-    return await this.coda.listTables(
+
+    let response = await this.coda.listTables(
       this.docId,
       params,
     );
+
+    $.export("$summary", `Retrieved ${response.items.length} ${this.tableTypes}(s)`);
+    return response;
   },
 };

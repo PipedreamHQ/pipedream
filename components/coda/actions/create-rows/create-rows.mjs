@@ -49,7 +49,7 @@ export default {
         More information at [Coda API](https://coda.io/developers/apis/v1#operation/upsertRows)`,
     },
   },
-  async run() {
+  async run({ $ }) {
     let data = {
       rows: JSON.parse(this.rows),
     };
@@ -58,11 +58,14 @@ export default {
       disableParsing: this.disableParsing,
     };
 
-    return await this.coda.createRows(
+    let response = await this.coda.createRows(
       this.docId,
       this.tableId,
       data,
       params,
     );
+
+    $.export("$summary", "Created row(s) successfully");
+    return response;
   },
 };
