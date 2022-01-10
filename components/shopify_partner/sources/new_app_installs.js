@@ -9,9 +9,9 @@ module.exports = {
   description: "Emit new events when new shops install your app.",
   props: {
     shopify,
-    db: "$service.db",
+    db: "$.service.db",
     appId: {
-      type: "secret",
+      type: "string",
       optional: false,
       description: "gid://partners/App/<your App ID here>",
       label: "Shopify App ID",
@@ -41,6 +41,7 @@ module.exports = {
   },
   dedupe: "unique",
   async run() {
+    console.log("Retrieving shop installs");
     const {
       appId,
       occurredAtMin,
@@ -56,12 +57,14 @@ module.exports = {
 
     await this.shopify.query({
       db,
+      key: this.key,
       query: getAppInstalls,
       variables,
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
           this.$emit(event, {
             id: event.occurredAt,
+            summary: `Shopify shop ${event.shop.name} (${event.shop.myshopifyDomain}) installed ${event.app.name}`,
           });
         });
       },

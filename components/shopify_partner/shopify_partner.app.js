@@ -25,7 +25,7 @@ module.exports = {
       mutation,
       variables,
       handleEmit,
-      key,
+      key = "",
       hasNextPagePath = "transactions.pageInfo.hasNextPage",
       cursorPath = "transactions[0].edges[0].cursor",
     }) {
@@ -40,9 +40,11 @@ module.exports = {
       // the key is unique to the source module, so we should always be getting the last message
       const lastCursor = db.get(key);
 
+      console.log(`lastCursor: ${lastCursor}`);
+
       const data = await client.request(query || mutation, {
         ...variables,
-        ...(lastCursor || key
+        ...(lastCursor
           ? {
             after: lastCursor,
           }
@@ -54,7 +56,8 @@ module.exports = {
       if (data) {
         handleEmit(data);
         // the db becomes the source of truth for the last cursor
-        db.set(key, get(data, cursorPath));
+        //   return null because undefined causes a bug
+        db.set(key, get(data, cursorPath, null));
       }
 
       // paginate the results recursively
@@ -62,8 +65,12 @@ module.exports = {
       //   if hasNextPath is truthy, we continue
       if (data && get(data, hasNextPagePath)) {
         await this.query({
+          db,
+          key,
           query,
           mutation,
+          cursorPath,
+          hasNextPagePath,
           handleEmit,
           variables: {
             after: get(data, cursorPath),

@@ -10,7 +10,7 @@ module.exports = {
     "Emit new events when new app charges made to your partner account.",
   props: {
     shopify,
-    db: "$service.db",
+    db: "$.service.db",
     createdAtMin: {
       type: "string",
       description:
@@ -49,6 +49,7 @@ module.exports = {
 
     await this.shopify.query({
       db,
+      key: this.key,
       query: getAppTransactions,
       variables,
       hasNextPagePath: "transactions.pageInfo.hasNextPage",
@@ -57,6 +58,7 @@ module.exports = {
         data.transactions.edges.map(({ node: { ...txn } }) => {
           this.$emit(txn, {
             id: txn.id,
+            summary: `New successful app charge ${txn.id} that earned ${txn.netAmount.amount} ${txn.netAmount.currencyCode}`,
           });
         });
       },
