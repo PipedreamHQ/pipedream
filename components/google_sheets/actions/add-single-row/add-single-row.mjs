@@ -38,7 +38,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "1.0.10",
+  version: "1.0.0",
   type: "action",
   props: {
     googleSheets,
@@ -119,10 +119,7 @@ export default {
         cells = this.myColumnData;
       }
     } else {
-      cells = this.arrayData;
-      if (!Array.isArray(cells)) {
-        cells = JSON.parse(cells);
-      }
+      cells = this.googleSheets.sanitizedArray(this.arrayData);
     }
 
     // validate input
