@@ -13,7 +13,8 @@ export default {
     docId: {
       type: "string",
       label: "Doc ID",
-      description: "ID of the doc",
+      description: `ID of the doc
+        Options are displayed as \`{ "<docId>" : "<docValue>" }\``,
       async options () {
         return this._makeOptionsResponse(
           (await this.listDocs()).items,
@@ -29,7 +30,8 @@ export default {
     tableId: {
       type: "string",
       label: "Table ID",
-      description: "ID of the table",
+      description: `ID of the table
+        Options are displayed as \`{ "<tableId>" : "<tableValue>" }\``,
       async options({ docId }) {
         return this._makeOptionsResponse(
           (await this.listTables(docId)).items,
@@ -39,17 +41,20 @@ export default {
     rowId: {
       type: "string",
       label: "Row ID",
-      description: "ID of the row",
+      description: `ID of the row
+        Options are displayed as \`<rowNumber>: { "<rowId>" : "<rowValue>" }\``,
       async options({
         docId, tableId,
       }) {
         let counter = 0;
-        return (await this.findRow(docId, tableId, {
-          sortBy: "natural",
-        })).items.map(
+        return this._makeOptionsResponse(
+          (await this.findRow(docId, tableId, {
+            sortBy: "natural",
+          })).items,
+        ).map(
           (row) => ({
-            label: `Row ${counter++}: id[${row.id}] value[${row.name}]`,
-            value: row.id,
+            label: `${counter++}: ${row.label}`,
+            value: row.value,
           }),
         );
       },
@@ -58,31 +63,27 @@ export default {
       type: "string",
       label: "Column ID",
       description: `ID of the column
-        This prop is not used in the API call, it is a helper to find the \`columnId\` for the \`row\` object.`,
+        This prop is not used in the API call, it is a helper to find the \`columnId\` for the \`row\` object,
+        Options are displayed as \`{ "<columnId>" : "<columnValue>" }\``,
       optional: true,
       async options({
         docId, tableId,
       }) {
-        return (await this.listColumns(docId, tableId)).items.map(
-          (column) => ({
-            label: `id[${column.id}] value[${column.name}]`,
-            value: column.id,
-          }),
+        return this._makeOptionsResponse(
+          (await this.listColumns(docId, tableId)).items,
         );
       },
     },
     keyColumns: {
       type: "string[]",
       label: "Key of columns to be upserted",
-      description: "Optional column IDs, specifying columns to be used as upsert keys",
+      description: `Optional column IDs, specifying columns to be used as upsert keys
+        Options are displayed as \`{ "<columnId>" : "<columnValue>" }\``,
       async options({
         docId, tableId,
       }) {
-        return (await this.listColumns(docId, tableId)).items.map(
-          (column) => ({
-            label: `id[${column.id}] value[${column.name}]`,
-            value: column.id,
-          }),
+        return this._makeOptionsResponse(
+          (await this.listColumns(docId, tableId)).items,
         );
       },
     },
@@ -145,7 +146,7 @@ export default {
     _makeOptionsResponse(list) {
       return list.map(
         (e) => ({
-          label: e.name,
+          label: `{ "${e.id}" : "${e.name}" }`,
           value: e.id,
         }),
       );
