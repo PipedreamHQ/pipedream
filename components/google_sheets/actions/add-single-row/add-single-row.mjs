@@ -3,7 +3,7 @@ import googleSheets from "../../google_sheets.app.mjs";
 const dataFormat = {
   type: "string",
   label: "Data Format",
-  description: "You may enter individual values for each column or provide a single array representing the entire row.",
+  description: "You may enter individual values for each column or provide a single array representing the entire row. [See the docs here](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
   options: [
     {
       label: "Enter a value for each column",
@@ -38,7 +38,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "1.0.0",
+  version: "1.0.10",
   type: "action",
   props: {
     googleSheets,
@@ -79,7 +79,7 @@ export default {
           const rv = {};
           rv.header = headerProp;
           const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId, `${this.sheetName}!1:1`);
-          for (let i = 0; i < values[0].length; i++) {
+          for (let i = 0; i < values[0]?.length; i++) {
             rv[`col_${i.toString().padStart(4, "0")}`] = {
               type: "string",
               label: values[0][i],
