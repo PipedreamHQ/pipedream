@@ -139,7 +139,7 @@ export default {
       ],
     });
 
-    $.export("$summary", `Successfully added 1 row to [${data.updatedRange} in [Google Sheets](https://docs.google.com/spreadsheets/d/${data.spreadsheetId})`);
+    $.export("$summary", `Successfully added 1 row to [${data.updatedRange} in Google Sheets](https://docs.google.com/spreadsheets/d/${data.spreadsheetId})`);
 
     return data;
   },
