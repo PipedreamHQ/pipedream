@@ -116,7 +116,7 @@ export default {
           .sort()
           .map((prop) => this[prop]);
       } else {
-        cells = this.myColumnData;
+        cells = this.googleSheets.sanitizedArray(this.myColumnData);
       }
     } else {
       cells = this.googleSheets.sanitizedArray(this.arrayData);
