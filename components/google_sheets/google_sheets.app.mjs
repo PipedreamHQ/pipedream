@@ -102,7 +102,15 @@ export default {
           return [];
         }
 
-        return value.replace(/["'[\]\s]+/g, "").split(",");
+        if (value[0] === "[") {
+          value = value.substr(1, value.length);
+        }
+
+        if (value[value.length - 1] === "]") {
+          value = value.substr(0, value.length - 1);
+        }
+
+        return value.replace(/["']+/g, "").split(",");
       }
 
       throw new Error(`${value} is not an array or an array-like`);
