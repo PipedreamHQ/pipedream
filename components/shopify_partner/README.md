@@ -23,4 +23,4 @@ This action will poll the Shopify Partner API for new app installs, requires an 
 
 ### New Transactions
 
-This action will poll the Shopify Partner API for new app charges, including reoccuring, one time and usage charges.
+This action will poll the Shopify Partner API for new app charges, including reoccurring, one time and usage charges.
