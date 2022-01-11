@@ -76,6 +76,20 @@ module.exports = {
         ts: payload.timestamp,
       };
     },
+    getEventSubtype() {
+      return null;
+    },
+    emitEvent(payload) {
+      const expectedTypes = this.getEventType();
+      if (
+        !expectedTypes.includes(payload.event) &&
+        (!this.getEventSubtype() || this.getEventSubtype().includes(payload.severity))
+      ) {
+        console.debug("Expected", expectedTypes, "but got a", payload.event, "- skipping");
+        return;
+      }
+      this.$emit(payload, this.generateMeta(payload));
+    },
     verifySignature({
       timestamp, token, signature,
     }) {
@@ -84,14 +98,6 @@ module.exports = {
         .update(timestamp.concat(token))
         .digest("hex");
       return encodedToken === signature;
-    },
-    emitEvent(payload) {
-      const expectedTypes = this.getEventType();
-      if (!expectedTypes.includes(payload.event)) {
-        console.debug("Expected", expectedTypes, "but got a", payload.event, "- skipping");
-        return;
-      }
-      this.$emit(payload, this.generateMeta(payload));
     },
   },
   hooks: {
