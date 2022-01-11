@@ -13,7 +13,7 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive to select a spreadsheet from",
+      description: "The drive to select a spreadsheet from. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here by enabling \"Structured Mode\".",
     },
     sheetId: {
       propDefinition: [
