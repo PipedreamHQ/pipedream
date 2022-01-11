@@ -61,6 +61,7 @@ export default {
     sheetName: {
       type: "string",
       label: "Sheet Name",
+      description: "Your sheet name",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
         return sheets.map((sheet) => sheet.properties.title);
@@ -70,6 +71,7 @@ export default {
     worksheetIDs: {
       type: "string[]",
       label: "Worksheet(s)",
+      description: "The Worksheet ID",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
 
