@@ -2,7 +2,7 @@ const {
   props,
   methods,
   ...common
-} = require("../common-webhook");
+} = require("../common/timer-based");
 
 module.exports = {
   ...common,
@@ -14,12 +14,6 @@ module.exports = {
   dedupe: "greatest",
   props: {
     ...props,
-    timer: {
-      propDefinition: [
-        props.mailgun,
-        "timer",
-      ],
-    },
   },
   methods: {
     ...methods,

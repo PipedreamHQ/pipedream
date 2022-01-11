@@ -1,7 +1,7 @@
 const {
   methods,
   ...common
-} = require("../common-webhook");
+} = require("../common/http-based");
 
 module.exports = {
   ...common,

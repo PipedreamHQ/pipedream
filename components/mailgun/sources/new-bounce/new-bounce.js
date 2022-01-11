@@ -1,7 +1,7 @@
 const {
   methods,
   ...common
-} = require("../common-webhook");
+} = require("../common/http-based");
 const get = require("lodash.get");
 
 module.exports = {

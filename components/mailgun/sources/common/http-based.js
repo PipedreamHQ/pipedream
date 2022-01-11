@@ -1,26 +1,26 @@
-const mailgun = require("../mailgun.app");
 const crypto = require("crypto");
 const get = require("lodash.get");
+const base = require("./base");
 
 module.exports = {
+  ...base,
   props: {
-    mailgun,
-    domain: {
-      propDefinition: [
-        mailgun,
-        "domain",
-      ],
-    },
+    ...base.props,
     webhookSigningKey: {
-      propDefinition: [
-        mailgun,
-        "webhookSigningKey",
-      ],
+      type: "string",
+      secret: true,
+      label: "Mailgun webhook signing key",
+      description:
+        "Your Mailgun webhook signing key, found " +
+        "[in your Mailgun dashboard](https://app.mailgun.com/app/dashboard), located under " +
+        "Settings on the left-hand nav and then in API Keys look for webhook signing key. " +
+        "Required to compute the authentication signature of events.",
     },
     http: "$.interface.http",
     db: "$.service.db",
   },
   methods: {
+    ...base.methods,
     async getWebhook(domain, webhook) {
       const response = await this.mailgun.api("webhooks").list(domain);
       const webhookChek = [];
@@ -95,6 +95,7 @@ module.exports = {
     },
   },
   hooks: {
+    ...base.hooks,
     async activate() {
       for (let webhook of this.getEventName()) {
         const urls = await this.getWebhook(this.domain, webhook);
