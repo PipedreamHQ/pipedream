@@ -23,7 +23,7 @@ module.exports = {
     },
     getEventType() {
       return [
-        "OPENED",
+        "opened",
         "opened",
       ];
     },
