@@ -14,14 +14,14 @@ export default {
     occurredAtMin: {
       type: "string",
       description:
-        "Only include install events after this specific time (ISO timestamp)",
+        "Only include events after this specific time (ISO timestamp)",
       label: "occurredAtMin",
       optional: true,
     },
     occurredAtMax: {
       type: "string",
       description:
-        "Only include install events up to this specific time (ISO timestamp)",
+        "Only include events up to this specific time (ISO timestamp)",
       label: "occurredAtMin",
       optional: true,
     },
