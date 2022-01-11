@@ -49,6 +49,7 @@ export default {
     sheetID: {
       type: "string",
       label: "Spreadsheet",
+      description: "The Spreadsheet ID",
       options({
         prevContext,
         driveId,
