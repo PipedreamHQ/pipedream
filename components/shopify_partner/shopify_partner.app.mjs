@@ -6,6 +6,11 @@ export default {
   type: "app",
   app: "shopify_partner",
   propDefinitions: {
+    appId: {
+      type: "string",
+      description: "gid://partners/App/<your App ID here>",
+      label: "Shopify App ID",
+    },
     occurredAtMin: {
       type: "string",
       description:

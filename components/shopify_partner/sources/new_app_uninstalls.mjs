@@ -12,9 +12,10 @@ export default {
   props: {
     ...common.props,
     appId: {
-      type: "string",
-      description: "gid://partners/App/<your App ID here>",
-      label: "Shopify App ID",
+      propDefinition: [
+        shopify,
+        "appId",
+      ],
     },
     occurredAtMin: {
       propDefinition: [
