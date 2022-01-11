@@ -41,7 +41,7 @@ module.exports = {
     emitEvent(payload) {
       if (
         this.getEventType().includes(payload.event) &&
-        this.getEventSubtype().includes(payload.severity)
+        (!this.getEventSubtype() || this.getEventSubtype().includes(payload.severity))
       ) {
         this.$emit(payload, this.generateMeta(payload));
       }
