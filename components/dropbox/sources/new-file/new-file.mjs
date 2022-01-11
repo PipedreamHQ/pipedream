@@ -2,10 +2,11 @@ import common from "../common.mjs";
 
 export default {
   ...common,
+  type: "source",
   key: "dropbox-new-file",
   name: "New File",
   version: "0.0.5",
-  description: "Emits an event when a new file is added to your account or a specific folder. Make sure the number of files/folders in the watched folder does not exceed 4000.",
+  description: "Emit new event when a new file is added to your account or a specific folder. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     ...common.props,
     includeMediaInfo: {

@@ -77,7 +77,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Specify a max amount of register to be fetched.",
+      description: "Specify a max amount of register to be fetched. Defaults to `100` if left blank.",
       optional: true,
       min: 1,
     },
