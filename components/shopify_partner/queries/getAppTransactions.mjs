@@ -6,10 +6,14 @@ import { gql } from "graphql-request";
  */
 export default gql`
   query getTransactions(
-    $after: String = null
+    $createdAtMin: DateTime
+    $createdAtMax: DateTime
+    $after: String
   ) {
     transactions(
       types: [APP_USAGE_SALE, APP_ONE_TIME_SALE, APP_SUBSCRIPTION_SALE]
+      createdAtMin: $createdAtMin
+      createdAtMax: $createdAtMax
       after: $after
       first: 50
     ) {

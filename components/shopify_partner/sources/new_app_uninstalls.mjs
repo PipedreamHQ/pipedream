@@ -48,7 +48,7 @@ export default {
       db,
       query: getAppUninstalls,
       variables,
-      key: this.key,
+      key: "shopify_partner-uninstalls",
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
           this.$emit(event, {
