@@ -1,18 +1,17 @@
-const shopify = require("../shopify_partner.app.js");
-const getAppInstalls = require("../queries/getAppInstalls");
+import common from "../common.mjs";
+import getAppUninstalls from "../queries/getAppUninstalls.mjs";
 
-module.exports = {
-  key: "shopify_partner-new-app-installs",
-  name: "New App Installs",
+export default {
+  key: "shopify_partner-new-app-uninstalls",
+  name: "New App Uninstalls",
   type: "source",
   version: "0.0.1",
-  description: "Emit new events when new shops install your app.",
+  description: "Emit new events when new shops uninstall your app.",
+  ...common,
   props: {
-    shopify,
-    db: "$.service.db",
+    ...common.props,
     appId: {
       type: "string",
-      optional: false,
       description: "gid://partners/App/<your App ID here>",
       label: "Shopify App ID",
     },
@@ -30,18 +29,8 @@ module.exports = {
       label: "occurredAtMin",
       optional: true,
     },
-    timer: {
-      description: "How often this action should run",
-      type: "$.interface.timer",
-      label: "timer",
-      default: {
-        intervalSeconds: 60 * 60,
-      },
-    },
   },
-  dedupe: "unique",
   async run() {
-    console.log("Retrieving shop installs");
     const {
       appId,
       occurredAtMin,
@@ -57,14 +46,14 @@ module.exports = {
 
     await this.shopify.query({
       db,
-      key: this.key,
-      query: getAppInstalls,
+      query: getAppUninstalls,
       variables,
+      key: this.key,
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
           this.$emit(event, {
             id: event.occurredAt,
-            summary: `Shopify shop ${event.shop.name} (${event.shop.myshopifyDomain}) installed ${event.app.name}`,
+            summary: `Shopify shop ${event.shop.name} (${event.shop.myshopifyDomain}) uninstalled ${event.app.name}`,
           });
         });
       },

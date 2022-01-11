@@ -1,6 +1,10 @@
-const { gql } = require("graphql-request");
+import { gql } from "graphql-request";
 
-const query = gql`
+/**
+ * Get app uninstall events via app.AppEventConnection relationship
+ * https://shopify.dev/api/partner/reference/apps/appeventconnection
+ */
+export default gql`
   query getAppInstalls(
     $appId: ID!
     $occurredAtMin: DateTime
@@ -9,21 +13,18 @@ const query = gql`
   ) {
     app(id: $appId) {
       events(
-        types: [RELATIONSHIP_INSTALLED]
+        types: [RELATIONSHIP_UNINSTALLED]
         occurredAtMin: $occurredAtMin
         occurredAtMax: $occurredAtMax
         after: $after
       ) {
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
-        }
         edges {
-          cursor
           node {
             occurredAt
             __typename
-            ... on RelationshipInstalled {
+            ... on RelationshipUninstalled {
+              reason
+              description
               app {
                 id
                 name
@@ -41,5 +42,3 @@ const query = gql`
     }
   }
 `;
-
-module.exports = query;

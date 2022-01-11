@@ -1,7 +1,7 @@
-const shopify = require("../shopify_partner.app.js");
-const getAppTransactions = require("../queries/getAppTransactions");
+import common from "../common.mjs";
+import getAppTransactions from "../queries/getAppTransactions.mjs";
 
-module.exports = {
+export default {
   key: "shopify_partner-new-app-charges",
   name: "New App Charges",
   type: "source",
@@ -9,27 +9,20 @@ module.exports = {
   description:
     "Emit new events when new app charges made to your partner account.",
   props: {
-    shopify,
-    db: "$.service.db",
+    ...common.props,
     createdAtMin: {
       type: "string",
       description:
         "Only include transactions after this specific time (ISO timestamp)",
       label: "createdAtMin",
+      optional: true,
     },
     createdAtMax: {
       type: "string",
       description:
         "Only include transactions up to this specific time (ISO timestamp)",
       label: "createdAtMin",
-    },
-    timer: {
-      description: "How often this action should run",
-      type: "$.interface.timer",
-      label: "timer",
-      default: {
-        intervalSeconds: 60 * 60,
-      },
+      optional: true,
     },
   },
   dedupe: "unique",
@@ -58,7 +51,7 @@ module.exports = {
         data.transactions.edges.map(({ node: { ...txn } }) => {
           this.$emit(txn, {
             id: txn.id,
-            summary: `New successful app charge ${txn.id} that earned ${txn.netAmount.amount} ${txn.netAmount.currencyCode}`,
+            summary: `Transaction ${txn.id} earned ${txn.netAmount.amount} ${txn.netAmount.currencyCode}`,
           });
         });
       },

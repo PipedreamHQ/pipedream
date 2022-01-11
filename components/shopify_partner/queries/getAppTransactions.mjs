@@ -1,6 +1,10 @@
-const { gql } = require("graphql-request");
+import { gql } from "graphql-request";
 
-const query = gql`
+/**
+ * Get all transactions via TransactionsConnections relationship
+ * https://shopify.dev/api/partner/reference/transactions/transactionconnection
+ */
+export default gql`
   query getTransactions(
     $createdAtMin: DateTime
     $createdAtMax: DateTime
@@ -57,5 +61,3 @@ const query = gql`
     }
   }
 `;
-
-module.exports = query;
