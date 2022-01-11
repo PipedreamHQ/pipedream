@@ -8,6 +8,7 @@ export default {
   version: "0.0.1",
   description:
     "Emit new events when new app charges made to your partner account.",
+  ...common,
   props: {
     ...common.props,
     createdAtMin: {
@@ -25,7 +26,6 @@ export default {
       optional: true,
     },
   },
-  dedupe: "unique",
   async run() {
     const {
       createdAtMin,

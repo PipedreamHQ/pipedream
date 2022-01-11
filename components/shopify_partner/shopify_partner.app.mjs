@@ -5,6 +5,22 @@ import { GraphQLClient } from "graphql-request";
 export default {
   type: "app",
   app: "shopify_partner",
+  propDefinitions: {
+    occurredAtMin: {
+      type: "string",
+      description:
+        "Only include install events after this specific time (ISO timestamp)",
+      label: "occurredAtMin",
+      optional: true,
+    },
+    occurredAtMax: {
+      type: "string",
+      description:
+        "Only include install events up to this specific time (ISO timestamp)",
+      label: "occurredAtMin",
+      optional: true,
+    },
+  },
   methods: {
     /**
      * Handle a Shopify Partner GraphQL query

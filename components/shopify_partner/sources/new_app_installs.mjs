@@ -1,4 +1,5 @@
 import common from "../common.mjs";
+import shopify from "../shopify_partner.app.mjs";
 import getAppInstalls from "../queries/getAppInstalls.mjs";
 
 export default {
@@ -17,18 +18,16 @@ export default {
       label: "Shopify App ID",
     },
     occurredAtMin: {
-      type: "string",
-      description:
-        "Only include install events after this specific time (ISO timestamp)",
-      label: "occurredAtMin",
-      optional: true,
+      propDefinition: [
+        shopify,
+        "occurredAtMin",
+      ],
     },
     occurredAtMax: {
-      type: "string",
-      description:
-        "Only include install events up to this specific time (ISO timestamp)",
-      label: "occurredAtMix",
-      optional: true,
+      propDefinition: [
+        shopify,
+        "occurredAtMax",
+      ],
     },
   },
   async run() {
@@ -54,7 +53,7 @@ export default {
         data.app.events.edges.map(({ node: { ...event } }) => {
           this.$emit(event, {
             id: event.occurredAt,
-            summary: `Shopify shop ${event.shop.name} (${event.shop.myshopifyDomain}) installed ${event.app.name}`,
+            summary: `${event.shop.name} (${event.shop.myshopifyDomain}) installed ${event.app.name}`,
           });
         });
       },
