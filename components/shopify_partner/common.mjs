@@ -12,6 +12,6 @@ export default {
         intervalSeconds: 60 * 15,
       },
     },
-    dedupe: "unique",
   },
+  dedupe: "unique",
 };

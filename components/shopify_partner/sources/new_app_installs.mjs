@@ -32,7 +32,6 @@ export default {
     },
   },
   async run() {
-    console.log("Retrieving shop installs");
     const {
       appId,
       occurredAtMin,
