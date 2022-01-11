@@ -6,15 +6,12 @@ import { gql } from "graphql-request";
  */
 export default gql`
   query getTransactions(
-    $createdAtMin: DateTime
-    $createdAtMax: DateTime
-    $after: String
+    $after: String = null
   ) {
     transactions(
       types: [APP_USAGE_SALE, APP_ONE_TIME_SALE, APP_SUBSCRIPTION_SALE]
-      createdAtMin: $createdAtMin
-      createdAtMax: $createdAtMax
       after: $after
+      first: 50
     ) {
       pageInfo {
         hasNextPage

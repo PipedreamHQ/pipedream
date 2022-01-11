@@ -57,7 +57,7 @@ export default {
           });
         });
       },
-      cursorPath: "app.events[0].edges[0].cursor",
+      cursorPath: "app.events.edges[-1].cursor",
       hasNextPagePath: "app.events.pageInfo.hasNextPage",
     });
   },
