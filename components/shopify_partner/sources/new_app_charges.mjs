@@ -5,7 +5,11 @@ export default {
   key: "shopify_partner-new-app-charges",
   name: "New App Charges",
   type: "source",
+<<<<<<< HEAD
+  version: "0.0.3",
+=======
   version: "0.0.2",
+>>>>>>> master
   description:
     "Emit new events when new app charges made to your partner account.",
   ...common,
@@ -46,7 +50,13 @@ export default {
       query: getAppTransactions,
       variables,
       hasNextPagePath: "transactions.pageInfo.hasNextPage",
-      cursorPath: "transactions.edges[-1].cursor",
+      getCursor: (data) => {
+        const edges = data?.transactions?.edges || [];
+        const [
+          last,
+        ] = edges.reverse();
+        return last?.cursor;
+      },
       handleEmit: (data) => {
         data.transactions.edges.map(({ node: { ...txn } }) => {
           this.$emit(txn, {
