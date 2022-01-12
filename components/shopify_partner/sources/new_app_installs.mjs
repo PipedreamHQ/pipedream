@@ -6,7 +6,7 @@ export default {
   key: "shopify_partner-new-app-installs",
   name: "New App Installs",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new events when new shops install your app.",
   ...common,
   props: {
@@ -58,7 +58,10 @@ export default {
           });
         });
       },
-      cursorPath: "app.events.edges[-1].cursor",
+      getCursor: (data) => {
+        const edges = data?.app?.events?.edges;
+        return edges.reverse()[0]?.cursor;
+      },
       hasNextPagePath: "app.events.pageInfo.hasNextPage",
     });
   },

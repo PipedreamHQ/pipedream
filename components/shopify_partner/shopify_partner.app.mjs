@@ -48,7 +48,7 @@ export default {
       handleEmit,
       key = "",
       hasNextPagePath = "transactions.pageInfo.hasNextPage",
-      cursorPath = "transactions[-1].edges[0].cursor",
+      getCursor,
     }) {
       const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2021-04/graphql.json`;
       const client = new GraphQLClient(endpoint, {
@@ -71,10 +71,11 @@ export default {
       };
 
       const data = await client.request(query || mutation, queryVars);
+      console.log(JSON.stringify(data, null, 4));
 
       if (data) {
         handleEmit(data);
-        db.set(key, get(data, cursorPath, null));
+        db.set(key, getCursor(data));
       }
 
       // paginate the results recursively
@@ -84,7 +85,7 @@ export default {
           key,
           query,
           mutation,
-          cursorPath,
+          getCursor,
           hasNextPagePath,
           handleEmit,
           variables,
