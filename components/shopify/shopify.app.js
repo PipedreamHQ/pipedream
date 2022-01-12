@@ -294,6 +294,24 @@ module.exports = {
         () => shopifyClient.graphql(query, variables),
       );
     },
+    _makeRequestOpts(params) {
+      for (const key of Object.keys(params)) {
+        const value = params[key];
+
+        if (typeof value == "boolean") {
+          continue;
+        }
+        if (Array.isArray(value)
+          && (value.length === 0
+            || (value.length === 1
+            && value[0] === ""))) {
+          delete params[key];
+        }
+        else if (!(key && value)) {
+          delete params[key];
+        }
+      }
+    },
     dayAgo() {
       const dayAgo = new Date();
       dayAgo.setDate(dayAgo.getDate() - 1);
@@ -336,6 +354,7 @@ module.exports = {
     },
     async resourceAction(objectType, action, params = {}, id = null, paginates = false) {
       const shopify = this.getShopifyInstance();
+      this._makeRequestOpts(params);
       let objects = [];
       if (action == "list") paginates = true;
 
