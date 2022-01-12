@@ -42,11 +42,11 @@ export default {
 
     await this.shopify.query({
       db,
-      key: this.key,
+      key: "shopify_partner-transactions",
       query: getAppTransactions,
       variables,
       hasNextPagePath: "transactions.pageInfo.hasNextPage",
-      cursorPath: "transactions[0].cursor",
+      cursorPath: "transactions.edges[-1].cursor",
       handleEmit: (data) => {
         data.transactions.edges.map(({ node: { ...txn } }) => {
           this.$emit(txn, {

@@ -48,7 +48,7 @@ export default {
       db,
       query: getAppUninstalls,
       variables,
-      key: this.key,
+      key: "shopify_partner-uninstalls",
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
           this.$emit(event, {
@@ -57,7 +57,7 @@ export default {
           });
         });
       },
-      cursorPath: "app.events[0].edges[0].cursor",
+      cursorPath: "app.events.edges[-1].cursor",
       hasNextPagePath: "app.events.pageInfo.hasNextPage",
     });
   },

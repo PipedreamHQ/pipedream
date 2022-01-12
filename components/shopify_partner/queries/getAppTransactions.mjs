@@ -15,6 +15,7 @@ export default gql`
       createdAtMin: $createdAtMin
       createdAtMax: $createdAtMax
       after: $after
+      first: 50
     ) {
       pageInfo {
         hasNextPage

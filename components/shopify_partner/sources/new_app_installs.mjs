@@ -47,7 +47,7 @@ export default {
 
     await this.shopify.query({
       db,
-      key: this.key,
+      key: "shopify_partner-installs",
       query: getAppInstalls,
       variables,
       handleEmit: (data) => {
@@ -58,7 +58,7 @@ export default {
           });
         });
       },
-      cursorPath: "app.events[0].edges[0].cursor",
+      cursorPath: "app.events.edges[-1].cursor",
       hasNextPagePath: "app.events.pageInfo.hasNextPage",
     });
   },

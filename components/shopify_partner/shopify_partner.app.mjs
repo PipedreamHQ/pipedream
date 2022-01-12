@@ -48,7 +48,7 @@ export default {
       handleEmit,
       key = "",
       hasNextPagePath = "transactions.pageInfo.hasNextPage",
-      cursorPath = "transactions[0].edges[0].cursor",
+      cursorPath = "transactions[-1].edges[0].cursor",
     }) {
       const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2021-04/graphql.json`;
       const client = new GraphQLClient(endpoint, {
@@ -61,14 +61,16 @@ export default {
       // the key is unique to the source module, so we should always be getting the last message
       const lastCursor = db.get(key);
 
-      const data = await client.request(query || mutation, {
+      const queryVars = {
         ...variables,
         ...(lastCursor
           ? {
             after: lastCursor,
           }
           : {}),
-      });
+      };
+
+      const data = await client.request(query || mutation, queryVars);
 
       if (data) {
         handleEmit(data);
@@ -85,10 +87,7 @@ export default {
           cursorPath,
           hasNextPagePath,
           handleEmit,
-          variables: {
-            after: get(data, cursorPath),
-            ...variables,
-          },
+          variables,
         });
       }
     },
