@@ -4,6 +4,7 @@ const VERSION_PATH = "/api/v2";
 const WEBHOOK_ID = "webhookId";
 const TRIGGER_ID = "triggerId";
 const PAGE_SIZE_PARAM = "page[size]";
+const PAGE_AFTER_PARAM = "page[after]";
 const SORT_BY_POSITION_ASC = "position";
 const X_ZENDESK_WEBHOOK_SIGNATURE_HEADER = "x-zendesk-webhook-signature";
 const X_ZENDESK_WEBHOOK_SIGNATURE_TIMESTAMP_HEADER = "x-zendesk-webhook-signature-timestamp";
@@ -18,6 +19,7 @@ export default {
   WEBHOOK_ID,
   TRIGGER_ID,
   PAGE_SIZE_PARAM,
+  PAGE_AFTER_PARAM,
   SORT_BY_POSITION_ASC,
   X_ZENDESK_WEBHOOK_SIGNATURE_HEADER,
   X_ZENDESK_WEBHOOK_SIGNATURE_TIMESTAMP_HEADER,

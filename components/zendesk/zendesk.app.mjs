@@ -9,22 +9,32 @@ export default {
       type: "string",
       label: "Trigger category ID",
       description: "The ID of the trigger category. [See the docs here](https://developer.zendesk.com/api-reference/ticketing/business-rules/trigger_categories/#list-trigger-categories)",
-      async options() {
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
 
-        const { trigger_categories: categories } =
+        const {
+          trigger_categories: categories,
+          meta,
+        } =
           await this.listTriggerCategories({
             params: {
-              [constants.PAGE_SIZE_PARAM]: 100,
+              [constants.PAGE_SIZE_PARAM]: 20,
               sort: constants.SORT_BY_POSITION_ASC,
+              [constants.PAGE_AFTER_PARAM]: afterCursor,
             },
           });
 
-        return categories.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: categories.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
       },
     },
   },

@@ -1,20 +1,20 @@
-import common from "../common/common-ticket.mjs";
+import common from "../common/ticket.mjs";
 
 export default {
   ...common,
-  name: "Changed to Solved Ticket",
-  key: "zendesk-changed-to-solved-ticket",
+  name: "Ticket Closed (Instant)",
+  key: "zendesk-ticket-closed",
   type: "source",
-  description: "Emit new event when a ticket has changed to solved status",
+  description: "Emit new event when a ticket has changed to closed status",
   version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getWebhookName() {
-      return "Changed to Solved Ticket Webhook";
+      return "Ticket Closed Webhook";
     },
     getTriggerTitle() {
-      return "Changed to Solved Ticket Trigger";
+      return "Ticket Closed Trigger";
     },
     getTriggerConditions() {
       return {
@@ -26,7 +26,7 @@ export default {
           {
             field: "status",
             operator: "value",
-            value: "solved",
+            value: "closed",
           },
         ],
       };

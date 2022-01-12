@@ -1,9 +1,9 @@
-import common from "../common/common-ticket.mjs";
+import common from "../common/ticket.mjs";
 
 export default {
   ...common,
-  name: "New Ticket",
-  key: "zendesk-create-ticket",
+  name: "New Ticket (Instant)",
+  key: "zendesk-new-ticket",
   type: "source",
   description: "Emit new event when a ticket is created",
   version: "0.0.1",
@@ -11,10 +11,10 @@ export default {
   methods: {
     ...common.methods,
     getWebhookName() {
-      return "Create Ticket Webhook";
+      return "New Ticket Webhook";
     },
     getTriggerTitle() {
-      return "Create Ticket Trigger";
+      return "New Ticket Trigger";
     },
     getTriggerConditions() {
       return {
