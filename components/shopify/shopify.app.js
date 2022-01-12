@@ -178,6 +178,11 @@ module.exports = {
       description: "Only emit events for the selected event types.",
       options: events,
     },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The name of the product",
+    },
   },
   methods: {
     _getBaseURL() {
@@ -414,6 +419,9 @@ module.exports = {
     async getProducts(sinceId) {
       let params = this.getSinceParams(sinceId, true);
       return await this.getObjects("product", params);
+    },
+    async createProduct(params) {
+      return await this.resourceAction("product", "create", params);
     },
     async *queryOrders(opts = {}) {
       const {
