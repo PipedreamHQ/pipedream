@@ -91,9 +91,9 @@ export default {
       vendor: this.vendor,
       product_type: this.productType,
       status: this.status,
-      images: this.images,
-      variants: this.variants,
-      options: this.options,
+      images: this.shopify._parseArrayOfJSONStrings(this.images),
+      variants: this.shopify._parseArrayOfJSONStrings(this.variants),
+      options: this.shopify._parseArrayOfJSONStrings(this.options),
       tags: this.tags,
     };
 

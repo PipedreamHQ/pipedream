@@ -317,6 +317,11 @@ module.exports = {
         }
       }
     },
+    _parseArrayOfJSONStrings(list) {
+      return list.map((x) => x
+        ? JSON.parse(x)
+        : x);
+    },
     dayAgo() {
       const dayAgo = new Date();
       dayAgo.setDate(dayAgo.getDate() - 1);
