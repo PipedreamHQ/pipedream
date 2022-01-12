@@ -334,6 +334,22 @@ module.exports = {
       } while (params !== undefined);
       return objects;
     },
+    async resourceAction(objectType, action, params = {}, id = null, paginates = false) {
+      const shopify = this.getShopifyInstance();
+      let objects = [];
+      if (action == "list") paginates = true;
+
+      do {
+        const results = id
+          ? await shopify[objectType][action](id, params)
+          : await shopify[objectType][action](params);
+        objects = objects.concat(results);
+        params = results.nextPageParameters;
+      } while (paginates && params !== undefined);
+
+      if (!paginates) return objects[0];
+      return objects;
+    },
     async getAbandonedCheckouts(sinceId) {
       let params = this.getSinceParams(sinceId, true);
       return await this.getObjects("checkout", params);
