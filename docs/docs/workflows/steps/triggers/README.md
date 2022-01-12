@@ -530,6 +530,7 @@ import stream from "stream";
 import { promisify } from "util";
 import fs from "fs";
 import got from "got";
+import { simpleParser } from "mailparser";
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(
