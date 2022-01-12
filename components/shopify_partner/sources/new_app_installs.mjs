@@ -6,7 +6,7 @@ export default {
   key: "shopify_partner-new-app-installs",
   name: "New App Installs",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new events when new shops install your app.",
   ...common,
   props: {
