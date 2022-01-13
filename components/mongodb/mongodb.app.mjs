@@ -1,11 +1,22 @@
+import mongoose from "mongoose";
+
 export default {
   type: "app",
   app: "mongodb",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async getConnection() {
+      const {
+        username,
+        password,
+        database,
+        hostname,
+      } = this.$auth;
+      // mongodb+srv://root:root@cluster0.jcnyr.mongodb.net/test
+      const uri = `mongodb+srv://${username}:${password}@${hostname}/${database}`;
+      console.log(uri);
+      const res = await mongoose.connect(uri);
+      console.log(res);
     },
   },
 };
