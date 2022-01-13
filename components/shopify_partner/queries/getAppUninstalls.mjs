@@ -17,6 +17,7 @@ export default gql`
         occurredAtMin: $occurredAtMin
         occurredAtMax: $occurredAtMax
         after: $after
+        first: 50
       ) {
         edges {
           node {
