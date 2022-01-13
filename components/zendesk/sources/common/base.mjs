@@ -6,9 +6,7 @@ export default {
   props: {
     zendesk,
     db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-    },
+    http: "$.interface.http",
     categoryId: {
       propDefinition: [
         zendesk,
