@@ -6,7 +6,7 @@ export default {
   // eslint-disable-next-line pipedream/source-description
   description:
     "Executes a CloudWatch Logs Insights query on a schedule, and emits the records as invidual events (default) or in batch",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     aws,
