@@ -406,6 +406,9 @@ module.exports = {
       let params = this.getSinceParams(sinceId, true, updatedAfter);
       return await this.getObjects("customer", params);
     },
+    async createCustomer(params) {
+      return await this.resourceAction("customer", "create", params);
+    },
     async getEvents(sinceId, filter = null, verb = null) {
       let params = this.getSinceParams(sinceId, true);
       params.filter = filter;
