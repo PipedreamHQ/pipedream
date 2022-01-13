@@ -178,6 +178,18 @@ module.exports = {
       description: "Only emit events for the selected event types.",
       options: events,
     },
+    productId: {
+      type: "string",
+      label: "Product ID",
+      description: "ID of the product",
+      async options() {
+        let response = await this.resourceAction("product", "list");
+        return response.map((e) => ({
+          label: e.title,
+          value: e.id,
+        }));
+      },
+    },
     title: {
       type: "string",
       label: "Title",
@@ -424,6 +436,9 @@ module.exports = {
     async getProducts(sinceId) {
       let params = this.getSinceParams(sinceId, true);
       return await this.getObjects("product", params);
+    },
+    async getProduct(productId, params) {
+      return await this.resourceAction("product", "get", params, productId);
     },
     async createProduct(params) {
       return await this.resourceAction("product", "create", params);
