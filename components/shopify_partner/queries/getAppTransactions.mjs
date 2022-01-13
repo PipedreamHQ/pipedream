@@ -8,13 +8,13 @@ export default gql`
   query getTransactions(
     $createdAtMin: DateTime
     $createdAtMax: DateTime
-    $after: String
+    $cursor: String
   ) {
     transactions(
       types: [APP_USAGE_SALE, APP_ONE_TIME_SALE, APP_SUBSCRIPTION_SALE]
       createdAtMin: $createdAtMin
       createdAtMax: $createdAtMax
-      after: $after
+      before: $cursor
       first: 50
     ) {
       pageInfo {

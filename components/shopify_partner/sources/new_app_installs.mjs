@@ -6,7 +6,7 @@ export default {
   key: "shopify_partner-new-app-installs",
   name: "New App Installs",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   description: "Emit new events when new shops install your app.",
   ...common,
   props: {
@@ -47,9 +47,9 @@ export default {
 
     await this.shopify.query({
       db,
-      key: "shopify_partner-installs",
       query: getAppInstalls,
       variables,
+      key: "shopify_partner-installs",
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
           this.$emit(event, {

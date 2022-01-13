@@ -57,6 +57,7 @@ export default {
           "X-Shopify-Access-Token": this.$auth.api_key,
         },
       });
+      console.log(key);
 
       // the key is unique to the source module, so we should always be getting the last message
       const lastCursor = db.get(key);
@@ -65,7 +66,7 @@ export default {
         ...variables,
         ...(lastCursor
           ? {
-            after: lastCursor,
+            cursor: lastCursor,
           }
           : {}),
       };

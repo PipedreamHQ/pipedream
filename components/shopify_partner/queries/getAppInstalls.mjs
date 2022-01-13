@@ -9,14 +9,14 @@ export default gql`
     $appId: ID!
     $occurredAtMin: DateTime
     $occurredAtMax: DateTime
-    $after: String
+    $cursor: String
   ) {
     app(id: $appId) {
       events(
         types: [RELATIONSHIP_INSTALLED]
         occurredAtMin: $occurredAtMin
         occurredAtMax: $occurredAtMax
-        after: $after
+        before: $cursor
         first: 50
       ) {
         pageInfo {
