@@ -1,35 +1,42 @@
 # Sources
 
-Event sources operate primarily as workflow triggers. When you add a new app-based [trigger](/workflows/steps/triggers/) to your workflow, you're creating an event source.
+Sources operate primarily as workflow triggers. When you add a new [trigger](/workflows/steps/triggers/) to your workflow, it's powered by a source of data, which could be an API webhook or a timer.
+
+You can think of an source as the _trigger_ to start your workflow with some new data; whereas actions on a workflow _act_ on this new data passed from a source.
 
 <div>
-<img alt="New-app-based trigger" width="600px" src="./images/app-based-trigger.png">
+<img alt="How sources appear in the workflow builder as triggers" width="600px" src="./images/app-based-trigger.png">
 </div>
 
-Event sources run as their own resources, separate from workflows, for two reasons:
+Sources define how data is piped to your workflows, whether it be from an API request triggered by a timer or an incoming webhook from a third party API.
 
-- A single event sources can trigger more than one workflow. If you have a data source that you want to run _multiple_ workflows, you can create an event source once and use it as the trigger for each workflow.
-- If you need to consume events emitted by event sources in your own application, you don't need to run a workflow: you can use Pipedream's [REST API](/api/rest/) or a [private, real-time SSE stream](/api/sse/) to access the event data directly.
+Sources are separate from actions and workflows. This is because a single source can trigger more than workflow.
 
-You can view your event sources at [https://pipedream.com/sources](https://pipedream.com/sources). Here, you'll see the events a specific source has emitted, as well as the logs and configuration for that source.
+You can view your sources at [https://pipedream.com/sources](https://pipedream.com/sources). Here, you'll see the events a specific source has emitted, as well as the logs and configuration for that source.
 
 [[toc]]
 
-## How do event sources work?
+## How do sources work?
 
-Event sources collect data from apps or service like Github, Twitter, and Google Calendar, then **emit** this data as individual events. These events trigger linked workflows, and [can be retrieved using the API or SSE interfaces](#consuming-events-from-sources).
+Sources collect data from apps or service like Github, Twitter, and Google Calendar, then **emit** this data as individual events. These events trigger linked workflows, and [can be retrieved using the API or SSE interfaces](#consuming-events-from-sources).
 
-If the service supports webhooks or another mechanism for real-time data delivery, the event source uses it. For example, Google Sheets supports webhooks, which allows Google Sheets event sources to emit updates instantly.
+If the service supports webhooks or another mechanism for real-time data delivery, the source uses it. For example, Google Sheets supports webhooks, which allows Google Sheets sources to emit updates instantly.
 
 If a service doesn't support real-time event delivery, Pipedream polls the API for updates every few minutes, emitting events as the API produces them. For example, Airtable doesn't support webhooks, so we poll their API for new records added to a table.
 
-## Creating event sources
+Examples of sources:
 
-You can create event sources from the Pipedream UI or CLI.
+* New subscription on a Stripe account
+* New rows added to a Google Spreadsheet
+* New webhook from an application 
+
+## Creating sources
+
+You can create sources from the Pipedream UI or CLI.
 
 ### Creating a source from the UI
 
-Visit [https://pipedream.com/sources](https://pipedream.com/sources) and click the **New +** button at the top right to create a new event source. You'll see a list of sources tied to apps (like Twitter and Github) and generic interfaces (like HTTP). Select your source, and you'll be asked to connect any necessary accounts (for example, the Twitter source requires you authorize Pipedream access to your Twitter account), and enter the values for any configuration settings tied to the source.
+Visit [https://pipedream.com/sources](https://pipedream.com/sources) and click the **New +** button at the top right to create a new source. You'll see a list of sources tied to apps (like Twitter and Github) and generic interfaces (like HTTP). Select your source, and you'll be asked to connect any necessary accounts (for example, the Twitter source requires you authorize Pipedream access to your Twitter account), and enter the values for any configuration settings tied to the source.
 
 Once you've created a source, you can use it to trigger [Pipedream workflows](/workflows/) or [consume its events](#consuming-events-from-sources) using Pipedream's APIs.
 
@@ -38,7 +45,7 @@ Once you've created a source, you can use it to trigger [Pipedream workflows](/w
 [Download the CLI](/cli/install/) and run:
 
 ```bash
-pd deploy
+pd deploy your_source.js
 ```
 
 This will bring up an interactive menu prompting you to select a source. Once selected, you'll be asked to connect any necessary accounts (for example, the Twitter source requires you authorize Pipedream access to your Twitter account), and enter the values for any configuration settings tied to the source.
@@ -65,9 +72,9 @@ When you create an HTTP source:
 
 - You get a unique HTTP endpoint that you can send any HTTP request to.
 - You can view the details of any HTTP request sent to your endpoint: its payload, headers, and more.
-- You can delete the source and its associated events once you're done.
+- You can add actions that are executed after the source is triggered by an HTTP request
 
-HTTP sources are essentially [request bins](https://requestbin.com) that can be managed via API.
+HTTP sources are essentially [request bins](https://requestbin.com) that can be extended off of with composible actions.
 
 HTTP sources are a good example of how you can turn an event stream into an API: the HTTP requests are the **event stream**, generated from your application, client browsers, webhooks, etc. Then, you can retrieve HTTP requests via Pipedream's [**REST API**](/api/rest/), or stream them directly to other apps using the [SSE interface](/api/sse/).
 
