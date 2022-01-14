@@ -446,6 +446,9 @@ module.exports = {
       };
       return await this.getObjects("order", params);
     },
+    async createOrder(params) {
+      return await this.resourceAction("order", "create", params);
+    },
     async getPages(sinceId) {
       let params = this.getSinceParams(sinceId, true);
       return await this.getObjects("page", params);
