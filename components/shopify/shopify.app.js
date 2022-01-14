@@ -336,6 +336,9 @@ module.exports = {
       }
       return params;
     },
+    _throwFormattedError(err) {
+      err = err.response;
+      throw Error(`${err.statusCode} - ${err.statusMessage} - ${JSON.stringify(err.body)}`);
     },
     _parseArrayOfJSONStrings(list) {
       return list.map((x) => x
@@ -387,17 +390,20 @@ module.exports = {
       this._makeRequestOpts(params);
       let objects = [];
       if (action == "list") paginates = true;
+      try {
+        do {
+          const results = id
+            ? await shopify[objectType][action](id, params)
+            : await shopify[objectType][action](params);
+          objects = objects.concat(results);
+          params = results.nextPageParameters;
+        } while (paginates && params !== undefined);
 
-      do {
-        const results = id
-          ? await shopify[objectType][action](id, params)
-          : await shopify[objectType][action](params);
-        objects = objects.concat(results);
-        params = results.nextPageParameters;
-      } while (paginates && params !== undefined);
-
-      if (!paginates) return objects[0];
-      return objects;
+        if (!paginates) return objects[0];
+        return objects;
+      } catch (err) {
+        this._throwFormattedError(err);
+      }
     },
     async getAbandonedCheckouts(sinceId) {
       let params = this.getSinceParams(sinceId, true);
