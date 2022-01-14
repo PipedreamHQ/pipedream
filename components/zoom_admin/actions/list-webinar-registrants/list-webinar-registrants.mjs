@@ -29,15 +29,15 @@ export default {
     },
     status: {
       type: "string",
-      label: "Status",
-      description: "The registrant status. Defaults to `approved`",
+      label: "Registrant status",
+      description: "Defaults to `approved`",
       optional: true,
       options: consts.REGISTRANT_STATUSES_OPTIONS,
     },
     trackingSourceId: {
       type: "string",
       label: "Tracking Source ID",
-      description: "The tracking source ID for the registrants. Useful if you share the webinar registration page in multiple locations. See [Creating source tracking links for webinar registration](https://support.zoom.us/hc/en-us/articles/360000315683-Creating-source-tracking-links-for-webinar-registration) for details.",
+      description: "This filter can be useful if you share the webinar registration page in multiple locations. See [Creating source tracking links for webinar registration](https://support.zoom.us/hc/en-us/articles/360000315683-Creating-source-tracking-links-for-webinar-registration) for details.",
       optional: true,
     },
     pageSize: {
@@ -45,13 +45,6 @@ export default {
         zoomAdmin,
         "pageSize",
       ],
-    },
-    pageNumber: {
-      propDefinition: [
-        zoomAdmin,
-        "pageNumber",
-      ],
-      description: "**Deprecated** - This field has been deprecated and will have the support completely stopped in a future release. Please use `Next Page Token` for pagination instead of this field. The page number of the current page in the returned records",
     },
     nextPageToken: {
       propDefinition: [

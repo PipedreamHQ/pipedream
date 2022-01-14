@@ -5,9 +5,9 @@ import { axios } from "@pipedream/platform";
 
 export default {
   name: "List meeting registrants",
-  description: "List all users that have registered for a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrants)",
+  description: "List all users who have registered for a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrants)",
   key: "zoom_admin-action-list-meeting-registrants",
-  version: "0.0.1",
+  version: "0.0.1.",
   type: "action",
   props: {
     zoomAdmin,
@@ -38,13 +38,6 @@ export default {
         zoomAdmin,
         "pageSize",
       ],
-    },
-    pageNumber: {
-      propDefinition: [
-        zoomAdmin,
-        "pageNumber",
-      ],
-      description: "**Deprecated** - This field has been deprecated and will have the support completely stopped in a future release. Please use `Next Page Token` for pagination instead of this field. The page number of the current page in the returned records",
     },
     nextPageToken: {
       propDefinition: [

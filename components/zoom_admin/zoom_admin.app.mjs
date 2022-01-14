@@ -123,7 +123,7 @@ export default {
     registrants: {
       type: "string[]",
       label: "Registrants",
-      description: "The meeting registrant. If you disable the \"Structured Mode\", please provide an array of objects with `id` and `email`. (Eg. `[ { id: 123, email: \"123@mail.com\" } ]`)",
+      description: "Disable \"Structured Mode\", to pass an array of objects with `id` and `email` (e.g., `[ { id: 123, email: \"123@mail.com\" } ]`).",
       async options({
         page,
         meeting,
@@ -168,7 +168,7 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "The number of records returned within a single API call. Defaults to `30`",
+      description: "The number of records returned within a single API call (defaults to `30`).",
       optional: true,
       min: 1,
       max: 300,

@@ -28,7 +28,6 @@ export default {
         }),
       ],
       type: "string[]",
-      description: "The [webinar occurrence ID](https://support.zoom.us/hc/en-us/articles/216354763-How-to-Schedule-A-Recurring-Webinar).",
     },
     registrants: {
       propDefinition: [

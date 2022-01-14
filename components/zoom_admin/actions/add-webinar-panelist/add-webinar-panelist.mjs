@@ -18,14 +18,12 @@ export default {
     },
     name: {
       type: "string",
-      label: "Name",
-      description: "The panelist's full name.",
+      label: "Panelist name",
       optional: false,
     },
     email: {
       type: "string",
-      label: "Email",
-      description: "Panelist's email",
+      label: "Panelist email",
       optional: false,
     },
   },

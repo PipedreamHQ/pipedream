@@ -26,7 +26,7 @@ export default {
           meeting,
         }),
       ],
-      description: "The [meeting occurrence ID](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings). If you send this param, just the occurrence will be deleted. Otherwise, the entire meeting will be deleted",
+      description: "If you select a value for this param, only that instance will be updated. Otherwise, the entire meeting series will be updated."
     },
     registrants: {
       propDefinition: [

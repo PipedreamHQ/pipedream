@@ -44,7 +44,6 @@ export default {
     topic: {
       type: "string",
       label: "Name",
-      description: "The meeting's topic.",
       optional: true,
     },
     type: {

@@ -24,12 +24,12 @@ export default {
           meeting,
         }),
       ],
-      description: "The [meeting occurrence ID](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings). If you send this param, just the occurrence will be deleted. Otherwise, the entire meeting will be deleted",
+      description: "If you select a value for this param, only that instance will be deleted. Otherwise, the entire meeting series will be deleted.",
     },
     scheduleForReminder: {
       type: "boolean",
       label: "Schedule for Reminder",
-      description: "If `true`, notify host and alternative host about the meeting cancellation via email. If `false`, do not send any email notification",
+      description: "If `true`, notify host and alternative host about the meeting cancellation via email. If `false`, do not send any email notification.",
       optional: true,
     },
     cancelMeetingReminder: {
