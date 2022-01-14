@@ -1,26 +1,18 @@
-# Code
-
-_This document details how to use Node.js code steps. If you're building a [component](/components/), please [reference the component API docs](/components/api/)._
-
-Pipedream comes with thousands of prebuilt [triggers](/workflows/steps/triggers/) and [actions](/components/actions/). Often, these will be sufficient for building simple workflows.
-
-But sometimes you need to run your own custom logic. You may need to make an API request to fetch additional metadata about the event, transform  data into a custom format, or end the execution of a workflow early under some conditions. **Code steps let you do this and more**.
-
-Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/) (JavaScript) code, using JavaScript's extensive [npm](https://www.npmjs.com/) package ecosystem within your code. Virtually anything you can do in Node.js, you can do in a code step.
-
-[[toc]]
-
-## Language Support
+# Writing Node.js in Code Steps
 
 Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/).
 
-It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
+
 
 **Anything you can do with Node.js, you can do in a workflow**. This includes using most of [npm's 400,000+ packages](#using-npm-packages).
 
-If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).
+
 
 JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2019#technology-_-programming-scripting-and-markup-languages) [languages](https://github.blog/2018-11-15-state-of-the-octoverse-top-programming-languages/) in the world, with a thriving community and [extensive package ecosystem](https://www.npmjs.com). If you work on websites and know JavaScript well, Pipedream makes you a full stack engineer. If you've never used JavaScript, see the [resources below](#new-to-javascript).
+
+::: tip
+It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
+:::
 
 ## Adding a code step
 
@@ -142,7 +134,7 @@ In this example, we're including the `axios` [CommonJS module](https://nodejs.or
 
 But you may encounter this error in workflows:
 
-**Error Must use import to load ES Module**
+`Error Must use import to load ES Module`
 
 This means that the package you're trying to `require` uses a different format to export their code, called [ECMAScript modules](https://nodejs.org/api/esm.html#esm_modules_ecmascript_modules) (**ESM**, or **ES modules**, for short). With ES modules, you instead need to `import` the package:
 
@@ -297,5 +289,3 @@ Many of the most basic JavaScript tutorials are geared towards writing code for 
 - [Eloquent Javascript](https://eloquentjavascript.net/)
 - [Node School](https://nodeschool.io/)
 - [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS)
-
-<Footer />

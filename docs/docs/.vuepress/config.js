@@ -35,7 +35,6 @@ module.exports = {
       "/",
       {
         title: "Quickstart",
-        collapsable: false,
         children: [
           "/quickstart/",
           "/quickstart/hello-world/",
@@ -52,26 +51,62 @@ module.exports = {
         ],
       },
       {
-        title: "Workflows",
+        title: "Code",
         collapsable: false,
+        children: [
+          "/code/",
+          {
+            title: "Node.js",
+            // type: 'group',
+            children: [
+              "/code/nodejs/",
+              // "/code/nodejs/state/",
+              // "/code/nodejs/http-requests/",
+              // "/code/nodejs/working-with-files/",
+              // "/code/nodejs/sharing-code/",
+              // "/code/nodejs/async/",
+            ]
+          },
+          {
+            title: 'Python',
+            type: 'group',
+            children: [
+              '/code/python/'
+            ]
+          },
+          {
+            title: 'Go',
+            type: 'group',
+            children: [
+              '/code/go',
+            ]
+          },
+          {
+            title: 'Bash',
+            type: 'group',
+            children: [
+              '/code/bash'
+            ]
+          }
+
+        ]
+      },
+      {
+        title: "Workflows",
+        
         children: [
           "/workflows/",
           "/workflows/steps/",
           "/workflows/steps/triggers/",
           "/components/actions/",
-          "/workflows/steps/code/",
-          "/workflows/steps/params/",
-          "/workflows/steps/code/state/",
-          "/workflows/steps/code/nodejs/http-requests/",
-          "/workflows/steps/code/nodejs/working-with-files/",
           "/workflows/networking/",
-          "/workflows/steps/code/nodejs/sharing-code/",
-          "/workflows/steps/code/async/",
+          "/workflows/steps/params/",
+
         ],
       },
       {
         title: "Connecting Apps",
-        collapsable: false,
+        // collapsable: false, 
         children: [
           "/apps/all-apps/",
           "/connected-accounts/",
@@ -80,7 +115,7 @@ module.exports = {
       },
       {
         title: "Workflow Events",
-        collapsable: false,
+        
         children: [
           "/workflows/events/",
           "/workflows/events/inspect/",
@@ -92,7 +127,7 @@ module.exports = {
       },
       {
         title: "Managing Workflows",
-        collapsable: false,
+        
         children: [
           "/workflows/copy/",
           "/workflows/managing/",
@@ -103,7 +138,7 @@ module.exports = {
       },
       {
         title: "Managing Errors",
-        collapsable: false,
+        
         children: [
           "/errors/",
           "/workflows/error-handling/global-error-workflow/",
@@ -111,7 +146,7 @@ module.exports = {
       },
       {
         title: "Components",
-        collapsable: false,
+        
         children: [
           "/components/",
           "/event-sources/",
@@ -127,7 +162,7 @@ module.exports = {
       "/user-settings/",
       {
         title: "Examples",
-        collapsable: false,
+        
         children: [
           "/examples/adding-rows-to-google-sheets/",
           "/examples/waiting-to-execute-next-step-of-workflow/",
@@ -135,12 +170,12 @@ module.exports = {
       },
       {
         title: "CLI",
-        collapsable: false,
+        
         children: ["/cli/install/", "/cli/login/", "/cli/reference/"],
       },
       {
         title: "APIs",
-        collapsable: false,
+        
         children: [
           "/api/overview/",
           "/api/auth/",
@@ -153,7 +188,7 @@ module.exports = {
       },
       {
         title: "Destinations",
-        collapsable: false,
+        
         children: [
           "/destinations/",
           "/destinations/http/",
@@ -166,7 +201,7 @@ module.exports = {
       },
       {
         title: "Integrations",
-        collapsable: false,
+        
         children: [
           "/apps/all-apps/",
           "/apps/discord/",
@@ -182,7 +217,7 @@ module.exports = {
       "/new-feature-or-bug/",
       {
         title: "Privacy & Security",
-        collapsable: false,
+        
         children: [
           "/privacy-and-security/",
           "/privacy-and-security/best-practices/",
@@ -195,7 +230,7 @@ module.exports = {
       "/troubleshooting/",
       {
         title: "Organizations",
-        collapsable: false,
+        
         children: [
           "/orgs/",
           "/orgs/sso/okta/",
@@ -227,6 +262,7 @@ module.exports = {
     DEFAULT_WORKFLOW_QUEUE_SIZE: "100",
     MAX_WORKFLOW_QUEUE_SIZE: "10,000",
     NODE_VERSION: "14",
+    PYTHON_VERSION: "3.8",
     CONFIGURED_PROPS_SIZE_LIMIT: "64KB",
   },
 };
