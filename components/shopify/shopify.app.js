@@ -327,7 +327,15 @@ module.exports = {
         else if (!(key && value)) {
           delete params[key];
         }
+        else if (value.constructor == Object) {
+          this._makeRequestOpts(params[key]);
+          if (Object.keys(params[key]).length === 0) {
+            delete params[key];
+          }
+        }
       }
+      return params;
+    },
     },
     _parseArrayOfJSONStrings(list) {
       return list.map((x) => x
