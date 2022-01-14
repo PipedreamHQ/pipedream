@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-create-task-comment",
   name: "Create Task Comment",
-  description: "Adds a comment to a task [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-comment)",
+  description: "Adds a comment to a task. [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-comment)",
   version: "0.0.1",
   type: "action",
   props: {

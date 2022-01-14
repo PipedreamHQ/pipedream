@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-project-comments",
   name: "List Project Comments",
-  description: "Returns a list of comments for a project [See the docs here](https://developer.todoist.com/rest/v1/#get-all-comments)",
+  description: "Returns a list of comments for a project. [See the docs here](https://developer.todoist.com/rest/v1/#get-all-comments)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -24,7 +24,9 @@ export default {
       $,
       params,
     });
-    $.export("$summary", "Successfully retrieved comments");
+    $.export("$summary", `Successfully retrieved ${resp.length} comment${resp.length === 1
+      ? ""
+      : "s"}`);
     return resp;
   },
 };

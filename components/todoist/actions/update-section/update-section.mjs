@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-update-section",
   name: "Update Section",
-  description: "Updates a section [See the docs here](https://developer.todoist.com/rest/v1/#update-a-section)",
+  description: "Updates a section. [See the docs here](https://developer.todoist.com/rest/v1/#update-a-section)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -22,6 +22,7 @@ export default {
           project: c.project,
         }),
       ],
+      description: "The section to update",
     },
     name: {
       propDefinition: [
@@ -45,5 +46,9 @@ export default {
       data,
     });
     $.export("$summary", "Successfully updated section");
+    return {
+      id: section,
+      success: true,
+    };
   },
 };

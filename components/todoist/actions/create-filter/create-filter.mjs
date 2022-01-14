@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-create-filter",
   name: "Create Filter",
-  description: "Creates a filter [See the docs here](https://developer.todoist.com/sync/v8/#add-a-filter)",
+  description: "Creates a filter. [See the docs here](https://developer.todoist.com/sync/v8/#add-a-filter)",
   version: "0.0.1",
   type: "action",
   props: {

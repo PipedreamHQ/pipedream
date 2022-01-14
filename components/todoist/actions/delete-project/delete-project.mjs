@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-delete-project",
   name: "Delete Project",
-  description: "Deletes a project [See the docs here](https://developer.todoist.com/rest/v1/#delete-a-project)",
+  description: "Deletes a project. [See the docs here](https://developer.todoist.com/rest/v1/#delete-a-project)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -26,5 +26,9 @@ export default {
       data,
     });
     $.export("$summary", "Successfully deleted project");
+    return {
+      id: project,
+      success: true,
+    };
   },
 };

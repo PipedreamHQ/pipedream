@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-filters",
   name: "List Filters",
-  description: "Returns a list of all filters [See the docs here](https://developer.todoist.com/sync/v8/#read-resources)",
+  description: "Returns a list of all filters. [See the docs here](https://developer.todoist.com/sync/v8/#read-resources)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -15,7 +15,9 @@ export default {
       $,
       db: this.db,
     });
-    $.export("$summary", "Successfully retrieved filters");
+    $.export("$summary", `Successfully retrieved ${resp.length} filter${resp.length === 1
+      ? ""
+      : "s"}`);
     return resp;
   },
 };

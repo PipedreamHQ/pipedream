@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-move-task-to-section",
   name: "Move Task To Section",
-  description: "Move a Task to a different section within the same project [See the docs here](https://developer.todoist.com/sync/v8/#move-an-item)",
+  description: "Move a Task to a different section within the same project. [See the docs here](https://developer.todoist.com/sync/v8/#move-an-item)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -34,7 +34,7 @@ export default {
         }),
       ],
       description: "The section to move the task to",
-      optional: true,
+      optional: false,
     },
   },
   async run ({ $ }) {

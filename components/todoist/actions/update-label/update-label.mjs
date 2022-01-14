@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-update-label",
   name: "Update Label",
-  description: "Updates a label [See the docs here](https://developer.todoist.com/rest/v1/#update-a-label)",
+  description: "Updates a label. [See the docs here](https://developer.todoist.com/rest/v1/#update-a-label)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,6 +13,7 @@ export default {
         todoist,
         "label",
       ],
+      description: "The label to update",
     },
     name: {
       propDefinition: [
@@ -61,5 +62,9 @@ export default {
       data,
     });
     $.export("$summary", "Successfully updated label");
+    return {
+      id: label,
+      success: true,
+    };
   },
 };

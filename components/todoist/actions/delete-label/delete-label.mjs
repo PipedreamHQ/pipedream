@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-delete-label",
   name: "Delete Label",
-  description: "Deletes a label [See the docs here](https://developer.todoist.com/rest/v1/#delete-a-label)",
+  description: "Deletes a label. [See the docs here](https://developer.todoist.com/rest/v1/#delete-a-label)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -26,5 +26,9 @@ export default {
       data,
     });
     $.export("$summary", "Successfully deleted label");
+    return {
+      id: label,
+      success: true,
+    };
   },
 };

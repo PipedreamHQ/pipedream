@@ -3,16 +3,26 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-get-section",
   name: "Get Section",
-  description: "Returns info about a section [See the docs here](https://developer.todoist.com/rest/v1/#get-a-single-section)",
+  description: "Returns info about a section. [See the docs here](https://developer.todoist.com/rest/v1/#get-a-single-section)",
   version: "0.0.1",
   type: "action",
   props: {
     todoist,
+    project: {
+      propDefinition: [
+        todoist,
+        "project",
+      ],
+    },
     sectionId: {
       propDefinition: [
         todoist,
-        "sectionId",
+        "section",
+        (c) => ({
+          project: c.project,
+        }),
       ],
+      optional: false,
     },
   },
   async run ({ $ }) {

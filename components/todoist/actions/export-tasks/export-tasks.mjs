@@ -1,11 +1,12 @@
 import todoist from "../../todoist.app.mjs";
 import fs from "fs";
 import { file } from "tmp-promise";
+import converter from "json-2-csv";
 
 export default {
   key: "todoist-export-tasks",
   name: "Export Tasks",
-  description: "Export project task names as comma separated file. Returns path to new file [See Docs](https://developer.todoist.com/rest/v1/#get-active-tasks)",
+  description: "Export project task names as comma separated file. Returns path to new file. [See Docs](https://developer.todoist.com/rest/v1/#get-active-tasks)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -26,14 +27,14 @@ export default {
         project_id: project,
       },
     });
-    const names = [];
-    for (const task of tasks) {
-      names.push(task.content);
-    }
-    const { path } = await file();
-    await fs.promises.appendFile(path, Buffer.from(names.toString()));
+    const csv = await converter.json2csvAsync(tasks);
 
-    $.export("$summary", "Tasks exported successfully");
+    const { path } = await file();
+    await fs.promises.appendFile(path, Buffer.from(csv));
+
+    $.export("$summary", `Successfully exported ${tasks.length} task${tasks.length === 1
+      ? ""
+      : "s"} to "${path}"`);
     return path;
   },
 };

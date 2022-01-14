@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-uncompleted-tasks",
   name: "List Uncompleted Tasks",
-  description: "Returns a list of uncompleted tasks by project, section, and/or label [See the docs here](https://developer.todoist.com/rest/v1/#get-active-tasks)",
+  description: "Returns a list of uncompleted tasks by project, section, and/or label. [See the docs here](https://developer.todoist.com/rest/v1/#get-active-tasks)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -45,7 +45,9 @@ export default {
       $,
       params,
     });
-    $.export("$summary", "Successfully retrieved tasks");
+    $.export("$summary", `Successfully retrieved ${resp.length} task${resp.length === 1
+      ? ""
+      : "s"}`);
     return resp;
   },
 };

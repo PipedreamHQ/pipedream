@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-update-task",
   name: "Update Task",
-  description: "Updates a task [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-task)",
+  description: "Updates a task. [See the docs here](https://developer.todoist.com/rest/v1/#update-a-task)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -118,5 +118,9 @@ export default {
       data,
     });
     $.export("$summary", "Successfully updated task");
+    return {
+      id: task,
+      success: true,
+    };
   },
 };

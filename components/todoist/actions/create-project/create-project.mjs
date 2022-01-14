@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-create-project",
   name: "Create Project",
-  description: "Creates a project [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-project)",
+  description: "Creates a project. [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-project)",
   version: "0.0.1",
   type: "action",
   props: {

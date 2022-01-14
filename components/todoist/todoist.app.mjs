@@ -1,8 +1,8 @@
 import { axios } from "@pipedream/platform";
 import querystring from "querystring";
 import resourceTypes from "./resource-types.mjs";
-import { v4 }  from "uuid";
-const uuid = v4;
+import colors from "./colors.mjs";
+import { v4 as uuid } from "uuid";
 
 export default {
   type: "app",
@@ -88,9 +88,39 @@ export default {
         }));
       },
     },
+    completedTask: {
+      type: "integer",
+      label: "Completed Task",
+      description: "Select the task to reopen",
+      async options({
+        project, prevContext,
+      }) {
+        const { offset = 0 } = prevContext;
+        const limit = 30;
+        const params = {
+          offset,
+          limit,
+        };
+        if (project) {
+          params.project_id = project;
+        }
+        const tasks = (await this.getCompletedTasks({
+          params,
+        })).map((task) => ({
+          label: task.content,
+          value: task.task_id,
+        }));
+        return {
+          options: tasks,
+          context: {
+            offset: offset + limit,
+          },
+        };
+      },
+    },
     assignee: {
       type: "integer",
-      label: "Assignees",
+      label: "Assignee",
       description: "The responsible user (if set, and only for shared tasks)",
       async options({ project }) {
         return (await this.getProjectCollaborators(project)).map((assignee) => ({
@@ -116,15 +146,26 @@ export default {
       label: "Name",
       description: "Enter the new name",
     },
-    sectionId: {
-      type: "integer",
-      label: "Section ID",
-      description: "Enter a section ID",
-    },
     commentId: {
       type: "integer",
       label: "Comment ID",
-      description: "Enter a comment ID",
+      description: "Select a comment",
+      async options({
+        project, task,
+      }) {
+        if (!project && !task) {
+          return [];
+        }
+        return (await this.getComments({
+          params: {
+            project_id: project,
+            task_id: task,
+          },
+        })).map((comment) => ({
+          label: comment.content,
+          value: comment.id,
+        }));
+      },
     },
     order: {
       type: "integer",
@@ -136,6 +177,7 @@ export default {
       type: "integer",
       label: "Color",
       description: "A numeric ID representing a color. Refer to the id column in the [Colors](https://developer.todoist.com/guides/#colors) guide for more info.",
+      options: colors,
       optional: true,
     },
     favorite: {
@@ -205,14 +247,14 @@ export default {
     path: {
       type: "string",
       label: "File Path",
-      description: "Path to .csv file containing task names",
+      description: "Path to .csv file containing task data",
     },
   },
   methods: {
     /**
      * Make a request to Todoist's sync API.
      * @params {Object} opts - An object representing the configuration options for this method
-     * @params {String} opts.path [opts.path=/sync/v8/sync] - The path for the sync request
+     * @params {String} [opts.path=/sync/v8/sync] - The path for the sync request
      * @params {String} opts.payload - The data to send in the API request at the POST body.
      * This data will converted to `application/x-www-form-urlencoded`
      * @returns {Object} When the request succeeds, an HTTP 200 response will be returned with
@@ -231,6 +273,10 @@ export default {
       opts.payload.token = this.$auth.oauth_access_token;
       opts.data = querystring.stringify(opts.payload);
       delete opts.payload;
+      opts.headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
       return axios($ ?? this, opts);
     },
     /**
@@ -298,22 +344,21 @@ export default {
         $,
         path: "/sync/v8/sync",
         method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
         payload: opts,
       });
     },
     /**
      * Get project by ID or get all projects if no ID specified
-     * @params id {Integer} A project ID
-     * @returns {Array} Returns a JSON-encoded array containing a project object related to
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Integer} [opts.id = ""] - A project ID
+     * @returns {Obect|Array} Returns a project object related to
      * the given ID or all user projects if no ID specified
      */
-    async getProjects({
-      $, id = "",
-    }) {
+    async getProjects(opts) {
+      const {
+        $,
+        id = "",
+      } = opts;
       return this._makeRestRequest({
         $,
         path: `/projects/${id}`,
@@ -322,12 +367,16 @@ export default {
     },
     /**
      * Create a new project
-     * @params data {Object} object containing info about the new project being created
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing info about the new project
+     * being created
      * @returns {Object} Returns the created project as a JSON object
      */
-    async createProject({
-      $, data = {},
-    }) {
+    async createProject(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       return this._makeRestRequest({
         $,
         path: "/projects",
@@ -337,12 +386,15 @@ export default {
     },
     /**
      * Update a project
-     * @params data {Object} object containing the projectId
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing the projectId
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async updateProject({
-      $, data = {},
-    }) {
+    async updateProject(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { projectId } = data;
       delete data.projectId;
       return this._makeRestRequest({
@@ -354,12 +406,15 @@ export default {
     },
     /**
      * Delete a project
-     * @params data {Object} object containing the projectId
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing the projectId
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async deleteProject({
-      $, data = {},
-    }) {
+    async deleteProject(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { projectId } = data;
       return this._makeRestRequest({
         $,
@@ -369,12 +424,15 @@ export default {
     },
     /**
      * Invite a user to join a project
-     * @params data {Object} object containing the project ID and user's email
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing the project ID and user's email
      * @returns {Object} Returns object including sync_token
      */
-    async shareProject({
-      $, data = {},
-    }) {
+    async shareProject(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const commands = [
         {
           type: "share_project",
@@ -392,7 +450,7 @@ export default {
     },
     /**
      * Get collaborators of a shared project
-     * @params projectId {Integer} ID of a project
+     * @params {Integer} [projectId] ID of a project
      * @returns {Object} Returns JSON-encoded array containing all collaborators of a shared project
      */
     async getProjectCollaborators(projectId) {
@@ -406,13 +464,16 @@ export default {
     },
     /**
      * Get section by ID or get a list of all sections in a project in no ID is specified
-     * @params params {Object} object containing section_id and/or project_id
-     * @returns {Array} Returns a JSON-encoded array containing a section object related to
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} params [opts.params = {}] - object containing section_id and/or project_id
+     * @returns {Object|Array} Returns a section object related to
      * the given ID or a list of sections if no ID specified
      */
-    async getSections({
-      $, params = {},
-    }) {
+    async getSections(opts) {
+      const {
+        $,
+        params = {},
+      } = opts;
       const { section_id: id = "" } = params;
       delete params.section_id;
       return this._makeRestRequest({
@@ -424,12 +485,16 @@ export default {
     },
     /**
      * Create a new section
-     * @params data {Object} object containing info about the new section being created
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing info about the new section
+     * being created
      * @returns {Object} Returns the created section as a JSON object
      */
-    async createSection({
-      $, data = {},
-    }) {
+    async createSection(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       return this._makeRestRequest({
         $,
         path: "/sections",
@@ -439,12 +504,15 @@ export default {
     },
     /**
      * Update a section
-     * @params data {Object} object containing the sectionId and updated name
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing the sectionId and updated name
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async updateSection({
-      $, data = {},
-    }) {
+    async updateSection(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { sectionId } = data;
       delete data.sectionId;
       return this._makeRestRequest({
@@ -456,12 +524,15 @@ export default {
     },
     /**
      * Delete a section
-     * @params data {Object} object containing the sectionId
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing the sectionId
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async deleteSection({
-      $, data = {},
-    }) {
+    async deleteSection(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { sectionId } = data;
       return this._makeRestRequest({
         $,
@@ -471,13 +542,16 @@ export default {
     },
     /**
      * Get label by ID or get all labels if no ID specified
-     * @params id {Integer} A label ID
-     * @returns {Array} Returns a JSON-encoded array containing a label object related to
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Integer} [opts.id = ""] - A label ID
+     * @returns {Object|Array} Returns a label object related to
      * the given ID or all user labels if no ID specified
      */
-    async getLabels({
-      $, id = "",
-    }) {
+    async getLabels(opts) {
+      const {
+        $,
+        id = "",
+      } = opts;
       return this._makeRestRequest({
         $,
         path: `/labels/${id}`,
@@ -486,12 +560,15 @@ export default {
     },
     /**
      * Create a new label
-     * @params data {Object} object containing info about the new label being created
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing info about the new label being created
      * @returns {Object} Returns the created label as a JSON object
      */
-    async createLabel({
-      $, data = {},
-    }) {
+    async createLabel(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       return this._makeRestRequest({
         $,
         path: "/labels",
@@ -501,12 +578,15 @@ export default {
     },
     /**
      * Update a label
-     * @params data {Object} object containing id & info about the label being updated
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing id & info about the label being updated
      * @returns {Object} Returns the created label as a JSON object
      */
-    async updateLabel({
-      $, data = {},
-    }) {
+    async updateLabel(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { labelId } = data;
       delete data.labelId;
       return this._makeRestRequest({
@@ -518,12 +598,15 @@ export default {
     },
     /**
      * Delete a label
-     * @params data {Object} object containing the labelId
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing the labelId
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async deleteLabel({
-      $, data = {},
-    }) {
+    async deleteLabel(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { labelId } = data;
       return this._makeRestRequest({
         $,
@@ -533,13 +616,23 @@ export default {
     },
     /**
      * Get a comment by ID or get a list of comments in a project or task if no ID is specified
-     * @params params {Object} object containing one or more of comment_id, project_id or task_id
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.params = {}] - object containing one or more of comment_id,
+     * project_id or task_id
      * @returns {Array} Returns a JSON-encoded array containing comments
      */
-    async getComments({
-      $, params = {},
-    }) {
-      const { comment_id: id = "" } = params;
+    async getComments(opts) {
+      const {
+        $,
+        params,
+      } = opts;
+      const {
+        comment_id: id = "",
+        task_id: taskId,
+      } = params;
+      if (taskId) {
+        delete params.project_id;
+      }
       delete params.comment_id;
       return this._makeRestRequest({
         $,
@@ -550,12 +643,16 @@ export default {
     },
     /**
      * Create a new comment in a task or project
-     * @params data {Object} object containing info about the new comment being created
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing info about the new comment
+     * being created
      * @returns {Object} Returns the created comment as a JSON object
      */
-    async createComment({
-      $, data = {},
-    }) {
+    async createComment(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       return this._makeRestRequest({
         $,
         path: "/comments",
@@ -565,12 +662,15 @@ export default {
     },
     /**
      * Update a comment in a task or project
-     * @params data {Object} object containing the commentId and new comment content
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing the commentId and new comment content
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async updateComment({
-      $, data = {},
-    }) {
+    async updateComment(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { commentId } = data;
       delete data.commentId;
       return this._makeRestRequest({
@@ -582,12 +682,15 @@ export default {
     },
     /**
      * Delete a comment in a task or project
-     * @params data {Object} object containing the commentId
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] = object containing the commentId
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async deleteComment({
-      $, data = {},
-    }) {
+    async deleteComment(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { commentId } = data;
       return this._makeRestRequest({
         $,
@@ -597,14 +700,17 @@ export default {
     },
     /**
      * Get task by ID or get a list of all active tasks in a project if no ID is specified
-     * @params params {Object} object containing one or more of task_id, project_id,
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.params = {}] - object containing one or more of task_id, project_id,
      * section_id, and/or label_id
-     * @returns {Array} Returns a JSON-encoded array containing a task object related to
+     * @returns {Object|Array} Returns a task object related to
      * the given ID or a list of tasks if no ID is specified
      */
-    async getActiveTasks({
-      $, params = {},
-    }) {
+    async getActiveTasks(opts) {
+      const {
+        $,
+        params = {},
+      } = opts;
       const { task_id: id = "" } = params;
       delete params.task_id;
       return this._makeRestRequest({
@@ -615,13 +721,34 @@ export default {
       });
     },
     /**
+     * Get a list of all completed tasks in a project
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.params = {}] - object containing project_id,
+     * @returns {Object|Array} Returns a task a list of task objects
+     */
+    async getCompletedTasks(opts) {
+      const {
+        $,
+        params = {},
+      } = opts;
+      return (await this._makeSyncRequest({
+        $,
+        path: "/sync/v8/completed/get_all",
+        method: "POST",
+        payload: params,
+      })).items;
+    },
+    /**
      * Create a new task
-     * @params data {Object} object containing info about the new task being created
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing info about the new task being created
      * @returns {Object} Returns the created task as a JSON object
      */
-    async createTask({
-      $, data = {},
-    }) {
+    async createTask(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       return this._makeRestRequest({
         $,
         path: "/tasks",
@@ -630,13 +757,44 @@ export default {
       });
     },
     /**
+     * Create multiple new tasks
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Array} [opts.data = []] - an array of objects, each containing parameters
+     * for a new task to be created
+     * @returns {Object} Returns object including sync_token
+     */
+    async createTasks(opts) {
+      const {
+        $,
+        data = [],
+      } = opts;
+      const commands = [];
+      for (const taskData of data) {
+        commands.push({
+          type: "item_add",
+          temp_id: uuid(),
+          uuid: uuid(),
+          args: taskData,
+        });
+      }
+      return this.sync({
+        $,
+        opts: {
+          commands: JSON.stringify(commands),
+        },
+      });
+    },
+    /**
      * Update a task
-     * @params data {Object} object containing info about the task being updated
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing info about the task being updated
      * @returns {Object} Returns the updated task as a JSON object
      */
-    async updateTask({
-      $, data = {},
-    }) {
+    async updateTask(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { taskId } = data;
       delete data.taskId;
       return this._makeRestRequest({
@@ -648,12 +806,15 @@ export default {
     },
     /**
      * Mark a task as closed/completed by the task id
-     * @params params {Object} object containing a taskId
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.params = {}] - object containing a taskId
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async closeTask({
-      $, params = {},
-    }) {
+    async closeTask(opts) {
+      const {
+        $,
+        params = {},
+      } = opts;
       const { taskId } = params;
       return this._makeRestRequest({
         $,
@@ -663,12 +824,15 @@ export default {
     },
     /**
      * Reopen/uncomplete a task by the task id
-     * @params params {Object} object containing a taskId
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.params = {}] - object containing a taskId
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async reopenTask({
-      $, params = {},
-    }) {
+    async reopenTask(opts) {
+      const {
+        $,
+        params = {},
+      } = opts;
       const { taskId } = params;
       return this._makeRestRequest({
         $,
@@ -678,12 +842,15 @@ export default {
     },
     /**
      * Delete a task by the task id
-     * @params params {Object} object containing a taskId
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing a taskId
      * @returns {Object} A successful response has 204 No Content status and an empty body
      */
-    async deleteTask({
-      $, data = {},
-    }) {
+    async deleteTask(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const { taskId } = data;
       return this._makeRestRequest({
         $,
@@ -693,12 +860,15 @@ export default {
     },
     /**
      * Move a task to a different section
-     * @params params {Object} object containing a task id and section_id
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing a task id and section_id
      * @returns {Object} Object containing the sync_status
      */
-    async moveTask({
-      $, data = {},
-    }) {
+    async moveTask(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const commands = [
         {
           type: "item_move",
@@ -715,7 +885,7 @@ export default {
     },
     /**
      * Get a list of new tasks/items
-     * @params db {Object} a database instance
+     * @params {Object} db - a database instance
      * @returns {Object} Object containing new tasks
      */
     async syncItems(db) {
@@ -725,7 +895,7 @@ export default {
     },
     /**
      * Get a list of new projects
-     * @params db {Object} a database instance
+     * @params {Object} db - a database instance
      * @returns {Object} Object containing new projects
      */
     async syncProjects(db) {
@@ -735,7 +905,7 @@ export default {
     },
     /**
      * Get a list of new sections
-     * @params db {Object} a database instance
+     * @params {Object} db - a database instance
      * @returns {Object} Object containing new sections
      */
     async syncSections(db) {
@@ -745,7 +915,7 @@ export default {
     },
     /**
      * Get a list of collaborators
-     * @params db {Object} a database instance
+     * @params {Object} [db = null] - a database instance
      * @returns {Object} Object containing new collaborators
      */
     async syncCollaborators(db = null) {
@@ -754,8 +924,8 @@ export default {
       ]);
     },
     /**
-     * Get a list of new sections
-     * @params db {Object} a database instance
+     * Get a list of filters
+     * @params {Object} [db] - a database instance
      * @returns {Object} Object containing filters
      */
     async getFilters({
@@ -770,12 +940,15 @@ export default {
     },
     /**
      * Create a new filter
-     * @params data {Object} object containing info about the new filter being created
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing info about the new filter being created
      * @returns {Object} Returns object including sync_token
      */
-    async createFilter({
-      $, data = {},
-    }) {
+    async createFilter(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const commands = [
         {
           type: "filter_add",
@@ -793,12 +966,15 @@ export default {
     },
     /**
      * Update filter
-     * @params data {Object} object containing info about the new filter being updated
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing info about the filter being updated
      * @returns {Object} Returns object including sync_token
      */
-    async updateFilter({
-      $, data = {},
-    }) {
+    async updateFilter(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const commands = [
         {
           type: "filter_update",
@@ -815,12 +991,15 @@ export default {
     },
     /**
      * Delete filter
-     * @params data {Object} object containing a filter ID
+     * @params {Object} opts - An object representing configuration options for this method
+     * @params {Object} [opts.data = {}] - object containing a filter ID
      * @returns {Object} Returns object including sync_token
      */
-    async deleteFilter({
-      $, data = {},
-    }) {
+    async deleteFilter(opts) {
+      const {
+        $,
+        data = {},
+      } = opts;
       const commands = [
         {
           type: "filter_delete",
@@ -836,8 +1015,8 @@ export default {
       });
     },
     /**
-     * @params db {Object} a database instance
-     * @params resourceTypes {Array} an array of strings representing
+     * @params {Object} [db] - a database instance
+     * @params {Array} resourceTypes - an array of strings representing
      * resource_types to retrieve updates for
      * @returns {Object} Object with one or more arrays containing new
      * resources created since the last syncToken

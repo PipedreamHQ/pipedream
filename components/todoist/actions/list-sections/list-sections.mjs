@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-list-sections",
   name: "List Sections",
-  description: "Returns a list of all sections [See the docs here](https://developer.todoist.com/rest/v1/#get-all-sections)",
+  description: "Returns a list of all sections. [See the docs here](https://developer.todoist.com/rest/v1/#get-all-sections)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -23,7 +23,9 @@ export default {
       $,
       params,
     });
-    $.export("$summary", "Successfully retrieved sections");
+    $.export("$summary", `Successfully retrieved ${resp.length} section${resp.length === 1
+      ? ""
+      : "s"}`);
     return resp;
   },
 };

@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-create-task",
   name: "Create Task",
-  description: "Creates a task [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-task)",
+  description: "Creates a task. [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-task)",
   version: "0.0.1",
   type: "action",
   props: {

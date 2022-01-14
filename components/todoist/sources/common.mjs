@@ -17,7 +17,7 @@ export default {
     async deploy() {
       // Emit no more than 20 items on first run
       const syncResult = await this.getSyncResult();
-      const results = (this.filterResults(syncResult)).slice(0, 20);
+      const results = this.filterResults(syncResult).slice(0, 20);
       this.emitResults(results);
     },
   },

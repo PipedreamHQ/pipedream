@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-mark-task-completed",
   name: "Mark Task as Completed",
-  description: "Marks a task as being completed [See the docs here](https://developer.todoist.com/rest/v1/#close-a-task)",
+  description: "Marks a task as being completed. [See the docs here](https://developer.todoist.com/rest/v1/#close-a-task)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -22,6 +22,7 @@ export default {
           project: c.project,
         }),
       ],
+      description: "The task to mark as complete",
     },
   },
   async run ({ $ }) {
@@ -34,5 +35,9 @@ export default {
       },
     });
     $.export("$summary", "Successfully closed task");
+    return {
+      id: taskId,
+      success: true,
+    };
   },
 };

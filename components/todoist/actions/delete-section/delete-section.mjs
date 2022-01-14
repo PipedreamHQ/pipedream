@@ -3,7 +3,7 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-delete-section",
   name: "Delete Section",
-  description: "Deletes a section [See the docs here](https://developer.todoist.com/rest/v1/#delete-a-section)",
+  description: "Deletes a section. [See the docs here](https://developer.todoist.com/rest/v1/#delete-a-section)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -35,5 +35,9 @@ export default {
       data,
     });
     $.export("$summary", "Successfully deleted section");
+    return {
+      id: section,
+      success: true,
+    };
   },
 };
