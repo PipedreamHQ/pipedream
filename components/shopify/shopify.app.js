@@ -463,6 +463,9 @@ module.exports = {
     async createProduct(params) {
       return await this.resourceAction("product", "create", params);
     },
+    async createProductVariant(productId, params) {
+      return await this.resourceAction("productVariant", "create", params, productId);
+    },
     async *queryOrders(opts = {}) {
       const {
         sortKey = "UPDATED_AT",
