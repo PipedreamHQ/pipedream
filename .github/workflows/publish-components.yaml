@@ -34,8 +34,8 @@ jobs:
           PUBLISHED=""
           ERRORS=""
           SKIPPED=""
-          mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
-          for added_modified_file in "${added_modified_files[@]}"; do
+          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
+          for added_modified_file in "${added_modified_renamed_files[@]}"; do
           # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
           # doesn't end with /common*.*js, and doesn't follow */common/
           if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
