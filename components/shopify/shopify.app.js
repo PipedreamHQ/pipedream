@@ -204,6 +204,21 @@ module.exports = {
         }));
       },
     },
+    customerIds: {
+      type: "string[]",
+      label: "IDs",
+      description: `Restrict results to customers specified by a comma-separated list of IDs
+        Options will display the email registered with the ID
+        It is possible to select more than one option`,
+      async options() {
+        let response = await this.getCustomers();
+        return response.map((e) => ({
+          label: e.email,
+          value: e.id,
+        }));
+      },
+      optional: true,
+    },
     title: {
       type: "string",
       label: "Title",
@@ -452,9 +467,13 @@ module.exports = {
     async getBlogs() {
       return await this.getObjects("blog");
     },
-    async getCustomers(sinceId, updatedAfter) {
-      let params = this.getSinceParams(sinceId, true, updatedAfter);
-      return await this.getObjects("customer", params);
+    async getCustomers(sinceId, updatedAfter, params = {}) {
+      if (Object.keys(params).length > 0) {
+        return await this.resourceAction("customer", "list", params);
+      } else {
+        params = this.getSinceParams(sinceId, true, updatedAfter);
+        return await this.getObjects("customer", params);
+      }
     },
     async createCustomer(params) {
       return await this.resourceAction("customer", "create", params);
