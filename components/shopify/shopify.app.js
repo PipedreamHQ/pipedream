@@ -535,6 +535,9 @@ module.exports = {
       }
       return list[0];
     },
+    async updateProductVariant(productVariantId, params) {
+      return await this.resourceAction("productVariant", "update", params, productVariantId);
+    },
     async createProduct(params) {
       return await this.resourceAction("product", "create", params);
     },
