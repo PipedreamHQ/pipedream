@@ -219,6 +219,19 @@ module.exports = {
       },
       optional: true,
     },
+    locationId: {
+      type: "string",
+      label: "Location ID",
+      description: `The ID of the location that the inventory level belongs to
+        Options will display the name of the Location ID`,
+      async options() {
+        let response = await this.getLocationIds();
+        return response.map((e) => ({
+          label: e.name,
+          value: e.id,
+        }));
+      },
+    },
     title: {
       type: "string",
       label: "Title",
@@ -543,6 +556,12 @@ module.exports = {
     },
     async createProductVariant(productId, params) {
       return await this.resourceAction("productVariant", "create", params, productId);
+    },
+    async getLocationIds() {
+      return await this.resourceAction("location", "list");
+    },
+    async updateInventoryLevel(params) {
+      return await this.resourceAction("inventoryLevel", "set", params);
     },
     async *queryOrders(opts = {}) {
       const {
