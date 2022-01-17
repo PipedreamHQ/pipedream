@@ -190,10 +190,31 @@ module.exports = {
         }));
       },
     },
+    productVariantId: {
+      type: "string",
+      label: "Product Variant ID",
+      description: "ID of the product variant",
+      async options({ productId }) {
+        let response = await this.resourceAction("productVariant", "list", {
+          fields: "id,title",
+        }, productId);
+        return response.map((e) => ({
+          label: e.title,
+          value: e.id,
+        }));
+      },
+    },
     title: {
       type: "string",
       label: "Title",
       description: "The name of the product",
+    },
+    responseFields: {
+      type: "string[]",
+      label: "Fields",
+      description: `A comma-separated list of fields to include in the response
+        Check out [Shopify Product API](https://shopify.dev/api/admin-rest/2022-01/resources/product#resource_object) for options`,
+      optional: true,
     },
   },
   methods: {
@@ -459,6 +480,9 @@ module.exports = {
     },
     async getProduct(productId, params) {
       return await this.resourceAction("product", "get", params, productId);
+    },
+    async getProductVariant(productVariantId, params) {
+      return await this.resourceAction("productVariant", "get", params, productVariantId);
     },
     async createProduct(params) {
       return await this.resourceAction("product", "create", params);

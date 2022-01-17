@@ -16,11 +16,10 @@ export default {
       ],
     },
     fields: {
-      type: "string[]",
-      label: "Fields",
-      description: `A comma-separated list of fields to include in the response
-        Check out [Shopify Product API](https://shopify.dev/api/admin-rest/2022-01/resources/product#resource_object) for options`,
-      optional: true,
+      propDefinition: [
+        shopify,
+        "responseFields",
+      ],
     },
   },
   async run({ $ }) {
