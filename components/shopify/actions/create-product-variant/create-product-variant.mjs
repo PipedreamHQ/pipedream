@@ -15,10 +15,10 @@ export default {
       ],
     },
     variant: {
-      type: "object",
-      label: "Variant",
-      description: `An object representing a different version of the product
-        More information at [Shopify Product Variant API](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)`,
+      propDefinition: [
+        shopify,
+        "variant",
+      ],
     },
   },
   async run({ $ }) {

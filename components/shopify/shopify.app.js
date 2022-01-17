@@ -209,6 +209,12 @@ module.exports = {
       label: "Title",
       description: "The name of the product",
     },
+    variant: {
+      type: "object",
+      label: "Variant",
+      description: `An object representing a different version of the product
+        More information at [Shopify Product Variant API](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)`,
+    },
     responseFields: {
       type: "string[]",
       label: "Fields",
@@ -366,6 +372,15 @@ module.exports = {
         ? JSON.parse(x)
         : x);
     },
+    _parseCommaSeparatedStrings(value) {
+      if (Array.isArray(value)) {
+        return value.join();
+      }
+      if (typeof value == "string") {
+        return value;
+      }
+      throw new TypeError("variable should be an array or string");
+    },
     dayAgo() {
       const dayAgo = new Date();
       dayAgo.setDate(dayAgo.getDate() - 1);
@@ -483,6 +498,17 @@ module.exports = {
     },
     async getProductVariant(productVariantId, params) {
       return await this.resourceAction("productVariant", "get", params, productVariantId);
+    },
+    async getProductVariantByTitle(productId, title, params) {
+      if (params.fields && Object.keys(params.fields).length > 0) {
+        params.fields = "title,id," + params.fields;
+      }
+      let list = await this.resourceAction("productVariant", "list", params, productId);
+      list = list.filter((e) => e.title == title);
+      if (list.length === 0) {
+        throw Error(`Product variant with title ${title} not found`);
+      }
+      return list[0];
     },
     async createProduct(params) {
       return await this.resourceAction("product", "create", params);
