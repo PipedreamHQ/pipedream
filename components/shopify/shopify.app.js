@@ -478,6 +478,9 @@ module.exports = {
     async createCustomer(params) {
       return await this.resourceAction("customer", "create", params);
     },
+    async updateCustomer(customerId, params) {
+      return await this.resourceAction("customer", "update", params, customerId);
+    },
     async getEvents(sinceId, filter = null, verb = null) {
       let params = this.getSinceParams(sinceId, true);
       params.filter = filter;
