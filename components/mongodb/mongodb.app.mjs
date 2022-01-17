@@ -12,6 +12,11 @@ export default {
         return this.getCollections();
       },
     },
+    document: {
+      label: "Document",
+      type: "string",
+      description: "The document ID",
+    },
   },
   methods: {
     async connect() {
@@ -52,6 +57,20 @@ export default {
         mongoose.connection.close();
       }
     },
+    async deleteDocumentById(collection, _id) {
+      try {
+        await this.connect();
+        const schema = new mongoose.Schema(undefined, {
+          strict: false,
+        });
+        const Model = mongoose.model(collection, schema);
+        await Model.deleteOne({
+          _id,
+        });
+      } finally {
+        mongoose.connection.close();
+      }
+    },
     getCollections() {
       return new Promise((resolve, reject) => {
         this.connect()
@@ -59,6 +78,33 @@ export default {
             try {
               const collections = await mongoose.connection.db.listCollections().toArray();
               resolve(collections.map((collection) => collection.name).sort());
+            } catch (err) {
+              reject(err);
+            } finally {
+              mongoose.connection.close();
+            }
+          })
+          .catch((err) => reject(err));
+      });
+    },
+    getDocumentsId(collection, limit, skip) {
+      return new Promise((resolve, reject) => {
+        this.connect()
+          .then(async () => {
+            try {
+              const schema = new mongoose.Schema(undefined, {
+                strict: false,
+              });
+              const Model = mongoose.model(collection, schema);
+              const documents = await Model.find(
+                undefined,
+                undefined,
+                {
+                  limit,
+                  skip,
+                },
+              );
+              resolve(documents.map((doc) => doc._id));
             } catch (err) {
               reject(err);
             } finally {

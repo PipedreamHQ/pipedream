@@ -3,7 +3,7 @@ import mongodbApp from "../../mongodb.app.mjs";
 export default {
   key: "mongodb-create-new-document",
   name: "Create New Document",
-  description: "Create a new document in a collection of your choice",
+  description: "Create a new document in a collection of your choice. [See the docs here](https://docs.mongodb.com/manual/tutorial/insert-documents/)",
   version: "0.0.65",
   type: "action",
   props: {
