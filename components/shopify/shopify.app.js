@@ -518,6 +518,9 @@ module.exports = {
     async getProduct(productId, params) {
       return await this.resourceAction("product", "get", params, productId);
     },
+    async updateProduct(productId, params) {
+      return await this.resourceAction("product", "update", params, productId);
+    },
     async getProductVariant(productVariantId, params) {
       return await this.resourceAction("productVariant", "get", params, productVariantId);
     },
