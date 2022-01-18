@@ -205,12 +205,11 @@ module.exports = {
         }));
       },
     },
-    customerIds: {
-      type: "string[]",
-      label: "IDs",
-      description: `Restrict results to customers specified by a comma-separated list of IDs
-        Options will display the email registered with the ID
-        It is possible to select more than one option`,
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: `The Customer ID
+        Option displayed here as email registered with the Customer ID`,
       async options() {
         let response = await this.getCustomers();
         return response.map((e) => ({
@@ -218,7 +217,6 @@ module.exports = {
           value: e.id,
         }));
       },
-      optional: true,
     },
     locationId: {
       type: "string",

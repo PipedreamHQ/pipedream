@@ -9,13 +9,9 @@ export default {
   props: {
     shopify,
     customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: `The Customer ID
-        Option displayed here as email registered with the Customer ID`,
       propDefinition: [
         shopify,
-        "customerIds",
+        "customerId",
         (c) => c,
       ],
     },

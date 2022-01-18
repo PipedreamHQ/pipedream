@@ -9,11 +9,17 @@ export default {
   props: {
     shopify,
     ids: {
+      type: "string[]",
       propDefinition: [
         shopify,
-        "customerIds",
+        "customerId",
         (c) => c,
       ],
+      label: "Customer IDs",
+      description: `Restrict results to customers specified by a comma-separated list of IDs
+        Options will display the email registered with the ID
+        It is possible to select more than one option`,
+      optional: true,
     },
     fields: {
       propDefinition: [
