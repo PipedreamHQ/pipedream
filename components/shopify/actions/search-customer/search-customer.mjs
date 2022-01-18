@@ -49,6 +49,10 @@ export default {
     };
 
     let response = await this.shopify.getCustomers(null, null, params);
+    // TODO: not sure why API isn't limiting with param, when possible remove this
+    if (response.length > this.limit) {
+      response.length = this.limit;
+    }
     $.export("$summary", `Found ${response.length} customer(s)`);
     return response;
   },
