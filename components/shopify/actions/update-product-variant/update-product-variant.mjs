@@ -24,8 +24,10 @@ export default {
         Option displayed here as the title of the product variant`,
     },
     productVariant: {
-      type: "object",
-      label: "Product Variant",
+      propDefinition: [
+        shopify,
+        "variant",
+      ],
       description: "Update details for a product variant",
     },
   },

@@ -59,7 +59,11 @@ export default {
     },
     variants: {
       type: "string[]",
-      label: "Variants",
+      propDefinition: [
+        shopify,
+        "variant",
+      ],
+      label: "Product Variants",
       description: `An array of product variants, each representing a different version of the product
         The position property is read-only. The position of variants is indicated by the order in which they are listed
         Example: \`[{"option1":"First","price":"10.00","sku":"123"},{"option1":"Second","price":"20.00","sku":"123"}]\``,
