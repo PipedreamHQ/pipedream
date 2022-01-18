@@ -236,6 +236,11 @@ module.exports = {
       label: "Title",
       description: "The name of the product",
     },
+    customer: {
+      type: "object",
+      label: "Customer",
+      description: "Information about the customer",
+    },
     variant: {
       type: "object",
       label: "Product Variant",

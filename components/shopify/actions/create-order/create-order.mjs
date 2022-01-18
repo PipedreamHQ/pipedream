@@ -16,11 +16,11 @@ export default {
         Full order properties at [Shopify Order API](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/#{api_version}/orders.json_examples)`,
     },
     customer: {
-      type: "object",
-      label: "Customer",
-      description: "Information about the customer",
+      propDefinition: [
+        shopify,
+        "customer",
+      ],
       optional: true,
-      default: {},
     },
     billingAddress: {
       type: "object",

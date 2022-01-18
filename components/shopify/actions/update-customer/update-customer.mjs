@@ -16,8 +16,10 @@ export default {
       ],
     },
     customer: {
-      type: "object",
-      label: "Customer",
+      propDefinition: [
+        shopify,
+        "customer",
+      ],
       description: "Update details for a customer",
     },
   },
