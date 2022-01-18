@@ -45,7 +45,7 @@ export default {
           .catch((err) => reject(err));
       });
     },
-    async createDocument(data, collection, parseNumbers, parseBooleans, parseDates) {
+    createDocument(data, collection, parseNumbers, parseBooleans, parseDates) {
       return new Promise((resolve, reject) => {
         this.connect().then(async () => {
           try {
@@ -69,7 +69,7 @@ export default {
           .catch((err) => reject(err));
       });
     },
-    async updateDocument(collection, _id, data, parseNumbers, parseBooleans, parseDates) {
+    updateDocument(collection, _id, data, parseNumbers, parseBooleans, parseDates) {
       return new Promise((resolve, reject) => {
         this.connect().then(async () => {
           try {
@@ -92,7 +92,7 @@ export default {
           .catch((err) => reject(err));
       });
     },
-    async deleteDocumentById(collection, _id) {
+    deleteDocumentById(collection, _id) {
       return new Promise((resolve, reject) => {
         this.connect()
           .then(async () => {
