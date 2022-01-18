@@ -399,9 +399,17 @@ module.exports = {
       err = err.response;
       throw Error(`${err.statusCode} - ${err.statusMessage} - ${JSON.stringify(err.body)}`);
     },
+    _parseJSONStringObjects(stringObject) {
+      if (typeof stringObject == "string") {
+        stringObject = stringObject
+          ? JSON.parse(stringObject)
+          : {};
+      }
+      return this._makeRequestOpts(stringObject);
+    },
     _parseArrayOfJSONStrings(list) {
       return list.map((x) => x
-        ? JSON.parse(x)
+        ? this._parseJSONStringObjects(x)
         : x);
     },
     _parseCommaSeparatedStrings(value) {

@@ -37,7 +37,7 @@ export default {
         "responseFields",
       ],
     },
-    variant: {
+    productVariant: {
       propDefinition: [
         shopify,
         "variant",
@@ -67,10 +67,10 @@ export default {
       $.export("$summary", `Found product variant \`${response.title}\` with id \`${response.id}\``);
       return response;
     } catch (err) {
-      let variant = this.shopify._makeRequestOpts(this.variant);
-      if (Object.keys(variant).length > 0) {
+      let productVariant = this.shopify._parseJSONStringObjects(this.productVariant);
+      if (Object.keys(productVariant).length > 0) {
         // TODO: make this a required additionalProp
-        let response = await this.shopify.createProductVariant(this.productId, variant);
+        let response = await this.shopify.createProductVariant(this.productId, productVariant);
         $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
         return response;
       }

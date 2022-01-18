@@ -32,12 +32,10 @@ export default {
     },
   },
   async run({ $ }) {
-    if (typeof this.productVariant == "string") {
-      this.productVariant = JSON.parse(this.productVariant);
-    }
+    let productVariant = this.shopify._parseJSONStringObjects(this.productVariant);
     let response = await this.shopify.updateProductVariant(
       this.productVariantId,
-      this.productVariant,
+      productVariant,
     );
     $.export("$summary", `Updated product variant \`${response.title}\` with id \`${response.id}\``);
     return response;

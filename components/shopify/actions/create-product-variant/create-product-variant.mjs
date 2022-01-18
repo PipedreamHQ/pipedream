@@ -14,7 +14,7 @@ export default {
         "productId",
       ],
     },
-    variant: {
+    productVariant: {
       propDefinition: [
         shopify,
         "variant",
@@ -22,7 +22,8 @@ export default {
     },
   },
   async run({ $ }) {
-    let response = await this.shopify.createProductVariant(this.productId, this.variant);
+    let productVariant = this.shopify._parseJSONStringObjects(this.productVariant);
+    let response = await this.shopify.createProductVariant(this.productId, productVariant);
     $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
     return response;
   },

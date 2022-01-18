@@ -21,10 +21,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if (typeof this.product == "string") {
-      this.product = JSON.parse(this.product);
-    }
-    let response = await this.shopify.updateProduct(this.productId, this.product);
+    let product = this.shopify._parseJSONStringObjects(this.product);
+    let response = await this.shopify.updateProduct(this.productId, product);
     $.export("$summary", `Updated product \`${response.title}\` with id \`${response.id}\``);
     return response;
   },

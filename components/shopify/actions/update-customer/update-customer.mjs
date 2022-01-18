@@ -24,10 +24,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if (typeof this.customer == "string") {
-      this.customer = JSON.parse(this.customer);
-    }
-    let response = await this.shopify.updateCustomer(this.customerId, this.customer);
+    let customer = this.shopify._parseJSONStringObjects(this.customer);
+    let response = await this.shopify.updateCustomer(this.customerId, customer);
     $.export("$summary", `Updated customer \`${response.email}\` with id \`${response.id}\``);
     return response;
   },

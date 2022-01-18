@@ -27,14 +27,12 @@ export default {
       label: "Billing Address",
       description: "The mailing address associated with the payment method",
       optional: true,
-      default: {},
     },
     shippingAddress: {
       type: "object",
       label: "Shipping Address",
       description: "The mailing address to where the order will be shipped",
       optional: true,
-      default: {},
     },
     financialStatus: {
       type: "string",
@@ -105,9 +103,9 @@ export default {
   async run({ $ }) {
     let data = {
       line_items: this.shopify._parseArrayOfJSONStrings(this.lineItems),
-      customer: this.customer,
-      billing_address: this.billingAddress,
-      shipping_address: this.shippingAddress,
+      customer: this.shopify._parseJSONStringObjects(this.customer),
+      billing_address: this.shopify._parseJSONStringObjects(this.billingAddress),
+      shipping_address: this.shopify._parseJSONStringObjects(this.shippingAddress),
       financial_status: this.financialStatus,
       discount_codes: this.shopify._parseArrayOfJSONStrings(this.discountCodes),
       fulfillments: this.shopify._parseArrayOfJSONStrings(this.fulfillments),
