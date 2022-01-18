@@ -29,51 +29,6 @@ export default {
       const uri = `mongodb+srv://${username}:${password}@${hostname}/${database}?retryWrites=true&w=majority`;
       await mongoose.connect(uri);
     },
-    async createDocument(data, collection, parseNumbers, parseBooleans, parseDates) {
-      await this.connect();
-      const Model = mongoose.model(collection, this.getSchemaByData(data));
-      const document = new Model(this.parseStrings(
-        data,
-        parseNumbers,
-        parseBooleans,
-        parseDates,
-      ));
-      try {
-        await document.save();
-        return document;
-      } finally {
-        mongoose.connection.close();
-      }
-    },
-    async updateDocument(collection, _id, data, parseNumbers, parseBooleans, parseDates) {
-      try {
-        await this.connect();
-        const Model = mongoose.model(collection, this.getSchemaByData(data));
-        const document = await Model.findByIdAndUpdate(_id, this.parseStrings(
-          data,
-          parseNumbers,
-          parseBooleans,
-          parseDates,
-        ));
-        return document;
-      } finally {
-        mongoose.connection.close();
-      }
-    },
-    async deleteDocumentById(collection, _id) {
-      try {
-        await this.connect();
-        const schema = new mongoose.Schema(undefined, {
-          strict: false,
-        });
-        const Model = mongoose.model(collection, schema);
-        await Model.deleteOne({
-          _id,
-        });
-      } finally {
-        mongoose.connection.close();
-      }
-    },
     getCollections() {
       return new Promise((resolve, reject) => {
         this.connect()
@@ -90,7 +45,54 @@ export default {
           .catch((err) => reject(err));
       });
     },
-    getDocumentsId(collection, limit, skip) {
+    async createDocument(data, collection, parseNumbers, parseBooleans, parseDates) {
+      return new Promise((resolve, reject) => {
+        this.connect().then(async () => {
+          try {
+            const Model = mongoose.model(collection, this.getSchemaByData(data));
+            const document = new Model(this.parseStrings(
+              data,
+              parseNumbers,
+              parseBooleans,
+              parseDates,
+            ));
+            await document.save();
+            mongoose.connection.close(() => {
+              setTimeout(() => resolve(document));
+            });
+          } catch (err) {
+            mongoose.connection.close(() => {
+              setTimeout(() => reject(err));
+            });
+          }
+        })
+          .catch((err) => reject(err));
+      });
+    },
+    async updateDocument(collection, _id, data, parseNumbers, parseBooleans, parseDates) {
+      return new Promise((resolve, reject) => {
+        this.connect().then(async () => {
+          try {
+            const Model = mongoose.model(collection, this.getSchemaByData(data));
+            await Model.findByIdAndUpdate(_id, this.parseStrings(
+              data,
+              parseNumbers,
+              parseBooleans,
+              parseDates,
+            ));
+            mongoose.connection.close(() => {
+              setTimeout(() => resolve());
+            });
+          } catch (err) {
+            mongoose.connection.close(() => {
+              setTimeout(() => reject(err));
+            });
+          }
+        })
+          .catch((err) => reject(err));
+      });
+    },
+    async deleteDocumentById(collection, _id) {
       return new Promise((resolve, reject) => {
         this.connect()
           .then(async () => {
@@ -99,19 +101,38 @@ export default {
                 strict: false,
               });
               const Model = mongoose.model(collection, schema);
-              const documents = await Model.find(
-                undefined,
-                undefined,
-                {
-                  limit,
-                  skip,
-                },
-              );
-              resolve(documents.map((doc) => doc._id));
+              await Model.deleteOne({
+                _id,
+              });
+              mongoose.connection.close(() => {
+                setTimeout(resolve());
+              });
             } catch (err) {
-              reject(err);
-            } finally {
-              mongoose.connection.close();
+              mongoose.connection.close(() => {
+                setTimeout(reject(err));
+              });
+            }
+          })
+          .catch((err) => reject(err));
+      });
+    },
+    findDocumentById(collection, _id) {
+      return new Promise((resolve, reject) => {
+        this.connect()
+          .then(async () => {
+            try {
+              const schema = new mongoose.Schema(undefined, {
+                strict: false,
+              });
+              const Model = mongoose.model(collection, schema);
+              const document = await Model.findById(_id);
+              mongoose.connection.close(() => {
+                setTimeout(() => resolve(document));
+              });
+            } catch (err) {
+              mongoose.connection.close(() => {
+                setTimeout(() => reject(err));
+              });
             }
           })
           .catch((err) => reject(err));
