@@ -23,22 +23,34 @@ export default {
     query: {
       type: "string",
       label: "SQL Query",
-      description: "Your custom SQL query",
+      description: "Your custom SQL Query using `$1`, `$2`... to represent values (eg. `INSERT INTO users(name, email) VALUES($1, $2)`",
+    },
+    values: {
+      type: "string[]",
+      label: "Values",
+      description: "List of values represented in your SQL Query above",
     },
     value: {
       type: "string",
       label: "Lookup Value",
       description: "Value to search for",
       async options({
-        table, column,
+        table, column, prevContext,
       }) {
-        return this.getColumnValues(table, column);
+        const limit = 20;
+        const { offset = 0 } = prevContext;
+        return {
+          options: await this.getColumnValues(table, column, limit, offset),
+          context: {
+            offset: limit + offset,
+          },
+        };
       },
     },
     rowValues: {
       type: "object",
       label: "Row Values",
-      description: "Enter the column names and respective values as key/value pairs",
+      description: "Enter the column names and respective values as key/value pairs, or with structured mode off as `{{{columnName:\"columnValue\"}}}`",
     },
   },
   methods: {
@@ -61,18 +73,28 @@ export default {
       return client;
     },
     async endClient(client) {
-      client.end();
+      return client.end();
     },
     /**
      * Executes SQL query and returns the resulting rows
-     * @param query {string} SQL query to execute
+     * @param {string} text - SQL query to execute
+     * @param {array} [values] - values to substitute into the given query
      * @returns Array of rows returned from the given SQL query
      */
-    async executeQuery(query) {
+    async executeQuery(text, values = null) {
       const client = await this.getClient();
-      const { rows } = await client.query(query);
-      await this.endClient(client);
-      return rows;
+      const query = values
+        ? {
+          text,
+          values,
+        }
+        : text;
+      try {
+        const { rows } = await client.query(query);
+        return rows;
+      } finally {
+        await this.endClient(client);
+      }
     },
     /**
      * Gets an array of table names in a database
@@ -84,7 +106,7 @@ export default {
     },
     /**
      * Gets an array of column names in a table
-     * @param table {string} Name of the table to get columns in
+     * @param {string} table - Name of the table to get columns in
      * @returns Array of column names
      */
     async getColumns(table) {
@@ -93,7 +115,7 @@ export default {
     },
     /**
      * Gets a table's primary key field
-     * @param table {string} Name of the table to get the primary key for
+     * @param {string} table - Name of the table to get the primary key for
      * @returns Name of the primary key column
      */
     async getPrimaryKey(table) {
@@ -102,9 +124,9 @@ export default {
     },
     /**
      * Gets rows in a table with values greater than lastResult
-     * @param table {string} Name of database table to query
-     * @param column {string} Column to filter by lastResult
-     * @param lastResult {string} A column value. Used to retrieve new rows since the
+     * @param {string} table - Name of database table to query
+     * @param {string} column - Column to filter by lastResult
+     * @param {string} [lastResult] - A column value. Used to retrieve new rows since the
      *  last time the table was queried.
      * @returns Array of rows returned from the query
      */
@@ -112,14 +134,13 @@ export default {
       const query = `SELECT * FROM ${table} ${lastResult
         ? "WHERE " + column + ">" + lastResult
         : ""} ORDER BY ${column} DESC`;
-      const { rows } = await this.executeQuery(query);
-      return rows;
+      return this.executeQuery(query);
     },
     /**
      * Gets a single row from a table based on a lookup column & value
-     * @param table {string} Name of database table to query
-     * @param column {string} Column to filter by value
-     * @param value {string} A column value to search for
+     * @param {string} table - Name of database table to query
+     * @param {string} column - Column to filter by value
+     * @param {string} value - A column value to search for
      * @returns A single database row
      */
     async findRowByValue(table, column, value) {
@@ -128,7 +149,7 @@ export default {
     },
     /**
      * Gets the number of rows in a table
-     * @param table {string} Name of database table to query
+     * @param {string} table - Name of database table to query
      * @returns Count of how many rows exist in the table
      */
     async getRowCount(table) {
@@ -137,30 +158,29 @@ export default {
     },
     /**
      * Deletes a row or rows in a table based on a lookup column & value
-     * @param table {string} Name of database table to delete from
-     * @param column {string} Column used to find the row(s) to delete
-     * @param value {string} A column value. Used to find the row(s) to delete
+     * @param {string} table - Name of database table to delete from
+     * @param {string} column - Column used to find the row(s) to delete
+     * @param {string} value - A column value. Used to find the row(s) to delete
      */
     async deleteRows(table, column, value) {
       await this.executeQuery(`DELETE FROM ${table} WHERE ${column} = '${value}'`);
     },
     /**
      * Inserts a row in a table
-     * @param table {string} Name of database table to insert row into
-     * @param columns {array} Array of column names
-     * @param values {array} Array of values corresponding to the column names provided
+     * @param {string} table - Name of database table to insert row into
+     * @param {array} columns - Array of column names
+     * @param {array} values - Array of values corresponding to the column names provided
      * @returns The newly created row
      */
     async insertRow(table, columns, values) {
-      const { rows } = this.executeQuery(`INSERT INTO ${table} (${columns.join()}) VALUES (${values.join()}) RETURNING *`);
-      return rows;
+      return this.executeQuery(`INSERT INTO ${table} (${columns}) VALUES (${values.map((v) => "'" + v + "'")}) RETURNING *`);
     },
     /**
      * Updates a row in a table
-     * @param table {string} Name of database table to update
-     * @param lookupColumn {string} Column used to find row to update
-     * @param lookupValue {string} A column value. Used to find row to update
-     * @param rowValues {object} An object with keys representing column names
+     * @param {string} table - Name of database table to update
+     * @param {string} lookupColumn - Column used to find row to update
+     * @param {string} lookupValue - A column value. Used to find row to update
+     * @param {object} rowValues - An object with keys representing column names
      *  and values representing new column values
      * @returns The newly updated row
      */
@@ -181,12 +201,14 @@ export default {
     },
     /**
      * Gets all of the values for a single column in a table
-     * @param table {string} Name of database table to query
-     * @param column {string} Name of column to get values from
+     * @param {string} table - Name of database table to query
+     * @param {string} column - Name of column to get values from
+     * @params {string} [limit] - maximum number of rows to return
+     * @params {integer} [offset] - number of rows to skip, used for pagination
      * @returns Array of column values
      */
-    async getColumnValues(table, column) {
-      const rows = await this.executeQuery(`SELECT ${column} FROM ${table}`);
+    async getColumnValues(table, column, limit = "ALL", offset = 0) {
+      const rows = await this.executeQuery(`SELECT ${column} FROM ${table} LIMIT ${limit} OFFSET ${offset}`);
       return rows.map((row) => row[column]);
     },
   },

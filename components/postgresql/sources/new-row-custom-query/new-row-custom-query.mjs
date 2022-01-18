@@ -31,6 +31,12 @@ export default {
         "query",
       ],
     },
+    values: {
+      propDefinition: [
+        common.props.postgresql,
+        "values",
+      ],
+    },
   },
   methods: {
     ...common.methods,
@@ -43,9 +49,30 @@ export default {
     },
   },
   async run() {
-    const rows = await this.postgresql.executeQuery(this.query);
+    const {
+      table,
+      column,
+      query,
+      values = [],
+    } = this;
+
+    if (!Array.isArray(values)) {
+      throw new Error("No valid values provided. The values property must be an array.");
+    }
+
+    const numberOfValues = query?.match(/\$/g)?.length || 0;
+    if (values.length !== numberOfValues) {
+      throw new Error("The number of values provided does not match the number of values in the query.");
+    }
+
+    const isColumnUnique = await this.isColumnUnique(table, column);
+    if (!isColumnUnique) {
+      throw new Error("The column selected contains duplicate values. Column must be unique");
+    }
+
+    const rows = await this.postgresql.executeQuery(query, values);
     for (const row of rows) {
-      const meta = this.generateMeta(row, this.column);
+      const meta = this.generateMeta(row, column, false);
       this.$emit(row, meta);
     }
   },

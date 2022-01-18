@@ -55,6 +55,6 @@ export default {
   },
   async run() {
     const column = this._getColumn();
-    await this.newRows(this.table, column);
+    await this.newRows(this.table, column, false);
   },
 };

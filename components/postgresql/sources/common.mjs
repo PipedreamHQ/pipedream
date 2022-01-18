@@ -44,15 +44,25 @@ export default {
      * emits new rows found, and sets lastResult for next run.
      * @param {object} table - Name of the table to get rows from.
      * @param {string} column - Name of the table column to order by
+     * @param {boolean} [useLastResult] - Determines whether to return only rows
+     * created since lastResult
      */
-    async newRows(table, column) {
-      const lastResult = this._getLastResult() || null;
+    async newRows(table, column, useLastResult = true) {
+      const lastResult = useLastResult
+        ? (this._getLastResult() || null)
+        : null;
       const rows = await this.postgresql.getRows(table, column, lastResult);
       for (const row of rows) {
         const meta = this.generateMeta(row, column);
         this.$emit(row, meta);
       }
       this._setLastResult(rows, column);
+    },
+    async isColumnUnique(table, column) {
+      const query = `select count(*) <> count(distinct ${column}) as duplicate_flag from ${table}`;
+      const hasDuplicates = await this.postgresql.executeQuery(query);
+      const { duplicate_flag: duplicateFlag } = hasDuplicates[0];
+      return !duplicateFlag;
     },
   },
 };

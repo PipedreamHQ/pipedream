@@ -28,8 +28,12 @@ export default {
     } = this;
     const columns = Object.keys(rowValues);
     const values = Object.values(rowValues);
-    const res = await this.postgresql.insertRow(table, columns, values);
-    $.export("$summary", "New row inserted");
-    return res;
+    try {
+      const res = await this.postgresql.insertRow(table, columns, values);
+      $.export("$summary", "New row inserted");
+      return res;
+    } catch (error) {
+      $.export("$summary", `New row not inserted due to an error. ${error}`);
+    }
   },
 };
