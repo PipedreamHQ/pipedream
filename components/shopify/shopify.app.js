@@ -370,6 +370,12 @@ module.exports = {
         () => shopifyClient.graphql(query, variables),
       );
     },
+    /**
+     * Removes empty key and values from params objects
+     * Shopify lib doesn't handle this and therefore many requests are rejected
+     * @param {object} params
+     * @returns {object} Alear of empty key/values
+    */
     _makeRequestOpts(params) {
       for (const key of Object.keys(params)) {
         const value = params[key];
@@ -399,6 +405,11 @@ module.exports = {
       err = err.response;
       throw Error(`${err.statusCode} - ${err.statusMessage} - ${JSON.stringify(err.body)}`);
     },
+    /**
+     * Transforms a string to an object or returns the object
+     * @param {string} stringObject
+     * @returns {object}
+     */
     _parseJSONStringObjects(stringObject) {
       if (stringObject == null) {
         return {};
@@ -410,6 +421,11 @@ module.exports = {
       }
       return this._makeRequestOpts(stringObject);
     },
+    /**
+     * Transforms a list of strings to a list of objects
+     * @param {string[]} stringList
+     * @returns {object[]}
+     */
     _parseArrayOfJSONStrings(stringList) {
       if (!stringList) {
         return [];
@@ -421,6 +437,11 @@ module.exports = {
         ? this._parseJSONStringObjects(x)
         : x).filter((x) => Object.values(x).length > 0);
     },
+    /**
+     * Transforms a list of strings to a comma-separated string
+     * @param {string[]} value
+     * @returns {string}
+     */
     _parseCommaSeparatedStrings(value) {
       if (Array.isArray(value)) {
         return value.join();
@@ -430,6 +451,10 @@ module.exports = {
       }
       throw new TypeError("variable should be an array or string");
     },
+    /**
+     * Adds expected title and id response fields for correct summary logging
+     * @param {object} params
+     */
     _addRequiredResponseFields(params) {
       if (params.fields && Object.values(params.fields).length > 0) {
         params.fields = "title,id," + params.fields;
@@ -475,6 +500,15 @@ module.exports = {
       } while (params !== undefined);
       return objects;
     },
+    /**
+     * Uses Shopify lib for API requests according to resource and action
+     * @param {string} objectType Shopify resource
+     * @param {string} action Shopify resource method
+     * @param {object} params JSON or Query request parameters
+     * @param {string} id Resource ID if expected
+     * @param {boolean} paginates Whether resource action paginates
+     * @returns {object} Shopify resource action result
+     */
     async resourceAction(objectType, action, params = {}, id = null, paginates = false) {
       const shopify = this.getShopifyInstance();
       this._makeRequestOpts(params);
