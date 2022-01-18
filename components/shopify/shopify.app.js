@@ -388,7 +388,7 @@ module.exports = {
         }
         else if (value.constructor == Object) {
           this._makeRequestOpts(params[key]);
-          if (Object.keys(params[key]).length === 0) {
+          if (Object.values(params[key]).length === 0) {
             delete params[key];
           }
         }
@@ -428,7 +428,7 @@ module.exports = {
       throw new TypeError("variable should be an array or string");
     },
     _addRequiredResponseFields(params) {
-      if (params.fields && Object.keys(params.fields).length > 0) {
+      if (params.fields && Object.values(params.fields).length > 0) {
         params.fields = "title,id," + params.fields;
       }
     },
@@ -504,7 +504,7 @@ module.exports = {
       return await this.getObjects("blog");
     },
     async getCustomers(sinceId, updatedAfter, params = {}) {
-      if (Object.keys(params).length > 0) {
+      if (Object.values(this._makeRequestOpts(params)).length > 0) {
         return await this.resourceAction("customer", "list", params);
       } else {
         params = this.getSinceParams(sinceId, true, updatedAfter);

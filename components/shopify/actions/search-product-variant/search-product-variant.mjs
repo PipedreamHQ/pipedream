@@ -68,7 +68,7 @@ export default {
       return response;
     } catch (err) {
       let productVariant = this.shopify._parseJSONStringObjects(this.productVariant);
-      if (Object.keys(productVariant).length > 0) {
+      if (Object.values(productVariant).length > 0) {
         // TODO: make this a required additionalProp
         let response = await this.shopify.createProductVariant(this.productId, productVariant);
         $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
