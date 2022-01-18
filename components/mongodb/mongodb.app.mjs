@@ -138,6 +138,28 @@ export default {
           .catch((err) => reject(err));
       });
     },
+    searchDocuments(collection, filter) {
+      return new Promise((resolve, reject) => {
+        this.connect()
+          .then(async () => {
+            try {
+              const schema = new mongoose.Schema(undefined, {
+                strict: false,
+              });
+              const Model = mongoose.model(collection, schema);
+              const documents = await Model.find(filter);
+              mongoose.connection.close(() => {
+                setTimeout(() => resolve(documents));
+              });
+            } catch (err) {
+              mongoose.connection.close(() => {
+                setTimeout(() => reject(err));
+              });
+            }
+          })
+          .catch((err) => reject(err));
+      });
+    },
     getSchemaByData(data) {
       const keys = Object.keys(data);
       const schemaFields = {};
