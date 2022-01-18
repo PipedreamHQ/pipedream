@@ -23,18 +23,11 @@ export default {
   },
   async run({ $ }) {
     let params = {
-      fields: this.fields,
+      fields: this.shopify._parseCommaSeparatedStrings(this.fields),
     };
 
     let response = await this.shopify.getProduct(this.productId, params);
-    let title = response.title
-      ? ` \`${response.title}\``
-      : "";
-    let id = response.id
-      ? ` with id \`${response.id}\``
-      : "";
-
-    $.export("$summary", `Found product${title}${id}`);
+    $.export("$summary", `Found product \`${response.title}\` with id \`${response.id}\``);
     return response;
   },
 };

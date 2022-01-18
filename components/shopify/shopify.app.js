@@ -413,6 +413,11 @@ module.exports = {
       }
       throw new TypeError("variable should be an array or string");
     },
+    _addRequiredResponseFields(params) {
+      if (params.fields && Object.keys(params.fields).length > 0) {
+        params.fields = "title,id," + params.fields;
+      }
+    },
     dayAgo() {
       const dayAgo = new Date();
       dayAgo.setDate(dayAgo.getDate() - 1);
@@ -533,6 +538,7 @@ module.exports = {
       return await this.getObjects("product", params);
     },
     async getProduct(productId, params) {
+      this._addRequiredResponseFields(params);
       return await this.resourceAction("product", "get", params, productId);
     },
     async updateProduct(productId, params) {
@@ -542,9 +548,7 @@ module.exports = {
       return await this.resourceAction("productVariant", "get", params, productVariantId);
     },
     async getProductVariantByTitle(productId, title, params) {
-      if (params.fields && Object.keys(params.fields).length > 0) {
-        params.fields = "title,id," + params.fields;
-      }
+      this._addRequiredResponseFields(params);
       let list = await this.resourceAction("productVariant", "list", params, productId);
       list = list.filter((e) => e.title == title);
       if (list.length === 0) {
