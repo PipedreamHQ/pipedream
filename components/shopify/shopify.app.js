@@ -407,10 +407,16 @@ module.exports = {
       }
       return this._makeRequestOpts(stringObject);
     },
-    _parseArrayOfJSONStrings(list) {
-      return list.map((x) => x
+    _parseArrayOfJSONStrings(stringList) {
+      if (!stringList) {
+        return [];
+      }
+      if (typeof stringList == "string") {
+        throw new Error("string type not supported, please use array of objects in structured mode");
+      }
+      return stringList.map((x) => x
         ? this._parseJSONStringObjects(x)
-        : x);
+        : x).filter((x) => Object.values(x).length > 0);
     },
     _parseCommaSeparatedStrings(value) {
       if (Array.isArray(value)) {
