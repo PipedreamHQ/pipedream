@@ -12,10 +12,7 @@ export default {
       propDefinition: [
         shopify,
         "productId",
-        (c) => c,
       ],
-      description: `${shopify.propDefinitions.productId.description}
-        Option displayed here as the title of the product`,
     },
     product: {
       type: "object",

@@ -8,11 +8,10 @@ export default {
   type: "action",
   props: {
     shopify,
-    id: {
+    productId: {
       propDefinition: [
         shopify,
         "productId",
-        (c) => c,
       ],
     },
     fields: {
@@ -27,7 +26,7 @@ export default {
       fields: this.fields,
     };
 
-    let response = await this.shopify.getProduct(this.id, params);
+    let response = await this.shopify.getProduct(this.productId, params);
     let title = response.title
       ? ` \`${response.title}\``
       : "";

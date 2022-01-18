@@ -181,7 +181,8 @@ module.exports = {
     productId: {
       type: "string",
       label: "Product ID",
-      description: "ID of the product",
+      description: `ID of the product
+        Option displayed here as the title of the product`,
       async options() {
         let response = await this.resourceAction("product", "list");
         return response.map((e) => ({

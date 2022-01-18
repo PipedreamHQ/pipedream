@@ -12,7 +12,6 @@ export default {
       propDefinition: [
         shopify,
         "productId",
-        (c) => c,
       ],
     },
     productVariantId: {
