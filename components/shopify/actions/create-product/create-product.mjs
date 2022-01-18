@@ -98,7 +98,7 @@ export default {
       images: this.shopify._parseArrayOfJSONStrings(this.images),
       variants: this.shopify._parseArrayOfJSONStrings(this.variants),
       options: this.shopify._parseArrayOfJSONStrings(this.options),
-      tags: this.tags,
+      tags: this.shopify._parseCommaSeparatedStrings(this.tags),
     };
 
     let response = await this.shopify.createProduct(data);
