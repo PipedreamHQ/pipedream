@@ -31,19 +31,7 @@ export default {
     },
     async createDocument(data, collection, parseNumbers, parseBooleans, parseDates) {
       await this.connect();
-      const keys = Object.keys(data);
-      const schemaFields = {};
-      for (let i = 0; i < keys.length; i++) {
-        schemaFields[keys[i]] = {
-          type: mongoose.Schema.Types.Mixed,
-        };
-      }
-
-      const schema = new mongoose.Schema(schemaFields, {
-        strict: false,
-      });
-
-      const Model = mongoose.model(collection, schema);
+      const Model = mongoose.model(collection, this.getSchemaByData(data));
       const document = new Model(this.parseStrings(
         data,
         parseNumbers,
@@ -52,6 +40,21 @@ export default {
       ));
       try {
         await document.save();
+        return document;
+      } finally {
+        mongoose.connection.close();
+      }
+    },
+    async updateDocument(collection, _id, data, parseNumbers, parseBooleans, parseDates) {
+      try {
+        await this.connect();
+        const Model = mongoose.model(collection, this.getSchemaByData(data));
+        const document = await Model.findByIdAndUpdate(_id, this.parseStrings(
+          data,
+          parseNumbers,
+          parseBooleans,
+          parseDates,
+        ));
         return document;
       } finally {
         mongoose.connection.close();
@@ -113,6 +116,21 @@ export default {
           })
           .catch((err) => reject(err));
       });
+    },
+    getSchemaByData(data) {
+      const keys = Object.keys(data);
+      const schemaFields = {};
+      for (let i = 0; i < keys.length; i++) {
+        schemaFields[keys[i]] = {
+          type: mongoose.Schema.Types.Mixed,
+        };
+      }
+
+      const schema = new mongoose.Schema(schemaFields, {
+        strict: false,
+      });
+
+      return schema;
     },
     parseStrings(dataParam, parseNumbers, parseBooleans, parseDates) {
       const data = {
