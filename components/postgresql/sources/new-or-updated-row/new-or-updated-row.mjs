@@ -38,6 +38,16 @@ export default {
     },
   },
   async run() {
-    await this.newRows(this.table, this.column);
+    const {
+      table,
+      column,
+    } = this;
+    
+    const isColumnUnique = await this.isColumnUnique(table, column);
+    if (!isColumnUnique) {
+      throw new Error("The column selected contains duplicate values. Column must be unique");
+    }
+
+    await this.newRows(table, column);
   },
 };

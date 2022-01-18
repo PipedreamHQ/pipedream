@@ -55,6 +55,12 @@ export default {
   },
   async run() {
     const column = this._getColumn();
+
+    const isColumnUnique = await this.isColumnUnique(this.table, column);
+    if (!isColumnUnique) {
+      throw new Error("The column selected contains duplicate values. Column must be unique");
+    }
+
     await this.newRows(this.table, column, false);
   },
 };

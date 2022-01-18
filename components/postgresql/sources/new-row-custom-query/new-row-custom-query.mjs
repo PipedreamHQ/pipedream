@@ -72,7 +72,7 @@ export default {
 
     const rows = await this.postgresql.executeQuery(query, values);
     for (const row of rows) {
-      const meta = this.generateMeta(row, column, false);
+      const meta = this.generateMeta(row, column);
       this.$emit(row, meta);
     }
   },
