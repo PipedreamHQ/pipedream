@@ -8,7 +8,7 @@ Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.py
 
 1. Click the + icon to add a new step
 2. Click "Custom Code"
-3. In the new step, use the language runtime
+3. In the new step, select the Python language runtime in language dropdown
    
 ## Logging & debugging
 
@@ -22,7 +22,7 @@ The output for the `print` logs will appear in the `Results` section just beneat
 
 ## Using 3rd party packages
 
-You can use any packages from PyPi in your Pipedream workflows. This includes popular choices such as:
+You can use any packages from [PyPi](https://pypi.org) in your Pipedream workflows. This includes popular choices such as:
 
 * `requests` for making HTTP requests
 * `sqlalchemy` for retrieving or inserting data in a SQL database
@@ -38,11 +38,13 @@ No need to update a `requirements.txt` or specify elsewhere in your workflow of 
 
 ## Making an HTTP request
 
-We recommend using the popular `requests` package available in Python.
+We recommend using the popular `requests` HTTP client package available in Python to send HTTP requests.
 
 No need to run `pip install`, just `import requests` at the top of your step's code and it's available for your code to use.
 
 ### Making a GET request
+
+GET requests typically are for retrieving data from an API. Below is an example d
 
 ```python
 import requests
@@ -63,7 +65,10 @@ print(r.status)
 ```python
 import requests
 
-data = {}
+# This a POST request to this URL will echo back whatever data we send to it
+url = 'https://postman-echo.com/post'
+
+data = {"name": "Bulbasaur"}
 
 r = requests.post(url, data)
 
@@ -84,6 +89,8 @@ This proves your identity to the service so you can interact with it:
 import requests
 
 token = 'replace this with your API key'
+
+url = 'https://api.
 
 headers { 'Authorization': f"Bearer {token}"}
 r = requests.get(url, headers=headers)
@@ -124,9 +131,9 @@ In this example, we'll pretend this data is coming into our HTTP trigger.
 
 ```json
 {
-  id: 1,
-  name: 'Bulbasaur',
-  type: 'plant'
+  "id": 1,
+  "name": "Bulbasaur",
+  "type": "plant"
 }
 ```
 
@@ -137,7 +144,7 @@ Here's an example of how to get the ID from the Pokemon we recieved in the trigg
 ```python
 from pipedream.script_helpers import (steps, export)
 
-# retrieve the data points from the HTTP request 
+# retrieve the data points from the HTTP request in the initial workflow trigger 
 name = steps["trigger"]["event"]["name"]
 pokemon_type = steps["trigger"]["event"]["type"]
 
@@ -151,7 +158,7 @@ The trigger steps automatically export their data for other steps to use downstr
 Just pass the data to the `export` module from `pipedream.script_helpers`.
 
 ```python
-# this step is named "code"
+# this step is named "code" in the workflow
 from pipedream.script_helpers import (steps, export)
 
 pokemon = { name: "Pikachu" }
@@ -160,6 +167,13 @@ export('pokemon', pokemon)
 ```
 
 Now this `pokemon` is accessible to downstream steps within `steps.code.pokemon`
+
+::: warning
+Not all data types can be stored in the `steps` data shared between workflow steps.  Only JSON serializable types can be passed, which includes:
+
+* lists 
+* dictionaries
+:::
 
 ## File storage
 
@@ -185,7 +199,6 @@ with open('/tmp/python-logo.png', 'wb') as f:
 
 Now `/tmp/python-logo.png` holds the official Python logo.
 
-
 ### Reading a file from /tmp
 
 You can also open files you have previously stored in the `/tmp` directory. Let's open the `python-logo.png` we downloaded in the previous example.
@@ -194,11 +207,9 @@ You can also open files you have previously stored in the `/tmp` directory. Let'
 import os
 
 with open('/tmp/python-logo.png') as f:
-  read_data = f.read()
-
+  # put the contents of the file into a variable
+  file_data = f.read()
 ```
-
-
 
 ### Listing files in /tmp
 
@@ -213,5 +224,7 @@ print(os.listdir('/tmp'))
 
 ### `/tmp` limitations
 
-The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow exections. 
+The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow exections.
+
+To avoid errors, assume that the `/tmp` directory is empty between workflow runs.
 

@@ -78,14 +78,14 @@ module.exports = {
             title: 'Go',
             type: 'group',
             children: [
-              '/code/go',
+              '/code/go/',
             ]
           },
           {
             title: 'Bash',
             type: 'group',
             children: [
-              '/code/bash'
+              '/code/bash/'
             ]
           }
 
