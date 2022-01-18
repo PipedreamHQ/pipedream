@@ -400,6 +400,9 @@ module.exports = {
       throw Error(`${err.statusCode} - ${err.statusMessage} - ${JSON.stringify(err.body)}`);
     },
     _parseJSONStringObjects(stringObject) {
+      if (stringObject == null) {
+        return {};
+      }
       if (typeof stringObject == "string") {
         stringObject = stringObject
           ? JSON.parse(stringObject)
@@ -566,7 +569,7 @@ module.exports = {
       let list = await this.resourceAction("productVariant", "list", params, productId);
       list = list.filter((e) => e.title == title);
       if (list.length === 0) {
-        throw Error(`Product variant with title ${title} not found`);
+        throw new Error(`Product variant with title ${title} not found`);
       }
       return list[0];
     },
