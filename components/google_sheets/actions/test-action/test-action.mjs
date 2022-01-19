@@ -15,7 +15,7 @@ export default {
   key: "google_sheets-test-action",
   name: "Test Action",
   description: "Test Action",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     googleSheets,
@@ -96,7 +96,7 @@ export default {
       ],
     });
 
-    $.export("$summary", `**Added 1 row to [${this.sheetId.label} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${data.spreadsheetId.value})**`);
+    $.export("$summary", `**Added 1 row to [${this.sheetId.label} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${this.sheetId.value})**`);
 
     return data;
   },
