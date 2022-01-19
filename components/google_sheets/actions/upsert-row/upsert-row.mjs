@@ -21,7 +21,7 @@ export default {
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
   description: "Upsert a row of data in a Google Sheet",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSheets,
@@ -30,8 +30,6 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "",
-      optional: true,
     },
     sheetId: {
       propDefinition: [

@@ -56,7 +56,7 @@ We can use Slack's Block Kit Builder to create a [JSON message template with pla
 
 The action we will use accepts the array of blocks, so let's extract that and export a populated array from our code step (i.e., we don't need to generate the entire JSON payload).
 
-Add a step to **Run Node.js code** and name it `steps.generate_slack_blocks`. 
+Add a step to **Run Node.js code** and name it `steps.generate_slack_blocks`.
 
 ![image-20210518201050946](./images/image-20210518201050946.png)
 
@@ -67,11 +67,11 @@ Next, add the following code to `steps.generate_slack_blocks`:
 const ISO6391 = require('iso-639-1')
 
 // Require lodash to help extract values from intermittent fields in the Tweet object
-const _ = require('lodash') 
+const _ = require('lodash')
 
 // Function to return a friendly language name (or "Unknown") for ISO language codes
 function getLanguageName(isocode) {
-  try { return ISO6391.getName(isocode) } 
+  try { return ISO6391.getName(isocode) }
 	catch (err) { return 'Unknown' }
 }
 
@@ -90,11 +90,11 @@ const quotedMessage = steps.trigger.event.full_text
 const tweetUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/statuses/${steps.trigger.event.id_str}`
 const userUrl = `https://twitter.com/${steps.trigger.event.user.screen_name}/`
 
-/* 
-Use lodash to get the URL for an image representing the media since 
+/*
+Use lodash to get the URL for an image representing the media since
 this object is not always present; `trigger.event.entities` will be present
-when media — photos, animated GIFs or videos — are attached to the Tweet. 
-This object should always containt a photo, "even in cases of a video 
+when media — photos, animated GIFs or videos — are attached to the Tweet.
+This object should always contain a photo, "even in cases of a video
 and GIF being attached to Tweet."
 https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/entities
 */
