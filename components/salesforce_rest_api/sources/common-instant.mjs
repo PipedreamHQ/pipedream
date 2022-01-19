@@ -12,29 +12,17 @@ export default {
       customResponse: true,
     },
     salesforce,
+    // Not inheriting `objectType` propDefinition from salesforce so `this` in async options has
+    // component instance's methods
     objectType: {
-      type: "string",
-      label: "Object Type",
-      description: "The type of object for which to monitor events",
+      ...salesforce.propDefinitions.objectType,
+      label: salesforce.propDefinitions.objectType.label,
+      description: salesforce.propDefinitions.objectType.description,
       async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          // The list of allowed SObject types is static and exhaustively
-          // provided through a single method call
-          return {
-            options: [],
-          };
-        }
-
-        const eventType = this.getEventType();
-        const supportedObjectTypes = this.salesforce.listAllowedSObjectTypes(eventType);
-        const options = supportedObjectTypes.map((i) => ({
-          label: i.label,
-          value: i.name,
-        }));
-        return {
-          options,
-        };
+        return salesforce.propDefinitions.objectType.options.call(this.salesforce, {
+          ...context,
+          eventType: this.getEventType(),
+        });
       },
     },
   },
@@ -133,6 +121,7 @@ export default {
       this.http.respond({
         statusCode: 404,
       });
+      console.log("Skipping event from unrecognized source");
       return;
     }
 

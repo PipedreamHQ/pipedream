@@ -10,8 +10,8 @@ export default {
   name: "Updated Field on Record (Instant, of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record-instant",
   description: toSingleLineString(`
-    Emit new event immediately (at regular intervals) after a field of your choosing is updated on
-    any record of a specified Salesforce object
+    Emit new event immediately after a field of your choosing is updated on any record of a
+    specified Salesforce object
   `),
   version: "0.0.1",
   props: {

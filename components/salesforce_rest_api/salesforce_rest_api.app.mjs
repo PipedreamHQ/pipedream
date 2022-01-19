@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import salesforceWebhooks from "salesforce-webhooks";
 const { SalesforceClient } = salesforceWebhooks;
 
@@ -6,6 +6,31 @@ export default {
   type: "app",
   app: "salesforce_rest_api",
   propDefinitions: {
+    objectType: {
+      type: "string",
+      label: "Object Type",
+      description: "The type of object for which to monitor events",
+      async options(context) {
+        const {
+          page,
+          eventType,
+        } = context;
+        if (page !== 0) {
+          // The list of allowed SObject types is static and exhaustively
+          // provided through a single method call
+          return [];
+        }
+
+        const supportedObjectTypes = this.listAllowedSObjectTypes(eventType);
+        const options = supportedObjectTypes.map((i) => ({
+          label: i.label,
+          value: i.name,
+        }));
+        return {
+          options,
+        };
+      },
+    },
     field: {
       type: "string",
       label: "Field",
@@ -59,7 +84,7 @@ export default {
         `https://${this._subdomain()}.salesforce.com`
       );
     },
-    userApiUrl() {
+    _userApiUrl() {
       const baseUrl = this._baseApiUrl();
       return `${baseUrl}/services/oauth2/userinfo`;
     },
@@ -84,15 +109,31 @@ export default {
       const baseUrl = this._sObjectsApiUrl();
       return `${baseUrl}/${sObjectType}/${id}`;
     },
-    _makeRequestConfig() {
+    _makeRequestHeaders() {
       const authToken = this._authToken();
-      const headers = {
+      return {
         "Authorization": `Bearer ${authToken}`,
         "User-Agent": "@PipedreamHQ/pipedream v0.1",
       };
+    },
+    _makeRequestConfig() {
+      const headers = this._makeRequestHeaders();
       return {
+        method: "GET",
         headers,
       };
+    },
+    async _makeRequest(opts) {
+      const {
+        $,
+        ...requestOpts
+      } = opts;
+      const baseRequestConfig = this._makeRequestConfig();
+      const requestConfig = {
+        ...baseRequestConfig,
+        ...requestOpts,
+      };
+      return axios($ ?? this, requestConfig);
     },
     _formatDateString(dateString) {
       // Remove milliseconds from date ISO string
@@ -135,14 +176,15 @@ export default {
     },
     async listSObjectTypes() {
       const url = this._sObjectsApiUrl();
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.get(url, requestConfig);
-      return data;
+      return this._makeRequest({
+        url,
+      });
     },
     async getNameFieldForObjectType(objectType) {
       const url = this._sObjectTypeDescriptionApiUrl(objectType);
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.get(url, requestConfig);
+      const data = await this._makeRequest({
+        url,
+      });
       const nameField = data.fields.find((f) => f.nameField);
       return nameField !== undefined
         ? nameField.name
@@ -150,8 +192,9 @@ export default {
     },
     async getFieldsForObjectType(objectType) {
       const url = this._sObjectTypeDescriptionApiUrl(objectType);
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.get(url, requestConfig);
+      const data = await this._makeRequest({
+        url,
+      });
       return data.fields;
     },
     async getHistorySObjectForObjectType(objectType) {
@@ -164,9 +207,9 @@ export default {
     },
     async getSObject(objectType, id) {
       const url = this._sObjectDetailsApiUrl(objectType, id);
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.get(url, requestConfig);
-      return data;
+      return this._makeRequest({
+        url,
+      });
     },
     async getUpdatedForObjectType(objectType, start, end) {
       const url = this._sObjectTypeUpdatedApiUrl(objectType);
@@ -174,12 +217,10 @@ export default {
         start: this._formatDateString(start),
         end: this._formatDateString(end),
       };
-      const requestConfig = {
-        ...this._makeRequestConfig(),
+      return this._makeRequest({
+        url,
         params,
-      };
-      const { data } = await axios.get(url, requestConfig);
-      return data;
+      });
     },
     async getDeletedForObjectType(objectType, start, end) {
       const url = this._sObjectTypeDeletedApiUrl(objectType);
@@ -187,12 +228,20 @@ export default {
         start: this._formatDateString(start),
         end: this._formatDateString(end),
       };
-      const requestConfig = {
-        ...this._makeRequestConfig(),
+      return this._makeRequest({
+        url,
         params,
-      };
-      const { data } = await axios.get(url, requestConfig);
-      return data;
+      });
+    },
+    async getUserInfo(authToken) {
+      const url = this._userApiUrl();
+      return this._makeRequest({
+        url,
+        headers: {
+          ...this._makeRequestHeaders(),
+          "Authorization": `Bearer ${authToken}`,
+        },
+      });
     },
   },
 };

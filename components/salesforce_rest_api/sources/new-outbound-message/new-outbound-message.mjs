@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import { XMLParser } from "fast-xml-parser";
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import { toSingleLineString } from "../../utils.mjs";
@@ -8,9 +7,10 @@ export default {
   name: "New Outbound Message (Instant)",
   key: "salesforce_rest_api-new-outbound-message",
   description: toSingleLineString(`
-    Emit new event when a new outbound message is received in Salesforce. See Salesforce's
-    guide on setting up [Outbound Messaging](https://sforce.co/3JbZJom). Set the Outbound
-    Message's Endpoint URL to the endpoint of the created source.
+    Emit new event when a new outbound message is received in Salesforce. See Salesforce's guide on
+    setting up [Outbound Messaging](https://sforce.co/3JbZJom). Set the Outbound Message's Endpoint
+    URL to the endpoint of the created source. The "Send Session ID" option must be enabled for
+    validating outbound messages from Salesforce.
   `),
   version: "0.0.1",
   dedupe: "unique",
@@ -54,22 +54,9 @@ export default {
       });
     },
     async _isValidSessionId(sessionId) {
-      const authToken = sessionId;
-      const url = this.salesforce.userApiUrl();
-      const headers = {
-        "Authorization": `Bearer ${authToken}`,
-        "User-Agent": "@PipedreamHQ/pipedream v0.1",
-      };
-      const requestConfig = {
-        method: "GET",
-        url,
-        headers,
-      };
-      // To validate the SessionId, try to make a Salesforce API request using the outbound
-      // message's SessionId token
       try {
-        const response = await axios(this, requestConfig);
-        return Boolean(response);
+        const data = await this.salesforce.getUserInfo(sessionId);
+        return Boolean(data);
       } catch (err) {
         console.log("Error validating SessionId:", err);
         return false;
@@ -83,12 +70,17 @@ export default {
 
       return this._isValidSessionId(sessionId);
     },
-    generateMeta(data) {
-      const id = JSON.stringify(data);
+    generateMeta({
+      event, data,
+    }) {
+      const { headers: { "x-amzn-trace-id": eventId } } = event;
+      const { ActionId: actionId } = data;
+      const id = `${eventId}-${actionId}`;
+      const summary = JSON.stringify(data);
       const ts = Date.now();
       return {
         id,
-        summary: id,
+        summary,
         ts,
       };
     },
@@ -101,6 +93,9 @@ export default {
       console.log("Skipping event from unrecognized source");
       return;
     }
-    this.$emit(data, this.generateMeta(data));
+    this.$emit(data, this.generateMeta({
+      event,
+      data,
+    }));
   },
 };
