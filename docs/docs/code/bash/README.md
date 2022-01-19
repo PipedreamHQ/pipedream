@@ -23,6 +23,20 @@ MESSAGE='Hello world'
 echo $MESSAGE
 ```
 
+## Available binaries
+
+Bash steps come with many common & useful binaries preinstalled and available in `$PATH` for you to use out of the box. These binaries include but arent't limited to:
+
+* `curl` for making HTTP requests
+* `jq` for manipulating and viewing JSON data
+* `git` for interacting with remote repositories
+
+Unfortunately it is not possible to install from a package manager like `apt` or `yum`.
+
+If you need a package pre-installed in your bash steps, [just ask us](https://pipedream.com/support).
+
+Otherwise, you can use `/tmp` to download and install from source.
+
 ## Making an HTTP request
 
 `curl` is already preinstalled in bash steps, we recommend using it for making HTTP requests in your code for sending or requesting data from APIs or webpages.
@@ -33,8 +47,11 @@ You can use `curl` to perform GET requests from websites or APIs directly.
 
 ```bash
 # get your current public IP address from ifconfig.me
-IP_ADDRESS=`curl --silent https://ifconfig.me/ip`
-echo $IP_ADDRESS
+WEATHER=`curl --silent https://wttr.in/San\ Francisco\?format=3`
+
+echo $WEATHER
+# Produces:
+# San Francisco: 🌫  +48°F
 ```
 
 ::: tip
@@ -124,12 +141,34 @@ Don't worry, the special `key` string in the `EXPORT` will automatically referen
 This way you won't have collisions with multiple bash scripts exporting data. Accessing the data is based off of the step's name, no need to edit the `key` string to try and name it something unique.
 :::
 
+
+
+## Raising exceptions
+
+You may need to stop your step immediately. You can use the normal `exit` function available in bash to quit the step prematurely.
+
+```bash
+  echo "Exiting now!" 1>&2
+  exit 1
+```
+
+
+
+
+This will exit the step and output the error message to `stderr` which will appear in the results of the step in the workflow.
+
 ## File storage
+
+If you need to download and store files you can place them in the `/tmp` directory.
 
 ### Writing a file to /tmp
 
-### Reading a file from /tmp
+```bash
 
-### Listing all files in /tmp
+```
 
 ### `/tmp` limitations
+
+The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow exections.
+
+To avoid errors, assume that the `/tmp` directory is empty between workflow runs.

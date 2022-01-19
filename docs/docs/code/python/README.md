@@ -9,7 +9,7 @@ Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.py
 1. Click the + icon to add a new step
 2. Click "Custom Code"
 3. In the new step, select the Python language runtime in language dropdown
-   
+
 ## Logging & debugging
 
 You can use `print` at any time in a Python code step to view information as the script is running.
@@ -173,7 +173,18 @@ Not all data types can be stored in the `steps` data shared between workflow ste
 
 * lists 
 * dictionaries
-:::
+  :::
+
+## Handling Errors
+
+You may find a need to exit a workflow early. In a Python step, just a `raise` an error to halt a step's execution.
+
+
+```python
+raise NameError('Something happened that should not. Exiting early.')
+```
+
+All exceptions from your Python code will appear in the logs area of the results.
 
 ## File storage
 
@@ -227,4 +238,3 @@ print(os.listdir('/tmp'))
 The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow exections.
 
 To avoid errors, assume that the `/tmp` directory is empty between workflow runs.
-
