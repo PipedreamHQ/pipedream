@@ -70,11 +70,11 @@ export default {
 
       return this._isValidSessionId(sessionId);
     },
-    generateMeta({
-      event, data,
-    }) {
-      const { headers: { "x-amzn-trace-id": eventId } } = event;
-      const { ActionId: actionId } = data;
+    generateMeta(data) {
+      const {
+        ActionId: actionId,
+        Notification: { Id: eventId },
+      } = data;
       const id = `${eventId}-${actionId}`;
       const summary = JSON.stringify(data);
       const ts = Date.now();
@@ -93,9 +93,6 @@ export default {
       console.log("Skipping event from unrecognized source");
       return;
     }
-    this.$emit(data, this.generateMeta({
-      event,
-      data,
-    }));
+    this.$emit(data, this.generateMeta(data));
   },
 };
