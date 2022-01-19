@@ -136,10 +136,11 @@ export default {
       line-height 1.7rem
       h4
         margin 0.45rem 0 0
-        border-top 1px solid #eee
-        padding 1rem 1.5rem 0.45rem 1.25rem
+        border-top 1px solid $gray-lt
+        padding 0.45rem 1.5rem 0 1.25rem
       .dropdown-subitem-wrapper
         padding 0
+        margin 0.25rem 0
         list-style none
         .dropdown-subitem
           font-size 0.9em
@@ -219,10 +220,9 @@ export default {
       position absolute
       top 100%
       right 0
-      background-color #fff
+      background-color $white
       padding 0.6rem 0
-      border 1px solid #ddd
-      border-bottom-color #ccc
+      border 1px solid $gray-lt
       text-align left
       border-radius 0.25rem
       white-space nowrap

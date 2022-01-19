@@ -8,37 +8,38 @@
     border-left-style solid
     margin 1rem 0
   &.tip
-    background-color #f3f5f7
-    border-color #42b983
+    background-color $success-ltr 
+    border-color $succcess
   &.warning
-    background-color rgba(255,229,100,.3)
-    border-color darken(#ffe564, 35%)
-    color darken(#ffe564, 70%)
+    background-color $warning-ltr
+    border-color $warning
     .custom-block-title
-      color darken(#ffe564, 50%)
+      color $warning
     a
-      color $textColor
+      color $warning-dk
   &.danger
-    background-color #ffe6e6
-    border-color darken(red, 20%)
-    color darken(red, 70%)
+    background-color $danger-ltr
+    border-color $danger
     .custom-block-title
-      color darken(red, 40%)
+      color $danger
     a
-      color $textColor
-  &.details
-    display block
-    position relative
-    border-radius 2px
-    margin 1.6em 0
-    padding 1.6em
-    background-color #eee
-    h4
-      margin-top 0
-    figure, p
-      &:last-child
-        margin-bottom 0
-        padding-bottom 0
-    summary
-      outline none
-      cursor pointer
+      color $danger-dk
+
+pre.vue-container
+  border-left-width: .5rem;
+  border-left-style: solid;
+  border-color: $success;
+  border-radius: 0px;
+  & > code
+    font-size: 14px !important;
+    & > p
+      margin: -5px 0 -20px 0;
+    code
+      background-color: $success !important;
+      padding: 3px 5px;
+      border-radius: 3px;
+      color $black
+    em
+      color $gray-dk
+      font-weight light
+

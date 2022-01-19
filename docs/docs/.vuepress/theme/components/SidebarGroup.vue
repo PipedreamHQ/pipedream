@@ -14,16 +14,16 @@
       class="sidebar-heading clickable"
       :class="{
         open,
-        'active': isActive($route, item.path)
+        'active': item.active
       }"
       :to="item.path"
-      @click.native="$emit('toggle')"
+      @click.native.self="toggleItem(item)"
     >
       <span>{{ item.title }}</span>
-      <span
+      <SidebarArrow
         v-if="collapsable"
-        class="arrow"
         :class="open ? 'down' : 'right'"
+        @toggle="$emit('toggle')"
       />
     </RouterLink>
 
@@ -31,13 +31,13 @@
       v-else
       class="sidebar-heading"
       :class="{ open }"
-      @click="$emit('toggle')"
+      @click.self="toggleItem(item)"
     >
       <span>{{ item.title }}</span>
-      <span
+      <SidebarArrow
         v-if="collapsable"
-        class="arrow"
         :class="open ? 'down' : 'right'"
+        @toggle="$emit('toggle')"
       />
     </p>
 
@@ -47,7 +47,6 @@
         class="sidebar-group-items"
         :items="item.children"
         :sidebar-depth="item.sidebarDepth"
-        :initial-open-group-index="item.initialOpenGroupIndex"
         :depth="depth + 1"
       />
     </DropdownTransition>
@@ -55,14 +54,15 @@
 </template>
 
 <script>
-import { isActive } from '../util'
 import DropdownTransition from '@theme/components/DropdownTransition.vue'
+import SidebarArrow from '@theme/components/SidebarArrow.vue'
 
 export default {
   name: 'SidebarGroup',
 
   components: {
-    DropdownTransition
+    DropdownTransition,
+    SidebarArrow
   },
 
   props: [
@@ -77,7 +77,16 @@ export default {
     this.$options.components.SidebarLinks = require('@theme/components/SidebarLinks.vue').default
   },
 
-  methods: { isActive }
+  methods: {
+    toggleItem (item) {
+      if (item.type === 'group' && item.path) {
+        this.$emit('open')
+        return
+      }
+
+      this.$emit('toggle')
+    }
+  }
 }
 </script>
 
@@ -93,20 +102,34 @@ export default {
   &.is-sub-group
     padding-left 0
     & > .sidebar-heading
-      font-size 0.95em
+      font-size 1em
       line-height 1.4
       font-weight normal
-      padding-left 2rem
-      &:not(.clickable)
-        opacity 0.5
+      padding 0.35rem 1rem 0.35rem 2rem
+      margin 0
+      & > .sidebar-arrow
+        top 0.5rem
+        width 0.8rem
+        height 0.8rem
     & > .sidebar-group-items
       padding-left 1rem
       & > li > .sidebar-link
         font-size: 0.95em;
         border-left none
+  &.depth-0
+    & > .sidebar-links
+      .active
+        border-left-color transparent
+  &.depth-1
+    &.is-sub-group
+      & > .sidebar-heading
+        border-left-color transparent
   &.depth-2
     & > .sidebar-heading
-      border-left none
+      border-left-color transparent
+    &.is-sub-group
+      & > .sidebar-heading
+        border-left 0
 
 .sidebar-heading
   color $textColor
@@ -115,17 +138,12 @@ export default {
   font-size 1.1em
   font-weight bold
   // text-transform uppercase
-  padding 0.35rem 1.5rem 0.35rem 1.25rem
+  padding 0 1.5rem 0 1.25rem
   width 100%
   box-sizing border-box
-  margin 0
+  margin 0 0 0.5rem 0
   border-left 0.25rem solid transparent
-  &.open, &:hover
-    color inherit
-  .arrow
-    position relative
-    top -0.12em
-    left 0.5em
+  position relative
   &.clickable
     &.active
       font-weight 600
@@ -133,6 +151,8 @@ export default {
       border-left-color $accentColor
     &:hover
       color $accentColor
+  .sidebar-arrow
+    top 0.4rem
 
 .sidebar-group-items
   transition height .1s ease-out

@@ -1,0 +1,225 @@
+@require './config'
+@require './colors'
+@require './nprogress'
+@require './code'
+@require './custom-blocks'
+@require './arrow'
+@require './wrapper'
+@require './toc'
+@require './table'
+
+// Custom vars
+$contentSidebarWidth = 12rem
+
+html
+  scroll-behavior smooth
+
+html, body
+  padding 0
+  margin 0
+  background-color $white
+
+body
+  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  font-size 1rem
+  line-height 1.5rem
+  color $textColor
+  min-height 100vh
+  text-rendering: optimizeLegibility
+
+.theme-container
+  display flex
+  flex-flow row nowrap
+  min-height 100vh
+
+.page
+  flex 1 1 auto
+  min-width 0
+
+.navbar
+  position fixed
+  z-index 20
+  top 0
+  left 0
+  right 0
+  height $navbarHeight
+  background-color $white
+  box-sizing border-box
+  border-bottom 1px solid $borderColor
+
+.sidebar-mask
+  position fixed
+  z-index 9
+  top 0
+  left 0
+  width 100vw
+  height 100vh
+  display none
+
+.sidebar
+  font-size 15px
+  background-color $white
+  position sticky
+  top $navbarHeight
+  height "calc(100vh - %s)" % $navbarHeight
+  flex 0 0 auto
+  width $sidebarWidth
+  box-sizing border-box
+  border-right 1px solid $borderColor
+  overflow-y auto
+  overflow-x hidden
+
+.content-sidebar-wrapper
+  background-color $white
+  position sticky
+  top $navbarHeight
+  height "calc(100vh - %s)" % $navbarHeight
+  width $contentSidebarWidth
+  align-self: flex-start;
+  flex 0 0 auto
+  padding 2rem 1rem 2rem 0
+  box-sizing border-box
+
+.content:not(.custom)
+  @extend $wrapper
+  padding-top 6rem
+
+  @media (min-width: $MQMobile)
+    padding-top 7rem
+
+  > *:first-child
+    margin-top 0
+
+  a:hover
+    text-decoration underline
+
+  p.demo
+    padding 1rem 1.5rem
+    border 1px solid $gray
+    border-radius 4px
+  img
+    max-width 100%
+
+.content.custom
+  padding 0
+  margin 0
+
+  img
+    max-width 100%
+
+a
+  font-weight 500
+  color $accentColor
+  text-decoration none
+
+kbd
+  background $gray-lt
+  border solid 0.15rem $gray
+  border-bottom solid 0.25rem $gray
+  border-radius 0.15rem
+  padding 0 0.15em
+
+blockquote
+  font-size .9rem
+  color $gray-dk
+  border-left .5rem solid $gray-ltr
+  margin 0.5rem 0
+  padding .25rem 0 .25rem 1rem
+
+  & > p
+    margin 0
+
+ul, ol
+  padding-left 1.2em
+
+strong
+  font-weight 600
+
+h1, h2, h3, h4, h5, h6
+  > .header-anchor
+    font-size 0.85em
+    float left
+    margin-left -0.87em
+    padding-right 0.23em
+    margin-top 0.125em
+    opacity 0
+
+    &:hover
+      text-decoration none
+
+    &:not(:hover):not(:focus)
+      opacity: 0
+
+  .content:not(.custom) > &
+    &:hover .header-anchor
+      opacity: 1
+
+h1, h2, h3, h4, strong
+  color $black
+  font-weight 700
+
+h1, h2
+  letter-spacing -.025rem
+
+h1
+  font-size 2.625rem
+  line-height 3.125rem
+
+h2
+  font-size 2rem
+  line-height 2.5rem
+  padding-bottom .3rem
+  border-bottom 1px solid $borderColor
+  margin 1.5rem 0
+
+h3
+  font-size 1.5rem
+  line-height 2rem
+  margin-top 1.5rem
+
+h4
+  font-size 1.25rem
+  line-height 1.625rem
+  margin-bottom 0
+
+code, kbd, .line-number
+  font-family Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace
+
+p, ul, ol
+  line-height 1.7
+
+hr
+  border 0
+  border-top 1px solid $borderColor
+
+caption
+  padding-top .75rem
+  padding-bottom .75rem
+  line-height 1rem
+  font-size .75rem
+  color $lightTextColor
+  text-align left
+  caption-side bottom
+
+.theme-container
+  &.sidebar-open,&.content-sidebar-open
+    .sidebar-mask
+      display: block
+
+  &.no-navbar
+    .content:not(.custom) > h1, h2, h3, h4, h5, h6
+        margin-top 1.5rem
+        padding-top 0
+
+    .sidebar
+      top 0
+
+
+@media (min-width: ($MQMobile + 1px))
+  .theme-container.no-sidebar
+    .sidebar
+      display none
+
+@require 'mobile.styl'

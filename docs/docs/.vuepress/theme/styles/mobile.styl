@@ -1,27 +1,43 @@
 @require './config'
 
 $mobileSidebarWidth = $sidebarWidth * 0.82
+$mobileContentSidebarWidth = $contentSidebarWidth * 0.82
 
 // narrow desktop / iPad
 @media (max-width: $MQNarrow)
   .sidebar
     font-size 15px
     width $mobileSidebarWidth
-  .page
-    padding-left $mobileSidebarWidth
+  .content-sidebar-wrapper
+    width $mobileContentSidebarWidth
 
 // wide mobile
 @media (max-width: $MQMobile)
   .sidebar
-    top 0
-    padding-top $navbarHeight
+    position fixed
+    top $navbarHeight
+    bottom 0
+    height auto
+    z-index 10
     transform translateX(-100%)
     transition transform .2s ease
-  .page
-    padding-left 0
+  .content-sidebar-wrapper
+    width $contentSidebarWidth * 1.2
+    position fixed
+    top $navbarHeight
+    right 0
+    bottom 0
+    height auto
+    z-index: 10;
+    transform translateX(100%)
+    transition transform .2s ease
   .theme-container
+    display block
     &.sidebar-open
       .sidebar
+        transform translateX(0)
+    &.content-sidebar-open
+      .content-sidebar-wrapper
         transform translateX(0)
     &.no-navbar
       .sidebar
@@ -31,7 +47,7 @@ $mobileSidebarWidth = $sidebarWidth * 0.82
 @media (max-width: $MQMobileNarrow)
   h1
     font-size 1.9rem
-  {$contentClass}
+  .content
     div[class*="language-"]
       margin 0.85rem -1.5rem
       border-radius 0

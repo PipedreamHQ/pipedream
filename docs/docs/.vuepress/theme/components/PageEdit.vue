@@ -49,20 +49,38 @@ export default {
         ? this.$site.themeConfig.editLinks
         : this.$page.frontmatter.editLink
 
+      if (!showEditLink) {
+        return
+      }
+
+      if (!isNil(this.$page.frontmatter.editUrl)) {
+        return this.$page.frontmatter.editUrl
+      }
+
       const {
         repo,
-        docsDir = '',
+        editLinks,
         docsBranch = 'master',
-        docsRepo = repo
+        docsRepo = repo,
+        docsDirVersioned = 'website/versioned_docs',
+        docsDirPages = 'website/pages'
       } = this.$site.themeConfig
-
-      if (showEditLink && docsRepo && this.$page.relativePath) {
+      let { docsDir = '' } = this.$site.themeConfig
+      const path = this.$page.relativePath
+      if (this.$page.version) {
+        if (this.$page.version !== 'next') {
+          docsDir = docsDirVersioned
+        }
+      } else if (this.$page.unversioned === true) {
+        docsDir = docsDirPages
+      }
+      if (docsRepo && editLinks) {
         return this.createEditLink(
           repo,
           docsRepo,
           docsDir,
           docsBranch,
-          this.$page.relativePath
+          path
         )
       }
       return null
@@ -70,9 +88,9 @@ export default {
 
     editLinkText () {
       return (
-        this.$themeLocaleConfig.editLinkText
-        || this.$site.themeConfig.editLinkText
-        || `Edit this page`
+        this.$themeLocaleConfig.editLinkText ||
+        this.$site.themeConfig.editLinkText ||
+        `Edit this page`
       )
     }
   },
@@ -80,27 +98,15 @@ export default {
   methods: {
     createEditLink (repo, docsRepo, docsDir, docsBranch, path) {
       const bitbucket = /bitbucket.org/
-      if (bitbucket.test(docsRepo)) {
-        const base = docsRepo
+      if (bitbucket.test(repo)) {
+        const base = outboundRE.test(docsRepo) ? docsRepo : repo
         return (
-          base.replace(endingSlashRE, '')
-          + `/src`
-          + `/${docsBranch}/`
-          + (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '')
-          + path
-          + `?mode=edit&spa=0&at=${docsBranch}&fileviewer=file-view-default`
-        )
-      }
-
-      const gitlab = /gitlab.com/
-      if (gitlab.test(docsRepo)) {
-        const base = docsRepo
-        return (
-          base.replace(endingSlashRE, '')
-          + `/-/edit`
-          + `/${docsBranch}/`
-          + (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '')
-          + path
+          base.replace(endingSlashRE, '') +
+          `/src` +
+          `/${docsBranch}/` +
+          (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
+          path +
+          `?mode=edit&spa=0&at=${docsBranch}&fileviewer=file-view-default`
         )
       }
 
@@ -108,11 +114,11 @@ export default {
         ? docsRepo
         : `https://github.com/${docsRepo}`
       return (
-        base.replace(endingSlashRE, '')
-        + '/edit'
-        + `/${docsBranch}/`
-        + (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '')
-        + path
+        base.replace(endingSlashRE, '') +
+        `/edit` +
+        `/${docsBranch}/` +
+        (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
+        path
       )
     }
   }
@@ -131,17 +137,17 @@ export default {
   .edit-link
     display inline-block
     a
-      color lighten($textColor, 25%)
+      color $primary
       margin-right 0.25rem
   .last-updated
     float right
     font-size 0.9em
     .prefix
       font-weight 500
-      color lighten($textColor, 25%)
+      color $primary
     .time
       font-weight 400
-      color #767676
+      color $gray-dk
 
 @media (max-width: $MQMobile)
   .page-edit

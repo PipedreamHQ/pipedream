@@ -15,6 +15,8 @@ export default ({
     });
   }
 
+  console.log(router.getRoutes());
+
   router.addRoutes([
     { path: "/cron", redirect: "/workflows/steps/triggers" },
     { path: "/notebook", redirect: "/workflows/steps" },

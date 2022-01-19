@@ -14,10 +14,7 @@ export default {
   },
   render (h, { props, slots }) {
     return h('span', {
-      class: ['badge', props.type],
-      style: {
-        verticalAlign: props.vertical
-      }
+      class: ['badge', props.type, props.vertical]
     }, props.text || slots().default)
   }
 }
@@ -27,18 +24,31 @@ export default {
 .badge
   display inline-block
   font-size 14px
+  font-weight 600
   height 18px
   line-height 18px
   border-radius 3px
-  padding 0 6px
-  color white
-  background-color #42b983
+  padding 0 20px
+  color $tertiary
+  margin-right 5px
+  background-color $tertiary-ltr
+  &.middle
+    vertical-align middle
+  &.top
+    vertical-align top
   &.tip, &.green
-    background-color $badgeTipColor
+    color $success
+    background-color $succcess-ltr
   &.error
-    background-color $badgeErrorColor
+    color $danger
+    background-color $danger-ltr
   &.warning, &.warn, &.yellow
-    background-color $badgeWarningColor
-  & + &
-    margin-left 5px
+    color $warning
+    background-color $warning-ltr
+  &.info
+    color $primary
+    background-color $primary-ltr
+  &.light
+    background-color $black-ltr
+    color $black
 </style>
