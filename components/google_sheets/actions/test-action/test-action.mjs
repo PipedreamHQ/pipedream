@@ -15,7 +15,7 @@ export default {
   key: "google_sheets-test-action",
   name: "Test Action",
   description: "Test Action",
-  version: "0.0.1",
+  version: "0.0.7",
   type: "action",
   props: {
     googleSheets,
@@ -35,13 +35,14 @@ export default {
       ],
       label: "Spreadsheet ID",
       description: "",
+      withLabel: true,
     },
     sheetName: {
       propDefinition: [
         googleSheets,
         "sheetName",
         (c) => ({
-          sheetId: c.sheetId,
+          sheetId: c.sheetId.value,
         }),
       ],
       description: "",
@@ -51,7 +52,7 @@ export default {
   async additionalProps() {
     const props = {};
     if (this.headerProp === "Yes") {
-      const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId, `${this.sheetName}!1:1`);
+      const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId.value, `${this.sheetName}!1:1`);
       for (let i = 0; i < values[0]?.length; i++) {
         props[`col_${i.toString().padStart(4, "0")}`] = {
           type: "string",
@@ -70,7 +71,7 @@ export default {
   },
   async run({ $ }) {
     let cells;
-    if (this.header === "hasHeaders") {
+    if (this.headerProp === "Yes") {
       cells = Object.keys(this).filter((prop) => prop.startsWith("col_"))
         .sort()
         .map((prop) => this[prop]);
@@ -88,14 +89,14 @@ export default {
     }
 
     const data = await this.googleSheets.addRowsToSheet({
-      spreadsheetId: this.sheetId,
+      spreadsheetId: this.sheetId.value,
       range: this.sheetName,
       rows: [
         cells,
       ],
     });
 
-    $.export("$summary", `Successfully added 1 row to [${data.updatedRange} in Google Sheets](https://docs.google.com/spreadsheets/d/${data.spreadsheetId})`);
+    $.export("$summary", `**Added 1 row to [${this.sheetId.label} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${data.spreadsheetId.value})**`);
 
     return data;
   },
