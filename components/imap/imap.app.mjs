@@ -43,6 +43,13 @@ export default {
         },
       };
     },
+    /**
+     * Creates and returns a new authenticated instance of IMAP Connection
+     *
+     * @see {@link https://github.com/mscdex/node-imap#connection-instance-methods IMAP Connection Instance}
+     *
+     * @returns {Promise<object>} An IMAP connection
+     */
     getConnection() {
       const connectionConfig = this._makeConnectionConfig();
       return new Promise((resolve, reject) => {
@@ -54,6 +61,12 @@ export default {
         connection.connect();
       });
     },
+    /**
+     * Closes the IMAP connection to the server after all requests in the queue have been sent
+     *
+     * @param {object} connection - The IMAP connection
+     * @returns {Promise<void>}
+     */
     async closeConnection(connection) {
       const connectionClosed = new Promise((resolve) => {
         connection.once("end", resolve);
@@ -61,6 +74,12 @@ export default {
       connection.end();
       await connectionClosed;
     },
+    /**
+     * Obtains the full list of mailboxes
+     *
+     * @param {object} connection - The IMAP connection
+     * @returns {Promise<string[]>} The list of mailboxes
+     */
     async getMailboxes(connection) {
       const getBoxes = util.promisify(connection.getBoxes.bind(connection));
       const boxes = await getBoxes();
@@ -88,10 +107,32 @@ export default {
         children: boxes,
       });
     },
+    /**
+     * Opens a specific mailbox that exists on the server. `mailbox` should include any necessary
+     * prefix/path.
+     *
+     * @see {@link https://github.com/mscdex/node-imap#data-types Box Data Type}
+     *
+     * @param {object} connection - The IMAP connection
+     * @param {string} mailbox - The name of the mailbox to open
+     * @returns {object} The opened mailbox
+     */
     async openMailbox(connection, mailbox) {
       const openBox = util.promisify(connection.openBox.bind(connection));
       return await openBox(mailbox, true);
     },
+    /**
+     * Fetches message(s) in the currently open mailbox. Requires one of `opts.startUid`,
+     * `opts.StartSeqno`.
+     *
+     * @see {@link https://github.com/mscdex/node-imap#data-types ImapMessage Data Type}
+     *
+     * @param {object} connection - The IMAP connection
+     * @param {object} opts - an object containing the options for fetching messages
+     * @param {number} [opts.startUid] - The starting uid of messages to fetch
+     * @param {number} [opts.startSeqno] - The starting seqno of messages to fetch
+     * @returns {Stream.Readable} A Readable stream of messages
+     */
     fetchMessages(connection, {
       startUid, startSeqno,
     }) {
