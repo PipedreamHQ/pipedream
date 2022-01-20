@@ -14,6 +14,7 @@ export default {
     playlistIds: {
       type: "string[]",
       label: "Playlist IDs",
+      withLabel: false,
       propDefinition: [
         spotify,
         "playlistId",
