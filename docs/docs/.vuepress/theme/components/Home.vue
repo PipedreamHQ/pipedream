@@ -49,14 +49,7 @@
       </div>
     </div>
 
-    <Content class="theme-default-content custom" />
-
-    <div
-      v-if="data.footer"
-      class="footer"
-    >
-      {{ data.footer }}
-    </div>
+    <Content class="content custom"/>
   </main>
 </template>
 
@@ -85,10 +78,9 @@ export default {
 
 <style lang="stylus">
 .home
-  padding $navbarHeight 2rem 0
-  max-width $homePageWidth
+  padding $navbarHeight 2rem 2rem
+  max-width 960px
   margin 0px auto
-  display block
   .hero
     text-align center
     img
@@ -104,11 +96,11 @@ export default {
       max-width 35rem
       font-size 1.6rem
       line-height 1.3
-      color lighten($textColor, 40%)
+      color $lightTextColor
     .action-button
       display inline-block
       font-size 1.2rem
-      color #fff
+      color $white
       background-color $accentColor
       padding 0.8rem 1.6rem
       border-radius 4px
@@ -137,12 +129,7 @@ export default {
       padding-bottom 0
       color lighten($textColor, 10%)
     p
-      color lighten($textColor, 25%)
-  .footer
-    padding 2.5rem
-    border-top 1px solid $borderColor
-    text-align center
-    color lighten($textColor, 25%)
+      color $lightTextColor
 
 @media (max-width: $MQMobile)
   .home

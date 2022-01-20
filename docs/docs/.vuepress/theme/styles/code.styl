@@ -1,27 +1,32 @@
-{$contentClass}
+.content
   code
-    color lighten($textColor, 20%)
-    padding 0.25rem 0.5rem
-    margin 0
-    font-size 0.85em
-    background-color rgba(27,31,35,0.05)
-    border-radius 3px
+    font-size .875rem
+    font-weight 400
+    -webkit-font-smoothing auto
+    line-height 1.5
+    color $codeColor
+    display inline-block
+    padding 0 0.25rem
+    background-color $inlineCodeBgColor
+    border-radius .125rem
     .token
       &.deleted
-        color #EC5975
+        color $danger
       &.inserted
-        color $accentColor
+        color $success
 
-{$contentClass}
+.content
   pre, pre[class*="language-"]
-    line-height 1.4
-    padding 1.25rem 1.5rem
+    font-size 0.875rem
+    font-weight 400
+    line-height 1.5
+    padding 1rem
     margin 0.85rem 0
     background-color $codeBgColor
     border-radius 6px
     overflow auto
     code
-      color #fff
+      color $primary-ltr
       padding 0
       background-color transparent
       border-radius 0
@@ -134,4 +139,60 @@ div[class~="language-bash"]:before
 div[class~="language-php"]:before
   content "php"
 
-@import '~prismjs/themes/prism-tomorrow.css'
+// Custom Prism.js theme based on the Palenight High Contrast theme for VSCode,
+// enhanced with the colors from our theme.
+
+.token
+  &.attr-name,
+  &.property
+  &.selector
+    color $warning-lt
+  &.attr-value,
+  &.char,
+  &.regex,
+  &.string,
+  &.variable
+	  color $success-lt
+  &.boolean,
+  &.number
+	  color $warning
+  &.comment
+	  color $gray-dk
+  &.constant,
+  &.tag
+	  color $danger-lt
+  &.atrule
+  &.function
+	  color #82AAFF
+  &.keyword
+	  color $danger-lt
+  &.operator,
+  &.punctuation
+    color #89DDFF
+
+.language-md
+  .token
+    &.title
+      color $warning-lt
+      &.important
+        font-weight 400
+    &.content
+      padding 0
+
+.content
+  pre
+    &.language-yml
+      code
+        color $success-lt
+.language-yml
+  .token
+    &.atrule
+      color $danger-lt
+
+.language-css,
+.language-sass,
+.language-scss,
+.language-stylus,
+  .token
+    &.property
+      color #B2CCD6

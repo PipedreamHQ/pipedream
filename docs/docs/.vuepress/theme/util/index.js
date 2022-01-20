@@ -1,12 +1,19 @@
 export const hashRE = /#.*$/
 export const extRE = /\.(md|html)$/
 export const endingSlashRE = /\/$/
-export const outboundRE = /^[a-z]+:/i
+export const outboundRE = /^(https?:|mailto:|tel:)/
+
+const normalizedMap = new Map()
 
 export function normalize (path) {
-  return decodeURI(path)
+  if (normalizedMap.has(path)) {
+    return normalizedMap.get(path)
+  }
+  const result = decodeURI(path)
     .replace(hashRE, '')
     .replace(extRE, '')
+  normalizedMap.set(path, result)
+  return result
 }
 
 export function getHash (path) {
@@ -43,7 +50,7 @@ export function ensureExt (path) {
 }
 
 export function isActive (route, path) {
-  const routeHash = decodeURIComponent(route.hash)
+  const routeHash = route.hash
   const linkHash = getHash(path)
   if (linkHash && routeHash !== linkHash) {
     return false
@@ -54,6 +61,12 @@ export function isActive (route, path) {
 }
 
 export function resolvePage (pages, rawPath, base) {
+  if (!resolvePage.cache) {
+    resolvePage.cache = new Map()
+    pages.forEach((page, i) => {
+      resolvePage.cache.set(normalize(page.regularPath), i)
+    })
+  }
   if (isExternal(rawPath)) {
     return {
       type: 'external',
@@ -64,13 +77,13 @@ export function resolvePage (pages, rawPath, base) {
     rawPath = resolvePath(rawPath, base)
   }
   const path = normalize(rawPath)
-  for (let i = 0; i < pages.length; i++) {
-    if (normalize(pages[i].regularPath) === path) {
-      return Object.assign({}, pages[i], {
-        type: 'page',
-        path: ensureExt(pages[i].path)
-      })
-    }
+  const cache = resolvePage.cache
+  if (cache.has(path)) {
+    const page = pages[cache.get(path)]
+    return Object.assign({}, page, {
+      type: 'page',
+      path: ensureExt(page.path)
+    })
   }
   console.error(`[vuepress] No matching page found for sidebar item "${rawPath}"`)
   return {}
@@ -121,12 +134,20 @@ function resolvePath (relative, base, append) {
  * @param { string } localePath
  * @returns { SidebarGroup }
  */
-export function resolveSidebarItems (page, regularPath, site, localePath) {
-  const { pages, themeConfig } = site
+export function resolveSidebarItems (page, regularPath, site, localePath, versions) {
+  const { pages } = site
+  let themeConfig = site.themeConfig
 
-  const localeConfig = localePath && themeConfig.locales
+  let localeConfig = localePath && themeConfig.locales
     ? themeConfig.locales[localePath] || themeConfig
     : themeConfig
+  if (page.version && page.version !== 'next') {
+    const versionedConfig = site.themeConfig.versionedSidebar && site.themeConfig.versionedSidebar[page.version]
+    localeConfig = localePath && versionedConfig.locales
+      ? versionedConfig.locales[localePath] || versionedConfig
+      : versionedConfig
+    themeConfig = versionedConfig
+  }
 
   const pageSidebarConfig = page.frontmatter.sidebar || localeConfig.sidebar || themeConfig.sidebar
   if (pageSidebarConfig === 'auto') {
@@ -188,6 +209,29 @@ export function resolveNavLinkItem (linkItem) {
   })
 }
 
+export function versionifyUserNav (navConfig, currentPage, currentVersion, localePath, routes) {
+  return navConfig.map(item => {
+    // assign item to new object so we don't override the original values
+    item = Object.assign({}, item)
+    if (item.items) {
+      item.items = versionifyUserNav(item.items, currentPage, currentVersion, localePath, routes)
+    } else {
+      let link = item.link
+      if (currentPage.version !== currentVersion) {
+        const cleanPath = item.link.replace(new RegExp(`^${localePath}`), '')
+        link = `${localePath}${currentPage.version}/${cleanPath}`
+        if (!routes.some(route => route.path === link)) {
+          // Fallback to the un-altered default link
+          link = item.link
+        }
+      }
+      item.link = link
+    }
+
+    return Object.assign({}, item)
+  })
+}
+
 /**
  * @param { Route } route
  * @param { Array<string|string[]> | Array<SidebarGroup> | [link: string]: SidebarConfig } config
@@ -201,7 +245,7 @@ export function resolveMatchingConfig (regularPath, config) {
     }
   }
   for (const base in config) {
-    if (ensureEndingSlash(regularPath).indexOf(encodeURI(base)) === 0) {
+    if (ensureEndingSlash(regularPath).indexOf(base) === 0) {
       return {
         base,
         config: config[base]
@@ -236,9 +280,45 @@ function resolveItem (item, pages, base, groupDepth = 1) {
       path: item.path,
       title: item.title,
       sidebarDepth: item.sidebarDepth,
-      initialOpenGroupIndex: item.initialOpenGroupIndex,
       children: children.map(child => resolveItem(child, pages, base, groupDepth + 1)),
       collapsable: item.collapsable !== false
     }
   }
+}
+
+export function calculateCurrentAnchor (sidebarLinks) {
+  const anchors = [].slice
+    .call(document.querySelectorAll('.header-anchor'))
+    .filter(anchor => sidebarLinks.some(sidebarLink => sidebarLink.hash === anchor.hash))
+    .map(el => {
+      return {
+        el,
+        hash: decodeURIComponent(el.hash),
+        top: el.getBoundingClientRect().top - 120
+      }
+    })
+  if (anchors.length === 0) {
+    return null
+  }
+  const l = anchors.length
+  if (anchors[0].top > 0 && anchors[0].top < 10) {
+    return anchors[0]
+  }
+
+  if (anchors[l - 1].top < 0) {
+    return anchors[l - 1]
+  }
+
+  for (let i = 0; i < l; i++) {
+    const anchor = anchors[i]
+    const nextAnchor = anchors[i + 1]
+    if (anchor.top < 0 && nextAnchor.top > 0) {
+      if (nextAnchor.top < 10) {
+        return nextAnchor
+      }
+      return anchor
+    }
+  }
+
+  return anchors[0]
 }

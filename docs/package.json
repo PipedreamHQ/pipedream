@@ -3,11 +3,13 @@
     "sass": "^1.47.0",
     "sass-loader": "^7.1.0",
     "vuepress": "^1.1.0",
+    "vuepress-plugin-versioning": "^4.10.2",
     "webpack": "^4.30.0"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "docs:version": "vuepress version docs"
   },
   "dependencies": {
     "vue-gtm": "^2.0.0",

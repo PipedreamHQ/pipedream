@@ -1,23 +1,21 @@
 <template>
   <ul
-    v-if="items.length"
     class="sidebar-links"
+    v-if="items.length"
   >
-    <li
-      v-for="(item, i) in items"
-      :key="i"
-    >
+    <li v-for="(item, i) in items" :key="i">
       <SidebarGroup
         v-if="item.type === 'group'"
         :item="item"
-        :open="i === openGroupIndex"
+        :open="openGroups[i]"
         :collapsable="item.collapsable || item.collapsible"
         :depth="depth"
         @toggle="toggleGroup(i)"
+        @open="openGroup(i)"
       />
       <SidebarLink
         v-else
-        :sidebar-depth="sidebarDepth"
+        :sidebarDepth="sidebarDepth"
         :item="item"
       />
     </li>
@@ -25,9 +23,8 @@
 </template>
 
 <script>
-import SidebarGroup from '@theme/components/SidebarGroup.vue'
-import SidebarLink from '@theme/components/SidebarLink.vue'
-import { isActive } from '../util'
+import SidebarGroup from './SidebarGroup.vue'
+import SidebarLink from './SidebarLink.vue'
 
 export default {
   name: 'SidebarLinks',
@@ -37,19 +34,12 @@ export default {
   props: [
     'items',
     'depth',  // depth of current sidebar links
-    'sidebarDepth', // depth of headers to be extracted
-    'initialOpenGroupIndex'
+    'sidebarDepth' // depth of headers to be extracted
   ],
 
   data () {
     return {
-      openGroupIndex: this.initialOpenGroupIndex || 0
-    }
-  },
-
-  watch: {
-    '$route' () {
-      this.refreshIndex()
+      openGroups: []
     }
   },
 
@@ -59,45 +49,25 @@ export default {
 
   methods: {
     refreshIndex () {
-      const index = resolveOpenGroupIndex(
-        this.$route,
-        this.items
-      )
-      if (index > -1) {
-        this.openGroupIndex = index
-      }
+      this.openGroups = resolveOpenGroups(this.items)
     },
 
     toggleGroup (index) {
-      this.openGroupIndex = index === this.openGroupIndex ? -1 : index
+      this.$set(this.openGroups, index, !this.openGroups[index])
     },
 
-    isActive (page) {
-      return isActive(this.$route, page.regularPath)
+    openGroup (index) {
+      this.$set(this.openGroups, index, true)
     }
   }
 }
 
-function resolveOpenGroupIndex (route, items) {
+function resolveOpenGroups (items) {
+  const openGroups = []
   for (let i = 0; i < items.length; i++) {
     const item = items[i]
-    if (descendantIsActive(route, item)) {
-      return i
-    }
+    openGroups[i] = item.active
   }
-  return -1
-}
-
-function descendantIsActive (route, item) {
-  if (item.type === 'group') {
-    return item.children.some(child => {
-      if (child.type === 'group') {
-        return descendantIsActive(route, child)
-      } else {
-        return child.type === 'page' && isActive(route, child.path)
-      }
-    })
-  }
-  return false
+  return openGroups
 }
 </script>

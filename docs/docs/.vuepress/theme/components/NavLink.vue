@@ -7,6 +7,7 @@
     @focusout.native="focusoutAction"
   >
     {{ item.text }}
+    <span v-if="item.subText" class="sub-text">{{item.subText}}</span>
   </RouterLink>
   <a
     v-else
@@ -71,13 +72,10 @@ export default {
       if (this.isNonHttpURI) {
         return null
       }
-      if (this.item.rel === false) {
-        return null
-      }
       if (this.item.rel) {
         return this.item.rel
       }
-      return this.isBlankTarget ? 'noopener noreferrer' : null
+      return this.isBlankTarget ? 'noopener noreferrer' : ''
     }
   },
 
@@ -88,3 +86,11 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.nav-link
+  .sub-text
+    color: $gray-dk
+    padding-left 0.5rem
+    font-size: 0.8em
+</style>
