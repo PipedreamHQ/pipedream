@@ -80,19 +80,31 @@ export default {
       type: "string",
       label: "Panelist",
       description: "The panelist ID or panelist email",
-      async options({ webinar }) {
+      async options({
+        webinar,
+        page,
+        prevContext,
+      }) {
         if (!webinar) {
           return [];
         }
         try {
-          const data = await this.listWebinarPanelists(get(webinar, "value", webinar));
-          return data?.panelists.map((panelist) => ({
-            label: `${panelist.name} <${panelist.email}>`,
-            value: {
-              label: panelist.name,
-              value: panelist.id,
+          if (!prevContext.nextPageToken && page > 0) {
+            return [];
+          }
+          const data = await this.listWebinarPanelists(get(webinar, "value", webinar), prevContext.nextPageToken);
+          return {
+            options: data?.panelists.map((panelist) => ({
+              label: `${panelist.name} <${panelist.email}>`,
+              value: {
+                label: panelist.name,
+                value: panelist.id,
+              },
+            })),
+            context: {
+              nextPageToken: data.next_page_token,
             },
-          }));
+          };
         } catch {
           return [];
         }
@@ -204,7 +216,7 @@ export default {
           next_page_token: nextPageToken,
         } = await this.listWebinars({
           nextPageToken: prevContext.nextPageToken,
-          pageSize: 2,
+          pageSize: 30,
         });
         if (!webinars.length) {
           return [];
@@ -288,9 +300,13 @@ export default {
       });
       return data;
     },
-    async listWebinarPanelists(webinarID) {
+    async listWebinarPanelists(webinarID, nextPageToken) {
       const { data } = await this._makeRequest({
         path: `/webinars/${webinarID}/panelists`,
+        params: {
+          page_size: 100,
+          next_page_token: nextPageToken,
+        },
       });
       return data;
     },
