@@ -42,7 +42,7 @@ export default {
         googleSheets,
         "sheetName",
         (c) => ({
-          sheetId: c.sheetId.value,
+          sheetId: c.sheetId?.value,
         }),
       ],
       description: "",
