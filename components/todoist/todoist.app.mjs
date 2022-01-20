@@ -348,6 +348,39 @@ export default {
       });
     },
     /**
+     * Breaks sync commands into batches of no more than 100
+     * @params {Array} commands - An array of sync commands
+     * @returns {Array} Returns an array of batches (arrays) of commands
+     */
+    _makeBatches(commands) {
+      const BATCH_SIZE = 100;
+      let batches = [];
+      for (let i = 0; i < commands.length; i += BATCH_SIZE) {
+        batches.push(commands.slice(i, i + BATCH_SIZE));
+      }
+      return batches;
+    },
+    /**
+     * Processes sync commands in batches
+     * @params {Object} opts - An object representing configuration options for this method
+     * @returns {Object} Returns a collection of responses, one for each batch of commands
+     */
+    async batchSync({
+      $, opts,
+    }) {
+      const { commands } = opts;
+      const batches = this._makeBatches(commands);
+      return Promise.all(batches.map((batch) => {
+        return this.sync({
+          $,
+          opts: {
+            ...opts,
+            commands: JSON.stringify(batch),
+          },
+        });
+      }));
+    },
+    /**
      * Get project by ID or get all projects if no ID specified
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Integer} [opts.id = ""] - A project ID
@@ -761,7 +794,7 @@ export default {
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Array} [opts.data = []] - an array of objects, each containing parameters
      * for a new task to be created
-     * @returns {Object} Returns object including sync_token
+     * @returns {Object} Returns an array of responses and tempIds for each new task
      */
     async createTasks(opts) {
       const {
@@ -777,12 +810,43 @@ export default {
           args: taskData,
         });
       }
-      return this.sync({
+      const syncResponses = await this.batchSync({
         $,
         opts: {
-          commands: JSON.stringify(commands),
+          commands,
         },
       });
+      return {
+        responses: syncResponses,
+        tempIds: commands.map((command) => command.temp_id),
+      };
+    },
+    /**
+     * Moves a task to new parent_id, section_id, or project_id
+     * @params {Object} opts - An object representing configuration options for this method
+     * @retursn {Object} - Returns an array of responses, one per batch of tasks
+    */
+    async moveTasks(opts) {
+      const {
+        $,
+        data = [],
+      } = opts;
+
+      const commands = data.map((args) => ({
+        type: "item_move",
+        uuid: uuid(),
+        args,
+      }));
+
+      const syncResponses = await this.batchSync({
+        $,
+        opts: {
+          commands,
+        },
+      });
+      return {
+        responses: syncResponses,
+      };
     },
     /**
      * Update a task
