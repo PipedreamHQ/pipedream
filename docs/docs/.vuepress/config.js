@@ -170,6 +170,7 @@ module.exports = {
         children: [
           "/apps/all-apps/",
           "/apps/discord/",
+          "/apps/hubspot/",
           "/apps/servicenow/",
           "/apps/slack/",
           "/apps/strava/",
@@ -192,7 +193,14 @@ module.exports = {
       },
       ["https://pipedream.com/support", "Support and Community"],
       "/troubleshooting/",
-      "/orgs/",
+      {
+        title: "Organizations",
+        collapsable: false,
+        children: [
+          "/orgs/",
+          "/orgs/sso/okta/",
+        ],
+      },
       "/pricing/",
       "/status/",
     ],
@@ -212,7 +220,8 @@ module.exports = {
     FREE_MONTHLY_INVOCATIONS: "10,000",
     PRO_MONTHLY_INVOCATIONS: "20,000",
     TEAM_MONTHLY_INVOCATIONS: "20,000",
-    TEAM_MEMBER_LIMIT: "10",
+    ENTERPRISE_MONTHLY_INVOCATIONS: "100,000",
+    TEAM_MEMBER_LIMIT: "5",
     PRO_MONTHLY_PRICE: "$19",
     TEAM_MONTHLY_PRICE: "$19",
     DEFAULT_WORKFLOW_QUEUE_SIZE: "100",
