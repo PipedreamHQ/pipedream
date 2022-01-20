@@ -92,7 +92,8 @@ export default {
         SCOPES,
         null,
       );
-      return jwtClient.authorize().then((tokens) => tokens.access_token);
+      const { access_token: accessToken } = await jwtClient.authorize();
+      return accessToken;
     },
     /**
      * @param {string} structuredQuery - A structured query in the format specified in
