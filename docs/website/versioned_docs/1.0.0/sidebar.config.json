@@ -1,0 +1,196 @@
+{
+  "sidebar": [
+    "/",
+    {
+      "title": "Quickstart",
+      "children": [
+        "/quickstart/",
+        "/quickstart/hello-world/",
+        "/quickstart/hello-name/",
+        "/quickstart/make-http-request/",
+        "/quickstart/using-npm-packages/",
+        "/quickstart/add-data-to-google-sheets/",
+        "/quickstart/end-workflow-early/",
+        "/quickstart/use-managed-auth-in-code/",
+        "/quickstart/run-workflow-on-a-schedule/",
+        "/quickstart/email-yourself/",
+        "/quickstart/real-world-example/",
+        "/quickstart/next-steps/"
+      ]
+    },
+    {
+      "title": "Code",
+      "collapsable": false,
+      "children": [
+        "/code/",
+        {
+          "title": "Node.js",
+          "children": [
+            "/code/nodejs/"
+          ]
+        },
+        {
+          "title": "Python",
+          "type": "group",
+          "children": [
+            "/code/python/"
+          ]
+        },
+        {
+          "title": "Go",
+          "type": "group",
+          "children": [
+            "/code/go/"
+          ]
+        },
+        {
+          "title": "Bash",
+          "type": "group",
+          "children": [
+            "/code/bash/"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Workflows",
+      "children": [
+        "/workflows/",
+        "/workflows/steps/",
+        "/workflows/steps/triggers/",
+        "/components/actions/",
+        "/workflows/networking/",
+        "/workflows/steps/params/"
+      ]
+    },
+    {
+      "title": "Connecting Apps",
+      "children": [
+        "/apps/all-apps/",
+        "/connected-accounts/",
+        "/workflows/steps/code/auth/"
+      ]
+    },
+    {
+      "title": "Workflow Events",
+      "children": [
+        "/workflows/events/",
+        "/workflows/events/inspect/",
+        "/workflows/events/replay/",
+        "/workflows/events/test/",
+        "/workflows/events/concurrency-and-throttling/",
+        "/workflows/events/cold-starts/"
+      ]
+    },
+    {
+      "title": "Managing Workflows",
+      "children": [
+        "/workflows/copy/",
+        "/workflows/managing/",
+        "/workflows/settings/",
+        "/public-workflows/",
+        "/environment-variables/"
+      ]
+    },
+    {
+      "title": "Managing Errors",
+      "children": [
+        "/errors/",
+        "/workflows/error-handling/global-error-workflow/"
+      ]
+    },
+    {
+      "title": "Components",
+      "children": [
+        "/components/",
+        "/event-sources/",
+        "/components/actions/",
+        "/components/quickstart/nodejs/actions/",
+        "/components/quickstart/nodejs/sources/",
+        "/components/api/",
+        "/components/guidelines/",
+        "/pipedream-axios/",
+        "/components/migrating/"
+      ]
+    },
+    "/user-settings/",
+    {
+      "title": "Examples",
+      "children": [
+        "/examples/adding-rows-to-google-sheets/",
+        "/examples/waiting-to-execute-next-step-of-workflow/"
+      ]
+    },
+    {
+      "title": "CLI",
+      "children": [
+        "/cli/install/",
+        "/cli/login/",
+        "/cli/reference/"
+      ]
+    },
+    {
+      "title": "APIs",
+      "children": [
+        "/api/overview/",
+        "/api/auth/",
+        "/api/rest/",
+        "/api/rest/webhooks/",
+        "/api/rest/rss/",
+        "/api/rest/workflow-errors/",
+        "/api/sse/"
+      ]
+    },
+    {
+      "title": "Destinations",
+      "children": [
+        "/destinations/",
+        "/destinations/http/",
+        "/destinations/s3/",
+        "/destinations/email/",
+        "/destinations/sql/",
+        "/destinations/emit/",
+        "/destinations/sse/"
+      ]
+    },
+    {
+      "title": "Integrations",
+      "children": [
+        "/apps/all-apps/",
+        "/apps/discord/",
+        "/apps/hubspot/",
+        "/apps/servicenow/",
+        "/apps/slack/",
+        "/apps/strava/",
+        "/apps/twitter/",
+        "/apps/zoom/"
+      ]
+    },
+    "/limits/",
+    "/new-feature-or-bug/",
+    {
+      "title": "Privacy & Security",
+      "children": [
+        "/privacy-and-security/",
+        "/privacy-and-security/best-practices/",
+        "/abuse/",
+        "/privacy-and-security/pgp-key/",
+        "/subprocessors/"
+      ]
+    },
+    [
+      "https://pipedream.com/support",
+      "Support and Community"
+    ],
+    "/troubleshooting/",
+    {
+      "title": "Organizations",
+      "children": [
+        "/orgs/",
+        "/orgs/sso/okta/"
+      ]
+    },
+    "/pricing/",
+    "/status/"
+  ]
+}
