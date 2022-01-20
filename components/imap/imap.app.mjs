@@ -11,15 +11,8 @@ export default {
       type: "string",
       label: "Mailbox",
       description: "Name of the mailbox to watch for new emails",
-      async options({
-        user, password, host, port,
-      }) {
-        const connection = await this.getConnection({
-          user,
-          password,
-          host,
-          port,
-        });
+      async options() {
+        const connection = await this.getConnection();
         try {
           const mailboxes = await this.getMailboxes(connection);
           return mailboxes;
@@ -32,29 +25,28 @@ export default {
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    getConnection(opts) {
-      // const { host, user, password, port, } = this.$auth;
+    _makeConnectionConfig() {
       const {
+        host,
+        email: user,
+        password,
+        port,
+      } = this.$auth;
+      return {
         user,
         password,
         host,
         port,
-      } = opts;
+        tls: true,
+        tlsOptions: {
+          servername: host,
+        },
+      };
+    },
+    getConnection() {
+      const connectionConfig = this._makeConnectionConfig();
       return new Promise((resolve, reject) => {
-        const connection = new Imap({
-          user: user,
-          password: password,
-          host: host,
-          port: port,
-          tls: true,
-          tlsOptions: {
-            servername: host,
-          },
-        });
+        const connection = new Imap(connectionConfig);
         connection.on("error", reject);
         connection.once("ready", () => {
           resolve(connection);

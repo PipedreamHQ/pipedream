@@ -23,48 +23,10 @@ export default {
         intervalSeconds: 60 * 15, // by default, run every 15 minutes
       },
     },
-    host: {
-      type: "string",
-      label: "Host",
-      description: "The URL for your IMAP server",
-      default: "imap.gmail.com",
-    },
-    user: {
-      type: "string",
-      label: "Username",
-      description: "The email address/username you use to login to your email account",
-      secret: true,
-    },
-    password: {
-      type: "string",
-      label: "Password",
-      description: "The password you use to login to your email account. Note: To connect a Gmail account to a third-party IMAP tool (like Pipedream), you must use an [App password](https://support.google.com/accounts/answer/185833).",
-      secret: true,
-    },
-    port: {
-      type: "integer",
-      label: "Port",
-      description: "The port number, either Port 143 or Port 993. Consult your email provider's IMAP instructions if you aren't sure which one you need.",
-      min: 1,
-      max: 65535,
-      options: [
-        143,
-        993,
-      ],
-      default: 993,
-    },
     mailbox: {
       propDefinition: [
         imap,
         "mailbox",
-        ({
-          host, user, password, port,
-        }) => ({
-          host,
-          user,
-          password,
-          port,
-        }),
       ],
     },
   },
