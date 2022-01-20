@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/microsoft_teams",
+  "version": "0.3.3",
+  "description": "Pipedream Microsoft_teams Components",
+  "main": "microsoft_teams.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_teams"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_teams",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "^3.0.1",
+    "isomorphic-fetch": "^3.0.0"
+  }
+}
