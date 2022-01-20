@@ -4,7 +4,7 @@ export default {
   key: "google_docs-append-text",
   name: "Append Text",
   description: "Append text to an existing document",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "action",
   props: {
     googleDocs,
