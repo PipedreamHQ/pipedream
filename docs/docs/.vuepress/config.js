@@ -5,7 +5,7 @@ module.exports = {
   title: "",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
   description: "Pipedream Documentation - Connect APIs, remarkably fast",
-  base: "/docs-v2/",
+  base: "/docs/",
   plugins: [
     '@vuepress/active-header-links',
     "versioning",
