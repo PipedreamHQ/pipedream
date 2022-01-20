@@ -22,6 +22,12 @@ For example, here's how to add the HTTP `GET` Request action:
 <img alt="Adding HTTP GET request action" src="./images/adding-http-get-request-action.gif">
 </div>
 
+::: warning
+Legacy actions are no longer available in the latest version of workflows. 
+
+This is a [new version](https://pipedream.com/community/t/actions-improved-open-source-now-in-beta/606) of Pipedream Actions available.  Legacy Actions haven been deprecated. Get started with our [quickstart](/components/quickstart/nodejs/actions/) for new actions or learn how to [migrate](/components/migrating/) legacy actions.
+:::
+
 ## Passing params to actions
 
 [See our docs on params](/workflows/steps/params/) for a detailed overview of how to pass data to actions.

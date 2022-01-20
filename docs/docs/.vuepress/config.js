@@ -57,43 +57,28 @@ module.exports = {
           "/code/",
           {
             title: "Node.js",
-            // type: 'group',
-            children: [
-              "/code/nodejs/",
-              // "/code/nodejs/state/",
-              // "/code/nodejs/http-requests/",
-              // "/code/nodejs/working-with-files/",
-              // "/code/nodejs/sharing-code/",
-              // "/code/nodejs/async/",
-            ]
+            children: ["/code/nodejs/"],
           },
           {
-            title: 'Python',
-            type: 'group',
-            children: [
-              '/code/python/'
-            ]
+            title: "Python",
+            type: "group",
+            children: ["/code/python/"],
           },
           {
-            title: 'Go',
-            type: 'group',
-            children: [
-              '/code/go/',
-            ]
+            title: "Go",
+            type: "group",
+            children: ["/code/go/"],
           },
           {
-            title: 'Bash',
-            type: 'group',
-            children: [
-              '/code/bash/'
-            ]
-          }
-
-        ]
+            title: "Bash",
+            type: "group",
+            children: ["/code/bash/"],
+          },
+        ],
       },
       {
         title: "Workflows",
-        
+        // collapsable: false,
         children: [
           "/workflows/",
           "/workflows/steps/",
@@ -101,12 +86,11 @@ module.exports = {
           "/components/actions/",
           "/workflows/networking/",
           "/workflows/steps/params/",
-
         ],
       },
       {
         title: "Connecting Apps",
-        // collapsable: false, 
+        // collapsable: false,
         children: [
           "/apps/all-apps/",
           "/connected-accounts/",
@@ -115,7 +99,7 @@ module.exports = {
       },
       {
         title: "Workflow Events",
-        
+
         children: [
           "/workflows/events/",
           "/workflows/events/inspect/",
@@ -127,10 +111,9 @@ module.exports = {
       },
       {
         title: "Managing Workflows",
-        
+
         children: [
           "/workflows/copy/",
-          "/workflows/managing/",
           "/workflows/settings/",
           "/public-workflows/",
           "/environment-variables/",
@@ -138,7 +121,7 @@ module.exports = {
       },
       {
         title: "Managing Errors",
-        
+
         children: [
           "/errors/",
           "/workflows/error-handling/global-error-workflow/",
@@ -146,7 +129,7 @@ module.exports = {
       },
       {
         title: "Components",
-        
+
         children: [
           "/components/",
           "/event-sources/",
@@ -162,7 +145,7 @@ module.exports = {
       "/user-settings/",
       {
         title: "Examples",
-        
+
         children: [
           "/examples/adding-rows-to-google-sheets/",
           "/examples/waiting-to-execute-next-step-of-workflow/",
@@ -170,12 +153,12 @@ module.exports = {
       },
       {
         title: "CLI",
-        
+
         children: ["/cli/install/", "/cli/login/", "/cli/reference/"],
       },
       {
         title: "APIs",
-        
+
         children: [
           "/api/overview/",
           "/api/auth/",
@@ -188,7 +171,7 @@ module.exports = {
       },
       {
         title: "Destinations",
-        
+
         children: [
           "/destinations/",
           "/destinations/http/",
@@ -201,7 +184,7 @@ module.exports = {
       },
       {
         title: "Integrations",
-        
+
         children: [
           "/apps/all-apps/",
           "/apps/discord/",
@@ -217,7 +200,7 @@ module.exports = {
       "/new-feature-or-bug/",
       {
         title: "Privacy & Security",
-        
+
         children: [
           "/privacy-and-security/",
           "/privacy-and-security/best-practices/",
@@ -230,11 +213,8 @@ module.exports = {
       "/troubleshooting/",
       {
         title: "Organizations",
-        
-        children: [
-          "/orgs/",
-          "/orgs/sso/okta/",
-        ],
+
+        children: ["/orgs/", "/orgs/sso/okta/"],
       },
       "/pricing/",
       "/status/",
