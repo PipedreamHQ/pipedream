@@ -26,10 +26,11 @@ module.exports = {
     nav: [
       {
         text: "v2",
+        className: "docs-version",
         ariaLabel: "Docs Version Menu",
         items: [
-          { text: "v2", link: "/v2/", badge: "New", badgeVariation: "primary" },
-          { text: "v1", link: "/" },
+          { text: "v2", link: "/", badge: "New", badgeVariation: "primary" },
+          { text: "v1", link: "/docs" },
         ],
       },
     ],
