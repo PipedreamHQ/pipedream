@@ -115,7 +115,12 @@ export default {
 
 <style lang="stylus">
 .nav-links {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  > *  {
+    margin-left: 1.2em;
+    margin-right: 1.2em;
+  }
 
   a {
     line-height: 1.4rem;
@@ -130,7 +135,6 @@ export default {
   .nav-item {
     position: relative;
     display: inline-block;
-    margin-left: 1.5rem;
     line-height: 2rem
 
     &:first-child {

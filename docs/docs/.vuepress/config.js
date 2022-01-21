@@ -23,8 +23,16 @@ module.exports = {
     searchPlaceholder: "Search...",
     logo: "/pipedream.svg",
     repo: "PipedreamHQ/pipedream",
-
-    // Optional options for generating "Edit this page" link
+    nav: [
+      {
+        text: "v2",
+        ariaLabel: "Docs Version Menu",
+        items: [
+          { text: "v2", link: "/v2/", badge: "New", badgeVariation: "primary" },
+          { text: "v1", link: "/" },
+        ],
+      },
+    ],
 
     // if your docs are not at the root of the repo:
     docsDir: "docs/docs",

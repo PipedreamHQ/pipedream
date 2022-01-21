@@ -6,7 +6,8 @@
     :exact="exact"
     @focusout.native="focusoutAction"
   >
-    {{ item.text }}
+    {{ item.text }} 
+    <span v-if="item.badge" class="badge" :class="item.badgeVariation">{{ item.badge }}</span>
   </RouterLink>
   <a
     v-else
