@@ -1,8 +1,8 @@
 # Component API Reference
 
-This document was created to help developers author and use [Pipedream components](/components/). You can develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API. You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
+This document was created to help developers author and use [Pipedream components](/components/). Not only can develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API, but you can also develop [Node.js steps](/code/nodejs) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
 
-While sources and actions share the core component API, they differ in both how they're used and written, so certain parts of the component API apply only to one or the other. [This section of the docs](#differences-between-sources-and-actions) explains the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
+While sources and actions share the same core component API, they differ in both how they're used and written, so certain parts of the component API apply only to one or the other. [This section of the docs](#differences-between-sources-and-actions) explains the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
 If you have any questions about component development, please reach out [in our community](https://pipedream.com/community/c/dev/11).
 

@@ -115,7 +115,6 @@ module.exports = {
         children: [
           "/workflows/copy/",
           "/workflows/settings/",
-          "/public-workflows/",
           "/environment-variables/",
         ],
       },
@@ -225,7 +224,7 @@ module.exports = {
     PAYLOAD_SIZE_LIMIT: "512KB",
     MEMORY_LIMIT: "256MB",
     MEMORY_ABSOLUTE_LIMIT: "10GB",
-    EMAIL_PAYLOAD_SIZE_LIMIT: "150KB",
+    EMAIL_PAYLOAD_SIZE_LIMIT: "30MB",
     INSPECTOR_EVENT_LIMIT: "100",
     FUNCTION_PAYLOAD_LIMIT: "6MB",
     INSPECTOR_EVENT_EXPIRY_DAYS: "30",

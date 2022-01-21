@@ -4,6 +4,15 @@
 
 Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.python.org) in workflows.
 
+::: warning
+Python steps are available in a limited alpha release.
+
+You can still run arbitrary python code, including [sharing data between steps](/code/python/#sharing-data-between-steps) as well as [accessing environment variables](/code/python/#using-environment-variables).
+
+However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `$.end`, and `$.auth` are not yet available in bash. If you have any questions please [contact support](https://pipedream.com/support).
+:::
+
+
 ## Adding a Python code step
 
 1. Click the + icon to add a new step
@@ -90,7 +99,7 @@ import requests
 
 token = 'replace this with your API key'
 
-url = 'https://api.
+url = 'https://api.twitter.com/2/users/@pipedream/mentions'
 
 headers { 'Authorization': f"Bearer {token}"}
 r = requests.get(url, headers=headers)
@@ -175,7 +184,37 @@ Not all data types can be stored in the `steps` data shared between workflow ste
 * dictionaries
   :::
 
-## Handling Errors
+## Using environment variables
+
+You can leverage any [environment variables defined in your Pipedream account](/environment-variables/#environment-variables) in a python step. This is useful for keeping your secrets out of code as well as keeping them flexible to swap API keys without having to update each step individually.
+
+To access them, use the `os` module.
+
+```python
+import os
+import requests
+
+token = os.environ['TWITTER_API_KEY']
+
+url = 'https://api.twitter.com/2/users/@pipedream/mentions'
+
+headers { 'Authorization': f"Bearer {token}"}
+r = requests.get(url, headers=headers)
+
+print(r.text)
+```
+
+:::tip
+There are 2 different ways of using the `os` module to access your environment variables.
+
+`os.environ['ENV_NAME_HERE']` will raise an error that stops your workflow if that key doesn't exist in your Pipedream account.
+
+Whereas `os.environ.get('ENV_NAME_HERE')` will _not_ throw an error and instead returns an empty string. 
+
+If your code relies on the presence of a environment variable, consider using `os.environ['ENV_NAME_HERE']` instead.
+:::
+
+## Handling errors
 
 You may find a need to exit a workflow early. In a Python step, just a `raise` an error to halt a step's execution.
 

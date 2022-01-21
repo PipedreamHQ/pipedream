@@ -89,10 +89,6 @@ Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also
 
 The only limit that differs between email and HTTP triggers is the payload size: the body of HTTP requests is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`, where the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}` on the default interface.
 
-**However, you can send emails up to `30MB` in size using the address `[YOUR EMAIL ENDPOINT]@upload.pipedream.net`**. [Read more here](/workflows/steps/triggers/#sending-large-emails).
-
-This `30MB` limit cannot be raised.
-
 ## Memory
 
 By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}}`.

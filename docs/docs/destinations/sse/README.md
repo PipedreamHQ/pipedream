@@ -18,14 +18,14 @@ Beyond web browsers, any program that's able to create an [`EventSource` interfa
 
 ## Sending data to an SSE Destination in workflows
 
-You can send data to an SSE Destination in [Node.js code steps](/workflows/steps/code/) using the `$send.sse()` function.
+You can send data to an SSE Destination in [Node.js code steps](/workflows/steps/code/) using the `$.send.sse()` function.
 
 [Add a new step to your workflow](/workflows/steps/actions/#adding-a-new-action), then search for "**Code**":
 
 Then add this code to that step:
 
 ```javascript
-$send.sse({
+$.send.sse({
   channel: "events",
   payload: {
     name: "Luke Skywalker"
@@ -33,14 +33,14 @@ $send.sse({
 });
 ```
 
-**See [this workflow](https://pipedream.com/@dylburger/sse-example-p_ezCdBz/edit)** for an example of how to use `$send.sse()`.
+**See [this workflow](https://pipedream.com/@dylburger/sse-example-p_ezCdBz/edit)** for an example of how to use `$.send.sse()`.
 
 Send a test event to your workflow, then review the section on [Receiving events](#receiving-events) to see how you can setup an `EventSource` to retrieve events sent to the SSE Destination.
 
-`$send.sse()` accepts an object with the following properties:
+`$.send.sse()` accepts an object with the following properties:
 
 ```javascript
-$send.sse({
+$.send.sse({
   channel, // Required, corresponds to the event in the SSE spec
   payload // Required, the event payload
 });
@@ -51,7 +51,7 @@ Again, it's important to remember that **Destination delivery is asynchronous**.
 ```javascript
 const names = ["Luke", "Han", "Leia", "Obi Wan"];
 names.forEach(name => {
-  $send.sse({
+  $.send.sse({
     channel: "names",
     payload: {
       name
@@ -60,13 +60,13 @@ names.forEach(name => {
 });
 ```
 
-you won't have to `await` the execution of the SSE Destination requests in your workflow. We'll collect every `$send.sse()` call and defer those requests, sending them after your workflow finishes.
+you won't have to `await` the execution of the SSE Destination requests in your workflow. We'll collect every `$.send.sse()` call and defer those requests, sending them after your workflow finishes.
 
 ## Using `$.send.sse` in component actions
 
 If you're authoring a [component action](/components/actions/), you can send events to an SSE destination using `$.send.sse`.
 
-`$.send.sse` functions the same as [`$send.sse` in workflow code steps](#sending-data-to-an-sse-destination-in-workflows):
+`$.send.sse` functions the same as [`$.send.sse` in workflow code steps](#sending-data-to-an-sse-destination-in-workflows):
 
 ```javascript
 async run({ $ }) {

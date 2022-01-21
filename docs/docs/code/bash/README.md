@@ -4,6 +4,14 @@ Prefer to write quick scripts in bash? We've got you covered.
 
 You can run any bash in a Pipedream step within your workflows.
 
+::: warning
+Bash steps are available in a limited alpha release.
+
+You can still run arbitrary bash scripts, including [sharing data between steps](/code/bash/#sharing-data-between-steps) as well as [accessing environment variables](/code/bash/#using-environment-variables).
+
+However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `$.end`, and `$.auth` are not yet available in bash. If you have any questions please [contact support](https://pipedream.com/support).
+:::
+
 ## Adding a Bash code step
 
 1. Click the + icon to add a new step
@@ -135,13 +143,27 @@ EXPORT="key:json=${DATA}"
 echo $EXPORT >> $PIPEDREAM_EXPORTS
 ```
 
-::: tip 
+::: tip
 Don't worry, the special `key` string in the `EXPORT` will automatically reference the current step's name. 
 
 This way you won't have collisions with multiple bash scripts exporting data. Accessing the data is based off of the step's name, no need to edit the `key` string to try and name it something unique.
 :::
 
+## Using environment variables
 
+You can leverage any [environment variables defined in your Pipedream account](/environment-variables/#environment-variables) in a bash step. This is useful for keeping your secrets out of code as well as keeping them flexible to swap API keys without having to update each step individually.
+
+To access them, just append the `$` in front of the environment variable name.
+
+```bash
+echo $POKEDEX_API_KEY
+```
+
+Or an even more useful example, using the stored environment variable to make an authenticated API request.
+
+```bash
+curl --silent -X POST -h "authorization:Bearer $TWITTER_API_KEY" https://api.twitter.com/2/users/@pipedream/mentions
+```
 
 ## Raising exceptions
 
@@ -151,9 +173,6 @@ You may need to stop your step immediately. You can use the normal `exit` functi
   echo "Exiting now!" 1>&2
   exit 1
 ```
-
-
-
 
 This will exit the step and output the error message to `stderr` which will appear in the results of the step in the workflow.
 
