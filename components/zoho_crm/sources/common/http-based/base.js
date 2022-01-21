@@ -166,7 +166,12 @@ module.exports = {
       } = opts;
       if (operation === "delete") {
         // We won't attempt to retrieve resources that no longer exist
-        return;
+        // Return list of objects with `id`s, as the resources
+        return ids.map((id) => ([
+          {
+            id,
+          },
+        ]));
       }
 
       const apiCalls = ids
