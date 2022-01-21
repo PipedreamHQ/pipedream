@@ -87,7 +87,6 @@ module.exports = {
       },
       {
         title: "Workflows",
-        // collapsable: false,
         children: [
           "/workflows/",
           "/workflows/steps/",
@@ -99,11 +98,10 @@ module.exports = {
       },
       {
         title: "Connecting Apps",
-        // collapsable: false,
         children: [
           "/apps/all-apps/",
           "/connected-accounts/",
-          "/workflows/steps/code/auth/",
+          "/code/nodejs/auth/",
         ],
       },
       {
