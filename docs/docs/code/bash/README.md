@@ -33,7 +33,7 @@ echo $MESSAGE
 
 ## Available binaries
 
-Bash steps come with many common & useful binaries preinstalled and available in `$PATH` for you to use out of the box. These binaries include but arent't limited to:
+Bash steps come with many common & useful binaries preinstalled and available in `$PATH` for you to use out of the box. These binaries include but aren't limited to:
 
 * `curl` for making HTTP requests
 * `jq` for manipulating and viewing JSON data

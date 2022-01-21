@@ -230,7 +230,7 @@ emAF
 eniqtww
 Enum
 env
-enviro
+environ
 EO
 EPS
 EQWbalbBWT
@@ -487,6 +487,7 @@ Linkish
 Linode
 linter
 ListBucketMultipartUploads
+listdir
 LjzlNGteD
 lkjsdflkjsdflkjsdflk
 lNRgB
@@ -936,6 +937,8 @@ WCVnZ
 WebClient
 Webex
 Webflow
+webpages
+webpage
 webhook
 Webhook
 Webhook
@@ -966,6 +969,7 @@ writeFileSync
 WSL
 wSXV
 wttPB
+wttr
 wUC
 WVgKCnalELY
 wzKOm

@@ -148,7 +148,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger.
 
 Every Python step can import the `pipedream.script_helpers` module. This module contains data from other steps in the workflow via `steps` dictionary.
 
-Here's an example of how to get the ID from the Pokemon we recieved in the trigger.
+Here's an example of how to get the ID from the Pokemon we received in the trigger.
 
 ```python
 from pipedream.script_helpers import (steps, export)
