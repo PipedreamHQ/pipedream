@@ -93,6 +93,7 @@ bRX
 bSjnoAaoji
 BuildKite
 BunnyCDN
+Bulbasaur
 BVuN
 bWRNj
 bzIwsJqzXfINt
@@ -158,6 +159,7 @@ Datadog
 Datanews
 Datarobot
 DataSF
+datasets
 Datawaves
 DateTime
 dbBPTj
@@ -228,6 +230,7 @@ emAF
 eniqtww
 Enum
 env
+enviro
 EO
 EPS
 EQWbalbBWT
@@ -428,6 +431,7 @@ Jotform
 Jotform
 JpE
 JpNwkGVm
+jq
 js
 json
 json
@@ -632,6 +636,7 @@ PFArbqde
 pfhzl
 pGSldJ
 PHXXvx
+Pikachu
 Pinboard
 Pipedream
 Pipedream's
@@ -680,6 +685,7 @@ Pushshift
 PutObject
 PutObjectAcl
 pVSKEBCqSqmOhveKjgV
+PyPi
 PySpelling
 QARAQAB
 QFR
@@ -924,6 +930,7 @@ VyaXR
 Waboxapp
 walkthrough
 Wavecell
+wb
 wBd
 WCVnZ
 WebClient

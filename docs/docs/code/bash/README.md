@@ -54,7 +54,7 @@ Otherwise, you can use `/tmp` to download and install from source.
 You can use `curl` to perform GET requests from websites or APIs directly.
 
 ```bash
-# get your current public IP address from ifconfig.me
+# Get the current weather in San Francisco
 WEATHER=`curl --silent https://wttr.in/San\ Francisco\?format=3`
 
 echo $WEATHER
@@ -63,7 +63,7 @@ echo $WEATHER
 ```
 
 ::: tip
-Use the `--silent` flag with `curl` to supress extra extra diagnostic information that `curl` produces when making requests.
+Use the `--silent` flag with `curl` to suppress extra extra diagnostic information that `curl` produces when making requests.
 
 This enables you to only worry about the body of the response so you can visualize it with tools like `echo` or `jq`. 
 :::
@@ -188,12 +188,12 @@ For example to download a file to `/tmp` using `curl`
 # Download the current weather in Cleveland in PNG format
 curl --silent https://wttr.in/Cleveland.png --output /tmp/weather.png
 
-# ouput the contents of /tmp to confirm the file is there
+# output the contents of /tmp to confirm the file is there
 ls /tmp
 ```
 
 ### `/tmp` limitations
 
-The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow exections.
+The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow executions.
 
 To avoid errors, assume that the `/tmp` directory is empty between workflow runs.

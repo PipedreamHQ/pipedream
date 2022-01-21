@@ -274,6 +274,6 @@ print(os.listdir('/tmp'))
 
 ### `/tmp` limitations
 
-The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow exections.
+The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow executions.
 
 To avoid errors, assume that the `/tmp` directory is empty between workflow runs.
