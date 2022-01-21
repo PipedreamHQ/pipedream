@@ -240,18 +240,17 @@ module.exports = {
     generateMeta({
       event, resource,
     }) {
+      const { body } = event;
       const {
-        headers: { "x-amzn-trace-id": eventId },
-        body: {
-          module, operation,
-        },
-      } = event;
+        module,
+        operation,
+      } = body;
       const {
         id: resourceId,
         Created_Time: creationTime,
         Modified_Time: editionTime,
       } = resource;
-      const id = `${eventId}-${resourceId}`;
+      const id = `${editionTime}-${resourceId}`;
       const summary = `${module} ${operation}`;
       const ts = Math.max(Date.parse(creationTime), Date.parse(editionTime));
       return {
