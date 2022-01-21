@@ -23,6 +23,9 @@ const crudOpsData = [
 
 const getOpData = (inputOp) => crudOpsData.find(({ op }) => op === inputOp);
 
+/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
+  pipedream/required-properties-version, pipedream/required-properties-description,
+  pipedream/required-properties-type */
 export default {
   createOpData() {
     return getOpData("create");
