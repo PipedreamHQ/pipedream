@@ -49,5 +49,8 @@ export default {
     async listGoals(token, params) {
       return (await this._getGoalsInstance(token).list(params)).data;
     },
+    async searchGoal(token, params) {
+      return (await this._getGoalsInstance(token).get(params)).data;
+    },
   },
 };
