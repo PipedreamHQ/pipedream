@@ -182,8 +182,11 @@ If you need to download and store files you can place them in the `/tmp` directo
 
 ### Writing a file to /tmp
 
-```bash
+For example to download a file to `/tmp` using `curl`
 
+```bash
+# Download the current weather in Cleveland in PNG format
+curl --silent https://wttr.in/Cleveland.png --output /tmp/weather.png
 ```
 
 ### `/tmp` limitations
