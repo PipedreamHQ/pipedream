@@ -29,8 +29,18 @@ module.exports = {
         className: "docs-version",
         ariaLabel: "Docs Version Menu",
         items: [
-          { text: "v2", link: "/", badge: "New", badgeVariation: "primary" },
-          { text: "v1", link: "/docs" },
+          {
+            text: "v2",
+            link: "https://pipedream.com/docs-v2",
+            internal: true,
+            badge: "New",
+            badgeVariation: "primary",
+          },
+          {
+            text: "v1",
+            internal: true,
+            link: "https://pipedream.com/docs",
+          },
         ],
       },
     ],

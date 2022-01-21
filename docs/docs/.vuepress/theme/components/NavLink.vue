@@ -18,7 +18,8 @@
     @focusout="focusoutAction"
   >
     {{ item.text }}
-    <OutboundLink v-if="isBlankTarget" />
+    <span v-if="item.badge" class="badge" :class="item.badgeVariation">{{ item.badge }}</span>
+    <OutboundLink v-if="isBlankTarget && !item.internal" />
   </a>
 </template>
 

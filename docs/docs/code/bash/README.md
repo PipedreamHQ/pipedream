@@ -187,6 +187,9 @@ For example to download a file to `/tmp` using `curl`
 ```bash
 # Download the current weather in Cleveland in PNG format
 curl --silent https://wttr.in/Cleveland.png --output /tmp/weather.png
+
+# ouput the contents of /tmp to confirm the file is there
+ls /tmp
 ```
 
 ### `/tmp` limitations
