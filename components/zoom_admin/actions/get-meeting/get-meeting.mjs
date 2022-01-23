@@ -16,10 +16,10 @@ export default {
         "meeting",
       ],
     },
-    occurrenceId: {
+    occurrence: {
       propDefinition: [
         zoomAdmin,
-        "occurrenceId",
+        "occurrence",
         ({ meeting }) => ({
           meeting,
         }),
@@ -37,12 +37,16 @@ export default {
       method: "GET",
       path: `/meetings/${get(this.meeting, "value", this.meeting)}`,
       params: {
-        occurrence_id: this.occurrenceId,
+        occurrence_id: get(this.occurrence, "value", this.occurrence),
         show_previous_occurrences: this.showPreviousOccurrences,
       },
     }));
 
-    $.export("$summary", `"${get(this.meeting, "label", this.meeting)}" meeting details successfully fetched`);
+    if (this.occurrence) {
+      $.export("$summary", `The details of the occurrence "${get(this.occurrence, "label", this.occurrence)}" of the meeting "${get(this.meeting, "label", this.meeting)}" successfully fetched`);
+    } else {
+      $.export("$summary", `"${get(this.meeting, "label", this.meeting)}" meeting details successfully fetched`);
+    }
 
     return res;
   },

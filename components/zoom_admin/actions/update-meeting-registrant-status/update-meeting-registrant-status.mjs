@@ -18,15 +18,15 @@ export default {
         "meeting",
       ],
     },
-    occurrenceId: {
+    occurrence: {
       propDefinition: [
         zoomAdmin,
-        "occurrenceId",
+        "occurrence",
         ({ meeting }) => ({
           meeting,
         }),
       ],
-      description: "If you select a value for this param, only that instance will be updated. Otherwise, the entire meeting series will be updated."
+      description: "If you select a value for this param, only that instance will be updated. Otherwise, the entire meeting series will be updated.",
     },
     registrants: {
       propDefinition: [
@@ -34,10 +34,10 @@ export default {
         "registrants",
         ({
           meeting,
-          occurrenceId,
+          occurrence,
         }) => ({
           meeting,
-          occurrenceId,
+          occurrence,
         }),
       ],
     },
@@ -57,11 +57,11 @@ export default {
       method: "PUT",
       path: `/meetings/${get(this.meeting, "value", this.meeting)}/registrants/status`,
       params: {
-        occurrence_id: this.occurrenceId,
+        occurrence_id: get(this.occurrence, "value", this.occurrence),
       },
       body: {
         action: this.action,
-        registrants: registrants,
+        registrants,
       },
     }));
 

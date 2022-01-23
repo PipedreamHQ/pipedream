@@ -26,19 +26,19 @@ export default {
     },
   },
   async run ({ $ }) {
-    const cloudRecording = isObject(this.cloudRecording)
+    let cloudRecording = isObject(this.cloudRecording)
       ? this.cloudRecording
       : JSON.parse(this.cloudRecording);
 
     const res = await axios($, this.zoomAdmin._getAxiosParams({
       method: "DELETE",
-      path: `/meetings/${cloudRecording.meetingId}/recordings/${cloudRecording.value}`,
+      path: `/meetings/${cloudRecording.value.meetingId}/recordings/${cloudRecording.value.id}`,
       params: {
         action: this.action,
       },
     }));
 
-    $.export("$summary", "Cloud recording successfully deleted");
+    $.export("$summary", `The cloud recording "${cloudRecording.label}" was successfully deleted`);
 
     return res;
   },

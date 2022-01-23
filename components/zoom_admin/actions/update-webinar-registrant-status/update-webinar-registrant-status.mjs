@@ -18,10 +18,10 @@ export default {
         "webinar",
       ],
     },
-    occurrenceId: {
+    occurrence: {
       propDefinition: [
         zoomAdmin,
-        "occurrenceId",
+        "occurrence",
         ({ webinar }) => ({
           meeting: webinar,
           isWebinar: true,
@@ -35,10 +35,10 @@ export default {
         "registrants",
         ({
           webinar,
-          occurrenceId,
+          occurrence,
         }) => ({
           meeting: webinar,
-          occurrenceId,
+          occurrence,
           isWebinar: true,
         }),
       ],
@@ -59,7 +59,7 @@ export default {
       method: "PUT",
       path: `/webinar/${get(this.webinar, "value", this.webinar)}/registrants/status`,
       params: {
-        occurrence_id: this.occurrenceId,
+        occurrence_id: get(this.occurrence, "value", this.occurrence),
       },
       body: {
         action: this.action,

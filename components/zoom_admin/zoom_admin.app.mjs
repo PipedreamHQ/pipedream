@@ -13,7 +13,8 @@ export default {
     cloudRecording: {
       type: "string",
       label: "Recording",
-      description: "The ID of the cloud recording. Please use a valid object with `meetingId` and `value` with \"Structured Mode\" disabled. `value` means the recording ID. (Eg. `{ meetingId:123, value:123 }`)",
+      description: "The ID of the cloud recording. Please use a valid object with `meetingId` and `value` with \"Structured Mode\" disabled. `value` means the recording ID. (Eg. `{ label: \"example\", value: { meetingId:123, value:123 } }`)",
+      withLabel: true,
       async options({
         page,
         prevContext,
@@ -35,8 +36,7 @@ export default {
               label,
               value: {
                 meetingId: meeting.id,
-                label,
-                value: recording.id,
+                id: recording.id,
               },
             });
           });
@@ -53,7 +53,7 @@ export default {
     meeting: {
       type: "string",
       label: "Meeting",
-      // description: "The meeting ID",
+      withLabel: true,
       async options({
         prevContext,
         page,
@@ -65,10 +65,7 @@ export default {
         return {
           options: data?.meetings.map((meeting) => ({
             label: meeting.topic,
-            value: {
-              label: meeting.topic,
-              value: meeting.id,
-            },
+            value: meeting.id,
           })),
           context: {
             nextPageToken: data.next_page_token,
@@ -80,6 +77,7 @@ export default {
       type: "string",
       label: "Panelist",
       description: "The panelist ID or panelist email",
+      withLabel: true,
       async options({
         webinar,
         page,
@@ -96,10 +94,7 @@ export default {
           return {
             options: data?.panelists.map((panelist) => ({
               label: `${panelist.name} <${panelist.email}>`,
-              value: {
-                label: panelist.name,
-                value: panelist.id,
-              },
+              value: panelist.id,
             })),
             context: {
               nextPageToken: data.next_page_token,
@@ -110,7 +105,7 @@ export default {
         }
       },
     },
-    occurrenceId: {
+    occurrence: {
       type: "string",
       label: "Occurrence ID",
       description: "Provide this field to view meeting details of a particular occurrence of a [recurring meeting](https://support.zoom.us/hc/en-us/articles/214973206-Scheduling-Recurring-Meetings).",
@@ -202,7 +197,7 @@ export default {
       type: "string",
       label: "Webinar",
       optional: true,
-      // description: "The Webinar ID",
+      withLabel: true,
       async options({
         prevContext,
         page,
@@ -223,10 +218,7 @@ export default {
         }
         const rawOptions = webinars.map((w) => ({
           label: w.topic,
-          value: {
-            label: w.topic,
-            value: w.id,
-          },
+          value: w.id,
         }));
         const options = sortBy(rawOptions, [
           "label",
@@ -342,7 +334,6 @@ export default {
           next_page_token: nextPageToken,
         },
       });
-
       return get(res, "data");
     },
   },

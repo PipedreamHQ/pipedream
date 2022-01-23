@@ -16,10 +16,10 @@ export default {
         "meeting",
       ],
     },
-    occurrenceId: {
+    occurrence: {
       propDefinition: [
         zoomAdmin,
-        "occurrenceId",
+        "occurrence",
         ({ meeting }) => ({
           meeting,
         }),
@@ -44,15 +44,14 @@ export default {
       method: "DELETE",
       path: `/meetings/${get(this.meeting, "value", this.meeting)}`,
       params: {
-        occurrence_id: this.occurrenceId,
+        occurrence_id: get(this.occurrence, "value", this.occurrence),
         schedule_for_reminder: this.scheduleForReminder,
         cancel_meeting_reminder: this.cancelMeetingReminder,
       },
     }));
 
-    if (this.occurrenceId) {
-      $.export("$summary", `The occurrence "${this.occurrenceId}" related to the meeting "${get(this.meeting, "label", this.meeting)}" was successfully deleted`);
-
+    if (this.occurrence) {
+      $.export("$summary", `The occurrence "${get(this.occurrence, "label", this.occurrence)}" related to the meeting "${get(this.meeting, "label", this.meeting)}" was successfully deleted`);
     } else {
       $.export("$summary", `The meeting "${get(this.meeting, "label", this.meeting)}" was successfully deleted`);
     }
