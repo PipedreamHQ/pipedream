@@ -32,13 +32,17 @@ Let's use `$.send.http()` to send an HTTP POST request like we did in the Action
 [Create an endpoint URL](https://requestbin.com), adding the code below to your code step, with the URL you created:
 
 ```javascript
-$.send.http({
-  method: "POST",
-  url: "[YOUR URL HERE]",
-  data: {
-    name: "Luke Skywalker",
-  },
-});
+defineComponent({
+  async run({ steps, $}) {
+    $.send.http({
+      method: "POST",
+      url: "[YOUR URL HERE]",
+      data: {
+        name: "Luke Skywalker",
+      },
+    });
+  }
+})
 ```
 
 See the docs for the [HTTP destination](/destinations/http/) to learn more about all the options you can pass to the `$.send.http()` function.
@@ -46,16 +50,20 @@ See the docs for the [HTTP destination](/destinations/http/) to learn more about
 Again, it's important to remember that **Destination delivery is asynchronous**. If you iterate over an array of values and send an HTTP request for each:
 
 ```javascript
-const names = ["Luke", "Han", "Leia", "Obi Wan"];
-for (const name of names) {
-  $.send.http({
-    method: "POST",
-    url: "[YOUR URL HERE]",
-    data: {
-      name,
-    },
-  });
-}
+defineComponent({
+  async run({ steps, $}) {
+    const names = ["Luke", "Han", "Leia", "Obi Wan"];
+    for (const name of names) {
+      $.send.http({
+        method: "POST",
+        url: "[YOUR URL HERE]",
+        data: {
+          name,
+        },
+      });
+    }
+  }
+})
 ```
 
 you won't have to `await` the execution of the HTTP requests in your workflow. We'll collect every `$.send.http()` call and defer those HTTP requests, sending them after your workflow finishes.

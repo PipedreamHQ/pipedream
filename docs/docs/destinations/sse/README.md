@@ -25,11 +25,15 @@ You can send data to an SSE Destination in [Node.js code steps](/workflows/steps
 Then add this code to that step:
 
 ```javascript
-$.send.sse({
-  channel: "events",
-  payload: {
-    name: "Luke Skywalker"
-  }
+defineComponent({
+  async run({ steps, $ }) {
+    $.send.sse({
+      channel: "events",
+      payload: {
+        name: "Luke Skywalker"
+      }
+    });
+  })
 });
 ```
 
@@ -40,23 +44,31 @@ Send a test event to your workflow, then review the section on [Receiving events
 `$.send.sse()` accepts an object with the following properties:
 
 ```javascript
-$.send.sse({
-  channel, // Required, corresponds to the event in the SSE spec
-  payload // Required, the event payload
+defineComponent({
+  async run({ steps, $ }) {
+    $.send.sse({
+      channel, // Required, corresponds to the event in the SSE spec
+      payload // Required, the event payload
+    });
+  })
 });
 ```
 
 Again, it's important to remember that **Destination delivery is asynchronous**. If you iterate over an array of values and send an SSE for each:
 
 ```javascript
-const names = ["Luke", "Han", "Leia", "Obi Wan"];
-names.forEach(name => {
-  $.send.sse({
-    channel: "names",
-    payload: {
-      name
-    }
-  });
+defineComponent({
+  async run({ steps, $ }) {
+    const names = ["Luke", "Han", "Leia", "Obi Wan"];
+    names.forEach(name => {
+      $.send.sse({
+        channel: "names",
+        payload: {
+          name
+        }
+      });
+    });
+  })
 });
 ```
 
@@ -69,14 +81,16 @@ If you're authoring a [component action](/components/actions/), you can send eve
 `$.send.sse` functions the same as [`$.send.sse` in workflow code steps](#sending-data-to-an-sse-destination-in-workflows):
 
 ```javascript
-async run({ $ }) {
-  $.send.sse({
-    channel: "events",
-    payload: {
-      name: "Luke Skywalker"
-    }
-  });
-}
+defineComponent({
+  async run({ steps, $ }) {
+    $.send.sse({
+      channel: "events",
+      payload: {
+        name: "Luke Skywalker"
+      }
+    });
+  })
+});
 ```
 
 ## Receiving events

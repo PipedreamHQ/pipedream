@@ -155,4 +155,15 @@ async run({ $ }) {
 
 When your workflow runs, you'll see the named exports appear below your step, with the data you exported. You can reference these exports in other steps using `steps.[STEP NAME].[EXPORT NAME]`.
 
+### Limitations on step exports
+
+Any data exported from a step must be JSON serializable; the data must be able to stored as JSON so it can be read by downstream steps.
+
+For examples of supported data types in your steps language, see the examples below.
+
+* [Node.js (Javascript)](/code/nodejs/#sharing-data-between-steps)
+* [Python](/code/python/#sharing-data-between-steps)
+* [Bash](/code/bash/#sharing-data-between-steps)
+* [Go](/code/go/#sharing-data-between-steps)
+
 <Footer />

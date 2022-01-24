@@ -18,7 +18,7 @@ However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `
 2. Click "Custom Code"
 3. In the new step, select the bash runtime in language dropdown
 
-## Logging & debugging
+## Logging and debugging
 
 When it comes to debugging bash scripts, `echo` is your friend.
 
@@ -33,7 +33,7 @@ echo $MESSAGE
 
 ## Available binaries
 
-Bash steps come with many common & useful binaries preinstalled and available in `$PATH` for you to use out of the box. These binaries include but aren't limited to:
+Bash steps come with many common and useful binaries preinstalled and available in `$PATH` for you to use out of the box. These binaries include but aren't limited to:
 
 * `curl` for making HTTP requests
 * `jq` for manipulating and viewing JSON data
@@ -77,10 +77,10 @@ The `-d` flag is for passing data in the POST request.
 ```bash
 curl --silent -X POST https://postman-echo.com/post -d 'name=Bulbasaur&id=1'
 
-# to store the API response in a variable, interpolate the response into a string and store it in variable
+# To store the API response in a variable, interpolate the response into a string and store it in variable
 RESPONSE=`curl --silent -X POST https://postman-echo.com/post -d 'name=Bulbasaur&id=1'`
 
-# now the response is stored as a variable
+# Now the response is stored as a variable
 echo $RESPONSE
 ```
 
@@ -121,7 +121,7 @@ In our bash script, we can access this data via the `$PIPEDREAM_STEPS` variable.
 ```bash
 echo $PIPEDREAM_STEPS | jq .trigger.event
 
-# results in { id: 1, name: "Bulbasaur", type: "plant" }
+# Results in { id: 1, name: "Bulbasaur", type: "plant" }
 ```
 
 ::: tip
@@ -188,7 +188,7 @@ For example to download a file to `/tmp` using `curl`
 # Download the current weather in Cleveland in PNG format
 curl --silent https://wttr.in/Cleveland.png --output /tmp/weather.png
 
-# output the contents of /tmp to confirm the file is there
+# Output the contents of /tmp to confirm the file is there
 ls /tmp
 ```
 

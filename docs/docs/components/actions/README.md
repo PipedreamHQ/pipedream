@@ -25,7 +25,7 @@ For example, here's how to add the HTTP `GET` Request action:
 ::: warning
 Legacy actions are no longer available in the latest version of workflows. 
 
-This is a [new version](https://pipedream.com/community/t/actions-improved-open-source-now-in-beta/606) of Pipedream Actions available.  Legacy Actions haven been deprecated. Get started with our [quickstart](/components/quickstart/nodejs/actions/) for new actions or learn how to [migrate](/components/migrating/) legacy actions.
+There is a [new version](https://pipedream.com/community/t/actions-improved-open-source-now-in-beta/606) of Pipedream Actions available.  Legacy Actions have been deprecated. Get started with our [quickstart](/components/quickstart/nodejs/actions/) for new actions or learn how to [migrate](/components/migrating/) legacy actions.
 :::
 
 ## Passing params to actions
