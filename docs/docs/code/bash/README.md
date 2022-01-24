@@ -104,7 +104,7 @@ This makes your steps even more powerful, you can compose new workflows and reus
 
 ### Using data from another step
 
-In bash scripts, data from the initial workflow trigger and other steps are available in the `$PIPEDREAM_STEPS` environment variable.
+In bash steps, data from the initial workflow trigger and other steps are available in the `$PIPEDREAM_STEPS` environment variable.
 
 In this example, we'll pretend this data is coming into our HTTP trigger via a POST request.
 
@@ -143,10 +143,12 @@ EXPORT="key:json=${DATA}"
 echo $EXPORT >> $PIPEDREAM_EXPORTS
 ```
 
-::: tip
-Don't worry, the special `key` string in the `EXPORT` will automatically reference the current step's name. 
+::: warning
+Not all data types can be stored in the `$PIPEDREAM_EXPORTS` data shared between workflow steps.
 
-This way you won't have collisions with multiple bash scripts exporting data. Accessing the data is based off of the step's name, no need to edit the `key` string to try and name it something unique.
+For the best experience, we recommend only exporting strings from bash steps that can be serialized to JSON. 
+
+[Read more details on step limitations here.](/workflows/steps/#limitations-on-step-exports)
 :::
 
 ## Using environment variables
