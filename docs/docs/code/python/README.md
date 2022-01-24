@@ -90,31 +90,6 @@ print(r.text)
 print(r.status)
 ```
 
-### Using API key authentication
-
-If an particular service requires you to use an API key, you can pass it via the headers of the request.
-
-This proves your identity to the service so you can interact with it:
-
-```python
-import requests
-
-token = 'replace this with your API key'
-
-url = 'https://api.twitter.com/2/users/@pipedream/mentions'
-
-headers { 'Authorization': f"Bearer {token}"}
-r = requests.get(url, headers=headers)
-
-print(r.text)
-```
-
-:::tip
-Not all APIs use a `Authorization: Bearer <api key>` header format.
-
-Refer to the documentation of the API you're working with for their specific authentication format.
-:::
-
 ### Sending files
 
 You can also send files within a step.
@@ -130,15 +105,15 @@ r = requests.post(url='https://api.imgur.com/3/image', files=files)
 
 ## Sharing data between steps
 
-You can share data between steps in your workflows. Data can be passed forward to the next steps, and it can be used by other steps downstream.
+A step can accept data from other steps in the same workflow, or pass data downstream to others.
+
+This makes your steps even more powerful, you can compose new workflows and reuse steps.
 
 ### Using data from another step
 
-You may need to use data from a prior step in your workflow.
+In Python steps, data from the initial workflow trigger and other steps are available in the `pipedream.script_helpers.export` module.
 
-For example, when your trigger step accepts data from an incoming HTTP request you may need to send that data to another API, transform that data or store it somewhere.
-
-In this example, we'll pretend this data is coming into our HTTP trigger.
+In this example, we'll pretend this data is coming into our HTTP trigger via POST request.
 
 ```json
 {
@@ -148,9 +123,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger.
 }
 ```
 
-Every Python step can import the `pipedream.script_helpers` module. This module contains data from other steps in the workflow via `steps` dictionary.
-
-Here's an example of how to get the ID from the Pokemon we received in the trigger.
+In our Python step, we can access this data in the `exports` variable from the `pipedream.script_helpers` module. Specifically, this data from the POST request into our workflow is available in the `tigger` dictionary item. 
 
 ```python
 from pipedream.script_helpers import (steps, export)
@@ -164,20 +137,23 @@ print(f"{pokemon_name} is a {pokemon_type} type Pokemon")
 
 ### Sending data downstream to other steps
 
-The trigger steps automatically export their data for other steps to use downstream.
+To share data created, retrieved, transformed or manipulated by a step to others downstream call the `export` module from `pipedream.script_helpers`.
 
-Just pass the data to the `export` module from `pipedream.script_helpers`.
+An example speaks a thousand words, so here's one passing data from an API to the bash step.
 
 ```python
 # This step is named "code" in the workflow
 from pipedream.script_helpers import (steps, export)
 
-pokemon = { name: "Pikachu" }
+r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
+# Store the JSON contents into a variable called pokmeon
+pokemon = r.json()
 
+# Expose the pokemon data downstream to others steps in the "pokemon" key from this step
 export('pokemon', pokemon)
 ```
 
-Now this `pokemon` is accessible to downstream steps within `steps.code.pokemon`
+Now this `pokemon` data is accessible to downstream steps within `steps["code"]["pokemon"]`
 
 ::: warning
 Not all data types can be stored in the `steps` data shared between workflow steps.
@@ -199,6 +175,28 @@ To access them, use the `os` module.
 ```python
 import os
 import requests
+
+token = os.environ['TWITTER_API_KEY']
+
+url = 'https://api.twitter.com/2/users/@pipedream/mentions'
+
+headers { 'Authorization': f"Bearer {token}"}
+r = requests.get(url, headers=headers)
+
+print(r.text)
+```
+
+Or an even more useful example, using the stored environment variable to make an authenticated API request.
+
+### Using API key authentication
+
+If an particular service requires you to use an API key, you can pass it via the headers of the request.
+
+This proves your identity to the service so you can interact with it:
+
+```python
+import requests
+import os
 
 token = os.environ['TWITTER_API_KEY']
 
