@@ -146,7 +146,7 @@ An example speaks a thousand words, so here's one passing data from an API to th
 from pipedream.script_helpers import (steps, export)
 
 r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
-# Store the JSON contents into a variable called pokmeon
+# Store the JSON contents into a variable called "pokemon"
 pokemon = r.json()
 
 # Expose the pokemon data downstream to others steps in the "pokemon" key from this step
