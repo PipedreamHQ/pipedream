@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -58,6 +59,22 @@ export default {
     _getReportsInstance(token) {
       return this._getAnalyticsReportingInstance(token).reports;
     },
+    async _makeRequest(opts) {
+      if (!opts.headers) opts.headers = {};
+      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
+      opts.headers["Content-Type"] = "application/json";
+      if (!opts.method) opts.method = "post";
+      opts.url = "https://www.google-analytics.com/mp/collect";
+      try {
+        return await axios(this, opts);
+      } catch (err) {
+        this._throwFormattedError(err);
+      }
+    },
+    _throwFormattedError(err) {
+      err = err.response.data;
+      throw Error(`${err.statusCode} - ${err.statusMessage} - ${err.message}`);
+    },
     async listGoals(token, params) {
       return (await this._getGoalsInstance(token).list(params)).data;
     },
@@ -69,6 +86,13 @@ export default {
     },
     async listReports(token, params) {
       return (await this._getReportsInstance(token).batchGet(params)).data;
+    },
+    async createMeasurement(params, data) {
+      let opts = {
+        params,
+        data,
+      };
+      await this._makeRequest(opts);
     },
   },
 };
