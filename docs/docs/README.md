@@ -5,140 +5,25 @@ next: false
 
 # Overview
 
-<!--## Connect APIs, Remarkably Fast-->
-
 Pipedream is the fastest way to automate any process that connects APIs. Build and run workflows with code-level control when you need it, and no code when you don't. 
 
-![build, test,deploy](./images/getting-started3.png)
+The Pipedream platform includes:
 
-<!-- The Pipedream platform includes:
-
-- A serverless runtime
-- Open source triggers and actions for integrated apps
-- One-click OAuth and key-based authentication for hundreds of APIs (use tokens directly in code or with pre-built actions)
-- A purpose-built, web-based IDE and much more! -->
+- A [serverless runtime](/code/) and [workflow service](/workflows/)
+- Open source [triggers](/workflows/triggers/) and [actions](/components/actions/) for [hundreds of integrated apps](https://pipedream.com/explore/)
+- One-click [OAuth and key-based authentication](/connected-accounts/) for hundreds of APIs (use tokens directly in code or with pre-built actions)
 
 ## Getting Started
 
-To get started, [sign up for a free account](https://pipedream.com/auth/signup) (no credit card required) and follow our [quickstart guide](/quickstart/).
+To get started, [sign up for a free account](https://pipedream.com/auth/signup) (no credit card required) and follow our [quickstart guide](/quickstart/) to create your first workflow.
 
-<!--
-### **Build** 
-Select a trigger (HTTP requests, schedules, app events and more) and add one or more steps (write custom Node.js, Python, Go or Bash or pre-built, no code building blocks).
+![build, test,deploy](./images/getting-started5.png)
 
-### **Test** 
-Test your trigger and each step as you build. The results are used to provide autocomplete suggestions in later steps and the data is used when you test your workflow.
+One you understand the basics of workflow development, learn how to get more out of Pipedream:
 
-### **Deploy** 
-Just click "Deploy" to run your workflow on Pipedream's servers on every new trigger event.
--->
-<!--
-1. **Select a trigger** and generate an event to help you build your workflow (trigger data is used for autocomplete and when testing your workflow). Workflows can be triggered on HTTP requests, schedules, app events and more.
-
-2. **Add steps** to your workflow and test them. Step can be code (Node.js, Python, Go or Bash) or pre-built, no code building blocks.
-
-3. **Deploy** to run your workflow on Pipedream's servers on every new trigger event.
--->
-
-<!--
-- Connect accounts for hundreds of OAuth and key-based APIs in seconds.
-- Reference connected accounts in your code or use them with no-code building blocks.
-- Build and run workflows triggered on HTTP requests, schedules, app events and more.
--->
-
-<!--With Pipedream, you can stop writing boilerplate code, struggling with authentication and managing infrastructure, and start connecting APIs with code-level control when you need it — and no code when you don't. -->
-
-<!--Pipedream is a low code integration platform for developers. We make it easy to connect APIs remarkably fast so you can stop writing boilerplate code, struggling with authentication and managing infrastructure, and start connecting APIs with code-level control when you need it — and no code when you don't.-->
-
-<!--
-Watch a 4-minute demo or review our [quickstart guide](/quickstart/):
-
-<video controls poster="./images/demo-poster.png" width="100%">
-  <source src="https://res.cloudinary.com/pipedreamin/video/upload/v1612307285/homepage/Using_Event_Sources_and_Workflows__Analyze_Twitter_Sentiment_in_Real-Time_and_Save_to_Google_Sheets_ehy2ho.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
--->
-
-<!--
-Pipedream offers a generous free tier (no credit card required) so you can test out the platform and use it for personal projects with no risk or commitment. As your needs grow, it's easy to upgrade to [paid plans](https://pipedream.com/pricing) to run without limits for individuals, teams and enterprises.
--->
-
-
-<!--
-## Getting Started
-
-Sign up for a [free account (no credit card required)](https://pipedream.com/auth/signup) and create a worklow.
-
-### 1. Build
-
-Select a trigger and add steps to your workflows. Step can be code (Node.js, Python, Go and Bash currently supported) or no code building blocks.
-
-<!--The trigger event is used to provide auto-complete suggestions as you build your workflow. The data is also used when you test your workflow.-->
-<!--
-### 2. Test
-
-Test each step as you build your workflow. Pipedream uses the results to provide autocomplete suggestions and uses the data to when testing later steps.
-
-### 3. Deploy
-
-Deploy to run your workflow on Pipedream's servers 24 x 7 x 365
-
-<!--HTTP requests, schedules, app events and more.-->
-
-<!--Pipedream also makes it easy to test and validate your integrations, scaffold API requests for any app, maintain state between executions, manage execution rate and concurrency and more. -->
-
-<!--![image-20210520194929461](./image-20210520194929461.png)-->
-
-<!--img src="https://res.cloudinary.com/pipedreamin/image/upload/v1612919959/homepage/workflow-demo_ks64up.png"-->
-
-<!--
-Trusted by developers from startups to Fortune 500 companies:
-
-![logos](https://res.cloudinary.com/pipedreamin/image/upload/v1612919944/homepage/logos_kcbviz.png)
-
-## How Pipedream Works
-
-Pipedream provides a serverless platform to build and run workflows that connect APIs:
-
-- Connect your OAuth and key-based API accounts in seconds
-- Use connected accounts to auth APIs in code steps or in "no code" building blocks
-- Compose steps into workflows and trigger on HTTP requests, schedules or app events
-
-Pipedream also provides easy to use services to solve common serverless and integration challenges including state management, execution rate and concurrency controls, large file support (up to 5TB) and more! 
-
-Watch a demo (4 mins):
-
--->
-<!--
-## Is Pipedream for Me?
-
-We make it easy to connect APIs with code-level control when you need it — and no code when you don't. If you and your team want to stop writing boilerplate code, struggling with authentication and managing infrastructure for integrations, then Pipedream is for you. 
-
-Developers with a working knowledge of Node.js or Javascript will get the most value from Pipedream (Python, TypeScript, and GitHub integration are coming soon).
-
-<!--
-Pipedream is trusted by 150k+ developers from startups to Fortune 500 companies:
-
-![logos](https://res.cloudinary.com/pipedreamin/image/upload/v1612919944/homepage/logos_kcbviz.png)
--->
-<!--
-## Getting Started
-
-Sign up for a [free account (no credit card required)](https://pipedream.com/auth/signup) and complete our [quickstart guide](/quickstart/) to learn the basic patterns for workflow development:
-
-- Trigger workflows on HTTP requests, schedules and app events
-- Return a custom response from your workflow on HTTP requests 
-- Use connected accounts in actions and code steps
-- Pass data between code steps and no code actions
-- Use npm packages in Node.js code steps
-- Scaffold an API request in Node.js
-- End workflow execution early
-
-<!--
-<p style="text-align:center;">
-<a href="/quickstart/hello-world/"><img src="./quickstart/get-started.png"></a>
-</p>
--->
+- [Use code in workflows](/code/) 
+- [Develop custom actions](/components/quickstart/nodejs/actions/) 
+- [Develop custom triggers](/components/quickstart/nodejs/sources/)
 
 ## Use Cases
 

@@ -57,51 +57,17 @@ module.exports = {
         title: "Workflows",
         children: 
         [
-          {
-            title: "Overview",
-            type: "group",
-            children: [
-              "/workflows/",
-              "/workflows/steps/",
-              "/workflows/steps/triggers/",
-              "/components/actions/",
-              "/workflows/concurrency-and-throttling/",
-              "/environment-variables/",
-            ],
-          },
-          {
-            title: "Managing",
-            type: "group",
-            children: [
-              "/workflows/settings/",
-              "/workflows/copy/",
-              "/workflows/error-handling/global-error-workflow/",
-            ],
-          },
+          "/workflows/",
+          "/workflows/steps/",
+          "/workflows/steps/triggers/",
+          "/components/actions/",
+          "/workflows/concurrency-and-throttling/",
+          "/environment-variables/",
+          "/workflows/settings/",
         ]
       },
       "/sources/",
-      {
-        title: "Connected Accounts",
-        collapsable: true,
-        children: [
-          "/connected-accounts/",
-          {
-            title: "Integrations",
-            type: "group",
-            children: [
-              "/apps/all-apps/",
-              "/apps/discord/",
-              "/apps/hubspot/",
-              "/apps/servicenow/",
-              "/apps/slack/",
-              "/apps/strava/",
-              "/apps/twitter/",
-              "/apps/zoom/",
-            ],
-          },
-        ]
-      },
+      "/connected-accounts/",
       "/user-settings/",
       {
         title: "Organizations",
@@ -119,7 +85,8 @@ module.exports = {
               "/code/nodejs/",
               "/code/python/",
               "/code/go/",
-              "/code/bash/"
+              "/code/bash/",
+              "/destinations/",
             ],
           },
           {
@@ -151,6 +118,20 @@ module.exports = {
               "/api/rest/rss/",
               "/api/rest/workflow-errors/",
               "/api/sse/",
+            ],
+          },
+          {
+            title: "Integrations",
+            type: "group",
+            children: [
+              "/apps/all-apps/",
+              "/apps/discord/",
+              "/apps/hubspot/",
+              "/apps/servicenow/",
+              "/apps/slack/",
+              "/apps/strava/",
+              "/apps/twitter/",
+              "/apps/zoom/",
             ],
           },
         ],
@@ -247,7 +228,7 @@ module.exports = {
       //   ],
       // },\
       {
-        title: "Limits",
+        title: "Pricing & Limits",
         collapsable: true,
         children: [
           "/limits/",
