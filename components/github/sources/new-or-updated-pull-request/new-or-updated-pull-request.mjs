@@ -5,7 +5,7 @@ export default {
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request (Instant)",
   description: "Emit new events when a pull request is opened or updated",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

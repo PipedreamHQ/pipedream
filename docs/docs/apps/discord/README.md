@@ -1,19 +1,16 @@
 # Discord
 
 <div>
-<img style="display: inline-block;" src="./images/discord_plus_pipedream.png" alt="Discord" width="200px">
+<img style="display: inline-block;" src="./images/discord_plus_pipedream_transparent.png" alt="Discord" width="130px">
 </div>
 
-Pipedream supports two [Discord](https://discordapp.com) integrations: 
+Pipedream supports a few different ways to connect to [Discord](https://discordapp.com):
 
-- [Discord Webhook](#discord-webhook)
-- [Discord Bot](#discord-bot)
+- **[Discord Webhook](#discord-webhook):** If you just need to send messages to a channel, use this integration.
+- **[Discord Bot](#discord-bot):** This integration lets you interact with the [Discord API](https://discordapp.com/developers/docs/intro) to programmatically create channel invites, kick users from a guild, and more. You'll need to create your own bot and add it to your guild before using this integration ([details below](#discord-bot)).
+- **[Pipedream Bot in Discord](#pipedream-bot-in-discord):** This integration creates a Discord source that emits messages from your guild to a Pipedream workflow.
 
-If you just need to send messages to a channel, use the [**Webhook integration**](#discord-webhook).
-
-The [**Bot integration**](#discord-bot) lets you interact with the [Discord API](https://discordapp.com/developers/docs/intro) to programmatically create channel invites, kick users from a guild, and more. You'll need to create your own bot and add it to your guild before using this integration. We describe that process [below](#discord-bot).
-
-You can also use both types of integrations in the same workflow. Read on to learn more.
+**You can also use any combination of Discord integrations in the same workflow! Read on to learn more.**
 
 [[toc]]
 
@@ -122,10 +119,22 @@ Right now, the Discord Bot integration cannot utilize the [Discord Gateway](http
 
 Please [reach out](https://pipedream.com/support) if prevents you from building a workflow. We're happy to prioritize support for this in the future.
 
-## Discord Event Sources
+## Pipedream Bot in Discord
 
-[Event sources](/event-sources/) let you trigger workflows on new events from Discord. For example, you can create a source that listens for new messages in a Discord channel, triggering a workflow on each new message.
+### Using the Pipedream Bot integration
 
-### New Messages in Channel
+To get started with this integration, [create a new workflow](https://pipedream.com/new). When setting up the trigger, select "Discord" as the app, then choose "New Message".
 
-[Read the Github docs](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_bot/README.md) to create an event source that emits a new event each time a new message arrives in a Discord channel. This lets you trigger a Pipedream workflow on each new message, or listen for new messages via Pipedream's [SSE interface](/api/sse/) or [REST API](/api/rest/).
+<div>
+<img alt="Discord App integration" src="./images/discord-app-trigger.png" width="800">
+</div>
+
+You'll be prompted to sign in to your Discord account if you haven't already connected it to Pipedream, then you can select the channel(s) to which you'd like to add the Pipedream Bot, and create the source. You should now see the Pipedream Bot in your relevant Discord channel(s).
+
+<div>
+<img alt="Pipedream Bot" src="./images/pipedream-bot.png" width="350">
+</div>
+
+### Discord Event Source
+
+[Event sources](/event-sources/) in Pipedream let you trigger workflows on new events from the partner API. In the case of Discord for example, you can create [a source that listens for new messages in a Discord channel](https://pipedream.com/apps/discord/triggers/new-message), and trigger a workflow to run on each new message.
