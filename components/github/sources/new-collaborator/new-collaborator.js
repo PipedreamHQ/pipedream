@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-collaborator",
   name: "New Collaborator (Instant)",
   description: "Emit new events when collaborators are added to a repo",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   methods: {

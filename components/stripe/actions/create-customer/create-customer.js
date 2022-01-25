@@ -5,8 +5,9 @@ module.exports = {
   key: "stripe-create-customer",
   name: "Create a Customer",
   type: "action",
-  version: "0.0.1",
-  description: "Create a customer",
+  version: "0.0.2",
+  description: "Create a customer. [See the docs](https://stripe.com/docs/api/customers/create) " +
+    "for more information",
   props: {
     stripe,
     name: {
@@ -84,7 +85,7 @@ module.exports = {
         "(https://stripe.com/docs/api/customers/create) for a list of supported options.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "name",
       "email",
@@ -100,10 +101,12 @@ module.exports = {
       "postal_code",
       "country",
     ]);
-    return await this.stripe.sdk().customers.create({
+    const resp = await this.stripe.sdk().customers.create({
       ...params,
       address,
       ...this.advanced,
     });
+    $.export("$summary", `Successfully created a new customer, "${resp.id}"`);
+    return resp;
   },
 };

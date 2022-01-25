@@ -4,8 +4,9 @@ module.exports = {
   key: "stripe-void-invoice",
   name: "Void Invoice",
   type: "action",
-  version: "0.0.1",
-  description: "Void an invoice",
+  version: "0.0.2",
+  description: "Void an invoice. [See the docs](https://stripe.com/docs/api/invoices/void) for " +
+    "more information",
   props: {
     stripe,
     id: {
@@ -16,7 +17,9 @@ module.exports = {
       optional: false,
     },
   },
-  async run() {
-    return await this.stripe.sdk().invoices.voidInvoice(this.id);
+  async run({ $ }) {
+    const resp = await this.stripe.sdk().invoices.voidInvoice(this.id);
+    $.export("$summary", `Successfully voided the invoice, "${resp.number || resp.id}"`);
+    return resp;
   },
 };
