@@ -6,7 +6,7 @@ export default {
   key: "telegram_bot_api-channel-updates",
   name: "Channel Updates (Instant)",
   description: "Emit new event each time a channel message is created or updated.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     db: "$.service.db",
