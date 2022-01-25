@@ -249,5 +249,6 @@ module.exports = {
     NODE_VERSION: "14",
     PYTHON_VERSION: "3.8",
     CONFIGURED_PROPS_SIZE_LIMIT: "64KB",
+    SERVICE_DB_SIZE_LIMIT: "60KB",
   },
 };
