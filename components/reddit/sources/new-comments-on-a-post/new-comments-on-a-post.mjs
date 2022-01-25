@@ -20,22 +20,13 @@ export default {
       ],
     },
     subredditPost: {
-      type: "string",
-      label: "Post",
-      description:
-        "Pipedream will emit a new event when a comment is made on the selected post.",
-      optional: false,
-      async options() {
-        const options = [];
-        const results = await this.getAllSubredditPosts();
-        for (const subreddit of results) {
-          options.push({
-            label: subreddit.title,
-            value: subreddit.id,
-          });
-        }
-        return options;
-      },
+      propDefinition: [
+        reddit,
+        "subredditPost",
+        ({ subreddit }) => ({
+          subreddit,
+        }),
+      ],
     },
     numberOfParents: {
       type: "integer",
@@ -63,21 +54,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      // Emits sample events on the first run during deploy.
-      var redditComments = await this.reddit.getNewSubredditComments(
-        get(this.subreddit, "value", this.subreddit),
-        this.subredditPost,
-        this.numberOfParents,
-        this.depth,
-        this.includeSubredditDetails,
-        10,
-      );
-      const { children: comments = [] } = redditComments.data;
-      if (comments.length === 0) {
-        console.log("No data available, skipping iteration");
-        return;
-      }
-      comments.reverse().forEach(this.emitRedditEvent);
+      await this.fetchData(10);
     },
   },
   methods: {
@@ -89,48 +66,24 @@ export default {
         ts: redditEvent.data.created,
       };
     },
-    async getAllSubredditPosts() {
-      const results = [];
-      let before = null;
-      do {
-        const redditLinks = await this.reddit.getNewSubredditLinks(
-          get(this.subreddit, "value", this.subreddit),
-          {
-            before,
-          },
-        );
-        const { children: links = [] } = redditLinks.data;
-        if (links.length === 0) {
-          break;
-        }
-        before = links[0].data.name;
-        links.forEach((link) => {
-          const {
-            title,
-            id,
-          } = link.data;
-          results.push({
-            title,
-            id,
-          });
-        });
-      } while (before);
-      return results;
+    async fetchData(limit) {
+      const redditComments = await this.reddit.getNewSubredditComments(
+        get(this.subreddit, "value", this.subreddit),
+        get(this.subredditPost, "value", this.subredditPost),
+        this.numberOfParents,
+        this.depth,
+        this.includeSubredditDetails,
+        limit,
+      );
+      const { children: comments = [] } = redditComments.data;
+      if (comments.length === 0) {
+        console.log("No data available, skipping iteration");
+        return;
+      }
+      comments.reverse().forEach(this.emitRedditEvent);
     },
   },
   async run() {
-    const redditComments = await this.reddit.getNewSubredditComments(
-      get(this.subreddit, "value", this.subreddit),
-      this.subredditPost,
-      this.numberOfParents,
-      this.depth,
-      this.includeSubredditDetails,
-    );
-    const { children: comments = [] } = redditComments.data;
-    if (comments.length === 0) {
-      console.log("No data available, skipping iteration");
-      return;
-    }
-    comments.reverse().forEach(this.emitRedditEvent);
+    await this.fetchData();
   },
 };

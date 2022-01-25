@@ -38,21 +38,19 @@ export default {
           after: prevContext?.after,
         };
         const links = await this.getNewSubredditLinks(
-          get(subreddit, "value.displayName", subreddit),
+          get(subreddit, "value", subreddit),
           params,
         );
-        const options = get(links, "data.children", []).map((item) => ({
+        const posts = get(links, "data.children", []);
+        const options = posts.map((item) => ({
           label: item.data.title,
-          value: {
-            id: item.data.id,
-            name: item.data.name,
-          },
+          value: item.data.id,
         }));
 
         return {
           options,
           context: {
-            after: get(options, `${options.length - 1}.value.name`),
+            after: get(posts, `${posts.length - 1}.data.name`),
           },
         };
       },
@@ -106,16 +104,13 @@ export default {
         const subreddits = get(res, "data.children", []);
         const options = subreddits.map((subreddit) => ({
           label: subreddit.data.title,
-          value: {
-            displayName: subreddit.data.display_name,
-            name: subreddit.data.name,
-          },
+          value: subreddit.data.display_name,
         }));
 
         return {
           options,
           context: {
-            after: get(options, `${options.length - 1}.value.name`),
+            after: get(subreddits, `${subreddits.length - 1}.data.name`),
           },
         };
       },
@@ -317,6 +312,7 @@ export default {
         threaded: true,
         trucate: 0,
       };
+
       const [
         ,
         redditComments,
