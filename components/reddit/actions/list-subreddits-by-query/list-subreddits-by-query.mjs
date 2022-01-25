@@ -56,7 +56,7 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      q: get(this.subreddit, "value.displayName", this.subreddit),
+      q: get(this.subreddit, "value", this.subreddit),
       limit: this.limit,
       sort: this.sort,
       sr_detail: this.srDetails,

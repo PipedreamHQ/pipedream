@@ -86,7 +86,7 @@ export default {
   async run ({ $ }) {
     const data = {
       api_type: "json",
-      sr: get(this.subreddit, "value.displayName", this.subreddit),
+      sr: get(this.subreddit, "value", this.subreddit),
       kind: this.kind,
       title: this.title,
       spoiler: this.spoiler,
