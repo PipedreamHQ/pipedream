@@ -38,7 +38,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     googleSheets,
@@ -69,44 +69,33 @@ export default {
     dataFormat,
   },
   async additionalProps() {
+    const props = {};
     if (this.dataFormat == "column") {
-      if (!this.header) {
-        const rv = {};
-        rv.header = headerProp;
-        return rv;
-      } else {
-        if (this.header === "hasHeaders") {
-          const rv = {};
-          rv.header = headerProp;
-          const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId, `${this.sheetName}!1:1`);
-          for (let i = 0; i < values[0]?.length; i++) {
-            rv[`col_${i.toString().padStart(4, "0")}`] = {
-              type: "string",
-              label: values[0][i],
-              optional: true,
-            };
-          }
-          return rv;
-        } else {
-          const rv = {};
-          rv.header = headerProp;
-          rv.myColumnData = {
-            type: "string[]",
-            label: "Row Data",
-            description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+      props.header = headerProp;
+      if (this.header === "hasHeaders") {
+        const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId, `${this.sheetName}!1:1`);
+        for (let i = 0; i < values[0]?.length; i++) {
+          props[`col_${i.toString().padStart(4, "0")}`] = {
+            type: "string",
+            label: values[0][i],
+            optional: true,
           };
-          return rv;
         }
+      } else if (this.header === "noHeaders") {
+        props.myColumnData = {
+          type: "string[]",
+          label: "Row Data",
+          description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+        };
       }
-    } else {
-      const rv = {};
-      rv.arrayData = {
+    } else if (this.dataFormat === "array") {
+      props.arrayData = {
         type: "any",
         label: "Values",
         description: "Pass an array that represents a row of values. Each array element will be treated as a cell (e.g., entering `[\"Foo\",1,2]` will insert a new row of data with values in 3 cells). The most common pattern is to reference an array exported by a previous step (e.g., `{{steps.foo.$return_value}}`). Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
       };
-      return rv;
     }
+    return props;
   },
   async run({ $ }) {
     let cells;

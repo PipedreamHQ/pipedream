@@ -6,7 +6,7 @@ export default {
   key: "trello-card-moved",
   name: "Card Moved (Instant)",
   description: "Emit new event each time a card is moved to a list.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   props: {
     ...common.props,

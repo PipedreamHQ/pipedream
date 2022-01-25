@@ -7,7 +7,7 @@ export default {
   name: "New Member on Card (Instant)",
   description:
     "Emit new event for each card joined by the authenticated Trello user.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {
