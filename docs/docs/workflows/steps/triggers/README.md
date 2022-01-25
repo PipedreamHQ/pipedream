@@ -288,31 +288,39 @@ When you're processing HTTP requests, you often don't need to issue any special 
 
 #### Customizing the HTTP response
 
-If you need to issue a custom HTTP response from a workflow, **you can use the `$respond()` function in a Code or Action step**.
+If you need to issue a custom HTTP response from a workflow, **you can use the `$.respond()` function in a Code or Action step**.
 
-`$respond()` takes a single argument: an object with properties that specify the body, headers, and HTTP status code you'd like to respond with:
+`$.respond()` takes a single argument: an object with properties that specify the body, headers, and HTTP status code you'd like to respond with:
 
 ```javascript
-$respond({
-  status: 200,
-  headers: { "my-custom-header": "value" },
-  body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
+defineComponent({
+  async run({ steps, $ }) {
+    $.respond({
+      status: 200,
+      headers: { "my-custom-header": "value" },
+      body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
+    });
+  })
 });
 ```
+
+:::warning
+The `$.respond` function is currently only available in Node.js (Javascript) workflow steps.
+:::
 
 The value of the `body` property can be either a string, object, a [Buffer](https://nodejs.org/api/buffer.html#buffer_buffer) (binary data), or a [Readable stream](https://nodejs.org/api/stream.html#stream_readable_streams). Attempting to return any other data may yield an error.
 
 In the case where you return a Readable stream:
 
-- You must `await` the `$respond` function (`await $respond({ ... }`)
+- You must `await` the `$.respond` function (`await $.respond({ ... }`)
 - The stream must close and be finished reading within your [workflow execution timeout](/limits/#time-per-execution).
-- You cannot return a Readable and use the [`immediate: true`](#returning-a-response-immediately) property of `$respond`.
+- You cannot return a Readable and use the [`immediate: true`](#returning-a-response-immediately) property of `$.respond`.
 
 You can **Copy** [this example workflow](https://pipedream.com/@dylburger/issue-an-http-response-from-a-workflow-p_ljCRdv/edit) and make an HTTP request to its endpoint URL to experiment with this.
 
-#### Timing of `$respond()` execution
+#### Timing of `$.respond()` execution
 
-You may notice some response latency calling workflows that use `$respond()` from your HTTP client. By default, `$respond()` is called at the end of your workflow, after all other code is done executing, so it may take some time to issue the response back.
+You may notice some response latency calling workflows that use `$.respond()` from your HTTP client. By default, `$.respond()` is called at the end of your workflow, after all other code is done executing, so it may take some time to issue the response back.
 
 If you need to issue an HTTP response in the middle of a workflow, see the section on [returning a response immediately](#returning-a-response-immediately).
 
@@ -321,23 +329,31 @@ If you need to issue an HTTP response in the middle of a workflow, see the secti
 You can issue an HTTP response within a workflow, and continue the rest of the workflow execution, by setting the `immediate` property to `true`:
 
 ```javascript
-await $respond({
-  immediate: true,
-  status: 200,
-  headers: { "my-custom-header": "value" },
-  body: { message: "My custom response" },
+defineComponent({
+  async run({ steps, $ }) {
+    await $.respond({
+      immediate: true,
+      status: 200,
+      headers: { "my-custom-header": "value" },
+      body: { message: "My custom response" },
+    });
+  })
 });
 ```
 
-Passing `immediate: true` tells `$respond()` to issue a response back to the client at this point in the workflow. After the HTTP response has been issued, the remaining code in your workflow runs.
+Passing `immediate: true` tells `$.respond()` to issue a response back to the client at this point in the workflow. After the HTTP response has been issued, the remaining code in your workflow runs.
 
 This can be helpful, for example, when you're building a Slack bot. When you send a message to a bot, Slack requires a `200 OK` response be issued immediately, to confirm receipt:
 
 ```javascript
-await $respond({
-  immediate: true,
-  status: 200,
-  body: "",
+defineComponent({
+  async run({ steps, $ }) {
+    await $.respond({
+      immediate: true,
+      status: 200,
+      body: "",
+    });
+  })
 });
 ```
 
@@ -347,31 +363,36 @@ Once you issue the response, you'll probably want to process the message from th
 
 #### Errors with HTTP Responses
 
-If you use `$respond()` in a workflow, **you must always make sure `$respond()` is called in your code**. If you make an HTTP request to a workflow, and run code where `$respond()` is _not_ called, your endpoint URL will issue a `400 Bad Request` error with the following body:
+If you use `$.respond()` in a workflow, **you must always make sure `$.respond()` is called in your code**. If you make an HTTP request to a workflow, and run code where `$.respond()` is _not_ called, your endpoint URL will issue a `400 Bad Request` error with the following body:
 
 ```
-No $respond called in workflow
+No $.respond called in workflow
 ```
 
 This might happen if:
 
-- You call `$respond()` conditionally, where it does not run under certain conditions.
-- Your workflow throws an Error before you run `$respond()`.
+- You call `$.respond()` conditionally, where it does not run under certain conditions.
+- Your workflow throws an Error before you run `$.respond()`.
 - You return data in the `body` property that isn't a string, object, or Buffer.
 
-If you can't handle the `400 Bad Request` error in the application calling your workflow, you can implement `try` / `finally` logic to ensure `$respond()` always gets called with some default message. For example:
+If you can't handle the `400 Bad Request` error in the application calling your workflow, you can implement `try` / `finally` logic to ensure `$.respond()` always gets called with some default message. For example:
 
 ```javascript
-try {
-  // Your code here that might throw an exception or not run
-} finally {
-  $respond({
-    status: 200,
-    body: {
-      msg: "Default response",
-    },
-  });
-}
+defineComponent({
+  async run({ steps, $ }) {
+    try {
+      // Your code here that might throw an exception or not run
+      throw new Error('Whoops, something unexpected happened.');
+    } finally {
+      $.respond({
+        status: 200,
+        body: {
+          msg: "Default response",
+        },
+      });
+    }
+  })
+});
 ```
 
 ### Errors

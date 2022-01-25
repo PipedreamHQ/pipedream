@@ -1,26 +1,18 @@
-# Code
-
-_This document details how to use Node.js code steps. If you're building a [component](/components/), please [reference the component API docs](/components/api/)._
-
-Pipedream comes with thousands of prebuilt [triggers](/workflows/steps/triggers/) and [actions](/components/actions/). Often, these will be sufficient for building simple workflows.
-
-But sometimes you need to run your own custom logic. You may need to make an API request to fetch additional metadata about the event, transform  data into a custom format, or end the execution of a workflow early under some conditions. **Code steps let you do this and more**.
-
-Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/) (JavaScript) code, using JavaScript's extensive [npm](https://www.npmjs.com/) package ecosystem within your code. Virtually anything you can do in Node.js, you can do in a code step.
-
-[[toc]]
-
-## Language Support
+# Writing Node.js in Code Steps
 
 Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/).
 
-It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
+
 
 **Anything you can do with Node.js, you can do in a workflow**. This includes using most of [npm's 400,000+ packages](#using-npm-packages).
 
-If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).
+
 
 JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2019#technology-_-programming-scripting-and-markup-languages) [languages](https://github.blog/2018-11-15-state-of-the-octoverse-top-programming-languages/) in the world, with a thriving community and [extensive package ecosystem](https://www.npmjs.com). If you work on websites and know JavaScript well, Pipedream makes you a full stack engineer. If you've never used JavaScript, see the [resources below](#new-to-javascript).
+
+::: tip
+It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
+:::
 
 ## Adding a code step
 
@@ -34,9 +26,13 @@ JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2
 You can add any Node.js code in the editor that appears. For example, try:
 
 ```javascript
-console.log("This is Node.js code");
-this.test = "Some test data";
-return "Test data";
+defineComponent({
+  async run({ steps, $ }) {
+    console.log("This is Node.js code");
+    this.test = "Some test data";
+    return "Test data";
+  })
+});
 ```
 
 Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-editor/)) used in Microsoft's [VS Code](https://code.visualstudio.com/), which supports syntax highlighting, automatic indentation, and more.
@@ -49,12 +45,14 @@ You can make code steps reusable by allowing them to accept parameters. Instead 
 
 ## `async` function declaration
 
-You'll notice an [`async` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) declaration that appears when you add a new code step:
+You'll notice an [`async` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) declaration that appears when you add a new Node.js code step:
 
 ```javascript
-async (event, steps) => {
-  // this node.js code will execute when your workflow is triggered
-};
+defineComponent({
+  async run({ steps, $ }) {
+      // this node.js code will execute when your workflow is triggered
+  })
+});
 ```
 
 This communicates a couple of key concepts:
@@ -65,9 +63,11 @@ This communicates a couple of key concepts:
 If you're using [step parameters](/workflows/steps/#passing-data-to-steps-step-parameters) or [connect an account to a step](/connected-accounts/#from-a-code-step), you may notice two new parameters passed to the function signature, `params` and `auths`:
 
 ```javascript
-async (event, steps, params, auths) => {
-  // this node.js code will execute when your workflow is triggered
-};
+defineComponent({
+  async run({ steps, $ }) {
+    // this node.js code will execute when your workflow is triggered
+  })
+});
 ```
 
 When you use [step parameters](/workflows/steps/#passing-data-to-steps-step-parameters), Pipedream passes the `params` object (named pairs of param key and its associated value) to the function.
@@ -76,22 +76,28 @@ When you [connect an account to a step](/connected-accounts/#from-a-code-step), 
 
 ## Logs
 
-You can call `console.log` or `console.error` to add logs to the execution of a code step. These logs will appear just below the associated step. `console.log` messages appear in black, `console.error` in red.
+You can call `console.log` or `console.error` to add logs to the execution of a code step. 
 
-## `console.dir`
+These logs will appear just below the associated step. `console.log` messages appear in black, `console.error` in red.
+
+### `console.dir`
 
 If you need to print the contents of JavaScript objects, use `console.dir`:
 
 ```javascript
-console.dir({
-  name: "Luke"
-})
+defineComponent({
+  async run({ steps, $ }) {
+    console.dir({
+      name: "Luke"
+    })
+  })
+});
 ```
 
 This will let you inspect the object properties below the step like you can for [step exports](/workflows/steps/#exporting-data-in-code-steps):
 
 <div>
-<img alt="console.dir output" src="./images/console-dir.png" width="300px">
+<img alt="console.dir() output example in a node.js pipedream workflow step" src="./images/console-dir.png" width="300px">
 </div>
 
 ## Syntax errors
@@ -142,7 +148,7 @@ In this example, we're including the `axios` [CommonJS module](https://nodejs.or
 
 But you may encounter this error in workflows:
 
-**Error Must use import to load ES Module**
+`Error Must use import to load ES Module`
 
 This means that the package you're trying to `require` uses a different format to export their code, called [ECMAScript modules](https://nodejs.org/api/esm.html#esm_modules_ecmascript_modules) (**ESM**, or **ES modules**, for short). With ES modules, you instead need to `import` the package:
 
@@ -211,33 +217,45 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 - You only want to run your workflow for users in the United States. If you receive a request from outside the U.S., you don't want the rest of the code in your workflow to run.
 - You may use the `user_id` contained in the event to look up information in an external API. If you can't find data in the API tied to that user, you don't want to proceed.
 
-**In any code step, calling the `$end()` function will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
+**In any code step, calling the `$.end()` function will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
 
 ```javascript
-$end();
-console.log("This code will not run, since $end() was called above it");
+defineComponent({
+  async run({ steps, $ }) {
+    $.end();
+    console.log("This code will not run, since $end() was called above it");
+  })
+});
 ```
 
-You can pass any string as an argument to `$end()`:
+You can pass any string as an argument to `$.end()`:
 
 ```javascript
-$end("Event doesn't have the correct schema");
+defineComponent({
+  async run({ steps, $ }) {
+    $.end("Event doesn't have the correct schema");
+  })
+});
 ```
 
-This message will appear in the Inspector in the **Messages** column for the event where `$end()` was called:
+This message will appear in the Inspector in the **Messages** column for the event where `$.end()` was called:
 
 <div>
 <img alt="Dollar end message in inspector" src="./images/dollar-end.png">
 </div>
 
-Like any other code, `$end()` can be called conditionally:
+Like any other code, `$.end()` can be called conditionally:
 
 ```javascript
-// Flip a coin, running $end() for 50% of events
-if (Math.random() > 0.5) {
-  $end();
-}
-console.log("This code will only run 50% of the time");
+defineComponent({
+  async run({ steps, $ }) {
+    // Flip a coin, running $end() for 50% of events
+    if (Math.random() > 0.5) {
+      $end();
+    }
+    console.log("This code will only run 50% of the time");
+  })
+});
 ```
 
 ## Errors
@@ -297,5 +315,3 @@ Many of the most basic JavaScript tutorials are geared towards writing code for 
 - [Eloquent Javascript](https://eloquentjavascript.net/)
 - [Node School](https://nodeschool.io/)
 - [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS)
-
-<Footer />
