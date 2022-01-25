@@ -298,7 +298,7 @@ export default defineComponent({
 })
 ```
 
-### Deduplicating data example
+### Deduplicate data example
 
 This database is also useful for storing data from APIs from prior runs to prevent duplicate data.
 
@@ -311,15 +311,16 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     const email = steps.trigger.context.new_customer_email;
-    const pastEmails = this.db.get('emails') || [];
+    // Retrieve the past recorded emails from other runs
+    const emails = this.db.get('emails') || [];
 
     // If the current email being passed from our webhook is already in our list, exit early
-    if(pastEmails.includes(email)) {
+    if(emails.includes(email)) {
       $.exit('Already welcomed this user');
     }
 
     // Add the current email to the list of past emails so we can detect it in the future runs
-    this.db.set('emails', [...pastEmails, email]);
+    this.db.set('emails', [...emails, email]);
   },
 })
 ```

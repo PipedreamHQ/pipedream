@@ -172,6 +172,7 @@ deduped
 dedupes
 deduping
 deduplication
+defineComponent
 deleteHook
 Dest
 destructure

@@ -71,6 +71,4 @@ jobs:
       - name: Check component keys
         run: node scripts/findBadKeys.js
 
-      - name: Find 404's
-        uses: technote-space/broken-link-checker-action@v1.1.3
 
