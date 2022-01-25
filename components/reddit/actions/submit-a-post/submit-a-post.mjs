@@ -86,7 +86,7 @@ export default {
   async run ({ $ }) {
     const data = {
       api_type: "json",
-      sr: get(this.subreddit, "value", this.subreddit),
+      sr: get(this.subreddit, "value.displayName", this.subreddit),
       kind: this.kind,
       title: this.title,
       spoiler: this.spoiler,
@@ -107,7 +107,7 @@ export default {
 
     this.reddit.checkErrors(res);
 
-    $.export("$summary", `The post "${this.title}" has been successfully created`);
+    $.export("$summary", `The post "${this.title}" has been successfully created into "${get(this.subreddit, "label", this.subreddit)}" subreddit`);
     return get(res, "json.data", res);
   },
 };

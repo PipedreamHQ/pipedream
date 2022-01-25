@@ -28,6 +28,7 @@ export default {
       label: "Post",
       description: "Select a subreddit post with \"Structured Mode\" enabled, or reference specific Post ID in [base36](http://en.wikipedia.org/wiki/Base36) with \"Structured Mode\" disabled (for example, `15bfi0`).",
       optional: false,
+      withLabel: true,
       async options({
         subreddit,
         prevContext,
@@ -37,14 +38,13 @@ export default {
           after: prevContext?.after,
         };
         const links = await this.getNewSubredditLinks(
-          get(subreddit, "value", subreddit),
+          get(subreddit, "value.displayName", subreddit),
           params,
         );
         const options = get(links, "data.children", []).map((item) => ({
           label: item.data.title,
           value: {
-            label: item.data.title,
-            value: item.data.id,
+            id: item.data.id,
             name: item.data.name,
           },
         }));
@@ -88,6 +88,7 @@ export default {
       label: "Subreddit",
       description: "The subreddit you'd like to watch.",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         prevContext,
@@ -106,8 +107,7 @@ export default {
         const options = subreddits.map((subreddit) => ({
           label: subreddit.data.title,
           value: {
-            label: subreddit.data.title,
-            value: subreddit.data.display_name,
+            displayName: subreddit.data.display_name,
             name: subreddit.data.name,
           },
         }));

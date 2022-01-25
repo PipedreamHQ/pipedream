@@ -74,9 +74,9 @@ export default {
 
     const res = await axios($, this.reddit._getAxiosParams({
       method: "GET",
-      path: `/r/${get(subreddit, "value", subreddit)}/comments/article`,
+      path: `/r/${get(subreddit, "value.displayName", subreddit)}/comments/article`,
       params: {
-        article: get(subredditPost, "value", subredditPost),
+        article: get(subredditPost, "value.id", subredditPost),
         context: numberOfParents,
         depth: depth,
         sr_detail: includeSubredditDetails,
