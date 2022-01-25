@@ -15,7 +15,7 @@ export default {
   props: {
     discord,
     guildId: {
-      description: "In order to get members you migth want to take a look at these [docs](https://support.discord.com/hc/en-us/articles/360040720412#privileged-intent-whitelisting).",
+      description: "In order to get members you might want to take a look at these [docs](https://support.discord.com/hc/en-us/articles/360040720412#privileged-intent-whitelisting).",
       propDefinition: [
         discord,
         "guild",
