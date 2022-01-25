@@ -1,4 +1,4 @@
-import common from "../../common.mjs";
+import common from "../../common/base.mjs";
 
 const { discord } = common.props;
 

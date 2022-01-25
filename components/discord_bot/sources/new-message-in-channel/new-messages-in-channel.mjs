@@ -9,7 +9,7 @@ export default {
   name: "New Message in Channel",
   description: "Emit an event for each new message posted to one or more channel.",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
