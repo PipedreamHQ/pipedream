@@ -289,18 +289,18 @@ export default defineComponent({
   async run({ steps, $ }) {
     // By default, all database entries are undefined.
     // It's wise to set a default value so our code as an initial value to work with
-    const currentCount = this.db.get('counter') || 0;
+    const counter = this.db.get('counter') || 0;
     
     // On the first run "counter" will be and we'll increment it to 1
     // The next run will increment the counter to 2, and so forth
-    this.db.set('counter', counter) + 1;
+    this.db.set('counter', counter + 1);
   },
 })
 ```
 
-### Deduplicate data example
+### Dedupe data example
 
-This database is also useful for storing data from APIs from prior runs to prevent duplicate data.
+This database is also useful for storing data from APIs from prior runs to prevent acting on duplicate data, or data that's been seen before.
 
 For example, this workflows trigger contains an email address from a potential new customer. But we want to track all emails collected so we don't send a welcome email twice:
 
