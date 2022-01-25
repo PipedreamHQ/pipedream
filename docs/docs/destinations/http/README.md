@@ -9,26 +9,35 @@ HTTP Destinations allow you to send data to another HTTP endpoint URL outside of
 You can send HTTP requests in [Node.js code steps](/workflows/steps/code/) using `$.send.http()`.
 
 ```javascript
-$.send.http({
-  method: "POST",
-  url: "[YOUR URL HERE]",
-  data: {
-    name: "Luke Skywalker",
-  },
+defineComponent({
+ async run({ steps, $ }) {
+  $.send.http({
+    method: "POST",
+    url: "[YOUR URL HERE]",
+    data: {
+      name: "Luke Skywalker",
+    },
+  });  
+ })
 });
 ```
 
 `$.send.http()` accepts an object with all of the following properties:
 
 ```javascript
-$.send.http({
-  method, // Required, HTTP method, a string, e.g. POST, GET
-  url, // Required, the URL to send the HTTP request to
-  data, // HTTP payload
-  headers, // An object containing custom headers, e.g. { "Content-Type": "application/json" }
-  params, // An object containing query string parameters as key-value pairs
-  auth, // An object that contains a username and password property, for HTTP basic auth
+defineComponent({
+  async run({ steps, $ }) {
+    $.send.http({
+      method, // Required, HTTP method, a string, e.g. POST, GET
+      url, // Required, the URL to send the HTTP request to
+      data, // HTTP payload
+      headers, // An object containing custom headers, e.g. { "Content-Type": "application/json" }
+      params, // An object containing query string parameters as key-value pairs
+      auth, // An object that contains a username and password property, for HTTP basic auth
+    });  
+  })
 });
+
 ```
 
 **Destination delivery is asynchronous**: the HTTP requests are sent after your workflow finishes. This means **you cannot write code that operates on the HTTP response**. The benefit of using `$.send.http()`, though, is that these HTTP requests also don't count against your [compute time quota](/limits/#compute-time-per-day) on the [free tier](/pricing/#developer-tier).
@@ -36,15 +45,20 @@ $.send.http({
 If you iterate over an array of values and send an HTTP request for each:
 
 ```javascript
-const names = ["Luke", "Han", "Leia", "Obi Wan"];
-names.forEach((name) => {
-  $.send.http({
-    method: "POST",
-    url: "[YOUR URL HERE]",
-    data: {
-      name,
-    },
-  });
+
+defineComponent({
+  async run({ steps, $ }) {
+    const names = ["Luke", "Han", "Leia", "Obi Wan"];
+    names.forEach((name) => {
+      $.send.http({
+        method: "POST",
+        url: "[YOUR URL HERE]",
+        data: {
+          name,
+        },
+      });
+    });
+  })
 });
 ```
 
@@ -57,12 +71,14 @@ If you're authoring a [component action](/components/actions/), you can deliver 
 `$.send.http` functions the same as [`$.send.http` in workflow code steps](#using-send-http-in-workflows):
 
 ```javascript
-async run({ $ }) {
-  $.send.http({
-    method: "GET",
-    url: "https://example.com"
+defineComponent({
+  async run({ steps, $ }) {
+      $.send.http({
+        method: "GET",
+        url: "https://example.com"
+      })
   })
-}
+});
 ```
 
 ## HTTP Destination delivery

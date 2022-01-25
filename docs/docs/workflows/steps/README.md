@@ -46,112 +46,58 @@ After changing a step name, you'll need to update any references to the old step
 
 ## Passing data to steps
 
-### Passing data to code steps (step parameters)
-
-[Code steps are just functions](/workflows/steps/code/#async-function-declaration). As functions, they can accept parameters.
-
-To define a parameter, simply reference it in your code. For example, try adding this code to your step:
-
-```javascript
-console.log(params.name);
-```
-
-then save or deploy your workflow. You'll see a form appear above your code step, prompting you to pass data to the `name` param. You can edit its name, description, type, and more from this UI.
-
-Parameters promote reusability. They make it easier for others to use your workflow, since it's clear what values they need to pass to the step to get it working.
-
-[Read more about params here](/workflows/steps/params/).
-
-### Passing data to components
-
-When you're developing [components](/components/), you can accept input [using props](/components/api/#props).
-
-When you use a [component action](/components/actions/) in a workflow, you can pass data to its props using [the params form](/workflows/steps/params/#entering-expressions).
+You can generate input forms for steps [using props](/components/api/#props).
 
 ## Step Exports
 
-By default, variables declared in a step are scoped to that step.
+Step exports allow you to pass data between steps. Any data exported from a step must be JSON serializable; the data must be able to stored as JSON so it can be read by downstream steps.
 
-```js
-// The variable myData can only be used within this step
-const myData = 1;
-```
+For examples of supported data types in your steps language, see the examples below.
 
+* [Node.js (Javascript)](/code/nodejs/#sharing-data-between-steps)
+* [Python](/code/python/#sharing-data-between-steps)
+* [Bash](/code/bash/#sharing-data-between-steps)
+* [Go](/code/go/#sharing-data-between-steps)
+
+<!--
 To share data between steps, you can use **step exports**.
 
 Your trigger step automatically exports the event that triggered your workflow in the variable `steps.trigger.event`. You can reference this variable in any step.
 
-```js
-// In any step, you can reference the contents of the trigger event
-console.log(steps.trigger.event);
-```
-
-When you export your own data from steps, you'll access it at the variable `steps.[STEP NAME].[EXPORT NAME]`. For example, a code step might export data at `steps.nodejs.myData`. You can reference this variable in any code step or [step parameter](#passing-data-to-steps-step-parameters).
-
-### Exporting data in code steps
-
-You can export data from code steps in one of two ways: using named exports or `return`. The examples below are also included in [this workflow](https://pipedream.com/@dylburger/step-exports-example-p_xMC86w/edit), so you can copy and run it to see how this works.
-
-#### Use named exports
-
-The variable `this` is a reference to the current step. `this` is a JavaScript object, and it's mutable. You can export any [JSON-serializable](https://stackoverflow.com/a/3316779/10795955) data from a step by setting properties of `this`:
-
-```js
-this.exportedData = "I can use this data in another step";
-this.anotherProperty = {
-  data: "I can export any JSON-serializable data",
-  foo: "bar",
-};
-```
-
-When your workflow runs, you'll see the named exports appear below your step, with the data you exported. You can reference these exports in other steps using `steps.[STEP NAME].[EXPORT NAME]`.
-
-Let's assume the step above was named `myStep`. You'd reference its exports in any subsequent step like so:
-
-```js
-console.log(steps.myStep.exportedData);
-console.log(steps.myStep.anotherProperty);
-```
-
-#### Use `return`
-
-You can also export data from steps using `return`:
-
-```js
-return {
-  data: "I can use this data in another step",
-};
-```
-
-When you use `return`, the exported data will appear at `steps.[STEP NAME].$return_value`. For example, if you ran the code above in a step named `nodejs`, you'd reference the returned data using `steps.nodejs.$return_value.data`.
-
-Like with named exports, the returned data will appear below the step.
-
-### Exporting data from component actions
-
-The syntax for exporting data in [component actions](/components/actions/) is slightly different than in code steps.
-
-#### Using `return`
-
-Use `return` to return data from an action:
-
 ```javascript
-async run({ $ }) {
-  return "data"
+async run({ steps, $ }) {
+  // In any step, you can reference the contents of the trigger event
+  console.log(steps.trigger.event);
 }
 ```
 
-When you use return, the exported data will appear at `steps.[STEP NAME].$return_value`. For example, if you ran the code above in a step named `nodejs`, you'd reference the returned data using `steps.nodejs.$return_value`.
+When you export your own data from steps, you'll access it at the variable `steps.[STEP NAME].[EXPORT NAME]`. For example, a code step might export data at `steps.nodejs.myData`.
+
+### Exporting data in code steps
+
+You can export data from code steps in one of two ways: using named exports or `return`.
+
+#### Using `return`
+
+When you use return, the exported data will appear at `steps.[STEP NAME].$return_value`. For example, if you run the code below in a step named `nodejs`, you'd reference the returned data using `steps.nodejs.$return_value`.
+
+```javascript
+async run({ steps, $ }) {
+  return "data"
+}
+```
 
 #### Using `$.export`
 
 You can also use `$.export` to return named exports from an action. `$export` takes the name of the export as the first argument, and the value to export as the second argument:
 
 ```javascript
-async run({ $ }) {
+async run({ steps, $ }) {
   $.export("name", "value")
 }
 ```
 
 When your workflow runs, you'll see the named exports appear below your step, with the data you exported. You can reference these exports in other steps using `steps.[STEP NAME].[EXPORT NAME]`.
+-->
 
+<Footer />

@@ -19,27 +19,29 @@ However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `
 2. Click "Custom Code"
 3. In the new step, select the Python language runtime in language dropdown
 
-## Logging & debugging
+## Logging and debugging
 
-You can use `print` at any time in a Python code step to view information as the script is running.
+You can use `print` at any time in a Python code step to log information as the script is running.
 
-The output for the `print` logs will appear in the `Results` section just beneath the code editor.
+The output for the `print` **logs** will appear in the `Results` section just beneath the code editor.
 
 <div>
 <img alt="Python print log output in the results" src="./images/print-logs.png">
 </div>
 
-## Using 3rd party packages
+## Using third party packages
 
 You can use any packages from [PyPi](https://pypi.org) in your Pipedream workflows. This includes popular choices such as:
 
-* `requests` for making HTTP requests
-* `sqlalchemy` for retrieving or inserting data in a SQL database
-* `pandas` for working with complex datasets
+* [`requests` for making HTTP requests](https://pypi.org/project/requests/)
+* [`sqlalchemy`for retrieving or inserting data in a SQL database](https://pypi.org/project/sqlalchemy/)
+* [`pandas` for working with complex datasets](https://pypi.org/project/pandas/)
 
 To use a PyPi package, just include it in your step's code:
 
-`import requests`
+```python
+import requests
+```
 
 And that's it.
 
@@ -51,9 +53,9 @@ We recommend using the popular `requests` HTTP client package available in Pytho
 
 No need to run `pip install`, just `import requests` at the top of your step's code and it's available for your code to use.
 
-### Making a GET request
+### Making a `GET` request
 
-GET requests typically are for retrieving data from an API. Below is an example d
+GET requests typically are for retrieving data from an API. Below is an example.
 
 ```python
 import requests
@@ -62,10 +64,10 @@ url = 'https://swapi.dev/api/people/1'
 
 r = requests.get(url)
 
-# to see the response in your Pipedream step logs:
+# The response is logged in your Pipedream step results:
 print(r.text)
 
-# to see the response status code in your Pipedream step logs:
+# The response status code is logged in your Pipedream step results:
 print(r.status)
 ```
 
@@ -81,62 +83,37 @@ data = {"name": "Bulbasaur"}
 
 r = requests.post(url, data)
 
-# to see the response in your Pipedream step logs:
+# The response is logged in your Pipedream step results:
 print(r.text)
 
-# to see the response status code in your Pipedream step logs:
+# The response status code is logged in your Pipedream step results:
 print(r.status)
-```
-
-### Using API key authentication
-
-If an particular service requires you to use an API key, you can pass it via the headers of the request.
-
-This proves your identity to the service so you can interact with it:
-
-```python
-import requests
-
-token = 'replace this with your API key'
-
-url = 'https://api.twitter.com/2/users/@pipedream/mentions'
-
-headers { 'Authorization': f"Bearer {token}"}
-r = requests.get(url, headers=headers)
-
-print(r.text)
-```
-
-```note
-Not all APIs use a `Authorization: Bearer <api key>` header format.
-
-Refer to the documentation of the API you're working with for their specific authentication format.
 ```
 
 ### Sending files
 
-You can send also files within a step.
+You can also send files within a step.
 
 An example of sending a previously stored file in the workflow's `/tmp` directory: 
 
 ```python
 # Retrieving a previously saved file from workflow storage
-files = {'image': ('python-logo.png', open('/tmp/python-logo.png', 'rb')}
+files = {'image': open('/tmp/python-logo.png', 'rb')}
 
 r = requests.post(url='https://api.imgur.com/3/image', files=files)
 ```
 
 ## Sharing data between steps
 
-You can share data between steps in your workflows. Data can be passed forward to the next steps, and it can be used by other steps downstream.
+A step can accept data from other steps in the same workflow, or pass data downstream to others.
+
+This makes your steps even more powerful, you can compose new workflows and reuse steps.
 
 ### Using data from another step
 
-You may need to use data from a prior step in your workflow.
+In Python steps, data from the initial workflow trigger and other steps are available in the `pipedream.script_helpers.export` module.
 
-For example, when your trigger step accepts data from an incoming HTTP request you may need to send that data to another API, transform that data or store it somewhere.
-
-In this example, we'll pretend this data is coming into our HTTP trigger.
+In this example, we'll pretend this data is coming into our HTTP trigger via POST request.
 
 ```json
 {
@@ -146,9 +123,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger.
 }
 ```
 
-Every Python step can import the `pipedream.script_helpers` module. This module contains data from other steps in the workflow via `steps` dictionary.
-
-Here's an example of how to get the ID from the Pokemon we received in the trigger.
+In our Python step, we can access this data in the `exports` variable from the `pipedream.script_helpers` module. Specifically, this data from the POST request into our workflow is available in the `tigger` dictionary item. 
 
 ```python
 from pipedream.script_helpers import (steps, export)
@@ -162,37 +137,66 @@ print(f"{pokemon_name} is a {pokemon_type} type Pokemon")
 
 ### Sending data downstream to other steps
 
-The trigger steps automatically export their data for other steps to use downstream.
+To share data created, retrieved, transformed or manipulated by a step to others downstream call the `export` module from `pipedream.script_helpers`.
 
-Just pass the data to the `export` module from `pipedream.script_helpers`.
+An example speaks a thousand words, so here's one passing data from an API to the bash step.
 
 ```python
-# this step is named "code" in the workflow
+# This step is named "code" in the workflow
 from pipedream.script_helpers import (steps, export)
 
-pokemon = { name: "Pikachu" }
+r = requests.get("https://pokeapi.co/api/v2/pokemon/charizard")
+# Store the JSON contents into a variable called "pokemon"
+pokemon = r.json()
 
+# Expose the pokemon data downstream to others steps in the "pokemon" key from this step
 export('pokemon', pokemon)
 ```
 
-Now this `pokemon` is accessible to downstream steps within `steps.code.pokemon`
+Now this `pokemon` data is accessible to downstream steps within `steps["code"]["pokemon"]`
 
 ::: warning
-Not all data types can be stored in the `steps` data shared between workflow steps.  Only JSON serializable types can be passed, which includes:
+Not all data types can be stored in the `steps` data shared between workflow steps.
+
+For the best experience, we recommend only exporting these types of data from Python steps:
 
 * lists 
 * dictionaries
-  :::
+
+[Read more details on step limitations here.](/workflows/steps/#limitations-on-step-exports)
+:::
 
 ## Using environment variables
 
-You can leverage any [environment variables defined in your Pipedream account](/environment-variables/#environment-variables) in a python step. This is useful for keeping your secrets out of code as well as keeping them flexible to swap API keys without having to update each step individually.
+You can leverage any [environment variables defined in your Pipedream account](/environment-variables/#environment-variables) in a Python step. This is useful for keeping your secrets out of code as well as keeping them flexible to swap API keys without having to update each step individually.
 
 To access them, use the `os` module.
 
 ```python
 import os
 import requests
+
+token = os.environ['TWITTER_API_KEY']
+
+url = 'https://api.twitter.com/2/users/@pipedream/mentions'
+
+headers { 'Authorization': f"Bearer {token}"}
+r = requests.get(url, headers=headers)
+
+print(r.text)
+```
+
+Or an even more useful example, using the stored environment variable to make an authenticated API request.
+
+### Using API key authentication
+
+If an particular service requires you to use an API key, you can pass it via the headers of the request.
+
+This proves your identity to the service so you can interact with it:
+
+```python
+import requests
+import os
 
 token = os.environ['TWITTER_API_KEY']
 
@@ -216,34 +220,34 @@ If your code relies on the presence of a environment variable, consider using `o
 
 ## Handling errors
 
-You may find a need to exit a workflow early. In a Python step, just a `raise` an error to halt a step's execution.
+You may need to exit a workflow early. In a Python step, just a `raise` an error to halt a step's execution.
 
 
 ```python
 raise NameError('Something happened that should not. Exiting early.')
 ```
 
-All exceptions from your Python code will appear in the logs area of the results.
+All exceptions from your Python code will appear in the **logs** area of the results.
 
 ## File storage
 
-Not only can you run Python code in workflows, but you can also store files as well. This means you can upload or download photos, retrieve datasets or accept files from an HTTP request and much more.
+You can also store and read files with Python steps. This means you can upload photos, retrieve datasets, accept files from an HTTP request and more.
 
 The `/tmp` directory is accessible from your workflow steps for saving and retrieving files.
 
-You have full access to read & write both files & directories in `/tmp`. 
+You have full access to read and write both files in `/tmp`. 
 
 ### Writing a file to /tmp
 
 ```python
 import requests
 
-# download the Python logo
+# Download the Python logo
 r = requests.get('https://www.python.org/static/img/python-logo@2x.png')
 
-# create a new file python-logo.png in the /tmp/data directory
+# Create a new file python-logo.png in the /tmp/data directory
 with open('/tmp/python-logo.png', 'wb') as f:
-  # save the content of the HTTP response into the file
+  # Save the content of the HTTP response into the file
   f.write(r.content)
 ```
 
@@ -251,19 +255,19 @@ Now `/tmp/python-logo.png` holds the official Python logo.
 
 ### Reading a file from /tmp
 
-You can also open files you have previously stored in the `/tmp` directory. Let's open the `python-logo.png` we downloaded in the previous example.
+You can also open files you have previously stored in the `/tmp` directory. Let's open the `python-logo.png` file.
 
 ```python
 import os
 
 with open('/tmp/python-logo.png') as f:
-  # put the contents of the file into a variable
+  # Store the contents of the file into a variable
   file_data = f.read()
 ```
 
 ### Listing files in /tmp
 
-If you need to check what files are currently in `/tmp` you can list them and print the results to the workflow console:
+If you need to check what files are currently in `/tmp` you can list them and print the results to the **Logs** section of **Results**:
 
 ```python
 import os

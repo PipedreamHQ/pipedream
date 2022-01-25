@@ -293,12 +293,20 @@ If you need to issue a custom HTTP response from a workflow, **you can use the `
 `$.respond()` takes a single argument: an object with properties that specify the body, headers, and HTTP status code you'd like to respond with:
 
 ```javascript
-$.respond({
-  status: 200,
-  headers: { "my-custom-header": "value" },
-  body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
+defineComponent({
+  async run({ steps, $ }) {
+    $.respond({
+      status: 200,
+      headers: { "my-custom-header": "value" },
+      body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
+    });
+  })
 });
 ```
+
+:::warning
+The `$.respond` function is currently only available in Node.js (Javascript) workflow steps.
+:::
 
 The value of the `body` property can be either a string, object, a [Buffer](https://nodejs.org/api/buffer.html#buffer_buffer) (binary data), or a [Readable stream](https://nodejs.org/api/stream.html#stream_readable_streams). Attempting to return any other data may yield an error.
 
@@ -321,11 +329,15 @@ If you need to issue an HTTP response in the middle of a workflow, see the secti
 You can issue an HTTP response within a workflow, and continue the rest of the workflow execution, by setting the `immediate` property to `true`:
 
 ```javascript
-await $.respond({
-  immediate: true,
-  status: 200,
-  headers: { "my-custom-header": "value" },
-  body: { message: "My custom response" },
+defineComponent({
+  async run({ steps, $ }) {
+    await $.respond({
+      immediate: true,
+      status: 200,
+      headers: { "my-custom-header": "value" },
+      body: { message: "My custom response" },
+    });
+  })
 });
 ```
 
@@ -334,10 +346,14 @@ Passing `immediate: true` tells `$.respond()` to issue a response back to the cl
 This can be helpful, for example, when you're building a Slack bot. When you send a message to a bot, Slack requires a `200 OK` response be issued immediately, to confirm receipt:
 
 ```javascript
-await $.respond({
-  immediate: true,
-  status: 200,
-  body: "",
+defineComponent({
+  async run({ steps, $ }) {
+    await $.respond({
+      immediate: true,
+      status: 200,
+      body: "",
+    });
+  })
 });
 ```
 
@@ -362,16 +378,21 @@ This might happen if:
 If you can't handle the `400 Bad Request` error in the application calling your workflow, you can implement `try` / `finally` logic to ensure `$.respond()` always gets called with some default message. For example:
 
 ```javascript
-try {
-  // Your code here that might throw an exception or not run
-} finally {
-  $.respond({
-    status: 200,
-    body: {
-      msg: "Default response",
-    },
-  });
-}
+defineComponent({
+  async run({ steps, $ }) {
+    try {
+      // Your code here that might throw an exception or not run
+      throw new Error('Whoops, something unexpected happened.');
+    } finally {
+      $.respond({
+        status: 200,
+        body: {
+          msg: "Default response",
+        },
+      });
+    }
+  })
+});
 ```
 
 ### Errors

@@ -19,11 +19,15 @@ You can send data to an Email Destination in [Node.js code steps](/workflows/ste
 `$.send.email()` takes the same parameters as the corresponding action:
 
 ```javascript
-$.send.email({
-  subject: "Your subject",
-  text: "Plain text email body",
-  html: "HTML email body"
-  include_collaborators: false,
+defineComponent({
+  async run({ steps, $ }) {
+    $.send.email({
+      subject: "Your subject",
+      text: "Plain text email body",
+      html: "HTML email body"
+      include_collaborators: false,
+    });
+  }
 });
 ```
 
@@ -38,14 +42,16 @@ If you're authoring a [component action](/components/actions/), you can deliver 
 `$.send.email` functions the same as [`$.send.email` in workflow code steps](#using-send-email-in-workflows):
 
 ```javascript
-async run({ $ }) {
-  $.send.email({
-    subject: "Your subject",
-    text: "Plain text email body",
-    html: "HTML email body"
-    include_collaborators: false,
-  });
-}
+defineComponent({
+  async run({ steps, $ }) {
+    $.send.email({
+      subject: "Your subject",
+      text: "Plain text email body",
+      html: "HTML email body"
+      include_collaborators: false,
+    });
+  }
+})
 ```
 
 ## Emailing workflow collaborators

@@ -9,10 +9,14 @@ Like [event sources](/event-sources/), workflows can emit events. These events c
 You can emit arbitrary events from any [Node.js code steps](/workflows/steps/code/) using `$.send.emit()`.
 
 ```javascript
-$.send.emit({
-  raw_event: {
-    name: "Yoda",
-  },
+defineComponent({
+  async run({ steps, $ }) {
+    $.send.emit({
+      raw_event: {
+        name: "Yoda",
+      },
+    });
+  }
 });
 ```
 
@@ -31,13 +35,15 @@ If you're authoring a [component action](/components/actions/), you can emit dat
 `$.send.emit` functions the same as [`$.send.emit` in workflow code steps](#using-send-emit-in-workflows):
 
 ```javascript
-async run({ $ }) {
-  $.send.emit({
-    raw_event: {
-      name: "Yoda",
-    },
-  });
-}
+defineComponent({
+  async run({ steps, $ }) {
+    $.send.emit({
+      raw_event: {
+        name: "Yoda",
+      },
+    });
+  }
+})
 ```
 
 **Destination delivery is asynchronous**: emits are sent after your workflow finishes.
@@ -45,14 +51,18 @@ async run({ $ }) {
 You can call `$.send.emit()` multiple times within a workflow, for example: to iterate over an array of values and emit an event for each.
 
 ```javascript
-const names = ["Luke", "Han", "Leia", "Obi Wan"];
-for (const name of names) {
-  $.send.emit({
-    raw_event: {
-      name,
-    },
-  });
-}
+defineComponent({
+  async run({ steps, $ }) {
+    const names = ["Luke", "Han", "Leia", "Obi Wan"];
+    for (const name of names) {
+      $.send.emit({
+        raw_event: {
+          name,
+        },
+      });
+    }
+  }
+});
 ```
 
 ## Trigger a workflow from emitted events
@@ -79,10 +89,14 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
 5. Run your emitter workflow, emitting an event using `$.send.emit()`:
 
 ```javascript
-$.send.emit({
-  raw_event: {
-    name: "Yoda",
-  },
+defineComponent({
+  async run({ steps, $ }) {
+    $.send.emit({
+      raw_event: {
+        name: "Yoda",
+      },
+    });
+  }
 });
 ```
 
