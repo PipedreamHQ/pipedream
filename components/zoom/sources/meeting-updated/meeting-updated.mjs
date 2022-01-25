@@ -5,7 +5,7 @@ export default {
   name: "Meeting Updated",
   description:
     "Emits an event each time a meeting is updated where you're the host",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique", // dedupe on the meeting ID + timestamp
   props: {
     zoom,
