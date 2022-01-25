@@ -257,7 +257,7 @@ export default {
      * @params {String} [opts.path=/sync/v8/sync] - The path for the sync request
      * @params {String} opts.payload - The data to send in the API request at the POST body.
      * This data will converted to `application/x-www-form-urlencoded`
-     * @returns {Object} When the request succeeds, an HTTP 200 response will be returned with
+     * @returns {Object} When the request succeeds, an HTTP 200 response with
      * a JSON object containing the requested resources and also a new `sync_token`.
      */
     async _makeSyncRequest(opts) {
@@ -304,7 +304,7 @@ export default {
     /**
      * Get syncToken from a db
      * @params {Object} db - a database instance
-     * @returns {*} Returns what is stored as "syncToken" in the db specified
+     * @returns {*} "syncToken" in the db specified
      */
     _getSyncToken(db) {
       return db.get("syncToken");
@@ -322,8 +322,8 @@ export default {
      * used in multiple sources to validate if an event matches the selection in the project filter.
      * @params {Integer} project_id - The ID for a Todoist project
      * @params {Array} selectedProjectIds - An array of Todoist project IDs
-     * @returns {Boolean} Returns `true` if the `project_id` matches a value in the arrar or
-     * if the array is empty. Otherwise returns `false`.
+     * @returns {Boolean} `true` if the `project_id` matches a value in the arrar or
+     * if the array is empty. Otherwise `false`.
      */
     isProjectInList(projectId, selectedProjectIds) {
       return (
@@ -334,7 +334,7 @@ export default {
     /**
      * Public method to make a sync request.
      * @params {Object} opts - The configuration for an axios request with a `path` key.
-     * @returns {Object} When the request succeeds, an HTTP 200 response will be returned
+     * @returns {Object} When the request succeeds, an HTTP 200 response
      * with a JSON object containing the requested resources and also a new `sync_token`.
      */
     async sync({
@@ -350,7 +350,7 @@ export default {
     /**
      * Breaks sync commands into batches of no more than 100
      * @params {Array} commands - An array of sync commands
-     * @returns {Array} Returns an array of batches (arrays) of commands
+     * @returns {Array} An array of batches (arrays) of commands
      */
     _makeBatches(commands) {
       const BATCH_SIZE = 100;
@@ -363,7 +363,7 @@ export default {
     /**
      * Processes sync commands in batches
      * @params {Object} opts - An object representing configuration options for this method
-     * @returns {Object} Returns a collection of responses, one for each batch of commands
+     * @returns {Array} A collection of responses, one for each batch of commands
      */
     async batchSync({
       $, opts,
@@ -384,8 +384,8 @@ export default {
      * Get project by ID or get all projects if no ID specified
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Integer} [opts.id = ""] - A project ID
-     * @returns {Obect|Array} Returns a project object related to
-     * the given ID or all user projects if no ID specified
+     * @returns {Obect|Array} A project object related to the given ID or all user projects
+     * if no ID specified
      */
     async getProjects(opts) {
       const {
@@ -403,7 +403,7 @@ export default {
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing info about the new project
      * being created
-     * @returns {Object} Returns the created project as a JSON object
+     * @returns {Object} The created project as a JSON object
      */
     async createProject(opts) {
       const {
@@ -459,7 +459,7 @@ export default {
      * Invite a user to join a project
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing the project ID and user's email
-     * @returns {Object} Returns object including sync_token
+     * @returns {Object} Object including sync_token
      */
     async shareProject(opts) {
       const {
@@ -484,7 +484,7 @@ export default {
     /**
      * Get collaborators of a shared project
      * @params {Integer} [projectId] ID of a project
-     * @returns {Object} Returns JSON-encoded array containing all collaborators of a shared project
+     * @returns {Object} JSON-encoded array containing all collaborators of a shared project
      */
     async getProjectCollaborators(projectId) {
       if (!projectId) {
@@ -499,8 +499,8 @@ export default {
      * Get section by ID or get a list of all sections in a project in no ID is specified
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} params [opts.params = {}] - object containing section_id and/or project_id
-     * @returns {Object|Array} Returns a section object related to
-     * the given ID or a list of sections if no ID specified
+     * @returns {Object|Array} A section object related to the given ID or a list of sections if
+     * no ID specified
      */
     async getSections(opts) {
       const {
@@ -521,7 +521,7 @@ export default {
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing info about the new section
      * being created
-     * @returns {Object} Returns the created section as a JSON object
+     * @returns {Object} The created section as a JSON object
      */
     async createSection(opts) {
       const {
@@ -577,8 +577,8 @@ export default {
      * Get label by ID or get all labels if no ID specified
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Integer} [opts.id = ""] - A label ID
-     * @returns {Object|Array} Returns a label object related to
-     * the given ID or all user labels if no ID specified
+     * @returns {Object|Array} A label object related to the given ID or all user labels if
+     * no ID specified
      */
     async getLabels(opts) {
       const {
@@ -595,7 +595,7 @@ export default {
      * Create a new label
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing info about the new label being created
-     * @returns {Object} Returns the created label as a JSON object
+     * @returns {Object} The created label as a JSON object
      */
     async createLabel(opts) {
       const {
@@ -613,7 +613,7 @@ export default {
      * Update a label
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing id & info about the label being updated
-     * @returns {Object} Returns the created label as a JSON object
+     * @returns {Object} The created label as a JSON object
      */
     async updateLabel(opts) {
       const {
@@ -652,7 +652,7 @@ export default {
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.params = {}] - object containing one or more of comment_id,
      * project_id or task_id
-     * @returns {Array} Returns a JSON-encoded array containing comments
+     * @returns {Array} JSON-encoded array containing comments
      */
     async getComments(opts) {
       const {
@@ -679,7 +679,7 @@ export default {
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing info about the new comment
      * being created
-     * @returns {Object} Returns the created comment as a JSON object
+     * @returns {Object} The created comment as a JSON object
      */
     async createComment(opts) {
       const {
@@ -736,8 +736,8 @@ export default {
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.params = {}] - object containing one or more of task_id, project_id,
      * section_id, and/or label_id
-     * @returns {Object|Array} Returns a task object related to
-     * the given ID or a list of tasks if no ID is specified
+     * @returns {Object|Array} A task object related to the given ID or a list of tasks if
+     * no ID is specified
      */
     async getActiveTasks(opts) {
       const {
@@ -757,7 +757,7 @@ export default {
      * Get a list of all completed tasks in a project
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.params = {}] - object containing project_id,
-     * @returns {Object|Array} Returns a task a list of task objects
+     * @returns {Object|Array} A list of task objects
      */
     async getCompletedTasks(opts) {
       const {
@@ -775,7 +775,7 @@ export default {
      * Create a new task
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing info about the new task being created
-     * @returns {Object} Returns the created task as a JSON object
+     * @returns {Object} The created task as a JSON object
      */
     async createTask(opts) {
       const {
@@ -794,7 +794,7 @@ export default {
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Array} [opts.data = []] - an array of objects, each containing parameters
      * for a new task to be created
-     * @returns {Object} Returns an array of responses and tempIds for each new task
+     * @returns {Object} An array of responses and tempIds for each new task
      */
     async createTasks(opts) {
       const {
@@ -822,9 +822,9 @@ export default {
       };
     },
     /**
-     * Moves a task to new parent_id, section_id, or project_id
+     * Moves tasks to new parent_id, section_id, or project_id
      * @params {Object} opts - An object representing configuration options for this method
-     * @retursn {Object} - Returns an array of responses, one per batch of tasks
+     * @retursn {Object} - An array of responses, one per batch of tasks
     */
     async moveTasks(opts) {
       const {
@@ -852,7 +852,7 @@ export default {
      * Update a task
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing info about the task being updated
-     * @returns {Object} Returns the updated task as a JSON object
+     * @returns {Object} The updated task as a JSON object
      */
     async updateTask(opts) {
       const {
@@ -1006,7 +1006,7 @@ export default {
      * Create a new filter
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing info about the new filter being created
-     * @returns {Object} Returns object including sync_token
+     * @returns {Object} Object including sync_token
      */
     async createFilter(opts) {
       const {
@@ -1032,7 +1032,7 @@ export default {
      * Update filter
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing info about the filter being updated
-     * @returns {Object} Returns object including sync_token
+     * @returns {Object} Object including sync_token
      */
     async updateFilter(opts) {
       const {
@@ -1057,7 +1057,7 @@ export default {
      * Delete filter
      * @params {Object} opts - An object representing configuration options for this method
      * @params {Object} [opts.data = {}] - object containing a filter ID
-     * @returns {Object} Returns object including sync_token
+     * @returns {Object} Object including sync_token
      */
     async deleteFilter(opts) {
       const {
