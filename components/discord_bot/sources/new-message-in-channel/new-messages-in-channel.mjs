@@ -1,24 +1,30 @@
-// Discord Bot app file
-const discord = require("../../discord_bot.app.js");
-const maxBy = require("lodash.maxby");
+import maxBy from "lodash.maxby";
+import common from "../common.mjs";
 
-module.exports = {
+const { discord } = common.props;
+
+export default {
+  ...common,
   key: "discord_bot-new-message-in-channel",
   name: "New Message in Channel",
   description: "Emit an event for each new message posted to one or more channel.",
+  type: "source",
   version: "0.0.4",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
+    ...common.props,
     db: "$.service.db",
-    discord,
-    guild: { propDefinition: [discord, "guild"] },
     channels: {
       type: "string[]",
       label: "Channels",
       description: "The channels you'd like to watch for new messages",
-      async options() {
-        return await this.discord.getChannels(this.guild);
-      },
+      propDefinition: [
+        discord,
+        "channelId",
+        ({ guildId }) => ({
+          guildId,
+        }),
+      ],
     },
     emitEventsInBatch: {
       type: "boolean",
@@ -31,68 +37,88 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: 60 * 15,
       },
     },
   },
-  async run() {
+  async run({ $ }) {
     // We store a cursor to the last message ID
-    let lastMessageIDs = this.db.get("lastMessageIDs") || {};
+    let lastMessageIDs = this._getLastMessageIDs() || {};
 
     // If this is our first time running this source,
     // get the last N messages, emit them, and checkpoint
-    for (const channel of this.channels) {
+    for (const channelId of this.channels) {
       let lastMessageID;
       let messages = [];
+
       if (!lastMessageID) {
-        messages = await this.discord.getMessages(channel, null, 100);
+        messages = await this.discord.getMessages({
+          $,
+          channelId,
+          params: {
+            limit: 100,
+          },
+        });
+
         lastMessageID = messages.length
           ? maxBy(messages, (message) => message.id).id
           : 1;
+
       } else {
         let newMessages = [];
+
         do {
-          newMessages = await this.discord.getMessages(
-            channel,
-            lastMessageIDs[channel]
-          );
+          newMessages = await this.discord.getMessages({
+            $,
+            channelId,
+            params: {
+              after: lastMessageIDs[channelId],
+            },
+          });
+
           messages = messages.concat(newMessages);
+
           lastMessageID = newMessages.length
             ? maxBy(newMessages, (message) => message.id).id
-            : lastMessageIDs[channel];
+            : lastMessageIDs[channelId];
+
         } while (newMessages.length);
       }
 
       // Set the new high water mark for the last message ID
       // for this channel
-      lastMessageIDs[channel] = lastMessageID;
+      lastMessageIDs[channelId] = lastMessageID;
 
       if (!messages.length) {
-        console.log(`No new messages in channel ${channel}`);
+        console.log(`No new messages in channel ${channelId}`);
         return;
       }
 
-      console.log(`${messages.length} new messages in channel ${channel}`);
+      console.log(`${messages.length} new messages in channel ${channelId}`);
 
       // Batched emits do not take advantage of the built-in deduper
       if (this.emitEventsInBatch) {
+        const suffixChar =
+          messages.length > 1
+            ? "s"
+            : "";
+
         this.$emit(messages, {
-          summary: `${messages.length} new message${
-            messages.length > 1 ? "s" : ""
-          }`,
+          summary: `${messages.length} new message${suffixChar}`,
           id: lastMessageID,
         });
+
       } else {
-        for (const message of messages) {
+        messages.forEach((message) => {
           this.$emit(message, {
             summary: message.content,
             id: message.id, // dedupes events based on this ID
           });
-        }
+        });
       }
     }
 
     // Set the last message ID for the next run
-    this.db.set("lastMessageIDs", lastMessageIDs);
+    this._setLastMessageIDs(lastMessageIDs);
   },
 };
