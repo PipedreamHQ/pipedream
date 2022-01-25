@@ -36,7 +36,10 @@ export default {
       throw new Error("The number of values provided does not match the number of values in the query.");
     }
 
-    const res = await this.postgresql.executeQuery(query, values);
+    const res = await this.postgresql.executeQuery({
+      text: query,
+      values,
+    });
     $.export("$summary", "Successfully executed query");
     return res;
   },

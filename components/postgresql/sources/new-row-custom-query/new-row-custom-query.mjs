@@ -70,7 +70,10 @@ export default {
       throw new Error("The column selected contains duplicate values. Column must be unique");
     }
 
-    const rows = await this.postgresql.executeQuery(query, values);
+    const rows = await this.postgresql.executeQuery({
+      text: query,
+      values,
+    });
     for (const row of rows) {
       const meta = this.generateMeta(row, column);
       this.$emit(row, meta);

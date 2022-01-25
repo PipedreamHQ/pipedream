@@ -42,7 +42,7 @@ export default {
       table,
       column,
     } = this;
-    
+
     const isColumnUnique = await this.isColumnUnique(table, column);
     if (!isColumnUnique) {
       throw new Error("The column selected contains duplicate values. Column must be unique");

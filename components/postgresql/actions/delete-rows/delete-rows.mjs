@@ -42,10 +42,8 @@ export default {
       column,
       value,
     } = this;
-    const rowCount = await this.postgresql.getRowCount(table);
-    await this.postgresql.deleteRows(table, column, value);
-    const newRowCount = await this.postgresql.getRowCount(table);
-    const rowsDeleted = rowCount - newRowCount;
-    $.export("$summary", `Deleted ${rowsDeleted} rows from ${table}`);
+    const rows = await this.postgresql.deleteRows(table, column, value);
+    $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
+    return rows;
   },
 };

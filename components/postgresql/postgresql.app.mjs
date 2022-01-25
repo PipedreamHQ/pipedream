@@ -1,4 +1,5 @@
 import pg from "pg";
+import format from "pg-format";
 
 export default {
   type: "app",
@@ -78,17 +79,10 @@ export default {
     /**
      * Executes SQL query and returns the resulting rows
      * @param {string} text - SQL query to execute
-     * @param {array} [values] - values to substitute into the given query
      * @returns Array of rows returned from the given SQL query
      */
-    async executeQuery(text, values = null) {
+    async executeQuery(query) {
       const client = await this.getClient();
-      const query = values
-        ? {
-          text,
-          values,
-        }
-        : text;
       try {
         const { rows } = await client.query(query);
         return rows;
@@ -110,7 +104,15 @@ export default {
      * @returns Array of column names
      */
     async getColumns(table) {
-      const rows = await this.executeQuery(`SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table}'`);
+      const rows = await this.executeQuery({
+        text: `
+          SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_NAME = $1
+        `,
+        values: [
+          table,
+        ],
+      });
       return rows.map((row) => row.column_name);
     },
     /**
@@ -119,7 +121,18 @@ export default {
      * @returns Name of the primary key column
      */
     async getPrimaryKey(table) {
-      const rows = await this.executeQuery(`SELECT a.attname FROM pg_index i JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE i.indrelid = '${table}'::regclass AND i.indisprimary`);
+      const rows = await this.executeQuery({
+        text: `
+          SELECT a.attname FROM pg_index i
+            JOIN pg_attribute a ON a.attrelid = i.indrelid
+              AND a.attnum = ANY(i.indkey)
+            WHERE i.indrelid = $1::regclass
+              AND i.indisprimary
+        `,
+        values: [
+          table,
+        ],
+      });
       return rows[0].attname;
     },
     /**
@@ -131,9 +144,17 @@ export default {
      * @returns Array of rows returned from the query
      */
     async getRows(table, column, lastResult = null) {
-      const query = `SELECT * FROM ${table} ${lastResult
-        ? "WHERE " + column + ">" + lastResult
-        : ""} ORDER BY ${column} DESC`;
+      const select = "SELECT * FROM %I";
+      const where = "WHERE %I > $1";
+      const orderby = "ORDER BY %I DESC";
+      const query = lastResult
+        ? {
+          text: format(`${select} ${where} ${orderby}`, table, column, column),
+          values: [
+            lastResult,
+          ],
+        }
+        : format(`${select} ${orderby}`, table, column);
       return this.executeQuery(query);
     },
     /**
@@ -144,17 +165,13 @@ export default {
      * @returns A single database row
      */
     async findRowByValue(table, column, value) {
-      const rows = await this.executeQuery(`SELECT * FROM ${table} WHERE ${column} = '${value}'`);
+      const rows = await this.executeQuery({
+        text: format("SELECT * FROM %I WHERE %I = $1", table, column),
+        values: [
+          value,
+        ],
+      });
       return rows[0];
-    },
-    /**
-     * Gets the number of rows in a table
-     * @param {string} table - Name of database table to query
-     * @returns Count of how many rows exist in the table
-     */
-    async getRowCount(table) {
-      const response = await this.executeQuery(`SELECT COUNT(*) FROM ${table}`);
-      return response[0].count;
     },
     /**
      * Deletes a row or rows in a table based on a lookup column & value
@@ -163,7 +180,12 @@ export default {
      * @param {string} value - A column value. Used to find the row(s) to delete
      */
     async deleteRows(table, column, value) {
-      await this.executeQuery(`DELETE FROM ${table} WHERE ${column} = '${value}'`);
+      return this.executeQuery({
+        text: format("DELETE FROM %I WHERE %I = $1 RETURNING *", table, column),
+        values: [
+          value,
+        ],
+      });
     },
     /**
      * Inserts a row in a table
@@ -173,7 +195,22 @@ export default {
      * @returns The newly created row
      */
     async insertRow(table, columns, values) {
-      return this.executeQuery(`INSERT INTO ${table} (${columns}) VALUES (${values.map((v) => "'" + v + "'")}) RETURNING *`);
+      const placeholders = this.getPlaceholders({
+        values,
+      });
+      return this.executeQuery({
+        text: format(`
+          INSERT INTO %I (${columns}) 
+            VALUES (${placeholders})
+            RETURNING *
+        `, table),
+        values,
+      });
+    },
+    getPlaceholders({
+      values = [], fromIndex = 1,
+    }) {
+      return values.map((_, index) => `$${index + fromIndex}`);
     },
     /**
      * Updates a row in a table
@@ -186,18 +223,31 @@ export default {
      */
     async updateRow(table, lookupColumn, lookupValue, rowValues) {
       const primaryKey = await this.getPrimaryKey(table);
-      let query = `UPDATE ${table} SET`;
-      Object.entries(rowValues).forEach(([
-        key,
-        val,
-      ]) => {
-        query += ` ${key} = '${val}',`;
+      const columnsPlaceholders = this.getColumnsPlaceholders({
+        rowValues,
+        fromIndex: 2,
       });
-      // trim last comma
-      query = query.slice(0, -1);
-      query += ` WHERE ${primaryKey} =(SELECT ${primaryKey} FROM ${table} WHERE ${lookupColumn} = '${lookupValue}' ORDER BY ${primaryKey} LIMIT 1) RETURNING *`;
-      const response = await this.executeQuery(query);
+      const response = await this.executeQuery({
+        text: format(`
+          UPDATE %I SET ${columnsPlaceholders}
+            WHERE %I = (
+              SELECT %I FROM %I
+              WHERE %I = $1
+              ORDER BY %I LIMIT 1
+            ) RETURNING *
+        `, table, primaryKey, primaryKey, table, lookupColumn, primaryKey),
+        values: [
+          lookupValue,
+          ...Object.values(rowValues),
+        ],
+      });
       return response[0];
+    },
+    getColumnsPlaceholders({
+      rowValues = {}, fromIndex = 1,
+    }) {
+      return Object.keys(rowValues)
+        .map((key, index) => `${key} = $${index + fromIndex}`);
     },
     /**
      * Gets all of the values for a single column in a table
@@ -208,7 +258,16 @@ export default {
      * @returns Array of column values
      */
     async getColumnValues(table, column, limit = "ALL", offset = 0) {
-      const rows = await this.executeQuery(`SELECT ${column} FROM ${table} LIMIT ${limit} OFFSET ${offset}`);
+      const rows = await this.executeQuery({
+        text: format(`
+          SELECT %I FROM %I
+            LIMIT $1::numeric OFFSET $2::numeric
+        `, column, table),
+        values: [
+          limit,
+          offset,
+        ],
+      });
       return rows.map((row) => row[column]);
     },
   },
