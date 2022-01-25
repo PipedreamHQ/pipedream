@@ -6,7 +6,7 @@ export default {
   key: "trello-new-list",
   name: "New List (Instant)",
   description: "Emit new event for each new list added to a board.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {
