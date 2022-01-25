@@ -51,11 +51,11 @@ export default {
       decodedEmoji,
       channelId,
       messageId,
-      max,
     } = this;
 
     const limit = emptyStrToUndefined(this.limit);
     const after = emptyStrToUndefined(this.after);
+    const max = emptyStrToUndefined(this.max);
 
     const emoji = encodeURIComponent(`${decodedEmoji}`);
 

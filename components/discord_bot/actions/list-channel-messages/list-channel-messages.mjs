@@ -47,15 +47,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      channelId,
-      max,
-    } = this;
-
     const limit = emptyStrToUndefined(this.limit);
     const after = emptyStrToUndefined(this.after);
     const before = emptyStrToUndefined(this.before);
     const around = emptyStrToUndefined(this.around);
+    const max = emptyStrToUndefined(this.max);
 
     if (before && after || before && around || after && around) {
       throw new Error("The before, after, and around keys are mutually exclusive, only one may be passed at a time.");
@@ -65,7 +61,7 @@ export default {
       resourceFn: this.discord.getMessages,
       resourceFnArgs: {
         $,
-        channelId,
+        channelId: this.channelId,
       },
       before,
       after,

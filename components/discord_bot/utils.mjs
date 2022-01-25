@@ -113,9 +113,9 @@ export default {
 
     return id;
   },
-  emptyStrToUndefined(str) {
-    return str === ""
+  emptyStrToUndefined(value) {
+    return String(value).trim() === ""
       ? undefined
-      : str;
+      : value;
   },
 };

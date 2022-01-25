@@ -41,19 +41,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      guildId,
-      max,
-    } = this;
-
     const limit = emptyStrToUndefined(this.limit);
     const after = emptyStrToUndefined(this.after);
+    const max = emptyStrToUndefined(this.max);
 
     return this.paginateResources({
       resourceFn: this.discord.getGuildMembers,
       resourceFnArgs: {
         $,
-        guildId,
+        guildId: this.guildId,
       },
       max,
       limit,

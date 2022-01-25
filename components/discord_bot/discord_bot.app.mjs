@@ -242,6 +242,7 @@ export default {
       type: "integer",
       label: "Max records",
       description: "Max number of records in the whole pagination (eg. `60`)",
+      optional: true,
     },
     limit: {
       type: "integer",
