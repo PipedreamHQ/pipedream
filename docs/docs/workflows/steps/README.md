@@ -1,4 +1,4 @@
-# What are steps?
+# Steps
 
 Steps are the building blocks you use to create workflows. You can easily combine multiple steps into a workflow to integrate your apps, data and APIs: 
 
@@ -155,4 +155,3 @@ async run({ $ }) {
 
 When your workflow runs, you'll see the named exports appear below your step, with the data you exported. You can reference these exports in other steps using `steps.[STEP NAME].[EXPORT NAME]`.
 
-<Footer />
