@@ -20,7 +20,7 @@ module.exports = {
     record: {
       type: "object",
       label: "Record",
-      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also disable structured mode to pass a JSON object with key/value pairs representing columns and values.",
+      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also pass a JSON object as a custom expression with key/value pairs representing columns and values.",
     },
     recordId: {
       type: "string",
