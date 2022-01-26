@@ -20,12 +20,12 @@ export default {
         dropbox,
         "pathFolder",
       ],
-      description: "The Path in the user's Dropbox to create the file. If not filled, it will be created on the root folder. (Please use a valid path to filter the values)",
+      description: "The file path in the user's Dropbox to create the folder. If not filled, it will be created in the root folder.",
     },
     content: {
       type: "string",
       label: "Content",
-      description: "The content of you new file",
+      description: "The content of your new file",
     },
   },
   async run({ $ }) {

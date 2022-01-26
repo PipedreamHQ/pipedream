@@ -21,12 +21,12 @@ export default {
         "pathFolder",
       ],
       optional: true,
-      description: "The Path in the user's Dropbox to create the folder. If not filled, it will be created on the root folder.(Please use a valid path to filter the values)",
+      description: "The file path in the user's Dropbox to create the folder. If not filled, it will be created in the root folder.",
     },
     autorename: {
       type: "boolean",
       label: "Autorename",
-      description: "If there's a conflict, have the Dropbox server try to autorename the folder to avoid the conflict.",
+      description: "If there's a conflict, have Dropbox try to autorename the folder to avoid the conflict.",
       default: true,
     },
   },
@@ -41,7 +41,7 @@ export default {
       autorename,
       path: this.getNormalizedPath(path, true) + name,
     });
-    $.export("$summary", "Folder successfully created");
+    $.export("$summary", `Folder successfully created: \`${res.result.metadata.name}\``);
     return res;
   },
 };

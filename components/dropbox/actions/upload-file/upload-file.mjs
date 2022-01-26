@@ -18,7 +18,7 @@ export default {
         dropbox,
         "pathFolder",
       ],
-      description: "The Path in the user's Dropbox to create the file. If not filled, it will be created on the root folder.(Please use a valid path to filter the values)",
+      description: "The file path in the user's Dropbox to create the folder. If not filled, it will be created in the root folder.",
     },
     name: {
       type: "string",
@@ -40,18 +40,18 @@ export default {
     autorename: {
       type: "boolean",
       label: "Autorename",
-      description: "If there's a conflict, as determined by mode, have the Dropbox server try to autorename the file to avoid conflict.",
+      description: "If there's a conflict, have Dropbox try to autorename the folder to avoid the conflict.",
       optional: true,
     },
     mute: {
       type: "boolean",
       label: "Mute",
-      description: "Normally, users are made aware of any file modifications in their Dropbox account via notifications in the client software. If true, this tells the clients that this modification shouldn't result in a user notification.",
+      description: "Normally, users are made aware of any file modifications in their Dropbox account via notifications in the client software. If `true`, this will not result in a user notification.",
       optional: true,
     },
     strictConflict: {
       type: "boolean",
-      label: "Strict Conflict",
+      label: "Strict Ccnflict",
       description: "Be more strict about how each WriteMode detects conflict. For example, always return a conflict error when mode = WriteMode.update and the given \"rev\" doesn't match the existing file's \"rev\", even if the existing file has been deleted. This also forces a conflict even when the target path refers to a file with identical contents.",
       optional: true,
     },
@@ -60,12 +60,6 @@ export default {
       label: "Mode",
       description: "Selects what to do if the file already exists.",
       options: consts.UPLOAD_FILE_MODE_OPTIONS,
-      optional: true,
-    },
-    clientModified: {
-      type: "string",
-      label: "Client Modified",
-      description: "The value to store as the client_modified timestamp. Dropbox automatically records the time at which the file was written to the Dropbox servers. It can also record an additional timestamp, provided by Dropbox desktop clients, mobile clients, and API apps of when the file was actually created or modified. (Please provide a valid [timestamp](https://dropbox.github.io/dropbox-sdk-js/global.html#Timestamp) value)",
       optional: true,
     },
   },

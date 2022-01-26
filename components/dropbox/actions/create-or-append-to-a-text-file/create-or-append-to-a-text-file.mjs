@@ -12,7 +12,7 @@ export default {
     name: {
       type: "string",
       label: "File name",
-      description: "Your new file name.",
+      description: "Your new file name",
     },
     path: {
       propDefinition: [
@@ -20,7 +20,7 @@ export default {
         "pathFolder",
       ],
       optional: true,
-      description: "The Path in the user's Dropbox to create or append in the file. If not filled, it will be created on the root folder. (Please use a valid path to filter the values)",
+      description: "The file path in the user's Dropbox to create the folder. If not filled, it will be created in the root folder.",
     },
     content: {
       type: "string",

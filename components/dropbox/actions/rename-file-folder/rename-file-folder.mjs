@@ -20,17 +20,17 @@ export default {
     newName: {
       type: "string",
       label: "New Name",
-      description: "The file new name. (Please use the extension)",
+      description: "The file's new name (make sure to include the file extension).",
     },
     autorename: {
       type: "boolean",
       label: "Autorename",
-      description: "If there's a conflict, have the Dropbox server try to autorename the file to avoid the conflict.",
+      description: "If there's a conflict, have Dropbox try to autorename the folder to avoid the conflict.",
       optional: true,
     },
     allowOwnershipTransfer: {
       type: "boolean",
-      label: "Allow Ownership Transfer",
+      label: "Allow ownership transfer",
       description: "Allow moves by owner even if it would result in an ownership transfer for the content being moved. This does not apply to copies.",
       optional: true,
     },

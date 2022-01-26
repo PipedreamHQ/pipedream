@@ -15,7 +15,7 @@ export default {
         dropbox,
         "pathFile",
       ],
-      description: "The file path you want to see the revisions. (Please use a valid path to filter the values)",
+      description: "The file path for the file whose revisions you'd like to list.",
     },
     mode: {
       type: "string",
