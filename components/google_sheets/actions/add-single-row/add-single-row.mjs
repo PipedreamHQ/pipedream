@@ -1,21 +1,10 @@
 import googleSheets from "../../google_sheets.app.mjs";
 
-const headerProp = {
-  type: "string",
-  label: "Does the first row of the sheet have headers?",
-  description: "If the first row of your document has headers we'll retrieve them to make it easy to enter the value for each column.",
-  options: [
-    "Yes",
-    "No",
-  ],
-  reloadProps: true,
-};
-
 export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "2.0.0",
+  version: "2.0.5",
   type: "action",
   props: {
     googleSheets,
@@ -44,12 +33,22 @@ export default {
           sheetId: c.sheetId.value,
         }),
       ],
+      description: "",
     },
-    headerProp,
+    hasHeaders: {
+      type: "string",
+      label: "Does the first row of the sheet have headers?",
+      description: "If the first row of your document has headers we'll retrieve them to make it easy to enter the value for each column.",
+      options: [
+        "Yes",
+        "No",
+      ],
+      reloadProps: true,
+    },
   },
   async additionalProps() {
     const props = {};
-    if (this.headerProp === "Yes") {
+    if (this.hasHeaders === "Yes") {
       const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId.value, `${this.sheetName}!1:1`);
       for (let i = 0; i < values[0]?.length; i++) {
         props[`col_${i.toString().padStart(4, "0")}`] = {
@@ -58,7 +57,7 @@ export default {
           optional: true,
         };
       }
-    } else if (this.headerProp === "No") {
+    } else if (this.hasHeaders === "No") {
       props.myColumnData = {
         type: "string[]",
         label: "Values",
@@ -69,7 +68,7 @@ export default {
   },
   async run({ $ }) {
     let cells;
-    if (this.headerProp === "Yes") {
+    if (this.hasHeaders === "Yes") {
       cells = Object.keys(this).filter((prop) => prop.startsWith("col_"))
         .sort()
         .map((prop) => this[prop]);
