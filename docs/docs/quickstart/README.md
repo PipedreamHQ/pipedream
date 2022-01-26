@@ -34,7 +34,7 @@ Next, send data to the trigger URL to help you build the workflow. For this exam
 }
 ```
 
-You can edit and run the following cURL command or use your favorite app (like Postman or Hoppscotch).
+You can edit and run the following cURL command (or use your favorite HTTP tool).
 
 ```bash
 curl -d '{
@@ -95,7 +95,7 @@ Any data you `return`  from a step is exported so it can be inspected and refere
 
 ::: 
 
-Your code step should now look like this. To run the step and test the code, click the **Test** button.
+Your code step should now look like the screenshot below. To run the step and test the code, click the **Test** button.
 
 ![image-20220123222340361](./image-20220123222340361.png)
 
@@ -111,17 +111,19 @@ When you **Test** a step, only the current step is executed. Use the caret to te
 
 ### Save data to Google Sheets
 
-Next, create a Google Sheet with and add **Timestamp**, **Message** and **Sentiment Score** to the first row as headers. ![image-20220125184754078](./image-20220125184754078.png)
+Next, create a Google Sheet and add **Timestamp**, **Message** and **Sentiment Score** to the first row. These labels will act as our column headers amd will help us configure the Google Sheets step of the workflow. 
 
-Next, let's add a step to the workflow to send the data to Google Sheets. First, click **+** after the `sentiment` code step and select the **Google Sheets** app:
+![image-20220125184754078](./image-20220125184754078.png)
+
+Next, let's add a step to the workflow to send the data to Google Sheets. First, click **+** after the `sentiment` code step and select the **Google Sheets** app.
 
 ![image-20220125185156527](./image-20220125185156527.png)
 
-The select the **Add Single Row** action:
+Then select the **Add Single Row** action.
 
 ![image-20220125185305043](./image-20220125185305043.png)
 
-Click to connect you Google Sheets account to Pipdream:
+Click to connect you Google Sheets account to Pipdream (or select it from the dropdown if you previously connected an account).
 
 ![image-20220125185354469](./image-20220125185354469.png)
 
@@ -131,7 +133,7 @@ Pipedream will open Google's sign in flow in a new window. Sign in with the acco
 
 ::: warning Important
 
-If prompted, you must check the box for Pipedream to **See, edit, create and delete all of your Google Drive files**. These permissions are required for configure and use pre-built actions.
+If prompted, you must check the box for Pipedream to **See, edit, create and delete all of your Google Drive files**. These permissions are required for configure and use the pre-built actions for Google Sheets.
 
 <img src="./image-20220125185952120.png" alt="image-20220125185952120" style="zoom:33%;" />
 
@@ -147,7 +149,7 @@ Then select the sheet name (the default sheet name in Google Sheets is **Sheet1*
 
 ![image-20220125190740937](./image-20220125190740937.png)
 
-Next, define if the spreadsheet has headers in the first row. If it does, Pipedream will automatically retrieve them making it easy to enter data (if not, you can manually construct an array of values). Since the sheet for this example contains headers, select **Yes**.
+Next, select if the spreadsheet has headers in the first row. When a header row exists, Pipedream will automatically retrieve the header labels to make it easy to enter data (if not, you can manually construct an array of values). Since the sheet for this example contains headers, select **Yes**.
 
 ![image-20220125191025880](./image-20220125191025880.png)
 
@@ -155,19 +157,19 @@ Pipedream will retrieve the headers and generate a form to enter data in your sh
 
 ![image-20220125191155907](./image-20220125191155907.png)
 
-For the timestamp, let's pass the timestamp for the workflow event. This can be found in the context object on the trigger. When you click into the **Timestamp** field, Pipdream will display an object explorer to make it easy to fnd data. Scroll to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:
+First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the **Timestamp** field, Pipdream will display an object explorer to make it easy to fnd data. Scroll or search to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:
 
 ![image-20220125191627775](./image-20220125191627775.png)
 
-Next, enter a value for the **Message** using autocomplete. First, add double braces `{{` — Pipedream will automatically add the closing braces `}}`. Then, type `steps.trigger.event.body.message` between the braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be <code v-pre>{{steps.trigger.event.body.message}}</code>.
+Next, let's use autocomplete to enter a value for the **Message** column. First, add double braces `{{` — Pipedream will automatically add the closing braces `}}`. Then, type `steps.trigger.event.body.message` between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be <code v-pre>{{steps.trigger.event.body.message}}</code>.
 
 ![image-20220125191907876](./image-20220125191907876.png)
 
-Finally, scroll up to the `sentiment` step and use the **Copy Path** option next to the score. 
+Finally, let's copy a reference from a previous step. Scroll up to the `sentiment` step and click the **Copy Path** link next to the score. 
 
 ![image-20220125192301634](./image-20220125192301634.png)
 
-Paste the value into the **Sentiment Score** field — Pipedream will automatically wrap the reference in double braces `{{ }}`.
+Paste the value into the **Sentiment Score** field — Pipedream will automatically wrap the reference in double braces <code v-pre>{{ }}</code>.
 
 ![image-20220125192410390](./image-20220125192410390.png)
 
@@ -187,11 +189,11 @@ Then click **Deploy** to run your workflow on every trigger event.
 
 ![image-20220125200445675](./image-20220125200445675.png)
 
-When your workflow deploys, you will be redirected to the **Inspector**.  
+When your workflow deploys, you will be redirected to the **Inspector**. Your workflow is now live. 
 
 ![image-20220125193507453](./image-20220125193507453.png)
 
-To validate your workflow, send a new request to your workflow: You can edit and run the following cURL command or use your favorite app (like Postman or Hoppscotch).
+To validate your workflow is working as expected, send a new request to your workflow: You can edit and run the following cURL command:
 
 ```bash
 curl -d '{
@@ -199,12 +201,12 @@ curl -d '{
 }'   -H "Content-Type: application/json"   YOUR-TRIGGER-URL-GOES-HERE
 ```
 
-The event will appear in the event list at the left in real time. Select the event to inspect the workflow execution.
+The event will instantly appear in the event list. Select it to inspect the workflow execution.
 
 ![image-20220125194354113](./image-20220125194354113.png)
 
-Finally, you can return to Google Sheets to validate that the new data was inserted:
+Finally, you can return to Google Sheets to validate that the new data was automatically inserted.
 
 ![image-20220125194510308](./image-20220125194510308.png) 
 
-Congratulations! You completed the Pipedream quickstart. Next, try creating your own workflows and check out the docs to learn about more of the amazing things you can build with Pipedream!
+Congratulations! You completed the quickstart and should now understand the basic patterns for workflow development. Next, try creating your own workflows and check out the docs to learn more!
