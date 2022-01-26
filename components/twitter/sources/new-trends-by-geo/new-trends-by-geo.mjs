@@ -4,7 +4,7 @@ export default {
   key: "twitter-new-trends-by-geo",
   name: "New Trends by Geo",
   description: "Emit new event when a new topic is trending on Twitter in a specific geographic location",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   props: {
     twitter,
