@@ -34,7 +34,7 @@ Next, send data to the trigger URL to help you build the workflow. For this exam
 }
 ```
 
-You can edit and run the following cURL command or use your favorite app (like Postman or Hoppscotch).
+You can edit and run the following `cURL` command or use your favorite app (like Postman or Hoppscotch).
 
 ```bash
 curl -d '{
@@ -91,7 +91,7 @@ To use any npm package on Pipedream, just `import` it. There's no `npm install` 
 
 ::: tip
 
-Any data you `return`  from a step is exported so it can be inspected and referenceed it in future steps via the `steps` object. In this example, return values will be exported to `steps.sentiment.$return_value` because we renamed the step to **sentiment** .
+Any data you `return` from a step is exported so it can be inspected and referenceed it in future steps via the `steps` object. In this example, return values will be exported to `steps.sentiment.$return_value` because we renamed the step to **sentiment** .
 
 ::: 
 

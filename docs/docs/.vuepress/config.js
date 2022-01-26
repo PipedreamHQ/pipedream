@@ -65,6 +65,7 @@ module.exports = {
           "/workflows/concurrency-and-throttling/",
           "/environment-variables/",
           "/workflows/settings/",
+          "/workflows/networking/",
         ]
       },
       "/sources/",
@@ -100,7 +101,6 @@ module.exports = {
               "/components/api/",
               "/components/guidelines/",
               "/pipedream-axios/",
-              //"/components/migrating/",
             ],
           },
           {
@@ -148,98 +148,16 @@ module.exports = {
           "/subprocessors/",
         ],
       },
-      // {
-      //   title: "Workflow Events",
-      //   children: [
-      //     "/workflows/events/",
-      //     "/workflows/events/inspect/",
-      //     "/workflows/events/replay/",
-      //     "/workflows/events/test/",
-      //     "/workflows/events/concurrency-and-throttling/",
-      //     "/workflows/events/cold-starts/",
-      //   ],
-      // },
-      // {
-      //   title: "Managing Errors",
-      //   children: [
-      //     "/errors/",
-      //     "/workflows/error-handling/global-error-workflow/",
-      //   ],
-      // },
-      // {
-      //   title: "Authoring Components",
-      //   children: [
-      //     "/components/",
-      //     //"/sources/",
-      //     //"/components/actions/",
-      //     "/components/quickstart/nodejs/actions/",
-      //     "/components/quickstart/nodejs/sources/",
-      //     "/components/api/",
-      //     "/components/guidelines/",
-      //     "/pipedream-axios/",
-      //     "/components/migrating/",
-      //   ],
-      // },
-      // {
-      //   title: "Examples",
-      //   children: [
-      //     "/examples/adding-rows-to-google-sheets/",
-      //     "/examples/waiting-to-execute-next-step-of-workflow/",
-      //   ],
-      // },
-      // {
-      //   title: "CLI",
-      //   children: ["/cli/install/", "/cli/login/", "/cli/reference/"],
-      // },
-      // {
-      //   title: "APIs",
-      //   children: [
-      //     "/api/overview/",
-      //     "/api/auth/",
-      //     "/api/rest/",
-      //     "/api/rest/webhooks/",
-      //     "/api/rest/rss/",
-      //     "/api/rest/workflow-errors/",
-      //     "/api/sse/",
-      //   ],
-      // },
-      // {
-      //   title: "Destinations",
-      //   children: [
-      //     "/destinations/",
-      //     "/destinations/http/",
-      //     "/destinations/s3/",
-      //     "/destinations/email/",
-      //     "/destinations/sql/",
-      //     "/destinations/emit/",
-      //     "/destinations/sse/",
-      //   ],
-      // },
-      // {
-      //   title: "Integrations",
-      //   children: [
-      //     "/apps/all-apps/",
-      //     "/apps/discord/",
-      //     "/apps/hubspot/",
-      //     "/apps/servicenow/",
-      //     "/apps/slack/",
-      //     "/apps/strava/",
-      //     "/apps/twitter/",
-      //     "/apps/zoom/",
-      //   ],
-      // },\
       {
         title: "Pricing & Limits",
         collapsable: true,
         children: [
           "/limits/",
           "/pricing/",
+          "/workflows/events/cold-starts/",
         ]
       },
-      //"/new-feature-or-bug/",
-      //["https://pipedream.com/support", "Support and Community"],
-      //"/pricing/",
-      //"/status/",
+      "/status/",
       ["https://pipedream.com/support", "Need more help?"],
     ],
     PIPEDREAM_BASE_URL: "https://pipedream.com",
