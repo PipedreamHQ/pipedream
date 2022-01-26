@@ -5,11 +5,10 @@
 Today, we support the following triggers: 
 
 - [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
-- [HTTP API](#http)
+- [HTTP / Webhook](#http)
 - [Schedule](#schedule)
 - [Email](#email)
 - [RSS](#rss)
-- [SDK](#sdk)
 
 If there's a specific trigger you'd like supported, please [let us know](https://pipedream.com/support/).
 
@@ -602,6 +601,10 @@ You can trigger workflows using the Pipedream JavaScript and Ruby SDKs, as well.
 
 Select the **SDK** trigger to generate workflow-specific code samples for sending events to your workflow using each of the SDKs.
 
+## Don't see a trigger you need?
+
+If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/community/).
+
 ## Multiple triggers for one workflow
 
 Want to trigger a workflow on a schedule, but at the same time trigger it on demand with a Slack message? Yes this is possible and yes it's very cool.
@@ -614,9 +617,5 @@ Now you can add an additional trigger to the same workflow, opening up multiple 
 <img src="./images/add-multi-trigger.gif" alt="Add multiple triggers to a workflow" />
 </div>
 
-
-## Don't see a trigger you need?
-
-If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/community/).
-
 <Footer />
+

@@ -1,4 +1,4 @@
-# Writing Bash in Code Steps
+# Bash
 
 Prefer to write quick scripts in bash? We've got you covered.
 
