@@ -602,6 +602,19 @@ You can trigger workflows using the Pipedream JavaScript and Ruby SDKs, as well.
 
 Select the **SDK** trigger to generate workflow-specific code samples for sending events to your workflow using each of the SDKs.
 
+## Multiple triggers for one workflow
+
+Want to trigger a workflow on a schedule, but at the same time trigger it on demand with a Slack message? Yes this is possible and yes it's very cool.
+
+Click the ttop right menu in the trigger itself, and select "Add trigger".
+
+Now you can add an additional trigger to the same workflow, opening up multiple ways that a workflow can be started.
+
+<div>
+<img src="./images/add-multi-trigger.gif" alt="Add multiple triggers to a workflow" />
+</div>
+
+
 ## Don't see a trigger you need?
 
 If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/community/).
