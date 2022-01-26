@@ -34,7 +34,7 @@ Next, send data to the trigger URL to help you build the workflow. For this exam
 }
 ```
 
-You can edit and run the following cURL command (or use your favorite HTTP tool).
+You can edit and run the following `cURL` command (or use your favorite HTTP tool).
 
 ```bash
 curl -d '{
@@ -91,7 +91,7 @@ To use any npm package on Pipedream, just `import` it. There's no `npm install` 
 
 ::: tip
 
-Any data you `return`  from a step is exported so it can be inspected and referenceed it in future steps via the `steps` object. In this example, return values will be exported to `steps.sentiment.$return_value` because we renamed the step to **sentiment** .
+Any data you `return` from a step is exported so it can be inspected and referenceed it in future steps via the `steps` object. In this example, return values will be exported to `steps.sentiment.$return_value` because we renamed the step to **sentiment** .
 
 ::: 
 
@@ -193,7 +193,7 @@ When your workflow deploys, you will be redirected to the **Inspector**. Your wo
 
 ![image-20220125193507453](./image-20220125193507453.png)
 
-To validate your workflow is working as expected, send a new request to your workflow: You can edit and run the following cURL command:
+To validate your workflow is working as expected, send a new request to your workflow: You can edit and run the following `cURL` command:
 
 ```bash
 curl -d '{
