@@ -1,16 +1,5 @@
 import googleSheets from "../../google_sheets.app.mjs";
 
-const headerProp = {
-  type: "string",
-  label: "Does the first row of the sheet have headers?",
-  description: "If the first row of your document has headers we'll retrieve them to make it easy to enter the value for each column.",
-  options: [
-    "Yes",
-    "No",
-  ],
-  reloadProps: true,
-};
-
 export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
@@ -44,6 +33,17 @@ export default {
           sheetId: c.sheetId.value,
         }),
       ],
+      description: "",
+    },
+    hasHeaders: {
+      type: "string",
+      label: "Does the first row of the sheet have headers?",
+      description: "If the first row of your document has headers we'll retrieve them to make it easy to enter the value for each column.",
+      options: [
+        "Yes",
+        "No",
+      ],
+      reloadProps: true,
     },
     headerProp,
   },
@@ -71,7 +71,7 @@ export default {
   },
   async run({ $ }) {
     let cells;
-    if (this.headerProp === "Yes") {
+    if (this.hasHeaders === "Yes") {
       cells = Object.keys(this).filter((prop) => prop.startsWith("col_"))
         .sort()
         .map((prop) => this[prop]);
