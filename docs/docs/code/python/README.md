@@ -7,7 +7,7 @@ Pipedream supports [Python v{{$site.themeConfig.PYTHON_VERSION}}](https://www.py
 ::: warning
 Python steps are available in a limited alpha release.
 
-You can still run arbitrary python code, including [sharing data between steps](/code/python/#sharing-data-between-steps) as well as [accessing environment variables](/code/python/#using-environment-variables).
+You can still run arbitrary Python code, including [sharing data between steps](/code/python/#sharing-data-between-steps) as well as [accessing environment variables](/code/python/#using-environment-variables).
 
 However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `$.end`, and `$.auth` are not yet available in bash. If you have any questions please [contact support](https://pipedream.com/support).
 :::
