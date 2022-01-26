@@ -6,7 +6,7 @@ export default {
   key: "trello-card-updates",
   name: "Card Updates (Instant)",
   description: "Emit new event for each update to a Trello card.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   props: {
     ...common.props,
