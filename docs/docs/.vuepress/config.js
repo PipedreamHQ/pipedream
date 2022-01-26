@@ -92,6 +92,7 @@ module.exports = {
                   "/code/nodejs/auth/",
                   "/code/nodejs/http-requests/",
                   "/code/nodejs/working-with-files/",
+                  "/code/nodejs/async/",
                 ],
               },
               "/code/python/",
