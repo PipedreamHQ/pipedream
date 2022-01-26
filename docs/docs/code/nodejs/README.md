@@ -120,12 +120,6 @@ export default defineComponent({
 });
 ```
 
-This will let you inspect the object properties below the step like you can for [step exports](/workflows/steps/#exporting-data-in-code-steps):
-
-<div>
-<img alt="console.dir() output example in a Node.js pipedream workflow step" src="./images/console-dir.png" width="300px">
-</div>
-
 ## Syntax errors
 
 Pipedream will attempt to catch syntax errors when you're writing code, highlighting the lines where the error occurred in red.
