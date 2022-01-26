@@ -15,7 +15,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "2.0.0",
+  version: "2.0.1",
   type: "action",
   props: {
     googleSheets,
@@ -48,24 +48,26 @@ export default {
     headerProp,
   },
   async additionalProps() {
-    const props = {};
     if (this.headerProp === "Yes") {
       const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId.value, `${this.sheetName}!1:1`);
-      for (let i = 0; i < values[0]?.length; i++) {
+      return (values?.[0] ?? []).reduce((props, label, i) => {
         props[`col_${i.toString().padStart(4, "0")}`] = {
           type: "string",
-          label: values[0][i],
+          label,
           optional: true,
         };
-      }
+        return props;
+      }, {});
     } else if (this.headerProp === "No") {
-      props.myColumnData = {
-        type: "string[]",
-        label: "Values",
-        description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+      return {
+        myColumnData: {
+          type: "string[]",
+          label: "Values",
+          description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+        },
       };
     }
-    return props;
+    return {};
   },
   async run({ $ }) {
     let cells;
