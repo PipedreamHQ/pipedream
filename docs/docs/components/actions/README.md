@@ -22,21 +22,7 @@ For example, here's how to add the HTTP `GET` Request action:
 <img alt="Adding HTTP GET request action" src="./images/adding-http-get-request-action.gif">
 </div>
 
-::: warning
-Legacy actions are no longer available in the latest version of workflows. 
-
-There is a [new version](https://pipedream.com/community/t/actions-improved-open-source-now-in-beta/606) of Pipedream Actions available.  Legacy Actions have been deprecated. Get started with our [quickstart](/components/quickstart/nodejs/actions/) for new actions or learn how to [migrate](/components/migrating/) legacy actions.
-:::
-
-## Passing params to actions
-
-[See our docs on params](/workflows/steps/params/) for a detailed overview of how to pass data to actions.
-
 ## Updating actions to the latest version
-
-::: warning This feature isn't available for all actions
-This feature is only available on the newest version of Pipedream actions. If you don't see the update button in the top-right of your action, the action either has no newer version or it doesn't support updates. Try adding a new step and searching for the action to add the newest version to your workflow.
-:::
 
 When you use existing actions or create your own, you'll often want to update an action you added to a workflow to the newest version. For example, the community might publish a new feature or bug fix that you want to use.
 

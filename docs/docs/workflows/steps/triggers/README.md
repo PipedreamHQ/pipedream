@@ -5,11 +5,10 @@
 Today, we support the following triggers: 
 
 - [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
-- [HTTP API](#http)
+- [HTTP / Webhook](#http)
 - [Schedule](#schedule)
 - [Email](#email)
 - [RSS](#rss)
-- [SDK](#sdk)
 
 If there's a specific trigger you'd like supported, please [let us know](https://pipedream.com/support/).
 
@@ -595,12 +594,6 @@ Choose the RSS trigger to watch an RSS feed for new items:
 </div>
 
 This will create an RSS [event source](/event-sources) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
-
-## SDK
-
-You can trigger workflows using the Pipedream JavaScript and Ruby SDKs, as well.
-
-Select the **SDK** trigger to generate workflow-specific code samples for sending events to your workflow using each of the SDKs.
 
 ## Don't see a trigger you need?
 

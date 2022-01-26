@@ -15,7 +15,7 @@ You can view your event sources at [https://pipedream.com/sources](https://piped
 
 [[toc]]
 
-## How do event sources work?
+## Overview
 
 Event sources collect data from apps or service like Github, Twitter, and Google Calendar, then **emit** this data as individual events. These events trigger linked workflows, and [can be retrieved using the API or SSE interfaces](#consuming-events-from-sources).
 
