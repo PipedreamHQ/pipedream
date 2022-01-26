@@ -104,6 +104,7 @@ CAsCBBYCAwECHgECF
 cellId
 Chargebee
 Chargify
+charizard
 ChartMogul
 Chatbot
 chufqzeKwns

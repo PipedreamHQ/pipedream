@@ -153,7 +153,7 @@ Pipedream will retrieve the headers and generate a form to enter data in your sh
 
 ![image-20220125191155907](./image-20220125191155907.png)
 
-First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the **Timestamp** field, Pipedream will display an object explorer to make it easy to fnd data. Scroll or search to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:
+First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the **Timestamp** field, Pipedream will display an object explorer to make it easy to find data. Scroll or search to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:
 
 ![image-20220125191627775](./image-20220125191627775.png)
 
