@@ -84,15 +84,11 @@ export default defineComponent({
 This code imports the npm package, passes the message we sent to our trigger to the `analyze()` function by referencing `steps.trigger.event.body.message` and then returns the result. 
 
 ::: tip
-
 To use any npm package on Pipedream, just `import` it. There's no `npm install` or `package.json` required.
-
 :::
 
 ::: tip
-
-Any data you `return` from a step is exported so it can be inspected and referenceed it in future steps via the `steps` object. In this example, return values will be exported to `steps.sentiment.$return_value` because we renamed the step to **sentiment** .
-
+Any data you `return` from a step is exported so it can be inspected and referenced it in future steps via the `steps` object. In this example, return values will be exported to `steps.sentiment.$return_value` because we renamed the step to **sentiment** .
 ::: 
 
 Your code step should now look like the screenshot below. To run the step and test the code, click the **Test** button.
@@ -123,7 +119,7 @@ Then select the **Add Single Row** action.
 
 ![image-20220125185305043](./image-20220125185305043.png)
 
-Click to connect you Google Sheets account to Pipdream (or select it from the dropdown if you previously connected an account).
+Click to connect you Google Sheets account to Pipedream (or select it from the dropdown if you previously connected an account).
 
 ![image-20220125185354469](./image-20220125185354469.png)
 
@@ -141,7 +137,7 @@ Learn more about Pipedream's [privacy and security policy](/privacy-and-security
 
 ::: 
 
-When you complete connecting your Google account, the window should close and you should return to Pipdream. Your connected account should automatically be selected. Next, select your spreadsheet from the dropdown menu:
+When you complete connecting your Google account, the window should close and you should return to Pipedream. Your connected account should automatically be selected. Next, select your spreadsheet from the dropdown menu:
 
 ![image-20220125190643112](./image-20220125190643112.png)
 
@@ -157,7 +153,7 @@ Pipedream will retrieve the headers and generate a form to enter data in your sh
 
 ![image-20220125191155907](./image-20220125191155907.png)
 
-First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the **Timestamp** field, Pipdream will display an object explorer to make it easy to fnd data. Scroll or search to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:
+First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the **Timestamp** field, Pipedream will display an object explorer to make it easy to fnd data. Scroll or search to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:
 
 ![image-20220125191627775](./image-20220125191627775.png)
 

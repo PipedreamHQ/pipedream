@@ -123,7 +123,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger via POS
 }
 ```
 
-In our Python step, we can access this data in the `exports` variable from the `pipedream.script_helpers` module. Specifically, this data from the POST request into our workflow is available in the `tigger` dictionary item. 
+In our Python step, we can access this data in the `exports` variable from the `pipedream.script_helpers` module. Specifically, this data from the POST request into our workflow is available in the `trigger` dictionary item. 
 
 ```python
 from pipedream.script_helpers import (steps, export)
