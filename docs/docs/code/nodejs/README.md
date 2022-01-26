@@ -1,4 +1,4 @@
-# Node.js
+# Writing Node.js in Steps
 
 Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/).
 
@@ -28,20 +28,45 @@ You can add any Node.js code in the editor that appears. For example, try:
 ```javascript
 defineComponent({
   async run({ steps, $ }) {
-    console.log("This is Node.js code");
-    this.test = "Some test data";
-    return "Test data";
+    console.log('This is Node.js code');
+    $.export('test', 'Some test data');
+    return 'Test data';
   })
 });
 ```
 
 Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-editor/)) used in Microsoft's [VS Code](https://code.visualstudio.com/), which supports syntax highlighting, automatic indentation, and more.
 
-## Passing parameters to code steps
+## Passing props to code steps
 
-You can make code steps reusable by allowing them to accept parameters. Instead of hard-coding the values of variables within the code itself, you can pass them to the code step as arguments or parameters, instead.
+You can make code steps reusable by allowing them to accept props. Instead of hard-coding the values of variables within the code itself, you can pass them to the code step as arguments or parameters _entered in the workflow builder_.
 
-[Read more about using step parameters here](/workflows/steps/#passing-data-to-steps-step-parameters).
+For example, let's define a `firstName` prop. This will allow us to freely enter text from the workflow builder.
+
+```javascript
+defineComponent({
+  props: {
+    firstName: {
+      type: 'string',
+      label: 'Your first name',
+      default: 'Dylan',
+    }
+  },
+  async run({ steps, $ }) {
+    console.log(`Hello ${this.firstName}, congrats on crafting your first prop!`);
+  }
+});
+```
+
+The workflow builder now can accept text input to populate the `firstName` to this particular step only:
+
+<div>
+  <img alt="Workflow builder displaying the input visually as a text input field" src="./images/user-input-props-example.png" width="740px" />
+</div>
+
+Accepting a single string is just one example, you can build a step to accept arrays of strings through a dropdown presented in the workflow builder.
+
+[Read the props reference for the full list of options](/components/api/#props).
 
 ## `async` function declaration
 
@@ -50,7 +75,7 @@ You'll notice an [`async` function](https://developer.mozilla.org/en-US/docs/Web
 ```javascript
 defineComponent({
   async run({ steps, $ }) {
-      // this node.js code will execute when your workflow is triggered
+      // this Node.js code will execute when your workflow is triggered
   })
 });
 ```
@@ -60,19 +85,20 @@ This communicates a couple of key concepts:
 - Any async code within a code step [**must** be run synchronously](/workflows/steps/code/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
 - Pipedream passes the variables `event` and `steps` to every code step. `event` is a read-only object that contains the data that triggered your event, for example the HTTP request sent to your workflow's endpoint. `steps` is also an object, and contains the [data exported from previous steps](/workflows/steps/#step-exports) in your workflow.
 
-If you're using [step parameters](/workflows/steps/#passing-data-to-steps-step-parameters) or [connect an account to a step](/connected-accounts/#from-a-code-step), you may notice two new parameters passed to the function signature, `params` and `auths`:
+If you're using [step props](/code/nodejs/#passing-props-to-code-steps) or [connect an account to a step](/connected-accounts/#from-a-code-step), they are available under `this` within the `run` function of the step.
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
-    // this node.js code will execute when your workflow is triggered
+    // this Node.js code will execute when your workflow is triggered
+
   })
 });
 ```
 
-When you use [step parameters](/workflows/steps/#passing-data-to-steps-step-parameters), Pipedream passes the `params` object (named pairs of param key and its associated value) to the function.
+When you use [step parameters](/code/nodejs/#passing-props-to-code-steps), Pipedream passes the `props` object (named pairs of prop key and its associated value) to the function.
 
-When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream passes the [`auths` object](/workflows/steps/code/auth/#the-auths-object) to the function.
+When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream passes the API keys to [`this.appName.$auths` object](/workflows/steps/code/auth/#the-auths-object) to the function.
 
 ## Logs
 
@@ -85,7 +111,7 @@ These logs will appear just below the associated step. `console.log` messages ap
 If you need to print the contents of JavaScript objects, use `console.dir`:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     console.dir({
       name: "Luke"
@@ -97,7 +123,7 @@ defineComponent({
 This will let you inspect the object properties below the step like you can for [step exports](/workflows/steps/#exporting-data-in-code-steps):
 
 <div>
-<img alt="console.dir() output example in a node.js pipedream workflow step" src="./images/console-dir.png" width="300px">
+<img alt="console.dir() output example in a Node.js pipedream workflow step" src="./images/console-dir.png" width="300px">
 </div>
 
 ## Syntax errors
@@ -220,7 +246,7 @@ For more information on what functionality is available for those languages, ple
 
 ### Injecting the database
 
-By default Node.js steps do not contain the database service. It needs to be injected by defining it as a `prop`. 
+By default, Node.js steps don't have access to the database service. It needs to be injected by defining it as a `prop`. 
 
 ```javascript
 defineComponent({
@@ -230,7 +256,7 @@ defineComponent({
   },
   async run({ steps, $ }) {
     // Now we can access the database at "this.db"
-    this.db
+    this.db.set("name", "Dylan")
   })
 });
 ```
@@ -243,7 +269,7 @@ In the above example we essentially instructed that this step needs the database
 
 ### Using the database
 
-Once the database is injected into the component, we can use it to both store & retrieve data generated from workflow steps. The 2 functions available are to `set` and `get` the data.
+Once you inject the database into the component, you can use it to both store (`set`) and retrieve (`get`) data.
 
 ### Saving data
 
@@ -289,9 +315,9 @@ export default defineComponent({
   async run({ steps, $ }) {
     // By default, all database entries are undefined.
     // It's wise to set a default value so our code as an initial value to work with
-    const counter = this.db.get('counter') || 0;
+    const counter = this.db.get('counter') ?? 0;
     
-    // On the first run "counter" will be and we'll increment it to 1
+    // On the first run "counter" will be 0 and we'll increment it to 1
     // The next run will increment the counter to 2, and so forth
     this.db.set('counter', counter + 1);
   },
@@ -300,9 +326,9 @@ export default defineComponent({
 
 ### Dedupe data example
 
-This database is also useful for storing data from APIs from prior runs to prevent acting on duplicate data, or data that's been seen before.
+This database is also useful for storing data from prior runs to prevent acting on duplicate data, or data that's been seen before.
 
-For example, this workflows trigger contains an email address from a potential new customer. But we want to track all emails collected so we don't send a welcome email twice:
+For example, this workflow's trigger contains an email address from a potential new customer. But we want to track all emails collected so we don't send a welcome email twice:
 
 ```javascript
 export default defineComponent({
@@ -310,13 +336,13 @@ export default defineComponent({
     "db": "$.service.db",
   },
   async run({ steps, $ }) {
-    const email = steps.trigger.context.new_customer_email;
+    const email = steps.trigger.body.new_customer_email;
     // Retrieve the past recorded emails from other runs
-    const emails = this.db.get('emails') || [];
+    const emails = this.db.get('emails') ?? [];
 
     // If the current email being passed from our webhook is already in our list, exit early
     if(emails.includes(email)) {
-      $.exit('Already welcomed this user');
+      $.flow.exit('Already welcomed this user');
     }
 
     // Add the current email to the list of past emails so we can detect it in the future runs
@@ -341,18 +367,18 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 - You only want to run your workflow for users in the United States. If you receive a request from outside the U.S., you don't want the rest of the code in your workflow to run.
 - You may use the `user_id` contained in the event to look up information in an external API. If you can't find data in the API tied to that user, you don't want to proceed.
 
-**In any code step, calling the `$.end()` function will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
+**In any code step, calling the `$.flow.exit()` function will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
 
 ```javascript
 defineComponent({
   async run({ steps, $ }) {
-    $.end();
-    console.log("This code will not run, since $end() was called above it");
+    $.flow.exit();
+    console.log("This code will not run, since $.flow.exit() was called above it");
   })
 });
 ```
 
-You can pass any string as an argument to `$.end()`:
+You can pass any string as an argument to `$.flow.exit()`:
 
 ```javascript
 defineComponent({
@@ -362,20 +388,20 @@ defineComponent({
 });
 ```
 
-This message will appear in the Inspector in the **Messages** column for the event where `$.end()` was called:
+This message will appear in the Inspector in the **Messages** column for the event where `$.flow.exit()` was called:
 
 <div>
-<img alt="Dollar end message in inspector" src="./images/dollar-end.png">
+<img alt="Dollar end message in inspector" src="./images/dollar-end.png" width="300px">
 </div>
 
-Like any other code, `$.end()` can be called conditionally:
+Like any other code, `$.flow.exit()` can be called conditionally:
 
 ```javascript
 defineComponent({
   async run({ steps, $ }) {
-    // Flip a coin, running $end() for 50% of events
+    // Flip a coin, running $.flow.exit() for 50% of events
     if (Math.random() > 0.5) {
-      $end();
+      $.flow.exit();
     }
     console.log("This code will only run 50% of the time");
   })

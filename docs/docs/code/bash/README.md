@@ -1,13 +1,13 @@
 # Bash
 
-Prefer to write quick scripts in bash? We've got you covered.
+Prefer to write quick scripts in Bash? We've got you covered.
 
-You can run any bash in a Pipedream step within your workflows.
+You can run any Bash in a Pipedream step within your workflows.
 
 ::: warning
 Bash steps are available in a limited alpha release.
 
-You can still run arbitrary bash scripts, including [sharing data between steps](/code/bash/#sharing-data-between-steps) as well as [accessing environment variables](/code/bash/#using-environment-variables).
+You can still run arbitrary Bash scripts, including [sharing data between steps](/code/bash/#sharing-data-between-steps) as well as [accessing environment variables](/code/bash/#using-environment-variables).
 
 However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `$.end`, and `$.auth` are not yet available in bash. If you have any questions please [contact support](https://pipedream.com/support).
 :::
@@ -16,11 +16,11 @@ However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `
 
 1. Click the + icon to add a new step
 2. Click "Custom Code"
-3. In the new step, select the bash runtime in language dropdown
+3. In the new step, select the `bash` runtime in language dropdown
 
 ## Logging and debugging
 
-When it comes to debugging bash scripts, `echo` is your friend.
+When it comes to debugging Bash scripts, `echo` is your friend.
 
 Your `echo` statements will print their output in the workflow step results:
 
@@ -41,13 +41,13 @@ Bash steps come with many common and useful binaries preinstalled and available 
 
 Unfortunately it is not possible to install from a package manager like `apt` or `yum`.
 
-If you need a package pre-installed in your bash steps, [just ask us](https://pipedream.com/support).
+If you need a package pre-installed in your Bash steps, [just ask us](https://pipedream.com/support).
 
 Otherwise, you can use `/tmp` to download and install from source.
 
 ## Making an HTTP request
 
-`curl` is already preinstalled in bash steps, we recommend using it for making HTTP requests in your code for sending or requesting data from APIs or webpages.
+`curl` is already preinstalled in Bash steps, we recommend using it for making HTTP requests in your code for sending or requesting data from APIs or webpages.
 
 ### Making a GET request
 
@@ -104,7 +104,7 @@ This makes your steps even more powerful, you can compose new workflows and reus
 
 ### Using data from another step
 
-In bash steps, data from the initial workflow trigger and other steps are available in the `$PIPEDREAM_STEPS` environment variable.
+In Bash steps, data from the initial workflow trigger and other steps are available in the `$PIPEDREAM_STEPS` environment variable.
 
 In this example, we'll pretend this data is coming into our HTTP trigger via a POST request.
 
@@ -116,7 +116,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger via a P
 }
 ```
 
-In our bash script, we can access this data via the `$PIPEDREAM_STEPS` variable. Specifically, this data from the POST request into our workflow is available in the `trigger` object.
+In our Bash script, we can access this data via the `$PIPEDREAM_STEPS` variable. Specifically, this data from the POST request into our workflow is available in the `trigger` object.
 
 ```bash
 echo $PIPEDREAM_STEPS | jq .trigger.event
@@ -146,7 +146,7 @@ echo $EXPORT >> $PIPEDREAM_EXPORTS
 ::: warning
 Not all data types can be stored in the `$PIPEDREAM_EXPORTS` data shared between workflow steps.
 
-For the best experience, we recommend only exporting strings from bash steps that can be serialized to JSON. 
+For the best experience, we recommend only exporting strings from Bash steps that can be serialized to JSON. 
 
 [Read more details on step limitations here.](/workflows/steps/#limitations-on-step-exports)
 :::
@@ -169,7 +169,7 @@ curl --silent -X POST -h "authorization:Bearer $TWITTER_API_KEY" https://api.twi
 
 ## Raising exceptions
 
-You may need to stop your step immediately. You can use the normal `exit` function available in bash to quit the step prematurely.
+You may need to stop your step immediately. You can use the normal `exit` function available in Bash to quit the step prematurely.
 
 ```bash
   echo "Exiting now!" 1>&2

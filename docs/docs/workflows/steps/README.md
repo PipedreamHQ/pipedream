@@ -44,9 +44,17 @@ You can rename a step by clicking on its name and typing a new one in its place:
 
 After changing a step name, you'll need to update any references to the old step. In this example, you'd now reference this step as `steps.my_awesome_code_step`.
 
-## Passing data to steps
+## Passing data to steps from the workflow builder
 
-You can generate input forms for steps [using props](/components/api/#props).
+You can generate form based inputs for steps using `props`. This allows the step reuse in across many workflows with different provided arguments - all without changing code.
+
+Learn more about using `props` in our [Node.js code step documentation.](/code/nodejs/#passing-props-to-code-steps)
+
+:::warning
+Passing props from the workflow builder to workflow steps are only available in Node.js code steps.
+
+We do not currently offer this feature for Python, Bash or Go powered code steps.
+:::
 
 ## Step Exports
 

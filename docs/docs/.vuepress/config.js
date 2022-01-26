@@ -77,14 +77,23 @@ module.exports = {
       },
       {
         title: "Reference: Code, APIs + CLI",
-        collapsable: true,
         children: [
           {
             title: "Writing Code in Workflows",
             type: "group",
+            initialOpenGroupIndex: 1,
             children: [
               "/code/",
-              "/code/nodejs/",
+              {
+                title: "Node.js",
+                type: "group",
+                children: [
+                  "/code/nodejs/",
+                  "/code/nodejs/auth/",
+                  "/code/nodejs/http-requests/",
+                  "/code/nodejs/working-with-files/",
+                ],
+              },
               "/code/python/",
               "/code/go/",
               "/code/bash/",
