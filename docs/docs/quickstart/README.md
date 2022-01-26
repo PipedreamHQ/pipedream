@@ -127,13 +127,19 @@ Click to connect you Google Sheets account to Pipdream:
 
 Pipedream will open Google's sign in flow in a new window. Sign in with the account you want to connect.
 
-<img src="image-20220125185544800.png" alt="image-20220125185544800" style="zoom: 33%;" />
+<img src="./image-20220125185544800.png" alt="image-20220125185544800" style="zoom: 33%;" />
 
-**IMPORTANT:** If prompted, you must check the box for Pipedream to **See, edit, create and delete all of your Google Drive files**. Learn more about privacy and security on Pipedream.
+::: warning Important
+
+If prompted, you must check the box for Pipedream to **See, edit, create and delete all of your Google Drive files**. These permissions are required for configure and use pre-built actions.
 
 <img src="./image-20220125185952120.png" alt="image-20220125185952120" style="zoom:33%;" />
 
-Then click **Continue**. The window should close and you should return to Pipdream. Your connected account should automatically be selected. Next, select your spreadsheet from the dropdown menu:
+Learn more about Pipedream's [privacy and security policy](/privacy-and-security/).
+
+::: 
+
+When you complete connecting your Google account, the window should close and you should return to Pipdream. Your connected account should automatically be selected. Next, select your spreadsheet from the dropdown menu:
 
 ![image-20220125190643112](./image-20220125190643112.png)
 
@@ -179,7 +185,7 @@ Next, return to your workflow. Before you deploy, customize the name of your wor
 
 Then click **Deploy** to run your workflow on every trigger event.
 
-![image-20220125192944518](./image-20220125192944518.png)
+![image-20220125200445675](./image-20220125200445675.png)
 
 When your workflow deploys, you will be redirected to the **Inspector**.  
 
