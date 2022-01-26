@@ -1,4 +1,4 @@
-# What are events?
+# Events
 
 Events trigger workflow executions. The event that triggers your workflow depends on the trigger you select for your workflow:
 
