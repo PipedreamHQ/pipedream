@@ -256,7 +256,9 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "The text of the status update",
+      description: `The text of the status update. Note: In order to comply with Twitter’s 
+        terms of service, this text will have all @mentions removed. 
+        Please refer to [our docs for more details](https://pipedream.com/docs/apps/twitter/#limitations-on-mentions).`,
     },
     inReplyToStatusId: {
       type: "string",
