@@ -52,8 +52,7 @@ export default {
     },
     async processResults() {
       const properties = this._getProperties();
-      for (let list of this.lists) { console.log(list);
-        list = JSON.parse(list); console.log(list);
+      for (let list of this.lists) {
         const params = this.getParams();
         let hasMore = true;
         while (hasMore) {

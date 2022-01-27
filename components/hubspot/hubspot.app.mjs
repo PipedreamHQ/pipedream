@@ -9,6 +9,7 @@ export default {
       type: "string[]",
       label: "Lists",
       description: "Select the lists to watch for new contacts.",
+      withLabel: true,
       async options({ page }) {
         const count = 250;
         const offset = page * count;
@@ -24,10 +25,7 @@ export default {
           } = result;
           return {
             label,
-            value: {
-              label,
-              value: listId,
-            },
+            value: listId,
           };
         });
         return options;
