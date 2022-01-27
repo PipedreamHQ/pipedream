@@ -9,13 +9,13 @@ Bash steps are available in a limited alpha release.
 
 You can still run arbitrary Bash scripts, including [sharing data between steps](/code/bash/#sharing-data-between-steps) as well as [accessing environment variables](/code/bash/#using-environment-variables).
 
-However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `$.end`, and `$.auth` are not yet available in bash. If you have any questions please [contact support](https://pipedream.com/support).
+However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs) environment at this time. If you have any questions, find bugs or have feedback please [contact support](https://pipedream.com/support).
 :::
 
 ## Adding a Bash code step
 
 1. Click the + icon to add a new step
-2. Click "Custom Code"
+2. Click **Custom Code**
 3. In the new step, select the `bash` runtime in language dropdown
 
 ## Logging and debugging
@@ -39,19 +39,19 @@ Bash steps come with many common and useful binaries preinstalled and available 
 * `jq` for manipulating and viewing JSON data
 * `git` for interacting with remote repositories
 
-Unfortunately it is not possible to install from a package manager like `apt` or `yum`.
+Unfortunately it is not possible to install packages from a package manager like `apt` or `yum`.
 
 If you need a package pre-installed in your Bash steps, [just ask us](https://pipedream.com/support).
 
-Otherwise, you can use `/tmp` to download and install from source.
+Otherwise, you can use the `/tmp` directory to download and install software from source.
 
 ## Making an HTTP request
 
 `curl` is already preinstalled in Bash steps, we recommend using it for making HTTP requests in your code for sending or requesting data from APIs or webpages.
 
-### Making a GET request
+### Making a `GET` request
 
-You can use `curl` to perform GET requests from websites or APIs directly.
+You can use `curl` to perform `GET` requests from websites or APIs directly.
 
 ```bash
 # Get the current weather in San Francisco
@@ -68,11 +68,11 @@ Use the `--silent` flag with `curl` to suppress extra extra diagnostic informati
 This enables you to only worry about the body of the response so you can visualize it with tools like `echo` or `jq`. 
 :::
 
-### Making a POST request
+### Making a `POST` request
 
-`curl` handles making POSTs requests as well. The `-X` flag allow you to specify the HTTP method you'd like to use for an HTTP request.
+`curl` can also make `POST`s requests as well. The `-X` flag allow you to specify the HTTP method you'd like to use for an HTTP request.
 
-The `-d` flag is for passing data in the POST request.
+The `-d` flag is for passing data in the `POST` request.
 
 ```bash
 curl --silent -X POST https://postman-echo.com/post -d 'name=Bulbasaur&id=1'
@@ -86,21 +86,20 @@ echo $RESPONSE
 
 ### Using API key authentication
 
-Some APIs require you to use a secret API key to prove your access.
+Some APIs require you to authenticate with a secret API key.
 
 `curl` has an `-h` flag where you can pass your API key as a token.
 
-Below is an example of searching Twitter for mentions of a specific Twitter handle. Twitter requires a valid API key passed in the header of the request.
+For example, here's how to retrieve mentions from the Twitter API:
 
 ```bash
-curl --silent -X POST -h "authorization:Bearer $(<your api key here>)" https://api.twitter.com/2/users/@pipedream/mentions
+# Define the "Authorization" header to include your Twitter API key
+curl --silent -X POST -h "Authorization: Bearer $(<your api key here>)" https://api.twitter.com/2/users/@pipedream/mentions
 ```
 
 ## Sharing data between steps
 
 A step can accept data from other steps in the same workflow, or pass data downstream to others.
-
-This makes your steps even more powerful, you can compose new workflows and reuse steps.
 
 ### Using data from another step
 
@@ -111,12 +110,12 @@ In this example, we'll pretend this data is coming into our HTTP trigger via a P
 ```json
 {
   "id": 1,
-  "name": 'Bulbasaur",
+  "name": "Bulbasaur",
   "type": "plant"
 }
 ```
 
-In our Bash script, we can access this data via the `$PIPEDREAM_STEPS` variable. Specifically, this data from the POST request into our workflow is available in the `trigger` object.
+In our Bash script, we can access this data via the `$PIPEDREAM_STEPS` file. Specifically, this data from the POST request into our workflow is available in the `trigger` object.
 
 ```bash
 echo $PIPEDREAM_STEPS | jq .trigger.event
@@ -125,14 +124,12 @@ echo $PIPEDREAM_STEPS | jq .trigger.event
 ```
 
 ::: tip
-The period (`.`) in front the `trigger.event` in the example is not a typo. This is to define the starting point for `jq` to start traversing down the JSON in the HTTP response.
+The period (`.`) in front the `trigger.event` in the example is not a typo. This is to define the starting point for `jq` to traverse down the JSON in the HTTP response.
 :::
 
 ### Sending data downstream to other steps
 
-To share data created, retrieved, transformed or manipulated by a step to others downstream, append it to the `$PIPEDREAM_EXPORTS` variable.
-
-An example speaks a thousand words, so here's one passing data from an API to the bash step.
+To share data for future steps to use downstream, append it to the `$PIPEDREAM_EXPORTS` file.
 
 ```bash
 # Retrieve the data from an API and store it in a variable
@@ -164,7 +161,7 @@ echo $POKEDEX_API_KEY
 Or an even more useful example, using the stored environment variable to make an authenticated API request.
 
 ```bash
-curl --silent -X POST -h "authorization:Bearer $TWITTER_API_KEY" https://api.twitter.com/2/users/@pipedream/mentions
+curl --silent -X POST -h "Authorization: Bearer $TWITTER_API_KEY" https://api.twitter.com/2/users/@pipedream/mentions
 ```
 
 ## Raising exceptions
@@ -172,19 +169,24 @@ curl --silent -X POST -h "authorization:Bearer $TWITTER_API_KEY" https://api.twi
 You may need to stop your step immediately. You can use the normal `exit` function available in Bash to quit the step prematurely.
 
 ```bash
-  echo "Exiting now!" 1>&2
-  exit 1
+echo "Exiting now!" 1>&2
+exit 1
 ```
+:::warning
+Using `exit` to quit a Bash step early _won't_ stop the execution of the rest of the workflow.
+
+Exiting a Bash step will only apply that particular step in the workflow.
+:::
 
 This will exit the step and output the error message to `stderr` which will appear in the results of the step in the workflow.
 
 ## File storage
 
-If you need to download and store files you can place them in the `/tmp` directory.
+If you need to download and store files, you can place them in the `/tmp` directory.
 
 ### Writing a file to /tmp
 
-For example to download a file to `/tmp` using `curl`
+For example, to download a file to `/tmp` using `curl`
 
 ```bash
 # Download the current weather in Cleveland in PNG format
@@ -194,8 +196,6 @@ curl --silent https://wttr.in/Cleveland.png --output /tmp/weather.png
 ls /tmp
 ```
 
-### `/tmp` limitations
-
-The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow executions.
-
-To avoid errors, assume that the `/tmp` directory is empty between workflow runs.
+:::warning
+The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/limits/#disk) for details.
+:::
