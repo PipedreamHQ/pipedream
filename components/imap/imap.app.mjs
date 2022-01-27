@@ -14,8 +14,7 @@ export default {
       async options() {
         const connection = await this.getConnection();
         try {
-          const mailboxes = await this.getMailboxes(connection);
-          return mailboxes;
+          return await this.getMailboxes(connection);
         } finally {
           await this.closeConnection(connection);
         }
