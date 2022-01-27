@@ -178,12 +178,7 @@ import requests
 
 token = os.environ['TWITTER_API_KEY']
 
-url = 'https://api.twitter.com/2/users/@pipedream/mentions'
-
-headers { 'Authorization': f"Bearer {token}"}
-r = requests.get(url, headers=headers)
-
-print(r.text)
+print(token)
 ```
 
 Or an even more useful example, using the stored environment variable to make an authenticated API request.
