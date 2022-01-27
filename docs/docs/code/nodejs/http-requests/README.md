@@ -309,7 +309,7 @@ import FormData from "form-data";
 export default defineComponent({
   async run({ steps, $ }) {
     const formData = new FormData();
-    formData.append("file", fs.createReadStream('/tmp/yourfile'));
+    formData.append("file", fs.createReadStream('/tmp/file.pdf'));
     const headers = formData.getHeaders();
 
     const config = {
