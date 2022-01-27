@@ -74,6 +74,9 @@ export default {
     /**
      * Obtains the full list of mailboxes
      *
+     * For the return value format of Imap's `getBoxes()` method, see
+     * {@link https://github.com/mscdex/node-imap#connection-instance-methods Connection Methods}
+     *
      * @param {object} connection - The IMAP connection
      * @returns {Promise<string[]>} The list of mailboxes
      */

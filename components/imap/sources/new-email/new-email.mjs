@@ -91,11 +91,11 @@ export default {
       const lastUid = this._getLastUid();
 
       // Fetch messages after lastUid if it exists, or most recent message otherwise
-      const f = this.imap.fetchMessages(connection, {
+      const messageStream = this.imap.fetchMessages(connection, {
         startUid: lastUid && lastUid + 1,
         startSeqno: box.messages.total,
       });
-      await this.processMessageStream(f);
+      await this.processMessageStream(messageStream);
     } finally {
       await this.imap.closeConnection(connection);
     }
