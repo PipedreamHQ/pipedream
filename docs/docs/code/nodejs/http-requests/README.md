@@ -289,7 +289,7 @@ import got from "got";
 const pipeline = promisify(stream.pipeline);
 await pipeline(
   got.stream("https://example.com"),
-  fs.createWriteStream('/tmp/yourfile')
+  fs.createWriteStream('/tmp/file.html')
 );
 ```
 

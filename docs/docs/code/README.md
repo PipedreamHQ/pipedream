@@ -1,8 +1,8 @@
 # Overview
 
-_This document details how to use code in workflow steps, without leaving your browser. If you're building a [component](/components/), please [reference the component API docs](/components/api/)._
+_This document details how to use code in [workflow steps](/workflows/steps), without leaving your browser. If you're building a [component](/components/), please [reference the component API docs](/components/api/)._
 
-Pipedream comes with thousands of prebuilt [triggers](/workflows/steps/triggers/) and [actions](/components/actions/). Often, these will be sufficient for building simple workflows.
+Pipedream comes with thousands of prebuilt [triggers](/workflows/steps/triggers/) and [actions](/components/actions/) for [hundreds of apps](https://pipedream.com/apps). Often, these will be sufficient for building simple workflows.
 
 But sometimes you need to run your own custom logic. You may need to make an API request to fetch additional metadata about the event, transform  data into a custom format, or end the execution of a workflow early under some conditions. **Code steps let you do this and more**.
 

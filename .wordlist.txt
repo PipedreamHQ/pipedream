@@ -24,6 +24,7 @@ Alchemer
 Algolia
 Algorithmia
 alJx
+allSettled
 AMQP
 amzn
 analytics
