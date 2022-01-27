@@ -31,24 +31,24 @@ export default {
     },
   },
   methods: {
-    _getLastUid() {
-      return this.db.get("lastUid");
+    _getLastUid(mailbox) {
+      return this.db.get(`lastUid-${mailbox}`);
     },
-    _setLastUid(lastUid) {
-      this.db.set("lastUid", lastUid);
+    _setLastUid(mailbox, lastUid) {
+      this.db.set(`lastUid-${mailbox}`, lastUid);
     },
-    _getUidValidity() {
-      return this.db.get("uidValidity");
+    _getUidValidity(mailbox) {
+      return this.db.get(`uidValidity-${mailbox}`);
     },
-    _setUidValidity(uidValidity) {
-      this.db.set("uidValidity", uidValidity);
+    _setUidValidity(mailbox, uidValidity) {
+      this.db.set(`uidValidity-${mailbox}`, uidValidity);
     },
-    _handleUidValidityChange(uidValidity) {
-      this._setUidValidity(uidValidity);
-      this._setLastUid(null);
+    _handleUidValidityChange(mailbox, uidValidity) {
+      this._setUidValidity(mailbox, uidValidity);
+      this._setLastUid(mailbox, null);
     },
     hasNewMessages(box) {
-      const lastUid = this._getLastUid();
+      const lastUid = this._getLastUid(box.name);
       return !lastUid || box.uidnext > lastUid + 1;
     },
     generateMeta(message) {
@@ -62,7 +62,7 @@ export default {
     },
     processMessage(message) {
       const lastUid = message.attributes?.uid ?? lastUid;
-      this._setLastUid(lastUid);
+      this._setLastUid(this.mailbox, lastUid);
       this.$emit(message.mail, this.generateMeta(message));
     },
     async processMessageStream(stream) {
@@ -78,9 +78,9 @@ export default {
     try {
       const box = await this.imap.openMailbox(connection, mailbox);
 
-      const uidValidity = this._getUidValidity();
+      const uidValidity = this._getUidValidity(box.name);
       if (uidValidity !== box.uidvalidity) {
-        this._handleUidValidityChange(box.uidvalidity);
+        this._handleUidValidityChange(box.name, box.uidvalidity);
       }
 
       if (!this.hasNewMessages(box)) {
@@ -88,7 +88,7 @@ export default {
         return;
       }
 
-      const lastUid = this._getLastUid();
+      const lastUid = this._getLastUid(box.name);
 
       // Fetch messages after lastUid if it exists, or most recent message otherwise
       const messageStream = this.imap.fetchMessages(connection, {
