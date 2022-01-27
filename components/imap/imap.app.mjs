@@ -16,8 +16,6 @@ export default {
         try {
           const mailboxes = await this.getMailboxes(connection);
           return mailboxes;
-        } catch (err) {
-          throw new Error(err);
         } finally {
           await this.closeConnection(connection);
         }
@@ -51,9 +49,8 @@ export default {
      * @returns {Promise<object>} An IMAP connection
      */
     getConnection() {
-      const connectionConfig = this._makeConnectionConfig();
+      const connection = new Imap(this._makeConnectionConfig());
       return new Promise((resolve, reject) => {
-        const connection = new Imap(connectionConfig);
         connection.on("error", reject);
         connection.once("ready", () => {
           resolve(connection);
@@ -68,11 +65,11 @@ export default {
      * @returns {Promise<void>}
      */
     async closeConnection(connection) {
-      const connectionClosed = new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
+        connection.once("error", reject);
         connection.once("end", resolve);
+        connection.end();
       });
-      connection.end();
-      await connectionClosed;
     },
     /**
      * Obtains the full list of mailboxes
@@ -119,7 +116,7 @@ export default {
      */
     async openMailbox(connection, mailbox) {
       const openBox = util.promisify(connection.openBox.bind(connection));
-      return await openBox(mailbox, true);
+      return openBox(mailbox, true);
     },
     /**
      * Fetches message(s) in the currently open mailbox. Requires one of `opts.startUid`,
@@ -171,7 +168,6 @@ export default {
           }
           const messagePromise = mailPromise.then((mail) => {
             message.mail = mail;
-          }).then(() => {
             messageStream.push(message);
           });
           promises.push(messagePromise);
@@ -180,11 +176,10 @@ export default {
       f.once("error", (err) => {
         messageStream.destroy(err);
       });
-      f.once("end", () => {
+      f.once("end", async () => {
         // Wait until all mail promises have been resolved before ending stream
-        Promise.all(promises).then(() => {
-          messageStream.push(null);
-        });
+        await Promise.all(promises);
+        messageStream.push(null);
       });
 
       return messageStream;

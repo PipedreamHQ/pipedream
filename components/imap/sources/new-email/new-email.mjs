@@ -72,19 +72,8 @@ export default {
     },
   },
   async run() {
-    const {
-      host,
-      user,
-      password,
-      port,
-      mailbox,
-    } = this;
-    const connection = await this.imap.getConnection({
-      host,
-      user,
-      password,
-      port,
-    });
+    const { mailbox } = this;
+    const connection = await this.imap.getConnection();
 
     try {
       const box = await this.imap.openMailbox(connection, mailbox);
@@ -107,8 +96,6 @@ export default {
         startSeqno: box.messages.total,
       });
       await this.processMessageStream(f);
-    } catch (err) {
-      throw new Error(err);
     } finally {
       await this.imap.closeConnection(connection);
     }
