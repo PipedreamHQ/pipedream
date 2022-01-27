@@ -12,49 +12,15 @@ module.exports = {
   type: "action",
   props: {
     shortcut,
-    archived: {
-      type: "boolean",
-      label: "Archived",
-      description: "Controls the story’s archived state.",
-      default: false,
-    },
-    comment: {
-      type: "object",
-      label: "Comment",
-      description:
-        "A comment object attached to the story must have the following structure: `author_id` which is the member ID of the Comment’s author  (defaults to the user identified by the API token), `created_at` which defaults to the time/date the comment is created, but can be set to reflect another date, `external_id` field that can be set to another unique ID. In the case that the comment has been imported from another tool, the ID in the other tool can be indicated here, `text` is the comment text, and `updated_at` which defaults to the time/date the comment is last updated in Shortcut but can be set to reflect another time/date. See [CreateStoryCommentParams](https://shortcut.com/api/rest/v3#CreateStoryCommentParams) for more info.",
-      optional: true,
-    },
-    completedAtOverride: {
-      type: "string",
-      label: "Completed at Override Date",
-      description:
-        "A manual override for the time/date the Story was completed.",
-      optional: true,
-    },
-    createdAt: {
-      type: "string",
-      label: "Created at Date",
-      description: "The time/date the Story was created.",
-      optional: true,
-    },
-    dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The due date of the story.",
-      optional: true,
-    },
     description: {
       type: "string",
       label: "Description",
-      description: "The description of the story.",
-      default: "",
       optional: true,
     },
     epicId: {
       type: "integer",
-      label: "Epic ID",
-      description: "The unique identifier of the epic the story belongs to.",
+      label: "Epic",
+      description: "The epic the story belongs to",
       async options() {
         let options = [];
         const epics = await this.shortcut.callWithRetry("listEpics");
@@ -73,127 +39,14 @@ module.exports = {
       },
       optional: true,
     },
-    estimate: {
-      type: "integer",
-      label: "Estimate",
-      description:
-        "The numeric point estimate of the story. Can also be null, which means unestimated.",
-      optional: true,
-    },
-    externalId: {
-      type: "string",
-      label: "External Id",
-      description:
-        "This field can be set to another unique ID. In the case that the Story has been imported from another tool, the ID in the other tool can be indicated here.",
-      optional: true,
-    },
-    externalLinks: {
-      type: "string[]",
-      label: "External Links",
-      description: "A string array of External Links associated with this story.",
-      optional: true,
-    },
-    fileIds: {
-      type: "integer[]",
-      label: "File Ids",
-      description: "An array of IDs of files attached to the story.",
-      async options() {
-        let options = [];
-        const files = await this.shortcut.callWithRetry("listFiles");
-        const isFileDataAvailable = get(files, [
-          "data",
-          "length",
-        ]);
-        if (!isFileDataAvailable) {
-          return options;
-        }
-        options = files.data.map((file) => ({
-          label: file.name,
-          value: file.id,
-        }));
-        return options;
-      },
-      optional: true,
-    },
-    followerIds: {
-      type: "string[]",
-      label: "Follower Ids",
-      description: "A string array of UUIDs of the followers of this story.",
-      async options() {
-        return await this.shortcut.listMembersAsOptions();
-      },
-      optional: true,
-    },
-    iterationId: {
-      type: "integer",
-      label: "Iteration Id",
-      description: "The ID of the iteration the story belongs to.",
-      async options() {
-        let options = [];
-        const iterations = await this.shortcut.callWithRetry("listIterations");
-        const isIterationDataAvailable = get(iterations, [
-          "data",
-          "length",
-        ]);
-        if (!isIterationDataAvailable) {
-          return options;
-        }
-        options = iterations.data.map((iteration) => ({
-          label: iteration.name,
-          value: iteration.id,
-        }));
-        return options;
-      },
-      optional: true,
-    },
-    label: {
-      type: "object",
-      label: "Label",
-      description:
-        "A label object attached to the story. Each label object must have the following structure: `color` which is an string with the hex color to be displayed with the Label i.e. \"#ff0000\", and a string `name` for the name of the Label. See [CreateLabelParams](https://shortcut.com/api/rest/v3#CreateLabelParams) for more info.",
-      optional: true,
-    },
-    linkedFileIds: {
-      type: "integer[]",
-      label: "Linked File Ids",
-      description:
-        "An array of IDs of linked files attached to the story.",
-      async options() {
-        let options = [];
-        const linkedFiles = await this.shortcut.callWithRetry("listLinkedFiles");
-        const isLinkedFilesDataAvailable = get(linkedFiles, [
-          "data",
-          "length",
-        ]);
-        if (!isLinkedFilesDataAvailable) {
-          return options;
-        }
-        options = linkedFiles.data.map((linkedFile) => ({
-          label: linkedFile.name,
-          value: linkedFile.id,
-        }));
-        return options;
-      },
-      optional: true,
-    },
     name: {
       type: "string",
       label: "Name",
-      description: "The name of the story.",
-    },
-    ownerIds: {
-      type: "string[]",
-      label: "Owner Ids",
-      description: "A string array of UUIDs of the owners of this story.",
-      async options() {
-        return await this.shortcut.listMembersAsOptions();
-      },
-      optional: true,
     },
     projectId: {
       type: "integer",
-      label: "Project Id",
-      description: "The ID of the project the story belongs to.",
+      label: "Project",
+      description: "The project the story belongs to",
       async options() {
         let options = [];
         const projects = await this.shortcut.callWithRetry("listProjects");
@@ -211,82 +64,16 @@ module.exports = {
         return options;
       },
     },
-    requestedById: {
-      type: "string",
-      label: "Requested by ID",
-      description: "The ID of the member that requested the story.",
-      async options() {
-        return await this.shortcut.listMembersAsOptions();
-      },
-      optional: true,
-    },
-    startedAtOverride: {
-      type: "string",
-      label: "Started at Override Date",
-      description: "A manual override for the time/date the Story was started.",
-      optional: true,
-    },
-    storyLink: {
-      type: "object",
-      label: "Story Link",
-      description:
-        "An story link object attached to the story must have the following structure: `object_id` is the unique ID of the story defined as object, `subject_id` is the unique ID of the story defined as subject, and `verb` which indicates how the subject story acts on the object story, valid values are `blocks`, `duplicates`, or `relates to`. See [CreateStoryLinkParams](https://shortcut.com/api/rest/v3#CreateStoryLinkParams) for more info.",
-      optional: true,
-    },
     storyType: {
       type: "string",
       label: "Story Type",
-      description: "The type of story (feature, bug, chore).",
+      description: "The type of story (feature, bug, chore)",
       options: constants.STORY_TYPES,
       default: "feature",
       optional: true,
     },
-    task: {
-      type: "object",
-      label: "Task",
-      description:
-        "A task object attached to the story must have the following structure: `complete` which is a boolean, indicating whether the task is completed (defaults to `false`), `created_at` which defaults to the time/date the task is created but can be set to reflect another creation time/date, `description` as a description for the task, `external_id` a field can be set to another unique ID. In the case that the task has been imported from another tool, the ID in the other tool can be indicated here, `owner_ids` as an array of UUIDs for any members you want to add as owners on this new task, `updated_at` which defaults to the time/date the task was last updated in Shortcut but can be set to reflect another time/date. See [CreateTaskParams](https://shortcut.com/api/rest/v3#CreateTaskParams) for more info.",
-      optional: true,
-    },
-    updatedAt: {
-      type: "string",
-      label: "Updated at Date",
-      description: "The time/date the story was updated.",
-      optional: true,
-    },
-    workflowStateId: {
-      type: "integer",
-      label: "Workflow State Id",
-      description: "The ID of the workflow state the story will be in.",
-      async options() {
-        let options = [];
-        const workflows = await this.shortcut.callWithRetry("listWorkflows");
-        const isWorkflowDataAvailable = get(workflows, [
-          "data",
-          "length",
-        ]);
-        if (!isWorkflowDataAvailable) {
-          return options;
-        }
-        return workflows.data.reduce(function (options, workflow) {
-          const hasState = get(workflow, [
-            "states",
-            "length",
-          ]);
-          if (!hasState) {
-            return options;
-          }
-          const optionsToAdd = workflow.states.map((state) => ({
-            label: `${state.name} (${workflow.name})`,
-            value: `${state.id}`,
-          }));
-          return options.concat(optionsToAdd);
-        }, []);
-      },
-      optional: true,
-    },
   },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       name: {
         length: {
@@ -364,6 +151,7 @@ module.exports = {
         task,
       ];
     }
+    $.export("$summary", "Successfully created a new story")
     return this.shortcut.callWithRetry("createStory", story);
   },
 };
