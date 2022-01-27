@@ -17,21 +17,18 @@ It's important to understand the core difference between Node.js and the JavaScr
 ## Adding a code step
 
 1. Click the **+** button below any step of your workflow.
-2. Select the option to **Run Node.js code**.
-
-<div>
-<img alt="Code step" src="./images/new-code-step.png">
-</div>
+2. Select the option to **Run custom code**.
+3. Select the `nodejs14.x` runtime.
 
 You can add any Node.js code in the editor that appears. For example, try:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     console.log('This is Node.js code');
     $.export('test', 'Some test data');
     return 'Test data';
-  })
+  }
 });
 ```
 
@@ -44,7 +41,7 @@ You can make code steps reusable by allowing them to accept props. Instead of ha
 For example, let's define a `firstName` prop. This will allow us to freely enter text from the workflow builder.
 
 ```javascript
-defineComponent({
+export default defineComponent({
   props: {
     firstName: {
       type: 'string',
@@ -68,37 +65,43 @@ Accepting a single string is just one example, you can build a step to accept ar
 
 [Read the props reference for the full list of options](/components/api/#props).
 
-## `async` function declaration
+## How Pipedream Node.js components work
 
-You'll notice an [`async` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) declaration that appears when you add a new Node.js code step:
-
-```javascript
-defineComponent({
-  async run({ steps, $ }) {
-      // this Node.js code will execute when your workflow is triggered
-  })
-});
-```
-
-This communicates a couple of key concepts:
-
-- Any async code within a code step [**must** be run synchronously](/workflows/steps/code/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
-- Pipedream passes the variables `event` and `steps` to every code step. `event` is a read-only object that contains the data that triggered your event, for example the HTTP request sent to your workflow's endpoint. `steps` is also an object, and contains the [data exported from previous steps](/workflows/steps/#step-exports) in your workflow.
-
-If you're using [step props](/code/nodejs/#passing-props-to-code-steps) or [connect an account to a step](/connected-accounts/#from-a-code-step), they are available under `this` within the `run` function of the step.
+When you add a new Node.js code step or use the examples in this doc, you'll notice a common structure to the code:
 
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
-    // this Node.js code will execute when your workflow is triggered
-
-  })
+      // this Node.js code will execute when the step runs
+  }
 });
 ```
 
-When you use [step parameters](/code/nodejs/#passing-props-to-code-steps), Pipedream passes the `props` object (named pairs of prop key and its associated value) to the function.
+This defines [a Node.js component](/components/api/). Components let you:
 
-When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream passes the API keys to [`this.appName.$auths` object](/workflows/steps/code/auth/#the-auths-object) to the function.
+- Pass input to steps using [props](/code/nodejs/#passing-props-to-code-steps)
+- [Connect an account to a step](/connected-accounts/#from-a-code-step)
+- [Issue HTTP responses](/workflows/steps/triggers/#customizing-the-http-response)
+- Perform workflow-level flow control, like [ending a workflow early](#ending-a-workflow-early)
+
+When the step runs, Pipedream executes the `run` method:
+
+- Any asynchronous code within a code step [**must** be run synchronously](/workflows/steps/code/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
+- Pipedream passes the `steps` variable to the run method. `steps` is also an object, and contains the [data exported from previous steps](/workflows/steps/#step-exports) in your workflow.
+- You also have access to the `$` variable, which gives you access to methods like `$.respond`, `$.export`, [and more](/components/api/#actions).
+
+If you're using [props](/code/nodejs/#passing-props-to-code-steps) or [connect an account to a step](/connected-accounts/#from-a-code-step), the component exposes them in the variable `this`, which refers to the current step:
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    // `this` refers to the running component. Props, connected accounts, etc. are exposed here
+    console.log(this)
+  }
+});
+```
+
+When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/workflows/steps/code/auth/#the-auths-object).
 
 ## Logs
 
@@ -116,7 +119,7 @@ export default defineComponent({
     console.dir({
       name: "Luke"
     })
-  })
+  }
 });
 ```
 
@@ -222,7 +225,7 @@ In general, if you just need to make an HTTP request but don't care about the re
 
 ## Returning HTTP responses
 
-You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the [`$respond()` function](/workflows/steps/triggers/#customizing-the-http-response).
+You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the [`$.respond()` function](/workflows/steps/triggers/#customizing-the-http-response).
 
 ## Managing state
 
@@ -243,7 +246,7 @@ For more information on what functionality is available for those languages, ple
 By default, Node.js steps don't have access to the database service. It needs to be injected by defining it as a `prop`. 
 
 ```javascript
-defineComponent({
+export default defineComponent({
   props: {
     // Define that the "db" variable in our component is a database
     db: "$.service.db",
@@ -251,7 +254,7 @@ defineComponent({
   async run({ steps, $ }) {
     // Now we can access the database at "this.db"
     this.db.set("name", "Dylan")
-  })
+  }
 });
 ```
 
@@ -336,7 +339,7 @@ export default defineComponent({
 
     // If the current email being passed from our webhook is already in our list, exit early
     if(emails.includes(email)) {
-      $.flow.exit('Already welcomed this user');
+      return $.flow.exit('Already welcomed this user');
     }
 
     // Add the current email to the list of past emails so we can detect it in the future runs
@@ -352,7 +355,7 @@ The `$.service.db` is only currently available in Node.js code steps. It is not 
 In addition, `$.service.db` can hold up to {{ $site.themeConfig.SERVICE_DB_SIZE_LIMIT }} per step.
 
 
-## `$end`
+## Ending a workflow early
 
 Sometimes you want to end your workflow early, or otherwise stop or cancel the execution or a workflow under certain conditions. For example:
 
@@ -361,44 +364,36 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 - You only want to run your workflow for users in the United States. If you receive a request from outside the U.S., you don't want the rest of the code in your workflow to run.
 - You may use the `user_id` contained in the event to look up information in an external API. If you can't find data in the API tied to that user, you don't want to proceed.
 
-**In any code step, calling the `$.flow.exit()` function will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
+**In any code step, calling `return $.flow.exit()` will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
-    $.flow.exit();
+    return $.flow.exit();
     console.log("This code will not run, since $.flow.exit() was called above it");
-  })
+  }
 });
 ```
 
 You can pass any string as an argument to `$.flow.exit()`:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
-    $.end("Event doesn't have the correct schema");
-  })
+    return $.flow.exit("End message");
+  }
 });
 ```
 
-This message will appear in the Inspector in the **Messages** column for the event where `$.flow.exit()` was called:
-
-<div>
-<img alt="Dollar end message in inspector" src="./images/dollar-end.png" width="300px">
-</div>
-
-Like any other code, `$.flow.exit()` can be called conditionally:
-
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $ }) {
     // Flip a coin, running $.flow.exit() for 50% of events
     if (Math.random() > 0.5) {
-      $.flow.exit();
+      return $.flow.exit();
     }
     console.log("This code will only run 50% of the time");
-  })
+  }
 });
 ```
 
@@ -406,15 +401,9 @@ defineComponent({
 
 [Errors](https://nodejs.org/dist/latest-v10.x/docs/api/errors.html#errors_errors) raised in a code step will stop the execution of code or destinations that follow.
 
-You'll see the message associated with the error in the Inspector and the code step where the error was raised.
-
-<div>
-<img alt="Exception message" src="./images/exception.png">
-</div>
-
 ## Using secrets in code
 
-Workflow code is private by default, but [you can make a workflow public](/public-workflows/). In either case, we recommend you don't include secrets — API keys, tokens, or other sensitive values — directly in code steps.
+Workflow code is private. Still, we recommend you don't include secrets — API keys, tokens, or other sensitive values — directly in code steps.
 
 Pipedream supports [environment variables](/environment-variables/) for keeping secrets separate from code. Once you create an environment variable in Pipedream, you can reference it in any workflow using `process.env.VARIABLE_NAME`. The values of environment variables are private.
 
@@ -449,12 +438,12 @@ When you're searching for how to do something in JavaScript, some of the code yo
 Many of the most basic JavaScript tutorials are geared towards writing code for a web browser to run. This is great for learning — a webpage is one of the coolest things you can build with code. We recommend starting with these general JavaScript tutorials and trying the code you learn on Pipedream:
 
 - [JavaScript For Cats](http://jsforcats.com/)
-- [Mozilla - Java​Script First Steps](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps)
+- [Mozilla - JavaScript First Steps](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps)
 - [StackOverflow](https://stackoverflow.com/) operates a programming Q&A site that typically has the first Google result when you're searching for something specific. It's a great place to find answers to common questions.
 
 ### I know how to code, but don't know JavaScript
 
-- [A re-introduction to Java​Script (JS tutorial)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)
+- [A re-introduction to JavaScript (JS tutorial)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)
 - [MDN language overview](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - [Eloquent Javascript](https://eloquentjavascript.net/)
 - [Node School](https://nodeschool.io/)

@@ -90,7 +90,7 @@ const resp = await axios({
   url: `https://jsonplaceholder.typicode.com/posts`,
   data: {
     name: "Luke",
-  }
+  },
 });
 
 // Retrieve just the data from the response
@@ -177,21 +177,25 @@ There are many ways to make multiple HTTP requests. This code shows you a simple
 ```javascript
 import axios from "axios";
 
-// We'll store each response and return them in this array
-const responses = [];
+export default defineComponent({
+  async run({ steps, $ }) {
+    // We'll store each response and return them in this array
+    const responses = [];
 
-for (const num of [1, 2, 3]) {
-  const resp = await axios({
-    method: "POST",
-    url: params.url,
-    data: {
-      num, // Will send the current value of num in the loop
-    },
-  });
-  responses.push(resp.data);
-}
+    for (const num of [1, 2, 3]) {
+      const resp = await axios({
+        method: "POST",
+        url: "https://example.com",
+        data: {
+          num, // Will send the current value of num in the loop
+        },
+      });
+      responses.push(resp.data);
+    }
 
-return responses;
+    return responses;
+  },
+});
 ```
 
 This sends each HTTP request _in sequence_, one after another, and returns an array of response data returned from the URL to which you send the POST request. If you need to make requests _in parallel_, [see these docs](#send-multiple-http-requests-in-parallel).
@@ -205,10 +209,19 @@ Sometimes you'll want to make multiple HTTP requests in parallel. If one request
 To make requests in parallel, you can use two techniques. By default, we recommend using [`promise.allSettled`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled), which makes all HTTP requests and returns data on their success / failure. If an HTTP request fails, all other requests will proceed.
 
 ```javascript
-import axios from "axios"
-const arr = ["https://www.example.com", "https://www.cnn.com", "https://www.espn.com"]
-const promises = arr.map(url => axios.get(url))
-return Promise.allSettled(promises)
+import axios from "axios";
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const arr = [
+      "https://www.example.com",
+      "https://www.cnn.com",
+      "https://www.espn.com",
+    ];
+    const promises = arr.map((url) => axios.get(url));
+    return Promise.allSettled(promises);
+  },
+});
 ```
 
 First, we generate an array of `axios.get` requests (which are all [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)), and then call `Promise.allSettled` to run them in parallel.
@@ -216,15 +229,24 @@ First, we generate an array of `axios.get` requests (which are all [Promises](ht
 When you want to stop future requests when _one_ of the requests fails, you can use [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all), instead:
 
 ```javascript
-import axios from "axios"
-const arr = ["https://www.example.com", "https://www.cnn.com", "https://www.espn.com"]
-const promises = arr.map(url => axios.get(url))
-return Promise.all(promises)
+import axios from "axios";
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const arr = [
+      "https://www.example.com",
+      "https://www.cnn.com",
+      "https://www.espn.com",
+    ];
+    const promises = arr.map((url) => axios.get(url));
+    return Promise.all(promises);
+  },
+});
 ```
 
 The Mozilla docs expand on the difference between these methods, and when you may want to use one or the other:
 
->The `Promise.allSettled()` method returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.<br /></br >
+> The `Promise.allSettled()` method returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.<br /></br >
 > It is typically used when you have multiple asynchronous tasks that are not dependent on one another to complete successfully, or you'd always like to know the result of each promise.<br /></br >
 > In comparison, the Promise returned by `Promise.all()` may be more appropriate if the tasks are dependent on each other / if you'd like to immediately reject upon any of them rejecting.
 
@@ -234,17 +256,21 @@ The Mozilla docs expand on the difference between these methods, and when you ma
 import axios from "axios";
 import FormData from "form-data";
 
-const formData = new FormData();
-formData.append("name", "Luke Skywalker");
+export default defineComponent({
+  async run({ steps, $ }) {
+    const formData = new FormData();
+    formData.append("name", "Luke Skywalker");
 
-const headers = formData.getHeaders();
-const config = {
-  method: "POST",
-  url: params.url,
-  headers,
-  data: formData,
-};
-return await axios(config);
+    const headers = formData.getHeaders();
+    const config = {
+      method: "POST",
+      url: "https://example.com",
+      headers,
+      data: formData,
+    };
+    return await axios(config);
+  }
+});
 ```
 
 [Copy this workflow](https://pipedream.com/@dylburger/send-a-multipart-form-data-request-p_WxCQRyr/edit) to run this example.
@@ -262,8 +288,8 @@ import got from "got";
 // DOWNLOAD
 const pipeline = promisify(stream.pipeline);
 await pipeline(
-  got.stream(params.downloadURL),
-  fs.createWriteStream(params.filePath)
+  got.stream("https://example.com"),
+  fs.createWriteStream('/tmp/yourfile')
 );
 ```
 
@@ -280,17 +306,21 @@ import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
 
-const formData = new FormData();
-formData.append("file", fs.createReadStream(params.pathToYourFile));
-const headers = formData.getHeaders();
+export default defineComponent({
+  async run({ steps, $ }) {
+    const formData = new FormData();
+    formData.append("file", fs.createReadStream('/tmp/yourfile'));
+    const headers = formData.getHeaders();
 
-const config = {
-  method: "POST",
-  url: params.url,
-  headers,
-  data: formData,
-};
-return await axios(config);
+    const config = {
+      method: "POST",
+      url: "https://example.com",
+      headers,
+      data: formData,
+    };
+    return await axios(config);
+  }
+});
 ```
 
 [Copy this workflow](https://pipedream.com/@dylburger/stream-a-file-upload-p_6lC1d2Z/edit) to run this example.
@@ -303,17 +333,21 @@ By default, HTTP requests made from Pipedream can come from a range of IP addres
 
 ```javascript
 import axios from "axios";
-
 import httpsProxyAgent from "https-proxy-agent";
-const agent = new httpsProxyAgent(`http://${user}:${pass}@${host}:${port}`);
 
-const config = {
-  method: "GET",
-  url,
-  httpsAgent: agent,
-};
+export default defineComponent({
+  async run({ steps, $ }) {
+    const agent = new httpsProxyAgent(`http://${user}:${pass}@${host}:${port}`);
 
-const resp = await axios.request(config);
+    const config = {
+      method: "GET",
+      url: "https://example.com",
+      httpsAgent: agent,
+    };
+
+    return await axios.request(config);
+  }
+});
 ```
 
 **If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
@@ -327,43 +361,6 @@ By default, [HTTP requests made from Pipedream can come from a large range of IP
 - [Use an HTTP proxy to proxy requests](#use-an-http-proxy-to-proxy-requests-through-another-host)
 - If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
 
-## Forward an incoming HTTP request to another URL
-
-Often, you'll want to forward an incoming HTTP request from Pipedream to another service, with the same HTTP method, headers, body, etc. [This workflow](https://pipedream.com/@dylburger/forward-http-request-issue-http-response-p_BjC8Pp/edit) does just that.
-
-Once you **Copy** the workflow, enter the **URL** where you'd like to forward an HTTP request in the `forward_http_request` step. Every HTTP request you send to the workflow's HTTP endpoint will get forwarded to that URL.
-
-```javascript
-const config = {
-  method: event.method || "POST",
-  url: params.url,
-};
-
-const { query } = event;
-if (Object.keys(query).length) {
-  config.params = query;
-}
-
-// Headers, removing the original Host
-const { headers } = event;
-delete headers.host;
-if (Object.keys(headers).length) {
-  config.headers = headers;
-}
-
-if (event.body) config.data = event.body;
-
-return await require("@pipedreamhq/platform").axios(this, config);
-```
-
-You can modify this workflow in any way you'd like. For example, if you wanted to forward only certain types of requests, you could add another Node.js code step before the `forward_http_request` step, [ending the workflow early](/workflows/steps/code/#end) if the request doesn't contain a specific key in the HTTP payload:
-
-```javascript
-if (!event.body.myImportantData) {
-  $end("myImportantData not present in HTTP payload. Exiting");
-}
-```
-
 ## Stream a downloaded file directly to another URL
 
 Sometimes you need to upload a downloaded file directly to another service, without processing the downloaded file. You could [download the file](#download-a-file-to-the-tmp-directory) and then [upload it](#upload-a-file-from-the-tmp-directory) to the other URL, but these intermediate steps are unnecessary: you can just stream the download to the other service directly, without saving the file to disk.
@@ -375,18 +372,21 @@ This method is especially effective for large files that exceed the [limits of t
 ```javascript
 import stream from "stream";
 import { promisify } from "util";
-import fs from "fs";
 import got from "got";
 
-const pipeline = promisify(stream.pipeline);
+export default defineComponent({
+  async run({ steps, $ }) {
+    const pipeline = promisify(stream.pipeline);
 
-await pipeline(
-  got.stream(params.downloadURL),
-  got.stream.post(params.uploadURL)
-);
+    await pipeline(
+      got.stream("https://example.com"),
+      got.stream.post("https://example2.com")
+    );
+  }
+});
 ```
 
-You'll be asked to provide the **Download URL** — the URL of the content you want to download — and the **Upload URL** — the place you want to upload the content to. `got` streams the content directly, downloading the file using a `GET` request and uploading it as a `POST` request.
+You'll want to replace `https://example.com` with the URL you'd like to stream data from, and replace `https://example2.com` with the URL you'd like to send the data _to_. `got` streams the content directly, downloading the file using a `GET` request and uploading it as a `POST` request.
 
 If you need to modify this behavior, [see the `got` Stream API](https://github.com/sindresorhus/got#gotstreamurl-options).
 
@@ -397,15 +397,19 @@ By default, `axios` throws an error when the HTTP response code is in the 400-50
 ```javascript
 import axios from "axios";
 
-const resp = await axios({
-  url: "https://httpstat.us/400",
-  validateStatus: () => true, // will not throw error when axios gets a 400+ status code (the default behavior)
-})
-if (resp.status >= 400) {
-  this.debug = resp
-  throw new Error(JSON.stringify(resp.data)) // This can be modified to throw any error you'd like
-}
-return resp
+export default defineComponent({
+  async run({ steps, $ }) {
+    const resp = await axios({
+      url: "https://httpstat.us/400",
+      validateStatus: () => true, // will not throw error when axios gets a 400+ status code (the default behavior)
+    });
+    if (resp.status >= 400) {
+      this.debug = resp;
+      throw new Error(JSON.stringify(resp.data)); // This can be modified to throw any error you'd like
+    }
+    return resp;
+  }
+});
 ```
 
 See [the `axios` docs](https://github.com/axios/axios#request-config) for more details.

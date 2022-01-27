@@ -25,7 +25,7 @@ defineComponent({
     const { path, cleanup } = await file();
     await fs.promises.appendFile(path, Buffer.from("hello, world"))
     await cleanup();
-  })
+  }
 });
 ```
 
@@ -39,7 +39,7 @@ import fs from "fs";
 defineComponent({
   async run({ steps, $ }) {
     return fs.readdirSync("/tmp");
-  })
+  }
 });
 ```
 
@@ -54,7 +54,7 @@ defineComponent({
   async run({ steps, $ }) {
     const files = await fs.promises.readFile('/tmp/your-file');
     this.fileData = files.toString()
-  })
+  }
 });
 ```
 
@@ -66,7 +66,7 @@ import fs from "fs";
 defineComponent({
   async run({ steps, $ }) {
     return await fs.promises.unlink('/tmp/your-file');
-  })
+  }
 });
 ```
 
