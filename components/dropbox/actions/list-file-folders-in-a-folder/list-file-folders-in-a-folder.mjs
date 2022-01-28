@@ -1,5 +1,4 @@
 import dropbox from "../../dropbox.app.mjs";
-import get from "lodash/get.js";
 
 export default {
   name: "List All Files/Subfolders in a Folder",
@@ -64,14 +63,14 @@ export default {
       includeNonDownloadableFiles,
     } = this;
     const res = await this.dropbox.listFilesFolders({
-      path: get(path, "value", path),
+      path: path?.value || path,
       recursive,
       include_deleted: includeDeleted,
       include_has_explicit_shared_members: includeHasExplicitSharedMembers,
       include_mounted_folders: includeMountedFolders,
       include_non_downloadable_files: includeNonDownloadableFiles,
     }, limit);
-    $.export("$summary", "Files and folders successfully fetched");
+    $.export("$summary", `Files and folders in the path ${path?.label || path} successfully fetched`);
     return res;
   },
 };

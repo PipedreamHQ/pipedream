@@ -1,4 +1,3 @@
-import get from "lodash/get.js";
 import dropbox from "../../dropbox.app.mjs";
 
 export default {
@@ -20,9 +19,9 @@ export default {
   async run({ $ }) {
     const { path } = this;
     const res = await this.dropbox.deleteFileFolder({
-      path: get(path, "value", path),
+      path: path?.value || path,
     });
-    $.export("$summary", "File/Folder successfully deleted");
+    $.export("$summary", `"${path?.label || path}" successfully deleted`);
     return res;
   },
 };

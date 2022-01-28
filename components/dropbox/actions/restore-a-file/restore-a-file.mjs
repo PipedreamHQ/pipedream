@@ -1,5 +1,4 @@
 import dropbox from "../../dropbox.app.mjs";
-import get from "lodash/get.js";
 
 export default {
   name: "Restore a File",
@@ -34,10 +33,10 @@ export default {
     } = this;
 
     const res = await this.dropbox.restoreFile({
-      path: get(path, "value", path),
-      rev,
+      path: path?.value || path,
+      rev: rev?.value || rev,
     });
-    $.export("$summary", "File successfully restored to selected revision");
+    $.export("$summary", `"${path?.label || path}" successfully restored to "${rev?.label || rev}" revision`);
     return res;
   },
 };

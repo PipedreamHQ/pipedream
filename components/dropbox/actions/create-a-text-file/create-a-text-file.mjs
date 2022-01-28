@@ -41,7 +41,7 @@ export default {
       autorename: true,
     });
 
-    $.export("$summary", "Text file successfully created");
+    $.export("$summary", `${name} successfully created in the folder ${path?.label || path}`);
     return res;
   },
 };

@@ -80,8 +80,8 @@ export default {
     ));
 
     $.export("$summary", fileExists
-      ? "Text successfully appended to the file"
-      : "Text file successfully created");
+      ? `Text successfully appended to the file "${name}"`
+      : `Text file successfully created in the path "${path?.label || path}"`);
     return res;
   },
 };

@@ -16,6 +16,7 @@ export default {
       label: "Path",
       description: "The folder path. (Please use a valid path to filter the values)",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         returnSimpleString,
@@ -31,6 +32,7 @@ export default {
       label: "Path",
       description: "The file path. (Please use a valid path to filter the values)",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         returnSimpleString,
@@ -46,6 +48,7 @@ export default {
       label: "Path",
       description: "The file or folder path. (Please use a valid path to filter the values)",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         returnSimpleString,
@@ -57,8 +60,9 @@ export default {
     },
     fileRevision: {
       type: "string",
-      label: "Path",
+      label: "Revision",
       description: "The file revision",
+      withLabel: true,
       async options({ path }) {
         return this.getFileRevisionOptions(get(path, "value", path));
       },
@@ -143,7 +147,6 @@ export default {
         const {
           omitFolders,
           omitFiles,
-          returnSimpleString,
         } = opts;
 
         const LIMIT = 100;
@@ -165,7 +168,7 @@ export default {
           data = res.result.entries.map((folder) => ({
             label: folder.path_display,
             value: {
-              value: folder.path_lower,
+              path: folder.path_lower,
               type: folder[".tag"],
             },
           }));
@@ -173,7 +176,7 @@ export default {
           data = res.result.entries.map((folder) => ({
             label: folder.path_display,
             value: {
-              value: folder.path_lower,
+              path: folder.path_lower,
               type: folder[".tag"],
             },
           }));
@@ -185,7 +188,7 @@ export default {
             data = data.concat(res.result?.entries.map((folder) => ({
               label: folder.path_display,
               value: {
-                value: folder.path_lower,
+                path: folder.path_lower,
                 type: folder[".tag"],
               },
             })));
@@ -204,12 +207,10 @@ export default {
           data = data.filter((item) => item.value.type !== "folder");
         }
 
-        if (returnSimpleString) {
-          data = data.map((item) => ({
-            label: item.label,
-            value: item.value.value,
-          }));
-        }
+        data = data.map((item) => ({
+          label: item.label,
+          value: item.value.path,
+        }));
 
         return data.sort((a, b) => a.label > b.label
           ? 1 :
@@ -366,6 +367,7 @@ export default {
     },
     async restoreFile(args) {
       try {
+        console.log(args);
         const dpx = await this.sdk();
         return await dpx.filesRestore(args);
       } catch (err) {

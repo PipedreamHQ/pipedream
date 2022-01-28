@@ -1,5 +1,4 @@
 import dropbox from "../../dropbox.app.mjs";
-import get from "lodash/get.js";
 import consts from "../../consts.mjs";
 
 export default {
@@ -74,7 +73,7 @@ export default {
     }
 
     const res = await this.dropbox.createSharedLink({
-      path: get(path, "value", path),
+      path: path?.value || path,
       settings: {
         require_password: requirePassword,
         link_password: linkPassword,
@@ -86,7 +85,7 @@ export default {
       },
       remove_expiration: removeExpiration,
     });
-    $.export("$summary", "Shared link successfully created");
+    $.export("$summary", `Shared link for "${path?.label || path}" successfully created`);
     return res;
   },
 };

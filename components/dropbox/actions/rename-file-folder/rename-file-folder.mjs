@@ -1,5 +1,4 @@
 import dropbox from "../../dropbox.app.mjs";
-import get from "lodash/get.js";
 
 export default {
   name: "Rename a File/Folder",
@@ -43,7 +42,7 @@ export default {
       allowOwnershipTransfer,
     } = this;
 
-    const normalizedPathFrom = get(pathFrom, "value", pathFrom);
+    const normalizedPathFrom = pathFrom?.value || pathFrom;
     const splitedPath = normalizedPathFrom.split("/");
     splitedPath[splitedPath.length - 1] = newName;
     const res = await this.dropbox.filesMove({
@@ -52,7 +51,7 @@ export default {
       autorename,
       allow_ownership_transfer: allowOwnershipTransfer,
     });
-    $.export("$summary", "File/Folder successfully renamed");
+    $.export("$summary", `"${normalizedPathFrom}" successfully renamed to "${newName}"`);
     return res;
   },
 };

@@ -1,4 +1,3 @@
-import get from "lodash/get.js";
 import consts from "../../consts.mjs";
 import dropbox from "../../dropbox.app.mjs";
 
@@ -40,7 +39,7 @@ export default {
       limit,
     } = this;
     const res = await this.dropbox.listFileRevisions({
-      path: get(path, "value", path),
+      path: path?.value || path,
       mode: mode
         ? {
           ".tag": mode,
@@ -48,7 +47,7 @@ export default {
         : undefined,
       limit,
     });
-    $.export("$summary", "File revisions successfully fetched");
+    $.export("$summary", `File revisions for file "${path?.label || path}" successfully fetched`);
     return res;
   },
 };

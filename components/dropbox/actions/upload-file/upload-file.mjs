@@ -95,7 +95,7 @@ export default {
       mute,
       strict_conflict: strictConflict,
     });
-    $.export("$summary", "File successfully uploaded");
+    $.export("$summary", `File successfully uploaded to "${path?.label || path}"`);
     return res;
   },
 };

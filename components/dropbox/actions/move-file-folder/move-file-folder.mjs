@@ -1,5 +1,4 @@
 import dropbox from "../../dropbox.app.mjs";
-import get from "lodash/get.js";
 
 export default {
   name: "Move a File/Folder",
@@ -46,14 +45,14 @@ export default {
       pathTo,
     } = this;
 
-    let normalizedPathTo = get(pathTo, "value", pathTo);
-    const normalizedPathFrom = get(pathFrom, "value", pathFrom);
+    let normalizedPathTo = pathTo?.value || pathTo;
+    const normalizedPathFrom = pathFrom?.value || pathFrom;
 
     // If path is a file, we need to move it as a file
     if (pathFrom?.type == "file" && pathFrom.value) {
       const splited = normalizedPathFrom.split("/");
       const fileName = splited[splited.length - 1];
-      normalizedPathTo = `${get(pathTo, "value", pathTo)}/${fileName}`;
+      normalizedPathTo = `${pathTo?.value || pathTo}/${fileName}`;
     }
 
     const res = await this.dropbox.filesMove({
@@ -62,7 +61,7 @@ export default {
       autorename,
       allow_ownership_transfer: allowOwnershipTransfer,
     });
-    $.export("$summary", "File/folder successfully moved");
+    $.export("$summary", `"${normalizedPathFrom}" successfully moved to "${normalizedPathTo}"`);
     return res;
   },
 };
