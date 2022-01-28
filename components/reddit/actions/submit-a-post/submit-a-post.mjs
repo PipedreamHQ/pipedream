@@ -1,7 +1,6 @@
 import { axios } from "@pipedream/platform";
 import reddit from "../../reddit.app.mjs";
 import tzs from "../../pytz-timezones.mjs";
-import get from "lodash/get.js";
 
 export default {
   type: "action",
@@ -86,7 +85,7 @@ export default {
   async run ({ $ }) {
     const data = {
       api_type: "json",
-      sr: get(this.subreddit, "value", this.subreddit),
+      sr: this.subreddit.value || this.subreddit,
       kind: this.kind,
       title: this.title,
       spoiler: this.spoiler,
@@ -107,8 +106,8 @@ export default {
 
     this.reddit.checkErrors(res);
 
-    $.export("$summary", `The post "${this.title}" has been successfully created into "${get(this.subreddit, "label", this.subreddit)}" subreddit`);
-    return get(res, "json.data", res);
+    $.export("$summary", `The post "${this.title}" has been successfully created into "${this.subreddit?.label || this.subreddit}" subreddit`);
+    return res?.json?.data || res;
   },
 };
 

@@ -36,7 +36,7 @@ export default {
 
     this.reddit.checkErrors(res);
     $.export("$summary", "Your comment has been successfully submitted");
-    return res?.json?.data?.things?.[0] ?? res;
+    return res?.json?.data?.things?.[0] || res;
   },
 };
 

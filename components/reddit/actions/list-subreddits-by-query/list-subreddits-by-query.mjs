@@ -1,5 +1,4 @@
 import reddit from "../../reddit.app.mjs";
-import get from "lodash/get.js";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -56,7 +55,7 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      q: get(this.subreddit, "value", this.subreddit),
+      q: this.subreddit?.value || this.subreddit,
       limit: this.limit,
       sort: this.sort,
       sr_detail: this.srDetails,

@@ -50,7 +50,7 @@ export default {
         return {
           options,
           context: {
-            after: get(posts, `${posts.length - 1}.data.name`),
+            after: posts?.[posts.length - 1]?.data?.name,
           },
         };
       },

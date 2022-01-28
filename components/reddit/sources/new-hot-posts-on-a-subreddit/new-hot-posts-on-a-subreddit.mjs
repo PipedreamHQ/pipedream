@@ -46,7 +46,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      await this.fetchData(10);
+      await this.fetchData();
     },
   },
   methods: {
@@ -58,14 +58,14 @@ export default {
         ts: redditEvent.data.created,
       };
     },
-    async fetchData(limit) {
+    async fetchData() {
       // Emits sample events on the first run during deploy.
       var redditHotPosts = await this.reddit.getNewHotSubredditPosts(
         get(this.subreddit, "value", this.subreddit),
         this.region,
         this.excludeFilters,
         this.includeSubredditDetails,
-        limit,
+        10,
       );
       const { children: hotPosts = [] } = redditHotPosts.data;
       if (hotPosts.length === 0) {

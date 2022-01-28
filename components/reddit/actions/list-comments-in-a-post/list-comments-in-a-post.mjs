@@ -1,5 +1,4 @@
 import reddit from "../../reddit.app.mjs";
-import get from "lodash/get.js";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -74,9 +73,9 @@ export default {
 
     const res = await axios($, this.reddit._getAxiosParams({
       method: "GET",
-      path: `/r/${get(subreddit, "value", subreddit)}/comments/article`,
+      path: `/r/${subreddit?.value || subreddit}/comments/article`,
       params: {
-        article: get(subredditPost, "value", subredditPost),
+        article: subredditPost?.value || subredditPost,
         context: numberOfParents,
         depth: depth,
         sr_detail: includeSubredditDetails,
@@ -85,7 +84,7 @@ export default {
       },
     }));
 
-    $.export("$summary", `Comments for "${get(subredditPost, "label", subredditPost)}" in "${get(subreddit, "label", subreddit)}" subreddit successfully fetched"`);
+    $.export("$summary", `Comments for "${subredditPost?.label || subredditPost}" in "${subreddit?.label || subreddit}" subreddit successfully fetched`);
     return res;
   },
 };
