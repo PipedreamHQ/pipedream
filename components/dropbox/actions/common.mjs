@@ -1,11 +1,10 @@
-import get from "lodash/get.js";
 import isEmpty from "lodash/isEmpty.js";
 import isNil from "lodash/isNil.js";
 
 export default {
   methods: {
     getNormalizedPath: (path, appendFinalBar) => {
-      let normalizedPath = get(path, "value", path);
+      let normalizedPath = path?.value || path;
 
       // Check for empties path
       if (isNil(normalizedPath) || isEmpty(normalizedPath)) {
