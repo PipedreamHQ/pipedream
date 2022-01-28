@@ -1,6 +1,7 @@
 import dropbox from "../dropbox.app.mjs";
 
 export default {
+  dedupe: "unique",
   props: {
     dropbox,
     db: "$.service.db",
@@ -8,9 +9,6 @@ export default {
       propDefinition: [
         dropbox,
         "pathFolder",
-        () => ({
-          returnSimpleString: true,
-        }),
       ],
     },
     recursive: {
