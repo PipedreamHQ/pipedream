@@ -17,6 +17,29 @@ export default {
       type: "string",
       description: "The document ID",
     },
+    data: {
+      label: "Data",
+      type: "object",
+      description: "The object to be used in document creation",
+    },
+    parseNumbers: {
+      label: "Parse Numbers",
+      type: "boolean",
+      description: "If `true`. Each number value represented by a string will be parsed to it respective type",
+      default: true,
+    },
+    parseBooleans: {
+      label: "Parse Booleans",
+      type: "boolean",
+      description: "If `true`. Each boolean value represented by a string will be parsed to it respective type",
+      default: true,
+    },
+    parseDates: {
+      label: "Parse Dates",
+      type: "boolean",
+      description: "If `true`. Each date value represented by a string will be parsed to it respective type",
+      default: true,
+    },
   },
   methods: {
     async connect() {

@@ -13,6 +13,7 @@ export default {
         mongodbApp,
         "collection",
       ],
+      description: "Collection containing the document to find.",
     },
     document: {
       propDefinition: [

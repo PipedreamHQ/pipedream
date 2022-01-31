@@ -13,6 +13,7 @@ export default {
         mongodbApp,
         "collection",
       ],
+      description: "Collection containing the document to be updated.",
     },
     document: {
       propDefinition: [
@@ -21,27 +22,29 @@ export default {
       ],
     },
     data: {
-      label: "Data",
-      type: "object",
+      propDefinition: [
+        mongodbApp,
+        "data",
+      ],
       description: "The object to be used in document update",
     },
     parseNumbers: {
-      label: "Parse Numbers",
-      type: "boolean",
-      description: "If `true`. All number values represented by a string will be parsed to it respective type",
-      default: true,
+      propDefinition: [
+        mongodbApp,
+        "parseNumbers",
+      ],
     },
     parseBooleans: {
-      label: "Parse Booleans",
-      type: "boolean",
-      description: "If `true`. All boolean values represented by a string will be parsed to it respective type",
-      default: true,
+      propDefinition: [
+        mongodbApp,
+        "parseBooleans",
+      ],
     },
     parseDates: {
-      label: "Parse Dates",
-      type: "boolean",
-      description: "If `true`. All date values represented by a string will be parsed to it respective type",
-      default: true,
+      propDefinition: [
+        mongodbApp,
+        "parseDates",
+      ],
     },
   },
   async run({ $ }) {
