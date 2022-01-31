@@ -42,11 +42,13 @@ export default {
     basicAuthUsername: {
       type: "string",
       label: "Basic Auth Username",
+      description: "Basic Auth Username (will be used to construct Auth header)",
       optional: true,
     },
     basicAuthPassword: {
       type: "string",
       label: "Basic Auth Password",
+      description: "Basic Auth Password (will be used to construct Auth header)",
       secret: true,
       optional: true,
     },
@@ -64,4 +66,4 @@ export default {
       optional: true,
     },
   },
-}
+};

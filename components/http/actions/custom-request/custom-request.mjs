@@ -1,4 +1,4 @@
-import {axios} from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 import http from "../../http.app.mjs";
 
 export default {
@@ -52,7 +52,7 @@ export default {
       ],
     },
   },
-  async run({$}) {
+  async run({ $ }) {
     const {
       data,
       headers,
@@ -68,10 +68,10 @@ export default {
       headers,
     };
     if (this.basicAuthUsername || this.basicAuthPassword) {
-      config.auth = {}
-      config.auth.username = this.basicAuthUsername
-      config.auth.password = this.basicAuthPassword
+      config.auth = {};
+      config.auth.username = this.basicAuthUsername;
+      config.auth.password = this.basicAuthPassword;
     }
     return await axios($, config);
   },
-}
+};
