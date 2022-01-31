@@ -57,7 +57,7 @@
       ],
       "rules": {
         "pipedream/props-label": "error",
-        "pipedream/props-description": "error"
+        "pipedream/props-description": "warn"
       }
     }
   ],
