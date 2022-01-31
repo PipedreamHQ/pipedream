@@ -1,0 +1,36 @@
+{
+  "hash": "a4aa01c6",
+  "browserHash": "cfbfb53f",
+  "optimized": {
+    "vue": {
+      "file": "/Users/pierce/dev/pipedream/docs/docs/.vuepress/.cache/vue.js",
+      "src": "/Users/pierce/dev/pipedream/docs/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js",
+      "needsInterop": false
+    },
+    "vue-router": {
+      "file": "/Users/pierce/dev/pipedream/docs/docs/.vuepress/.cache/vue-router.js",
+      "src": "/Users/pierce/dev/pipedream/docs/node_modules/vue-router/dist/vue-router.esm-bundler.js",
+      "needsInterop": false
+    },
+    "@vue/devtools-api": {
+      "file": "/Users/pierce/dev/pipedream/docs/docs/.vuepress/.cache/@vue_devtools-api.js",
+      "src": "/Users/pierce/dev/pipedream/docs/node_modules/@vue/devtools-api/lib/esm/index.js",
+      "needsInterop": false
+    },
+    "@vueuse/core": {
+      "file": "/Users/pierce/dev/pipedream/docs/docs/.vuepress/.cache/@vueuse_core.js",
+      "src": "/Users/pierce/dev/pipedream/docs/node_modules/@vueuse/core/index.mjs",
+      "needsInterop": false
+    },
+    "nprogress": {
+      "file": "/Users/pierce/dev/pipedream/docs/docs/.vuepress/.cache/nprogress.js",
+      "src": "/Users/pierce/dev/pipedream/docs/node_modules/nprogress/nprogress.js",
+      "needsInterop": true
+    },
+    "@vuepress/shared": {
+      "file": "/Users/pierce/dev/pipedream/docs/docs/.vuepress/.cache/@vuepress_shared.js",
+      "src": "/Users/pierce/dev/pipedream/docs/node_modules/@vuepress/shared/lib/esm/index.js",
+      "needsInterop": false
+    }
+  }
+}

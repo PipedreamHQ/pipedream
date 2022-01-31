@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["dep:vue"],
+  "sourcesContent": ["\nexport * from \"../../../../node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js\""],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

@@ -14,8 +14,14 @@ module.exports = {
         // stripExtension: true,
       // },
     // ],
+
+      '@vuepress/register-components',
+      {
+        componentsDir: path.resolve(__dirname, './theme/components'),
+      },
   ],
-  theme: path.resolve(__dirname, './theme/index.ts'),
+  // theme: path.resolve(__dirname, './theme/index.ts'),
+  // theme: ''
   themeConfig: {
     algolia: {
       apiKey: "1e23962724b59d018bdedc0f5a214ce5",
@@ -24,6 +30,17 @@ module.exports = {
     searchPlaceholder: "Search...",
     logo: "/pipedream.svg",
     repo: "PipedreamHQ/pipedream",
+    navbar: [
+    {
+      text: 'Concepts',
+      children: [
+        '/workflows/README.md',
+        '/workflows/steps/actions/README.md',
+        '/workflows/steps/triggers/README.md',
+
+      ]
+    }
+    ],
     nav: [
       {
         text: "v2",

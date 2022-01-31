@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["dep:@vue_devtools-api"],
+  "sourcesContent": ["\nexport * from \"../../../../node_modules/@vue/devtools-api/lib/esm/index.js\""],
+  "mappings": ";;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

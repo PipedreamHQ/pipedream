@@ -1,8 +1,12 @@
 {
   "devDependencies": {
+    "@vuepress/plugin-register-components": "^2.0.0-beta.35",
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.5",
     "sass": "^1.47.0",
     "sass-loader": "^7.1.0",
-    "vuepress": "^1.1.0",
+    "tailwindcss": "^3.0.17",
+    "vuepress": "^2.0.0-beta.35",
     "webpack": "^4.30.0"
   },
   "scripts": {
