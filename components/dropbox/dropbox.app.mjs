@@ -367,7 +367,6 @@ export default {
     },
     async restoreFile(args) {
       try {
-        console.log(args);
         const dpx = await this.sdk();
         return await dpx.filesRestore(args);
       } catch (err) {
