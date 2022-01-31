@@ -12,7 +12,6 @@ export default {
     method: {
       type: "string",
       label: "Method",
-      description: "POST HTTP method",
       static: "POST",
     },
   },
