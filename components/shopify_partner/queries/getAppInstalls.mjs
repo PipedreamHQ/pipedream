@@ -16,7 +16,7 @@ export default gql`
         types: [RELATIONSHIP_INSTALLED]
         occurredAtMin: $occurredAtMin
         occurredAtMax: $occurredAtMax
-        after: $after
+        before: $cursor
         first: 50
       ) {
         pageInfo {

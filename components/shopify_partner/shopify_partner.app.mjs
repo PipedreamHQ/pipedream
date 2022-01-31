@@ -65,7 +65,7 @@ export default {
         ...variables,
         ...(lastCursor
           ? {
-            after: lastCursor,
+            cursor: lastCursor,
           }
           : {}),
       };

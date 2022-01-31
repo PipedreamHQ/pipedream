@@ -16,7 +16,7 @@ export default gql`
         types: [RELATIONSHIP_UNINSTALLED]
         occurredAtMin: $occurredAtMin
         occurredAtMax: $occurredAtMax
-        after: $after
+        before: $cursor
         first: 50
       ) {
         edges {

@@ -60,7 +60,7 @@ export default {
       },
       getCursor: (data) => {
         const edges = data?.app?.events?.edges;
-        return edges.reverse()[0]?.cursor;
+        return edges[0]?.cursor;
       },
       hasNextPagePath: "app.events.pageInfo.hasNextPage",
     });

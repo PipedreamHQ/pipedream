@@ -30,14 +30,14 @@ export default {
     const {
       createdAtMin,
       createdAtMax,
-      after,
+      cursor,
       db,
     } = this;
 
     const variables = {
       ...(createdAtMin || {}),
       ...(createdAtMax || {}),
-      ...(after || {}),
+      ...(cursor || {}),
     };
 
     await this.shopify.query({
@@ -48,10 +48,7 @@ export default {
       hasNextPagePath: "transactions.pageInfo.hasNextPage",
       getCursor: (data) => {
         const edges = data?.transactions?.edges || [];
-        const [
-          last,
-        ] = edges.reverse();
-        return last?.cursor;
+        return edges[0]?.cursor;
       },
       handleEmit: (data) => {
         data.transactions.edges.map(({ node: { ...txn } }) => {
