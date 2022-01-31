@@ -60,9 +60,7 @@ export default {
       this._setLastResult(rows, column);
     },
     async isColumnUnique(table, column) {
-      const query = {
-        text: format("select count(*) <> count(distinct %I) as duplicate_flag from %I", column, table),
-      };
+      const query = format("select count(*) <> count(distinct %I) as duplicate_flag from %I", column, table);
       const hasDuplicates = await this.postgresql.executeQuery(query);
       const { duplicate_flag: duplicateFlag } = hasDuplicates[0];
       return !duplicateFlag;

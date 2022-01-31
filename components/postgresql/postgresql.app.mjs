@@ -95,7 +95,8 @@ export default {
      * @returns Array of table names
      */
     async getTables() {
-      const rows = await this.executeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+      const query = format("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+      const rows = await this.executeQuery(query);
       return rows.map((row) => row.table_name);
     },
     /**
@@ -105,10 +106,10 @@ export default {
      */
     async getColumns(table) {
       const rows = await this.executeQuery({
-        text: `
+        text: format(`
           SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS
             WHERE TABLE_NAME = $1
-        `,
+        `),
         values: [
           table,
         ],
@@ -122,13 +123,13 @@ export default {
      */
     async getPrimaryKey(table) {
       const rows = await this.executeQuery({
-        text: `
+        text: format(`
           SELECT a.attname FROM pg_index i
             JOIN pg_attribute a ON a.attrelid = i.indrelid
               AND a.attnum = ANY(i.indkey)
             WHERE i.indrelid = $1::regclass
               AND i.indisprimary
-        `,
+        `),
         values: [
           table,
         ],
