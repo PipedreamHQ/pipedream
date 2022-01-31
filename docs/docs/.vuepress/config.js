@@ -7,18 +7,19 @@ module.exports = {
   description: "Pipedream Documentation - Connect APIs, remarkably fast",
   base: "/docs-v2/",
   plugins: [
-    [
-      "vuepress-plugin-canonical",
-      {
-        baseURL: "https://pipedream.com/docs", // base url for your canonical link, optional, default: ''
-        stripExtension: true,
-      },
-    ],
+    // [
+      // "vuepress-plugin-canonical",
+      // {
+        // baseURL: "https://pipedream.com/docs", // base url for your canonical link, optional, default: ''
+        // stripExtension: true,
+      // },
+    // ],
   ],
+  theme: path.resolve(__dirname, './theme/index.ts'),
   themeConfig: {
     algolia: {
       apiKey: "1e23962724b59d018bdedc0f5a214ce5",
-      indexName: "pipedream",
+      indexName: "pipedream-v2",
     },
     searchPlaceholder: "Search...",
     logo: "/pipedream.svg",
@@ -57,15 +58,15 @@ module.exports = {
         title: "Workflows",
         children: 
         [
-          "/workflows/",
-          "/workflows/steps/",
-          "/workflows/steps/triggers/",
-          "/workflows/events/",
-          "/components/actions/",
-          "/workflows/concurrency-and-throttling/",
-          "/environment-variables/",
-          "/workflows/settings/",
-          "/workflows/networking/",
+          "/workflows/README.md",
+          "/workflows/steps/README.md",
+          "/workflows/steps/triggers/README.md",
+          "/workflows/events/README.md",
+          "/components/actions/README.md",
+          // "/workflows/concurrency-and-throttling/",
+          // "/environment-variables/",
+          // "/workflows/settings/",
+          // "/workflows/networking/",
         ]
       },
       "/sources/",
@@ -170,6 +171,18 @@ module.exports = {
       "/status/",
       ["https://pipedream.com/support", "Need more help?"],
     ],
+    bundlerConfig: {
+      viteOptions: {
+        css: {
+          postcss: {
+            plugins: [
+              require('tailwindcss'),
+              require('autoprefixer')
+            ]
+          }
+        }
+      }
+    },
     PIPEDREAM_BASE_URL: "https://pipedream.com",
     API_BASE_URL: "https://api.pipedream.com/v1",
     SQL_API_BASE_URL: "https://rt.pipedream.com/sql",

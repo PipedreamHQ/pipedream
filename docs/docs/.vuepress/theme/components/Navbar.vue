@@ -5,7 +5,7 @@
     <RouterLink :to="$localePath" class="home-link">
       <img
         v-if="$site.themeConfig.logo"
-        class="logo"
+        class="logo w-2"
         :src="$withBase($site.themeConfig.logo)"
         :alt="$siteTitle"
       />
@@ -14,19 +14,27 @@
         ref="siteName"
         class="site-name"
         :class="{ 'can-hide': $site.themeConfig.logo }"
-      >{{ $siteTitle }}</span>
+        >{{ $siteTitle }}</span
+      >
     </RouterLink>
 
     <div
       class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}"
+      :style="
+        linksWrapMaxWidth
+          ? {
+              'max-width': linksWrapMaxWidth + 'px',
+            }
+          : {}
+      "
     >
       <NavLinks class="can-hide" />
       <AlgoliaSearchBox v-if="isAlgoliaSearch" :options="algolia" />
       <SearchBox
-        v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"
+        v-else-if="
+          $site.themeConfig.search !== false &&
+          $page.frontmatter.search !== false
+        "
       />
     </div>
   </header>
