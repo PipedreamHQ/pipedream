@@ -39,10 +39,15 @@ export default {
       description: "Add individual [HTTP headers](https://requestbin.com/blog/working-with-webhooks/#http-header) as key-value pairs or disable structured mode to pass multiple key-value pairs as an object.",
       optional: true,
     },
-    auth: {
+    basicAuthUsername: {
       type: "string",
-      label: "Basic Auth",
-      description: "To use HTTP basic authentication, enter a username and password separated by `|` (e.g., `myUsername|myPassword`).",
+      label: "Basic Auth Username",
+      optional: true,
+    },
+    basicAuthPassword: {
+      type: "string",
+      label: "Basic Auth Password",
+      secret: true,
       optional: true,
     },
     responseType: {
@@ -59,14 +64,4 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    parseAuth(authString) {
-      const authArray = authString.split("|");
-      return {
-        username: authArray[0],
-        password: authArray[1],
-      };
-    },
-  },
 }
-;

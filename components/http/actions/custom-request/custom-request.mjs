@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import {axios} from "@pipedream/platform";
 import http from "../../http.app.mjs";
 
 export default {
@@ -6,7 +6,7 @@ export default {
   name: "Custom Request",
   description: "Make an HTTP request using any method and URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   props: {
     http,
     url: {
@@ -39,14 +39,20 @@ export default {
         "headers",
       ],
     },
-    auth: {
+    basicAuthUsername: {
       propDefinition: [
         http,
-        "auth",
+        "basicAuthUsername",
+      ],
+    },
+    basicAuthPassword: {
+      propDefinition: [
+        http,
+        "basicAuthPassword",
       ],
     },
   },
-  async run({ $ }) {
+  async run({$}) {
     const {
       data,
       headers,
@@ -61,8 +67,11 @@ export default {
       params,
       headers,
     };
-    if (this.auth) config.auth = this.http.parseAuth(this.auth);
+    if (this.basicAuthUsername || this.basicAuthPassword) {
+      config.auth = {}
+      config.auth.username = this.basicAuthUsername
+      config.auth.password = this.basicAuthPassword
+    }
     return await axios($, config);
   },
 }
-;
