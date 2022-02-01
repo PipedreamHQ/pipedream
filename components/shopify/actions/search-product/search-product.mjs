@@ -14,19 +14,9 @@ export default {
         "productId",
       ],
     },
-    fields: {
-      propDefinition: [
-        shopify,
-        "responseFields",
-      ],
-    },
   },
   async run({ $ }) {
-    let params = {
-      fields: this.shopify.parseCommaSeparatedStrings(this.fields),
-    };
-
-    let response = await this.shopify.getProduct(this.productId, params);
+    let response = await this.shopify.getProduct(this.productId);
     $.export("$summary", `Found product \`${response.title}\` with id \`${response.id}\``);
     return response;
   },

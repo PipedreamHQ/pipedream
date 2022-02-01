@@ -18,12 +18,6 @@ export default {
       description: "Restrict results to customers specified by a comma-separated list of IDs. Options will display the email registered with the ID. It is possible to select more than one option",
       optional: true,
     },
-    fields: {
-      propDefinition: [
-        shopify,
-        "responseFields",
-      ],
-    },
     limit: {
       type: "integer",
       label: "Limit",
@@ -40,7 +34,6 @@ export default {
   async run({ $ }) {
     let params = {
       ids: this.shopify.parseCommaSeparatedStrings(this.ids),
-      fields: this.shopify.parseCommaSeparatedStrings(this.fields),
       limit: this.limit,
       since_id: this.sinceId,
     };

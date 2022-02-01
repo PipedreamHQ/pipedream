@@ -243,12 +243,6 @@ export default {
       label: "Product Variant",
       description: "An object representing a different version of the product. More information at [Shopify Product Variant API](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)",
     },
-    responseFields: {
-      type: "string[]",
-      label: "Fields",
-      description: "A comma-separated list of fields to include in the response. Check out [Shopify Product API](https://shopify.dev/api/admin-rest/2022-01/resources/product#resource_object) for options",
-      optional: true,
-    },
   },
   methods: {
     _getBaseURL() {
@@ -444,15 +438,6 @@ export default {
       }
       throw new TypeError("variable should be an array or string");
     },
-    /**
-     * Adds expected title and id response fields for correct summary logging
-     * @param {object} params
-     */
-    _addRequiredResponseFields(params) {
-      if (params.fields && Object.values(params.fields).length > 0) {
-        params.fields = "title,id," + params.fields;
-      }
-    },
     dayAgo() {
       const dayAgo = new Date();
       dayAgo.setDate(dayAgo.getDate() - 1);
@@ -582,7 +567,6 @@ export default {
       return await this.getObjects("product", params);
     },
     async getProduct(productId, params) {
-      this._addRequiredResponseFields(params);
       return await this.resourceAction("product", "get", params, productId);
     },
     async updateProduct(productId, params) {
@@ -592,7 +576,6 @@ export default {
       return await this.resourceAction("productVariant", "get", params, productVariantId);
     },
     async getProductVariantByTitle(productId, title, params) {
-      this._addRequiredResponseFields(params);
       let list = await this.resourceAction("productVariant", "list", params, productId);
       list = list.filter((e) => e.title == title);
       if (list.length === 0) {

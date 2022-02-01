@@ -30,12 +30,6 @@ export default {
       ],
       optional: true,
     },
-    fields: {
-      propDefinition: [
-        shopify,
-        "responseFields",
-      ],
-    },
     productVariant: {
       propDefinition: [
         shopify,
@@ -52,14 +46,10 @@ export default {
       }
 
       let response;
-      let params = {
-        fields: this.shopify.parseCommaSeparatedStrings(this.fields),
-      };
-
       if (this.productVariantId) {
-        response = await this.shopify.getProductVariant(this.productVariantId, params);
+        response = await this.shopify.getProductVariant(this.productVariantId);
       } else {
-        response = await this.shopify.getProductVariantByTitle(this.productId, this.title, params);
+        response = await this.shopify.getProductVariantByTitle(this.productId, this.title);
       }
 
       $.export("$summary", `Found product variant \`${response.title}\` with id \`${response.id}\``);
