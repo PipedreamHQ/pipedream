@@ -384,7 +384,7 @@ export default {
             && value[0] === ""))) {
           delete params[key];
         }
-        else if (!(key && value)) {
+        else if (!(key && (value || value === 0))) {
           delete params[key];
         }
         else if (value.constructor == Object) {
