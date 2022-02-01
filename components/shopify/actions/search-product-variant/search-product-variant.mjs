@@ -3,7 +3,7 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-search-product-variant",
   name: "Search Product Variant",
-  description: "Search for product variants or create one if not found",
+  description: "Search for product variants or create one if not found. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#top)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -20,8 +20,7 @@ export default {
         "productVariantId",
         (c) => c,
       ],
-      description: `ID of the product variant
-        Takes precedence over Title`,
+      description: "ID of the product variant. Takes precedence over Title",
       optional: true,
     },
     title: {
@@ -43,8 +42,7 @@ export default {
         "variant",
       ],
       optional: true,
-      description: `${shopify.propDefinitions.variant.description}
-        Creates the variant when the fields below are filled and the Product Variant Title is not found`,
+      description: `${shopify.propDefinitions.variant.description}. Creates the variant when the fields below are filled and the Product Variant Title is not found`,
     },
   },
   async run({ $ }) {

@@ -3,7 +3,7 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-search-customer",
   name: "Search Customer",
-  description: "Search for a customer or a list of customers",
+  description: "Search for a customer or a list of customers. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[get]/admin/api/2022-01/customers.json)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -16,9 +16,7 @@ export default {
         (c) => c,
       ],
       label: "Customer IDs",
-      description: `Restrict results to customers specified by a comma-separated list of IDs
-        Options will display the email registered with the ID
-        It is possible to select more than one option`,
+      description: "Restrict results to customers specified by a comma-separated list of IDs. Options will display the email registered with the ID. It is possible to select more than one option",
       optional: true,
     },
     fields: {

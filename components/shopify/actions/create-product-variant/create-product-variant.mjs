@@ -3,7 +3,7 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-create-product-variant",
   name: "Create Product Variant",
-  description: "Create a new product variant",
+  description: "Create a new product variant. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)",
   version: "0.0.1",
   type: "action",
   props: {

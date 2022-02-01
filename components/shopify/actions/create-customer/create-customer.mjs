@@ -1,9 +1,10 @@
 import shopify from "../../shopify.app.mjs";
+import { toSingleLineString } from "../commons.mjs";
 
 export default {
   key: "shopify-create-customer",
   name: "Create Customer",
-  description: "Create a new customer",
+  description: "Create a new customer. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/2022-01/customers.json)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -28,16 +29,20 @@ export default {
     phone: {
       type: "string",
       label: "Phone Number",
-      description: `The unique phone number (E.164 format) for this customer
-        Check out [Shopify Customer API](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/#{api_version}/customers.json_examples) for more details on valid formats`,
+      description: toSingleLineString(`
+        The unique phone number (E.164 format) for this customer.
+        Check out [Shopify Customer API](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/#{api_version}/customers.json_examples) for more details on valid formats
+      `),
       optional: true,
     },
     addresses: {
       type: "string[]",
       label: "Addresses",
-      description: `A list of the ten most recently updated addresses for the customer
-        Example: \`[{"address1":"123 Oak St","city":"Ottawa","province":"ON","phone":"555-1212","zip":"123 ABC","last_name":"Lastnameson","first_name":"Mother","country":"CA"}]\`
-        Check out [Shopify Customer API](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/#{api_version}/customers.json_examples) for more details on addresses`,
+      description: toSingleLineString(`
+        A list of the ten most recently updated addresses for the customer.
+        Example: \`[{"address1":"123 Oak St","city":"Ottawa","province":"ON","phone":"555-1212","zip":"123 ABC","last_name":"Lastnameson","first_name":"Mother","country":"CA"}]\`.
+        Check out [Shopify Customer API](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/#{api_version}/customers.json_examples) for more details on addresses
+      `),
       optional: true,
     },
     password: {
@@ -63,8 +68,10 @@ export default {
     metafields: {
       type: "string[]",
       label: "Metafields",
-      description: `A list of objects representing metafields
-        Check out [Shopify Customer API](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/#{api_version}/customers.json_examples) for more details on metafields`,
+      description: toSingleLineString(`
+        A list of objects representing metafields.
+        Check out [Shopify Customer API](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/#{api_version}/customers.json_examples) for more details on metafields
+      `),
       optional: true,
     },
   },

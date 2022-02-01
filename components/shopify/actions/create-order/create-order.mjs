@@ -1,10 +1,10 @@
 import shopify from "../../shopify.app.mjs";
+import { toSingleLineString } from "../commons.mjs";
 
 export default {
   key: "shopify-create-order",
   name: "Create Order",
-  description: `Creates a new order
-    More information at [Shopify Order Object](https://shopify.dev/api/admin-rest/2022-01/resources/order#resource_object)`,
+  description: "Creates a new order. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/2022-01/orders.json)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -12,8 +12,10 @@ export default {
     lineItems: {
       type: "string[]",
       label: "Line Items",
-      description: `A list of line item objects, each containing information about an item in the order
-        Full order properties at [Shopify Order API](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/#{api_version}/orders.json_examples)`,
+      description: toSingleLineString(`
+        A list of line item objects, each containing information about an item in the order.
+        Full order properties at [Shopify Order API](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/#{api_version}/orders.json_examples)
+      `),
     },
     customer: {
       propDefinition: [
@@ -37,8 +39,7 @@ export default {
     financialStatus: {
       type: "string",
       label: "Financial Status",
-      description: `The status of payments associated with the order
-        Can only be set when the order is created`,
+      description: "The status of payments associated with the order. Can only be set when the order is created",
       options: [
         "pending",
         "authorized",
@@ -59,8 +60,7 @@ export default {
     fulfillments: {
       type: "string[]",
       label: "Fulfillments",
-      description: `An array of fulfillments associated with the order
-        For more information, see the [Fulfillment API](https://shopify.dev/api/admin-rest/2022-01/resources/fulfillment)`,
+      description: "An array of fulfillments associated with the order. For more information, see the [Fulfillment API](https://shopify.dev/api/admin-rest/2022-01/resources/fulfillment)",
       optional: true,
     },
     fulfillmentStatus: {
