@@ -181,8 +181,7 @@ export default {
     productId: {
       type: "string",
       label: "Product ID",
-      description: `ID of the product
-        Option displayed here as the title of the product`,
+      description: "ID of the product. Option displayed here as the title of the product",
       async options() {
         let response = await this.resourceAction("product", "list");
         return response.map((e) => ({
@@ -208,8 +207,7 @@ export default {
     customerId: {
       type: "string",
       label: "Customer ID",
-      description: `The Customer ID
-        Option displayed here as email registered with the Customer ID`,
+      description: "The Customer ID. Option displayed here as email registered with the Customer ID",
       async options() {
         let response = await this.getCustomers();
         return response.map((e) => ({
@@ -221,8 +219,7 @@ export default {
     locationId: {
       type: "string",
       label: "Location ID",
-      description: `The ID of the location that the inventory level belongs to
-        Options will display the name of the Location ID`,
+      description: "The ID of the location that the inventory level belongs to. Options will display the name of the Location ID",
       async options() {
         let response = await this.getLocationIds();
         return response.map((e) => ({
@@ -244,14 +241,12 @@ export default {
     variant: {
       type: "object",
       label: "Product Variant",
-      description: `An object representing a different version of the product
-        More information at [Shopify Product Variant API](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)`,
+      description: "An object representing a different version of the product. More information at [Shopify Product Variant API](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)",
     },
     responseFields: {
       type: "string[]",
       label: "Fields",
-      description: `A comma-separated list of fields to include in the response
-        Check out [Shopify Product API](https://shopify.dev/api/admin-rest/2022-01/resources/product#resource_object) for options`,
+      description: "A comma-separated list of fields to include in the response. Check out [Shopify Product API](https://shopify.dev/api/admin-rest/2022-01/resources/product#resource_object) for options",
       optional: true,
     },
   },

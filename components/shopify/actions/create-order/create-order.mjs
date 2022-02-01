@@ -4,7 +4,10 @@ import { toSingleLineString } from "../commons.mjs";
 export default {
   key: "shopify-create-order",
   name: "Create Order",
-  description: "Creates a new order. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/2022-01/orders.json)",
+  description: toSingleLineString(`Creates a new order.
+    For full order object details [see the docs](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/2022-01/orders.json)
+    or [see examples](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/#{api_version}/orders.json_examples)
+  `),
   version: "0.0.1",
   type: "action",
   props: {
@@ -12,10 +15,7 @@ export default {
     lineItems: {
       type: "string[]",
       label: "Line Items",
-      description: toSingleLineString(`
-        A list of line item objects, each containing information about an item in the order.
-        Full order properties at [Shopify Order API](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/#{api_version}/orders.json_examples)
-      `),
+      description: "A list of line item objects, each containing information about an item in the order",
     },
     customer: {
       propDefinition: [
