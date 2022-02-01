@@ -14,16 +14,84 @@ export default {
         "customerId",
       ],
     },
-    customer: {
+    firstName: {
       propDefinition: [
         shopify,
-        "customer",
+        "firstName",
       ],
-      description: "Update details for a customer",
+    },
+    lastName: {
+      propDefinition: [
+        shopify,
+        "lastName",
+      ],
+    },
+    email: {
+      propDefinition: [
+        shopify,
+        "email",
+      ],
+    },
+    phone: {
+      propDefinition: [
+        shopify,
+        "phone",
+      ],
+    },
+    address: {
+      propDefinition: [
+        shopify,
+        "address",
+      ],
+    },
+    company: {
+      propDefinition: [
+        shopify,
+        "company",
+      ],
+    },
+    city: {
+      propDefinition: [
+        shopify,
+        "city",
+      ],
+    },
+    province: {
+      propDefinition: [
+        shopify,
+        "province",
+      ],
+    },
+    country: {
+      propDefinition: [
+        shopify,
+        "country",
+      ],
+    },
+    zip: {
+      propDefinition: [
+        shopify,
+        "zip",
+      ],
     },
   },
   async run({ $ }) {
-    let customer = this.shopify.parseJSONStringObjects(this.customer);
+    let customer = {
+      first_name: this.firstName,
+      last_name: this.lastName,
+      email: this.email,
+      phone: this.phone,
+      addresses: [
+        {
+          address1: this.address,
+          company: this.company,
+          city: this.city,
+          province: this.province,
+          country: this.country,
+          zip: this.zip,
+        },
+      ],
+    };
     let response = await this.shopify.updateCustomer(this.customerId, customer);
     $.export("$summary", `Updated customer \`${response.email}\` with id \`${response.id}\``);
     return response;
