@@ -28,21 +28,34 @@ export default {
         shopify,
         "title",
       ],
-      description: `${shopify.propDefinitions.title.description}. Creates the product variant with this **Title** and the fields below if not found`,
       optional: true,
     },
-    price: {
-      propDefinition: [
-        shopify,
-        "price",
-      ],
+    createIfNotFound: {
+      type: "boolean",
+      label: "Create If Not Found",
+      description: "Creates the product variant with **Title** and the fields below if not found",
+      optional: true,
+      default: false,
+      reloadProps: true,
     },
-    imageId: {
-      propDefinition: [
-        shopify,
-        "imageId",
-      ],
-    },
+  },
+  async additionalProps() {
+    let props = {};
+    if (this.createIfNotFound) {
+      props.price = {
+        type: "string",
+        label: "Price",
+        description: "The price of the product variant",
+        optional: true,
+      };
+      props.imageId = {
+        type: "string",
+        label: "Image ID",
+        description: "The unique numeric identifier for a product's image. The image must be associated to the same product as the variant",
+        optional: true,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     if (!(this.productVariantId || this.title)) {
@@ -60,12 +73,15 @@ export default {
       $.export("$summary", `Found product variant \`${response.title}\` with id \`${response.id}\``);
       return response;
     } catch (err) {
+      if (!this.createIfNotFound) {
+        throw err;
+      }
+
       let productVariant = {
         option1: this.title,
         price: this.price,
         image_id: this.imageId,
       };
-      // TODO: make this a required additionalProp
       let response = await this.shopify.createProductVariant(this.productId, productVariant);
       $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
       return response;
