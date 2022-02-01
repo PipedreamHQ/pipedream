@@ -406,13 +406,11 @@ export default {
      * @returns {object}
      */
     _parseJSONStringObjects(stringObject) {
-      if (stringObject == null) {
+      if (!stringObject) {
         return {};
       }
       if (typeof stringObject == "string") {
-        stringObject = stringObject
-          ? JSON.parse(stringObject)
-          : {};
+        stringObject = JSON.parse(stringObject);
       }
       return this._makeRequestOpts(stringObject);
     },
