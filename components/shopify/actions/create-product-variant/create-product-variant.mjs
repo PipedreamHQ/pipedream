@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let productVariant = this.shopify._parseJSONStringObjects(this.productVariant);
+    let productVariant = this.shopify.parseJSONStringObjects(this.productVariant);
     let response = await this.shopify.createProductVariant(this.productId, productVariant);
     $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
     return response;

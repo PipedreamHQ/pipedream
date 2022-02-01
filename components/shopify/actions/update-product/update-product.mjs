@@ -21,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let product = this.shopify._parseJSONStringObjects(this.product);
+    let product = this.shopify.parseJSONStringObjects(this.product);
     let response = await this.shopify.updateProduct(this.productId, product);
     $.export("$summary", `Updated product \`${response.title}\` with id \`${response.id}\``);
     return response;

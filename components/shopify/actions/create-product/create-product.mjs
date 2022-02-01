@@ -103,10 +103,10 @@ export default {
       vendor: this.vendor,
       product_type: this.productType,
       status: this.status,
-      images: this.shopify._parseArrayOfJSONStrings(this.images),
-      variants: this.shopify._parseArrayOfJSONStrings(this.variants),
-      options: this.shopify._parseArrayOfJSONStrings(this.options),
-      tags: this.shopify._parseCommaSeparatedStrings(this.tags),
+      images: this.shopify.parseArrayOfJSONStrings(this.images),
+      variants: this.shopify.parseArrayOfJSONStrings(this.variants),
+      options: this.shopify.parseArrayOfJSONStrings(this.options),
+      tags: this.shopify.parseCommaSeparatedStrings(this.tags),
     };
 
     let response = await this.shopify.createProduct(data);

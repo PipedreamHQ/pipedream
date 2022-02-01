@@ -405,7 +405,7 @@ export default {
      * @param {string} stringObject
      * @returns {object}
      */
-    _parseJSONStringObjects(stringObject) {
+    parseJSONStringObjects(stringObject) {
       if (!stringObject) {
         return {};
       }
@@ -419,7 +419,7 @@ export default {
      * @param {string[]} stringList
      * @returns {object[]}
      */
-    _parseArrayOfJSONStrings(stringList) {
+    parseArrayOfJSONStrings(stringList) {
       if (!stringList) {
         return [];
       }
@@ -427,7 +427,7 @@ export default {
         throw new Error("string type not supported, please use array of objects in structured mode");
       }
       return stringList.map((x) => x
-        ? this._parseJSONStringObjects(x)
+        ? this.parseJSONStringObjects(x)
         : x).filter((x) => Object.values(x).length > 0);
     },
     /**
@@ -435,7 +435,7 @@ export default {
      * @param {string[]} value
      * @returns {string}
      */
-    _parseCommaSeparatedStrings(value) {
+    parseCommaSeparatedStrings(value) {
       if (Array.isArray(value)) {
         return value.join();
       }

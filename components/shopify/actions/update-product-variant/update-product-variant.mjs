@@ -32,7 +32,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let productVariant = this.shopify._parseJSONStringObjects(this.productVariant);
+    let productVariant = this.shopify.parseJSONStringObjects(this.productVariant);
     let response = await this.shopify.updateProductVariant(
       this.productVariantId,
       productVariant,

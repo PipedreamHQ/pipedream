@@ -39,8 +39,8 @@ export default {
   },
   async run({ $ }) {
     let params = {
-      ids: this.shopify._parseCommaSeparatedStrings(this.ids),
-      fields: this.shopify._parseCommaSeparatedStrings(this.fields),
+      ids: this.shopify.parseCommaSeparatedStrings(this.ids),
+      fields: this.shopify.parseCommaSeparatedStrings(this.fields),
       limit: this.limit,
       since_id: this.sinceId,
     };

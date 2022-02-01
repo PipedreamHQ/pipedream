@@ -102,17 +102,17 @@ export default {
   },
   async run({ $ }) {
     let data = {
-      line_items: this.shopify._parseArrayOfJSONStrings(this.lineItems),
-      customer: this.shopify._parseJSONStringObjects(this.customer),
-      billing_address: this.shopify._parseJSONStringObjects(this.billingAddress),
-      shipping_address: this.shopify._parseJSONStringObjects(this.shippingAddress),
+      line_items: this.shopify.parseArrayOfJSONStrings(this.lineItems),
+      customer: this.shopify.parseJSONStringObjects(this.customer),
+      billing_address: this.shopify.parseJSONStringObjects(this.billingAddress),
+      shipping_address: this.shopify.parseJSONStringObjects(this.shippingAddress),
       financial_status: this.financialStatus,
-      discount_codes: this.shopify._parseArrayOfJSONStrings(this.discountCodes),
-      fulfillments: this.shopify._parseArrayOfJSONStrings(this.fulfillments),
+      discount_codes: this.shopify.parseArrayOfJSONStrings(this.discountCodes),
+      fulfillments: this.shopify.parseArrayOfJSONStrings(this.fulfillments),
       fulfillment_status: this.fulfillmentStatus,
       send_receipt: this.sendReceipt,
       send_fulfillment_receipt: this.sendFulfillmentReceipt,
-      tax_lines: this.shopify._parseArrayOfJSONStrings(this.taxLines),
+      tax_lines: this.shopify.parseArrayOfJSONStrings(this.taxLines),
       currency: this.currency,
     };
 

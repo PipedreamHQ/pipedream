@@ -81,11 +81,11 @@ export default {
       last_name: this.lastName,
       email: this.email,
       phone: this.phone,
-      addresses: this.shopify._parseArrayOfJSONStrings(this.addresses),
+      addresses: this.shopify.parseArrayOfJSONStrings(this.addresses),
       password: this.password,
       password_confirmation: this.passwordConfirmation,
       send_email_invite: this.sendEmailInvite,
-      metafields: this.shopify._parseArrayOfJSONStrings(this.metafields),
+      metafields: this.shopify.parseArrayOfJSONStrings(this.metafields),
     };
 
     let response = await this.shopify.createCustomer(data);

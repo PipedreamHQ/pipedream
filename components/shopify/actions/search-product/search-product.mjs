@@ -23,7 +23,7 @@ export default {
   },
   async run({ $ }) {
     let params = {
-      fields: this.shopify._parseCommaSeparatedStrings(this.fields),
+      fields: this.shopify.parseCommaSeparatedStrings(this.fields),
     };
 
     let response = await this.shopify.getProduct(this.productId, params);

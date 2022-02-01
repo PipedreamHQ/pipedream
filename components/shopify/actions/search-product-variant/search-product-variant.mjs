@@ -53,7 +53,7 @@ export default {
 
       let response;
       let params = {
-        fields: this.shopify._parseCommaSeparatedStrings(this.fields),
+        fields: this.shopify.parseCommaSeparatedStrings(this.fields),
       };
 
       if (this.productVariantId) {
@@ -65,7 +65,7 @@ export default {
       $.export("$summary", `Found product variant \`${response.title}\` with id \`${response.id}\``);
       return response;
     } catch (err) {
-      let productVariant = this.shopify._parseJSONStringObjects(this.productVariant);
+      let productVariant = this.shopify.parseJSONStringObjects(this.productVariant);
       if (Object.values(productVariant).length > 0) {
         // TODO: make this a required additionalProp
         let response = await this.shopify.createProductVariant(this.productId, productVariant);
