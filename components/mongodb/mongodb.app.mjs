@@ -148,11 +148,11 @@ export default {
                 _id,
               });
               mongoose.connection.close(() => {
-                setTimeout(resolve());
+                setTimeout(() => resolve());
               });
             } catch (err) {
               mongoose.connection.close(() => {
-                setTimeout(reject(err));
+                setTimeout(() => reject(err));
               });
             }
           })
