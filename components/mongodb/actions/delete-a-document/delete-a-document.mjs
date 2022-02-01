@@ -19,6 +19,9 @@ export default {
       propDefinition: [
         mongodbApp,
         "document",
+        ({ collection }) => ({
+          collection,
+        }),
       ],
     },
   },
