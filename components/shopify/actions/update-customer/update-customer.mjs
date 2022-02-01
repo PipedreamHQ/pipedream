@@ -12,7 +12,6 @@ export default {
       propDefinition: [
         shopify,
         "customerId",
-        (c) => c,
       ],
     },
     customer: {

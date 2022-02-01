@@ -13,7 +13,6 @@ export default {
       propDefinition: [
         shopify,
         "customerId",
-        (c) => c,
       ],
       label: "Customer IDs",
       description: "Restrict results to customers specified by a comma-separated list of IDs. Options will display the email registered with the ID. It is possible to select more than one option",
