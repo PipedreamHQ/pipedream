@@ -369,7 +369,7 @@ export default {
      * Removes empty key and values from params objects
      * Shopify lib doesn't handle this and therefore many requests are rejected
      * @param {object} params
-     * @returns {object} Alear of empty key/values
+     * @returns {object} Clear of empty key/values
     */
     _makeRequestOpts(params) {
       for (const key of Object.keys(params)) {
