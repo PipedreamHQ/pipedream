@@ -1,11 +1,11 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "clickup-create-list",
   name: "Create List",
   description: "Creates a new list",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,
@@ -60,18 +60,39 @@ module.exports = {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
+    const {
+      space,
+      folder,
+      priority,
+      name,
+      content,
+      dueDate,
+      dueDateTime,
+      assignee,
+      status,
+    } = this;
     const data = {
-      name: this.name,
-      content: this.content,
-      due_date: this.dueDate,
-      due_date_time: this.dueDateTime,
-      priority: this.priority,
-      assignee: this.assignee,
-      status: this.status,
+      name,
+      content,
+      due_date: dueDate,
+      due_date_time: dueDateTime,
+      priority,
+      assignee,
+      status,
     };
-    return this.folder
-      ? await this.clickup.createList(this.folder, data)
-      : await this.clickup.createFolderlessList(this.space, data);
+    const res = folder
+      ? await this.clickup.createList({
+        folder,
+        data,
+        $,
+      })
+      : await this.clickup.createFolderlessList({
+        space,
+        data,
+        $,
+      });
+    $.export("$summary", `Successfully created list ${name}`);
+    return res;
   },
 };

@@ -1,17 +1,15 @@
-const clickup = require("../../clickup.app.js");
-const {
-  props,
-  run,
-} = require("../create-task/create-task.js");
+import clickup from "../../clickup.app.mjs";
+import createTask from "../create-task/create-task.mjs";
 
-module.exports = {
+export default {
+  ...createTask,
   key: "clickup-create-subtask",
   name: "Create Subtask",
   description: "Creates a new subtask",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
-    ...props,
+    ...createTask.props,
     parent: {
       propDefinition: [
         clickup,
@@ -22,5 +20,4 @@ module.exports = {
       ],
     },
   },
-  run,
 };

@@ -1,11 +1,11 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "clickup-create-task",
   name: "Create Task",
   description: "Creates a new task",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -149,25 +149,50 @@ module.exports = {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
+    const {
+      priority,
+      list,
+      name,
+      description,
+      assignees,
+      tags,
+      status,
+      dueDate,
+      dueDateTime,
+      timeEstimate,
+      startDate,
+      startDateTime,
+      notifyAll,
+      parent,
+      linksTo,
+      checkRequiredCustomFields,
+      customFields,
+    } = this;
     const data = {
-      name: this.name,
-      description: this.description,
-      assignees: this.assignees,
-      tags: this.tags,
-      status: this.status,
-      priority: this.priority,
-      due_date: this.dueDate,
-      due_date_time: this.dueDateTime,
-      time_estimate: this.timeEstimate,
-      start_date: this.startDate,
-      start_date_time: this.startDateTime,
-      notify_all: this.notifyAll,
-      parent: this.parent,
-      links_to: this.linksTo,
-      check_required_custom_fields: this.checkRequiredCustomFields,
-      custom_fields: this.customFields,
+      name,
+      description,
+      assignees,
+      tags,
+      status,
+      priority,
+      due_date: dueDate,
+      due_date_time: dueDateTime,
+      time_estimate: timeEstimate,
+      start_date: startDate,
+      start_date_time: startDateTime,
+      notify_all: notifyAll,
+      parent,
+      links_to: linksTo,
+      check_required_custom_fields: checkRequiredCustomFields,
+      custom_fields: customFields,
     };
-    return await this.clickup.createTask(this.list, data);
+    const res = await this.clickup.createTask({
+      list,
+      data,
+      $,
+    });
+    $.export("$summary", `Successfully created task ${name}`);
+    return res;
   },
 };
