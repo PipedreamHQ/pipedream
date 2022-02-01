@@ -2,6 +2,7 @@ import get from "lodash.get";
 import Shopify from "shopify-api-node";
 import toPath from "lodash.topath";
 import retry from "async-retry";
+import productVariant from "./actions/product-variant.mjs";
 
 const events = [
   {
@@ -238,11 +239,7 @@ export default {
       label: "Customer",
       description: "Information about the customer",
     },
-    variant: {
-      type: "object",
-      label: "Product Variant",
-      description: "An object representing a different version of the product. More information at [Shopify Product Variant API](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)",
-    },
+    ...productVariant,
   },
   methods: {
     _getBaseURL() {
