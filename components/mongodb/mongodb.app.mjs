@@ -16,6 +16,26 @@ export default {
       label: "Document",
       type: "string",
       description: "The document ID",
+      async options({
+        collection,
+        page,
+      }) {
+        const LIMIT = 100;
+        const documents =  await this.searchDocuments(
+          collection,
+          undefined,
+          page * LIMIT,
+          LIMIT,
+        );
+        return {
+          options: documents.filter((doc) => doc._id).map((doc) => ({
+            label: doc.name || doc.title ?
+              `${doc.name || doc.title} - ObjectId(${doc._id})`
+              : `ObjectId(${doc._id})`,
+            value: doc._id,
+          })),
+        };
+      },
     },
     data: {
       label: "Data",
@@ -161,7 +181,7 @@ export default {
           .catch((err) => reject(err));
       });
     },
-    searchDocuments(collection, filter) {
+    searchDocuments(collection, filter, skip, limit) {
       return new Promise((resolve, reject) => {
         this.connect()
           .then(async () => {
@@ -169,8 +189,10 @@ export default {
               const schema = new mongoose.Schema(undefined, {
                 strict: false,
               });
-              const Model = mongoose.model(collection, schema);
-              const documents = await Model.find(filter);
+              const Model = mongoose.models[collection] || mongoose.model(collection, schema);
+              const documents = await Model.find(filter)
+                .skip(skip)
+                .limit(limit);
               mongoose.connection.close(() => {
                 setTimeout(() => resolve(documents));
               });
