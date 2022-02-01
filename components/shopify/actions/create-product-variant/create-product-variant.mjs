@@ -14,15 +14,31 @@ export default {
         "productId",
       ],
     },
-    productVariant: {
+    option: {
       propDefinition: [
         shopify,
-        "variant",
+        "option",
+      ],
+    },
+    price: {
+      propDefinition: [
+        shopify,
+        "price",
+      ],
+    },
+    imageId: {
+      propDefinition: [
+        shopify,
+        "imageId",
       ],
     },
   },
   async run({ $ }) {
-    let productVariant = this.shopify.parseJSONStringObjects(this.productVariant);
+    let productVariant = {
+      option1: this.option,
+      price: this.price,
+      image_id: this.imageId,
+    };
     let response = await this.shopify.createProductVariant(this.productId, productVariant);
     $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
     return response;

@@ -23,16 +23,32 @@ export default {
       description: `${shopify.propDefinitions.productVariantId.description}
         Option displayed here as the title of the product variant`,
     },
-    productVariant: {
+    option: {
       propDefinition: [
         shopify,
-        "variant",
+        "option",
       ],
-      description: "Update details for a product variant",
+      optional: true,
+    },
+    price: {
+      propDefinition: [
+        shopify,
+        "price",
+      ],
+    },
+    imageId: {
+      propDefinition: [
+        shopify,
+        "imageId",
+      ],
     },
   },
   async run({ $ }) {
-    let productVariant = this.shopify.parseJSONStringObjects(this.productVariant);
+    let productVariant = {
+      option1: this.option,
+      price: this.price,
+      image_id: this.imageId,
+    };
     let response = await this.shopify.updateProductVariant(
       this.productVariantId,
       productVariant,
