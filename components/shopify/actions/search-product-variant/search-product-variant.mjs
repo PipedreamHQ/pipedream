@@ -28,23 +28,28 @@ export default {
         shopify,
         "title",
       ],
+      description: `${shopify.propDefinitions.title.description}. Creates the product variant with this **Title** and the fields below if not found`,
       optional: true,
     },
-    productVariant: {
+    price: {
       propDefinition: [
         shopify,
-        "variant",
+        "price",
       ],
-      optional: true,
-      description: `${shopify.propDefinitions.variant.description}. Creates the variant when the fields below are filled and the **Product Variant Title** is not found`,
+    },
+    imageId: {
+      propDefinition: [
+        shopify,
+        "imageId",
+      ],
     },
   },
   async run({ $ }) {
-    try {
-      if (!(this.productVariantId || this.title)) {
-        throw new Error("Required field `Product Variant ID`, `Title` or `Variant` is missing");
-      }
+    if (!(this.productVariantId || this.title)) {
+      throw new Error("Required field missing: Fill in `Product Variant ID` or `Title`");
+    }
 
+    try {
       let response;
       if (this.productVariantId) {
         response = await this.shopify.getProductVariant(this.productVariantId);
@@ -55,15 +60,15 @@ export default {
       $.export("$summary", `Found product variant \`${response.title}\` with id \`${response.id}\``);
       return response;
     } catch (err) {
-      let productVariant = this.shopify.parseJSONStringObjects(this.productVariant);
-      if (Object.values(productVariant).length > 0) {
-        // TODO: make this a required additionalProp
-        let response = await this.shopify.createProductVariant(this.productId, productVariant);
-        $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
-        return response;
-      }
-
-      throw err;
+      let productVariant = {
+        option1: this.title,
+        price: this.price,
+        image_id: this.imageId,
+      };
+      // TODO: make this a required additionalProp
+      let response = await this.shopify.createProductVariant(this.productId, productVariant);
+      $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
+      return response;
     }
   },
 };
