@@ -37,7 +37,7 @@ export default {
     }
 
     if (errorMessage) {
-      throw new Error(`Fail to create group: ${errorMessage}`);
+      throw new Error(`Failed to create group: ${errorMessage}`);
     }
 
     const { id: groupId } = data.create_group;

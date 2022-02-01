@@ -6,7 +6,7 @@ export default {
   name: "Create Board",
   description: "Creates a new board. [See the docs here](https://api.developer.monday.com/docs/boards#create-a-board)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.35",
   props: {
     monday,
     boardName: {
@@ -64,7 +64,7 @@ export default {
     }
 
     if (errorMessage) {
-      throw new Error(`Fail to create board: ${errorMessage}`);
+      throw new Error(`Failed to create board: ${errorMessage}`);
     }
 
     const { id: boardId } = data.create_board;

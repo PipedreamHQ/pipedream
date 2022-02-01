@@ -46,16 +46,16 @@ export default {
       });
 
     if (errors) {
-      throw new Error(`Failed to update the item name with errors: ${errors[0].message}`);
+      throw new Error(`Failed to update the item name: ${errors[0].message}`);
     }
 
     if (errorMessage) {
-      throw new Error(`Failed to update the item name with error message: ${errorMessage}`);
+      throw new Error(`Failed to update the item name: ${errorMessage}`);
     }
 
     const { id: updateItemId } = data.change_multiple_column_values;
 
-    $.export("$summary", `Successfully updated item name: ${updateItemId}`);
+    $.export("$summary", `Successfully updated item ${updateItemId} to name ${this.itemName}`);
 
     return updateItemId;
   },

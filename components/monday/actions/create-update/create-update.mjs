@@ -56,11 +56,11 @@ export default {
       });
 
     if (errors) {
-      throw new Error(`Failed to create update with errors: ${errors[0].message}`);
+      throw new Error(`Failed to create update: ${errors[0].message}`);
     }
 
     if (errorMessage) {
-      throw new Error(`Failed to create update with message: ${errorMessage}`);
+      throw new Error(`Failed to create update: ${errorMessage}`);
     }
 
     const { id: updateId } = data.create_update;

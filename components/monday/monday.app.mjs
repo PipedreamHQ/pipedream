@@ -42,10 +42,7 @@ export default {
       label: "Workspace ID",
       description: "Board workspace ID. If you don't specify this field, the board will be created in the **Main Workspace**",
       optional: true,
-      async options({ page }) {
-        if (page) {
-          return [];
-        }
+      async options() {
         return this.listWorkspacesOptions();
       },
     },
@@ -65,12 +62,7 @@ export default {
       label: "Group ID",
       description: "The group's unique identifier",
       optional: true,
-      async options({
-        page, boardId,
-      }) {
-        if (page) {
-          return [];
-        }
+      async options({ boardId }) {
         return this.listGroupsOptions({
           boardId,
         });
@@ -103,12 +95,7 @@ export default {
       label: "Item ID",
       description: "The item's unique identifier",
       optional: true,
-      async options({
-        page, boardId,
-      }) {
-        if (page) {
-          return [];
-        }
+      async options({ boardId }) {
         return this.listItemsOptions({
           boardId,
         });
