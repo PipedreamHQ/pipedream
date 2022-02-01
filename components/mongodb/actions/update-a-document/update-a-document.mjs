@@ -4,7 +4,7 @@ export default {
   key: "mongodb-update-a-document",
   name: "Update a Document",
   description: "Updates a single document by ID. [See the docs here](https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndUpdate/)",
-  version: "0.0.1",
+  version: "1.10.13",
   type: "action",
   props: {
     mongodbApp,
@@ -29,7 +29,7 @@ export default {
         mongodbApp,
         "data",
       ],
-      description: "The object to be used in document update",
+      description: "The object to be used in document update.  Dates must follow `yyyy-mm-dd` format",
     },
     parseNumbers: {
       propDefinition: [

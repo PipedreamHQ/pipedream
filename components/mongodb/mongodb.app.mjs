@@ -40,7 +40,7 @@ export default {
     data: {
       label: "Data",
       type: "object",
-      description: "The object to be used in document creation",
+      description: "The object to be used in document creation. Dates must follow `yyyy-mm-dd` format",
     },
     parseNumbers: {
       label: "Parse Numbers",
@@ -273,7 +273,13 @@ export default {
       }
     },
     isDate(str) {
-      return !isNaN(new Date(str).getDate());
+      // Dates must start with yyyy-mm-dd
+      const regex = new RegExp(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])/);
+      if (!regex.test(str)) {
+        return false;
+      }
+
+      return (new Date(str) !== "Invalid Date") && !isNaN(new Date(str));
     },
   },
 };
