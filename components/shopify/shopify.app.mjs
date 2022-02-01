@@ -441,7 +441,7 @@ export default {
       if (Array.isArray(value)) {
         return value.join();
       }
-      if (typeof value == "string") {
+      if (value === undefined || typeof value == "string") {
         return value;
       }
       throw new TypeError("variable should be an array or string");
