@@ -1,7 +1,6 @@
 import dropbox from "../dropbox.app.mjs";
 
 export default {
-  dedupe: "unique",
   props: {
     dropbox,
     db: "$.service.db",

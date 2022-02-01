@@ -2,6 +2,7 @@ import common from "../common.mjs";
 
 export default {
   ...common,
+  dedupe: "unique",
   type: "source",
   key: "dropbox-new-file",
   name: "New File",

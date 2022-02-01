@@ -20,7 +20,7 @@ export default {
         "pathFolder",
       ],
       optional: true,
-      description: "The file path in the user's Dropbox to create the folder. If not filled, it will be created in the root folder.",
+      description: "The file path in the user's Dropbox to create the file. If not filled, it will be created in the root folder.",
     },
     content: {
       type: "string",
