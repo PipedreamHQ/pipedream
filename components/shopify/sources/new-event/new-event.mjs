@@ -3,13 +3,14 @@ import Bottleneck from "bottleneck";
 // limiting requests to 2 per second per Shopify's API rate limit documentation
 // https://shopify.dev/concepts/about-apis/rate-limits
 const limiter = new Bottleneck({
-  minTime: 500
+  minTime: 500,
 });
 
 export default {
   key: "shopify-new-event",
   name: "New Events",
-  description: "Emits an event for each new Shopify event.",
+  type: "source",
+  description: "Emit new an event for each new Shopify event.",
   version: "0.0.4",
   dedupe: "unique",
   props: {
@@ -21,7 +22,12 @@ export default {
       },
     },
     shopify,
-    eventTypes: { propDefinition: [shopify, "eventTypes"] },
+    eventTypes: {
+      propDefinition: [
+        shopify,
+        "eventTypes",
+      ],
+    },
   },
   methods: {
     emitEvents(results, eventType) {
@@ -39,10 +45,13 @@ export default {
       const results = await this.shopify.getEvents(
         sinceId,
         JSON.parse(eventType).filter,
-        JSON.parse(eventType).verb
+        JSON.parse(eventType).verb,
       );
-      return { results, eventType };
-    }
+      return {
+        results,
+        eventType,
+      };
+    },
   },
   async run() {
     let sinceId = this.db.get("since_id") || null;
@@ -55,17 +64,17 @@ export default {
       return;
     }
     const throttledGetEvents = limiter.wrap(this.getEvents);
-    const allThePromises = this.eventTypes.map(eventType => {
+    const allThePromises = this.eventTypes.map((eventType) => {
       sinceId = this.db.get(eventType) || sinceId;
       return throttledGetEvents(eventType, sinceId);
     });
-    try{
+    try {
       const results = await Promise.all(allThePromises);
       for (const result of results) {
         this.emitEvents(result.results, result.eventType);
       }
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
   },

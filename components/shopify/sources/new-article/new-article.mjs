@@ -3,7 +3,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-new-article",
   name: "New Article",
-  description: "Emits an event for each new article in a blog.",
+  type: "source",
+  description: "Emit new an event for each new article in a blog.",
   version: "0.0.4",
   dedupe: "unique",
   props: {
@@ -18,10 +19,14 @@ export default {
     blogIds: {
       type: "string[]",
       label: "Blogs",
+      description: "A list of Blog IDs",
       async options() {
         const blogs = await this.shopify.getBlogs();
         return blogs.map((blog) => {
-          return { label: blog.title, value: blog.id };
+          return {
+            label: blog.title,
+            value: blog.id,
+          };
         });
       },
     },
@@ -35,10 +40,10 @@ export default {
           id: article.id,
           summary: article.title,
           ts: Date.now(),
-      });
-    }
-    if (results[results.length - 1])
-      this.db.set(blogId, results[results.length - 1].id);
+        });
+      }
+      if (results[results.length - 1])
+        this.db.set(blogId, results[results.length - 1].id);
     }
   },
 };

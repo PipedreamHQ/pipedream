@@ -32,7 +32,8 @@ const MIN_ALLOWED_TRANSACT_TO_ORDER_UPDATE_MS = 1000 * 30 * 1;
 export default {
   key: "shopify-new-paid-order",
   name: "New Paid Order",
-  description: "Emits an event each time a new order is paid.",
+  type: "source",
+  description: "Emit new an event each time a new order is paid.",
   version: "0.0.3",
   dedupe: "unique",
   props: {

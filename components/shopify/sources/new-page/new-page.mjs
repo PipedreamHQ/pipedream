@@ -3,7 +3,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-new-page",
   name: "New Page",
-  description: "Emits an event for each new page published.",
+  type: "source",
+  description: "Emit new an event for each new page published.",
   version: "0.0.4",
   dedupe: "unique",
   props: {

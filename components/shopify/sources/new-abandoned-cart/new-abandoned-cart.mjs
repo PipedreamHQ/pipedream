@@ -3,7 +3,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-new-abandoned-cart",
   name: "New Abandoned Cart",
-  description: "Emits an event each time a user abandons their cart.",
+  type: "source",
+  description: "Emit new an event each time a user abandons their cart.",
   version: "0.0.4",
   dedupe: "unique",
   props: {

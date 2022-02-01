@@ -3,7 +3,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-new-product",
   name: "New Product",
-  description: "Emits an event for each product added to a store.",
+  type: "source",
+  description: "Emit new an event for each product added to a store.",
   version: "0.0.4",
   dedupe: "unique",
   props: {

@@ -3,7 +3,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-new-order",
   name: "New Order",
-  description: "Emits an event for each new order submitted to a store.",
+  type: "source",
+  description: "Emit new an event for each new order submitted to a store.",
   version: "0.0.4",
   dedupe: "unique",
   props: {

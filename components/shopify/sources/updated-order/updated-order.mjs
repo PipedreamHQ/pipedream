@@ -2,8 +2,9 @@ import shopify from "../../shopify.app.mjs";
 
 export default {
   key: "shopify-updated-order",
-  name: "Updated Order",
-  description: "Emits an event each time an order is updated.",
+  name: "New Updated Order",
+  type: "source",
+  description: "Emit new an event each time an order is updated.",
   version: "0.0.3",
   dedupe: "unique",
   props: {

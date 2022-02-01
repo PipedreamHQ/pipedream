@@ -3,7 +3,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-new-shipment",
   name: "New Shipment",
-  description: "Emits an event for each new fulfillment event for a store.",
+  type: "source",
+  description: "Emit new an event for each new fulfillment event for a store.",
   version: "0.0.4",
   dedupe: "unique",
   props: {

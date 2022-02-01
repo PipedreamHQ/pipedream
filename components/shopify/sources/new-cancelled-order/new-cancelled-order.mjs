@@ -3,7 +3,8 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-new-cancelled-order",
   name: "New Cancelled Order",
-  description: "Emits an event each time a new order is cancelled.",
+  type: "source",
+  description: "Emit new an event each time a new order is cancelled.",
   version: "0.0.3",
   dedupe: "unique",
   props: {
