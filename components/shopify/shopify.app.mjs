@@ -231,11 +231,6 @@ export default {
         }));
       },
     },
-    customer: {
-      type: "object",
-      label: "Customer",
-      description: "Information about the customer",
-    },
     variant: {
       type: "object",
       label: "Product Variant",

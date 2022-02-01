@@ -17,13 +17,6 @@ export default {
       label: "Line Items",
       description: "A list of line item objects, each containing information about an item in the order",
     },
-    customer: {
-      propDefinition: [
-        shopify,
-        "customer",
-      ],
-      optional: true,
-    },
     billingAddress: {
       type: "object",
       label: "Billing Address",
@@ -103,7 +96,6 @@ export default {
   async run({ $ }) {
     let data = {
       line_items: this.shopify.parseArrayOfJSONStrings(this.lineItems),
-      customer: this.shopify.parseJSONStringObjects(this.customer),
       billing_address: this.shopify.parseJSONStringObjects(this.billingAddress),
       shipping_address: this.shopify.parseJSONStringObjects(this.shippingAddress),
       financial_status: this.financialStatus,
