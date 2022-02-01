@@ -1,12 +1,12 @@
-const shopify = require("../../shopify.app.js");
-const Bottleneck = require('bottleneck');
+import shopify from "../../shopify.app.mjs";
+import Bottleneck from "bottleneck";
 // limiting requests to 2 per second per Shopify's API rate limit documentation
 // https://shopify.dev/concepts/about-apis/rate-limits
 const limiter = new Bottleneck({
   minTime: 500
 });
 
-module.exports = {
+export default {
   key: "shopify-new-event",
   name: "New Events",
   description: "Emits an event for each new Shopify event.",
@@ -53,7 +53,7 @@ module.exports = {
       const events = await this.shopify.getEvents(sinceId);
       this.emitEvents(events, "since_id");
       return;
-    } 
+    }
     const throttledGetEvents = limiter.wrap(this.getEvents);
     const allThePromises = this.eventTypes.map(eventType => {
       sinceId = this.db.get(eventType) || sinceId;

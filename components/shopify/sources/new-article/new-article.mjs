@@ -1,6 +1,6 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
+export default {
   key: "shopify-new-article",
   name: "New Article",
   description: "Emits an event for each new article in a blog.",

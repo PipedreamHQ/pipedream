@@ -1,9 +1,9 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
-  key: "shopify-new-product",
-  name: "New Product",
-  description: "Emits an event for each product added to a store.",
+export default {
+  key: "shopify-new-customer",
+  name: "New Customer",
+  description: "Emits an event for each new customer added to a store.",
   version: "0.0.4",
   dedupe: "unique",
   props: {
@@ -18,12 +18,12 @@ module.exports = {
   },
   async run() {
     const sinceId = this.db.get("since_id") || null;
-    let results = await this.shopify.getProducts(sinceId);
+    let results = await this.shopify.getCustomers(sinceId);
 
-    for (const product of results) {
-      this.$emit(product, {
-        id: product.id,
-        summary: product.title,
+    for (const customer of results) {
+      this.$emit(customer, {
+        id: customer.id,
+        summary: `${customer.first_name} ${customer.last_name}`,
         ts: Date.now(),
       });
     }

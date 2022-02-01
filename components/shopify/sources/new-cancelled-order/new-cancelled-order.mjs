@@ -1,9 +1,9 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
-  key: "shopify-updated-order",
-  name: "Updated Order",
-  description: "Emits an event each time an order is updated.",
+export default {
+  key: "shopify-new-cancelled-order",
+  name: "New Cancelled Order",
+  description: "Emits an event each time a new order is cancelled.",
   version: "0.0.3",
   dedupe: "unique",
   props: {
@@ -31,13 +31,13 @@ module.exports = {
       true,
       null,
       lastUpdatedAt,
+      "cancelled",
     );
 
     for (const order of results) {
-      const id = `${order.id}-${order.updated_at}`;
       this.$emit(order, {
-        id,
-        summary: `Order updated: ${order.name}`,
+        id: order.id,
+        summary: `Order cancelled: ${order.name}`,
         ts: Date.parse(order.updated_at),
       });
     }

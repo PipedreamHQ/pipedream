@@ -1,5 +1,5 @@
-const shopify = require("../../shopify.app.js");
-const { dateToISOStringWithoutMs } = require("../common/utils");
+import shopify from "../../shopify.app.mjs";
+import { dateToISOStringWithoutMs } from "../common/utils.mjs";
 
 /**
  * The component's run timer.
@@ -29,7 +29,7 @@ const MIN_ALLOWED_TRANSACT_TO_ORDER_UPDATE_MS = 1000 * 30 * 1;
  * Relevent Orders are requested via Shopify REST API using list of relevant
  * Order IDs.
  */
-module.exports = {
+export default {
   key: "shopify-new-paid-order",
   name: "New Paid Order",
   description: "Emits an event each time a new order is paid.",

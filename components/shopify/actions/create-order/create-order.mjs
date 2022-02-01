@@ -1,4 +1,4 @@
-import shopify from "../../shopify.app.js";
+import shopify from "../../shopify.app.mjs";
 
 export default {
   key: "shopify-create-order",

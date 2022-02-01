@@ -1,6 +1,6 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
+export default {
   key: "shopify-new-shipment",
   name: "New Shipment",
   description: "Emits an event for each new fulfillment event for a store.",

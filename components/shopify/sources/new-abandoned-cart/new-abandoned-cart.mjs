@@ -1,9 +1,9 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
-  key: "shopify-new-customer",
-  name: "New Customer",
-  description: "Emits an event for each new customer added to a store.",
+export default {
+  key: "shopify-new-abandoned-cart",
+  name: "New Abandoned Cart",
+  description: "Emits an event each time a user abandons their cart.",
   version: "0.0.4",
   dedupe: "unique",
   props: {
@@ -18,16 +18,14 @@ module.exports = {
   },
   async run() {
     const sinceId = this.db.get("since_id") || null;
-    let results = await this.shopify.getCustomers(sinceId);
-
-    for (const customer of results) {
-      this.$emit(customer, {
-        id: customer.id,
-        summary: `${customer.first_name} ${customer.last_name}`,
+    const results = await this.shopify.getAbandonedCheckouts(sinceId);
+    for (const cart of results) {
+      this.$emit(cart, {
+        id: cart.id,
+        summary: cart.email,
         ts: Date.now(),
       });
     }
-
     if (results[results.length - 1])
       this.db.set("since_id", results[results.length - 1].id);
   },

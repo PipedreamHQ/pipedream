@@ -1,7 +1,7 @@
-const get = require("lodash.get");
-const Shopify = require("shopify-api-node");
-const toPath = require("lodash/toPath");
-const retry = require("async-retry");
+import get from "lodash.get";
+import Shopify from "shopify-api-node";
+import toPath from "lodash.topath";
+import retry from "async-retry";
 
 const events = [
   {
@@ -167,7 +167,7 @@ const events = [
   },
 ];
 
-module.exports = {
+export default {
   type: "app",
   app: "shopify",
   propDefinitions: {

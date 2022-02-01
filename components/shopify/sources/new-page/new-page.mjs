@@ -1,9 +1,9 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
-  key: "shopify-new-order",
-  name: "New Order",
-  description: "Emits an event for each new order submitted to a store.",
+export default {
+  key: "shopify-new-page",
+  name: "New Page",
+  description: "Emits an event for each new page published.",
   version: "0.0.4",
   dedupe: "unique",
   props: {
@@ -18,12 +18,12 @@ module.exports = {
   },
   async run() {
     const sinceId = this.db.get("since_id") || null;
-    let results = await this.shopify.getOrders("any", true, sinceId);
+    let results = await this.shopify.getPages(sinceId);
 
-    for (const order of results) {
-      this.$emit(order, {
-        id: order.id,
-        summary: `Order ${order.name}`,
+    for (const page of results) {
+      this.$emit(page, {
+        id: page.id,
+        summary: page.title,
         ts: Date.now(),
       });
     }
