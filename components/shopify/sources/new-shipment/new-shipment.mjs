@@ -22,6 +22,7 @@ export default {
       for (const order of results) {
         if (order.fulfillments && order.fulfillments.length > 0) {
           for (const shipment of order.fulfillments) {
+            shipments.push(shipment);
             this.$emit(shipment, {
               id: shipment.id,
               summary: `Fulfillment ${shipment.name}`,
@@ -30,14 +31,18 @@ export default {
           }
         }
       }
-      return shipments;
     },
   },
   async run() {
     let shipments = [];
-    let results = await this.shopify.getOrders("shipped");
-    shipments = this.emitShipments(shipments, results);
-    results = await this.shopify.getOrders("partial");
-    shipments = this.emitShipments(shipments, results);
+    this.emitShipments(
+      shipments,
+      await this.shopify.getOrders("shipped"),
+    );
+    this.emitShipments(
+      shipments,
+      await this.shopify.getOrders("partial"),
+    );
+    return shipments;
   },
 };
