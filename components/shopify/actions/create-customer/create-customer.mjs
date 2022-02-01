@@ -35,43 +35,46 @@ export default {
       `),
       optional: true,
     },
-    addresses: {
-      type: "string[]",
-      label: "Addresses",
-      description: toSingleLineString(`
-        A list of the ten most recently updated addresses for the customer.
-        Example: \`[{"address1":"123 Oak St","city":"Ottawa","province":"ON","phone":"555-1212","zip":"123 ABC","last_name":"Lastnameson","first_name":"Mother","country":"CA"}]\`.
-        Check out [Shopify Customer API](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/#{api_version}/customers.json_examples) for more details on addresses
-      `),
+    address: {
+      type: "string",
+      label: "Street Address",
+      description: "The customer's mailing address",
       optional: true,
     },
-    password: {
+    company: {
       type: "string",
-      secret: true,
-      label: "Password",
-      description: "Password for customer account",
+      label: "Company",
+      description: "The customer's company",
       optional: true,
     },
-    passwordConfirmation: {
+    city: {
       type: "string",
-      secret: true,
-      label: "Password Confirmation",
-      description: "Password confirmation for customer account",
+      label: "City",
+      description: "The customer's city, town, or village",
+      optional: true,
+    },
+    province: {
+      type: "string",
+      label: "Province",
+      description: "The customer's region name. Typically a province, a state, or a prefecture",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "The customer's country",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "Zip Code",
+      description: "The customer's postal code",
       optional: true,
     },
     sendEmailInvite: {
       type: "boolean",
       label: "Send Email Invite",
       description: "Send email invite to address",
-      optional: true,
-    },
-    metafields: {
-      type: "string[]",
-      label: "Metafields",
-      description: toSingleLineString(`
-        A list of objects representing metafields.
-        Check out [Shopify Customer API](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[post]/admin/api/#{api_version}/customers.json_examples) for more details on metafields
-      `),
       optional: true,
     },
   },
@@ -81,11 +84,17 @@ export default {
       last_name: this.lastName,
       email: this.email,
       phone: this.phone,
-      addresses: this.shopify.parseArrayOfJSONStrings(this.addresses),
-      password: this.password,
-      password_confirmation: this.passwordConfirmation,
+      addresses: [
+        {
+          address1: this.address,
+          company: this.company,
+          city: this.city,
+          province: this.province,
+          country: this.country,
+          zip: this.zip,
+        },
+      ],
       send_email_invite: this.sendEmailInvite,
-      metafields: this.shopify.parseArrayOfJSONStrings(this.metafields),
     };
 
     let response = await this.shopify.createCustomer(data);
