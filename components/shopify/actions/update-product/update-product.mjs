@@ -14,14 +14,74 @@ export default {
         "productId",
       ],
     },
-    product: {
-      type: "object",
-      label: "Product",
-      description: "Update details for a product",
+    title: {
+      propDefinition: [
+        shopify,
+        "title",
+      ],
+      optional: true,
+    },
+    productDescription: {
+      propDefinition: [
+        shopify,
+        "productDescription",
+      ],
+    },
+    vendor: {
+      propDefinition: [
+        shopify,
+        "vendor",
+      ],
+    },
+    productType: {
+      propDefinition: [
+        shopify,
+        "productType",
+      ],
+    },
+    status: {
+      propDefinition: [
+        shopify,
+        "status",
+      ],
+    },
+    images: {
+      propDefinition: [
+        shopify,
+        "images",
+      ],
+    },
+    options: {
+      propDefinition: [
+        shopify,
+        "options",
+      ],
+    },
+    variants: {
+      propDefinition: [
+        shopify,
+        "variants",
+      ],
+    },
+    tags: {
+      propDefinition: [
+        shopify,
+        "tags",
+      ],
     },
   },
   async run({ $ }) {
-    let product = this.shopify.parseJSONStringObjects(this.product);
+    let product = {
+      title: this.title,
+      body_html: this.productDescription,
+      vendor: this.vendor,
+      product_type: this.productType,
+      status: this.status,
+      images: this.shopify.parseArrayOfJSONStrings(this.images),
+      options: this.shopify.parseArrayOfJSONStrings(this.options),
+      variants: this.shopify.parseArrayOfJSONStrings(this.variants),
+      tags: this.shopify.parseCommaSeparatedStrings(this.tags),
+    };
     let response = await this.shopify.updateProduct(this.productId, product);
     $.export("$summary", `Updated product \`${response.title}\` with id \`${response.id}\``);
     return response;
