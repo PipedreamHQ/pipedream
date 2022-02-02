@@ -3,7 +3,7 @@ import pushover from "../../pushover.app.mjs";
 export default {
   key: "pushover-push-notification",
   name: "Push Notification",
-  description: "Sends a Push Notification to devices with Pushover",
+  description: "Sends a Push Notification to devices with Pushover. More information at [Pushing Messages](https://pushover.net/api#messages)",
   version: "0.0.1",
   type: "action",
   props: {
