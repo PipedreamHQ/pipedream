@@ -52,7 +52,7 @@ export default {
     description: toSingleLineString(`
       A list of product base64 encoded image objects.
       Each one represents an image associated with the product or a link that will be downloaded by Shopify.
-      Example: \`[{"attachment":"R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="},{"src":"http://example.com/rails_logo.gif"}]\`.
+      Example: \`["R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==","http://example.com/rails_logo.gif"]\`.
       More information at [Shopify Product API](https://shopify.dev/api/admin-rest/2022-01/resources/product#[post]/admin/api/2022-01/products.json)
     `),
     optional: true,
