@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "clickup-create-task",
   name: "Create Task",
-  description: "Creates a new task",
+  description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks / Create Task** section.",
   version: "0.0.3",
   type: "action",
   props: {
