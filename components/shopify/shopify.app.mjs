@@ -5,6 +5,7 @@ import retry from "async-retry";
 import customer from "./actions/customer.mjs";
 import product from "./actions/product.mjs";
 import productVariant from "./actions/product-variant.mjs";
+import { toSingleLineString } from "./actions/commons.mjs";
 
 const events = [
   {
@@ -228,6 +229,28 @@ export default {
         return response.map((e) => ({
           label: e.name,
           value: e.id,
+        }));
+      },
+    },
+    inventoryItemId: {
+      type: "string",
+      label: "Inventory Item ID",
+      description: toSingleLineString(`
+        The ID of the inventory item associated with the inventory level.
+        There is a 1:1 relationship between a product variant and an inventory item.
+        Each product variant includes the ID of its related inventory item.
+        To view a list of Inventory Items, choose a product using the field above
+      `),
+      async options({ productId }) {
+        if (!productId) {
+          return [];
+        }
+        let response = await this.resourceAction("productVariant", "list", {
+          fields: "title,inventory_item_id",
+        }, productId);
+        return response.map((e) => ({
+          label: e.title,
+          value: e.inventory_item_id,
         }));
       },
     },

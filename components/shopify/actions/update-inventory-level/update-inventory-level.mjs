@@ -15,15 +15,20 @@ export default {
         "locationId",
       ],
     },
+    productId: {
+      propDefinition: [
+        shopify,
+        "productId",
+      ],
+    },
     inventoryItemId: {
-      type: "string",
-      label: "Inventory Item ID",
-      description: toSingleLineString(`
-        The ID of the inventory item associated with the inventory level.
-        There is a 1:1 relationship between a product variant and an inventory item.
-        Each product variant includes the ID of its related inventory item.
-        To find the ID of the inventory item, use the [Inventory Item resource](https://shopify.dev/api/admin-rest/latest/resources/inventoryitem)
-      `),
+      propDefinition: [
+        shopify,
+        "inventoryItemId",
+        (c) => ({
+          productId: c.productId,
+        }),
+      ],
     },
     available: {
       type: "integer",
