@@ -437,6 +437,14 @@ export default {
       }
       throw new TypeError("variable should be an array or string");
     },
+    parseImages(images) {
+      if (!images) return [];
+      return images.map((image) => ({
+        [image.includes("http")
+          ? "src"
+          : "attachment"]: image,
+      }));
+    },
     dayAgo() {
       const dayAgo = new Date();
       dayAgo.setDate(dayAgo.getDate() - 1);

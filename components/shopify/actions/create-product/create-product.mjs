@@ -70,7 +70,7 @@ export default {
       vendor: this.vendor,
       product_type: this.productType,
       status: this.status,
-      images: this.shopify.parseArrayOfJSONStrings(this.images),
+      images: this.shopify.parseImages(this.images),
       variants: this.shopify.parseArrayOfJSONStrings(this.variants),
       options: this.shopify.parseArrayOfJSONStrings(this.options),
       tags: this.shopify.parseCommaSeparatedStrings(this.tags),
