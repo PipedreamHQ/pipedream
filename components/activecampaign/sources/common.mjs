@@ -1,6 +1,6 @@
-const activecampaign = require("../activecampaign.app.js");
+import activecampaign from "../activecampaign.app.mjs";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     activecampaign,

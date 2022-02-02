@@ -1,7 +1,7 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common-webhook.js");
+import activecampaign from "../../activecampaign.app.mjs";
+import common from "../common-webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Contact Task",
   key: "activecampaign-new-contact-task",
@@ -9,11 +9,18 @@ module.exports = {
   version: "0.0.1",
   props: {
     ...common.props,
-    contacts: { propDefinition: [activecampaign, "contacts"] },
+    contacts: {
+      propDefinition: [
+        activecampaign,
+        "contacts",
+      ],
+    },
   },
   methods: {
     getEvents() {
-      return ["contact_task_add"];
+      return [
+        "contact_task_add",
+      ];
     },
     isRelevant(body) {
       return (
@@ -27,7 +34,7 @@ module.exports = {
       return {
         id: body["task[id]"],
         summary: `${body["task[title]"]}`,
-        ts
+        ts,
       };
     },
   },

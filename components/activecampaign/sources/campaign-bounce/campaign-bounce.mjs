@@ -1,7 +1,6 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common-campaign.js");
+import common from "../common-campaign.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Campaign Bounce (Instant)",
   key: "activecampaign-campaign-bounce",
@@ -11,7 +10,9 @@ module.exports = {
   methods: {
     ...common.methods,
     getEvents() {
-      return ["bounce"];
+      return [
+        "bounce",
+      ];
     },
   },
 };

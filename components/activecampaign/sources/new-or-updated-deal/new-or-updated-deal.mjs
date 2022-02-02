@@ -1,7 +1,6 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common-webhook.js");
+import common from "../common-webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Deal Added or Updated (Instant)",
   key: "activecampaign-new-or-updated-deal",
@@ -10,7 +9,10 @@ module.exports = {
   methods: {
     ...common.methods,
     getEvents() {
-      return ["deal_add", "deal_update"];
+      return [
+        "deal_add",
+        "deal_update",
+      ];
     },
     getMeta(body) {
       const { date_time: dateTimeIso } = body;
@@ -18,7 +20,7 @@ module.exports = {
       return {
         id: `${body["deal[id]"]}${new Date(body.date_time).getTime()}`,
         summary: body["deal[title]"],
-        ts
+        ts,
       };
     },
   },

@@ -1,11 +1,16 @@
-const activecampaign = require("../activecampaign.app.js");
-const common = require("./common-webhook.js");
+import activecampaign from "../activecampaign.app.mjs";
+import common from "./common-webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,
-    campaigns: { propDefinition: [activecampaign, "campaigns"] },
+    campaigns: {
+      propDefinition: [
+        activecampaign,
+        "campaigns",
+      ],
+    },
   },
   methods: {
     isRelevant(body) {
@@ -20,7 +25,7 @@ module.exports = {
       return {
         id: `${body["campaign[id]"]}${body["contact[id]"]}`,
         summary: `${body["contact[email]"]}, Campaign: ${body["campaign[name]"]}`,
-        ts
+        ts,
       };
     },
   },

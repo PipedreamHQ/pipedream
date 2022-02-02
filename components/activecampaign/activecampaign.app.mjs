@@ -1,7 +1,7 @@
-const axios = require("axios");
-const { humanize } = require("inflection");
+import { axios } from "@pipedream/platform";
+import { humanize } from "inflection";
 
-module.exports = {
+export default {
   type: "app",
   app: "activecampaign",
   propDefinitions: {
@@ -40,9 +40,12 @@ module.exports = {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const { results, context } = await this._getNextOptions(
+        const {
+          results,
+          context,
+        } = await this._getNextOptions(
           this.listAutomations.bind(this),
-          prevContext
+          prevContext,
         );
         const options = results.automations.map((a) => ({
           label: a.name,
@@ -62,9 +65,12 @@ module.exports = {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const { results, context } = await this._getNextOptions(
+        const {
+          results,
+          context,
+        } = await this._getNextOptions(
           this.listCampaigns.bind(this),
-          prevContext
+          prevContext,
         );
         const options = results.campaigns.map((c) => ({
           label: c.name,
@@ -84,9 +90,12 @@ module.exports = {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const { results, context } = await this._getNextOptions(
+        const {
+          results,
+          context,
+        } = await this._getNextOptions(
           this.listContacts.bind(this),
-          prevContext
+          prevContext,
         );
         const options = results.contacts.map((c) => ({
           label: c.email,
@@ -106,9 +115,12 @@ module.exports = {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const { results, context } = await this._getNextOptions(
+        const {
+          results,
+          context,
+        } = await this._getNextOptions(
           this.listDeals.bind(this),
-          prevContext
+          prevContext,
         );
         const options = results.deals.map((d) => ({
           label: d.title,
@@ -128,9 +140,12 @@ module.exports = {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const { results, context } = await this._getNextOptions(
+        const {
+          results,
+          context,
+        } = await this._getNextOptions(
           this.listLists.bind(this),
-          prevContext
+          prevContext,
         );
         const options = results.lists.map((d) => ({
           label: d.name,
@@ -145,7 +160,9 @@ module.exports = {
   },
   methods: {
     _getHeaders() {
-      return { "Api-Token": this.$auth.api_key };
+      return {
+        "Api-Token": this.$auth.api_key,
+      };
     },
     async createHook(events, url, sources, listid = null) {
       const componentId = process.env.PD_COMPONENT;
@@ -179,7 +196,7 @@ module.exports = {
       limit = null,
       offset = null,
       params = {},
-      url = null
+      url = null,
     ) {
       const config = {
         method: "GET",
@@ -204,7 +221,12 @@ module.exports = {
       };
     },
     getAllSources() {
-      return ["public", "admin", "api", "system"];
+      return [
+        "public",
+        "admin",
+        "api",
+        "system",
+      ];
     },
     async getList(id) {
       return (await this._makeGetRequest(`lists/${id}`)).data;

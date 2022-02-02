@@ -1,7 +1,7 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common-webhook.js");
+import activecampaign from "../../activecampaign.app.mjs";
+import common from "../common-webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Contact Added to List",
   key: "activecampaign-contact-added-to-list",
@@ -9,7 +9,12 @@ module.exports = {
   version: "0.0.2",
   props: {
     ...common.props,
-    lists: { propDefinition: [activecampaign, "lists"] },
+    lists: {
+      propDefinition: [
+        activecampaign,
+        "lists",
+      ],
+    },
   },
   hooks: {
     async activate() {
@@ -26,7 +31,7 @@ module.exports = {
               events,
               this.http.endpoint,
               sources,
-              list
+              list,
             );
             hookIds.push(webhook.id);
           }
@@ -38,13 +43,13 @@ module.exports = {
           this.db.set("hookIds", []);
           throw new Error(err);
         }
-      } 
+      }
       // if no lists specified, create a webhook to watch all lists
       else {
         const { webhook } = await this.activecampaign.createHook(
           events,
           this.http.endpoint,
-          sources
+          sources,
         );
         hookIds.push(webhook.id);
       }
@@ -60,7 +65,9 @@ module.exports = {
   methods: {
     ...common.methods,
     getEvents() {
-      return ["subscribe"];
+      return [
+        "subscribe",
+      ];
     },
     async getMeta(body) {
       const { list } = await this.activecampaign.getList(body.list);

@@ -1,7 +1,7 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common.js");
+import activecampaign from "../../activecampaign.app.mjs";
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Automation Webhook",
   key: "activecampaign-new-automation-webhook",
@@ -15,7 +15,12 @@ module.exports = {
         intervalSeconds: 60 * 15,
       },
     },
-    automations: { propDefinition: [activecampaign, "automations"] },
+    automations: {
+      propDefinition: [
+        activecampaign,
+        "automations",
+      ],
+    },
   },
   methods: {
     isWatchedAutomation(automation) {
@@ -40,13 +45,18 @@ module.exports = {
     },
   },
   async run() {
-    let prevContext = { offset: 0 };
+    let prevContext = {
+      offset: 0,
+    };
     let total = 1;
     let count = 0;
     while (count < total) {
-      const { results, context } = await this.activecampaign._getNextOptions(
+      const {
+        results,
+        context,
+      } = await this.activecampaign._getNextOptions(
         this.activecampaign.listAutomations.bind(this),
-        prevContext
+        prevContext,
       );
       prevContext = context;
       total = results.meta.total;
@@ -56,7 +66,11 @@ module.exports = {
       for (const automation of results.automations) {
         count++;
         if (!this.isAutomationRelevant(automation)) continue;
-        const { id, summary, ts } = this.getMeta(automation);
+        const {
+          id,
+          summary,
+          ts,
+        } = this.getMeta(automation);
         this.$emit(automation, {
           id,
           summary,

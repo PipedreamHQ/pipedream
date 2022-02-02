@@ -1,7 +1,6 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common-campaign.js");
+import common from "../common-campaign.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Campaign Opened (Instant)",
   key: "activecampaign-campaign-opened",
@@ -11,7 +10,9 @@ module.exports = {
   methods: {
     ...common.methods,
     getEvents() {
-      return ["open"];
+      return [
+        "open",
+      ];
     },
   },
 };
