@@ -67,15 +67,29 @@ export default {
     },
   },
   methods: {
-    async makeRequest(params = {}) {
-      return await axios(this, {
-        method: "post",
-        url: "https://api.pushover.net/1/messages.json",
+    async makeRequest(config) {
+      const {
+        $,
+        method,
+        path,
+        params,
+      } = config;
+
+      return axios($ ?? this, {
+        method,
+        url: `${constants.BASE_PATH}${path}${constants.PATH_SUFFIX}`,
         params: {
-          token: `${this.$auth.api_token}`,
-          user: `${this.$auth.user_key}`,
+          token: this.$auth.api_token,
+          user: this.$auth.user_key,
           ...params,
         },
+      });
+    },
+    async pushMessage(params = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/messages",
+        params,
       });
     },
   },
