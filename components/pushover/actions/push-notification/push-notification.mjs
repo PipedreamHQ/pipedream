@@ -1,4 +1,5 @@
 import pushover from "../../pushover.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "pushover-push-notification",
@@ -43,25 +44,7 @@ export default {
       label: "Priority",
       description: "The message priority. More information at [Pushover API](https://pushover.net/api#priority)",
       optional: true,
-      default: 0,
-      options: [
-        {
-          value: -2,
-          label: "Lowest, no alert",
-        },
-        {
-          value: -1,
-          label: "Low, no sound",
-        },
-        {
-          value: 0,
-          label: "Normal",
-        },
-        {
-          value: 1,
-          label: "High priority, bypass quiet hours",
-        },
-      ],
+      options: constants.PRIORITY_OPTIONS,
     },
   },
   async run({ $ }) {

@@ -1,4 +1,5 @@
 import pushover from "../../pushover.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "pushover-emergency-push-notification",
@@ -60,18 +61,18 @@ export default {
     },
   },
   async run({ $ }) {
-    let params = {
-      message: this.message,
-      retry: this.retry,
-      expire: this.expire,
-      callback: this.callback,
-      title: this.title,
-      url: this.url,
-      url_title: this.urlTitle,
-      device: this.device,
-      priority: 2,
-    };
-    await this.pushover.makeRequest(params);
+    const response =
+      await this.pushover.pushMessage({
+        message: this.message,
+        retry: this.retry,
+        expire: this.expire,
+        callback: this.callback,
+        title: this.title,
+        url: this.url,
+        url_title: this.urlTitle,
+        device: this.device,
+        priority: constants.PRIORITY.EMERGENCY,
+      });
     $.export("$summary", "Sent emergency notification");
   },
 };
