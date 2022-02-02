@@ -80,13 +80,15 @@
 <p><img src="@source/quickstart/image-20220125191025880.png" alt="image-20220125191025880"></p>
 <p>Pipedream will retrieve the headers and generate a form to enter data in your sheet:</p>
 <p><img src="@source/quickstart/image-20220125191155907.png" alt="image-20220125191155907"></p>
-<p>First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the <strong>Timestamp</strong> field, Pipedream will display an object explorer to make it easy to find data. Scroll or search to find the <code>ts</code> key under <code>steps.trigger.context</code> and click <strong>select path</strong>. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:</p>
+<p>First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the <strong>Timestamp</strong> field, Pipedream will display an object explorer to make it easy to find data. Scroll or search to find the <code>ts</code> key under <code>steps.trigger.context</code> and click <strong>select path</strong>. That will insert the reference <code>{{steps.trigger.context.ts}}</code>:</p>
 <p><img src="@source/quickstart/image-20220125191627775.png" alt="image-20220125191627775"></p>
-<p>Next, let's use autocomplete to enter a value for the <strong>Message</strong> column. First, add double braces <code>{{</code> — Pipedream will automatically add the closing braces <code>}}</code>. Then, type <code>steps.trigger.event.body.message</code> between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press <strong>Tab</strong>  to use a suggestion and then click <code>.</code> to get suggestions for the next key. The final value in the <strong>Message</strong> field should be <code v-pre>{{steps.trigger.event.body.message}}</code>.</p>
+<p>Next, let's use autocomplete to enter a value for the <strong>Message</strong> column. First, add double braces <span v-pre>{{</span> — Pipedream will automatically add the closing braces <span v-pre>}}</span>. Then, type <code>steps.trigger.event.body.message</code> between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press <strong>Tab</strong>  to use a suggestion and then click <code>.</code> to get suggestions for the next key. The final value in the <strong>Message</strong> field should be <span v-pre>{{steps.trigger.event.body.message}}</span>.</p>
 <p><img src="@source/quickstart/image-20220125191907876.png" alt="image-20220125191907876"></p>
 <p>Finally, let's copy a reference from a previous step. Scroll up to the <code>sentiment</code> step and click the <strong>Copy Path</strong> link next to the score.</p>
 <p><img src="@source/quickstart/image-20220125192301634.png" alt="image-20220125192301634"></p>
-<p>Paste the value into the <strong>Sentiment Score</strong> field — Pipedream will automatically wrap the reference in double braces <code v-pre>{{ }}</code>.</p>
+<p>::: pre</p>
+<p>Paste the value into the <strong>Sentiment Score</strong> field — Pipedream will automatically wrap the reference in double braces <code>{{ }}</code>.</p>
+<p>:::</p>
 <p><img src="@source/quickstart/image-20220125192410390.png" alt="image-20220125192410390"></p>
 <p>Now that the configuration is complete, click <strong>Test</strong> to validate the configuration for this step. When the test is complete, you will see a success message and a summary of the action performed:</p>
 <p><img src="@source/quickstart/image-20220125192709058.png" alt="image-20220125192709058"></p>

@@ -153,11 +153,11 @@ Pipedream will retrieve the headers and generate a form to enter data in your sh
 
 ![image-20220125191155907](./image-20220125191155907.png)
 
-First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the **Timestamp** field, Pipedream will display an object explorer to make it easy to find data. Scroll or search to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference <code v-pre>{{steps.trigger.context.ts}}</code>:
+First, let's use the object explorer to pass the timestamp for the workflow event as the value for the first column. This data can be found in the context object on the trigger. When you click into the **Timestamp** field, Pipedream will display an object explorer to make it easy to find data. Scroll or search to find the `ts` key under `steps.trigger.context` and click **select path**. That will insert the reference `{{steps.trigger.context.ts}}`:
 
 ![image-20220125191627775](./image-20220125191627775.png)
 
-Next, let's use autocomplete to enter a value for the **Message** column. First, add double braces `{{` — Pipedream will automatically add the closing braces `}}`. Then, type `steps.trigger.event.body.message` between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be <code v-pre>{{steps.trigger.event.body.message}}</code>.
+Next, let's use autocomplete to enter a value for the **Message** column. First, add double braces <span v-pre>{{</span> — Pipedream will automatically add the closing braces <span v-pre>}}</span>. Then, type `steps.trigger.event.body.message` between the pairs of braces. Pipedream will provide autocomplete suggestions as you type. Press **Tab**  to use a suggestion and then click `.` to get suggestions for the next key. The final value in the **Message** field should be <span v-pre>{{steps.trigger.event.body.message}}</span>.
 
 ![image-20220125191907876](./image-20220125191907876.png)
 
@@ -165,7 +165,11 @@ Finally, let's copy a reference from a previous step. Scroll up to the `sentimen
 
 ![image-20220125192301634](./image-20220125192301634.png)
 
-Paste the value into the **Sentiment Score** field — Pipedream will automatically wrap the reference in double braces <code v-pre>{{ }}</code>.
+::: pre
+
+Paste the value into the **Sentiment Score** field — Pipedream will automatically wrap the reference in double braces `{{ }}`.
+
+:::
 
 ![image-20220125192410390](./image-20220125192410390.png)
 

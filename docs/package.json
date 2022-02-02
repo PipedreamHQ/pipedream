@@ -1,19 +1,25 @@
 {
   "devDependencies": {
+    "@vuepress/bundler-vite": "^2.0.0-beta.35",
     "@vuepress/plugin-register-components": "^2.0.0-beta.35",
-    "autoprefixer": "^10.4.2",
-    "postcss": "^8.4.5",
+    "autoprefixer": "^10.3.1",
+    "postcss-import": "^14.0.2",
     "sass": "^1.47.0",
     "sass-loader": "^7.1.0",
-    "tailwindcss": "^3.0.17",
+    "tailwindcss": "^2.2.7",
     "vuepress": "^2.0.0-beta.35",
     "webpack": "^4.30.0"
   },
   "scripts": {
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:dev": "vuepress dev docs --clean-cache",
+    "docs:build": "yarn tailwind && vuepress build docs --clean-cache",
+    "docs:info": "vuepress info",
+    "tailwind": "tailwindcss -i node_modules/tailwindcss/tailwind.css -o ./docs/.vuepress/public/dist/tailwind.css",
+    "tailwind:watch": "tailwindcss -o docs/.vuepress/styles/tailwind.css --watch",
+    "build:css": "NODE_ENV=production tailwindcss -o src/tailwind.css -m"
   },
   "dependencies": {
+    "@headlessui/vue": "^0.0.0-insiders.b3e7302",
     "vue-gtm": "^2.0.0",
     "vuepress-plugin-canonical": "^1.0.0"
   }

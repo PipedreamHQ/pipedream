@@ -10,6 +10,13 @@ export const siteData = {
         "rel": "icon",
         "href": "/favicon.ico"
       }
+    ],
+    [
+      "link",
+      {
+        "rel": "stylesheet",
+        "href": "/dist/tailwind.css"
+      }
     ]
   ],
   "locales": {}
