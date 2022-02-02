@@ -65,15 +65,16 @@ export default {
     },
   },
   async run({ $ }) {
-    let params = {
-      message: this.message,
-      title: this.title,
-      url: this.url,
-      url_title: this.urlTitle,
-      device: this.device,
-      priority: this.priority,
-    };
-    await this.pushover.makeRequest(params);
+    const response =
+      await this.pushover.pushMessage({
+        message: this.message,
+        title: this.title,
+        url: this.url,
+        url_title: this.urlTitle,
+        device: this.device,
+        priority: this.priority,
+      });
     $.export("$summary", "Sent notification");
+    return response;
   },
 };
