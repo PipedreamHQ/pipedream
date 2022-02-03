@@ -15,6 +15,11 @@ export default {
     lineItems: {
       type: "string[]",
       label: "Line Items",
+      description: toSingleLineString(`
+        A list of line item objects, each containing information about an item in the order.
+        More details when searching **line_items** in [Shopify Order Object](https://shopify.dev/api/admin-rest/2022-01/resources/order#resource_object)
+      `),
+    },
     customerId: {
       propDefinition: [
         shopify,
@@ -25,13 +30,19 @@ export default {
     billingAddress: {
       type: "object",
       label: "Billing Address",
-      description: "The mailing address associated with the payment method",
+      description: toSingleLineString(`
+        The mailing address associated with the payment method.
+        More details when searching **billing_address** in [Shopify Order Object](https://shopify.dev/api/admin-rest/2022-01/resources/order#resource_object)
+      `),
       optional: true,
     },
     shippingAddress: {
       type: "object",
       label: "Shipping Address",
-      description: "The mailing address to where the order will be shipped",
+      description: toSingleLineString(`
+        The mailing address to where the order will be shipped.
+        More details when searching **billing_address** in [Shopify Order Object](https://shopify.dev/api/admin-rest/2022-01/resources/order#resource_object)
+      `),
       optional: true,
     },
     financialStatus: {
@@ -52,7 +63,11 @@ export default {
     discountCodes: {
       type: "string[]",
       label: "Discount Codes",
-      description: "A list of discounts applied to the order",
+      description: toSingleLineString(`
+        A list of discounts applied to the order.
+        Example: \`[ { "code": "SPRING30", "type": "fixed_amount", "amount": "30.00" } ]\`.
+        More details when searching **discount_codes** in [Shopify Order Object](https://shopify.dev/api/admin-rest/2022-01/resources/order#resource_object)
+      `),
       optional: true,
     },
     fulfillments: {
@@ -88,7 +103,11 @@ export default {
     taxLines: {
       type: "string[]",
       label: "Tax Lines",
-      description: "An array of tax line objects, each of which details a tax applicable to the order",
+      description: toSingleLineString(`
+        An array of tax line objects, each of which details a tax applicable to the order.
+        Example: \`[ { "rate": 0.06, "price": 11.94, "title": "State Tax", "channel_liable": true } ]\`.
+        More details when searching **tax_lines** in [Shopify Order Object](https://shopify.dev/api/admin-rest/2022-01/resources/order#resource_object)
+      `),
       optional: true,
     },
     currency: {
