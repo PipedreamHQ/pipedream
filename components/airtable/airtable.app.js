@@ -58,6 +58,7 @@ module.exports = {
     },
     typecast: {
       type: "boolean",
+      label: "Typecast",
       description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. Automatic conversion is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
     },
   },

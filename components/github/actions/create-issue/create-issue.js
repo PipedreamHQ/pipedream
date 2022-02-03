@@ -5,7 +5,7 @@ module.exports = {
   key: "github-create-issue",
   name: "Create Issue",
   description: "Create a new issue in a Gihub repo.",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "action",
   props: {
     github,
