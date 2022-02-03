@@ -27,7 +27,7 @@ export default {
       description:
         "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
-      default: {
+      static: {
         intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },
     },
