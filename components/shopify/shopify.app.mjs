@@ -212,12 +212,22 @@ export default {
       type: "string",
       label: "Customer ID",
       description: "The Customer ID. Option displayed here as email registered with the Customer ID",
-      async options() {
-        let response = await this.getCustomers();
-        return response.map((e) => ({
-          label: e.email,
-          value: e.id,
-        }));
+      async options({ prevContext }) {
+        let defaultParams = {
+          limit: 50,
+          fields: "email,id",
+        };
+        const { nextPageParameters = defaultParams } = prevContext;
+        let response = await this.resourceAction("customer", "list", nextPageParameters);
+        return {
+          options: response.results.map((e) => ({
+            label: e.email,
+            value: e.id,
+          })),
+          context: {
+            nextPageParameters: response.nextPageParameters,
+          },
+        };
       },
     },
     locationId: {
@@ -513,9 +523,9 @@ export default {
       const shopify = this.getShopifyInstance();
       this._makeRequestOpts(params);
       try {
-          const results = id
-            ? await shopify[objectType][action](id, params)
-            : await shopify[objectType][action](params);
+        const results = id
+          ? await shopify[objectType][action](id, params)
+          : await shopify[objectType][action](params);
         return {
           results,
           nextPageParameters: results.nextPageParameters,
