@@ -20,13 +20,13 @@ export default {
     market: {
       type: "string",
       label: "Market",
-      description: "Search for a country with \"Structured Mode\" enabled or enter the specific [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) with \"Structured Mode\" disabled.",
+      description: "Type to search for a country or enter a custom expression to specify the [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).",
       options: Countries,
     },
     playlistTracksUris: {
       type: "string[]",
       label: "Tracks",
-      description: "Select tracks or episodes to remove with \"Structured Mode\" enabled, or reference specific [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 URIs can be sent at once.",
+      description: "Select tracks or episodes to remove, or enter a custom expression to reference specific [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 URIs can be sent at once.",
       withLabel: true,
       async options({
         page, playlistId,
@@ -49,8 +49,8 @@ export default {
     savedUserTracksId: {
       type: "string[]",
       label: "Track ID",
-      description: "Search saved user tracks in \"Liked Songs\" with \"Structure Mode\" enabled, or reference specific [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
-      withLabel: true,
+      description: "Search saved user tracks in \"Liked Songs\" or enter a custom expression to reference specific [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
+      withLabel: true
       async options({ page }) {
         const limit = 20;
         const items = await this.getUserTracks({
@@ -69,7 +69,7 @@ export default {
     artistId: {
       type: "string",
       label: "Artist ID",
-      description: "Search for any artist on Spotify with \"Structured Mode\" enabled or enter an artist's [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `43ZHCT0cAZBISjO8DG9PnE`).",
+      description: "Type to search for any artist on Spotify or enter a custom expression to specify an artist's [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `43ZHCT0cAZBISjO8DG9PnE`).",
       useQuery: true,
       withLabel: true,
       async options({
@@ -94,7 +94,7 @@ export default {
     playlistId: {
       type: "string",
       label: "Playlist ID",
-      description: "Select an existing playlist with \"Structured Mode\" enabled, or reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
+      description: "Select an existing playlist or pass a custom expression to reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
       withLabel: true,
       async options({ page }) {
         const limit = 20;
@@ -113,7 +113,7 @@ export default {
     categoryId: {
       type: "string",
       label: "Category ID",
-      description: "Search for a category with \"Structured Mode\" enabled, or reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `party`).",
+      description: "Type to search for a category or enter a custom expression to reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `party`).",
       withLabel: true,
       async options({ page }) {
         const limit = 20;
@@ -132,7 +132,7 @@ export default {
     trackId: {
       type: "string",
       label: "Track ID",
-      description: "Search for any track on Spotify with \"Structured Mode\" enabled, or reference a specific [track ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `4iV5W9uYEdYUVa79Axb7Rh`).",
+      description: "Type to search for any track or artist on Spotify, or enter a custom expression to reference a specific [track ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `4iV5W9uYEdYUVa79Axb7Rh`).",
       useQuery: true,
       withLabel: true,
       async options({
@@ -157,7 +157,7 @@ export default {
     uris: {
       type: "string[]",
       label: "Track or Episode URIs",
-      description: "Search for any tracks or episodes on Spotify with \"Structured Mode\" enabled, or reference the specific [track or episode URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 items can be added in one request.",
+      description: "Type to search for any tracks or episodes on Spotify, or enter a custom expression to reference specific [track or episode URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 items can be added in one request.",
       useQuery: true,
       withLabel: true,
       async options({

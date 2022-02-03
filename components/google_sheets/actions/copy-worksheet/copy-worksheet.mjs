@@ -13,7 +13,7 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive containing the worksheet to copy. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here by enabling \"Structured Mode\".",
+      description: "The drive containing the worksheet to copy. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
     sheetId: {
       propDefinition: [

@@ -17,7 +17,7 @@ export default {
       ],
       type: "string[]",
       label: "Track IDs",
-      description: "Search for any tracks on Spotify with \"Structured Mode\" enabled, or reference specific [Track IDs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) with \"Structured Mode\" disabled (for example, `4iV5W9uYEdYUVa79Axb7Rh` or `4iV5W9uYEdYUVa79Axb7Rh, 0gplL1WMoJ6iYaPgMCL0gX`).",
+      description: "Type to search for any tracks on Spotify or enter a custom expression to reference specific [Track IDs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `4iV5W9uYEdYUVa79Axb7Rh` or `4iV5W9uYEdYUVa79Axb7Rh, 0gplL1WMoJ6iYaPgMCL0gX`).",
     },
   },
   async run({ $ }) {
