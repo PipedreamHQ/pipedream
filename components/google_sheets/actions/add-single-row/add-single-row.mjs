@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "2.0.0",
+  version: "2.0.1",
   type: "action",
   props: {
     googleSheets,
@@ -69,9 +69,14 @@ export default {
   async run({ $ }) {
     let cells;
     if (this.hasHeaders === "Yes") {
-      cells = Object.keys(this).filter((prop) => prop.startsWith("col_"))
-        .sort()
-        .map((prop) => this[prop]);
+      // TODO: If we could create a variable using this.allColumns in additionalProps, we dont need
+      // to call getSpreadsheetValues here again.
+      const allColumns = [];
+      const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId.value, `${this.sheetName}!1:1`);
+      for (let i = 0; i < values[0]?.length; i++) {
+        allColumns.push(`col_${i.toString().padStart(4, "0")}`);
+      }
+      cells = allColumns.sort().map((column) => this[column] || "");
     } else {
       cells = this.googleSheets.sanitizedArray(this.myColumnData);
     }
@@ -85,15 +90,24 @@ export default {
       throw new Error("Cell / Column data is a multi-dimensional array. A one-dimensional is expected. If you're trying to send multiple rows to Google Sheets, search for the action to add multiple rows to Sheets.");
     }
 
+    const {
+      arr,
+      convertedIndexes,
+    } = this.googleSheets.arrayValuesToString(cells);
+
     const data = await this.googleSheets.addRowsToSheet({
       spreadsheetId: this.sheetId.value,
       range: this.sheetName,
       rows: [
-        cells,
+        arr,
       ],
     });
 
-    $.export("$summary", `Added 1 row to [${this.sheetId.label} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${this.sheetId.value})`);
+    let summary = `Added 1 row to [${this.sheetId.label} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${this.sheetId.value}).`;
+    if (convertedIndexes.length > 0) {
+      summary += ` We detected something other than a string at position(s) ${convertedIndexes.join(",")} and automatically converted it to a string.`;
+    }
+    $.export("$summary", summary);
 
     return data;
   },
