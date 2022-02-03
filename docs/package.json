@@ -3,11 +3,17 @@
     "sass": "^1.47.0",
     "sass-loader": "^7.1.0",
     "vuepress": "^1.1.0",
-    "webpack": "^4.30.0"
+    "webpack": "^4.30.0",
+    "tailwindcss": "^2.2.7",
+    "autoprefixer": "^10.3.1"
+
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "tailwind": "tailwindcss -i node_modules/tailwindcss/tailwind.css -o ./docs/.vuepress/public/dist/tailwind.css",
+    "tailwind:watch": "tailwindcss -o docs/.vuepress/styles/tailwind.css --watch",
+    "build:css": "NODE_ENV=production tailwindcss -o src/tailwind.css -m"
   },
   "dependencies": {
     "vue-gtm": "^2.0.0",

@@ -3,6 +3,7 @@
     <!-- user links -->
     <div v-for="item in userLinks" :key="item.link" class="nav-item" :class="item.className">
       <DropdownLink v-if="item.type === 'links'" :item="item" />
+      <NavbarGrid v-if="item.grid" :item="item" />
       <NavLink v-else :item="item" />
     </div>
 
@@ -27,6 +28,7 @@
 
 <script>
 import DropdownLink from "@theme/components/DropdownLink.vue";
+import NavbarGrid from '@theme/components/NavbarGrid.vue'
 import { resolveNavLinkItem } from "../util";
 import NavLink from "@theme/components/NavLink.vue";
 
