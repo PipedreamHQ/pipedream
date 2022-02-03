@@ -186,12 +186,25 @@ export default {
       type: "string",
       label: "Product ID",
       description: "ID of the product. Option displayed here as the title of the product",
-      async options() {
-        let response = await this.resourceAction("product", "list");
-        return response.map((e) => ({
-          label: e.title,
-          value: e.id,
-        }));
+      async options({
+        prevContext,
+        query,
+      }) {
+        let defaultParams = {
+          limit: 50,
+          query,
+        };
+        const { nextPageParameters = defaultParams } = prevContext;
+        let response = await this.resourceAction("product", "list", nextPageParameters);
+        return {
+          options: response.results.map((e) => ({
+            label: e.title,
+            value: e.id,
+          })),
+          context: {
+            nextPageParameters: response.nextPageParameters,
+          },
+        };
       },
     },
     productVariantId: {

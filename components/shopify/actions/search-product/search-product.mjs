@@ -12,11 +12,14 @@ export default {
       propDefinition: [
         shopify,
         "productId",
+        (c) => ({
+          query: c,
+        }),
       ],
     },
   },
   async run({ $ }) {
-    let response = await this.shopify.getProduct(this.productId);
+    let response = (await this.shopify.getProduct(this.productId)).results;
     $.export("$summary", `Found product \`${response.title}\` with id \`${response.id}\``);
     return response;
   },
