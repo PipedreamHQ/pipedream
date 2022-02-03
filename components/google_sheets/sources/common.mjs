@@ -2,6 +2,7 @@ import { v4 as uuid } from "uuid";
 
 import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../google_drive/constants.mjs";
 import googleSheets from "../google_sheets.app.mjs";
+import { MY_DRIVE_VALUE } from "../../google_drive/constants.mjs";
 
 /**
  * The number of events that will be automatically sent whenever the event
@@ -169,7 +170,7 @@ export default {
       return this.googleSheets.getSpreadsheet(sheetId);
     },
     getDriveId(drive = this.watchedDrive) {
-      return googleSheets.methods.getDriveId(drive);
+      return googleSheets.methods.getDriveId(drive || MY_DRIVE_VALUE);
     },
     getSheetId() {
       throw new Error("getSheetId is not implemented");
