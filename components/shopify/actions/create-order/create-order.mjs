@@ -15,7 +15,12 @@ export default {
     lineItems: {
       type: "string[]",
       label: "Line Items",
-      description: "A list of line item objects, each containing information about an item in the order",
+    customerId: {
+      propDefinition: [
+        shopify,
+        "customerId",
+      ],
+      optional: true,
     },
     billingAddress: {
       type: "object",
@@ -106,6 +111,9 @@ export default {
       send_fulfillment_receipt: this.sendFulfillmentReceipt,
       tax_lines: this.shopify.parseArrayOfJSONStrings(this.taxLines),
       currency: this.currency,
+      customer: {
+        id: this.customerId,
+      },
     };
 
     let response = await this.shopify.createOrder(data);
