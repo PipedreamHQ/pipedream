@@ -509,22 +509,17 @@ export default {
      * @param {boolean} paginates Whether resource action paginates
      * @returns {object} Shopify resource action result
      */
-    async resourceAction(objectType, action, params = {}, id = null, paginates = false) {
+    async resourceAction(objectType, action, params = {}, id = null) {
       const shopify = this.getShopifyInstance();
       this._makeRequestOpts(params);
-      let objects = [];
-      if (action == "list") paginates = true;
       try {
-        do {
           const results = id
             ? await shopify[objectType][action](id, params)
             : await shopify[objectType][action](params);
-          objects = objects.concat(results);
-          params = results.nextPageParameters;
-        } while (paginates && params !== undefined);
-
-        if (!paginates) return objects[0];
-        return objects;
+        return {
+          results,
+          nextPageParameters: results.nextPageParameters,
+        };
       } catch (err) {
         this._throwFormattedError(err);
       }
