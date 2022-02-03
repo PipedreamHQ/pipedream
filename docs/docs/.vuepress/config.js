@@ -23,6 +23,16 @@ module.exports = {
     searchPlaceholder: "Search...",
     logo: "/pipedream.svg",
     repo: "PipedreamHQ/pipedream",
+    nav: [
+      {
+        text: "v1",
+        ariaLabel: "Docs Version Menu",
+        items: [
+          { text: "v1", link: "/" },
+          { text: "v2", link: "/v2/" },
+        ],
+      },
+    ],
 
     // Optional options for generating "Edit this page" link
 
@@ -196,10 +206,7 @@ module.exports = {
       {
         title: "Organizations",
         collapsable: false,
-        children: [
-          "/orgs/",
-          "/orgs/sso/okta/",
-        ],
+        children: ["/orgs/", "/orgs/sso/okta/"],
       },
       "/pricing/",
       "/status/",
