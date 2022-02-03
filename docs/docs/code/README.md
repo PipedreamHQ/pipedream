@@ -10,10 +10,10 @@ Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https:/
 
 Choose a language to get started:
 
-* [Node.js (Javascript)](/code/nodejs)
-* [Python](/code/python)
-* [Go](/code/go)
-* [Bash](/code/bash)
+* [Node.js (Javascript)](/code/nodejs/)
+* [Python](/code/python/)
+* [Go](/code/go/)
+* [Bash](/code/bash/)
 
 If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).
 
