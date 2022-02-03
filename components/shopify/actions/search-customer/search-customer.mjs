@@ -17,12 +17,7 @@ export default {
       label: "Customer IDs",
       description: "Restrict results to customers specified by a comma-separated list of IDs. Options will display the email registered with the ID. It is possible to select more than one option",
       optional: true,
-    },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The maximum number of results to show",
-      optional: true,
+      reloadProps: true,
     },
     sinceId: {
       type: "string",
@@ -30,6 +25,18 @@ export default {
       description: "Restrict results to those after the specified ID",
       optional: true,
     },
+  },
+  async additionalProps() {
+    let props = {};
+    if (this.ids == "" || (Array.isArray(this.ids) && this.ids.length === 0)) {
+      props.limit = {
+        type: "integer",
+        label: "Limit",
+        description: "The maximum number of results to show",
+        optional: true,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     let params = {
