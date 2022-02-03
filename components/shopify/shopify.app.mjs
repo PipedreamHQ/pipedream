@@ -212,13 +212,17 @@ export default {
       type: "string",
       label: "Customer ID",
       description: "The Customer ID. Option displayed here as email registered with the Customer ID",
-      async options({ prevContext }) {
+      useQuery: true,
+      async options({
+        prevContext,
+        query,
+      }) {
         let defaultParams = {
           limit: 50,
-          fields: "email,id",
+          query,
         };
         const { nextPageParameters = defaultParams } = prevContext;
-        let response = await this.resourceAction("customer", "list", nextPageParameters);
+        let response = await this.resourceAction("customer", "search", nextPageParameters);
         return {
           options: response.results.map((e) => ({
             label: e.email,

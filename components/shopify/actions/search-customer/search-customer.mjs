@@ -8,14 +8,16 @@ export default {
   type: "action",
   props: {
     shopify,
-    ids: {
-      type: "string[]",
+    customerId: {
       propDefinition: [
         shopify,
         "customerId",
+        (c) => ({
+          query: c,
+        }),
       ],
-      label: "Customer IDs",
-      description: "Restrict results to customers specified by a comma-separated list of IDs. Options will display the email registered with the ID. It is possible to select more than one option",
+      label: "Customer",
+      description: "Searches for customers that match a supplied query. For example, you can type in the name or email of the customer. See [Customer Query](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[get]/admin/api/2022-01/customers/search.json?query=Bob%20country:United%20States)",
       optional: true,
       reloadProps: true,
     },
@@ -28,11 +30,12 @@ export default {
   },
   async additionalProps() {
     let props = {};
-    if (this.ids == "" || (Array.isArray(this.ids) && this.ids.length === 0)) {
+    if (!this.customerId) {
       props.limit = {
         type: "integer",
         label: "Limit",
         description: "The maximum number of results to show",
+        default: 50,
         optional: true,
       };
     }
@@ -40,7 +43,7 @@ export default {
   },
   async run({ $ }) {
     let params = {
-      ids: this.shopify.parseCommaSeparatedStrings(this.ids),
+      ids: this.customerId,
       limit: this.limit,
       since_id: this.sinceId,
     };
