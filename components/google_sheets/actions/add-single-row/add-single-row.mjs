@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "2.0.1",
+  version: "2.0.{{ts}}",
   type: "action",
   props: {
     googleSheets,
@@ -105,7 +105,7 @@ export default {
 
     let summary = `Added 1 row to [${this.sheetId.label} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${this.sheetId.value}).`;
     if (convertedIndexes.length > 0) {
-      summary += ` We detected something other than a string at position(s) ${convertedIndexes.join(",")} and automatically converted it to a string.`;
+      summary += ` We detected something other than a string in at least one of the fields and automatically converted it to a string.`;
     }
     $.export("$summary", summary);
 
