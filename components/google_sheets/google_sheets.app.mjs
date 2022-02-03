@@ -23,7 +23,7 @@ export default {
       type: "string[]",
       label: "Cells / Column Values",
       description:
-        "Enter individual cell values or enter a custom expression to pass an array with each element representing a cell/column value.",
+        "Enter individual cell values or a custom expression to pass an array with each element representing a cell/column value.",
     },
     range: {
       type: "string",
