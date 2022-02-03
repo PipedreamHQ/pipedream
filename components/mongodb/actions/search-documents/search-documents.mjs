@@ -21,11 +21,37 @@ export default {
       type: "object",
       optional: true,
     },
+    parseNumbers: {
+      propDefinition: [
+        mongodbApp,
+        "parseNumbers",
+      ],
+      optional: true,
+    },
+    parseBooleans: {
+      propDefinition: [
+        mongodbApp,
+        "parseBooleans",
+      ],
+      optional: true,
+    },
+    parseDates: {
+      propDefinition: [
+        mongodbApp,
+        "parseDates",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const documents = await this.mongodbApp.searchDocuments(
       this.collection,
       this.filter,
+      undefined,
+      undefined,
+      this.parseNumbers,
+      this.parseBooleans,
+      this.parseDates,
     );
 
     $.export("$summary", "Documents successfully fetched");

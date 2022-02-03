@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/mongodb",
+  "version": "0.0.1",
+  "description": "Pipedream MongoDB Components",
+  "main": "mongodb.app.js",
+  "keywords": [
+      "pipedream",
+      "mongodb"
+  ],
+  "homepage": "https://pipedream.com/apps/mongodb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+      "access": "public"
+  }
+}

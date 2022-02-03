@@ -27,14 +27,12 @@ export default {
           page * LIMIT,
           LIMIT,
         );
-        return {
-          options: documents.filter((doc) => doc._id).map((doc) => ({
-            label: doc.name || doc.title ?
-              `${doc.name || doc.title} - ObjectId(${doc._id})`
-              : `ObjectId(${doc._id})`,
-            value: doc._id,
-          })),
-        };
+        return documents.filter((doc) => doc._id).map((doc) => ({
+          label: doc.name || doc.title ?
+            `${doc.name || doc.title} - ObjectId(${doc._id})`
+            : `ObjectId(${doc._id})`,
+          value: doc._id,
+        }));
       },
     },
     data: {
@@ -45,19 +43,19 @@ export default {
     parseNumbers: {
       label: "Parse Numbers",
       type: "boolean",
-      description: "If `true`. Each number value represented by a string will be parsed to it respective type",
+      description: "If `true`, each number value represented by a string will be parsed to it respective type",
       default: true,
     },
     parseBooleans: {
       label: "Parse Booleans",
       type: "boolean",
-      description: "If `true`. Each boolean value represented by a string will be parsed to it respective type",
+      description: "If `true`, each boolean value represented by a string will be parsed to it respective type",
       default: true,
     },
     parseDates: {
       label: "Parse Dates",
       type: "boolean",
-      description: "If `true`. Each date value represented by a string will be parsed to it respective type",
+      description: "If `true`, each date value represented by a string will be parsed to it respective type",
       default: true,
     },
   },
@@ -181,7 +179,7 @@ export default {
           .catch((err) => reject(err));
       });
     },
-    searchDocuments(collection, filter, skip, limit) {
+    searchDocuments(collection, filter, skip, limit, parseNumbers, parseBooleans, parseDates) {
       return new Promise((resolve, reject) => {
         this.connect()
           .then(async () => {
@@ -194,7 +192,12 @@ export default {
                 .skip(skip)
                 .limit(limit);
               mongoose.connection.close(() => {
-                setTimeout(() => resolve(documents));
+                setTimeout(() => resolve(documents.map((doc) => this.parseStrings(
+                  doc._doc,
+                  parseNumbers,
+                  parseBooleans,
+                  parseDates,
+                ))));
               });
             } catch (err) {
               mongoose.connection.close(() => {
@@ -220,30 +223,29 @@ export default {
 
       return schema;
     },
-    parseStrings(dataParam, parseNumbers, parseBooleans, parseDates) {
-      const data = {
-        ...dataParam,
-      };
-
+    parseStrings(data, parseNumbers, parseBooleans, parseDates) {
+      const obj = {};
       const keys = Object.keys(data);
       for (let i = 0; i < keys.length; i++) {
-        if (parseBooleans && this.isBooleanString(data[keys[i]])) {
-          data[keys[i]] = this.parseBoolean(data[keys[i]]);
+        if (parseBooleans && typeof(data[keys[i]]) === "string" && this.isBooleanString(data[keys[i]])) {
+          obj[keys[i]] = this.parseBoolean(data[keys[i]]);
           continue;
         }
 
-        if (parseDates && this.isDate(data[keys[i]])) {
-          data[keys[i]] = new Date(data[keys[i]]);
+        if (parseDates && typeof(data[keys[i]]) === "string" && this.isDate(data[keys[i]])) {
+          obj[keys[i]] = new Date(data[keys[i]]);
           continue;
         }
 
-        if (parseNumbers && !isNaN(data[keys[i]])) {
-          data[keys[i]] = parseFloat(data[keys[i]]);
+        if (parseNumbers && typeof(data[keys[i]]) === "string" && !isNaN(data[keys[i]])) {
+          obj[keys[i]] = parseFloat(data[keys[i]]);
           continue;
         }
+
+        obj[keys[i]] = data[keys[i]];
       }
 
-      return data;
+      return obj;
     },
     parseBoolean(string) {
       switch (string.toLowerCase().trim()) {
@@ -259,6 +261,9 @@ export default {
       }
     },
     isBooleanString(string) {
+      if ((typeof string) === "boolean" || !string.toLowerCase) {
+        return false;
+      }
       switch (string.toLowerCase().trim()) {
       case "true":
       case "1":
@@ -267,7 +272,6 @@ export default {
       case "0":
       case 0:
         return true;
-
       default:
         return false;
       }
