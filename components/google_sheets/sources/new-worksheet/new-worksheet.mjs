@@ -7,7 +7,7 @@ export default {
   name: "New Worksheet (Instant)",
   description:
     "Emit new event each time a new worksheet is created in a spreadsheet.",
-  version: "0.0.10",
+  version: "0.0.11",
   dedupe: "unique",
   props: {
     ...common.props,

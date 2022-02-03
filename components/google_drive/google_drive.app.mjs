@@ -33,7 +33,8 @@ export default {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "The drive to use. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here by enabling \"Structured Mode\".",
+      description: "If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
+      optional: true,
       default: MY_DRIVE_VALUE,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;

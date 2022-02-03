@@ -8,7 +8,7 @@ export default {
   name: "New Updates (Instant)",
   description:
     "Emit new event each time a row or cell is updated in a spreadsheet.",
-  version: "0.0.23",
+  version: "0.0.24",
   dedupe: "unique",
   props: {
     ...common.props,
