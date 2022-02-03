@@ -27,6 +27,7 @@ export default {
       type: "string[]",
       label: "Tracks",
       description: "Select tracks or episodes to remove, or enter a custom expression to reference specific [Spotify URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 URIs can be sent at once.",
+      withLabel: true,
       async options({
         page, playlistId,
       }) {
@@ -38,16 +39,10 @@ export default {
         });
 
         return {
-          options: items.map((item) => {
-            const label = this.getItemOptionLabel(item.track);
-            return {
-              label,
-              value: {
-                label,
-                value: item.track.uri,
-              },
-            };
-          }),
+          options: items.map((item) => ({
+            label: this.getItemOptionLabel(item.track),
+            value: item.track.uri,
+          })),
         };
       },
     },
@@ -55,6 +50,7 @@ export default {
       type: "string[]",
       label: "Track ID",
       description: "Search saved user tracks in \"Liked Songs\" or enter a custom expression to reference specific [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
+      withLabel: true
       async options({ page }) {
         const limit = 20;
         const items = await this.getUserTracks({
@@ -63,16 +59,10 @@ export default {
         });
 
         return {
-          options: items.map((item) => {
-            const label = this.getItemOptionLabel(item.track);
-            return {
-              label,
-              value: {
-                label,
-                value: item.track.id,
-              },
-            };
-          }),
+          options: items.map((item) => ({
+            label: this.getItemOptionLabel(item.track),
+            value: item.track.id,
+          })),
         };
       },
     },
@@ -81,6 +71,7 @@ export default {
       label: "Artist ID",
       description: "Type to search for any artist on Spotify or enter a custom expression to specify an artist's [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `43ZHCT0cAZBISjO8DG9PnE`).",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         page,
@@ -95,10 +86,7 @@ export default {
         return {
           options: artists.map((artist) => ({
             label: artist.name,
-            value: {
-              label: artist.name,
-              value: artist.id,
-            },
+            value: artist.id,
           })),
         };
       },
@@ -107,6 +95,7 @@ export default {
       type: "string",
       label: "Playlist ID",
       description: "Select an existing playlist or pass a custom expression to reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
+      withLabel: true,
       async options({ page }) {
         const limit = 20;
         const playlists = await this.getPlaylists({
@@ -116,10 +105,7 @@ export default {
         return {
           options: playlists.map((playlist) => ({
             label: playlist.name,
-            value: {
-              label: playlist.name,
-              value: playlist.id,
-            },
+            value: playlist.id,
           })),
         };
       },
@@ -128,6 +114,7 @@ export default {
       type: "string",
       label: "Category ID",
       description: "Type to search for a category or enter a custom expression to reference a specific [category ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `party`).",
+      withLabel: true,
       async options({ page }) {
         const limit = 20;
         const categories = await this.getCategories({
@@ -137,10 +124,7 @@ export default {
         return {
           options: categories.map((category) => ({
             label: category.name,
-            value: {
-              label: category.name,
-              value: category.id,
-            },
+            value: category.id,
           })),
         };
       },
@@ -150,6 +134,7 @@ export default {
       label: "Track ID",
       description: "Type to search for any track or artist on Spotify, or enter a custom expression to reference a specific [track ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `4iV5W9uYEdYUVa79Axb7Rh`).",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         page,
@@ -162,16 +147,10 @@ export default {
           limit * page,
         );
         return {
-          options: tracks.map((track) => {
-            const label = this.getItemOptionLabel(track);
-            return {
-              label,
-              value: {
-                label,
-                value: track.id,
-              },
-            };
-          }),
+          options: tracks.map((track) => ({
+            label: this.getItemOptionLabel(track),
+            value: track.id,
+          })),
         };
       },
     },
@@ -180,6 +159,7 @@ export default {
       label: "Track or Episode URIs",
       description: "Type to search for any tracks or episodes on Spotify, or enter a custom expression to reference specific [track or episode URIs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `spotify:track:4iV5W9uYEdYUVa79Axb7Rh, spotify:episode:512ojhOuo1ktJprKbVcKyQ`). A maximum of 100 items can be added in one request.",
       useQuery: true,
+      withLabel: true,
       async options({
         query,
         page,
@@ -195,16 +175,10 @@ export default {
           limit * page,
         );
         return {
-          options: items.map((item) => {
-            const label = this.getItemOptionLabel(item);
-            return {
-              label,
-              value: {
-                label,
-                value: item.uri,
-              },
-            };
-          }),
+          options: items.map((item) => ({
+            label: this.getItemOptionLabel(item),
+            value: item.uri,
+          })),
         };
       },
     },
