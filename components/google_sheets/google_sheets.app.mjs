@@ -23,7 +23,7 @@ export default {
       type: "string[]",
       label: "Cells / Column Values",
       description:
-        "Use structured mode to enter individual cell values. Disable structured mode to pass an array with each element representing a cell/column value.",
+        "Enter individual cell values or enter a custom expression to pass an array with each element representing a cell/column value.",
     },
     range: {
       type: "string",
