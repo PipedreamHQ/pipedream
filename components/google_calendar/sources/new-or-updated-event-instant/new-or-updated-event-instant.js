@@ -5,6 +5,7 @@ const googleCalendar = require("../../google_calendar.app.js");
 
 module.exports = {
   key: "google_calendar-new-or-updated-event-instant",
+  type: "source",
   name: "New or Updated Event (Instant)",
   description:
     "Emits when an event is created or updated (except when it's cancelled)",
@@ -12,6 +13,7 @@ module.exports = {
   props: {
     googleCalendar,
     db: "$.service.db",
+    // eslint-disable-next-line pipedream/props-description
     calendarId: {
       type: "string",
       label: "Calendar",
