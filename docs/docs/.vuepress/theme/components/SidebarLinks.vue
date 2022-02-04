@@ -55,6 +55,7 @@ export default {
 
   created () {
     this.refreshIndex()
+    // debugger;
   },
 
   methods: {

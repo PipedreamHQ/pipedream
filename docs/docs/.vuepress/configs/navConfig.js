@@ -1,24 +1,5 @@
 module.exports = [
   {
-    text: "v2",
-    className: "docs-version",
-    ariaLabel: "Docs Version Menu",
-    items: [
-      {
-        text: "v2",
-        link: "https://pipedream.com/docs-v2",
-        internal: true,
-        badge: "New",
-        badgeVariation: "primary",
-      },
-      {
-        text: "v1",
-        internal: true,
-        link: "https://pipedream.com/docs",
-      },
-    ],
-  },
-  {
     text: "Get Started",
     link: "/quickstart/",
   },
@@ -40,7 +21,7 @@ module.exports = [
       {
         title: "Triggers",
         subtitle: "Control when workflows run",
-        link: "/concepts/triggers",
+        link: "/concepts/triggers/",
         icon: "trigger-icon",
       },
       {
@@ -52,13 +33,36 @@ module.exports = [
       {
         title: "Integrate",
         subtitle: "Connect apps together",
-        link: "/concepts/apps/",
+        link: "/concepts/integrate/",
         icon: "integration-icon",
       },
     ],
   },
   {
+    text: "Guides",
+    link: "/guides/",
+  },
+  {
     text: "Support",
     link: "/support/",
+  },
+  {
+    text: "v2",
+    className: "docs-version",
+    ariaLabel: "Docs Version Menu",
+    items: [
+      {
+        text: "v2",
+        link: "https://pipedream.com/docs-v2",
+        internal: true,
+        badge: "New",
+        badgeVariation: "primary",
+      },
+      {
+        text: "v1",
+        internal: true,
+        link: "https://pipedream.com/docs",
+      },
+    ],
   },
 ];

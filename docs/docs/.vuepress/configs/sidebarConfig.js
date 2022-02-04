@@ -1,17 +1,41 @@
 // NEW NAV
 
+const conceptsNav = [
+  {
+    title: "Essential",
+    collapsable: false,
+    initialOpenGroupIndex: -1,
+    children: [
+      {
+        title: "Workflows",
+        children: [
+          "/concepts/workflows/",
+          "/concepts/workflows/events/",
+          "/concepts/workflows/concurrency-and-throttling/",
+          "/concepts/workflows/settings/",
+          "/concepts/workflows/networking/",
+        ],
+      },
+      { title: "Steps", children: ["/concepts/steps/"] },
+      { title: "Integrate", children: ["/concepts/integrate/"] },
+      { title: "Triggers", children: ["/concepts/triggers/"] },
+    ],
+  },
+  {
+    title: "Advanced",
+    collapsable: false,
+    initialOpenGroupIndex: -1,
+    children: [
+      { title: "Code", children: ["/code/"] },
+      { title: "Components", children: ["/components/"] },
+    ],
+  },
+];
+
 module.exports = {
-  "/quickstart/": ["/quickstart/"],
-  "/concepts/": [
-    { title: "Workflows", children: ["/concepts/workflows/"] },
-    { title: "Steps", children: ["/concepts/workflows/steps/"] },
-    { title: "Triggers", children: ["/concepts/workflows/triggers/"] },
-  ],
-  "/": [
-    { title: "Workflows", children: ["/concepts/workflows/"] },
-    { title: "Steps", children: ["/concepts/workflows/steps/"] },
-    { title: "Triggers", children: ["/concepts/workflows/triggers/"] },
-  ],
+  "/quickstart/": ["/quickstart/", "/quickstart/create-new-workflow.md"],
+  "/concepts/": conceptsNav,
+  "/": conceptsNav,
 };
 
 // OLD NAV
