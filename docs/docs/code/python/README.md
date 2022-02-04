@@ -9,15 +9,15 @@ Python steps are available in a limited alpha release.
 
 You can still run arbitrary Python code, including [sharing data between steps](/code/python/#sharing-data-between-steps) as well as [accessing environment variables](/code/python/#using-environment-variables).
 
-However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `$.end`, and `$.auth` are not yet available in bash. If you have any questions please [contact support](https://pipedream.com/support).
+However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs) environment at this time. If you have any questions please [contact support](https://pipedream.com/support).
 :::
 
 
 ## Adding a Python code step
 
 1. Click the + icon to add a new step
-2. Click "Custom Code"
-3. In the new step, select the Python language runtime in language dropdown
+2. Click **Custom Code**
+3. In the new step, select the `python` language runtime in language dropdown
 
 ## Logging and debugging
 
@@ -107,8 +107,6 @@ r = requests.post(url='https://api.imgur.com/3/image', files=files)
 
 A step can accept data from other steps in the same workflow, or pass data downstream to others.
 
-This makes your steps even more powerful, you can compose new workflows and reuse steps.
-
 ### Using data from another step
 
 In Python steps, data from the initial workflow trigger and other steps are available in the `pipedream.script_helpers.export` module.
@@ -138,8 +136,6 @@ print(f"{pokemon_name} is a {pokemon_type} type Pokemon")
 ### Sending data downstream to other steps
 
 To share data created, retrieved, transformed or manipulated by a step to others downstream call the `export` module from `pipedream.script_helpers`.
-
-An example speaks a thousand words, so here's one passing data from an API to the bash step.
 
 ```python
 # This step is named "code" in the workflow
@@ -178,12 +174,7 @@ import requests
 
 token = os.environ['TWITTER_API_KEY']
 
-url = 'https://api.twitter.com/2/users/@pipedream/mentions'
-
-headers { 'Authorization': f"Bearer {token}"}
-r = requests.get(url, headers=headers)
-
-print(r.text)
+print(token)
 ```
 
 Or an even more useful example, using the stored environment variable to make an authenticated API request.
@@ -276,8 +267,6 @@ import os
 print(os.listdir('/tmp'))
 ```
 
-### `/tmp` limitations
-
-The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow executions.
-
-To avoid errors, assume that the `/tmp` directory is empty between workflow runs.
+:::warning
+The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/limits/#disk) for details.
+:::
