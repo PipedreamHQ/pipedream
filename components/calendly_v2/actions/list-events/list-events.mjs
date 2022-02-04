@@ -29,11 +29,25 @@ export default {
         "status",
       ],
     },
+    paginate: {
+      propDefinition: [
+        calendly,
+        "paginate",
+      ],
+    },
+    maxResults: {
+      propDefinition: [
+        calendly,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     let params = {};
     if (this.inviteeEmail) params.invitee_email = this.inviteeEmail;
     if (this.status) params.status = this.status;
+    if (this.paginate) params.paginate = this.paginate;
+    if (this.maxResults) params.maxResults = this.maxResults;
 
     let response = await this.calendly.listEvents(this.user, params);
     $.export("$summary", `Found ${response.pagination.count} event(s)`);

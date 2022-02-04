@@ -46,6 +46,18 @@ export default {
         "canceled",
       ],
     },
+    paginate: {
+      type: "boolean",
+      label: "Paginate",
+      description: "Whether to paginate or not",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The number of rows to return",
+      optional: true,
+    },
   },
   methods: {
     _baseUri() {
@@ -53,6 +65,19 @@ export default {
     },
     _buildUserUri(user) {
       return `${this._baseUri()}/users/${user}`;
+    },
+    _getDefaultResponse() {
+      return {
+        collection: [],
+        pagination: {
+          count: 0,
+        },
+      };
+    },
+    _extractNextPageToken(nextPage) {
+      return nextPage
+        ? nextPage.split("page_token=")[1].split("&")[0]
+        : null;
     },
     _makeRequestOpts(opts) {
       const path = opts.path ?? "";
@@ -68,6 +93,30 @@ export default {
         headers,
         params,
       };
+    },
+    async _makeRequest(opts) {
+      const response = this._getDefaultResponse();
+      const { paginate = false, maxResults = 1000 } = opts.params;
+      delete opts.params.paginate;
+      delete opts.params.maxResults;
+
+      do {
+        let res = await axios(
+          this,
+          this._makeRequestOpts(opts),
+        );
+        response.collection.push(...res.collection);
+        response.pagination.count += res.pagination.count;
+        response.pagination.next_page = res.pagination.next_page;
+        opts.params.page_token = this._extractNextPageToken(res.pagination.next_page);
+      } while (paginate && opts.params.page_token && response.collection.length < maxResults);
+
+      if (response.collection.length > maxResults) {
+        response.collection.length = maxResults;
+        response.pagination.count = maxResults;
+      }
+
+      return response;
     },
     async getUserInfo(user = "me") {
       const opts = {
@@ -93,20 +142,16 @@ export default {
           ...params,
         },
       };
-      return await axios(
-        this,
-        this._makeRequestOpts(opts),
-      );
+
+      return await this._makeRequest(opts);
     },
     async listEventInvitees(uuid, params) {
       const opts = {
         path: `/scheduled_events/${uuid}/invitees`,
         params,
       };
-      return await axios(
-        this,
-        this._makeRequestOpts(opts),
-      );
+
+      return await this._makeRequest(opts);
     },
   },
 };

@@ -28,11 +28,25 @@ export default {
       ],
       description: "Indicates if the invitee `canceled` or still `active`",
     },
+    paginate: {
+      propDefinition: [
+        calendly,
+        "paginate",
+      ],
+    },
+    maxResults: {
+      propDefinition: [
+        calendly,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
     let params = {};
     if (this.email) params.email = this.email;
     if (this.status) params.status = this.status;
+    if (this.paginate) params.paginate = this.paginate;
+    if (this.maxResults) params.maxResults = this.maxResults;
 
     let response = await this.calendly.listEventInvitees(this.eventId, params);
     $.export("$summary", `Found ${response.pagination.count} event invitee(s)`);
