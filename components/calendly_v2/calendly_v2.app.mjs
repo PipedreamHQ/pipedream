@@ -30,6 +30,27 @@ export default {
         };
       },
     },
+    eventType: {
+      type: "string",
+      label: "Event Type",
+      description: "An event type UUID",
+      async options({ prevContext }) {
+        const defaultParams = {
+          count: 20,
+        };
+        const { nextPageParameters = defaultParams } = prevContext;
+        let response = await this.listEventTypes(nextPageParameters);
+        return {
+          options: response.collection.map((event) => ({
+            label: event.name,
+            value: event.uri.split("/").pop(),
+          })),
+          context: {
+            nextPageParameters: response.pagination.next_page,
+          },
+        };
+      },
+    },
     inviteeEmail: {
       type: "string",
       label: "Inviteee Email",
@@ -45,6 +66,11 @@ export default {
         "active",
         "canceled",
       ],
+    },
+    maxEventCount: {
+      type: "integer",
+      label: "Max Event Count",
+      description: "The max number of events that can be scheduled using this scheduling link",
     },
     paginate: {
       type: "boolean",
@@ -65,6 +91,9 @@ export default {
     },
     _buildUserUri(user) {
       return `${this._baseUri()}/users/${user}`;
+    },
+    _buildEventType(eventType) {
+      return `${this._baseUri()}/event_types/${eventType}`;
     },
     _getDefaultResponse() {
       return {
@@ -96,7 +125,10 @@ export default {
     },
     async _makeRequest(opts) {
       const response = this._getDefaultResponse();
-      const { paginate = false, maxResults = 1000 } = opts.params;
+      const {
+        paginate = false,
+        maxResults = 1000,
+      } = opts.params;
       delete opts.params.paginate;
       delete opts.params.maxResults;
 
@@ -152,6 +184,31 @@ export default {
       };
 
       return await this._makeRequest(opts);
+    },
+    async listEventTypes(params) {
+      const opts = {
+        path: "/event_types",
+        params: {
+          user: await this.defaultUser(),
+          ...params,
+        },
+      };
+
+      return await this._makeRequest(opts);
+    },
+    async createSchedulingLink(params) {
+      params.owner = this._buildEventType(params.owner);
+
+      const opts = {
+        path: "/scheduling_links",
+        method: "post",
+        params,
+      };
+
+      return await axios(
+        this,
+        this._makeRequestOpts(opts),
+      );
     },
   },
 };
