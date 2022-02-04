@@ -35,6 +35,7 @@ export default {
         shopify,
         "price",
       ],
+      description: "The price of the product variant",
     },
     imageId: {
       propDefinition: [
