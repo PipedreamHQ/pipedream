@@ -3,10 +3,7 @@
     "sass": "^1.47.0",
     "sass-loader": "^7.1.0",
     "vuepress": "^1.1.0",
-    "webpack": "^4.30.0",
-    "tailwindcss": "^2.2.7",
-    "autoprefixer": "^10.3.1"
-
+    "webpack": "^4.30.0"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
@@ -16,6 +13,9 @@
     "build:css": "NODE_ENV=production tailwindcss -o src/tailwind.css -m"
   },
   "dependencies": {
+    "autoprefixer": "^9",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue-gtm": "^2.0.0",
     "vuepress-plugin-canonical": "^1.0.0"
   }

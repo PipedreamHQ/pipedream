@@ -3,25 +3,26 @@
     <!-- user links -->
     <div v-for="item in userLinks" :key="item.link" class="nav-item" :class="item.className">
       <DropdownLink v-if="item.type === 'links'" :item="item" />
-      <NavbarGrid v-if="item.grid" :item="item" />
+      <NavbarGrid v-else-if="item.grid" :item="item" />
       <NavLink v-else :item="item" />
     </div>
 
-    <a href="https://pipedream.com">
+    <!-- <a href="https://pipedream.com" class="inline-block">
       <img
         class="navbar-icons"
         src="https://res.cloudinary.com/pipedreamin/image/upload/v1597038956/docs/HzP2Yhq8_400x400_1_sqhs70.jpg"
       />
-    </a>
+    </a> -->
     <!-- repo link -->
     <a
       v-if="repoLink"
       :href="repoLink"
-      class="repo-link"
+      class="repo-link inline-block"
       target="_blank"
       rel="noopener"
     >
-      <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/PipedreamHQ/pipedream?label=View%20code%20on%20GitHub&style=social">
+      <img alt="Pipedream on Github" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" width="25px" />
+      <!-- <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/PipedreamHQ/pipedream?label=View%20code%20on%20GitHub&style=social"> -->
     </a>
   </nav>
 </template>
@@ -38,6 +39,7 @@ export default {
   components: {
     NavLink,
     DropdownLink,
+    NavbarGrid
   },
 
   computed: {
@@ -127,7 +129,7 @@ export default {
   a {
     line-height: 1.4rem;
     color: inherit;
-    display: inline-block !important;
+    // display: inline-block !important;
 
     &:hover, &.router-link-active {
       color: $accentColor;

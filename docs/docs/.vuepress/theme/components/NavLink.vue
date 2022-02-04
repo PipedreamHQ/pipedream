@@ -1,7 +1,7 @@
 <template>
   <RouterLink
     v-if="isInternal"
-    class="nav-link"
+    class="nav-link font-medium leading-6"
     :to="link"
     :exact="exact"
     @focusout.native="focusoutAction"
@@ -12,7 +12,7 @@
   <a
     v-else
     :href="link"
-    class="nav-link external"
+    class="nav-link font-medium external leading-6"
     :target="target"
     :rel="rel"
     @focusout="focusoutAction"

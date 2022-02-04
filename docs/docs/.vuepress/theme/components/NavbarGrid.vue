@@ -1,39 +1,72 @@
 
-<script setup>
+<script>
 // import AutoLink from "@theme/AutoLink.vue";
 // import DropdownTransition from "@theme/DropdownTransition.vue";
-// import workflow from '../components/svgs/workflow.vue';
+import workflowIcon from './svgs/workflow-icon.vue';
+import stepIcon from './svgs/step-icon.vue';
+import triggerIcon from './svgs/trigger-icon.vue';
+import codeIcon from './svgs/code-icon.vue';
+import integrationIcon from './svgs/integration-icon.vue'
+
 // import trigger from '../components/svgs/trigger.vue'
-import { computed, ref, toRefs, watch } from "vue";
+// import { computed, ref, toRefs, watch } from "vue";
 // import type { PropType } from "vue";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 // import type {
   // NavbarItem,
   // ResolvedNavbarItem,
 // } from "@vuepress/theme-default/lib/shared";
 
-const props = defineProps({
-  item: {
-    type: Object,
-    required: true,
+// const props = defineProps({
+//   item: {
+//     type: Object,
+//     required: true,
+//   },
+// });
+export default {
+
+  props: {
+    item: {
+      required: true
+    }
   },
-});
 
-const { item } = toRefs(props);
-console.log(item.grid);
+  components: {
+    'workflow-icon': workflowIcon,
+    'step-icon': stepIcon,
+    'trigger-icon': triggerIcon,
+    'code-icon': codeIcon,
+    'integration-icon': integrationIcon,
+  },
 
-const dropdownAriaLabel = computed(
-  () => item.value.ariaLabel || item.value.text
-);
+  data () {
+    return {
+      open: false
+    }
+  },
 
-const open = ref(false);
-const route = useRoute();
-watch(
-  () => route.path,
-  () => {
-    open.value = false;
+  computed: {
+    dropdownAriaLabel()  {
+      return this.item?.ariaLabel || this.item?.text
+    }
   }
-);
+}
+
+// const { item } = toRefs(props);
+// console.log(item.grid);
+
+// const dropdownAriaLabel = computed(
+//   () => item.value.ariaLabel || item.value.text
+// );
+
+// const open = ref(false);
+// const route = useRoute();
+// watch(
+//   () => route.path,
+//   () => {
+//     open.value = false;
+//   }
+// );
 
 /**
  * Open the dropdown when user tab and click from keyboard.
@@ -59,7 +92,7 @@ const isLastItemOfArray = boolean =>
 <template>
   <div class="navbar-dropdown-wrapper" :class="{ open }" @blur="open = !open">
     <button
-      class="navbar-dropdown-title"
+      class="navbar-dropdown-title font-medium leading-normal"
       type="button"
       :aria-label="dropdownAriaLabel"
       @click="open = !open"
@@ -68,7 +101,7 @@ const isLastItemOfArray = boolean =>
       <span class="arrow" :class="open ? 'down' : 'right'" />
     </button>
 
-    <button
+    <!-- <button
       class="navbar-dropdown-title-mobile"
       type="button"
       :aria-label="dropdownAriaLabel"
@@ -76,7 +109,7 @@ const isLastItemOfArray = boolean =>
     >
       <span class="title">{{ item.text }}</span>
       <span class="arrow" :class="open ? 'down' : 'right'" />
-    </button>
+    </button> -->
 
     <!-- <DropdownTransition> -->
     <div
