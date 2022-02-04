@@ -76,7 +76,7 @@ export default {
       tags: this.shopify.parseCommaSeparatedStrings(this.tags),
     };
 
-    let response = await this.shopify.createProduct(data);
+    let response = (await this.shopify.createProduct(data)).result;
     $.export("$summary", `Created new product \`${response.title}\` with id \`${response.id}\``);
     return response;
   },

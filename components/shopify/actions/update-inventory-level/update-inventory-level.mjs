@@ -54,7 +54,7 @@ export default {
       disconnect_if_necessary: this.disconnectIfNecessary,
     };
 
-    let response = await this.shopify.updateInventoryLevel(data);
+    let response = (await this.shopify.updateInventoryLevel(data)).result;
     $.export("$summary", `Updated inventory level for \`${response.inventory_item_id}\` at \`${response.location_id}\` to \`${response.available}\``);
     return response;
   },

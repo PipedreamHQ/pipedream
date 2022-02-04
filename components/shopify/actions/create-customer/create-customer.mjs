@@ -94,7 +94,7 @@ export default {
       send_email_invite: this.sendEmailInvite,
     };
 
-    let response = await this.shopify.createCustomer(data);
+    let response = (await this.shopify.createCustomer(data)).result;
     $.export("$summary", `Created new customer \`${this.email}\` with id \`${response.id}\``);
     return response;
   },

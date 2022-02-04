@@ -49,10 +49,10 @@ export default {
       price: this.price,
       image_id: this.imageId,
     };
-    let response = await this.shopify.updateProductVariant(
+    let response = (await this.shopify.updateProductVariant(
       this.productVariantId,
       productVariant,
-    );
+    )).result;
     $.export("$summary", `Updated product variant \`${response.title}\` with id \`${response.id}\``);
     return response;
   },

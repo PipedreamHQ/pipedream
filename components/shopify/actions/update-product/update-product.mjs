@@ -82,7 +82,7 @@ export default {
       variants: this.shopify.parseArrayOfJSONStrings(this.variants),
       tags: this.shopify.parseCommaSeparatedStrings(this.tags),
     };
-    let response = await this.shopify.updateProduct(this.productId, product);
+    let response = (await this.shopify.updateProduct(this.productId, product)).result;
     $.export("$summary", `Updated product \`${response.title}\` with id \`${response.id}\``);
     return response;
   },

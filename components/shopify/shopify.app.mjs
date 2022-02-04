@@ -197,7 +197,7 @@ export default {
         const { nextPageParameters = defaultParams } = prevContext;
         let response = await this.resourceAction("product", "list", nextPageParameters);
         return {
-          options: response.results.map((e) => ({
+          options: response.result.map((e) => ({
             label: e.title,
             value: e.id,
           })),
@@ -215,7 +215,7 @@ export default {
         let response = await this.resourceAction("productVariant", "list", {
           fields: "id,title",
         }, productId);
-        return response.map((e) => ({
+        return response.result.map((e) => ({
           label: e.title,
           value: e.id,
         }));
@@ -237,7 +237,7 @@ export default {
         const { nextPageParameters = defaultParams } = prevContext;
         let response = await this.resourceAction("customer", "search", nextPageParameters);
         return {
-          options: response.results.map((e) => ({
+          options: response.result.map((e) => ({
             label: e.email,
             value: e.id,
           })),
@@ -253,7 +253,7 @@ export default {
       description: "The ID of the location that the inventory level belongs to. Options will display the name of the Location ID",
       async options() {
         let response = await this.getLocationIds();
-        return response.map((e) => ({
+        return response.result.map((e) => ({
           label: e.name,
           value: e.id,
         }));
@@ -275,7 +275,7 @@ export default {
         let response = await this.resourceAction("productVariant", "list", {
           fields: "title,inventory_item_id",
         }, productId);
-        return response.map((e) => ({
+        return response.result.map((e) => ({
           label: e.title,
           value: e.inventory_item_id,
         }));
@@ -540,12 +540,12 @@ export default {
       const shopify = this.getShopifyInstance();
       this._makeRequestOpts(params);
       try {
-        const results = id
+        const result = id
           ? await shopify[objectType][action](id, params)
           : await shopify[objectType][action](params);
         return {
-          results,
-          nextPageParameters: results.nextPageParameters,
+          result,
+          nextPageParameters: result.nextPageParameters,
         };
       } catch (err) {
         this._throwFormattedError(err);

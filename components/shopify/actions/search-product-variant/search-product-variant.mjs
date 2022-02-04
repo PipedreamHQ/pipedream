@@ -82,7 +82,10 @@ export default {
         price: this.price,
         image_id: this.imageId,
       };
-      let response = await this.shopify.createProductVariant(this.productId, productVariant);
+      let response = (await this.shopify.createProductVariant(
+        this.productId,
+        productVariant,
+      )).result;
       $.export("$summary", `Created new product variant \`${response.title}\` with id \`${response.id}\``);
       return response;
     }

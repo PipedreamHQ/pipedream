@@ -93,7 +93,7 @@ export default {
         },
       ],
     };
-    let response = (await this.shopify.updateCustomer(this.customerId, customer)).results;
+    let response = (await this.shopify.updateCustomer(this.customerId, customer)).result;
     $.export("$summary", `Updated customer \`${response.email}\` with id \`${response.id}\``);
     return response;
   },

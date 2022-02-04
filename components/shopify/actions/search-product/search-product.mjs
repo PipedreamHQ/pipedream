@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let response = (await this.shopify.getProduct(this.productId)).results;
+    let response = (await this.shopify.getProduct(this.productId)).result;
     $.export("$summary", `Found product \`${response.title}\` with id \`${response.id}\``);
     return response;
   },

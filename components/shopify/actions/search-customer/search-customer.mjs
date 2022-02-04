@@ -45,7 +45,7 @@ export default {
       since_id: this.sinceId,
     };
 
-    let response = (await this.shopify.getCustomers(null, null, params)).results;
+    let response = (await this.shopify.getCustomers(null, null, params)).result;
     $.export("$summary", `Found ${response.length} customer(s)`);
     return response;
   },
