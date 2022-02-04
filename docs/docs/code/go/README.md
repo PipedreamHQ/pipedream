@@ -1,6 +1,6 @@
 # Go
 
-**Anything you can do in Go can be done in a Pipedream Workflow**. This includes using any of the [Go packages available](https://pkg.go.dev/) in your Go powered workflows. 
+**Anything you can do in Go, you can do in a Pipedream Workflow**. You can use any of [Go packages available](https://pkg.go.dev/) with a simple `import` no `go get` needed. 
 
 Pipedream supports [Go v{{$site.themeConfig.GO_LANG_VERSION}}](https://go.dev) in workflows.
 
@@ -21,9 +21,9 @@ However, features available in [Node.js steps](/code/nodejs) like `$.respond`, `
 
 ## Logging and debugging
 
-You can use `fmt.Println` at any time in a Go code step to log information as the script is running.
+You can use `fmt.Println` at any time to log information as the script is running.
 
-The output for the `fmt.Println` **logs** will appear in the `Results` section just beneath the code editor.
+The output for the `fmt.Println` **Logs** will appear in the `Results` section just beneath the code editor.
 
 :::tip
 Don't forget to import the `fmt` package in order to run `fmt.Println`.
@@ -34,20 +34,20 @@ Don't forget to import the `fmt` package in order to run `fmt.Println`.
   import "fmt"
 
   func main() {
-    fmt.Println('Hello World!')
+    fmt.Println("Hello World!")
   }
 ```
 :::
 
 ## Using third party packages
 
-You can use any packages from [Go package registry](https://pkg.go.dev) in your Pipedream workflows. This includes popular choices such as:
+You can use any packages from [Go package registry](https://pkg.go.dev). This includes popular choices such as:
 
 * [`net/http` for making HTTP requests](https://pkg.go.dev/net/http#pkg-overview/)
 * [`encoding/json` for encoding and decoding JSON](https://pkg.go.dev/encoding/json)
 * [`database/sql` for reading and writing to SQL databases](https://pkg.go.dev/database/sql@go1.17.6)
 
-To use a Go package, just include it in your step's code:
+To use a Go package, just `import` it in your step's code:
 
 ```go
 import "net/http"
@@ -61,7 +61,7 @@ We recommend using the `http` HTTP client package included in the Go Standard Li
 
 ### Making a `GET` request
 
-GET requests typically are for retrieving data from an API. Below is an example.
+You'll typically use `GET` requests to retrieve data from an API:
 
 ```go
 package main
@@ -94,7 +94,7 @@ func main() {
 }
 ```
 
-### Making a POST request
+### Making a `POST` request
 
 ```go
 package main
@@ -122,7 +122,7 @@ func main() {
    }
    defer resp.Body.Close()
 
-  //Read the response body
+  // Read the response body
    body, err := ioutil.ReadAll(resp.Body)
    if err != nil {
       log.Fatalln(err)
@@ -136,11 +136,10 @@ func main() {
 
 ### Sending files
 
-You can also send files within a step.
-
-An example of sending a previously stored file in the workflow's `/tmp` directory: 
+You can send files stored in the `/tmp` directory in an HTTP request:
 
 ```go
+
 package main
 
 import (
@@ -149,9 +148,7 @@ import (
   "mime/multipart"
   "bytes"
   "io"
-  "mime/multipart"
   "net/http"
-  "os"
 )
 
 func main() {
@@ -161,32 +158,24 @@ func main() {
   writer := multipart.NewWriter(body)
 
   // Create an empty file to start
-  fw, err = writer.CreateFormFile("file", "go-logo.svg")
-  if err != nil {
-    log.Fatalln(e)
-  }
+  fw, _:= writer.CreateFormFile("file", "go-logo.svg")
+
 
   // Retrieve a previously saved file from workflow storage
-  file, err := os.Open("/tmp/go-logo.svg")
-  if err != nil {
-    log.Fatalln(e)
-  }
+  file, _  := os.Open("/tmp/go-logo.svg")
 
   // Close multipart form writer
   writer.Close()
 
-  _, err = io.Copy(fw, file)
+  _, _ = io.Copy(fw, file)
 
   // Send the POST request
-  req, err := http.NewRequest("POST", "https://postman-echo.com/post", bytes.NewReader(body.Bytes()))
-  if e != nil {
-    log.Fatalln(e)
-  }
+  req, _:= http.NewRequest("POST", "https://postman-echo.com/post", bytes.NewReader(body.Bytes()))
 
   req.Header.Set("Content-Type", writer.FormDataContentType())
-  rsp, err := client.Do(req)
-  if e != nil {
-    log.Fatalln(e)
+  _, err := client.Do(req)
+  if err != nil {
+    log.Fatalln(err)
   }
 }
 ```
@@ -199,7 +188,7 @@ This makes your steps even more powerful, you can compose new workflows and reus
 
 ### Using data from another step
 
-In Go steps, data from the initial workflow trigger and other steps are available in the `pipedream-go` package.
+Data from the initial workflow trigger and other steps are available in the `pipedream-go` package.
 
 In this example, we'll pretend this data is coming into our HTTP trigger via POST request.
 
@@ -211,7 +200,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger via POS
 }
 ```
 
-In our Go step, we can access this data in the `Steps` variable from the `pd` package. Specifically, this data from the POST request into our workflow is available in the `trigger` dictionary item. 
+You can access this data in the `Steps` variable from the `pd` package. Specifically, this data from the POST request into our workflow is available in the `trigger` map. 
 
 ```go
 package main
@@ -223,15 +212,13 @@ import (
 
 func main() {
 	// Access previous step data using pd.Steps
-	fmt.Println(pd.Steps)
+	fmt.Println(pd.Steps["trigger"])
 }
 ```
 
 ### Sending data downstream to other steps
 
-To share data created, retrieved, transformed or manipulated by a step to others downstream call the `Export` function from `pd` package.
-
-An example speaks a thousand words, so here's one passing data from an API to the bash step.
+To share data for future steps to use, call the Export function from pd package:
 
 ```go
 package main
@@ -257,7 +244,7 @@ func main() {
 }
 ```
 
-Now this `pokemon` data is accessible to downstream steps within `pd.Steps.code.pokemon`
+Now this `pokemon` data is accessible to downstream steps within `pd.Steps["code"]["pokemon"]`
 
 ::: warning
 Not all data types can be stored in the `Steps` data shared between workflow steps.
@@ -269,7 +256,7 @@ For the best experience, we recommend only [exporting structs that can be marsha
 
 ## Using environment variables
 
-You can leverage any [environment variables defined in your Pipedream account](/environment-variables/#environment-variables) in a Python step. This is useful for keeping your secrets out of code as well as keeping them flexible to swap API keys without having to update each step individually.
+You can leverage any [environment variables defined in your Pipedream account](/environment-variables/#environment-variables) in a Go step. This is useful for keeping your secrets out of code as well as keeping them flexible to swap API keys without having to update each step individually.
 
 To access them, use the `os` package.
 
@@ -286,11 +273,9 @@ func main() {
 }
 ```
 
-Or an even more useful example, using the stored environment variable to make an authenticated API request.
-
 ### Using API key authentication
 
-If an particular service requires you to use an API key, you can pass it via the headers of the request.
+If a particular service requires you to use an API key, you can pass it via the HTTP request.
 
 This proves your identity to the service so you can interact with it:
 
@@ -349,72 +334,73 @@ func main() {
 
 ## Handling errors
 
-You may need to exit a workflow early. In a Go step, just a `return` from the `main` function.
-
-Optionally, you may want to return an `error` for logging.
-
+You may need to exit a workflow early, use the `os.Exit` to exit the `main` function with a specific error code.
 
 ```go
 package main
 
 import (
-  "errors"
   "fmt"
+  "os"
 )
 
-func main() (string, error) {
-  return "", errors.New("Uh oh, something unexpected happed. Exiting early.")
+func main() {
+  os.Exit(1)
+  fmt.Println("This message will not be logged.")
 }
 
 ```
 
-The returned error from your Go code will appear in the **logs** area of the results.
+The step will quit at the time `os.Exit` is called. In this example, the exit code `1` will appear in the **Results** of the step.
+
 
 ## File storage
 
-You can also store and read files with Python steps. This means you can upload photos, retrieve datasets, accept files from an HTTP request and more.
+You can also store and read files with Go steps. This means you can upload photos, retrieve datasets, accept files from an HTTP request and more.
 
 The `/tmp` directory is accessible from your workflow steps for saving and retrieving files.
 
 You have full access to read and write both files in `/tmp`. 
 
-### Writing a file to /tmp
+### Writing a file to `/tmp`
 
 ```go
 package main
 
 import (
-	"fmt"
-	"io"
-	"net/http"
-	"os"
-  "log"
+  "io"
+  "net/http"
+  "os"
+  "fmt"
 )
-
 func main() {
   // Define where the file is and where to save it
 	fileUrl := "https://golangcode.com/go-logo.svg"
-  filePath := "/tmp/logo.svg"
+  filePath := "/tmp/go-logo.svg"
   
 	// Download the file
-	resp, err := http.Get(url)
+	resp, err := http.Get(fileUrl)
 	if err != nil {
-		return err
+		fmt.Println(err)
 	}
+
   // Don't forget to the close the HTTP connection at the end of the function
 	defer resp.Body.Close()
 
 	// Create the empty file
-	out, err := os.Create(filepath)
+	out, err := os.Create(filePath)
 	if err != nil {
-		return err
+		fmt.Println(err)
 	}
+
   // Don't forget to close close the file
 	defer out.Close()
 
 	// Write the file data to file
 	_, err = io.Copy(out, resp.Body)
-	return err
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 ```
 
@@ -422,7 +408,7 @@ Now `/tmp/go-logo.svg` holds the official Go logo.
 
 ### Reading a file from /tmp
 
-You can also open files you have previously stored in the `/tmp` directory. Let's open the `python-logo.png` file.
+You can also open files you have previously stored in the `/tmp` directory. Let's open the `go-logo.svg` file.
 
 ```go
 package main
@@ -447,6 +433,6 @@ func main() {
 
 ### `/tmp` limitations
 
-The `/tmp` directory can store up to 512 megabytes of storage. Also the storage may be wiped or may not exist between workflow executions.
+The `/tmp` directory can store up to {{$site.themeConfig.TMP_SIZE_LIMIT}} of storage. Also the storage may be wiped or may not exist between workflow executions.
 
 To avoid errors, assume that the `/tmp` directory is empty between workflow runs.
