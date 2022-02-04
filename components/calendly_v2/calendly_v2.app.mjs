@@ -13,11 +13,21 @@ export default {
       type: "string",
       label: "Event ID",
       description: "An event UUID",
-      async options() {
-        return (await this.listEvents()).collection.map((event) => ({
-          label: event.name,
-          value: event.uri.split("/").pop(),
-        }));
+      async options({ prevContext }) {
+        const defaultParams = {
+          count: 20,
+        };
+        const { nextPageParameters = defaultParams } = prevContext;
+        let response = await this.listEvents(null, nextPageParameters);
+        return {
+          options: response.collection.map((event) => ({
+            label: event.name,
+            value: event.uri.split("/").pop(),
+          })),
+          context: {
+            nextPageParameters: response.pagination.next_page,
+          },
+        };
       },
     },
     inviteeEmail: {
