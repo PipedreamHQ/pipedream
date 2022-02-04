@@ -6,7 +6,7 @@ export default {
   name: "Save Tracks for User",
   description: "Save one or more tracks to the current user’s \"Your Music\" library. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/save-tracks-user).",
   key: "spotify-save-track",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     spotify,
@@ -31,7 +31,7 @@ export default {
     }));
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully saved ${ids.length} ${ids.length == 1 ? `track` : `tracks`} to "Liked Songs"`);
+    $.export("$summary", `Successfully saved ${ids.length} ${ids.length == 1 ? "track" : "tracks"} to "Liked Songs"`);
 
     return isEmpty(res)
       ? ids
