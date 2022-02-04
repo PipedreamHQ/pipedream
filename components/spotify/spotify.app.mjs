@@ -50,7 +50,7 @@ export default {
       type: "string[]",
       label: "Track ID",
       description: "Search saved user tracks in \"Liked Songs\" or enter a custom expression to reference specific [Spotify ID](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) for the track. For example: `4iV5W9uYEdYUVa79Axb7Rh`. Maximum: 50 IDs.",
-      withLabel: true
+      withLabel: true,
       async options({ page }) {
         const limit = 20;
         const items = await this.getUserTracks({
