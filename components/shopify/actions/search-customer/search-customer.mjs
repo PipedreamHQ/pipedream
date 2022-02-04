@@ -12,9 +12,6 @@ export default {
       propDefinition: [
         shopify,
         "customerId",
-        (c) => ({
-          query: c,
-        }),
       ],
       label: "Customer",
       description: "Searches for customers that match a supplied query. For example, you can type in the name or email of the customer. See [Customer Query](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[get]/admin/api/2022-01/customers/search.json?query=Bob%20country:United%20States)",
