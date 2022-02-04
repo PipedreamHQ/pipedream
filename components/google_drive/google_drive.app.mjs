@@ -33,9 +33,9 @@ export default {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
+      description: "Defaults to `My Drive`. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
       optional: true,
-      default: this.watchedDrive || MY_DRIVE_VALUE,
+      default: MY_DRIVE_VALUE,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);
