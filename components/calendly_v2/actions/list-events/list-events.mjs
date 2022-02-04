@@ -49,7 +49,7 @@ export default {
     if (this.paginate) params.paginate = this.paginate;
     if (this.maxResults) params.maxResults = this.maxResults;
 
-    let response = await this.calendly.listEvents(this.user, params);
+    let response = await this.calendly.listEvents(params, this.user);
     $.export("$summary", `Found ${response.pagination.count} event(s)`);
     return response;
   },

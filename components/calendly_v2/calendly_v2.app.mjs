@@ -14,20 +14,10 @@ export default {
       label: "Event ID",
       description: "An event UUID",
       async options({ prevContext }) {
-        const defaultParams = {
-          count: 20,
-        };
-        const { nextPageParameters = defaultParams } = prevContext;
-        let response = await this.listEvents(null, nextPageParameters);
-        return {
-          options: response.collection.map((event) => ({
-            label: event.name,
-            value: event.uri.split("/").pop(),
-          })),
-          context: {
-            nextPageParameters: response.pagination.next_page,
-          },
-        };
+        return await this._makeAsyncOptionsRequest({
+          prevContext,
+          requestType: "listEvents",
+        });
       },
     },
     eventType: {
@@ -35,20 +25,10 @@ export default {
       label: "Event Type",
       description: "An event type UUID",
       async options({ prevContext }) {
-        const defaultParams = {
-          count: 20,
-        };
-        const { nextPageParameters = defaultParams } = prevContext;
-        let response = await this.listEventTypes(nextPageParameters);
-        return {
-          options: response.collection.map((event) => ({
-            label: event.name,
-            value: event.uri.split("/").pop(),
-          })),
-          context: {
-            nextPageParameters: response.pagination.next_page,
-          },
-        };
+        return await this._makeAsyncOptionsRequest({
+          prevContext,
+          requestType: "listEventTypes",
+        });
       },
     },
     inviteeEmail: {
@@ -123,6 +103,25 @@ export default {
         params,
       };
     },
+    async _makeAsyncOptionsRequest({
+      prevContext,
+      requestType,
+    }) {
+      const defaultParams = {
+        count: 20,
+      };
+      const { nextPageParameters = defaultParams } = prevContext;
+      let response = await this[requestType](nextPageParameters);
+      return {
+        options: response.collection.map((e) => ({
+          label: e.name,
+          value: e.uri.split("/").pop(),
+        })),
+        context: {
+          nextPageParameters: response.pagination.next_page,
+        },
+      };
+    },
     async _makeRequest(opts) {
       const response = this._getDefaultResponse();
       const {
@@ -162,7 +161,7 @@ export default {
     async defaultUser() {
       return (await this.getUserInfo()).resource.uri;
     },
-    async listEvents(uuid, params) {
+    async listEvents(params, uuid) {
       const user = uuid ?
         this._buildUserUri(uuid) :
         await this.defaultUser();
@@ -177,7 +176,7 @@ export default {
 
       return await this._makeRequest(opts);
     },
-    async listEventInvitees(uuid, params) {
+    async listEventInvitees(params, uuid) {
       const opts = {
         path: `/scheduled_events/${uuid}/invitees`,
         params,
