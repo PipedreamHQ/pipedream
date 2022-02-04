@@ -9,6 +9,17 @@ export default {
       label: "User UUID",
       description: "An user UUID",
     },
+    eventId: {
+      type: "string",
+      label: "Event ID",
+      description: "An event UUID",
+      async options() {
+        return (await this.listEvents()).collection.map((event) => ({
+          label: event.name,
+          value: event.uri.split("/").pop(),
+        }));
+      },
+    },
     inviteeEmail: {
       type: "string",
       label: "Inviteee Email",
@@ -71,6 +82,16 @@ export default {
           user,
           ...params,
         },
+      };
+      return await axios(
+        this,
+        this._makeRequestOpts(opts),
+      );
+    },
+    async listEventInvitees(uuid, params) {
+      const opts = {
+        path: `/scheduled_events/${uuid}/invitees`,
+        params,
       };
       return await axios(
         this,
