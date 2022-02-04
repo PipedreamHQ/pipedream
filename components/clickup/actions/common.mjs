@@ -1,6 +1,6 @@
-const clickup = require("../clickup.app.js");
+import clickup from "../clickup.app.mjs";
 
-module.exports = {
+export default {
   props: {
     clickup,
     workspace: {
