@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "2.0.0",
+  version: "2.0.1",
   type: "action",
   props: {
     googleSheets,
