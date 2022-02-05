@@ -12,10 +12,12 @@ module.exports = {
   props: {
     ...common.props,
     storeId: {
-      type: "string",
-      label: "Store Id",
+      propDefinition: [
+        common.props.mailchimp,
+        "storeId",
+      ],
       description:
-        "The unique ID of the store you'd like to watch for new customers.",
+      "The unique ID of the store you'd like to watch for new customers.",
     },
   },
   hooks: {

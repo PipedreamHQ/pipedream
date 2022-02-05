@@ -12,10 +12,12 @@ module.exports = {
   props: {
     ...common.props,
     campaignId: {
-      type: "string",
-      label: "Campaign Id",
+      propDefinition: [
+        common.props.mailchimp,
+        "campaignId",
+      ],
       description:
-        "The unique ID of the campaign you'd like to watch for new email opens on links.",
+      "The unique ID of the campaign you'd like to watch for new email opens on links.",
     },
   },
   hooks: {

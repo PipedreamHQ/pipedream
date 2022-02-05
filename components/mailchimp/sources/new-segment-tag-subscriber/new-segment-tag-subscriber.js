@@ -12,24 +12,27 @@ module.exports = {
   props: {
     ...common.props,
     listId: {
-      type: "string",
-      label: "Audience List Id",
+      propDefinition: [
+        common.props.mailchimp,
+        "listId",
+      ],
       description:
         "The unique ID of the audience list related to the segment or tag you'd like to watch for new subscribers.",
     },
     segmentId: {
-      type: "string",
-      label: "Segment/Tag Id",
-      description:
-        "The unique ID of the segment or tag you'd like to watch for new subscribers.",
+      propDefinition: [
+        common.props.mailchimp,
+        "segmentId",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
     includeTransactional: {
-      type: "boolean",
-      label: "Include subscribers from Mailchimp Transactional?",
-      description:
-        "If set to `true`, it will include subscribers from Mailchimp Marketing and Mailchimp Transactional, formerly Mandrill.  When set to `false`, it will include subscribers from Mailchimp Marketing only.",
-      default: false,
-      optional: true,
+      propDefinition: [
+        common.props.mailchimp,
+        "includeTransactional",
+      ],
     },
   },
   hooks: {

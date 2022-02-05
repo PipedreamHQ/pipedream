@@ -10,10 +10,10 @@ module.exports = {
       customResponse: true,
     },
     listId: {
-      type: "string",
-      label: "Audience List Id",
-      description:
-        "The unique ID of the audience list you'd like to watch for events.",
+      propDefinition: [
+        base.props.mailchimp,
+        "listId",
+      ],
     },
     triggeredByUser: {
       type: "boolean",

@@ -6,13 +6,96 @@ module.exports = {
   type: "app",
   app: "mailchimp",
   propDefinitions: {
-    timer: {
-      label: "Polling schedule",
-      description: "Pipedream polls Mailchimp for events on this schedule.",
-      type: "$.interface.timer",
-      default: {
-        //intervalSeconds: 15 * 60, // by default, run every 15 minutes.
-        intervalSeconds: 60
+    listId: {
+      type: "string",
+      label: "Audience List Id",
+      description:
+        "The unique ID of the audience list you'd like to watch for events.",
+      useQuery: true,
+      async options({ page }) {
+        const count = 1000;
+        const offset = 1000 * page;
+        const audienceListResults =  await this.getMailchimpAudienceLists(count,
+          offset,
+          undefined,
+          undefined);
+        return audienceListResults.lists.map((audienceList) => ({
+          label: audienceList.name,
+          value: audienceList.id,
+        }));
+      },
+    },
+    // eslint-disable-next-line pipedream/props-description
+    campaignId: {
+      type: "string",
+      label: "Campaign Id",
+      useQuery: true,
+      async options({ page }) {
+        const count = 1000;
+        const offset = 1000 * page;
+        const campaignsResults =  await this.getMailchimpCampaigns(count,
+          offset,
+          undefined,
+          undefined,
+          undefined);
+        return campaignsResults.campaigns.map((campaign) => {
+          const lsdIdx = campaign.long_archive_url.lastIndexOf("/");
+          const campaignName = lsdIdx > 0
+            ? campaign.long_archive_url.substring(lsdIdx + 1)
+            : "";
+          const label = `Campaign Id/Name from URL (if any): ${campaign.id}/${campaignName}, List Id/Name: ${campaign.recipients.list_id}/${campaign.recipients.list_name}, Subject: ${campaign.settings.subject_line}`;
+          return {
+            label,
+            value: campaign.id,
+          };
+        });
+      },
+    },
+    includeTransactional: {
+      type: "boolean",
+      label: "Include subscribers from Mailchimp Transactional?",
+      description:
+        "If set to `true`, it will include subscribers from Mailchimp Marketing and Mailchimp Transactional, formerly Mandrill.  When set to `false`, it will include subscribers from Mailchimp Marketing only.",
+      default: false,
+      optional: true,
+    },
+    // eslint-disable-next-line pipedream/props-description
+    storeId: {
+      type: "string",
+      label: "Store Id",
+      useQuery: true,
+      async options({ page }) {
+        const count = 1000;
+        const offset = 1000 * page;
+        const storeResults =  await this.getAllStores(count,
+          offset);
+        return storeResults.stores.map((store) => ({
+          label: store.name,
+          value: store.id,
+        }));
+      },
+    },
+    segmentId: {
+      type: "string",
+      label: "Segment/Tag Id",
+      description:
+        "The unique ID of the segment or tag you'd like to watch for new subscribers.",
+      useQuery: true,
+      async options(opts) {
+        const count = 1000;
+        const offset = 1000 * opts.page;
+        const cfg = {
+          count: count,
+          offset: offset,
+        };
+        const segmentsResults =  await this.getAllAudienceSegments(
+          opts.listId,
+          cfg,
+        );
+        return segmentsResults.segments.map((segment) => ({
+          label: `${segment.name}`,
+          value: segment.id,
+        }));
       },
     },
   },
@@ -204,6 +287,61 @@ module.exports = {
         }));
     },
     /**
+     * Gets segments and tags of the specified Audience List under the connected Mailchimp acccount.
+     * @params {String} listId - The unique ID for the Audience list.
+     * @params {Integer} count - For pagination, the number of records to return.
+     * Default value is 10. Maximum value is 1000
+     * @params {Integer} offset - For pagination, this the number of records from a collection to
+     * skip. Default value is 0.
+     * @params {String} type - Limit results based on segment type.
+     * @params {Date} since_created_at - Restrict response to segments created before the set date.
+     * Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+     * @params {Date} before_created_at - Restrict response to segments  created since the set date.
+     * Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+     * @params {Boolean} include_transactional - Include transactional members in  response.
+     * @params {Boolean} includeCleaned - Include cleaned members in  response.
+     * @params {Boolean} includeTransactional - Include transactional members in  response.
+     * @params {Boolean} includeUnsubscribed - Include unsubscribed members in  response.
+     * @params {Date} before_updated_at - Restrict response to segments updated before the set date.
+     * Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+     * @params {Date} since_updated_at - Restrict response to segments  updated since the set date.
+     * Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
+     * @returns {store_id: string, customers: array, total_items: integer, _links: object }
+     * `store_id` with the unique ID of the Ecommerce Store being queried, an array with the
+     * information of the `customers` returned, `total_items` with the total count of the customers
+     * collection, and `_links` array of links for customer manipulation through the Mailchimp API.
+     */
+    async getAllAudienceSegments(listId, cfg) {
+      const mailchimp = this._initMailchimpClient();
+      return await this._withRetries(() =>
+        mailchimp.lists.listSegments(listId, cfg));
+    },
+    /**
+     * Gets a list with information about Facebook ads (outreach).
+     * @params {String} config.fields - A comma-separated list of fields
+     * to return. Reference parameters sub-objects with dot notation.
+     * @params {String} config.exclude_fields - A comma-separated list of
+     * fields to exclude. Reference parameters of sub-objects with dot notation.
+     * @params {Integer} config.count - For pagination, the number of records to return
+     * on each page.
+     * Default value is 10. Maximum value is 1000.
+     * @params {Integer} config.offset - For pagination, this the number of records
+     * from a collection to skip. Default value is 0.
+     * @params {String} config.sort_field - Returns files sorted by the specified
+     * field. Possible values: "created_at", "updated_at", or "end_time".
+     * @params {String} config.sort_dir - Determines the order direction for
+     * sorted results. Possible values: "ASC" or "DESC".
+     * @returns {facebook_ads: array, total_items: integer, _links: object }
+     * An array with the information of the `facebook_ads` returned, `total_items`
+     * with the total count of the facebook_ads (the outreach) collection,
+     * and `_links` a list of link types and descriptions for the API schema documents.
+     */
+    async getAllFacebookAds(config) {
+      const mailchimp = this._initMailchimpClient();
+      return await this._withRetries(() =>
+        mailchimp.facebookAds.list(config));
+    },
+    /**
      * Gets files in the File Manager under the connected Mailchimp acccount.
     * @params {Integer} count - For pagination, the number of records to return on each page.
     * Default value is 10. Maximum value is 1000.
@@ -257,6 +395,36 @@ module.exports = {
         mailchimp.ecommerce.getAllStoreCustomers(storeId, {
           count,
           offset,
+        }));
+    },
+    /**
+     * Get information about all stores in the Mailchimp account.
+    * @params {Integer} count - For pagination, the number of records to return on each page.
+    * Default value is 10. Maximum value is 1000.
+     * @params {Integer} offset - For pagination, this the number of records from a collection to
+     * skip. Default value is 0.
+     * @params {String} fields - A comma-separated list of fields to return. Reference parameters
+     * sub-objects with dot notation..
+     * @params {String} exclude_fields - A comma-separated list of fields to exclude. Reference
+     * parameters of sub-objects with dot notation.
+     * @returns {stores: array, total_file_size: integer, total_items: integer, _links: object } An
+     * array with the information of the `stores` returned, `total_items` with the total count of
+     * the stores collection, and `_links` array of link types and descriptions for the API schema
+     * documents.
+     */
+    async getAllStores(
+      count,
+      offset,
+      fields = undefined,
+      exclude_fields = undefined,
+    ) {
+      const mailchimp = this._initMailchimpClient();
+      return await this._withRetries(() =>
+        mailchimp.ecommerce.stores({
+          count,
+          offset,
+          fields,
+          exclude_fields,
         }));
     },
     /**
@@ -324,7 +492,8 @@ module.exports = {
       return await this._withRetries(() => mailchimp.campaigns.get(campaignId));
     },
     /**
-     * Gets files in the File Manager under the connected Mailchimp acccount.
+     * Gets information about all available segments for the specified Audience List in
+     * the connected Mailchimp account.
      * @params {String} listId - The unique ID that identifies the Audience List you'd like to
      * watch for new or updated segments.
      * @params {Integer} count - For pagination, the number of records to return on each page.
@@ -339,10 +508,10 @@ module.exports = {
      * Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
      * @params {Date} sinceUpdatedAt - Restrict response to files updated since the set date.
      * Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-     * @returns {files: array, total_file_size: integer, total_items: integer, _links: object } An
-     * array with the information of the `files` returned, `total_file_size` with the total size
-     * of all File Manager files in bytes, `total_items` with the total count of the files
-     * collection, and `_links` array of links for file manipulation through the Mailchimp API.
+     * @returns {segments: array, list_id: integer, total_items: integer, _links: object } An
+     * array with the information representing the list's `segments`, `list_id` for the id of the
+     * Audience list, `total_items` with the total count of the segments
+     * collection, and `_links` array of links for segment manipulation through the Mailchimp API.
      */
     async getAudienceSegments(
       listId,

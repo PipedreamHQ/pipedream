@@ -12,18 +12,20 @@ module.exports = {
   props: {
     ...common.props,
     storeId: {
-      type: "string",
-      label: "Store Id",
+      propDefinition: [
+        common.props.mailchimp,
+        "storeId",
+      ],
       description:
         "The unique ID of the store you'd like to watch for new orders. Leave empty to watch for orders on your Mailchimp account.",
-      optional: true,
     },
     campaignId: {
-      type: "string",
-      label: "Campaign Id",
+      propDefinition: [
+        common.props.mailchimp,
+        "campaignId",
+      ],
       description:
         "Watch only for new orders with a specific Campaign Id value.",
-      optional: true,
     },
     customerId: {
       type: "string",
@@ -31,6 +33,20 @@ module.exports = {
       description:
         "Watch only for new orders made by a specific customer with this unique ID.",
       optional: true,
+      useQuery: true,
+      async options({ page }) {
+        const count = 1000;
+        const offset = 1000 * page;
+        const customersResults =  await this.mailchimp.getAllStoreCustomers(
+          this.storeId,
+          count,
+          offset,
+        );
+        return customersResults.customers.map((customer) => ({
+          label: `${customer.first_name} ${customer.last_name}`,
+          value: customer.id,
+        }));
+      },
     },
     hasOutreach: {
       type: "string",
@@ -50,6 +66,20 @@ module.exports = {
       description:
         "Ignored if `hasOutreach` is marked as 'No'.",
       optional: true,
+      useQuery: true,
+      async options({ page }) {
+        const count = 1000;
+        const offset = 1000 * page;
+        const cfg = {
+          count,
+          offset,
+        };
+        const outreachResults =  await this.mailchimp.getAllFacebookAds(cfg);
+        return outreachResults.facebook_ads.map((outreach) => ({
+          label: outreach.name,
+          value: outreach.id,
+        }));
+      },
     },
   },
   hooks: {
@@ -64,7 +94,6 @@ module.exports = {
         this.customerId,
         this.hasOutreach,
       );
-      console.log(this.hasOutreach);
       const { orders: mailchimpOrders = [] } = mailchimpOrdersInfo;
       if (!mailchimpOrders.length) {
         console.log("No data available, skipping iteration");
