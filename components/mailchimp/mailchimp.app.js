@@ -416,7 +416,7 @@ module.exports = {
       count,
       offset,
       fields = undefined,
-      exclude_fields = undefined,
+      excludeFields = undefined,
     ) {
       const mailchimp = this._initMailchimpClient();
       return await this._withRetries(() =>
@@ -424,7 +424,7 @@ module.exports = {
           count,
           offset,
           fields,
-          exclude_fields,
+          exclude_fields: ,
         }));
     },
     /**
