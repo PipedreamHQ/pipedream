@@ -424,7 +424,7 @@ module.exports = {
           count,
           offset,
           fields,
-          exclude_fields: ,
+          exclude_fields: excludeFields,
         }));
     },
     /**
