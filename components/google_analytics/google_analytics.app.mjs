@@ -15,17 +15,39 @@ export default {
     accountId: {
       type: "string",
       label: "Account ID",
-      description: "Account ID to retrieve goals for",
+      description: "Account ID to retrieve goals for. Can either be a specific **account ID** or `~all`, which refers to all the accounts that user has access to",
+      async options({ token }) {
+        return (await this.listAccounts(token)).items.map((e) => ({
+          label: e.name,
+          value: e.id,
+        }));
+      },
     },
     webPropertyId: {
       type: "string",
       label: "Web Property ID",
-      description: "Web property ID to retrieve goals for",
+      description: "Web property ID to retrieve goals for. Can either be a specific **web property ID** or `~all`, which refers to all the web properties that user has access to",
+      async options({
+        token, accountId,
+      }) {
+        return (await this.listWebProperties(token, accountId)).items.map((e) => ({
+          label: e.name,
+          value: e.id,
+        }));
+      },
     },
     profileId: {
       type: "string",
       label: "Profile ID",
-      description: "View (Profile) ID to retrieve goals for",
+      description: "View (Profile) ID to retrieve goals for. Can either be a specific *view (profile) ID** or `~all`, which refers to all the views (profiles) that user has access to",
+      async options({
+        token, accountId, webPropertyId,
+      }) {
+        return (await this.listProfiles(token, accountId, webPropertyId)).items.map((e) => ({
+          label: e.name,
+          value: e.id,
+        }));
+      },
     },
     goalId: {
       type: "string",

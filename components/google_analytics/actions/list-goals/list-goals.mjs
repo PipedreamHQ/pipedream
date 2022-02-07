@@ -19,24 +19,18 @@ export default {
         analytics,
         "accountId",
       ],
-      description: `${analytics.propDefinitions.accountId.description}
-        Can either be a specific account ID or \`~all\`, which refers to all the accounts that user has access to`,
     },
     webPropertyId: {
       propDefinition: [
         analytics,
         "webPropertyId",
       ],
-      description: `${analytics.propDefinitions.webPropertyId.description}
-        Can either be a specific web property ID or \`~all\`, which refers to all the web properties that user has access to`,
     },
     profileId: {
       propDefinition: [
         analytics,
         "profileId",
       ],
-      description: `${analytics.propDefinitions.profileId.description}
-        Can either be a specific view (profile) ID or \`~all\`, which refers to all the views (profiles) that user has access to`,
     },
     maxResults: {
       type: "integer",

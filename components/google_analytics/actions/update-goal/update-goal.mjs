@@ -41,8 +41,7 @@ export default {
     goal: {
       type: "object",
       label: "Goal Patch",
-      description: `The relevant portions of a management.goal resource, according to the rules of patch semantics
-        More information at [Google Analytics Management API](https://developers.google.com/analytics/devguides/config/mgmt/v3/mgmtReference/management/goals/patch)`,
+      description: "The relevant portions of a management.goal resource, according to the rules of patch semantics. More information at [Google Analytics Management API](https://developers.google.com/analytics/devguides/config/mgmt/v3/mgmtReference/management/goals/patch)",
     },
   },
   async run({ $ }) {
