@@ -299,7 +299,7 @@ defineComponent({
       headers: { "my-custom-header": "value" },
       body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
     });
-  })
+  }
 });
 ```
 
@@ -336,7 +336,7 @@ defineComponent({
       headers: { "my-custom-header": "value" },
       body: { message: "My custom response" },
     });
-  })
+  }
 });
 ```
 
@@ -352,7 +352,7 @@ defineComponent({
       status: 200,
       body: "",
     });
-  })
+  }
 });
 ```
 
@@ -390,7 +390,7 @@ defineComponent({
         },
       });
     }
-  })
+  }
 });
 ```
 
