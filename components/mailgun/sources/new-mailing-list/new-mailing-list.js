@@ -57,11 +57,12 @@ module.exports = {
         address = result[result.length - 1].address;
       }
     } while (result.length);
-    const filter = mailinglists.filter((r) => {
-      const idxAt = r.address.indexOf("@");
-      const compareDomain = [];
-      compareDomain.push(this.domain);
-      return compareDomain.includes(r.address.substring(idxAt + 1));
+    const filter = mailinglists.filter((list) => {
+      const [
+        _name, // eslint-disable-line no-unused-vars
+        domain,
+      ] = list.address.split("@");
+      return this.domain === domain;
     });
     const sortedList = filter.sort((a, b) => {
       const tsa = +new Date(a.created_at);
