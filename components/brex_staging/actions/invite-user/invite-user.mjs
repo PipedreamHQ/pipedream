@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Invite User",
   description: "Invites a new user as an employee. [See the docs here](https://developer.brex.com/openapi/team_api/#operation/createUser).",
-  key: "brex-invite-user",
+  key: "brex_staging-invite-user",
   version: "0.0.30",
   type: "action",
   props: {
