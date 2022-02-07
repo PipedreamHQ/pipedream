@@ -9,7 +9,7 @@ module.exports = {
   name: "New Delivery",
   type: "source",
   description: "Emit new event when an email is sent and accepted by the recipient email server.",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...methods,

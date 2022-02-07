@@ -12,7 +12,7 @@ module.exports = {
     "Unsubscribe tracking must be enabled in the Mailgun control panel. See more at the " +
     "Mailgun User's Manual [Tracking Messages]" +
     "(https://documentation.mailgun.com/en/latest/user_manual.html#tracking-messages) section",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...methods,
