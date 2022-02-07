@@ -10,7 +10,7 @@ module.exports = {
   name: "New Bounce",
   type: "source",
   description: "Emit new event when the email recipient could not be reached.",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...methods,
@@ -26,7 +26,7 @@ module.exports = {
     },
   },
   async run(event) {
-    if (!get(event, "body.signature", false)) {
+    if (!event.body?.signature) {
       console.warn("Webhook signature missing, skipping");
       return;
     }
