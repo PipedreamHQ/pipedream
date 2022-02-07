@@ -26,7 +26,7 @@ module.exports = {
     },
   },
   async run(event) {
-    if (!get(event, "body.signature", false)) {
+    if (!event.body?.signature) {
       console.warn("Webhook signature missing, skipping");
       return;
     }
