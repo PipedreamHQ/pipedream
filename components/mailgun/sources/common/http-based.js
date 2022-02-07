@@ -55,7 +55,7 @@ module.exports = {
       return this.mailgun.api("webhooks").update(domain, webhook, urls);
     },
     async deleteWebhook(domain, webhook) {
-      return this.mailgun.api("request").delete(`/v3/domains/${domain}/webhooks/${webhook}`);
+      return this.mailgun.api("webhooks").destroy(domain, webhook);
     },
     isSubscribed(urls = []) {
       return (
