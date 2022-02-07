@@ -136,11 +136,10 @@ export default {
       return (await this._getReportsInstance(token).batchGet(params)).data;
     },
     async createMeasurement(params, data) {
-      let opts = {
+      await this._makeRequest({
         params,
         data,
-      };
-      await this._makeRequest(opts);
+      });
     },
   },
 };

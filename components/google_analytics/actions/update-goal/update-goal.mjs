@@ -4,7 +4,7 @@ import common from "../common.mjs";
 export default {
   key: "google_analytics-update-goal",
   name: "Update Goal",
-  description: "Updates an existing goal",
+  description: "Updates an existing goal. [See the docs](https://developers.google.com/analytics/devguides/config/mgmt/v3/mgmtReference/management/goals/update)",
   version: "0.0.1",
   type: "action",
   props: {

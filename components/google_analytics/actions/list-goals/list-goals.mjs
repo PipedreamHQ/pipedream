@@ -3,7 +3,7 @@ import analytics from "../../google_analytics.app.mjs";
 export default {
   key: "google_analytics-list-goals",
   name: "List Goals",
-  description: "Lists goals to which the user has access",
+  description: "Lists goals to which the user has access. [See the docs](https://developers.google.com/analytics/devguides/config/mgmt/v3/mgmtReference/management/goals/list)",
   version: "0.0.1",
   type: "action",
   props: {
