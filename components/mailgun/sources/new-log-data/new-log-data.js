@@ -61,7 +61,7 @@ module.exports = {
       },
     };
     while (true) {
-      result = await this.getLatestEvents(result.pages.next.id, 300);
+      result = await this.getLatestEvents(result.pages.next.number, 300);
       if (result.items.length === 0) {
         console.log("No data available, skipping iteration");
         return;
