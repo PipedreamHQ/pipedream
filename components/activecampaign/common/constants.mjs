@@ -1,6 +1,6 @@
 const LAST_UPDATED_TIMESTAMP = "lastUpdatedTimestamp";
 const ORDER_BY_UPDATED_TIMESTAMP = "orders[updatedTimestamp]";
-const FILTER_UPDATED_AFTER = "filters[updated_after]";
+const FILTER_UPDATED_AFTER = "filters[updatedTimestamp]";
 
 export default {
   LAST_UPDATED_TIMESTAMP,

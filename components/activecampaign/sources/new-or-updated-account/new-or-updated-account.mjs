@@ -6,7 +6,7 @@ export default {
   name: "New or Updated Account",
   key: "activecampaign-new-or-updated-contact",
   description: "Emits an event each time an account is added or updated.",
-  version: "0.0.7",
+  version: "0.0.11",
   props: {
     ...common.props,
     timer: {
@@ -25,22 +25,18 @@ export default {
 
       const accounts =
         await this.paginateResources({
-          params: {
-            [constants.FILTER_UPDATED_AFTER]: updatedTimestamp,
-          },
+          [constants.FILTER_UPDATED_AFTER]: updatedTimestamp,
         });
 
       const [
         { updatedTimestamp: lastUpdatedTimestamp } = {},
       ] = accounts.slice(-1);
 
-      this.setLastUpdatedTimestamp(lastUpdatedTimestamp);
+      if (lastUpdatedTimestamp) {
+        this.setLastUpdatedTimestamp(lastUpdatedTimestamp);
+      }
 
       this.processEvents(accounts);
-    },
-    deactivate() {
-      console.log("deactivate");
-      this.setLastUpdatedTimestamp(undefined);
     },
   },
   methods: {
@@ -49,7 +45,7 @@ export default {
       this.db.set(constants.LAST_UPDATED_TIMESTAMP, updatedTimestamp);
     },
     getLastUpdatedTimestamp() {
-      this.db.get(constants.LAST_UPDATED_TIMESTAMP);
+      return this.db.get(constants.LAST_UPDATED_TIMESTAMP);
     },
     getMeta(resource) {
       const {
@@ -86,24 +82,23 @@ export default {
       const meta = this.getMeta(resource);
       this.$emit(resource, meta);
     },
-    async run() {
-      console.log("run");
-      const updatedTimestamp = this.getLastUpdatedTimestamp();
+  },
+  async run() {
+    const updatedTimestamp = this.getLastUpdatedTimestamp();
 
-      const accounts =
-        await this.paginateResources({
-          params: {
-            [constants.FILTER_UPDATED_AFTER]: updatedTimestamp,
-          },
-        });
+    const accounts =
+      await this.paginateResources({
+        [constants.FILTER_UPDATED_AFTER]: updatedTimestamp,
+      });
 
-      const [
-        { updatedTimestamp: lastUpdatedTimestamp } = {},
-      ] = accounts.slice(-1);
+    const [
+      { updatedTimestamp: lastUpdatedTimestamp = null } = {},
+    ] = accounts.slice(-1);
 
+    if (lastUpdatedTimestamp) {
       this.setLastUpdatedTimestamp(lastUpdatedTimestamp);
+    }
 
-      this.processEvents(accounts);
-    },
+    this.processEvents(accounts);
   },
 };

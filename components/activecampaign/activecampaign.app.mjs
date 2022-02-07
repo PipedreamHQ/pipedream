@@ -202,10 +202,12 @@ export default {
         method: "GET",
         url: url || `${this.$auth.base_url}/api/3/${endpoint}`,
         headers: this._getHeaders(),
-        params,
+        params: {
+          ...params,
+          limit,
+          offset,
+        },
       };
-      if (limit) config.params.limit = limit;
-      if (offset) config.params.offset = offset;
       console.log("config", config);
       return axios(this, config);
     },
@@ -251,7 +253,12 @@ export default {
       return this._makeGetRequest("webhook/events");
     },
     async listAccounts({ params } = {}) {
-      return this._makeGetRequest("accounts", params?.limit, params?.offset);
+      const {
+        limit,
+        offset,
+        ...otherParams
+      } = params;
+      return this._makeGetRequest("accounts", limit, offset, otherParams);
     },
   },
 };
