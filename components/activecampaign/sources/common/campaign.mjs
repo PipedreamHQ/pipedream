@@ -1,5 +1,5 @@
-import activecampaign from "../activecampaign.app.mjs";
-import common from "./common-webhook.mjs";
+import activecampaign from "../../activecampaign.app.mjs";
+import common from "./webhook.mjs";
 
 export default {
   ...common,

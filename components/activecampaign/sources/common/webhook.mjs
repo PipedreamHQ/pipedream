@@ -1,7 +1,7 @@
-import activecampaign from "../activecampaign.app.mjs";
-import common from "./common.mjs";
+import activecampaign from "../../activecampaign.app.mjs";
+import common from "./base.mjs";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,

@@ -1,5 +1,5 @@
 import activecampaign from "../../activecampaign.app.mjs";
-import common from "../common.mjs";
+import common from "../common/base.mjs";
 
 export default {
   ...common,

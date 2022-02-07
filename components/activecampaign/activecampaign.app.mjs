@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import { humanize } from "inflection";
+import inflection from "inflection";
 
 export default {
   type: "app",
@@ -16,7 +16,7 @@ export default {
         }
         const results = await this.listWebhookEvents();
         return results.webhookEvents.map((e) => ({
-          label: humanize(e),
+          label: inflection.humanize(e),
           value: e,
         }));
       },
@@ -181,7 +181,7 @@ export default {
           },
         },
       };
-      return (await axios(config)).data;
+      return axios(this, config);
     },
     async deleteHook(hookId) {
       const config = {
@@ -189,7 +189,7 @@ export default {
         url: `${this.$auth.base_url}/api/3/webhooks/${hookId}`,
         headers: this._getHeaders(),
       };
-      await axios(config);
+      await axios(this, config);
     },
     async _makeGetRequest(
       endpoint,
@@ -206,7 +206,8 @@ export default {
       };
       if (limit) config.params.limit = limit;
       if (offset) config.params.offset = offset;
-      return await axios(config);
+      console.log("config", config);
+      return axios(this, config);
     },
     async _getNextOptions(optionsFn, prevContext) {
       const limit = 100;
@@ -229,25 +230,28 @@ export default {
       ];
     },
     async getList(id) {
-      return (await this._makeGetRequest(`lists/${id}`)).data;
+      return this._makeGetRequest(`lists/${id}`);
     },
     async listAutomations(limit, offset) {
-      return (await this._makeGetRequest("automations", limit, offset)).data;
+      return this._makeGetRequest("automations", limit, offset);
     },
     async listCampaigns(limit, offset) {
-      return (await this._makeGetRequest("campaigns", limit, offset)).data;
+      return this._makeGetRequest("campaigns", limit, offset);
     },
     async listContacts(limit, offset) {
-      return (await this._makeGetRequest("contacts", limit, offset)).data;
+      return this._makeGetRequest("contacts", limit, offset);
     },
     async listDeals(limit, offset) {
-      return (await this._makeGetRequest("deals", limit, offset)).data;
+      return this._makeGetRequest("deals", limit, offset);
     },
     async listLists(limit, offset) {
-      return (await this._makeGetRequest("lists", limit, offset)).data;
+      return this._makeGetRequest("lists", limit, offset);
     },
     async listWebhookEvents() {
-      return (await this._makeGetRequest("webhook/events")).data;
+      return this._makeGetRequest("webhook/events");
+    },
+    async listAccounts({ params } = {}) {
+      return this._makeGetRequest("accounts", params?.limit, params?.offset);
     },
   },
 };

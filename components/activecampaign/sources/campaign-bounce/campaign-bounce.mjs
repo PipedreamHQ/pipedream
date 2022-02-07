@@ -1,4 +1,4 @@
-import common from "../common-campaign.mjs";
+import common from "../common/campaign.mjs";
 
 export default {
   ...common,

@@ -1,4 +1,4 @@
-import activecampaign from "../activecampaign.app.mjs";
+import activecampaign from "../../activecampaign.app.mjs";
 
 export default {
   dedupe: "unique",
