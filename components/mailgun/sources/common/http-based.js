@@ -82,8 +82,8 @@ module.exports = {
     emitEvent(payload) {
       const expectedTypes = this.getEventType();
       if (
-        !expectedTypes.includes(payload.event) &&
-        (!this.getEventSubtype() || this.getEventSubtype().includes(payload.severity))
+        !expectedTypes.includes(payload.event) ||
+        (this.getEventSubtype() && this.getEventSubtype().includes(payload.severity))
       ) {
         console.debug("Expected", expectedTypes, "but got a", payload.event, "- skipping");
         return;
