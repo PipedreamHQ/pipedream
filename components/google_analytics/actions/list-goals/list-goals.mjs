@@ -18,18 +18,30 @@ export default {
       propDefinition: [
         analytics,
         "accountId",
+        (c) => ({
+          token: c.token,
+        }),
       ],
     },
     webPropertyId: {
       propDefinition: [
         analytics,
         "webPropertyId",
+        (c) => ({
+          token: c.token,
+          accountId: c.accountId,
+        }),
       ],
     },
     profileId: {
       propDefinition: [
         analytics,
         "profileId",
+        (c) => ({
+          token: c.token,
+          accountId: c.accountId,
+          webPropertyId: c.webPropertyId,
+        }),
       ],
     },
     maxResults: {

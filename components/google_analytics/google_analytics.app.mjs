@@ -53,6 +53,18 @@ export default {
       type: "string",
       label: "Goal ID",
       description: "Goal ID to retrieve the goal for",
+      async options({
+        token, accountId, webPropertyId, profileId,
+      }) {
+        return (await this.listGoals(token, {
+          accountId,
+          webPropertyId,
+          profileId,
+        })).items.map((e) => ({
+          label: e.name,
+          value: e.id,
+        }));
+      },
     },
   },
   methods: {
@@ -96,6 +108,20 @@ export default {
     _throwFormattedError(err) {
       err = err.response.data;
       throw Error(`${err.statusCode} - ${err.statusMessage} - ${err.message}`);
+    },
+    async listAccounts(token) {
+      return (await this._getAnalyticsInstance(token).management.accounts.list()).data;
+    },
+    async listWebProperties(token, accountId) {
+      return (await this._getAnalyticsInstance(token).management.webproperties.list({
+        accountId,
+      })).data;
+    },
+    async listProfiles(token, accountId, webPropertyId) {
+      return (await this._getAnalyticsInstance(token).management.profiles.list({
+        accountId,
+        webPropertyId,
+      })).data;
     },
     async listGoals(token, params) {
       return (await this._getGoalsInstance(token).list(params)).data;

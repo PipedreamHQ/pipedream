@@ -18,24 +18,42 @@ export default {
       propDefinition: [
         analytics,
         "accountId",
+        (c) => ({
+          token: c.token,
+        }),
       ],
     },
     webPropertyId: {
       propDefinition: [
         analytics,
         "webPropertyId",
+        (c) => ({
+          token: c.token,
+          accountId: c.accountId,
+        }),
       ],
     },
     profileId: {
       propDefinition: [
         analytics,
         "profileId",
+        (c) => ({
+          token: c.token,
+          accountId: c.accountId,
+          webPropertyId: c.webPropertyId,
+        }),
       ],
     },
     goalId: {
       propDefinition: [
         analytics,
         "goalId",
+        (c) => ({
+          token: c.token,
+          accountId: c.accountId,
+          webPropertyId: c.webPropertyId,
+          profileId: c.profileId,
+        }),
       ],
     },
     goal: {
