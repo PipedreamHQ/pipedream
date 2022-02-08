@@ -7,11 +7,8 @@ module.exports = {
   type: "source",
   name: "New Object (Instant, of Selectable Type)",
   key: "salesforce_rest_api-new-object-instant",
-  description: `
-    Emit new event immediately after an object of arbitrary type
-    (selected as an input parameter by the user) is created
-  `,
-  version: "0.0.3",
+  description: "Emit new event immediately after an object of arbitrary type (selected as an input parameter by the user) is created",
+  version: "0.0.4",
   methods: {
     ...common.methods,
     generateMeta(data) {

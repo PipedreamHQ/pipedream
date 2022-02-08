@@ -4,6 +4,10 @@ import googleDrive from "../google_drive/google_drive.app.mjs";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
 } from "./constants.mjs";
+import isArray from "lodash/isArray.js";
+import get from "lodash/get.js";
+import isString from "lodash/isString.js";
+import isEmpty from "lodash/isEmpty.js";
 
 export default {
   ...googleDrive,
@@ -19,7 +23,7 @@ export default {
       type: "string[]",
       label: "Cells / Column Values",
       description:
-        "Use structured mode to enter individual cell values. Disable structured mode to pass an array with each element representing a cell/column value.",
+        "Enter individual cell values or a custom expression to pass an array with each element representing a cell/column value.",
     },
     range: {
       type: "string",
@@ -45,7 +49,7 @@ export default {
     sheetID: {
       type: "string",
       label: "Spreadsheet",
-      description: "The Google spreadsheet",
+      description: "The Spreadsheet ID",
       options({
         prevContext,
         driveId,
@@ -57,7 +61,7 @@ export default {
     sheetName: {
       type: "string",
       label: "Sheet Name",
-      description: "Sheet Name",
+      description: "Your sheet name",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
         return sheets.map((sheet) => sheet.properties.title);
@@ -67,7 +71,7 @@ export default {
     worksheetIDs: {
       type: "string[]",
       label: "Worksheet(s)",
-      description: "Worksheet(s)",
+      description: "The Worksheet ID",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
 
@@ -89,6 +93,30 @@ export default {
   },
   methods: {
     ...googleDrive.methods,
+    sanitizedArray(value) {
+      if (isArray(value)) {
+        return value.map((item) => get(item, "value", item));
+      }
+
+      // If is string, try to convert it in an array
+      if (isString(value)) {
+        // Return an empty array if string is empty
+        if (isEmpty(value)) {
+          return [];
+        }
+
+        return value
+          // Remove square brackets from ends ([ "foo", 5 ] ->  "foo", 5 )
+          .replace(/(^\[)|(]$)/g, "")
+          .trim() // ( "foo", 5  -> "foo", 5)
+          // Remove quotes from ends ("foo", 5  ->  foo", 5)
+          .replace(/^["']|["']$/g, "")
+          // Split on quotes, whitespace, and comma (foo", 5 ->  ["foo","5"])
+          .split(/["']?\s*,\s*["']?/);
+      }
+
+      throw new Error(`${value} is not an array or an array-like`);
+    },
     sheets() {
       const auth = new google.auth.OAuth2();
       auth.setCredentials({
@@ -344,7 +372,7 @@ export default {
     }) {
       const resp = await axios({
         method: "POST",
-        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`,
+        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURI(range)}:append`,
         headers: {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },

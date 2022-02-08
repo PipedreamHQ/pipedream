@@ -5,13 +5,15 @@ const googleCalendar = require("../../google_calendar.app.js");
 
 module.exports = {
   key: "google_calendar-new-or-updated-event-instant",
+  type: "source",
   name: "New or Updated Event (Instant)",
   description:
     "Emits when an event is created or updated (except when it's cancelled)",
-  version: "0.0.4",
+  version: "0.0.5",
   props: {
     googleCalendar,
     db: "$.service.db",
+    // eslint-disable-next-line pipedream/props-description
     calendarId: {
       type: "string",
       label: "Calendar",
@@ -39,7 +41,7 @@ module.exports = {
       description:
         "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
-      default: {
+      static: {
         intervalSeconds: 60 * 60 * 24,
       },
     },
