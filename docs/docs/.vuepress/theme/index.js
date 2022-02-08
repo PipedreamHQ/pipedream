@@ -23,6 +23,8 @@ module.exports = (options, ctx) => {
       }
     },
 
+    globalLayout: path.resolve(__dirname, 'layouts/GlobalLayout.vue'),
+
     plugins: [
       ['@vuepress/active-header-links', options.activeHeaderLinks],
       '@vuepress/search',

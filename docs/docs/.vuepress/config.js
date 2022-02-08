@@ -5,7 +5,7 @@ module.exports = {
   title: "",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
   description: "Pipedream Documentation - Connect APIs, remarkably fast",
-  base: "/docs-v2/",
+  base: "/docs/v2/",
   plugins: [
     [
       "vuepress-plugin-canonical",
@@ -14,6 +14,8 @@ module.exports = {
         stripExtension: true,
       },
     ],
+    require(path.resolve(__dirname, './plugins/canonical-docs.js')),
+
   ],
   themeConfig: {
     algolia: {
@@ -31,7 +33,7 @@ module.exports = {
         items: [
           {
             text: "v2",
-            link: "https://pipedream.com/docs-v2",
+            link: "https://pipedream.com/docs",
             internal: true,
             badge: "New",
             badgeVariation: "primary",
@@ -39,7 +41,7 @@ module.exports = {
           {
             text: "v1",
             internal: true,
-            link: "https://pipedream.com/docs",
+            link: "https://pipedream.com/docs/v1",
           },
         ],
       },
