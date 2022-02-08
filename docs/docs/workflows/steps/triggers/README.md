@@ -599,17 +599,5 @@ Select the **SDK** trigger to generate workflow-specific code samples for sendin
 
 If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/community/).
 
-## Multiple triggers for one workflow
-
-Want to trigger a workflow on a schedule, but at the same time trigger it on demand with a Slack message? Yes this is possible and yes it's very cool.
-
-Click the top right menu in the trigger itself, and select "Add trigger".
-
-Now you can add an additional trigger to the same workflow, opening up multiple ways that a workflow can be started.
-
-<div>
-<img src="./images/add-multi-trigger.gif" alt="Add multiple triggers to a workflow" />
-</div>
-
 <Footer />
 
