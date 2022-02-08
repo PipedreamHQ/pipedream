@@ -1,4 +1,5 @@
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   type: "app",
@@ -69,6 +70,7 @@ export default {
     _getHeaders() {
       return {
         "Content-Type": "application/json",
+        "Idempotency-Key": uuidv4(),
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
