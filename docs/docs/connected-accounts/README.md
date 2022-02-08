@@ -15,7 +15,7 @@ defineComponent({
     }
   },
   async run({ steps, $ }) {
-    const web = new WebClient(this.slack.$auths.oauth_access_token)
+    const web = new WebClient(this.slack.$auth.oauth_access_token)
     return await web.chat.postMessage({
       text: "Hello, world!",
       channel: "#general",
