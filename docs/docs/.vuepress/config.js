@@ -5,7 +5,7 @@ module.exports = {
   title: "",
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
   description: "Pipedream Documentation - Connect APIs, remarkably fast",
-  base: "/docs/",
+  base: "/docs/v1/",
   plugins: [
     [
       "vuepress-plugin-canonical",
@@ -28,7 +28,7 @@ module.exports = {
         text: "v1",
         ariaLabel: "Docs Version Menu",
         items: [
-          { text: "v1", link: "/" },
+          { text: "v1", link: "/v1/" },
           { text: "v2", link: "/v2/" },
         ],
       },
