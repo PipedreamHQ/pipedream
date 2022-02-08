@@ -1,19 +1,14 @@
 import startCase from "lodash/startCase.js";
 
 import common from "../common.mjs";
-import { toSingleLineString } from "../../utils.mjs";
 
 export default {
   ...common,
   type: "source",
   name: "New Object (of Selectable Type)",
   key: "salesforce_rest_api-new-object",
-  description: toSingleLineString(`
-    Emit new event (at regular intervals) when an object of arbitrary type (selected as an
-    input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for
-    more information.
-  `),
-  version: "0.0.4",
+  description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for more information.",
+  version: "0.0.5",
   methods: {
     ...common.methods,
     isItemRelevant(item, startTimestamp, endTimestamp) {

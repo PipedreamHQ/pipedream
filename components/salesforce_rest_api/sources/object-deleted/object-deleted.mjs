@@ -1,19 +1,14 @@
 import startCase from "lodash/startCase.js";
 
 import common from "../common.mjs";
-import { toSingleLineString } from "../../utils.mjs";
 
 export default {
   ...common,
   type: "source",
   name: "Object Deleted (of Selectable Type)",
   key: "salesforce_rest_api-object-deleted",
-  description: toSingleLineString(`
-    Emit new event (at regular intervals) when an object of arbitrary type (selected as an
-    input parameter by the user) is deleted. [See the docs](https://sforce.co/3msDDEE) for
-    more information.
-  `),
-  version: "0.0.4",
+  description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is deleted. [See the docs](https://sforce.co/3msDDEE) for more information.",
+  version: "0.0.5",
   methods: {
     ...common.methods,
     generateMeta(item) {
