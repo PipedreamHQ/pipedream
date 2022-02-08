@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/docs/v1/",
-      "destination": "/docs/v1/"
+      "destination": "/"
     },
     {
       "source": "/docs/v1/(.*)",
-      "destination": "/docs/v1/$1"
+      "destination": "/$1"
     }
   ],
   "redirects": [
@@ -108,4 +108,3 @@
     }
   ]
 }
-
