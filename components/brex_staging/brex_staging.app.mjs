@@ -62,6 +62,18 @@ export default {
         };
       },
     },
+    cashAccount: {
+      type: "string",
+      label: "Cash Account",
+      optional: true,
+      async options() {
+        const res = await this.getCashAccounts();
+        return res.data.items?.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -80,6 +92,7 @@ export default {
         url: this._getBaseUrl() + opts.path,
         headers: this._getHeaders(),
       };
+      console.log(res);
       return res;
     },
     async getLocations(cursor, limit) {
@@ -110,6 +123,12 @@ export default {
           cursor,
           limit,
         },
+      }));
+    },
+    async getCashAccounts() {
+      return axios(this._getAxiosParams({
+        method: "GET",
+        path: "/accounts/cash",
       }));
     },
   },
