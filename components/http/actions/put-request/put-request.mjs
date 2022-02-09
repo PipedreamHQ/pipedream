@@ -6,7 +6,7 @@ export default {
   name: "PUT Request",
   description: "Make an HTTP PUT request to any URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   props: {
     http,
     url: {
