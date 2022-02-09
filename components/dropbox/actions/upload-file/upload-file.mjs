@@ -23,7 +23,7 @@ export default {
     name: {
       type: "string",
       label: "Folder name",
-      description: "Your new folder name.",
+      description: "The name of your new file.",
     },
     fileUrl: {
       type: "string",
