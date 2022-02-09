@@ -12,7 +12,7 @@ export default {
       description:
         "Emit events for the selected event type. See the official docs for more information on event types. https://developers.activecampaign.com/page/webhooks",
       async options({ page }) {
-        if (page !== 0) {
+        if (page) {
           return [];
         }
         const { webhookEvents } = await this.listWebhookEvents();
@@ -248,49 +248,34 @@ export default {
         params,
       });
     },
-    async listAutomations(limit, offset) {
+    async listAutomations({ params } = {}) {
       return this.makeRequest({
         path: "/automations",
-        params: {
-          limit,
-          offset,
-        },
+        params,
       });
     },
-    async listCampaigns(limit, offset) {
+    async listCampaigns({ params } = {}) {
       return this.makeRequest({
         path: "/campaigns",
-        params: {
-          limit,
-          offset,
-        },
+        params,
       });
     },
-    async listContacts(limit, offset) {
+    async listContacts({ params } = {}) {
       return this.makeRequest({
         path: "/contacts",
-        params: {
-          limit,
-          offset,
-        },
+        params,
       });
     },
-    async listDeals(limit, offset) {
+    async listDeals({ params } = {}) {
       return this.makeRequest({
         path: "/deals",
-        params: {
-          limit,
-          offset,
-        },
+        params,
       });
     },
-    async listLists(limit, offset) {
+    async listLists({ params } = {}) {
       return this.makeRequest({
         path: "/lists",
-        params: {
-          limit,
-          offset,
-        },
+        params,
       });
     },
     async listWebhookEvents() {
@@ -310,16 +295,19 @@ export default {
         params,
       });
     },
-    async listCustomFieldValues() {
+    async listCustomFieldValues({ params } = {}) {
       return this.makeRequest({
         path: "/accountCustomFieldData",
+        params,
       });
     },
     async listPipelineOptions(prevContext) {
       return this.paginateResources({
         requestFn: this.listPipelines,
         requestArgs: {
-          offset: prevContext.offset || 0,
+          params: {
+            offset: prevContext.offset || 0,
+          },
         },
         resourceName: "dealGroups",
         mapper: ({
@@ -334,7 +322,9 @@ export default {
       return this.paginateResources({
         requestFn: this.listCustomFieldValues,
         requestArgs: {
-          offset: prevContext.offset || 0,
+          params: {
+            offset: prevContext.offset || 0,
+          },
         },
         resourceName: "accountCustomFieldData",
         mapper: ({
@@ -349,7 +339,9 @@ export default {
       return this.paginateResources({
         requestFn: this.listLists,
         requestArgs: {
-          offset: prevContext.offset || 0,
+          params: {
+            offset: prevContext.offset || 0,
+          },
         },
         resourceName: "list",
         mapper: ({
@@ -364,7 +356,9 @@ export default {
       return this.paginateResources({
         requestFn: this.listCampaigns,
         requestArgs: {
-          offset: prevContext.offset || 0,
+          params: {
+            offset: prevContext.offset || 0,
+          },
         },
         resourceName: "campaigns",
         mapper: ({
@@ -379,7 +373,9 @@ export default {
       return this.paginateResources({
         requestFn: this.listAutomations,
         requestArgs: {
-          offset: prevContext.offset || 0,
+          params: {
+            offset: prevContext.offset || 0,
+          },
         },
         resourceName: "automations",
         mapper: ({
@@ -394,7 +390,9 @@ export default {
       return this.paginateResources({
         requestFn: this.listContacts,
         requestArgs: {
-          offset: prevContext.offset || 0,
+          params: {
+            offset: prevContext.offset || 0,
+          },
         },
         resourceName: "contacts",
         mapper: ({
@@ -409,7 +407,9 @@ export default {
       return this.paginateResources({
         requestFn: this.listDeals,
         requestArgs: {
-          offset: prevContext.offset || 0,
+          params: {
+            offset: prevContext.offset || 0,
+          },
         },
         resourceName: "deals",
         mapper: ({
@@ -423,15 +423,26 @@ export default {
     async paginateResources({
       requestFn, requestArgs, resourceName, mapper,
     }) {
-      const { [resourceName]: resources } =
+      const limit = requestArgs.params?.limit ?? constants.DEFAULT_LIMIT;
+      const offset = (requestArgs.params?.offset ?? 0) + limit;
+
+      const {
+        [resourceName]: resources,
+        meta,
+      } =
         await requestFn({
-          limit: constants.DEFAULT_LIMIT,
           ...requestArgs,
+          params: {
+            limit,
+            ...requestArgs.params,
+          },
         });
+
       return {
         options: resources.map(mapper),
         context: {
-          offset: requestArgs.offset + constants.DEFAULT_LIMIT,
+          offset,
+          total: meta.total,
         },
       };
     },

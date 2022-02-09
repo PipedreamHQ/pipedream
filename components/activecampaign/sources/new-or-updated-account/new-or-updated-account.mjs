@@ -1,3 +1,4 @@
+import constants from "../../common/constants.mjs";
 import common from "../common/base.mjs";
 
 export default {
@@ -48,7 +49,7 @@ export default {
       const { accounts: resources } =
         await this.activecampaign.listAccounts({
           params: {
-            limit: 100,
+            limit: constants.DEFAULT_LIMIT,
           },
         });
       return resources;

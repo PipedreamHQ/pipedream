@@ -5,32 +5,37 @@ export default {
   name: "List Campaigns",
   description: "List Campaigns. See the docs [here](https://developers.activecampaign.com/reference#list-all-campaigns).",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.20",
   props: {
     activecampaign,
   },
   async run({ $ }) {
     let resources = [];
-    let nextResources = [];
-    const prevContext = {
-      offset: 0,
-    };
+    let offset = 0;
+    let total = 1;
 
     do {
-      ({ options: nextResources } =
+      const response =
         await this.activecampaign.paginateResources({
           requestFn: this.activecampaign.listCampaigns,
           requestArgs: {
-            offset: prevContext.offset || 0,
+            $,
+            params: {
+              offset,
+            },
           },
           resourceName: "campaigns",
           mapper: (resource) => resource,
-        }));
+        });
+
+      const { options: nextResources } = response;
+      ({
+        offset, total,
+      } = response.context);
 
       resources = resources.concat(nextResources);
-      console.log(resources);
 
-    } while (nextResources.length > 0);
+    } while (resources.length < total);
 
     $.export("$summary", `Successfully listed ${resources.length} campaigns.`);
 

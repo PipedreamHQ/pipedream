@@ -30,10 +30,18 @@ export default {
       );
     },
     isAutomationRelevant(automation) {
-      if (!this.isWatchedAutomation(automation)) return false;
+      if (!this.isWatchedAutomation(automation)) {
+        return false;
+      }
+
       const entered = this.db.get(automation.id) || 0; // number of times automation has run
-      if (parseInt(automation.entered) <= entered) return false;
+
+      if (parseInt(automation.entered) <= entered) {
+        return false;
+      }
+
       this.db.set(automation.id, parseInt(automation.entered));
+
       return true;
     },
     getMeta(automation) {
@@ -45,38 +53,36 @@ export default {
     },
   },
   async run() {
-    let prevContext = {
-      offset: 0,
-    };
+    let resources = [];
+    let offset = 0;
     let total = 1;
-    let count = 0;
-    while (count < total) {
-      const {
-        results,
-        context,
-      } = await this.activecampaign._getNextOptions(
-        this.activecampaign.listAutomations.bind(this),
-        prevContext,
-      );
-      prevContext = context;
-      total = results.meta.total;
 
-      if (total == 0) continue;
-
-      for (const automation of results.automations) {
-        count++;
-        if (!this.isAutomationRelevant(automation)) continue;
-        const {
-          id,
-          summary,
-          ts,
-        } = this.getMeta(automation);
-        this.$emit(automation, {
-          id,
-          summary,
-          ts,
+    do {
+      const response =
+        await this.activecampaign.paginateResources({
+          requestFn: this.activecampaign.listAutomations,
+          requestArgs: {
+            params: {
+              offset,
+            },
+          },
+          resourceName: "automations",
+          mapper: (resource) => resource,
         });
-      }
-    }
+
+      const { options: nextResources } = response;
+      ({
+        offset, total,
+      } = response.context);
+
+      resources = resources.concat(nextResources);
+
+      resources.forEach((resource) => {
+        if (this.isAutomationRelevant(resource)) {
+          this.$emit(resource, this.getMeta(resource));
+        }
+      });
+
+    } while (resources.length < total);
   },
 };
