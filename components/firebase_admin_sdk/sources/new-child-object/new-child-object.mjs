@@ -1,12 +1,12 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "firebase_admin_sdk-new-child-object",
   name: "New Child Object in a Realtime Database",
-  description:
-    "Emits an event when a new child object is discovered within a specific path",
-  version: "0.0.1",
+  description: "Emit new event when a new child object is discovered within a specific path",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
