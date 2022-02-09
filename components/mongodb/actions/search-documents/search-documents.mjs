@@ -26,6 +26,7 @@ export default {
         mongodbApp,
         "parseNumbers",
       ],
+      description: "If `true`, each number value represented by a string in the filter will be parsed to it respective type",
       optional: true,
     },
     parseBooleans: {
@@ -33,6 +34,7 @@ export default {
         mongodbApp,
         "parseBooleans",
       ],
+      description: "If `true`, each boolean value represented by a string in the filter will be parsed to it respective type",
       optional: true,
     },
     parseDates: {
@@ -40,6 +42,7 @@ export default {
         mongodbApp,
         "parseDates",
       ],
+      description: "If `true`, each date value represented by a string in the filter will be parsed to it respective type",
       optional: true,
     },
   },

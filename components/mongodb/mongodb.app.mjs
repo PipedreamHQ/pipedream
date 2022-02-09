@@ -188,16 +188,13 @@ export default {
                 strict: false,
               });
               const Model = mongoose.models[collection] || mongoose.model(collection, schema);
-              const documents = await Model.find(filter)
+              const documents = await Model.find(
+                this.parseStrings(filter, parseNumbers, parseBooleans, parseDates),
+              )
                 .skip(skip)
                 .limit(limit);
               mongoose.connection.close(() => {
-                setTimeout(() => resolve(documents.map((doc) => this.parseStrings(
-                  doc._doc,
-                  parseNumbers,
-                  parseBooleans,
-                  parseDates,
-                ))));
+                setTimeout(() => resolve(documents));
               });
             } catch (err) {
               mongoose.connection.close(() => {
