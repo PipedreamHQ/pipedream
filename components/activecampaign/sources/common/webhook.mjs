@@ -1,4 +1,5 @@
 import activecampaign from "../../activecampaign.app.mjs";
+import constants from "../../common/constants.mjs";
 import common from "./base.mjs";
 
 export default {
@@ -23,7 +24,7 @@ export default {
       const sources =
         this.sources.length > 0
           ? this.sources
-          : this.activecampaign.getAllSources();
+          : constants.ALL_SOURCES;
       const hookData = await this.activecampaign.createHook(
         this.getEvents(),
         this.http.endpoint,

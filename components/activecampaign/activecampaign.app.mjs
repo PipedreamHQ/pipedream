@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import inflection from "inflection";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -14,8 +15,8 @@ export default {
         if (page !== 0) {
           return [];
         }
-        const results = await this.listWebhookEvents();
-        return results.webhookEvents.map((e) => ({
+        const { webhookEvents } = await this.listWebhookEvents();
+        return webhookEvents.map((e) => ({
           label: inflection.humanize(e),
           value: e,
         }));
@@ -28,9 +29,7 @@ export default {
         "The sources causing an event to occur. Leave blank to include all sources.",
       optional: true,
       default: [],
-      options() {
-        return this.getAllSources();
-      },
+      options: constants.ALL_SOURCES,
     },
     automations: {
       type: "string[]",
@@ -40,21 +39,7 @@ export default {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const {
-          results,
-          context,
-        } = await this._getNextOptions(
-          this.listAutomations.bind(this),
-          prevContext,
-        );
-        const options = results.automations.map((a) => ({
-          label: a.name,
-          value: a.id,
-        }));
-        return {
-          options,
-          context,
-        };
+        return this.listAutomationOptions(prevContext);
       },
     },
     campaigns: {
@@ -65,21 +50,7 @@ export default {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const {
-          results,
-          context,
-        } = await this._getNextOptions(
-          this.listCampaigns.bind(this),
-          prevContext,
-        );
-        const options = results.campaigns.map((c) => ({
-          label: c.name,
-          value: c.id,
-        }));
-        return {
-          options,
-          context,
-        };
+        return this.listCampaignOptions(prevContext);
       },
     },
     contacts: {
@@ -90,21 +61,7 @@ export default {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const {
-          results,
-          context,
-        } = await this._getNextOptions(
-          this.listContacts.bind(this),
-          prevContext,
-        );
-        const options = results.contacts.map((c) => ({
-          label: c.email,
-          value: c.id,
-        }));
-        return {
-          options,
-          context,
-        };
+        return this.listContactOptions(prevContext);
       },
     },
     deals: {
@@ -115,21 +72,7 @@ export default {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const {
-          results,
-          context,
-        } = await this._getNextOptions(
-          this.listDeals.bind(this),
-          prevContext,
-        );
-        const options = results.deals.map((d) => ({
-          label: d.title,
-          value: d.id,
-        }));
-        return {
-          options,
-          context,
-        };
+        this.listDealOptions(prevContext);
       },
     },
     lists: {
@@ -140,21 +83,85 @@ export default {
       optional: true,
       default: [],
       async options({ prevContext }) {
-        const {
-          results,
-          context,
-        } = await this._getNextOptions(
-          this.listLists.bind(this),
-          prevContext,
-        );
-        const options = results.lists.map((d) => ({
-          label: d.name,
-          value: d.id,
-        }));
-        return {
-          options,
-          context,
-        };
+        return this.listListOptions(prevContext);
+      },
+    },
+    accountName: {
+      type: "string",
+      label: "Account's name",
+      description: "The name of the account to create.",
+    },
+    accountUrl: {
+      type: "string",
+      label: "Account's URL",
+      description: "The URL of the account to create.",
+      optional: true,
+    },
+    contactEmail: {
+      type: "string",
+      label: "Contact's email",
+      description: "Email address of the new contact. Example: `test@example.com`",
+    },
+    contactFirstName: {
+      type: "string",
+      label: "Contact's first name",
+      description: "First name of the new contact. Example: `John`",
+      optional: true,
+    },
+    contactLastName: {
+      type: "string",
+      label: "Contact's last name",
+      description: "Last name of the new contact. Example: `Doe`",
+      optional: true,
+    },
+    contactPhone: {
+      type: "string",
+      label: "Contact's phone",
+      description: "Phone number of the contact.",
+      optional: true,
+    },
+    contactFieldValues: {
+      type: "string[]",
+      label: "Contact's field values",
+      description: "Contact's custom field values `[{field, value}]`",
+      optional: true,
+      withLabel: true,
+      async options({ prevContext }) {
+        return this.listCustomFieldValuesOptions(prevContext);
+      },
+    },
+    dealTitle: {
+      type: "string",
+      label: "Deal's title",
+      description: "The title of the deal to create.",
+    },
+    dealDescription: {
+      type: "string",
+      label: "Deal's description",
+      description: "The description of the deal to create.",
+      optional: true,
+    },
+    dealValue: {
+      type: "integer",
+      label: "Deal's value",
+      description: "Deal's value in cents. (i.e. $456.78 => `45678`). Must be greater than or equal to zero.",
+      default: 100,
+      min: 0,
+      max: Number.MAX_SAFE_INTEGER,
+    },
+    dealCurrency: {
+      type: "string",
+      label: "Deal's currency",
+      description: "Deal's currency in 3-digit ISO format, lowercased.",
+      options: constants.CURRENCY_OPTIONS,
+      default: "usd",
+    },
+    dealPipelineId: {
+      type: "string",
+      label: "Deal's pipeline ID",
+      description: "The ID of the group to add the deal to.",
+      async options({ prevContext }) {
+        return this.listPipelineOptions(prevContext);
       },
     },
   },
@@ -164,101 +171,269 @@ export default {
         "Api-Token": this.$auth.api_key,
       };
     },
+    async makeRequest(customConfig) {
+      const {
+        $,
+        url,
+        path,
+        method,
+        params,
+        data,
+        ...otherConfig
+      } = customConfig;
+
+      const BASE_URL = this.$auth.base_url;
+
+      const config = {
+        method,
+        url: url || `${BASE_URL}${constants.VERSION_PATH}${path}`,
+        headers: this._getHeaders(),
+        params,
+        data,
+        ...otherConfig,
+      };
+
+      return axios($ || this, config);
+    },
+    async createAccount({
+      $, data,
+    } = {}) {
+      return this.makeRequest({
+        $,
+        method: "POST",
+        path: "/accounts",
+        data,
+      });
+    },
+    async createContact({
+      $, data,
+    } = {}) {
+      return this.makeRequest({
+        $,
+        method: "POST",
+        path: "/contacts",
+        data,
+      });
+    },
     async createHook(events, url, sources, listid = null) {
       const componentId = process.env.PD_COMPONENT;
-      const webhookName = `Pipedream Hook (${componentId})`;
-      const config = {
+      return this.makeRequest({
         method: "POST",
-        url: `${this.$auth.base_url}/api/3/webhooks`,
-        headers: this._getHeaders(),
+        path: "/webhooks",
         data: {
           webhook: {
-            name: webhookName,
+            name: `Pipedream Hook (${componentId})`,
             url,
             events,
             sources,
             listid,
           },
         },
-      };
-      return axios(this, config);
+      });
     },
     async deleteHook(hookId) {
-      const config = {
+      return this.makeRequest({
         method: "DELETE",
-        url: `${this.$auth.base_url}/api/3/webhooks/${hookId}`,
-        headers: this._getHeaders(),
-      };
-      await axios(this, config);
+        path: `/webhooks/${hookId}`,
+      });
     },
-    async _makeGetRequest(
-      endpoint,
-      limit = null,
-      offset = null,
-      params = {},
-      url = null,
-    ) {
-      const config = {
-        method: "GET",
-        url: url || `${this.$auth.base_url}/api/3/${endpoint}`,
-        headers: this._getHeaders(),
+    async getList(id) {
+      return this.makeRequest({
+        path: `/lists/${id}`,
+      });
+    },
+    async listPipelines({ params } = {}) {
+      return this.makeRequest({
+        path: "/dealGroups",
+        params,
+      });
+    },
+    async listAutomations(limit, offset) {
+      return this.makeRequest({
+        path: "/automations",
         params: {
-          ...params,
           limit,
           offset,
         },
-      };
-      console.log("config", config);
-      return axios(this, config);
-    },
-    async _getNextOptions(optionsFn, prevContext) {
-      const limit = 100;
-      const { offset = 0 } = prevContext;
-      const results = await optionsFn(limit, offset);
-      const context = {
-        offset: offset + limit,
-      };
-      return {
-        results,
-        context,
-      };
-    },
-    getAllSources() {
-      return [
-        "public",
-        "admin",
-        "api",
-        "system",
-      ];
-    },
-    async getList(id) {
-      return this._makeGetRequest(`lists/${id}`);
-    },
-    async listAutomations(limit, offset) {
-      return this._makeGetRequest("automations", limit, offset);
+      });
     },
     async listCampaigns(limit, offset) {
-      return this._makeGetRequest("campaigns", limit, offset);
+      return this.makeRequest({
+        path: "/campaigns",
+        params: {
+          limit,
+          offset,
+        },
+      });
     },
     async listContacts(limit, offset) {
-      return this._makeGetRequest("contacts", limit, offset);
+      return this.makeRequest({
+        path: "/contacts",
+        params: {
+          limit,
+          offset,
+        },
+      });
     },
     async listDeals(limit, offset) {
-      return this._makeGetRequest("deals", limit, offset);
+      return this.makeRequest({
+        path: "/deals",
+        params: {
+          limit,
+          offset,
+        },
+      });
     },
     async listLists(limit, offset) {
-      return this._makeGetRequest("lists", limit, offset);
+      return this.makeRequest({
+        path: "/lists",
+        params: {
+          limit,
+          offset,
+        },
+      });
     },
     async listWebhookEvents() {
-      return this._makeGetRequest("webhook/events");
+      return this.makeRequest({
+        path: "/webhook/events",
+      });
     },
     async listAccounts({ params } = {}) {
-      const {
-        limit,
-        offset,
-        ...otherParams
-      } = params;
-      return this._makeGetRequest("accounts", limit, offset, otherParams);
+      return this.makeRequest({
+        path: "/accounts",
+        params,
+      });
+    },
+    async listCalendarFeeds({ params } = {}) {
+      return this.makeRequest({
+        path: "/calendars",
+        params,
+      });
+    },
+    async listCustomFieldValues() {
+      return this.makeRequest({
+        path: "/accountCustomFieldData",
+      });
+    },
+    async listPipelineOptions(prevContext) {
+      return this.paginateResources({
+        requestFn: this.listPipelines,
+        requestArgs: {
+          offset: prevContext.offset || 0,
+        },
+        resourceName: "dealGroups",
+        mapper: ({
+          id, title,
+        }) => ({
+          label: title,
+          value: id,
+        }),
+      });
+    },
+    async listCustomFieldValuesOptions(prevContext) {
+      return this.paginateResources({
+        requestFn: this.listCustomFieldValues,
+        requestArgs: {
+          offset: prevContext.offset || 0,
+        },
+        resourceName: "accountCustomFieldData",
+        mapper: ({
+          customFieldId, fieldValue,
+        }) => ({
+          label: fieldValue,
+          value: customFieldId,
+        }),
+      });
+    },
+    async listListOptions(prevContext) {
+      return this.paginateResources({
+        requestFn: this.listLists,
+        requestArgs: {
+          offset: prevContext.offset || 0,
+        },
+        resourceName: "list",
+        mapper: ({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }),
+      });
+    },
+    async listCampaignOptions(prevContext) {
+      return this.paginateResources({
+        requestFn: this.listCampaigns,
+        requestArgs: {
+          offset: prevContext.offset || 0,
+        },
+        resourceName: "campaigns",
+        mapper: ({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }),
+      });
+    },
+    async listAutomationOptions(prevContext) {
+      return this.paginateResources({
+        requestFn: this.listAutomations,
+        requestArgs: {
+          offset: prevContext.offset || 0,
+        },
+        resourceName: "automations",
+        mapper: ({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }),
+      });
+    },
+    async listContactOptions(prevContext) {
+      return this.paginateResources({
+        requestFn: this.listContacts,
+        requestArgs: {
+          offset: prevContext.offset || 0,
+        },
+        resourceName: "contacts",
+        mapper: ({
+          id, email,
+        }) => ({
+          label: email,
+          value: id,
+        }),
+      });
+    },
+    async listDealOptions(prevContext) {
+      return this.paginateResources({
+        requestFn: this.listDeals,
+        requestArgs: {
+          offset: prevContext.offset || 0,
+        },
+        resourceName: "deals",
+        mapper: ({
+          id, title,
+        }) => ({
+          label: title,
+          value: id,
+        }),
+      });
+    },
+    async paginateResources({
+      requestFn, requestArgs, resourceName, mapper,
+    }) {
+      const { [resourceName]: resources } =
+        await requestFn({
+          limit: constants.DEFAULT_LIMIT,
+          ...requestArgs,
+        });
+      return {
+        options: resources.map(mapper),
+        context: {
+          offset: requestArgs.offset + constants.DEFAULT_LIMIT,
+        },
+      };
     },
   },
 };

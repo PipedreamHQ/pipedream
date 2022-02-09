@@ -2,10 +2,10 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  name: "New or Updated Account",
-  key: "activecampaign-new-or-updated-account",
-  description: "Emits an event each time an account is added or updated.",
-  version: "0.0.11",
+  name: "New or Updated Calendar Feed",
+  key: "activecampaign-new-or-updated-calendar-feed",
+  description: "Emits an event each time a calendar feed is added or updated.",
+  version: "0.0.1",
   dedupe: "greatest",
   props: {
     ...common.props,
@@ -21,23 +21,23 @@ export default {
   methods: {
     ...common.methods,
     getUpdatedTimestampPropertyName() {
-      return "updatedTimestamp";
+      return "mdate";
     },
     getCreatedTimestampPropertyName() {
-      return "createdTimestamp";
+      return "cdate";
     },
     getMeta(resource) {
       const createdTimestamoProp = this.getCreatedTimestampPropertyName();
       const updatedTimestamoProp = this.getUpdatedTimestampPropertyName();
       const {
         id,
-        name,
+        title,
         [createdTimestamoProp]: createdTimestamp,
         [updatedTimestamoProp]: updatedTimestamp,
       } = resource;
       const ts = Date.parse(updatedTimestamp);
       const creationTs = Date.parse(createdTimestamp);
-      const summary = `Account ID: (${id}) ${name} ${ts === creationTs && "created" || "updated"}`;
+      const summary = `Calendar ID: (${id}) ${title} ${ts === creationTs && "created" || "updated"}`;
       return {
         id: ts,
         summary,
@@ -45,8 +45,8 @@ export default {
       };
     },
     async listResources() {
-      const { accounts: resources } =
-        await this.activecampaign.listAccounts({
+      const { calendars: resources } =
+        await this.activecampaign.listCalendarFeeds({
           params: {
             limit: 100,
           },

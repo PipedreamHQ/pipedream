@@ -1,4 +1,5 @@
 import activecampaign from "../../activecampaign.app.mjs";
+import constants from "../../common/constants.mjs";
 import common from "../common/webhook.mjs";
 
 export default {
@@ -21,7 +22,7 @@ export default {
       const sources =
         this.sources.length > 0
           ? this.sources
-          : this.activecampaign.getAllSources();
+          : constants.ALL_SOURCES;
       const hookIds = [];
       const events = this.getEvents();
       if (this.lists.length > 0) {
