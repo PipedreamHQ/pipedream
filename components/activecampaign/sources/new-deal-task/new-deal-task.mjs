@@ -6,7 +6,7 @@ export default {
   name: "New Deal Task (Instant)",
   key: "activecampaign-new-deal-task",
   description: "Emits an event each time a new task is added to a deal.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     deals: {

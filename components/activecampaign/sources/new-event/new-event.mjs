@@ -7,7 +7,7 @@ export default {
   key: "activecampaign-new-event",
   description:
     "Emits an event for the specified event type from ActiveCampaign.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     eventType: {

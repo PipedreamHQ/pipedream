@@ -6,7 +6,7 @@ export default {
   key: "activecampaign-campaign-link-clicked",
   description:
     "Emits an event when a link from a campaign is clicked (will only run once for each unique link).",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     getEvents() {

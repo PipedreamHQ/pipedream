@@ -5,7 +5,7 @@ export default {
   name: "Updated Contact (Instant)",
   key: "activecampaign-updated-contact",
   description: "Emits an event each time a contact is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     getEvents() {

@@ -6,7 +6,7 @@ export default {
   name: "New or Updated Account",
   key: "activecampaign-new-or-updated-account",
   description: "Emits an event each time an account is added or updated.",
-  version: "0.0.11",
+  version: "0.0.1",
   dedupe: "greatest",
   props: {
     ...common.props,

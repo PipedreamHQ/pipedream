@@ -6,7 +6,7 @@ export default {
   name: "New Contact Task",
   key: "activecampaign-new-contact-task",
   description: "Emits an event each time a new contact task is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
     contacts: {

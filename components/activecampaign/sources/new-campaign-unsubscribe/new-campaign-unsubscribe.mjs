@@ -6,7 +6,7 @@ export default {
   key: "activecampaign-new-campaign-unsubscribe",
   description:
     "Emits an event when a contact unsubscribes as a result of a campaign email sent to them.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     getEvents() {
