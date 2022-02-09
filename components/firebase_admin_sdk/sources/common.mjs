@@ -1,6 +1,6 @@
-const firebase = require("../firebase_admin_sdk.app.js");
+import firebase from "../firebase_admin_sdk.app.mjs";
 
-module.exports = {
+export default {
   props: {
     firebase,
     timer: {
@@ -8,6 +8,8 @@ module.exports = {
       default: {
         intervalSeconds: 60 * 15,
       },
+      label: "Polling Interval",
+      description: "Pipedream will poll the API on this schedule",
     },
   },
   methods: {
