@@ -25,12 +25,18 @@ module.exports = {
         ts: payload.timestamp,
       };
     },
-    async getLatestEvents(page = null, limit = 300) {
+    async getLatestEvents(page = null, limit = 300, ascending = "yes") {
       const date = new Date();
-      date.setDate(date.getDate() - 1);
+      if ([
+        "yes",
+      ].includes(ascending)) {
+        date.setDate(date.getDate() - 1);
+      } else {
+        date.setDate(date.getDate());
+      }
       const config = {
         begin: Math.floor(date.valueOf() / 1000),
-        ascending: "yes",
+        ascending,
         limit,
       };
       if (page) {
@@ -42,11 +48,16 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emit sample events on the first run during deploy
-      const { items } = await this.getLatestEvents(null, 5);
+      let lastSeenTime = this.db.get("lastSeenTime");
+      const { items } = await this.getLatestEvents(null, 5, "no");
       if (items.length === 0) {
         return;
       }
       for (let item of items) {
+        if (item.timestamp <= lastSeenTime) {
+          continue;
+        }
+        this.db.set("lastSeenTime", item.timestamp);
         this.$emit(item, this.generateMeta(item));
       }
     },
@@ -66,7 +77,12 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
+      let lastSeenTime = this.db.get("lastSeenEvent");
       for (let item of result.items) {
+        if (item.timestamp <= lastSeenTime) {
+          continue;
+        }
+        this.db.set("lastSeenTime", item.timestamp);
         this.$emit(item, this.generateMeta(item));
       }
     }

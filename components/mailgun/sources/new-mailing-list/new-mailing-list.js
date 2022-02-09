@@ -28,6 +28,7 @@ module.exports = {
   },
   hooks: {
     async deploy() {
+      console.warn("inside verify email");
       const result = await this.mailgun.api("lists").list({
         limit: 100,
       });

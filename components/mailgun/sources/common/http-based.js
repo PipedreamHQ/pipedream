@@ -17,7 +17,6 @@ module.exports = {
         "Required to compute the authentication signature of events.",
     },
     http: "$.interface.http",
-    db: "$.service.db",
   },
   methods: {
     ...base.methods,

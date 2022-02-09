@@ -2,7 +2,6 @@ const {
   methods,
   ...common
 } = require("../common/http-based");
-const get = require("lodash.get");
 
 module.exports = {
   ...common,
