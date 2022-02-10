@@ -1,11 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/docs-v2",
+      "source": "/docs/v2",
       "destination": "/"
     },
     {
-      "source": "/docs-v2/(.*)",
+      "source": "/docs/v2/(.*)",
       "destination": "/$1"
     }
   ],
@@ -112,4 +112,3 @@
     }
   ]
 }
-
