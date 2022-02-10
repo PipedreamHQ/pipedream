@@ -31,7 +31,7 @@ module.exports = {
         items: [
           {
             text: "v2",
-            link: "https://pipedream.com/docs-v2",
+            link: "https://pipedream.com/docs",
             internal: true,
             badge: "New",
             badgeVariation: "primary",
@@ -39,7 +39,7 @@ module.exports = {
           {
             text: "v1",
             internal: true,
-            link: "https://pipedream.com/docs",
+            link: "https://pipedream.com/docs/v1",
           },
         ],
       },
