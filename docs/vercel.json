@@ -7,6 +7,14 @@
     {
       "source": "/docs/v2/(.*)",
       "destination": "/$1"
+    },
+    {
+      "source": "/docs",
+      "destination": "/"
+    },
+    {
+      "source": "/docs/(.*)",
+      "destination": "/$1"
     }
   ],
   "redirects": [
