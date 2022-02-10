@@ -8,7 +8,11 @@ But, this also means some of our features have changed, here's what you need to 
 
 ## New Builder Overview
 
+Fundamentally, the new version of the workflow builder gives you the same abilities to build, test and deploy your workflows. However, there are some differences that change up your normal flow.
+
 ### New Patterns
+
+In the v1 workflow builder, if you made changes to your individual steps, to apply
 
 ### Testing Changes
 
@@ -37,7 +41,11 @@ export default defineComponent({
 
 After testing the step the Slack app will appear in the **Configuration** section on the left hand side. In this section you can choose which Slack account you'd like to use in the step.
 
+<img src="./images/app-props-example.png" alt="Example of adding an app connection to a v2 Node.js step">
+
 ## Node.js Code Step Changes
+
+There are a few changes to the Node.js code steps that you should know about.
 
 ### Steps Format Changes
 
