@@ -11,6 +11,10 @@
   ],
   "redirects": [
     {
+      "source": "/docs-v2/(.*)",
+      "destination": "/docs/v2$1"
+    },
+    {
       "source": "/docs/notebook/actions/",
       "destination": "/workflows/steps/actions/"
     },
@@ -108,4 +112,3 @@
     }
   ]
 }
-
