@@ -13,14 +13,18 @@
       "destination": "/"
     },
     {
-      "source": "/docs/(.*)",
+      "source": "/docs/v2/(.*)",
       "destination": "/$1"
     }
   ],
   "redirects": [
     {
+      "source": "/docs-v2",
+      "destination": "/docs/v2"
+    },
+    {
       "source": "/docs-v2/(.*)",
-      "destination": "/docs/v2/(.*)"
+      "destination": "/docs/v2/$1"
     },
     {
       "source": "/docs/notebook/actions/",
