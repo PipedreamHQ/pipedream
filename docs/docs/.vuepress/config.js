@@ -44,7 +44,6 @@ module.exports = {
         ],
       },
     ],
-
     // if your docs are not at the root of the repo:
     docsDir: "docs/docs",
     editLinks: true,
@@ -71,10 +70,6 @@ module.exports = {
       "/sources/",
       "/connected-accounts/",
       "/user-settings/",
-      {
-        title: "Organizations",
-        children: ["/orgs/", "/orgs/sso/okta/"],
-      },
       {
         title: "Reference: Code, APIs + CLI",
         children: [
@@ -166,6 +161,11 @@ module.exports = {
           "/pricing/",
           "/workflows/events/cold-starts/",
         ]
+      },
+      {
+        title: "Organizations",
+        collapsable: false,
+        children: ["/orgs/", "/orgs/sso/okta/"],
       },
       "/status/",
       ["https://pipedream.com/support", "Need more help?"],
