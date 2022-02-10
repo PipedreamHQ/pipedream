@@ -29,7 +29,7 @@ curl 'https://api.pipedream.com/v1/users/me' \
   -H 'Authorization: Bearer <api_key>'
 ```
 
-Learn more about [API authentication](/api/auth)
+Learn more about [API authentication](/api/auth/)
 
 ## Required headers
 
@@ -1054,12 +1054,12 @@ Pipedream supports webhooks as a way to deliver events to a endpoint you own.
 Webhooks are managed at an account-level, and you send data to these webhooks
 using [subscriptions](#subscriptions).
 
-For example, you can run a Twitter [event source](/event-sources) that listens
+For example, you can run a Twitter [event source](/event-sources/) that listens
 for new tweets. If you [subscribe](#subscriptions) the webhook to this source,
 Pipedream will deliver those tweets directly to your webhook's URL without
 running a workflow.
 
-[**See these tutorials**](/api/rest/webhooks) for examples.
+[**See these tutorials**](/api/rest/webhooks/) for examples.
 
 ### Create a webhook
 

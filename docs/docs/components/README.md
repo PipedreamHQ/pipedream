@@ -74,7 +74,7 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 ### Component API Reference
 
-After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/tree/master/components) to learn more.
+After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/api/) and [examples on GitHub](https://github.com/pipedreamhq/pipedream/tree/master/components) to learn more.
 
 ## Sharing Components
 

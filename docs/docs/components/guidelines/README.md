@@ -499,7 +499,7 @@ In the interest of consistency, use the following naming patterns when defining
 
 ### Source Guidelines
 
-These guidelines are specific to [source](/event-sources) development.
+These guidelines are specific to [source](/event-sources/) development.
 
 #### Webhook vs Polling Sources
 
@@ -617,7 +617,7 @@ end user. Generate and use a GUID for the shared secret value, save it to a
 
 By default, the standard `axios` package doesn't return useful debugging data to the user when it `throw`s errors on HTTP 4XX and 5XX status codes. This makes it hard for the user to troubleshoot the issue.
 
-Instead, [use `@pipedream/platform` axios](/pipedream-axios).
+Instead, [use `@pipedream/platform` axios](/pipedream-axios/).
 
 #### Return JavaScript objects
 

@@ -56,7 +56,7 @@ We recommend that you complete the examples below in order.
 
 ### hello world!
 
-The following code represents a simple component that can be published as an action ([learn more](/components/api) about the component structure). When used in a workflow, it will export `hello world!` as the return value for the step.
+The following code represents a simple component that can be published as an action ([learn more](/components/api/) about the component structure). When used in a workflow, it will export `hello world!` as the return value for the step.
 
 ```javascript
 export default {
