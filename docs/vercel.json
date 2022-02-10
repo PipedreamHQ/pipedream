@@ -11,8 +11,8 @@
   ],
   "redirects": [
     {
-      "source": "/docs-v2/*",
-      "destination": "/docs/v2/*"
+      "source": "/docs-v2/(.*)",
+      "destination": "/docs/v2/(.*)"
     },
     {
       "source": "/docs/notebook/actions/",
