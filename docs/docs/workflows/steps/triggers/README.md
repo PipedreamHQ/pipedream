@@ -294,12 +294,12 @@ If you need to issue a custom HTTP response from a workflow, **you can use the `
 ```javascript
 defineComponent({
   async run({ steps, $ }) {
-    $.respond({
+    await $.respond({
       status: 200,
       headers: { "my-custom-header": "value" },
       body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
     });
-  })
+  }
 });
 ```
 
@@ -336,7 +336,7 @@ defineComponent({
       headers: { "my-custom-header": "value" },
       body: { message: "My custom response" },
     });
-  })
+  }
 });
 ```
 
@@ -352,7 +352,7 @@ defineComponent({
       status: 200,
       body: "",
     });
-  })
+  }
 });
 ```
 
@@ -383,14 +383,14 @@ defineComponent({
       // Your code here that might throw an exception or not run
       throw new Error('Whoops, something unexpected happened.');
     } finally {
-      $.respond({
+      await $.respond({
         status: 200,
         body: {
           msg: "Default response",
         },
       });
     }
-  })
+  }
 });
 ```
 
@@ -495,12 +495,6 @@ Any time a cron job runs, you'll see a new execution appear in the [Inspector](/
 Code steps show [Logs](/workflows/steps/code/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 
 [Actions](/components/actions/) and [Destinations](/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
-
-### Limitations
-
-Cron jobs can be run at most once a minute. Any cron expression that specifies a higher frequency will be rejected.
-
-Cron jobs can run for at most 30 seconds, by default. You can raise this up to 300 seconds by [setting your workflow's execution timeout](/workflows/settings/#execution-timeout-limit). If your workflow runs longer than the configured timeout, you'll see a `TIMEOUT` error for that run, and will be able to review all logs up until the timeout occurred.
 
 ## Email
 
