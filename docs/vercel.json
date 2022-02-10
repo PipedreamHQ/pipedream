@@ -20,11 +20,19 @@
   "redirects": [
     {
       "source": "/docs-v2",
-      "destination": "/docs/v2"
+      "destination": "/docs/"
     },
     {
       "source": "/docs-v2/(.*)",
-      "destination": "/docs/v2/$1"
+      "destination": "/docs/$1"
+    },
+    {
+      "source": "/docs/v2",
+      "destination": "/docs"
+    },
+    {
+      "source": "/docs/v2/(.*)",
+      "destination": "/docs/$1"
     },
     {
       "source": "/docs/notebook/actions/",
