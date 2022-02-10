@@ -18,7 +18,7 @@ export default {
     },
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the YouTube API on this schedule",
+      description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
