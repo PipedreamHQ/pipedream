@@ -1,11 +1,11 @@
-import brexApp from "../../brex_staging.app.mjs";
-import common from "../../../brex/actions/list-transaction-for-selected-cash-account/common.mjs";
+import brexApp from "../../brex.app.mjs";
+import common from "./common.mjs";
 
 export default {
   name: "List Transactions for Selected Cash Account",
   description: "Lists all transactions for the specified cash account. [See the docs here](https://developer.brex.com/openapi/transactions_api/#operation/listCashTransactions).",
-  key: "brex_staging-list-transactions-for-selected-cash-account",
-  version: "0.0.3",
+  key: "brex-list-transactions-for-selected-cash-account",
+  version: "0.0.1",
   type: "action",
   props: {
     brexApp,
@@ -15,6 +15,6 @@ export default {
         "cashAccount",
       ],
     },
-    ...common.props,
+    ...common,
   },
 };

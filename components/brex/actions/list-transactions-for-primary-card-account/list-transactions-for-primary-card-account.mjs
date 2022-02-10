@@ -1,12 +1,12 @@
-import brexApp from "../../brex_staging.app.mjs";
-import common from "../../../brex/actions/list-transactions-for-primary-card-account/common.mjs";
+import brexApp from "../../brex.app.mjs";
+import common from "./common.mjs";
 
 export default {
   ...common,
   name: "List Transactions for Primary Card Account",
   description: "Lists all settled transactions for the primary card account. [See the docs here](https://developer.brex.com/openapi/transactions_api/#operation/listPrimaryCardTransactions).",
-  key: "brex_staging-list-transactions-for-primary-card-account",
-  version: "0.0.13",
+  key: "brex-list-transactions-for-primary-card-account",
+  version: "0.0.1",
   type: "action",
   props: {
     brexApp,
