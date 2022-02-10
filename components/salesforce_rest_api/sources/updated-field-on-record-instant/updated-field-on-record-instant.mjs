@@ -1,7 +1,6 @@
 import startCase from "lodash/startCase.js";
 
 import common from "../common-instant.mjs";
-import { toSingleLineString } from "../../utils.mjs";
 const { salesforce } = common.props;
 
 export default {
@@ -9,10 +8,7 @@ export default {
   type: "source",
   name: "Updated Field on Record (Instant, of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record-instant",
-  description: toSingleLineString(`
-    Emit new event immediately after a field of your choosing is updated on any record of a
-    specified Salesforce object
-  `),
+  description: "Emit new event immediately after a field of your choosing is updated on any record of a specified Salesforce object",
   version: "0.0.1",
   props: {
     ...common.props,

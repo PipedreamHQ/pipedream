@@ -1,7 +1,6 @@
 import startCase from "lodash/startCase.js";
 
 import common from "../common.mjs";
-import { toSingleLineString } from "../../utils.mjs";
 const { salesforce } = common.props;
 
 /**
@@ -15,12 +14,7 @@ export default {
   type: "source",
   name: "Updated Field on Record (of Selectable Type)",
   key: "salesforce_rest_api-updated-field-on-record",
-  description: toSingleLineString(`
-    Emit new event (at regular intervals) when a field of your choosing is updated on any
-    record of a specified Salesforce object. Field history tracking must be enabled for the
-    chosen field. See the docs on [field history tracking](https://sforce.co/3mtj0rF) and
-    [history objects](https://sforce.co/3Fn4lWB) for more information.
-  `),
+  description: "Emit new event (at regular intervals) when a field of your choosing is updated on any record of a specified Salesforce object. Field history tracking must be enabled for the chosen field. See the docs on [field history tracking](https://sforce.co/3mtj0rF) and [history objects](https://sforce.co/3Fn4lWB) for more information.",
   version: "0.0.1",
   props: {
     ...common.props,
