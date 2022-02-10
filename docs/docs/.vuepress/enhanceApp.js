@@ -43,5 +43,7 @@ export default ({
       path: "/docs/apps/all-apps",
       redirect: "https://pipedream.com/apps",
     },
+    { path: "/workflows/steps/code/", redirect: '/code/nodejs/'}
+    
   ]);
 };

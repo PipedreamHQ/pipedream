@@ -12,7 +12,7 @@ The examples below use [this spreadsheet](https://docs.google.com/spreadsheets/d
 <img alt="Star Wars spreadsheet" width="300px" src="./images/example-header.png">
 </div>
 
-Each row added to the sheet has two columns - the `Name` and the `Title` of a Star Wars character. To add a row with the name "Luke" and the title "Jedi", add the **Add Single Row to Sheet** step to your [workflow](/workflows):
+Each row added to the sheet has two columns - the `Name` and the `Title` of a Star Wars character. To add a row with the name "Luke" and the title "Jedi", add the **Add Single Row to Sheet** step to your [workflow](/workflows/):
 
 1. Click on the **+** button below any step
 2. Select the **Google Sheets** app
