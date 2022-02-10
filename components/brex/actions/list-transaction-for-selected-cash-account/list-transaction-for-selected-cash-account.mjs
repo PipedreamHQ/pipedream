@@ -15,6 +15,6 @@ export default {
         "cashAccount",
       ],
     },
-    ...common,
+    ...common.props,
   },
 };
