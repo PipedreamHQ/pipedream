@@ -1066,3 +1066,7 @@ PrintLn
 NewRequest
 payloadBuf
 golangcode
+Sprintf
+apiKey
+fileUrl
+
