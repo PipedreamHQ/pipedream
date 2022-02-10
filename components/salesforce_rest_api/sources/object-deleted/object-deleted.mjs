@@ -1,14 +1,14 @@
-const startCase = require("lodash/startCase");
+import startCase from "lodash/startCase.js";
 
-const common = require("../../common");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   name: "Object Deleted (of Selectable Type)",
   key: "salesforce_rest_api-object-deleted",
-  description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is deleted",
-  version: "0.0.4",
+  description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is deleted. [See the docs](https://sforce.co/3msDDEE) for more information.",
+  version: "0.0.5",
   methods: {
     ...common.methods,
     generateMeta(item) {
@@ -46,7 +46,7 @@ module.exports = {
         this.$emit(item, meta);
       });
 
-      this.db.set("latestDateCovered", latestDateCovered);
+      this.setLatestDateCovered(latestDateCovered);
     },
   },
 };

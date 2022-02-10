@@ -1,18 +1,18 @@
-const startCase = require("lodash/startCase");
+import startCase from "lodash/startCase.js";
 
-const common = require("../../common-instant");
+import common from "../common-instant.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   name: "Object Updated (Instant, of Selectable Type)",
   key: "salesforce_rest_api-object-updated-instant",
   description: "Emit new event immediately after an object of arbitrary type (selected as an input parameter by the user) is updated",
-  version: "0.0.4",
+  version: "0.0.5",
   methods: {
     ...common.methods,
     generateMeta(data) {
-      const nameField = this.db.get("nameField");
+      const nameField = this.getNameField();
       const { New: newObject } = data.body;
       const {
         LastModifiedDate: lastModifiedDate,

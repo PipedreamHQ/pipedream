@@ -1,29 +1,34 @@
-const startCase = require("lodash/startCase");
+import startCase from "lodash/startCase.js";
 
-const common = require("../../common");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   type: "source",
-  name: "Object Updated (of Selectable Type)",
-  key: "salesforce_rest_api-object-updated",
-  description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is updated",
-  version: "0.0.4",
+  name: "New Object (of Selectable Type)",
+  key: "salesforce_rest_api-new-object",
+  description: "Emit new event (at regular intervals) when an object of arbitrary type (selected as an input parameter by the user) is created. See [the docs](https://sforce.co/3yPSJZy) for more information.",
+  version: "0.0.5",
   methods: {
     ...common.methods,
+    isItemRelevant(item, startTimestamp, endTimestamp) {
+      const startDate = Date.parse(startTimestamp);
+      const endDate = Date.parse(endTimestamp);
+      const createdDate = Date.parse(item.CreatedDate);
+      return startDate <= createdDate && endDate >= createdDate;
+    },
     generateMeta(item) {
-      const nameField = this.db.get("nameField");
+      const nameField = this.getNameField();
       const {
-        LastModifiedDate: lastModifiedDate,
+        CreatedDate: createdDate,
         Id: id,
         [nameField]: name,
       } = item;
       const entityType = startCase(this.objectType);
-      const summary = `${entityType} updated: ${name}`;
-      const ts = Date.parse(lastModifiedDate);
-      const compositeId = `${id}-${ts}`;
+      const summary = `New ${entityType} created: ${name}`;
+      const ts = Date.parse(createdDate);
       return {
-        id: compositeId,
+        id,
         summary,
         ts,
       };
@@ -52,12 +57,13 @@ module.exports = {
       itemRetrievals
         .filter((result) => result.status === "fulfilled")
         .map((result) => result.value)
+        .filter((item) => this.isItemRelevant(item, startTimestamp, endTimestamp))
         .forEach((item) => {
           const meta = this.generateMeta(item);
           this.$emit(item, meta);
         });
 
-      this.db.set("latestDateCovered", latestDateCovered);
+      this.setLatestDateCovered(latestDateCovered);
     },
   },
 };
