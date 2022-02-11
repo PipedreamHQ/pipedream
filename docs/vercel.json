@@ -129,6 +129,10 @@
     {
       "source": "/docs/support",
       "destination": "https://pipedream.com/support"
+    },
+    {
+      "source": "/docs/workflows/steps/code/async/",
+      "destination": "/docs/code/nodejs/async/"
     }
   ]
 }
