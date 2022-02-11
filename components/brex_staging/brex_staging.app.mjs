@@ -7,7 +7,7 @@ export default {
   methods: {
     ...commonApp.methods,
     _getBaseUrl() {
-      return "https://platform.staging.brexapps.com/v2";
+      return "https://platform.staging.brexapps.com";
     },
   },
 };

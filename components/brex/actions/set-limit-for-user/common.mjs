@@ -23,7 +23,7 @@ export default {
 
     const res = await axios($, this.brexApp._getAxiosParams({
       method: "POST",
-      path: `/users/${user.value || user}/limit`,
+      path: `/v2/users/${user.value || user}/limit`,
       data: {
         monthly_limit: {
           amount,

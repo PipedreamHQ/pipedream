@@ -27,7 +27,7 @@ export default {
     do {
       const res = await axios($, this.brexApp._getAxiosParams({
         method: "GET",
-        path: `/transactions/cash/${cashAccount}`,
+        path: `/v2/transactions/cash/${cashAccount}`,
         params: {
           limit: 100,
           posted_at_start: postedAtStart,

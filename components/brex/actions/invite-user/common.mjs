@@ -30,7 +30,7 @@ export default {
 
     const res = await axios($, this.brexApp._getAxiosParams({
       method: "POST",
-      path: "/users",
+      path: "/v2/users",
       data: {
         first_name: firstName,
         last_name: lastName,

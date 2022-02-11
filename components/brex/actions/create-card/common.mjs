@@ -74,7 +74,7 @@ export default {
 
     const res = await axios($, this.brexApp._getAxiosParams({
       method: "POST",
-      path: "/cards",
+      path: "/v2/cards",
       data: {
         owner: {
           type: "USER",

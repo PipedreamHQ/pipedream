@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return "https://platform.brexapps.com/v2";
+      return "https://platform.brexapps.com";
     },
     _getHeaders() {
       return {
