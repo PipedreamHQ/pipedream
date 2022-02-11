@@ -134,6 +134,27 @@ module.exports = {
       }
       return await this.api("lists").members.createMember(opts.list, data);
     },
+    async getMailingLists(opts = {}) {
+      const { limit = 100 } = opts;
+      const listsService = this.api("lists");
+      let result = [];
+      let address;
+      let lists = [];
+      do {
+        let query = {
+          limit,
+        };
+        if (address) {
+          query["address"] = address;
+        }
+        result = await listsService.list(query);
+        lists.push(...result);
+        if (result.length) {
+          address = result[result.length - 1].address;
+        }
+      } while (result.length);
+      return lists;
+    },
     async paginate (next, perPage = 100) {
       const results = [];
       for (let page = 0;; page++) {
