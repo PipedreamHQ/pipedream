@@ -25,6 +25,22 @@ const CLIENT_IPS = [
   "35.243.134.228",
 ];
 
+const FIELD = {
+  CREATED_AT: "createdAt",
+  UPDATED_AT: "updatedAt",
+};
+
+const ORDER_BY_OPTIONS = [
+  {
+    label: "Created at",
+    value: FIELD.CREATED_AT,
+  },
+  {
+    label: "Updated at",
+    value: FIELD.UPDATED_AT,
+  },
+];
+
 export default {
   WEBHOOK_ID,
   LINEAR_DELIVERY_HEADER,
@@ -32,4 +48,6 @@ export default {
   RESOURCE_TYPE,
   RESOURCE_TYPES,
   CLIENT_IPS,
+  ORDER_BY_OPTIONS,
+  FIELD,
 };
