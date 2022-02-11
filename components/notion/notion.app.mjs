@@ -85,6 +85,31 @@ export default {
         },
       });
     },
+    async retrieveBlock(blockId, retrieveChildren) {
+      const block = await this._getNotionClient().blocks.retrieve({
+        block_id: blockId,
+      });
+
+      if (retrieveChildren) {
+        await this.retrieveBlockChildren(block);
+      }
+
+      return block;
+    },
+    async retrieveBlockChildren(block) {
+      if (!block.has_children) {
+        block.children = [];
+        return;
+      }
+
+      block.children = (await this._getNotionClient().blocks.children.list({
+        block_id: block.id,
+      })).results;
+
+      await Promise.all(
+        block.children.map(async (child) => await this.retrieveBlockChildren(child)),
+      );
+    },
     async createPage(page) {
       return await this._getNotionClient().pages.create(page);
     },
