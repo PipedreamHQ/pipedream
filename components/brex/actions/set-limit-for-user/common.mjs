@@ -5,7 +5,7 @@ export default {
     amount: {
       type: "integer",
       label: "Monthly Limit",
-      description: "The amount of money, in the smallest denomination of the currency indicated by currency. For example, when currency is USD, amount is in cents.",
+      description: "The amount of money, in the smallest denomination of the currency indicated by currency. For example, when currency is USD, amount is in cents (`1000.00`).",
     },
     currency: {
       type: "string",
