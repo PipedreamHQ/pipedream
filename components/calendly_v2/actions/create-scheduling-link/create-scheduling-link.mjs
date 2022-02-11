@@ -23,12 +23,12 @@ export default {
     },
   },
   async run({ $ }) {
-    let params = {};
+    const params = {};
     params.max_event_count = this.maxEventCount;
     params.owner = this.owner;
     params.owner_type = "EventType";
 
-    let response = await this.calendly.createSchedulingLink(params);
+    const response = await this.calendly.createSchedulingLink(params, $);
     $.export("$summary", "Created a scheduling link successfully");
     return response;
   },

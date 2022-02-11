@@ -42,13 +42,13 @@ export default {
     },
   },
   async run({ $ }) {
-    let params = {};
+    const params = {};
     if (this.email) params.email = this.email;
     if (this.status) params.status = this.status;
     if (this.paginate) params.paginate = this.paginate;
     if (this.maxResults) params.maxResults = this.maxResults;
 
-    let response = await this.calendly.listEventInvitees(params, this.eventId);
+    const response = await this.calendly.listEventInvitees(params, this.eventId, $);
     $.export("$summary", `Found ${response.pagination.count} event invitee(s)`);
     return response;
   },

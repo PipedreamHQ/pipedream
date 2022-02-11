@@ -43,13 +43,13 @@ export default {
     },
   },
   async run({ $ }) {
-    let params = {};
+    const params = {};
     if (this.inviteeEmail) params.invitee_email = this.inviteeEmail;
     if (this.status) params.status = this.status;
     if (this.paginate) params.paginate = this.paginate;
     if (this.maxResults) params.maxResults = this.maxResults;
 
-    let response = await this.calendly.listEvents(params, this.user);
+    const response = await this.calendly.listEvents(params, this.user, $);
     $.export("$summary", `Found ${response.pagination.count} event(s)`);
     return response;
   },

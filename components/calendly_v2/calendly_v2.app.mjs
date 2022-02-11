@@ -111,7 +111,7 @@ export default {
         count: 20,
       };
       const { nextPageParameters = defaultParams } = prevContext;
-      let response = await this[requestType](nextPageParameters);
+      const response = await this[requestType](nextPageParameters);
       return {
         options: response.collection.map((e) => ({
           label: e.name,
@@ -122,7 +122,7 @@ export default {
         },
       };
     },
-    async _makeRequest(opts) {
+    async _makeRequest(opts, $) {
       const response = this._getDefaultResponse();
       const {
         paginate = false,
@@ -132,8 +132,8 @@ export default {
       delete opts.params.maxResults;
 
       do {
-        let res = await axios(
-          this,
+        const res = await axios(
+          $ ?? this,
           this._makeRequestOpts(opts),
         );
         response.collection.push(...res.collection);
@@ -149,22 +149,22 @@ export default {
 
       return response;
     },
-    async getUserInfo(user = "me") {
+    async getUserInfo(user, $) {
       const opts = {
-        path: `/users/${user}`,
+        path: `/users/${user || "me"}`,
       };
-      return await axios(
-        this,
+      return axios(
+        $ ?? this,
         this._makeRequestOpts(opts),
       );
     },
-    async defaultUser() {
-      return (await this.getUserInfo()).resource.uri;
+    async defaultUser($) {
+      return (await this.getUserInfo(null, $)).resource.uri;
     },
-    async listEvents(params, uuid) {
-      const user = uuid ?
-        this._buildUserUri(uuid) :
-        await this.defaultUser();
+    async listEvents(params, uuid, $) {
+      const user = uuid
+        ? this._buildUserUri(uuid)
+        : await this.defaultUser($);
 
       const opts = {
         path: "/scheduled_events",
@@ -174,28 +174,28 @@ export default {
         },
       };
 
-      return await this._makeRequest(opts);
+      return this._makeRequest(opts, $);
     },
-    async listEventInvitees(params, uuid) {
+    async listEventInvitees(params, uuid, $) {
       const opts = {
         path: `/scheduled_events/${uuid}/invitees`,
         params,
       };
 
-      return await this._makeRequest(opts);
+      return this._makeRequest(opts, $);
     },
-    async listEventTypes(params) {
+    async listEventTypes(params, $) {
       const opts = {
         path: "/event_types",
         params: {
-          user: await this.defaultUser(),
+          user: await this.defaultUser($),
           ...params,
         },
       };
 
-      return await this._makeRequest(opts);
+      return this._makeRequest(opts, $);
     },
-    async createSchedulingLink(params) {
+    async createSchedulingLink(params, $) {
       params.owner = this._buildEventType(params.owner);
 
       const opts = {
@@ -204,8 +204,8 @@ export default {
         params,
       };
 
-      return await axios(
-        this,
+      return axios(
+        $ ?? this,
         this._makeRequestOpts(opts),
       );
     },
