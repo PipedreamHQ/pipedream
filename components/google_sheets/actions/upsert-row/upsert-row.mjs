@@ -159,7 +159,7 @@ export default {
         }),
         deleteSheetPromise,
       ]));
-      $.export("$summary", `Cound't find the key, "${keyValue}", so inserted new row: "${insert}"`);
+      $.export("$summary", `Couldn't find the key, "${keyValue}", so inserted new row: "${insert}"`);
       return result;
     }
 
