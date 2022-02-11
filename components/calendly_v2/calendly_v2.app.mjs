@@ -8,6 +8,28 @@ export default {
       type: "string",
       label: "User UUID",
       description: "An user UUID",
+      async options({ prevContext }) {
+        const organizations = (await this.getUserOrganizations())
+          .collection
+          .map((e) => e.organization);
+
+        let users = [];
+        for (const organization of organizations) {
+          prevContext.organization = organization;
+          const members = (await this._makeAsyncOptionsRequest({
+            prevContext,
+            requestType: "listOrganizationMembers",
+            optionsCallbackFn: this._getUserOptions,
+          })).options;
+
+          users = [
+            ...users,
+            ...members,
+          ];
+        }
+
+        return users;
+      },
     },
     eventId: {
       type: "string",
@@ -17,6 +39,7 @@ export default {
         return await this._makeAsyncOptionsRequest({
           prevContext,
           requestType: "listEvents",
+          optionsCallbackFn: this._getNameOptions,
         });
       },
     },
@@ -28,6 +51,7 @@ export default {
         return await this._makeAsyncOptionsRequest({
           prevContext,
           requestType: "listEventTypes",
+          optionsCallbackFn: this._getNameOptions,
         });
       },
     },
@@ -89,6 +113,27 @@ export default {
         ? nextPage.split("page_token=")[1].split("&")[0]
         : null;
     },
+    _getOptions(collection, nextPage, isUser = false) {
+      return {
+        options: collection.map((e) => ({
+          label: isUser
+            ? e.user.name
+            : e.name,
+          value: isUser
+            ? e.user.uri.split("/").pop()
+            : e.uri.split("/").pop(),
+        })),
+        context: {
+          nextPageParameters: nextPage,
+        },
+      };
+    },
+    _getNameOptions(collection, nextPage) {
+      return this._getOptions(collection, nextPage);
+    },
+    _getUserOptions(collection, nextPage) {
+      return this._getOptions(collection, nextPage, true);
+    },
     _makeRequestOpts(opts) {
       const path = opts.path ?? "";
       const method = opts.method ?? "get";
@@ -105,23 +150,14 @@ export default {
       };
     },
     async _makeAsyncOptionsRequest({
-      prevContext,
-      requestType,
-    }) {
-      const defaultParams = {
+      prevContext = {
         count: 20,
-      };
-      const { nextPageParameters = defaultParams } = prevContext;
-      const response = await this[requestType](nextPageParameters);
-      return {
-        options: response.collection.map((e) => ({
-          label: e.name,
-          value: e.uri.split("/").pop(),
-        })),
-        context: {
-          nextPageParameters: response.pagination.next_page,
-        },
-      };
+      },
+      requestType,
+      optionsCallbackFn,
+    }) {
+      const response = await this[requestType](prevContext);
+      return optionsCallbackFn(response.collection, response.pagination.next_page);
     },
     async _makeRequest(opts, $) {
       const response = this._getDefaultResponse();
@@ -161,6 +197,34 @@ export default {
     },
     async defaultUser($) {
       return (await this.getUserInfo(null, $)).resource.uri;
+    },
+    async getUserOrganizations(uuid, $) {
+      const user = uuid
+        ? this._buildUserUri(uuid)
+        : await this.defaultUser($);
+
+      const opts = {
+        path: "/organization_memberships",
+        params: {
+          user,
+        },
+      };
+
+      return axios(
+        $ ?? this,
+        this._makeRequestOpts(opts),
+      );
+    },
+    async listOrganizationMembers(params, $) {
+      const opts = {
+        path: "/organization_memberships",
+        params,
+      };
+
+      return axios(
+        $ ?? this,
+        this._makeRequestOpts(opts),
+      );
     },
     async listEvents(params, uuid, $) {
       const user = uuid
