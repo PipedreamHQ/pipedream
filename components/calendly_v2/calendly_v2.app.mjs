@@ -56,6 +56,7 @@ export default {
       type: "boolean",
       label: "Paginate",
       description: "Whether to paginate or not",
+      default: true,
       optional: true,
     },
     maxResults: {
