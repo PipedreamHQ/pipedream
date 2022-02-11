@@ -28,8 +28,18 @@ module.exports = {
         text: "v1",
         ariaLabel: "Docs Version Menu",
         items: [
-          { text: "v1", link: "/v1/" },
-          { text: "v2", link: "/v2/" },
+          {
+            text: "v1",
+            link: "https://pipedream.com/docs/v1",
+            internal: true,
+          },
+          {
+            text: "v2",
+            internal: true,
+            badge: "New",
+            badgeVariation: "primary",
+            link: "https://pipedream.com/docs",
+          },
         ],
       },
     ],
