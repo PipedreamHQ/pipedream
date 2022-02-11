@@ -20,6 +20,9 @@ export default {
           event_types: [
             "TRANSFER_PROCESSED",
             "TRANSFER_FAILED",
+            "REFERRAL_CREATED",
+            "REFERRAL_ACTIVATED",
+            "REFERRAL_APPLICATION_STATUS_CHANGED",
           ],
         },
       }));
@@ -92,18 +95,10 @@ export default {
   },
   async run(event) {
     const keys = await this.getSecretKeys();
-    // TODO: Pass params
-    await this.checkVeracity(
-      null,
-      null,
-      null,
-      null,
+    console.log({
+      event,
       keys,
-    );
-
-    // TODO: Pass params
-    await this.processEvents();
-
+    });
     this.http.respond({
       status: 200,
       headers: {

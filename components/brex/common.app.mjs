@@ -79,6 +79,7 @@ export default {
       return "https://platform.brexapps.com";
     },
     _getHeaders() {
+      console.log(this.$auth.oauth_access_token);
       return {
         "Content-Type": "application/json",
         "Idempotency-Key": uuidv4(),
