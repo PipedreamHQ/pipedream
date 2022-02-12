@@ -398,7 +398,7 @@ module.exports = {
               .replace(">", "");
             url = next;
           }
-          if ( link.indexOf("last") > -1) {
+          if (link.indexOf("last") > -1) {
             const idx = link.indexOf(";");
             last = link.substring(0, idx).replace("<", "")
               .replace(">", "");
