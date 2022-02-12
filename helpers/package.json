@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/helpers",
+  "version": "0.0.1",
+  "description": "Pipedream Component Helpers",
+  "main": "index.js",
+  "keywords": [
+    "pipedream"
+  ],
+  "homepage": "https://pipedream.com/",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "lodash.get": "^4.4.2",
+    "lodash.isarray": "^4.0.0",
+    "lodash.isempty": "^4.4.0",
+    "lodash.isstring": "^4.0.1"
+  }
+}

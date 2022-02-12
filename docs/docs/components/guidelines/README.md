@@ -168,7 +168,7 @@ actions for Pipedream's registry.
 | Name | App |
 | ---- | --- |
 | [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable |
-| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.js) | Google Sheets |
+| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.mjs) | Google Sheets |
 | [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.js) | Discord |
 | [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.js) | Google Docs |
 | [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.js) | HTTP |
@@ -418,6 +418,8 @@ be maintained in the app file.
 
 ### Props
 
+As a general rule of thumb, we should strive to only incorporate the 3-4 most relevant options from a given API as props. This is not a hard limit, but the goal is to optimize for usability. We should aim to solve specific use cases as simply as possible.
+
 #### Labels
 
 Use [prop](../api/#user-input-props) labels to customize the name of a prop or
@@ -497,7 +499,7 @@ In the interest of consistency, use the following naming patterns when defining
 
 ### Source Guidelines
 
-These guidelines are specific to [source](/event-sources) development.
+These guidelines are specific to [source](/event-sources/) development.
 
 #### Webhook vs Polling Sources
 
@@ -615,10 +617,17 @@ end user. Generate and use a GUID for the shared secret value, save it to a
 
 By default, the standard `axios` package doesn't return useful debugging data to the user when it `throw`s errors on HTTP 4XX and 5XX status codes. This makes it hard for the user to troubleshoot the issue.
 
-Instead, [use `@pipedream/platform` axios](/pipedream-axios).
+Instead, [use `@pipedream/platform` axios](/pipedream-axios/).
 
 #### Return JavaScript objects
 
 When you `return` data from an action, it's exposed as a [step export](/workflows/steps/#step-exports) for users to reference in future steps of their workflow. Return JavaScript objects in all cases, unless there's a specific reason not to.
 
 For example, some APIs return XML responses. If you return XML from the step, it's harder for users to parse and reference in future steps. Convert the XML to a JavaScript object, and return that, instead.
+
+#### Use `$.summary` to summarize what happened
+
+[Describe what happened](/components/api/#returning-data-from-steps) when an action succeeds by following these guidelines:
+- Use plain language and provide helpful and contextually relevant information (especially the count of items)
+- Whenever possible, use names and titles instead of IDs
+- Basic structure: _Successfully [action performed (like added, removed, updated)] “[relevant destination]”_

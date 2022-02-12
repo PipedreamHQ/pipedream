@@ -5,8 +5,9 @@ module.exports = {
   key: "stripe-list-customers",
   name: "List Customers",
   type: "action",
-  version: "0.0.1",
-  description: "Find or list customers",
+  version: "0.0.2",
+  description: "Find or list customers. [See the " +
+    "docs](https://stripe.com/docs/api/customers/list) for more information",
   props: {
     stripe,
     email: {
@@ -23,13 +24,17 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const params = pick(this, [
       "email",
     ]);
-    return await this.stripe.sdk().customers.list(params)
+    const resp = await this.stripe.sdk().customers.list(params)
       .autoPagingToArray({
         limit: this.limit,
       });
+
+    $.export("$summary", "Successfully fetched customer info");
+
+    return resp;
   },
 };

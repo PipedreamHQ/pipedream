@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-release",
   name: "New Release (Instant)",
   description: "Emit new event when a new release is published",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

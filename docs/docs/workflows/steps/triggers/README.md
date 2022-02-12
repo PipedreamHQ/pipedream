@@ -5,11 +5,10 @@
 Today, we support the following triggers: 
 
 - [Triggers for apps like Twitter, Github, and more](#app-based-triggers)
-- [HTTP API](#http)
+- [HTTP / Webhook](#http)
 - [Schedule](#schedule)
 - [Email](#email)
 - [RSS](#rss)
-- [SDK](#sdk)
 
 If there's a specific trigger you'd like supported, please [let us know](https://pipedream.com/support/).
 
@@ -17,7 +16,7 @@ If there's a specific trigger you'd like supported, please [let us know](https:/
 
 ## App-based Triggers
 
-You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
+You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
 
 When you create a workflow, you'll see your available triggers:
 
@@ -51,13 +50,22 @@ Moreover, since event sources can produce a large stream of events, the workflow
 
 You'll notice the docs use the terms **event source** and **trigger** interchangeably above. It's useful to clarify the distinction in the context of workflows.
 
-[**Event sources**](/event-sources) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
+[**Event sources**](/event-sources/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
 
 For example, you might create a single source to listen for new Twitter mentions for a keyword, then trigger multiple workflows each time a new tweet is found: one to [send new tweets to Slack](https://pipedream.com/@pravin/twitter-mentions-slack-p_dDCA5e/edit), another to [save those tweets to an Amazon S3 bucket](https://pipedream.com/@dylan/twitter-to-s3-p_KwCZGA/readme), etc.
 
 **This model allows you to separate the data produced by a service (the event source) from the logic to process those events in different contexts (the workflow)**.
 
 Moreover, you can access events emitted by sources using Pipedream's [SSE](/api/sse/) and [REST APIs](/api/rest/). This allows you to access these events in your own app, outside Pipedream's platform.
+
+### Dependent and Independent Sources
+
+In order to reduce unintentional workflow invocations, certain sources are classified as "dependent" and will mirror the state of their parent workflow. For example,
+
+- When adding a source to a new workflow, that source will initially be set as dependent. If you pause or delete the workflow, that source will also be paused or deleted. If you re-enable the workflow after pausing it, the source will be re-enabled as well.
+- If you add that same source to another workflow, or create a workflow then later remove and add a different source, the source will be independent from the workflow, which means pausing, re-enabling, or deleting the workflow will not impact the source.
+
+There is not currently any user-facing indication for dependent vs. independent sources at this time.
 
 ### Shape of the `steps.trigger.event` object
 
@@ -279,31 +287,39 @@ When you're processing HTTP requests, you often don't need to issue any special 
 
 #### Customizing the HTTP response
 
-If you need to issue a custom HTTP response from a workflow, **you can use the `$respond()` function in a Code or Action step**.
+If you need to issue a custom HTTP response from a workflow, **you can use the `$.respond()` function in a Code or Action step**.
 
-`$respond()` takes a single argument: an object with properties that specify the body, headers, and HTTP status code you'd like to respond with:
+`$.respond()` takes a single argument: an object with properties that specify the body, headers, and HTTP status code you'd like to respond with:
 
 ```javascript
-$respond({
-  status: 200,
-  headers: { "my-custom-header": "value" },
-  body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
+defineComponent({
+  async run({ steps, $ }) {
+    await $.respond({
+      status: 200,
+      headers: { "my-custom-header": "value" },
+      body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
+    });
+  }
 });
 ```
+
+:::warning
+The `$.respond` function is currently only available in Node.js (Javascript) workflow steps.
+:::
 
 The value of the `body` property can be either a string, object, a [Buffer](https://nodejs.org/api/buffer.html#buffer_buffer) (binary data), or a [Readable stream](https://nodejs.org/api/stream.html#stream_readable_streams). Attempting to return any other data may yield an error.
 
 In the case where you return a Readable stream:
 
-- You must `await` the `$respond` function (`await $respond({ ... }`)
+- You must `await` the `$.respond` function (`await $.respond({ ... }`)
 - The stream must close and be finished reading within your [workflow execution timeout](/limits/#time-per-execution).
-- You cannot return a Readable and use the [`immediate: true`](#returning-a-response-immediately) property of `$respond`.
+- You cannot return a Readable and use the [`immediate: true`](#returning-a-response-immediately) property of `$.respond`.
 
 You can **Copy** [this example workflow](https://pipedream.com/@dylburger/issue-an-http-response-from-a-workflow-p_ljCRdv/edit) and make an HTTP request to its endpoint URL to experiment with this.
 
-#### Timing of `$respond()` execution
+#### Timing of `$.respond()` execution
 
-You may notice some response latency calling workflows that use `$respond()` from your HTTP client. By default, `$respond()` is called at the end of your workflow, after all other code is done executing, so it may take some time to issue the response back.
+You may notice some response latency calling workflows that use `$.respond()` from your HTTP client. By default, `$.respond()` is called at the end of your workflow, after all other code is done executing, so it may take some time to issue the response back.
 
 If you need to issue an HTTP response in the middle of a workflow, see the section on [returning a response immediately](#returning-a-response-immediately).
 
@@ -312,23 +328,31 @@ If you need to issue an HTTP response in the middle of a workflow, see the secti
 You can issue an HTTP response within a workflow, and continue the rest of the workflow execution, by setting the `immediate` property to `true`:
 
 ```javascript
-await $respond({
-  immediate: true,
-  status: 200,
-  headers: { "my-custom-header": "value" },
-  body: { message: "My custom response" },
+defineComponent({
+  async run({ steps, $ }) {
+    await $.respond({
+      immediate: true,
+      status: 200,
+      headers: { "my-custom-header": "value" },
+      body: { message: "My custom response" },
+    });
+  }
 });
 ```
 
-Passing `immediate: true` tells `$respond()` to issue a response back to the client at this point in the workflow. After the HTTP response has been issued, the remaining code in your workflow runs.
+Passing `immediate: true` tells `$.respond()` to issue a response back to the client at this point in the workflow. After the HTTP response has been issued, the remaining code in your workflow runs.
 
 This can be helpful, for example, when you're building a Slack bot. When you send a message to a bot, Slack requires a `200 OK` response be issued immediately, to confirm receipt:
 
 ```javascript
-await $respond({
-  immediate: true,
-  status: 200,
-  body: "",
+defineComponent({
+  async run({ steps, $ }) {
+    await $.respond({
+      immediate: true,
+      status: 200,
+      body: "",
+    });
+  }
 });
 ```
 
@@ -338,31 +362,36 @@ Once you issue the response, you'll probably want to process the message from th
 
 #### Errors with HTTP Responses
 
-If you use `$respond()` in a workflow, **you must always make sure `$respond()` is called in your code**. If you make an HTTP request to a workflow, and run code where `$respond()` is _not_ called, your endpoint URL will issue a `400 Bad Request` error with the following body:
+If you use `$.respond()` in a workflow, **you must always make sure `$.respond()` is called in your code**. If you make an HTTP request to a workflow, and run code where `$.respond()` is _not_ called, your endpoint URL will issue a `400 Bad Request` error with the following body:
 
 ```
-No $respond called in workflow
+No $.respond called in workflow
 ```
 
 This might happen if:
 
-- You call `$respond()` conditionally, where it does not run under certain conditions.
-- Your workflow throws an Error before you run `$respond()`.
+- You call `$.respond()` conditionally, where it does not run under certain conditions.
+- Your workflow throws an Error before you run `$.respond()`.
 - You return data in the `body` property that isn't a string, object, or Buffer.
 
-If you can't handle the `400 Bad Request` error in the application calling your workflow, you can implement `try` / `finally` logic to ensure `$respond()` always gets called with some default message. For example:
+If you can't handle the `400 Bad Request` error in the application calling your workflow, you can implement `try` / `finally` logic to ensure `$.respond()` always gets called with some default message. For example:
 
 ```javascript
-try {
-  // Your code here that might throw an exception or not run
-} finally {
-  $respond({
-    status: 200,
-    body: {
-      msg: "Default response",
-    },
-  });
-}
+defineComponent({
+  async run({ steps, $ }) {
+    try {
+      // Your code here that might throw an exception or not run
+      throw new Error('Whoops, something unexpected happened.');
+    } finally {
+      await $.respond({
+        status: 200,
+        body: {
+          msg: "Default response",
+        },
+      });
+    }
+  }
+});
 ```
 
 ### Errors
@@ -405,9 +434,9 @@ Since you can [run any Node code](/workflows/steps/code/) in a workflow, you can
 
 ## Schedule
 
-Pipedream allows you to run hosted scheduled jobs — commonly-referred to as a "cron job" — [for free](/pricing).
+Pipedream allows you to run hosted scheduled jobs — commonly-referred to as a "cron job" — [for free](/pricing/).
 
-We call these cron jobs "[workflows](/workflows)". Workflows are just scripts that run on a schedule.
+We call these cron jobs "[workflows](/workflows/)". Workflows are just scripts that run on a schedule.
 
 You can write a cron job to:
 
@@ -467,12 +496,6 @@ Code steps show [Logs](/workflows/steps/code/#logs) below the step itself. Any t
 
 [Actions](/components/actions/) and [Destinations](/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
 
-### Limitations
-
-Cron jobs can be run at most once a minute. Any cron expression that specifies a higher frequency will be rejected.
-
-Cron jobs can run for at most 30 seconds, by default. You can raise this up to 300 seconds by [setting your workflow's execution timeout](/workflows/settings/#execution-timeout-limit). If your workflow runs longer than the configured timeout, you'll see a `TIMEOUT` error for that run, and will be able to review all logs up until the timeout occurred.
-
 ## Email
 
 When you select the **Email** trigger:
@@ -521,6 +544,7 @@ import stream from "stream";
 import { promisify } from "util";
 import fs from "fs";
 import got from "got";
+import { simpleParser } from "mailparser";
 
 const pipeline = promisify(stream.pipeline);
 await pipeline(
@@ -563,7 +587,7 @@ Choose the RSS trigger to watch an RSS feed for new items:
 <img alt="RSS source" width="400px" src="./images/rss.png">
 </div>
 
-This will create an RSS [event source](/event-sources) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
+This will create an RSS [event source](/event-sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 
 ## SDK
 
@@ -575,4 +599,17 @@ Select the **SDK** trigger to generate workflow-specific code samples for sendin
 
 If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/community/).
 
+## Multiple triggers for one workflow
+
+Want to trigger a workflow on a schedule, but at the same time trigger it on demand with a Slack message? Yes this is possible and yes it's very cool.
+
+Click the top right menu in the trigger itself, and select "Add trigger".
+
+Now you can add an additional trigger to the same workflow, opening up multiple ways that a workflow can be started.
+
+<div>
+<img src="./images/add-multi-trigger.gif" alt="Add multiple triggers to a workflow" />
+</div>
+
 <Footer />
+
