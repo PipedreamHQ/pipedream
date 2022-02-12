@@ -22,10 +22,14 @@ module.exports = {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const table = this.airtable.base(this.baseId)(this.tableId);
 
     this.airtable.validateRecord(this.record);
+
+    if (!this.record.Feedback) {
+      return $.flow.exit("No feedback in record, so not sending data to Airtable");
+    }
 
     const data = [
       {
