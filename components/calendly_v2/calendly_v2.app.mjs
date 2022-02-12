@@ -4,31 +4,31 @@ export default {
   type: "app",
   app: "calendly_v2",
   propDefinitions: {
+    organization: {
+      type: "string",
+      label: "Organization UUID",
+      description: "An organization UUID",
+      async options({ prevContext }) {
+        return await this._makeAsyncOptionsRequest({
+          prevContext,
+          requestType: "getUserOrganizations",
+          optionsCallbackFn: this._getOrganizationOptions,
+        });
+      },
+    },
     user: {
       type: "string",
       label: "User UUID",
       description: "An user UUID",
-      async options({ prevContext }) {
-        const organizations = (await this.getUserOrganizations())
-          .collection
-          .map((e) => e.organization);
-
-        let users = [];
-        for (const organization of organizations) {
-          prevContext.organization = organization;
-          const members = (await this._makeAsyncOptionsRequest({
-            prevContext,
-            requestType: "listOrganizationMembers",
-            optionsCallbackFn: this._getUserOptions,
-          })).options;
-
-          users = [
-            ...users,
-            ...members,
-          ];
-        }
-
-        return users;
+      async options({
+        prevContext, organization,
+      }) {
+        prevContext.organization = organization;
+        return await this._makeAsyncOptionsRequest({
+          prevContext,
+          requestType: "listOrganizationMembers",
+          optionsCallbackFn: this._getUserOptions,
+        });
       },
     },
     eventId: {
@@ -131,6 +131,17 @@ export default {
     _getNameOptions(collection, nextPage) {
       return this._getOptions(collection, nextPage);
     },
+    _getOrganizationOptions(collection, nextPage) {
+      return {
+        options: collection.map((e) => ({
+          label: e.organization.split("/").pop(),
+          value: e.organization,
+        })),
+        context: {
+          nextPageParameters: nextPage,
+        },
+      };
+    },
     _getUserOptions(collection, nextPage) {
       return this._getOptions(collection, nextPage, true);
     },
@@ -198,15 +209,11 @@ export default {
     async defaultUser($) {
       return (await this.getUserInfo(null, $)).resource.uri;
     },
-    async getUserOrganizations(uuid, $) {
-      const user = uuid
-        ? this._buildUserUri(uuid)
-        : await this.defaultUser($);
-
+    async getUserOrganizations($) {
       const opts = {
         path: "/organization_memberships",
         params: {
-          user,
+          user: await this.defaultUser($),
         },
       };
 

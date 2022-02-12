@@ -8,10 +8,19 @@ export default {
   type: "action",
   props: {
     calendly_v2,
+    organization: {
+      propDefinition: [
+        calendly_v2,
+        "organization",
+      ],
+    },
     user: {
       propDefinition: [
         calendly_v2,
         "user",
+        (c) => ({
+          organization: c.organization,
+        }),
       ],
       description: "Returns events for a specified user, or leave blank for your own events",
       optional: true,
