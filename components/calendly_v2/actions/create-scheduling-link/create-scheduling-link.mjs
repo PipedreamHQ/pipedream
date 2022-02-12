@@ -1,3 +1,5 @@
+/* eslint camelcase: 0 */
+
 import calendly_v2 from "../../calendly_v2.app.mjs";
 
 export default {
