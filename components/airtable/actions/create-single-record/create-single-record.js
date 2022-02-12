@@ -28,7 +28,8 @@ module.exports = {
     this.airtable.validateRecord(this.record);
 
     if (!this.record.Feedback) {
-      return $.flow.exit("No feedback in record, so not sending data to Airtable");
+      console.log("No feedback in record, so not sending data to Airtable");
+      return;
     }
 
     const data = [
