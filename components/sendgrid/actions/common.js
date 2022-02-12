@@ -22,7 +22,7 @@ module.exports = {
       };
     },
     /**
-     * Checks if an object is an array or an JSON array string, returns an error message when the
+     * Checks if an object is an array or a JSON array string, returns an error message when it
      * fails.
      *
      * @param {object} value the object to check for array or JSON array string.
