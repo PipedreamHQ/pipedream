@@ -392,7 +392,7 @@ module.exports = {
         links.forEach( (link) => {
           let next = "";
           let last = "";
-          if ( link.indexOf("next") > -1) {
+          if (link.indexOf("next") > -1) {
             const idx = link.indexOf(";");
             next = link.substring(0, idx).replace("<", "")
               .replace(">", "");
