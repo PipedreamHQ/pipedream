@@ -403,11 +403,7 @@ module.exports = {
             last = link.substring(0, idx).replace("<", "")
               .replace(">", "");
           }
-          const nextArr = [];
-          nextArr.push(next);
-          if (nextArr.includes(last)) {
-            lastIteration = true;
-          }
+          lastIteration = next === last;
         });
         config.url = url;
       } while (blocks.length < maxItems);
