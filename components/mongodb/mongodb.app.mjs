@@ -43,19 +43,19 @@ export default {
     parseNumbers: {
       label: "Parse Numbers",
       type: "boolean",
-      description: "If `true`, each number value represented by a string will be parsed to it respective type",
+      description: "If `true`, each number value represented by a string will be parsed to its respective type",
       default: true,
     },
     parseBooleans: {
       label: "Parse Booleans",
       type: "boolean",
-      description: "If `true`, each boolean value represented by a string will be parsed to it respective type",
+      description: "If `true`, each boolean value represented by a string will be parsed to its respective type",
       default: true,
     },
     parseDates: {
       label: "Parse Dates",
       type: "boolean",
-      description: "If `true`, each date value represented by a string will be parsed to it respective type",
+      description: "If `true`, each date value represented by a string will be parsed to its respective type",
       default: true,
     },
   },
