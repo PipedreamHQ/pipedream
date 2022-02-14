@@ -17,6 +17,7 @@ export default {
       label: "Line Items",
       description: toSingleLineString(`
         A list of line item objects, each containing information about an item in the order.
+        Example: \`{ "variant_id": 447654529, "quantity": 1, "price": 2.50, "name": "Name", "title": "Title" }\`.
         More details when searching **line_items** in [Shopify Order Object](https://shopify.dev/api/admin-rest/2022-01/resources/order#resource_object)
       `),
     },
