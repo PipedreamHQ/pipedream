@@ -135,8 +135,8 @@
       "destination": "/docs/code/nodejs/async/"
     },
     {
-      "source": "/docs/workflows/steps/code/state/",
-      "destination": "https://pipedream.com/docs/v1/workflows/steps/code/state/"
+      "source": "/docs/workflows/steps/code/state",
+      "destination": "https://pipedream.com/docs/v1/workflows/steps/code/state"
     }
   ]
 }
