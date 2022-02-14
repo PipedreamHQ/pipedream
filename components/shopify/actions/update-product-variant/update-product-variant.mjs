@@ -41,6 +41,7 @@ export default {
       propDefinition: [
         shopify,
         "imageId",
+        (c) => c,
       ],
     },
   },

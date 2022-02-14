@@ -439,6 +439,18 @@ export default {
       label: "Image ID",
       description: "The unique numeric identifier for a product's image. The image must be associated to the same product as the variant",
       optional: true,
+      async options({ productId }) {
+        if (!productId) {
+          return [];
+        }
+        let response = await this.resourceAction("productImage", "list", {
+          fields: "src,id",
+        }, productId);
+        return response.result.map((e) => ({
+          label: e.src,
+          value: e.id,
+        }));
+      },
     },
   },
   methods: {
