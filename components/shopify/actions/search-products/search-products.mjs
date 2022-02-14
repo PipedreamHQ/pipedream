@@ -3,21 +3,36 @@ import shopify from "../../shopify.app.mjs";
 export default {
   key: "shopify-search-products",
   name: "Search for Products",
-  description: "Search for products. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product#[get]/admin/api/2022-01/products/{product_id}.json)",
+  description: "Search for products by Title. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product#[get]/admin/api/2022-01/products.json)",
   version: "0.0.1",
   type: "action",
   props: {
     shopify,
-    productId: {
+    title: {
       propDefinition: [
         shopify,
-        "productId",
+        "title",
       ],
+    },
+    exactMatch: {
+      type: "boolean",
+      label: "Exact Match",
+      description: "The product title search should be an exact match",
+      optional: true,
+      default: false,
     },
   },
   async run({ $ }) {
-    let response = (await this.shopify.getProduct(this.productId)).result;
-    $.export("$summary", `Found product \`${response.title}\` with id \`${response.id}\``);
-    return response;
+    let products;
+    if (this.exactMatch) {
+      products = await this.shopify.getProducts(false, {
+        title: this.title,
+      });
+    } else {
+      products = (await this.shopify.getProducts())
+        .filter((product) => product.title.toLowerCase().includes(this.title.toLowerCase()));
+    }
+    $.export("$summary", `Found ${products.length} products with title search \`${this.title}\``);
+    return products;
   },
 };
