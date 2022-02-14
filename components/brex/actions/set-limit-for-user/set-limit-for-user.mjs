@@ -18,6 +18,7 @@ export default {
       label: "User",
       description: "User to set the new limit",
       withLabel: true,
+      optional: false,
     },
     ...common.props,
   },

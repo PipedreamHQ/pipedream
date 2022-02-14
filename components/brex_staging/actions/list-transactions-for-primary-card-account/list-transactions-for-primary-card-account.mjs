@@ -10,6 +10,17 @@ export default {
   type: "action",
   props: {
     brexApp,
-    ...common.props,
+    postedAtStart: {
+      propDefinition: [
+        brexApp,
+        "postedAtStart",
+      ],
+    },
+    max: {
+      propDefinition: [
+        brexApp,
+        "max",
+      ],
+    },
   },
 };

@@ -102,7 +102,7 @@ export default {
     this.http.respond({
       status: 200,
       headers: {
-        "Content-Type": event.headers["Content-Type"],
+        "Content-Type": "application/json",
       },
     });
   },
