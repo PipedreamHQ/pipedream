@@ -1,6 +1,4 @@
-/* eslint camelcase: 0 */
-
-import calendly_v2 from "../../calendly_v2.app.mjs";
+import calendly from "../../calendly_v2.app.mjs";
 
 export default {
   key: "calendly_v2-list-events",
@@ -9,16 +7,16 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    calendly_v2,
+    calendly,
     organization: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "organization",
       ],
     },
     user: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "user",
         (c) => ({
           organization: c.organization,
@@ -29,26 +27,26 @@ export default {
     },
     inviteeEmail: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "inviteeEmail",
       ],
       description: "Return events that are scheduled with the invitee associated with this email address",
     },
     status: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "status",
       ],
     },
     paginate: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "paginate",
       ],
     },
     maxResults: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "maxResults",
       ],
     },
@@ -60,7 +58,7 @@ export default {
     if (this.paginate) params.paginate = this.paginate;
     if (this.maxResults) params.maxResults = this.maxResults;
 
-    const response = await this.calendly_v2.listEvents(params, this.user, $);
+    const response = await this.calendly.listEvents(params, this.user, $);
     $.export("$summary", `Found ${response.pagination.count} event(s)`);
     return response;
   },

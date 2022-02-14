@@ -1,6 +1,4 @@
-/* eslint camelcase: 0 */
-
-import calendly_v2 from "../../calendly_v2.app.mjs";
+import calendly from "../../calendly_v2.app.mjs";
 
 export default {
   key: "calendly_v2-list-event-invitees",
@@ -9,36 +7,36 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    calendly_v2,
+    calendly,
     eventId: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "eventId",
       ],
     },
     email: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "inviteeEmail",
       ],
       description: "Indicates if the results should be filtered by email address",
     },
     status: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "status",
       ],
       description: "Indicates if the invitee `canceled` or still `active`",
     },
     paginate: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "paginate",
       ],
     },
     maxResults: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "maxResults",
       ],
     },
@@ -50,7 +48,7 @@ export default {
     if (this.paginate) params.paginate = this.paginate;
     if (this.maxResults) params.maxResults = this.maxResults;
 
-    const response = await this.calendly_v2.listEventInvitees(params, this.eventId, $);
+    const response = await this.calendly.listEventInvitees(params, this.eventId, $);
     $.export("$summary", `Found ${response.pagination.count} event invitee(s)`);
     return response;
   },

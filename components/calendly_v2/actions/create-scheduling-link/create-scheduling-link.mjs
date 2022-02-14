@@ -1,6 +1,4 @@
-/* eslint camelcase: 0 */
-
-import calendly_v2 from "../../calendly_v2.app.mjs";
+import calendly from "../../calendly_v2.app.mjs";
 
 export default {
   key: "calendly_v2-create-scheduling-link",
@@ -9,17 +7,17 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    calendly_v2,
+    calendly,
     owner: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "eventType",
       ],
       label: "Owner",
     },
     maxEventCount: {
       propDefinition: [
-        calendly_v2,
+        calendly,
         "maxEventCount",
       ],
     },
@@ -30,7 +28,7 @@ export default {
     params.owner = this.owner;
     params.owner_type = "EventType";
 
-    const response = await this.calendly_v2.createSchedulingLink(params, $);
+    const response = await this.calendly.createSchedulingLink(params, $);
     $.export("$summary", "Created a scheduling link successfully");
     return response;
   },
