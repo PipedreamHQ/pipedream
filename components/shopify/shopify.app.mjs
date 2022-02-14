@@ -452,6 +452,17 @@ export default {
         }));
       },
     },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "The search query",
+    },
+    max: {
+      type: "integer",
+      label: "Max Records",
+      description: "Optionally limit the maximum number of records to return. Leave blank to retrieve all records.",
+      optional: true,
+    },
   },
   methods: {
     _getBaseURL() {
@@ -717,6 +728,33 @@ export default {
         this._throwFormattedError(err);
       }
     },
+    async *paginate(resourceFn, params, max = null) {
+      let nextParams = params;
+      let count = 0;
+      do {
+        const {
+          result,
+          nextPageParameters,
+        } = await resourceFn(nextParams);
+        for (const item of result) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        // pass cursor to get next page of results; if no cursor, no more pages
+        nextParams = nextPageParameters;
+      } while (nextParams !== undefined);
+    },
+    async getPaginatedResults(resourceFn, params, max) {
+      const results = [];
+      const resourceStream = await this.paginate(resourceFn, params, max);
+      for await (const result of resourceStream) {
+        results.push(result);
+      }
+      return results;
+    },
     async getAbandonedCheckouts(sinceId) {
       let params = this.getSinceParams(sinceId, true);
       return await this.getObjects("checkout", params);
@@ -741,6 +779,9 @@ export default {
     },
     async updateCustomer(customerId, params) {
       return await this.resourceAction("customer", "update", params, customerId);
+    },
+    async searchCustomers(params = {}) {
+      return await this.resourceAction("customer", "search", params);
     },
     async getEvents(sinceId, filter = null, verb = null) {
       let params = this.getSinceParams(sinceId, true);

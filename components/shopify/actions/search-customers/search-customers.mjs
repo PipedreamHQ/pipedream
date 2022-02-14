@@ -1,51 +1,36 @@
 import shopify from "../../shopify.app.mjs";
 
 export default {
-  key: "shopify-search-customers",
+  key: "shopify-search-customer",
   name: "Search for Customers",
   description: "Search for a customer or a list of customers. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[get]/admin/api/2022-01/customers.json)",
   version: "0.0.1",
   type: "action",
   props: {
     shopify,
-    customerId: {
+    query: {
       propDefinition: [
         shopify,
-        "customerId",
+        "query",
       ],
-      label: "Customer",
-      description: "Searches for customers that match a supplied query. For example, you can type in the name or email of the customer. See [Customer Query](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[get]/admin/api/2022-01/customers/search.json?query=Bob%20country:United%20States)",
-      optional: true,
-      reloadProps: true,
     },
-    sinceId: {
-      type: "string",
-      label: "Since ID",
-      description: "Restrict results to those after the specified ID",
-      optional: true,
+    max: {
+      propDefinition: [
+        shopify,
+        "max",
+      ],
     },
-  },
-  async additionalProps() {
-    let props = {};
-    if (!this.customerId) {
-      props.limit = {
-        type: "integer",
-        label: "Limit",
-        description: "The maximum number of results to show",
-        default: 50,
-        optional: true,
-      };
-    }
-    return props;
   },
   async run({ $ }) {
     let params = {
-      ids: this.customerId,
-      limit: this.limit,
-      since_id: this.sinceId,
+      query: this.query,
     };
 
-    let response = (await this.shopify.getCustomers(null, null, params)).result;
+    let response = await this.shopify.getPaginatedResults(
+      this.shopify.searchCustomers,
+      params,
+      this.max,
+    );
     $.export("$summary", `Found ${response.length} customer(s)`);
     return response;
   },
