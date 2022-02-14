@@ -7,6 +7,7 @@ export default {
   type: "action",
   version: "0.0.1",
   props: {
+    linearApp,
     query: {
       propDefinition: [
         linearApp,
@@ -19,17 +20,90 @@ export default {
         "orderBy",
       ],
     },
+    after: {
+      propDefinition: [
+        linearApp,
+        "after",
+      ],
+    },
+    first: {
+      propDefinition: [
+        linearApp,
+        "first",
+      ],
+    },
+    before: {
+      propDefinition: [
+        linearApp,
+        "before",
+      ],
+    },
+    last: {
+      propDefinition: [
+        linearApp,
+        "last",
+      ],
+    },
+    includeArchived: {
+      propDefinition: [
+        linearApp,
+        "includeArchived",
+      ],
+    },
   },
   async run({ $ }) {
-    const { query } = this;
+    const {
+      query,
+      orderBy,
+      first,
+      last,
+      includeArchived,
+    } = this;
 
-    const response =
-      await this.linearApp.searchIssues({
-        query,
-      });
+    const hasAfterOrFirst = !!(this.after || first);
+    const hasBeforeOrLast = !!(this.before || last);
 
-    $.export("summary", `Found ${response.length} issues`);
+    if (hasAfterOrFirst && hasBeforeOrLast) {
+      throw new Error("Cannot use both `after/first` and `before/last` at the same time.");
+    }
 
-    return response;
+    let issues = [];
+    let hasNextPage;
+    let after = this.after;
+    let before = this.before;
+
+    do {
+      const {
+        nodes,
+        pageInfo,
+      } =
+        await this.linearApp.searchIssues({
+          query,
+          variables: {
+            orderBy,
+            after,
+            first,
+            before,
+            last,
+            includeArchived,
+          },
+        });
+
+      if (hasAfterOrFirst) {
+        after = pageInfo.endCursor;
+      }
+
+      if (hasBeforeOrLast) {
+        before = pageInfo.endCursor;
+      }
+
+      issues = issues.concat(nodes);
+      hasNextPage = pageInfo.hasNextPage;
+
+    } while (hasNextPage);
+
+    $.export("summary", `Found ${issues.length} issues`);
+
+    return issues;
   },
 };

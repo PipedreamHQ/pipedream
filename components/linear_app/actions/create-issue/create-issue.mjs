@@ -8,6 +8,12 @@ export default {
   version: "0.0.1",
   props: {
     linearApp,
+    teamId: {
+      propDefinition: [
+        linearApp,
+        "teamId",
+      ],
+    },
     title: {
       propDefinition: [
         linearApp,
@@ -18,12 +24,6 @@ export default {
       propDefinition: [
         linearApp,
         "issueDescription",
-      ],
-    },
-    teamId: {
-      propDefinition: [
-        linearApp,
-        "teamId",
       ],
     },
     assigneeId: {
@@ -49,7 +49,11 @@ export default {
         assigneeId,
       });
 
-    $.export("summary", `Created issue ${response.id}`);
+    if (response.success) {
+      $.export("summary", `Created issue ${response._issue.id}`);
+    } else {
+      $.export("summary", "Failed to create issue");
+    }
 
     return response;
   },

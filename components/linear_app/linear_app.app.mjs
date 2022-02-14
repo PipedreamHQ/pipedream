@@ -5,10 +5,39 @@ export default {
   type: "app",
   app: "linear_app",
   propDefinitions: {
+    issueId: {
+      type: "string",
+      label: "Issue ID",
+      description: "The issue ID to update",
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listIssues,
+          resouceMapper: ({
+            id, title,
+          }) => ({
+            label: title,
+            value: id,
+          }),
+        });
+      },
+    },
     teamId: {
       type: "string",
       label: "Team ID",
       description: "The identifier or key of the team associated with the issue.",
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listTeams,
+          resouceMapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
     },
     issueTitle: {
       type: "string",
@@ -20,6 +49,18 @@ export default {
       label: "Assignee ID",
       description: "The identifier of the user to assign the issue to.",
       optional: true,
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listUsers,
+          resouceMapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
     },
     boardOrder: {
       type: "string",
@@ -41,34 +82,40 @@ export default {
     orderBy: {
       type: "string",
       label: "Order by",
-      description: "By which field should the pagination order by. Available options are createdAt (default) and updatedAt.",
+      description: "By which field should the pagination order by. Available options are `createdAt` (default) and `updatedAt`.",
+      optional: true,
       options: constants.ORDER_BY_OPTIONS,
-      default: constants.FIELD.CREATED_AT,
     },
-    // """
-    // A cursor to be used with first for forward pagination
-    // """
-    // after: String
-    // """
-    // A cursor to be used with last for backward pagination.
-    // """
-    // before: String
-    // """
-    // [Alpha] Filter returned issues.
-    // """
-    // filter: IssueFilter
-    // """
-    // The number of items to forward paginate (used with after). Defaults to 50.
-    // """
-    // first: Int
-    // """
-    // Should archived resources be included (default: false)
-    // """
-    // includeArchived: Boolean
-    // """
-    // The number of items to backward paginate (used with before). Defaults to 50.
-    // """
-    // last: Int
+    after: {
+      type: "string",
+      label: "After",
+      description: "A cursor to be used with **First** for forward pagination.",
+      optional: true,
+    },
+    first: {
+      type: "integer",
+      label: "First",
+      description: "The number of items to forward paginate (used with **After**). Defaults to `50`.",
+      optional: true,
+    },
+    before: {
+      type: "string",
+      label: "Before",
+      description: "A cursor to be used with **Last** for backward pagination.",
+      optional: true,
+    },
+    last: {
+      type: "integer",
+      label: "Last",
+      description: "The number of items to backward paginate (used with **Before**). Defaults to `50`.",
+      optional: true,
+    },
+    includeArchived: {
+      type: "boolean",
+      label: "Include archived",
+      description: "Should archived resources be included (default: `false`).",
+      optional: true,
+    },
   },
   methods: {
     client({ options } = {}) {
@@ -87,14 +134,52 @@ export default {
       return this.client().issueCreate(input);
     },
     async updateIssue({
-      id, input,
+      issueId, input,
     }) {
-      return this.client().issueUpdate(id, input);
+      return this.client().issueUpdate(issueId, input);
     },
     async searchIssues({
       query, variables,
     }) {
       return this.client().issueSearch(query, variables);
+    },
+    async listTeams(variables = {}) {
+      return this.client().teams(variables);
+    },
+    async listUsers(variables = {}) {
+      return this.client().users(variables);
+    },
+    async listIssues(variables = {}) {
+      return this.client().issues(variables);
+    },
+    async listResourcesOptions({
+      prevContext, resourcesFn, resouceMapper,
+    }) {
+      const {
+        after,
+        hasNextPage,
+      } = prevContext;
+
+      if (hasNextPage === false) {
+        return [];
+      }
+
+      const {
+        nodes,
+        pageInfo,
+      } =
+        await resourcesFn({
+          after,
+          first: constants.DEFAULT_LIMIT,
+        });
+
+      return {
+        options: nodes.map(resouceMapper),
+        context: {
+          after: pageInfo.endCursor,
+          hasNextPage: pageInfo.hasNextPage,
+        },
+      };
     },
   },
 };

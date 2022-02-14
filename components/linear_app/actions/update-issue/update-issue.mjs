@@ -8,6 +8,12 @@ export default {
   version: "0.0.1",
   props: {
     linearApp,
+    issueId: {
+      propDefinition: [
+        linearApp,
+        "issueId",
+      ],
+    },
     title: {
       optional: true,
       propDefinition: [
@@ -23,6 +29,7 @@ export default {
       ],
     },
     teamId: {
+      optional: true,
       propDefinition: [
         linearApp,
         "teamId",
@@ -37,6 +44,7 @@ export default {
   },
   async run({ $ }) {
     const {
+      issueId,
       title,
       description,
       teamId,
@@ -45,13 +53,20 @@ export default {
 
     const response =
       await this.linearApp.updateIssue({
-        teamId,
-        title,
-        description,
-        assigneeId,
+        issueId,
+        input: {
+          teamId,
+          title,
+          description,
+          assigneeId,
+        },
       });
 
-    $.export("summary", `Updated issue ${response.id}`);
+    if (response.success) {
+      $.export("summary", `Updated issue ${response._issue.id}`);
+    } else {
+      $.export("summary", "Failed to update issue");
+    }
 
     return response;
   },
