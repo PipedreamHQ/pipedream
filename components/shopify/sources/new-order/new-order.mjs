@@ -4,8 +4,8 @@ export default {
   key: "shopify-new-order",
   name: "New Order",
   type: "source",
-  description: "Emit new an event for each new order submitted to a store.",
-  version: "0.0.4",
+  description: "Emit new event for each new order submitted to a store.",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",

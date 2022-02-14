@@ -2,10 +2,10 @@ import shopify from "../../shopify.app.mjs";
 
 export default {
   key: "shopify-updated-order",
-  name: "New Updated Order",
+  name: "Updated Order", /* eslint-disable-line pipedream/source-name */
   type: "source",
-  description: "Emit new an event each time an order is updated.",
-  version: "0.0.3",
+  description: "Emit new event each time an order is updated.",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",

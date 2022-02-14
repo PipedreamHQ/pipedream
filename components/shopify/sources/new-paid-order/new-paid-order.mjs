@@ -33,8 +33,8 @@ export default {
   key: "shopify-new-paid-order",
   name: "New Paid Order",
   type: "source",
-  description: "Emit new an event each time a new order is paid.",
-  version: "0.0.3",
+  description: "Emit new event each time a new order is paid.",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",

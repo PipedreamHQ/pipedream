@@ -4,8 +4,8 @@ export default {
   key: "shopify-new-article",
   name: "New Article",
   type: "source",
-  description: "Emit new an event for each new article in a blog.",
-  version: "0.0.4",
+  description: "Emit new event for each new article in a blog.",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",

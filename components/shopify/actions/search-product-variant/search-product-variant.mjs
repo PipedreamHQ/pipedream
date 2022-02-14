@@ -2,7 +2,7 @@ import shopify from "../../shopify.app.mjs";
 
 export default {
   key: "shopify-search-product-variant",
-  name: "Search Product Variant",
+  name: "Search for Product Variant",
   description: "Search for product variants or create one if not found. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#top)",
   version: "0.0.1",
   type: "action",
@@ -28,6 +28,7 @@ export default {
         shopify,
         "title",
       ],
+      description: "The name of the product variant",
       optional: true,
     },
     createIfNotFound: {

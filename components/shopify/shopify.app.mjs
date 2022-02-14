@@ -183,13 +183,9 @@ export default {
       type: "string",
       label: "Product ID",
       description: "ID of the product. Option displayed here as the title of the product",
-      async options({
-        prevContext,
-        query,
-      }) {
+      async options({ prevContext }) {
         let defaultParams = {
           limit: 50,
-          query,
         };
         const { nextPageParameters = defaultParams } = prevContext;
         let response = await this.resourceAction("product", "list", nextPageParameters);
@@ -693,7 +689,6 @@ export default {
      * @param {string} action Shopify resource method
      * @param {object} params JSON or Query request parameters
      * @param {string} id Resource ID if expected
-     * @param {boolean} paginates Whether resource action paginates
      * @returns {object} Shopify resource action result
      */
     async resourceAction(objectType, action, params = {}, id = null) {

@@ -4,8 +4,8 @@ export default {
   key: "shopify-new-shipment",
   name: "New Shipment",
   type: "source",
-  description: "Emit new an event for each new fulfillment event for a store.",
-  version: "0.0.4",
+  description: "Emit new event for each new fulfillment event for a store.",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",
@@ -18,11 +18,10 @@ export default {
     shopify,
   },
   methods: {
-    emitShipments(shipments, results) {
+    emitShipments(results) {
       for (const order of results) {
         if (order.fulfillments && order.fulfillments.length > 0) {
           for (const shipment of order.fulfillments) {
-            shipments.push(shipment);
             this.$emit(shipment, {
               id: shipment.id,
               summary: `Fulfillment ${shipment.name}`,
@@ -34,15 +33,11 @@ export default {
     },
   },
   async run() {
-    let shipments = [];
     this.emitShipments(
-      shipments,
       await this.shopify.getOrders("shipped"),
     );
     this.emitShipments(
-      shipments,
       await this.shopify.getOrders("partial"),
     );
-    return shipments;
   },
 };

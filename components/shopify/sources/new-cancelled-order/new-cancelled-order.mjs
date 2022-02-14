@@ -4,8 +4,8 @@ export default {
   key: "shopify-new-cancelled-order",
   name: "New Cancelled Order",
   type: "source",
-  description: "Emit new an event each time a new order is cancelled.",
-  version: "0.0.3",
+  description: "Emit new event each time a new order is cancelled.",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",

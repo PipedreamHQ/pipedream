@@ -4,8 +4,8 @@ export default {
   key: "shopify-new-page",
   name: "New Page",
   type: "source",
-  description: "Emit new an event for each new page published.",
-  version: "0.0.4",
+  description: "Emit new event for each new page published.",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",
