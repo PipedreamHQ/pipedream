@@ -60,12 +60,12 @@ export default {
       ],
       optional: true,
     },
-    discountCodes: {
-      type: "string[]",
-      label: "Discount Codes",
+    discountCode: {
+      type: "object",
+      label: "Discount Code",
       description: toSingleLineString(`
-        A list of discounts applied to the order.
-        Example: \`[ { "code": "SPRING30", "type": "fixed_amount", "amount": "30.00" } ]\`.
+        A discount applied to the order.
+        Example: \`{ "code": "SPRING30", "type": "fixed_amount", "amount": "30.00" }\`.
         More details when searching **discount_codes** in [Shopify Order Object](https://shopify.dev/api/admin-rest/2022-01/resources/order#resource_object)
       `),
       optional: true,
@@ -123,7 +123,9 @@ export default {
       billing_address: this.shopify.parseJSONStringObjects(this.billingAddress),
       shipping_address: this.shopify.parseJSONStringObjects(this.shippingAddress),
       financial_status: this.financialStatus,
-      discount_codes: this.shopify.parseArrayOfJSONStrings(this.discountCodes),
+      discount_codes: [
+        this.shopify.parseJSONStringObjects(this.discountCode),
+      ],
       fulfillments: this.shopify.parseArrayOfJSONStrings(this.fulfillments),
       fulfillment_status: this.fulfillmentStatus,
       send_receipt: this.sendReceipt,
@@ -135,7 +137,7 @@ export default {
       },
     };
 
-    let response = (await this.shopify.createOrder(data)).result;
+    let response = (await this.shopify.createOrder(data)).results;
     $.export("$summary", `Created new order with id \`${response.id}\``);
     return response;
   },
