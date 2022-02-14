@@ -8,6 +8,10 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
+    frontapp: {
+      type: "app",
+      app: "frontapp",
+    },
     channel_id: {
       type: "string",
       description: "Id or address of the channel from which to send the message",
@@ -74,6 +78,11 @@ export default {
   async run({ $ }) {
     return await axios($, {
       url: `https://api2.frontapp.com/channels/${this.channel_id}/messages`,
+      headers: {
+        "Authorization": `Bearer ${this.frontapp.$auth.oauth_access_token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
       params: {
         author_id: this.author_id,
         sender_name: this.sender_name,
