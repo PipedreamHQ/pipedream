@@ -91,7 +91,6 @@ export default {
       return "https://platform.brexapps.com";
     },
     _getHeaders() {
-      console.log(this.$auth.oauth_access_token);
       return {
         "Content-Type": "application/json",
         "Idempotency-Key": uuidv4(),
@@ -109,7 +108,7 @@ export default {
     async getLocations(cursor, limit) {
       return axios(this._getAxiosParams({
         method: "GET",
-        path: "/locations",
+        path: "/v2/locations",
         params: {
           cursor,
           limit,
@@ -119,7 +118,7 @@ export default {
     async getDepartments(cursor, limit) {
       return axios(this._getAxiosParams({
         method: "GET",
-        path: "/departments",
+        path: "/v2/departments",
         params: {
           cursor,
           limit,
@@ -129,7 +128,7 @@ export default {
     async getUsers(cursor, limit) {
       return axios(this._getAxiosParams({
         method: "GET",
-        path: "/users",
+        path: "/v2/users",
         params: {
           cursor,
           limit,
@@ -139,7 +138,7 @@ export default {
     async getCashAccounts() {
       return axios(this._getAxiosParams({
         method: "GET",
-        path: "/accounts/cash",
+        path: "/v2/accounts/cash",
       }));
     },
   },

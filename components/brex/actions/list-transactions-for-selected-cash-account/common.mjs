@@ -9,7 +9,9 @@ export default {
     } = this;
 
     const DEFAULT_LIMIT = 100;
-    const limit = Math.min(DEFAULT_LIMIT, parseInt(max));
+    const limit = max
+      ? Math.min(DEFAULT_LIMIT, parseInt(max))
+      : DEFAULT_LIMIT;
 
     let items = [];
     let cursor;

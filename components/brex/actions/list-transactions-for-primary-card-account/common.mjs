@@ -11,7 +11,9 @@ export default {
     let cursor;
 
     const DEFAULT_LIMIT = 100;
-    const limit = Math.min(DEFAULT_LIMIT, parseInt(max));
+    const limit = max
+      ? Math.min(DEFAULT_LIMIT, parseInt(max))
+      : DEFAULT_LIMIT;
 
     do {
       const res = await axios($, this.brexApp._getAxiosParams({

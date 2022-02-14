@@ -1,5 +1,5 @@
 import brexApp from "../../brex_staging.app.mjs";
-import common from "../../../brex/actions/list-transaction-for-selected-cash-account/common.mjs";
+import common from "../../../brex/actions/list-transactions-for-selected-cash-account/common.mjs";
 
 export default {
   ...common,
