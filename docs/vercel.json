@@ -133,6 +133,10 @@
     {
       "source": "/docs/workflows/steps/code/async/",
       "destination": "/docs/code/nodejs/async/"
+    },
+    {
+      "source": "/docs/workflows/steps/code/state/",
+      "destination": "/docs/v1/workflows/steps/code/state/"
     }
   ]
 }
