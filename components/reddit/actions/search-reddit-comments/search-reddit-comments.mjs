@@ -2,7 +2,7 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "app_placeholder-search-reddit-comments",
+  key: "reddit-search-reddit-comments",
   name: "Search Reddit Comments",
   description: "Search Reddit comments using the Pushshift.io API. Learn more at https://github.com/pushshift/api",
   version: "0.1.1",

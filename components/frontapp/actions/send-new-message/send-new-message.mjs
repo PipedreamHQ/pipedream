@@ -2,7 +2,7 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "app_placeholder-send-new-message",
+  key: "frontapp-send-new-message",
   name: "Send new message",
   description: "Sends a new message from a channel. It will create a new conversation.",
   version: "0.2.1",

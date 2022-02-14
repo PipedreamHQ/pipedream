@@ -2,7 +2,7 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "app_placeholder-get-ladder",
+  key: "path_of_exile-get-ladder",
   name: "Get ladder",
   description: "Get a ladder by league id. There is a restriction in place on the last ladder entry you are able to retrieve which is set to 15000.",
   version: "0.1.1",

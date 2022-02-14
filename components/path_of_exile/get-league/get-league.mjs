@@ -2,7 +2,7 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "app_placeholder-get-league",
+  key: "path_of_exile-get-league",
   name: "Get league",
   description: "Get a single league by id",
   version: "0.1.1",

@@ -2,7 +2,7 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "app_placeholder-get-public-stash-tabs",
+  key: "path_of_exile-get-public-stash-tabs",
   name: "Get public stash tabs",
   description: "Retrieves a list of stashes, accounts, and items as described above in the Introduction section.",
   version: "0.1.1",
