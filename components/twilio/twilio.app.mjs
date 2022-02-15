@@ -19,7 +19,7 @@ export default {
     body: {
       type: "string",
       label: "Message Body",
-      description: "The text of the message you want to send, limited to 1600 characters.",
+      description: "The text of the message you want to send, limited to 1600 characters",
     },
     from: {
       type: "string",
@@ -71,7 +71,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of results to be worked with during one execution cycle.",
+      description: "The maximum number of results to be worked with during one execution cycle",
       optional: true,
       default: 50,
     },
@@ -93,7 +93,7 @@ export default {
     parentCallSid: {
       type: "string",
       label: "Parent Call SID",
-      description: "Only include calls spawned by calls with this SID.",
+      description: "Only include calls spawned by calls with this SID",
       optional: true,
       async options() {
         return this.listCallsOptions();
