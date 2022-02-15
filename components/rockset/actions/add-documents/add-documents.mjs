@@ -32,8 +32,7 @@ export default {
 
     return await axios($, {
       method: "POST",
-      url: `https://api.rs2.usw2.rockset.com/v1/orgs/self/ws/${this.workspace}/collections/${this.collection}/docs
-  `,
+      url: `https://api.rs2.usw2.rockset.com/v1/orgs/self/ws/${this.workspace}/collections/${this.collection}/docs`,
       headers: {
         "Authorization": `ApiKey ${this.rockset.$auth.apikey}`,
       },
