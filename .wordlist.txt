@@ -1071,3 +1071,5 @@ apiKey
 fileUrl
 stepName
 firstName
+Golang
+UX
