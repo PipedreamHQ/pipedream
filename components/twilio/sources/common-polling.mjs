@@ -37,6 +37,8 @@ export default {
       )
         dateCreatedAfter = result.dateCreated;
     }
-    this._setCreatedAfter(dateCreatedAfter);
+    if (dateCreatedAfter) {
+      this._setCreatedAfter(dateCreatedAfter);
+    }
   },
 };
