@@ -1,4 +1,4 @@
-// legacy_hash_id: "a_4rioN5"
+// legacy_hash_id: a_4rioN5
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -38,7 +38,7 @@ export default {
     },
     format: {
       type: "string",
-      description: "Result image format: \"auto\" = Use PNG format if transparent regions exist, otherwise use JPG format (default), \"png\" = PNG format with alpha transparency, \"jpg\" = JPG format, no transparency, \"zip\" = ZIP format, contains color image and alpha matte image, supports transparency (recommended).\n",
+      description: "Result image format: \"auto\" = Use PNG format if transparent regions exist, otherwise use JPG format (default), \"png\" = PNG format with alpha transparency, \"jpg\" = JPG format, no transparency, \"zip\" = ZIP format, contains color image and alpha matte image, supports transparency (recommended).",
       optional: true,
     },
     roi: {

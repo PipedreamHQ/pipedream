@@ -1,4 +1,4 @@
-// legacy_hash_id: "a_2wim5R"
+// legacy_hash_id: a_2wim5R
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -33,7 +33,7 @@ export default {
     },
     properties: {
       type: "object",
-      description: "\tFree-form dictionary of properties of the event, like revenue",
+      description: "Free-form dictionary of properties of the event, like revenue",
       optional: true,
     },
     timestamp: {

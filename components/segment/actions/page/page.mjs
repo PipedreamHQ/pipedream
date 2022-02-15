@@ -1,4 +1,4 @@
-// legacy_hash_id: "a_YEiPdk"
+// legacy_hash_id: a_YEiPdk
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -29,7 +29,7 @@ export default {
     },
     name: {
       type: "string",
-      description: "\tName of the page",
+      description: "Name of the page",
       optional: true,
     },
     properties: {

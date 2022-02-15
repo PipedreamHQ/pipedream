@@ -1,4 +1,4 @@
-// legacy_hash_id: "a_bKiPAo"
+// legacy_hash_id: a_bKiPAo
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -18,7 +18,7 @@ export default {
     },
     workspace: {
       type: "string",
-      description: "Name of the workspace. ",
+      description: "Name of the workspace.",
     },
     collection: {
       type: "string",

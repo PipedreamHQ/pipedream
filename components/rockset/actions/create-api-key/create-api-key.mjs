@@ -1,4 +1,4 @@
-// legacy_hash_id: "a_RAiaRQ"
+// legacy_hash_id: a_RAiaRQ
 import { axios } from "@pipedream/platform";
 
 export default {

@@ -1,11 +1,10 @@
-// legacy_hash_id: "a_K5i2KK"
+// legacy_hash_id: a_K5i2KK
 import { axios } from "@pipedream/platform";
 import { stringify } from "qs";
 
 export default {
   key: "imgbb-upload-picture",
   name: "Upload picture",
-  description: "",
   version: "0.2.1",
   type: "action",
   props: {
@@ -19,7 +18,7 @@ export default {
     },
     name: {
       type: "string",
-      description: "The name of the file, this is automatically detected if uploading a file with a POST and multipart / form-data\n",
+      description: "The name of the file, this is automatically detected if uploading a file with a POST and multipart / form-data",
       optional: true,
     },
   },

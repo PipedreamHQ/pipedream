@@ -1,4 +1,4 @@
-// legacy_hash_id: "a_Mdi8dg"
+// legacy_hash_id: a_Mdi8dg
 import { axios } from "@pipedream/platform";
 
 export default {

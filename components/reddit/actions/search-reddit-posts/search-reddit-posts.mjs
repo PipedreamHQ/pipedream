@@ -1,4 +1,4 @@
-// legacy_hash_id: "a_RAiaRw"
+// legacy_hash_id: a_RAiaRw
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -84,12 +84,12 @@ export default {
     },
     "before": {
       type: "integer",
-      description: "Return results before this date. Provide epoch value or Integer + \"s,m,h,d\" (i.e. 30d for 30 days)\n",
+      description: "Return results before this date. Provide epoch value or Integer + \"s,m,h,d\" (i.e. 30d for 30 days)",
       optional: true,
     },
     "score": {
       type: "string",
-      description: "Restrict results based on score. Provide integer or > x or < x (i.e. score=>100 or score=<25)\n",
+      description: "Restrict results based on score. Provide integer or > x or < x (i.e. score=>100 or score=<25)",
       optional: true,
     },
     "num_comments": {
@@ -124,7 +124,7 @@ export default {
     },
     "content_mode": {
       type: "boolean",
-      description: "Exclude or include content mode submissions\t",
+      description: "Exclude or include content mode submissions",
       optional: true,
     },
     "frequency": {

@@ -1,4 +1,4 @@
-// legacy_hash_id: "a_Q3iwn2"
+// legacy_hash_id: a_Q3iwn2
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -58,7 +58,7 @@ export default {
     },
     before: {
       type: "integer",
-      description: "Return results before this date. Provide epoch value or Integer + \"s,m,h,d\" (i.e. 30d for 30 days)\n",
+      description: "Return results before this date. Provide epoch value or Integer + \"s,m,h,d\" (i.e. 30d for 30 days)",
       optional: true,
     },
     frequency: {
