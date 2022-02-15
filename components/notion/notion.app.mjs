@@ -9,24 +9,34 @@ export default {
       type: "string",
       label: "Page ID",
       description: "The identifier for a Notion page",
-      async options() {
-        return (await this.searchPage()).results
-          .map((page) => {
-            let title = Object.values(page.properties)
-              .map((property) => {
-                if (property.type === "title" && property.title.length > 0) {
-                  return property.title
-                    .map((title) => title.plain_text)
-                    .filter((title) => title.length > 0)
-                    .reduce((prev, next) => prev + next);
-                }
-              })
-              .filter((title) => title);
-            return {
-              label: title[0] ?? "Untitled",
-              value: page.id,
-            };
-          });
+      async options({ prevContext }) {
+        const response = await this.searchPage(undefined, {
+          start_cursor: prevContext.nextPageParameters ?? undefined,
+        });
+
+        const options = response.results.map((page) => {
+          let title = Object.values(page.properties)
+            .map((property) => {
+              if (property.type === "title" && property.title.length > 0) {
+                return property.title
+                  .map((title) => title.plain_text)
+                  .filter((title) => title.length > 0)
+                  .reduce((prev, next) => prev + next);
+              }
+            })
+            .filter((title) => title);
+          return {
+            label: title[0] ?? "Untitled",
+            value: page.id,
+          };
+        });
+
+        return {
+          options,
+          context: {
+            nextPageParameters: response.next_cursor,
+          },
+        };
       },
     },
     title: {
@@ -76,13 +86,23 @@ export default {
         page_id: pageId,
       });
     },
-    async searchPage(title) {
+    async searchDatabase(title) {
+      return await this._getNotionClient().search({
+        query: title,
+        filter: {
+          property: "object",
+          value: "database",
+        },
+      });
+    },
+    async searchPage(title, params = {}) {
       return await this._getNotionClient().search({
         query: title,
         filter: {
           property: "object",
           value: "page",
         },
+        ...params,
       });
     },
     async retrieveBlock(blockId, retrieveChildren) {
