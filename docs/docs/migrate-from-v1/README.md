@@ -69,7 +69,7 @@ defineComponent({
 });
 ```
 
-1. The `event` from the trigger step is still available, but within `steps.trigger.event` instead.
+1. The `event` from the trigger step is still available, but exposed in `steps.trigger.event` instead.
 2. The `$` variable has been passed into the `run` function where your code is executed.
 
 You can think of the `$` as the entry point to built in Pipedream functions. In v1, this special functions included `$end`, `$respond`, etc. In v2, these have been remapped to `$.flow.end` and `$.respond` respectively. 
@@ -190,6 +190,8 @@ In the v2 builder, you can connect apps with your code using [props](/components
 Above the `run` function, define an app prop that your Node.js step integrates with:
 
 ```javascript
+import { axios } from "@pipedream/platform"
+
 export default defineComponent({
   props: {
     twitter: {
@@ -198,8 +200,12 @@ export default defineComponent({
     }
   },
   async run({ steps, $ }) {
-    // now your Slack token for authenticating API calls will be available here:
-    this.slack.$auth.oauth_access_token;
+    return await axios($, {
+      url: `https://slack.com/api/users.profile.get`,
+      headers: {
+        Authorization: `Bearer ${this.slack.$auth.oauth_access_token}`,
+      },
+    }
   },
 })
 ```
