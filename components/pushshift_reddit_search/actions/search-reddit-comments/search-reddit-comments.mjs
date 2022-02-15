@@ -8,6 +8,10 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
+    pushshift_reddit_search: {
+      type: "app",
+      app: "pushshift_reddit_search",
+    },
     q: {
       type: "string",
       description: "Search term. Will search ALL possible fields",
