@@ -36,7 +36,11 @@ export default {
       cursor = res.next_cursor;
     } while (items.length < max && cursor);
 
-    $.export("$summary", "Transactions successfully fetched");
+    if (items.length === 0) {
+      $.export("$summary", "No transactions fetched");
+    } else {
+      $.export("$summary", `Successfully fetched ${items.length} transaction(s)`);
+    }
     return items;
   },
 };
