@@ -15,9 +15,6 @@ export default {
     imap,
     db: "$.service.db",
     timer: {
-      label: "Polling interval",
-      description:
-        "Pipedream will poll the IMAP server for new emails at this interval",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15, // by default, run every 15 minutes
