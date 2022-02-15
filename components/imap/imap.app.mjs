@@ -153,7 +153,7 @@ export default {
         objectMode: true,
         read() {},
       });
-      let promises = [];
+      let messsagePromises = [];
 
       fetch.on("message", (msg) => {
         const message = {};
@@ -172,7 +172,7 @@ export default {
             message.mail = mail;
             messageStream.push(message);
           });
-          promises.push(messagePromise);
+          messsagePromises.push(messagePromise);
         });
       });
       fetch.once("error", (err) => {
@@ -180,7 +180,7 @@ export default {
       });
       fetch.once("end", async () => {
         // Wait until all mail promises have been resolved before ending stream
-        await Promise.all(promises);
+        await Promise.all(messsagePromises);
         messageStream.push(null);
       });
 
