@@ -847,7 +847,7 @@ export default {
       return await this.resourceAction("productVariant", "get", params, productVariantId);
     },
     async getProductVariantByTitle(productId, title, params) {
-      let list = await this.resourceAction("productVariant", "list", params, productId);
+      let list = (await this.resourceAction("productVariant", "list", params, productId)).result;
       list = list.filter((e) => e.title == title);
       if (list.length === 0) {
         throw new Error(`Product variant with title ${title} not found`);
