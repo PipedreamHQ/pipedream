@@ -12,11 +12,9 @@ Fundamentally, the new version of the workflow builder gives you the same abilit
 
 ### Editing vs Inspecting
 
-Now, editing a workflow are separated from the viewing of production events and results on the deployed workflow.
-
 When you first open a deployed workflow, you're presented with the **inspector** version of the workflow. In this view you can see logs of past events, and select them to see the results of each step in the workflow.
 
-To edit the workflow, click the **Edit** button in the top right hand corner. This will close the inspector and allow you to edit your workflow.
+To edit the workflow, click the **Edit** button in the top right hand corner. This will close the inspector and allow you to edit your workflow without the distraction of logs from the production flow.
 
 ### Testing Changes
 
