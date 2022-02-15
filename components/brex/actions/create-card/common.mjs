@@ -59,7 +59,6 @@ export default {
     };
   },
   async run ({ $ }) {
-    console.log(import.meta);
     const {
       user,
       cardName,
