@@ -127,8 +127,8 @@
       "destination": "https://pipedream.com/apps"
     },
     {
-      "source": "/docs/support",
-      "destination": "https://pipedream.com/support"
+      "source": "/docs/workflows/steps/code/state/",
+      "destination": "/docs/code/nodejs/#managing-state"
     },
     {
       "source": "/docs/workflows/steps/code/async/",
@@ -137,6 +137,10 @@
     {
       "source": "/docs/workflows/steps/code/state",
       "destination": "https://pipedream.com/docs/v1/workflows/steps/code/state"
+    },
+    {
+      "source": "/docs/support",
+      "destination": "https://pipedream.com/support"
     }
   ]
 }
