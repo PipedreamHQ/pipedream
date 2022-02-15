@@ -138,7 +138,7 @@ export default {
       },
     };
 
-    let response = (await this.shopify.createOrder(data)).results;
+    let response = (await this.shopify.createOrder(data)).result;
     $.export("$summary", `Created new order with id \`${response.id}\``);
     return response;
   },

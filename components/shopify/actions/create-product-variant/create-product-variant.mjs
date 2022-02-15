@@ -31,6 +31,9 @@ export default {
       propDefinition: [
         shopify,
         "imageId",
+        (c) => ({
+          productId: c.productId,
+        }),
       ],
     },
   },

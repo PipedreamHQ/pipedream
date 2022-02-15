@@ -678,7 +678,7 @@ export default {
         autoLimit: true,
       });
     },
-    getSinceParams(params, sinceId = false, useCreatedAt = false, updatedAfter = null) {
+    getSinceParams(sinceId = false, useCreatedAt = false, updatedAfter = null, params = {}) {
       if (sinceId) params = {
         ...params,
         since_id: sinceId,
@@ -813,8 +813,8 @@ export default {
       let params = this.getSinceParams(sinceId, true);
       return await this.getObjects("page", params);
     },
-    async getProducts(sinceId, params = {}) {
-      this.getSinceParams(params, sinceId, true);
+    async getProducts(sinceId, useCreatedAt = true, params = {}) {
+      this.getSinceParams(sinceId, useCreatedAt, null, params);
       return await this.getObjects("product", params);
     },
     async getProduct(productId, params) {
