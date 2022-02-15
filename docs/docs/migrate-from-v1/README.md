@@ -143,8 +143,6 @@ defineComponent({
 In v2, `$end` does not display the reason in the workflow results logs.
 ::: 
 
-
-
 ### Params vs Props
 
 In workflow builder v2, both Component **props** and Node.js code steps **props** are one in the same.
@@ -206,7 +204,31 @@ After testing the step the Slack app will appear in the **Configuration** sectio
 
 ### HTTPs Response
 
+You can still return an HTTP response from an HTTP triggered workflow.
+
+Use `$.respond` to send a JSON or string response from the HTTP call that triggered the workflow.
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    $.respond({
+      status: 200,
+      headers: {},
+      body: { 
+        message: "hello world!"
+      }
+    });
+  },
+})
+```
+
+Please note, you'll also need to configure the HTTP trigger step to also allow custom responses. Use the dropdown in the **HTTP Response** section of the HTTP trigger to select the **Return a custom response from your workflow** option.
+
+<img src="./images/custom-http-response-option.png" alt="Select the option to allow your workflow to send it's own HTTP responses">
+
 ## Known Gaps & Limitations
+
+The new workflow builder introduces new features that weren't available in v1. However there are some features from the original builder that are not available in v2 currently.
 
 ### Sharing workflows
 
