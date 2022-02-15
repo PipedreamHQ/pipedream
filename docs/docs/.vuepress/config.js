@@ -31,7 +31,7 @@ module.exports = {
         items: [
           {
             text: "v2",
-            link: "https://pipedream.com/docs-v2",
+            link: "https://pipedream.com/docs",
             internal: true,
             badge: "New",
             badgeVariation: "primary",
@@ -39,12 +39,11 @@ module.exports = {
           {
             text: "v1",
             internal: true,
-            link: "https://pipedream.com/docs",
+            link: "https://pipedream.com/docs/v1",
           },
         ],
       },
     ],
-
     // if your docs are not at the root of the repo:
     docsDir: "docs/docs",
     editLinks: true,
@@ -71,10 +70,6 @@ module.exports = {
       "/sources/",
       "/connected-accounts/",
       "/user-settings/",
-      {
-        title: "Organizations",
-        children: ["/orgs/", "/orgs/sso/okta/"],
-      },
       {
         title: "Reference: Code, APIs + CLI",
         children: [
@@ -167,7 +162,11 @@ module.exports = {
           "/workflows/events/cold-starts/",
         ]
       },
-      "/migrate-from-v1/",
+      {
+        title: "Organizations",
+        collapsable: false,
+        children: ["/orgs/", "/orgs/sso/okta/"],
+      },
       "/status/",
       ["https://pipedream.com/support", "Need more help?"],
     ],
@@ -197,6 +196,7 @@ module.exports = {
     PYTHON_VERSION: "3.8",
     CONFIGURED_PROPS_SIZE_LIMIT: "64KB",
     SERVICE_DB_SIZE_LIMIT: "60KB",
-    TMP_SIZE_LIMIT: '512MB'
+    GO_LANG_VERSION: '1.17.1',
+    TMP_SIZE_LIMIT: '512MB',
   },
 };
