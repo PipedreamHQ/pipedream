@@ -13,7 +13,7 @@
       "destination": "/"
     },
     {
-      "source": "/docs-v2/(.*)",
+      "source": "/docs/(.*)",
       "destination": "/$1"
     }
   ],

@@ -117,6 +117,7 @@ export default {
 .nav-links {
   display: flex;
   align-items: center;
+
   > *  {
     margin-left: 1.2em;
     margin-right: 1.2em;
