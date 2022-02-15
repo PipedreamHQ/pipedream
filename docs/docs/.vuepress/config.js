@@ -167,6 +167,7 @@ module.exports = {
         collapsable: false,
         children: ["/orgs/", "/orgs/sso/okta/"],
       },
+      "/migrate-from-v1/",
       "/status/",
       ["https://pipedream.com/support", "Need more help?"],
     ],

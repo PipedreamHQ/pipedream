@@ -26,14 +26,13 @@ In addition to testing single steps, you can now selectively test portions of yo
 
 <img src="./images/test-workflow-portions.png" alt="Selectively pick testing your workflow above or below the current step is now available.">
 
-Now you can also choose to only test steps up to a certain step, or after a current step.
+Now you can also choose to limit your test runs of your workflow before _or_ after the current step.
 
 ### Deploying Changes
 
-After you're happy with your changes, you can **deploy** them to your production workflow. Just click the **Deploy** button in the top right hand corner of the screen.
+After you're happy with your changes, **deploy** them to your production workflow. Just click the **Deploy** button in the top right hand corner of the screen.
 
 After deploying your changes, your workflow is now live.
-
 
 ## Node.js Code Step Changes
 
@@ -85,8 +84,7 @@ defineComponent({
 });
 ```
 
-Allowing all of the scaffolding to be edited opens up the ability to [pass props](code/nodejs/#passing-props-to-code-steps) into your Node.js code steps.
-
+Allowing all of the scaffolding to be edited opens up the ability to [pass props](code/nodejs/#passing-props-to-code-steps) into your Node.js code steps, which we'll cover later.
 
 ### Step Exports 
 
@@ -112,7 +110,7 @@ defineComponent({
 });
 ```
 ::: tip
-Using `return` to export data from steps has not been changed from v1 to v2. You can still `return` data, and it will be available to other steps with `steps.[stepName].$return_value.
+Using `return` to export data is the same from v1 to v2. You can still `return` data, and it will be available to other steps with `steps.[stepName].$return_value.
 :::
 
 ### Exiting a workflow early 
@@ -149,9 +147,9 @@ You can still enter free text and select data from other steps in pre-built acti
 
 #### Defining params
 
-In the v1 workflow builder, params could be structured or unstructured. And you had to use the [params schema builder](https://pipedream.com/docs/v1/workflows/steps/params/#configuring-custom-params) to add your own custom params.
+In the v1 workflow builder, params could be structured or unstructured. The [params schema builder](https://pipedream.com/docs/v1/workflows/steps/params/#configuring-custom-params) allowed you to add your own custom params to steps.
 
-In v2, you can add your own custom props without leaving the code editor.
+In v2, you can add your own custom props without leaving the code editor with `props`.
 
 ```javascript
 export default defineComponent({
@@ -238,7 +236,7 @@ We're working on bringing this same feature to the new version, if you need assi
 
 The `$checkpoint` functionality to save data between workflow runs has been removed.
 
-But you can leverage the `$.database` service to store arbitrary data across your workflow runs like unique IDs.
+But you can leverage the `$.database` service to store arbitrary data across your workflow runs like unique IDs. [Read more about using `$.database` here.](https://pipedream.com/docs/code/nodejs/#managing-state)
 
 ::: warning
 Please note that any values stored in `$.database` are only accessible in subsequent workflow runs _in the same step_.
