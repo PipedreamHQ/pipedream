@@ -142,11 +142,11 @@ export default {
       const options = {
         bodies: "",
       };
-      let f;
+      let fetch;
       if (startUid) {
-        f = connection.fetch(`${startUid}:*`, options);
+        fetch = connection.fetch(`${startUid}:*`, options);
       } else {
-        f = connection.seq.fetch(`${startSeqno}:*`, options);
+        fetch = connection.seq.fetch(`${startSeqno}:*`, options);
       }
 
       const messageStream = new Stream.Readable({
@@ -155,7 +155,7 @@ export default {
       });
       let promises = [];
 
-      f.on("message", (msg) => {
+      fetch.on("message", (msg) => {
         const message = {};
         let mailPromise;
         msg.on("body", (stream) => {
@@ -175,10 +175,10 @@ export default {
           promises.push(messagePromise);
         });
       });
-      f.once("error", (err) => {
+      fetch.once("error", (err) => {
         messageStream.destroy(err);
       });
-      f.once("end", async () => {
+      fetch.once("end", async () => {
         // Wait until all mail promises have been resolved before ending stream
         await Promise.all(promises);
         messageStream.push(null);
