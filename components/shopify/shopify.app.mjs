@@ -184,11 +184,11 @@ export default {
       label: "Product ID",
       description: "ID of the product. Option displayed here as the title of the product",
       async options({ prevContext }) {
-        let defaultParams = {
+        const defaultParams = {
           limit: 50,
         };
         const { nextPageParameters = defaultParams } = prevContext;
-        let response = await this.resourceAction("product", "list", nextPageParameters);
+        const response = await this.resourceAction("product", "list", nextPageParameters);
         return {
           options: response.result.map((e) => ({
             label: e.title,
@@ -204,14 +204,24 @@ export default {
       type: "string",
       label: "Product Variant ID",
       description: "ID of the product variant",
-      async options({ productId }) {
-        let response = await this.resourceAction("productVariant", "list", {
+      async options({
+        productId,
+        prevContext,
+      }) {
+        const defaultParams = {
           fields: "id,title",
-        }, productId);
-        return response.result.map((e) => ({
-          label: e.title,
-          value: e.id,
-        }));
+        };
+        const { nextPageParameters = defaultParams } = prevContext;
+        const response = await this.resourceAction("productVariant", "list", nextPageParameters, productId);
+        return {
+          options: response.result.map((e) => ({
+            label: e.title,
+            value: e.id,
+          })),
+          context: {
+            nextPageParameters: response.nextPageParameters,
+          },
+        };
       },
     },
     customerId: {
@@ -223,12 +233,12 @@ export default {
         prevContext,
         query,
       }) {
-        let defaultParams = {
+        const defaultParams = {
           limit: 50,
           query,
         };
         const { nextPageParameters = defaultParams } = prevContext;
-        let response = await this.resourceAction("customer", "search", nextPageParameters);
+        const response = await this.resourceAction("customer", "search", nextPageParameters);
         return {
           options: response.result.map((e) => ({
             label: e.email,
@@ -245,7 +255,7 @@ export default {
       label: "Location ID",
       description: "The ID of the location that the inventory level belongs to. Options will display the name of the Location ID",
       async options() {
-        let response = await this.getLocationIds();
+        const response = await this.getLocationIds();
         return response.result.map((e) => ({
           label: e.name,
           value: e.id,
@@ -261,17 +271,27 @@ export default {
         Each product variant includes the ID of its related inventory item.
         To view a list of Inventory Items, choose a product using the field above
       `),
-      async options({ productId }) {
+      async options({
+        productId,
+        prevContext,
+      }) {
         if (!productId) {
           return [];
         }
-        let response = await this.resourceAction("productVariant", "list", {
+        const defaultParams = {
           fields: "title,inventory_item_id",
-        }, productId);
-        return response.result.map((e) => ({
-          label: e.title,
-          value: e.inventory_item_id,
-        }));
+        };
+        const { nextPageParameters = defaultParams } = prevContext;
+        const response = await this.resourceAction("productVariant", "list", nextPageParameters, productId);
+        return {
+          options: response.result.map((e) => ({
+            label: e.title,
+            value: e.inventory_item_id,
+          })),
+          context: {
+            nextPageParameters: response.nextPageParameters,
+          },
+        };
       },
     },
     firstName: {
@@ -443,7 +463,7 @@ export default {
         if (!productId) {
           return [];
         }
-        let response = await this.resourceAction("productImage", "list", {
+        const response = await this.resourceAction("productImage", "list", {
           fields: "src,id",
         }, productId);
         return response.result.map((e) => ({
@@ -756,11 +776,11 @@ export default {
       return results;
     },
     async getAbandonedCheckouts(sinceId) {
-      let params = this.getSinceParams(sinceId, true);
+      const params = this.getSinceParams(sinceId, true);
       return await this.getObjects("checkout", params);
     },
     async getArticles(blogId, sinceId) {
-      let params = this.getSinceParams(sinceId, true);
+      const params = this.getSinceParams(sinceId, true);
       return await this.getObjects("article", params, blogId);
     },
     async getBlogs() {
@@ -784,13 +804,13 @@ export default {
       return await this.resourceAction("customer", "search", params);
     },
     async getEvents(sinceId, filter = null, verb = null) {
-      let params = this.getSinceParams(sinceId, true);
+      const params = this.getSinceParams(sinceId, true);
       params.filter = filter;
       params.verb = verb;
       return await this.getObjects("event", params);
     },
     async getOrders(fulfillmentStatus, useCreatedAt = false, sinceId = null, updatedAfter = null, status = "any") {
-      let params = this.getSinceParams(sinceId, useCreatedAt, updatedAfter);
+      const params = this.getSinceParams(sinceId, useCreatedAt, updatedAfter);
       params.status = status;
       params.fulfillment_status = fulfillmentStatus;
       return await this.getObjects("order", params);
@@ -810,7 +830,7 @@ export default {
       return await this.resourceAction("order", "create", params);
     },
     async getPages(sinceId) {
-      let params = this.getSinceParams(sinceId, true);
+      const params = this.getSinceParams(sinceId, true);
       return await this.getObjects("page", params);
     },
     async getProducts(sinceId, useCreatedAt = true, params = {}) {
