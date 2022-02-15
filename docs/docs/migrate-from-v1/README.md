@@ -172,7 +172,7 @@ export default defineComponent({
 
 In the example above a `firstName` string prop is created. The value assigned to this prop in the workflow builder by either a static string or dynamic data will be available in the step as `this.firstName`.
 
-Additionally, a visual component is rendered in the step **Configuratio** to accept this input:
+Additionally, a visual component is rendered in the step **Configuration** to accept this input:
 
 <img src="./images/custom-string-prop.png" alt="Custom props render in the Configuration portion of the code step.">
 
@@ -240,7 +240,7 @@ We're working on bringing this same feature to the new version, if you need assi
 
 The `$checkpoint` functionality to save data between workflow runs has been removed.
 
-But you can leverage the `$.database` service to store arbitrary data across your workf low runs like unique IDs.
+But you can leverage the `$.database` service to store arbitrary data across your workflow runs like unique IDs.
 
 ::: warning
 Please note that any values stored in `$.database` are only accessible in subsequent workflow runs _in the same step_.
