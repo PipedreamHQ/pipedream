@@ -30,16 +30,31 @@ export default {
       type: "string",
       description: "Sort results in a specific order (\"asc\" or \"desc\")",
       optional: true,
+      options: [
+        "asc",
+        "desc",
+      ],
     },
     sort_type: {
       type: "string",
       description: "Sort by a specific attribute",
       optional: true,
+      options: [
+        "score",
+        "num_comments",
+        "created_utc",
+      ],
     },
     aggs: {
       type: "string",
       description: "Return aggregation summary",
       optional: true,
+      options: [
+        "author",
+        "link_id",
+        "created_utc",
+        "subreddit",
+      ],
     },
     author: {
       type: "string",
@@ -65,6 +80,12 @@ export default {
       type: "string",
       description: "Used with the aggs parameter when set to created_utc",
       optional: true,
+      options: [
+        "second",
+        "minute",
+        "hour",
+        "day",
+      ],
     },
     metadata: {
       type: "boolean",

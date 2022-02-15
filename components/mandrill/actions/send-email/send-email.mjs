@@ -50,6 +50,11 @@ export default {
       type: "string",
       description: "the header type to use for the recipient, defaults to \"to\" if not provided",
       optional: true,
+      options: [
+        "to",
+        "cc",
+        "bcc",
+      ],
     },
   },
   async run({ $ }) {
