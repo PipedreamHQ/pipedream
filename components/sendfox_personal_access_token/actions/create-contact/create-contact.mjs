@@ -2,15 +2,15 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "sendfox-create-contact",
+  key: "sendfox_personal_access_token-create-contact",
   name: "Create contact",
   description: "Creates new contact",
   version: "0.1.1",
   type: "action",
   props: {
-    sendfox: {
+    sendfox_personal_access_token: {
       type: "app",
-      app: "sendfox",
+      app: "sendfox_personal_access_token",
     },
     email: {
       type: "string",
@@ -33,7 +33,7 @@ export default {
       url: "https://api.sendfox.com/contacts",
       method: "post",
       headers: {
-        Authorization: `Bearer ${this.sendfox.$auth.access_token}`,
+        Authorization: `Bearer ${this.sendfox_personal_access_token.$auth.access_token}`,
       },
       data: {
         email: this.email,
