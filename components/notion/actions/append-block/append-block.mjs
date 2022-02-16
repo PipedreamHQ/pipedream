@@ -17,8 +17,16 @@ export default {
       label: "Parent Block ID",
       description: "The identifier for the parent block",
     },
-    paragraph: common.blockType.paragraph.prop,
-    todo: common.blockType.todo.prop,
+    paragraph: {
+      ...common.blockType.paragraph.prop,
+      default: false,
+      reloadProps: true,
+    },
+    todo: {
+      ...common.blockType.todo.prop,
+      default: false,
+      reloadProps: true,
+    },
   },
   async additionalProps() {
     let props = {};

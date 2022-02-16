@@ -5,9 +5,6 @@ const blockType = {
       type: "boolean",
       label: "Paragraph",
       description: "A paragraph that contains rich text",
-      optional: true,
-      default: false,
-      reloadProps: true,
     },
     additionalProps: {
       paragraphText: {
@@ -23,9 +20,6 @@ const blockType = {
       type: "boolean",
       label: "Heading 1",
       description: "",
-      optional: true,
-      default: false,
-      reloadProps: true,
     },
     additionalProps: {
       heading1Text: {
@@ -41,9 +35,6 @@ const blockType = {
       type: "boolean",
       label: "Heading 2",
       description: "",
-      optional: true,
-      default: false,
-      reloadProps: true,
     },
     additionalProps: {
       heading2Text: {
@@ -59,9 +50,6 @@ const blockType = {
       type: "boolean",
       label: "Heading 3",
       description: "",
-      optional: true,
-      default: false,
-      reloadProps: true,
     },
     additionalProps: {
       heading3Text: {
@@ -83,9 +71,6 @@ const blockType = {
       type: "boolean",
       label: "To Do",
       description: "A row in a To Do list",
-      optional: true,
-      default: false,
-      reloadProps: true,
     },
     additionalProps: {
       todoText: {
