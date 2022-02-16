@@ -1,3 +1,45 @@
+function buildTextProperty(content) {
+  return [
+    {
+      type: "text",
+      text: {
+        content,
+      },
+    },
+  ];
+}
+
+/**
+ *
+ * [
+ *    {
+ *      key: text,
+ *      value: this.todoText,
+ *    },
+ *    {
+ *      key: checked,
+ *      value: this.todoChecked,
+ *    }
+ * ]
+ */
+function buildBlock(type, propList) {
+  const blockProps = {};
+  for (const { label, value } of propList) {
+    if (label == "text") {
+      blockProps[label] = buildTextProperty(value);
+    } else {
+      blockProps[label] = value;
+    }
+  }
+  return {
+    object: "block",
+    type,
+    [type]: {
+      ...blockProps,
+    },
+  }
+}
+
 const blockType = {
   paragraph: {
     key: "paragraph",
@@ -14,58 +56,7 @@ const blockType = {
       },
     },
   },
-  heading1: {
-    key: "heading_1",
-    prop: {
-      type: "boolean",
-      label: "Heading 1",
-      description: "",
-    },
-    additionalProps: {
-      heading1Text: {
-        type: "string",
-        label: "Heading Text",
-        description: "The text that will be contained in the heading",
-      },
-    },
-  },
-  heading2: {
-    key: "heading_2",
-    prop: {
-      type: "boolean",
-      label: "Heading 2",
-      description: "",
-    },
-    additionalProps: {
-      heading2Text: {
-        type: "string",
-        label: "Heading Text",
-        description: "The text that will be contained in the heading",
-      },
-    },
-  },
-  heading3: {
-    key: "heading_3",
-    prop: {
-      type: "boolean",
-      label: "Heading 3",
-      description: "",
-    },
-    additionalProps: {
-      heading3Text: {
-        type: "string",
-        label: "Heading Text",
-        description: "The text that will be contained in the heading",
-      },
-    },
-  },
-  bulletedListItem: {
-    key: "bulleted_list_item",
-  },
-  numberedListItem: {
-    key: "numbered_list_item",
-  },
-  todo: {
+  to_do: {
     key: "to_do",
     prop: {
       type: "boolean",
@@ -86,13 +77,67 @@ const blockType = {
       },
     },
   },
+  /**
+   * These block types are not yet supported
+   *
+  heading_1: {
+    key: "heading_1",
+    prop: {
+      type: "boolean",
+      label: "Heading 1",
+      description: "",
+    },
+    additionalProps: {
+      heading1Text: {
+        type: "string",
+        label: "Heading Text",
+        description: "The text that will be contained in the heading",
+      },
+    },
+  },
+  heading_2: {
+    key: "heading_2",
+    prop: {
+      type: "boolean",
+      label: "Heading 2",
+      description: "",
+    },
+    additionalProps: {
+      heading2Text: {
+        type: "string",
+        label: "Heading Text",
+        description: "The text that will be contained in the heading",
+      },
+    },
+  },
+  heading_3: {
+    key: "heading_3",
+    prop: {
+      type: "boolean",
+      label: "Heading 3",
+      description: "",
+    },
+    additionalProps: {
+      heading3Text: {
+        type: "string",
+        label: "Heading Text",
+        description: "The text that will be contained in the heading",
+      },
+    },
+  },
+  bulleted_list_item: {
+    key: "bulleted_list_item",
+  },
+  numbered_list_item: {
+    key: "numbered_list_item",
+  },
   toggle: {
     key: "toggle",
   },
-  childPage: {
+  child_page: {
     key: "child_page",
   },
-  childDatabase: {
+  child_database: {
     key: "child_database",
   },
   embed: {
@@ -125,38 +170,37 @@ const blockType = {
   divider: {
     key: "divider",
   },
-  tableOfContents: {
+  table_of_contents: {
     key: "table_of_contents",
   },
   column: {
     key: "column",
   },
-  columnList: {
+  column_list: {
     key: "column_list",
   },
-  linkPreview: {
+  link_preview: {
     key: "link_preview",
   },
-  syncedBlock: {
+  synced_block: {
     key: "synced_block",
   },
   template: {
     key: "template",
   },
-  linkToPage: {
+  link_to_page: {
     key: "link_to_page",
   },
   table: {
     key: "table",
   },
-  tableRow: {
+  table_row: {
     key: "table_row",
   },
-  unsupported: {
-    key: "unsupported",
-  },
+  */
 };
 
 export default {
+  buildBlock,
   blockType,
 };

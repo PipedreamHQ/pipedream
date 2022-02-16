@@ -17,58 +17,48 @@ export default {
       label: "Parent Block ID",
       description: "The identifier for the parent block",
     },
-    paragraph: {
-      ...common.blockType.paragraph.prop,
-      default: false,
-      reloadProps: true,
-    },
-    todo: {
-      ...common.blockType.todo.prop,
-      default: false,
-      reloadProps: true,
+    blockType: {
+      propDefinition: [
+        notion,
+        "blockType",
+      ],
     },
   },
   async additionalProps() {
-    let props = {};
-    if (this.paragraph) {
-      props = {
-        ...props,
-        ...common.blockType.paragraph.additionalProps,
-      };
-    }
-    if (this.todo) {
-      props = {
-        ...props,
-        ...common.blockType.todo.additionalProps,
-      };
-    }
-    return props;
+    return common.blockType[this.blockType].additionalProps;
+  },
+  methods: {
+    buildBlockArgs(blockType) {
+      switch (blockType) {
+      case common.blockType.paragraph.key:
+        return [
+          {
+            label: "text",
+            value: this.paragraphText,
+          },
+        ];
+      case common.blockType.to_do.key:
+        return [
+          {
+            label: "text",
+            value: this.todoText,
+          },
+          {
+            label: "checked",
+            value: this.todoChecked,
+          },
+        ];
+      default:
+        throw new Error("This block type is not yet supported");
+      }
+    },
   },
   async run({ $ }) {
-    const blocks = [];
-
-    if (this.paragraph) {
-      blocks.push({
-        object: "block",
-        type: common.blockType.paragraph.key,
-        [common.blockType.paragraph.key]: {
-          text: this.notion.buildTextProperty(this.paragraphText),
-        },
-      });
-    }
-
-    if (this.todo) {
-      blocks.push({
-        object: "block",
-        type: common.blockType.todo.key,
-        [common.blockType.todo.key]: {
-          text: this.notion.buildTextProperty(this.todoText),
-          checked: this.todoChecked,
-        },
-      });
-    }
-
-    let response = await this.notion.appendBlock(this.parentId, blocks);
+    const block = common.buildBlock(
+      this.blockType,
+      this.buildBlockArgs(this.blockType),
+    );
+    let response = await this.notion.appendBlock(this.parentId, block);
     $.export("$summary", "Appended block(s) successfully");
     return response;
   },

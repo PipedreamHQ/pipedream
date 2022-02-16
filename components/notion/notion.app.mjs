@@ -70,7 +70,7 @@ export default {
     blockType: {
       type: "string",
       label: "Block Type",
-      description: "The block object represents content within Notion. Blocks can be text, lists, media, and more. A page is also a type of block",
+      description: "The block object represents content within Notion. Blocks can be text, lists, media, and more. A page is also a type of block.",
       options: Object.keys(common.blockType),
       reloadProps: true,
     },
@@ -80,16 +80,6 @@ export default {
       return new notion.Client({
         auth: this.$auth.oauth_access_token,
       });
-    },
-    buildTextProperty(content) {
-      return [
-        {
-          type: "text",
-          text: {
-            content,
-          },
-        },
-      ];
     },
     async retrievePage(pageId) {
       return await this._getNotionClient().pages.retrieve({
@@ -121,10 +111,12 @@ export default {
         ...params,
       });
     },
-    async appendBlock(parentId, blocks) {
+    async appendBlock(parentId, block) {
       return await this._getNotionClient().blocks.children.append({
         block_id: parentId,
-        children: blocks,
+        children: [
+          block,
+        ],
       });
     },
     async retrieveBlock(blockId, retrieveChildren) {
