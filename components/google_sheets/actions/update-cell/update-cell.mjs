@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-update-cell",
   name: "Update Cell",
   description: "Update a cell in a spreadsheet",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     googleSheets,
@@ -13,7 +13,7 @@ export default {
         googleSheets,
         "watchedDrive",
       ],
-      description: "The drive containing the worksheet to update. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here by enabling \"Structured Mode\".",
+      description: "The drive containing the worksheet to update. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here.",
     },
     sheetId: {
       propDefinition: [

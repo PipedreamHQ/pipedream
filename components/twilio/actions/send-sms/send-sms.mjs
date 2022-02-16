@@ -7,7 +7,7 @@ export default {
   name: "Send SMS",
   description: "Send a simple text-only SMS. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource) for more information",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     twilio,
     from: {
