@@ -5,8 +5,10 @@ export default {
   name: "Campaign Link Clicked (Instant)",
   key: "activecampaign-campaign-link-clicked",
   description:
-    "Emits an event when a link from a campaign is clicked (will only run once for each unique link).",
+    "Emit new event when a link from a campaign is clicked (will only run once for each unique link).",
   version: "0.0.2",
+  type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEvents() {

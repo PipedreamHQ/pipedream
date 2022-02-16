@@ -4,8 +4,10 @@ export default {
   ...common,
   name: "New Deal Added or Updated (Instant)",
   key: "activecampaign-new-or-updated-deal",
-  description: "Emits an event each time a deal is added or updated.",
+  description: "Emit new event each time a deal is added or updated.",
   version: "0.0.2",
+  type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEvents() {

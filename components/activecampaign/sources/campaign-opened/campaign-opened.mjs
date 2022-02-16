@@ -5,8 +5,10 @@ export default {
   name: "Campaign Opened (Instant)",
   key: "activecampaign-campaign-opened",
   description:
-    "Emits an event when a contact opens a campaign (will trigger once per contact per campaign).",
+    "Emit new event when a contact opens a campaign (will trigger once per contact per campaign).",
   version: "0.0.2",
+  type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEvents() {

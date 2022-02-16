@@ -4,8 +4,10 @@ export default {
   ...common,
   name: "New or Updated Contact (Instant)",
   key: "activecampaign-new-or-updated-contact",
-  description: "Emits an event each time a contact is added or updated.",
+  description: "Emit new event each time a contact is added or updated.",
   version: "0.0.2",
+  type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEvents() {

@@ -4,10 +4,12 @@ import common from "../common/webhook.mjs";
 
 export default {
   ...common,
-  name: "New Contact Added to List",
+  name: "New Contact Added to List (Instant)",
   key: "activecampaign-contact-added-to-list",
-  description: "Emits an event each time a new contact is added to a list.",
+  description: "Emit new event each time a new contact is added to a list.",
   version: "0.0.3",
+  type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     lists: {

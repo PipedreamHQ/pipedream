@@ -6,8 +6,10 @@ export default {
   name: "New Event (Instant)",
   key: "activecampaign-new-event",
   description:
-    "Emits an event for the specified event type from ActiveCampaign.",
+    "Emit new event for the specified event type from ActiveCampaign.",
   version: "0.0.2",
+  type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     eventType: {

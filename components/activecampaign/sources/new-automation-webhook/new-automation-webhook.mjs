@@ -5,8 +5,10 @@ export default {
   ...common,
   name: "New Automation Webhook",
   key: "activecampaign-new-automation-webhook",
-  description: "Emits an event each time an automation sends out webhook data.",
+  description: "Emit new event each time an automation sends out webhook data.",
   version: "0.0.2",
+  type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     timer: {

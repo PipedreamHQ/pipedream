@@ -11,10 +11,7 @@ export default {
       label: "Event Type",
       description:
         "Emit events for the selected event type. See the official docs for more information on event types. https://developers.activecampaign.com/page/webhooks",
-      async options({ page }) {
-        if (page) {
-          return [];
-        }
+      async options() {
         const { webhookEvents } = await this.listWebhookEvents();
         return webhookEvents.map((e) => ({
           label: inflection.humanize(e),
@@ -28,7 +25,6 @@ export default {
       description:
         "The sources causing an event to occur. Leave blank to include all sources.",
       optional: true,
-      default: [],
       options: constants.ALL_SOURCES,
     },
     automations: {
@@ -37,7 +33,6 @@ export default {
       description:
         "Emit events for the selected webhooks only. Leave blank to watch all available webhooks.",
       optional: true,
-      default: [],
       async options({ prevContext }) {
         return this.listAutomationOptions(prevContext);
       },
@@ -48,7 +43,6 @@ export default {
       description:
         "Watch the selected campaigns for updates. Leave blank to watch all available campaigns.",
       optional: true,
-      default: [],
       async options({ prevContext }) {
         return this.listCampaignOptions(prevContext);
       },
@@ -59,7 +53,6 @@ export default {
       description:
         "Watch the selected contacts for updates. Leave blank to watch all available contacts.",
       optional: true,
-      default: [],
       async options({ prevContext }) {
         return this.listContactOptions(prevContext);
       },
@@ -70,7 +63,6 @@ export default {
       description:
         "Watch the selected deals for updates. Leave blank to watch all available deals.",
       optional: true,
-      default: [],
       async options({ prevContext }) {
         this.listDealOptions(prevContext);
       },
@@ -81,7 +73,6 @@ export default {
       description:
         "Watch the selected lists for updates. Leave blank to watch all available lists.",
       optional: true,
-      default: [],
       async options({ prevContext }) {
         return this.listListOptions(prevContext);
       },

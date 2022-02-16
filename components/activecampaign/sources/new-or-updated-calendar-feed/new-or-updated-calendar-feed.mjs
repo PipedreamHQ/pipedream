@@ -5,8 +5,9 @@ export default {
   ...common,
   name: "New or Updated Calendar Feed",
   key: "activecampaign-new-or-updated-calendar-feed",
-  description: "Emits an event each time a calendar feed is added or updated.",
+  description: "Emit new event each time a calendar feed is added or updated.",
   version: "0.0.1",
+  type: "source",
   dedupe: "greatest",
   props: {
     ...common.props,

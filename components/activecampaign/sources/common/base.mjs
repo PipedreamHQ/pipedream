@@ -2,8 +2,6 @@ import activecampaign from "../../activecampaign.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
-  type: "source",
-  dedupe: "unique",
   props: {
     activecampaign,
     db: "$.service.db",
