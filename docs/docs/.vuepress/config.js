@@ -58,6 +58,7 @@ module.exports = {
         children: 
         [
           "/workflows/",
+          "/migrate-from-v1/",
           "/workflows/steps/",
           "/workflows/steps/triggers/",
           "/workflows/events/",
@@ -168,7 +169,6 @@ module.exports = {
         collapsable: false,
         children: ["/orgs/", "/orgs/sso/okta/"],
       },
-      "/migrate-from-v1/",
       "/status/",
       ["https://pipedream.com/support", "Need more help?"],
     ],
