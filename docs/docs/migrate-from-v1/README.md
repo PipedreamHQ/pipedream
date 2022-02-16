@@ -68,6 +68,17 @@ In addition to testing single steps, you can now selectively test portions of yo
   <img src="./images/test-workflow-portions.png" alt="Selectively pick testing your workflow above or below the current step is now available.">
 </div>
 
+#### Testing individual events
+
+Not only can you test portions of your workflow in isolation, but you can also select a specific event to run against your workflow.
+
+In the **Test Trigger** portion of your trigger, you can select a past event seen by the workflow and build your steps against it - without having to retrigger it manually:
+
+<div style="display: flex; justify-content: center;">
+  <img src="./images/testing-individual-events.gif" alt="Test your workflow with a specific event">
+</div>
+
+
 ### Deploying Changes
 
 After you're happy with your changes, **deploy** them to your production workflow. Just click the **Deploy** button in the top right hand corner of the screen.
@@ -301,6 +312,12 @@ In v2, you can test and save your progress on a workflow _without_ deploying it.
 However, after deploying it's not possible to rollback to a prior version of a deployed workflow.
 
 You can still edit a deployed workflow, just like in v1 but automatic version rollbacks are not currently possible.
+
+### Replaying production events
+
+In the v2 builder, you can still view individual events that trigger your v2 workflows in the **Inspector** events log. You can delete specific events or all of them in one click as well.
+
+However, at this time it's replaying past events against your deploy v2 workflows is not possible.
 
 ## FAQs
 
