@@ -1,4 +1,4 @@
-import commonApp from "./common.app.mjs";
+import commonApp from "./common-app.mjs";
 
 export default {
   ...commonApp,
