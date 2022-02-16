@@ -96,6 +96,12 @@ export default {
         page_id: pageId,
       });
     },
+    async updatePage(pageId, params) {
+      return await this._getNotionClient().pages.update({
+        page_id: pageId,
+        ...params,
+      });
+    },
     async searchDatabase(title) {
       return await this._getNotionClient().search({
         query: title,
