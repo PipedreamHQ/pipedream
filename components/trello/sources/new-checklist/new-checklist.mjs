@@ -1,5 +1,4 @@
 import common from "../board-based.mjs";
-import get from "loadsh/get.js";
 
 export default {
   ...common,
@@ -12,12 +11,12 @@ export default {
   methods: {
     ...common.methods,
     isCorrectEventType(event) {
-      const eventType = get(event, "body.action.type");
+      const eventType = event.body?.action?.type;
       return eventType === "addChecklistToCard";
     },
     async getResult(event) {
-      const checklistId = get(event, "body.action.data.checklist.id");
-      return await this.trello.getChecklist(checklistId);
+      const checklistId = event.body?.action?.data?.checklist?.id;
+      return this.trello.getChecklist(checklistId);
     },
   },
 };

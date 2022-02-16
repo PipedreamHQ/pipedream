@@ -1,13 +1,11 @@
 import common from "../common-webhook.mjs";
-import get from "lodash/get.js";
 
 export default {
   ...common,
   key: "trello-custom-webhook-events",
   name: "Custom Webhook Events (Instant)",
-  description:
-    "Emit new events for activity matching a board, event types, lists and/or cards.",
-  version: "0.0.5",
+  description: "Emit new events for activity matching a board, event types, lists and/or cards.",
+  version: "0.0.6",
   type: "source",
   props: {
     ...common.props,
@@ -45,7 +43,7 @@ export default {
   methods: {
     ...common.methods,
     isCorrectEventType(event) {
-      const eventType = get(event, "body.action.type");
+      const eventType = event.body?.action?.type;
       return (
         (eventType) &&
         (!this.eventTypes ||
@@ -57,8 +55,8 @@ export default {
       return event.body;
     },
     async isRelevant({ result: body }) {
-      let listId = get(body, "action.data.list.id");
-      const cardId = get(body, "action.data.card.id");
+      let listId = body.action?.data?.list?.id;
+      const cardId = body.action?.data?.card?.id;
       // If listId not returned, see if we can get it from the cardId
       if (cardId && !listId)
         listId = (await this.trello.getCardList(cardId)).id;

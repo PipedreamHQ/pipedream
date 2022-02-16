@@ -1,12 +1,11 @@
 import common from "../common-webhook.mjs";
-import get from "lodash/get.js";
 
 export default {
   ...common,
   key: "trello-new-activity",
   name: "New Activity (Instant)",
   description: "Emit new event for new activity on a board.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   props: {
     ...common.props,
@@ -23,7 +22,7 @@ export default {
       return event.body;
     },
     isRelevant({ event }) {
-      const boardId = get(event, "body.action.data.board.id");
+      const boardId = event.body?.action?.data?.board?.id;
       return !this.board || this.board === boardId;
     },
     generateMeta({ action }) {
