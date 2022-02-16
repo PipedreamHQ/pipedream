@@ -44,6 +44,7 @@ module.exports = {
         ],
       },
     ],
+    smoothScroll: false,
     // if your docs are not at the root of the repo:
     docsDir: "docs/docs",
     editLinks: true,

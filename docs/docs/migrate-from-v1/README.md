@@ -288,7 +288,7 @@ However, after deploying it's not possible to rollback to a prior version.
 * Making workflows public is not supported
 * Workflows are no longer versioned
 
-[The limitations of the new workflow builder are covered in detail here](#limitations).
+[The limitations of the new workflow builder are covered in detail here](/docs/migrate-from-v1#limitations).
 
 ### Are v2 workflows backwards compatible?
 
@@ -304,13 +304,13 @@ Yes, absolutely you will still be able to view and edit v1 workflows. There is n
 
 At this time we do not have an automated process to change v1 to v2. To create a v2 equivalent workflow, you can recompose your v1 workflow in the v2 builder.
 
-However, if it uses custom Node.js code steps, be sure to [follow the changes we describe in the guide above](#node.js-code-step-changes).
+However, if it uses custom Node.js code steps, be sure to [follow the changes we describe in the guide above](/migrate-from-v1/#node-js-code-step-changes).
 
 ### When will the new (v2) workflow builder be the default builder for all customers?
 
 v2 is currently an opt in feature, you can still create and edit v1 workflows if you have an grandfathered account.
 
-We will not make the v2 builder the default workflow experience until we have reached feature parity with v1 by providing paths to overcome the [limitations of v2](#limitations).
+We will not make the v2 builder the default workflow experience until we have reached feature parity with v1 by providing paths to overcome the [limitations of v2](#known-gaps-limitations).
 
 ### When will I no longer be able to create v1 workflows?
 
