@@ -1,7 +1,7 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-create-comment-on-card",
   name: "Create Comment on Card",
@@ -21,10 +21,7 @@ module.exports = {
       description: "Text for the comment to be created.",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       idCard: {
         presence: true,
@@ -49,6 +46,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.createCommentOnCard(this.idCard, this.comment);
+    return this.trello.createCommentOnCard(this.idCard, this.comment, $);
   },
 };

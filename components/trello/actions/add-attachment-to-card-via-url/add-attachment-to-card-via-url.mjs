@@ -1,7 +1,7 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-add-attachment-to-card-via-url",
   name: "Add Attachment to Card via URL",
@@ -40,10 +40,14 @@ module.exports = {
       default: false,
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
+    const {
+      idCard,
+      name,
+      url,
+      mimeType,
+      setCover,
+    } = this;
     const constraints = {
       idCard: {
         presence: true,
@@ -57,14 +61,14 @@ module.exports = {
         },
       },
     };
-    if (this.name) {
+    if (name) {
       constraints.name = {
         length: {
           maximum: 256,
         },
       };
     }
-    if (this.url) {
+    if (url) {
       constraints.urlSource = {
         url: true,
       };
@@ -78,19 +82,19 @@ module.exports = {
     }
     const validationResult = validate(
       {
-        idCard: this.idCard,
-        name: this.name,
-        url: this.url,
-        mimeType: this.mimeType,
+        idCard,
+        name,
+        url,
+        mimeType,
       },
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.addAttachmentToCardViaUrl(this.idCard, {
-      name: this.name,
-      url: this.url,
-      mimeType: this.mimeType,
-      setCover: this.setCover,
-    });
+    return this.trello.addAttachmentToCardViaUrl(idCard, {
+      name,
+      url,
+      mimeType,
+      setCover,
+    }, $);
   },
 };

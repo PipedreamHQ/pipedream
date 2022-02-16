@@ -1,7 +1,7 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-get-a-card",
   name: "Get a Card",
@@ -16,10 +16,7 @@ module.exports = {
       description: "The ID of the card to get details of.",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       cardId: {
         presence: true,
@@ -38,6 +35,6 @@ module.exports = {
     },
     constraints);
     this.checkValidationResults(validationResult);
-    return await this.trello.getCard(this.cardId);
+    return this.trello.getCard(this.cardId, $);
   },
 };

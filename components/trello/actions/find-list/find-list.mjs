@@ -1,20 +1,18 @@
-const {
-  props,
-  methods,
-} = require("../common");
-const validate = require("validate.js");
+import validate from "validate.js";
+import common from "../common.js";
 
 module.exports = {
-  key: "trello-find-a-list",
+  ...common,
+  key: "trello-find-list",
   name: "Find a List",
   description: "Finds a list on a specific board by name.",
   version: "0.0.1",
   type: "action",
   props: {
-    ...props,
+    ...common.props,
     board: {
       propDefinition: [
-        props.trello,
+        common.props.trello,
         "board",
       ],
       label: "Id Board",
@@ -36,7 +34,7 @@ module.exports = {
     },
     cardFields: {
       propDefinition: [
-        props.trello,
+        common.props.trello,
         "cardFields",
       ],
     },
@@ -50,10 +48,7 @@ module.exports = {
       default: "all",
     },
   },
-  methods: {
-    ...methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       board: {
         presence: true,
@@ -99,7 +94,7 @@ module.exports = {
       card_fields: this.cardFields,
       filter: this.listFilter,
     };
-    const lists = await this.trello.findList(this.board, opts);
+    const lists = await this.trello.findList(this.board, opts, $);
     return this.getMatches(lists, this.name);
   },
 };

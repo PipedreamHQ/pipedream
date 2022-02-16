@@ -1,39 +1,37 @@
-const {
-  props,
-  methods,
-} = require("../common");
-const validate = require("validate.js");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
+  ...common,
   key: "trello-search-boards",
   name: "Search Boards",
   description: "Searches for boards matching the specified query.",
-  version: "0.0.1",
+  version: "0.2.2",
   type: "action",
   props: {
-    ...props,
+    ...common.props,
     query: {
       propDefinition: [
-        props.trello,
+        common.props.trello,
         "query",
       ],
     },
     idBoards: {
       propDefinition: [
-        props.trello,
+        common.props.trello,
         "idBoards",
       ],
     },
     idOrganizations: {
       propDefinition: [
-        props.trello,
+        common.props.trello,
         "idOrganizations",
       ],
       description: "An string array of Organizations IDs where boards will be searched in.",
     },
     partial: {
       propDefinition: [
-        props.trello,
+        common.props.trello,
         "partial",
       ],
     },
@@ -50,10 +48,7 @@ module.exports = {
       default: 10,
     },
   },
-  methods: {
-    ...methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       query: {
         presence: true,
@@ -91,6 +86,6 @@ module.exports = {
       boards_limit: this.boardsLimit,
       partial: this.partial,
     };
-    return await this.trello.searchBoards(opts);
+    return this.trello.searchBoards(opts, $);
   },
 };

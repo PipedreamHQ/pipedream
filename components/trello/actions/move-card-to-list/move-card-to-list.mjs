@@ -1,17 +1,15 @@
-const validate = require("validate.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
+  ...common,
   key: "trello-move-card-to-list",
   name: "Move Card to List",
   description: "Moves a card to the specified board/list pair.",
-  version: "0.0.1",
+  version: "0.1.2",
   type: "action",
   props: {
-    ...props,
+    ...common.props,
     idCard: {
       type: "string",
       label: "Id Card",
@@ -19,7 +17,7 @@ module.exports = {
     },
     board: {
       propDefinition: [
-        props.trello,
+        common.props.trello,
         "board",
       ],
       label: "To Id Board",
@@ -31,10 +29,7 @@ module.exports = {
       description: "The ID of the list that the card should be moved to.",
     },
   },
-  methods: {
-    ...methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       idCard: {
         presence: true,
@@ -79,9 +74,9 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.moveCardToList(this.idCard, {
+    return this.trello.moveCardToList(this.idCard, {
       idBoard: this.board,
       idList: this.toIdList,
-    });
+    }, $);
   },
 };

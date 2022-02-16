@@ -1,17 +1,15 @@
-const validate = require("validate.js");
-const {
-  props,
-  methods,
-} = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
+  ...common,
   key: "trello-update-card",
   name: "Update Card",
   description: "Updates a card.",
-  version: "0.0.13",
+  version: "0.1.2",
   type: "action",
   props: {
-    ...props,
+    ...common.props,
     idCard: {
       type: "string",
       label: "Id Card",
@@ -62,7 +60,7 @@ module.exports = {
     },
     board: {
       propDefinition: [
-        props.trello,
+        common.props.trello,
         "board",
       ],
       label: "Id Board",
@@ -120,10 +118,7 @@ module.exports = {
       optional: true,
     },
   },
-  methods: {
-    ...methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       idCard: {
         presence: true,
@@ -297,6 +292,6 @@ module.exports = {
     if (this.cover) {
       opts.cover = this.cover;
     }
-    return await this.trello.updateCard(this.idCard, opts);
+    return this.trello.updateCard(this.idCard, opts, $);
   },
 };

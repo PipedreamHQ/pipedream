@@ -1,7 +1,7 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-delete-checklist",
   name: "Delete Checklist",
@@ -16,10 +16,7 @@ module.exports = {
       description: "The ID of a checklist to delete. Must match pattern `^[0-9a-fA-F]{24}$`.",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       idChecklist: {
         presence: true,
@@ -38,6 +35,6 @@ module.exports = {
     },
     constraints);
     this.checkValidationResults(validationResult);
-    return await this.trello.deleteChecklist(this.idChecklist);
+    return this.trello.deleteChecklist(this.idChecklist, $);
   },
 };

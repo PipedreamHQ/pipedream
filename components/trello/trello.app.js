@@ -1,4 +1,4 @@
-const axios = require("axios");
+const { axios } = require("@pipedream/platform");
 const crypto = require("crypto");
 const events = require("./events.js");
 
@@ -96,7 +96,7 @@ module.exports = {
     },
     async _getAuthorizationHeader({
       data, method, url,
-    }) {
+    }, $) {
       const requestData = {
         data,
         method,
@@ -106,25 +106,23 @@ module.exports = {
         key: this.$auth.oauth_access_token,
         secret: this.$auth.oauth_refresh_token,
       };
-      return (
-        await axios({
-          method: "POST",
-          url: this.$auth.oauth_signer_uri,
-          data: {
-            requestData,
-            token,
-          },
-        })
-      ).data;
+      return axios($ ?? this, {
+        method: "POST",
+        url: this.$auth.oauth_signer_uri,
+        data: {
+          requestData,
+          token,
+        },
+      });
     },
-    async _makeRequest(config) {
-      const authorization = await this._getAuthorizationHeader(config);
+    async _makeRequest(config, $) {
+      const authorization = await this._getAuthorizationHeader(config, $);
       config.headers = {
         ...config.headers,
         authorization,
       };
       try {
-        return await axios(config);
+        return await axios($ ?? this, config);
       } catch (err) {
         console.log(err);
       }
@@ -137,7 +135,7 @@ module.exports = {
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
      */
-    async archiveCard(idCard) {
+    async archiveCard(idCard, $) {
       const config = {
         url: `${this._getBaseUrl()}/cards/${idCard}`,
         method: "PUT",
@@ -145,7 +143,7 @@ module.exports = {
           closed: true,
         },
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Adds an existing label to the specified card.
@@ -156,13 +154,13 @@ module.exports = {
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
      */
-    async addAttachmentToCardViaUrl(idCard, params) {
+    async addAttachmentToCardViaUrl(idCard, params, $) {
       const config = {
         url: `${this._getBaseUrl()}cards/${idCard}/attachments`,
         method: "POST",
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Adds an existing label to the specified card.
@@ -173,13 +171,13 @@ module.exports = {
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
      */
-    async addExistingLabelToCard(idCard, params) {
+    async addExistingLabelToCard(idCard, params, $) {
       const config = {
         url: `${this._getBaseUrl()}/cards/${idCard}/idLabels`,
         method: "POST",
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Adds an existing label to the specified card.
@@ -190,13 +188,13 @@ module.exports = {
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
      */
-    async addMemberToCard(idCard, params) {
+    async addMemberToCard(idCard, params, $) {
       const config = {
         url: `${this._getBaseUrl()}/cards/${idCard}/idMembers`,
         method: "POST",
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Creates a checklist on the specified card.
@@ -210,13 +208,13 @@ module.exports = {
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post
      */
-    async createChecklist(params) {
+    async createChecklist(params, $) {
       const config = {
         url: `${this._getBaseUrl()}checklists`,
         method: "POST",
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Creates a comment on a card.
@@ -228,7 +226,7 @@ module.exports = {
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post
      */
-    async createCommentOnCard(idCard, comment) {
+    async createCommentOnCard(idCard, comment, $) {
       const config = {
         url: `${this._getBaseUrl()}cards/${idCard}/actions/comments`,
         method: "POST",
@@ -236,7 +234,7 @@ module.exports = {
           text: comment,
         },
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Closes a board.
@@ -246,7 +244,7 @@ module.exports = {
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-put
      */
-    async closeBoard(boardId) {
+    async closeBoard(boardId, $) {
       const config = {
         url: `${this._getBaseUrl()}/boards/${boardId}`,
         method: "PUT",
@@ -254,7 +252,7 @@ module.exports = {
           closed: true,
         },
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Creates a new card.
@@ -275,13 +273,13 @@ module.exports = {
      * @returns the created card object. See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
      */
-    async createCard(opts) {
+    async createCard(opts, $) {
       const config = {
         url: `${this._getBaseUrl()}/cards`,
         method: "post",
         data: opts,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Deletes the specified checklist.
@@ -289,12 +287,12 @@ module.exports = {
      * @param {string}  idChecklist the ID of the checklist to delete.
      * @returns {object} an empty `limits` object indicating the operation completed successfully.
      */
-    async deleteChecklist(idChecklist) {
+    async deleteChecklist(idChecklist, $) {
       const config = {
         url: `${this._getBaseUrl()}checklists/${idChecklist}`,
         method: "DELETE",
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Finds a label on a specific board.
@@ -303,12 +301,12 @@ module.exports = {
      * @param {string}  params.limit the number of labels to be returned.
      * @returns {array} an array with label objects complying with the specified parameters.
      */
-    async findLabel(boardId, params) {
+    async findLabel(boardId, params, $) {
       const config = {
         url: `${this._getBaseUrl()}/boards/${boardId}/labels`,
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Finds a list in the specified board.
@@ -322,19 +320,19 @@ module.exports = {
      * `none`, `open`.
      * @returns {array} an array with list objects conforming with the specified parameters.
      */
-    async findList(boardId, params) {
+    async findList(boardId, params, $) {
       const config = {
         url: `${this._getBaseUrl()}/boards/${boardId}/lists`,
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     async getResource(endpoint, params = null) {
       const config = {
         url: `${this._getBaseUrl()}${endpoint}`,
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config);
     },
     /**
      * Moves a card to the specified board/list pair.
@@ -347,13 +345,13 @@ module.exports = {
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
      */
     async moveCardToList(idCard,
-      data) {
+      data, $) {
       const config = {
         url: `${this._getBaseUrl()}/cards/${idCard}`,
         method: "PUT",
         data,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     async verifyTrelloWebhookRequest(request, callbackURL) {
       let secret = this.$auth.oauth_refresh_token;
@@ -367,10 +365,10 @@ module.exports = {
       return doubleHash === headerHash;
     },
     async getBoard(id) {
-      return await this.getResource(`boards/${id}`);
+      return this.getResource(`boards/${id}`);
     },
     async getBoards(id) {
-      return await this.getResource(`members/${id}/boards`);
+      return this.getResource(`members/${id}/boards`);
     },
     /**
      * Gets details of a card.
@@ -380,36 +378,36 @@ module.exports = {
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
      */
     async getCard(id) {
-      return await this.getResource(`cards/${id}`);
+      return this.getResource(`cards/${id}`);
     },
     async getCards(id) {
-      return await this.getResource(`boards/${id}/cards`);
+      return this.getResource(`boards/${id}/cards`);
     },
     async getChecklist(id) {
-      return await this.getResource(`checklists/${id}`);
+      return this.getResource(`checklists/${id}`);
     },
     async getLabel(id) {
-      return await this.getResource(`labels/${id}`);
+      return this.getResource(`labels/${id}`);
     },
     async getList(id) {
-      return await this.getResource(`lists/${id}`);
+      return this.getResource(`lists/${id}`);
     },
     async getLists(id) {
-      return await this.getResource(`boards/${id}/lists`);
+      return this.getResource(`boards/${id}/lists`);
     },
     async getNotifications(id, params) {
-      return await this.getResource(`members/${id}/notifications`, params);
+      return this.getResource(`members/${id}/notifications`, params);
     },
     async getMember(id) {
-      return await this.getResource(`members/${id}`);
+      return this.getResource(`members/${id}`);
     },
     async getAttachment(cardId, attachmentId) {
-      return await this.getResource(
+      return this.getResource(
         `cards/${cardId}/attachments/${attachmentId}`,
       );
     },
     async getCardList(cardId) {
-      return await this.getResource(`cards/${cardId}/list`);
+      return this.getResource(`cards/${cardId}/list`);
     },
     async createHook({
       id, endpoint,
@@ -426,10 +424,10 @@ module.exports = {
           callbackURL: endpoint,
         },
       });
-      return resp.data;
+      return resp;
     },
     async deleteHook({ hookId }) {
-      return await this._makeRequest({
+      return this._makeRequest({
         method: "delete",
         url: `${this._getBaseUrl()}webhooks/${hookId}`,
       });
@@ -442,12 +440,12 @@ module.exports = {
      * @returns {object} an object with the null valued property `_value` indicating that
      * there were no errors
      */
-    async removeLabelFromCard(idCard, idLabel) {
+    async removeLabelFromCard(idCard, idLabel, $) {
       const config = {
         url: `${this._getBaseUrl()}/cards/${idCard}/idLabels/${idLabel}`,
         method: "DELETE",
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Renames the specified list
@@ -459,13 +457,13 @@ module.exports = {
      * to the List, `name` with the new name of the List, and `pos` with the position of the List
      * in the Board.
      */
-    async renameList(listId, data) {
+    async renameList(listId, data, $) {
       const config = {
         url: `${this._getBaseUrl()}/lists/${listId}`,
         method: "PUT",
         data,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Searches for members, cards, boards, and/or organizations matching the specified query.
@@ -497,12 +495,12 @@ module.exports = {
      * this case "cards"), `partial` the search `terms` as included in `query`, and other
      * `modifiers`.
      */
-    async search(params) {
+    async search(params, $) {
       const config = {
         url: `${this._getBaseUrl()}search`,
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     /**
      * Searches for boards matching the specified query.
@@ -534,14 +532,14 @@ module.exports = {
      * this case "cards"), `partial` the search `terms` as included in `query`, and other
      * `modifiers`.
      */
-    async searchBoards(opts) {
+    async searchBoards(opts, $) {
       const params = {
         ...opts,
         idOrganizations: opts.idOrganizations ?
           opts.idOrganizations.join(",") :
           undefined,
       };
-      return this.search(params);
+      return this.search(params, $);
     },
     /**
      * Searches for cards matching the specified query.
@@ -573,7 +571,7 @@ module.exports = {
      * this case "cards"), `partial` the search `terms` as included in `query`, and other
      * `modifiers`.
      */
-    async searchCards(opts) {
+    async searchCards(opts, $) {
       const params = {
         ...opts,
         idOrganizations: opts.idOrganizations ?
@@ -583,7 +581,7 @@ module.exports = {
           opts.idCards.join(",") :
           undefined,
       };
-      return await this.search(params);
+      return this.search(params, $);
     },
     /**
      * Updates a card.
@@ -605,13 +603,13 @@ module.exports = {
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
      */
     async updateCard(idCard,
-      params) {
+      params, $) {
       const config = {
         url: `${this._getBaseUrl()}cards/${idCard}`,
         method: "PUT",
         params,
       };
-      return (await this._makeRequest(config)).data;
+      return this._makeRequest(config, $);
     },
     getFilterOptions() {
       return [

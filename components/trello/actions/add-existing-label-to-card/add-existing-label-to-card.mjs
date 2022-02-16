@@ -1,11 +1,11 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
-  key: "trello-add-remove-label-from-card",
-  name: "Remove a Label from a Card",
-  description: "Removes an existing label from the specified card.",
+  key: "trello-add-existing-label-to-card",
+  name: "Add Existing Label to Card",
+  description: "Adds an existing label to the specified card.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,18 +13,15 @@ module.exports = {
     idCard: {
       type: "string",
       label: "Id Card",
-      description: "The ID of the Card to remove the Label from.",
+      description: "The ID of the Card to add the Label on.",
     },
     idLabel: {
       type: "string",
       label: "Id Label",
-      description: "The ID of the Label to be removed from the card.",
+      description: "The ID of the Label to be added to the card.",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       idCard: {
         presence: true,
@@ -57,7 +54,8 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.removeLabelFromCard(this.idCard,
-      this.idLabel);
+    return this.trello.addExistingLabelToCard(this.idCard, {
+      value: this.idLabel,
+    }, $);
   },
 };

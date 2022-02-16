@@ -1,7 +1,7 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-close-board",
   name: "Close Board",
@@ -16,10 +16,7 @@ module.exports = {
       description: "The ID of the Board to close.",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       boardId: {
         presence: true,
@@ -40,6 +37,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.closeBoard(this.boardId);
+    return this.trello.closeBoard(this.boardId, $);
   },
 };

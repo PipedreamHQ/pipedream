@@ -1,7 +1,7 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-create-checklist",
   name: "Create Checklist",
@@ -35,10 +35,7 @@ module.exports = {
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       idCard: {
         presence: true,
@@ -109,6 +106,6 @@ module.exports = {
     const validationResult = validate(opts,
       constraints);
     this.checkValidationResults(validationResult);
-    return await this.trello.createChecklist(opts);
+    return this.trello.createChecklist(opts, $);
   },
 };

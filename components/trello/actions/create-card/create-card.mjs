@@ -1,7 +1,7 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-create-card",
   name: "Create Card",
@@ -109,10 +109,7 @@ module.exports = {
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       idList: {
         presence: true,
@@ -254,7 +251,7 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.createCard({
+    return this.trello.createCard({
       name: this.name,
       desc: this.desc,
       pos: this.pos,
@@ -271,6 +268,6 @@ module.exports = {
       address: this.address,
       locationName: this.locationName,
       coordinates: this.locationName,
-    });
+    }, $);
   },
 };

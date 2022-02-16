@@ -1,7 +1,7 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-list-rename",
   name: "List Rename",
@@ -22,10 +22,7 @@ module.exports = {
       optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       listId: {
         presence: true,
@@ -50,8 +47,8 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.renameList(this.listId, {
+    return this.trello.renameList(this.listId, {
       name: this.name,
-    });
+    }, $);
   },
 };

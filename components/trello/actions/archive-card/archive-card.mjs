@@ -1,12 +1,12 @@
-const validate = require("validate.js");
-const common = require("../common");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
+export default {
   ...common,
   key: "trello-archive-card",
   name: "Archive Card",
   description: "Archives a card.",
-  version: "0.0.1",
+  version: "0.1.2",
   type: "action",
   props: {
     ...common.props,
@@ -16,10 +16,7 @@ module.exports = {
       description: "The ID of the Card to archive.",
     },
   },
-  methods: {
-    ...common.methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       idCard: {
         presence: true,
@@ -40,6 +37,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.trello.archiveCard(this.idCard);
+    return this.trello.archiveCard(this.idCard, $);
   },
 };

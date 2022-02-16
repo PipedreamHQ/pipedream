@@ -1,20 +1,18 @@
-const {
-  props,
-  methods,
-} = require("../common");
-const validate = require("validate.js");
+import validate from "validate.js";
+import common from "../common.js";
 
-module.exports = {
-  key: "trello-find-a-label",
+export default {
+  ...common,
+  key: "trello-find-labels",
   name: "Find a label",
   description: "Finds a label on a specific board by name.",
-  version: "0.0.1",
+  version: "0.1.2",
   type: "action",
   props: {
-    ...props,
+    ...common.props,
     board: {
       propDefinition: [
-        props.trello,
+        common.props.trello,
         "board",
       ],
       label: "Id Board",
@@ -32,10 +30,7 @@ module.exports = {
       default: 50,
     },
   },
-  methods: {
-    ...methods,
-  },
-  async run() {
+  async run({ $ }) {
     const constraints = {
       board: {
         presence: true,
@@ -69,7 +64,7 @@ module.exports = {
     const opts = {
       limit: this.labelLimit,
     };
-    const labels = await this.trello.findLabel(this.board, opts);
+    const labels = await this.trello.findLabel(this.board, opts, $);
     return this.getMatches(labels, this.name);
   },
 };
