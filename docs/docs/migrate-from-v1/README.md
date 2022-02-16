@@ -11,15 +11,28 @@ We have re-imagined the UX from the ground up, made the product much easier to u
 * **Multiple triggers** are now supported per workflow
 * **Improved** forms for easier configuration and streamlined building
 
-Let's get you familiar with the changes.
+That all said, we are not (yet) making v2 the default for existing users until we address a few key known limitations including:
+
+* State management (improved `$checkpoint`)
+* Workflow sharing outside of teams 
+* Ability to view deployment history (and revert)
+* Ability to replay events from the event inspector
+
+_Get Started_
+* [Watch the video demo](https://www.youtube.com/watch?v=BGKuPYMNKGg) :desktop_computer:
+* Read our [quickstart](/quickstart/), [docs](/), and/or [FAQ](#FAQ) :point_left:
+* Have questions? Ask here or on [Discourse](https://pipedream.com/community) :speech_balloon:
+* As a reminder, all integration components are open-source and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own integrations](/contributing) or improve existing ones.
+
+And this is just the beginning — we have an exciting roadmap planned for 2022 including workflow serialization and GitHub integration.
 
 ## New Builder Overview
 
 Fundamentally, the new version of the workflow builder gives you the same abilities to build, test and deploy your workflows. However, you'll notice some differences in how to build workflows.
 
-### Editing vs Inspecting
+### Building vs Inspecting
 
-In v1, editing your workflow and inspecting past events were visible in the same view. The new v2 builder has improved this by separating the workflow **Builder** from the workflow events **Inspector**.
+In v1, building your workflow and inspecting past events were visible in the same view. The new v2 builder has improved this by separating the workflow **Builder** from the workflow events **Inspector**.
 
 Switch between these contexts using the menu in the top right of the workflow builder.
 
@@ -257,15 +270,15 @@ However, some features from the original builder are not currently available in 
 
 ### Sharing workflows
 
-At this time, sharing is not yet implemented in v2 of the workflow builder.
+At this time, sharing is not yet implemented in v2 of the workflow builder. As workaround, create your workflows in a organization which make workflows available to your team members.
 
-We're working on bringing this same feature to the new version. If you need assistance transferring workflows across accounts, [please contact us](/docs/support).
+If you need assistance transferring workflows across accounts, [please contact us](/docs/support).
 
 ### `$checkpoint`
 
-The `$checkpoint` functionality to save data between workflow runs has been removed.
+The `$checkpoint` functionality to save data between workflow runs is not yet supported in v2.
 
-But you can leverage the `$.service.db` service to store arbitrary data across your workflow runs like unique IDs. [Read more about using `$.service.db` here.](/code/nodejs/#managing-state)
+However, you can leverage the `$.service.db` service to store arbitrary data across your workflow runs like unique IDs. [Read more about using `$.service.db` here.](/code/nodejs/#managing-state)
 
 ::: warning
 Please note that any values stored in `$.service.db` are only accessible in subsequent workflow runs _in the same step_.
@@ -273,15 +286,17 @@ Please note that any values stored in `$.service.db` are only accessible in subs
 
 ### Public workflows
 
-At this time, all v2 workflows are private.
+At this time, all v2 workflows are private. Unforunately at this time there is no workaround. We'll announce when a workaround for this limiation is available.
 
 If you're working with Pipedream support to troubleshoot your workflow, you can share it with the support team under your workflow's **Settings**.
 
-### Versioned deployments and rollback
+### Rolling back a specific version
 
 In v2, you can test and save your progress on a workflow _without_ deploying it.
 
-However, after deploying it's not possible to rollback to a prior version.
+However, after deploying it's not possible to rollback to a prior version of a deployed workflow.
+
+You can still edit a deployed workflow, just like in v1 but automatic version rollbacks are not currently possible.
 
 ## FAQs
 
@@ -304,9 +319,15 @@ However, after deploying it's not possible to rollback to a prior version.
 
 ### Are v2 workflows backwards compatible?
 
-If your workflow is not using custom Node.js code and is compromised of only prebuilt actions, then there's a good chance it's supported.
+No, v2 workflows are not currently compatible with the v1 builder.
 
-We're currently bringing all of our legacy actions up to v2 which also follows the same [Component API](/components/).
+However, pre-built component actions are still compatible across both versions.
+
+### Is the Component API changing as well? Will I need to rewrite Components?
+
+No. Any components in the public registry or any private components you have published in your account are compatible with v2.
+
+The v2 workflow builder utilizes the same Component API allowing you to create components from within your workflows, which was not possible in v1.
 
 ### Will I still be able to open and edit v1 workflows?
 
@@ -326,6 +347,8 @@ We will not make the v2 builder the default workflow experience until we have re
 
 ### When will I no longer be able to create v1 workflows?
 
-We will continue to support creation of v1 workflows until
+There is currently no deprecation date for v1 workflows, we will continue to support of v1 workflows until we have feature parity with v2.
+
+When this date becomes clear we will provide assistance to automatically and assist migrate v1 to v2 workflows for you.
 
 
