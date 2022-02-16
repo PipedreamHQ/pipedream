@@ -2,7 +2,7 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "bubble-",
+  key: "bubble-bubble",
   name: "Bubble",
   version: "0.1.1",
   type: "action",
