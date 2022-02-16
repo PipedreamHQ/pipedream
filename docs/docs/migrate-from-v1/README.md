@@ -2,7 +2,7 @@
 
 The newest version of the Pipedream workflow builder introduces features like creating code steps in [Python](/code/python), [Bash](/code/bash) and [Go](/code/go).
 
-It also brings the [Node.js](/code/nodes) steps closer to our [Component API](/components/) which powers sources & actions in the platform.
+It also brings the [Node.js](/code/nodejs) steps closer to our [Component API](/components/) which powers sources & actions in the platform.
 We have re-imagined the UX from the ground up, made the product much easier to use and have improved performance. In addition, we are introducing powerful new features including:
 
 * **Edit & test** your workflows in separate editing mode without impacting live workflows
@@ -23,11 +23,21 @@ In v1, editing your workflow and inspecting past events were visible in the same
 
 Switch between these contexts using the menu in the top right of the workflow builder.
 
-<img src="./images/new-builder-context-switcher.gif" alt="Switching between the Builder & Inspector contexts in the v2 workflow builder">
+<div style="display: flex; justify-content: center;">
+  <img src="./images/new-builder-context-switcher.gif" alt="Switching between the Builder & Inspector contexts in the v2 workflow builder">
+</div>
 
 When you first open a deployed workflow, you're presented with the **Inspector** version of the workflow. In this view you can see logs of past events, and select them to see the results of each step in the workflow.
 
+<div style="display: flex; justify-content: center;">
+  <img src="./images/inspector-sample.png" alt="Example of events listed in the Inspector">
+</div>
+
 To edit the workflow, click the **Edit** button in the top right hand corner. This will close the inspector and allow you to edit your workflow without the distraction of logs from the production flow.
+
+<div style="display: flex; justify-content: center;">
+  <img src="./images/builder-mode-sample.png" alt="Example of the new dedicated Builder mode">
+</div>
 
 ### Testing Changes
 
@@ -37,7 +47,9 @@ We've improved this flow. You can test your changes with a new **Test** button.
 
 In addition to testing single steps, you can now selectively test portions of your workflow (e.g. all steps above or below the selected step):
 
-<img src="./images/test-workflow-portions.png" alt="Selectively pick testing your workflow above or below the current step is now available.">
+<div style="display: flex; justify-content: center;">
+  <img src="./images/test-workflow-portions.png" alt="Selectively pick testing your workflow above or below the current step is now available.">
+</div>
 
 ### Deploying Changes
 
@@ -47,7 +59,7 @@ After deploying your changes, your workflow is now live, and any changes you mad
 
 ## Node.js Code Step Changes
 
-There are a few changes to the Node.js code steps that you should know about. Some functions have been renamed for more clarity, and we've aligned the Node.js code steps closer to the [Component API](/docs/components/).
+There are a few changes to the Node.js code steps that you should know about. Some functions have been renamed for more clarity, and we've aligned the Node.js code steps closer to the [Component API](/components/).
 
 ### Code Scaffolding Format
 
@@ -74,7 +86,7 @@ defineComponent({
 
 You can think of the `$` as the entry point to built in Pipedream functions. In v1, this special functions included `$end`, `$respond`, etc. In v2, these have been remapped to `$.flow.end` and `$.respond` respectively. 
 
-These changes unify workflow development to the [Component API](/docs/components/) used by pre-built actions and also allows the [defining of props](#defining-props) from within your code steps.
+These changes unify workflow development to the [Component API](/components/) used by pre-built actions and also allows the [defining of props](#params-vs-props) from within your code steps.
 
 ### Using 3rd party packages
 
@@ -99,7 +111,7 @@ defineComponent({
 });
 ```
 
-Allowing all of the scaffolding to be edited opens up the ability to [pass props](code/nodejs/#passing-props-to-code-steps) into your Node.js code steps, which we'll cover later.
+Allowing all of the scaffolding to be edited opens up the ability to [pass props](/code/nodejs/#passing-props-to-code-steps) into your Node.js code steps, which we'll cover later.
 
 ### Step Exports 
 
@@ -152,13 +164,13 @@ defineComponent({
 
 ### Params vs Props
 
-In the v1 builder, you could pass input to steps using [params](/docs/v1/workflows/steps/params/). In the v2 builder, you pass input using [props](/components/props).
+In the v1 builder, you could pass input to steps using [params](/v1/workflows/steps/params/). In the v2 builder, you pass input using [props](/components/api/#component-api).
 
 You can still enter free text and select data from other steps in pre-built actions. Also can add your own custom props that accept input like strings, numbers and more just like in v1.
 
 #### Defining params
 
-In the v1 workflow builder, params could be structured or unstructured. The [params schema builder](https://pipedream.com/docs/v1/workflows/steps/params/#configuring-custom-params) allowed you to add your own custom params to steps.
+In the v1 workflow builder, params could be structured or unstructured. The [params schema builder](/v1/workflows/steps/params/#configuring-custom-params) allowed you to add your own custom params to steps.
 
 In v2, you can add your own custom props without leaving the code editor.
 
@@ -241,7 +253,7 @@ Please note, you'll also need to configure the HTTP trigger step to also allow c
 
 ## Known Gaps & Limitations
 
-However, some features from the original builder are not currently available in v2. The Pipedream team is working to quickly address these items, but if you have feedback that isn't listed here, please [[[reach out](/support).
+However, some features from the original builder are not currently available in v2. The Pipedream team is working to quickly address these items, but if you have feedback that isn't listed here, please [reach out](/support).
 
 ### Sharing workflows
 
@@ -253,7 +265,7 @@ We're working on bringing this same feature to the new version. If you need assi
 
 The `$checkpoint` functionality to save data between workflow runs has been removed.
 
-But you can leverage the `$.service.db` service to store arbitrary data across your workflow runs like unique IDs. [Read more about using `$.database` here.](https://pipedream.com/docs/code/nodejs/#managing-state)
+But you can leverage the `$.service.db` service to store arbitrary data across your workflow runs like unique IDs. [Read more about using `$.service.db` here.](/code/nodejs/#managing-state)
 
 ::: warning
 Please note that any values stored in `$.service.db` are only accessible in subsequent workflow runs _in the same step_.
@@ -294,7 +306,7 @@ However, after deploying it's not possible to rollback to a prior version.
 
 If your workflow is not using custom Node.js code and is compromised of only prebuilt actions, then there's a good chance it's supported.
 
-We're currently bringing all of our legacy actions up to v2 which also follows the same [Component API](/docs/components/).
+We're currently bringing all of our legacy actions up to v2 which also follows the same [Component API](/components/).
 
 ### Will I still be able to open and edit v1 workflows?
 
