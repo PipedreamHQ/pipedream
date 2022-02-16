@@ -115,6 +115,12 @@ export default {
         ...params,
       });
     },
+    async appendBlock(parentId, blocks) {
+      return await this._getNotionClient().blocks.children.append({
+        block_id: parentId,
+        children: blocks,
+      });
+    },
     async retrieveBlock(blockId, retrieveChildren) {
       const block = await this._getNotionClient().blocks.retrieve({
         block_id: blockId,
