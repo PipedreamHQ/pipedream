@@ -63,9 +63,9 @@ To edit the workflow, click the **Edit** button in the top right hand corner. Th
 
 ### Testing Changes
 
-In the v1 workflow builder, you had to deploy the whole workflow to test changes to individual steps. This meant you were 
+In the v1 workflow builder, you had to deploy the whole workflow to test changes to any step. To make changes to a deployed workflow, you had to made edits on the live version.
 
-We've improved this flow. You can test your changes with a new **Test** button.
+We've improved this flow. Now you can test your changes with a new **Test** button without effecting the live version of the workflow.
 
 In addition to testing single steps, you can now selectively test portions of your workflow (e.g. all steps above or below the selected step):
 
@@ -77,7 +77,7 @@ In addition to testing single steps, you can now selectively test portions of yo
 
 Not only can you test portions of your workflow in isolation, but you can also select a specific event to run against your workflow.
 
-In the **Test Trigger** portion of your trigger, you can select a past event seen by the workflow and build your steps against it - without having to retrigger it manually:
+In the **Test Trigger** portion of your trigger, you can select a past event seen by the workflow and build your steps against it - without having to re-trigger it manually:
 
 <div style="display: flex; justify-content: center;">
   <img src="./images/testing-individual-events.gif" alt="Test your workflow with a specific event">
@@ -306,7 +306,7 @@ Please note that any values stored in `$.service.db` are only accessible in subs
 
 ### Public workflows
 
-At this time, all v2 workflows are private. Unforunately at this time there is no workaround. We'll announce when a workaround for this limiation is available.
+At this time, all v2 workflows are private. Unfortunately at this time there is no workaround. We'll announce when a workaround for this limitation is available.
 
 If you're working with Pipedream support to troubleshoot your workflow, you can share it with the support team under your workflow's **Settings**.
 
