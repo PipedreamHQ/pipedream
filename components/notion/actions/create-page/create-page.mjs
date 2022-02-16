@@ -39,33 +39,39 @@ export default {
   },
   async additionalProps() {
     let props = {};
-    const iconValue = {
-      type: "string",
-      label: "Icon Value",
-      description: "Icon value string",
-    };
-    const coverValue = {
-      type: "string",
-      label: "Cover Value",
-      description: "Cover value string",
-    };
-    if (this.iconType) props.iconValue = iconValue;
-    if (this.coverType) props.coverValue = coverValue;
-    if (this.paragraph) props.paragraph = common.blockType.paragraph.additionalProps;
-    if (this.todo) props.todo = common.blockType.todo.additionalProps;
-    return props;
-  },
-  methods: {
-    buildTextProperty(content) {
-      return [
-        {
-          type: "text",
-          text: {
-            content,
-          },
+    if (this.iconType) {
+      props = {
+        ...props,
+        iconValue: {
+          type: "string",
+          label: "Icon Value",
+          description: "Icon value string",
         },
-      ];
-    },
+      };
+    }
+    if (this.coverType) {
+      props = {
+        ...props,
+        iconValue: {
+          type: "string",
+          label: "Cover Value",
+          description: "Cover value string",
+        },
+      };
+    }
+    if (this.paragraph) {
+      props = {
+        ...props,
+        ...common.blockType.paragraph.additionalProps,
+      };
+    }
+    if (this.todo) {
+      props = {
+        ...props,
+        ...common.blockType.todo.additionalProps,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     const page = {
@@ -74,7 +80,7 @@ export default {
       },
       properties: {
         title: {
-          title: this.buildTextProperty(this.title),
+          title: this.notion.buildTextProperty(this.title),
         },
       },
       children: [],
@@ -101,7 +107,7 @@ export default {
         object: "block",
         type: common.blockType.paragraph.key,
         [common.blockType.paragraph.key]: {
-          text: this.buildTextProperty(this.paragraphText),
+          text: this.notion.buildTextProperty(this.paragraphText),
         },
       });
     }
@@ -111,7 +117,7 @@ export default {
         object: "block",
         type: common.blockType.todo.key,
         [common.blockType.todo.key]: {
-          text: this.buildTextProperty(this.todoText),
+          text: this.notion.buildTextProperty(this.todoText),
           checked: this.todoChecked,
         },
       });

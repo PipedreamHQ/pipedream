@@ -81,6 +81,16 @@ export default {
         auth: this.$auth.oauth_access_token,
       });
     },
+    buildTextProperty(content) {
+      return [
+        {
+          type: "text",
+          text: {
+            content,
+          },
+        },
+      ];
+    },
     async retrievePage(pageId) {
       return await this._getNotionClient().pages.retrieve({
         page_id: pageId,
