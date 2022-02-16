@@ -13,8 +13,7 @@ export default {
       type: "string",
       secret: true,
       label: "Twilio Auth Token",
-      description:
-        "Your Twilio auth token, found [in your Twilio console](https://www.twilio.com/console). Required for validating Twilio events.",
+      description: "Your Twilio auth token, found [in your Twilio console](https://www.twilio.com/console). Required for validating Twilio events.",
     },
     body: {
       type: "string",
@@ -38,8 +37,7 @@ export default {
     incomingPhoneNumber: {
       type: "string",
       label: "Incoming Phone Number",
-      description:
-        "The Twilio phone number where you'll receive messages. This source creates a webhook tied to this incoming phone number, **overwriting any existing webhook URL**.",
+      description: "The Twilio phone number where you'll receive messages. This source creates a webhook tied to this incoming phone number, **overwriting any existing webhook URL**.",
       async options() {
         const numbers = await this.listIncomingPhoneNumbers();
         return numbers.map((number) => {
@@ -60,8 +58,7 @@ export default {
       type: "string",
       optional: true,
       label: "Response Message",
-      description:
-        "The message you want to send in response to incoming messages. Leave this blank if you don't need to issue a response.",
+      description: "The message you want to send in response to incoming messages. Leave this blank if you don't need to issue a response.",
     },
     to: {
       type: "string",
