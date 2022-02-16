@@ -58,7 +58,6 @@ module.exports = {
         children: 
         [
           "/workflows/",
-          "/migrate-from-v1/",
           "/workflows/steps/",
           "/workflows/steps/triggers/",
           "/workflows/events/",
@@ -67,6 +66,7 @@ module.exports = {
           "/environment-variables/",
           "/workflows/settings/",
           "/workflows/networking/",
+          "/migrate-from-v1/",
         ]
       },
       "/sources/",

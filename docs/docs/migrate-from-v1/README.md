@@ -1,13 +1,12 @@
-# Migrate from Pipedream v1
+# Migrate from v1
 
 ::: tip
 Never used Pipedream v1? You can skip this migration guide and read on about [Steps](/workflows/steps/).
 :::
 
-The newest version of the Pipedream workflow builder introduces features like creating code steps in [Python](/code/python), [Bash](/code/bash) and [Go](/code/go).
+We are excited to announce that we have launched a new version (v2) of Pipedream to all new and existing users! :fire: :rocket: :chart_with_upwards_trend:
 
-It also brings the [Node.js](/code/nodejs) steps closer to our [Component API](/components/) which powers sources & actions in the platform.
-We have re-imagined the UX from the ground up, made the product much easier to use and have improved performance. In addition, we are introducing powerful new features including:
+We have re-imagined the UX from the ground up, made the product much easier to use and have improved performance.  In addition, we are introducing powerful new features including:
 
 * **Edit & test** your workflows in separate editing mode without impacting live workflows
 * **Support for multiple languages** including [Node.js](/code/nodejs), [Python](/code/python), [Bash](/code/bash) and [Go](/code/go)
