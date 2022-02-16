@@ -1,6 +1,6 @@
 // legacy_hash_id: a_rJipb5
 import admin from "firebase-admin";
-import { assign } from "lodash";
+import lodash from "lodash";
 
 export default {
   key: "firebase_admin_sdk-replicate-event-firestore",
@@ -51,7 +51,7 @@ export default {
     let that = this;
 
     const p1 = db.collection(this.firestoreCollection).doc(deliveryId)
-      .set(assign({}, this.data, {
+      .set(lodash.assign({}, this.data, {
         pipedream: {
           updatedAt: (new Date().toISOString()),
         },
