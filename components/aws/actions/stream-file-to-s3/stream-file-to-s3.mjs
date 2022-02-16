@@ -1,6 +1,6 @@
 // legacy_hash_id: a_a4i84m
 import AWS from "aws-sdk";
-import { get } from "axios";
+import axios from "axios";
 
 export default {
   key: "aws-stream-file-to-s3",
@@ -43,7 +43,7 @@ export default {
       accessKeyId,
       secretAccessKey,
     });
-    const urlResponse = await get(fileUrl, {
+    const urlResponse = await axios.get(fileUrl, {
       responseType: "stream",
     });
     const s3Response = await s3.upload({
