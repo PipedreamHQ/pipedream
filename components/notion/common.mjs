@@ -1,3 +1,8 @@
+/**
+ * Builds Notion text property for Notion blocks
+ * @param {string} content - The text content
+ * @returns
+ */
 function buildTextProperty(content) {
   return [
     {
@@ -10,17 +15,19 @@ function buildTextProperty(content) {
 }
 
 /**
- *
- * [
+ * Builds a Notion block object
+ * @param {string} type - The block type
+ * @param {list} propList - A list of block object values for the block type, in the following format:
+ *  [
  *    {
- *      key: text,
- *      value: this.todoText,
+ *      label: text,
+ *      value: "some text",
  *    },
  *    {
- *      key: checked,
- *      value: this.todoChecked,
+ *      label: checked,
+ *      value: true,
  *    }
- * ]
+ *  ]
  */
 function buildBlock(type, propList) {
   const blockProps = {};
@@ -40,6 +47,12 @@ function buildBlock(type, propList) {
   }
 }
 
+/**
+ * Notion block types, containing:
+ *   - Notion key string
+ *   - props
+ *   - additionalProps
+ */
 const blockType = {
   paragraph: {
     key: "paragraph",

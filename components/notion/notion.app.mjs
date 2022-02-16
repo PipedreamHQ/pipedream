@@ -81,24 +81,12 @@ export default {
         auth: this.$auth.oauth_access_token,
       });
     },
+    async createPage(page) {
+      return await this._getNotionClient().pages.create(page);
+    },
     async retrievePage(pageId) {
       return await this._getNotionClient().pages.retrieve({
         page_id: pageId,
-      });
-    },
-    async updatePage(pageId, params) {
-      return await this._getNotionClient().pages.update({
-        page_id: pageId,
-        ...params,
-      });
-    },
-    async searchDatabase(title) {
-      return await this._getNotionClient().search({
-        query: title,
-        filter: {
-          property: "object",
-          value: "database",
-        },
       });
     },
     async searchPage(title, params = {}) {
@@ -108,6 +96,12 @@ export default {
           property: "object",
           value: "page",
         },
+        ...params,
+      });
+    },
+    async updatePage(pageId, params) {
+      return await this._getNotionClient().pages.update({
+        page_id: pageId,
         ...params,
       });
     },
@@ -143,9 +137,6 @@ export default {
       await Promise.all(
         block.children.map(async (child) => await this.retrieveBlockChildren(child)),
       );
-    },
-    async createPage(page) {
-      return await this._getNotionClient().pages.create(page);
     },
   },
 };
