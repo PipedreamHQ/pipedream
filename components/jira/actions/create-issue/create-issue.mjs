@@ -5,7 +5,7 @@ export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     jira: {
