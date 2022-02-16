@@ -20,6 +20,18 @@ export default {
     isWebhookValid(clientIp) {
       return constants.CLIENT_IPS.includes(clientIp);
     },
+    getResourceTypes() {
+      throw new Error("getResourceTypes is not implemented");
+    },
+    getWebhookLabel() {
+      throw new Error("getWebhookLabel is not implemented");
+    },
+    getActions() {
+      throw new Error("getActions is not implemented");
+    },
+    getMetadata() {
+      throw new Error("getMetadata is not implemented");
+    },
   },
   hooks: {
     async activate() {

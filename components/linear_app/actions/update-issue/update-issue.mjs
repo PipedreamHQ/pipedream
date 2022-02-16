@@ -2,7 +2,7 @@ import linearApp from "../../linear_app.app.mjs";
 
 export default {
   key: "linear_app-update-issue",
-  name: "Update issue",
+  name: "Update Issue",
   description: "Update an issue. See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
   type: "action",
   version: "0.0.1",
