@@ -1,5 +1,5 @@
 // legacy_hash_id: a_EVioWG
-import requestPromise from "request-promise";
+import { axios } from "@pipedream/platform";
 
 export default {
   key: "gitlab-list-project-issues",
@@ -276,8 +276,8 @@ export default {
     }
 
     try {
-      $.export("resp", await requestPromise({
-        uri: `https://gitlab.com/api/v4/projects/${this.id}/issues${queryString}`,
+      $.export("resp", await axios($, {
+        url: `https://gitlab.com/api/v4/projects/${this.id}/issues${queryString}`,
         headers: {
           Authorization: `Bearer ${this.gitlab.$auth.oauth_access_token}`,
         },
