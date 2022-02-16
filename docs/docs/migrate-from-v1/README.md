@@ -251,7 +251,7 @@ export default defineComponent({
       headers: {
         Authorization: `Bearer ${this.slack.$auth.oauth_access_token}`,
       },
-    }
+    })
   },
 })
 ```
@@ -265,7 +265,7 @@ After testing the step, you'll see the Slack app will appear in the **Configurat
 
 You can still return an HTTP response from an HTTP-triggered workflow.
 
-Use [`$.respond`](/docs/workflows/steps/triggers/#http) to send a JSON or string response from the HTTP call that triggered the workflow.
+Use [`$.respond`](/workflows/steps/triggers/#http) to send a JSON or string response from the HTTP call that triggered the workflow.
 
 ```javascript
 export default defineComponent({
@@ -337,18 +337,18 @@ However, at this time it's replaying past events against your deploy v2 workflow
 
 ### What are the limitations of the new (v2) workflow builder?
 
-* `$checkpoint` has been removed from v2 workflows, but `$.database` is a near equivalent.
+* `$checkpoint` has been removed from v2 workflows, but `$.service.db` provides a similar API.
 * Sharing workflows is not supported
 * Making workflows public is not supported
 * Workflows are no longer versioned
 
-[The limitations of the new workflow builder are covered in detail here](/docs/migrate-from-v1#limitations).
+[You can read more about these limitations here](/docs/migrate-from-v1#limitations).
 
 ### Are v2 workflows backwards compatible?
 
 No, v2 workflows are not currently compatible with the v1 builder.
 
-However, pre-built component actions are still compatible across both versions.
+However, pre-built component actions are still compatible across both versions. If you do encounter a gap from v1 actions in the v2 builder, [reach out to us](https://pipedream.com/support).
 
 ### Is the Component API changing as well? Will I need to rewrite Components?
 
@@ -368,13 +368,13 @@ However, if it uses custom Node.js code steps, be sure to [follow the changes we
 
 ### When will the new (v2) workflow builder be the default builder for all customers?
 
-v2 is currently an opt in feature, you can still create and edit v1 workflows if you have an grandfathered account.
+By default, existing users will still default to the v1 builder. You can create new v2 workflows from the dropdown menu next to the New workflow button.
 
-We will not make the v2 builder the default workflow experience until we have reached feature parity with v1 by providing paths to overcome the [limitations of v2](#known-gaps-limitations).
+if you'd like to default to the v2 builder when creating new workflows, you can change the **Builder Version** in [your account settings](https://pipedream.com/settings/account).
 
 ### When will I no longer be able to create v1 workflows?
 
-There is currently no deprecation date for v1 workflows, we will continue to support of v1 workflows until we have feature parity with v2.
+There is currently no deprecation date for v1 workflows. We will continue to support of v1 workflows until we have feature parity with v2.
 
 When this date becomes clear we will provide assistance to automatically and assist migrate v1 to v2 workflows for you.
 
