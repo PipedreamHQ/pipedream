@@ -23,10 +23,16 @@ That all said, we are not (yet) making v2 the default for existing users until w
 * Ability to replay events from the event inspector
 
 _Get Started_
-* [Watch the video demo](https://www.youtube.com/watch?v=BGKuPYMNKGg) :desktop_computer:
 * Read our [quickstart](/quickstart/), [docs](/), and/or [FAQ](#FAQ) :point_left:
 * Have questions? Ask here or on [Discourse](https://pipedream.com/community) :speech_balloon:
 * As a reminder, all integration components are open-source and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own integrations](/contributing) or improve existing ones.
+
+Watch a demo:
+
+<video controls poster="./images/demo-poster.png" width="100%">
+  <source src="https://res.cloudinary.com/pipedreamin/video/upload/v1644985143/homepage/pipedream-demo_qyvlni.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
 
 And this is just the beginning — we have an exciting roadmap planned for 2022 including workflow serialization and GitHub integration.
 
