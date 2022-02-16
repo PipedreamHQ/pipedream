@@ -2,12 +2,16 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "app_placeholder-jira-make-api-call",
+  key: "jira-make-api-call",
   name: "Make API Call",
   description: "Makes an aribitrary call to Jira API",
   version: "0.1.1",
   type: "action",
   props: {
+    jira: {
+      type: "app",
+      app: "jira",
+    },
     request_method: {
       type: "string",
       description: "Http method to use in the request.",
