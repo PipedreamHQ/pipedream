@@ -7,9 +7,33 @@
     {
       "source": "/docs/v2/(.*)",
       "destination": "/$1"
+    },
+    {
+      "source": "/docs",
+      "destination": "/"
+    },
+    {
+      "source": "/docs/v2/(.*)",
+      "destination": "/$1"
     }
   ],
   "redirects": [
+    {
+      "source": "/docs-v2",
+      "destination": "/docs/"
+    },
+    {
+      "source": "/docs-v2/(.*)",
+      "destination": "/docs/$1"
+    },
+    {
+      "source": "/docs/v2",
+      "destination": "/docs"
+    },
+    {
+      "source": "/docs/v2/(.*)",
+      "destination": "/docs/$1"
+    },
     {
       "source": "/docs/notebook/actions/",
       "destination": "/workflows/steps/actions/"
@@ -105,6 +129,15 @@
     {
       "source": "/docs/support",
       "destination": "https://pipedream.com/support"
+    },
+    {
+      "source": "/docs/workflows/steps/code/async/",
+      "destination": "/docs/code/nodejs/async/"
+    },
+    {
+      "source": "/docs/workflows/steps/code/state",
+      "destination": "https://pipedream.com/docs/v1/workflows/steps/code/state"
     }
   ]
 }
+

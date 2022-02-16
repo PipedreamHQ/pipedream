@@ -178,7 +178,7 @@ module.exports = {
     issueAssignees: {
       type: "string[]",
       label: "Assignees",
-      description: "Optionally enter Github usernames to assign to this issue. Add one username per row or disable structured mode to pass an array of usernames in `{{...}}`. NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise.",
+      description: "Optionally enter Github usernames to assign to this issue. Add one username per row or pass an array of usernames in `{{...}}` as a custom expression. NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise.",
       optional: true,
     },
     issueBody: {
