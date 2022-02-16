@@ -11,6 +11,8 @@ Pipedream is an integration platform for developers.
 
 We provide a free, hosted platform that makes it easy to connect apps and develop, execute and maintain event-driven workflows. The platform has over 500 fully integrated applications with managed authentication and support for over 1M npm packages.
 
+**DEMO**: [YouTube](https://www.youtube.com/watch?v=BGKuPYMNKGg)
+
 **Key Features**:
 
 - [Event Sources](#event-sources) - Open source [components](https://github.com/PipedreamHQ/pipedream/tree/master/components) that emit events from services (GitHub, Slack, Airtable, RSS & [more](https://pipedream.com/apps)).
@@ -19,8 +21,6 @@ We provide a free, hosted platform that makes it easy to connect apps and develo
 - [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
 - Serverless - No server or cloud resources to manage
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
-
-**Product Demo**: [YouTube](https://www.youtube.com/watch?v=hJ-KRbp6EO8&feature=youtu.be) (5 minutes)
 
 You can also [get support](https://pipedream.com/support), [raise a bug or feature request](#found-a-bug-have-a-feature-to-suggest), or [file a security disclosure](#security-disclosures).
 

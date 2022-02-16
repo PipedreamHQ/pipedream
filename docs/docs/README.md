@@ -13,6 +13,13 @@ The Pipedream platform includes:
 - Open source [triggers](/workflows/triggers/) and [actions](/components/actions/) for [hundreds of integrated apps](https://pipedream.com/explore/)
 - One-click [OAuth and key-based authentication](/connected-accounts/) for hundreds of APIs (use tokens directly in code or with pre-built actions)
 
+Watch a demo or review our [quickstart guide](/quickstart/):
+
+<video controls poster="./images/demo-poster.png" width="100%">
+  <source src="https://res.cloudinary.com/pipedreamin/video/upload/v1644985143/homepage/pipedream-demo_qyvlni.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
 ## Getting Started
 
 To get started, [sign up for a free account](https://pipedream.com/auth/signup) (no credit card required) and follow our [quickstart guide](/quickstart/) to create your first workflow.

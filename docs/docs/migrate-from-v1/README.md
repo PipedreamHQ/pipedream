@@ -63,7 +63,7 @@ To edit the workflow, click the **Edit** button in the top right hand corner. Th
 
 ### Testing Changes
 
-In the v1 workflow builder, you had to deploy the whole workflow to test changes to individual steps. This meant you were limited to building and testing your edits on production workflows.
+In the v1 workflow builder, you had to deploy the whole workflow to test changes to individual steps. This meant you were limited to building and testing your edits on your production workflows.
 
 We've improved this flow. You can test your changes with a new **Test** button.
 
