@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import zendesk from "../../zendesk.app.mjs";
-import constants from "../../constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   props: {
