@@ -63,9 +63,9 @@ To edit the workflow, click the **Edit** button in the top right hand corner. Th
 
 ### Testing Changes
 
-In the v1 workflow builder, you had to deploy the whole workflow to test changes to individual steps. This meant you were 
+In the v1 workflow builder, you had to deploy the whole workflow to test changes to any step. To make changes to a deployed workflow, you had to made edits on the live version.
 
-We've improved this flow. You can test your changes with a new **Test** button.
+We've improved this flow. Now you can test your changes with a new **Test** button without effecting the live version of the workflow.
 
 In addition to testing single steps, you can now selectively test portions of your workflow (e.g. all steps above or below the selected step):
 
