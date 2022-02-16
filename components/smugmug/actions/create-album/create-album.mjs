@@ -40,11 +40,6 @@ export default {
       description: "The human-readable title.",
       optional: true,
     },
-    password_hint: {
-      type: "string",
-      description: "The hint for the album-viewing password.",
-      optional: true,
-    },
     privacy: {
       type: "string",
       description: "Private is not supported on legacy accounts.\nIt can be Private, Unlisted, or Public.",
@@ -311,7 +306,6 @@ export default {
         UrlName: this.UrlName,
         Title: this.Title,
         Name: this.Name,
-        PasswordHint: this.password_hint,
         Privacy: this.privacy,
         PrintmarkUri: this.PrintmarkUri,
         WatermarkUri: this.WatermarkUri,
