@@ -201,6 +201,7 @@ const blockType = {
 };
 
 export default {
+  buildTextProperty,
   buildBlock,
   blockType,
 };

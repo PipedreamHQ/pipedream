@@ -14,6 +14,8 @@ export default {
         notion,
         "pageId",
       ],
+      label: "Parent ID",
+      description: "The identifier for a Notion parent page",
     },
     title: {
       propDefinition: [
@@ -35,7 +37,13 @@ export default {
       ],
     },
     paragraph: common.blockType.paragraph.prop,
-    todo: common.blockType.todo.prop,
+    todo: common.blockType.to_do.prop,
+    // blockType: {
+    //   propDefinition: [
+    //     notion,
+    //     "blockType",
+    //   ],
+    // },
   },
   async additionalProps() {
     let props = {};
@@ -68,10 +76,42 @@ export default {
     if (this.todo) {
       props = {
         ...props,
-        ...common.blockType.todo.additionalProps,
+        ...common.blockType.to_do.additionalProps,
       };
     }
+    // if (this.blockType) {
+    //   props = {
+    //     ...props,
+    //     ...common.blockType[this.blockType].additionalProps,
+    //   };
+    // }
     return props;
+  },
+  methods: {
+    buildBlockArgs(blockType) {
+      switch (blockType) {
+      case common.blockType.paragraph.key:
+        return [
+          {
+            label: "text",
+            value: this.paragraphText,
+          },
+        ];
+      case common.blockType.to_do.key:
+        return [
+          {
+            label: "text",
+            value: this.todoText,
+          },
+          {
+            label: "checked",
+            value: this.todoChecked,
+          },
+        ];
+      default:
+        throw new Error("This block type is not yet supported");
+      }
+    },
   },
   async run({ $ }) {
     const page = {
@@ -80,7 +120,7 @@ export default {
       },
       properties: {
         title: {
-          title: this.notion.buildTextProperty(this.title),
+          title: common.buildTextProperty(this.title),
         },
       },
       children: [],
@@ -103,25 +143,25 @@ export default {
     }
 
     if (this.paragraph) {
-      page.children.push({
-        object: "block",
-        type: common.blockType.paragraph.key,
-        [common.blockType.paragraph.key]: {
-          text: this.notion.buildTextProperty(this.paragraphText),
-        },
-      });
+      page.children.push(common.buildBlock(
+        common.blockType.paragraph.key,
+        this.buildBlockArgs(common.blockType.paragraph.key),
+      ));
     }
 
     if (this.todo) {
-      page.children.push({
-        object: "block",
-        type: common.blockType.todo.key,
-        [common.blockType.todo.key]: {
-          text: this.notion.buildTextProperty(this.todoText),
-          checked: this.todoChecked,
-        },
-      });
+      page.children.push(common.buildBlock(
+        common.blockType.to_do.key,
+        this.buildBlockArgs(common.blockType.to_do.key),
+      ));
     }
+
+    // if (this.blockType) {
+    //   page.children.push(common.buildBlock(
+    //     this.blockType,
+    //     this.buildBlockArgs(this.blockType),
+    //   ));
+    // }
 
     let response = await this.notion.createPage(page);
     $.export("$summary", "Created page succesfully");
