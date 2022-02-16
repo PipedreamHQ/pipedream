@@ -105,6 +105,39 @@ export default {
       };
       return res;
     },
+    async _paginate(max, axiosParams) {
+      const TOTAL_LIMIT = max || 500;
+      const DEFAULT_LIMIT_PER_PAGE = 100;
+
+      let items = [];
+      let limit = Math.min(DEFAULT_LIMIT_PER_PAGE, parseInt(TOTAL_LIMIT));
+      let cursor;
+      do {
+        // Adjust the limit to avoid extra elements on the last page
+        if (items.length + limit > TOTAL_LIMIT) {
+          limit -= items.length + limit - TOTAL_LIMIT;
+        }
+        const res = (await axios(this._getAxiosParams({
+          ...axiosParams,
+          params: {
+            ...axiosParams.params,
+            limit,
+            cursor,
+          },
+        }))).data;
+
+        if (res.items) {
+          items = [
+            ...items,
+            ...res.items,
+          ];
+        }
+
+        cursor = res.next_cursor;
+      } while (items.length < TOTAL_LIMIT && cursor);
+
+      return items;
+    },
     async getLocations(cursor, limit) {
       return axios(this._getAxiosParams({
         method: "GET",

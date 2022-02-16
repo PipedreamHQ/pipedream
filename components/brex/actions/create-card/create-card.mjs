@@ -18,7 +18,7 @@ export default {
       label: "User",
       description: "The owner of the card",
       withLabel: true,
-      optional: true,
+      optional: false,
     },
     ...common.props,
   },
