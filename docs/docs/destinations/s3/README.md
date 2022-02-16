@@ -4,31 +4,31 @@
 
 [[toc]]
 
-## Using `$send.s3` in workflows
+## Using `$.send.s3` in workflows
 
-You can send data to an S3 Destination in [Node.js code steps](/workflows/steps/code/) using `$send.s3()`.
+You can send data to an S3 Destination in [Node.js code steps](/workflows/steps/code/) using `$.send.s3()`.
 
-`$send.s3()` takes the following parameters: 
+`$.send.s3()` takes the following parameters: 
 
 ```javascript
-$send.s3({
+$.send.s3({
   bucket: "your-bucket-here",
   prefix: "your-prefix/",
   payload: event.body,
 });
 ```
 
-Like with any `$send` function, you can use `$send.s3()` conditionally, within a loop, or anywhere you'd use a function normally.
+Like with any `$.send` function, you can use `$.send.s3()` conditionally, within a loop, or anywhere you'd use a function normally.
 
 ## Using `$.send.s3` in component actions
 
 If you're authoring a [component action](/components/actions/), you can deliver data to an S3 destination using `$.send.s3`.
 
-`$.send.s3` functions the same as [`$send.s3` in workflow code steps](#using-send-s3-in-workflows):
+`$.send.s3` functions the same as [`$.send.s3` in workflow code steps](#using-send-s3-in-workflows):
 
 ```javascript
 async run({ $ }) {
-  $send.s3({
+  $.send.s3({
     bucket: "your-bucket-here",
     prefix: "your-prefix/",
     payload: event.body,
@@ -96,7 +96,7 @@ As noted above, a given object contains all payloads delivered to an S3 Destinat
 
 ## Limiting S3 Uploads by IP
 
-S3 provides a mechanism to [limit operations only from specific IP addresses](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-3). If you'd like to apply that filter, uploads using `$send.s3()` should come from one of the following IP addresses:
+S3 provides a mechanism to [limit operations only from specific IP addresses](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-3). If you'd like to apply that filter, uploads using `$.send.s3()` should come from one of the following IP addresses:
 
 <<< @/docs/snippets/public-node-ips.txt
 
