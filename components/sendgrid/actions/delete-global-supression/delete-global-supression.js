@@ -7,7 +7,7 @@ module.exports = {
   name: "Delete Global Supression",
   description:
     "Allows you to remove an email address from the global suppressions group.",
-  version: "0.0.19",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
