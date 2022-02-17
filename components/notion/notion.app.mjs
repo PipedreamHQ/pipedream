@@ -130,6 +130,11 @@ export default {
         ...params,
       });
     },
+    async queryDatabase(databaseId) {
+      return await this._getNotionClient().databases.query({
+        database_id: databaseId,
+      });
+    },
     async createPage(page) {
       return await this._getNotionClient().pages.create(page);
     },
