@@ -54,6 +54,6 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.sendgrid.getAllBounces(this.startTime, this.endTime);
+    return this.sendgrid.getAllBounces(this.startTime, this.endTime);
   },
 };

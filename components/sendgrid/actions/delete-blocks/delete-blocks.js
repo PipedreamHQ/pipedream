@@ -34,6 +34,6 @@ module.exports = {
         "Must provide only one of `deleteAll` or `emails` parameters.",
       );
     }
-    return await this.sendgrid.deleteBlocks(deleteAll, this.emails);
+    return this.sendgrid.deleteBlocks(deleteAll, this.emails);
   },
 };

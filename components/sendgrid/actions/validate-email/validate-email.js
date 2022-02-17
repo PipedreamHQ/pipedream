@@ -44,6 +44,6 @@ module.exports = {
       email: this.email,
       source: this.convertEmptyStringToUndefined(this.source),
     };
-    return await this.sendgrid.validateEmail(body);
+    return this.sendgrid.validateEmail(body);
   },
 };

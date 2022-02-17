@@ -18,6 +18,6 @@ module.exports = {
     },
   },
   async run() {
-    return await this.sendgrid.addEmailToGlobalSupression(this.recipientEmails);
+    return this.sendgrid.addEmailToGlobalSupression(this.recipientEmails);
   },
 };

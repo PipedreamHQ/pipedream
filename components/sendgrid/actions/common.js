@@ -72,7 +72,11 @@ module.exports = {
      * `null` it will return `undefined`.
      */
     convertEmptyStringToUndefined(value) {
-      return value || undefined;
+      if (value == false) {
+        return value;
+      } else {
+        return value || undefined;
+      }
     },
     /**
      * Checks if an object is an array, if not it will attempt to JSON parse.

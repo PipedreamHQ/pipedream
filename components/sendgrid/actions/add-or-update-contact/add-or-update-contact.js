@@ -133,6 +133,6 @@ module.exports = {
       list_ids: this.convertEmptyStringToUndefined(this.listIds),
       contacts,
     };
-    return await this.sendgrid.addOrUpdateContacts(config);
+    return this.sendgrid.addOrUpdateContacts(config);
   },
 };

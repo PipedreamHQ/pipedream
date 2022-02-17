@@ -43,6 +43,9 @@ module.exports = {
         headers,
       };
     },
+    _makeRequest(customConfig) {
+      return this._withRetries(() => axios(customConfig));
+    },
     async _getAllItems(params) {
       const {
         url,
@@ -255,12 +258,15 @@ module.exports = {
      * @returns this endpoint replies with HTTP 204 code "No content".
      */
     async deleteGlobalSupression(email) {
+      const requestConfig = this._makeRequestConfig();
+      const baseUrl = this._apiUrl();
       const config = {
         method: "DELETE",
-        url: `/v3/asm/suppressions/global/${email}`,
+        url: `${baseUrl}/asm/suppressions/global/${email}`,
+        ...requestConfig,
       };
-      const { data } = await this._withRetries(() =>
-        this.api().request(config));
+      console.log(JSON.stringify(config));
+      const { data } = await this._makeRequest(config);
       return data;
     },
     /**
@@ -370,10 +376,10 @@ module.exports = {
      * was created at SendGrid, `email` for the email address that was added to the block  list,
      * `reason` with the reason for the block, and the `status` of the block.
      */
-    async listBlocks(startTime, endTime, maxItems) {
+    async listItems(listItemsEndpoint, startTime, endTime, maxItems) {
       const pageSize = Math.min(maxItems, 100);
-      const blocks = [];
-      let url = `/v3/suppression/blocks?limit=${pageSize}`;
+      const items = [];
+      let url = `${listItemsEndpoint}?limit=${pageSize}`;
       let config = {
         method: "GET",
         url,
@@ -383,7 +389,7 @@ module.exports = {
       let lastIteration = false;
       do {
         const data  = (await this._withRetries(() => this.api().request(config)));
-        blocks.push(...data[1]);
+        items.push(...data[1]);
         if (lastIteration) {
           break;
         }
@@ -406,64 +412,8 @@ module.exports = {
           lastIteration = next === last;
         });
         config.url = url;
-      } while (blocks.length < maxItems);
-      return blocks.slice(0, maxItems);
-    },
-    /**
-     * Lists all email addresses that are globally suppressed.
-     *
-     * @param {integer}  startTime start of the time range in unix timestamp when a global
-     * supression was created (inclusive).
-     * @param {integer}  endTime end of the time range in unix timestamp when  a global
-     * supression was created (inclusive).
-     * @param {integer}  numberOfSupressions the number of global supressions to return.
-     * @returns {{created: number, email: string}: array} an array
-     * with details of each global supression returned: `created` for unix timestamp for when
-     * the recipient was added to the global suppression list, `email` for the email address of
-     * the recipient who is globally suppressed.
-     */
-    async listGlobalSupressions(startTime, endTime, maxItems) {
-      const pageSize = Math.min(maxItems, 100);
-      const globalSupressions = [];
-      let url = `/v3/suppression/unsubscribes?limit=${pageSize}`;
-      let config = {
-        method: "GET",
-        url,
-        start_time: startTime,
-        end_time: endTime,
-      };
-      let lastIteration = false;
-      do {
-        const data  = (await this._withRetries(() => this.api().request(config)));
-        globalSupressions.push(...data[1]);
-        if (lastIteration) {
-          break;
-        }
-        const links = data[0].headers.link.split(",");
-        url = "";
-        links.forEach( (link) => {
-          let next = "";
-          let last = "";
-          if ( link.indexOf("next") > -1) {
-            const idx = link.indexOf(";");
-            next = link.substring(0, idx).replace("<", "")
-              .replace(">", "");
-            url = next;
-          }
-          if ( link.indexOf("last") > -1) {
-            const idx = link.indexOf(";");
-            last = link.substring(0, idx).replace("<", "")
-              .replace(">", "");
-          }
-          const nextArr = [];
-          nextArr.push(next);
-          if (nextArr.includes(last)) {
-            lastIteration = true;
-          }
-        });
-        config.url = url;
-      } while (globalSupressions.length < maxItems);
-      return globalSupressions.slice(0, maxItems);
+      } while (items.length < maxItems);
+      return items.slice(0, maxItems);
     },
     /**
      * Removes one or more contact from the specified list.
@@ -481,7 +431,7 @@ module.exports = {
           contact_ids: contactIds.join(","),
         },
       };
-      return await this._withRetries(() => this.api().request(config));
+      return this._withRetries(() => this.api().request(config));
     },
     /**
      * Searches contacts in the associated account with a SGQL query.
@@ -508,7 +458,7 @@ module.exports = {
         url: "/v3/mail/send",
         body: requestData,
       };
-      return await this._withRetries(() => this.api().request(config));
+      return this._withRetries(() => this.api().request(config));
     },
     /**
      * Validates an email address.
@@ -531,7 +481,7 @@ module.exports = {
         url: "/v3/validations/email",
         body,
       };
-      return await this._withRetries(() => this.api().request(config));
+      return this._withRetries(() => this.api().request(config));
     },
   },
 };

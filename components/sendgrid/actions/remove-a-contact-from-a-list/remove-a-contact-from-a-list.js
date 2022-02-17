@@ -26,6 +26,6 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    return await this.sendgrid.removeContactFromList(this.id, this.contactIds);
+    return this.sendgrid.removeContactFromList(this.id, this.contactIds);
   },
 };

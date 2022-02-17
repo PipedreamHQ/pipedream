@@ -7,7 +7,7 @@ module.exports = {
   name: "List Blocks",
   description:
     "Allows you to list all email addresses that are currently on your blocks list.",
-  version: "0.0.1",
+  version: "0.0.38",
   type: "action",
   props: {
     ...common.props,
@@ -69,7 +69,9 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.sendgrid.listBlocks(
+    const listBlocksEndpoint = "/v3/suppression/blocks";
+    return this.sendgrid.listItems(
+      listBlocksEndpoint,
       this.startTime,
       this.endTime,
       this.numberOfBlocks,

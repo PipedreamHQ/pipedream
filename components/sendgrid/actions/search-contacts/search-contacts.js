@@ -20,6 +20,6 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    return await this.sendgrid.searchContacts(this.query);
+    return this.sendgrid.searchContacts(this.query);
   },
 };

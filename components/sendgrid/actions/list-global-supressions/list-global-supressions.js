@@ -7,7 +7,7 @@ module.exports = {
   name: "List Global Supressions",
   description:
     "Allows you to get a list of all email address that are globally suppressed.",
-  version: "0.0.49",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -69,7 +69,9 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return await this.sendgrid.listGlobalSupressions(
+    const listSupressionsEndpoint = "/v3/suppression/unsubscribes";
+    return this.sendgrid.listItems(
+      listSupressionsEndpoint,
       this.startTime,
       this.endTime,
       this.numberOfSupressions,

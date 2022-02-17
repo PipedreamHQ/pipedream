@@ -235,6 +235,6 @@ module.exports = {
       mail_settings: this.convertEmptyStringToUndefined(this.mailSettings),
       tracking_settings: this.convertEmptyStringToUndefined(this.trackingSettings),
     };
-    return await this.sendgrid.sendEmail(config);
+    return this.sendgrid.sendEmail(config);
   },
 };

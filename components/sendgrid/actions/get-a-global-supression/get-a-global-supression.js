@@ -30,6 +30,6 @@ module.exports = {
       email: this.email,
     }, constraints);
     this.checkValidationResults(validationResult);
-    return await this.sendgrid.getGlobalSupression(this.email);
+    return this.sendgrid.getGlobalSupression(this.email);
   },
 };

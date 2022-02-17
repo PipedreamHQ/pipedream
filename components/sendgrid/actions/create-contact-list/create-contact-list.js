@@ -16,6 +16,6 @@ module.exports = {
     },
   },
   async run() {
-    return await this.sendgrid.createContactList(this.name);
+    return this.sendgrid.createContactList(this.name);
   },
 };

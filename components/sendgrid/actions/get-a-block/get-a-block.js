@@ -29,6 +29,6 @@ module.exports = {
       email: this.email,
     }, constraints);
     this.checkValidationResults(validationResult);
-    return await this.sendgrid.getBlock(this.email);
+    return this.sendgrid.getBlock(this.email);
   },
 };

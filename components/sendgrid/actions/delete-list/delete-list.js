@@ -26,6 +26,6 @@ module.exports = {
   },
   async run() {
     this.deleteContacts = !!this.deleteContacts;
-    return await this.sendgrid.deleteList(this.id, this.deleteContacts);
+    return this.sendgrid.deleteList(this.id, this.deleteContacts);
   },
 };
