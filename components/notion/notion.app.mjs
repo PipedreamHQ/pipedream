@@ -5,6 +5,18 @@ export default {
   type: "app",
   app: "notion",
   propDefinitions: {
+    databaseId: {
+      type: "string",
+      label: "Database ID",
+      description: "The identifier for a Notion database",
+      async options({ prevContext }) {
+        const response = await this.listDatabases({
+          start_cursor: prevContext.nextPageParameters ?? undefined,
+        });
+        const options = this.extractDatabaseTitleOptions(response.results);
+        return this.buildPaginatedOptions(options, response.next_cursor);
+      },
+    },
     pageId: {
       type: "string",
       label: "Page ID",
@@ -13,30 +25,8 @@ export default {
         const response = await this.searchPage(undefined, {
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
-
-        const options = response.results.map((page) => {
-          let title = Object.values(page.properties)
-            .map((property) => {
-              if (property.type === "title" && property.title.length > 0) {
-                return property.title
-                  .map((title) => title.plain_text)
-                  .filter((title) => title.length > 0)
-                  .reduce((prev, next) => prev + next);
-              }
-            })
-            .filter((title) => title);
-          return {
-            label: title[0] ?? "Untitled",
-            value: page.id,
-          };
-        });
-
-        return {
-          options,
-          context: {
-            nextPageParameters: response.next_cursor,
-          },
-        };
+        const options = this.extractPageTitleOptions(response.results);
+        return this.buildPaginatedOptions(options, response.next_cursor);
       },
     },
     title: {
@@ -79,6 +69,65 @@ export default {
     _getNotionClient() {
       return new notion.Client({
         auth: this.$auth.oauth_access_token,
+      });
+    },
+    extractDatabaseTitleOptions(databases) {
+      const options = databases.map((database) => {
+        const title = database.title
+          .map((title) => title.plain_text)
+          .filter((title) => title.length > 0)
+          .reduce((prev, next) => prev + next);
+        return {
+          label: title ?? "Untitled",
+          value: database.id,
+        };
+      });
+      return options;
+    },
+    extractPageTitleOptions(pages) {
+      const options = pages.map((page) => {
+        const title = Object.values(page.properties)
+          .map((property) => {
+            if (property.type === "title" && property.title.length > 0) {
+              return property.title
+                .map((title) => title.plain_text)
+                .filter((title) => title.length > 0)
+                .reduce((prev, next) => prev + next);
+            }
+          })
+          .filter((title) => title);
+        return {
+          label: title[0] ?? "Untitled",
+          value: page.id,
+        };
+      });
+      return options;
+    },
+    extractDatabaseTitle(database) {
+      return this.extractDatabaseTitleOptions([
+        database,
+      ])[0].label;
+    },
+    extractPageTitle(page) {
+      return this.extractPageTitleOptions([
+        page,
+      ])[0].label;
+    },
+    buildPaginatedOptions(options, nextPageParameters) {
+      return {
+        options,
+        context: {
+          nextPageParameters,
+        },
+      };
+    },
+    async listDatabases(params = {}) {
+      return await this._getNotionClient().search({
+        filter: {
+          property: "object",
+          value: "database",
+        },
+        ...params,
       });
     },
     async createPage(page) {
