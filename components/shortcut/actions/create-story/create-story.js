@@ -364,6 +364,7 @@ module.exports = {
         task,
       ];
     }
-    return this.shortcut.callWithRetry("createStory", story);
+    const resp = await this.shortcut.callWithRetry("createStory", story);
+    return resp.data;
   },
 };
