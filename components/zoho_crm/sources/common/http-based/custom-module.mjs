@@ -1,9 +1,6 @@
 import sortBy from "loadsh/sortBy.js";
 import base from "./predefined-module.mjs";
 
-/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
-  pipedream/required-properties-version, pipedream/required-properties-description,
-  pipedream/required-properties-type */
 export default {
   ...base,
   props: {

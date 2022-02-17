@@ -1,8 +1,5 @@
 import zohoCrm from "../../../zoho_crm.app.js";
 
-/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
-  pipedream/required-properties-version, pipedream/required-properties-description,
-  pipedream/required-properties-type */
 export default {
   dedupe: "unique",
   props: {
