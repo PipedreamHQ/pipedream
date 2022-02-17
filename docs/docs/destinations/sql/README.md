@@ -29,30 +29,30 @@ Then, add the **Table Name** and **Payload** you want to send to the SQL Destina
 <img alt="Sending data to SQL table using the action" src="./images/send-data-to-sql-table.png">
 </div>
 
-The **Payload** must be a JavaScript object or reference a JavaScript object like `event` or `steps`. The **Payload** cannot be an arrays of JavaScript objects. If you need to send an array of objects to a SQL table, [send them in a loop, using `$send.sql()`](#using-send-sql).
+The **Payload** must be a JavaScript object or reference a JavaScript object like `event` or `steps`. The **Payload** cannot be an arrays of JavaScript objects. If you need to send an array of objects to a SQL table, [send them in a loop, using `$.send.sql()`](#using-send-sql).
 
 Typically, your **Payload** will be something like `event`, `event.body` or a [step export](/workflows/steps/#step-exports) like `steps.nodejs.myData`.
 
-### Using `$send.sql()`
+### Using `$.send.sql()`
 
-You can send data to a SQL Destination in [Node.js code steps](/workflows/steps/code/), too, using the `$send.sql()` function. **This allows you to send data to the SQL Destination programmatically, if you need more control than Actions afford**.
+You can send data to a SQL Destination in [Node.js code steps](/workflows/steps/code/), too, using the `$.send.sql()` function. **This allows you to send data to the SQL Destination programmatically, if you need more control than Actions afford**.
 
-`$send.sql()` takes the same parameters as the corresponding Action:
+`$.send.sql()` takes the same parameters as the corresponding Action:
 
 ```javascript
-$send.sql({
+$.send.sql({
   table: "your_table_name",
   payload: event,
 });
 ```
 
-Like with any `$send` function, you can use `$send.sql()` conditionally, within a loop, or anywhere you'd use a function normally in Node.js.
+Like with any `$.send` function, you can use `$.send.sql()` conditionally, within a loop, or anywhere you'd use a function normally in Node.js.
 
 For example, if you have an array of JavaScript objects, and you want to add _each_ object as a new row to a table in the SQL Service, you can iterate over the array and send each object like so:
 
 ```javascript
 for (const payload of your_array_of_objects) {
-  $send.sql({
+  $.send.sql({
     table: "your_table_name",
     payload,
   });

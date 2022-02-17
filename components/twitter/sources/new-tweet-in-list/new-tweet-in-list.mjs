@@ -5,7 +5,7 @@ export default {
   key: "twitter-new-tweet-in-list",
   name: "New Tweet in List",
   description: "Emit new Tweets posted by members of a list",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     ...base.props,
