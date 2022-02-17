@@ -2,7 +2,7 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "sendinblue-",
+  key: "sendinblue-add-new-contact",
   name: "Add a new contact",
   description: "Add a new contact and list",
   version: "0.2.1",
