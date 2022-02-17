@@ -1,6 +1,6 @@
 # Security Best Practices
 
-Pipedream implements a range of [privacy and security measures](/privacy-and-security/) meant to protect your data from unauthorized access. Since Pipedream [workflows](/workflows), [event sources](/event-sources), and other resources can run any Node.js code and process any event data, you also have a responsibility to ensure you handle that code and data securely. We've outlined a handful of best practices for that below.
+Pipedream implements a range of [privacy and security measures](/privacy-and-security/) meant to protect your data from unauthorized access. Since Pipedream [workflows](/workflows/), [event sources](/event-sources/), and other resources can run any Node.js code and process any event data, you also have a responsibility to ensure you handle that code and data securely. We've outlined a handful of best practices for that below.
 
 [[toc]]
 
