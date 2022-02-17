@@ -5,7 +5,7 @@ export default {
   name: "Create Issue",
   description: "Create an issue. See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
   type: "action",
-  version: "0.0.17",
+  version: "0.0.1",
   props: {
     linearApp,
     teamId: {
