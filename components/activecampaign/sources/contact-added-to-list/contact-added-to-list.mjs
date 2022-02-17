@@ -1,22 +1,30 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common-webhook.js");
+import activecampaign from "../../activecampaign.app.mjs";
+import constants from "../../common/constants.mjs";
+import common from "../common/webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
-  name: "New Contact Added to List",
+  name: "New Contact Added to List (Instant)",
   key: "activecampaign-contact-added-to-list",
-  description: "Emits an event each time a new contact is added to a list.",
-  version: "0.0.2",
+  description: "Emit new event each time a new contact is added to a list.",
+  version: "0.0.3",
+  type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
-    lists: { propDefinition: [activecampaign, "lists"] },
+    lists: {
+      propDefinition: [
+        activecampaign,
+        "lists",
+      ],
+    },
   },
   hooks: {
     async activate() {
       const sources =
         this.sources.length > 0
           ? this.sources
-          : this.activecampaign.getAllSources();
+          : constants.ALL_SOURCES;
       const hookIds = [];
       const events = this.getEvents();
       if (this.lists.length > 0) {
@@ -26,7 +34,7 @@ module.exports = {
               events,
               this.http.endpoint,
               sources,
-              list
+              list,
             );
             hookIds.push(webhook.id);
           }
@@ -38,13 +46,13 @@ module.exports = {
           this.db.set("hookIds", []);
           throw new Error(err);
         }
-      } 
+      }
       // if no lists specified, create a webhook to watch all lists
       else {
         const { webhook } = await this.activecampaign.createHook(
           events,
           this.http.endpoint,
-          sources
+          sources,
         );
         hookIds.push(webhook.id);
       }
@@ -60,7 +68,9 @@ module.exports = {
   methods: {
     ...common.methods,
     getEvents() {
-      return ["subscribe"];
+      return [
+        "subscribe",
+      ];
     },
     async getMeta(body) {
       const { list } = await this.activecampaign.getList(body.list);

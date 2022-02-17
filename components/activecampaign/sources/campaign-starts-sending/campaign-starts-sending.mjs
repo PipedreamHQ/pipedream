@@ -1,16 +1,19 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common-webhook.js");
+import common from "../common/webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "Campaign Starts Sending (Instant)",
   key: "activecampaign-campaign-starts-sending",
-  description: "Emits an event each time a campaign starts sending.",
-  version: "0.0.1",
+  description: "Emit new event each time a campaign starts sending.",
+  version: "0.0.2",
+  type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEvents() {
-      return ["sent"];
+      return [
+        "sent",
+      ];
     },
     getMeta(body) {
       const { date_time: dateTimeIso } = body;
@@ -18,7 +21,7 @@ module.exports = {
       return {
         id: body["campaign[id]"],
         summary: body["campaign[name]"],
-        ts
+        ts,
       };
     },
   },

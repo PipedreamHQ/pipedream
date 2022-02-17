@@ -1,15 +1,21 @@
-const activecampaign = require("../activecampaign.app.js");
-const common = require("./common.js");
+import activecampaign from "../../activecampaign.app.mjs";
+import constants from "../../common/constants.mjs";
+import common from "./base.mjs";
 
-module.exports = {
+export default {
   ...common,
   props: {
     ...common.props,
     http: "$.interface.http",
-    sources: { propDefinition: [activecampaign, "sources"] },
+    sources: {
+      propDefinition: [
+        activecampaign,
+        "sources",
+      ],
+    },
   },
   methods: {
-    isRelevant(body) {
+    isRelevant() {
       return true;
     },
   },
@@ -18,11 +24,11 @@ module.exports = {
       const sources =
         this.sources.length > 0
           ? this.sources
-          : this.activecampaign.getAllSources();
+          : constants.ALL_SOURCES;
       const hookData = await this.activecampaign.createHook(
         this.getEvents(),
         this.http.endpoint,
-        sources
+        sources,
       );
       this.db.set("hookId", hookData.webhook.id);
     },

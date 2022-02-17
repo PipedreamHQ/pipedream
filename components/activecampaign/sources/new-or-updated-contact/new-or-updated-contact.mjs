@@ -1,16 +1,20 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common-webhook.js");
+import common from "../common/webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New or Updated Contact (Instant)",
   key: "activecampaign-new-or-updated-contact",
-  description: "Emits an event each time a contact is added or updated.",
-  version: "0.0.1",
+  description: "Emit new event each time a contact is added or updated.",
+  version: "0.0.2",
+  type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getEvents() {
-      return ["subscribe", "update"];
+      return [
+        "subscribe",
+        "update",
+      ];
     },
     getMeta(body) {
       const { date_time: dateTimeIso } = body;
@@ -18,7 +22,7 @@ module.exports = {
       return {
         id: `${body["contact[id]"]}${new Date(body.date_time).getTime()}`,
         summary: body["contact[email]"],
-        ts
+        ts,
       };
     },
   },

@@ -1,19 +1,28 @@
-const activecampaign = require("../../activecampaign.app.js");
-const common = require("../common-webhook.js");
+import activecampaign from "../../activecampaign.app.mjs";
+import common from "../common/webhook.mjs";
 
-module.exports = {
+export default {
   ...common,
   name: "New Contact Task",
   key: "activecampaign-new-contact-task",
-  description: "Emits an event each time a new contact task is created.",
-  version: "0.0.1",
+  description: "Emit new event each time a new contact task is created.",
+  version: "0.0.2",
+  type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
-    contacts: { propDefinition: [activecampaign, "contacts"] },
+    contacts: {
+      propDefinition: [
+        activecampaign,
+        "contacts",
+      ],
+    },
   },
   methods: {
     getEvents() {
-      return ["contact_task_add"];
+      return [
+        "contact_task_add",
+      ];
     },
     isRelevant(body) {
       return (
@@ -27,7 +36,7 @@ module.exports = {
       return {
         id: body["task[id]"],
         summary: `${body["task[title]"]}`,
-        ts
+        ts,
       };
     },
   },
