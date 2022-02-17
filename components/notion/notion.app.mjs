@@ -1,5 +1,5 @@
 import notion from "@notionhq/client";
-import common from "./common.mjs";
+import common from "./actions/common.mjs";
 
 export default {
   type: "app",

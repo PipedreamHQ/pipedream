@@ -1,5 +1,5 @@
 import notion from "../../notion.app.mjs";
-import common from "../../common.mjs";
+import common from "../common.mjs";
 
 export default {
   key: "notion-create-page",
