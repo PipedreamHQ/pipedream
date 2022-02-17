@@ -13,7 +13,9 @@ export default {
       app: "trello",
     },
   },
-  async run({ $ }) {
+  async run({
+    steps, $,
+  }) {
     return await axios($, {
 
       url: "https://api.trello.com/1/cards/" + steps.nodejs.$return_value,
