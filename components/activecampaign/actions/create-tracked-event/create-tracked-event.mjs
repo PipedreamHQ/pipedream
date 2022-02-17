@@ -2,12 +2,16 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "app_placeholder-activecampaign-tracked-event",
+  key: "activecampaign-create-tracked-event",
   name: "Create Tracked Event",
   description: "Tracks an event using event tracking.",
   version: "0.1.1",
   type: "action",
   props: {
+    activecampaign: {
+      type: "app",
+      app: "activecampaign",
+    },
     key: {
       type: "string",
       description: "This value is unique to your ActiveCampaign account and can be found named \"Event Key\" on Settings > Tracking > Event Tracking inside your ActiveCampaign account.",
