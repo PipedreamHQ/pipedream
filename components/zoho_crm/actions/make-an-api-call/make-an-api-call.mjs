@@ -25,11 +25,11 @@ export default {
     },
     relative_url: {
       type: "string",
-      description: "A path relative to Xero Accounting API to send the request against.",
+      description: "A path relative to Zoho CRM API to send the request against.",
     },
     headers: {
       type: "object",
-      description: "Headers to send in the request. Must include header `xero-tenant-id` with Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+      description: "Headers to send in the request.",
     },
     request_body: {
       type: "object",
@@ -38,7 +38,7 @@ export default {
     },
   },
   async run({ $ }) {
-  // See Quickbooks Rest Accounting API docs at: https://www.zoho.com/crm/developer/docs/api/v2/modules-api.html
+    // See Zoho CRM API docs at: https://www.zoho.com/crm/developer/docs/api/v2/modules-api.html
 
     if (!this.request_method || !this.relative_url) {
       throw new Error("Must provide request_method, and relative_url parameters.");
