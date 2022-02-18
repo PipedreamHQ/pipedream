@@ -8,10 +8,6 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     timezone: {
       type: "string",
       description: "The IANA timezone name, e.g. `America/Los_Angeles`. [See the full list here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).",

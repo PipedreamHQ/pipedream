@@ -6,10 +6,6 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     bucket: {
       type: "string",
       label: "S3 Bucket",

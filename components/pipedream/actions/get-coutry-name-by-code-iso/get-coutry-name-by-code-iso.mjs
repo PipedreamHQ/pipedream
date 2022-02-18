@@ -6,10 +6,6 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     countryCode: {
       type: "string",
       description: "The 2 letter capitalized country code",

@@ -8,10 +8,6 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     rss_feeds: {
       type: "any",
       description: "The URL(s) of the RSS Feeds",

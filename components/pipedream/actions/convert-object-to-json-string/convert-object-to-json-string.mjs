@@ -6,10 +6,6 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     object: {
       type: "string",
       description: "The JavaScript object you'd like to convert to a JSON string",

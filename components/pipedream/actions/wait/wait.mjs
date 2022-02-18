@@ -6,10 +6,6 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     ms: {
       type: "string",
       label: "Number of milliseconds to wait",

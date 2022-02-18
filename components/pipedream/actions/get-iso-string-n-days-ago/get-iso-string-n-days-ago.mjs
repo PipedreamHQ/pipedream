@@ -8,10 +8,6 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     days: {
       type: "string",
       label: "N Days Ago",

@@ -8,10 +8,6 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     host: {
       type: "string",
       description: "The hostname or IP address of your SMTP server",

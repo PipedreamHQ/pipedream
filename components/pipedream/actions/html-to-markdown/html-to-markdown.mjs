@@ -8,10 +8,6 @@ export default {
   version: "1.0.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     input: {
       type: "string",
       label: "HTML",

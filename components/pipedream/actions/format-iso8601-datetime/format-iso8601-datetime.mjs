@@ -8,10 +8,6 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     iso8601: {
       type: "string",
       label: "ISO 8601 Date/Time",

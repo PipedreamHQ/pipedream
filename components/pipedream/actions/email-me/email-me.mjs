@@ -6,10 +6,6 @@ export default {
   version: "0.4.1",
   type: "action",
   props: {
-    pipedream: {
-      type: "app",
-      app: "pipedream",
-    },
     subject: {
       type: "string",
     },
