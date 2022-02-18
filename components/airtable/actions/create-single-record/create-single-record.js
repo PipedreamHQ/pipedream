@@ -5,7 +5,7 @@ module.exports = {
   key: "airtable-create-single-record",
   name: "Create single record",
   description: "Adds a record to a table.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     ...common.props,
