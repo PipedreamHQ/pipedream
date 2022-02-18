@@ -39,23 +39,11 @@ export default {
       type: "string",
       label: "Channel ID",
       description: "The ID of the channel",
-      async options({
-        teamId, page,
-      }) {
-        const top = constants.DEFAULT_PAGE_LIMIT;
-
-        const resp =
+      async options({ teamId }) {
+        const { value: channels } =
           await this.microsoftTeams.listChannels({
             teamId,
-            params: {
-              count: true,
-              skip: page * top,
-              top,
-            },
           });
-
-        console.log("resp", resp);
-        const { value: channels } = resp;
 
         return channels.map(({
           id, displayName,
@@ -170,9 +158,6 @@ export default {
         params,
       });
     },
-    // Channel.Create
-    // Directory.ReadWrite.All
-    // Group.ReadWrite.All
     async createChannel({
       teamId, content,
     }) {
@@ -182,12 +167,11 @@ export default {
         content,
       });
     },
-    async listChannels({
-      teamId, params,
-    }) {
+    // This endpoint doesn't seem to support pagination!
+    // https://docs.microsoft.com/en-us/graph/api/channel-list?view=graph-rest-1.0&tabs=javascript#optional-query-parameters
+    async listChannels({ teamId }) {
       return this.makeRequest({
         path: `/teams/${teamId}/channels`,
-        params,
       });
     },
     async listChats({ params }) {
@@ -234,7 +218,6 @@ export default {
         params,
       });
     },
-    // Team.ReadBasic.All
     async listAllTeamsInOrg({ params }) {
       return this.makeRequest({
         path: "/teams",
