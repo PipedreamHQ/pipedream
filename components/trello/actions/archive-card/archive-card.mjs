@@ -10,10 +10,24 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Id Card",
-      description: "The ID of the Card to archive.",
+      label: "Card",
+      description: "The ID of the Card to archive",
+      optional: false,
     },
   },
   async run({ $ }) {
@@ -37,6 +51,8 @@ export default {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.trello.archiveCard(this.idCard, $);
+    const res = await this.trello.archiveCard(this.idCard, $);
+    $.export("$summary", `Successfully archived card ${this.idCard}`);
+    return res;
   },
 };

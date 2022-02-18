@@ -11,9 +11,11 @@ export default {
   props: {
     ...common.props,
     boardId: {
-      type: "string",
-      label: "Board Id",
-      description: "The ID of the Board to close.",
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+      description: "The ID of the Board to close",
     },
   },
   async run({ $ }) {
@@ -37,6 +39,8 @@ export default {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.trello.closeBoard(this.boardId, $);
+    const res = await this.trello.closeBoard(this.boardId, $);
+    $.export("$summary", `Successfully closed board ${this.boardId}`);
+    return res;
   },
 };

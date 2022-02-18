@@ -10,10 +10,34 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    idChecklist: {
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
+    idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Id Checklist",
-      description: "The ID of a checklist to delete. Must match pattern `^[0-9a-fA-F]{24}$`.",
+      label: "Card",
+      description: "The ID of the card containing the checklist do delete",
+      optional: false,
+    },
+    idChecklist: {
+      propDefinition: [
+        common.props.trello,
+        "checklist",
+        (c) => ({
+          card: c.idCard,
+        }),
+      ],
+      description: "The ID of the checklist to delete",
     },
   },
   async run({ $ }) {
@@ -35,6 +59,7 @@ export default {
     },
     constraints);
     this.checkValidationResults(validationResult);
-    return this.trello.deleteChecklist(this.idChecklist, $);
+    await this.trello.deleteChecklist(this.idChecklist, $);
+    $.export("$summary", `Successfully deleted checklist ${this.idChecklist}`);
   },
 };

@@ -10,10 +10,24 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Id Card",
-      description: "The ID of the Card that the checklist should be added to. Must match pattern `^[0-9a-fA-F]{24}$`.",
+      label: "Card",
+      description: "The ID of the Card that the checklist should be added to",
+      optional: false,
     },
     name: {
       type: "string",
@@ -24,15 +38,17 @@ export default {
     pos: {
       type: "string",
       label: "Position",
-      description:
-        "The position of the new checklist. Valid values: `top`, `bottom`, or a positive float.",
+      description: "The position of the new checklist. Valid values: `top`, `bottom`, or a positive float.",
       optional: true,
     },
     idChecklistSource: {
-      type: "string",
-      label: "Id Checklist Source",
-      description: "The ID of a checklist to copy into the new checklist. Must match pattern `^[0-9a-fA-F]{24}$`.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "checklist",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
     },
   },
   async run({ $ }) {
@@ -106,6 +122,8 @@ export default {
     const validationResult = validate(opts,
       constraints);
     this.checkValidationResults(validationResult);
-    return this.trello.createChecklist(opts, $);
+    const res = await this.trello.createChecklist(opts, $);
+    $.export("$summary", `Successfully created checklist ${res.name}`);
+    return res;
   },
 };

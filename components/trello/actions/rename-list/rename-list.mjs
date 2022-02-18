@@ -10,16 +10,29 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     listId: {
+      propDefinition: [
+        common.props.trello,
+        "lists",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "List Id",
-      description: "The ID of the List to rename.",
+      label: "List",
+      description: "The ID of the List to rename",
+      optional: false,
     },
     name: {
       type: "string",
       label: "Name",
-      description: "The new name of the list.",
-      optional: true,
+      description: "The new name of the list",
     },
   },
   async run({ $ }) {
@@ -47,8 +60,10 @@ export default {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.trello.renameList(this.listId, {
+    const res = await this.trello.renameList(this.listId, {
       name: this.name,
     }, $);
+    $.export("$summary", `Successfully renamed list to ${this.name}`);
+    return res;
   },
 };

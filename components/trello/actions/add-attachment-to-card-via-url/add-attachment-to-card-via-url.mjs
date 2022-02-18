@@ -10,10 +10,24 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Id Card",
-      description: "The ID of the Card to add the Attachment on. Must match pattern `^[0-9a-fA-F]{24}$`.",
+      label: "Card",
+      description: "The ID of the Card to add the Attachment to",
+      optional: false,
     },
     name: {
       type: "string",
@@ -25,7 +39,6 @@ export default {
       type: "string",
       label: "File URL",
       description: "A URL to a file you'd like to attach. Must start with http:// or https://.",
-      optional: true,
     },
     mimeType: {
       type: "string",
@@ -90,11 +103,13 @@ export default {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.trello.addAttachmentToCardViaUrl(idCard, {
+    const res = await this.trello.addAttachmentToCardViaUrl(idCard, {
       name,
       url,
       mimeType,
       setCover,
     }, $);
+    $.export("$summary", `Successfully added attachement to card ${idCard}`);
+    return res;
   },
 };

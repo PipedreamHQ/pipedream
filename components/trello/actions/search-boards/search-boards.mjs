@@ -19,8 +19,11 @@ export default {
     idBoards: {
       propDefinition: [
         common.props.trello,
-        "idBoards",
+        "board",
       ],
+      type: "string[]",
+      label: "Boards",
+      description: "Board IDs where cards will be searched in",
     },
     idOrganizations: {
       propDefinition: [
@@ -86,6 +89,8 @@ export default {
       boards_limit: this.boardsLimit,
       partial: this.partial,
     };
-    return this.trello.searchBoards(opts, $);
+    const res = await this.trello.searchBoards(opts, $);
+    $.export("$summary", "Successfully retrieved results");
+    return res;
   },
 };

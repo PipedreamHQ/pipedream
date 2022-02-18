@@ -10,10 +10,24 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Id Card",
-      description: "The ID of the card to create a new comment on. Must match pattern `^[0-9a-fA-F]{24}$`.",
+      label: "Card",
+      description: "The ID of the card to create a new comment on",
+      optional: false,
     },
     comment: {
       type: "string",
@@ -46,6 +60,8 @@ export default {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.trello.createCommentOnCard(this.idCard, this.comment, $);
+    const res = await this.trello.createCommentOnCard(this.idCard, this.comment, $);
+    $.export("$summary", `Successfully added comment to card ${this.idCard}`);
+    return res;
   },
 };

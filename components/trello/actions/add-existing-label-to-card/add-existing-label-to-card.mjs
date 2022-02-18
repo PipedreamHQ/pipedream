@@ -10,15 +10,33 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Id Card",
-      description: "The ID of the Card to add the Label on.",
+      label: "Card",
+      description: "The ID of the Card to add the Label to",
+      optional: false,
     },
     idLabel: {
-      type: "string",
-      label: "Id Label",
-      description: "The ID of the Label to be added to the card.",
+      propDefinition: [
+        common.props.trello,
+        "label",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
     },
   },
   async run({ $ }) {
@@ -54,8 +72,10 @@ export default {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.trello.addExistingLabelToCard(this.idCard, {
+    const res = await this.trello.addExistingLabelToCard(this.idCard, {
       value: this.idLabel,
     }, $);
+    $.export("$summary", `Successfully added label ${this.idLabel} to card ${this.idCard}`);
+    return res;
   },
 };

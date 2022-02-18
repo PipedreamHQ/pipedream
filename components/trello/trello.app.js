@@ -43,8 +43,7 @@ module.exports = {
       type: "string[]",
       label: "Event Types",
       optional: true,
-      description:
-        "Only emit events for the selected event types (e.g., `updateCard`).",
+      description: "Only emit events for the selected event types (e.g., `updateCard`).",
       options: events,
     },
     lists: {
@@ -63,31 +62,73 @@ module.exports = {
     query: {
       type: "string",
       label: "Query",
-      description: "The search query with a length of 1 to 16384 characters.",
+      description: "The search query with a length of 1 to 16384 characters",
     },
     idBoards: {
       type: "string",
       label: "Id Boards",
-      description: "The special value `mine` or a comma-separated list of Board IDs where cards will be searched in.",
+      description: "The special value `mine` or a comma-separated list of Board IDs where cards will be searched in",
       optional: true,
     },
     idOrganizations: {
       type: "string[]",
       label: "Id Organizations",
-      description: "An string array of Organizations IDs where cards will be searched in.",
+      description: "An string array of Organizations IDs where cards will be searched in",
       optional: true,
     },
     modelTypes: {
       type: "string",
       label: "Model Types",
-      description: "What type or types of Trello objects you want to search. `all` or a comma-separated list of: `actions`, `boards`, `cards`, `members`, `organizations`.",
+      description: "The type or types of Trello objects you want to search. `all` or a comma-separated list of: `actions`, `boards`, `cards`, `members`, `organizations`",
       default: "all",
     },
     partial: {
       type: "boolean",
       label: "Partial Search?",
-      description: "Specifying partial to be true means that Trello will search for content that starts with any of the words in `query`. when searching for an object titled \"My Development Status Report\", by default a solution is to search for \"Development\". If partial is enabled, a search for \"dev\" is possible, however, a search for \"velopment\" is not possible.",
+      description: "Specifying partial to be true means that Trello will search for content that starts with any of the words in `query`. When searching for an object titled \"My Development Status Report\", by default a solution is to search for \"Development\". If partial is enabled, a search for \"dev\" is possible, however, a search for \"velopment\" is not possible.",
       default: false,
+    },
+    label: {
+      type: "string",
+      label: "Label",
+      description: "The ID of the Label to be added to the card",
+      async options(opts) {
+        const labels = await this.findLabel(opts.board);
+        return labels.map((label) => ({
+          label: label.name,
+          value: label.id,
+        }));
+      },
+    },
+    member: {
+      type: "string",
+      label: "Member",
+      description: "The ID of the Member to be added to the card",
+      async options(opts) {
+        const members = await this.listMembers(opts.board);
+        return members.map((member) => ({
+          label: member.fullName,
+          value: member.id,
+        }));
+      },
+    },
+    checklist: {
+      type: "string",
+      label: "Checklist",
+      description: "The ID of a checklist to copy into the new checklist",
+      async options(opts) {
+        const {
+          board,
+          card,
+        } = opts;
+        const checklists = card ?
+          await this.listCardChecklists(card) :
+          await this.listBoardChecklists(board);
+        return checklists.map((checklist) => ({
+          label: checklist.name,
+          value: checklist.id,
+        }));
+      },
     },
   },
   methods: {
@@ -618,6 +659,27 @@ module.exports = {
         "none",
         "open",
       ];
+    },
+    async listMembers(board) {
+      const config = {
+        url: `${this._getBaseUrl()}boards/${board}/members`,
+        method: "GET",
+      };
+      return this._makeRequest(config);
+    },
+    async listBoardChecklists(board) {
+      const config = {
+        url: `${this._getBaseUrl()}boards/${board}/checklists`,
+        method: "GET",
+      };
+      return this._makeRequest(config);
+    },
+    async listCardChecklists(card) {
+      const config = {
+        url: `${this._getBaseUrl()}cards/${card}/checklists`,
+        method: "GET",
+      };
+      return this._makeRequest(config);
     },
   },
 };

@@ -10,6 +10,12 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     name: {
       type: "string",
       label: "Name",
@@ -25,8 +31,7 @@ export default {
     pos: {
       type: "string",
       label: "Position",
-      description:
-        "The position of the new card. Valid values: `top`, `bottom`, or a positive float.",
+      description: "The position of the new card. Valid values: `top`, `bottom`, or a positive float.",
       optional: true,
     },
     due: {
@@ -42,20 +47,42 @@ export default {
       optional: true,
     },
     idList: {
+      propDefinition: [
+        common.props.trello,
+        "lists",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Id List",
-      description: "The ID of the list the card should be created in. Must match pattern `^[0-9a-fA-F]{24}$`.",
+      label: "List",
+      description: "The ID of the list the card should be created in.",
+      optional: false,
     },
     idMembers: {
-      type: "object",
-      label: "Id Members",
-      description: "Array of member IDs to add to the card.",
+      propDefinition: [
+        common.props.trello,
+        "member",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+      type: "string[]",
+      label: "Members",
+      description: "Array of member IDs to add to the card",
       optional: true,
     },
     idLabels: {
-      type: "object",
-      label: "Id Labels",
-      description: "Array of label IDs to add to the card.",
+      propDefinition: [
+        common.props.trello,
+        "label",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+      type: "string[]",
+      label: "Labels",
+      description: "Array of labelIDs to add to the card",
       optional: true,
     },
     urlSource: {
@@ -77,16 +104,21 @@ export default {
       optional: true,
     },
     idCardSource: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
       label: "Id Card Source",
-      description: "The ID of a card to copy into the new card. Must match pattern `^[0-9a-fA-F]{24}$`.",
-      optional: true,
+      description: "The ID of a card to copy into the new card",
     },
     keepFromSource: {
       type: "string",
       label: "Keep From Source",
-      description:
-        "If using `idCardSource` you can specify which properties to copy over. `all` or comma-separated list of: `attachments`, `checklists` , `comments`, `due`, `labels`, `members`, `stickers`.",
+      description: "If using `idCardSource` you can specify which properties to copy over. `all` or comma-separated list of: `attachments`, `checklists` , `comments`, `due`, `labels`, `members`, `stickers`.",
       optional: true,
     },
     address: {
@@ -104,12 +136,29 @@ export default {
     coordinates: {
       type: "string",
       label: "Coordinates",
-      description:
-        "Latitude, longitude coordinates. For use with/by the Map Power-Up. Should take the form `lat, long`.",
+      description: "Latitude, longitude coordinates. For use with/by the Map Power-Up. Should take the form `lat, long`.",
       optional: true,
     },
   },
   async run({ $ }) {
+    const {
+      name,
+      desc,
+      pos,
+      due,
+      dueComplete,
+      idList,
+      idMembers,
+      idLabels,
+      urlSource,
+      fileSource,
+      mimeType,
+      idCardSource,
+      keepFromSource,
+      address,
+      locationName,
+      coordinates,
+    } = this;
     const constraints = {
       idList: {
         presence: true,
@@ -128,17 +177,16 @@ export default {
         },
       },
     };
-    if (this.pos) {
-      const posValidationMesssage =
-        "contains invalid values. Valid values are: `top`, `bottom`, or a positive float.";
-      if (validate.isNumber(this.pos)) {
+    if (pos) {
+      const posValidationMesssage = "Contains invalid values. Valid values are: `top`, `bottom`, or a positive float.";
+      if (validate.isNumber(pos)) {
         constraints.pos = {
           numericality: {
             greaterThanOrEqualTo: 0,
           },
           message: posValidationMesssage,
         };
-      } else if (validate.isString(this.pos)) {
+      } else if (validate.isString(pos)) {
         const options = [
           "top",
           "bottom",
@@ -156,27 +204,27 @@ export default {
         };
       }
     }
-    if (this.due) {
+    if (due) {
       constraints.due = {
         type: "date",
       };
     }
-    if (this.idMembers) {
+    if (idMembers) {
       constraints.idMembers = {
         type: "array",
       };
     }
-    if (this.idLabels) {
+    if (idLabels) {
       constraints.idLabels = {
         type: "array",
       };
     }
-    if (this.urlSource) {
+    if (urlSource) {
       constraints.urlSource = {
         url: true,
       };
     }
-    if (this.idCardSource) {
+    if (idCardSource) {
       constraints.idCardSource = {
         format: {
           pattern: "^[0-9a-fA-F]{24}$",
@@ -188,7 +236,7 @@ export default {
         },
       };
     }
-    if (this.keepFromSource) {
+    if (keepFromSource) {
       validate.validators.keepFromSourceValidator = function (
         keepFromSource,
         options,
@@ -220,7 +268,7 @@ export default {
         keepFromSourceValidator: options,
       };
     }
-    if (this.coordinates) {
+    if (coordinates) {
       constraints.coordinates = {
         format: {
           pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$",
@@ -237,37 +285,39 @@ export default {
     }
     const validationResult = validate(
       {
-        idList: this.idList,
-        idCardSource: this.idCardSource,
-        mimeType: this.mimeType,
-        idMembers: this.idMembers,
-        idLabels: this.idLabels,
-        pos: this.pos,
-        due: this.due,
-        urlSource: this.urlSource,
-        keepFromSource: this.keepFromSource,
-        coordinates: this.coordinates,
+        idList,
+        idCardSource,
+        mimeType,
+        idMembers,
+        idLabels,
+        pos,
+        due,
+        urlSource,
+        keepFromSource,
+        coordinates,
       },
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.trello.createCard({
-      name: this.name,
-      desc: this.desc,
-      pos: this.pos,
-      due: this.due,
-      dueComplete: this.dueComplete,
-      idList: this.idList,
-      idMembers: this.idMembers,
-      idLabels: this.idLabels,
-      urlSource: this.urlSource,
-      fileSource: this.fileSource,
-      mimeType: this.mimeType,
-      idCardSource: this.idCardSource,
-      keepFromSource: this.keepFromSource,
-      address: this.address,
-      locationName: this.locationName,
-      coordinates: this.locationName,
+    const res = await this.trello.createCard({
+      name,
+      desc,
+      pos,
+      due,
+      dueComplete,
+      idList,
+      idMembers,
+      idLabels,
+      urlSource,
+      fileSource,
+      mimeType,
+      idCardSource,
+      keepFromSource,
+      address,
+      locationName,
+      coordinates,
     }, $);
+    $.export("$summary", `Successfully created card ${res.id}`);
+    return res;
   },
 };

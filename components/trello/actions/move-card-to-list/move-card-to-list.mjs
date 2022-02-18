@@ -10,23 +10,37 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    idCard: {
-      type: "string",
-      label: "Id Card",
-      description: "The ID of the Card to move.",
-    },
     board: {
       propDefinition: [
         common.props.trello,
         "board",
       ],
-      label: "To Id Board",
-      description: "The ID of the board the card should be moved to. Must match pattern `^[0-9a-fA-F]{24}$`.",
+    },
+    idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+      type: "string",
+      label: "Card",
+      description: "The ID of the card to move",
+      optional: false,
     },
     toIdList: {
+      propDefinition: [
+        common.props.trello,
+        "lists",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "To Id List",
+      label: "List",
       description: "The ID of the list that the card should be moved to.",
+      optional: false,
     },
   },
   async run({ $ }) {
@@ -74,9 +88,11 @@ export default {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.trello.moveCardToList(this.idCard, {
+    const res = await this.trello.moveCardToList(this.idCard, {
       idBoard: this.board,
       idList: this.toIdList,
     }, $);
+    $.export("$summary", `Successfully moved card ${this.idCard} to list ${this.toIdList}`);
+    return res;
   },
 };

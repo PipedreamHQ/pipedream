@@ -10,10 +10,24 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Id Card",
-      description: "The ID of the card to be updated. Must match pattern `^[0-9a-fA-F]{24}$`.",
+      label: "Card",
+      description: "The ID of the card to be updated",
+      optional: false,
     },
     name: {
       type: "string",
@@ -47,24 +61,29 @@ export default {
       optional: true,
     },
     idList: {
-      type: "string",
-      label: "Id List",
-      description: "The ID of the list the card should be created in. Must match pattern `^[0-9a-fA-F]{24}$`.",
-      optional: true,
-    },
-    idLabels: {
-      type: "string[]",
-      label: "Id Labels",
-      description: "Array of label IDs to add to the card.",
-      optional: true,
-    },
-    board: {
       propDefinition: [
         common.props.trello,
-        "board",
+        "lists",
+        (c) => ({
+          board: c.board,
+        }),
       ],
-      label: "Id Board",
-      description: "The ID of the board containing the card to update is located. Must match pattern `^[0-9a-fA-F]{24}$`.",
+      type: "string",
+      label: "List",
+      description: "The ID of the list the card should be created in",
+    },
+    idLabels: {
+      propDefinition: [
+        common.props.trello,
+        "label",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+      type: "string[]",
+      label: "Labels",
+      description: "Array of labelIDs to add to the card",
+      optional: true,
     },
     pos: {
       type: "string",
@@ -292,6 +311,8 @@ export default {
     if (this.cover) {
       opts.cover = this.cover;
     }
-    return this.trello.updateCard(this.idCard, opts, $);
+    const res = await this.trello.updateCard(this.idCard, opts, $);
+    $.export("$summary", `Successfully updated card ${res.idCard}`);
+    return res;
   },
 };

@@ -4,7 +4,7 @@ import common from "../common.js";
 export default {
   ...common,
   key: "trello-find-labels",
-  name: "Find a label",
+  name: "Find a Label",
   description: "Finds a label on a specific board by name.",
   version: "0.1.2",
   type: "action",
@@ -15,12 +15,11 @@ export default {
         common.props.trello,
         "board",
       ],
-      label: "Id Board",
-      description: "Unique identifier of the board to search for labels. Must match pattern `^[0-9a-fA-F]{24}$`.",
+      description: "Unique identifier of the board to search for labels",
     },
     name: {
       type: "string",
-      label: "label Name",
+      label: "Label Name",
       description: "Name of the label to find.",
     },
     labelLimit: {
@@ -65,6 +64,8 @@ export default {
       limit: this.labelLimit,
     };
     const labels = await this.trello.findLabel(this.board, opts, $);
-    return this.getMatches(labels, this.name);
+    const res = this.getMatches(labels, this.name);
+    $.export("$summary", `Successfully retrieved labels with name ${this.name}`);
+    return res;
   },
 };

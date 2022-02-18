@@ -10,10 +10,24 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     cardId: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Card Id",
-      description: "The ID of the card to get details of.",
+      label: "Card",
+      description: "The ID of the card to get details of",
+      optional: false,
     },
   },
   async run({ $ }) {
@@ -35,6 +49,8 @@ export default {
     },
     constraints);
     this.checkValidationResults(validationResult);
-    return this.trello.getCard(this.cardId, $);
+    const res = await this.trello.getCard(this.cardId, $);
+    $.export("$summary", `Successfully retrieved card ${this.cardId}`);
+    return res;
   },
 };

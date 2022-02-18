@@ -10,14 +10,33 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
     idCard: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      label: "Id Card",
-      description: "The ID of the Card to remove the Label from.",
+      label: "Card",
+      description: "The ID of the Card to remove the Label from",
+      optional: false,
     },
     idLabel: {
-      type: "string",
-      label: "Id Label",
+      propDefinition: [
+        common.props.trello,
+        "label",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       description: "The ID of the Label to be removed from the card.",
     },
   },
@@ -54,8 +73,10 @@ export default {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    return this.trello.removeLabelFromCard(this.idCard,
+    const res = await this.trello.removeLabelFromCard(this.idCard,
       this.idLabel,
       $);
+    $.export("$summary", `Successfully removed label ${this.idLabel} to list ${this.idCard}`);
+    return res;
   },
 };

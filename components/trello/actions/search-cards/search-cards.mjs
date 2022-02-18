@@ -19,8 +19,11 @@ export default {
     idBoards: {
       propDefinition: [
         common.props.trello,
-        "idBoards",
+        "board",
       ],
+      type: "string[]",
+      label: "Boards",
+      description: "Board IDs where cards will be searched in",
     },
     idOrganizations: {
       propDefinition: [
@@ -35,10 +38,14 @@ export default {
       ],
     },
     idCards: {
-      type: "string[]",
-      label: "Id Cards",
-      description: "An string array of Cards IDs. Search will be done on these cards.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+      description: "The card IDs to search",
     },
     cardFields: {
       propDefinition: [
@@ -103,7 +110,7 @@ export default {
         numericality: {
           greaterThanOrEqualTo: 1,
           lessThanOrEqualTo: 1000,
-          message: "must be a positive integer greater than or equal to 1, and less than or equal to 1000.",
+          message: "Must be a positive integer greater than or equal to 1, and less than or equal to 1000.",
         },
       },
       cardsPage: {
@@ -111,7 +118,7 @@ export default {
         numericality: {
           greaterThanOrEqualTo: 0,
           lessThanOrEqualTo: 100,
-          message: "must be a positive integer greater than or equal to 1, and less than or equal to 100.",
+          message: "Must be a positive integer greater than or equal to 1, and less than or equal to 100.",
         },
       },
     };
@@ -149,6 +156,8 @@ export default {
       card_attachments: this.cardAttachments,
       partial: this.partial,
     };
-    return this.trello.searchCards(opts, $);
+    const res = await this.trello.searchCards(opts, $);
+    $.export("$summary", "Successfully retrieved results");
+    return res;
   },
 };
