@@ -44,6 +44,7 @@ module.exports = {
         ],
       },
     ],
+    smoothScroll: false,
     // if your docs are not at the root of the repo:
     docsDir: "docs/docs",
     editLinks: true,
@@ -65,6 +66,7 @@ module.exports = {
           "/environment-variables/",
           "/workflows/settings/",
           "/workflows/networking/",
+          "/migrate-from-v1/",
         ]
       },
       "/sources/",

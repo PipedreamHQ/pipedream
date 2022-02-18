@@ -6,8 +6,7 @@ export default {
   key: "trello-find-list",
   name: "Find a List",
   description: "Finds a list on a specific board by name.",
-  //version: "0.0.1",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

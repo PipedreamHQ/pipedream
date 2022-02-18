@@ -125,8 +125,7 @@ export default {
     coordinates: {
       type: "string",
       label: "Coordinates",
-      description:
-        "For use with/by the Map Power-Up. Should take the form latitude, longitude.",
+      description: "For use with/by the Map Power-Up. Should take the form latitude, longitude.",
       optional: true,
     },
     cover: {
