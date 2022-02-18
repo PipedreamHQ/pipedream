@@ -5,7 +5,7 @@ import lodash from "lodash";
 export default {
   key: "firebase_admin_sdk-replicate-event-firestore",
   name: "Save Event to Firestore",
-  version: "0.4.1",
+  version: "0.4.2",
   type: "action",
   props: {
     firebase_admin_sdk: {
@@ -46,9 +46,8 @@ export default {
     const db = admin.firestore();
     const deliveryId = this.deliveryId;
 
-    $.export("updates", []);
-    this.updates.push(`updating ${deliveryId}`);
-    let that = this;
+    let updates = [];
+    updates.push(`updating ${deliveryId}`);
 
     const p1 = db.collection(this.firestoreCollection).doc(deliveryId)
       .set(lodash.assign({}, this.data, {
@@ -57,20 +56,24 @@ export default {
         },
       }))
       .then(function() {
-        that.updates.push("Updated successfully");
+        updates.push("Updated successfully");
         app.delete().then(function() {
-          that.updates.push("App deleted successfully");
+          updates.push("App deleted successfully");
         })
           .catch(function(error) {
-            that.updates.push("Error deleting app:", error);
+            updates.push("Error deleting app:", error);
           });
       })
       .catch(function(error) {
-        that.updates.push("Error writing:", error);
+        updates.push("Error writing:", error);
       });
 
-    return Promise.all([
+    const result = await Promise.all([
       p1,
     ]);
+
+    $.export("updates", updates);
+
+    return result;
   },
 };
