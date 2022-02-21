@@ -14,7 +14,7 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
-      description: "The drive you want to watch for changes",
+      description: "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
     },
     watchForPropertiesChanges: {
       propDefinition: [

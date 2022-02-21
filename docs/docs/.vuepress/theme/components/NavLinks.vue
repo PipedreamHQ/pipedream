@@ -1,7 +1,7 @@
 <template>
   <nav v-if="userLinks.length || repoLink" class="nav-links">
     <!-- user links -->
-    <div v-for="item in userLinks" :key="item.link" class="nav-item">
+    <div v-for="item in userLinks" :key="item.link" class="nav-item" :class="item.className">
       <DropdownLink v-if="item.type === 'links'" :item="item" />
       <NavLink v-else :item="item" />
     </div>
@@ -123,7 +123,6 @@ export default {
     margin-right: 1.2em;
   }
 
-
   a {
     line-height: 1.4rem;
     color: inherit;
@@ -148,6 +147,14 @@ export default {
 
   .repo-link {
     margin-left: 0.75rem;
+  }
+
+  .docs-version {
+    .dropdown-title, .nav-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 1.2em;
+    }
   }
 }
 

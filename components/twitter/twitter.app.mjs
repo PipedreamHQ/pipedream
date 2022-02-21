@@ -502,7 +502,7 @@ export default {
       }));
     },
     async *scanFollowerIds(screenName) {
-      const url = "https://api.twitter.com/1.1/followers/ids.json?";
+      const url = "https://api.twitter.com/1.1/followers/ids.json";
       const baseParams = {
         screen_name: screenName,
         stringify_ids: true,
@@ -565,7 +565,7 @@ export default {
         includeEntities = false,
         includeRetweets = false,
       } = opts;
-      const url = "https://api.twitter.com/1.1/lists/statuses.json?";
+      const url = "https://api.twitter.com/1.1/lists/statuses.json";
       const params = {
         list_id: listId,
         since_id: sinceId,

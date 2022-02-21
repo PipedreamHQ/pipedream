@@ -4,7 +4,7 @@ export default {
   key: "google_docs-get-document",
   name: "Get Document",
   description: "Get the contents of the latest version of a document.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     googleDocs,
