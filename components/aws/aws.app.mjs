@@ -1,22 +1,43 @@
 import AWS from "aws-sdk";
-import awsRegions from "./regions.mjs";
+import common from "./common.mjs";
 import { generateRandomUniqueName } from "./sources/common/utils.mjs";
+import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
+import {
+  InvokeCommand,
+  ListFunctionsCommand,
+} from "@aws-sdk/client-lambda";
 
 export default {
   type: "app",
   app: "aws",
   propDefinitions: {
     region: {
+      type: "string",
       label: "AWS Region",
       description: "The AWS region string where you'd like to create your SNS topic",
-      type: "string",
-      default: "us-east-1",
-      options({ page = 0 }) {
-        if (page !== 0) {
-          return [];
+      default: common.defaultRegion,
+      async options() {
+        try {
+          const response = await this.listRegions();
+          return response.Regions
+            .map((regionInfo) => regionInfo.RegionName)
+            .sort();
+        } catch (error) {
+          // Retrieval of available regions can fail if the registered account
+          // does not have enough permissions to call the EC2 `DescribeRegions`
+          // API. In that case, we default to the static list of regions.
+          console.log(`Could not retrieve available regions from AWS. ${error}, falling back to default regions`);
+          return common.awsRegions;
         }
-
-        return this._getAvailableRegions();
+      },
+    },
+    lambdaFunction: {
+      type: "string",
+      label: "Function Name",
+      description: "The name of your Lambda function. Also accepts a function ARN",
+      async options({ region }) {
+        const response = await this.listLambdaFunctions(region);
+        return response.Functions.map((fn) => fn.FunctionName);
       },
     },
     logGroupNames: {
@@ -99,33 +120,18 @@ export default {
       });
       return AWS;
     },
-    async _getAvailableRegions() {
-      let awsResponse;
-      try {
-        awsResponse = await this
-          ._getEc2Client()
-          .describeRegions()
-          .promise();
-      } catch (error) {
-        // Retrieval of available regions can fail if the registered account
-        // does not have enough permissions to call the EC2 `DescribeRegions`
-        // API. In that case, we default to the static list of regions.
-        console.log(`Could not retrieve available regions from AWS: ${error}`);
-        return awsRegions;
-      }
-
-      return awsResponse
-        .Regions
-        .map((regionInfo) => regionInfo.RegionName)
-        .sort();
+    _getAWSClient(clientType, region = common.defaultRegion) {
+      return new common.awsClients[clientType]({
+        credentials: {
+          accessKeyId: this.$auth.accessKeyId,
+          secretAccessKey: this.$auth.secretAccessKey,
+        },
+        region,
+      });
     },
     _getCloudWatchLogsClient(region) {
       const AWS = this.sdk(region);
       return new AWS.CloudWatchLogs();
-    },
-    _getEc2Client(region = "us-east-1") {
-      const AWS = this.sdk(region);
-      return new AWS.EC2();
     },
     _getIamClient(region) {
       const AWS = this.sdk(region);
@@ -157,6 +163,9 @@ export default {
       const { Account } = await this._getSTSClient(region).getCallerIdentity()
         .promise();
       return Account;
+    },
+    decodeResponsePayload(response) {
+      response.Payload = JSON.parse(new TextDecoder("utf-8").decode(response.Payload) || {});
     },
     /**
      * This method creates an IAM role for an AWS service. The role will be
@@ -425,6 +434,25 @@ export default {
         nextSequenceToken,
         rejectedLogEventsInfo,
       };
+    },
+    async listRegions() {
+      const client = this._getAWSClient("ec2");
+      return await client.send(new DescribeRegionsCommand({}));
+    },
+    async listLambdaFunctions(Region) {
+      const client = this._getAWSClient("lambda", Region);
+      return await client.send(new ListFunctionsCommand({
+        Region,
+      }));
+    },
+    async invokeLambdaFunction(Region, FunctionName, Payload = {}) {
+      const client = this._getAWSClient("lambda", Region);
+      return await client.send(new InvokeCommand({
+        FunctionName,
+        Payload,
+        InvocationType: "RequestResponse",
+        LogType: "Tail",
+      }));
     },
   },
 };
