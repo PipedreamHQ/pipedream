@@ -1,3 +1,4 @@
+import { axios } from "@pipedream/platform";
 import { Client } from "@microsoft/microsoft-graph-client";
 import "isomorphic-fetch";
 import constants from "./common/constants.mjs";
@@ -14,14 +15,24 @@ export default {
         const top = constants.DEFAULT_PAGE_LIMIT;
 
         const resp =
-          await this.listAllTeamsInOrg({
+          await this.listJoinedTeams({
             params: {
               count: true,
               skip: page * top,
               top,
-              version: "beta",
             },
           });
+
+        // const resp =
+        //   await this.listTeams({
+        //     params: {
+        //       count: true,
+        //       skip: page * top,
+        //       top,
+        //       version: "beta",
+        //     },
+        //   });
+
         console.log("resp", resp);
 
         const { value: teams } = resp;
@@ -32,6 +43,7 @@ export default {
           value: id,
           label: displayName,
         }));
+
         // return this.getTeamsOptions();
       },
     },
@@ -152,6 +164,32 @@ export default {
             : reduction;
         }, api);
     },
+    getRequestHeaders(config) {
+      const authorization = `Bearer ${this.$auth.oauth_access_token}`;
+      return {
+        ...config?.headers,
+        authorization,
+      };
+    },
+    async makeRequestV2(customConfig) {
+      const {
+        $,
+        path,
+        ...otherConfig
+      } = customConfig;
+
+      const headers = this.getRequestHeaders(otherConfig);
+      const url = `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
+
+      const config = {
+        ...otherConfig,
+        headers,
+        url,
+        timeout: 10000,
+      };
+
+      return axios($ ?? this, config);
+    },
     async listUsers({ params }) {
       return this.makeRequest({
         path: "/users",
@@ -198,12 +236,6 @@ export default {
         content,
       });
     },
-    // Directory.AccessAsUser.All
-    // Directory.Read.All
-    // Directory.ReadWrite.All
-    // Group.Read.All
-    // Group.ReadWrite.All
-    // GroupMember.Read.All
     async listGroups({ params }) {
       return this.makeRequest({
         path: "/groups",
@@ -218,14 +250,14 @@ export default {
         params,
       });
     },
-    async listAllTeamsInOrg({ params }) {
+    async listTeams({ params }) {
       return this.makeRequest({
         path: "/teams",
         params,
       });
     },
     async listJoinedTeams({ params }) {
-      return this.makeRequest({
+      return this.makeRequestV2({
         path: "/me/joinedTeams",
         params,
       });
@@ -239,17 +271,21 @@ export default {
         });
       console.log("groups", groups);
       return groups
-        .filter(({ resourceProvisioningOptions }) => {
+        .filter(({ resourceProvisioningOptions: options }) => {
           const [
             option,
-          ] = resourceProvisioningOptions;
+          ] = options;
           return option === constants.TEAM_PROVISIONING_OPTION;
         })
         .map(({ id }) => id);
     },
     async getTeams() {
+      // Get a list of groups
+      // https://docs.microsoft.com/en-us/graph/teams-list-all-teams?view=graph-rest-1.0#get-a-list-of-groups
       const groupIds = await this.getTeamGroupIds();
 
+      // Get team information for a group
+      // https://docs.microsoft.com/en-us/graph/teams-list-all-teams?view=graph-rest-1.0#get-team-information-for-a-group
       const promises =
         groupIds.map((groupId) =>
           this.getTeam({

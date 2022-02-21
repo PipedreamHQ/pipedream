@@ -15,7 +15,7 @@ export default {
 
     const resourcesStream =
       await this.microsoftTeams.getResourcesStream({
-        resourceFn: this.microsoftTeams.listAllTeamsInOrg,
+        resourceFn: this.microsoftTeams.listTeams,
         resourceFnArgs: {
           params: {
             select: "id,displayName,description",
