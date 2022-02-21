@@ -41,8 +41,8 @@ module.exports = {
       description: "`all` or a comma-separated list of board [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#board-object)",
       options: fields.board,
       default: [
-        "name", 
-        "idOrganization"
+        "name",
+        "idOrganization",
       ],
     },
     cardFields: {
