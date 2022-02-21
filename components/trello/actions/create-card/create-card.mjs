@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "trello-create-card",
   name: "Create Card",
-  description: "Creates a new card.",
+  description: "Creates a new card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -17,34 +17,36 @@ export default {
       ],
     },
     name: {
-      type: "string",
-      label: "Name",
+      propDefinition: [
+        common.props.trello,
+        "name",
+      ],
       description: "The name of the card.",
-      optional: true,
+      optional: false,
     },
     desc: {
-      type: "string",
-      label: "Description",
-      description: "The description for the card.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "desc",
+      ],
     },
     pos: {
-      type: "string",
-      label: "Position",
-      description: "The position of the new card. Valid values: `top`, `bottom`, or a positive float.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "pos",
+      ],
     },
     due: {
-      type: "string",
-      label: "Due Date",
-      description: "The due date for the card.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "due",
+      ],
     },
     dueComplete: {
-      type: "boolean",
-      label: "Due Complete",
-      description: "Flag that indicates if `dueDate` expired.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "dueComplete",
+      ],
     },
     idList: {
       propDefinition: [
@@ -86,22 +88,23 @@ export default {
       optional: true,
     },
     urlSource: {
-      type: "string",
-      label: "Url Source",
-      description: "A URL starting with `http://` or `https://`.",
+      propDefinition: [
+        common.props.trello,
+        "url",
+      ],
       optional: true,
-    },
+    }
     fileSource: {
       type: "string",
-      label: "File Source",
-      description: "Format: `binary`.",
+      label: "File Attachment Contents",
+      description: "Value must be in binary format",
       optional: true,
     },
     mimeType: {
-      type: "string",
-      label: "Mime Type",
-      description: "The mimeType of the attachment. Max length 256.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "mimeType",
+      ],
     },
     idCardSource: {
       propDefinition: [
@@ -112,32 +115,42 @@ export default {
         }),
       ],
       type: "string",
-      label: "Id Card Source",
-      description: "The ID of a card to copy into the new card",
+      label: "Copy Card",
+      description: "Specify an existing card to copy contents from",
     },
     keepFromSource: {
-      type: "string",
-      label: "Keep From Source",
-      description: "If using `idCardSource` you can specify which properties to copy over. `all` or comma-separated list of: `attachments`, `checklists` , `comments`, `due`, `labels`, `members`, `stickers`.",
+      type: "string[]",
+      label: "Copy From Source",
+      description: "Specify which properties to copy from the source card",
+      options: [
+        "all",
+        "attachments",
+        "checklists",
+        "comments",
+        "due",
+        "labels",
+        "members",
+        "stickers",
+      ],
       optional: true,
     },
     address: {
-      type: "string",
-      label: "Address",
-      description: "For use with/by the Map Power-Up.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "address",
+      ],
     },
     locationName: {
-      type: "string",
-      label: "Location Name",
-      description: "For use with/by the Map Power-Up.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "locationName",
+      ],
     },
     coordinates: {
-      type: "string",
-      label: "Coordinates",
-      description: "Latitude, longitude coordinates. For use with/by the Map Power-Up. Should take the form `lat, long`.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "coordinates",
+      ],
     },
   },
   async run({ $ }) {
@@ -159,24 +172,7 @@ export default {
       locationName,
       coordinates,
     } = this;
-    const constraints = {
-      idList: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid List id", {
-              id: value,
-            });
-          },
-        },
-      },
-      mimeType: {
-        length: {
-          maximum: 256,
-        },
-      },
-    };
+    const constraints = {};
     if (pos) {
       const posValidationMesssage = "Contains invalid values. Valid values are: `top`, `bottom`, or a positive float.";
       if (validate.isNumber(pos)) {
@@ -209,63 +205,9 @@ export default {
         type: "date",
       };
     }
-    if (idMembers) {
-      constraints.idMembers = {
-        type: "array",
-      };
-    }
-    if (idLabels) {
-      constraints.idLabels = {
-        type: "array",
-      };
-    }
     if (urlSource) {
       constraints.urlSource = {
         url: true,
-      };
-    }
-    if (idCardSource) {
-      constraints.idCardSource = {
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Card Source id", {
-              id: value,
-            });
-          },
-        },
-      };
-    }
-    if (keepFromSource) {
-      validate.validators.keepFromSourceValidator = function (
-        keepFromSource,
-        options,
-      ) {
-        let isValid = true;
-        if (keepFromSource.length == 1) {
-          isValid = keepFromSource.includes("all");
-        } else {
-          keepFromSource.forEach((keepFromSourceValue) => {
-            isValid &= options.includes(keepFromSourceValue);
-          });
-        }
-        if (isValid) {
-          return null;
-        }
-        return "contains invalid values. Valid values are: a one element array with `all` as value or an multiple element array containing one or more of `attachments`, `checklists`, `comments`, `due`, `labels`, `members`, `stickers`.";
-      };
-      const options = [
-        "attachments",
-        "checklists",
-        "comments",
-        "due",
-        "labels",
-        "members",
-        "stickers",
-      ];
-      constraints.keepFromSource = {
-        type: "array",
-        keepFromSourceValidator: options,
       };
     }
     if (coordinates) {
@@ -285,15 +227,9 @@ export default {
     }
     const validationResult = validate(
       {
-        idList,
-        idCardSource,
-        mimeType,
-        idMembers,
-        idLabels,
         pos,
         due,
         urlSource,
-        keepFromSource,
         coordinates,
       },
       constraints,

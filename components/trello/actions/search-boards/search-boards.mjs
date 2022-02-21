@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "trello-search-boards",
   name: "Search Boards",
-  description: "Searches for boards matching the specified query.",
+  description: "Searches for boards matching the specified query. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get)",
   version: "0.2.2",
   type: "action",
   props: {
@@ -39,10 +39,10 @@ export default {
       ],
     },
     boardFields: {
-      type: "string",
-      label: "Boards Fields",
-      description: "`all` or a comma-separated list of: `closed`, `dateLastActivity`, `dateLastView`, `desc`, `descData`, `idOrganization`, `invitations`, `invited`, `labelNames`, `memberships`, `name`, `pinned`, `powerUps`, `prefs`, `shortLink`, `shortUrl`, `starred`, `subscribed`, `url`.",
-      default: "name, idOrganization",
+      propDefinition: [
+        common.props.trello,
+        "boardFields",
+      ],
     },
     boardsLimit: {
       type: "integer",
@@ -54,7 +54,6 @@ export default {
   async run({ $ }) {
     const constraints = {
       query: {
-        presence: true,
         length: {
           minimum: 1,
           maximum: 16384,
@@ -69,15 +68,9 @@ export default {
         },
       },
     };
-    if (this.idOrganizations) {
-      constraints.idOrganizations = {
-        type: "array",
-      };
-    }
     const validationResult = validate({
       query: this.query,
       boardsLimit: this.boardsLimit,
-      idOrganizations: this.idOrganizations,
     }, constraints);
     this.checkValidationResults(validationResult);
     const opts = {

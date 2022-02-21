@@ -1,11 +1,10 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
   ...common,
   key: "trello-delete-checklist",
   name: "Delete Checklist",
-  description: "Deletes the specified checklist.",
+  description: "Deletes the specified checklist. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-id-delete)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -41,24 +40,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const constraints = {
-      idChecklist: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Checklist id", {
-              id: value,
-            });
-          },
-        },
-      },
-    };
-    const validationResult = validate({
-      idChecklist: this.idChecklist,
-    },
-    constraints);
-    this.checkValidationResults(validationResult);
     await this.trello.deleteChecklist(this.idChecklist, $);
     $.export("$summary", `Successfully deleted checklist ${this.idChecklist}`);
   },

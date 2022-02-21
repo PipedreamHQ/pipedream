@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "trello-update-card",
   name: "Update Card",
-  description: "Updates a card.",
+  description: "Updates a card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
   version: "0.1.2",
   type: "action",
   props: {
@@ -30,16 +30,18 @@ export default {
       optional: false,
     },
     name: {
-      type: "string",
-      label: "Name",
+      propDefinition: [
+        common.props.trello,
+        "name",
+      ],
       description: "The new name for the card.",
-      optional: true,
     },
     desc: {
-      type: "string",
-      label: "Description",
+      propDefinition: [
+        common.props.trello,
+        "desc",
+      ],
       description: "The new description for the card.",
-      optional: true,
     },
     closed: {
       type: "boolean",
@@ -48,9 +50,16 @@ export default {
       default: false,
     },
     idMembers: {
+      propDefinition: [
+        common.props.trello,
+        "member",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string[]",
       label: "Id Members",
-      description: "String array of member IDs to add to the card.",
+      description: "Array of member IDs to add to the card.",
       optional: true,
     },
     idAttachmentCover: {
@@ -86,21 +95,22 @@ export default {
       optional: true,
     },
     pos: {
-      type: "string",
-      label: "Position",
-      description:
-        "The position of the new card. Valid values: `top`, `bottom`, or a positive float.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "pos",
+      ],
     },
     due: {
-      type: "string",
-      label: "Due Date",
-      description: "When the card is due, or `null`.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "due",
+      ],
     },
     dueComplete: {
-      type: "boolean",
-      label: "Due Complete",
+      propDefinition: [
+        common.props.trello,
+        "dueComplete",
+      ],
       description: "Whether the due date should be marked complete.",
       default: false,
     },
@@ -111,85 +121,38 @@ export default {
       default: false,
     },
     address: {
-      type: "string",
-      label: "Address",
-      description: "For use with/by the Map Power-Up.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "address",
+      ],
     },
     locationName: {
-      type: "string",
-      label: "Location Name",
-      description: "For use with/by the Map Power-Up.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "locationName",
+      ],
     },
     coordinates: {
-      type: "string",
-      label: "Coordinates",
-      description: "For use with/by the Map Power-Up. Should take the form latitude, longitude.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "coordinates",
+      ],
     },
     cover: {
       type: "object",
       label: "Cover",
-      description:
-        "Updates the card's cover.",
+      description: "Updates the card's cover.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const constraints = {
-      idCard: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Card id", {
-              id: value,
-            });
-          },
-        },
-      },
-    };
-    if (this.idMembers) {
-      constraints.idMembers = {
-        type: "array",
-      };
-    }
+    const constraints = {};
     if (this.idAttachmentCover) {
       constraints.idAttachmentCover = {
         format: {
           pattern: "^[0-9a-fA-F]{24}$",
           message: function (value) {
             return validate.format("^%{id} is not a valid Attachment Cover id", {
-              id: value,
-            });
-          },
-        },
-      };
-    }
-    if (this.idList) {
-      constraints.idList = {
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid List id", {
-              id: value,
-            });
-          },
-        },
-      };
-    }
-    if (this.idLabels) {
-      constraints.idLabels = {
-        type: "array",
-      };
-    }
-    if (this.board) {
-      constraints.board = {
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Board id", {
               id: value,
             });
           },
@@ -246,12 +209,7 @@ export default {
     }
     const validationResult = validate(
       {
-        idCard: this.idCard,
-        idMembers: this.idMembers,
         idAttachmentCover: this.idAttachmentCover,
-        idList: this.idList,
-        idLabels: this.idLabels,
-        board: this.board,
         pos: this.pos,
         due: this.due,
         coordinates: this.coordinates,

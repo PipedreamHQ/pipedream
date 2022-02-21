@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "trello-search-cards",
   name: "Search Cards",
-  description: "Searches for cards matching the specified query.",
+  description: "Searches for cards matching the specified query. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get)",
   version: "0.1.2",
   type: "action",
   props: {
@@ -99,7 +99,6 @@ export default {
   async run({ $ }) {
     const constraints = {
       query: {
-        presence: true,
         length: {
           minimum: 1,
           maximum: 16384,
@@ -122,22 +121,10 @@ export default {
         },
       },
     };
-    if (this.idCards) {
-      constraints.idCards = {
-        type: "array",
-      };
-    }
-    if (this.idOrganizations) {
-      constraints.idOrganizations = {
-        type: "array",
-      };
-    }
     const validationResult = validate({
       query: this.query,
       cardsLimit: this.cardsLimit,
       cardsPage: this.cardsPage,
-      idCards: this.idCards,
-      idOrganizations: this.idOrganizations,
     }, constraints);
     this.checkValidationResults(validationResult);
     const opts = {

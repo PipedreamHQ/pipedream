@@ -1,11 +1,10 @@
-import validate from "validate.js";
 import common from "../common";
 
 export default {
   ...common,
   key: "trello-add-remove-label-from-card",
   name: "Remove a Label from a Card",
-  description: "Removes an existing label from the specified card.",
+  description: "Removes an existing label from the specified card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-idlabel-delete)",
   version: "0.1.2",
   type: "action",
   props: {
@@ -41,38 +40,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const constraints = {
-      idCard: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Card id", {
-              id: value,
-            });
-          },
-        },
-      },
-      idLabel: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Label id", {
-              id: value,
-            });
-          },
-        },
-      },
-    };
-    const validationResult = validate(
-      {
-        idCard: this.idCard,
-        idLabel: this.idLabel,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     const res = await this.trello.removeLabelFromCard(this.idCard,
       this.idLabel,
       $);

@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "trello-add-attachment-to-card-via-url",
   name: "Add Attachment to Card via URL",
-  description: "Adds a file attachment on a card by referencing a public URL.",
+  description: "Adds a file attachment on a card by referencing a public URL. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-attachments-post)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -30,21 +30,22 @@ export default {
       optional: false,
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the attachment. Max length 256.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "name",
+      ],
     },
     url: {
-      type: "string",
-      label: "File URL",
-      description: "A URL to a file you'd like to attach. Must start with http:// or https://.",
+      propDefinition: [
+        common.props.trello,
+        "url",
+      ],
     },
     mimeType: {
-      type: "string",
-      label: "Mime Type",
-      description: "The mimeType of the attachment. Max length 256.",
-      optional: true,
+      propDefinition: [
+        common.props.trello,
+        "mimeType",
+      ],
     },
     setCover: {
       type: "boolean",
@@ -61,19 +62,7 @@ export default {
       mimeType,
       setCover,
     } = this;
-    const constraints = {
-      idCard: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Card id", {
-              id: value,
-            });
-          },
-        },
-      },
-    };
+    const constraints = {};
     if (name) {
       constraints.name = {
         length: {
@@ -95,7 +84,6 @@ export default {
     }
     const validationResult = validate(
       {
-        idCard,
         name,
         url,
         mimeType,

@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "trello-find-labels",
   name: "Find a Label",
-  description: "Finds a label on a specific board by name.",
+  description: "Finds a label on a specific board by name. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-labels-get)",
   version: "0.1.2",
   type: "action",
   props: {
@@ -18,9 +18,13 @@ export default {
       description: "Unique identifier of the board to search for labels",
     },
     name: {
-      type: "string",
+      propDefinition: [
+        common.props.trello,
+        "name",
+      ],
       label: "Label Name",
       description: "Name of the label to find.",
+      optional: false,
     },
     labelLimit: {
       type: "integer",
@@ -31,20 +35,6 @@ export default {
   },
   async run({ $ }) {
     const constraints = {
-      board: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Board id", {
-              id: value,
-            });
-          },
-        },
-      },
-      name: {
-        presence: true,
-      },
       labelLimit: {
         type: "integer",
         numericality: {
@@ -55,8 +45,6 @@ export default {
       },
     };
     const validationResult = validate({
-      board: this.board,
-      name: this.name,
       labelLimit: this.labelLimit,
     }, constraints);
     this.checkValidationResults(validationResult);

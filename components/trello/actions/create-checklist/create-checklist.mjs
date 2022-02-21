@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "trello-create-checklist",
   name: "Create Checklist",
-  description: "Creates a checklist on the specified card.",
+  description: "Creates a checklist on the specified card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -30,16 +30,18 @@ export default {
       optional: false,
     },
     name: {
-      type: "string",
-      label: "Name",
+      propDefinition: [
+        common.props.trello,
+        "name",
+      ],
       description: "The name of the checklist. Should be a string of length 1 to 16384.",
-      optional: true,
     },
     pos: {
-      type: "string",
-      label: "Position",
+      propDefinition: [
+        common.props.trello,
+        "pos",
+      ],
       description: "The position of the new checklist. Valid values: `top`, `bottom`, or a positive float.",
-      optional: true,
     },
     idChecklistSource: {
       propDefinition: [
@@ -52,19 +54,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const constraints = {
-      idCard: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Card id", {
-              id: value,
-            });
-          },
-        },
-      },
-    };
+    const constraints = {};
     if (this.name) {
       constraints.name = {
         length: {
@@ -101,23 +91,9 @@ export default {
         };
       }
     }
-    if (this.idChecklistSource) {
-      constraints.idChecklistSource = {
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Checklist Source id", {
-              id: value,
-            });
-          },
-        },
-      };
-    }
     const opts = {
-      idCard: this.idCard,
       name: this.name,
       pos: this.pos,
-      idChecklistSource: this.idChecklistSource,
     };
     const validationResult = validate(opts,
       constraints);

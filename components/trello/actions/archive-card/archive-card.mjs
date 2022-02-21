@@ -1,11 +1,10 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
   ...common,
   key: "trello-archive-card",
   name: "Archive Card",
-  description: "Archives a card.",
+  description: "Archives a card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
   version: "0.1.2",
   type: "action",
   props: {
@@ -31,26 +30,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const constraints = {
-      idCard: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Card id", {
-              id: value,
-            });
-          },
-        },
-      },
-    };
-    const validationResult = validate(
-      {
-        idCard: this.idCard,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     const res = await this.trello.archiveCard(this.idCard, $);
     $.export("$summary", `Successfully archived card ${this.idCard}`);
     return res;

@@ -1,6 +1,8 @@
 const { axios } = require("@pipedream/platform");
 const crypto = require("crypto");
 const events = require("./events.js");
+const fields = require("./fields.js");
+const mime = require("mime");
 
 module.exports = {
   type: "app",
@@ -33,11 +35,24 @@ module.exports = {
         }));
       },
     },
-    cardFields: {
+    boardFields: {
       type: "string",
+      label: "Boards Fields",
+      description: "`all` or a comma-separated list of board [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#board-object)",
+      options: fields.board,
+      default: [
+        "name", 
+        "idOrganization"
+      ],
+    },
+    cardFields: {
+      type: "string[]",
       label: "Cards Fields",
-      description: "`all` or a comma-separated list of card [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#card-object): `badges`, `checkItemStates`, `closed`, `dateLastActivity`, `desc`, `descData`, `due`, `email`, `idAttachmentCover`, `idBoard`, `idChecklists`, `idLabels`, `idList`, `idMembers`, `idMembersVoted`, `idShort`, `labels`, `manualCoverAttachment`, `name`, `pos`, `shortLink`, `shortUrl`, `subscribed`, `url`.",
-      default: "all",
+      description: "`all` or a list of card [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#card-object)",
+      options: fields.card,
+      default: [
+        "all",
+      ],
     },
     eventTypes: {
       type: "string[]",
@@ -129,6 +144,86 @@ module.exports = {
           value: checklist.id,
         }));
       },
+    },
+    mimeType: {
+      type: "string",
+      label: "Mime Type",
+      description: "The mimeType of the attachment. Not required for URL attachments",
+      optional: true,
+      options() {
+        return Object.values(mime._types);
+      },
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the attachment",
+      optional: true,
+    },
+    url: {
+      type: "string",
+      label: "File URL",
+      description: "A URL to a file you'd like to attach. Must start with http:// or https://.",
+    },
+    desc: {
+      type: "string",
+      label: "Description",
+      description: "The description for the card",
+      optional: true,
+    },
+    pos: {
+      type: "string",
+      label: "Position",
+      description: "The position of the new card. Valid values: `top`, `bottom`, or a positive float",
+      optional: true,
+    },
+    due: {
+      type: "string",
+      label: "Due Date",
+      description: "Card due date in ISO format",
+      optional: true,
+    },
+    dueComplete: {
+      type: "boolean",
+      label: "Due Complete",
+      description: "Flag that indicates if `dueDate` expired",
+      optional: true,
+    },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "For use with/by the Map Power-Up",
+      optional: true,
+    },
+    locationName: {
+      type: "string",
+      label: "Location Name",
+      description: "For use with/by the Map Power-Up",
+      optional: true,
+    },
+    coordinates: {
+      type: "string",
+      label: "Coordinates",
+      description: "Latitude, longitude coordinates. For use with/by the Map Power-Up. Should take the form `lat, long`.",
+      optional: true,
+    },
+    cardFilter: {
+      type: "string",
+      label: "Card Filter",
+      description: "Filter to apply to Cards. Valid values: `all`, `closed`, `none`, `open`.",
+      options() {
+        return this.getFilterOptions();
+      },
+      default: "all",
+    },
+    listFilter: {
+      type: "string",
+      label: "List Filter",
+      description: "Filter to apply to Lists. Valid values: `all`, `closed`, `none`, `open`.",
+      options() {
+        return this.getFilterOptions();
+      },
+      default: "all",
     },
   },
   methods: {

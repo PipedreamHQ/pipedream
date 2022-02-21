@@ -1,11 +1,10 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
   ...common,
   key: "trello-add-existing-label-to-card",
   name: "Add Existing Label to Card",
-  description: "Adds an existing label to the specified card.",
+  description: "Adds an existing label to the specified card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -40,38 +39,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const constraints = {
-      idCard: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Card id", {
-              id: value,
-            });
-          },
-        },
-      },
-      idLabel: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Label id", {
-              id: value,
-            });
-          },
-        },
-      },
-    };
-    const validationResult = validate(
-      {
-        idCard: this.idCard,
-        idLabel: this.idLabel,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     const res = await this.trello.addExistingLabelToCard(this.idCard, {
       value: this.idLabel,
     }, $);

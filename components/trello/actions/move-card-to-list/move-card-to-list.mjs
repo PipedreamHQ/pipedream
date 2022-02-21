@@ -1,11 +1,10 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
   ...common,
   key: "trello-move-card-to-list",
   name: "Move Card to List",
-  description: "Moves a card to the specified board/list pair.",
+  description: "Moves a card to the specified board/list pair. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
   version: "0.1.2",
   type: "action",
   props: {
@@ -44,50 +43,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const constraints = {
-      idCard: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Card id", {
-              id: value,
-            });
-          },
-        },
-      },
-      board: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Board id", {
-              id: value,
-            });
-          },
-        },
-      },
-      toIdList: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid List id", {
-              id: value,
-            });
-          },
-        },
-      },
-    };
-    const validationResult = validate(
-      {
-        idCard: this.idCard,
-        board: this.board,
-        toIdList: this.toIdList,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     const res = await this.trello.moveCardToList(this.idCard, {
       idBoard: this.board,
       idList: this.toIdList,

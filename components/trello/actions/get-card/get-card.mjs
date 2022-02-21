@@ -1,30 +1,37 @@
-// legacy_hash_id: a_74ijLO
-import { axios } from "@pipedream/platform";
+import common from "../common.js";
 
 export default {
-  key: "trello-get-card",
-  name: "Trello Get Card",
-  description: "Get all parameters of a Card passing Card ID",
-  version: "0.1.1",
+  ...common,
+  key: "trello-get-a-card",
+  name: "Get Card",
+  description: "Gets a card by its ID. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-get)",
+  version: "0.1.2",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    ...common.props,
+    board: {
+      propDefinition: [
+        common.props.trello,
+        "board",
+      ],
+    },
+    cardId: {
+      propDefinition: [
+        common.props.trello,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+      type: "string",
+      label: "Card",
+      description: "The ID of the card to get details of",
+      optional: false,
     },
   },
-  async run({
-    steps, $,
-  }) {
-    return await axios($, {
-
-      url: "https://api.trello.com/1/cards/" + steps.nodejs.$return_value,
-    }, {
-      token: {
-        key: this.trello.$auth.oauth_access_token,
-        secret: this.trello.$auth.oauth_refresh_token,
-      },
-      oauthSignerUri: this.trello.$auth.oauth_signer_uri,
-    });
+  async run({ $ }) {
+    const res = await this.trello.getCard(this.cardId, $);
+    $.export("$summary", `Successfully retrieved card ${this.cardId}`);
+    return res;
   },
 };

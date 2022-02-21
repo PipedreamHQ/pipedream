@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "trello-find-list",
   name: "Find a List",
-  description: "Finds a list on a specific board by name.",
-  version: "0.0.1",
+  description: "Finds a list on a specific board by name. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-lists-get)",
+  version: "0.1.2",
   type: "action",
   props: {
     ...common.props,
@@ -18,18 +18,19 @@ export default {
       description: "Unique identifier of the board to search for lists",
     },
     name: {
-      type: "string",
+      propDefinition: [
+        common.props.trello,
+        "name",
+      ],
       label: "List Name",
       description: "Name of the list to find.",
+      optional: false,
     },
     cardFilter: {
-      type: "string",
-      label: "Card Filter",
-      description: "Filter to apply to Cards. Valid values: `all`, `closed`, `none`, `open`.",
-      options() {
-        return this.trello.getFilterOptions();
-      },
-      default: "all",
+      propDefinition: [
+        common.props.trello,
+        "cardFilter",
+      ],
     },
     cardFields: {
       propDefinition: [
@@ -38,13 +39,10 @@ export default {
       ],
     },
     listFilter: {
-      type: "string",
-      label: "List Filter",
-      description: "Filter to apply to Lists. Valid values: `all`, `closed`, `none`, `open`.",
-      options() {
-        return this.trello.getFilterOptions();
-      },
-      default: "all",
+      propDefinition: [
+        common.props.trello,
+        "listFilter",
+      ],
     },
   },
   async run({ $ }) {
@@ -55,22 +53,7 @@ export default {
       cardFields,
       listFilter,
     } = this;
-    const constraints = {
-      board: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid Board id", {
-              id: value,
-            });
-          },
-        },
-      },
-      name: {
-        presence: true,
-      },
-    };
+    const constraints = {};
     const self = this;
     const filterOptsValidationMesssage = "must be one of `all`, `closed`, `none`, or `open`";
     validate.validators.filterOptsValidator = function (option) {
@@ -89,8 +72,6 @@ export default {
       };
     }
     const validationResult = validate({
-      board,
-      name,
       cardFilter,
       listFilter,
     }, constraints);

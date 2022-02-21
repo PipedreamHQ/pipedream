@@ -1,11 +1,10 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
   ...common,
   key: "trello-list-rename",
   name: "List Rename",
-  description: "Renames the specified list.",
+  description: "Renames the specified list. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-put)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -30,36 +29,15 @@ export default {
       optional: false,
     },
     name: {
-      type: "string",
-      label: "Name",
+      propDefiniton: [
+        common.props.trello,
+        "name",
+      ],
       description: "The new name of the list",
+      optional: false,
     },
   },
   async run({ $ }) {
-    const constraints = {
-      listId: {
-        presence: true,
-        format: {
-          pattern: "^[0-9a-fA-F]{24}$",
-          message: function (value) {
-            return validate.format("^%{id} is not a valid List id", {
-              id: value,
-            });
-          },
-        },
-      },
-      name: {
-        presence: true,
-      },
-    };
-    const validationResult = validate(
-      {
-        listId: this.listId,
-        name: this.name,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     const res = await this.trello.renameList(this.listId, {
       name: this.name,
     }, $);
