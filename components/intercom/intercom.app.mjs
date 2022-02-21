@@ -55,16 +55,14 @@ export default {
       } = opts;
       const config = {
         method,
-        url: url
-          ? url
-          : `https://api.intercom.io/${endpoint}`,
+        url: url ?? `https://api.intercom.io/${endpoint}`,
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
           Accept: "application/json",
         },
         data,
       };
-      return await axios($ || this, config);
+      return axios($ || this, config);
     },
     /**
      * Paginate through a list of items and return the results
@@ -84,11 +82,9 @@ export default {
       let items = [];
       while ((!results || results?.pages?.next) && !done) {
         const startingAfter = results?.pages?.next?.starting_after || null;
-        const endpoint = `${itemType}/${isSearch
-          ? "search"
-          : ""}${startingAfter
-          ? "?starting_after=" + startingAfter
-          : ""}`;
+        const search = isSearch && "/search" || "";
+        const startingAfterParam = startingAfter && `?starting_after=${startingAfter}` || "";
+        const endpoint = `${itemType}${search}${startingAfterParam}`;
         results = await this.makeRequest({
           method,
           endpoint,
@@ -117,14 +113,14 @@ export default {
      * @returns {Array} List of company objects
      */
     async getCompanies(lastCompanyCreatedAt) {
-      return await this.paginate("companies", "GET", null, false, lastCompanyCreatedAt);
+      return this.paginate("companies", "GET", null, false, lastCompanyCreatedAt);
     },
     /**
      * Get the current admin
      * @returns {Object} An admin object for the current authorized admin
      */
     async getAdmin($) {
-      return await this.makeRequest({
+      return this.makeRequest({
         method: "GET",
         endpoint: "me",
         $,
@@ -136,7 +132,7 @@ export default {
      * @returns {Object} A conversation object matching the given id
      */
     async getConversation(id) {
-      return await this.makeRequest({
+      return this.makeRequest({
         method: "GET",
         endpoint: `conversations/${id}`,
       });
