@@ -4,6 +4,8 @@ export default {
   props: {
     spotify,
     timer: {
+      label: "Polling interval",
+      description: "How often to poll the Spotify API for new events",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
