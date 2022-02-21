@@ -5,7 +5,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "2.0.2",
+  version: "2.0.3",
   type: "action",
   props: {
     googleSheets,
@@ -75,12 +75,13 @@ export default {
     if (this.hasHeaders === "Yes") {
       // TODO: If we could create a variable using this.allColumns in additionalProps, we dont need
       // to call getSpreadsheetValues here again.
-      const allColumns = [];
-      const { values } = await this.googleSheets.getSpreadsheetValues(this.sheetId.value, `${this.sheetName}!1:1`);
-      for (let i = 0; i < values[0]?.length; i++) {
-        allColumns.push(`col_${i.toString().padStart(4, "0")}`);
-      }
-      cells = allColumns.sort().map((column) => this[column] || "");
+      const { values: rows } = await this.googleSheets.getSpreadsheetValues(this.sheetId.value, `${this.sheetName}!1:1`);
+      const [
+        headers,
+      ] = rows;
+      cells = headers
+        .map((_, i) => `col_${i.toString().padStart(4, "0")}`)
+        .map((column) => this[column] || "");
     } else {
       cells = this.googleSheets.sanitizedArray(this.myColumnData);
     }
@@ -109,7 +110,7 @@ export default {
 
     let summary = `Added 1 row to [${this.sheetId.label} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${this.sheetId.value}).`;
     if (convertedIndexes.length > 0) {
-      summary += ` We detected something other than a string in at least one of the fields and automatically converted it to a string.`;
+      summary += " We detected something other than a string in at least one of the fields and automatically converted it to a string.";
     }
     $.export("$summary", summary);
 
