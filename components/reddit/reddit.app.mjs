@@ -26,7 +26,7 @@ export default {
     subredditPost: {
       type: "string",
       label: "Post",
-      description: "Select a subreddit post with \"Structured Mode\" enabled, or reference specific Post ID in [base36](http://en.wikipedia.org/wiki/Base36) with \"Structured Mode\" disabled (for example, `15bfi0`).",
+      description: "Select a subreddit post or enter a custom expression to reference a specific Post ID in [base36](http://en.wikipedia.org/wiki/Base36) (for example, `15bfi0`).",
       optional: false,
       withLabel: true,
       async options({
