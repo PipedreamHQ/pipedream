@@ -1,10 +1,13 @@
 import AWS from "aws-sdk";
+import AdmZip from "adm-zip";
 import common from "./common.mjs";
 import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
+import { ListRolesCommand } from "@aws-sdk/client-iam";
 import {
   InvokeCommand,
   ListFunctionsCommand,
+  CreateFunctionCommand,
 } from "@aws-sdk/client-lambda";
 
 export default {
@@ -29,6 +32,15 @@ export default {
           console.log(`Could not retrieve available regions from AWS. ${error}, falling back to default regions`);
           return common.awsRegions;
         }
+      },
+    },
+    role: {
+      type: "string",
+      label: "Role",
+      description: "An IAM Role ARN, e.g., arn:aws:iam::650138640062:role/v3-lambda-tutorial-lambda-role. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)",
+      async options({ region }) {
+        const response = await this.listRoles(region);
+        return response.Roles.map((role) => role.Arn);
       },
     },
     lambdaFunction: {
@@ -166,6 +178,11 @@ export default {
     },
     decodeResponsePayload(response) {
       response.Payload = JSON.parse(new TextDecoder("utf-8").decode(response.Payload) || {});
+    },
+    createZipArchive(data) {
+      const zip = new AdmZip();
+      zip.addFile("index.js", Buffer.from(data, "utf-8"));
+      return zip.toBuffer();
     },
     /**
      * This method creates an IAM role for an AWS service. The role will be
@@ -341,6 +358,10 @@ export default {
         .deleteRole(params)
         .promise();
     },
+    async listRoles(region) {
+      const client = this._getAWSClient("iam", region);
+      return await client.send(new ListRolesCommand({}));
+    },
     /**
      * This method describes CloudWatch Log groups
      *
@@ -443,6 +464,19 @@ export default {
       const client = this._getAWSClient("lambda", Region);
       return await client.send(new ListFunctionsCommand({
         Region,
+      }));
+    },
+    async createLambdaFunction(Region, Role, FunctionName, code) {
+      const client = this._getAWSClient("lambda", Region);
+      const ZipFileCode = this.createZipArchive(code);
+      return await client.send(new CreateFunctionCommand({
+        Code: {
+          ZipFile: ZipFileCode,
+        },
+        FunctionName,
+        Role,
+        Runtime: "nodejs12.x",
+        Handler: "index.handler",
       }));
     },
     async invokeLambdaFunction(Region, FunctionName, Payload = {}) {
