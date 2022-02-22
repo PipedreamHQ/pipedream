@@ -14,8 +14,20 @@ export default {
     query: {
       type: "string",
       label: "Structured Query",
-      description:
-        "Enter a [structured query](https://cloud.google.com/firestore/docs/reference/rest/v1beta1/StructuredQuery) that returns new records from your target collection. Example: `{ \"select\": { \"fields\": [] }, \"from\": [ { \"collectionId\": \"<YOUR COLLECTION>\", \"allDescendants\": \"true\" } ] }`",
+      description: "Enter a [structured query](https://cloud.google.com/firestore/docs/reference/rest/v1beta1/StructuredQuery) that returns new records from your target collection. Example: `{ \"select\": { \"fields\": [] }, \"from\": [ { \"collectionId\": \"<YOUR COLLECTION>\", \"allDescendants\": \"true\" } ] }`",
+    },
+    collection: {
+      type: "string",
+      label: "Collection",
+      description: "The collection containing the documents to list",
+      async options() {
+        return this.listCollections();
+      },
+    },
+    data: {
+      type: "object",
+      label: "Data",
+      description: "An Object containing the data for the new document",
     },
   },
   methods: {
@@ -42,7 +54,7 @@ export default {
      * Renders this app instance unusable and frees the resources of all associated services.
      */
     async deleteApp() {
-      return await this.getApp().delete();
+      return this.getApp().delete();
     },
     /**
      * Retrieves the default Firebase app instance.
@@ -115,6 +127,18 @@ export default {
         null,
         idToken,
       );
+    },
+    async listCollections() {
+      try {
+        await this.initializeApp();
+        const firebase = this.getApp();
+        const snapshot = await firebase.firestore().listCollections();
+        return snapshot.map((doc) => doc._queryOptions.collectionId);
+      } catch (err) {
+        throw new Error(err);
+      } finally {
+        this.deleteApp();
+      }
     },
   },
 };
