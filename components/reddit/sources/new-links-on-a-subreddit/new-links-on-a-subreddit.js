@@ -5,9 +5,9 @@ module.exports = {
   ...common,
   type: "source",
   key: "reddit-new-links-on-a-subreddit",
-  name: "New Links on a subreddit",
+  name: "New Posts on a subreddit",
   description: "Emit new event each time a new link is added to a subreddit",
-  version: "0.0.3",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     ...common.props,
