@@ -6,7 +6,19 @@ If your workflow needs to process data in a time-sensitive manner (for example, 
 
 ### 1. Create a scheduled workflow that triggers your original workflow via HTTP request
 
-First, create a scheduled workflow that runs roughly every 5 minutes, making an HTTP request to your HTTP-triggered workflow on the `/warm` path ([see example workflow](https://pipedream.com/@dylburger/warm-up-http-workflow-p_A2CQ9ne/edit)).
+First, create a scheduled workflow that runs roughly every 5 minutes, making an HTTP request to your HTTP-triggered workflow on the `/warm` path.
+
+Here's a Node.js example:
+
+```javascript
+import got from "got"
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    return (await got(`${params.url}/warm`)).body
+  },
+})
+```
 
 ### 2. End your original workflow on warming requests
 
