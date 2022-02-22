@@ -6,6 +6,10 @@ import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
 import { ListRolesCommand } from "@aws-sdk/client-iam";
 import {
+  ListBucketsCommand,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
+import {
   InvokeCommand,
   ListFunctionsCommand,
   CreateFunctionCommand,
@@ -42,6 +46,15 @@ export default {
       async options({ region }) {
         const response = await this.listRoles(region);
         return response.Roles.map((role) => role.Arn);
+      },
+    },
+    bucket: {
+      type: "string",
+      label: "S3 Bucket Name",
+      description: "The S3 Bucket Name",
+      async options() {
+        const response = await this.listBuckets();
+        return response.Buckets.map((bucket) => bucket.Name);
       },
     },
     lambdaFunction: {
@@ -479,6 +492,10 @@ export default {
       const client = this._getAWSClient("ec2");
       return await client.send(new DescribeRegionsCommand({}));
     },
+    async listBuckets() {
+      const client = this._getAWSClient("s3");
+      return await client.send(new ListBucketsCommand({}));
+    },
     async listLambdaFunctions(Region) {
       const client = this._getAWSClient("lambda", Region);
       return await client.send(new ListFunctionsCommand({
@@ -505,6 +522,14 @@ export default {
         Payload,
         InvocationType: "RequestResponse",
         LogType: "Tail",
+      }));
+    },
+    async uploadFileToS3(Region, Bucket, Key, data) {
+      const client = this._getAWSClient("s3", Region);
+      return await client.send(new PutObjectCommand({
+        Bucket,
+        Key,
+        Body: Buffer.from(data, "base64"),
       }));
     },
   },

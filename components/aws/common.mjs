@@ -2,6 +2,7 @@ import { EC2Client } from "@aws-sdk/client-ec2";
 import { LambdaClient } from "@aws-sdk/client-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
 import { IAMClient } from "@aws-sdk/client-iam";
+import { S3Client } from "@aws-sdk/client-s3";
 
 export default {
   defaultRegion: "us-east-1",
@@ -10,6 +11,7 @@ export default {
     lambda: LambdaClient,
     ssm: SSMClient,
     iam: IAMClient,
+    s3: S3Client,
   },
   // List extracted from the official AWS documentation:
   // https://docs.aws.amazon.com/general/latest/gr/rande.html
