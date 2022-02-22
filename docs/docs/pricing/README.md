@@ -47,7 +47,7 @@ Users on the Professional Tier have access to community support, on [our forum](
 
 ## Team Plan
 
-You can create as many [organizations](/orgs) as you'd like for free. But the quota for free orgs is set to {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}} invocations per day. To lift this limit, you can upgrade the org to the **Team Plan**.
+You can create as many [organizations](/orgs/) as you'd like for free. But the quota for free orgs is set to {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}} invocations per day. To lift this limit, you can upgrade the org to the **Team Plan**.
 
 Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please [reach out](https://pipedream.com/support).
 

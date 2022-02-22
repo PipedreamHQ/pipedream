@@ -23,7 +23,7 @@ export default {
       type: "string[]",
       label: "Cells / Column Values",
       description:
-        "Use structured mode to enter individual cell values. Disable structured mode to pass an array with each element representing a cell/column value.",
+        "Enter individual cell values or a custom expression to pass an array with each element representing a cell/column value.",
     },
     range: {
       type: "string",
@@ -117,6 +117,22 @@ export default {
 
       throw new Error(`${value} is not an array or an array-like`);
     },
+    arrayValuesToString(arr) {
+      const convertedIndexes = [];
+
+      const res = arr.map((val, i) => {
+        if (typeof val !== "string") {
+          convertedIndexes.push(i) ;
+          return JSON.stringify(val);
+        }
+        return val;
+      });
+
+      return {
+        arr: res,
+        convertedIndexes,
+      };
+    },
     sheets() {
       const auth = new google.auth.OAuth2();
       auth.setCredentials({
@@ -157,7 +173,7 @@ export default {
       endColumn = column,
       searchType = 1,
     } = {}) {
-      return `=MATCH(${searchKey}, ${sheetName}!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
+      return `=MATCH(${searchKey}, '${sheetName}'!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
     },
     /**
      * Converts column letter(s) (E.g. 'A', 'B', 'AA', etc.) into a numerical value representing
