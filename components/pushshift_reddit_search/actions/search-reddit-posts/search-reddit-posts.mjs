@@ -2,12 +2,16 @@
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "reddit-search-reddit-posts",
+  key: "pushshift_reddit_search-search-reddit-posts",
   name: "Search Reddit Posts",
   description: "Search Reddit posts using the Pushshift.io API. Learn more at https://github.com/pushshift/api",
   version: "0.1.1",
   type: "action",
   props: {
+    "pushshift_reddit_search": {
+      type: "app",
+      app: "pushshift_reddit_search",
+    },
     "ids": {
       type: "string",
       description: "Get specific submissions via their ids",
