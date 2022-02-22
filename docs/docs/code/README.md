@@ -1,6 +1,6 @@
 # Overview
 
-_This document details how to use code in [workflow steps](/workflows/steps), without leaving your browser. If you're building a [component](/components/), please [reference the component API docs](/components/api/)._
+_This document details how to use code in [workflow steps](/workflows/steps/), without leaving your browser. If you're building a [component](/components/), please [reference the component API docs](/components/api/)._
 
 Pipedream comes with thousands of prebuilt [triggers](/workflows/steps/triggers/) and [actions](/components/actions/) for [hundreds of apps](https://pipedream.com/apps). Often, these will be sufficient for building simple workflows.
 
@@ -10,10 +10,10 @@ Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https:/
 
 Choose a language to get started:
 
-* [Node.js (Javascript)](/code/nodejs)
-* [Python](/code/python)
-* [Go](/code/go)
-* [Bash](/code/bash)
+* [Node.js (Javascript)](/code/nodejs/)
+* [Python](/code/python/)
+* [Go](/code/go/)
+* [Bash](/code/bash/)
 
 If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).
 

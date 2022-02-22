@@ -6,7 +6,7 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
 
-If you're developing Pipedream components, you may find the [`@pipedream/platform` version of `axios`](/pipedream-axios) helpful for displaying error data clearly in the Pipedream UI.
+If you're developing Pipedream components, you may find the [`@pipedream/platform` version of `axios`](/pipedream-axios/) helpful for displaying error data clearly in the Pipedream UI.
 
 If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/blog/working-with-webhooks/#webhooks-glossary-common-terms) for a helpful introduction.
 

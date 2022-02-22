@@ -23,7 +23,7 @@ export default {
       type: "string[]",
       label: "Cells / Column Values",
       description:
-        "Use structured mode to enter individual cell values. Disable structured mode to pass an array with each element representing a cell/column value.",
+        "Enter individual cell values or a custom expression to pass an array with each element representing a cell/column value.",
     },
     range: {
       type: "string",
@@ -157,7 +157,7 @@ export default {
       endColumn = column,
       searchType = 1,
     } = {}) {
-      return `=MATCH(${searchKey}, ${sheetName}!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
+      return `=MATCH(${searchKey}, '${sheetName}'!${startColumn}${startRow}:${endColumn}${endRow}, ${searchType})`;
     },
     /**
      * Converts column letter(s) (E.g. 'A', 'B', 'AA', etc.) into a numerical value representing

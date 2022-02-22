@@ -2,7 +2,7 @@
 
 When you use [prebuilt actions](/components/actions/) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
 
-But sometimes you'll need to [write your own code](/code/nodejs). You can also connect apps to custom code steps, using the auth information to authorize requests to that app.
+But sometimes you'll need to [write your own code](/code/nodejs/). You can also connect apps to custom code steps, using the auth information to authorize requests to that app.
 
 For example, you may want to send a Slack message from a step. We use Slack's OAuth integration to authorize sending messages from your workflows. 
 
@@ -75,17 +75,17 @@ export default defineComponent({
   async run({ steps, $ }) {
     async (steps, $) => {
       // Authentication details for all of your apps are accessible under the special $ variable:
-      console.log(this.slack.$auths);
+      console.log(this.slack.$auth);
     }
   })
 });
 ```
 
-`this.appName.$auths` contains named properties for each account you connect to the associated step. Here, we connected Slack, so `this.slack.$auths` contains the Slack auth info (the `oauth_access_token`).
+`this.appName.$auth` contains named properties for each account you connect to the associated step. Here, we connected Slack, so `this.slack.$auth` contains the Slack auth info (the `oauth_access_token`).
 
 The names of the properties for each connected account will differ with the account. Pipedream typically exposes OAuth access tokens as `oauth_access_token`, and API keys under the property `api_key`. But if there's a service-specific name for the tokens (for example, if the service calls it `server_token`), we prefer that name, instead.
 
-To list the `this.[app name].$auths` properties available to you for a given app, run `Object.keys` on the app:
+To list the `this.[app name].$auth` properties available to you for a given app, run `Object.keys` on the app:
 
 ```javascript
 console.log(Object.keys(this.slack.$auth)) // Replace this.slack with your app's name
@@ -93,7 +93,7 @@ console.log(Object.keys(this.slack.$auth)) // Replace this.slack with your app's
 
 and run your workflow. You'll see the property names in the logs below your step.
 
-## Writing custom steps to use `this.appName.$auths`
+## Writing custom steps to use `this.appName.$auth`
 
 You can write code that utilizes connected accounts in a few different ways:
 

@@ -9,7 +9,7 @@ Bash steps are available in a limited alpha release.
 
 You can still run arbitrary Bash scripts, including [sharing data between steps](/code/bash/#sharing-data-between-steps) as well as [accessing environment variables](/code/bash/#using-environment-variables).
 
-However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs) environment at this time. If you have any questions, find bugs or have feedback please [contact support](https://pipedream.com/support).
+However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time. If you have any questions, find bugs or have feedback please [contact support](https://pipedream.com/support).
 :::
 
 ## Adding a Bash code step

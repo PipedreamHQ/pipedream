@@ -236,7 +236,7 @@ This is very useful for tracking data between runs of a particular workflow.
 :::warning
 This functionality (`$.service.db`) is limited to only Node.js code steps at this time.
 
-Other step languages like [Python](/code/python), [bash](/code/bash) and [Go](/code/go) do not have this feature available yet.
+Other step languages like [Python](/code/python/), [Bash](/code/bash/) and [Go](/code/go/) do not have this feature available yet.
 
 For more information on what functionality is available for those languages, please refer to their documentation.
 :::

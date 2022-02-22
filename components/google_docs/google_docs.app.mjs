@@ -9,7 +9,7 @@ export default {
     docId: {
       type: "string",
       label: "Document",
-      description: "Select a document or disable structured mode to pass a value exported from a previous step (e.g., `{{steps.foo.$return_value.documentId}}`) or to manually enter a static ID (e.g., `1KuEN7k8jVP3Qi0_svM5OO8oEuiLkq0csihobF67eat8`).",
+      description: "Select a document or enter a custom expression to pass a value from a previous step (e.g., `{{steps.foo.$return_value.documentId}}`) or to manually enter a static ID (e.g., `1KuEN7k8jVP3Qi0_svM5OO8oEuiLkq0csihobF67eat8`).",
       async options({
         prevContext, driveId,
       }) {

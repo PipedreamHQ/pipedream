@@ -1,7 +1,12 @@
 <template>
   <nav v-if="userLinks.length || repoLink" class="nav-links">
     <!-- user links -->
-    <div v-for="item in userLinks" :key="item.link" class="nav-item" :class="item.className">
+    <div
+      v-for="item in userLinks"
+      :key="item.link"
+      class="nav-item"
+      :class="item.className"
+    >
       <DropdownLink v-if="item.type === 'links'" :item="item" />
       <NavbarGrid v-else-if="item.grid" :item="item" />
       <NavLink v-else :item="item" />
@@ -21,7 +26,11 @@
       target="_blank"
       rel="noopener"
     >
-      <img alt="Pipedream on Github" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" width="25px" />
+      <img
+        alt="Pipedream on Github"
+        src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+        width="25px"
+      />
       <!-- <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/PipedreamHQ/pipedream?label=View%20code%20on%20GitHub&style=social"> -->
     </a>
   </nav>
@@ -29,7 +38,7 @@
 
 <script>
 import DropdownLink from "@theme/components/DropdownLink.vue";
-import NavbarGrid from '@theme/components/NavbarGrid.vue'
+import NavbarGrid from "@theme/components/NavbarGrid.vue";
 import { resolveNavLinkItem } from "../util";
 import NavLink from "@theme/components/NavLink.vue";
 
@@ -39,7 +48,7 @@ export default {
   components: {
     NavLink,
     DropdownLink,
-    NavbarGrid
+    NavbarGrid,
   },
 
   computed: {
@@ -121,7 +130,8 @@ export default {
 .nav-links {
   display: flex;
   align-items: center;
-  > *  {
+
+  > * {
     margin-left: 1.2em;
     margin-right: 1.2em;
   }
@@ -129,8 +139,8 @@ export default {
   a {
     line-height: 1.4rem;
     color: inherit;
-    // display: inline-block !important;
 
+    // display: inline-block !important;
     &:hover, &.router-link-active {
       color: $accentColor;
     }
@@ -139,7 +149,9 @@ export default {
   .nav-item {
     position: relative;
     display: inline-block;
-    line-height: 2rem
+    // margin-left: 1.5rem;
+    // margin-right: 1.5rem;
+    line-height: 2rem;
 
     &:first-child {
       margin-left: 0;

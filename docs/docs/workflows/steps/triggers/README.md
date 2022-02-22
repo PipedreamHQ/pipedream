@@ -16,7 +16,7 @@ If there's a specific trigger you'd like supported, please [let us know](https:/
 
 ## App-based Triggers
 
-You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
+You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
 
 When you create a workflow, you'll see your available triggers:
 
@@ -50,7 +50,7 @@ Moreover, since event sources can produce a large stream of events, the workflow
 
 You'll notice the docs use the terms **event source** and **trigger** interchangeably above. It's useful to clarify the distinction in the context of workflows.
 
-[**Event sources**](/event-sources) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
+[**Event sources**](/event-sources/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
 
 For example, you might create a single source to listen for new Twitter mentions for a keyword, then trigger multiple workflows each time a new tweet is found: one to [send new tweets to Slack](https://pipedream.com/@pravin/twitter-mentions-slack-p_dDCA5e/edit), another to [save those tweets to an Amazon S3 bucket](https://pipedream.com/@dylan/twitter-to-s3-p_KwCZGA/readme), etc.
 
@@ -294,12 +294,12 @@ If you need to issue a custom HTTP response from a workflow, **you can use the `
 ```javascript
 defineComponent({
   async run({ steps, $ }) {
-    $.respond({
+    await $.respond({
       status: 200,
       headers: { "my-custom-header": "value" },
       body: { message: "My custom response" }, // This can be any string, object, Buffer, or Readable stream
     });
-  })
+  }
 });
 ```
 
@@ -336,7 +336,7 @@ defineComponent({
       headers: { "my-custom-header": "value" },
       body: { message: "My custom response" },
     });
-  })
+  }
 });
 ```
 
@@ -352,7 +352,7 @@ defineComponent({
       status: 200,
       body: "",
     });
-  })
+  }
 });
 ```
 
@@ -383,14 +383,14 @@ defineComponent({
       // Your code here that might throw an exception or not run
       throw new Error('Whoops, something unexpected happened.');
     } finally {
-      $.respond({
+      await $.respond({
         status: 200,
         body: {
           msg: "Default response",
         },
       });
     }
-  })
+  }
 });
 ```
 
@@ -434,9 +434,9 @@ Since you can [run any Node code](/workflows/steps/code/) in a workflow, you can
 
 ## Schedule
 
-Pipedream allows you to run hosted scheduled jobs — commonly-referred to as a "cron job" — [for free](/pricing).
+Pipedream allows you to run hosted scheduled jobs — commonly-referred to as a "cron job" — [for free](/pricing/).
 
-We call these cron jobs "[workflows](/workflows)". Workflows are just scripts that run on a schedule.
+We call these cron jobs "[workflows](/workflows/)". Workflows are just scripts that run on a schedule.
 
 You can write a cron job to:
 
@@ -495,12 +495,6 @@ Any time a cron job runs, you'll see a new execution appear in the [Inspector](/
 Code steps show [Logs](/workflows/steps/code/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 
 [Actions](/components/actions/) and [Destinations](/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
-
-### Limitations
-
-Cron jobs can be run at most once a minute. Any cron expression that specifies a higher frequency will be rejected.
-
-Cron jobs can run for at most 30 seconds, by default. You can raise this up to 300 seconds by [setting your workflow's execution timeout](/workflows/settings/#execution-timeout-limit). If your workflow runs longer than the configured timeout, you'll see a `TIMEOUT` error for that run, and will be able to review all logs up until the timeout occurred.
 
 ## Email
 
@@ -593,7 +587,7 @@ Choose the RSS trigger to watch an RSS feed for new items:
 <img alt="RSS source" width="400px" src="./images/rss.png">
 </div>
 
-This will create an RSS [event source](/event-sources) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
+This will create an RSS [event source](/event-sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 
 ## SDK
 
