@@ -1,5 +1,4 @@
 import aws from "../../aws.app.mjs";
-import dedent from "dedent";
 
 export default {
   key: "aws-create-lambda",
@@ -31,16 +30,10 @@ export default {
       description: "The name of your Lambda function",
     },
     code: {
-      type: "string",
-      label: "Code",
-      description: "The function code in Node.js. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)",
-      default: dedent`exports.handler = async (event) => {
-                        console.log("Received event");
-                        const response = {
-                            statusCode: 200,
-                        };
-                        return response;
-                      };`,
+      propDefinition: [
+        aws,
+        "lambdaCode",
+      ],
     },
   },
   async run({ $ }) {

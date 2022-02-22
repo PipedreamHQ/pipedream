@@ -26,11 +26,10 @@ export default {
       ],
     },
     eventData: {
-      type: "object",
-      label: "Event data",
-      description: "A JSON object that will be sent as an event to the function",
-      optional: true,
-      default: {},
+      propDefinition: [
+        aws,
+        "eventData",
+      ],
     },
   },
   async run({ $ }) {
@@ -42,7 +41,7 @@ export default {
     const response = await this.aws.invokeLambdaFunction(
       this.region,
       this.lambdaFunction,
-      this.eventData,
+      JSON.stringify(this.eventData || {}),
     );
     $.export("$summary", `Invoked ${this.lambdaFunction} lambda function`);
     this.aws.decodeResponsePayload(response);

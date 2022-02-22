@@ -1,5 +1,6 @@
 import AWS from "aws-sdk";
 import AdmZip from "adm-zip";
+import dedent from "dedent";
 import common from "./common.mjs";
 import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
@@ -51,6 +52,24 @@ export default {
         const response = await this.listLambdaFunctions(region);
         return response.Functions.map((fn) => fn.FunctionName);
       },
+    },
+    lambdaCode: {
+      type: "string",
+      label: "Code",
+      description: "The function code in Node.js. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)",
+      default: dedent`exports.handler = async (event) => {
+                        console.log("Received event");
+                        const response = {
+                            statusCode: 200,
+                        };
+                        return response;
+                      };`,
+    },
+    eventData: {
+      type: "object",
+      label: "Event data",
+      description: "A JSON object that will be sent as an event to the function",
+      optional: true,
     },
     logGroupNames: {
       label: "CloudWatch Log Groups",
