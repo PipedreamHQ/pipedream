@@ -7,13 +7,13 @@ module.exports = {
   description: "Pipedream Documentation - Connect APIs, remarkably fast",
   base: "/docs/v1/",
   plugins: [
-    [
-      "vuepress-plugin-canonical",
-      {
-        baseURL: "https://pipedream.com/docs", // base url for your canonical link, optional, default: ''
-        stripExtension: true,
-      },
-    ],
+    // [
+    //   "vuepress-plugin-canonical",
+    //   {
+    //     baseURL: "https://pipedream.com/docs/", // base url for your canonical link, optional, default: ''
+    //     stripExtension: true,
+    //   },
+    // ],
   ],
   themeConfig: {
     algolia: {
