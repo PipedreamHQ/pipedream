@@ -1,58 +1,48 @@
-// legacy_hash_id: a_a4i84m
-import AWS from "aws-sdk";
-import axios from "axios";
+import aws from "../../aws.app.mjs";
 
 export default {
   key: "aws-stream-file-to-s3",
-  name: "S3 - Stream file to S3 from URL",
-  description: "Accepts a file URL, and streams the file to the provided S3 bucket/key",
-  version: "0.2.1",
+  name: "AWS - S3 - Stream file to S3 from URL",
+  description: "Accepts a file URL, and streams the file to the provided S3 bucket/key. [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
+  version: "0.2.2",
   type: "action",
   props: {
-    aws: {
-      type: "app",
-      app: "aws",
+    aws,
+    region: {
+      propDefinition: [
+        aws,
+        "region",
+      ],
+    },
+    bucket: {
+      propDefinition: [
+        aws,
+        "bucket",
+      ],
     },
     fileUrl: {
       type: "string",
       label: "File URL",
       description: "The absolute URL of the file you'd like to upload",
     },
-    s3Bucket: {
-      type: "string",
-      label: "S3 Bucket",
-      description: "The name of the S3 bucket you'd like to upload the file to",
-    },
-    s3Key: {
-      type: "string",
-      label: "S3 Key",
-      description: "The name of the S3 key you'd like to upload this file to",
+    filename: {
+      propDefinition: [
+        aws,
+        "key",
+      ],
     },
   },
-  async run() {
-    const {
-      fileUrl,
-      s3Bucket,
-      s3Key,
-    } = this;
-    const {
-      accessKeyId,
-      secretAccessKey,
-    } = this.aws.$auth;
-    const s3 = new AWS.S3({
-      accessKeyId,
-      secretAccessKey,
-    });
-    const urlResponse = await axios.get(fileUrl, {
-      responseType: "stream",
-    });
-    const s3Response = await s3.upload({
-      Bucket: s3Bucket,
-      Key: s3Key.replace(/^\/+/, ""),
-      ContentType: urlResponse.headers["content-type"],
-      ContentLength: urlResponse.headers["content-length"],
-      Body: urlResponse.data,
-    }).promise();
-    return (await s3Response).Location;
+  async run({ $ }) {
+    const fileResponse = await this.aws.streamFile(this.fileUrl);
+    const response = await this.aws.uploadFileToS3(
+      this.region,
+      this.bucket,
+      this.filename.replace(/^\/+/, ""),
+      fileResponse.data,
+      fileResponse.headers["content-type"],
+      fileResponse.headers["content-length"],
+    );
+    $.export("$summary", `Streaming file ${this.filename} to ${this.bucket}`);
+    return response;
   },
 };

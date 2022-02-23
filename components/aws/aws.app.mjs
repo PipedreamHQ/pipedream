@@ -1,4 +1,4 @@
-import AWS from "aws-sdk";
+import axios from "axios"; // need axios response headers
 import AdmZip from "adm-zip";
 import dedent from "dedent";
 import common from "./common.mjs";
@@ -56,6 +56,11 @@ export default {
         const response = await this.listBuckets();
         return response.Buckets.map((bucket) => bucket.Name);
       },
+    },
+    key: {
+      type: "string",
+      label: "S3 Filename Key",
+      description: "The name of the S3 key with extension you'd like to upload this file to",
     },
     lambdaFunction: {
       type: "string",
@@ -215,6 +220,11 @@ export default {
       const zip = new AdmZip();
       zip.addFile("index.js", Buffer.from(data, "utf-8"));
       return zip.toBuffer();
+    },
+    async streamFile(fileUrl) {
+      return await axios.get(fileUrl, {
+        responseType: "stream",
+      });
     },
     /**
      * This method creates an IAM role for an AWS service. The role will be
@@ -524,13 +534,16 @@ export default {
         LogType: "Tail",
       }));
     },
-    async uploadFileToS3(Region, Bucket, Key, data) {
-      const client = this._getAWSClient("s3", Region);
-      return await client.send(new PutObjectCommand({
+    async uploadFileToS3(Region, Bucket, Key, Body, ContentType, ContentLength) {
+      const params = {
         Bucket,
         Key,
-        Body: Buffer.from(data, "base64"),
-      }));
+        Body,
+      };
+      if (ContentType) params.ContentType = ContentType;
+      if (ContentLength) params.ContentLength = ContentLength;
+      const client = this._getAWSClient("s3", Region);
+      return await client.send(new PutObjectCommand(params));
     },
   },
 };

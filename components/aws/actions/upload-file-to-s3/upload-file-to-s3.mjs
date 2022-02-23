@@ -21,9 +21,10 @@ export default {
       ],
     },
     filename: {
-      type: "string",
-      label: "Filename",
-      description: "Filename with extension",
+      propDefinition: [
+        aws,
+        "key",
+      ],
     },
     data: {
       type: "string",
@@ -36,7 +37,7 @@ export default {
       this.region,
       this.bucket,
       this.filename,
-      this.data,
+      Buffer.from(this.data, "base64"),
     );
     $.export("$summary", `Uploaded file ${this.filename} to S3`);
     return response;
