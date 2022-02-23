@@ -103,6 +103,7 @@ module.exports = {
               "/code/go/",
               "/code/bash/",
               "/destinations/",
+              "/scheduling-future-tasks/",
             ],
           },
           {
