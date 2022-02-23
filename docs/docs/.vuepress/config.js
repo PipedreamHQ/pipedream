@@ -17,7 +17,7 @@ module.exports = {
   ],
   themeConfig: {
     algolia: {
-      apiKey: "1e23962724b59d018bdedc0f5a214ce5",
+      apiKey: "9d9169458128b3d60c22bb04da4431c7",
       indexName: "pipedream-v1",
     },
     searchPlaceholder: "Search...",
