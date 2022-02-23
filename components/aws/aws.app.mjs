@@ -4,7 +4,14 @@ import dedent from "dedent";
 import common from "./common.mjs";
 import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
-import { ListRolesCommand } from "@aws-sdk/client-iam";
+import {
+  CreateRoleCommand,
+  DeleteRoleCommand,
+  ListRolesCommand,
+  ListRolePoliciesCommand,
+  PutRolePolicyCommand,
+  DeleteRolePolicyCommand,
+} from "@aws-sdk/client-iam";
 import {
   DescribeLogStreamsCommand,
   DescribeLogGroupsCommand,
@@ -187,32 +194,6 @@ export default {
     },
   },
   methods: {
-    /**
-     * This function configures and returns a new reference to the AWS SDK. The
-     * configuration involves setting the region based on the provided argument,
-     * as well as setting up the credentials previously provided by the user
-     * when setting up their AWS account.
-     *
-     * @param {string} region - The AWS region to which the AWS SDK will
-     * connect. This string should be an acceptable value by the AWS SDK, which
-     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file, as well as
-     * by calling the EC2 `DescribeRegions` API.
-     * @returns A new configured instance of the AWS SDK
-     */
-    sdk(region) {
-      const {
-        accessKeyId,
-        secretAccessKey,
-      } = this.$auth;
-      AWS.config.update({
-        credentials: {
-          accessKeyId,
-          secretAccessKey,
-        },
-        region,
-      });
-      return AWS;
-    },
     _getAWSClient(clientType, region = common.defaultRegion) {
       return new common.awsClients[clientType]({
         credentials: {
@@ -221,18 +202,6 @@ export default {
         },
         region,
       });
-    },
-    _getIamClient(region) {
-      const AWS = this.sdk(region);
-      return new AWS.IAM();
-    },
-    _getS3Client(region) {
-      const AWS = this.sdk(region);
-      return new AWS.S3();
-    },
-    _getSTSClient(region) {
-      const AWS = this.sdk(region);
-      return new AWS.STS();
     },
     _getAssumeRolePolicyForService(service) {
       return {
@@ -295,10 +264,8 @@ export default {
         Description: roleDescription,
         Path: "/pipedream/",
       };
-      const { Role } = await this
-        ._getIamClient(region)
-        .createRole(params)
-        .promise();
+      const client = this._getAWSClient("iam", region);
+      const { Role } = await client.send(new CreateRoleCommand(params));
       console.log(Role);
       return {
         roleArn: Role.Arn,
@@ -381,21 +348,19 @@ export default {
         PolicyName: permissions.name,
         RoleName: roleName,
       };
-      await this
-        ._getIamClient(region)
-        .putRolePolicy(params)
-        .promise();
+      const client = this._getAWSClient("iam", region);
+      await client.send(new PutRolePolicyCommand(params));
     },
     async _deleteInlinePoliciesForRole(region, roleName) {
       const params = {
         RoleName: roleName,
       };
 
+      const client = this._getAWSClient("iam", region);
       while (true) {
-        const { PolicyNames: policyNames = [] } = await this
-          ._getIamClient(region)
-          .listRolePolicies(params)
-          .promise();
+        const { PolicyNames: policyNames = [] } = await client.send(
+          new ListRolePoliciesCommand(params),
+        );
 
         if (policyNames.length <= 0) {
           // No more inline policies to delete, we can return now
@@ -408,12 +373,7 @@ export default {
               RoleName: roleName,
               PolicyName: policyName,
             }))
-            .map(
-              (params) => this
-                ._getIamClient(region)
-                .deleteRolePolicy(params)
-                .promise(),
-            ),
+            .map((params) => client.send(new DeleteRolePolicyCommand(params))),
         );
       }
 
@@ -435,10 +395,8 @@ export default {
       const params = {
         RoleName: roleName,
       };
-      await this
-        ._getIamClient(region)
-        .deleteRole(params)
-        .promise();
+      const client = this._getAWSClient("iam", region);
+      await client.send(new DeleteRoleCommand(params));
     },
     async listRoles(region) {
       const client = this._getAWSClient("iam", region);
