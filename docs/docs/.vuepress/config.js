@@ -3,7 +3,10 @@ const webpack = require("webpack");
 
 module.exports = {
   title: "",
-  head: [["link", { rel: "icon", href: "/favicon.ico" }]],
+  head: [
+    ["link", { rel: "icon", href: "/favicon.ico" }],
+    ['meta', { name: 'version', content: 1 }]
+  ],
   description: "Pipedream Documentation - Connect APIs, remarkably fast",
   base: "/docs/v1/",
   plugins: [
