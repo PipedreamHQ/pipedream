@@ -37,5 +37,6 @@ export default {
       options.include_collaborators = this.include_collaborators;
     }
     $.send.email(options);
+    $.export("$summary", "Successfully sent email");
   },
 };
