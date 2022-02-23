@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -8,20 +8,11 @@ export default {
       label: "Recipients",
       description: "Array of email addresses",
       type: "string[]",
-      optional: false,
     },
-    /*files: {	//FIXME Temporary commented until object arrays are supported
-      label: "Files to attach",
-      description: "Array of files to attach to the email",
-      type: "object[]",
-      optional: true,
-      propDefinition: [this, "name", "mimetype", "path"],
-    },*/
     subject: {
       label: "Subject",
       description: "Subject of the email",
       type: "string",
-      optional: false,
     },
     content: {
       label: "Content",
@@ -60,7 +51,7 @@ export default {
       }
     },
     async _makeRequest(method, endpoint, data, params) {
-      return axios({
+      return axios(this, {
         method,
         url: this._getHost() + endpoint,
         headers: this._getHeaders(),

@@ -1,4 +1,4 @@
-import microsoft_outlook from "../../microsoft_outlook.app.mjs";
+import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 import fs from "fs";
 import { encode } from "js-base64";
 
@@ -9,46 +9,40 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    microsoft_outlook,
+    microsoftOutlook,
     recipients: {
       propDefinition: [
-        microsoft_outlook,
+        microsoftOutlook,
         "recipients",
       ],
     },
     subject: {
       propDefinition: [
-        microsoft_outlook,
+        microsoftOutlook,
         "subject",
       ],
     },
     content: {
       propDefinition: [
-        microsoft_outlook,
+        microsoftOutlook,
         "content",
       ],
     },
-    /*files: {	//FIXME Temporary commented until object arrays are supported
-      propDefinition: [
-        microsoft_outlook,
-        "files",
-      ],
-    },*/
     name: {	//FIXME Temporary until object arrays are supported
       propDefinition: [
-        microsoft_outlook,
+        microsoftOutlook,
         "name",
       ],
     },
     mimetype: {	//FIXME Temporary until object arrays are supported
       propDefinition: [
-        microsoft_outlook,
+        microsoftOutlook,
         "mimetype",
       ],
     },
     path: {	//FIXME Temporary until object arrays are supported
       propDefinition: [
-        microsoft_outlook,
+        microsoftOutlook,
         "path",
       ],
     },
@@ -101,6 +95,6 @@ export default {
       },
     };
 
-    return await this.microsoft_outlook._makeRequest("POST", "/me/sendMail", data, null);
+    return await this.microsoftOutlook._makeRequest("POST", "/me/sendMail", data, null);
   },
 };
