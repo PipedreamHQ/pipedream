@@ -1,4 +1,6 @@
 // legacy_hash_id: a_Vpi8Rv
+import helper_functions from "../../helper_functions.app.mjs";
+
 export default {
   key: "helper_functions-send-to-s3",
   name: "Send to Amazon S3",
@@ -6,10 +8,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     bucket: {
       type: "string",
       label: "S3 Bucket",

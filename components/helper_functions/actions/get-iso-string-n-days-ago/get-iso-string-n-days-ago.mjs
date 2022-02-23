@@ -1,5 +1,6 @@
 // legacy_hash_id: a_67il6m
 import moment from "moment";
+import helper_functions from "../../helper_functions.app.mjs";
 
 export default {
   key: "helper_functions-get-iso-string-n-days-ago",
@@ -8,10 +9,7 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     days: {
       type: "string",
       label: "N Days Ago",

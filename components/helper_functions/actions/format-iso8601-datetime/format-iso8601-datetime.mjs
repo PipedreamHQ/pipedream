@@ -1,5 +1,6 @@
 // legacy_hash_id: a_nji3no
 import moment from "moment";
+import helper_functions from "../../helper_functions.app.mjs";
 
 export default {
   key: "helper_functions-format-iso8601-datetime",
@@ -8,10 +9,7 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     iso8601: {
       type: "string",
       label: "ISO 8601 Date/Time",

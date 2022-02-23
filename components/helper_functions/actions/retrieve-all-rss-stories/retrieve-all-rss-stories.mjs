@@ -1,5 +1,6 @@
 // legacy_hash_id: a_Vpi7QO
 import Parser from "rss-parser";
+import helper_functions from "../../helper_functions.app.mjs";
 
 export default {
   key: "helper_functions-retrieve-all-rss-stories",
@@ -8,10 +9,7 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     rss_feeds: {
       type: "any",
       description: "The URL(s) of the RSS Feeds",

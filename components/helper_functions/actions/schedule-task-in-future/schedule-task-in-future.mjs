@@ -1,5 +1,6 @@
 // legacy_hash_id: a_3LiebX
 import { axios } from "@pipedream/platform";
+import helper_functions from "../../helper_functions.app.mjs";
 
 export default {
   key: "helper_functions-schedule-task-in-future",
@@ -8,10 +9,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     numSeconds: {
       type: "string",
       label: "Num Seconds",

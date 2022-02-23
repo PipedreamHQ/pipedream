@@ -1,5 +1,6 @@
 // legacy_hash_id: a_rJip7d
 import { axios } from "@pipedream/platform";
+import helper_functions from "../../helper_functions.app.mjs";
 
 export default {
   key: "helper_functions-send-http-request",
@@ -8,10 +9,7 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     method: {
       type: "string",
     },
@@ -43,11 +41,15 @@ export default {
       method: this.method ||  "post",
       url: this.url,
     };
-    for (const {key,      value} of this.query || []) {
+    for (const {
+key,           value
+} of this.query || []) {
       if (!config.params) config.params = {};
       config.params[key] = value;
     }
-    for (const {key,      value} of this.headers || []) {
+    for (const {
+key,           value
+} of this.headers || []) {
       if (!config.headers) config.headers = {};
       config.headers[key] = value;
     }

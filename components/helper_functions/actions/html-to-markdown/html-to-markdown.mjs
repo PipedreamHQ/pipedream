@@ -1,5 +1,6 @@
 // legacy_hash_id: a_oViLn2
 import TurndownService from "turndown";
+import helper_functions from "../../helper_functions.app.mjs";
 
 export default {
   key: "helper_functions-html-to-markdown",
@@ -8,10 +9,7 @@ export default {
   version: "1.0.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     input: {
       type: "string",
       label: "HTML",

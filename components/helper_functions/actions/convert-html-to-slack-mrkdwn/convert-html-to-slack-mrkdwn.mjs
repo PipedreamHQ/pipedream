@@ -1,5 +1,6 @@
 // legacy_hash_id: a_eliYz4
 import slackifyHtml from "slackify-html";
+import helper_functions from "../../helper_functions.app.mjs";
 
 export default {
   key: "helper_functions-convert-html-to-slack-mrkdwn",
@@ -8,10 +9,7 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     html: {
       type: "string",
       label: "HTML",

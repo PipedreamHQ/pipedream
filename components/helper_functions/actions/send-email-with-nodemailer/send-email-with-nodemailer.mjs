@@ -1,5 +1,6 @@
 // legacy_hash_id: a_EViLg3
 import nodemailer from "nodemailer";
+import helper_functions from "../../helper_functions.app.mjs";
 
 export default {
   key: "helper_functions-send-email-with-nodemailer",
@@ -8,10 +9,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     host: {
       type: "string",
       description: "The hostname or IP address of your SMTP server",

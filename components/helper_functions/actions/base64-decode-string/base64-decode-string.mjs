@@ -1,4 +1,6 @@
 // legacy_hash_id: a_0Mio28
+import helper_functions from "../../helper_functions.app.mjs";
+
 export default {
   key: "helper_functions-base64-decode-string",
   name: "Base64 Decode String",
@@ -6,10 +8,7 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     data: {
       type: "string",
     },

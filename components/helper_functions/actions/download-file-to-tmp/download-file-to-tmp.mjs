@@ -2,6 +2,7 @@
 import streamifier from "streamifier";
 import fs from "fs";
 import axios from "axios";
+import helper_functions from "../../helper_functions.app.mjs";
 
 export default {
   key: "helper_functions-download-file-to-tmp",
@@ -10,10 +11,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     download_file_uri: {
       type: "string",
     },

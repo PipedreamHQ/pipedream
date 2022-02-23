@@ -1,4 +1,6 @@
 // legacy_hash_id: a_njiVEV
+import helper_functions from "../../helper_functions.app.mjs";
+
 export default {
   key: "helper_functions-get-coutry-name-by-code-iso",
   name: "Country name, given code (2-letter)",
@@ -6,10 +8,7 @@ export default {
   version: "0.1.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     countryCode: {
       type: "string",
       description: "The 2 letter capitalized country code",
