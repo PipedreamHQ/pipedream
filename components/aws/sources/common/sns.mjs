@@ -1,5 +1,12 @@
 import axios from "axios";
 import aws from "../../aws.app.mjs";
+import {
+  SubscribeCommand,
+  UnsubscribeCommand,
+  CreateTopicCommand,
+  DeleteTopicCommand,
+  SetTopicAttributesCommand,
+} from "@aws-sdk/client-sns";
 
 export default {
   props: {
@@ -50,9 +57,7 @@ export default {
       return this.db.set("subscriptionArn", subscriptionArn);
     },
     _getSnsClient() {
-      const region = this.getRegion();
-      const AWS = this.aws.sdk(region);
-      return new AWS.SNS();
+      return this.aws.getAWSClient("sns", this.getRegion());
     },
     async _createTopic(topicName) {
       const params = {
@@ -60,10 +65,9 @@ export default {
       };
 
       console.log(`Creating SNS topic '${topicName}'`);
-      const { TopicArn: topicArn } = await this
-        ._getSnsClient()
-        .createTopic(params)
-        .promise();
+      const { TopicArn: topicArn } = await this._getSnsClient().send(
+        new CreateTopicCommand(params),
+      );
       return topicArn;
     },
     async _deleteTopic(topicArn) {
@@ -72,10 +76,7 @@ export default {
       };
 
       console.log(`Deleting SNS topic '${topicArn}'`);
-      await this
-        ._getSnsClient()
-        .deleteTopic(params)
-        .promise();
+      await this._getSnsClient().send(new DeleteTopicCommand(params));
     },
     async _subscribeToTopic(topicArn) {
       const params = {
@@ -88,10 +89,7 @@ export default {
         Subscribing this source's URL (${this.http.endpoint})
         to SNS topic '${topicArn}'
       `);
-      await this
-        ._getSnsClient()
-        .subscribe(params)
-        .promise();
+      await this._getSnsClient().send(new SubscribeCommand(params));
     },
     async _confirmSubscription({
       SubscribeURL: callbackUrl,
@@ -117,10 +115,7 @@ export default {
         Unsubscribing this source's URL (${this.http.endpoint})
         from SNS topic '${topicArn}'
       `);
-      await this
-        ._getSnsClient()
-        .unsubscribe(params)
-        .promise();
+      await this._getSnsClient().send(new UnsubscribeCommand(params));
     },
     /**
      * This is a utility method that takes a string to be used as the name for
@@ -195,10 +190,7 @@ export default {
         AttributeName: attributeName,
         AttributeValue: attributeValue,
       };
-      await this
-        ._getSnsClient()
-        .setTopicAttributes(params)
-        .promise();
+      await this._getSnsClient().send(new SetTopicAttributesCommand(params));
     },
     /**
      * This method generates the metadata needed to emit an event using the

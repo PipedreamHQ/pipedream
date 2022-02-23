@@ -1,4 +1,8 @@
 import aws from "../../aws.app.mjs";
+import {
+  StartQueryCommand,
+  GetQueryResultsCommand,
+} from "@aws-sdk/client-cloudwatch-logs";
 
 export default {
   key: "aws-new-records-returned-by-cloudwatch-logs-insights-query",
@@ -22,6 +26,9 @@ export default {
       propDefinition: [
         aws,
         "logGroupNames",
+        (c) => ({
+          region: c.region,
+        }),
       ],
     },
     queryString: {
@@ -51,8 +58,7 @@ export default {
     const now = +new Date();
     const startTime = this.db.get("startTime") || now - 1000 * 60 * 60;
 
-    const AWS = this.aws.sdk(this.region);
-    const cloudwatchlogs = new AWS.CloudWatchLogs();
+    const client = this.aws.getAWSClient("cloudWatchLogs", this.region);
 
     // First, start the query
     const params = {
@@ -62,7 +68,7 @@ export default {
       logGroupNames: this.logGroupNames,
     };
 
-    const { queryId } = await cloudwatchlogs.startQuery(params).promise();
+    const { queryId } = await client.send(new StartQueryCommand(params));
 
     // Then poll for its status, emitting each record as its own event when completed
     async function sleep(ms) {
@@ -72,9 +78,9 @@ export default {
     let result, res;
     do {
       await sleep(1000);
-      res = await cloudwatchlogs.getQueryResults({
+      res = await client.send(new GetQueryResultsCommand({
         queryId,
-      }).promise();
+      }));
       result = res.status;
     } while (result === "Running" || result === "Scheduled");
 

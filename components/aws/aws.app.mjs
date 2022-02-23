@@ -194,15 +194,6 @@ export default {
     },
   },
   methods: {
-    _getAWSClient(clientType, region = common.defaultRegion) {
-      return new common.awsClients[clientType]({
-        credentials: {
-          accessKeyId: this.$auth.accessKeyId,
-          secretAccessKey: this.$auth.secretAccessKey,
-        },
-        region,
-      });
-    },
     _getAssumeRolePolicyForService(service) {
       return {
         Version: "2012-10-17",
@@ -221,6 +212,15 @@ export default {
       const { Account } = await this._getSTSClient(region).getCallerIdentity()
         .promise();
       return Account;
+    },
+    getAWSClient(clientType, region = common.defaultRegion) {
+      return new common.awsClients[clientType]({
+        credentials: {
+          accessKeyId: this.$auth.accessKeyId,
+          secretAccessKey: this.$auth.secretAccessKey,
+        },
+        region,
+      });
     },
     decodeResponsePayload(response) {
       response.Payload = JSON.parse(new TextDecoder("utf-8").decode(response.Payload) || {});
@@ -264,7 +264,7 @@ export default {
         Description: roleDescription,
         Path: "/pipedream/",
       };
-      const client = this._getAWSClient("iam", region);
+      const client = this.getAWSClient("iam", region);
       const { Role } = await client.send(new CreateRoleCommand(params));
       console.log(Role);
       return {
@@ -348,7 +348,7 @@ export default {
         PolicyName: permissions.name,
         RoleName: roleName,
       };
-      const client = this._getAWSClient("iam", region);
+      const client = this.getAWSClient("iam", region);
       await client.send(new PutRolePolicyCommand(params));
     },
     async _deleteInlinePoliciesForRole(region, roleName) {
@@ -356,7 +356,7 @@ export default {
         RoleName: roleName,
       };
 
-      const client = this._getAWSClient("iam", region);
+      const client = this.getAWSClient("iam", region);
       while (true) {
         const { PolicyNames: policyNames = [] } = await client.send(
           new ListRolePoliciesCommand(params),
@@ -395,11 +395,11 @@ export default {
       const params = {
         RoleName: roleName,
       };
-      const client = this._getAWSClient("iam", region);
+      const client = this.getAWSClient("iam", region);
       await client.send(new DeleteRoleCommand(params));
     },
     async listRoles(region) {
-      const client = this._getAWSClient("iam", region);
+      const client = this.getAWSClient("iam", region);
       return await client.send(new ListRolesCommand({}));
     },
     /**
@@ -417,7 +417,7 @@ export default {
       const params = {
         nextToken: lastToken,
       };
-      const client = this._getAWSClient("cloudWatchLogs", region);
+      const client = this.getAWSClient("cloudWatchLogs", region);
       const data = await client.send(new DescribeLogGroupsCommand(params));
       const {
         logGroups,
@@ -445,7 +445,7 @@ export default {
         logGroupName,
         nextToken: lastToken,
       };
-      const client = this._getAWSClient("cloudWatchLogs", region);
+      const client = this.getAWSClient("cloudWatchLogs", region);
       const data = await client.send(new DescribeLogStreamsCommand(params));
       const {
         logStreams,
@@ -479,7 +479,7 @@ export default {
         logEvents,
         sequenceToken,
       };
-      const client = this._getAWSClient("cloudWatchLogs", region);
+      const client = this.getAWSClient("cloudWatchLogs", region);
       const data = await client.send(new PutLogEventsCommand(params));
       const {
         nextSequenceToken,
@@ -491,33 +491,33 @@ export default {
       };
     },
     async listRegions() {
-      const client = this._getAWSClient("ec2");
+      const client = this.getAWSClient("ec2");
       return await client.send(new DescribeRegionsCommand({}));
     },
     async listBuckets() {
-      const client = this._getAWSClient("s3");
+      const client = this.getAWSClient("s3");
       return await client.send(new ListBucketsCommand({}));
     },
     async listEventBuses() {
-      const client = this._getAWSClient("eventBridge");
+      const client = this.getAWSClient("eventBridge");
       return await client.send(new ListEventBusesCommand({}));
     },
     async listQueues() {
-      const client = this._getAWSClient("sqs");
+      const client = this.getAWSClient("sqs");
       return await client.send(new ListQueuesCommand({}));
     },
     async listTopics() {
-      const client = this._getAWSClient("sns");
+      const client = this.getAWSClient("sns");
       return await client.send(new ListTopicsCommand({}));
     },
     async listLambdaFunctions(Region) {
-      const client = this._getAWSClient("lambda", Region);
+      const client = this.getAWSClient("lambda", Region);
       return await client.send(new ListFunctionsCommand({
         Region,
       }));
     },
     async createLambdaFunction(Region, Role, FunctionName, code) {
-      const client = this._getAWSClient("lambda", Region);
+      const client = this.getAWSClient("lambda", Region);
       const ZipFileCode = this.createZipArchive(code);
       return await client.send(new CreateFunctionCommand({
         Code: {
@@ -530,7 +530,7 @@ export default {
       }));
     },
     async invokeLambdaFunction(Region, FunctionName, Payload = {}) {
-      const client = this._getAWSClient("lambda", Region);
+      const client = this.getAWSClient("lambda", Region);
       return await client.send(new InvokeCommand({
         FunctionName,
         Payload,
@@ -546,7 +546,7 @@ export default {
       };
       if (ContentType) params.ContentType = ContentType;
       if (ContentLength) params.ContentLength = ContentLength;
-      const client = this._getAWSClient("s3", Region);
+      const client = this.getAWSClient("s3", Region);
       return await client.send(new PutObjectCommand(params));
     },
     async sendEventToEventBridgeBus(Region, EventBusName, EventData) {
@@ -560,7 +560,7 @@ export default {
           },
         ],
       };
-      const client = this._getAWSClient("eventBridge", Region);
+      const client = this.getAWSClient("eventBridge", Region);
       return await client.send(new PutEventsCommand(params));
     },
     async sendMessageToSqs(Region, QueueUrl, EventData) {
@@ -568,7 +568,7 @@ export default {
         MessageBody: JSON.stringify(EventData),
         QueueUrl,
       };
-      const client = this._getAWSClient("sqs", Region);
+      const client = this.getAWSClient("sqs", Region);
       return await client.send(new SendMessageCommand(params));
     },
     async sendMessageToSns(Region, TopicArn, Message) {
@@ -576,7 +576,7 @@ export default {
         TopicArn,
         Message,
       };
-      const client = this._getAWSClient("sns", Region);
+      const client = this.getAWSClient("sns", Region);
       return await client.send(new PublishCommand(params));
     },
   },

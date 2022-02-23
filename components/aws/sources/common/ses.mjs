@@ -1,5 +1,13 @@
 import { v4 as uuid } from "uuid";
 import base from "../common/sns.mjs";
+import {
+  ListIdentitiesCommand,
+  CreateReceiptRuleCommand,
+  DeleteReceiptRuleCommand,
+  CreateReceiptRuleSetCommand,
+  SetActiveReceiptRuleSetCommand,
+  DescribeActiveReceiptRuleSetCommand,
+} from "@aws-sdk/client-ses";
 
 export default {
   ...base,
@@ -44,18 +52,13 @@ export default {
   methods: {
     ...base.methods,
     _getSesClient() {
-      const region = this.getRegion();
-      const AWS = this.aws.sdk(region);
-      return new AWS.SES();
+      return this.aws.getAWSClient("ses", this.getRegion());
     },
     async _getReceiptRuleSet() {
       const {
         Metadata: metadata,
         Rules: rules,
-      } = await this
-        ._getSesClient()
-        .describeActiveReceiptRuleSet()
-        .promise();
+      } = await this._getSesClient().send(new DescribeActiveReceiptRuleSetCommand({}));
 
       if (!metadata) {
         await this._createReceiptRuleSet();
@@ -71,14 +74,8 @@ export default {
       const params = {
         RuleSetName: `pd-${uuid()}`,
       };
-      await this
-        ._getSesClient()
-        .createReceiptRuleSet(params)
-        .promise();
-      await this
-        ._getSesClient()
-        .setActiveReceiptRuleSet(params)
-        .promise();
+      await this._getSesClient().send(new CreateReceiptRuleSetCommand(params));
+      await this._getSesClient().send(new SetActiveReceiptRuleSetCommand(params));
     },
     _getRuleSetInfo() {
       return this.db.get("ses-rule");
@@ -139,10 +136,7 @@ export default {
         After: after,
         Rule: newRule,
       };
-      await this
-        ._getSesClient()
-        .createReceiptRule(params)
-        .promise();
+      await this._getSesClient().send(new CreateReceiptRuleCommand(params));
 
       this._setRuleSetInfo({
         ruleName,
@@ -158,10 +152,7 @@ export default {
         RuleName: ruleName,
         RuleSetName: ruleSetName,
       };
-      await this
-        ._getSesClient()
-        .deleteReceiptRule(params)
-        .promise();
+      await this._getSesClient().send(new DeleteReceiptRuleCommand(params));
     },
     getReceiptRule() {
       throw new Error("getReceiptRule is not implemented");
@@ -171,10 +162,9 @@ export default {
       return this.convertNameToValidSNSTopicName(topicNameCandidate);
     },
     async sesIdentities() {
-      const { Identities: identities } = await this
-        ._getSesClient()
-        .listIdentities()
-        .promise();
+      const { Identities: identities } = await this._getSesClient().send(
+        new ListIdentitiesCommand({}),
+      );
       return identities;
     },
   },
