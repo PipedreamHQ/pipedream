@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "helper_functions-schedule-task-in-future",
   name: "Pipedream Task Scheduler - Schedule Task",
-  description: "Schedule a task with an existing task scheduler source. See https://github.com/PipedreamHQ/pipedream/blob/master/components/pipedream/sources/new-scheduled-tasks/README.md",
+  description: "Schedule a task with an existing task scheduler source. See [here](https://github.com/PipedreamHQ/pipedream/blob/master/components/pipedream/sources/new-scheduled-tasks/README.md) for more details.",
   version: "0.2.1",
   type: "action",
   props: {

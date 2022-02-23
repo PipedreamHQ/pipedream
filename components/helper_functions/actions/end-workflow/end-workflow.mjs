@@ -1,15 +1,14 @@
 // legacy_hash_id: a_0Mi0Gd
+import helper_functions from "../../helper_functions.app.mjs";
+
 export default {
-  key: "helper_functions-end",
+  key: "helper_functions-end-workflow",
   name: "End Workflow",
   description: "End execution at this step. Later steps in the workflow will not run.",
   version: "0.2.1",
   type: "action",
   props: {
-    helper_functions: {
-      type: "app",
-      app: "helper_functions",
-    },
+    helper_functions,
     reason: {
       type: "string",
       description: "Enter the reason why the workflow is ending (e.g., \"No record found for user.\")",
