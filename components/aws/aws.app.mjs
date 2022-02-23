@@ -2,8 +2,24 @@ import axios from "axios"; // need axios response headers
 import AdmZip from "adm-zip";
 import dedent from "dedent";
 import common from "./common.mjs";
-import { generateRandomUniqueName } from "./sources/common/utils.mjs";
+import constants from "./actions/common/constants.mjs";
+import {
+  generateRandomUniqueName,
+  toSingleLineString,
+} from "./sources/common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
+import {
+  ListTablesCommand,
+  DescribeTableCommand,
+  CreateTableCommand,
+  UpdateTableCommand,
+  ExecuteStatementCommand,
+  GetItemCommand,
+  PutItemCommand,
+  UpdateItemCommand,
+  QueryCommand,
+  ScanCommand,
+} from "@aws-sdk/client-dynamodb";
 import {
   CreateRoleCommand,
   DeleteRoleCommand,
@@ -46,7 +62,7 @@ export default {
     region: {
       type: "string",
       label: "AWS Region",
-      description: "The AWS region string where you'd like to create your SNS topic",
+      description: "The AWS region",
       default: common.defaultRegion,
       async options() {
         try {
@@ -191,6 +207,131 @@ export default {
           },
         };
       },
+    },
+    tableName: {
+      type: "string",
+      label: "Table Name",
+      description: "The name of the table",
+      async options({
+        region, prevContext,
+      }) {
+        const {
+          TableNames,
+          LastEvaluatedTableName,
+        } = await this.dynamoDBListTables(region, {
+          ExclusiveStartTableName: prevContext.LastEvaluatedTableName,
+        });
+        return {
+          options: TableNames,
+          context: {
+            LastEvaluatedTableName,
+          },
+        };
+      },
+    },
+    keyPrimaryAttributeName: {
+      type: "string",
+      label: "Key Hash Attribute Name",
+      description: "The name of the partition key",
+    },
+    keyPrimaryAttributeType: {
+      type: "string",
+      label: "Key Hash Attribute Type",
+      description: "The data type of the primary key",
+      options: constants.dynamodb.keyAttributeTypes,
+    },
+    keySecondaryAttributeName: {
+      type: "string",
+      label: "Key Range Attribute Name",
+      description: "The name of the sort key",
+      optional: true,
+    },
+    keySecondaryAttributeType: {
+      type: "string",
+      label: "Key Range Attribute Type",
+      description: "The data type of the sort key",
+      options: constants.dynamodb.keyAttributeTypes,
+      optional: true,
+    },
+    billingMode: {
+      type: "string",
+      label: "Billing Mode",
+      description: "Controls how you are charged for read and write throughput and how you manage capacity",
+      options: Object.keys(constants.dynamodb.billingModes),
+    },
+    streamSpecificationEnabled: {
+      type: "boolean",
+      label: "Stream Specification Enabled",
+      description: "Indicates whether DynamoDB Streams is to be enabled (true) or disabled (false)",
+      optional: true,
+    },
+    streamSpecificationViewType: {
+      type: "string",
+      label: "Stream Specification View Type",
+      description: toSingleLineString(`
+        When an item in the table is modified, StreamViewType determines what information is written to the table's stream.
+        [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/interfaces/createtablecommandinput.html#streamspecification)
+      `),
+      optional: true,
+      options: constants.dynamodb.streamSpecificationViewTypes,
+    },
+    expressionAttributeNames: {
+      type: "object",
+      label: "Expression Attribute Names",
+      description: toSingleLineString(`
+        One or more substitution tokens for attribute names in an expression.
+        Example:
+        \`
+        {
+          "#execs": "execs"
+        }
+        \`
+        [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/modules/updateiteminput.html#expressionattributenames)
+      `),
+      optional: true,
+    },
+    expressionAttributeValues: {
+      type: "object",
+      label: "Expression Attribute Values",
+      description: toSingleLineString(`
+        One or more values that can be substituted in an expression.
+        Use the : (colon) character in an expression to dereference an attribute value.
+        Example:
+        \`
+        {
+          ":echo": {
+              "S": "echo"
+            },
+          ":oneh": {
+            "N": "100"
+          }
+        }
+        \`
+        [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/modules/updateiteminput.html#expressionattributevalues)
+      `),
+      optional: true,
+    },
+    keyConditionExpression: {
+      type: "string",
+      label: "Key Condition Expression",
+      description: toSingleLineString(`
+        The condition that specifies the key values for items to be retrieved by the Query action.
+        Example:
+        \`
+        partitionKeyName = :partitionkeyval AND sortKeyName = :sorteyval
+        \`
+        [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/interfaces/querycommandinput.html#keyconditionexpression)
+      `),
+    },
+    projectionExpression: {
+      type: "string",
+      label: "Projection Expression",
+      description: toSingleLineString(`
+        A string that identifies one or more attributes to retrieve from the specified table or index.
+        If no attribute names are specified, then all attributes will be returned.
+        If any of the requested attributes are not found, they will not appear in the result.
+      `),
+      optional: true,
     },
   },
   methods: {
@@ -578,6 +719,61 @@ export default {
       };
       const client = this.getAWSClient("sns", Region);
       return await client.send(new PublishCommand(params));
+    },
+    async dynamoDBListTables(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new ListTablesCommand(params));
+    },
+    async dynamoDBDescribeTable(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new DescribeTableCommand(params));
+    },
+    async dynamoDBCreateTable(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new CreateTableCommand(params));
+    },
+    async dynamoDBUpdateTable(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new UpdateTableCommand(params));
+    },
+    async dynamoDBExecuteTransaction(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new ExecuteStatementCommand(params));
+    },
+    async dynamoDBGetItem(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new GetItemCommand(params));
+    },
+    async dynamoDBPutItem(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new PutItemCommand(params));
+    },
+    async dynamoDBQuery(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new QueryCommand(params));
+    },
+    async dynamoDBScan(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new ScanCommand(params));
+    },
+    async dynamoDBUpdateItem(Region, params) {
+      const client = this.getAWSClient("dynamodb", Region);
+      return await client.send(new UpdateItemCommand(params));
+    },
+    async dynamoDBPagination(fn, region, params, nextTokenAttr, lastTokenAttr = null) {
+      let response;
+      const results = [];
+      do {
+        response = await fn(region, params);
+        results.push(...response.Items);
+        if (lastTokenAttr) {
+          params[nextTokenAttr] = response[lastTokenAttr];
+        } else {
+          params[nextTokenAttr] = response[nextTokenAttr];
+        }
+      } while (params[nextTokenAttr]);
+      response.Items = results;
+      return response;
     },
   },
 };

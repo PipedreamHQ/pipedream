@@ -7,6 +7,7 @@ import { CloudWatchLogsClient } from "@aws-sdk/client-cloudwatch-logs";
 import { EventBridgeClient } from "@aws-sdk/client-eventbridge";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { SNSClient } from "@aws-sdk/client-sns";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 export default {
   defaultRegion: "us-east-1",
@@ -20,6 +21,7 @@ export default {
     eventBridge: EventBridgeClient,
     sqs: SQSClient,
     sns: SNSClient,
+    dynamodb: DynamoDBClient,
   },
   // List extracted from the official AWS documentation:
   // https://docs.aws.amazon.com/general/latest/gr/rande.html
