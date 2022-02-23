@@ -22,8 +22,17 @@ export default {
       type: "string",
       description:
         "Only include events up to this specific time (ISO timestamp)",
-      label: "occurredAtMin",
+      label: "occurredAtMax",
       optional: true,
+    },
+    paginationDirection: {
+      type: "string",
+      label: "Pagination Direction",
+      description: "Direction to paginate through Shopify API results. Use \"before\" to travel backwards to the first record, \"after\" will go forward.",
+      options: [
+        "before",
+        "after",
+      ],
     },
   },
   methods: {
@@ -65,7 +74,7 @@ export default {
         ...variables,
         ...(lastCursor
           ? {
-            after: lastCursor,
+            [this.paginationDirection]: lastCursor,
           }
           : {}),
       };
