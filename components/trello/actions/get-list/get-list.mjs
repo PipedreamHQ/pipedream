@@ -1,11 +1,10 @@
-// legacy_hash_id: a_74ijLO
 import { axios } from "@pipedream/platform";
 
 export default {
-  key: "trello-get-card",
-  name: "Trello Get Card",
-  description: "Get a card by its ID",
-  version: "0.1.3",
+  key: "trello-get-list",
+  name: "Trello Get List",
+  description: "Get information about a List",
+  version: "0.0.1",
   type: "action",
   props: {
     // eslint-disable-next-line pipedream/props-label, pipedream/props-description
@@ -13,15 +12,15 @@ export default {
       type: "app",
       app: "trello",
     },
-    cardId: {
+    listId: {
       type: "string",
-      label: "Card ID",
-      description: "The ID of the Trello card",
+      label: "List ID",
+      description: "The ID of the Trello list",
     },
   },
   async run({ $ }) {
     return await axios($, {
-      url: `https://api.trello.com/1/cards/${this.cardId}`,
+      url: `https://api.trello.com/1/lists/${this.listId}`,
     }, {
       token: {
         key: this.trello.$auth.oauth_access_token,
