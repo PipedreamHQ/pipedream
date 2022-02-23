@@ -6,6 +6,10 @@ import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
 import { ListRolesCommand } from "@aws-sdk/client-iam";
 import {
+  ListTopicsCommand,
+  PublishCommand,
+} from "@aws-sdk/client-sns";
+import {
   ListQueuesCommand,
   SendMessageCommand,
 } from "@aws-sdk/client-sqs";
@@ -86,6 +90,15 @@ export default {
       async options() {
         const response = await this.listQueues();
         return response.QueueUrls;
+      },
+    },
+    topic: {
+      type: "string",
+      label: "SNS Topic",
+      description: "The ARN of the SNS Topic",
+      async options() {
+        const response = await this.listTopics();
+        return response.Topics.map((topic) => topic.TopicArn);
       },
     },
     lambdaFunction: {
@@ -540,6 +553,10 @@ export default {
       const client = this._getAWSClient("sqs");
       return await client.send(new ListQueuesCommand({}));
     },
+    async listTopics() {
+      const client = this._getAWSClient("sns");
+      return await client.send(new ListTopicsCommand({}));
+    },
     async listLambdaFunctions(Region) {
       const client = this._getAWSClient("lambda", Region);
       return await client.send(new ListFunctionsCommand({
@@ -600,6 +617,14 @@ export default {
       };
       const client = this._getAWSClient("sqs", Region);
       return await client.send(new SendMessageCommand(params));
+    },
+    async sendMessageToSns(Region, TopicArn, Message) {
+      const params = {
+        TopicArn,
+        Message,
+      };
+      const client = this._getAWSClient("sns", Region);
+      return await client.send(new PublishCommand(params));
     },
   },
 };
