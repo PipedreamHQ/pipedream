@@ -3,6 +3,7 @@ import { LambdaClient } from "@aws-sdk/client-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
 import { IAMClient } from "@aws-sdk/client-iam";
 import { S3Client } from "@aws-sdk/client-s3";
+import { CloudWatchLogsClient } from "@aws-sdk/client-cloudwatch-logs";
 import { EventBridgeClient } from "@aws-sdk/client-eventbridge";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { SNSClient } from "@aws-sdk/client-sns";
@@ -15,6 +16,7 @@ export default {
     ssm: SSMClient,
     iam: IAMClient,
     s3: S3Client,
+    cloudWatchLogs: CloudWatchLogsClient,
     eventBridge: EventBridgeClient,
     sqs: SQSClient,
     sns: SNSClient,

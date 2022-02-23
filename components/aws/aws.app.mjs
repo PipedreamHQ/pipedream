@@ -6,6 +6,11 @@ import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
 import { ListRolesCommand } from "@aws-sdk/client-iam";
 import {
+  DescribeLogStreamsCommand,
+  DescribeLogGroupsCommand,
+  PutLogEventsCommand,
+} from "@aws-sdk/client-cloudwatch-logs";
+import {
   ListTopicsCommand,
   PublishCommand,
 } from "@aws-sdk/client-sns";
@@ -216,10 +221,6 @@ export default {
         },
         region,
       });
-    },
-    _getCloudWatchLogsClient(region) {
-      const AWS = this.sdk(region);
-      return new AWS.CloudWatchLogs();
     },
     _getIamClient(region) {
       const AWS = this.sdk(region);
@@ -458,10 +459,8 @@ export default {
       const params = {
         nextToken: lastToken,
       };
-      const data = await this.
-        _getCloudWatchLogsClient(region)
-        .describeLogGroups(params)
-        .promise();
+      const client = this._getAWSClient("cloudWatchLogs", region);
+      const data = await client.send(new DescribeLogGroupsCommand(params));
       const {
         logGroups,
         nextToken,
@@ -488,10 +487,8 @@ export default {
         logGroupName,
         nextToken: lastToken,
       };
-      const data = await this.
-        _getCloudWatchLogsClient(region)
-        .describeLogStreams(params)
-        .promise();
+      const client = this._getAWSClient("cloudWatchLogs", region);
+      const data = await client.send(new DescribeLogStreamsCommand(params));
       const {
         logStreams,
         nextToken,
@@ -524,10 +521,8 @@ export default {
         logEvents,
         sequenceToken,
       };
-      const data = await this.
-        _getCloudWatchLogsClient(region)
-        .putLogEvents(params)
-        .promise();
+      const client = this._getAWSClient("cloudWatchLogs", region);
+      const data = await client.send(new PutLogEventsCommand(params));
       const {
         nextSequenceToken,
         rejectedLogEventsInfo,
