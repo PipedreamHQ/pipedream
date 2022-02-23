@@ -28,6 +28,8 @@ export default {
       return;
     }
     $.flow.exit(this.reason);
-    $.export("$summary", `Workflow ended. Reason: \`${this.reason}\``);
+    $.export("$summary", `Workflow ended.${this.reason
+      ? ` Reason: \`${this.reason}\``
+      : "" }`);
   },
 };
