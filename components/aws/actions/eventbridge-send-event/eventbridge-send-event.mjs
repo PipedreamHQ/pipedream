@@ -8,7 +8,7 @@ export default {
     Sends an event to an EventBridge event bus.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-eventbridge/classes/puteventscommand.html)
   `),
-  version: "0.3.2",
+  version: "0.4.0",
   type: "action",
   props: {
     aws,

@@ -8,7 +8,7 @@ export default {
     Accepts a file URL, and streams the file to the provided S3 bucket/key.
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   `),
-  version: "0.2.2",
+  version: "0.3.0",
   type: "action",
   props: {
     aws,

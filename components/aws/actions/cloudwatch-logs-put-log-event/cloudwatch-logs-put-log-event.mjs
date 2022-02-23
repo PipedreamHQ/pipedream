@@ -8,7 +8,7 @@ export default {
     Uploads a log event to the specified log stream.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-cloudwatch-logs/classes/putlogeventscommand.html)
   `),
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   props: {
     aws,
