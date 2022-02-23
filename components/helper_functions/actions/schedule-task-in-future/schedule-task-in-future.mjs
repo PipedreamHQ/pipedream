@@ -30,8 +30,9 @@ export default {
     },
   },
   async run({ $ }) {
-  // N seconds from now
-    $.export("ts", (new Date(+new Date() + (this.numSeconds * 1000))).toISOString());
+    // N seconds from now
+    const ts = (new Date(+new Date() + (this.numSeconds * 1000))).toISOString();
+    $.export("ts", ts);
 
     const headers = {
       "Content-Type": "application/json",
@@ -44,7 +45,7 @@ export default {
       url: `${this.taskSchedulerURL}/schedule`,
       headers,
       data: {
-        timestamp: this.ts,
+        timestamp: ts,
         message: this.message,
       },
     });
