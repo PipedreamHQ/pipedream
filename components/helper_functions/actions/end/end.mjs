@@ -3,7 +3,7 @@ export default {
   key: "helper_functions-end",
   name: "End Workflow",
   description: "End execution at this step. Later steps in the workflow will not run.",
-  version: "0.1.1",
+  version: "0.2.1",
   type: "action",
   props: {
     helper_functions: {
@@ -14,8 +14,19 @@ export default {
       type: "string",
       optional: true,
     },
+    condition: {
+      type: "boolean",
+      label: "Condition",
+      description: "Enter any expression (e.g., `{{ 2*2 === 4 }}`). If it evaluates to true, end workflow. Otherwise, continue.",
+      optional: true,
+      default: true,
+    },
   },
   async run({ $ }) {
+    if (!this.condition) {
+      $.export("$summary", "Workflow continued. Condition evaluated to false.");
+      return;
+    }
     $.flow.exit(this.reason);
     $.export("$summary", `Workflow ended. Reason: \`${this.reason}\``);
   },
