@@ -6,6 +6,10 @@ import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
 import { ListRolesCommand } from "@aws-sdk/client-iam";
 import {
+  ListQueuesCommand,
+  SendMessageCommand,
+} from "@aws-sdk/client-sqs";
+import {
   ListEventBusesCommand,
   PutEventsCommand,
 } from "@aws-sdk/client-eventbridge";
@@ -73,6 +77,15 @@ export default {
       async options() {
         const response = await this.listEventBuses();
         return response.EventBuses.map((eventBus) => eventBus.Name);
+      },
+    },
+    queueUrl: {
+      type: "string",
+      label: "SQS Queue URL",
+      description: "The URL of the SQS Queue",
+      async options() {
+        const response = await this.listQueues();
+        return response.QueueUrls;
       },
     },
     lambdaFunction: {
@@ -523,6 +536,10 @@ export default {
       const client = this._getAWSClient("eventBridge");
       return await client.send(new ListEventBusesCommand({}));
     },
+    async listQueues() {
+      const client = this._getAWSClient("sqs");
+      return await client.send(new ListQueuesCommand({}));
+    },
     async listLambdaFunctions(Region) {
       const client = this._getAWSClient("lambda", Region);
       return await client.send(new ListFunctionsCommand({
@@ -575,6 +592,14 @@ export default {
       };
       const client = this._getAWSClient("eventBridge", Region);
       return await client.send(new PutEventsCommand(params));
+    },
+    async sendMessageToSqs(Region, QueueUrl, EventData) {
+      const params = {
+        MessageBody: JSON.stringify(EventData),
+        QueueUrl,
+      };
+      const client = this._getAWSClient("sqs", Region);
+      return await client.send(new SendMessageCommand(params));
     },
   },
 };
