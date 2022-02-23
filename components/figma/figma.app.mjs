@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -71,26 +71,33 @@ export default {
       };
       return res;
     },
-    async listTeamProjects(teamId) {
-      const res = await axios(this._getAxiosParams({
+    async listTeamProjects(teamId, ctx = this) {
+      const res = await axios(ctx, this._getAxiosParams({
         method: "GET",
         path: `/v1/teams/${teamId}/projects`,
       }));
-      return res.data?.projects;
+      return res?.projects || [];
     },
-    async listProjectFiles(projectId) {
-      const res = await axios(this._getAxiosParams({
+    async listProjectFiles(projectId, ctx = this) {
+      const res = await axios(ctx, this._getAxiosParams({
         method: "GET",
         path: `/v1/projects/${projectId}/files`,
       }));
-      return res.data?.files;
+      return res?.files || [];
     },
-    async listFileComments(fileId) {
-      const res = await axios(this._getAxiosParams({
+    async listFileComments(fileId, ctx = this) {
+      const res = await axios(ctx, this._getAxiosParams({
         method: "GET",
         path: `/v1/files/${fileId}/comments`,
       }));
-      return res.data?.comments;
+      return res?.comments || [];
+    },
+    async postComment(fileId, data, ctx = this) {
+      return axios(ctx, this._getAxiosParams({
+        method: "POST",
+        path: `/v1/files/${fileId}/comments`,
+        data,
+      }));
     },
   },
 };

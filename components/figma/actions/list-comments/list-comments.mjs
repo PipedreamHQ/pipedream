@@ -1,5 +1,4 @@
 import figmaApp from "../../figma.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   name: "List Comments",
@@ -37,16 +36,13 @@ export default {
   async run({ $ }) {
     const { fileId } = this;
 
-    const res = await axios($, this.figmaApp._getAxiosParams({
-      method: "GET",
-      path: `/v1/files/${fileId}/comments`,
-    }));
+    const comments = await this.figmaApp.listFileComments(fileId, $);
 
-    if (res.comments?.length > 0) {
-      $.export("$summary", `Successfully fetched ${res.comments.length} comment(s)`);
+    if (comments.length > 0) {
+      $.export("$summary", `Successfully fetched ${comments.length} comment(s)`);
     } else {
       $.export("$summary", "No comments fetched");
     }
-    return res?.comments;
+    return comments;
   },
 };

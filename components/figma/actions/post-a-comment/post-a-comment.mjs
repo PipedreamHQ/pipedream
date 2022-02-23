@@ -1,5 +1,4 @@
 import figmaApp from "../../figma.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   name: "Post a Comment",
@@ -55,14 +54,11 @@ export default {
       commentId,
     } = this;
 
-    const res = await axios($, this.figmaApp._getAxiosParams({
-      method: "POST",
-      path: `/v1/files/${fileId}/comments`,
-      data: {
-        message,
-        comment_id: commentId,
-      },
-    }));
+    const data = {
+      message,
+      comment_id: commentId,
+    };
+    const res = await this.figmaApp.postComment(fileId, data, $);
 
     $.export("$summary", "Comment successfully posted");
     return res;
