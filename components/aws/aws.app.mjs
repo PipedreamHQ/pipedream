@@ -6,6 +6,10 @@ import { generateRandomUniqueName } from "./sources/common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
 import { ListRolesCommand } from "@aws-sdk/client-iam";
 import {
+  ListEventBusesCommand,
+  PutEventsCommand,
+} from "@aws-sdk/client-eventbridge";
+import {
   ListBucketsCommand,
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
@@ -62,6 +66,15 @@ export default {
       label: "S3 Filename Key",
       description: "The name of the S3 key with extension you'd like to upload this file to",
     },
+    eventBusName: {
+      type: "string",
+      label: "Event Bus Name",
+      description: "The name of the EventBridge event bus",
+      async options() {
+        const response = await this.listEventBuses();
+        return response.EventBuses.map((eventBus) => eventBus.Name);
+      },
+    },
     lambdaFunction: {
       type: "string",
       label: "Function Name",
@@ -86,7 +99,7 @@ export default {
     eventData: {
       type: "object",
       label: "Event data",
-      description: "A JSON object that will be sent as an event to the function",
+      description: "A JSON object that will be sent as an event",
       optional: true,
     },
     logGroupNames: {
@@ -506,6 +519,10 @@ export default {
       const client = this._getAWSClient("s3");
       return await client.send(new ListBucketsCommand({}));
     },
+    async listEventBuses() {
+      const client = this._getAWSClient("eventBridge");
+      return await client.send(new ListEventBusesCommand({}));
+    },
     async listLambdaFunctions(Region) {
       const client = this._getAWSClient("lambda", Region);
       return await client.send(new ListFunctionsCommand({
@@ -544,6 +561,20 @@ export default {
       if (ContentLength) params.ContentLength = ContentLength;
       const client = this._getAWSClient("s3", Region);
       return await client.send(new PutObjectCommand(params));
+    },
+    async sendEventToEventBridgeBus(Region, EventBusName, EventData) {
+      const params = {
+        Entries: [
+          {
+            Detail: JSON.stringify(EventData),
+            DetailType: Object.keys(EventData).join(" "),
+            EventBusName,
+            Source: "pipedream",
+          },
+        ],
+      };
+      const client = this._getAWSClient("eventBridge", Region);
+      return await client.send(new PutEventsCommand(params));
     },
   },
 };

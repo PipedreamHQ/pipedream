@@ -3,6 +3,7 @@ import { LambdaClient } from "@aws-sdk/client-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
 import { IAMClient } from "@aws-sdk/client-iam";
 import { S3Client } from "@aws-sdk/client-s3";
+import { EventBridgeClient } from "@aws-sdk/client-eventbridge";
 
 export default {
   defaultRegion: "us-east-1",
@@ -12,6 +13,7 @@ export default {
     ssm: SSMClient,
     iam: IAMClient,
     s3: S3Client,
+    eventBridge: EventBridgeClient,
   },
   // List extracted from the official AWS documentation:
   // https://docs.aws.amazon.com/general/latest/gr/rande.html
