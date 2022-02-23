@@ -28,12 +28,11 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const deleteAll = !!(this.convertEmptyStringToUndefined(this.deleteAll));
     if (this.deleteAll && this.emails) {
       throw new Error(
         "Must provide only one of `deleteAll` or `emails` parameters.",
       );
     }
-    return this.sendgrid.deleteBounces(deleteAll, this.emails);
+    return this.sendgrid.deleteBounces(this.deleteAll, this.emails);
   },
 };

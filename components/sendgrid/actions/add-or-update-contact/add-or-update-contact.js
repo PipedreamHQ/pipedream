@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-add-or-update-contact",
   name: "Add Or Update Contact",
   description: "Adds or updates a contact.",
-  version: "0.0.35",
+  version: "0.0.37",
   type: "action",
   props: {
     ...common.props,

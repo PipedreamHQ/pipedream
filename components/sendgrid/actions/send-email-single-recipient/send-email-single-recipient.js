@@ -27,12 +27,12 @@ module.exports = {
       type: "string",
       label: "To Email",
       description:
-        "The intended recipient's name.",
+        "The intended recipient's email address",
     },
     toName: {
       type: "string",
-      label: "From Name",
-      description: "A name or title associated with the sending email address.",
+      label: "To Name",
+      description: "The intended recipient's name.",
       optional: true,
     },
     cc: {
@@ -49,11 +49,11 @@ module.exports = {
       "An array of recipients who will receive a blind copy of your email. Each object in this array must contain the recipient's email address. Each object in the array may optionally contain the recpient's name. Alternatively, provide a string that will `JSON.parse` to an array of recipient objects. Example: `[{\"email\":\"email@example.com\",\"name\":\"Example Recipient\"}]`",
       optional: true,
     },
-    headers: {
-      type: "string",
-      label: "Headers",
+    personalizationHeaders: {
+      type: "object",
+      label: "Personalization.Headers",
       description:
-      "A collection of JSON key/value pairs allowing you to specify handling instructions for your email. You may not overwrite the following headers: `x-sg-id`, `x-sg-eid`, `received`, `dkim-signature`, `Content-Type`, `Content-Transfer-Encoding`, `To`, `From`, `Subject`, `Reply-To`, `CC`, `BCC`.",
+      "An object containing key/value pairs allowing you to specify handling instructions for your email. You may not overwrite the following headers: `x-sg-id`, `x-sg-eid`, `received`, `dkim-signature`, `Content-Type`, `Content-Transfer-Encoding`, `To`, `From`, `Subject`, `Reply-To`, `CC`, `BCC`.",
       optional: true,
     },
     substitutions: {
@@ -108,6 +108,13 @@ module.exports = {
       label: "Template Id",
       description:
         "An email template ID. A template that contains a subject and content — either text or html — will override any subject and content values specified at the personalizations or message level.",
+      optional: true,
+    },
+    headers: {
+      type: "object",
+      label: "Headers",
+      description:
+      "An object containing key/value pairs of header names and the value to substitute for them. The key/value pairs must be strings. You must ensure these are properly encoded if they contain unicode characters. These headers cannot be one of the reserved headers.",
       optional: true,
     },
     categories: {
@@ -204,6 +211,7 @@ module.exports = {
         },
       };
     }
+    let attachments = this.convertEmptyStringToUndefined(this.attachments);
     if (this.attachments) {
       constraints.attachments = {
         arrayValidator: {
@@ -211,6 +219,7 @@ module.exports = {
           key: "attachments",
         },
       };
+      attachments = this.getArrayObject(this.attachments);
     }
     if (this.categories) {
       constraints.categories = {
@@ -266,6 +275,9 @@ module.exports = {
     if (this.bcc) {
       personalizations[0].bcc = this.getArrayObject(this.bcc);
     }
+    if (this.personalizationHeaders) {
+      personalizations[0].headers = this.convertEmptyStringToUndefined(this.personalizationHeaders);
+    }
     if (this.substitutions) {
       personalizations[0].substitutions = this.substitutions;
     }
@@ -296,15 +308,15 @@ module.exports = {
       reply_to: replyTo,
       subject: this.subject,
       content: this.getArrayObject(this.content),
-      attachments: this.getArrayObject(this.attachments),
-      template_id: this.templateId,
+      attachments,
+      template_id: this.convertEmptyStringToUndefined(this.templateId),
       headers: this.convertEmptyStringToUndefined(this.headers),
       categories: this.convertEmptyStringToUndefined(this.categories),
-      custom_args: this.customArgs,
+      custom_args: this.convertEmptyStringToUndefined(this.customArgs),
       send_at: this.sendAt,
       batch_id: this.batchId,
       asm: this.convertEmptyStringToUndefined(this.asm),
-      ip_pool_name: this.ipPoolName,
+      ip_pool_name: this.convertEmptyStringToUndefined(this.ipPoolName),
       mail_settings: this.convertEmptyStringToUndefined(this.mailSettings),
       tracking_settings: this.convertEmptyStringToUndefined(this.trackingSettings),
     };

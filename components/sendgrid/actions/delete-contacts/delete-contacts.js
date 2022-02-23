@@ -26,12 +26,11 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const deleteAllContacts = !!(this.convertEmptyStringToUndefined(this.deleteAllContacts));
-    if (deleteAllContacts && this.ids) {
+    if (this.deleteAllContacts && this.ids) {
       throw new Error(
         "Must provide only one of `deleteAllContacts` or `ids` parameters.",
       );
     }
-    return this.sendgrid.deleteContacts(deleteAllContacts, this.ids);
+    return this.sendgrid.deleteContacts(this.deleteAllContacts, this.ids);
   },
 };

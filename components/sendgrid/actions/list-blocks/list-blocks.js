@@ -7,7 +7,7 @@ module.exports = {
   name: "List Blocks",
   description:
     "Allows you to list all email addresses that are currently on your blocks list.",
-  version: "0.0.38",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -40,12 +40,10 @@ module.exports = {
         type: "integer",
       },
     };
-    this.startTime = this.convertEmptyStringToUndefined(this.startTime);
-    if (this.startTime != null) {
+    if (this.startTime) {
       constraints.startTime = this.getIntegerGtZeroConstraint();
     }
-    this.endTime = this.convertEmptyStringToUndefined(this.endTime);
-    if (this.endTime != null) {
+    if (this.endTime) {
       constraints.endTime = {
         numericality: {
           onlyInteger: true,
@@ -56,8 +54,7 @@ module.exports = {
         },
       };
     }
-    this.numberOfBlocks = this.convertEmptyStringToUndefined(this.numberOfBlocks);
-    if (this.numberOfBlocks != null) {
+    if (this.numberOfBlocks) {
       constraints.numberOfBlocks = this.getIntegerGtZeroConstraint();
     }
     const validationResult = validate(

@@ -5,7 +5,7 @@ module.exports = {
   key: "sendgrid-delete-blocks",
   name: "Delete Blocks",
   description: "Allows you to delete all email addresses on your blocks list.",
-  version: "0.0.1",
+  version: "0.0.24",
   type: "action",
   props: {
     ...common.props,
@@ -28,12 +28,11 @@ module.exports = {
     ...common.methods,
   },
   async run() {
-    const deleteAll = !!(this.convertEmptyStringToUndefined(this.deleteAll));
-    if (deleteAll && this.emails) {
+    if (this.deleteAll && this.emails) {
       throw new Error(
         "Must provide only one of `deleteAll` or `emails` parameters.",
       );
     }
-    return this.sendgrid.deleteBlocks(deleteAll, this.emails);
+    return this.sendgrid.deleteBlocks(this.deleteAll, this.emails);
   },
 };

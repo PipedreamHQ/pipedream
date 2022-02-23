@@ -42,7 +42,7 @@ module.exports = {
     this.checkValidationResults(validationResult);
     const body = {
       email: this.email,
-      source: this.convertEmptyStringToUndefined(this.source),
+      source: this.source,
     };
     return this.sendgrid.validateEmail(body);
   },

@@ -5,7 +5,7 @@ module.exports = {
   key: "sendgrid-search-contacts",
   name: "Search Contacts",
   description: "Searches contacts with a SGQL query.",
-  version: "0.0.1",
+  version: "0.0.22",
   type: "action",
   props: {
     ...common.props,

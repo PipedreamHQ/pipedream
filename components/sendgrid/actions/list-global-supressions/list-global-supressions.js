@@ -7,7 +7,7 @@ module.exports = {
   name: "List Global Supressions",
   description:
     "Allows you to get a list of all email address that are globally suppressed.",
-  version: "0.0.1",
+  version: "0.0.57",
   type: "action",
   props: {
     ...common.props,
@@ -37,19 +37,13 @@ module.exports = {
   async run() {
     const constraints = {
       numberOfSupressions: {
-        numericality: {
-          onlyInteger: true,
-          greaterThan: 0,
-          message: "must be positive integer, greater than zero.",
-        },
+        type: "integer",
       },
     };
-    this.startTime = this.convertEmptyStringToUndefined(this.startTime);
-    if (this.startTime != null) {
+    if (this.startTime) {
       constraints.startTime = this.getIntegerGtZeroConstraint();
     }
-    this.endTime = this.convertEmptyStringToUndefined(this.endTime);
-    if (this.endTime != null) {
+    if (this.endTime) {
       constraints.endTime = {
         numericality: {
           onlyInteger: true,
@@ -59,6 +53,9 @@ module.exports = {
           message: "must be positive integer, non zero, greater than `startTime`.",
         },
       };
+    }
+    if (this.numberOfSupressions) {
+      constraints.numberOfSupressions = this.getIntegerGtZeroConstraint();
     }
     const validationResult = validate(
       {

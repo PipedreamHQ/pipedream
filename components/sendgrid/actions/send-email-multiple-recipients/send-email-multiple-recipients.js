@@ -7,7 +7,7 @@ module.exports = {
   name: "Send Email Multiple Recipients",
   description:
     "This action sends a personalized e-mail to multiple specified recipients.",
-  version: "0.0.1",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -53,7 +53,7 @@ module.exports = {
       type: "string",
       label: "Content",
       description:
-        "An string array where you can specify the content of your email. You can include multiple  of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Alternatively, provide a string that will `JSON.parse` to an array of content objects. Example: `[{type:\"text/plain\",value:\"Plain text content.\"}]`",
+        "An string array where you can specify the content of your email. You can include multiple of content, but you must specify at least one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types). To include more than one MIME type, add another object to the array containing the type and value parameters. Alternatively, provide a string that will `JSON.parse` to an array of content objects. Example: `[{type:\"text/plain\",value:\"Plain text content.\"}]`",
     },
     attachments: {
       type: "string",
@@ -73,7 +73,7 @@ module.exports = {
       type: "object",
       label: "Headers",
       description:
-        "An array of key/value pairs allowing you to specify handling instructions for your email. You may not overwrite the following headers: `x-sg-id`, `x-sg-eid`, `received`, `dkim-signature`, `Content-Type`, `Content-Transfer-Encoding`, `To`, `From`, `Subject`, `Reply-To`, `CC`, `BCC`",
+      "An object containing key/value pairs of header names and the value to substitute for them. The key/value pairs must be strings. You must ensure these are properly encoded if they contain unicode characters. These headers cannot be one of the reserved headers.",
       optional: true,
     },
     categories: {
@@ -162,6 +162,7 @@ module.exports = {
         email: true,
       };
     }
+    let attachments = this.convertEmptyStringToUndefined(this.attachments);
     if (this.attachments) {
       constraints.attachments = {
         arrayValidator: {
@@ -169,6 +170,7 @@ module.exports = {
           key: "attachments",
         },
       };
+      attachments = this.getArrayObject(this.attachments);
     }
     if (this.categories) {
       constraints.categories = {
@@ -223,15 +225,15 @@ module.exports = {
       reply_to: replyTo,
       subject: this.subject,
       content: this.getArrayObject(this.content),
-      attachments: this.getArrayObject(this.attachments),
-      template_id: this.templateId,
+      attachments,
+      template_id: this.convertEmptyStringToUndefined(this.templateId),
       headers: this.convertEmptyStringToUndefined(this.headers),
       categories: this.convertEmptyStringToUndefined(this.categories),
-      custom_args: this.customArgs,
+      custom_args: this.convertEmptyStringToUndefined(this.customArgs),
       send_at: this.sendAt,
       batch_id: this.batchId,
       asm: this.convertEmptyStringToUndefined(this.asm),
-      ip_pool_name: this.ipPoolName,
+      ip_pool_name: this.convertEmptyStringToUndefined(this.ipPoolName),
       mail_settings: this.convertEmptyStringToUndefined(this.mailSettings),
       tracking_settings: this.convertEmptyStringToUndefined(this.trackingSettings),
     };

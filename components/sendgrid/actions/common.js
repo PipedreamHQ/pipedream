@@ -72,10 +72,14 @@ module.exports = {
      * `null` it will return `undefined`.
      */
     convertEmptyStringToUndefined(value) {
-      if (value == false) {
-        return value;
+      if ( value === "") {
+        return undefined;
       } else {
-        return value || undefined;
+        if (value == false) {
+          return value;
+        } else {
+          return value || undefined;
+        }
       }
     },
     /**
