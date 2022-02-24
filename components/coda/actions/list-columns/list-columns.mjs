@@ -12,7 +12,6 @@ export default {
       propDefinition: [
         coda,
         "docId",
-        (c) => c,
       ],
     },
     tableId: {

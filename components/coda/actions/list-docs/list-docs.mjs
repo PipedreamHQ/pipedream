@@ -12,7 +12,6 @@ export default {
       propDefinition: [
         coda,
         "docId",
-        (c) => c,
       ],
       description: "Show only docs copied from the specified doc",
       optional: true,
