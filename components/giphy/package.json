@@ -1,0 +1,20 @@
+{
+    "name": "@pipedream/giphy",
+    "version": "0.0.1",
+    "description": "Pipedream Giphy Components",
+    "main": "giphy.app.js",
+    "keywords": [
+        "pipedream",
+        "giphy"
+    ],
+    "homepage": "https://pipedream.com/apps/giphy",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@pipedream/platform": "^0.10.0",
+        "form-data": "^4.0.0"
+    }
+}

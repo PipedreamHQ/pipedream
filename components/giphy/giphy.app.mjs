@@ -63,5 +63,15 @@ export default {
 
       return items;
     },
+    async uploadGif(data, ctx = this) {
+      return axios(ctx, this._getAxiosParams({
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        method: "GET",
+        path: "/v1/gifs",
+        data,
+      }));
+    },
   },
 };
