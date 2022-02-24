@@ -32,6 +32,8 @@ export default {
           tableId: c.tableId,
         }),
       ],
+      description: "ID of the column. This field is required if querying",
+      optional: true,
     },
     query: {
       propDefinition: [
@@ -39,6 +41,7 @@ export default {
         "query",
       ],
       description: "Query used to filter returned rows",
+      optional: true,
     },
     sortBy: {
       propDefinition: [
@@ -96,7 +99,6 @@ export default {
   },
   async run({ $ }) {
     let params = {
-      query: `${this.columnId}:"${this.query}"`,
       sortBy: this.sortBy,
       visibleOnly: this.visibleOnly,
       useColumnNames: this.useColumnNames,
@@ -105,6 +107,10 @@ export default {
       pageToken: this.pageToken,
       syncToken: this.syncToken,
     };
+
+    if (this.columnId && this.query) {
+      params.query = `${this.columnId}:"${this.query}"`;
+    }
 
     let response = await this.coda.findRow(
       $,
