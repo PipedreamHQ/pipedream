@@ -1,0 +1,19 @@
+{
+    "name": "@pipedream/delighted",
+    "version": "0.0.1",
+    "description": "Pipedream Delighted Components",
+    "main": "delighted.app.mjs",
+    "keywords": [
+        "pipedream",
+        "delighted"
+    ],
+    "homepage": "https://pipedream.com/apps/delighted",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "delighted": "^2.1.0"
+    }
+}
