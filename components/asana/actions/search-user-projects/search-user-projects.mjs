@@ -40,7 +40,7 @@ export default {
     const optFields = this.opt_fields;
     const limit = this.limit; // returned number of items per call
     const workspace = this.workspace;
-    $.export("projects", []);
+    let userProjects = [];
     let uri = `https://app.asana.com/api/1.0/projects/?opt_fields=${optFields}&archived=false&limit=${limit}&workspace=${workspace}`;
     const user = this.user_id;
 
@@ -58,7 +58,7 @@ export default {
             let member = item.members.find((m) => m.gid == user);
 
             if (typeof member !== "undefined") {
-              this.projects.push(item);
+              userProjects.push(item);
             }
           }
         }
@@ -73,11 +73,13 @@ export default {
       }
     }
 
-    if (this.projects.length == 0) {
-      console.log("No project found for user: " + email);
+    $.export("projects", userProjects);
+
+    if (userProjects.length == 0) {
+      console.log("No project found for user: " + this.user_id);
       return null;
     }
 
-    return this.projects;
+    return userProjects;
   },
 };

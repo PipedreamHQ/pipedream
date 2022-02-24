@@ -43,8 +43,9 @@ export default {
     const invoicePdf = resp.data.toString("base64");
     const buffer = Buffer.from(invoicePdf, "base64");
     const tmpDir = "/tmp";
-    $.export("invoice_path", `${tmpDir}/${this.invoice_id}.pdf`); //This is where the invoice is saved at the workflow's temporary files.
-    fs.writeFileSync(this.invoice_path, buffer);
-    console.log(`Invoice saved at: ${this.invoice_path}`);
+    const invoicePath = `${tmpDir}/${this.invoice_id}.pdf`;
+    $.export("invoice_path", invoicePath); //This is where the invoice is saved at the workflow's temporary files.
+    fs.writeFileSync(invoicePath, buffer);
+    console.log(`Invoice saved at: ${invoicePath}`);
   },
 };
