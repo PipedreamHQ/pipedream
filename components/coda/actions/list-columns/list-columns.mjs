@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-list-columns",
   name: "List Columns",
-  description: "Lists columns in a table",
+  description: "Lists columns in a table. [See docs](https://coda.io/developers/apis/v1#operation/listColumns)",
   version: "0.0.1",
   type: "action",
   props: {

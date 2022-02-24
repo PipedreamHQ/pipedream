@@ -13,8 +13,7 @@ export default {
     docId: {
       type: "string",
       label: "Doc ID",
-      description: `ID of the doc
-        Options are displayed as \`{ "<docId>" : "<docValue>" }\``,
+      description: "ID of the Doc",
       async options () {
         return this._makeOptionsResponse(
           (await this.listDocs()).items,
@@ -30,8 +29,7 @@ export default {
     tableId: {
       type: "string",
       label: "Table ID",
-      description: `ID of the table
-        Options are displayed as \`{ "<tableId>" : "<tableValue>" }\``,
+      description: "ID of the table",
       async options({ docId }) {
         return this._makeOptionsResponse(
           (await this.listTables(docId)).items,
@@ -41,8 +39,7 @@ export default {
     rowId: {
       type: "string",
       label: "Row ID",
-      description: `ID of the row
-        Options are displayed as \`<rowNumber>: { "<rowId>" : "<rowValue>" }\``,
+      description: "ID of the row",
       async options({
         docId, tableId,
       }) {
@@ -62,9 +59,7 @@ export default {
     columnId: {
       type: "string",
       label: "Column ID",
-      description: `ID of the column
-        This prop is not used in the API call, it is a helper to find the \`columnId\` for the \`row\` object,
-        Options are displayed as \`{ "<columnId>" : "<columnValue>" }\``,
+      description: "ID of the column",
       optional: true,
       async options({
         docId, tableId,
@@ -77,8 +72,7 @@ export default {
     keyColumns: {
       type: "string[]",
       label: "Key of columns to be upserted",
-      description: `Optional column IDs, specifying columns to be used as upsert keys
-        Options are displayed as \`{ "<columnId>" : "<columnValue>" }\``,
+      description: "Optional column IDs, specifying columns to be used as upsert keys",
       async options({
         docId, tableId,
       }) {
@@ -86,13 +80,6 @@ export default {
           (await this.listColumns(docId, tableId)).items,
         );
       },
-    },
-    rows: {
-      type: "string",
-      label: "Rows to create or upsert",
-      description: `List of rows to create or upsert.
-        Example: \`[{"cells":[{"column":"<columnId>","value":"<value>"}]}]\`.
-        More information at [Coda API](https://coda.io/developers/apis/v1#operation/upsertRows)`,
     },
     query: {
       type: "string",
@@ -102,7 +89,7 @@ export default {
     },
     sortBy: {
       type: "string",
-      label: "sortBy",
+      label: "Sort By",
       description: "Determines how to sort the given objects",
       optional: true,
       options: [
@@ -117,7 +104,7 @@ export default {
     },
     visibleOnly: {
       type: "boolean",
-      label: "visibleOnly",
+      label: "Visible Only",
       description: "If true, returns only visible rows and columns for the table",
       optional: true,
     },

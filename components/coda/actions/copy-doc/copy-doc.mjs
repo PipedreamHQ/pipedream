@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-copy-doc",
   name: "Copy Doc",
-  description: "Creates a copy of the specified doc",
+  description: "Creates a copy of the specified doc. [See docs](https://coda.io/developers/apis/v1#operation/createDoc)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,7 +14,7 @@ export default {
         "docId",
       ],
       label: "Source Doc ID",
-      description: "The ID of the doc from which to create a copy",
+      description: "The doc from which to create a copy",
     },
     title: {
       propDefinition: [
@@ -28,7 +28,7 @@ export default {
         coda,
         "folderId",
       ],
-      description: "The ID of the folder within which to copy this doc",
+      description: "The folder within which to copy this doc",
     },
   },
   async run({ $ }) {

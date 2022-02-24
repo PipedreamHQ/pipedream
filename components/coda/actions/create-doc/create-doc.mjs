@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-create-doc",
   name: "Create Doc",
-  description: "Creates a new doc",
+  description: "Creates a new doc. [See docs](https://coda.io/developers/apis/v1#operation/createDoc)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -19,7 +19,7 @@ export default {
         coda,
         "folderId",
       ],
-      description: "The ID of the folder within which to create this doc",
+      description: "The folder within which to create this doc",
     },
   },
   async run({ $ }) {
@@ -29,7 +29,7 @@ export default {
     };
 
     let response = await this.coda.createDoc(data);
-    $.export("$summary", `Created "${response.name}" doc in folderId: "${response.folderId}" and workspaceId: "${response.workspaceId}"`);
+    $.export("$summary", `Created doc "${response.name}" in folderId: "${response.folderId}" and workspaceId: "${response.workspaceId}"`);
     return response;
   },
 };

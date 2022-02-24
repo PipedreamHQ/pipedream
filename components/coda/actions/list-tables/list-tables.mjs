@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-list-tables",
   name: "List Tables",
-  description: "Lists tables in a doc",
+  description: "Lists tables in a doc. [See docs](https://coda.io/developers/apis/v1#operation/listTables)",
   version: "0.0.1",
   type: "action",
   props: {

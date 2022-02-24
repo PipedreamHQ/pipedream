@@ -3,8 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-update-row",
   name: "Update a Row",
-  description: `Updates the specified row in the table.
-    More information at [Coda API](https://coda.io/developers/apis/v1#operation/updateRow)`,
+  description: "Updates the specified row in the table. [See docs](https://coda.io/developers/apis/v1#operation/updateRow)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-find-row",
   name: "Find Row",
-  description: "Searches for a row in the selected table using a column match search",
+  description: "Searches for a row in the selected table using a column match search. [See docs](https://coda.io/developers/apis/v1#operation/listRows)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -39,17 +39,14 @@ export default {
         coda,
         "query",
       ],
-      description: `Query used to filter returned rows, specified as \`<columnId>:"<value>"\`.
-        Example: \`query=c-tuVwxYz:"Apple"\`.
-        More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)`,
+      description: "Query used to filter returned rows, specified as `<columnId>:\"<value>\"`. Example: `query=c-tuVwxYz:\"Apple\"`. More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)",
     },
     sortBy: {
       propDefinition: [
         coda,
         "sortBy",
       ],
-      description: `Specifies the sort order of the rows returned. If left unspecified, rows are returned by creation time ascending.
-        More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)`,
+      description: "Specifies the sort order of the rows returned. If left unspecified, rows are returned by creation time ascending",
       options: [
         "createdAt",
         "natural",
@@ -71,8 +68,7 @@ export default {
     valueFormat: {
       type: "string",
       label: "Value Format",
-      description: `The format that individual cell values are returned as.
-        More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)`,
+      description: "The format that individual cell values are returned as",
       optional: true,
       options: [
         "simple",

@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-list-docs",
   name: "List Docs",
-  description: "Returns a list of docs accessible by the user. These are returned in the same order as on the docs page: reverse chronological by the latest event relevant to the user (last viewed, edited, or shared)",
+  description: "Returns a list of docs accessible by the user. These are returned in the same order as on the docs page: reverse chronological by the latest event relevant to the user (last viewed, edited, or shared). [See docs](https://coda.io/developers/apis/v1#operation/listDocs)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,12 +14,12 @@ export default {
         "docId",
         (c) => c,
       ],
-      description: "Show only docs copied from the specified doc ID",
+      description: "Show only docs copied from the specified doc",
       optional: true,
     },
     workspaceId: {
       type: "string",
-      label: "Workspace ID",
+      label: "Workspace",
       description: "Show only docs belonging to the given workspace",
       optional: true,
     },
