@@ -30,12 +30,12 @@ export default {
         "occurredAtMax",
       ],
     },
-    // paginationEnabled: {
-    //   propDefinition: [
-    //     shopify,
-    //     "paginationEnabled",
-    //   ],
-    // },
+    paginationEnabled: {
+      propDefinition: [
+        shopify,
+        "paginationEnabled",
+      ],
+    },
   },
   async run() {
     const {
