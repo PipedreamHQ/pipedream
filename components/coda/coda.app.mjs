@@ -14,9 +14,9 @@ export default {
       type: "string",
       label: "Doc ID",
       description: "ID of the Doc",
-      async options () {
+      async options() {
         return this._makeOptionsResponse(
-          (await this.listDocs()).items,
+          (await this.listDocs(this)).items,
         );
       },
     },
@@ -32,7 +32,7 @@ export default {
       description: "ID of the table",
       async options({ docId }) {
         return this._makeOptionsResponse(
-          (await this.listTables(docId)).items,
+          (await this.listTables(this, docId)).items,
         );
       },
     },
@@ -45,7 +45,7 @@ export default {
       }) {
         let counter = 0;
         return this._makeOptionsResponse(
-          (await this.findRow(docId, tableId, {
+          (await this.findRow(this, docId, tableId, {
             sortBy: "natural",
           })).items,
         ).map(
@@ -65,7 +65,7 @@ export default {
         docId, tableId,
       }) {
         return this._makeOptionsResponse(
-          (await this.listColumns(docId, tableId)).items,
+          (await this.listColumns(this, docId, tableId)).items,
         );
       },
     },
@@ -77,7 +77,7 @@ export default {
         docId, tableId,
       }) {
         return this._makeOptionsResponse(
-          (await this.listColumns(docId, tableId)).items,
+          (await this.listColumns(this, docId, tableId)).items,
         );
       },
     },
@@ -125,7 +125,7 @@ export default {
     },
   },
   methods: {
-    async _makeRequest(opts) {
+    async _makeRequest($, opts) {
       if (!opts.headers) opts.headers = {};
       opts.headers.Authorization = `Bearer ${this.$auth.api_token}`;
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
@@ -136,7 +136,7 @@ export default {
         ? ""
         : "/"}${path}`;
       try {
-        return await axios(this, opts);
+        return await axios($ ?? this, opts);
       } catch (err) {
         this._throwFormattedError(err);
       }
@@ -155,22 +155,24 @@ export default {
     },
     /**
      * Creates a new doc or copies a doc from a source docId
+     * @param {object} $
      * @param {object} [data]
      * @param {object} [data.title]
      * @param {object} [data.folderId]
      * @param {object} [data.sourceDoc]
      * @return {object} Created or copied doc
      */
-    async createDoc(data = {}) {
+    async createDoc($, data = {}) {
       let opts = {
         method: "post",
         path: "/docs",
         data,
       };
-      return await this._makeRequest(opts);
+      return await this._makeRequest($, opts);
     },
     /**
      * List docs according to query parameters
+     * @param {object}  $
      * @param {object}  [params]
      * @param {string}  [params.docId]
      * @param {string}  [params.workspaceId]
@@ -184,15 +186,17 @@ export default {
      * @param {string}  [params.pageToken]
      * @return {object[]} List of docs
      */
-    async listDocs(params = {}) {
+    async listDocs($, params = {}) {
       let opts = {
         path: "/docs",
         params,
       };
-      return await this._makeRequest(opts);
+      return await this._makeRequest($, opts);
     },
     /**
      * Lists tables in a doc according to parameters
+     * @param {object} $
+     * @param {string} docId
      * @param {object} [params]
      * @param {string} [params.sortBy]
      * @param {string} [params.tableTypes]
@@ -200,15 +204,16 @@ export default {
      * @param {string} [params.pageToken]
      * @return {object[]} List of tables
      */
-    async listTables(docId, params = {}) {
+    async listTables($, docId, params = {}) {
       let opts = {
         path: `/docs/${docId}/tables`,
         params,
       };
-      return await this._makeRequest(opts);
+      return await this._makeRequest($, opts);
     },
     /**
      * Searches for a row in the selected table using a column match search
+     * @param {object}  $
      * @param {string}  docId
      * @param {string}  tableId
      * @param {object}  [params]
@@ -222,15 +227,16 @@ export default {
      * @param {string}  [params.syncToken]
      * @return {object[]} List of rows
      */
-    async findRow(docId, tableId, params = {}) {
+    async findRow($, docId, tableId, params = {}) {
       let opts = {
         path: `/docs/${docId}/tables/${tableId}/rows`,
         params,
       };
-      return await this._makeRequest(opts);
+      return await this._makeRequest($, opts);
     },
     /**
      * Returns a list of columns in a doc table.
+     * @param {object} $
      * @param {string} docId
      * @param {string} tableId
      * @param {object} [params]
@@ -239,15 +245,16 @@ export default {
      * @param {object} [params.pageToken]
      * @return {object[]} List of columns
      */
-    async listColumns(docId, tableId, params = {}) {
+    async listColumns($, docId, tableId, params = {}) {
       let opts = {
         path: `/docs/${docId}/tables/${tableId}/columns`,
         params,
       };
-      return await this._makeRequest(opts);
+      return await this._makeRequest($, opts);
     },
     /**
      * Inserts rows into a table, optionally updating existing rows using upsert key columns
+     * @param {object}    $
      * @param {string}    docId
      * @param {string}    tableId
      * @param {object}    data
@@ -257,17 +264,18 @@ export default {
      * @param {boolean}   [params.disableParsing]
      * @return {object[]} List of added rows and requestId
      */
-    async createRows(docId, tableId, data, params = {}) {
+    async createRows($, docId, tableId, data, params = {}) {
       let opts = {
         method: "post",
         path: `/docs/${docId}/tables/${tableId}/rows`,
         params,
         data,
       };
-      return await this._makeRequest(opts);
+      return await this._makeRequest($, opts);
     },
     /**
      * Updates the specified row in the table
+     * @param {object}  $
      * @param {string}  docId
      * @param {string}  tableId
      * @param {string}  rowId
@@ -277,14 +285,14 @@ export default {
      * @param {boolean} [params.disableParsing]
      * @return {object[]} Updated rowId and requestId
      */
-    async updateRow(docId, tableId, rowId, data, params = {}) {
+    async updateRow($, docId, tableId, rowId, data, params = {}) {
       let opts = {
         method: "put",
         path: `/docs/${docId}/tables/${tableId}/rows/${rowId}`,
         params,
         data,
       };
-      return await this._makeRequest(opts);
+      return await this._makeRequest($, opts);
     },
   },
 };

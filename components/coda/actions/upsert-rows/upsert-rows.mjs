@@ -57,6 +57,7 @@ export default {
     };
 
     let response = await this.coda.createRows(
+      $,
       this.docId,
       this.tableId,
       data,

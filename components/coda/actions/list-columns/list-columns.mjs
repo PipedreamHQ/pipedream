@@ -50,6 +50,7 @@ export default {
     };
 
     let response = await this.coda.listColumns(
+      $,
       this.docId,
       this.tableId,
       params,

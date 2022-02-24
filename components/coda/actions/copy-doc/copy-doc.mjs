@@ -38,7 +38,7 @@ export default {
       sourceDoc: this.docId,
     };
 
-    let response = await this.coda.createDoc(data);
+    let response = await this.coda.createDoc($, data);
     $.export("$summary", `Copied to new doc "${response.name}" in folderId: "${response.folderId}" and workspaceId: "${response.workspaceId}"`);
     return response;
   },

@@ -52,6 +52,7 @@ export default {
     };
 
     let response = await this.coda.listTables(
+      $,
       this.docId,
       params,
     );

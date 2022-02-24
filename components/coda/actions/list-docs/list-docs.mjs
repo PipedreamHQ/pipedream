@@ -89,7 +89,7 @@ export default {
     let items = [];
     let response;
     do {
-      response = await this.coda.listDocs(params);
+      response = await this.coda.listDocs($, params);
       items.push(...response.items);
       params.pageToken = response.nextPageToken;
     } while (params.pageToken && items.length < this.limit);

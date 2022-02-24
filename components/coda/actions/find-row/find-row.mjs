@@ -107,6 +107,7 @@ export default {
     };
 
     let response = await this.coda.findRow(
+      $,
       this.docId,
       this.tableId,
       params,

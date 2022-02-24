@@ -65,6 +65,7 @@ export default {
     };
 
     let response = await this.coda.updateRow(
+      $,
       this.docId,
       this.tableId,
       this.rowId,
