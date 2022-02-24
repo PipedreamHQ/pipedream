@@ -38,7 +38,7 @@ export default {
         coda,
         "query",
       ],
-      description: "Query used to filter returned rows, specified as `<columnId>:\"<value>\"`. Example: `query=c-tuVwxYz:\"Apple\"`. More information at [Coda API](https://coda.io/developers/apis/v1#operation/listRows)",
+      description: "Query used to filter returned rows",
     },
     sortBy: {
       propDefinition: [
@@ -96,7 +96,7 @@ export default {
   },
   async run({ $ }) {
     let params = {
-      query: this.query,
+      query: `${this.columnId}:"${this.query}"`,
       sortBy: this.sortBy,
       visibleOnly: this.visibleOnly,
       useColumnNames: this.useColumnNames,
