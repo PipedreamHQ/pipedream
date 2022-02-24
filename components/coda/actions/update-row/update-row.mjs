@@ -22,21 +22,12 @@ export default {
           docId: c.docId,
         }),
       ],
+      reloadProps: true,
     },
     rowId: {
       propDefinition: [
         coda,
         "rowId",
-        (c) => ({
-          docId: c.docId,
-          tableId: c.tableId,
-        }),
-      ],
-    },
-    columnId: {
-      propDefinition: [
-        coda,
-        "columnId",
         (c) => ({
           docId: c.docId,
           tableId: c.tableId,
@@ -49,22 +40,32 @@ export default {
         "disableParsing",
       ],
     },
-    row: {
-      type: "string",
-      label: "Row",
-      description: "An edit made to a particular row",
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    const { items } = await this.coda.listColumns(this, this.docId, this.tableId);
+    for (const item of items) {
+      props[`col_${item.id}`] = {
+        type: "string",
+        label: `Column: ${item.name}`,
+        description: "Leave blank to ignore this column",
+        optional: true,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
-    let params = {
+    const params = {
       disableParsing: this.disableParsing,
     };
 
-    let data = {
-      row: JSON.parse(this.row),
+    const data = {
+      row: {
+        cells: this.coda.createRowCells(this),
+      },
     };
 
-    let response = await this.coda.updateRow(
+    const response = await this.coda.updateRow(
       $,
       this.docId,
       this.tableId,

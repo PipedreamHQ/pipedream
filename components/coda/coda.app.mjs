@@ -153,6 +153,14 @@ export default {
         }),
       );
     },
+    createRowCells(component) {
+      return Object.keys(component)
+        .filter((k) => k.startsWith("col_") && component[k])
+        .map((k) => ({
+          column: k.slice(4),
+          value: component[k],
+        }));
+    },
     /**
      * Creates a new doc or copies a doc from a source docId
      * @param {object} $

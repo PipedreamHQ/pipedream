@@ -3,7 +3,7 @@ import coda from "../../coda.app.mjs";
 export default {
   key: "coda-create-rows",
   name: "Create Rows",
-  description: "Inserts rows in a selected table. [See docs](https://coda.io/developers/apis/v1#operation/upsertRows)",
+  description: "Insert a row in a selected table. [See docs](https://coda.io/developers/apis/v1#operation/upsertRows)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -22,16 +22,7 @@ export default {
           docId: c.docId,
         }),
       ],
-    },
-    columnId: {
-      propDefinition: [
-        coda,
-        "columnId",
-        (c) => ({
-          docId: c.docId,
-          tableId: c.tableId,
-        }),
-      ],
+      reloadProps: true,
     },
     disableParsing: {
       propDefinition: [
@@ -39,23 +30,34 @@ export default {
         "disableParsing",
       ],
     },
-    rows: {
-      propDefinition: [
-        coda,
-        "rows",
-      ],
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    const { items } = await this.coda.listColumns(this, this.docId, this.tableId);
+    for (const item of items) {
+      props[`col_${item.id}`] = {
+        type: "string",
+        label: `Column: ${item.name}`,
+        description: "Leave blank to ignore this column",
+        optional: true,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
-    let data = {
-      rows: JSON.parse(this.rows),
-    };
-
-    let params = {
+    const params = {
       disableParsing: this.disableParsing,
     };
 
-    let response = await this.coda.createRows(
+    const data = {
+      rows: [
+        {
+          cells: this.coda.createRowCells(this),
+        },
+      ],
+    };
+
+    const response = await this.coda.createRows(
       $,
       this.docId,
       this.tableId,
@@ -63,7 +65,7 @@ export default {
       params,
     );
 
-    $.export("$summary", "Created row(s) successfully");
+    $.export("$summary", "Created row successfully");
     return response;
   },
 };

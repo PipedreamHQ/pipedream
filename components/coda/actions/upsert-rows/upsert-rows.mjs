@@ -22,6 +22,7 @@ export default {
           docId: c.docId,
         }),
       ],
+      reloadProps: true,
     },
     keyColumns: {
       propDefinition: [
@@ -39,24 +40,35 @@ export default {
         "disableParsing",
       ],
     },
-    rows: {
-      propDefinition: [
-        coda,
-        "rows",
-      ],
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    const { items } = await this.coda.listColumns(this, this.docId, this.tableId);
+    for (const item of items) {
+      props[`col_${item.id}`] = {
+        type: "string",
+        label: `Column: ${item.name}`,
+        description: "Leave blank to ignore this column",
+        optional: true,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
-    let data = {
-      rows: JSON.parse(this.rows),
-      keyColumns: this.keyColumns,
-    };
-
-    let params = {
+    const params = {
       disableParsing: this.disableParsing,
     };
 
-    let response = await this.coda.createRows(
+    const data = {
+      keyColumns: this.keyColumns,
+      rows: [
+        {
+          cells: this.coda.createRowCells(this),
+        },
+      ],
+    };
+
+    const response = await this.coda.createRows(
       $,
       this.docId,
       this.tableId,
