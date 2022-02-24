@@ -5,7 +5,7 @@ export default {
   key: "frontapp-import-message",
   name: "Import Message",
   description: "Appends a new message into an inbox.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     frontapp: {
@@ -153,7 +153,8 @@ export default {
       },
     };
 
-    $.export("effective_request_body", JSON.stringify(messageToImportData));
+    const effectiveRequestBody = JSON.stringify(messageToImportData);
+    $.export("effective_request_body", effectiveRequestBody);
 
     return await axios($, {
       method: "post",
@@ -163,7 +164,7 @@ export default {
         "Content-Type": "application/json",
         "Accept": "application/json",
       },
-      data: this.effective_request_body,
+      data: effectiveRequestBody,
     });
   },
 };
