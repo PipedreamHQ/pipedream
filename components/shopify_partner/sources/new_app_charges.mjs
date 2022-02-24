@@ -1,12 +1,11 @@
 import common from "../common.mjs";
-import shopify from "../shopify_partner.app.mjs";
 import getAppTransactions from "../queries/getAppTransactions.mjs";
 
 export default {
   key: "shopify_partner-new-app-charges",
   name: "New App Charges",
   type: "source",
-  version: "0.0.6",
+  version: "0.0.5",
   description:
     "Emit new events when new app charges made to your partner account.",
   ...common,
@@ -23,14 +22,8 @@ export default {
       type: "string",
       description:
         "Only include transactions up to this specific time (ISO timestamp)",
-      label: "createdAtMax",
+      label: "createdAtMin",
       optional: true,
-    },
-    paginationDirection: {
-      propDefinition: [
-        shopify,
-        "paginationDirection",
-      ],
     },
   },
   async run() {
@@ -55,14 +48,10 @@ export default {
       hasNextPagePath: "transactions.pageInfo.hasNextPage",
       getCursor: (data) => {
         const edges = data?.transactions?.edges || [];
-        if (this.paginationDirection === "before") {
-          const [
-            last,
-          ] = edges.reverse();
-          return last?.cursor;
-        } else {
-          return edges[0];
-        }
+        const [
+          last,
+        ] = edges.reverse();
+        return last?.cursor;
       },
       handleEmit: (data) => {
         data.transactions.edges.map(({ node: { ...txn } }) => {

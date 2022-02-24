@@ -30,10 +30,10 @@ export default {
         "occurredAtMax",
       ],
     },
-    paginationDirection: {
+    paginationEnabled: {
       propDefinition: [
         shopify,
-        "paginationDirection",
+        "paginationEnabled",
       ],
     },
   },
@@ -65,8 +65,11 @@ export default {
         });
       },
       getCursor: (data) => {
-        const edges = data?.app?.events?.edges;
-        return edges.reverse()[0]?.cursor;
+        const edges = data?.transactions?.edges || [];
+        const [
+          last,
+        ] = edges.reverse();
+        return last?.cursor;
       },
       hasNextPagePath: "app.events.pageInfo.hasNextPage",
     });

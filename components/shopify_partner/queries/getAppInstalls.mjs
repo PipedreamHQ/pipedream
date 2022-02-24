@@ -17,7 +17,7 @@ export default gql`
         occurredAtMin: $occurredAtMin
         occurredAtMax: $occurredAtMax
         after: $after
-        first: 50
+        first: 50 
       ) {
         pageInfo {
           hasNextPage

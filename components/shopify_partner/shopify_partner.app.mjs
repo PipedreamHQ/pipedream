@@ -25,14 +25,11 @@ export default {
       label: "occurredAtMax",
       optional: true,
     },
-    paginationDirection: {
-      type: "string",
-      label: "Pagination Direction",
-      description: "Direction to paginate through Shopify API results. Use \"before\" to travel backwards to the first record, \"after\" will go forward.",
-      options: [
-        "before",
-        "after",
-      ],
+    paginationEnabled: {
+      type: "boolean",
+      label: "Paginate results",
+      description: "Paginate through all of your Shopify Partner records until occurredAtMin is reached. This can cause many invocations.",
+      default: false,
     },
   },
   methods: {
@@ -74,7 +71,7 @@ export default {
         ...variables,
         ...(lastCursor
           ? {
-            [this.paginationDirection]: lastCursor,
+            after: lastCursor,
           }
           : {}),
       };
@@ -84,10 +81,13 @@ export default {
 
       if (data) {
         handleEmit(data);
-        db.set(key, getCursor(data));
+        const cursor = getCursor(data);
+        if (cursor) {
+          db.set(key, getCursor(data));
+        }
       }
 
-      // paginate the results recursively
+      // paginate the results recursively if enabled
       if (data && get(data, hasNextPagePath)) {
         await this.query({
           db,
