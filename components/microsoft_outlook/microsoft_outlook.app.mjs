@@ -23,19 +23,19 @@ export default {
     name: {
       label: "File name",
       description: "Name of the file seen by the recipients",
-      type: "string[]",	//FIXME Temporary array until the object arrays are supported
+      type: "string[]",
       optional: true,
     },
     mimetype: {
       label: "File mimetype",
       description: "[MIME type as defined by the IANA](https://www.iana.org/assignments/media-types/media-types.xhtml)",
-      type: "string[]",	//FIXME Temporary array until the object arrays are supported
+      type: "string[]",
       optional: true,
     },
     path: {
       label: "File path",
       description: "Absolute path to the file",
-      type: "string[]",	//FIXME Temporary array until the object arrays are supported
+      type: "string[]",
       optional: true,
     },
   },

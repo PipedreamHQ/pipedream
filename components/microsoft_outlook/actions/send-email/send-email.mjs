@@ -28,19 +28,19 @@ export default {
         "content",
       ],
     },
-    name: {	//FIXME Temporary until object arrays are supported
+    name: {
       propDefinition: [
         microsoftOutlook,
         "name",
       ],
     },
-    mimetype: {	//FIXME Temporary until object arrays are supported
+    mimetype: {
       propDefinition: [
         microsoftOutlook,
         "mimetype",
       ],
     },
-    path: {	//FIXME Temporary until object arrays are supported
+    path: {
       propDefinition: [
         microsoftOutlook,
         "path",
@@ -48,27 +48,17 @@ export default {
     },
   },
   async run() {
-    var toRecipients = [];
-    for (const recipient of this.recipients) {
+    const toRecipients = [];
+    for (const address of this.recipients) {
       toRecipients.push({
-        "emailAddress": {
-          "address": recipient
+        emailAddress: {
+          address,
         }
       });
     }
 
-    var attachments = [];
-    /*if (this.files) {	//FIXME Temporary commented until object arrays are supported
-      for (const file of this.files) {
-        attachments.push({
-          '@odata.type': '#microsoft.graph.fileAttachment',
-          name: file.name,
-          contentType: file.mimetype,
-          contentBytes: this.readFile(file.path),
-        });
-      }
-    }*/
-    if (this.name && this.mimetype && this.path &&	//FIXME Temporary until object arrays are supported
+    const attachments = [];
+    if (this.name && this.mimetype && this.path &&
     this.name.length == this.mimetype.length && this.mimetype.length == this.path.length) {
       for (let i = 0; i < this.name.length; i++) {
         attachments.push({
@@ -86,9 +76,9 @@ export default {
     const data = {
       message: {
         subject: this.subject,
-        "body": {
-          "content": this.content,
-          "contentType": "text",
+        body: {
+          content: this.content,
+          contentType: "text",
         },
         toRecipients,
         attachments,
