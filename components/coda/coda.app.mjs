@@ -14,10 +14,11 @@ export default {
       type: "string",
       label: "Doc ID",
       description: "ID of the Doc",
-      async options() {
-        return this._makeOptionsResponse(
-          (await this.listDocs(this)).items,
-        );
+      async options({ prevContext }) {
+        const response = await this.listDocs(this, {
+          pageToken: prevContext.nextPageToken,
+        });
+        return this._makeOptionsResponse(response);
       },
     },
     folderId: {
@@ -30,10 +31,14 @@ export default {
       type: "string",
       label: "Table ID",
       description: "ID of the table",
-      async options({ docId }) {
-        return this._makeOptionsResponse(
-          (await this.listTables(this, docId)).items,
-        );
+      async options({
+        docId,
+        prevContext,
+      }) {
+        const response = await this.listTables(this, docId, {
+          pageToken: prevContext.nextPageToken,
+        });
+        return this._makeOptionsResponse(response);
       },
     },
     rowId: {
@@ -41,19 +46,27 @@ export default {
       label: "Row ID",
       description: "ID of the row",
       async options({
-        docId, tableId,
+        docId, tableId, prevContext,
       }) {
         let counter = 0;
-        return this._makeOptionsResponse(
-          (await this.findRow(this, docId, tableId, {
-            sortBy: "natural",
-          })).items,
-        ).map(
-          (row) => ({
-            label: `${counter++}: ${row.label}`,
-            value: row.value,
-          }),
-        );
+        const response = await this.findRow(this, docId, tableId, {
+          pageToken: prevContext.nextPageToken,
+          sortBy: "natural",
+        });
+
+        const {
+          options,
+          context,
+        } = this._makeOptionsResponse(response);
+
+        return {
+          options: options
+            .map((row) => ({
+              label: `${counter++}: ${row.label}`,
+              value: row.value,
+            })),
+          context,
+        };
       },
     },
     columnId: {
@@ -62,11 +75,12 @@ export default {
       description: "ID of the column",
       optional: true,
       async options({
-        docId, tableId,
+        docId, tableId, prevContext,
       }) {
-        return this._makeOptionsResponse(
-          (await this.listColumns(this, docId, tableId)).items,
-        );
+        const response = await this.listColumns(this, docId, tableId, {
+          pageToken: prevContext.nextPageToken,
+        });
+        return this._makeOptionsResponse(response);
       },
     },
     keyColumns: {
@@ -74,11 +88,12 @@ export default {
       label: "Key of columns to be upserted",
       description: "Optional column IDs, specifying columns to be used as upsert keys",
       async options({
-        docId, tableId,
+        docId, tableId, prevContext,
       }) {
-        return this._makeOptionsResponse(
-          (await this.listColumns(this, docId, tableId)).items,
-        );
+        const response = await this.listColumns(this, docId, tableId, {
+          pageToken: prevContext.nextPageToken,
+        });
+        return this._makeOptionsResponse(response);
       },
     },
     query: {
@@ -145,13 +160,17 @@ export default {
       err = err.response.data;
       throw Error(`${err.statusCode} - ${err.statusMessage} - ${err.message}`);
     },
-    _makeOptionsResponse(list) {
-      return list.map(
-        (e) => ({
-          label: e.name,
-          value: e.id,
-        }),
-      );
+    _makeOptionsResponse(response) {
+      return {
+        options: response.items
+          .map((e) => ({
+            label: e.name,
+            value: e.id,
+          })),
+        context: {
+          nextPageToken: response.nextPageToken,
+        },
+      };
     },
     createRowCells(component) {
       return Object.keys(component)
