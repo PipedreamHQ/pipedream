@@ -148,7 +148,7 @@ export default {
     _makeOptionsResponse(list) {
       return list.map(
         (e) => ({
-          label: `{ "${e.id}" : "${e.name}" }`,
+          label: e.name,
           value: e.id,
         }),
       );
