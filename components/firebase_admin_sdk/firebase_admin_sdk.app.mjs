@@ -21,7 +21,17 @@ export default {
       label: "Collection",
       description: "The collection containing the documents to list",
       async options() {
-        return this.listCollections();
+        const collections = await this.listCollections();
+        return collections.map((collection) => collection._queryOptions.collectionId);
+      },
+    },
+    document: {
+      type: "string",
+      label: "Document",
+      description: "The document to update",
+      async options({ collection }) {
+        const documents = await this.listDocuments(collection);
+        return documents.map((doc) => doc._ref._path.segments[1]);
       },
     },
     data: {
@@ -54,7 +64,7 @@ export default {
      * Renders this app instance unusable and frees the resources of all associated services.
      */
     async deleteApp() {
-      return this.getApp().delete();
+      return await this.getApp().delete();
     },
     /**
      * Retrieves the default Firebase app instance.
@@ -132,8 +142,22 @@ export default {
       try {
         await this.initializeApp();
         const firebase = this.getApp();
-        const snapshot = await firebase.firestore().listCollections();
-        return snapshot.map((doc) => doc._queryOptions.collectionId);
+        return await firebase.firestore().listCollections();
+      } catch (err) {
+        throw new Error(err);
+      } finally {
+        this.deleteApp();
+      }
+    },
+    async listDocuments(collection) {
+      try {
+        await this.initializeApp();
+        const firebase = this.getApp();
+        return await firebase.firestore().collection(collection)
+          .listDocuments()
+          .then(documentRefs => {
+            return firebase.firestore().getAll(...documentRefs);
+          });
       } catch (err) {
         throw new Error(err);
       } finally {
