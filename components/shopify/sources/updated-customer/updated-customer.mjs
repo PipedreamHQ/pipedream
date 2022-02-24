@@ -1,10 +1,11 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
+export default {
   key: "shopify-updated-customer",
-  name: "Updated Customer",
-  description: "Emits an event each time a customer's information is updated.",
-  version: "0.0.3",
+  name: "Updated Customer", /* eslint-disable-line pipedream/source-name */
+  type: "source",
+  description: "Emit new event each time a customer's information is updated.",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",

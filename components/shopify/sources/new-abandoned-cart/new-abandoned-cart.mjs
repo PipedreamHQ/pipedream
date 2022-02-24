@@ -1,10 +1,11 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
+export default {
   key: "shopify-new-abandoned-cart",
   name: "New Abandoned Cart",
-  description: "Emits an event each time a user abandons their cart.",
-  version: "0.0.4",
+  type: "source",
+  description: "Emit new event each time a user abandons their cart.",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",

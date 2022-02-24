@@ -1,10 +1,11 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
+export default {
   key: "shopify-new-cancelled-order",
   name: "New Cancelled Order",
-  description: "Emits an event each time a new order is cancelled.",
-  version: "0.0.3",
+  type: "source",
+  description: "Emit new event each time a new order is cancelled.",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     db: "$.service.db",

@@ -1,10 +1,11 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
+export default {
   key: "shopify-new-article",
   name: "New Article",
-  description: "Emits an event for each new article in a blog.",
-  version: "0.0.4",
+  type: "source",
+  description: "Emit new event for each new article in a blog.",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",
@@ -18,10 +19,14 @@ module.exports = {
     blogIds: {
       type: "string[]",
       label: "Blogs",
+      description: "A list of Blog IDs",
       async options() {
         const blogs = await this.shopify.getBlogs();
         return blogs.map((blog) => {
-          return { label: blog.title, value: blog.id };
+          return {
+            label: blog.title,
+            value: blog.id,
+          };
         });
       },
     },
@@ -35,10 +40,10 @@ module.exports = {
           id: article.id,
           summary: article.title,
           ts: Date.now(),
-      });
-    }
-    if (results[results.length - 1])
-      this.db.set(blogId, results[results.length - 1].id);
+        });
+      }
+      if (results[results.length - 1])
+        this.db.set(blogId, results[results.length - 1].id);
     }
   },
 };

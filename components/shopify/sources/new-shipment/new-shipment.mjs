@@ -1,10 +1,11 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
+export default {
   key: "shopify-new-shipment",
   name: "New Shipment",
-  description: "Emits an event for each new fulfillment event for a store.",
-  version: "0.0.4",
+  type: "source",
+  description: "Emit new event for each new fulfillment event for a store.",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",
@@ -17,7 +18,7 @@ module.exports = {
     shopify,
   },
   methods: {
-    emitShipments(shipments, results) {
+    emitShipments(results) {
       for (const order of results) {
         if (order.fulfillments && order.fulfillments.length > 0) {
           for (const shipment of order.fulfillments) {
@@ -29,14 +30,14 @@ module.exports = {
           }
         }
       }
-      return shipments;
     },
   },
   async run() {
-    let shipments = [];
-    let results = await this.shopify.getOrders("shipped");
-    shipments = this.emitShipments(shipments, results);
-    results = await this.shopify.getOrders("partial");
-    shipments = this.emitShipments(shipments, results);
+    this.emitShipments(
+      await this.shopify.getOrders("shipped"),
+    );
+    this.emitShipments(
+      await this.shopify.getOrders("partial"),
+    );
   },
 };

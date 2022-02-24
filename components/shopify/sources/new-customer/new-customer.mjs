@@ -1,10 +1,11 @@
-const shopify = require("../../shopify.app.js");
+import shopify from "../../shopify.app.mjs";
 
-module.exports = {
+export default {
   key: "shopify-new-customer",
   name: "New Customer",
-  description: "Emits an event for each new customer added to a store.",
-  version: "0.0.4",
+  type: "source",
+  description: "Emit new event for each new customer added to a store.",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     db: "$.service.db",
