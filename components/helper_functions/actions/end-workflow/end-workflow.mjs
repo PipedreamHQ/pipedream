@@ -12,7 +12,6 @@ export default {
     reason: {
       type: "string",
       description: "Enter the reason why the workflow is ending (e.g., \"No record found for user.\")",
-      optional: true,
     },
     condition: {
       type: "boolean",
