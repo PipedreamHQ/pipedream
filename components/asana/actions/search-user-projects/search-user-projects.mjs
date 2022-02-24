@@ -5,7 +5,7 @@ export default {
   key: "asana-search-user-projects",
   name: "Asana - Get list of user projects",
   description: "Return list of projects given the user and workspace gid",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
   props: {
     asana: {

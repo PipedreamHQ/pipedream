@@ -5,7 +5,7 @@ export default {
   key: "frontapp-update-conversation",
   name: "Update Conversation",
   description: "Updates a conversation",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     frontapp: {

@@ -5,7 +5,7 @@ export default {
   key: "frontapp-import-message",
   name: "Import Message",
   description: "Appends a new message into an inbox.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     frontapp: {

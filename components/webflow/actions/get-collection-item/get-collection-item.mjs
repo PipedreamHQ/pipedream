@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "webflow-get-collection-item",
   name: "Get a collection item",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     webflow: {
