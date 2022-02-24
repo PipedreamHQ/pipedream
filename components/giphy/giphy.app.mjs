@@ -63,6 +63,15 @@ export default {
 
       return items;
     },
+    async translateTerm(searchType, params, ctx = this) {
+      return axios(ctx, this._getAxiosParams({
+        method: "GET",
+        path: searchType === "gifs"
+          ? "/v1/gifs/translate"
+          : "/v1/stickers/translate",
+        params,
+      }));
+    },
     async uploadGif(data, ctx = this) {
       return axios(ctx, this._getAxiosParams({
         headers: {
