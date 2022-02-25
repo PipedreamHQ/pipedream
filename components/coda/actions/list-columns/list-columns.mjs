@@ -29,27 +29,37 @@ export default {
         "visibleOnly",
       ],
     },
-    limit: {
+    max: {
       propDefinition: [
         coda,
-        "limit",
+        "max",
       ],
     },
   },
   async run({ $ }) {
     let params = {
       visibleOnly: this.visibleOnly,
-      limit: this.limit,
     };
 
-    let response = await this.coda.listColumns(
-      $,
-      this.docId,
-      this.tableId,
-      params,
-    );
+    let items = [];
+    let response;
+    do {
+      response = await this.coda.listColumns(
+        $,
+        this.docId,
+        this.tableId,
+        params,
+      );
+      items.push(...response.items);
+      params.pageToken = response.nextPageToken;
+    } while (params.pageToken && items.length < this.max);
 
-    $.export("$summary", `Retrieved ${response.items.length} column(s)`);
-    return response;
+    if (items.length > this.max) items.length = this.max;
+
+    $.export("$summary", `Retrieved ${items.length} column(s)`);
+
+    return {
+      items,
+    };
   },
 };

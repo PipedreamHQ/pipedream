@@ -78,17 +78,11 @@ export default {
         "rich",
       ],
     },
-    limit: {
+    max: {
       propDefinition: [
         coda,
-        "limit",
+        "max",
       ],
-    },
-    syncToken: {
-      type: "string",
-      label: "Sync Token",
-      description: "An opaque token returned from a previous call that can be used to return results that are relevant to the query since the call where the syncToken was generated",
-      optional: true,
     },
   },
   async run({ $ }) {
@@ -97,26 +91,34 @@ export default {
       visibleOnly: this.visibleOnly,
       useColumnNames: this.useColumnNames,
       valueFormat: this.valueFormat,
-      limit: this.limit,
-      syncToken: this.syncToken,
     };
 
     if (this.columnId && this.query) {
       params.query = `${this.columnId}:"${this.query}"`;
     }
 
-    let response = await this.coda.findRow(
-      $,
-      this.docId,
-      this.tableId,
-      params,
-    );
+    let items = [];
+    let response;
+    do {
+      response = await this.coda.findRow(
+        $,
+        this.docId,
+        this.tableId,
+        params,
+      );
+      items.push(...response.items);
+      params.pageToken = response.nextPageToken;
+    } while (params.pageToken && items.length < this.max);
 
-    if (response.items.length > 0) {
-      $.export("$summary", `Found ${response.items.length} rows`);
+    if (items.length > this.max) items.length = this.max;
+
+    if (items.length > 0) {
+      $.export("$summary", `Found ${items.length} rows`);
     } else {
       $.export("$summary", `No rows found with the search query: ${this.query}`);
     }
-    return response;
+    return {
+      items,
+    };
   },
 };

@@ -123,9 +123,9 @@ export default {
       description: "If true, returns only visible rows and columns for the table",
       optional: true,
     },
-    limit: {
+    max: {
       type: "integer",
-      label: "Limit",
+      label: "Max Items",
       description: "Maximum number of results to return in this query",
       optional: true,
     },
@@ -216,7 +216,6 @@ export default {
      * @param {object} [params]
      * @param {string} [params.sortBy]
      * @param {string} [params.tableTypes]
-     * @param {number} [params.limit]
      * @return {object[]} List of tables
      */
     async listTables($, docId, params = {}) {
@@ -237,8 +236,6 @@ export default {
      * @param {boolean} [params.visibleOnly]
      * @param {boolean} [params.useColumnNames]
      * @param {string}  [params.valueFormat]
-     * @param {number}  [params.limit]
-     * @param {string}  [params.syncToken]
      * @return {object[]} List of rows
      */
     async findRow($, docId, tableId, params = {}) {
@@ -255,7 +252,6 @@ export default {
      * @param {string} tableId
      * @param {object} [params]
      * @param {object} [params.visibleOnly]
-     * @param {object} [params.limit]
      * @return {object[]} List of columns
      */
     async listColumns($, docId, tableId, params = {}) {

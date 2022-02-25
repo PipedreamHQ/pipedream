@@ -30,10 +30,10 @@ export default {
         "view",
       ],
     },
-    limit: {
+    max: {
       propDefinition: [
         coda,
-        "limit",
+        "max",
       ],
     },
   },
@@ -41,16 +41,25 @@ export default {
     let params = {
       sortBy: this.sortBy,
       tableTypes: this.tableTypes.toString(),
-      limit: this.limit,
     };
 
-    let response = await this.coda.listTables(
-      $,
-      this.docId,
-      params,
-    );
+    let items = [];
+    let response;
+    do {
+      response = await this.coda.listTables(
+        $,
+        this.docId,
+        params,
+      );
+      items.push(...response.items);
+      params.pageToken = response.nextPageToken;
+    } while (params.pageToken && items.length < this.max);
 
-    $.export("$summary", `Retrieved ${response.items.length} ${this.tableTypes}(s)`);
-    return response;
+    if (items.length > this.max) items.length = this.max;
+
+    $.export("$summary", `Retrieved ${items.length} ${this.tableTypes}(s)`);
+    return {
+      items,
+    };
   },
 };
