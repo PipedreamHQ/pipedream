@@ -1,8 +1,59 @@
-import axios from "axios";
+//import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
   app: "zoho_crm",
+  propDefinitions: {
+    lead: {
+      type: "string",
+      label: "Lead",
+      description: "Unique identifier of the lead record to be converted",
+      async options({ page }) {
+        const { data: leads } = await this.listRecords("Leads", page);
+        return leads.map((lead) => ({
+          label: lead.Full_Name ?? lead.id,
+          value: lead.id,
+        }));
+      },
+    },
+    account: {
+      type: "string",
+      label: "Account",
+      description: "Use this key to associate an account with the lead being converted. Pass the unique and valid account ID.",
+      async options({ page }) {
+        const { data: accounts } = await this.listRecords("Accounts", page);
+        return accounts.map((account) => ({
+          label: account.Account_Name ?? account.id,
+          value: account.id,
+        }));
+      },
+    },
+    contact: {
+      type: "string",
+      label: "Contact",
+      description: "Use this key to associate a contact with the lead being converted. Pass the unique and valid contact ID.",
+      async options({ page }) {
+        const { data: contacts } = await this.listRecords("Contacts", page);
+        return contacts.map((contact) => ({
+          label: contact.Full_Name ?? contact.id,
+          value: contact.id,
+        }));
+      },
+    },
+    user: {
+      type: "string",
+      label: "User",
+      description: "Use this key to associate a contact with the lead being converted. Pass the unique and valid contact ID.",
+      async options({ page }) {
+        const { users } = await this.listRecords("users?type=ActiveUsers", page);
+        return users.map((user) => ({
+          label: user.full_name ?? user.id,
+          value: user.id,
+        }));
+      },
+    },
+  },
   methods: {
     _apiUrl() {
       return "https://www.zohoapis.com/crm/v2";
@@ -233,6 +284,21 @@ export default {
         throw new Error(`${watch.message} ${JSON.stringify(watch.details)}`);
       }
       return data;
+    },
+    async listRecords(moduleType, page = 0, $) {
+      return axios($ ?? this, this._getAxiosParams({
+        path: `/${moduleType}`,
+        data: {
+          page: page + 1,
+        },
+      }));
+    },
+    async convertLead(lead, data, $) {
+      return axios($ ?? this, this._getAxiosParams({
+        method: "POST",
+        path: `/Leads/${lead}/actions/convert`,
+        data,
+      }));
     },
   },
 };
