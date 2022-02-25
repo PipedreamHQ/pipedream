@@ -36,19 +36,12 @@ export default {
         "limit",
       ],
     },
-    pageToken: {
-      propDefinition: [
-        coda,
-        "pageToken",
-      ],
-    },
   },
   async run({ $ }) {
     let params = {
       sortBy: this.sortBy,
       tableTypes: this.tableTypes.toString(),
       limit: this.limit,
-      pageToken: this.pageToken,
     };
 
     let response = await this.coda.listTables(

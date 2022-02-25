@@ -35,18 +35,11 @@ export default {
         "limit",
       ],
     },
-    pageToken: {
-      propDefinition: [
-        coda,
-        "pageToken",
-      ],
-    },
   },
   async run({ $ }) {
     let params = {
       visibleOnly: this.visibleOnly,
       limit: this.limit,
-      pageToken: this.pageToken,
     };
 
     let response = await this.coda.listColumns(

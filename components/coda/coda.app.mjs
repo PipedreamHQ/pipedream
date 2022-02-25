@@ -128,15 +128,6 @@ export default {
       label: "Limit",
       description: "Maximum number of results to return in this query",
       optional: true,
-      default: 25,
-      min: 1,
-      max: 50,
-    },
-    pageToken: {
-      type: "string",
-      label: "Page Token",
-      description: "An opaque token used to fetch the next page of results",
-      optional: true,
     },
   },
   methods: {
@@ -209,8 +200,6 @@ export default {
      * @param {boolean} [params.isPublished]
      * @param {boolean} [params.isStarred]
      * @param {boolean} [params.inGallery]
-     * @param {number}  [params.limit]
-     * @param {string}  [params.pageToken]
      * @return {object[]} List of docs
      */
     async listDocs($, params = {}) {
@@ -228,7 +217,6 @@ export default {
      * @param {string} [params.sortBy]
      * @param {string} [params.tableTypes]
      * @param {number} [params.limit]
-     * @param {string} [params.pageToken]
      * @return {object[]} List of tables
      */
     async listTables($, docId, params = {}) {
@@ -250,7 +238,6 @@ export default {
      * @param {boolean} [params.useColumnNames]
      * @param {string}  [params.valueFormat]
      * @param {number}  [params.limit]
-     * @param {string}  [params.pageToken]
      * @param {string}  [params.syncToken]
      * @return {object[]} List of rows
      */
@@ -269,7 +256,6 @@ export default {
      * @param {object} [params]
      * @param {object} [params.visibleOnly]
      * @param {object} [params.limit]
-     * @param {object} [params.pageToken]
      * @return {object[]} List of columns
      */
     async listColumns($, docId, tableId, params = {}) {

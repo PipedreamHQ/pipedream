@@ -84,12 +84,6 @@ export default {
         "limit",
       ],
     },
-    pageToken: {
-      propDefinition: [
-        coda,
-        "pageToken",
-      ],
-    },
     syncToken: {
       type: "string",
       label: "Sync Token",
@@ -104,7 +98,6 @@ export default {
       useColumnNames: this.useColumnNames,
       valueFormat: this.valueFormat,
       limit: this.limit,
-      pageToken: this.pageToken,
       syncToken: this.syncToken,
     };
 

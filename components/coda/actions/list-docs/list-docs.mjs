@@ -59,17 +59,12 @@ export default {
       description: "Show only docs visible within the gallery",
       optional: true,
     },
-    limit: {
+    max: {
       propDefinition: [
         coda,
-        "limit",
+        "max",
       ],
-    },
-    pageToken: {
-      propDefinition: [
-        coda,
-        "pageToken",
-      ],
+      label: "Max Items",
     },
   },
   async run({ $ }) {
@@ -82,8 +77,6 @@ export default {
       isPublished: this.isPublished,
       isStarred: this.isStarred,
       inGallery: this.inGallery,
-      limit: this.limit,
-      pageToken: this.pageToken,
     };
 
     let items = [];
@@ -92,9 +85,9 @@ export default {
       response = await this.coda.listDocs($, params);
       items.push(...response.items);
       params.pageToken = response.nextPageToken;
-    } while (params.pageToken && items.length < this.limit);
+    } while (params.pageToken && items.length < this.max);
 
-    if (items.length > this.limit) items.length = this.limit;
+    if (items.length > this.max) items.length = this.max;
 
     $.export("$summary", `Retrieved ${items.length} doc(s)`);
 
