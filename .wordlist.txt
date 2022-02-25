@@ -1069,4 +1069,9 @@ golangcode
 Sprintf
 apiKey
 fileUrl
-
+stepName
+firstName
+Golang
+UX
+taskSchedulerURL
+taskId

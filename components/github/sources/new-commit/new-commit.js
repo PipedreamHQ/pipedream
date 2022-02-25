@@ -6,7 +6,7 @@ module.exports = {
   key: "github-new-commit",
   name: "New Commit",
   description: "Emit new events on new commits to a repo or branch",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     ...common.props,
@@ -41,6 +41,7 @@ module.exports = {
   },
   async run() {
     const since = this.db.get("since");
+    const firstRun = this.db.get("firstRun") ?? true;
 
     const config = {
       repoFullName: this.repoFullName,
@@ -48,9 +49,12 @@ module.exports = {
       since,
     };
     const commits = await this.github.getCommits(config);
+    const commitsToEmit = firstRun
+      ? commits.slice(0, 10)
+      : commits;
 
     let maxDate = since;
-    for (const commit of commits) {
+    for (const commit of commitsToEmit) {
       if (!maxDate || new Date(commit.commit.author.date) > new Date(maxDate)) {
         maxDate = commit.commit.author.date;
       }
@@ -60,6 +64,10 @@ module.exports = {
 
     if (maxDate !== since) {
       this.db.set("since", maxDate);
+    }
+
+    if (firstRun) {
+      this.db.set("firstRun", false);
     }
   },
 };
