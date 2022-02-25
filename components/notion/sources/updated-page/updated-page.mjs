@@ -1,4 +1,5 @@
 import notion from "../../notion.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "notion-udpated-page",
@@ -8,6 +9,7 @@ export default {
   type: "source",
   dedupe: "last",
   props: {
+    db: "$.service.db",
     timer: {
       type: "$.interface.timer",
       default: {
@@ -23,16 +25,27 @@ export default {
     },
   },
   async run() {
-    const response = await this.notion.queryDatabase(this.databaseId);
+    const params = {
+      start_cursor: utils.getLastCursor(this.db),
+    };
 
-    response.results.forEach((page) => {
-      const title = this.notion.extractPageTitle(page);
+    do {
+      const response = await this.notion.queryDatabase(this.databaseId, params);
 
-      this.$emit(page, {
-        id: page.id,
-        summary: `Page updated: ${title} - ${page.id}`,
-        ts: Date.parse(page.last_edited_time),
+      response.results.forEach((page) => {
+        const title = this.notion.extractPageTitle(page);
+
+        this.$emit(page, {
+          id: page.id,
+          summary: `Page updated: ${title} - ${page.id}`,
+          ts: Date.parse(page.last_edited_time),
+        });
       });
-    });
+
+      params.start_cursor = response.next_cursor;
+      if (params.start_cursor) {
+        utils.setLastCursor(this.db, params.start_cursor);
+      }
+    } while (params.start_cursor);
   },
 };

@@ -120,9 +120,10 @@ export default {
         ...params,
       });
     },
-    async queryDatabase(databaseId) {
+    async queryDatabase(databaseId, params = {}) {
       return this._getNotionClient().databases.query({
         database_id: databaseId,
+        ...params,
       });
     },
     async createPage(page) {
