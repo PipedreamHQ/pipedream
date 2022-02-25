@@ -29,15 +29,15 @@ function buildTextProperty(content) {
  *    }
  *  ]
  */
-function buildBlock(type, propList) {
-  const blockProps = {};
-  for (const { label, value } of propList) {
-    if (label == "text") {
-      blockProps[label] = buildTextProperty(value);
-    } else {
-      blockProps[label] = value;
-    }
-  }
+function buildBlock(type, propList = []) {
+  const blockProps =
+    propList.reduce((props, prop) => ({
+      ...props,
+      [prop.label]: prop.label === "text"
+        ? buildTextProperty(prop.value)
+        : prop.value,
+    }), {});
+
   return {
     object: "block",
     type,
