@@ -86,18 +86,14 @@ export default {
     },
     extractPageTitleOptions(pages) {
       const options = pages.map((page) => {
-        const title = Object.values(page.properties)
-          .map((property) => {
-            if (property.type === "title" && property.title.length > 0) {
-              return property.title
-                .map((title) => title.plain_text)
-                .filter((title) => title.length > 0)
-                .reduce((prev, next) => prev + next);
-            }
-          })
-          .filter((title) => title);
+        const propertyFound = Object.values(page.properties)
+          .find((property) => property.type === "title" && property.title.length > 0);
+        const title = propertyFound?.title
+          .map((title) => title.plain_text)
+          .filter((title) => title.length > 0)
+          .reduce((prev, next) => prev + next);
         return {
-          label: title[0] ?? "Untitled",
+          label: title ?? "Untitled",
           value: page.id,
         };
       });
