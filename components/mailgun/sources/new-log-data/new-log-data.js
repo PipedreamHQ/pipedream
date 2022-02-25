@@ -27,9 +27,7 @@ module.exports = {
     },
     async getLatestEvents(page = null, limit = 300, ascending = "yes") {
       const date = new Date();
-      if ([
-        "yes",
-      ].includes(ascending)) {
+      if (ascending === "yes") {
         date.setDate(date.getDate() - 1);
       } else {
         date.setDate(date.getDate());
