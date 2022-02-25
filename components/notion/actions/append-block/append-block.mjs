@@ -1,5 +1,6 @@
 import notion from "../../notion.app.mjs";
-import common from "../common.mjs";
+import utils from "../common/utils.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "notion-append-block",
@@ -25,19 +26,19 @@ export default {
     },
   },
   async additionalProps() {
-    return common.blockType[this.blockType].additionalProps;
+    return constants.BLOCK_TYPES[this.blockType].additionalProps;
   },
   methods: {
     buildBlockArgs(blockType) {
       switch (blockType) {
-      case common.blockType.paragraph.key:
+      case constants.BLOCK_TYPES.paragraph.key:
         return [
           {
             label: "text",
             value: this.paragraphText,
           },
         ];
-      case common.blockType.to_do.key:
+      case constants.BLOCK_TYPES.to_do.key:
         return [
           {
             label: "text",
@@ -54,7 +55,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const block = common.buildBlock(
+    const block = utils.buildBlock(
       this.blockType,
       this.buildBlockArgs(this.blockType),
     );

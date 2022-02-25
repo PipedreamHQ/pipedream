@@ -1,5 +1,6 @@
 import notion from "../../notion.app.mjs";
-import common from "../common.mjs";
+import utils from "../common/utils.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   key: "notion-create-page",
@@ -36,8 +37,8 @@ export default {
         "coverType",
       ],
     },
-    paragraph: common.blockType.paragraph.prop,
-    todo: common.blockType.to_do.prop,
+    paragraph: constants.BLOCK_TYPES.paragraph.prop,
+    todo: constants.BLOCK_TYPES.to_do.prop,
   },
   async additionalProps() {
     let props = {};
@@ -64,13 +65,13 @@ export default {
     if (this.paragraph) {
       props = {
         ...props,
-        ...common.blockType.paragraph.additionalProps,
+        ...constants.BLOCK_TYPES.paragraph.additionalProps,
       };
     }
     if (this.todo) {
       props = {
         ...props,
-        ...common.blockType.to_do.additionalProps,
+        ...constants.BLOCK_TYPES.to_do.additionalProps,
       };
     }
     return props;
@@ -78,14 +79,14 @@ export default {
   methods: {
     buildBlockArgs(blockType) {
       switch (blockType) {
-      case common.blockType.paragraph.key:
+      case constants.BLOCK_TYPES.paragraph.key:
         return [
           {
             label: "text",
             value: this.paragraphText,
           },
         ];
-      case common.blockType.to_do.key:
+      case constants.BLOCK_TYPES.to_do.key:
         return [
           {
             label: "text",
@@ -108,7 +109,7 @@ export default {
       },
       properties: {
         title: {
-          title: common.buildTextProperty(this.title),
+          title: utils.buildTextProperty(this.title),
         },
       },
       children: [],
@@ -131,16 +132,16 @@ export default {
     }
 
     if (this.paragraph) {
-      page.children.push(common.buildBlock(
-        common.blockType.paragraph.key,
-        this.buildBlockArgs(common.blockType.paragraph.key),
+      page.children.push(utils.buildBlock(
+        constants.BLOCK_TYPES.paragraph.key,
+        this.buildBlockArgs(constants.BLOCK_TYPES.paragraph.key),
       ));
     }
 
     if (this.todo) {
-      page.children.push(common.buildBlock(
-        common.blockType.to_do.key,
-        this.buildBlockArgs(common.blockType.to_do.key),
+      page.children.push(utils.buildBlock(
+        constants.BLOCK_TYPES.to_do.key,
+        this.buildBlockArgs(constants.BLOCK_TYPES.to_do.key),
       ));
     }
 

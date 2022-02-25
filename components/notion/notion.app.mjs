@@ -1,5 +1,5 @@
 import notion from "@notionhq/client";
-import common from "./actions/common.mjs";
+import constants from "./actions/common/constants.mjs";
 
 export default {
   type: "app",
@@ -41,10 +41,7 @@ export default {
       description: "Text or Emoji",
       optional: true,
       reloadProps: true,
-      options: [
-        "text",
-        "emoji",
-      ],
+      options: constants.ICON_TYPES,
     },
     coverType: {
       type: "string",
@@ -52,16 +49,13 @@ export default {
       description: "External or File URL",
       optional: true,
       reloadProps: true,
-      options: [
-        "external",
-        "file",
-      ],
+      options: constants.COVER_TYPES,
     },
     blockType: {
       type: "string",
       label: "Block Type",
       description: "The block object represents content within Notion. Blocks can be text, lists, media, and more. A page is also a type of block.",
-      options: Object.keys(common.blockType),
+      options: Object.keys(constants.BLOCK_TYPES),
       reloadProps: true,
     },
   },

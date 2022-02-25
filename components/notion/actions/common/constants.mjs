@@ -1,51 +1,12 @@
-/**
- * Builds Notion text property for Notion blocks
- * @param {string} content - The text content
- * @returns
- */
-function buildTextProperty(content) {
-  return [
-    {
-      type: "text",
-      text: {
-        content,
-      },
-    },
-  ];
-}
+const ICON_TYPES = [
+  "text",
+  "emoji",
+];
 
-/**
- * Builds a Notion block object
- * @param {string} type - The block type
- * @param {list} propList - A list of block object values for the block type, following the format:
- *  [
- *    {
- *      label: text,
- *      value: "some text",
- *    },
- *    {
- *      label: checked,
- *      value: true,
- *    }
- *  ]
- */
-function buildBlock(type, propList = []) {
-  const blockProps =
-    propList.reduce((props, prop) => ({
-      ...props,
-      [prop.label]: prop.label === "text"
-        ? buildTextProperty(prop.value)
-        : prop.value,
-    }), {});
-
-  return {
-    object: "block",
-    type,
-    [type]: {
-      ...blockProps,
-    },
-  };
-}
+const COVER_TYPES = [
+  "external",
+  "file",
+];
 
 /**
  * Notion block types, containing:
@@ -53,7 +14,7 @@ function buildBlock(type, propList = []) {
  *   - props
  *   - additionalProps
  */
-const blockType = {
+const BLOCK_TYPES = {
   paragraph: {
     key: "paragraph",
     prop: {
@@ -214,7 +175,7 @@ const blockType = {
 };
 
 export default {
-  buildTextProperty,
-  buildBlock,
-  blockType,
+  ICON_TYPES,
+  COVER_TYPES,
+  BLOCK_TYPES,
 };
