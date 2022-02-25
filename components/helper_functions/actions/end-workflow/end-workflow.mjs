@@ -5,13 +5,14 @@ export default {
   key: "helper_functions-end-workflow",
   name: "End Workflow",
   description: "End execution at this step. Later steps in the workflow will not run.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     helper_functions,
     reason: {
       type: "string",
       description: "Enter the reason why the workflow is ending (e.g., \"No record found for user.\")",
+      optional: true,
     },
     condition: {
       type: "boolean",
