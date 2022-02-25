@@ -6,7 +6,7 @@ module.exports = {
   propDefinitions: {
     publicChannel: {
       type: "string",
-      label: "Channel",
+      label: "Foo",
       async options({ prevContext }) {
         let {
           types,
