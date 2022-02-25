@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let response = await this.notion.retrievePage(this.pageId);
+    const response = await this.notion.retrievePage(this.pageId);
     $.export("$summary", "Retrieved page successfully");
     return response;
   },

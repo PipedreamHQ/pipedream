@@ -38,12 +38,6 @@ export default {
     },
     paragraph: common.blockType.paragraph.prop,
     todo: common.blockType.to_do.prop,
-    // blockType: {
-    //   propDefinition: [
-    //     notion,
-    //     "blockType",
-    //   ],
-    // },
   },
   async additionalProps() {
     let props = {};
@@ -79,12 +73,6 @@ export default {
         ...common.blockType.to_do.additionalProps,
       };
     }
-    // if (this.blockType) {
-    //   props = {
-    //     ...props,
-    //     ...common.blockType[this.blockType].additionalProps,
-    //   };
-    // }
     return props;
   },
   methods: {
@@ -156,14 +144,7 @@ export default {
       ));
     }
 
-    // if (this.blockType) {
-    //   page.children.push(common.buildBlock(
-    //     this.blockType,
-    //     this.buildBlockArgs(this.blockType),
-    //   ));
-    // }
-
-    let response = await this.notion.createPage(page);
+    const response = await this.notion.createPage(page);
     $.export("$summary", "Created page succesfully");
     return response;
   },

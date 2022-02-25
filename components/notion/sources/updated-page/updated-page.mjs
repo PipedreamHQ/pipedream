@@ -33,6 +33,6 @@ export default {
         summary: `Page updated: ${title} - ${page.id}`,
         ts: Date.parse(page.last_edited_time),
       });
-    })
+    });
   },
 };

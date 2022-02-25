@@ -88,7 +88,7 @@ export default {
       };
     }
 
-    let response = await this.notion.updatePage(this.pageId, params);
+    const response = await this.notion.updatePage(this.pageId, params);
     $.export("$summary", "Updated page succesfully");
     return response;
   },

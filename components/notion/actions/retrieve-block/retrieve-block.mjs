@@ -25,7 +25,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let response = await this.notion.retrieveBlock(this.blockId, this.retrieveChildren);
+    const response = await this.notion.retrieveBlock(this.blockId, this.retrieveChildren);
     $.export("$summary", "Retrieved block successfully");
     return response;
   },

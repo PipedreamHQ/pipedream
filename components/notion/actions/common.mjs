@@ -17,7 +17,7 @@ function buildTextProperty(content) {
 /**
  * Builds a Notion block object
  * @param {string} type - The block type
- * @param {list} propList - A list of block object values for the block type, in the following format:
+ * @param {list} propList - A list of block object values for the block type, following the format:
  *  [
  *    {
  *      label: text,
@@ -44,7 +44,7 @@ function buildBlock(type, propList) {
     [type]: {
       ...blockProps,
     },
-  }
+  };
 }
 
 /**

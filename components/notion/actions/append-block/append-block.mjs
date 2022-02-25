@@ -58,7 +58,7 @@ export default {
       this.blockType,
       this.buildBlockArgs(this.blockType),
     );
-    let response = await this.notion.appendBlock(this.parentId, block);
+    const response = await this.notion.appendBlock(this.parentId, block);
     $.export("$summary", "Appended block(s) successfully");
     return response;
   },

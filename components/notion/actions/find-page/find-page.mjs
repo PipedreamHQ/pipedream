@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let response = await this.notion.searchPage(this.title);
+    const response = await this.notion.searchPage(this.title);
     if (this.title) {
       $.export("$summary", `Found ${response.results.length} pages with title search \`${this.title}\``);
     } else {
