@@ -75,7 +75,7 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      let lastSeenTime = this.db.get("lastSeenEvent");
+      let lastSeenTime = this.db.get("lastSeenTime");
       for (let item of result.items) {
         if (item.timestamp <= lastSeenTime) {
           continue;
