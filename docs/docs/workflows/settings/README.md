@@ -1,4 +1,4 @@
-# Workflow Settings
+# Settings
 
 You can control workflow-specific settings in the **Settings** header, just above your workflow's code.
 
@@ -31,10 +31,6 @@ By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. I
 ### Concurrency and Throttling
 
 [Manage the concurrency and rate](/workflows/events/concurrency-and-throttling/) at which events from a source trigger your workflow code.
-
-## Current checkpoint values
-
-If you're using [`$checkpoint`](/workflows/steps/code/#workflow-level-state-checkpoint) or [`this.$checkpoint`](/workflows/steps/code/#step-level-state-this-checkpoint) to manage state in your workflow, you can view their values here. You can also modify the values or clear the whole contents of a given checkpoint.
 
 ## Attachments
 

@@ -8,7 +8,7 @@ export default {
   description:
     `Creates a Pub/Sub topic in your GCP account.
     Messages published to this topic are emitted from the Pipedream source.`,
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique", // Dedupe on Pub/Sub message ID
   props: {

@@ -226,6 +226,12 @@ export default {
       };
 
       const { data } = await axios.patch(url, requestData, requestConfig);
+      const watch = data.watch[0];
+      console.log(watch);
+      console.log(watch.details);
+      if (watch.status !== "success") {
+        throw new Error(`${watch.message} ${JSON.stringify(watch.details)}`);
+      }
       return data;
     },
   },

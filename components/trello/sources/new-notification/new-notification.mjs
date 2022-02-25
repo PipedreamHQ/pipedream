@@ -6,7 +6,7 @@ export default {
   name: "New Notification",
   description:
     "Emit new event for each new Trello notification for the authenticated user.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

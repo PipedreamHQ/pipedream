@@ -6,7 +6,7 @@ export default {
   key: "shopify_partner-new-app-uninstalls",
   name: "New App Uninstalls",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.5",
   description: "Emit new events when new shops uninstall your app.",
   ...common,
   props: {
@@ -48,7 +48,7 @@ export default {
       db,
       query: getAppUninstalls,
       variables,
-      key: this.key,
+      key: "shopify_partner-uninstalls",
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
           this.$emit(event, {
@@ -57,7 +57,10 @@ export default {
           });
         });
       },
-      cursorPath: "app.events[0].edges[0].cursor",
+      getCursor: (data) => {
+        const edges = data?.app?.events?.edges;
+        return edges.reverse()[0]?.cursor;
+      },
       hasNextPagePath: "app.events.pageInfo.hasNextPage",
     });
   },

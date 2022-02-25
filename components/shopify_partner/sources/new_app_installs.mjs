@@ -6,7 +6,7 @@ export default {
   key: "shopify_partner-new-app-installs",
   name: "New App Installs",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.5",
   description: "Emit new events when new shops install your app.",
   ...common,
   props: {
@@ -47,7 +47,7 @@ export default {
 
     await this.shopify.query({
       db,
-      key: this.key,
+      key: "shopify_partner-installs",
       query: getAppInstalls,
       variables,
       handleEmit: (data) => {
@@ -58,7 +58,10 @@ export default {
           });
         });
       },
-      cursorPath: "app.events[0].edges[0].cursor",
+      getCursor: (data) => {
+        const edges = data?.app?.events?.edges;
+        return edges.reverse()[0]?.cursor;
+      },
       hasNextPagePath: "app.events.pageInfo.hasNextPage",
     });
   },

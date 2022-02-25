@@ -10,7 +10,7 @@ export default {
   name: "New Files (Instant)",
   description:
     "Emits a new event any time a new file is added in your linked Google Drive",
-  version: "0.0.9",
+  version: "0.0.12",
   type: "source",
   dedupe: "unique",
   props: {

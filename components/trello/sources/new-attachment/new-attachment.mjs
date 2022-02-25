@@ -6,7 +6,7 @@ export default {
   key: "trello-new-attachment",
   name: "New Attachment (Instant)",
   description: "Emit new event for new attachment on a board.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   props: {
     ...common.props,

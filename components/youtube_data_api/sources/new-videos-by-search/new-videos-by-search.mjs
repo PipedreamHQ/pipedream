@@ -7,7 +7,7 @@ export default {
   name: "New Videos by Search",
   description:
     "Emit new event for each new YouTube video matching a search query.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,
