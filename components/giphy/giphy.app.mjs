@@ -17,15 +17,11 @@ export default {
     _getAxiosParams(opts = {}) {
       return {
         ...opts,
-        url: this._getBaseUrl() + opts.path,
         params: {
           ...opts.params,
           api_key: this.$auth.api_key,
         },
       };
-    },
-    _getBaseUrl() {
-      return "https://api.giphy.com";
     },
     async getGifsOrStickers(searchType, params, max, ctx = this) {
       const TOTAL_LIMIT = max || 50;
@@ -41,9 +37,9 @@ export default {
         }
         const res = await axios(ctx, this._getAxiosParams({
           method: "GET",
-          path: searchType === "gifs"
-            ? "/v1/gifs/search"
-            : "/v1/stickers/search",
+          url: searchType === "gifs"
+            ? "https://api.giphy.com/v1/gifs/search"
+            : "https://api.giphy.com/v1/stickers/search",
           params: {
             ...params,
             limit,
@@ -67,18 +63,16 @@ export default {
       return axios(ctx, this._getAxiosParams({
         method: "GET",
         path: searchType === "gifs"
-          ? "/v1/gifs/translate"
-          : "/v1/stickers/translate",
+          ? "https://api.giphy.com/v1/gifs/translate"
+          : "https://api.giphy.com/v1/stickers/translate",
         params,
       }));
     },
     async uploadGif(data, ctx = this) {
       return axios(ctx, this._getAxiosParams({
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        method: "GET",
-        path: "/v1/gifs",
+        headers: data.getHeaders(),
+        method: "POST",
+        url: "https://upload.giphy.com/v1/gifs",
         data,
       }));
     },
