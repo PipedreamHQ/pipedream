@@ -118,7 +118,7 @@ export default {
       };
     },
     async listDatabases(params = {}) {
-      return await this._getNotionClient().search({
+      return this._getNotionClient().search({
         filter: {
           property: "object",
           value: "database",
@@ -127,20 +127,20 @@ export default {
       });
     },
     async queryDatabase(databaseId) {
-      return await this._getNotionClient().databases.query({
+      return this._getNotionClient().databases.query({
         database_id: databaseId,
       });
     },
     async createPage(page) {
-      return await this._getNotionClient().pages.create(page);
+      return this._getNotionClient().pages.create(page);
     },
     async retrievePage(pageId) {
-      return await this._getNotionClient().pages.retrieve({
+      return this._getNotionClient().pages.retrieve({
         page_id: pageId,
       });
     },
     async searchPage(title, params = {}) {
-      return await this._getNotionClient().search({
+      return this._getNotionClient().search({
         query: title,
         filter: {
           property: "object",
@@ -150,13 +150,13 @@ export default {
       });
     },
     async updatePage(pageId, params) {
-      return await this._getNotionClient().pages.update({
+      return this._getNotionClient().pages.update({
         page_id: pageId,
         ...params,
       });
     },
     async appendBlock(parentId, block) {
-      return await this._getNotionClient().blocks.children.append({
+      return this._getNotionClient().blocks.children.append({
         block_id: parentId,
         children: [
           block,
