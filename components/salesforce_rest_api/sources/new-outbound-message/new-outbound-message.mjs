@@ -87,6 +87,15 @@ export default {
       console.log("Skipping event from unrecognized source");
       return;
     }
-    this.$emit(data, this.generateMeta(data));
+    
+    let notifications = data.Notification;
+    if (!Array.isArray(notifications)) {
+      notifications = [data.Notification];
+    }
+
+    notifications.forEach(n => {
+      const notification = Object.assign(data, {Notification: n});
+      this.$emit(notification, this.generateMeta(notification));
+    })
   },
 };
