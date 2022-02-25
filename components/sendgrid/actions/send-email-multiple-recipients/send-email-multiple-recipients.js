@@ -7,7 +7,7 @@ module.exports = {
   name: "Send Email Multiple Recipients",
   description:
     "This action sends a personalized e-mail to multiple specified recipients.",
-  version: "0.0.10",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

@@ -6,7 +6,7 @@ module.exports = {
   key: "sendgrid-get-all-bounces",
   name: "Get All Bounces",
   description: "Allows you to get all of your bounces.",
-  version: "0.0.28",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

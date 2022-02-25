@@ -46,17 +46,8 @@ module.exports = {
     _makeRequest(customConfig) {
       return this._withRetries(() => axios(customConfig));
     },
-    async _getAllItems(params) {
-      const {
-        url,
-        query,
-      } = params;
-      const requestData = {
-        query,
-      };
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.post(url, requestData, requestConfig);
-      return data;
+    async _makeClientRequest(customConfig) {
+      return this._withRetries(() => this.api().request(customConfig));
     },
     _isRetriableStatusCode(statusCode) {
       [
@@ -131,15 +122,14 @@ module.exports = {
           recipient_emails: recipientEmails,
         },
       };
-      const { data } = await this._withRetries(() =>
-        this.api().request(config));
+      const { data } = await this._makeClientRequest(config);
       return data;
     },
     /**
-     * Adds an email to global supressions
-     * @param {array} opts.list_ids an array of List ID strings that this contact will be added to.
-     * @param {array}  opts.contacts one or more contacts objects for upsert. An email field is
-     * required for each contact object. See the contact object description at:
+     * Adds and/or updates a contact
+     *
+     * @param {array}  opts.contacts one or more contacts objects to add or update. An email field
+     * is required for each contact object. See the contact object description at:
      * https://docs.sendgrid.com/api-reference/contacts/add-or-update-a-contact
      * @returns {job_id: string } indicates that the contacts are queued for processing. Check the
      * job status with the "Import Contacts Status" endpoint. Check the API docs at:
@@ -153,8 +143,7 @@ module.exports = {
           ...opts,
         },
       };
-      const { data } = await this._withRetries(() =>
-        this.api().request(config));
+      const { data } = await this._makeClientRequest(config);
       return data;
     },
     /**
@@ -173,8 +162,7 @@ module.exports = {
           name,
         },
       };
-      const { data } = await this._withRetries(() =>
-        this.api().request(config));
+      const { data } = await this._makeClientRequest(config);
       return data;
     },
     /**
@@ -198,7 +186,7 @@ module.exports = {
             undefined,
         },
       };
-      const { data } = await this._withRetries(() => this.api().request(config));
+      const { data } = await this._makeClientRequest(config);
       return data;
     },
     /**
@@ -223,7 +211,7 @@ module.exports = {
             undefined,
         },
       };
-      const { data } = await this._withRetries(() => this.api().request(config));
+      const { data } = await this._makeClientRequest(config);
       return data;
     },
     /**
@@ -248,7 +236,7 @@ module.exports = {
             undefined,
         },
       };
-      const { data } = await this._withRetries(() => this.api().request(config));
+      const { data } = await this._makeClientRequest(config);
       return data;
     },
     /**
@@ -258,15 +246,11 @@ module.exports = {
      * @returns this endpoint replies with HTTP 204 code "No content".
      */
     async deleteGlobalSupression(email) {
-      const requestConfig = this._makeRequestConfig();
-      const baseUrl = this._apiUrl();
       const config = {
         method: "DELETE",
-        url: `${baseUrl}/asm/suppressions/global/${email}`,
-        ...requestConfig,
+        url: `/v3/asm/suppressions/global/${email}`,
       };
-      console.log(JSON.stringify(config));
-      const { data } = await this._makeRequest(config);
+      const { data } = await this._makeClientRequest(config);
       return data;
     },
     /**
@@ -286,8 +270,11 @@ module.exports = {
           delete_contacts: deleteContacts,
         },
       };
-      const { data } = await this._withRetries(() => this.api().request(config));
-      return data;
+      const { data } = await this._makeClientRequest(config);
+      return {
+        data,
+        config,
+      };
     },
     /**
      * Gets a specific block
@@ -299,9 +286,10 @@ module.exports = {
      * explanation for the reason of the block, and `status` with the status of the block.
      */
     async getBlock(email) {
-      return (await this._withRetries(() => this.api().request({
+      const config = {
         url: `/v3/suppression/blocks/${email}`,
-      })))[1];
+      };
+      return (await this._makeClientRequest(config))[1];
     },
     /**
      * Gets a global supression
@@ -311,9 +299,10 @@ module.exports = {
      * be an empty object if the email address you included in your call is not globally suppressed.
      */
     async getGlobalSupression(email) {
-      return (await this._withRetries(() => this.api().request({
+      const config = {
         url: `/v3/asm/suppressions/global/${email}`,
-      })))[1];
+      };
+      return (await this._makeClientRequest(config))[1];
     },
     /**
      * Get all the associated account's bounces.
@@ -329,13 +318,14 @@ module.exports = {
      * description), and `status` for the enhanced SMTP bounce response.
      */
     async getAllBounces(startTime, endTime) {
-      return (await this._withRetries(() => this.api().request({
+      const config = {
         url: "v3/suppression/bounces",
         qs: {
           start_time: startTime,
           end_time: endTime,
         },
-      })))[1];
+      };
+      return (await this._makeClientRequest(config))[1];
     },
     /**
      * Get all the associated account's contact lists.
@@ -350,10 +340,11 @@ module.exports = {
       const pageSize = Math.min(maxItems, 1000);
       const contactLists = [];
       let url = `/v3/marketing/lists?page_size=${pageSize}`;
+      const config = {
+        url,
+      };
       do {
-        const data  = (await this._withRetries(() => this.api().request({
-          url,
-        })))[1];
+        const data  = (await this._makeClientRequest(config))[1];
         contactLists.push(...data.result);
         if (!data._metadata.next)
         {
@@ -364,17 +355,18 @@ module.exports = {
       return contactLists.slice(0, maxItems);
     },
     /**
-     * Lists all email addresses that are currently the associated account blocks list.
+     * Lists all items of the requested account entity, blocks or global supressions.
      *
-     * @param {integer}  startTime start of the time range in unix timestamp when a block was
+     * @param {integer}  startTime start of the time range in unix timestamp when an item was
      * created (inclusive).
-     * @param {integer}  endTime end of the time range in unix timestamp when a block was
+     * @param {integer}  endTime end of the time range in unix timestamp when an item was
      * created (inclusive).
-     * @param {integer}  numberOfBlocks the number of blocks to return.
+     * @param {integer}  numberOfBlocks the number of items (blocks or global supressions)
+     * to return.
      * @returns {{created: number, email: string, reason: string, status: string}: array} an array
-     * with details of each block returned: `created` for unix timestamp for when the block record
-     * was created at SendGrid, `email` for the email address that was added to the block  list,
-     * `reason` with the reason for the block, and the `status` of the block.
+     * with details of each item returned: `created` for unix timestamp for when the item record
+     * was created at SendGrid, `email` for the email address that was added to the item list,
+     * `reason` with the reason for the item, and the `status` of the block.
      */
     async listItems(listItemsEndpoint, startTime, endTime, maxItems) {
       const pageSize = Math.min(maxItems, 100);
@@ -388,7 +380,7 @@ module.exports = {
       };
       let lastIteration = false;
       do {
-        const data  = (await this._withRetries(() => this.api().request(config)));
+        const data  = (await this._makeClientRequest(config));
         items.push(...data[1]);
         if (lastIteration) {
           break;
@@ -431,7 +423,7 @@ module.exports = {
           contact_ids: contactIds.join(","),
         },
       };
-      return this._withRetries(() => this.api().request(config));
+      return this._makeClientRequest(config);
     },
     /**
      * Searches contacts in the associated account with a SGQL query.
@@ -450,15 +442,21 @@ module.exports = {
           query,
         },
       };
-      return (await this._withRetries(() => this.api().request(config)))[1];
+      return (await this._makeClientRequest(config))[1];
     },
+    /**
+     * Sends an email to the specified recipients.
+     *
+     * See details on the Send Mail request configurationand return values at the API docs:
+     * https://docs.sendgrid.com/api-reference/mail-send/mail-send
+     */
     async sendEmail(requestData) {
       const config = {
         method: "POST",
         url: "/v3/mail/send",
         body: requestData,
       };
-      return this._withRetries(() => this.api().request(config));
+      return await this._makeClientRequest(config);
     },
     /**
      * Validates an email address.
@@ -481,7 +479,7 @@ module.exports = {
         url: "/v3/validations/email",
         body,
       };
-      return this._withRetries(() => this.api().request(config));
+      return this._makeClientRequest(config);
     },
   },
 };

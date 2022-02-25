@@ -7,7 +7,7 @@ module.exports = {
   name: "List Global Supressions",
   description:
     "Allows you to get a list of all email address that are globally suppressed.",
-  version: "0.0.57",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
