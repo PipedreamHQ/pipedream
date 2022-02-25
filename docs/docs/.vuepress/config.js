@@ -3,7 +3,10 @@ const webpack = require("webpack");
 
 module.exports = {
   title: "",
-  head: [["link", { rel: "icon", href: "/favicon.ico" }]],
+  head: [
+    ["link", { rel: "icon", href: "/favicon.ico" }],
+    ['meta', { name: 'version', content: 'latest' }]
+  ],
   description: "Pipedream Documentation - Connect APIs, remarkably fast",
   base: "/docs/",
   plugins: [
@@ -17,8 +20,12 @@ module.exports = {
   ],
   themeConfig: {
     algolia: {
-      apiKey: "1e23962724b59d018bdedc0f5a214ce5",
+      appId: 'XY28M447C5',
+      apiKey: "9d9169458128b3d60c22bb04da4431c7",
       indexName: "pipedream",
+      algoliaOptions: {
+        facetFilters: ['version:latest']
+      }
     },
     searchPlaceholder: "Search...",
     logo: "/pipedream.svg",
