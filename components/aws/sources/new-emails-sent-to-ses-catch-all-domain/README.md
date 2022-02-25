@@ -51,6 +51,14 @@ docs](https://docs.pipedream.com/event-sources/) for more information.
          "Resource": "*"
        },
        {
+         "Sid": "EC2ListRegionsForUser",
+         "Effect": "Allow",
+         "Action": [
+           "ec2:DescribeRegions"
+         ],
+         "Resource": "*"
+       },
+       {
          "Sid": "SNSCreateTopicAndSubscribe",
          "Effect": "Allow",
          "Action": [

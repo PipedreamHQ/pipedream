@@ -21,7 +21,7 @@ export default {
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
   description: "Upsert a row of data in a Google Sheet",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     googleSheets,
@@ -159,7 +159,7 @@ export default {
         }),
         deleteSheetPromise,
       ]));
-      $.export("$summary", `Cound't find the key, "${keyValue}", so inserted new row: "${insert}"`);
+      $.export("$summary", `Couldn't find the key, "${keyValue}", so inserted new row: "${insert}"`);
       return result;
     }
 

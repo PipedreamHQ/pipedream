@@ -256,7 +256,9 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "The text of the status update",
+      description: `The text of the status update. Note: In order to comply with Twitter’s 
+        terms of service, this text will have all @mentions removed. 
+        Please refer to [our docs for more details](https://pipedream.com/docs/apps/twitter/#limitations-on-mentions).`,
     },
     inReplyToStatusId: {
       type: "string",
@@ -502,7 +504,7 @@ export default {
       }));
     },
     async *scanFollowerIds(screenName) {
-      const url = "https://api.twitter.com/1.1/followers/ids.json?";
+      const url = "https://api.twitter.com/1.1/followers/ids.json";
       const baseParams = {
         screen_name: screenName,
         stringify_ids: true,
@@ -565,7 +567,7 @@ export default {
         includeEntities = false,
         includeRetweets = false,
       } = opts;
-      const url = "https://api.twitter.com/1.1/lists/statuses.json?";
+      const url = "https://api.twitter.com/1.1/lists/statuses.json";
       const params = {
         list_id: listId,
         since_id: sinceId,

@@ -25,12 +25,12 @@ Other limits apply to both the free and paid tiers, but many can be raised upon 
 
 ## Daily Invocations
 
-|     Tier     |                                                                          Daily Invocations Quota                                                                          |
-| :----------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|  Developer   |                                                  {{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}}                                                   |
-|  Professional Plan   |                                                  No limit (pay per invocation above the [base invocations quota](/pricing/#base-invocations-quota))                                                   |
-|  Orgs (free)   |                                                  {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}}                                                   |
-|  Orgs (Team Plan) |                                                  No limit (pay per invocation above the [base invocations quota](/pricing/#base-invocations-quota))                                                   |
+|       Tier        |                                      Daily Invocations Quota                                       |
+| :---------------: | :------------------------------------------------------------------------------------------------: |
+|     Developer     |                           {{$site.themeConfig.DAILY_INVOCATIONS_LIMIT}}                            |
+| Professional Plan | No limit (pay per invocation above the [base invocations quota](/pricing/#base-invocations-quota)) |
+|    Orgs (free)    |                       {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}}                       |
+| Orgs (Team Plan)  | No limit (pay per invocation above the [base invocations quota](/pricing/#base-invocations-quota)) |
 
 You can view your invocations usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing). Here you'll find your usage for the last 30 days, broken out by day, and by source / workflow.
 
@@ -38,9 +38,9 @@ Your quota is reset, daily, at 00:00 (midnight) UTC.
 
 ### Invocations Quota Notifications
 
-|     Tier     |                                                                          Notifications                                                                          |
-| :----------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|  Free tiers   |                                                  You'll receive an email at 80% and 100% of your daily usage.                                                   |
+|    Tier    |                                                                          Notifications                                                                          |
+| :--------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| Free tiers |                                                  You'll receive an email at 80% and 100% of your daily usage.                                                   |
 | Paid tiers | You'll receive an email at 80% and 100% of your [base invocations quota](/pricing/#base-invocations-quota) for your [billing period](/pricing/#billing-period). |
 
 ## Compute time per day
@@ -53,9 +53,9 @@ Your compute time quota is reset, daily, at 00:00 (midnight) UTC.
 
 ### Compute Time Quota Notifications
 
-|     Tier     |                                             Notifications                                             |
-| :----------: | :---------------------------------------------------------------------------------------------------: |
-|  Free tiers   |                     You'll receive an email at 80% and 100% of your daily usage.                      |
+|    Tier    |                                      Notifications                                       |
+| :--------: | :--------------------------------------------------------------------------------------: |
+| Free tiers |               You'll receive an email at 80% and 100% of your daily usage.               |
 | Paid tiers | **Not applicable** - Paid tiers have unlimited compute time, so receive no notifications |
 
 ## HTTP Triggers
@@ -89,10 +89,6 @@ Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also
 
 The only limit that differs between email and HTTP triggers is the payload size: the body of HTTP requests is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`, where the total size of an email sent to a workflow - its body, headers, and attachments - is limited to `{{$site.themeConfig.EMAIL_PAYLOAD_SIZE_LIMIT}}` on the default interface.
 
-**However, you can send emails up to `30MB` in size using the address `[YOUR EMAIL ENDPOINT]@upload.pipedream.net`**. [Read more here](/workflows/steps/triggers/#sending-large-emails).
-
-This `30MB` limit cannot be raised.
-
 ## Memory
 
 By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to `{{$site.themeConfig.MEMORY_ABSOLUTE_LIMIT}}`.
@@ -103,7 +99,7 @@ Increasing your workflow's memory gives you a proportional increase in CPU. If y
 
 ## Disk
 
-Your code, or a third party library, may need access to disk during the execution of your workflow or event source. **You have access to `512 MB` of disk in the `/tmp` directory**.
+Your code, or a third party library, may need access to disk during the execution of your workflow or event source. **You have access to `{{$site.themeConfig.TMP_SIZE_LIMIT}}` of disk in the `/tmp` directory**.
 
 This limit cannot be raised.
 
@@ -120,10 +116,10 @@ If your code exceeds your workflow-level limit, we'll throw a **Timeout** error 
 
 You can increase the timeout limit, up to a max value set by your plan:
 
-|     Tier     |                                             Maximum time per execution                                             |
-| :----------: | :---------------------------------------------------------------------------------------------------: |
-|  Free tiers   |                     300 seconds (5 min)                      |
-| Paid tiers | 750 seconds (12.5 min) |
+|    Tier    | Maximum time per execution |
+| :--------: | :------------------------: |
+| Free tiers |    300 seconds (5 min)     |
+| Paid tiers |   750 seconds (12.5 min)   |
 
 Events that trigger a **Timeout** error will appear in red in the [Inspector](/workflows/events/inspect/). You'll see the timeout error, also in red, in the cell at which the code timed out.
 
