@@ -10,7 +10,7 @@ module.exports = {
   name: "New Mailing List",
   type: "source",
   description: "Emit new event when a new mailing list is added to the associated Mailgun account.",
-  version: "0.0.2",
+  version: "0.0.1",
   dedupe: "greatest",
   props: {
     ...props,
