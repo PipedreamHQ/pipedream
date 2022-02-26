@@ -29,9 +29,15 @@ jobs:
         for f in ${{ steps.changed_files.outputs.all }}
         do
           ext="${f##*.}"
+          # Only run this check on modified sources or actions
           if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]])
           then
-            git diff --unified=0 HEAD^ HEAD ${f} | grep version || true
+            echo $GITHUB_BASE_REF
+            echo 
+            # Diff the changes in the HEAD ref (new branch) against the BASE ref (target branch, e.g. master)
+            # If the changes don't contain modifications to the version, we want to log that fact
+            # but not exit early
+            git diff --unified=0 $GITHUB_BASE_REF...$GITHUB_HEAD_REF ${f} | grep 'version:' || true
             if [[ $? -gt 0 ]]
             then
               echo "These changes didn't modify the version of ${f}"
