@@ -81,13 +81,13 @@ module.exports = {
     async searchStories(query, numberOfStories) {
       let stories = [];
       // eslint-disable-next-line camelcase
-      const page_size = Math.min(numberOfStories, 25);
+      const pageSize = Math.min(numberOfStories, 25);
       let next = undefined;
       do {
         const results = await this._withRetries(() =>
           this.api().searchStories({
             query,
-            page_size,
+            page_size: pageSize,
             next,
           }));
         const isStoryDataAvailable = get(results, [

@@ -15,7 +15,7 @@ module.exports = {
     archived: {
       type: "boolean",
       label: "Archived",
-      description: "Controls the story’s archived state.",
+      description: "Controls the story's archived state.",
       default: false,
     },
     comment: {
