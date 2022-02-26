@@ -50,8 +50,6 @@ jobs:
     - id: git_diff_on_components
       name: Check git diff for version changes
       run: |-
-        set -e 
-        set -o pipefail
         commit_contained_components_that_did_not_modify_version=0
         for f in ${{ steps.changed_files.outputs.all }}
         do
@@ -65,7 +63,7 @@ jobs:
             echo "${{steps.base_commit.outputs.result}}"
             echo "HEAD commit: "
             echo "${{steps.head_commit.outputs.result}}"
-            RES=$(git diff --unified=0 ${{steps.base_commit.outputs.result}}...${{steps.head_commit.outputs.result}} ${f} | grep 'version:')
+            (git diff --unified=0 ${{steps.base_commit.outputs.result}}...${{steps.head_commit.outputs.result}} ${f} | grep 'version:')
             echo "Return status of command: "
             echo $?
             if [[ $? -ne 0 ]]
@@ -75,7 +73,6 @@ jobs:
             fi
           fi
         done
-        set +o pipefail
 
         if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
         then
