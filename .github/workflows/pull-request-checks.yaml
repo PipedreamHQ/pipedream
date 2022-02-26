@@ -31,13 +31,18 @@ jobs:
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
       name: Get changed files
-    # We need to get a diff of the base and HEAD commit below. The HEAD
-    # is included in the GitHub env, but not the base
+    # We need to get a diff of the base and HEAD commit below
     - name: Return base commit
       id: base_commit
       uses: actions/github-script@v6
       with:
         script: return context.payload.pull_request?.base?.sha
+        result-encoding: string
+    - name: Return HEAD commit
+      id: head_commit
+      uses: actions/github-script@v6
+      with:
+        script: return context.payload.pull_request?.head?.sha
         result-encoding: string
     # Diff the changes in the HEAD ref (new branch) against the BASE ref (target branch, e.g. master)
     # If the changes don't contain modifications to the version, we want to log that fact but not exit early
@@ -55,8 +60,9 @@ jobs:
           then
             echo "Base commit: "
             echo "${{steps.base_commit.outputs.result}}"
-            echo "Head commit: $GITHUB_SHA"
-            git diff --unified=0 ${{steps.base_commit.outputs.result}}...$GITHUB_HEAD_REF ${f} | grep 'version:' || true
+            echo "HEAD commit: "
+            echo "${{steps.head_commit.outputs.result}}"
+            git diff --unified=0 ${{steps.base_commit.outputs.result}}...${{steps.head_commit.outputs.result}} ${f} | grep 'version:' || true
             if [[ $? -gt 0 ]]
             then
               echo "These changes didn't modify the version of ${f}"
@@ -64,11 +70,12 @@ jobs:
             fi
           fi
         done
+        set +o pipefail
+
         if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
         then
           exit 1
         fi
-        set +o pipefail
         
 
   spellcheck:
