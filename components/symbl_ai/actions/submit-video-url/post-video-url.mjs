@@ -28,7 +28,7 @@ export default {
           $,
           data: {
             url: this.videoUrl,
-            meetingName: this.meetingName ?? "",
+            name: this.meetingName ?? "",
           },
         });
       $.export("$summary", `Successfully posted video URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
