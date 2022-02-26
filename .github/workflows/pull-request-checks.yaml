@@ -24,7 +24,7 @@ jobs:
         for f in ${{ steps.changed_files.outputs.all }}
         do
           ext="${f##*.}"
-          if [ $ext = "js" ] || [ $ext = "mjs" ] || [ "${f}" == *"components/"* ]
+          if [ "$ext" == "js" ] || [ "$ext" == "mjs" ] || [ "${f}" == *"components/"* ]
           then
             git diff ${f}
           fi
