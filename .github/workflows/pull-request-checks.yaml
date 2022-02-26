@@ -18,6 +18,17 @@ jobs:
     - uses: actions/checkout@v2.4.0
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
+    - id: git_diff_on_components
+      run: |-
+        files=''
+        for f in ${{ steps.changed_files.outputs.all }}
+        do
+          ext="${f##*.}"
+          if [ $ext = "js" ] || [ $ext = "mjs" ] || [ ${f} == *"components/"* ]
+          then
+            git diff ${f}
+          fi
+        done
     - id: md_changed_files
       run: |-
         files=''
