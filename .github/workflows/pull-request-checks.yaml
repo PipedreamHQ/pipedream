@@ -21,14 +21,24 @@ jobs:
     - id: git_diff_on_components
       name: Ensure component commits modify component version
       run: |-
+        commit_contained_components_that_did_not_modify_version = 0
         for f in ${{ steps.changed_files.outputs.all }}
         do
           ext="${f##*.}"
           if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]])
           then
-            git diff ${f}
+            git diff --unified=0 HEAD^ HEAD ${f} | grep version
+            if [[ $? -gt 0 ]]
+            then
+              echo "These changes didn't modify the version of ${f}"
+              commit_contained_components_that_did_not_modify_version = 1
+            fi
           fi
         done
+        if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
+        then
+          exit 1
+        fi
   spellcheck:
     name: Spellcheck
     runs-on: ubuntu-latest
