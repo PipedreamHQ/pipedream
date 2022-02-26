@@ -11,25 +11,33 @@ on:
       - master
 
 jobs:
-  build:
-    name: Spellcheck
+  check_version:
+    name: Check component versions
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.4.0
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
     - id: git_diff_on_components
+      name: Ensure component commits modify component version
       run: |-
-        files=''
         for f in ${{ steps.changed_files.outputs.all }}
         do
           ext="${f##*.}"
-          if [ $ext = "js" ] || [ $ext = "mjs" ] || [ ${f} == *"components/"* ]
+          if [ $ext = "js" ] || [ $ext = "mjs" ] || [ ${f} = *"components/"* ]
           then
             git diff ${f}
           fi
         done
+  spellcheck:
+    name: Spellcheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.4.0
+    - uses: jitterbit/get-changed-files@v1
+      id: changed_files
     - id: md_changed_files
+      name: Spellcheck Markdown files
       run: |-
         files=''
         for f in ${{ steps.changed_files.outputs.all }}
