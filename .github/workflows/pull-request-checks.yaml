@@ -12,16 +12,26 @@ on:
 
 jobs:
   check_version:
-    name: Check component versions
+    name: Ensure component commits modify component versions
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.4.0
+      name: Checkout repo
       with:
-        fetch-depth: 2
+        # See https://github.com/actions/checkout#checkout-v2
+        # This will be slow. The intent is to fetch all commits
+        # since the merge-base (the commit where we branched off)
+        # so we can check the git diff against all changed files.
+        # By default, the checkout action only returns the last commit,
+        # There's no native way to do this in the checkout action, so 
+        # we have to fetch the entire history. See
+        # https://github.com/actions/checkout/issues/266#issuecomment-638346893
+        fetch-depth: 0
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
+      name: Get changed files
     - id: git_diff_on_components
-      name: Ensure component commits modify component version
+      name: Check git diff for version changes
       run: |-
         set -o pipefail
         set -e
@@ -33,7 +43,7 @@ jobs:
           if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]])
           then
             echo $GITHUB_BASE_REF
-            echo 
+            echo $GITHUB_HEAD_REF
             # Diff the changes in the HEAD ref (new branch) against the BASE ref (target branch, e.g. master)
             # If the changes don't contain modifications to the version, we want to log that fact
             # but not exit early
@@ -55,8 +65,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.4.0
+      name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
+      name: Get changed fiels
     - id: md_changed_files
       name: Spellcheck Markdown files
       run: |-
