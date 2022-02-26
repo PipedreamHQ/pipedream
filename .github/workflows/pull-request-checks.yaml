@@ -59,11 +59,13 @@ jobs:
           # Only run this check on modified sources or actions
           if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]])
           then
+            export BASE_COMMIT=${{steps.base_commit.outputs.result}}
             echo "Base commit: "
-            echo "${{steps.base_commit.outputs.result}}"
+            echo $BASE_COMMIT
+            export HEAD_COMMIT=${{steps.head_commit.outputs.result}}
             echo "HEAD commit: "
-            echo "${{steps.head_commit.outputs.result}}"
-            RES=`git diff --unified=0 ${{steps.base_commit.outputs.result}}...${{steps.head_commit.outputs.result}} ${f} | { grep 'version:' || true }`
+            echo $HEAD_COMMIT
+            export RES=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f} | { grep 'version:' || true }`
             echo "Return status of command: "
             echo $?
             echo "RES: "
