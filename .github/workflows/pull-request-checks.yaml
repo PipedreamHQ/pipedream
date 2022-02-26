@@ -50,6 +50,7 @@ jobs:
     - id: git_diff_on_components
       name: Check git diff for version changes
       run: |-
+        set +e
         commit_contained_components_that_did_not_modify_version=0
         for f in ${{ steps.changed_files.outputs.all }}
         do
@@ -74,6 +75,7 @@ jobs:
             fi
           fi
         done
+        set -e
 
         if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
         then
