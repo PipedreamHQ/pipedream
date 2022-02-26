@@ -112,8 +112,10 @@ module.exports = {
       "subject": this.subject,
       "text": this.text,
       "html": this.html,
-      "o:testmode": this.testMode,
     };
+    if (this.testMode) {
+      msg["o:testmode"] = "yes";
+    }
     if (this.replyTo) {
       msg["h:Reply-To"] = this.replyTo;
     }
