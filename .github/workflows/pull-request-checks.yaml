@@ -63,7 +63,8 @@ jobs:
             echo "${{steps.base_commit.outputs.result}}"
             echo "HEAD commit: "
             echo "${{steps.head_commit.outputs.result}}"
-            (git diff --unified=0 ${{steps.base_commit.outputs.result}}...${{steps.head_commit.outputs.result}} ${f} | grep 'version:')
+            #(git diff --unified=0 ${{steps.base_commit.outputs.result}}...${{steps.head_commit.outputs.result}} ${f} | grep 'version:')
+            git diff --unified=0 ${{steps.base_commit.outputs.result}}...${{steps.head_commit.outputs.result}} ${f}
             echo "Return status of command: "
             echo $?
             if [[ $? -ne 0 ]]
