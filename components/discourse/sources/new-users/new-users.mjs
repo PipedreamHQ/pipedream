@@ -6,7 +6,7 @@ export default {
   version: "0.1.0",
   type: "source",
   description:
-    "Emits an event every time a new user is created on your instance",
+    "Emit new event every time a new user is created on your instance",
   ...common,
   hooks: {
     ...common.hooks,

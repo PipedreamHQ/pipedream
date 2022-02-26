@@ -54,24 +54,16 @@ jobs:
         commit_contained_components_that_did_not_modify_version=0
         for f in ${{ steps.changed_files.outputs.all }}
         do
-          echo "Filename: "
-          echo "${f}"
           ext="${f##*.}"
           # Only run this check on modified sources or actions
           if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]])
           then
             export BASE_COMMIT=${{steps.base_commit.outputs.result}}
-            echo "Base commit: "
-            echo $BASE_COMMIT
             export HEAD_COMMIT=${{steps.head_commit.outputs.result}}
-            echo "HEAD commit: "
-            echo $HEAD_COMMIT
             DIFF=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f}`
-            echo "Diff: "
-            echo #DIFF
             if [[ ${DIFF} != *"version:"* ]]
             then
-              echo "These changes didn't modify the version of ${f}"
+              echo "You didn't modify the version of ${f}"
               commit_contained_components_that_did_not_modify_version=1
             fi
           fi
@@ -80,6 +72,7 @@ jobs:
 
         if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
         then
+          echo "You need to increment the version on some components. Please see the output above and https://pipedream.com/docs/components/guidelines/#guidelines-patterns for more information"
           exit 1
         fi
         

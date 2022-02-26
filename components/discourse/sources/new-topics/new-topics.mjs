@@ -7,7 +7,7 @@ export default {
   version: "0.1.0",
   type: "source",
   description:
-    "Emit new events every time a new topic is posted to your chosen categories",
+    "Emit new topics posted to your chosen categories",
   ...common,
   props: {
     ...common.props,
