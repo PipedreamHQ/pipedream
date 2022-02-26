@@ -10,7 +10,6 @@ module.exports = {
         "domain",
       ],
     },
-    db: "$.service.db",
   },
   methods: {
     generateMeta() {

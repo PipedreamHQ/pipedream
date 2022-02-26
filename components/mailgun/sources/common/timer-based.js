@@ -12,5 +12,6 @@ module.exports = {
         intervalSeconds: 60 * 15, // 15 minutes
       },
     },
+    db: "$.service.db",
   },
 };

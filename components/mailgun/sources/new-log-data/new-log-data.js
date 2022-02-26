@@ -18,10 +18,16 @@ module.exports = {
   },
   methods: {
     ...methods,
+    _getLastSeenTime() {
+      return this.db.get("lastSeenTime");
+    },
+    _setLastSeenTime(lastSeenTime) {
+      this.db.set("lastSeenTime", lastSeenTime);
+    },
     generateMeta(payload) {
       return {
         id: payload.id,
-        summary: `${payload.timestamp} [${payload["log-level"]}] ${payload.event}`,
+        summary: `[${payload["log-level"]}] ${payload.event}`,
         ts: payload.timestamp,
       };
     },
@@ -46,7 +52,7 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emit sample events on the first run during deploy
-      let lastSeenTime = this.db.get("lastSeenTime");
+      let lastSeenTime = this._getLastSeenTime();
       const { items } = await this.getLatestEvents(null, 5, "no");
       if (items.length === 0) {
         return;
@@ -55,7 +61,7 @@ module.exports = {
         if (item.timestamp <= lastSeenTime) {
           continue;
         }
-        this.db.set("lastSeenTime", item.timestamp);
+        this._setLastSeenTime(item.timestamp);
         this.$emit(item, this.generateMeta(item));
       }
     },
@@ -75,12 +81,12 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      let lastSeenTime = this.db.get("lastSeenTime");
+      let lastSeenTime = this._getLastSeenTime();
       for (let item of result.items) {
         if (item.timestamp <= lastSeenTime) {
           continue;
         }
-        this.db.set("lastSeenTime", item.timestamp);
+        this._setLastSeenTime(item.timestamp);
         this.$emit(item, this.generateMeta(item));
       }
     }

@@ -21,29 +21,34 @@ module.exports = {
   methods: {
     ...base.methods,
     async getWebhook(domain, webhook) {
-      const response = await this.mailgun.api("webhooks").list(domain);
-      const webhookChek = [];
-      webhookChek.push(webhook);
-      if (webhookChek.includes("unsubscribed")) {
-        return get(response, "unsubscribed.urls", []);
-      } else if (webhookChek.includes("bounce")) {
-        if (response.bounce) {
-          const bounceUrlAsArr = [];
-          bounceUrlAsArr.push(response.bounce.url);
-          return bounceUrlAsArr;
+      let response;
+      try {
+        response = await this.mailgun.api("webhooks").list(domain);
+        const webhookChek = [];
+        webhookChek.push(webhook);
+        if (webhookChek.includes("unsubscribed")) {
+          return get(response, "unsubscribed.urls", []);
+        } else if (webhookChek.includes("bounce")) {
+          if (response.bounce) {
+            const bounceUrlAsArr = [];
+            bounceUrlAsArr.push(response.bounce.url);
+            return bounceUrlAsArr;
+          }
+        } else if (webhookChek.includes("clicked")) {
+          return get(response, "clicked.urls", []);
+        } else if (webhookChek.includes("complained")) {
+          return get(response, "complained.urls", []);
+        } else if (webhookChek.includes("delivered")) {
+          return get(response, "delivered.urls", []);
+        } else if (webhookChek.includes("opened")) {
+          return get(response, "opened.urls", []);
+        } else if (webhookChek.includes("permanent_fail")) {
+          return get(response, "permanent_fail.urls", []);
+        } else if (webhookChek.includes("temporary_fail")) {
+          return get(response, "temporary_fail.urls", []);
         }
-      } else if (webhookChek.includes("clicked")) {
-        return get(response, "clicked.urls", []);
-      } else if (webhookChek.includes("complained")) {
-        return get(response, "complained.urls", []);
-      } else if (webhookChek.includes("delivered")) {
-        return get(response, "delivered.urls", []);
-      } else if (webhookChek.includes("opened")) {
-        return get(response, "opened.urls", []);
-      } else if (webhookChek.includes("permanent_fail")) {
-        return get(response, "permanent_fail.urls", []);
-      } else if (webhookChek.includes("temporary_fail")) {
-        return get(response, "temporary_fail.urls", []);
+      } catch (err) {
+        console.log(`Error getting urls for webhook: ${webhook}, of domain ${domain}`, err);
       }
       return [];
     },
@@ -102,24 +107,28 @@ module.exports = {
   hooks: {
     ...base.hooks,
     async activate() {
-      for (let webhook of this.getEventName()) {
-        const urls = await this.getWebhook(this.domain, webhook);
-        if (this.isSubscribed(urls)) {
-          continue;
-        }
-        if (urls.length > 0) {
-          await this.updateWebhook(
+      try {
+        for (let webhook of this.getEventName()) {
+          const urls = await this.getWebhook(this.domain, webhook);
+          if (this.isSubscribed(urls)) {
+            continue;
+          }
+          if (urls.length > 0) {
+            await this.updateWebhook(
+              this.domain,
+              webhook,
+              urls.concat(this.http.endpoint),
+            );
+            continue;
+          }
+          await this.createWebhook(
             this.domain,
             webhook,
-            urls.concat(this.http.endpoint),
+            this.http.endpoint,
           );
-          continue;
         }
-        await this.createWebhook(
-          this.domain,
-          webhook,
-          this.http.endpoint,
-        );
+      } catch (err) {
+        console.log("Error activating component:", err);
       }
     },
     async deactivate() {
