@@ -16,6 +16,7 @@ module.exports = {
         return await action(this.mailgun, opts);
       } catch (error) {
         if (this.haltOnError) {
+          console.log(error);
           throw error;
         }
         return error;
