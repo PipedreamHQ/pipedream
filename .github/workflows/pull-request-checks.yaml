@@ -64,6 +64,8 @@ jobs:
             echo "HEAD commit: "
             echo "${{steps.head_commit.outputs.result}}"
             RES=$(git diff --unified=0 ${{steps.base_commit.outputs.result}}...${{steps.head_commit.outputs.result}} ${f} | grep 'version:')
+            echo "Return status of command: "
+            echo $?
             if [[ $? -ne 0 ]]
             then
               echo "These changes didn't modify the version of ${f}"
