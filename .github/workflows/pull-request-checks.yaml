@@ -66,17 +66,17 @@ jobs:
             export HEAD_COMMIT=${{steps.head_commit.outputs.result}}
             echo "HEAD commit: "
             echo $HEAD_COMMIT
-            $(git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f} | grep 'version:')
-            echo "Return status of command: "
-            echo $?
-            if [[ $? -ne 0 ]]
+            DIFF=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f}`
+            echo "Diff: "
+            echo #DIFF
+            if [[ ${DIFF} != *"version:"* ]]
             then
               echo "These changes didn't modify the version of ${f}"
               commit_contained_components_that_did_not_modify_version=1
             fi
           fi
         done
-        set -e
+        set +e
 
         if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
         then
