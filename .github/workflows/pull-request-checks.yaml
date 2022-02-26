@@ -52,6 +52,8 @@ jobs:
         commit_contained_components_that_did_not_modify_version=0
         for f in ${{ steps.changed_files.outputs.all }}
         do
+          echo "Filename: "
+          echo "${f}"
           ext="${f##*.}"
           # Only run this check on modified sources or actions
           if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]])
