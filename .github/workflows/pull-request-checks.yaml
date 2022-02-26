@@ -16,12 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.4.0
+      with:
+        fetch-depth: 2
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
     - id: git_diff_on_components
       name: Ensure component commits modify component version
       run: |-
-        commit_contained_components_that_did_not_modify_version = 0
+        commit_contained_components_that_did_not_modify_version=0
         for f in ${{ steps.changed_files.outputs.all }}
         do
           ext="${f##*.}"
@@ -31,7 +33,7 @@ jobs:
             if [[ $? -gt 0 ]]
             then
               echo "These changes didn't modify the version of ${f}"
-              commit_contained_components_that_did_not_modify_version = 1
+              commit_contained_components_that_did_not_modify_version=1
             fi
           fi
         done
