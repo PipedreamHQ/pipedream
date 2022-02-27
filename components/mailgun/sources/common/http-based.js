@@ -85,11 +85,15 @@ module.exports = {
     },
     emitEvent(payload) {
       const expectedTypes = this.getEventType();
-      if (
-        !expectedTypes.includes(payload.event) ||
-        (this.getEventSubtype() && !this.getEventSubtype().includes(payload.severity))
+      const expectedSubtypes = this.getEventSubtype();
+      if (!expectedTypes.includes(payload.event) ||
+        (expectedSubtypes && !expectedSubtypes.includes(payload.severity))
       ) {
-        console.debug("Expected", expectedTypes, "but got a", payload.event, "- skipping");
+        if (!expectedTypes.includes(payload.event)) {
+          console.debug("Expected", expectedTypes, "but got a", payload.event, "- skipping");
+        } else {
+          console.debug("Expected", expectedSubtypes, "but got a", payload.severity, "- skipping");
+        }
         return;
       }
       this.$emit(payload, this.generateMeta(payload));
