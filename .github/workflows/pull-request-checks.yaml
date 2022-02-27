@@ -86,7 +86,7 @@ jobs:
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
-      name: Get changed fiels
+      name: Get changed files
     - id: md_changed_files
       name: Spellcheck Markdown files
       run: |-
