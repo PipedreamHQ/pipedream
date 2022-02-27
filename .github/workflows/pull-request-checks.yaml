@@ -57,8 +57,7 @@ jobs:
           # Only run this check on modified sources or actions, excluding common files
           if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && \
              ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]]) && \
-             [[ "${f}" != **/actions/**/common*.*js ]] && [[ "${f}" != **/actions/common/* ]] && \
-             [[ "${f}" != **/sources/**/common*.*js ]] && [[ "${f}" != **/sources/common/* ]]
+             [[ "${f}" != *common*.*js ]] && [[ "${f}" != **/actions/common/* ]] && [[ "${f}" != **/sources/common/* ]]
           then
             export BASE_COMMIT=${{steps.base_commit.outputs.result}}
             export HEAD_COMMIT=${{steps.head_commit.outputs.result}}
