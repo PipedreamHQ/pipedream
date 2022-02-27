@@ -4,7 +4,7 @@ module.exports = {
   ...common,
   key: "github-new-push",
   name: "New Push",
-  description: "Emit new events on each new push to a repo",
+  description: "Emit new events on each push to a repo",
   version: "0.0.6",
   type: "source",
   dedupe: "unique",
