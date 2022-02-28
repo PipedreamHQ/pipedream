@@ -1,68 +1,170 @@
-// legacy_hash_id: a_Jmi5vk
-import { axios } from "@pipedream/platform";
+import zohoCrmApp from "../../zoho_crm.app.mjs";
 
 export default {
   key: "zoho_crm-create-object",
   name: "Create Object",
-  description: "Adds new object to a module.",
-  version: "0.2.1",
+  description: "Create a new object/module entry. [See the docs here](https://www.zoho.com/crm/developer/docs/api/v2/insert-records.html)",
+  version: "0.2.2",
   type: "action",
   props: {
-    zoho_crm: {
-      type: "app",
-      app: "zoho_crm",
-    },
+    zohoCrmApp,
     module: {
-      type: "string",
-      description: "Module where the record will be created.",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Cases",
-        "Events",
-        "Calls",
-        "Solutions",
-        "Products",
-        "Vendors",
-        "Quotes",
-        "Price_Books",
-        "Quotes",
-        "Sales_Orders",
-        "Purchase_Orders",
-        "Invoices",
-        "Custom",
-        "Activities",
+      propDefinition: [
+        zohoCrmApp,
+        "module",
       ],
     },
-    object: {
-      type: "object",
-      description: "The new object data.",
-    },
+  },
+  async additionalProps() {
+    let props = {};
+    if (this.module === "Leads" || this.module === "Contacts") {
+      props = {
+        firstName: {
+          type: "string",
+          label: "First Name",
+          description: `First Name of new ${(this.module === "Leads")
+            ? "lead"
+            : "contact"}`,
+          optional: true,
+        },
+        lastName: {
+          type: "string",
+          label: "Last Name",
+          description: `Last Name of new ${(this.module === "Leads")
+            ? "lead"
+            : "contact"}`,
+        },
+        email: {
+          type: "string",
+          label: "Email Address",
+          description: `Email Address of new ${(this.module === "Leads")
+            ? "lead"
+            : "contact"}`,
+          optional: true,
+        },
+      };
+    }
+    if (this.module === "Accounts") {
+      props = {
+        accountName: {
+          type: "string",
+          label: "Account Name",
+          description: "Name of new account",
+        },
+      };
+    }
+    if (this.module === "Deals") {
+      props = {
+        dealName: {
+          type: "string",
+          label: "Deal Name",
+          description: "Name of the new Deal",
+        },
+        stage: {
+          type: "string",
+          label: "Stage",
+          description: "The stage of the new Deal",
+          options: [
+            "Qualification",
+            "Needs Analysis",
+            "Value Proposition",
+            "Identify Decision Makers",
+            "Proposal/Price Quote",
+            "Negotiation/Review",
+            "Closed Won",
+            "Closed Lost",
+            "Closed-Lost to Competition",
+          ],
+        },
+      };
+    }
+    if (this.module === "Tasks") {
+      props = {
+        subject: {
+          type: "string",
+          label: "Subject",
+          description: "Subject of new task",
+        },
+      };
+    }
+    if (this.module === "Calls") {
+      props = {
+        subject: {
+          type: "string",
+          label: "Subject",
+          description: "Subject of new call",
+        },
+        callType: {
+          type: "string",
+          label: "Call Type",
+          description: "Whether the call is inbound or outbound",
+          options: [
+            "inbound",
+            "outbound",
+          ],
+        },
+        callStartTime: {
+          type: "string",
+          label: "Call Start Time",
+          description: "The date and time (in ISO8601 format) at which the call starts",
+        },
+        callDuration: {
+          type: "string",
+          label: "Call Duration",
+          description: "The duration of the call in mm:ss format",
+        },
+      };
+    }
+    if (this.module === "Campaigns") {
+      props = {
+        campaignName: {
+          type: "string",
+          label: "Campaign Name",
+          description: "Name of the new campaign",
+        },
+      };
+    }
+    props = {
+      ...props,
+      additionalData: {
+        type: "object",
+        label: "Additional Data",
+        description: "Additional values for new object",
+        optional: true,
+      },
+    };
+    return props;
   },
   async run({ $ }) {
-  //See Zoho CRM API docs at: https://www.zoho.com/crm/developer/docs/api/v2/insert-records.html
-
-    if (!this.module || !this.object) {
-      throw new Error("Must provide module, and object parameters.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: `https://www.zohoapis.com/crm/v2/${this.module}`,
-      data: {
-        data: [
-          {
-            ...this.object,
-          },
-        ],
-      },
-      headers: {
-        "Authorization": `Zoho-oauthtoken ${this.zoho_crm.$auth.oauth_access_token}`,
-      },
-    });
+    let props = {
+      First_Name: this.firstName,
+      Last_Name: this.lastName,
+      Email: this.email,
+      Account_Name: this.accountName,
+      Deal_Name: this.dealName,
+      Stage: this.stage,
+      Subject: this.subject,
+      Call_Type: this.callType,
+      Call_Start_Time: this.callStartTime,
+      Call_Duration: this.callDuration,
+      ...this.additionalData,
+    };
+    // delete undefined props
+    props = Object.entries(props).reduce((a, [
+      k,
+      v,
+    ]) => (v
+      ? (a[k] = v, a)
+      : a), {});
+    const data = {
+      data: [
+        {
+          ...props,
+        },
+      ],
+    };
+    const res = await this.zohoCrmApp.createObject(this.module, data, $);
+    $.export("$summary", `Successfully created new ${this.module.substring(0, this.module.length - 1)}`);
+    return res;
   },
 };

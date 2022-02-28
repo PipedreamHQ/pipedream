@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import zohoCrmApp from "../../zoho_crm.app.mjs";
 
 export default {
   key: "zoho_crm-convert-lead",
@@ -7,30 +7,30 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    ...common.props,
+    zohoCrmApp,
     lead: {
       propDefinition: [
-        common.props.zohoCrmApp,
+        zohoCrmApp,
         "lead",
       ],
     },
     account: {
       propDefinition: [
-        common.props.zohoCrmApp,
+        zohoCrmApp,
         "account",
       ],
       optional: true,
     },
     contact: {
       propDefinition: [
-        common.props.zohoCrmApp,
+        zohoCrmApp,
         "contact",
       ],
       optional: true,
     },
     user: {
       propDefinition: [
-        common.props.zohoCrmApp,
+        zohoCrmApp,
         "user",
       ],
       optional: true,

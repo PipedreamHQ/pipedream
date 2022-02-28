@@ -53,6 +53,21 @@ export default {
         }));
       },
     },
+    module: {
+      type: "string",
+      label: "Module",
+      description: "Module where the record will be created",
+      options: [
+        "Leads",
+        "Accounts",
+        "Contacts",
+        "Deals",
+        "Campaigns",
+        "Tasks",
+        "Calls",
+      ],
+      reloadProps: true,
+    },
   },
   methods: {
     _apiUrl() {
@@ -297,6 +312,13 @@ export default {
       return axios($ ?? this, this._getAxiosParams({
         method: "POST",
         path: `/Leads/${lead}/actions/convert`,
+        data,
+      }));
+    },
+    async createObject(moduleType, data, $) {
+      return axios($ ?? this, this._getAxiosParams({
+        method: "POST",
+        path: `/${moduleType}`,
         data,
       }));
     },
