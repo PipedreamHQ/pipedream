@@ -123,7 +123,7 @@ export default {
         ...baseRequestConfig,
         params,
       };
-      const { data } = await axios.get(this, url, requestConfig);
+      const { data } = await axios(this, url, requestConfig);
       return data;
     },
     usersPageSize() {
