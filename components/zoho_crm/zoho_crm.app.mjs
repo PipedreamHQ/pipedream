@@ -1,4 +1,3 @@
-//import axios from "axios";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -124,7 +123,7 @@ export default {
         ...baseRequestConfig,
         params,
       };
-      const { data } = await axios.get(url, requestConfig);
+      const { data } = await axios.get(this, url, requestConfig);
       return data;
     },
     usersPageSize() {
@@ -215,7 +214,12 @@ export default {
     async listModules() {
       const url = this._metadataUrl();
       const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.get(url, requestConfig);
+      const config = {
+        method: "GET",
+        url,
+        ...requestConfig,
+      };
+      const { data } = await axios(this, config);
       return data;
     },
     async createHook(opts) {
@@ -243,8 +247,13 @@ export default {
           },
         ],
       };
-
-      const { data } = await axios.post(url, requestData, requestConfig);
+      const config = {
+        method: "POST",
+        url,
+        data: requestData,
+        ...requestConfig,
+      }
+      const { data } = await axios(this, config);
       return data;
     },
     async deleteHook(channelId) {
@@ -260,7 +269,12 @@ export default {
         ...this._makeRequestConfig(),
         params,
       };
-      await axios.delete(url, requestConfig);
+      const config = {
+        method: "DELETE",
+        url,
+        ...requestConfig,
+      }
+      await axios(this, config);
     },
     async renewHookSubscription(opts) {
       const {
@@ -290,8 +304,13 @@ export default {
           },
         ],
       };
-
-      const { data } = await axios.patch(url, requestData, requestConfig);
+      const config = {
+        method: "PATCH",
+        url,
+        data: requestData,
+        ...requestConfig,
+      }
+      const { data } = await axios(this, config);
       const watch = data.watch[0];
       console.log(watch);
       console.log(watch.details);
