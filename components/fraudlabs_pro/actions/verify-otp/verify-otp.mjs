@@ -1,4 +1,4 @@
-import  * as flpnodejs from 'fraudlabspro-nodejs';
+import fraudlabsProApp from "../../fraudlabs_pro.app.mjs";
 
 export default {
   name: "Get Verification Result",
@@ -7,53 +7,38 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    flp_api_key: {
-      type: "app",
-      app: "fraudlabs_pro",
-      description: "API license key. You can sign up for a trial key at [here](https://www.fraudlabspro.com/subscribe?id=1).",
-    },
-    tran_id: {
+    fraudlabsProApp,
+    tranId: {
       type: "string",
-      label: "tran_id",
+      label: "Transaction ID",
       description: "The unique ID that was returned by the Send Verification SMS API that triggered the OTP sms.",
     },
     otp: {
       type: "string",
-      label: "otp",
+      label: "OTP",
       description: "The OTP that was sent to the recipient’s phone.",
     },
     format: {
-      type: "string",
-      label: "Result Format",
-      description: "*(optional)* Format of the result. Available values are `json` or `xml`. If unspecified, json format will be used for the response message.",
-      optional: true,
+      propDefinition: [
+        fraudlabsProApp,
+        "format",
+      ],
     },
 },
-async run() {
+async run({ $ }) {
 
-  var flp = new flpnodejs.SMSVerification(this.flp_api_key.$auth.api_key);
-
-  const result_format = (typeof this.format === "undefined") ? "json" :`${this.format}`;
-
-  var params = {
-    tran_id: `${this.tran_id}`,
-    format: result_format,
-    otp: `${this.otp}`,
-  };
-
-  const process1 = await new Promise((resolve, reject) => {
-    flp.verifyOTP(params, (err, data) => {
-      if (err) {
-        reject(err)  // calling `reject` will cause the promise to fail with or without the error passed as an argument
-        return        // and we don't want to go any further
-      }
-      resolve(data)
-    })})
-    .then(data => {
-    //console.log(data);
-    return (data);
-    })
-    .catch(err => {console.error(err)});
-  return process1;
+  const {
+    tranId,
+    otp,
+    format,
+  } = this;
+  const response =
+    await this.fraudlabsProApp.verifyOtp({
+      tran_id: tranId,
+      format: format ?? "json",
+      otp,
+    });
+  $.export("$summary", "Successfully verified the OTP");
+  return response;
 },
-}
+};
