@@ -5,7 +5,7 @@ module.exports = {
   key: "github-get-repo",
   name: "Get Repo",
   description: "Get details for a repo: the owner, description, metrics (e.g., forks, stars, watchers, issues) and more.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     github,
