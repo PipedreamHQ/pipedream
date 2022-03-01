@@ -35,5 +35,9 @@
     "eslint-plugin-putout": "^6.13.1",
     "lerna": "^3.22.1",
     "putout": "^12.12.0"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0",
+    "querystring": "^0.2.1"
   }
 }
