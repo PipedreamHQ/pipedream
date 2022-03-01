@@ -8,7 +8,7 @@ module.exports = {
   key: "mailgun-verify-email",
   name: "Verify Email",
   description: "Verify email address deliverability with Mailgun.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mailgun,
