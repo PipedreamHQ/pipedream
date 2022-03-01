@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import ip2whoisApp from "../../ip2whois.app.mjs";
 
 export default {
   name: "WHOIS lookup",
@@ -7,11 +7,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    ip2whois_api_key: {
-      type: "app",
-      app: "ip2whois",
-      description: "WHOIS lookup API license key. You can sign up for a free license key at [here](https://ip2whois.com/register).",
-    },
+    ip2whoisApp,
     domain: {
       type: "string",
       label: "Domain name",
@@ -25,13 +21,15 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: `https://api.ip2whois.com/v2/`,
-      params: {
-        key: `${this.ip2whois_api_key.$auth.api_key}`,
-        format: (typeof this.format === "undefined") ? "json" :`${this.format}`,
-        domain: `${this.domain}`,
-      },
-    })
+    const response =
+      await this.ip2whoisApp.queryDomainInfo({
+        $,
+        params: {
+          format: this.format ?? "json",
+          domain: this.domain,
+        },
+      });
+    $.export("$summary", "Successfully queried domain information.");
+    return response;
   },
-}
+};
