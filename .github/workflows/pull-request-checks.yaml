@@ -31,24 +31,14 @@ jobs:
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
       name: Get changed files
-    # We need to get a diff of the base and HEAD commit below
-    - name: Return base commit
-      id: base_commit
-      uses: actions/github-script@v6
-      with:
-        script: return context.payload.pull_request?.base?.sha
-        result-encoding: string
-    - name: Return HEAD commit
-      id: head_commit
-      uses: actions/github-script@v6
-      with:
-        script: return context.payload.pull_request?.head?.sha
-        result-encoding: string
     # Diff the changes in the HEAD ref (new branch) against the BASE ref (target branch, e.g. master)
     # If the changes don't contain modifications to the version, we want to log that fact but not exit early
     # Once we've checked all files, exit the script if any files failed to modify version
     - id: git_diff_on_components
       name: Check git diff for version changes
+      env:
+        head_commit: ${{ github.event.pull_request.head.sha }}
+        base_commit: ${{ github.event.pull_request.base.sha }}
       run: |-
         commit_contained_components_that_did_not_modify_version=0
         for f in ${{ steps.changed_files.outputs.all }}
@@ -57,10 +47,11 @@ jobs:
           # Only run this check on modified sources or actions, excluding common files
           if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && \
              ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]]) && \
-             [[ "${f}" != *common*.*js ]] && [[ "${f}" != **/actions/common/* ]] && [[ "${f}" != **/sources/common/* ]]
+             [[ "${f}" != *common*.*js ]] && [[ "${f}" != **/actions/common/* ]] && [[ "${f}" != **/sources/common/* ]] && \
+             [[ "$(<${f})" == *"version:"* ]]
           then
-            export BASE_COMMIT=${{steps.base_commit.outputs.result}}
-            export HEAD_COMMIT=${{steps.head_commit.outputs.result}}
+            BASE_COMMIT=${{env.base_commit}}
+            HEAD_COMMIT=${{env.head_commit}}
             DIFF=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f}`
             if [[ ${DIFF} != *"version:"* ]]
             then
