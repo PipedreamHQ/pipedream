@@ -6,7 +6,7 @@ export default {
   key: "trello-new-label",
   name: "New Label (Instant)",
   description: "Emit new event for each new label added to a board.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

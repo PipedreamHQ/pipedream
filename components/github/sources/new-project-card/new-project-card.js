@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-project-card",
   name: "New Project Card (Instant)",
   description: "Emit new events when new project cards are created",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

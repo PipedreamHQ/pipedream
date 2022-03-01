@@ -4,7 +4,7 @@
 
 This source emits a new event each time a new contact is added to your SendGrid
 contact list. For that purpose, it makes usage of the **New Marketing Campaign**
-SendGrid API's that allow integrations to perform searches in the contact list.
+SendGrid APIs that allow integrations to perform searches in the contact list.
 
 The specific API is [**Search
 contacts**](https://sendgrid.com/docs/API_Reference/api_v3.html), which accepts
@@ -16,7 +16,7 @@ query to perform the necessary search results filtering.
 
 The only pre-requisite to use this event source is for users to provide a valid
 [API key](https://sendgrid.com/docs/API_Reference/api_v3.html). This key must
-have premission to call the
+have permission to call the
 [search contacts](https://sendgrid.com/docs/API_Reference/api_v3.html) endpoint
 (in the **New Marketing Campaigns** category).
 

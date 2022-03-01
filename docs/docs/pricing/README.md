@@ -28,9 +28,10 @@ Users on the Developer Tier have access to community support, on [our forum](htt
 The Professional Tier includes all the features of the Developer Tier. It also comes with the following benefits:
 
 - **You have no daily invocations or compute time cap. You can run any number of invocations, for any amount of time**.
+- You can increase the [max time per execution](/limits/#time-per-execution) to 750 seconds (up from 300 on the Developer Tier).
+- You can request [QPS increases](/limits/#qps-queries-per-second) for specific HTTP endpoints.
 - When using [concurrency and throttling controls](/workflows/events/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
-
-Pipedream will be adding more features to the Professional tier over time.
+- You have access to a [Pipedream-provided HTTP proxy](/workflows/steps/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host).
 
 ### Upgrading to the Professional Tier
 
@@ -46,9 +47,9 @@ Users on the Professional Tier have access to community support, on [our forum](
 
 ## Team Plan
 
-You can create as many [organizations](/orgs) as you'd like for free. But the quota for free orgs is set to {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}} invocations per day. To lift this limit, you can upgrade the org to the **Team Plan**.
+You can create as many [organizations](/orgs/) as you'd like for free. But the quota for free orgs is set to {{$site.themeConfig.FREE_ORG_DAILY_INVOCATIONS_LIMIT}} invocations per day. To lift this limit, you can upgrade the org to the **Team Plan**.
 
-Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please reach out about an [Enterprise Plan](#enterprise-plan).
+Orgs are limited to {{$site.themeConfig.TEAM_MEMBER_LIMIT}} members. If you need more than {{$site.themeConfig.TEAM_MEMBER_LIMIT}} team members, please [reach out](https://pipedream.com/support).
 
 The Team Plan also includes all of the features of the Professional Plan.
 
@@ -65,6 +66,15 @@ See [https://pipedream.com/pricing](https://pipedream.com/pricing) for pricing i
 Teams have access to support from the Pipedream team via email or a shared Slack channel between our organizations. [Visit out Support page](https://pipedream.com/support) for more information.
 
 ## Enterprise Plan
+
+The Enterprise Plan includes all of the features of the Team plan, as well as:
+
+- A base of {{$site.themeConfig.ENTERPRISE_MONTHLY_INVOCATIONS}} invocations per month
+- SSO support (GSuite and [Okta](/orgs/sso/okta/))
+- A 99.95% uptime SLA
+- Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
+- Premium support: onboarding, ongoing training, and anything your team needs to be successful
+- Custom, prioritized [component](https://pipedream.com/docs/components/) development. If you need new sources or actions, The Pipedream team will develop them for you and prioritize that work on our [component backlog](https://github.com/PipedreamHQ/pipedream/projects/1).
 
 To discuss an Enterprise plan, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
 

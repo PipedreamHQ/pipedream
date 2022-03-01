@@ -8,7 +8,7 @@ module.exports = {
   key: "github-new-branch",
   name: "New Branch (Instant)",
   description: "Emit new events when a new branch is created",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   type: "source",
   methods: {

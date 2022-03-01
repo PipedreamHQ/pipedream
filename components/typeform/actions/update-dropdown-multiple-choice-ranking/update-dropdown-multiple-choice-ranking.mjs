@@ -1,18 +1,45 @@
-/* eslint-disable no-unused-vars */
+import omit from "lodash.omit";
 import typeform from "../../typeform.app.mjs";
-import common from "../common.mjs";
-import constants from "../constants.mjs";
+import constants from "../../constants.mjs";
 
 export default {
   key: "typeform-update-dropdown-multiple-choice-ranking",
   name: "Update Dropdown, Multiple Choice or Ranking",
-  description: "Update Dropdown, Multiple Choice or Ranking Field Types. [See the docs here](https://developer.typeform.com/create/reference/update-form/)",
+  description: "Update a dropdown, multiple choice, or ranking field's choices. [See the docs here](https://developer.typeform.com/create/reference/update-form/)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  props: {
+    typeform,
+    formId: {
+      propDefinition: [
+        typeform,
+        "formId",
+      ],
+    },
+    fieldId: {
+      description: "Select the question whose choices you'd like to modify.",
+      propDefinition: [
+        typeform,
+        "fieldId",
+        ({ formId }) => ({
+          formId,
+          allowedFields: [
+            constants.FIELD_TYPES.DROPDOWN,
+            constants.FIELD_TYPES.MULTIPLE_CHOICE,
+            constants.FIELD_TYPES.RANKING,
+          ],
+        }),
+      ],
+    },
+    choice: {
+      type: "string",
+      label: "New choice",
+      description: "Add the new choice, which will be added to the end of the existing choices for this question.",
+    },
+  },
   methods: {
-    ...common.methods,
     getUpdatedFields({
-      fieldId, fields, existingChoices = [], addedChoices = [],
+      fields, fieldId, newChoice,
     }) {
       return fields.reduce((reduction, field) => {
         const {
@@ -33,164 +60,76 @@ export default {
           ...otherProperties
         } = properties;
 
-        const keptChoices = existingChoices.map(({ id }) => id);
-        const choicesToUpdate =
-          choices.filter(({ id }) => keptChoices.includes(id));
-
-        const propertiesToUpdate = {
-          choices: [
-            ...choicesToUpdate,
-            ...addedChoices,
-          ],
-          ...otherProperties,
-        };
-
         const updatedField = {
-          id,
-          properties: propertiesToUpdate,
           ...fieldProperties,
+          id,
+          properties: {
+            ...otherProperties,
+            choices: [
+              ...choices,
+              newChoice,
+            ],
+          },
         };
 
         return [
           ...reduction,
           updatedField,
         ];
+
       }, []);
-    },
-    getExistingAndAddedChoices(choices = []) {
-      return choices.reduce((reduction, choice) => {
-        if (typeof(choice) === "string") {
-          choice = JSON.parse(choice);
-        }
-
-        const [
-          existingChoices = [],
-          addedChoices = [],
-        ] = reduction;
-
-        if (choice.id) {
-          return [
-            [
-              ...existingChoices,
-              choice,
-            ],
-            addedChoices,
-          ];
-        }
-
-        return [
-          existingChoices,
-          [
-            ...addedChoices,
-            choice,
-          ],
-        ];
-      }, []);
-    },
-  },
-  props: {
-    typeform,
-    formId: {
-      propDefinition: [
-        typeform,
-        "formId",
-      ],
-    },
-    field: {
-      description: "Please select a field. Update Dropdown, Multiple Choice or Ranking",
-      propDefinition: [
-        typeform,
-        "field",
-        ({ formId }) => ({
-          formId,
-          allowedFields: [
-            constants.FIELD_TYPES.DROPDOWN,
-            constants.FIELD_TYPES.MULTIPLE_CHOICE,
-            constants.FIELD_TYPES.RANKING,
-          ],
-          returnFieldObject: true,
-        }),
-      ],
-    },
-    choices: {
-      type: "string[]",
-      label: "Field's choices",
-      description: "Please select the choices you want to include in your Question. In case you want to build yourself the selected options, the structure should look like this `{{[{\"label\":\"Choice 1\"}]}}`. Please provide at least one option.",
-      options() {
-        const { properties } = JSON.parse(this.field);
-        return properties.choices.map((choice) => ({
-          label: choice.label,
-          value: JSON.stringify(choice),
-        }));
-      },
     },
   },
   async run({ $ }) {
     const {
       formId,
-      field,
-      choices,
+      fieldId,
+      choice,
     } = this;
 
-    const { id: fieldId } = JSON.parse(field);
+    const {
+      fields,
+      ...formProperties
+    } =
+      await this.typeform.getForm({
+        $,
+        formId,
+      });
 
-    if (!fieldId) {
-      throw new Error("Field ID not found");
+    const field = fields.find(({ id }) => id === fieldId);
+
+    if (!field) {
+      throw new Error("Field not found");
     }
 
-    let fields;
-    let formProperties;
-
-    try {
-      ({
-        fields,
-        ...formProperties
-      } =
-        await this.typeform.getForm({
-          $,
-          formId,
-        }));
-
-    } catch (error) {
-      const message =
-        error.response?.status === 404
-          ? "Form not found. Please enter the ID again."
-          : error;
-      throw new Error(message);
-    }
-
-    const [
-      existingChoices,
-      addedChoices,
-    ] = this.getExistingAndAddedChoices(choices);
+    const newChoice = {
+      label: choice,
+    };
 
     const fieldsToUpdate = this.getUpdatedFields({
-      fieldId,
       fields,
-      existingChoices,
-      addedChoices,
+      fieldId,
+      newChoice,
     });
 
-    const {
-      id,
-      _links,
-      ...otherFormProperties
-    } = formProperties;
+    const otherFormProperties = omit(formProperties, [
+      "id",
+      "_links",
+    ]);
 
     const data = {
       ...otherFormProperties,
       fields: fieldsToUpdate,
     };
 
-    try {
-      return await this.typeform.updateForm({
-        $,
-        formId,
-        data,
-      });
+    const resp = await this.typeform.updateForm({
+      $,
+      formId,
+      data,
+    });
 
-    } catch (error) {
-      throw new Error(error);
-    }
+    $.export("$summary", `Successfully added a new choice, "${this.choice}"`);
+
+    return resp;
   },
 };

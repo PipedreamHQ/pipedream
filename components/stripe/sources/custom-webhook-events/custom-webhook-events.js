@@ -4,7 +4,7 @@ module.exports = {
   key: "stripe-custom-webhook-events",
   name: "Custom Webhook Events",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Subscribe to one or more event types and emit an event on each webhook request",
   props: {
     stripe,
