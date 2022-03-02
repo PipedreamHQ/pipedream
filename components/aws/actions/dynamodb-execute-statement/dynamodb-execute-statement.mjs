@@ -37,11 +37,11 @@ export default {
 
     if (this.parameters) params.Parameters = this.parameters;
 
-    const response = await this.aws.dynamoDBPagination(
-      this.aws.dynamoDBExecuteTransaction,
+    const response = await this.aws.pagination(
+      this.aws.dynamodbExecuteTransaction,
       this.region,
       params,
-      "nextToken",
+      "NextToken",
     );
 
     $.export("$summary", `Statement returned ${response.Items.length} items`);

@@ -66,8 +66,8 @@ export default {
       default: common.defaultRegion,
       async options() {
         try {
-          const response = await this.listRegions();
-          return response.Regions
+          return (await this.ec2ListRegions())
+            .Regions
             .map((regionInfo) => regionInfo.RegionName)
             .sort();
         } catch (error) {
@@ -84,8 +84,9 @@ export default {
       label: "Role",
       description: "An IAM Role ARN, e.g., arn:aws:iam::650138640062:role/v3-lambda-tutorial-lambda-role. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)",
       async options({ region }) {
-        const response = await this.listRoles(region);
-        return response.Roles.map((role) => role.Arn);
+        return (await this.listRoles(region))
+          .Roles
+          .map((role) => role.Arn);
       },
     },
     bucket: {
@@ -93,8 +94,9 @@ export default {
       label: "S3 Bucket Name",
       description: "The S3 Bucket Name",
       async options() {
-        const response = await this.listBuckets();
-        return response.Buckets.map((bucket) => bucket.Name);
+        return (await this.s3ListBuckets())
+          .Buckets
+          .map((bucket) => bucket.Name);
       },
     },
     key: {
@@ -107,7 +109,7 @@ export default {
       label: "Event Bus Name",
       description: "The name of the EventBridge event bus",
       async options({ prevContext }) {
-        const response = await this.listEventBuses({
+        const response = await this.eventBridgeListEventBuses({
           NextToken: prevContext.NextToken,
         });
         return {
@@ -123,7 +125,7 @@ export default {
       label: "SQS Queue URL",
       description: "The URL of the SQS Queue",
       async options({ prevContext }) {
-        const response = await this.listQueues({
+        const response = await this.sqsListQueues({
           NextToken: prevContext.NextToken,
         });
         return {
@@ -139,7 +141,7 @@ export default {
       label: "SNS Topic",
       description: "The ARN of the SNS Topic",
       async options({ prevContext }) {
-        const response = await this.listTopics({
+        const response = await this.snsListTopics({
           NextToken: prevContext.NextToken,
         });
         return {
@@ -157,7 +159,7 @@ export default {
       async options({
         region, prevContext,
       }) {
-        const response = await this.listLambdaFunctions({
+        const response = await this.lambdaListFunctions({
           Region: region,
           Marker: prevContext.NextMarker,
         });
@@ -188,23 +190,22 @@ export default {
       optional: true,
     },
     logGroupNames: {
+      type: "string[]",
       label: "CloudWatch Log Groups",
       description: "The name of the log group",
-      type: "string[]",
       async options({
         region, prevContext,
       }) {
-        const prevToken = prevContext.nextToken;
         const {
           logGroups,
           nextToken,
-        } = await this.logsInsightsDescibeLogGroups(region, prevToken);
-        const options = logGroups.map((group) => {
-          return {
-            label: group.logGroupName,
-            value: group.logGroupName,
-          };
+        } = await this.cloudWatchLogsInsightsDescribeLogGroups(region, {
+          nextToken: prevContext.nextToken,
         });
+        const options = logGroups.map((group) => ({
+          label: group.logGroupName,
+          value: group.logGroupName,
+        }));
         return {
           options,
           context: {
@@ -214,23 +215,23 @@ export default {
       },
     },
     logStreamNames: {
+      type: "string[]",
       label: "CloudWatch Log Streams",
       description: "The name of the log stream for the chosen log group",
-      type: "string[]",
       async options({
-        logGroupName, region, prevContext,
+        region, logGroupName, prevContext,
       }) {
-        const prevToken = prevContext.nextToken;
         const {
           logStreams,
           nextToken,
-        } = await this.logsInsightsDescibeLogStreams(region, logGroupName, prevToken);
-        const options = logStreams.map((group) => {
-          return {
-            label: group.logStreamName,
-            value: group.logStreamName,
-          };
+        } = await this.cloudWatchLogsInsightsDescribeLogStreams(region, {
+          logGroupName,
+          nextToken: prevContext.nextToken,
         });
+        const options = logStreams.map((group) => ({
+          label: group.logStreamName,
+          value: group.logStreamName,
+        }));
         return {
           options,
           context: {
@@ -249,7 +250,7 @@ export default {
         const {
           TableNames,
           LastEvaluatedTableName,
-        } = await this.dynamoDBListTables(region, {
+        } = await this.dynamodbListTables(region, {
           ExclusiveStartTableName: prevContext.LastEvaluatedTableName,
         });
         return {
@@ -394,6 +395,19 @@ export default {
         region,
       });
     },
+    async pagination(fn, region, params, nextTokenAttr, lastTokenAttr = null) {
+      let response;
+      const results = [];
+      do {
+        response = await fn(region, params);
+        results.push(...response.Items);
+        params[nextTokenAttr] = lastTokenAttr
+          ? response[lastTokenAttr]
+          : response[nextTokenAttr];
+      } while (params[nextTokenAttr]);
+      response.Items = results;
+      return response;
+    },
     decodeResponsePayload(response) {
       response.Payload = JSON.parse(new TextDecoder("utf-8").decode(response.Payload) || {});
     },
@@ -403,7 +417,7 @@ export default {
       return zip.toBuffer();
     },
     async streamFile(fileUrl) {
-      return await axios.get(fileUrl, {
+      return axios.get(fileUrl, {
         responseType: "stream",
       });
     },
@@ -436,7 +450,7 @@ export default {
         Description: roleDescription,
         Path: "/pipedream/",
       };
-      const client = this.getAWSClient("iam", region);
+      const client = this.getAWSClient(constants.clients.iam, region);
       const { Role } = await client.send(new CreateRoleCommand(params));
       console.log(Role);
       return {
@@ -520,7 +534,7 @@ export default {
         PolicyName: permissions.name,
         RoleName: roleName,
       };
-      const client = this.getAWSClient("iam", region);
+      const client = this.getAWSClient(constants.clients.iam, region);
       await client.send(new PutRolePolicyCommand(params));
     },
     async _deleteInlinePoliciesForRole(region, roleName) {
@@ -528,7 +542,7 @@ export default {
         RoleName: roleName,
       };
 
-      const client = this.getAWSClient("iam", region);
+      const client = this.getAWSClient(constants.clients.iam, region);
       while (true) {
         const { PolicyNames: policyNames = [] } = await client.send(
           new ListRolePoliciesCommand(params),
@@ -563,16 +577,14 @@ export default {
       // We must delete all the inline policies attached to the role before
       // we're allowed to delete it
       await this._deleteInlinePoliciesForRole(region, roleName);
-
-      const params = {
+      const client = this.getAWSClient(constants.clients.iam, region);
+      client.send(new DeleteRoleCommand({
         RoleName: roleName,
-      };
-      const client = this.getAWSClient("iam", region);
-      await client.send(new DeleteRoleCommand(params));
+      }));
     },
     async listRoles(region) {
-      const client = this.getAWSClient("iam", region);
-      return await client.send(new ListRolesCommand({}));
+      const client = this.getAWSClient(constants.clients.iam, region);
+      return client.send(new ListRolesCommand({}));
     },
     /**
      * This method describes CloudWatch Log groups
@@ -585,20 +597,9 @@ export default {
      * @returns {Promise<object>} An object containing the log groups and a nextToken
      * to use in subsequent calls (`logGroups` and `nextToken` respectively)
      */
-    async logsInsightsDescibeLogGroups(region, lastToken) {
-      const params = {
-        nextToken: lastToken,
-      };
-      const client = this.getAWSClient("cloudWatchLogs", region);
-      const data = await client.send(new DescribeLogGroupsCommand(params));
-      const {
-        logGroups,
-        nextToken,
-      } = data;
-      return {
-        logGroups,
-        nextToken,
-      };
+    async cloudWatchLogsInsightsDescribeLogGroups(region, params) {
+      const client = this.getAWSClient(constants.clients.cloudWatchLogs, region);
+      return client.send(new DescribeLogGroupsCommand(params));
     },
     /**
      * This method describes CloudWatch Log streams for a given log group
@@ -612,21 +613,9 @@ export default {
      * @returns {Promise<object>} An object containing the log streams and a nextToken
      * to use in subsequent calls (`logStreams` and `nextToken` respectively)
      */
-    async logsInsightsDescibeLogStreams(region, logGroupName, lastToken) {
-      const params = {
-        logGroupName,
-        nextToken: lastToken,
-      };
-      const client = this.getAWSClient("cloudWatchLogs", region);
-      const data = await client.send(new DescribeLogStreamsCommand(params));
-      const {
-        logStreams,
-        nextToken,
-      } = data;
-      return {
-        logStreams,
-        nextToken,
-      };
+    async cloudWatchLogsInsightsDescribeLogStreams(Region, params) {
+      const client = this.getAWSClient(constants.clients.cloudWatchLogs, Region);
+      return client.send(new DescribeLogStreamsCommand(params));
     },
     /**
      * This method uploads a batch of log events to the specified log stream.
@@ -644,130 +633,101 @@ export default {
      * to use in subsequent calls and rejected log events (`nextSequenceToken`
      * and `rejectedLogEventsInfo` respectively)
      */
-    async logsPutLogEvents(region, logGroupName, logStreamName, logEvents, sequenceToken) {
-      const params = {
-        logGroupName,
-        logStreamName,
-        logEvents,
-        sequenceToken,
-      };
-      const client = this.getAWSClient("cloudWatchLogs", region);
-      const data = await client.send(new PutLogEventsCommand(params));
-      const {
-        nextSequenceToken,
-        rejectedLogEventsInfo,
-      } = data;
-      return {
-        nextSequenceToken,
-        rejectedLogEventsInfo,
-      };
+    async cloudWatchLogsPutLogEvents(Region, params) {
+      const client = this.getAWSClient(constants.clients.cloudWatchLogs, Region);
+      return client.send(new PutLogEventsCommand(params));
     },
-    async listRegions() {
-      const client = this.getAWSClient("ec2");
-      return await client.send(new DescribeRegionsCommand({}));
+    async ec2ListRegions() {
+      const client = this.getAWSClient(constants.clients.ec2);
+      return client.send(new DescribeRegionsCommand({}));
     },
-    async listBuckets() {
-      const client = this.getAWSClient("s3");
-      return await client.send(new ListBucketsCommand({}));
+    async s3ListBuckets() {
+      const client = this.getAWSClient(constants.clients.s3);
+      return client.send(new ListBucketsCommand({}));
     },
-    async listEventBuses(params) {
-      const client = this.getAWSClient("eventBridge");
-      return await client.send(new ListEventBusesCommand(params));
+    async s3UploadFile(Region, params) {
+      const client = this.getAWSClient(constants.clients.s3, Region);
+      return client.send(new PutObjectCommand(params));
     },
-    async listQueues(params) {
-      const client = this.getAWSClient("sqs");
-      return await client.send(new ListQueuesCommand(params));
+    async eventBridgeListEventBuses(params) {
+      const client = this.getAWSClient(constants.clients.eventBridge);
+      return client.send(new ListEventBusesCommand(params));
     },
-    async listTopics(params) {
-      const client = this.getAWSClient("sns");
-      return await client.send(new ListTopicsCommand(params));
+    async eventBridgeSendEvent(Region, params) {
+      const client = this.getAWSClient(constants.clients.eventBridge, Region);
+      return client.send(new PutEventsCommand(params));
     },
-    async listLambdaFunctions(params) {
+    async sqsListQueues(params) {
+      const client = this.getAWSClient(constants.clients.sqs);
+      return client.send(new ListQueuesCommand(params));
+    },
+    async sqsSendMessage(Region, params) {
+      const client = this.getAWSClient(constants.clients.sqs, Region);
+      return client.send(new SendMessageCommand(params));
+    },
+    async snsListTopics(params) {
+      const client = this.getAWSClient(constants.clients.sns);
+      return client.send(new ListTopicsCommand(params));
+    },
+    async snsSendMessage(Region, params) {
+      const client = this.getAWSClient(constants.clients.sns, Region);
+      return client.send(new PublishCommand(params));
+    },
+    async lambdaListFunctions(params) {
       const { Region } = params;
-      const client = this.getAWSClient("lambda", Region);
-      return await client.send(new ListFunctionsCommand(params));
+      const client = this.getAWSClient(constants.clients.lambda, Region);
+      return client.send(new ListFunctionsCommand(params));
     },
-    async createLambdaFunction(Region, params, code) {
+    async lambdaCreateFunction(Region, params, code) {
       params.Code = {
         ZipFile: this.createZipArchive(code),
       };
-      const client = this.getAWSClient("lambda", Region);
-      return await client.send(new CreateFunctionCommand(params));
+      const client = this.getAWSClient(constants.clients.lambda, Region);
+      return client.send(new CreateFunctionCommand(params));
     },
-    async invokeLambdaFunction(Region, params) {
-      const client = this.getAWSClient("lambda", Region);
-      return await client.send(new InvokeCommand(params));
+    async lambdaInvokeFunction(Region, params) {
+      const client = this.getAWSClient(constants.clients.lambda, Region);
+      return client.send(new InvokeCommand(params));
     },
-    async uploadFileToS3(Region, params) {
-      const client = this.getAWSClient("s3", Region);
-      return await client.send(new PutObjectCommand(params));
+    async dynamodbListTables(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new ListTablesCommand(params));
     },
-    async sendEventToEventBridgeBus(Region, params) {
-      const client = this.getAWSClient("eventBridge", Region);
-      return await client.send(new PutEventsCommand(params));
+    async dynamodbDescribeTable(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new DescribeTableCommand(params));
     },
-    async sendMessageToSqs(Region, params) {
-      const client = this.getAWSClient("sqs", Region);
-      return await client.send(new SendMessageCommand(params));
+    async dynamodbCreateTable(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new CreateTableCommand(params));
     },
-    async sendMessageToSns(Region, params) {
-      const client = this.getAWSClient("sns", Region);
-      return await client.send(new PublishCommand(params));
+    async dynamodbUpdateTable(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new UpdateTableCommand(params));
     },
-    async dynamoDBListTables(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new ListTablesCommand(params));
+    async dynamodbExecuteTransaction(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new ExecuteStatementCommand(params));
     },
-    async dynamoDBDescribeTable(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new DescribeTableCommand(params));
+    async dynamodbGetItem(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new GetItemCommand(params));
     },
-    async dynamoDBCreateTable(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new CreateTableCommand(params));
+    async dynamodbPutItem(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new PutItemCommand(params));
     },
-    async dynamoDBUpdateTable(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new UpdateTableCommand(params));
+    async dynamodbQuery(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new QueryCommand(params));
     },
-    async dynamoDBExecuteTransaction(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new ExecuteStatementCommand(params));
+    async dynamodbScan(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new ScanCommand(params));
     },
-    async dynamoDBGetItem(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new GetItemCommand(params));
-    },
-    async dynamoDBPutItem(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new PutItemCommand(params));
-    },
-    async dynamoDBQuery(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new QueryCommand(params));
-    },
-    async dynamoDBScan(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new ScanCommand(params));
-    },
-    async dynamoDBUpdateItem(Region, params) {
-      const client = this.getAWSClient("dynamodb", Region);
-      return await client.send(new UpdateItemCommand(params));
-    },
-    async dynamoDBPagination(fn, region, params, nextTokenAttr, lastTokenAttr = null) {
-      let response;
-      const results = [];
-      do {
-        response = await fn(region, params);
-        results.push(...response.Items);
-        if (lastTokenAttr) {
-          params[nextTokenAttr] = response[lastTokenAttr];
-        } else {
-          params[nextTokenAttr] = response[nextTokenAttr];
-        }
-      } while (params[nextTokenAttr]);
-      response.Items = results;
-      return response;
+    async dynamodbUpdateItem(Region, params) {
+      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      return client.send(new UpdateItemCommand(params));
     },
   },
 };

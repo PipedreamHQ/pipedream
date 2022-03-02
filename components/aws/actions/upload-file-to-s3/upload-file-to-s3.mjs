@@ -1,9 +1,13 @@
 import aws from "../../aws.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-upload-file-to-s3",
   name: "AWS - S3 - Upload File",
-  description: "Accepts a base64-encoded string and a filename, then uploads as a file to S3. [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
+  description: toSingleLineString(`
+    Accepts a base64-encoded string and a filename, then uploads as a file to S3.
+    [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
+  `),
   version: "0.1.2",
   type: "action",
   props: {
@@ -33,7 +37,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.aws.uploadFileToS3(this.region, {
+    const response = await this.aws.s3UploadFile(this.region, {
       Bucket: this.bucket,
       Key: this.filename,
       Body: Buffer.from(this.data, "base64"),

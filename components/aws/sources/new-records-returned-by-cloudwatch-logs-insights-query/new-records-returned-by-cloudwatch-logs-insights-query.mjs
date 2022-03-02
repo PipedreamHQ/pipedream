@@ -3,6 +3,7 @@ import {
   StartQueryCommand,
   GetQueryResultsCommand,
 } from "@aws-sdk/client-cloudwatch-logs";
+import constants from "../../actions/common/constants.mjs";
 
 export default {
   key: "aws-new-records-returned-by-cloudwatch-logs-insights-query",
@@ -58,7 +59,7 @@ export default {
     const now = +new Date();
     const startTime = this.db.get("startTime") || now - 1000 * 60 * 60;
 
-    const client = this.aws.getAWSClient("cloudWatchLogs", this.region);
+    const client = this.aws.getAWSClient(constants.clients.cloudWatchLogs, this.region);
 
     // First, start the query
     const params = {

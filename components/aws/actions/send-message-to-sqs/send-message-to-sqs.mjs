@@ -1,9 +1,13 @@
 import aws from "../../aws.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-send-message-to-sqs",
   name: "AWS - SQS - Send Message",
-  description: "Sends a message to an SQS queue. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sqs/classes/sendmessagecommand.html)",
+  description: toSingleLineString(`
+    Sends a message to an SQS queue.
+    [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sqs/classes/sendmessagecommand.html)
+  `),
   version: "0.1.2",
   type: "action",
   props: {
@@ -29,7 +33,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.aws.sendMessageToSqs(this.region, {
+    const response = this.aws.sqsSendMessage(this.region, {
       MessageBody: JSON.stringify(this.eventData),
       QueueUrl: this.queueUrl,
     });

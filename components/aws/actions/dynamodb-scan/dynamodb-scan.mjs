@@ -55,8 +55,8 @@ export default {
         : this.expressionAttributeValues,
     };
 
-    const response = await this.aws.dynamoDBPagination(
-      this.aws.dynamoDBScan,
+    const response = await this.aws.pagination(
+      this.aws.dynamodbScan,
       this.region,
       params,
       "ExclusiveStartKey",

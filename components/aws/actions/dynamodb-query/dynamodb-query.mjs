@@ -1,9 +1,13 @@
 import aws from "../../aws.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-query",
   name: "AWS - DynamoDB - Query",
-  description: "The query operation finds items based on primary key values. [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/querycommand.html)",
+  description: toSingleLineString(`
+    The query operation finds items based on primary key values.
+    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/querycommand.html)
+  `),
   version: "0.4.2",
   type: "action",
   props: {
@@ -58,8 +62,8 @@ export default {
         : this.expressionAttributeValues,
     };
 
-    const response = await this.aws.dynamoDBPagination(
-      this.aws.dynamoDBQuery,
+    const response = await this.aws.pagination(
+      this.aws.dynamodbQuery,
       this.region,
       params,
       "ExclusiveStartKey",

@@ -1,10 +1,14 @@
 import aws from "../../aws.app.mjs";
-import constants from "../common/constants.mjs";
+import constants from "../../common/constants.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-create-table",
   name: "AWS - DynamoDB - Create Table",
-  description: "Creates a new table to your account. [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/createtablecommand.html)",
+  description: toSingleLineString(`
+    Creates a new table to your account.
+    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/createtablecommand.html)
+  `),
   version: "0.1.2",
   type: "action",
   props: {
@@ -135,7 +139,7 @@ export default {
       }
     }
 
-    const response = await this.aws.dynamoDBCreateTable(this.region, params);
+    const response = await this.aws.dynamodbCreateTable(this.region, params);
     $.export("$summary", `Created DynamoDB table ${this.tableName}`);
     return response;
   },

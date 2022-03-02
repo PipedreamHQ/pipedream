@@ -1,10 +1,16 @@
 import aws from "../../aws.app.mjs";
-import constants from "../common/constants.mjs";
+import constants from "../../common/constants.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-put-item",
   name: "AWS - DynamoDB - Put Item",
-  description: "Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/putitemcommand.html)",
+  description: toSingleLineString(`
+    Creates a new item, or replaces an old item with a new item.
+    If an item that has the same primary key as the new item already exists in the specified table,
+    the new item completely replaces the existing item.
+    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/putitemcommand.html)
+  `),
   version: "0.1.2",
   type: "action",
   props: {
@@ -25,7 +31,7 @@ export default {
   },
   methods: {
     async tableAttributeDefinitions(region, tableName) {
-      const response = await this.aws.dynamoDBDescribeTable(region, {
+      const response = await this.aws.dynamodbDescribeTable(region, {
         TableName: tableName,
       });
       return response.Table.AttributeDefinitions;
@@ -86,7 +92,7 @@ export default {
       ...JSON.parse(this.item || "{}"),
     };
 
-    const response = await this.aws.dynamoDBPutItem(this.region, params);
+    const response = await this.aws.dynamodbPutItem(this.region, params);
     $.export("$summary", `Successfully put item in table ${this.tableName}`);
     return response;
   },

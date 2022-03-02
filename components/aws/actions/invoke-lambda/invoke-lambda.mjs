@@ -1,10 +1,14 @@
 // legacy_hash_id: a_8Ki7Xv
 import aws from "../../aws.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-invoke-lambda",
   name: "AWS - Lambda - Invoke Function",
-  description: "Invoke a Lambda function using the AWS API. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-lambda/index.html)",
+  description: toSingleLineString(`
+    Invoke a Lambda function using the AWS API.
+    [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-lambda/index.html)
+  `),
   version: "0.1.2",
   type: "action",
   props: {
@@ -38,7 +42,7 @@ export default {
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Lambda.html#invoke-property
     // This also assumes the eventData passed to the step is JSON.
     // Please modify the code accordingly if your data is in a different format.
-    const response = await this.aws.invokeLambdaFunction(this.region, {
+    const response = await this.aws.lambdaInvokeFunction(this.region, {
       FunctionName: this.lambdaFunction,
       Payload: JSON.stringify(this.eventData || {}),
       InvocationType: "RequestResponse",

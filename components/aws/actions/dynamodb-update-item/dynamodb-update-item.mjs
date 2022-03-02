@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     async tableAttributeDefinitions(region, tableName) {
-      const response = await this.aws.dynamoDBDescribeTable(region, {
+      const response = await this.aws.dynamodbDescribeTable(region, {
         TableName: tableName,
       });
       return response.Table.AttributeDefinitions;
@@ -109,7 +109,7 @@ export default {
       };
     }
 
-    const response = await this.aws.dynamoDBUpdateItem(this.region, params);
+    const response = await this.aws.dynamodbUpdateItem(this.region, params);
     $.export("$summary", `Successfully updated item in table ${this.tableName}`);
     return response;
   },

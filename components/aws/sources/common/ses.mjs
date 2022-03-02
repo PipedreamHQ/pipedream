@@ -8,6 +8,7 @@ import {
   SetActiveReceiptRuleSetCommand,
   DescribeActiveReceiptRuleSetCommand,
 } from "@aws-sdk/client-ses";
+import constants from "../../actions/common/constants.mjs";
 
 export default {
   ...base,
@@ -52,7 +53,7 @@ export default {
   methods: {
     ...base.methods,
     _getSesClient() {
-      return this.aws.getAWSClient("ses", this.getRegion());
+      return this.aws.getAWSClient(constants.clients.ses, this.getRegion());
     },
     async _getReceiptRuleSet() {
       const {

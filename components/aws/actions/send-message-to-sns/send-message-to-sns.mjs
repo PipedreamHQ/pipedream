@@ -1,9 +1,13 @@
 import aws from "../../aws.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-send-message-to-sns",
   name: "AWS - SNS - Send Message",
-  description: "Sends a message to a SNS Topic. [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sns/classes/publishcommand.html)",
+  description: toSingleLineString(`
+    Sends a message to a SNS Topic.
+    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sns/classes/publishcommand.html)
+  `),
   version: "0.0.1",
   type: "action",
   props: {
@@ -28,7 +32,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.aws.sendMessageToSns(this.region, {
+    const response = this.aws.snsSendMessage(this.region, {
       TopicArn: this.topic,
       Message: this.message,
     });

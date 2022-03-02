@@ -1,9 +1,13 @@
 import aws from "../../aws.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-send-event-to-eventbridge-bus",
   name: "AWS - EventBridge - Send event to Event Bus",
-  description: "Sends an event to an EventBridge event bus. [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-eventbridge/classes/puteventscommand.html)",
+  description: toSingleLineString(`
+    Sends an event to an EventBridge event bus.
+    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-eventbridge/classes/puteventscommand.html)
+  `),
   version: "0.3.2",
   type: "action",
   props: {
@@ -40,7 +44,7 @@ export default {
       ],
     };
 
-    const response = this.aws.sendEventToEventBridgeBus(this.region, params);
+    const response = this.aws.eventBridgeSendEvent(this.region, params);
     $.export("$summary", `Sent event data to ${this.eventBusName} bridge`);
     return response;
   },

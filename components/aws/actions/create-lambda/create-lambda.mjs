@@ -1,9 +1,13 @@
 import aws from "../../aws.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-create-lambda",
   name: "AWS - Lambda - Create Function",
-  description: "Create a Lambda function from source code. This action creates a zip file and deploys it to AWS Lambda. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-lambda/classes/createfunctioncommand.html).",
+  description: toSingleLineString(`
+    Create a Lambda function from source code. This action creates a zip file and deploys it to AWS Lambda.
+    [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-lambda/classes/createfunctioncommand.html)
+  `),
   version: "0.0.1",
   type: "action",
   props: {
@@ -37,7 +41,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.aws.createLambdaFunction(this.region, {
+    const response = await this.aws.lambdaCreateFunction(this.region, {
       Role: this.role,
       FunctionName: this.functionName,
       Runtime: "nodejs12.x",

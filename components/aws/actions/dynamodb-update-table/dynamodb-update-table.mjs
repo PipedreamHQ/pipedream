@@ -1,11 +1,15 @@
 import aws from "../../aws.app.mjs";
-import constants from "../common/constants.mjs";
+import constants from "../../common/constants.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-update-table",
   name: "AWS - DynamoDB - Update Table",
-  description: "Modifies the settings for a given table. Only one type of modification is permitted per request. [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/updatetablecommand.html)",
-  version: "0.1.2",
+  description: toSingleLineString(`
+    Modifies the settings for a given table. Only one type of modification is permitted per request.
+    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/updatetablecommand.html)
+  `),
+  version: "0.1.10",
   type: "action",
   props: {
     aws,
@@ -87,7 +91,7 @@ export default {
       }
     }
 
-    const response = this.aws.dynamoDBUpdateTable(this.region, params);
+    const response = this.aws.dynamodbUpdateTable(this.region, params);
     $.export("$summary", `Updated DynamoDB table ${this.tableName}`);
     return response;
   },

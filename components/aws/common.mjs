@@ -7,6 +7,7 @@ import { CloudWatchLogsClient } from "@aws-sdk/client-cloudwatch-logs";
 import { EventBridgeClient } from "@aws-sdk/client-eventbridge";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { SNSClient } from "@aws-sdk/client-sns";
+import { SESClient } from "@aws-sdk/client-ses";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 export default {
@@ -21,6 +22,7 @@ export default {
     eventBridge: EventBridgeClient,
     sqs: SQSClient,
     sns: SNSClient,
+    ses: SESClient,
     dynamodb: DynamoDBClient,
   },
   // List extracted from the official AWS documentation:

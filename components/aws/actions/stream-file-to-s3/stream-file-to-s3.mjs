@@ -1,9 +1,13 @@
 import aws from "../../aws.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-stream-file-to-s3",
   name: "AWS - S3 - Stream file to S3 from URL",
-  description: "Accepts a file URL, and streams the file to the provided S3 bucket/key. [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
+  description: toSingleLineString(`
+    Accepts a file URL, and streams the file to the provided S3 bucket/key.
+    [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
+  `),
   version: "0.2.2",
   type: "action",
   props: {
@@ -34,7 +38,7 @@ export default {
   },
   async run({ $ }) {
     const fileResponse = await this.aws.streamFile(this.fileUrl);
-    const response = await this.aws.uploadFileToS3(this.region, {
+    const response = await this.aws.s3UploadFile(this.region, {
       Bucket: this.bucket,
       Key: this.filename.replace(/^\/+/, ""),
       Body: fileResponse.data,
