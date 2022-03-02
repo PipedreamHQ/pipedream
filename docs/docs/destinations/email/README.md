@@ -1,6 +1,6 @@
 # Email
 
-The Email Destination allows you send an email to _yourself_ — the email address tied to the account you signed up with — at any step of a workflow. You can also email [any collaborators on your workflow](#emailing-workflow-collaborators).
+The Email Destination allows you send an email to _yourself_ — the email address tied to the account you signed up with — at any step of a workflow.
 
 You can use this to email yourself when you receive a specific event, for example when a user signs up on your app. You can send yourself an email when a cron job finishes running, or when a job fails. Anywhere you need an email notification, you can use the Email Destination! 
 
@@ -25,7 +25,6 @@ defineComponent({
       subject: "Your subject",
       text: "Plain text email body",
       html: "HTML email body"
-      include_collaborators: false,
     });
   }
 });
@@ -48,15 +47,10 @@ defineComponent({
       subject: "Your subject",
       text: "Plain text email body",
       html: "HTML email body"
-      include_collaborators: false,
     });
   }
 })
 ```
-
-## Emailing workflow collaborators
-
-The `include_collaborators` flag defaults to `false`. When set to `true`, `$.send.email()` will email any [collaborators](/workflows/settings/#collaborators) you've added to your workflow.
 
 ## Delivery details
 

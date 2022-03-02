@@ -25,15 +25,21 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
-    "lint": "eslint . --ext js,mjs",
-    "lint:format": "npm run lint --fix"
+    "prepare": "husky install",
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "eslint": "^7.26.0",
     "eslint-plugin-jsonc": "^1.6.0",
     "eslint-plugin-pipedream": "0.2.4",
     "eslint-plugin-putout": "^6.13.1",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
     "lerna": "^3.22.1",
+    "lint-staged": "^12.3.4",
     "putout": "^12.12.0"
+  },
+  "lint-staged": {
+    "*.{js,mjs}": "eslint --cache --fix"
   }
 }

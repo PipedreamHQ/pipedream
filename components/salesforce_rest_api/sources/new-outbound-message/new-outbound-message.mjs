@@ -6,7 +6,7 @@ export default {
   name: "New Outbound Message (Instant)",
   key: "salesforce_rest_api-new-outbound-message",
   description: "Emit new event when a new outbound message is received in Salesforce. See Salesforce's guide on setting up [Outbound Messaging](https://sforce.co/3JbZJom). Set the Outbound Message's Endpoint URL to the endpoint of the created source. The \"Send Session ID\" option must be enabled for validating outbound messages from Salesforce.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     db: "$.service.db",
@@ -87,6 +87,19 @@ export default {
       console.log("Skipping event from unrecognized source");
       return;
     }
-    this.$emit(data, this.generateMeta(data));
+
+    let notifications = data.Notification;
+    if (!Array.isArray(notifications)) {
+      notifications = [
+        data.Notification,
+      ];
+    }
+
+    notifications.forEach((n) => {
+      const notification = Object.assign(data, {
+        Notification: n,
+      });
+      this.$emit(notification, this.generateMeta(notification));
+    });
   },
 };
