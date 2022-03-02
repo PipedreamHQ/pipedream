@@ -7,12 +7,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    delighted: {
-      type: "app",
-      app: "delighted",
-      label: "Delighted",
-      description: "The Delighted app that will be used to send the survey.",
-    },
+    delightedApp,
     email: {
       type: "string",
       optional: false,
