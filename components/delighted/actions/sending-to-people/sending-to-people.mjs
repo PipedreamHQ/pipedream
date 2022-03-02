@@ -3,7 +3,7 @@ import delightedLib from "delighted";
 export default {
   key: "delighted-sending-to-people",
   name: "Sending to people",
-  description: "Create or update a person and send a survey email.",
+  description: "Create or update a person and send a survey email. [See the docs here](https://app.delighted.com/docs/api/sending-to-people)",
   version: "0.0.1",
   type: "action",
   props: {
