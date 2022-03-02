@@ -52,7 +52,7 @@ module.exports = {
       optional: true,
       default: true,
       label: "Include link to workflow",
-      description: "Defaults to `true`, includes a link to the workflow at the end of your Slack message.",
+      description: "Defaults to `true`, includes a link to this workflow at the end of your Slack message.",
     },
   },
   async run() {
@@ -78,7 +78,7 @@ module.exports = {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": this.text,
+            "text": `${JSON.stringify(this.text)}`,
           },
         },
         sentViaPipedreamText,

@@ -44,7 +44,7 @@ module.exports = {
       optional: true,
       default: true,
       label: "Include link to workflow",
-      description: "Defaults to `true`, includes a link to the workflow at the end of your Discord message.",
+      description: "Defaults to `true`, includes a link to this workflow at the end of your Discord message.",
     },
   },
   async run() {
@@ -58,7 +58,7 @@ module.exports = {
     const sentViaPipedreamText = `\n\n*Sent via [Pipedream](<${link}>)*`;
 
     if (this.include_sent_via_pipedream_flag == true) {
-      content = `${this.message}${sentViaPipedreamText}`;
+      content = `${JSON.stringify(this.message)}${sentViaPipedreamText}`;
     }
 
     const {
