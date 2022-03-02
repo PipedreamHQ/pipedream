@@ -7,7 +7,7 @@ import {
   DeleteTopicCommand,
   SetTopicAttributesCommand,
 } from "@aws-sdk/client-sns";
-import constants from "../../actions/common/constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   props: {

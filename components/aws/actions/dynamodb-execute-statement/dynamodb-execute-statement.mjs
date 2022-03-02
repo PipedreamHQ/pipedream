@@ -1,5 +1,5 @@
 import aws from "../../aws.app.mjs";
-import { toSingleLineString } from "../../sources/common/utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-execute-statement",

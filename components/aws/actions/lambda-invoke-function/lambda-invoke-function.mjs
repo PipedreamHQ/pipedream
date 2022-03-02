@@ -1,4 +1,3 @@
-// legacy_hash_id: a_8Ki7Xv
 import aws from "../../aws.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 

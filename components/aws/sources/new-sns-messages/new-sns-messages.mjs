@@ -1,5 +1,5 @@
 import base from "../common/sns.mjs";
-import { toSingleLineString } from "../common/utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   ...base,

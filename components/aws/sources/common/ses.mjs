@@ -8,7 +8,7 @@ import {
   SetActiveReceiptRuleSetCommand,
   DescribeActiveReceiptRuleSetCommand,
 } from "@aws-sdk/client-ses";
-import constants from "../../actions/common/constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...base,

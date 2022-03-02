@@ -1,4 +1,4 @@
-import utils from "./utils.mjs";
+import { createObjectFromArray } from "./utils.mjs";
 
 const clients = {
   ec2: "ec2",
@@ -15,11 +15,11 @@ const clients = {
 };
 
 const dynamodb = {
-  keyTypes: utils.createObjectFromArray([
+  keyTypes: createObjectFromArray([
     "HASH",
     "RANGE",
   ]),
-  billingModes: utils.createObjectFromArray([
+  billingModes: createObjectFromArray([
     "PROVISIONED",
     "PAY_PER_REQUEST",
   ]),
@@ -43,7 +43,7 @@ const dynamodb = {
     "OLD_IMAGE",
     "NEW_AND_OLD_IMAGES",
   ],
-  returnValues: utils.createObjectFromArray([
+  returnValues: createObjectFromArray([
     "ALL_NEW",
     "ALL_OLD",
     "NONE",

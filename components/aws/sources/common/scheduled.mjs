@@ -2,7 +2,7 @@ import base from "./sns.mjs";
 import {
   generateRandomUniqueName,
   toSingleLineString,
-} from "./utils.mjs";
+} from "../../common/utils.mjs";
 
 export default {
   ...base,

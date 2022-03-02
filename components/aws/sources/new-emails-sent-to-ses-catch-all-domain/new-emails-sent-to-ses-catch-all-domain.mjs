@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import base from "../common/ses.mjs";
-import { toSingleLineString } from "../common/utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 import { MailParser } from "mailparser-mit";
 
 export default {

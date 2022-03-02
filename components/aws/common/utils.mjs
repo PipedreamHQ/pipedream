@@ -38,7 +38,24 @@ function toSingleLineString(multiLineString) {
     .replace(/\s{2,}/g, " ");
 }
 
+/**
+ * This function receives an array of strings and transforms it into an object with
+ * key/value pairs from each string
+ *
+ * https://stackoverflow.com/questions/42974735/create-object-from-array
+ *
+ * @param {string[]} array array of strings
+ * @returns object
+ */
+function createObjectFromArray(array) {
+  return array.reduce((o, v) => ({
+    ...o,
+    [v]: v,
+  }), {});
+}
+
 export {
   generateRandomUniqueName,
   toSingleLineString,
+  createObjectFromArray,
 };

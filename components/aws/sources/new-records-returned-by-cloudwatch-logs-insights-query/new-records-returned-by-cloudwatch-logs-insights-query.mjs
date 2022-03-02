@@ -3,7 +3,7 @@ import {
   StartQueryCommand,
   GetQueryResultsCommand,
 } from "@aws-sdk/client-cloudwatch-logs";
-import constants from "../../actions/common/constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "aws-new-records-returned-by-cloudwatch-logs-insights-query",

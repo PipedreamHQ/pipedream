@@ -1,9 +1,13 @@
 import aws from "../../aws.app.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-cloudwatch-logs-put-log-events",
   name: "AWS - CloudWatch Logs - Put Log Events",
-  description: "Uploads a batch of log events to the specified log stream. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#putLogEvents-property) for more information",
+  description: toSingleLineString(`
+    Uploads a batch of log events to the specified log stream.
+    [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#putLogEvents-property) for more information
+  `),
   version: "0.0.2",
   type: "action",
   props: {
@@ -51,9 +55,6 @@ export default {
   },
   async run({ $ }) {
     const length = this.logEvents.length;
-    if (!length) {
-      throw new Error("No log data was written to CloudWatch. Please enter log data according to the format in the AWS docs: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#putLogEvents-property");
-    }
     const data = await this.aws.cloudWatchLogsPutLogEvents(this.region, {
       logGroupName: this.logGroupName,
       logStreamName: this.logStreamName,

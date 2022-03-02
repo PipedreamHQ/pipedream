@@ -1,12 +1,12 @@
 import axios from "axios"; // need axios response headers
 import AdmZip from "adm-zip";
 import dedent from "dedent";
-import common from "./common.mjs";
-import constants from "./actions/common/constants.mjs";
+import common from "./common/common.mjs";
+import constants from "./common/constants.mjs";
 import {
   generateRandomUniqueName,
   toSingleLineString,
-} from "./sources/common/utils.mjs";
+} from "./common/utils.mjs";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
 import {
   ListTablesCommand,
@@ -66,8 +66,8 @@ export default {
       default: common.defaultRegion,
       async options() {
         try {
-          return (await this.ec2ListRegions())
-            .Regions
+          const response = await this.ec2ListRegions();
+          return response.Regions
             .map((regionInfo) => regionInfo.RegionName)
             .sort();
         } catch (error) {
@@ -84,9 +84,8 @@ export default {
       label: "Role",
       description: "An IAM Role ARN, e.g., arn:aws:iam::650138640062:role/v3-lambda-tutorial-lambda-role. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)",
       async options({ region }) {
-        return (await this.listRoles(region))
-          .Roles
-          .map((role) => role.Arn);
+        const response = await this.listRoles(region);
+        return response.Roles.map((role) => role.Arn);
       },
     },
     bucket: {
@@ -94,9 +93,8 @@ export default {
       label: "S3 Bucket Name",
       description: "The S3 Bucket Name",
       async options() {
-        return (await this.s3ListBuckets())
-          .Buckets
-          .map((bucket) => bucket.Name);
+        const response = await this.s3ListBuckets();
+        return response.Buckets.map((bucket) => bucket.Name);
       },
     },
     key: {

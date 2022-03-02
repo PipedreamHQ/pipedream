@@ -1,6 +1,6 @@
 import aws from "../../aws.app.mjs";
-import { toSingleLineString } from "../../sources/common/utils.mjs";
-import constants from "../common/constants.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "aws-dynamodb-update-item",
