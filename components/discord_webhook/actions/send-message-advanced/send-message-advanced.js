@@ -39,9 +39,27 @@ module.exports = {
         "avatarURL",
       ],
     },
+    include_sent_via_pipedream_flag: {
+      type: "boolean",
+      optional: true,
+      default: true,
+      label: "Include link to workflow",
+      description: "Defaults to `true`. Set to `true` if you'd like to include a link to the workflow in your Discord message.",
+    },
   },
   async run() {
-    const content = this.message;
+    let content = this.message;
+
+    let link = `https://pipedream.com/@/${process.env.PIPEDREAM_WORKFLOW_ID}`;
+    link += `/inspect/${process.env.PIPEDREAM_TRACE_ID}`;
+    link += "?a=discord_webhook";
+
+    const sentViaPipedreamText = `\n\n*Sent via [Pipedream](<${link}>)*`;
+
+    if (this.include_sent_via_pipedream_flag == true) {
+      content = `${this.message}${sentViaPipedreamText}`;
+    }
+
     const {
       avatarURL,
       embeds,

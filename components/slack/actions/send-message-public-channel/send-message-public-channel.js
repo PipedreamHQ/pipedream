@@ -47,11 +47,43 @@ module.exports = {
       ],
       description: "Optionally provide an image URL to use as the bot icon for this message.",
     },
+    include_sent_via_pipedream_flag: {
+      type: "boolean",
+      optional: true,
+      default: true,
+      label: "Include link to workflow",
+      description: "Defaults to `true`. This will include a link to the workflow at the end of your Slack message.",
+    },
   },
   async run() {
+    let link = `https://pipedream.com/@/${process.env.PIPEDREAM_WORKFLOW_ID}`;
+    link += `/inspect/${process.env.PIPEDREAM_TRACE_ID}`;
+    link += "?origin=action";
+    link += "&a=slack";
+    if (this.include_sent_via_pipedream_flag == true) {
+      this.blocks = [
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": this.text,
+          },
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": `Sent via <${link}|Pipedream>`,
+            },
+          ],
+        },
+      ];
+    }
     return await this.slack.sdk().chat.postMessage({
       channel: this.conversation,
       text: this.text,
+      blocks: this.blocks,
       as_user: this.as_user,
       username: this.username,
       icon_emoji: this.icon_emoji,
