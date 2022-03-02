@@ -27,13 +27,15 @@ export default {
       description: "Custom properties to associate with the survey. You can add as many properties as you need.",
     },
   },
-  async run() {
-    const delighted = delightedLib(this.delighted.$auth.api_key);
+  async run({ $ }) {
+    const response =
+      await this.delightedApp.sendingToPeople({
+        email: this.email,
+        name: this.name,
+        properties: this.properties,
+      });
 
-    return await delighted.person.create({
-      email: this.email,
-      name: this.name,
-      properties: this.properties,
-    });
+    $.export("$summary", "Successfully created or updated a person and scheduled a survey email.");
+    return response;
   },
 };
