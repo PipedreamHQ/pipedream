@@ -44,7 +44,7 @@ export default {
     }
 
     const res = await this.giphyApp.uploadGif(formData, $);
-    $.export("summary", "Gif successfully uploaded");
+    $.export("$summary", "Gif successfully uploaded");
     return res;
   },
 };

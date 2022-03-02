@@ -1,5 +1,5 @@
 import giphyApp from "../../giphy.app.mjs";
-import options from "../../options.mjs";
+import options from "../../common/constants.mjs";
 
 export default {
   name: "Search Gifs/Stickers",
@@ -52,9 +52,9 @@ export default {
 
     const data = await this.giphyApp.getGifsOrStickers(searchType, params, max, $);
     if (data.length === 0) {
-      $.export("summary", "No data fetched");
+      $.export("$summary", "No data fetched");
     } else {
-      $.export("summary", `${data.length} register(s) fetched`);
+      $.export("$summary", `${data.length} register(s) fetched`);
     }
     return data;
   },

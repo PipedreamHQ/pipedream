@@ -44,7 +44,7 @@ export default {
     };
 
     const data = await this.giphyApp.translateTerm(searchType, params, $);
-    $.export("summary", "Term successfully translated");
+    $.export("$summary", "Term successfully translated");
     return data;
   },
 };

@@ -14,9 +14,13 @@ export default {
     },
   },
   methods: {
+    _getBaseUrl(preffix = "api") {
+      return `https://${preffix}.giphy.com/v1`;
+    },
     _getAxiosParams(opts = {}) {
       return {
         ...opts,
+        url: this._getBaseUrl(opts.prefix) + opts.path,
         params: {
           ...opts.params,
           api_key: this.$auth.api_key,
@@ -37,9 +41,9 @@ export default {
         }
         const res = await axios(ctx, this._getAxiosParams({
           method: "GET",
-          url: searchType === "gifs"
-            ? "https://api.giphy.com/v1/gifs/search"
-            : "https://api.giphy.com/v1/stickers/search",
+          path: searchType === "gifs"
+            ? "/gifs/search"
+            : "/stickers/search",
           params: {
             ...params,
             limit,
@@ -63,8 +67,8 @@ export default {
       return axios(ctx, this._getAxiosParams({
         method: "GET",
         path: searchType === "gifs"
-          ? "https://api.giphy.com/v1/gifs/translate"
-          : "https://api.giphy.com/v1/stickers/translate",
+          ? "/gifs/translate"
+          : "/stickers/translate",
         params,
       }));
     },
@@ -72,8 +76,9 @@ export default {
       return axios(ctx, this._getAxiosParams({
         headers: data.getHeaders(),
         method: "POST",
-        url: "https://upload.giphy.com/v1/gifs",
+        url: "/gifs",
         data,
+        prefix: "upload",
       }));
     },
   },
