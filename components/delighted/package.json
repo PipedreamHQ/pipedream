@@ -1,6 +1,6 @@
 {
     "name": "@pipedream/delighted",
-    "version": "0.0.1",
+    "version": "0.3.3",
     "description": "Pipedream Delighted Components",
     "main": "delighted.app.mjs",
     "keywords": [
