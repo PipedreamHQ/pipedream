@@ -1,4 +1,5 @@
 import WooCommerceAPI from "woocommerce-api";
+import querystring from "querystring";
 
 export default {
   type: "app",
@@ -21,12 +22,48 @@ export default {
       optional: true,
       default: "pending",
     },
+    role: {
+      type: "string",
+      label: "Role",
+      description: "Limit result set to resources with a specific role",
+      options: [
+        "all", 
+        "administrator", 
+        "editor", 
+        "author", 
+        "contributor", 
+        "subscriber", 
+        "customer",
+        "shop_manager",
+      ],
+      optional: true,
+      default: "customer",
+    },
+    search: {
+      type: "string",
+      label: "Search",
+      description: "Limit results to those matching a string",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Limit result set to resources with a specific email",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "Maximum number of results to return",
+      optional: true,
+      default: 20,
+    },
     customer: {
       type: "integer",
       label: "Customer",
       description: "User ID who owns the order. 0 for guests",
       async options({ page }) {
-        const customers = await this.listCustomers(page + 1);
+        const customers = await this.listCustomers({ page: page + 1 });
         return customers.map((customer) => ({
           label: customer.username,
           value: customer.id,
@@ -78,8 +115,9 @@ export default {
       const client = await this.getClient();
       return JSON.parse((await client.postAsync(endpoint, data)).body);
     },
-    async listCustomers(page) {
-      return this.listResources(`customers?page=${page}`);
+    async listCustomers(params) {
+      const q = querystring.stringify(params);
+      return this.listResources(`customers?${q}`);
     },
     async listPaymentGateways() {
       return this.listResources("payment_gateways");

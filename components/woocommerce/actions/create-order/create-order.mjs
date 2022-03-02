@@ -57,7 +57,6 @@ export default {
       payment_method: this.paymentMethod,
       line_items: lineItems,
     };
-    console.log(data);
     const res = await this.woocommerce.createOrder(data);
     $.export("$summary", `Successfully created order ID: ${res.id}`);
     return res;
