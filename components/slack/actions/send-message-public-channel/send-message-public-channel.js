@@ -4,7 +4,7 @@ module.exports = {
   key: "slack-send-message-public-channel",
   name: "Send Message to a Public Channel",
   description: "Send a message to a public channel and customize the name and avatar of the bot that posts the message",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     slack,
@@ -52,7 +52,7 @@ module.exports = {
       optional: true,
       default: true,
       label: "Include link to workflow",
-      description: "Defaults to `true`. This will include a link to the workflow at the end of your Slack message.",
+      description: "Defaults to `true`, includes a link to the workflow at the end of your Slack message.",
     },
   },
   async run() {
@@ -60,6 +60,18 @@ module.exports = {
     link += `/inspect/${process.env.PIPEDREAM_TRACE_ID}`;
     link += "?origin=action";
     link += "&a=slack";
+
+    const sentViaPipedreamText =
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": `Sent via <${link}|Pipedream>`,
+          },
+        ],
+      };
+
     if (this.include_sent_via_pipedream_flag == true) {
       this.blocks = [
         {
@@ -69,17 +81,10 @@ module.exports = {
             "text": this.text,
           },
         },
-        {
-          "type": "context",
-          "elements": [
-            {
-              "type": "mrkdwn",
-              "text": `Sent via <${link}|Pipedream>`,
-            },
-          ],
-        },
+        sentViaPipedreamText,
       ];
     }
+
     return await this.slack.sdk().chat.postMessage({
       channel: this.conversation,
       text: this.text,

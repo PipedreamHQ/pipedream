@@ -44,7 +44,7 @@ module.exports = {
       optional: true,
       default: true,
       label: "Include link to workflow",
-      description: "Defaults to `true`. Set to `true` if you'd like to include a link to the workflow in your Discord message.",
+      description: "Defaults to `true`, includes a link to the workflow at the end of your Discord message.",
     },
   },
   async run() {
@@ -52,7 +52,8 @@ module.exports = {
 
     let link = `https://pipedream.com/@/${process.env.PIPEDREAM_WORKFLOW_ID}`;
     link += `/inspect/${process.env.PIPEDREAM_TRACE_ID}`;
-    link += "?a=discord_webhook";
+    link += "?origin=action";
+    link += "&a=discord_webhook";
 
     const sentViaPipedreamText = `\n\n*Sent via [Pipedream](<${link}>)*`;
 
