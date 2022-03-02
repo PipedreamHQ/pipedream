@@ -1,7 +1,8 @@
-const axios = require("axios");
-const { v4: uuid } = require("uuid");
+import { v1 } from "@datadog/datadog-api-client";
+import axios from "axios";
+import { v4 as uuid } from "uuid";
 
-module.exports = {
+export default {
   type: "app",
   app: "datadog",
   methods: {
@@ -20,13 +21,17 @@ module.exports = {
     _webhooksUrl(name) {
       const baseUrl = this._baseUrl();
       const basePath = "/integration/webhooks/configuration/webhooks";
-      const path = name ? `${basePath}/${name}` : basePath;
+      const path = name
+        ? `${basePath}/${name}`
+        : basePath;
       return `${baseUrl}${path}`;
     },
     _monitorsUrl(id) {
       const baseUrl = this._baseUrl();
       const basePath = "/monitor";
-      const path = id ? `${basePath}/${id}` : basePath;
+      const path = id
+        ? `${basePath}/${id}`
+        : basePath;
       return `${baseUrl}${path}`;
     },
     _monitorsSearchUrl() {
@@ -81,12 +86,11 @@ module.exports = {
           ...baseRequestConfig,
           params,
         };
+        const { data } = await axios.get(apiUrl, requestConfig);
         const {
-          data: {
-            monitors,
-            metadata,
-          },
-        } = await axios.get(apiUrl, requestConfig);
+          monitors,
+          metadata,
+        } = data;
         for (const monitor of monitors) {
           yield monitor;
         }
@@ -160,7 +164,7 @@ module.exports = {
       // we need to search through all the monitors that notify this webhook and
       // remove the notification.
       const webhookTagPattern = new RegExp(
-        `\n?${this._webhookTagPattern(webhookName)}`
+        `\n?${this._webhookTagPattern(webhookName)}`,
       );
       const monitorSearchResults = this._searchMonitors(webhookName);
       for await (const monitorInfo of monitorSearchResults) {
@@ -171,7 +175,6 @@ module.exports = {
           // Monitor is not notifying this webhook, skip it...
           return;
         }
-
 
         const newMessage = message.replace(webhookTagPattern, "");
         const monitorChanges = {
