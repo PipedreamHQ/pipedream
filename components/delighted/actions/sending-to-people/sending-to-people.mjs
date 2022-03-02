@@ -1,4 +1,4 @@
-import delightedLib from "delighted";
+import delightedApp from "../../delighted.app.mjs";
 
 export default {
   key: "delighted-sending-to-people",
