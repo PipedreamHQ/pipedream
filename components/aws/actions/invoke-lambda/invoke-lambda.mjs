@@ -38,11 +38,12 @@ export default {
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Lambda.html#invoke-property
     // This also assumes the eventData passed to the step is JSON.
     // Please modify the code accordingly if your data is in a different format.
-    const response = await this.aws.invokeLambdaFunction(
-      this.region,
-      this.lambdaFunction,
-      JSON.stringify(this.eventData || {}),
-    );
+    const response = await this.aws.invokeLambdaFunction(this.region, {
+      FunctionName: this.lambdaFunction,
+      Payload: JSON.stringify(this.eventData || {}),
+      InvocationType: "RequestResponse",
+      LogType: "Tail",
+    });
     $.export("$summary", `Invoked ${this.lambdaFunction} lambda function`);
     this.aws.decodeResponsePayload(response);
     return response;

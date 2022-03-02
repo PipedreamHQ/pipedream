@@ -29,11 +29,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.aws.sendMessageToSqs(
-      this.region,
-      this.queueUrl,
-      this.eventData,
-    );
+    const response = this.aws.sendMessageToSqs(this.region, {
+      MessageBody: JSON.stringify(this.eventData),
+      QueueUrl: this.queueUrl,
+    });
     $.export("$summary", `Sent message to ${this.queueUrl}`);
     return response;
   },

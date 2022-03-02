@@ -28,11 +28,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.aws.sendMessageToSns(
-      this.region,
-      this.topic,
-      this.message,
-    );
+    const response = this.aws.sendMessageToSns(this.region, {
+      TopicArn: this.topic,
+      Message: this.message,
+    });
     $.export("$summary", `Sent message to ${this.topic} SNS`);
     return response;
   },

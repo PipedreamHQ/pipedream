@@ -37,12 +37,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.aws.createLambdaFunction(
-      this.region,
-      this.role,
-      this.functionName,
-      this.code,
-    );
+    const response = await this.aws.createLambdaFunction(this.region, {
+      Role: this.role,
+      FunctionName: this.functionName,
+      Runtime: "nodejs12.x",
+      Handler: "index.handler",
+    }, this.code);
     $.export("$summary", `Created ${this.functionName} lambda function`);
     return response;
   },

@@ -106,36 +106,67 @@ export default {
       type: "string",
       label: "Event Bus Name",
       description: "The name of the EventBridge event bus",
-      async options() {
-        const response = await this.listEventBuses();
-        return response.EventBuses.map((eventBus) => eventBus.Name);
+      async options({ prevContext }) {
+        const response = await this.listEventBuses({
+          NextToken: prevContext.NextToken,
+        });
+        return {
+          options: response.EventBuses.map((eventBus) => eventBus.Name),
+          context: {
+            NextToken: response.NextToken,
+          },
+        };
       },
     },
     queueUrl: {
       type: "string",
       label: "SQS Queue URL",
       description: "The URL of the SQS Queue",
-      async options() {
-        const response = await this.listQueues();
-        return response.QueueUrls;
+      async options({ prevContext }) {
+        const response = await this.listQueues({
+          NextToken: prevContext.NextToken,
+        });
+        return {
+          options: response.QueueUrls,
+          context: {
+            NextToken: response.NextToken,
+          },
+        };
       },
     },
     topic: {
       type: "string",
       label: "SNS Topic",
       description: "The ARN of the SNS Topic",
-      async options() {
-        const response = await this.listTopics();
-        return response.Topics.map((topic) => topic.TopicArn);
+      async options({ prevContext }) {
+        const response = await this.listTopics({
+          NextToken: prevContext.NextToken,
+        });
+        return {
+          options: response.Topics.map((topic) => topic.TopicArn),
+          context: {
+            NextToken: response.NextToken,
+          },
+        };
       },
     },
     lambdaFunction: {
       type: "string",
       label: "Function Name",
       description: "The name of your Lambda function. Also accepts a function ARN",
-      async options({ region }) {
-        const response = await this.listLambdaFunctions(region);
-        return response.Functions.map((fn) => fn.FunctionName);
+      async options({
+        region, prevContext,
+      }) {
+        const response = await this.listLambdaFunctions({
+          Region: region,
+          Marker: prevContext.NextMarker,
+        });
+        return {
+          options: response.Functions.map((fn) => fn.FunctionName),
+          context: {
+            NextMarker: response.NextMarker,
+          },
+        };
       },
     },
     lambdaCode: {
@@ -639,84 +670,47 @@ export default {
       const client = this.getAWSClient("s3");
       return await client.send(new ListBucketsCommand({}));
     },
-    async listEventBuses() {
+    async listEventBuses(params) {
       const client = this.getAWSClient("eventBridge");
-      return await client.send(new ListEventBusesCommand({}));
+      return await client.send(new ListEventBusesCommand(params));
     },
-    async listQueues() {
+    async listQueues(params) {
       const client = this.getAWSClient("sqs");
-      return await client.send(new ListQueuesCommand({}));
+      return await client.send(new ListQueuesCommand(params));
     },
-    async listTopics() {
+    async listTopics(params) {
       const client = this.getAWSClient("sns");
-      return await client.send(new ListTopicsCommand({}));
+      return await client.send(new ListTopicsCommand(params));
     },
-    async listLambdaFunctions(Region) {
+    async listLambdaFunctions(params) {
+      const { Region } = params;
       const client = this.getAWSClient("lambda", Region);
-      return await client.send(new ListFunctionsCommand({
-        Region,
-      }));
+      return await client.send(new ListFunctionsCommand(params));
     },
-    async createLambdaFunction(Region, Role, FunctionName, code) {
-      const client = this.getAWSClient("lambda", Region);
-      const ZipFileCode = this.createZipArchive(code);
-      return await client.send(new CreateFunctionCommand({
-        Code: {
-          ZipFile: ZipFileCode,
-        },
-        FunctionName,
-        Role,
-        Runtime: "nodejs12.x",
-        Handler: "index.handler",
-      }));
-    },
-    async invokeLambdaFunction(Region, FunctionName, Payload = {}) {
-      const client = this.getAWSClient("lambda", Region);
-      return await client.send(new InvokeCommand({
-        FunctionName,
-        Payload,
-        InvocationType: "RequestResponse",
-        LogType: "Tail",
-      }));
-    },
-    async uploadFileToS3(Region, Bucket, Key, Body, ContentType, ContentLength) {
-      const params = {
-        Bucket,
-        Key,
-        Body,
+    async createLambdaFunction(Region, params, code) {
+      params.Code = {
+        ZipFile: this.createZipArchive(code),
       };
-      if (ContentType) params.ContentType = ContentType;
-      if (ContentLength) params.ContentLength = ContentLength;
+      const client = this.getAWSClient("lambda", Region);
+      return await client.send(new CreateFunctionCommand(params));
+    },
+    async invokeLambdaFunction(Region, params) {
+      const client = this.getAWSClient("lambda", Region);
+      return await client.send(new InvokeCommand(params));
+    },
+    async uploadFileToS3(Region, params) {
       const client = this.getAWSClient("s3", Region);
       return await client.send(new PutObjectCommand(params));
     },
-    async sendEventToEventBridgeBus(Region, EventBusName, EventData) {
-      const params = {
-        Entries: [
-          {
-            Detail: JSON.stringify(EventData),
-            DetailType: Object.keys(EventData).join(" "),
-            EventBusName,
-            Source: "pipedream",
-          },
-        ],
-      };
+    async sendEventToEventBridgeBus(Region, params) {
       const client = this.getAWSClient("eventBridge", Region);
       return await client.send(new PutEventsCommand(params));
     },
-    async sendMessageToSqs(Region, QueueUrl, EventData) {
-      const params = {
-        MessageBody: JSON.stringify(EventData),
-        QueueUrl,
-      };
+    async sendMessageToSqs(Region, params) {
       const client = this.getAWSClient("sqs", Region);
       return await client.send(new SendMessageCommand(params));
     },
-    async sendMessageToSns(Region, TopicArn, Message) {
-      const params = {
-        TopicArn,
-        Message,
-      };
+    async sendMessageToSns(Region, params) {
       const client = this.getAWSClient("sns", Region);
       return await client.send(new PublishCommand(params));
     },

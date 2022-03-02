@@ -33,12 +33,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.aws.uploadFileToS3(
-      this.region,
-      this.bucket,
-      this.filename,
-      Buffer.from(this.data, "base64"),
-    );
+    const response = await this.aws.uploadFileToS3(this.region, {
+      Bucket: this.bucket,
+      Key: this.filename,
+      Body: Buffer.from(this.data, "base64"),
+    });
     $.export("$summary", `Uploaded file ${this.filename} to S3`);
     return response;
   },

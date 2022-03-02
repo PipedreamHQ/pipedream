@@ -29,11 +29,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.aws.sendToEventBridgeBus(
-      this.region,
-      this.eventBusName,
-      this.eventData,
-    );
+    const params = {
+      Entries: [
+        {
+          Detail: JSON.stringify(this.eventData),
+          DetailType: Object.keys(this.eventData).join(" "),
+          EventBusName: this.eventBusName,
+          Source: "pipedream",
+        },
+      ],
+    };
+
+    const response = this.aws.sendEventToEventBridgeBus(this.region, params);
     $.export("$summary", `Sent event data to ${this.eventBusName} bridge`);
     return response;
   },

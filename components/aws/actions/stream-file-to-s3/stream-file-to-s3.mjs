@@ -34,14 +34,13 @@ export default {
   },
   async run({ $ }) {
     const fileResponse = await this.aws.streamFile(this.fileUrl);
-    const response = await this.aws.uploadFileToS3(
-      this.region,
-      this.bucket,
-      this.filename.replace(/^\/+/, ""),
-      fileResponse.data,
-      fileResponse.headers["content-type"],
-      fileResponse.headers["content-length"],
-    );
+    const response = await this.aws.uploadFileToS3(this.region, {
+      Bucket: this.bucket,
+      Key: this.filename.replace(/^\/+/, ""),
+      Body: fileResponse.data,
+      ContentType: fileResponse.headers["content-type"],
+      ContentLength: fileResponse.headers["content-length"],
+    });
     $.export("$summary", `Streaming file ${this.filename} to ${this.bucket}`);
     return response;
   },
