@@ -76,7 +76,7 @@ export default {
       return axios(ctx, this._getAxiosParams({
         headers: data.getHeaders(),
         method: "POST",
-        url: "/gifs",
+        path: "/gifs",
         data,
         prefix: "upload",
       }));
