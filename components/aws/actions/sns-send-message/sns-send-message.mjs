@@ -2,7 +2,7 @@ import aws from "../../aws.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "aws-send-message-to-sns",
+  key: "aws-sns-send-message",
   name: "AWS - SNS - Send Message",
   description: toSingleLineString(`
     Sends a message to a SNS Topic.

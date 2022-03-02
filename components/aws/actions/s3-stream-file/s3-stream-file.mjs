@@ -2,7 +2,7 @@ import aws from "../../aws.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "aws-stream-file-to-s3",
+  key: "aws-s3-stream-file",
   name: "AWS - S3 - Stream file to S3 from URL",
   description: toSingleLineString(`
     Accepts a file URL, and streams the file to the provided S3 bucket/key.

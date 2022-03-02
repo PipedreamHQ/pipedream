@@ -2,7 +2,7 @@ import aws from "../../aws.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "aws-create-lambda",
+  key: "aws-lambda-create-function",
   name: "AWS - Lambda - Create Function",
   description: toSingleLineString(`
     Create a Lambda function from source code. This action creates a zip file and deploys it to AWS Lambda.

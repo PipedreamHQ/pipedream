@@ -2,7 +2,7 @@ import aws from "../../aws.app.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
-  key: "aws-send-event-to-eventbridge-bus",
+  key: "aws-eventbridge-send-event",
   name: "AWS - EventBridge - Send event to Event Bus",
   description: toSingleLineString(`
     Sends an event to an EventBridge event bus.
