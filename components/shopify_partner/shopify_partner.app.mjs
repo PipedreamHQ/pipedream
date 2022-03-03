@@ -88,7 +88,7 @@ export default {
       }
 
       // paginate the results recursively if enabled
-      if (data && get(data, hasNextPagePath)) {
+      if (data && get(data, hasNextPagePath) && this.paginationEnabled) {
         await this.query({
           db,
           key,
