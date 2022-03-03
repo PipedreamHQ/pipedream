@@ -30,7 +30,7 @@ export default {
         "avatarURL",
       ],
     },
-    includeSendMessageViaPipedreamFlag: {
+    includeSentViaPipedream: {
       type: "boolean",
       optional: true,
       default: true,
@@ -46,12 +46,7 @@ export default {
     },
     getSentViaPipedreamText() {
       const link = this._getWorkflowUrl();
-      return `\n\n*Sent via [Pipedream](<${link}>)*`;
-    },
-    makeSentViaPipedreamEmbed() {
-      return {
-        description: this.getSentViaPipedreamText(),
-      };
+      return `Sent via [Pipedream](<${link}>)`;
     },
   },
 };

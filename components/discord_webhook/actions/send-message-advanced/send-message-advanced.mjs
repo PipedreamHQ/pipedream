@@ -25,23 +25,25 @@ export default {
   },
   async run() {
     const {
-      message: content,
+      message,
       avatarURL,
       threadID,
       username,
-      includeSendMessageViaPipedreamFlag,
+      includeSentViaPipedream,
+      embeds,
     } = this;
-    let { embeds } = this;
 
-    if (!content && !embeds) {
+    if (!message && !embeds) {
       throw new Error("This action requires at least 1 message OR embeds object. Please enter one or the other above.");
     }
 
-    if (includeSendMessageViaPipedreamFlag) {
-      embeds = [
-        ...(embeds ?? []),
-        this.makeSentViaPipedreamEmbed(),
-      ];
+    let content = message ?? "";
+
+    if (includeSentViaPipedream) {
+      if (typeof content !== "string") {
+        content = JSON.stringify(content);
+      }
+      content += `\n\n${this.getSentViaPipedreamText()}`;
     }
 
     // No interesting data is returned from Discord

@@ -12,27 +12,28 @@ export default {
   },
   async run() {
     const {
+      message,
       avatarURL,
       threadID,
       username,
-      includeSendMessageViaPipedreamFlag,
+      includeSentViaPipedream,
     } = this;
 
-    let embeds;
-    if (includeSendMessageViaPipedreamFlag) {
-      embeds = [
-        ...(embeds ?? []),
-        this.makeSentViaPipedreamEmbed(),
-      ];
+    let content = message;
+
+    if (includeSentViaPipedream) {
+      if (typeof content !== "string") {
+        content = JSON.stringify(content);
+      }
+      content += `\n\n${this.getSentViaPipedreamText()}`;
     }
 
     // No interesting data is returned from Discord
     await this.discordWebhook.sendMessage({
       avatarURL,
-      content: this.message,
+      content,
       threadID,
       username,
-      embeds,
     });
   },
 };

@@ -35,18 +35,20 @@ export default {
   },
   async run({ $ }) {
     const {
-      message: content,
+      message,
       avatarURL,
       threadID,
       username,
       fileUrl,
       filePath,
-      includeSendMessageViaPipedreamFlag,
+      includeSentViaPipedream,
     } = this;
 
     if (!fileUrl && !filePath) {
       throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
     }
+
+    let content = message ?? "";
 
     const file = fileUrl
       ? (await axios({
@@ -56,12 +58,11 @@ export default {
       })).data
       : fs.createReadStream(filePath);
 
-    let embeds;
-    if (includeSendMessageViaPipedreamFlag) {
-      embeds = [
-        ...(embeds ?? []),
-        this.makeSentViaPipedreamEmbed(),
-      ];
+    if (includeSentViaPipedream) {
+      if (typeof content !== "string") {
+        content = JSON.stringify(content);
+      }
+      content += `\n\n${this.getSentViaPipedreamText()}`;
     }
 
     // No interesting data is returned from Discord
@@ -71,7 +72,6 @@ export default {
       threadID,
       username,
       file,
-      embeds,
     });
 
     $.export("$summary", "Message sent successfully");
