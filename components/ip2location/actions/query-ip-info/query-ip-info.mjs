@@ -1,5 +1,5 @@
 import ip2locationApp from "../../ip2location.app.mjs";
-import { PACKAGE_OPTIONS, ADDON_OPTIONS, LANGUAGE_OPTIONS } from "../../common/constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   name: "Query IP address",
@@ -17,7 +17,7 @@ export default {
     wsPackage: {
       type: "string",
       label: "Package",
-      options: PACKAGE_OPTIONS,
+      options: constants.PACKAGE_OPTIONS,
       description: "Web service package of different granularity of return information. Please refer to the pricing table in our [documentation](https://www.ip2location.com/web-service/ip2location) for the information returned. Valid value: `WS1` | `WS2` | `WS3` | `WS4` | `WS5` | `WS6` | `WS7` | `WS8` | `WS9` | `WS10` | `WS11` | `WS12` | `WS13` | `WS14` | `WS15` | `WS16` | `WS17` | `WS18` | `WS19` | `WS20` | `WS21` | `WS22` | `WS23` | `WS24` | `WS25`",
     },
     format: {
@@ -29,14 +29,14 @@ export default {
     language: {
       type: "string",
       label: "Translation Language",
-      options: LANGUAGE_OPTIONS,
+      options: constants.LANGUAGE_OPTIONS,
       description: "Translation information. The translation is only applicable for continent, country, region and city name for the **addon** package. Valid value: `ar` | `cs` | `da` | `de` | `en` | `es` | `et` | `fi` | `fr` | `ga` | `it` | `ja` | `ko` | `ms` | `nl` | `pt` | `ru` | `sv` | `tr` | `vi` | `zh-cn` | `zh-tw`",
       optional: true,
     },
     addon: {
       type: "string",
       label: "Addon",
-      options: ADDON_OPTIONS,
+      options: constants.ADDON_OPTIONS,
       description: "Extra information in addition to the above-selected package. Please refer to the pricing table in our [documentation](https://www.ip2location.com/web-service/ip2location) for the information returned. You can query for multiple addons by putting a comma at between of them, for example `continent,country`. Valid value: `continent`, `country`, `region`, `city`, `geotargeting`, `country_groupings`, `time_zone_info`",
       optional: true,
     },

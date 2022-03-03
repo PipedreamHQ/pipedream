@@ -37,6 +37,6 @@ const PACKAGE_OPTIONS = [
     "zh-tw",
   ];*/
 
-export {
+export default {
   PACKAGE_OPTIONS,
 };

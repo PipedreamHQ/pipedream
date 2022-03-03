@@ -1,5 +1,5 @@
 import ip2proxyApp from "../../ip2proxy.app.mjs";
-import { PACKAGE_OPTIONS } from "../../common/constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   name: "Query IP address",
@@ -17,7 +17,7 @@ export default {
     pxPackage: {
       type: "string",
       label: "Package",
-      options: PACKAGE_OPTIONS,
+      options: constants.PACKAGE_OPTIONS,
       description: "Web service package of different granularity of return information. Please refer to the pricing table in our [documentation](https://www.ip2location.com/web-service/ip2proxy) for the information returned. Valid value: `PX1` | `PX2` | `PX3` | `PX4` | `PX5` | `PX6` | `PX7` | `PX8` | `PX9` | `PX10` | `PX11`.",
     },
     format: {

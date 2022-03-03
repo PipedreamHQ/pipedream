@@ -61,7 +61,7 @@ const ADDON_OPTIONS = [
     "time_zone_info",
   ];
 
-export {
+export default {
   PACKAGE_OPTIONS,
   LANGUAGE_OPTIONS,
   ADDON_OPTIONS,
