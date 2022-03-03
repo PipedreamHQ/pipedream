@@ -7,11 +7,21 @@ For example, you can connect to Slack from Pipedream (via their OAuth integratio
 ```javascript
 import { WebClient } from '@slack/web-api';
 
-const web = new WebClient(auths.slack.oauth_access_token)
-return await web.chat.postMessage({
-  text: "Hello, world!",
-  channel: "#general",
-})
+defineComponent({
+  props: {
+    slack: {
+      type: 'app',
+      app: 'slack'
+    }
+  },
+  async run({ steps, $ }) {
+    const web = new WebClient(this.slack.$auth.oauth_access_token)
+    return await web.chat.postMessage({
+      text: "Hello, world!",
+      channel: "#general",
+    })
+  })
+});
 ```
 
 [[toc]]
