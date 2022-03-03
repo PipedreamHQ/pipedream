@@ -6,6 +6,17 @@ export default {
   type: "app",
   app: "datadog",
   methods: {
+    _v1Config() {
+      return v1.createConfiguration({
+        authMethods: {
+          apiKeyAuth: this.$auth.api_key,
+          appKeyAuth: this.$auth.application_key,
+        },
+      });
+    },
+    _metricsApi() {
+      return new v1.MetricsApi(this._v1Config());
+    },
     _apiKey() {
       return this.$auth.api_key;
     },
@@ -182,6 +193,11 @@ export default {
         };
         await this._editMonitor(monitorId, monitorChanges);
       }
+    },
+    async postMetricData(params) {
+      return this._metricsApi().submitMetrics({
+        body: params,
+      });
     },
   },
 };
