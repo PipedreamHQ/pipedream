@@ -27,8 +27,8 @@
         "pipedream/required-properties-version": "error",
         "pipedream/required-properties-description": "error",
         "pipedream/required-properties-type": "error",
-        "pipedream/props-label": "error",
-        "pipedream/props-description": "error",
+        "pipedream/props-label": "warn",
+        "pipedream/props-description": "warn",
         "pipedream/source-name": "warn",
         "pipedream/source-description": "warn",
         "pipedream/no-ts-version": "error"
@@ -56,8 +56,8 @@
         "**/*.app.*js"
       ],
       "rules": {
-        "pipedream/props-label": "error",
-        "pipedream/props-description": "error"
+        "pipedream/props-label": "warn",
+        "pipedream/props-description": "warn"
       }
     }
   ],
