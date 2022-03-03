@@ -1,23 +1,25 @@
-const intercom = require("../../intercom.app.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
+  ...common,
   key: "intercom-new-unsubscription",
   name: "New Unsubscriptions",
-  description:
-    "Emits an event each time a user unsubscribes from receiving emails.",
-  version: "0.0.1",
+  description: "Emit new event each time a user unsubscribes from receiving emails.",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique",
-  props: {
-    intercom,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
+  methods: {
+    generateMeta({
+      id, name,
+    }) {
+      return {
+        id,
+        summary: name,
+        ts: Date.now(),
+      };
     },
   },
-  async run(event) {
+  async run() {
     const data = {
       query: {
         operator: "AND",
@@ -38,11 +40,8 @@ module.exports = {
 
     const results = await this.intercom.searchContacts(data);
     for (const user of results) {
-      this.$emit(user, {
-        id: user.id,
-        summary: user.name,
-        ts: Date.now(),
-      });
+      const meta = this.generateMeta(user);
+      this.$emit(user, meta);
     }
   },
 };
