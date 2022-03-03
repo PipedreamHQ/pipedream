@@ -1,27 +1,118 @@
-const axios = require("axios");
-const get = require("lodash/get");
-const retry = require("async-retry");
+import axios from "axios";
+import qs from "qs";
+import isNil from "lodash/isNil.js";
+import retry from "async-retry";
+import get from "lodash/get.js";
 
-module.exports = {
+export default {
   type: "app",
   app: "reddit",
   propDefinitions: {
+    thingId: {
+      type: "string",
+      label: "Thing ID",
+      description: "[Fullname](https://www.reddit.com/dev/api/#fullnames) of parent thing",
+    },
+    sort: {
+      type: "string",
+      label: "Sort",
+      description: "One of: `relevance`, `activity`",
+      options: [
+        "relevance",
+        "activity",
+      ],
+      optional: true,
+    },
+    subredditPost: {
+      type: "string",
+      label: "Post",
+      description: "Select a subreddit post or enter a custom expression to reference a specific Post ID in [base36](http://en.wikipedia.org/wiki/Base36) (for example, `15bfi0`).",
+      optional: false,
+      withLabel: true,
+      async options({
+        subreddit,
+        prevContext,
+      }) {
+        const params = {
+          limit: 50,
+          after: prevContext?.after,
+        };
+        const links = await this.getNewSubredditLinks(
+          get(subreddit, "value", subreddit),
+          params,
+        );
+        const posts = get(links, "data.children", []);
+        const options = posts.map((item) => ({
+          label: item.data.title,
+          value: item.data.id,
+        }));
+
+        return {
+          options,
+          context: {
+            after: posts?.[posts.length - 1]?.data?.name,
+          },
+        };
+      },
+    },
+    after: {
+      type: "string",
+      label: "After",
+      description: "Only one of `after` and `before` should be specified. These indicate the [fullname](https://www.reddit.com/dev/api/#fullnames) of an item in the listing to use as the anchor point of the slice.",
+      optional: true,
+    },
+    before: {
+      type: "string",
+      label: "Before",
+      description: "Only one of `after` and `before` should be specified. These indicate the [fullname](https://www.reddit.com/dev/api/#fullnames) of an item in the listing to use as the anchor point of the slice.",
+      optional: true,
+    },
+    count: {
+      type: "integer",
+      label: "Count",
+      description: "The number of items already seen in this listing. On the html site, the builder uses this to determine when to give values for `before` and `after` in the response.",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Default to 25. The maximum number of items desired",
+      min: 1,
+      max: 100,
+      optional: true,
+    },
     subreddit: {
       type: "string",
       label: "Subreddit",
       description: "The subreddit you'd like to watch.",
       useQuery: true,
-      async options(context) {
-        const q = context.query;
-        const options = [];
-        const results = await this.getAllSearchSubredditsResults(q);
-        for (const subreddit of results) {
-          options.push({
-            label: subreddit.title,
-            value: subreddit.displayName,
-          });
-        }
-        return options;
+      withLabel: true,
+      async options({
+        query,
+        prevContext,
+      }) {
+        const res = await this.searchSubreddits({
+          after: prevContext?.after,
+          q: query,
+          limit: 30,
+          show_users: false,
+          sort: "relevance",
+          sr_detail: false,
+          typeahead_active: false,
+        });
+
+        const subreddits = get(res, "data.children", []);
+        const options = subreddits.map((subreddit) => ({
+          label: subreddit.data.title,
+          value: subreddit.data.display_name,
+        }));
+
+        return {
+          options,
+          context: {
+            after: get(subreddits, `${subreddits.length - 1}.data.name`),
+          },
+        };
       },
     },
     username: {
@@ -48,18 +139,71 @@ module.exports = {
     includeSubredditDetails: {
       type: "boolean",
       label: "Include subreddit details?",
-      description:
-        "If set to true, subreddit details will be expanded/included in the emitted event.",
-      default: false,
+      description: "If set to `true`, subreddit details will be expanded/included.",
+      optional: true,
+    },
+    numberOfParents: {
+      type: "integer",
+      label: "Number of Parents",
+      description: "When set to `0`, it will only contain the new comment. Otherwise, it will also contain the parents of the comment up to the number indicated in this property.",
+      optional: true,
+      min: 0,
+      max: 8,
+    },
+    depth: {
+      type: "integer",
+      label: "Depth",
+      description: "If set to `1`, it will include, in the emitted event, only new comments that are direct children to the subreddit pointed by \"subredditPost\". Furthermore, \"depth\" determines the maximum depth of children, within the related subreddit comment tree, of new comments to be included in said emitted event.",
       optional: true,
     },
   },
   methods: {
+    _getAxiosParams(opts) {
+      const res = {
+        ...opts,
+        url: this._apiUrl() + opts.path + this._getQuery(opts.params),
+        headers: this._getHeaders(),
+        data: opts.data && qs.stringify(opts.data),
+      };
+      return res;
+    },
+    _getQuery(params) {
+      if (!params) {
+        return "";
+      }
+
+      let query = "?";
+      const keys = Object.keys(params);
+      for (let i = 0; i < keys.length; i++) {
+        // Explicity looking for nil values to avoid false negative for Boolean(false)
+        if (!isNil(params[keys[i]])) {
+          query += `${keys[i]}=${params[keys[i]]}&`;
+        }
+      }
+
+      // It removes the last string char, it can be ? or &
+      return query.substr(0, query.length - 1);
+    },
+    _getHeaders() {
+      return {
+        "authorization": `Bearer ${this._accessToken()}`,
+        "user-agent": "@PipedreamHQ/pipedream v0.1",
+      };
+    },
     _accessToken() {
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
       return "https://oauth.reddit.com";
+    },
+    checkErrors(data) {
+      if (get(data, "json.errors.length", 0) > 0) {
+        throw new Error(data.json.errors.map((err) => get(
+          err,
+          "[1]",
+          err,
+        )));
+      }
     },
     async _makeRequest(opts) {
       if (!opts.headers) opts.headers = {};
@@ -138,10 +282,10 @@ module.exports = {
           params,
         }));
     },
-    async getNewSubredditLinks(before, subreddit, limit = 100) {
+    async getNewSubredditLinks(subreddit, opts) {
       const params = {
-        before,
-        limit,
+        limit: 100,
+        ...opts,
       };
       return await this._withRetries(() =>
         this._makeRequest({
@@ -168,6 +312,7 @@ module.exports = {
         threaded: true,
         trucate: 0,
       };
+
       const [
         ,
         redditComments,
@@ -226,16 +371,7 @@ module.exports = {
           params,
         }));
     },
-    async searchSubreddits(after, query = "") {
-      const params = {
-        after,
-        limit: 100,
-        q: query,
-        show_users: false,
-        sort: "relevance",
-        sr_detail: false,
-        typeahead_active: false,
-      };
+    async searchSubreddits(params) {
       const redditCommunities = await this._withRetries(() =>
         this._makeRequest({
           path: "/subreddits/search",
@@ -247,7 +383,15 @@ module.exports = {
       const results = [];
       let after = null;
       do {
-        const redditCommunities = await this.searchSubreddits(after, query);
+        const redditCommunities = await this.searchSubreddits({
+          after,
+          q: query,
+          limit: 100,
+          show_users: false,
+          sort: "relevance",
+          sr_detail: false,
+          typeahead_active: false,
+        });
         const isNewDataAvailable = get(redditCommunities, [
           "data",
           "children",

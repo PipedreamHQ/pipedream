@@ -1,13 +1,14 @@
-const common = require("../common");
+import common from "../common.mjs";
+import get from "lodash/get.js";
 const { reddit } = common.props;
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   key: "reddit-new-links-on-a-subreddit",
-  name: "New Posts on a subreddit",
+  name: "New Links on a subreddit",
   description: "Emit new event each time a new link is added to a subreddit",
-  version: "0.1.0",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -22,9 +23,10 @@ module.exports = {
     async deploy() {
       // Emits 10 sample events on the first run during deploy.
       var redditLinks = await this.reddit.getNewSubredditLinks(
-        null,
-        this.subreddit,
-        10,
+        get(this.subreddit, "value", this.subreddit),
+        {
+          limit: 10,
+        },
       );
       const { children: links = [] } = redditLinks.data;
       if (links.length === 0) {
@@ -50,8 +52,10 @@ module.exports = {
     let redditLinks;
     do {
       redditLinks = await this.reddit.getNewSubredditLinks(
-        this.db.get("before"),
-        this.subreddit,
+        get(this.subreddit, "value", this.subreddit),
+        {
+          before: this.db.get("before"),
+        },
       );
       const { children: links = [] } = redditLinks.data;
       if (links.length === 0) {
