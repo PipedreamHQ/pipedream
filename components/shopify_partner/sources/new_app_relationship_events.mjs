@@ -1,16 +1,17 @@
 import common from "../common.mjs";
 import shopify from "../shopify_partner.app.mjs";
-import getAppUninstalls from "../queries/getAppUninstalls.mjs";
+import getAppRelationshipEvents from "../queries/getAppRelationshipEvents.mjs";
 
 export default {
-  key: "shopify_partner-new-app-uninstalls",
-  name: "New App Uninstalls",
+  key: "shopify_partner-new-app-relationship-events",
+  name: "New App Relationship Events",
   type: "source",
-  version: "0.0.6",
-  description: "Emit new events when new shops uninstall your app.",
+  version: "0.0.2",
+  description: "Emit new events when new shops installs, uninstalls, subscribes or unsubscribes your app.",
   ...common,
   props: {
     ...common.props,
+    db: "$.service.db",
     appId: {
       propDefinition: [
         shopify,
@@ -50,16 +51,18 @@ export default {
       ...(occurredAtMax || {}),
     };
 
+    console.log("Querying events");
+
     await this.shopify.query({
       db,
-      query: getAppUninstalls,
+      key: "shopify_partner-relationship-events",
+      query: getAppRelationshipEvents,
       variables,
-      key: "shopify_partner-uninstalls",
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
           this.$emit(event, {
             id: event.occurredAt,
-            summary: `${event.shop.name} (${event.shop.myshopifyDomain}) uninstalled ${event.app.name}`,
+            summary: `${event.shop.name} (${event.shop.myshopifyDomain}) installed ${event.app.name}`,
           });
         });
       },
