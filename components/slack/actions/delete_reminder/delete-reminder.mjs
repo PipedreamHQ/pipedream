@@ -4,7 +4,7 @@ export default {
   key: "slack-delete-reminder",
   name: "Delete Reminder",
   description: "Delete a reminder",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,

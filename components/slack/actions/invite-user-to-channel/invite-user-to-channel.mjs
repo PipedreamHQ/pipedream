@@ -4,7 +4,7 @@ export default {
   key: "slack-invite-user-to-channel",
   name: "Invite User to Channel",
   description: "Invite a user to an existing channel",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,

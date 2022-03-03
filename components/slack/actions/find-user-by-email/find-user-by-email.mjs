@@ -4,7 +4,7 @@ export default {
   key: "slack-find-user-by-email",
   name: "Find User by Email",
   description: "Find a user by matching against their email",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,

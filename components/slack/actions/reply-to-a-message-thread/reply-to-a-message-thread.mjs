@@ -4,7 +4,7 @@ export default {
   key: "slack-reply-to-a-message",
   name: "Reply to a Message Thread",
   description: "Send a message as a threaded reply",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     slack,

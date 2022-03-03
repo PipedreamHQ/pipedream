@@ -4,7 +4,7 @@ export default {
   key: "slack-list-files",
   name: "List Files",
   description: "Return a list of files within a team",
-  version: "0.0.29",
+  version: "0.0.30",
   type: "action",
   props: {
     slack,

@@ -4,7 +4,7 @@ export default {
   key: "slack-remove-star",
   name: "Remove Star",
   description: "Remove a star from an item on behalf of the authenticated user",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,

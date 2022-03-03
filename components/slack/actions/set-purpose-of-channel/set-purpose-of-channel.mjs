@@ -4,7 +4,7 @@ export default {
   key: "slack-set-channel-purpose",
   name: "Set Channel Purpose",
   description: "Change the purpose of a channel",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,
