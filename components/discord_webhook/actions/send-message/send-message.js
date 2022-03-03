@@ -5,7 +5,7 @@ module.exports = {
   key: "discord_webhook-send-message",
   name: "Send Message",
   description: "Send a simple message to a Discord channel",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,

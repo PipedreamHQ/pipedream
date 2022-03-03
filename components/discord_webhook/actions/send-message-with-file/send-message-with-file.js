@@ -7,7 +7,7 @@ module.exports = {
   key: "discord_webhook-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
