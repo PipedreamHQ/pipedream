@@ -4,9 +4,9 @@ const { reddit } = common.props;
 export default {
   ...common,
   type: "source",
-  key: "reddit-new-saved-post",
+  key: "reddit-new-saved-post-by-user",
   name: "New saved post by user",
-  description: "Emit new event each time a user saves a post.",
+  description: "Emit new event each time an user saves a post.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
