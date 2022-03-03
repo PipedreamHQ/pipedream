@@ -371,6 +371,28 @@ export default {
           params,
         }));
     },
+    async getUserNewSavedPosts(
+      before,
+      username,
+      timeFilter,
+      includeSubredditDetails,
+      limit = 100,
+    ) {
+      const params = {
+        before,
+        show: "given",
+        sort: "new",
+        t: timeFilter,
+        type: "links",
+        sr_detail: includeSubredditDetails,
+        limit,
+      };
+      return await this._withRetries(() =>
+        this._makeRequest({
+          path: `/user/${username}/saved`,
+          params,
+        }));
+    },
     async searchSubreddits(params) {
       const redditCommunities = await this._withRetries(() =>
         this._makeRequest({
