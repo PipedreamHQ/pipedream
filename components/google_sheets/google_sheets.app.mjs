@@ -117,6 +117,22 @@ export default {
 
       throw new Error(`${value} is not an array or an array-like`);
     },
+    arrayValuesToString(arr) {
+      const convertedIndexes = [];
+
+      const res = arr.map((val, i) => {
+        if (typeof val !== "string") {
+          convertedIndexes.push(i) ;
+          return JSON.stringify(val);
+        }
+        return val;
+      });
+
+      return {
+        arr: res,
+        convertedIndexes,
+      };
+    },
     sheets() {
       const auth = new google.auth.OAuth2();
       auth.setCredentials({
