@@ -42,6 +42,9 @@ module.exports = {
     async sendMessage({
       content, embeds, username, avatarURL, threadID,
     }) {
+      const serializedContent = (typeof content !== "string")
+        ? JSON.stringify(content)
+        : content;
       if (!threadID) threadID = undefined;
       const resp = await axios({
         method: "POST",
@@ -54,7 +57,7 @@ module.exports = {
           thread_id: threadID,
         },
         data: {
-          content,
+          content: serializedContent,
           embeds,
           username,
           avatar_url: avatarURL,
@@ -69,8 +72,11 @@ module.exports = {
       content, username, avatarURL, embeds, threadID, file,
     }) {
       const data = new FormData();
+      const serializedContent = (typeof content !== "string")
+        ? JSON.stringify(content)
+        : content;
       data.append("payload_json", JSON.stringify({
-        content,
+        content: serializedContent,
         username,
         avatarURL,
         embeds,
