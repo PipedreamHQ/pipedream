@@ -66,12 +66,15 @@ module.exports = {
       return resp.data;
     },
     async sendMessageWithFile({
-      content, username, avatarURL, threadID, file,
+      content, username, avatarURL, embeds, threadID, file,
     }) {
       const data = new FormData();
-      if (content) data.append("content", content);
-      if (username) data.append("username", username);
-      if (avatarURL) data.append("avatar_url", avatarURL);
+      data.append("payload_json", JSON.stringify({
+        content,
+        username,
+        avatarURL,
+        embeds,
+      }));
       if (file) data.append("file", file);
       if (!threadID) threadID = undefined;
       const resp = await axios({

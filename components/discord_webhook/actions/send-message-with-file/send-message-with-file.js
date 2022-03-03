@@ -1,39 +1,22 @@
-const discordWebhook = require("../../discord_webhook.app.js");
+const common = require("../send-message-common");
 const axios = require("axios");
 const fs = require("fs");
 
 module.exports = {
+  ...common,
   key: "discord_webhook-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
   version: "0.0.1",
   type: "action",
   props: {
-    discordWebhook,
+    ...common.props,
     message: {
       propDefinition: [
-        discordWebhook,
+        common.props.discordWebhook,
         "message",
       ],
       optional: true,
-    },
-    threadID: {
-      propDefinition: [
-        discordWebhook,
-        "threadID",
-      ],
-    },
-    username: {
-      propDefinition: [
-        discordWebhook,
-        "username",
-      ],
-    },
-    avatarURL: {
-      propDefinition: [
-        discordWebhook,
-        "avatarURL",
-      ],
     },
     fileUrl: {
       type: "string",
@@ -58,6 +41,7 @@ module.exports = {
       username,
       fileUrl,
       filePath,
+      includeSendMessageViaPipedreamFlag,
     } = this;
 
     if (!fileUrl && !filePath) {
@@ -72,6 +56,14 @@ module.exports = {
       })).data
       : fs.createReadStream(filePath);
 
+    let embeds;
+    if (includeSendMessageViaPipedreamFlag) {
+      embeds = [
+        ...(embeds ?? []),
+        this.makeSentViaPipedreamEmbed(),
+      ];
+    }
+
     // No interesting data is returned from Discord
     const resp = await this.discordWebhook.sendMessageWithFile({
       content,
@@ -79,6 +71,7 @@ module.exports = {
       threadID,
       username,
       file,
+      embeds,
     });
 
     $.export("$summary", "Message sent successfully");
