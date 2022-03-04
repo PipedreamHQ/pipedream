@@ -22,17 +22,30 @@ export default {
       optional: true,
       default: "pending",
     },
+    productStatus: {
+      type: "string",
+      label: "Status",
+      description: "Product status. Options: draft, pending, private and publish. Default is publish",
+      options: [
+        "draft",
+        "pending",
+        "private",
+        "publish",
+      ],
+      optional: true,
+      default: "publish",
+    },
     role: {
       type: "string",
       label: "Role",
       description: "Limit result set to resources with a specific role",
       options: [
-        "all", 
-        "administrator", 
-        "editor", 
-        "author", 
-        "contributor", 
-        "subscriber", 
+        "all",
+        "administrator",
+        "editor",
+        "author",
+        "contributor",
+        "subscriber",
         "customer",
         "shop_manager",
       ],
@@ -58,12 +71,56 @@ export default {
       optional: true,
       default: 20,
     },
+    productName: {
+      type: "string",
+      label: "Name",
+      description: "Name of the new product",
+    },
+    productType: {
+      type: "string",
+      label: "Type",
+      description: "Product type. Options: simple, grouped, external and variable. Default is simple",
+      options: [
+        "simple",
+        "grouped",
+        "external",
+        "variable",
+      ],
+      optional: true,
+      default: "simple",
+    },
+    regularPrice: {
+      type: "string",
+      label: "Regular Price",
+      description: "Product regular price",
+      optional: true,
+    },
+    salePrice: {
+      type: "string",
+      label: "Sale Price",
+      description: "Product sale price",
+      optional: true,
+    },
+    productDescription: {
+      type: "string",
+      label: "Description",
+      description: "Description of the new product",
+      optional: true,
+    },
+    productImage: {
+      type: "string",
+      label: "Image URL",
+      description: "URL of image to add to new product",
+      optional: true,
+    },
     customer: {
       type: "integer",
       label: "Customer",
       description: "User ID who owns the order. 0 for guests",
       async options({ page }) {
-        const customers = await this.listCustomers({ page: page + 1 });
+        const customers = await this.listCustomers({
+          page: page + 1,
+        });
         return customers.map((customer) => ({
           label: customer.username,
           value: customer.id,
@@ -96,6 +153,19 @@ export default {
       withLabel: true,
       reloadProps: true,
     },
+    productCategories: {
+      type: "string[]",
+      label: "Categories",
+      description: "Categories to add new product to",
+      async options({ page }) {
+        const categories = await this.listCategories(page + 1);
+        return categories.map((category) => ({
+          label: category.name,
+          value: category.id,
+        }));
+      },
+      optional: true,
+    },
   },
   methods: {
     async getClient() {
@@ -125,8 +195,14 @@ export default {
     async listProducts(page) {
       return this.listResources(`products?page=${page}`);
     },
+    async listCategories(page) {
+      return this.listResources(`products/categories?page=${page}`);
+    },
     async createOrder(data) {
       return this.postResource("orders", data);
+    },
+    async createProduct(data) {
+      return this.postResource("products", data);
     },
   },
 };
