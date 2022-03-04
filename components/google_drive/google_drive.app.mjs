@@ -619,18 +619,6 @@ export default {
       };
     },
     /**
-     * Creates a new file in a drive
-     *
-     * @param {object} [opts = {}] - an object containing parameters to be fed to the GDrive
-     * API call as defined in [the API docs](https://developers.google.com/drive/api/v3/reference/files/create)
-     *
-     * @returns a files resource
-     */
-    async createFile(opts = {}) {
-      const drive = this.drive();
-      return (await drive.files.create(opts)).data;
-    },
-    /**
      * This method yields comments made to a particular GDrive file. It is a
      * wrapper around [the `drive.comments.list` API](https://bit.ly/2UjYajv)
      * but defined as a generator to enable lazy loading of multiple pages.
@@ -933,7 +921,7 @@ export default {
       return (await drive.files.list(listOpts)).data.files;
     },
     /**
-     * Create a file in a drive with params generated using `opts`
+     * Create a file in a drive
      *
      * @param {object} [opts={}] - an object representing configuration options
      * used to create a file
@@ -943,6 +931,8 @@ export default {
      * @param {string} [opts.name] - the name of the file to create
      * @param {string} [opts.parentId] - the ID value of the parent folder to
      * create the file in
+     * @param {string} [opts.driveId] - the ID value of a Google Drive to create
+     * the file in if `parentId` is undefined
      * @param {string} [opts.fields] - the paths of the fields to include in the
      * response
      * @param {string} [opts.supportsAllDrives=true] - whether the requesting
@@ -954,18 +944,20 @@ export default {
      * the GDrive API call, as defined in [the API docs](https://bit.ly/2VY0MVg)
      * @returns the created file
      */
-    async createFileFromOpts(opts = {}) {
+    async createFile(opts = {}) {
       const {
         file,
         mimeType,
         name,
         parentId,
+        driveId,
         fields,
         supportsAllDrives = true,
         requestBody,
         ...extraParams
       } = opts;
       const drive = this.drive();
+      const parent = parentId ?? driveId;
       return (
         await drive.files.create({
           fields,
@@ -979,11 +971,12 @@ export default {
           requestBody: {
             name,
             mimeType,
-            parents: parentId
+            parents: parent
               ? [
-                parentId,
+                parent,
               ]
               : undefined,
+            ...extraParams.resource,
             ...requestBody,
           },
           ...extraParams,
@@ -1011,7 +1004,7 @@ export default {
         fields = "*",
         ...extraParams
       } = opts;
-      return await this.createFileFromOpts({
+      return await this.createFile({
         name,
         parentId,
         fields,

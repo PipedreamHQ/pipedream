@@ -25,7 +25,7 @@ export default {
         }),
       ],
       description:
-        "The folder you want to add the file to. If not specified, the file will be placed directly in the user's My Drive folder.",
+        "The folder you want to add the file to. If not specified, the folder will be placed directly in the drive's top-level folder.",
       optional: true,
     },
     name: {
@@ -53,11 +53,13 @@ export default {
     const file = Readable.from([
       content,
     ]);
-    const resp = await this.googleDrive.createFileFromOpts({
+    const driveId = this.googleDrive.getDriveId(this.drive);
+    const resp = await this.googleDrive.createFile({
       mimeType: "text/plain",
       file,
       name,
       parentId,
+      driveId,
     });
     $.export("$summary", `Successfully created a new file, "${resp.name}"`);
     return resp;

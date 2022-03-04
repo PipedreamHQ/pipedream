@@ -27,7 +27,7 @@ export default {
         }),
       ],
       description:
-        "The folder you want to upload the file to. If not specified, the file will be placed directly in the user's My Drive folder.",
+        "The folder you want to upload the file to. If not specified, the folder will be placed directly in the drive's top-level folder.",
       optional: true,
     },
     fileUrl: {
@@ -70,16 +70,18 @@ export default {
     if (!fileUrl && !filePath) {
       throw new Error("One of File URL and File Path is required.");
     }
+    const driveId = this.googleDrive.getDriveId(this.drive);
     const file = await getFileStream({
       $,
       fileUrl,
       filePath,
     });
-    const resp = await this.googleDrive.createFileFromOpts(omitEmptyStringValues({
+    const resp = await this.googleDrive.createFile(omitEmptyStringValues({
       file,
       mimeType,
       name: name || path.basename(fileUrl || filePath),
       parentId,
+      driveId,
     }));
     $.export("$summary", `Successfully uploaded a new file, "${resp.name}"`);
     return resp;
