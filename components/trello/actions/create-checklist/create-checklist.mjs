@@ -1,4 +1,3 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
@@ -54,50 +53,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const constraints = {};
-    if (this.name) {
-      constraints.name = {
-        length: {
-          minimum: 1,
-          maximum: 16384,
-        },
-      };
-    }
-    if (this.pos) {
-      const posValidationMesssage =
-      "contains invalid values. Valid values are: `top`, `bottom`, or a positive float.";
-      if (validate.isNumber(this.pos)) {
-        constraints.pos = {
-          numericality: {
-            greaterThanOrEqualTo: 0,
-          },
-          message: posValidationMesssage,
-        };
-      } else if (validate.isString(this.pos)) {
-        const options = [
-          "top",
-          "bottom",
-        ];
-        validate.validators.posStringValidator = function (
-          posString,
-          options,
-        ) {
-          return options.includes(posString) ?
-            null :
-            posValidationMesssage;
-        };
-        constraints.pos = {
-          posStringValidator: options,
-        };
-      }
-    }
     const opts = {
+      idCard: this.idCard,
       name: this.name,
       pos: this.pos,
+      idChecklistSource: this.idChecklistSource,
     };
-    const validationResult = validate(opts,
-      constraints);
-    this.checkValidationResults(validationResult);
     const res = await this.trello.createChecklist(opts, $);
     $.export("$summary", `Successfully created checklist ${res.name}`);
     return res;

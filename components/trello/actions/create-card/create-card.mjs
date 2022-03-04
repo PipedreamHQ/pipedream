@@ -1,4 +1,3 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
@@ -93,7 +92,7 @@ export default {
         "url",
       ],
       optional: true,
-    }
+    },
     fileSource: {
       type: "string",
       label: "File Attachment Contents",
@@ -172,69 +171,6 @@ export default {
       locationName,
       coordinates,
     } = this;
-    const constraints = {};
-    if (pos) {
-      const posValidationMesssage = "Contains invalid values. Valid values are: `top`, `bottom`, or a positive float.";
-      if (validate.isNumber(pos)) {
-        constraints.pos = {
-          numericality: {
-            greaterThanOrEqualTo: 0,
-          },
-          message: posValidationMesssage,
-        };
-      } else if (validate.isString(pos)) {
-        const options = [
-          "top",
-          "bottom",
-        ];
-        validate.validators.posStringValidator = function (
-          posString,
-          options,
-        ) {
-          return options.includes(posString) ?
-            null :
-            posValidationMesssage;
-        };
-        constraints.pos = {
-          posStringValidator: options,
-        };
-      }
-    }
-    if (due) {
-      constraints.due = {
-        type: "date",
-      };
-    }
-    if (urlSource) {
-      constraints.urlSource = {
-        url: true,
-      };
-    }
-    if (coordinates) {
-      constraints.coordinates = {
-        format: {
-          pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$",
-          message: function (value) {
-            return validate.format(
-              "^%{id} doesn't use a valid `latitud, longitud` format.",
-              {
-                id: value,
-              },
-            );
-          },
-        },
-      };
-    }
-    const validationResult = validate(
-      {
-        pos,
-        due,
-        urlSource,
-        coordinates,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     const res = await this.trello.createCard({
       name,
       desc,
@@ -248,7 +184,7 @@ export default {
       fileSource,
       mimeType,
       idCardSource,
-      keepFromSource,
+      keepFromSource: keepFromSource ? keepFromSource.join(",") : undefined,
       address,
       locationName,
       coordinates,

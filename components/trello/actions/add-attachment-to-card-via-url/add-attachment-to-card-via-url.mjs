@@ -1,4 +1,3 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
@@ -50,7 +49,7 @@ export default {
     setCover: {
       type: "boolean",
       label: "Set Cover?",
-      description: "Determines whether to use the new attachment as a cover for the Card.",
+      description: "Determines whether to use the new attachment as a cover for the Card",
       default: false,
     },
   },
@@ -62,35 +61,6 @@ export default {
       mimeType,
       setCover,
     } = this;
-    const constraints = {};
-    if (name) {
-      constraints.name = {
-        length: {
-          maximum: 256,
-        },
-      };
-    }
-    if (url) {
-      constraints.urlSource = {
-        url: true,
-      };
-    }
-    if (this.mimeType) {
-      constraints.mimeType = {
-        length: {
-          maximum: 256,
-        },
-      };
-    }
-    const validationResult = validate(
-      {
-        name,
-        url,
-        mimeType,
-      },
-      constraints,
-    );
-    this.checkValidationResults(validationResult);
     const res = await this.trello.addAttachmentToCardViaUrl(idCard, {
       name,
       url,

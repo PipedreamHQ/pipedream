@@ -1,7 +1,7 @@
 const { axios } = require("@pipedream/platform");
 const crypto = require("crypto");
-const events = require("./events.js");
-const fields = require("./fields.js");
+const events = require("./common/events.js");
+const fields = require("./common/fields.js");
 const mime = require("mime");
 
 module.exports = {
@@ -36,7 +36,7 @@ module.exports = {
       },
     },
     boardFields: {
-      type: "string",
+      type: "string[]",
       label: "Boards Fields",
       description: "`all` or a comma-separated list of board [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#board-object)",
       options: fields.board,
@@ -147,8 +147,8 @@ module.exports = {
     },
     mimeType: {
       type: "string",
-      label: "Mime Type",
-      description: "The mimeType of the attachment. Not required for URL attachments",
+      label: "File Attachment Type",
+      description: "Not required for URL attachment",
       optional: true,
       options() {
         return Object.values(mime._types);
@@ -162,8 +162,8 @@ module.exports = {
     },
     url: {
       type: "string",
-      label: "File URL",
-      description: "A URL to a file you'd like to attach. Must start with http:// or https://.",
+      label: "File Attachment URL",
+      description: "URL must start with `http://` or `https://`",
     },
     desc: {
       type: "string",
@@ -174,7 +174,11 @@ module.exports = {
     pos: {
       type: "string",
       label: "Position",
-      description: "The position of the new card. Valid values: `top`, `bottom`, or a positive float",
+      description: "The position of the new card, can be `top`, `bottom`, or a positive number",
+      options: [
+        "top",
+        "bottom",
+      ],
       optional: true,
     },
     due: {
@@ -219,10 +223,13 @@ module.exports = {
     listFilter: {
       type: "string",
       label: "List Filter",
-      description: "Filter to apply to Lists. Valid values: `all`, `closed`, `none`, `open`.",
-      options() {
-        return this.getFilterOptions();
-      },
+      description: "Type of list to search for",
+      options: [
+        "all",
+        "closed",
+        "none",
+        "open",
+      ],
       default: "all",
     },
   },
@@ -266,7 +273,7 @@ module.exports = {
     /**
      * Archives a card.
      *
-     * @param {string}  idCard the ID of the Card to archive.
+     * @param {string} idCard - the ID of the Card to archive.
      * @returns an updated card object with `closed` (archived) property set to true.
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
@@ -284,8 +291,8 @@ module.exports = {
     /**
      * Adds an existing label to the specified card.
      *
-     * @param {string}  idCard the ID of the Card to move.
-     * @param {string}  params.value the ID of the Label that will be added to the Card.
+     * @param {string} idCard - the ID of the Card to move.
+     * @param {Object} params - an object containing parameters for the API request
      * @returns {array} an string array with the ID of all the Card's Labels.
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
@@ -301,8 +308,8 @@ module.exports = {
     /**
      * Adds an existing label to the specified card.
      *
-     * @param {string}  idCard the ID of the Card to move.
-     * @param {string}  params.value the ID of the Label that will be added to the Card.
+     * @param {string} idCard - the ID of the Card to move.
+     * @param {Object} params - an object containing parameters for the API request
      * @returns {array} an string array with the ID of all the Card's Labels.
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
@@ -318,8 +325,8 @@ module.exports = {
     /**
      * Adds an existing label to the specified card.
      *
-     * @param {string}  idCard the ID of the Card to move.
-     * @param {string}  params.value the ID of the Label that will be added to the Card.
+     * @param {string} idCard - the ID of the Card to move.
+     * @param {Object} params - an object containing parameters for the API request
      * @returns {array} an string array with the ID of all the Card's Labels.
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
@@ -335,11 +342,7 @@ module.exports = {
     /**
      * Creates a checklist on the specified card.
      *
-     * @param {string}  params.idCard the ID of the Card that the checklist should be
-     * greated on.
-     * @param {string}  params.name name for the checklist to create.
-     * @param {string}  params.pos the position of the new checklist.
-     * @param {string}  params.idChecklistSource ID of a checklist to copy into the new checklist.
+     * @param {Object} params - an object containing parameters for the API request
      * @returns an object with the created checklist.
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post
@@ -355,8 +358,8 @@ module.exports = {
     /**
      * Creates a comment on a card.
      *
-     * @param {string}  idCard the ID of the Card that the comment should be created on.
-     * @param {string}  params.text the text for the comment.
+     * @param {string} idCard - the ID of the Card that the comment should be created on.
+     * @param {Object} params - an object containing parameters for the API request
      * @returns a object containing a summary of the related card, members, and other Trello
      * entities related to the newly created comment.
      * See more at the API docs:
@@ -375,7 +378,7 @@ module.exports = {
     /**
      * Closes a board.
      *
-     * @param {string}  opts.boardId the ID of the Board to close.
+     * @param {string} boardId - the ID of the Board to close.
      * @returns the updated board object with the `closed` property set to true.
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-put
@@ -393,19 +396,7 @@ module.exports = {
     /**
      * Creates a new card.
      *
-     * @param {string}  opts.name the name of the card.
-     * @param {string}  opts.desc the description for the card.
-     * @param {string}  opts.pos the position of the new card.
-     * @param {string}  opts.due the due date for the card.
-     * @param {boolean}  opts.dueComplete flag that indicates if `dueDate` expired.
-     * @param {string}  opts.idList the ID of the list the card should be created in.
-     * @param {array}  opts.idMembers array of member IDs to add to the card.
-     * @param {array}  opts.idLabels array of label IDs to add to the card.
-     * @param {string}  opts.urlSource a URL starting with `http://` or `https://`."
-     * @param {string}  opts.fileSource format: `binary`.
-     * @param {string}  opts.mimeType the mimeType of the attachment. Max length 256.
-     * @param {string}  opts.idCardSource the ID of a card to copy into the new card.
-     * @param {string}  opts.keepFromSource if using `idCardSource`, specifies properties to copy.
+     * @param {Object} opts - an object containing data for the API request
      * @returns the created card object. See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
      */
@@ -420,7 +411,7 @@ module.exports = {
     /**
      * Deletes the specified checklist.
      *
-     * @param {string}  idChecklist the ID of the checklist to delete.
+     * @param {string} idChecklist - the ID of the checklist to delete.
      * @returns {object} an empty `limits` object indicating the operation completed successfully.
      */
     async deleteChecklist(idChecklist, $) {
@@ -433,8 +424,8 @@ module.exports = {
     /**
      * Finds a label on a specific board.
      *
-     * @param {string}  boardId unique identifier of the board to search for labels.
-     * @param {string}  params.limit the number of labels to be returned.
+     * @param {string} boardId - unique identifier of the board to search for labels.
+     * @param {Object} params - an object containing parameters for the API request
      * @returns {array} an array with label objects complying with the specified parameters.
      */
     async findLabel(boardId, params, $) {
@@ -447,13 +438,8 @@ module.exports = {
     /**
      * Finds a list in the specified board.
      *
-     * @param {string}  boardId unique identifier of the board to search for lists.
-     * @param {string}  params.cards filter to apply to cards. valid values: `all`, `closed`,
-     * `none`, `open`.
-     * @param {string}  params.card_fields `all` or a comma-separated list of card [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#card-object).`,
-     * `none`, `open`.
-     * @param {string}  params.filter filter to apply to lists. valid values: `all`, `closed`,
-     * `none`, `open`.
+     * @param {string} - boardId unique identifier of the board to search for lists.
+     * @param {Object} params - an object containing parameters for the API request
      * @returns {array} an array with list objects conforming with the specified parameters.
      */
     async findList(boardId, params, $) {
@@ -473,9 +459,8 @@ module.exports = {
     /**
      * Moves a card to the specified board/list pair.
      *
-     * @param {string}  idCard the ID of the Card to move.
-     * @param {string}  data.idBoard the ID of the board the card should be moved to.
-     * @param {string}  data.idList the ID of the list that the card should be moved to.
+     * @param {string} idCard the ID of the Card to move.
+     * @param {Object} params - an object containing parameters for the API request
      * @returns an updated card object set to the specified board and list ids.
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
@@ -509,7 +494,7 @@ module.exports = {
     /**
      * Gets details of a card.
      *
-     * @param {string} id the ID of the card to get details of.
+     * @param {string} id - the ID of the card to get details of.
      * @returns  {object} a card object. See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
      */
@@ -571,8 +556,8 @@ module.exports = {
     /**
      * Removes an existing label from the specified card.
      *
-     * @param {string}  idCard the ID of the Card to remove the Label from.
-     * @param {string}  idLabel the ID of the Label to be removed from the card.
+     * @param {string} idCard - the ID of the Card to remove the Label from.
+     * @param {string} idLabel - the ID of the Label to be removed from the card.
      * @returns {object} an object with the null valued property `_value` indicating that
      * there were no errors
      */
@@ -586,8 +571,8 @@ module.exports = {
     /**
      * Renames the specified list
      *
-     * @param {string}  listId the ID of the List to rename.
-     * @param {string}  opts.name the new name of the list.
+     * @param {string} listId - the ID of the List to rename.
+     * @param {Object} data - an object containing data for the API request
      * @returns {object} a list object with the `closed` property, indicated if the list is
      * closed or archived, `id` the id of the renamed List, `idBoard` the id of the Board parent
      * to the List, `name` with the new name of the List, and `pos` with the position of the List
@@ -604,28 +589,7 @@ module.exports = {
     /**
      * Searches for members, cards, boards, and/or organizations matching the specified query.
      *
-     * @param {string}  params.query the search query with a length of 1 to 16384 characters.
-     * @param {string}  params.idBoards the special value `mine` or a comma-separated list of Board
-     *  IDs where cards will be searched in.
-     * @param {string}  params.idOrganizations an string array of Organizations IDs where cards will
-     * be searched in.
-     * @param {boolean}  params.idCards an string array of Cards IDs. search will be done on
-     * these cards.
-     * @param {string}  params.cardFields `all` or a comma separated list of card fields to return
-     * in each card object.`
-     * @param {array}  params.cardsLimit the maximum number of cards to return.
-     * @param {array}  params.cardsPage the page of results for cards.
-     * @param {string}  params.cardBoard flag for including of parent board with card results.
-     * @param {string}  params.cardList flag for including the parent list with card results.
-     * @param {string}  params.cardMembers flag for including member objects with card results.
-     * @param {string}  params.cardStickers flag for including sticker objects with card results.
-     * @param {string}  params.cardAttachments flag for including attachment objects with card
-     * results. a boolean value (`true` or `false`) or `cover` for only card cover attachment.
-     * @param {string}  params.partial specifying partial to be true means that Trello will search
-     * for content that starts with any of the words in `query`. when searching for a card titled
-     * \"My Development Status Report\", by default a solution is to search for "Development". If
-     * partial is enabled, searching for \"dev\" is possible, however a search for \"velopment\"
-     * is not possible.
+     * @param {Object} params - an object containing parameters for the API request
      * @returns {cards: array, options: object} an array with the `cards` objects matching the
      * specified `query`, and an object with the `options` for the search, such as `modelTypes` (in
      * this case "cards"), `partial` the search `terms` as included in `query`, and other
@@ -641,28 +605,7 @@ module.exports = {
     /**
      * Searches for boards matching the specified query.
      *
-     * @param {string}  params.query the search query with a length of 1 to 16384 characters.
-     * @param {string}  params.idBoards the special value `mine` or a comma-separated list of Board
-     *  IDs where cards will be searched in.
-     * @param {string}  params.idOrganizations an string array of Organizations IDs where cards will
-     * be searched in.
-     * @param {boolean}  params.idCards an string array of Cards IDs. search will be done on
-     * these cards.
-     * @param {string}  params.cardFields `all` or a comma separated list of card fields to return
-     * in each card object.`
-     * @param {array}  params.cardsLimit the maximum number of cards to return.
-     * @param {array}  params.cardsPage the page of results for cards.
-     * @param {string}  params.cardBoard flag for including of parent board with card results.
-     * @param {string}  params.cardList flag for including the parent list with card results.
-     * @param {string}  params.cardMembers flag for including member objects with card results.
-     * @param {string}  params.cardStickers flag for including sticker objects with card results.
-     * @param {string}  params.cardAttachments flag for including attachment objects with card
-     * results. a boolean value (`true` or `false`) or `cover` for only card cover attachment.
-     * @param {string}  params.partial specifying partial to be true means that Trello will search
-     * for content that starts with any of the words in `query`. when searching for a card titled
-     * \"My Development Status Report\", by default a solution is to search for "Development". If
-     * partial is enabled, searching for \"dev\" is possible, however a search for \"velopment\"
-     * is not possible.
+     * @param {Object} opts - an object containing data for the API request
      * @returns {cards: array, options: object} an array with the `cards` objects matching the
      * specified `query`, and an object with the `options` for the search, such as `modelTypes` (in
      * this case "cards"), `partial` the search `terms` as included in `query`, and other
@@ -680,28 +623,7 @@ module.exports = {
     /**
      * Searches for cards matching the specified query.
      *
-     * @param {string}  params.query the search query with a length of 1 to 16384 characters.
-     * @param {string}  params.idBoards the special value `mine` or a comma-separated list of Board
-     *  IDs where cards will be searched in.
-     * @param {string}  params.idOrganizations an string array of Organizations IDs where cards will
-     * be searched in.
-     * @param {boolean}  params.idCards an string array of Cards IDs. search will be done on
-     * these cards.
-     * @param {string}  params.cardFields `all` or a comma separated list of card fields to return
-     * in each card object.`
-     * @param {array}  params.cardsLimit the maximum number of cards to return.
-     * @param {array}  params.cardsPage the page of results for cards.
-     * @param {string}  params.cardBoard flag for including of parent board with card results.
-     * @param {string}  params.cardList flag for including the parent list with card results.
-     * @param {string}  params.cardMembers flag for including member objects with card results.
-     * @param {string}  params.cardStickers flag for including sticker objects with card results.
-     * @param {string}  params.cardAttachments flag for including attachment objects with card
-     * results. a boolean value (`true` or `false`) or `cover` for only card cover attachment.
-     * @param {string}  params.partial specifying partial to be true means that Trello will search
-     * for content that starts with any of the words in `query`. when searching for a card titled
-     * \"My Development Status Report\", by default a solution is to search for "Development". If
-     * partial is enabled, searching for \"dev\" is possible, however a search for \"velopment\"
-     * is not possible.
+     * @param {Object} opts - an object containing data for the API request
      * @returns {cards: array, options: object} an array with the `cards` objects matching the
      * specified `query`, and an object with the `options` for the search, such as `modelTypes` (in
      * this case "cards"), `partial` the search `terms` as included in `query`, and other
@@ -722,19 +644,8 @@ module.exports = {
     /**
      * Updates a card.
      *
-     * @param {string}  params.name the name of the card.
-     * @param {string}  params.desc the description for the card.
-     * @param {string}  params.pos the position of the new card.
-     * @param {string}  params.due the due date for the card.
-     * @param {boolean}  params.dueComplete flag that indicates if `dueDate` expired.
-     * @param {string}  params.idList the ID of the list the card should be created in.
-     * @param {array}  params.idMembers array of member IDs to add to the card.
-     * @param {array}  params.idLabels array of label IDs to add to the card.
-     * @param {string}  params.urlSource a URL starting with `http://` or `https://`."
-     * @param {string}  params.fileSource format: `binary`.
-     * @param {string}  params.mimeType the mimeType of the attachment. Max length 256.
-     * @param {string}  params.idCardSource the ID of a card to copy into the new card.
-     * @param {string}  params.keepFromSource if using `idCardSource`, specifies properties to
+     * @param {string} idCard - the ID of the card to update
+     * @param {Object} params - an object containing parameters for the API request
      * @returns the updated card object. See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post
      */
@@ -746,14 +657,6 @@ module.exports = {
         params,
       };
       return this._makeRequest(config, $);
-    },
-    getFilterOptions() {
-      return [
-        "all",
-        "closed",
-        "none",
-        "open",
-      ];
     },
     async listMembers(board) {
       const config = {

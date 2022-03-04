@@ -1,4 +1,3 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
@@ -28,32 +27,18 @@ export default {
     },
     labelLimit: {
       type: "integer",
-      label: "Label Limit",
-      description: "The number of labels to be returned.",
+      label: "Results",
+      description: "The number of labels to be returned (up to 1000)",
       default: 50,
     },
   },
   async run({ $ }) {
-    const constraints = {
-      labelLimit: {
-        type: "integer",
-        numericality: {
-          greaterThanOrEqualTo: 0,
-          lessThanOrEqualTo: 1000,
-          message: "must be a positive integer greater than or equal to 0, and less than or equal to 1000.",
-        },
-      },
-    };
-    const validationResult = validate({
-      labelLimit: this.labelLimit,
-    }, constraints);
-    this.checkValidationResults(validationResult);
     const opts = {
       limit: this.labelLimit,
     };
     const labels = await this.trello.findLabel(this.board, opts, $);
     const res = this.getMatches(labels, this.name);
-    $.export("$summary", `Successfully retrieved labels with name ${this.name}`);
+    $.export("$summary", `Successfully retrieved ${res.length} label(s) with name ${this.name}`);
     return res;
   },
 };

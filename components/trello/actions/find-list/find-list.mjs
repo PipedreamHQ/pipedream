@@ -1,4 +1,3 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
@@ -15,7 +14,7 @@ export default {
         common.props.trello,
         "board",
       ],
-      description: "Unique identifier of the board to search for lists",
+      description: "Specify the board to search for lists",
     },
     name: {
       propDefinition: [
@@ -25,18 +24,6 @@ export default {
       label: "List Name",
       description: "Name of the list to find.",
       optional: false,
-    },
-    cardFilter: {
-      propDefinition: [
-        common.props.trello,
-        "cardFilter",
-      ],
-    },
-    cardFields: {
-      propDefinition: [
-        common.props.trello,
-        "cardFields",
-      ],
     },
     listFilter: {
       propDefinition: [
@@ -49,41 +36,14 @@ export default {
     const {
       board,
       name,
-      cardFilter,
-      cardFields,
       listFilter,
     } = this;
-    const constraints = {};
-    const self = this;
-    const filterOptsValidationMesssage = "must be one of `all`, `closed`, `none`, or `open`";
-    validate.validators.filterOptsValidator = function (option) {
-      return self.trello.getFilterOptions().includes(option) ?
-        null :
-        filterOptsValidationMesssage;
-    };
-    if (cardFilter) {
-      constraints.cardFilter = {
-        filterOptsValidator: cardFilter,
-      };
-    }
-    if (listFilter) {
-      constraints.listFilter = {
-        filterOptsValidator: listFilter,
-      };
-    }
-    const validationResult = validate({
-      cardFilter,
-      listFilter,
-    }, constraints);
-    this.checkValidationResults(validationResult);
     const opts = {
-      cards: cardFilter,
-      card_fields: cardFields,
       filter: listFilter,
     };
-    const lists = await this.trello.findList(this.board, opts, $);
-    const res = this.getMatches(lists, this.name);
-    $.export("$summary", `Successfully retrieved lists with name ${this.name}`);
+    const lists = await this.trello.findList(board, opts, $);
+    const res = this.getMatches(lists, name);
+    $.export("$summary", `Successfully retrieved ${res.length} list(s) with name ${name}`);
     return res;
   },
 };

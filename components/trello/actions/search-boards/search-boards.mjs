@@ -1,4 +1,3 @@
-import validate from "validate.js";
 import common from "../common.js";
 
 export default {
@@ -16,21 +15,12 @@ export default {
         "query",
       ],
     },
-    idBoards: {
-      propDefinition: [
-        common.props.trello,
-        "board",
-      ],
-      type: "string[]",
-      label: "Boards",
-      description: "Board IDs where cards will be searched in",
-    },
     idOrganizations: {
       propDefinition: [
         common.props.trello,
         "idOrganizations",
       ],
-      description: "An string array of Organizations IDs where boards will be searched in.",
+      description: "Specify the organizations to search for boards in",
     },
     partial: {
       propDefinition: [
@@ -52,38 +42,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const constraints = {
-      query: {
-        length: {
-          minimum: 1,
-          maximum: 16384,
-        },
-      },
-      boardsLimit: {
-        type: "integer",
-        numericality: {
-          greaterThanOrEqualTo: 1,
-          lessThanOrEqualTo: 1000,
-          message: "must be a positive integer greater than or equal to 1, and less than or equal to 1000.",
-        },
-      },
-    };
-    const validationResult = validate({
-      query: this.query,
-      boardsLimit: this.boardsLimit,
-    }, constraints);
-    this.checkValidationResults(validationResult);
     const opts = {
       query: this.query,
-      idBoards: this.idBoards,
       idOrganizations: this.idOrganizations,
       modelTypes: "boards",
-      board_fields: this.boardFields,
+      board_fields: this.boardFields.join(","),
       boards_limit: this.boardsLimit,
       partial: this.partial,
     };
-    const res = await this.trello.searchBoards(opts, $);
-    $.export("$summary", "Successfully retrieved results");
-    return res;
+    const { boards } = await this.trello.searchBoards(opts, $);
+    $.export("$summary", `Successfully retrieved ${boards.length} board(s)`);
+    return boards;
   },
 };

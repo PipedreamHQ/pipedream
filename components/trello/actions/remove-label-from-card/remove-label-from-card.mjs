@@ -1,10 +1,10 @@
-import common from "../common";
+import common from "../common.js";
 
 export default {
   ...common,
-  key: "trello-add-remove-label-from-card",
-  name: "Remove a Label from a Card",
-  description: "Removes an existing label from the specified card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-idlabel-delete)",
+  key: "trello-remove-label-from-card",
+  name: "Remove Card Label",
+  description: "Removes label from card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-idlabel-delete)",
   version: "0.1.2",
   type: "action",
   props: {
@@ -43,7 +43,7 @@ export default {
     const res = await this.trello.removeLabelFromCard(this.idCard,
       this.idLabel,
       $);
-    $.export("$summary", `Successfully removed label ${this.idLabel} to list ${this.idCard}`);
+    $.export("$summary", `Successfully removed label ${this.idLabel} from list ${this.idCard}`);
     return res;
   },
 };

@@ -2,9 +2,9 @@ import common from "../common.js";
 
 export default {
   ...common,
-  key: "trello-list-rename",
-  name: "List Rename",
-  description: "Renames the specified list. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-put)",
+  key: "trello-rename-list",
+  name: "Rename List",
+  description: "Renames an existing list. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-put)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -29,7 +29,7 @@ export default {
       optional: false,
     },
     name: {
-      propDefiniton: [
+      propDefinition: [
         common.props.trello,
         "name",
       ],
