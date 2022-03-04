@@ -117,7 +117,7 @@ defineComponent({
 1. The `event` from the trigger step is still available, but exposed in `steps.trigger.event` instead.
 2. The `$` variable has been passed into the `run` function where your code is executed.
 
-You can think of the `$` as the entry point to built in Pipedream functions. In v1, this special functions included `$end`, `$respond`, etc. In v2, these have been remapped to `$.flow.end` and `$.respond` respectively. 
+You can think of the `$` as the entry point to built in Pipedream functions. In v1, this special functions included `$end`, `$respond`, etc. In v2, these have been remapped to `$.flow.exit` and `$.respond` respectively. 
 
 These changes unify workflow development to the [Component API](/components/) used by pre-built actions and also allows the [defining of props](#params-vs-props) from within your code steps.
 

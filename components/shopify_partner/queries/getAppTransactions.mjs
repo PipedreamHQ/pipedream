@@ -36,6 +36,12 @@ export default gql`
               amount
               currencyCode
             }
+            shop {
+              avatarUrl
+              id
+              name
+              myshopifyDomain
+            }
           }
           ... on AppUsageSale {
             app {
@@ -46,6 +52,12 @@ export default gql`
               amount
               currencyCode
             }
+            shop {
+              avatarUrl
+              id
+              name
+              myshopifyDomain
+            }
           }
           ... on AppOneTimeSale {
             app {
@@ -55,6 +67,12 @@ export default gql`
             netAmount {
               amount
               currencyCode
+            }
+            shop {
+              avatarUrl
+              id
+              name
+              myshopifyDomain
             }
           }
         }
