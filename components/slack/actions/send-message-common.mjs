@@ -43,7 +43,6 @@ export default {
       const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
       const traceId = process.env.PIPEDREAM_TRACE_ID;
       return `https://pipedream.com/@/${workflowId}/inspect/${traceId}?origin=action&a=slack`;
-
     },
     _makeSentViaPipedreamBlock() {
       const workflowUrl = this._getWorkflowUrl();
