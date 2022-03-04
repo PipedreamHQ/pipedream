@@ -12,6 +12,11 @@ const PACKAGE_OPTIONS = [
   "PX11",
 ];
 
+const FORMAT_OPTIONS = [
+    "json",
+    "xml",
+  ];
+
 /*const LANGUAGE_OPTIONS = [
     "ar",
     "cs",
@@ -39,4 +44,5 @@ const PACKAGE_OPTIONS = [
 
 export default {
   PACKAGE_OPTIONS,
+  FORMAT_OPTIONS,
 };

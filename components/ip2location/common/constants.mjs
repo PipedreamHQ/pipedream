@@ -61,8 +61,14 @@ const ADDON_OPTIONS = [
     "time_zone_info",
   ];
 
+const FORMAT_OPTIONS = [
+      "json",
+      "xml",
+    ];
+
 export default {
   PACKAGE_OPTIONS,
   LANGUAGE_OPTIONS,
   ADDON_OPTIONS,
+  FORMAT_OPTIONS,
 };

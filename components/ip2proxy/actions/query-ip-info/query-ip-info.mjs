@@ -15,14 +15,15 @@ export default {
       description: "IP address (IPv4 or IPv6) for reverse IP location lookup purposes.",
     },
     pxPackage: {
-      type: "string",
+      type: "string[]",
       label: "Package",
       options: constants.PACKAGE_OPTIONS,
-      description: "Web service package of different granularity of return information. Please refer to the pricing table in our [documentation](https://www.ip2location.com/web-service/ip2proxy) for the information returned. Valid value: `PX1` | `PX2` | `PX3` | `PX4` | `PX5` | `PX6` | `PX7` | `PX8` | `PX9` | `PX10` | `PX11`.",
+      description: "Web service package of different granularity of return information. Please refer to the pricing table in our [documentation](https://www.ip2location.com/web-service/ip2proxy) for the information returned.",
     },
     format: {
-      type: "string",
+      type: "string[]",
       label: "Response Format",
+      options: constants.FORMAT_OPTIONS,
       description: "Format of the response message. Available values are `json` or `xml`. If unspecified, json format will be used for the response message.",
       optional: true,
     },
