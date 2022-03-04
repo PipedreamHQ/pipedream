@@ -4,20 +4,24 @@ export default {
   name: "WHOIS lookup",
   description: "Helps users to obtain domain information, WHOIS record, by using a domain name. Please refer to the [documentation](https://ip2whois.com/developers-api) for the details of the fields returned.",
   key: "ip2whois-query-domain-info",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     ip2whoisApp,
     domain: {
       type: "string",
       label: "Domain name",
-      description: "Domain name.",
     },
     format: {
       type: "string",
       label: "Response Format",
-      description: "Format of the response message. Available values are `json` or `xml`. If unspecified, json format will be used for the response message.",
+      description: "Format of the response message. If unspecified, `json` format will be used for the response message.",
       optional: true,
+      options: [
+        "json",
+        "xml",
+      ],
+      default: "json",
     },
   },
   async run({ $ }) {

@@ -15,7 +15,7 @@ export default {
       const config = {
         url: "https://api.ip2whois.com/v2/",
         params: {
-          key: `${this.ip2whois_api_key.$auth.api_key}`,
+          key: `${this.$auth.api_key}`,
           ...params,
         },
       };
