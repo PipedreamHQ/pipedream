@@ -13,19 +13,8 @@ export default {
     },
   },
   methods: {
-    fraudValidation() {
-      return new fraudlabspro.FraudValidation(this.$auth.api_key);
-    },
     smsVerification() {
       return new fraudlabspro.SMSVerification(this.$auth.api_key);
-    },
-    async feedbackOrder(params) {
-      const promise = promisify(this.fraudValidation().feedback);
-      return promise(params);
-    },
-    async screenOrder(params) {
-      const promise = promisify(this.fraudValidation().validate);
-      return promise(params);
     },
     async sendSmsVerification(params) {
       const promise = promisify(this.smsVerification().sendSMS);
