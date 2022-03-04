@@ -14,6 +14,9 @@ export default {
         },
       });
     },
+    _monitorsApi() {
+      return new v1.MonitorsApi(this._v1Config());
+    },
     _metricsApi() {
       return new v1.MetricsApi(this._v1Config());
     },
@@ -36,18 +39,6 @@ export default {
         ? `${basePath}/${name}`
         : basePath;
       return `${baseUrl}${path}`;
-    },
-    _monitorsUrl(id) {
-      const baseUrl = this._baseUrl();
-      const basePath = "/monitor";
-      const path = id
-        ? `${basePath}/${id}`
-        : basePath;
-      return `${baseUrl}${path}`;
-    },
-    _monitorsSearchUrl() {
-      const baseUrl = this._baseUrl();
-      return `${baseUrl}/monitor/search`;
     },
     _makeRequestConfig() {
       const apiKey = this._apiKey();
@@ -72,19 +63,17 @@ export default {
       return headers[this._webhookSecretKeyHeader()] === secretKey;
     },
     async _getMonitor(monitorId) {
-      const apiUrl = this._monitorsUrl(monitorId);
-      const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.get(apiUrl, requestConfig);
-      return data;
+      return this._monitorsApi().getMonitor({
+        monitorId,
+      });
     },
     async _editMonitor(monitorId, monitorChanges) {
-      const apiUrl = this._monitorsUrl(monitorId);
-      const requestConfig = this._makeRequestConfig();
-      await axios.put(apiUrl, monitorChanges, requestConfig);
+      await this._monitorsApi().updateMonitor({
+        monitorId,
+        body: monitorChanges,
+      });
     },
     async *_searchMonitors(query) {
-      const apiUrl = this._monitorsSearchUrl();
-      const baseRequestConfig = this._makeRequestConfig();
       let page = 0;
       let pageCount;
       let perPage;
@@ -93,37 +82,23 @@ export default {
           page,
           query,
         };
-        const requestConfig = {
-          ...baseRequestConfig,
-          params,
-        };
-        const { data } = await axios.get(apiUrl, requestConfig);
         const {
           monitors,
           metadata,
-        } = data;
+        } = await this._monitorsApi().searchMonitors(params);
         for (const monitor of monitors) {
           yield monitor;
         }
-
         ++page;
-        pageCount = metadata.page_count;
-        perPage = metadata.per_page;
+        pageCount = metadata.pageCount;
+        perPage = metadata.perPage;
       } while (pageCount === perPage);
     },
     async listMonitors(page, pageSize) {
-      const apiUrl = this._monitorsUrl();
-      const baseRequestConfig = this._makeRequestConfig();
-      const params = {
+      return this._monitorsApi().listMonitors({
         page,
-        page_size: pageSize,
-      };
-      const requestConfig = {
-        ...baseRequestConfig,
-        params,
-      };
-      const { data } = await axios.get(apiUrl, requestConfig);
-      return data;
+        pageSize,
+      });
     },
     async createWebhook(
       url,
