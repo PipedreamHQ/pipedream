@@ -52,6 +52,16 @@ export default {
       optional: true,
       default: "customer",
     },
+    topics: {
+      type: "string[]",
+      label: "Event topics",
+      description: "Types of events to watch for",
+      options: [
+        "created",
+        "updated",
+        "deleted",
+      ],
+    },
     search: {
       type: "string",
       label: "Search",
@@ -184,6 +194,13 @@ export default {
     async postResource(endpoint, data) {
       const client = await this.getClient();
       return JSON.parse((await client.postAsync(endpoint, data)).body);
+    },
+    async createWebhook(data) {
+      return this.postResource("webhooks", data);
+    },
+    async deleteWebhook(id) {
+      const client = await this.getClient();
+      return JSON.parse((await client.deleteAsync(`webhooks/${id}`)).body);
     },
     async listCustomers(params) {
       const q = querystring.stringify(params);
