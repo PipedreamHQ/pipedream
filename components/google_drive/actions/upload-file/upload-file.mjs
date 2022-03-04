@@ -27,7 +27,7 @@ export default {
         }),
       ],
       description:
-        "The folder you want to upload the file to. If not specified, the folder will be placed directly in the drive's top-level folder.",
+        "The folder you want to upload the file to. If not specified, the file will be placed directly in the drive's top-level folder.",
       optional: true,
     },
     fileUrl: {

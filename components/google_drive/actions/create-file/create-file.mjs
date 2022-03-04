@@ -27,7 +27,7 @@ export default {
       ],
       label: "Parent Folder",
       description: toSingleLineString(`
-        The ID of the parent folder which contains the file. If not specified, the folder will be
+        The ID of the parent folder which contains the file. If not specified, the file will be
         placed directly in the drive's top-level folder.
     `),
       optional: true,
