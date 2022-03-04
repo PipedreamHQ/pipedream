@@ -39,22 +39,22 @@ export default {
     },
   },
   methods: {
-    _getWorkflowId() {
-      return process.env.PIPEDREAM_WORKFLOW_ID;
-    },
-    _getTraceId() {
-      return process.env.PIPEDREAM_TRACE_ID;
+    _getWorkflowUrl() {
+      const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
+      const traceId = process.env.PIPEDREAM_TRACE_ID;
+      return `https://pipedream.com/@/${workflowId}/inspect/${traceId}?origin=action&a=slack`;
+
     },
     _makeSentViaPipedreamBlock() {
-      const workflowId = this._getWorkflowId();
-      const traceId = this._getTraceId();
-      const link = `https://pipedream.com/@/${workflowId}/inspect/${traceId}?origin=action&a=slack`;
+      const workflowUrl = this._getWorkflowUrl();
       return {
         "type": "context",
         "elements": [
           {
             "type": "mrkdwn",
-            "text": `Sent via <${link}|Pipedream>`,
+            // The label is a URL without a protocol to prevent link unfurling. See
+            // https://api.slack.com/reference/messaging/link-unfurling#classic_unfurl
+            "text": `Sent via <${workflowUrl}|pipedream.com>`,
           },
         ],
       };

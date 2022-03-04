@@ -46,7 +46,7 @@ export default {
     },
     getSentViaPipedreamText() {
       const link = this._getWorkflowUrl();
-      return `Sent via [Pipedream](<${link}>)`;
+      return `Sent via [pipedream.com](<${link}>)`;
     },
   },
 };
