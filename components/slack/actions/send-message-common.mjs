@@ -39,22 +39,17 @@ export default {
     },
   },
   methods: {
-    _getWorkflowId() {
-      return process.env.PIPEDREAM_WORKFLOW_ID;
-    },
-    _getTraceId() {
-      return process.env.PIPEDREAM_TRACE_ID;
-    },
     _makeSentViaPipedreamBlock() {
-      const workflowId = this._getWorkflowId();
-      const traceId = this._getTraceId();
-      const link = `https://pipedream.com/@/${workflowId}/inspect/${traceId}?origin=action&a=slack`;
+      const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
+      // The link is a URL without a protocol to prevent link unfurling. See
+      // https://api.slack.com/reference/messaging/link-unfurling#classic_unfurl
+      const link = `pipedream.com/@/${workflowId}?o=a&a=slack`;
       return {
         "type": "context",
         "elements": [
           {
             "type": "mrkdwn",
-            "text": `Sent via <${link}|Pipedream>`,
+            "text": `Sent via ${link}`,
           },
         ],
       };

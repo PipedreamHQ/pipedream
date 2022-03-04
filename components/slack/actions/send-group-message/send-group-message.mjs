@@ -5,7 +5,7 @@ export default {
   key: "slack-send-group-message",
   name: "Send Group Message",
   description: "Send a direct message to a group of users",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     ...common.props,

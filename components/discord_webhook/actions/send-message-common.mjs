@@ -39,14 +39,13 @@ export default {
     },
   },
   methods: {
-    _getWorkflowUrl() {
-      const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
-      const traceId = process.env.PIPEDREAM_TRACE_ID;
-      return `https://pipedream.com/@/${workflowId}/inspect/${traceId}?origin=action&a=discord_webhook`;
-    },
     getSentViaPipedreamText() {
-      const link = this._getWorkflowUrl();
-      return `Sent via [Pipedream](<${link}>)`;
+      const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
+      // The link text is a URL without a protocol for consistency with the "Send via link" text in
+      // Slack messages
+      const linkText = `pipedream.com/@/${workflowId}?o=a&a=discord_webhook`;
+      const link = `https://${linkText}`;
+      return `Sent via [${linkText}](<${link}>)`;
     },
   },
 };
