@@ -28,9 +28,6 @@ export default {
         "fileId",
         (c) => ({
           drive: c.drive,
-          baseOpts: {
-            q: "'me' in owners",
-          },
         }),
       ],
       optional: false,
