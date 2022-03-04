@@ -15,20 +15,20 @@ export default {
       description: "IP address (IPv4 or IPv6) for reverse IP location lookup purposes.",
     },
     wsPackage: {
-      type: "string[]",
+      type: "string",
       label: "Package",
       options: constants.PACKAGE_OPTIONS,
       description: "Web service package of different granularity of return information. Please refer to the pricing table in our [documentation](https://www.ip2location.com/web-service/ip2location) for the information returned.",
     },
     format: {
-      type: "string[]",
+      type: "string",
       label: "Response Format",
       options: constants.FORMAT_OPTIONS,
       description: "Format of the response message. Available values are `json` or `xml`. If unspecified, json format will be used for the response message.",
       optional: true,
     },
     language: {
-      type: "string[]",
+      type: "string",
       label: "Translation Language",
       options: constants.LANGUAGE_OPTIONS,
       description: "Translation information. The translation is only applicable for continent, country, region and city name for the **addon** package.",
@@ -50,6 +50,10 @@ export default {
       wsPackage,
       addon,
     } = this;
+    var addon_formatted = '';
+    for (let i = 0; i < addon.length; i++) {
+      addon_formatted += addon[i] + ",";
+    }
     const response =
       await this.ip2locationApp.queryIPInfo({
         $,
@@ -58,7 +62,7 @@ export default {
           language: language ?? "en",
           ip: ipAddress,
           package: wsPackage,
-          addon: addon ?? "",
+          addon: addon_formatted ?? "",
         },
       });
     $.export("$summary", "Successfully queried IP address information with IP2Location API.");
