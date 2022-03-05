@@ -35,7 +35,7 @@ export default {
       return response;
     } catch (error) {
       console.log("Error: ", error);
-      $.export("summary", `Failed to post video URL`);
+      $.export("summary", "Failed to post video URL");
     }
   },
 };
