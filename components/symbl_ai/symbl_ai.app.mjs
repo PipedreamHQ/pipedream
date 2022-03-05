@@ -27,7 +27,7 @@ export default {
         ...otherConfig,
       };
 
-      return axios($, config);
+      return axios($ || this, config);
     },
     async postVideoUrl({
       $,
