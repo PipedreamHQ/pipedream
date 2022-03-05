@@ -3,7 +3,7 @@ import symblAIApp from "../../symbl_ai.app.mjs";
 export default {
   key: "symbl_ai-post-video-url",
   name: "Submit Video URL",
-  description: "Submit a Video by providing the URL for processing",
+  description: "Submit a Video by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url)",
   version: "0.0.2",
   type: "action",
   props: {

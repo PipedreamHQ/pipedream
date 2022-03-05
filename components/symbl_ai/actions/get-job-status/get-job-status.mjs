@@ -3,7 +3,7 @@ import symblAIApp from "../../symbl_ai.app.mjs";
 export default {
   key: "symbl_ai-get-job-status",
   name: "Get Job Status",
-  description: "Get the status of an Async job request",
+  description: "Get the status of an Async job request. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/jobs-api#http-request)",
   version: "0.0.1",
   type: "action",
   props: {
