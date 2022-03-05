@@ -42,7 +42,6 @@ export default {
     },
     async getJobStatus(jobId) {
       return this.makeRequest({
-        method: "get",
         path: "/job/" + jobId,
       });
     },
