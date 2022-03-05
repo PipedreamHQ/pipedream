@@ -4,7 +4,7 @@ export default {
   key: "symbl_ai-get-job-status",
   name: "Get Job Status",
   description: "Get the status of an Async job request",
-  version: "0.0.22",
+  version: "0.0.1",
   type: "action",
   props: {
     symblAIApp,
