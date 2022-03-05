@@ -40,8 +40,12 @@ export default {
         data,
       });
     },
-    async getJobStatus(jobId) {
+    async getJobStatus({
+      $,
+      jobId,
+    }) {
       return this.makeRequest({
+        $,
         path: `/job/${jobId}`,
       });
     },

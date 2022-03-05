@@ -18,7 +18,10 @@ export default {
   async run({ $ }) {
     try {
       const response =
-              await this.symblAIApp.getJobStatus(this.jobId);
+              await this.symblAIApp.getJobStatus({
+                $,
+                jobId: this.jobId
+              });
       $.export("$summary", `Job status: ${response.status}`);
       return response;
     } catch (error) {
