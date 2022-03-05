@@ -20,7 +20,7 @@ export default {
       const response =
               await this.symblAIApp.getJobStatus({
                 $,
-                jobId: this.jobId
+                jobId: this.jobId,
               });
       $.export("$summary", `Job status: ${response.status}`);
       return response;
