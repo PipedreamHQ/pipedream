@@ -42,7 +42,7 @@ export default {
     },
     async getJobStatus(jobId) {
       return this.makeRequest({
-        path: "/job/" + jobId,
+        path: `/job/${jobId}`,
       });
     },
   },
