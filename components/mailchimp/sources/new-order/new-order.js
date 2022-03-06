@@ -37,11 +37,11 @@ module.exports = {
       async options({ page }) {
         const count = 1000;
         const offset = 1000 * page;
-        const customersResults =  await this.mailchimp.getAllStoreCustomers(
-          this.storeId,
+        const config = {
           count,
           offset,
-        );
+        };
+        const customersResults =  await this.mailchimp.getAllStoreCustomers(this.storeId, config);
         return customersResults.customers.map((customer) => ({
           label: `${customer.first_name} ${customer.last_name}`,
           value: customer.id,
@@ -70,11 +70,11 @@ module.exports = {
       async options({ page }) {
         const count = 1000;
         const offset = 1000 * page;
-        const cfg = {
+        const config = {
           count,
           offset,
         };
-        const outreachResults =  await this.mailchimp.getAllFacebookAds(cfg);
+        const outreachResults =  await this.mailchimp.getAllFacebookAds(config);
         return outreachResults.facebook_ads.map((outreach) => ({
           label: outreach.name,
           value: outreach.id,
@@ -85,14 +85,17 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
+      const config = {
+        count: 10,
+        offset: 0,
+        campaignId: this.campaignId,
+        outreachId: this.outreachId,
+        customerId: this.customerId,
+        hasOutreach: this.hasOutreach,
+      };
       const mailchimpOrdersInfo = await this.mailchimp.getAllOrders(
         this.storeId,
-        10,
-        0,
-        this.campaignId,
-        this.outreachId,
-        this.customerId,
-        this.hasOutreach,
+        config,
       );
       const { orders: mailchimpOrders = [] } = mailchimpOrdersInfo;
       if (!mailchimpOrders.length) {
@@ -122,15 +125,15 @@ module.exports = {
     let mailchimpOrders;
     let offset = 0;
     do {
-      mailchimpOrdersInfo = await this.mailchimp.getAllOrders(
-        this.storeId,
-        1000,
+      const config = {
+        count: 1000,
         offset,
-        this.campaignId,
-        this.outreachId,
-        this.customerId,
-        this.hasOutreach,
-      );
+        campaignId: this.campaignId,
+        outreachId: this.outreachId,
+        customerId: this.customerId,
+        hasOutreach: this.hasOutreach,
+      };
+      mailchimpOrdersInfo = await this.mailchimp.getAllOrders(this.storeId, config);
       mailchimpOrders = mailchimpOrdersInfo.orders;
       if (!mailchimpOrders.length) {
         console.log("No data available, skipping iteration");

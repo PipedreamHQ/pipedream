@@ -28,18 +28,17 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      const fileType = [
-        "all",
-      ].includes(this.fileType)
-        ? null
-        : this.fileType;
-      const mailchimpFilesInfo = await this.mailchimp.getAllFiles(
-        10,
-        0,
-        fileType,
-        null,
-        null,
-      );
+      const fileType = this.fileType === "all" ?
+        null :
+        this.fileType;
+      const config = {
+        count: 10,
+        offset: 0,
+        type: fileType,
+        beforeCreatedAt: null,
+        sinceCreatedAt: null,
+      };
+      const mailchimpFilesInfo = await this.mailchimp.getAllFiles(config);
       const { files: mailchimpFiles = [] } = mailchimpFilesInfo;
       if (!mailchimpFiles.length) {
         console.log("No data available, skipping iteration");
@@ -67,22 +66,21 @@ module.exports = {
   async run() {
     const beforeCreatedAt = moment().toISOString();
     const sinceCreatedAt = this.db.get("lastCreatedAt");
-    const fileType = [
-      "all",
-    ].includes(this.fileType)
-      ? null
-      : this.fileType;
+    const fileType = this.fileType === "all" ?
+      null :
+      this.fileType;
     let mailchimpFilesInfo;
     let mailchimpFiles;
     let offset = 0;
+    const config = {
+      count: 1000,
+      type: fileType,
+      beforeCreatedAt,
+      sinceCreatedAt,
+    };
     do {
-      mailchimpFilesInfo = await this.mailchimp.getAllFiles(
-        1000,
-        offset,
-        fileType,
-        beforeCreatedAt,
-        sinceCreatedAt,
-      );
+      config.offset = offset;
+      mailchimpFilesInfo = await this.mailchimp.getAllFiles(config);
       mailchimpFiles = mailchimpFilesInfo.files;
       if (!mailchimpFiles.length) {
         console.log("No data available, skipping iteration");

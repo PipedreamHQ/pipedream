@@ -38,15 +38,18 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
+      const config = {
+        count: 10,
+        offset: 0,
+        includeTransactional: this.includeTransactional,
+        includeUnsubscribed: false,
+      };
       const mailchimpSegmentMembersInfo =
         await this.mailchimp.getSegmentMembersList(
           this.listId,
           this.segmentId,
-          10,
-          0,
-          this.includeTransactional,
+          config,
         );
-
       const { members: mailchimpSegmentMembers = [] } =
         mailchimpSegmentMembersInfo;
       if (!mailchimpSegmentMembers.length) {
@@ -75,13 +78,17 @@ module.exports = {
     let mailchimpSegmentMembersInfo;
     let mailchimpSegmentMembers;
     let offset = 0;
+    const config = {
+      count: 1000,
+      includeTransactional: this.includeTransactional,
+      includeUnsubscribed: false,
+    };
     do {
+      config.offset = offset;
       mailchimpSegmentMembersInfo = await this.mailchimp.getSegmentMembersList(
         this.listId,
         this.segmentId,
-        1000,
-        offset,
-        this.includeTransactional,
+        config,
       );
       mailchimpSegmentMembers = mailchimpSegmentMembersInfo.members;
       if (!mailchimpSegmentMembers.length) {

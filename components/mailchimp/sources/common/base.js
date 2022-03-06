@@ -25,6 +25,7 @@ module.exports = {
     },
   },
   async run(event) {
+    console.log("check about interval times on timer based sources of 60*15 seconds (15 minutes)");
     await this.processEvent(event);
   },
 };

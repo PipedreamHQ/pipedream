@@ -41,11 +41,14 @@ module.exports = {
     ...base.hooks,
     async activate() {
       const eventsCfg = this.getEventsConfig();
+      const config = {
+        url: this.http.endpoint,
+        events: eventsCfg.subscribedEvents,
+        sources: eventsCfg.eventSources,
+      };
       const webhook = await this.mailchimp.createWebhook(
         this.listId,
-        this.http.endpoint,
-        eventsCfg.subscribedEvents,
-        eventsCfg.eventSources,
+        config,
       );
       this.db.set("webhookId", webhook.id);
     },

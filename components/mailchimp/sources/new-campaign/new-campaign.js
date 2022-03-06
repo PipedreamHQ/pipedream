@@ -39,13 +39,12 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      const mailchimpCampaignsInfo = await this.mailchimp.getMailchimpCampaigns(
-        10,
-        0,
-        this.status,
-        null,
-        null,
-      );
+      const config = {
+        count: 10,
+        offset: 0,
+        status: this.status,
+      };
+      const mailchimpCampaignsInfo = await this.mailchimp.getMailchimpCampaigns(config);
       const { campaigns: mailchimpCampaigns = [] } = mailchimpCampaignsInfo;
       if (!mailchimpCampaigns.length) {
         console.log("No data available, skipping iteration");
@@ -82,14 +81,16 @@ module.exports = {
     let mailchimpCampaignsInfo;
     let mailchimpCampaigns;
     let offset = 0;
+    const config = {
+      count: 1000,
+      offset,
+      status: this.status,
+      beforeDate,
+    };
     do {
-      mailchimpCampaignsInfo = await this.mailchimp.getMailchimpCampaigns(
-        1000,
-        offset,
-        this.status,
-        beforeDate,
-        sinceDate,
-      );
+      config.sinceDate = sinceDate;
+      config.offset = offset;
+      mailchimpCampaignsInfo = await this.mailchimp.getMailchimpCampaigns(config);
       mailchimpCampaigns = mailchimpCampaignsInfo.campaigns;
       if (!mailchimpCampaigns.length) {
         console.log("No data available, skipping iteration");

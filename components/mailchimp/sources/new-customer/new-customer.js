@@ -23,12 +23,12 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
+      const config = {
+        count: 10,
+        offset: 0,
+      };
       const mailchimpStoreCustomersInfo =
-        await this.mailchimp.getAllStoreCustomers(
-          this.storeId,
-          10,
-          0,
-        );
+        await this.mailchimp.getAllStoreCustomers(this.storeId, config);
       const { customers: mailchimpStoreCustomers = [] } =
         mailchimpStoreCustomersInfo;
       if (!mailchimpStoreCustomers.length) {
@@ -57,12 +57,12 @@ module.exports = {
     let mailchimpStoreCustomersInfo;
     let mailchimpStoreCustomers;
     let offset = 0;
+    const config = {
+      count: 10,
+    };
     do {
-      mailchimpStoreCustomersInfo = await this.mailchimp.getAllStoreCustomers(
-        this.storeId,
-        1000,
-        offset,
-      );
+      config.offset = offset;
+      mailchimpStoreCustomersInfo = await this.mailchimp.getAllStoreCustomers(this.storeId, config);
       mailchimpStoreCustomers = mailchimpStoreCustomersInfo.customers;
       if (!mailchimpStoreCustomers.length) {
         console.log("No data available, skipping iteration");

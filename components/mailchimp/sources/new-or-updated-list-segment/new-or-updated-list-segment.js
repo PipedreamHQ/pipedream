@@ -40,16 +40,12 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
+      const config = {
+        count: 10,
+        offset: 0,
+      };
       const mailchimpAudienceSegmentsInfo =
-        await this.mailchimp.getAudienceSegments(
-          this.listId,
-          10,
-          0,
-          null,
-          null,
-          null,
-          null,
-        );
+        await this.mailchimp.getAudienceSegments(this.listId, config);
       const { segments: mailchimpAudienceSegments = [] } =
         mailchimpAudienceSegmentsInfo;
       if (!mailchimpAudienceSegments.length) {
@@ -107,16 +103,16 @@ module.exports = {
     let mailchimpAudienceSegmentsInfo;
     let mailchimpAudienceSegments;
     let offset = 0;
+    const config = {
+      count: 1000,
+      sinceCreatedAt,
+      beforeCreatedAt,
+      sinceUpdatedAt,
+      beforeUpdatedAt,
+    };
     do {
-      mailchimpAudienceSegmentsInfo = await this.mailchimp.getAudienceSegments(
-        this.listId,
-        1000,
-        offset,
-        sinceCreatedAt,
-        beforeCreatedAt,
-        sinceUpdatedAt,
-        beforeUpdatedAt,
-      );
+      config.offset = offset;
+      mailchimpAudienceSegmentsInfo = await this.mailchimp.getAudienceSegments(this.listId, config);
       mailchimpAudienceSegments = mailchimpAudienceSegmentsInfo.segments;
       if (!mailchimpAudienceSegments.length) {
         console.log("No data available, skipping iteration");

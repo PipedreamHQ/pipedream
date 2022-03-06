@@ -8,7 +8,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: 15 * 60, // by default, run every 15 minutes.
       },
     },
   },

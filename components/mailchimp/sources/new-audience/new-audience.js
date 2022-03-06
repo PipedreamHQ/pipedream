@@ -14,12 +14,10 @@ module.exports = {
     async deploy() {
       // Emits sample events on the first run during deploy.
       const mailchimpAudienceListsInfo =
-        await this.mailchimp.getMailchimpAudienceLists(
-          10,
-          0,
-          null,
-          null,
-        );
+        await this.mailchimp.getMailchimpAudienceLists({
+          beforeDateCreated: null,
+          sinceDateCreated: null,
+        });
       const { lists: mailchimpAudienceLists = [] } = mailchimpAudienceListsInfo;
       if (!mailchimpAudienceLists.length) {
         console.log("No data available, skipping iteration");
@@ -52,12 +50,12 @@ module.exports = {
     let offset = 0;
     do {
       mailchimpAudienceListsInfo =
-        await this.mailchimp.getMailchimpAudienceLists(
-          1000,
+        await this.mailchimp.getMailchimpAudienceLists({
+          count: 1000,
           offset,
           beforeDateCreated,
           sinceDateCreated,
-        );
+        });
       mailchimpAudienceLists = mailchimpAudienceListsInfo.lists;
       if (!mailchimpAudienceLists.length) {
         console.log("No data available, skipping iteration");
