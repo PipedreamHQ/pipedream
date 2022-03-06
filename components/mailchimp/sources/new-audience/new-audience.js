@@ -14,7 +14,7 @@ module.exports = {
     async deploy() {
       // Emits sample events on the first run during deploy.
       const mailchimpAudienceListsInfo =
-        await this.mailchimp.getMailchimpAudienceLists({
+        await this.mailchimp.getAudienceLists({
           beforeDateCreated: null,
           sinceDateCreated: null,
         });
@@ -50,7 +50,7 @@ module.exports = {
     let offset = 0;
     do {
       mailchimpAudienceListsInfo =
-        await this.mailchimp.getMailchimpAudienceLists({
+        await this.mailchimp.getAudienceLists({
           count: 1000,
           offset,
           beforeDateCreated,
@@ -63,7 +63,7 @@ module.exports = {
       }
       mailchimpAudienceLists.forEach(this.processEvent);
       this.db.set("lastDateCreated", mailchimpAudienceLists[0].date_created);
-      offset = offset + mailchimpAudienceLists.length;
+      offset += mailchimpAudienceLists.length;
     } while (mailchimpAudienceLists.length > 0);
   },
 };

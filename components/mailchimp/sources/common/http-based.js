@@ -50,17 +50,24 @@ module.exports = {
         this.listId,
         config,
       );
-      this.db.set("webhookId", webhook.id);
+      this._setWebhookId(webhook.id)
     },
     async deactivate() {
+      const webhookId = this._getWebhookId();
       await this.mailchimp.deleteWebhook(
         this.listId,
-        this.db.get("webhookId"),
+        webhookId,
       );
     },
   },
   methods: {
     ...base.methods,
+    _getWebhookId() {
+      return this.db.get("webhookId");
+    },
+    _setWebhookId(webhookId) {
+      this.db.set("webhookId", webhookId);
+    },    
     getEventName() {
       throw new Error("getEventName is not implemented");
     },

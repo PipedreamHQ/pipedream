@@ -23,16 +23,16 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      const mailchimpCampaign = await this.mailchimp.getMailchimpCampaignInfo(
+      const campaign = await this.mailchimp.getCampaignInfo(
         this.campaignId,
       );
 
-      if (!mailchimpCampaign) {
+      if (!campaign) {
         console.log("No data available, skipping iteration");
         return;
       }
-      this.db.set("recipientOpens", mailchimpCampaign.report_summary.opens);
-      this.processEvent(mailchimpCampaign);
+      this.db.set("recipientOpens", campaign.report_summary.opens);
+      this.processEvent(campaign);
     },
   },
   methods: {
@@ -52,19 +52,19 @@ module.exports = {
   },
   async run() {
     const savedRecipientOpens = parseInt(this.db.get("recipientOpens"));
-    const mailchimpCampaign = await this.mailchimp.getMailchimpCampaignInfo(
+    const campaign = await this.mailchimp.getCampaignInfo(
       this.campaignId,
     );
-    if (!mailchimpCampaign) {
+    if (!campaign) {
       console.log("No data available, skipping iteration");
       return;
     }
     const currentRecipientOpens = parseInt(
-      mailchimpCampaign.report_summary.opens,
+      campaign.report_summary.opens,
     );
     if (currentRecipientOpens > savedRecipientOpens) {
       this.db.set("recipientOpens", currentRecipientOpens);
-      this.processEvent(mailchimpCampaign);
+      this.processEvent(campaign);
     }
   },
 };

@@ -1,6 +1,5 @@
 const mailchimp = require("@mailchimp/mailchimp_marketing");
 const retry = require("async-retry");
-
 module.exports = {
   type: "app",
   app: "mailchimp",
@@ -14,7 +13,7 @@ module.exports = {
       async options({ page }) {
         const count = 1000;
         const offset = 1000 * page;
-        const audienceListResults =  await this.getMailchimpAudienceLists({
+        const audienceListResults =  await this.getAudienceLists({
           count,
           offset,
         });
@@ -32,7 +31,7 @@ module.exports = {
       async options({ page }) {
         const count = 1000;
         const offset = 1000 * page;
-        const campaignsResults =  await this.getMailchimpCampaigns({
+        const campaignsResults =  await this.getCampaigns({
           count,
           offset,
         });
@@ -108,7 +107,7 @@ module.exports = {
     _server() {
       return this.$auth.dc;
     },
-    _initMailchimpClient() {
+    api() {
       mailchimp.setConfig({
         accessToken: this._authToken(),
         server: this._server(),
@@ -156,7 +155,7 @@ module.exports = {
      * user, an audience subscriber, or via the API, the URL registered for the webhook event.
      */
     async createWebhook(listId, config) {
-      const mailchimp = this._initMailchimpClient();
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.lists.createListWebhook(listId, config));
     },
@@ -169,9 +168,21 @@ module.exports = {
      */
     async deleteWebhook(listId, webhookId) {
       const server = this._server();
-      const mailchimp = this._initMailchimpClient(server);
+      const mailchimp = this.api(server);
       return await this._withRetries(() =>
         mailchimp.lists.deleteListWebhook(listId, webhookId));
+    },
+    /**
+     * Gets a campaign's send or create time.
+     * @param {String} campaign - The campaign object to get its timestamp.
+     * @param {String} status - The status of the campaign. This is checked whether to return the
+     * created or sent timestamp. Defaults to "sent".
+     * @returns {} - This method returns an empty object.
+     */
+    getCampaignTimestamp(campaign, status = "sent") {
+      return status === "sent"
+        ? campaign.send_time
+        : campaign.create_time;
     },
     /**
      * Gets the audience lists under the connected Mailchimp acccount.
@@ -189,13 +200,13 @@ module.exports = {
      * quering this endpoint, and `_links` array of links for audience list manipulation through
      * the Mailchimp API.
      */
-    async getMailchimpAudienceLists(config) {
-      const mailchimp = this._initMailchimpClient();
+    async getAudienceLists(config) {
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.lists.getAllLists({
           ...config,
           sortField: "date_created",
-          sortDir: "DESC",
+          sortDir: "ASC",
         }));
     },
     /**
@@ -208,13 +219,11 @@ module.exports = {
      * the set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
      * @param {Date} sinceDate - Restrict response to marketing campaigns created or sent since the
      * set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-     * @returns {campaigns: array, total_items: integer, constraints: object, _links: object } An
-     * array with the information of the `campaigns` returned, `total_items` with the total count
-     * of the campaigns collection, `constraints` object with possible limitations when quering
-     * this endpoint, and `_links` array of links for campaigns manipulation through the Mailchimp
-     * API.
+     * @returns An anrray of campaign objects, each with all the details of a campaign. For details of a campaing object,
+     * expand [List Campaigns](https://mailchimp.com/developer/marketing/api/campaigns/list-campaigns/)
+     * and see the sample response at the Mailchimp Marketing API documentation.
      */
-    async getMailchimpCampaigns(config) {
+    async getCampaigns(config) {
       config.sortDir = "DESC";
       if (this._statusIsSent(config.status)) {
         config.beforeSendTime = config.beforeDate;
@@ -227,8 +236,9 @@ module.exports = {
       }
       delete config.beforeDate;
       delete config.sinceDate;
-      const mailchimp = this._initMailchimpClient();
-      return await this._withRetries(() => mailchimp.campaigns.list(config));
+      const mailchimp = this.api();
+      const { campaigns = [] } = await this._withRetries(() => mailchimp.campaigns.list(opts));
+      return campaigns;
     },
     /**
      * Gets the subscribers added to a given audience list segment or tag under the connected
@@ -248,7 +258,7 @@ module.exports = {
      * manipulation through the Mailchimp API.
      */
     async getSegmentMembersList(listId, segmentId, config) {
-      const mailchimp = this._initMailchimpClient();
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.lists.getSegmentMembersList(listId, segmentId, config));
     },
@@ -278,7 +288,7 @@ module.exports = {
      * collection, and `_links` array of links for customer manipulation through the Mailchimp API.
      */
     async getAllAudienceSegments(listId, config) {
-      const mailchimp = this._initMailchimpClient();
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.lists.listSegments(listId, config));
     },
@@ -303,7 +313,7 @@ module.exports = {
      * and `_links` a list of link types and descriptions for the API schema documents.
      */
     async getAllFacebookAds(config) {
-      const mailchimp = this._initMailchimpClient();
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.facebookAds.list(config));
     },
@@ -326,7 +336,7 @@ module.exports = {
      * collection, and `_links` array of links for file manipulation through the Mailchimp API.
      */
     async getAllFiles(config) {
-      const mailchimp = this._initMailchimpClient();
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.fileManager.files(config));
     },
@@ -344,7 +354,7 @@ module.exports = {
      * collection, and `_links` array of links for customer manipulation through the Mailchimp API.
      */
     async getAllStoreCustomers(storeId, config) {
-      const mailchimp = this._initMailchimpClient();
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.ecommerce.getAllStoreCustomers(storeId, config));
     },
@@ -364,7 +374,7 @@ module.exports = {
      * documents.
      */
     async getAllStores(config) {
-      const mailchimp = this._initMailchimpClient();
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.ecommerce.stores(config));
     },
@@ -405,7 +415,7 @@ module.exports = {
       config.hasOutreach = config.hasOutreach === "Both"
         ? null
         : config.hasOutreach;
-      const mailchimp = this._initMailchimpClient();
+      const mailchimp = this.api();
       if (storeId === "") {
         return await this._withRetries(() =>
           mailchimp.ecommerce.getStoreOrders(storeId, config));
@@ -415,10 +425,12 @@ module.exports = {
     /**
      * Gets details of a given campaign under the connected Mailchimp acccount.
      * @param {String} campaignId - The unique ID of the campaign you'd like to get details of.
-     * @returns An object with all the details of a campaign.
+     * @returns An object with all the details of a campaign. For details of a campaing object,
+     * expand [Get Campaign Info](https://mailchimp.com/developer/marketing/api/campaigns/get-campaign-info/)
+     * and see the sample response at the Mailchimp Marketing API documentation.
      */
-    async getMailchimpCampaignInfo(campaignId) {
-      const mailchimp = this._initMailchimpClient();
+    async getCampaignInfo(campaignId) {
+      const mailchimp = this.api();
       return await this._withRetries(() => mailchimp.campaigns.get(campaignId));
     },
     /**
@@ -454,7 +466,7 @@ module.exports = {
         delete config.sinceCreatedAt;
         delete config.beforeCreatedAt;
       }
-      const mailchimp = this._initMailchimpClient();
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.lists.listSegments(listId, config));
     },
