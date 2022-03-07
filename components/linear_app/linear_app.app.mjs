@@ -118,11 +118,14 @@ export default {
     },
   },
   methods: {
-    client({ options } = {}) {
-      return new LinearClient({
+    getClientOptions(options = {}) {
+      return {
         apiKey: this.$auth.api_key,
         ...options,
-      });
+      };
+    },
+    client(options = {}) {
+      return new LinearClient(this.getClientOptions(options));
     },
     async createWebhook(input) {
       return this.client().webhookCreate(input);
