@@ -4,7 +4,10 @@ const themeConfig = require("./configs/themeConfig");
 
 module.exports = {
   title: "",
-  head: [["link", { rel: "icon", href: "/favicon.ico" }]],
+  head: [
+    ["link", { rel: "icon", href: "/favicon.ico" }],
+    ['meta', { name: 'version', content: 'latest' }]
+  ],
   description: "Pipedream Documentation - Connect APIs, remarkably fast",
   base: "/docs/",
   plugins: [

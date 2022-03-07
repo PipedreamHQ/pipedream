@@ -5,7 +5,7 @@ export default {
   key: "frontapp-update-conversation",
   name: "Update Conversation",
   description: "Updates a conversation",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     frontapp: {
@@ -57,7 +57,8 @@ export default {
         : JSON.parse(this.tag_ids),
     };
 
-    $.export("effective_request_body", JSON.stringify(conversationData));
+    const effectiveRequestBody = JSON.stringify(conversationData);
+    $.export("effective_request_body", effectiveRequestBody);
 
     return await axios($, {
       method: "patch",
@@ -67,7 +68,7 @@ export default {
         "Content-Type": "application/json",
         "Accept": "application/json",
       },
-      data: this.effective_request_body,
+      data: effectiveRequestBody,
     });
   },
 };
