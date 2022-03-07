@@ -1,10 +1,11 @@
-const common = require("../../common");
+import common from "../../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "netlify-new-form-submission",
   name: "New Form Submission (Instant)",
-  description: "Emits an event when a user submits a form",
+  description: "Emit new event when a user submits a form",
+  type: "source",
   version: "0.0.1",
   dedupe: "unique",
   methods: {
@@ -13,8 +14,8 @@ module.exports = {
       return "submission_created";
     },
     getMetaSummary(data) {
-      const { form_name } = data;
-      return `New form submission for ${form_name}`;
+      const { form_name: formName } = data;
+      return `New form submission for ${formName}`;
     },
   },
 };

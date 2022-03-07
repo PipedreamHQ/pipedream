@@ -1,10 +1,13 @@
-const axios = require("axios");
-const crypto = require("crypto");
-const jwt = require('jwt-simple');
-const NetlifyAPI = require("netlify");
-const parseLinkHeader = require('parse-link-header');
+import axios from "axios";
+import {
+  randomBytes,
+  createHash,
+} from "crypto";
+import jwt from "jwt-simple";
+import { NetlifyAPI } from "netlify";
+import parseLinkHeader from "parse-link-header";
 
-module.exports = {
+export default {
   type: "app",
   app: "netlify",
   propDefinitions: {
@@ -20,9 +23,14 @@ module.exports = {
         const params = {
           per_page: 10,
         };
-        const { data, next } = await this._propDefinitionsOptions(url, params, context);
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url,
+          params,
+          context);
 
-        const options = data.map(site => ({
+        const options = data.map((site) => ({
           label: site.name,
           value: site.id,
         }));
@@ -56,8 +64,10 @@ module.exports = {
         headers,
       };
     },
-    async _propDefinitionsOptions(url, params, { page, prevContext }) {
-      let requestConfig = this._makeRequestConfig();  // Basic axios request config
+    async _propDefinitionsOptions(url, params, {
+      page, prevContext,
+    }) {
+      let requestConfig = this._makeRequestConfig(); // Basic axios request config
       if (page === 0) {
         // First time the options are being retrieved.
         // Include the parameters provided, which will be persisted
@@ -71,10 +81,16 @@ module.exports = {
         url = prevContext.nextPage.url;
       } else {
         // No more options available.
-        return { data: [] };
+        return {
+          data: [],
+        };
       }
 
-      const { data, headers } = await axios.get(url, requestConfig);
+      const {
+        data,
+        headers,
+      } = await axios.get(url,
+        requestConfig);
       // https://docs.netlify.com/api/get-started/#link-header
       const { next } = parseLinkHeader(headers.link);
 
@@ -84,7 +100,7 @@ module.exports = {
       };
     },
     generateToken() {
-      return crypto.randomBytes(32).toString("hex");
+      return randomBytes(32).toString("hex");
     },
     createClient() {
       const opts = {
@@ -118,7 +134,7 @@ module.exports = {
       const { id } = await netlifyClient.createHookBySiteId(requestParams);
       console.log(
         `Created "${event}" webhook for site ID ${siteId}.
-        (Hook ID: ${id}, endpoint: ${url})`
+        (Hook ID: ${id}, endpoint: ${url})`,
       );
 
       return {
@@ -127,7 +143,10 @@ module.exports = {
       };
     },
     async deleteHook(opts) {
-      const { hookId, siteId } = opts;
+      const {
+        hookId,
+        siteId,
+      } = opts;
       const requestParams = {
         hook_id: hookId,
       };
@@ -136,7 +155,7 @@ module.exports = {
       await netlifyClient.deleteHook(requestParams);
       console.log(
         `Deleted webhook for site ID ${siteId}.
-        (Hook ID: ${hookId})`
+        (Hook ID: ${hookId})`,
       );
     },
     isValidSource(headers, bodyRaw, db) {
@@ -145,10 +164,9 @@ module.exports = {
       const signature = headers["x-webhook-signature"];
       const token = db.get("token");
       const { sha256 } = jwt.decode(signature, token);
-      const encoded = crypto
-        .createHash('sha256')
+      const encoded = createHash("sha256")
         .update(bodyRaw)
-        .digest('hex');
+        .digest("hex");
       return sha256 === encoded;
     },
   },

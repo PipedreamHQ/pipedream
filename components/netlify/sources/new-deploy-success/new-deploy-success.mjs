@@ -1,10 +1,11 @@
-const common = require("../../common");
+import common from "../../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "netlify-new-deploy-success",
   name: "New Deploy Success (Instant)",
-  description: "Emits an event when a new deployment is completed",
+  description: "Emit new event when a new deployment is completed",
+  type: "source",
   version: "0.0.1",
   dedupe: "unique",
   methods: {
@@ -13,8 +14,8 @@ module.exports = {
       return "deploy_created";
     },
     getMetaSummary(data) {
-      const { commit_ref } = data;
-      return `Deploy succeeded for commit ${commit_ref}`;
+      const { commit_ref: commitRef } = data;
+      return `Deploy succeeded for commit ${commitRef}`;
     },
   },
 };
