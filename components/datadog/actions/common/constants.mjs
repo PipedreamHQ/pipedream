@@ -1,7 +1,9 @@
+const metricTypes = [
+  "count",
+  "gauge",
+  "rate",
+];
+
 export default {
-  metricTypes: [
-    "count",
-    "gauge",
-    "rate",
-  ],
+  metricTypes,
 };

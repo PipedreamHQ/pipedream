@@ -1,5 +1,4 @@
 import datadog from "../../datadog.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
   key: "datadog-post-metric-data",
@@ -9,40 +8,47 @@ export default {
   type: "action",
   props: {
     datadog,
+    host: {
+      propDefinition: [
+        datadog,
+        "host",
+      ],
+      optional: true,
+    },
     metric: {
-      type: "string",
-      label: "Metric",
-      description: "The name of the timeseries",
+      propDefinition: [
+        datadog,
+        "metric",
+        (c) => ({
+          host: c.host,
+        }),
+      ],
     },
     points: {
       type: "object",
       label: "Points",
       description: "Points relating to a metric. The `key` should be the an Unix timestamp in seconds and `value` should be the point value. Example: `{ \"1640995200\": 1.0 , \"1640998800\": 1.1, \"1641002400\": 1.2 }`. This field will be converted to the expected value for Datadog API",
     },
-    host: {
-      type: "string",
-      label: "Host",
-      description: "The name of the host that produced the metric",
-      optional: true,
-    },
     tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "A list of tags associated with the metric",
-      optional: true,
+      propDefinition: [
+        datadog,
+        "tags",
+        (c) => ({
+          hostName: c.host,
+        }),
+      ],
     },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The type of the metric",
-      options: constants.metricTypes,
-      optional: true,
+    metricType: {
+      propDefinition: [
+        datadog,
+        "metricType",
+      ],
       reloadProps: true,
     },
   },
   async additionalProps() {
     const props = {};
-    if (this.type === "rate" || this.type === "count") {
+    if (this.metricType === "rate" || this.metricType === "count") {
       props.interval = {
         type: "integer",
         label: "Interval",
@@ -66,7 +72,7 @@ export default {
     };
     if (this.host) params.host = this.host;
     if (this.tags) params.tags = this.tags;
-    if (this.type) params.type = this.type;
+    if (this.metricType) params.metricType = this.metricType;
     if (this.interval) params.interval = this.interval;
 
     const response = await this.datadog.postMetricData({

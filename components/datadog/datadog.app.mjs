@@ -1,9 +1,62 @@
 import { v1 } from "@datadog/datadog-api-client";
 import { v4 as uuid } from "uuid";
+import constants from "./actions/common/constants.mjs";
 
 export default {
   type: "app",
   app: "datadog",
+  propDefinitions: {
+    host: {
+      type: "string",
+      label: "Host",
+      description: "The name of the host that produced the metric",
+      async options({ prevContext }) {
+        const {
+          hostList,
+          totalReturned,
+        } = await this.listHosts({
+          start: prevContext.totalReturned ?? 0,
+        });
+        return {
+          options: hostList.map((host) => host.name),
+          context: {
+            totalReturned,
+          },
+        };
+      },
+    },
+    metric: {
+      type: "string",
+      label: "Metric",
+      description: "The name of the timeseries",
+      async options({ host }) {
+        const { metrics } = await this.listActiveMetrics({
+          from: 1,
+          host,
+        });
+        return metrics;
+      },
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "A list of tags associated with the metric",
+      optional: true,
+      async options({ hostName }) {
+        const { tags } = await this.listTags({
+          hostName,
+        });
+        return tags;
+      },
+    },
+    metricType: {
+      type: "string",
+      label: "Metric Type",
+      description: "The type of the metric",
+      optional: true,
+      options: constants.metricTypes,
+    },
+  },
   methods: {
     _v1Config() {
       return v1.createConfiguration({
@@ -18,6 +71,12 @@ export default {
     },
     _monitorsApi() {
       return new v1.MonitorsApi(this._v1Config());
+    },
+    _hostsApi() {
+      return new v1.HostsApi(this._v1Config());
+    },
+    _tagsApi() {
+      return new v1.TagsApi(this._v1Config());
     },
     _metricsApi() {
       return new v1.MetricsApi(this._v1Config());
@@ -135,6 +194,15 @@ export default {
         };
         await this._editMonitor(monitorId, monitorChanges);
       }
+    },
+    async listHosts() {
+      return this._hostsApi().listHosts();
+    },
+    async listTags(params) {
+      return this._tagsApi().getHostTags(params);
+    },
+    async listActiveMetrics(params) {
+      return this._metricsApi().listActiveMetrics(params);
     },
     async postMetricData(params) {
       return this._metricsApi().submitMetrics({
