@@ -3,7 +3,7 @@ import ultramsg from "../../ultramsg.app.mjs";
 export default {
   name: "Send an Audio",
   description: "Send an audio to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/audio)",
-  key: "ultramsg-send-an-audio",
+  key: "ultramsg-send-audio",
   version: "0.0.1",
   type: "action",
   props: {

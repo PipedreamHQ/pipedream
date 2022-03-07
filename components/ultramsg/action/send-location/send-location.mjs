@@ -3,8 +3,8 @@ import ultramsg from "../../ultramsg.app.mjs";
 export default {
   name: "Send a Location",
   description: "Send a location to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/location)",
-  key: "ultramsg-send-a-location",
-  version: "0.0.2",
+  key: "ultramsg-send-location",
+  version: "0.0.1",
   type: "action",
   props: {
     ultramsg,

@@ -1,9 +1,10 @@
 import ultramsg from "../../ultramsg.app.mjs";
+import options from "../../common/options.mjs";
 
 export default {
   name: "Send a Message",
   description: "Send a message to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/chat)",
-  key: "ultramsg-send-a-message",
+  key: "ultramsg-send-message",
   version: "0.0.1",
   type: "action",
   props: {
@@ -24,7 +25,7 @@ export default {
       label: "priority",
       description: "Priority on internal queue of your message",
       default: 10,
-      min: 0,
+      options: options.priorities,
     },
   },
   async run({ $ }) {

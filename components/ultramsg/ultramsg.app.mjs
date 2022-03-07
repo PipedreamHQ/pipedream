@@ -23,15 +23,10 @@ export default {
       };
     },
     _getAxiosConvertedData(data) {
-      const urlSearchParams = new URLSearchParams();
-      urlSearchParams.append("token", this.$auth.token);
-
-      const keys = Object.keys(data);
-      for (let i = 0; i < keys.length; i++) {
-        urlSearchParams.append(keys[i], data[keys[i]]);
-      }
-
-      return urlSearchParams;
+      return new URLSearchParams({
+        token: this.$auth.token,
+        ...data,
+      });
     },
     _getHeaders() {
       return {
