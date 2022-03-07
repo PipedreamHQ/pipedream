@@ -42,6 +42,36 @@ export default {
         };
       },
     },
+    deployId: {
+      type: "string",
+      label: "Deploy ID",
+      description: "The deploy for a specified site",
+      async options(context) {
+        // Manual query. See above
+        const { siteId } = context;
+        const url = this._deploysEndpoint(siteId);
+        const params = {
+          per_page: 10,
+        };
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url,
+          params,
+          context);
+
+        const options = data.map((deploy) => ({
+          label: `${deploy.name}-${deploy.id}`,
+          value: deploy.id,
+        }));
+        return {
+          options,
+          context: {
+            nextPage: next,
+          },
+        };
+      },
+    },
   },
   methods: {
     _apiUrl() {
@@ -50,6 +80,10 @@ export default {
     _sitesEndpoint() {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/sites`;
+    },
+    _deploysEndpoint(siteId) {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/sites/${siteId}/deploys`;
     },
     _authToken() {
       return this.$auth.oauth_access_token;
@@ -168,6 +202,27 @@ export default {
         .update(bodyRaw)
         .digest("hex");
       return sha256 === encoded;
+    },
+    async getSite(siteId) {
+      return this.createClient().getSite({
+        site_id: siteId,
+      });
+    },
+    async listSiteDeploys(siteId) {
+      return this.createClient().listSiteDeploys({
+        site_id: siteId,
+      });
+    },
+    async listFiles(siteId) {
+      return this.createClient().listSiteFiles({
+        site_id: siteId,
+      });
+    },
+    async rollbackDeploy(siteId, deployId) {
+      return this.createClient().restoreSiteDeploy({
+        site_id: siteId,
+        deploy_id: deployId,
+      });
     },
   },
 };
