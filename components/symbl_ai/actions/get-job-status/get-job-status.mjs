@@ -12,16 +12,14 @@ export default {
       type: "string",
       label: "Job Id",
       description: "The Id of the job request",
-      optional: false,
     },
   },
   async run({ $ }) {
     try {
-      const response =
-              await this.symblAIApp.getJobStatus({
-                $,
-                jobId: this.jobId,
-              });
+      const response = await this.symblAIApp.getJobStatus({
+        $,
+        jobId: this.jobId,
+      });
       $.export("$summary", `Job status: ${response.status}`);
       return response;
     } catch (error) {
