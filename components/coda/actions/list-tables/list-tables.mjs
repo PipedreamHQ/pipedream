@@ -58,8 +58,6 @@ export default {
     if (items.length > this.max) items.length = this.max;
 
     $.export("$summary", `Retrieved ${items.length} ${this.tableTypes}(s)`);
-    return {
-      items,
-    };
+    return items;
   },
 };

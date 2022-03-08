@@ -58,8 +58,6 @@ export default {
 
     $.export("$summary", `Retrieved ${items.length} column(s)`);
 
-    return {
-      items,
-    };
+    return items;
   },
 };

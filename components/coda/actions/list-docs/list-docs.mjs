@@ -91,8 +91,6 @@ export default {
 
     $.export("$summary", `Retrieved ${items.length} doc(s)`);
 
-    return {
-      items,
-    };
+    return items;
   },
 };
