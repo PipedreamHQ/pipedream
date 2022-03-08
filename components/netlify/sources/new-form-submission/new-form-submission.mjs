@@ -1,4 +1,5 @@
-import common from "../../common.mjs";
+import common from "../common/common.mjs";
+import { deployHooks } from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -11,7 +12,7 @@ export default {
   methods: {
     ...common.methods,
     getHookEvent() {
-      return "submission_created";
+      return deployHooks.SUBMISSION_CREATED;
     },
     getMetaSummary(data) {
       const { form_name: formName } = data;

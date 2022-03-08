@@ -1,4 +1,5 @@
-import common from "../../common.mjs";
+import common from "../common/common.mjs";
+import { deployHooks } from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -11,7 +12,7 @@ export default {
   methods: {
     ...common.methods,
     getHookEvent() {
-      return "deploy_building";
+      return deployHooks.DEPLOY_BUILDING;
     },
     getMetaSummary(data) {
       const { commit_ref: commitRef } = data;

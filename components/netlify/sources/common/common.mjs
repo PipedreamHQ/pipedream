@@ -1,4 +1,4 @@
-import netlify from "./netlify.app.mjs";
+import netlify from "../../netlify.app.mjs";
 
 export default {
   dedupe: "unique",
