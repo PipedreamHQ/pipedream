@@ -49,5 +49,14 @@ export default {
         path: `/job/${jobId}`,
       });
     },
+    async getSpeechToText({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/messages`,
+      });
+    },
   },
 };
