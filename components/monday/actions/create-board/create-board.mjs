@@ -33,17 +33,13 @@ export default {
         "workspaceId",
       ],
     },
-    templateId: {
-      propDefinition: [
-        monday,
-        "templateId",
-      ],
-    },
   },
   async run({ $ }) {
     const {
       boardName,
       boardKind,
+      folderId,
+      workspaceId,
     } = this;
 
     const {
@@ -55,9 +51,8 @@ export default {
       await this.monday.createBoard({
         boardName,
         boardKind,
-        folderId: utils.emptyStrToUndefined(this.folderId),
-        workspaceId: utils.emptyStrToUndefined(this.workspaceId),
-        templateId: utils.emptyStrToUndefined(this.templateId),
+        folderId: utils.emptyStrToUndefined(folderId),
+        workspaceId: utils.emptyStrToUndefined(workspaceId),
       });
 
     if (errors) {

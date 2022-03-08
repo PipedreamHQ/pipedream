@@ -46,13 +46,6 @@ export default {
         return this.listWorkspacesOptions();
       },
     },
-    templateId: {
-      type: "integer",
-      label: "Template ID",
-      description: "Board template ID",
-      optional: true,
-      options: constants.TEMPLATES,
-    },
     groupName: {
       type: "string",
       label: "Group Name",
