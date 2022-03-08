@@ -48,7 +48,7 @@ export default {
       async options({
         docId, tableId, prevContext,
       }) {
-        let counter = 0;
+        let { counter = 0 } = prevContext;
         const response = await this.findRow(this, docId, tableId, {
           pageToken: prevContext.nextPageToken,
           sortBy: "natural",
@@ -65,7 +65,10 @@ export default {
               label: `${counter++}: ${row.label}`,
               value: row.value,
             })),
-          context,
+          context: {
+            ...context,
+            counter,
+          },
         };
       },
     },
