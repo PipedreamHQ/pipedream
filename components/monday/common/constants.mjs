@@ -1,3 +1,5 @@
+import TEMPLATES from "./templates.mjs";
+
 const BOARD_KIND_OPTIONS = [
   {
     value: "public",
@@ -15,4 +17,5 @@ const BOARD_KIND_OPTIONS = [
 
 export default {
   BOARD_KIND_OPTIONS,
+  TEMPLATES,
 };

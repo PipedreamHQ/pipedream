@@ -49,6 +49,7 @@ export default {
     const {
       data,
       errors,
+      error_code: errorCode,
       error_message: errorMessage,
     } =
       await this.monday.createBoard({
@@ -64,7 +65,7 @@ export default {
     }
 
     if (errorMessage) {
-      throw new Error(`Failed to create board: ${errorMessage}`);
+      throw new Error(`Failed to create board [${errorCode}]: ${errorMessage}`);
     }
 
     const { id: boardId } = data.create_board;

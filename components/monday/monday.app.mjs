@@ -51,6 +51,7 @@ export default {
       label: "Template ID",
       description: "Board template ID",
       optional: true,
+      options: constants.TEMPLATES,
     },
     groupName: {
       type: "string",
