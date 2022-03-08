@@ -18,4 +18,5 @@ export default {
       return `New form submission for ${formName}`;
     },
   },
+  run: common.methods.run,
 };

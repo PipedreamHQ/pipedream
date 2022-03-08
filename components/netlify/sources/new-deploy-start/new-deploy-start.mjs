@@ -18,4 +18,5 @@ export default {
       return `Deploy started for commit ${commitRef}`;
     },
   },
+  run: common.methods.run,
 };
