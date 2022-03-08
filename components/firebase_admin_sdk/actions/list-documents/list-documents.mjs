@@ -1,24 +1,28 @@
-import firebase from "../../firebase_admin_sdk.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "firebase_admin_sdk-list-documents",
   name: "List Documents",
   description: "Lists documents in a collection. [See the docs here](https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html#listDocuments)",
-  //version: "0.0.1",
-  version: "0.0.28",
+  version: "0.0.1",
   type: "action",
   props: {
-    firebase,
+    ...common.props,
     collection: {
       propDefinition: [
-        firebase,
+        common.props.firebase,
         "collection",
       ],
     },
   },
-  async run({ $ }) {
-    const res = await this.firebase.listDocuments(this.collection);
-    $.export("$summary", `Successfully retrieved ${res.length} document(s)`);
-    return res;
+  methods: {
+    ...common.methods,
+    async getResponse() {
+      return this.firebase.listDocuments(this.collection);
+    },
+    emitSummary($, response) {
+      $.export("$summary", `Successfully retrieved ${response.length} document(s)`);
+    },
   },
 };

@@ -1,39 +1,38 @@
-import firebase from "../../firebase_admin_sdk.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "firebase_admin_sdk-create-realtime-db-record",
   name: "Create Firebase Realtime Database Record",
   description: "Creates or replaces a child object within your Firebase Realtime Database. [See the docs here](https://firebase.google.com/docs/reference/js/database#update)",
   version: "0.0.1",
   type: "action",
   props: {
-    firebase,
+    ...common.props,
     path: {
       propDefinition: [
-        firebase,
+        common.props.firebase,
         "path",
       ],
     },
     data: {
       propDefinition: [
-        firebase,
+        common.props.firebase,
         "data",
       ],
       description: "Multiple property-value pairs that will be written to the Database together",
     },
   },
-  async run({ $ }) {
-    try {
-      await this.firebase.initializeApp();
-      const record = this.firebase.getApp().database()
-        .ref(this.path);
-      await record.update(this.data);
+  methods: {
+    async getResponse() {
+      return this.firebase.createRealtimeDBRecord(this.path, this.data);
+    },
+    emitSummary($) {
       $.export("$summary", "Successfully created record");
-    } catch (err) {
-      throw new Error(err);
-    } finally {
+    },
+    async deleteApp() {
       this.firebase.deleteApp();
-      await new Promise(resolve => setTimeout(resolve, 5000));
-    }
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    },
   },
 };

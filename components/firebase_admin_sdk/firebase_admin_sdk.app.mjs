@@ -1,6 +1,7 @@
 import admin from "firebase-admin";
 import { axios } from "@pipedream/platform";
 import googleAuth from "google-auth-library";
+import { Firestore } from "@google-cloud/firestore";
 
 export default {
   type: "app",
@@ -21,8 +22,13 @@ export default {
       label: "Collection",
       description: "The collection containing the documents to list",
       async options() {
-        const collections = await this.listCollections();
-        return collections.map((collection) => collection._queryOptions.collectionId);
+        try {
+          await this.initializeApp();
+          const collections = await this.listCollections();
+          return collections.map((collection) => collection._queryOptions.collectionId);
+        } finally {
+          await this.deleteApp();
+        }
       },
     },
     document: {
@@ -30,8 +36,13 @@ export default {
       label: "Document",
       description: "The document to update",
       async options({ collection }) {
-        const documents = await this.listDocuments(collection);
-        return documents.map((doc) => doc._ref._path.segments[1]);
+        try {
+          await this.initializeApp();
+          const documents = await this.listDocuments(collection);
+          return documents.map((doc) => doc._ref._path.segments[1]);
+        } finally {
+          await this.deleteApp();
+        }
       },
     },
     data: {
@@ -64,7 +75,7 @@ export default {
      * Renders this app instance unusable and frees the resources of all associated services.
      */
     async deleteApp() {
-      return await this.getApp().delete();
+      return this.getApp().delete();
     },
     /**
      * Retrieves the default Firebase app instance.
@@ -138,31 +149,44 @@ export default {
         idToken,
       );
     },
+    getReference(path) {
+      return this.getApp().database()
+        .ref(path);
+    },
+    getFirestore() {
+      return this.getApp().firestore();
+    },
+    getCollection(collection) {
+      return this.getFirestore().collection(collection);
+    },
+    getDocument({
+      collection, document,
+    }) {
+      return this.getCollection(collection).doc(document);
+    },
     async listCollections() {
-      try {
-        await this.initializeApp();
-        const firebase = this.getApp();
-        return await firebase.firestore().listCollections();
-      } catch (err) {
-        throw new Error(err);
-      } finally {
-        this.deleteApp();
-      }
+      return this.getFirestore().listCollections();
     },
     async listDocuments(collection) {
-      try {
-        await this.initializeApp();
-        const firebase = this.getApp();
-        return await firebase.firestore().collection(collection)
-          .listDocuments()
-          .then(documentRefs => {
-            return firebase.firestore().getAll(...documentRefs);
-          });
-      } catch (err) {
-        throw new Error(err);
-      } finally {
-        this.deleteApp();
-      }
+      return this.getCollection(collection).listDocuments()
+        .then((documentRefs) => {
+          return this.getFirestore().getAll(...documentRefs);
+        });
+    },
+    async createDocument(collection, data) {
+      const collectionRef = this.getCollection(collection);
+      return collectionRef.add(data);
+    },
+    async updateDocument(collection, document, data) {
+      const doc = this.getDocument({
+        collection,
+        document,
+      });
+      return doc.update(data);
+    },
+    async createRealtimeDBRecord(path, data) {
+      const record = this.getReference(path);
+      return record.update(data);
     },
   },
 };

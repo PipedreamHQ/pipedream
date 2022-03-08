@@ -1,22 +1,23 @@
-import firebase from "../../firebase_admin_sdk.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "firebase_admin_sdk-update-documents",
   name: "Update Documents",
   description: "Updates a Document. [See the docs here](https://googleapis.dev/nodejs/firestore/latest/DocumentReference.html#update)",
   version: "0.0.1",
   type: "action",
   props: {
-    firebase,
+    ...common.props,
     collection: {
       propDefinition: [
-        firebase,
+        common.props.firebase,
         "collection",
       ],
     },
     document: {
       propDefinition: [
-        firebase,
+        common.props.firebase,
         "document",
         (c) => ({
           collection: c.collection,
@@ -25,25 +26,19 @@ export default {
     },
     data: {
       propDefinition: [
-        firebase,
+        common.props.firebase,
         "data",
       ],
       description: "An object containing the fields and values with which to update the document",
     },
   },
-  async run({ $ }) {
-    try {
-      await this.firebase.initializeApp();
-      const firebase = this.firebase.getApp();
-      const doc = await firebase.firestore().collection(this.collection)
-        .doc(this.document);
-      await doc.update(this.data);
+  methods: {
+    ...common.methods,
+    async getResponse() {
+      return this.firebase.updateDocument(this.collection, this.document, this.data);
+    },
+    emitSummary($) {
       $.export("$summary", `Successfully updated document ${this.document}`);
-      return doc;
-    } catch (err) {
-      throw new Error(err);
-    } finally {
-      this.firebase.deleteApp();
-    }
+    },
   },
 };
