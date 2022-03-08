@@ -1,8 +1,8 @@
 import ultramsg from "../../ultramsg.app.mjs";
 
 export default {
-  name: "Send a Image",
-  description: "Send a image to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/image)",
+  name: "Send an Image",
+  description: "Send an image to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/image)",
   key: "ultramsg-send-image",
   version: "0.0.1",
   type: "action",

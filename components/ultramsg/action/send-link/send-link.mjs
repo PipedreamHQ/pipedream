@@ -17,7 +17,7 @@ export default {
     link: {
       type: "string",
       label: "Link",
-      description: "Link to be sent",
+      description: "Link to be sent. (e.g., `https://example.com/`)",
     },
   },
   async run({ $ }) {

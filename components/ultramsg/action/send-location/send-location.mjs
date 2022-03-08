@@ -22,12 +22,12 @@ export default {
     lat: {
       type: "string",
       label: "Lat",
-      description: "The latitude of your location.",
+      description: "The latitude of your location. (e.g., `25.197197`)",
     },
     lng: {
       type: "string",
-      label: "Lat",
-      description: "The longitude of your location.",
+      label: "Lng",
+      description: "The longitude of your location. (e.g., `55.2721877`)",
     },
   },
   async run({ $ }) {
@@ -45,7 +45,7 @@ export default {
       lng,
     };
     const res = await this.ultramsg.sendLocation(data, $);
-    $.export("$summary", `Video successfully sent to "${to}"`);
+    $.export("$summary", `Location successfully sent to "${to}"`);
 
     return res;
   },
