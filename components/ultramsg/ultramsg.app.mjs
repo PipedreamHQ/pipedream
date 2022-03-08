@@ -8,6 +8,30 @@ export default {
       type: "string",
       label: "To",
       description: "Phone with international format e.g. `+1408XXXXXXX` , or chatID for contact or group",
+      useQuery: true,
+      async options({ query }) {
+        const {
+          contacts,
+          chats,
+        } = await this.getChatsAndContacts(this, query);
+        const map = new Map();
+
+        contacts.forEach((contact) => {
+          map.set(contact.id, {
+            label: contact.name,
+            value: contact.id,
+          });
+        });
+
+        chats.forEach((chat) => {
+          map.set(chat.id, {
+            label: chat.name,
+            value: chat.id,
+          });
+        });
+
+        return Array.from(map.values());
+      },
     },
   },
   methods: {
@@ -31,6 +55,24 @@ export default {
     _getHeaders() {
       return {
         "content-type": "application/x-www-form-urlencoded",
+      };
+    },
+    async getChatsAndContacts(ctx = this, query = "") {
+      const contacts = (await axios(ctx, this._getAxiosParams({
+        method: "GET",
+        path: "/contacts",
+      })))
+        .filter((contact) => contact.name.toLowerCase().includes(query.toLowerCase()));
+
+      const chats = (await axios(ctx, this._getAxiosParams({
+        method: "GET",
+        path: "/chats",
+      })))
+        .filter((chat) => chat.name.toLowerCase().includes(query.toLowerCase()));
+
+      return {
+        contacts,
+        chats,
       };
     },
     async sendMessage(data, ctx = this) {
