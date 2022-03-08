@@ -6,7 +6,7 @@ export default {
   name: "Custom Request",
   description: "Make an HTTP request using any method and URL. Optionally configure query string parameters, headers and basic auth.",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   props: {
     http,
     url: {
