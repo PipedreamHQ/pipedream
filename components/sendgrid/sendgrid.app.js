@@ -271,10 +271,7 @@ module.exports = {
         },
       };
       const { data } = await this._makeClientRequest(config);
-      return {
-        data,
-        config,
-      };
+      return data;
     },
     /**
      * Gets a specific block
@@ -351,7 +348,7 @@ module.exports = {
           break;
         }
         url = data._metadata.next.replace("https://api.sendgrid.com", "");
-      } while (true && contactLists.length < maxItems);
+      } while (contactLists.length < maxItems);
       return contactLists.slice(0, maxItems);
     },
     /**
@@ -456,7 +453,7 @@ module.exports = {
         url: "/v3/mail/send",
         body: requestData,
       };
-      return await this._makeClientRequest(config);
+      return this._makeClientRequest(config);
     },
     /**
      * Validates an email address.

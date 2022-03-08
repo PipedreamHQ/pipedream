@@ -68,6 +68,7 @@ module.exports = {
      * Returns `undefined` when `value` is an empty string or `null`.
      *
      * @param {object} value the value to check for returning `undefined`.
+     */
     convertEmptyStringToUndefined(value) {
       if (value === "" || value === null) {
         return undefined;
