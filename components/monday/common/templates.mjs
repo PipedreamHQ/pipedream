@@ -1,10 +1,10 @@
-// Data was stringified from website endpoint: https://{subdomain}.monday.com/apps
-// using from payload the object: `response.app_features`
-//
+// Website endpoint: https://{subdomain}.monday.com/apps
+// The response payload was used from `response.app_features`
+// because there was no endpoint in the docs to get the templates.
+// const features = response.app_features;
 // const templates =
-//  apps.filter(({ data = {} }) => data.showTemplateInWebsite)
+//  features.filter(({ data = {} }) => data.showTemplateInWebsite)
 //    .map(({ id, data }) => ({ label: data.name, value: id}));
-// JSON.stringify(templates);
 export default [
   {
     label: "Marketing activities",
