@@ -35,7 +35,10 @@ export default {
       Statement: this.statement,
     };
 
-    if (this.parameters) params.Parameters = this.parameters;
+    if (this.parameters?.length > 0) {
+      const p = this.parameters.filter((param) => param);
+      if (p.length > 0) params.Parameters = p;
+    }
 
     const response = await this.aws.pagination(
       this.aws.dynamodbExecuteTransaction,

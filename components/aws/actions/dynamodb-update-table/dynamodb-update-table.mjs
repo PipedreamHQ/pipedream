@@ -85,10 +85,8 @@ export default {
     if (typeof (this.streamSpecificationEnabled) === "boolean") {
       params.StreamSpecification = {
         StreamEnabled: this.streamSpecificationEnabled,
+        StreamViewType: this.streamSpecificationViewType,
       };
-      if (this.streamSpecificationViewType) {
-        params.StreamSpecification.StreamViewType = this.streamSpecificationViewType;
-      }
     }
 
     const response = this.aws.dynamodbUpdateTable(this.region, params);
