@@ -115,12 +115,12 @@ export default {
       description: "The name of the EventBridge event bus",
       async options({ prevContext }) {
         const response = await this.eventBridgeListEventBuses({
-          NextToken: prevContext.NextToken,
+          NextToken: prevContext.nextToken,
         });
         return {
           options: response.EventBuses.map((eventBus) => eventBus.Name),
           context: {
-            NextToken: response.NextToken,
+            nextToken: response.NextToken,
           },
         };
       },
@@ -131,12 +131,12 @@ export default {
       description: "The URL of the SQS Queue",
       async options({ prevContext }) {
         const response = await this.sqsListQueues({
-          NextToken: prevContext.NextToken,
+          NextToken: prevContext.nextToken,
         });
         return {
           options: response.QueueUrls,
           context: {
-            NextToken: response.NextToken,
+            nextToken: response.NextToken,
           },
         };
       },
@@ -147,12 +147,12 @@ export default {
       description: "The ARN of the SNS Topic",
       async options({ prevContext }) {
         const response = await this.snsListTopics({
-          NextToken: prevContext.NextToken,
+          NextToken: prevContext.nextToken,
         });
         return {
           options: response.Topics.map((topic) => topic.TopicArn),
           context: {
-            NextToken: response.NextToken,
+            nextToken: response.NextToken,
           },
         };
       },
@@ -166,12 +166,12 @@ export default {
       }) {
         const response = await this.lambdaListFunctions({
           Region: region,
-          Marker: prevContext.NextMarker,
+          Marker: prevContext.nextMarker,
         });
         return {
           options: response.Functions.map((fn) => fn.FunctionName),
           context: {
-            NextMarker: response.NextMarker,
+            nextMarker: response.NextMarker,
           },
         };
       },
@@ -256,12 +256,12 @@ export default {
           TableNames,
           LastEvaluatedTableName,
         } = await this.dynamodbListTables(region, {
-          ExclusiveStartTableName: prevContext.LastEvaluatedTableName,
+          ExclusiveStartTableName: prevContext.lastEvaluatedTableName,
         });
         return {
           options: TableNames,
           context: {
-            LastEvaluatedTableName,
+            lastEvaluatedTableName: LastEvaluatedTableName,
           },
         };
       },
