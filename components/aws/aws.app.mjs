@@ -1,8 +1,12 @@
 import axios from "axios"; // need axios response headers
 import AdmZip from "adm-zip";
 import dedent from "dedent";
-import common from "./common/common.mjs";
 import constants from "./common/constants.mjs";
+import { clients } from "./common/clients.mjs";
+import {
+  regions,
+  defaultRegion,
+} from "./common/regions.mjs";
 import {
   generateRandomUniqueName,
   toSingleLineString,
@@ -63,7 +67,7 @@ export default {
       type: "string",
       label: "AWS Region",
       description: "The AWS region",
-      default: common.defaultRegion,
+      default: defaultRegion,
       async options() {
         try {
           const response = await this.ec2ListRegions();
@@ -75,7 +79,7 @@ export default {
           // does not have enough permissions to call the EC2 `DescribeRegions`
           // API. In that case, we default to the static list of regions.
           console.log(`Could not retrieve available regions from AWS. ${error}, falling back to default regions`);
-          return common.awsRegions;
+          return regions;
         }
       },
     },
@@ -384,8 +388,8 @@ export default {
         .promise();
       return Account;
     },
-    getAWSClient(clientType, region = common.defaultRegion) {
-      return new common.awsClients[clientType]({
+    getAWSClient(clientType, region = defaultRegion) {
+      return new clientType({
         credentials: {
           accessKeyId: this.$auth.accessKeyId,
           secretAccessKey: this.$auth.secretAccessKey,
@@ -448,7 +452,7 @@ export default {
         Description: roleDescription,
         Path: "/pipedream/",
       };
-      const client = this.getAWSClient(constants.clients.iam, region);
+      const client = this.getAWSClient(clients.iam, region);
       const { Role } = await client.send(new CreateRoleCommand(params));
       console.log(Role);
       return {
@@ -532,7 +536,7 @@ export default {
         PolicyName: permissions.name,
         RoleName: roleName,
       };
-      const client = this.getAWSClient(constants.clients.iam, region);
+      const client = this.getAWSClient(clients.iam, region);
       await client.send(new PutRolePolicyCommand(params));
     },
     async _deleteInlinePoliciesForRole(region, roleName) {
@@ -540,7 +544,7 @@ export default {
         RoleName: roleName,
       };
 
-      const client = this.getAWSClient(constants.clients.iam, region);
+      const client = this.getAWSClient(clients.iam, region);
       while (true) {
         const { PolicyNames: policyNames = [] } = await client.send(
           new ListRolePoliciesCommand(params),
@@ -575,13 +579,13 @@ export default {
       // We must delete all the inline policies attached to the role before
       // we're allowed to delete it
       await this._deleteInlinePoliciesForRole(region, roleName);
-      const client = this.getAWSClient(constants.clients.iam, region);
+      const client = this.getAWSClient(clients.iam, region);
       client.send(new DeleteRoleCommand({
         RoleName: roleName,
       }));
     },
     async listRoles(region) {
-      const client = this.getAWSClient(constants.clients.iam, region);
+      const client = this.getAWSClient(clients.iam, region);
       return client.send(new ListRolesCommand({}));
     },
     /**
@@ -596,7 +600,7 @@ export default {
      * to use in subsequent calls (`logGroups` and `nextToken` respectively)
      */
     async cloudWatchLogsInsightsDescribeLogGroups(region, params) {
-      const client = this.getAWSClient(constants.clients.cloudWatchLogs, region);
+      const client = this.getAWSClient(clients.cloudWatchLogs, region);
       return client.send(new DescribeLogGroupsCommand(params));
     },
     /**
@@ -612,7 +616,7 @@ export default {
      * to use in subsequent calls (`logStreams` and `nextToken` respectively)
      */
     async cloudWatchLogsInsightsDescribeLogStreams(Region, params) {
-      const client = this.getAWSClient(constants.clients.cloudWatchLogs, Region);
+      const client = this.getAWSClient(clients.cloudWatchLogs, Region);
       return client.send(new DescribeLogStreamsCommand(params));
     },
     /**
@@ -632,99 +636,99 @@ export default {
      * and `rejectedLogEventsInfo` respectively)
      */
     async cloudWatchLogsPutLogEvents(Region, params) {
-      const client = this.getAWSClient(constants.clients.cloudWatchLogs, Region);
+      const client = this.getAWSClient(clients.cloudWatchLogs, Region);
       return client.send(new PutLogEventsCommand(params));
     },
     async ec2ListRegions() {
-      const client = this.getAWSClient(constants.clients.ec2);
+      const client = this.getAWSClient(clients.ec2);
       return client.send(new DescribeRegionsCommand({}));
     },
     async s3ListBuckets() {
-      const client = this.getAWSClient(constants.clients.s3);
+      const client = this.getAWSClient(clients.s3);
       return client.send(new ListBucketsCommand({}));
     },
     async s3UploadFile(Region, params) {
-      const client = this.getAWSClient(constants.clients.s3, Region);
+      const client = this.getAWSClient(clients.s3, Region);
       return client.send(new PutObjectCommand(params));
     },
     async eventBridgeListEventBuses(params) {
-      const client = this.getAWSClient(constants.clients.eventBridge);
+      const client = this.getAWSClient(clients.eventBridge);
       return client.send(new ListEventBusesCommand(params));
     },
     async eventBridgeSendEvent(Region, params) {
-      const client = this.getAWSClient(constants.clients.eventBridge, Region);
+      const client = this.getAWSClient(clients.eventBridge, Region);
       return client.send(new PutEventsCommand(params));
     },
     async sqsListQueues(params) {
-      const client = this.getAWSClient(constants.clients.sqs);
+      const client = this.getAWSClient(clients.sqs);
       return client.send(new ListQueuesCommand(params));
     },
     async sqsSendMessage(Region, params) {
-      const client = this.getAWSClient(constants.clients.sqs, Region);
+      const client = this.getAWSClient(clients.sqs, Region);
       return client.send(new SendMessageCommand(params));
     },
     async snsListTopics(params) {
-      const client = this.getAWSClient(constants.clients.sns);
+      const client = this.getAWSClient(clients.sns);
       return client.send(new ListTopicsCommand(params));
     },
     async snsSendMessage(Region, params) {
-      const client = this.getAWSClient(constants.clients.sns, Region);
+      const client = this.getAWSClient(clients.sns, Region);
       return client.send(new PublishCommand(params));
     },
     async lambdaListFunctions(params) {
       const { Region } = params;
-      const client = this.getAWSClient(constants.clients.lambda, Region);
+      const client = this.getAWSClient(clients.lambda, Region);
       return client.send(new ListFunctionsCommand(params));
     },
     async lambdaCreateFunction(Region, params, code) {
       params.Code = {
         ZipFile: this.createZipArchive(code),
       };
-      const client = this.getAWSClient(constants.clients.lambda, Region);
+      const client = this.getAWSClient(clients.lambda, Region);
       return client.send(new CreateFunctionCommand(params));
     },
     async lambdaInvokeFunction(Region, params) {
-      const client = this.getAWSClient(constants.clients.lambda, Region);
+      const client = this.getAWSClient(clients.lambda, Region);
       return client.send(new InvokeCommand(params));
     },
     async dynamodbListTables(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new ListTablesCommand(params));
     },
     async dynamodbDescribeTable(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new DescribeTableCommand(params));
     },
     async dynamodbCreateTable(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new CreateTableCommand(params));
     },
     async dynamodbUpdateTable(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new UpdateTableCommand(params));
     },
     async dynamodbExecuteTransaction(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new ExecuteStatementCommand(params));
     },
     async dynamodbGetItem(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new GetItemCommand(params));
     },
     async dynamodbPutItem(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new PutItemCommand(params));
     },
     async dynamodbQuery(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new QueryCommand(params));
     },
     async dynamodbScan(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new ScanCommand(params));
     },
     async dynamodbUpdateItem(Region, params) {
-      const client = this.getAWSClient(constants.clients.dynamodb, Region);
+      const client = this.getAWSClient(clients.dynamodb, Region);
       return client.send(new UpdateItemCommand(params));
     },
   },

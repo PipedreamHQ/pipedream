@@ -7,7 +7,7 @@ import {
   DeleteTopicCommand,
   SetTopicAttributesCommand,
 } from "@aws-sdk/client-sns";
-import constants from "../../common/constants.mjs";
+import { clients } from "../../common/clients.mjs";
 
 export default {
   props: {
@@ -58,7 +58,7 @@ export default {
       return this.db.set("subscriptionArn", subscriptionArn);
     },
     _getSnsClient() {
-      return this.aws.getAWSClient(constants.clients.sns, this.getRegion());
+      return this.aws.getAWSClient(clients.sns, this.getRegion());
     },
     async _createTopic(topicName) {
       const params = {

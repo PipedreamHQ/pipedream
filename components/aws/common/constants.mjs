@@ -1,19 +1,5 @@
 import { createObjectFromArray } from "./utils.mjs";
 
-const clients = {
-  ec2: "ec2",
-  lambda: "lambda",
-  ssm: "ssm",
-  iam: "iam",
-  s3: "s3",
-  cloudWatchLogs: "cloudWatchLogs",
-  eventBridge: "eventBridge",
-  sqs: "sqs",
-  sns: "sns",
-  ses: "ses",
-  dynamodb: "dynamodb",
-};
-
 const dynamodb = {
   keyTypes: createObjectFromArray([
     "HASH",
@@ -53,6 +39,5 @@ const dynamodb = {
 };
 
 export default {
-  clients,
   dynamodb,
 };
