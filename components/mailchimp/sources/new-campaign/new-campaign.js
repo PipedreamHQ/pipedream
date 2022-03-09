@@ -42,9 +42,13 @@ module.exports = {
       const config = {
         count: 10,
         offset: 0,
-        status: this.status,
       };
-      const campaigns = await this.mailchimp.getCampaigns(config); //TODO Confirm new method usage.
+      let campaigns;
+      if(statusIsSent(this.status)) {
+        campaigns = await this.mailchimp.getCampaignsBySentDate(config); //TODO Confirm new method usage.
+      } else {
+        campaigns = await this.mailchimp.getCampaignsByCreationDate(config); //TODO Confirm new method usage.
+      }      
       if (!campaigns.length) {
         console.log("No data available, skipping iteration");
         return;
@@ -84,12 +88,16 @@ module.exports = {
     do {
       config.sinceDate = sinceDate;
       config.offset = offset;
-      const campaigns = await this.mailchimp.getCampaigns(config); //TODO Confirm new method usage.
+      if(statusIsSent(this.status)) {
+        campaigns = await this.mailchimp.getCampaignsBySentDate(config); //TODO Confirm new method usage.
+      } else {
+        campaigns = await this.mailchimp.getCampaignsByCreationDate(config); //TODO Confirm new method usage.
+      }     
       if (!campaigns.length) {
         console.log("No data available, skipping iteration");
         return;
       }
-      const sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);      
+      sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);      
       campaigns.reverse().forEach(this.processEvent);
       this.db.set("lastSinceDate", sinceDate);
       offset = offset + campaigns.length;

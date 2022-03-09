@@ -13,12 +13,7 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    getEventName() {
-      return [
-        "subscribe",
-      ];
-    },
-    getEventType() {
+    getEventTypes() {
       return [
         "subscribe",
       ];

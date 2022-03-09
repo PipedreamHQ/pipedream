@@ -14,14 +14,7 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    getEventName() {
-      return [
-        "subscribe",
-        "profile",
-        "upemail",
-      ];
-    },
-    getEventType() {
+    getEventTypes() {
       return [
         "subscribe",
         "profile",

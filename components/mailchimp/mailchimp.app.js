@@ -31,7 +31,7 @@ module.exports = {
       async options({ page }) {
         const count = 1000;
         const offset = 1000 * page;
-        const campaignsResults =  await this.getCampaigns({
+        const campaignsResults =  await this.getCampaignsByCreationDate({
           count,
           offset,
         });
@@ -135,10 +135,8 @@ module.exports = {
         }
       }, retryOpts);
     },
-    _statusIsSent(status) {
-      return [
-        "status",
-      ].includes(status);
+    statusIsSent(status) {
+      return "status" === status;
     },
     /**
      * Create a webhook on the specified Audience List.
@@ -224,21 +222,41 @@ module.exports = {
      * and see the sample response at the Mailchimp Marketing API documentation.
      */
     async getCampaigns(config) {
-      config.sortDir = "DESC";
-      if (this._statusIsSent(config.status)) {
-        config.beforeSendTime = config.beforeDate;
-        config.sinceSendTime = config.sinceDate;
-        config.sortField = "send_time";
-      } else {
-        config.beforeCreateTime = config.beforeDate;
-        config.sinceCreateTime = config.sinceDate;
-        config.sortField = "create_time";
-      }
-      delete config.beforeDate;
-      delete config.sinceDate;
       const mailchimp = this.api();
-      const { campaigns = [] } = await this._withRetries(() => mailchimp.campaigns.list(opts));
+      const { campaigns = [] } = await this._withRetries(() => mailchimp.campaigns.list(config));
       return campaigns;
+    },
+    getCampaignsByCreationDate({
+      startDateTime = new Date(0),
+      endDateTime = new Date(),
+      count = 1000,
+      offset = 0,
+    }) {
+      const config = {
+        sinceCreateTime: startDateTime,
+        beforeCreateTime: endDateTime,
+        count,
+        offset,
+        sortField: "create_time",
+        sortDir: "DESC",
+      };
+      return this.getCampaigns(config);
+    },
+    getCampaignsBySentDate({
+      startDateTime = new Date(0),
+      endDateTime = new Date(),
+      count = 1000,
+      offset = 0,
+    }) {
+      const config = {
+        sinceSendTime: startDateTime,
+        beforeSendTime: endDateTime,
+        count,
+        offset,
+        sortField: "send_time",
+        sortDir: "DESC",
+      };
+      return this.getCampaigns(config);
     },
     /**
      * Gets the subscribers added to a given audience list segment or tag under the connected

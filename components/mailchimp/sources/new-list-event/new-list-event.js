@@ -47,12 +47,7 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    getEventName() {
-      return [
-        this.events,
-      ];
-    },
-    getEventType() {
+    getEventTypes() {
       return [
         this.events,
       ];

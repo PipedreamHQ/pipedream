@@ -1,5 +1,10 @@
 const base = require("./base");
-
+/*
+new-or-updated-subscriber
+new-list-event
+new-subscriber
+new-unsubscriber
+*/
 module.exports = {
   ...base,
   props: {
@@ -68,31 +73,33 @@ module.exports = {
     _setWebhookId(webhookId) {
       this.db.set("webhookId", webhookId);
     },    
-    getEventName() {
-      throw new Error("getEventName is not implemented");
-    },
-    getEventType() {
+    getEventTypes() {
       throw new Error("getEventType is not implemented");
     },
+    generateMeta() {
+      throw new Error("generateMeta is not implemented");
+    },
+    isEventRelevant(event) {
+      return this
+        .getEventTypes()
+        .has(event.type);
+    },    
     processEvent(event) {
-      const eventTypes = this.getEventType();
-      if (eventTypes.includes(event.type)) {
-        const meta = this.generateMeta(event);
-        this.$emit(event, meta);
-      }
+      const meta = this.generateMeta(event);
+      this.$emit(event, meta);
     },
     getEventsConfig() {
-      const eventName = this.getEventName();
+      const eventTypes = this.getEventTypes();
       let eventsCfg = {};
       eventsCfg.subscribedEvents = {};
       eventsCfg.eventSources = {};
-      eventsCfg.subscribedEvents.subscribe = eventName.includes("subscribe");
+      eventsCfg.subscribedEvents.subscribe = eventTypes.includes("subscribe");
       eventsCfg.subscribedEvents.unsubscribe =
-          eventName.includes("unsubscribe");
-      eventsCfg.subscribedEvents.profile = eventName.includes("profile");
-      eventsCfg.subscribedEvents.cleaned = eventName.includes("cleaned");
-      eventsCfg.subscribedEvents.upemail = eventName.includes("upemail");
-      eventsCfg.subscribedEvents.campaign = eventName.includes("campaign");
+          eventTypes.includes("unsubscribe");
+      eventsCfg.subscribedEvents.profile = eventTypes.includes("profile");
+      eventsCfg.subscribedEvents.cleaned = eventTypes.includes("cleaned");
+      eventsCfg.subscribedEvents.upemail = eventTypes.includes("upemail");
+      eventsCfg.subscribedEvents.campaign = eventTypes.includes("campaign");
       eventsCfg.eventSources.user = this.triggeredByUser;
       eventsCfg.eventSources.admin = this.triggeredByAdmin;
       eventsCfg.eventSources.api = this.triggeredByApi;
@@ -101,11 +108,13 @@ module.exports = {
   },
   async run(event) {
     const { body } = event;
-    const isMailChimpWebhookValidator = [
-      "MailChimp.com WebHook Validator",
-    ].includes(event.headers["user-agent"]);
+    const isMailChimpWebhookValidator = "MailChimp.com WebHook Validator" === event.headers["user-agent"];
     if (body) {
-      this.processEvent(body);
+      if (!this.isEventRelevant(event)) {
+        console.log(`Skipping irrelevant event of type ${event.type}`);
+        return;
+      }  
+      await this.processEvent(body);
     }
     if (body || isMailChimpWebhookValidator) {
       this.http.respond({

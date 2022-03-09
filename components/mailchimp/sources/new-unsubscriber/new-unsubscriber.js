@@ -14,12 +14,7 @@ module.exports = {
   },
   methods: {
     ...common.methods,
-    getEventName() {
-      return [
-        "unsubscribe",
-      ];
-    },
-    getEventType() {
+    getEventTypes() {
       return [
         "unsubscribe",
       ];
