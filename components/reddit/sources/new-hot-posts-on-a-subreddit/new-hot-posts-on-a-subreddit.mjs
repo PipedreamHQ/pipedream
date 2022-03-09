@@ -1,15 +1,16 @@
-const common = require("../common");
-const regionData = require("./region-data");
+import common from "../common.mjs";
+import regionData from "./region-data.mjs";
+import get from "lodash/get.js";
 const { reddit } = common.props;
 
-module.exports = {
+export default {
   ...common,
   type: "source",
   key: "reddit-new-hot-posts-on-a-subreddit",
   name: "New hot posts on a subreddit",
   description:
     "Emit new event each time a new hot post is added to the top 10 items in a subreddit.",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -45,9 +46,22 @@ module.exports = {
   },
   hooks: {
     async deploy() {
+      await this.fetchData();
+    },
+  },
+  methods: {
+    ...common.methods,
+    generateEventMetadata(redditEvent) {
+      return {
+        id: redditEvent.data.name,
+        summary: redditEvent.data.title,
+        ts: redditEvent.data.created,
+      };
+    },
+    async fetchData() {
       // Emits sample events on the first run during deploy.
       var redditHotPosts = await this.reddit.getNewHotSubredditPosts(
-        this.subreddit,
+        get(this.subreddit, "value", this.subreddit),
         this.region,
         this.excludeFilters,
         this.includeSubredditDetails,
@@ -61,29 +75,7 @@ module.exports = {
       hotPosts.reverse().forEach(this.emitRedditEvent);
     },
   },
-  methods: {
-    ...common.methods,
-    generateEventMetadata(redditEvent) {
-      return {
-        id: redditEvent.data.name,
-        summary: redditEvent.data.title,
-        ts: redditEvent.data.created,
-      };
-    },
-  },
   async run() {
-    const redditHotPosts = await this.reddit.getNewHotSubredditPosts(
-      this.subreddit,
-      this.region,
-      this.excludeFilters,
-      this.includeSubredditDetails,
-      10,
-    );
-    const { children: hotPosts = [] } = redditHotPosts.data;
-    if (hotPosts.length === 0) {
-      console.log("No data available, skipping iteration");
-      return;
-    }
-    hotPosts.reverse().forEach(this.emitRedditEvent);
+    await this.fetchData();
   },
 };

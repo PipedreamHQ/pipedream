@@ -27,7 +27,7 @@ export default {
         ...otherConfig,
       };
 
-      return axios($, config);
+      return axios($ || this, config);
     },
     async postVideoUrl({
       $,
@@ -38,6 +38,15 @@ export default {
         method: "post",
         path: "/process/video/url",
         data,
+      });
+    },
+    async getJobStatus({
+      $,
+      jobId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/job/${jobId}`,
       });
     },
   },
