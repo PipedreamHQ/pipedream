@@ -17,7 +17,7 @@ export default {
         aws,
         "region",
       ],
-      description: "Region tied to your SNS Topic, e.g. us-east-1 or us-west-2",
+      description: "Region tied to your SNS Topic, e.g. `us-east-1` or `us-west-2`",
     },
     topic: {
       propDefinition: [

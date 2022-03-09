@@ -82,7 +82,7 @@ export default {
     role: {
       type: "string",
       label: "Role",
-      description: "An IAM Role ARN, e.g., arn:aws:iam::650138640062:role/v3-lambda-tutorial-lambda-role. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)",
+      description: "An IAM Role ARN, e.g., `arn:aws:iam::650138640062:role/v3-lambda-tutorial-lambda-role`. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)",
       async options({ region }) {
         const response = await this.listRoles(region);
         return response.Roles.map((role) => role.Arn);
@@ -292,7 +292,7 @@ export default {
     streamSpecificationEnabled: {
       type: "boolean",
       label: "Stream Specification Enabled",
-      description: "Indicates whether DynamoDB Streams is to be enabled (true) or disabled (false)",
+      description: "Indicates whether DynamoDB Streams is to be enabled (`true`) or disabled (`false`)",
       optional: true,
     },
     streamSpecificationViewType: {

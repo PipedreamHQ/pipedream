@@ -17,7 +17,7 @@ export default {
         aws,
         "region",
       ],
-      description: "The AWS region tied to your Lambda, e.g us-east-1 or us-west-2",
+      description: "The AWS region tied to your Lambda, e.g `us-east-1` or `us-west-2`",
     },
     role: {
       propDefinition: [
