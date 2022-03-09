@@ -87,5 +87,15 @@ export default {
         path: `/conversations/${conversationId}/topics?${params}`,
       });
     },
+    async getQuestions({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/questions`,
+      });
+    },
+
   },
 };
