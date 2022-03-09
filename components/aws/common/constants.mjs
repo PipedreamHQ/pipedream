@@ -1,14 +1,12 @@
-import { createObjectFromArray } from "./utils.mjs";
-
 const dynamodb = {
-  keyTypes: createObjectFromArray([
-    "HASH",
-    "RANGE",
-  ]),
-  billingModes: createObjectFromArray([
-    "PROVISIONED",
-    "PAY_PER_REQUEST",
-  ]),
+  keyTypes: {
+    HASH: "HASH",
+    RANGE: "RANGE",
+  },
+  billingModes: {
+    PROVISIONED: "PROVISIONED",
+    PAY_PER_REQUEST: "PAY_PER_REQUEST",
+  },
   keyAttributeTypes: [
     {
       label: "string",
@@ -29,13 +27,13 @@ const dynamodb = {
     "OLD_IMAGE",
     "NEW_AND_OLD_IMAGES",
   ],
-  returnValues: createObjectFromArray([
-    "ALL_NEW",
-    "ALL_OLD",
-    "NONE",
-    "UPDATED_NEW",
-    "UPDATED_OLD",
-  ]),
+  returnValues: {
+    ALL_NEW: "ALL_NEW",
+    ALL_OLD: "ALL_OLD",
+    NONE: "NONE",
+    UPDATED_NEW: "UPDATED_NEW",
+    UPDATED_OLD: "UPDATED_OLD",
+  },
 };
 
 export default {
