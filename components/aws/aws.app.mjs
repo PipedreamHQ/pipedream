@@ -419,8 +419,8 @@ export default {
       });
       return response.Table.AttributeDefinitions;
     },
-    decodeResponsePayload(response) {
-      response.Payload = JSON.parse(new TextDecoder("utf-8").decode(response.Payload) || {});
+    decodeResponsePayload(payload) {
+      return JSON.parse(new TextDecoder("utf-8").decode(payload) || {});
     },
     createZipArchive(data) {
       const zip = new AdmZip();

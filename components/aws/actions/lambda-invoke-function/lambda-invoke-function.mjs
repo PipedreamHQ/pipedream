@@ -48,7 +48,9 @@ export default {
       LogType: "Tail",
     });
     $.export("$summary", `Invoked ${this.lambdaFunction} lambda function`);
-    this.aws.decodeResponsePayload(response);
-    return response;
+    return {
+      ...response,
+      Payload: this.aws.decodeResponsePayload(response.Payload),
+    };
   },
 };
