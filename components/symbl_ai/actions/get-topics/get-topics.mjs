@@ -13,14 +13,14 @@ export default {
       label: "Conversation Id",
       description: "The Id of the Conversation",
     },
-    sentiment:{
+    sentiment: {
       type: "boolean",
       label: "Sentiment",
       description: "Provides you sentiment analysis for each topic of the conversation",
       optional: true,
       default: false,
     },
-    parentRefs:{
+    parentRefs: {
       type: "boolean",
       label: "Topic Hierarchy",
       description: "Provides you topic hierarchy for each topic of the conversation",

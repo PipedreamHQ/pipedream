@@ -13,14 +13,14 @@ export default {
       label: "Conversation Id",
       description: "The Id of the Conversation",
     },
-    verbose:{
+    verbose: {
       type: "boolean",
       label: "Verbose",
       description: "Provides you the word level timestamps and score for each sentence",
       optional: true,
       default: false,
     },
-    sentiment:{
+    sentiment: {
       type: "boolean",
       label: "Sentiment",
       description: "Provides you the sentiment analysis for each sentence",
