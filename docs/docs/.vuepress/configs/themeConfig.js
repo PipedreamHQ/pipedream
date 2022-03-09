@@ -2,6 +2,7 @@ const navConfig = require("./navConfig");
 const sidebarConfig = require("./sidebarConfig");
 console.log(sidebarConfig);
 module.exports = {
+  base: "/docs/",
   algolia: {
     appId: 'XY28M447C5',
     apiKey: "9d9169458128b3d60c22bb04da4431c7",
