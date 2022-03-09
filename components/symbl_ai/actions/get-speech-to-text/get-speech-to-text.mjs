@@ -13,12 +13,27 @@ export default {
       label: "Conversation Id",
       description: "The Id of the Conversation",
     },
+    verbose:{
+      type: "boolean",
+      label: "Verbose",
+      description: "Provides you the word level timestamps and score for each sentence",
+      optional: true,
+      default: false,
+    },
+    sentiment:{
+      type: "boolean",
+      label: "Sentiment",
+      description: "Provides you the sentiment analysis for each sentence",
+      optional: true,
+      default: false,
+    },
   },
   async run({ $ }) {
     try {
       const response = await this.symblAIApp.getSpeechToText({
         $,
         conversationId: this.conversationId,
+        params: `verbose=${this.verbose}&sentiment=${this.sentiment}`,
       });
       $.export("$summary", "Speech to Text messages successfully retrieved from the conversation");
       return response;

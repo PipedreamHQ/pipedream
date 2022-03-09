@@ -52,10 +52,11 @@ export default {
     async getSpeechToText({
       $,
       conversationId,
+      params,
     }) {
       return this.makeRequest({
         $,
-        path: `/conversations/${conversationId}/messages`,
+        path: `/conversations/${conversationId}/messages?${params}`,
       });
     },
     async getActionItems({
