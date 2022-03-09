@@ -87,12 +87,14 @@ export default {
       };
     }
 
-    params.Item = {
-      ...params.Item,
-      ...JSON.parse(this.item || "{}"),
-    };
+    const item = typeof(this.item) === "string"
+      ? JSON.parse(this.item || "{}")
+      : this.item;
 
-    const response = await this.aws.dynamodbPutItem(this.region, params);
+    const response = await this.aws.dynamodbPutItem(this.region, {
+      ...params.Item,
+      ...item,
+    });
     $.export("$summary", `Successfully put item in table ${this.tableName}`);
     return response;
   },
