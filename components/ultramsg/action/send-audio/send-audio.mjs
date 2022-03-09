@@ -1,8 +1,8 @@
 import ultramsg from "../../ultramsg.app.mjs";
 
 export default {
-  name: "Send an Audio",
-  description: "Send audio file to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/audio)",
+  name: "Send Audio",
+  description: "Send an audio file to a specified number. [See the docs here](https://docs.ultramsg.com/api/post/messages/audio)",
   key: "ultramsg-send-audio",
   version: "0.0.1",
   type: "action",
