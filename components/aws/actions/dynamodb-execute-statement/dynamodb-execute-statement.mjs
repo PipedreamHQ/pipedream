@@ -44,7 +44,10 @@ export default {
       "NextToken",
     );
 
-    $.export("$summary", `Statement returned ${response.Items.length} items`);
+    const s = response.Items.length === 1
+      ? ""
+      : "s";
+    $.export("$summary", `Statement returned ${response.Items.length} item${s}`);
     return response;
   },
 };

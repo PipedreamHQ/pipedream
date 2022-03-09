@@ -63,7 +63,10 @@ export default {
       "LastEvaluatedKey",
     );
 
-    $.export("$summary", `Scan returned ${response.Items.length} items`);
+    const s = response.Items.length === 1
+      ? ""
+      : "s";
+    $.export("$summary", `Scan returned ${response.Items.length} item${s}`);
     return response;
   },
 };

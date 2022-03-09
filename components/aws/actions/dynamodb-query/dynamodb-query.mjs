@@ -70,7 +70,10 @@ export default {
       "LastEvaluatedKey",
     );
 
-    $.export("$summary", `Query returned ${response.Items.length} items`);
+    const s = response.Items.length === 1
+      ? ""
+      : "s";
+    $.export("$summary", `Query returned ${response.Items.length} item${s}`);
     return response;
   },
 };
