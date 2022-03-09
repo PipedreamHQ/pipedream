@@ -1,26 +1,16 @@
-import notion from "../../notion.app.mjs";
-import utils from "../common/utils.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "notion-new-database",
   name: "New Database",
   description: "Emit new event when a database is created",
   version: "0.0.1",
   type: "source",
   dedupe: "last",
-  props: {
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15,
-      },
-    },
-    notion,
-  },
   async run() {
     const params = {
-      start_cursor: utils.getLastCursor(this.db),
+      start_cursor: this.getLastCursor(),
     };
 
     do {
@@ -38,7 +28,7 @@ export default {
 
       params.start_cursor = response.next_cursor;
       if (params.start_cursor) {
-        utils.setLastCursor(this.db, params.start_cursor);
+        this.setLastCursor(params.start_cursor);
       }
     } while (params.start_cursor);
   },
