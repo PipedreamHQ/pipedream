@@ -89,7 +89,10 @@ export default {
       description: "An IAM Role ARN, e.g., `arn:aws:iam::650138640062:role/v3-lambda-tutorial-lambda-role`. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)",
       async options({ region }) {
         const response = await this.listRoles(region);
-        return response.Roles.map((role) => role.Arn);
+        return response.Roles.map((role) => ({
+          label: role.RoleName,
+          value: role.Arn,
+        }));
       },
     },
     bucket: {
