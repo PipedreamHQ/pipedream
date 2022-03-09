@@ -163,15 +163,19 @@ export default {
         block_id: blockId,
       });
     },
-    async listBlockChildren(blockId) {
-      return this._getNotionClient().blocks.children.list({
-        block_id: blockId,
-      });
-    },
-    async retrieveBlockChildren(block) {
-      if (!block.has_children) return [];
+    async retrieveBlockChildren(block, params = {}) {
+      const children = [];
+      if (!block.has_children) return children;
 
-      const { results: children } = await this.listBlockChildren(block.id);
+      do {
+        const {
+          results,
+          next_cursor: nextCursor,
+        } = await this.listBlockChildren(block.id, params);
+
+        children.push(...results);
+        params.next_cursor = nextCursor;
+      } while (params.next_cursor);
 
       (await Promise.all(children.map((child) => this.retrieveBlockChildren(child))))
         .forEach((c, i) => {
@@ -179,6 +183,12 @@ export default {
         });
 
       return children;
+    },
+    async listBlockChildren(blockId, params) {
+      return this._getNotionClient().blocks.children.list({
+        ...params,
+        block_id: blockId,
+      });
     },
   },
 };
