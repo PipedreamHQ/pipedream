@@ -58,5 +58,14 @@ export default {
         path: `/conversations/${conversationId}/messages`,
       });
     },
+    async getActionItems({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/action-items`,
+      });
+    },
   },
 };
