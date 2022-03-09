@@ -4,21 +4,24 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "trello-get-card",
   name: "Trello Get Card",
-  description: "Get all parameters of a Card passing Card ID",
-  version: "0.1.1",
+  description: "Get a card by its ID",
+  version: "0.1.3",
   type: "action",
   props: {
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
     trello: {
       type: "app",
       app: "trello",
     },
+    cardId: {
+      type: "string",
+      label: "Card ID",
+      description: "The ID of the Trello card",
+    },
   },
-  async run({
-    steps, $,
-  }) {
+  async run({ $ }) {
     return await axios($, {
-
-      url: "https://api.trello.com/1/cards/" + steps.nodejs.$return_value,
+      url: `https://api.trello.com/1/cards/${this.cardId}`,
     }, {
       token: {
         key: this.trello.$auth.oauth_access_token,
