@@ -76,5 +76,15 @@ export default {
         path: `/conversations/${conversationId}/follow-ups`,
       });
     },
+    async getTopics({
+      $,
+      conversationId,
+      params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/topics?${params}`,
+      });
+    },
   },
 };
