@@ -7,7 +7,7 @@ export default {
   key: "discord_webhook-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,
@@ -65,17 +65,21 @@ export default {
       content += `\n\n${this.getSentViaPipedreamText()}`;
     }
 
-    // No interesting data is returned from Discord
-    const resp = await this.discordWebhook.sendMessageWithFile({
+    const params = {
       content,
       avatarURL,
       threadID,
       username,
       file,
-    });
+    };
 
-    $.export("$summary", "Message sent successfully");
-
-    return resp;
+    try {
+      // No interesting data is returned from Discord
+      await this.discordWebhook.sendMessageWithFile(params);
+      $.export("$summary", "Message sent successfully");
+    } catch (err) {
+      $.export("$summary", `${err}`);
+      $.export("unsent", params);
+    }
   },
 };

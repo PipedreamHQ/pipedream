@@ -5,7 +5,7 @@ export default {
   key: "discord_webhook-send-message-advanced",
   name: "Send Message (Advanced)",
   description: "Send a simple or structured message (using embeds) to a Discord channel",
-  version: "0.2.1",
+  version: "0.3.0",
   type: "action",
   props: {
     ...common.props,
@@ -23,7 +23,7 @@ export default {
       ],
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       message,
       avatarURL,
@@ -46,13 +46,21 @@ export default {
       content += `\n\n${this.getSentViaPipedreamText()}`;
     }
 
-    // No interesting data is returned from Discord
-    await this.discordWebhook.sendMessage({
+    const params = {
       avatarURL,
       embeds,
       content,
       threadID,
       username,
-    });
+    };
+
+    try {
+      // No interesting data is returned from Discord
+      await this.discordWebhook.sendMessage(params);
+      $.export("$summary", "Message sent successfully");
+    } catch (err) {
+      $.export("$summary", `${err}`);
+      $.export("unsent", params);
+    }
   },
 };

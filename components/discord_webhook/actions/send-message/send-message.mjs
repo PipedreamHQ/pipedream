@@ -5,12 +5,12 @@ export default {
   key: "discord_webhook-send-message",
   name: "Send Message",
   description: "Send a simple message to a Discord channel",
-  version: "0.2.1",
+  version: "0.3.0",
   type: "action",
   props: {
     ...common.props,
   },
-  async run() {
+  async run({ $ }) {
     const {
       message,
       avatarURL,
@@ -28,12 +28,20 @@ export default {
       content += `\n\n${this.getSentViaPipedreamText()}`;
     }
 
-    // No interesting data is returned from Discord
-    await this.discordWebhook.sendMessage({
+    const params = {
       avatarURL,
       content,
       threadID,
       username,
-    });
+    };
+
+    try {
+      // No interesting data is returned from Discord
+      await this.discordWebhook.sendMessage(params);
+      $.export("$summary", "Message sent successfully");
+    } catch (err) {
+      $.export("$summary", `${err}`);
+      $.export("unsent", params);
+    }
   },
 };
