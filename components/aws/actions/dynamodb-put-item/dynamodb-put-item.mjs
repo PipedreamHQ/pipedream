@@ -29,21 +29,13 @@ export default {
       reloadProps: true,
     },
   },
-  methods: {
-    async tableAttributeDefinitions(region, tableName) {
-      const response = await this.aws.dynamodbDescribeTable(region, {
-        TableName: tableName,
-      });
-      return response.Table.AttributeDefinitions;
-    },
-  },
   async additionalProps() {
     const props = {};
     if (this.tableName) {
       const [
         primaryKey,
         secondaryKey,
-      ] = await this.tableAttributeDefinitions(this.region, this.tableName);
+      ] = await this.aws.tableAttributeDefinitions(this.region, this.tableName);
       props.primaryKey = {
         type: "string",
         label: primaryKey.AttributeName,
@@ -75,7 +67,7 @@ export default {
     const [
       primaryKey,
       secondaryKey,
-    ] = await this.tableAttributeDefinitions(this.region, this.tableName);
+    ] = await this.aws.tableAttributeDefinitions(this.region, this.tableName);
 
     params.Item[primaryKey.AttributeName] = {
       [primaryKey.AttributeType]: this.primaryKey,

@@ -413,6 +413,12 @@ export default {
       response.Items = results;
       return response;
     },
+    async tableAttributeDefinitions(region, tableName) {
+      const response = await this.dynamodbDescribeTable(region, {
+        TableName: tableName,
+      });
+      return response.Table.AttributeDefinitions;
+    },
     decodeResponsePayload(response) {
       response.Payload = JSON.parse(new TextDecoder("utf-8").decode(response.Payload) || {});
     },
