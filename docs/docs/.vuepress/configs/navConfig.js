@@ -2,6 +2,7 @@ module.exports = [
   {
     text: "Get Started",
     link: "/quickstart/",
+    variant: 'primary',
   },
   {
     text: "Concepts",

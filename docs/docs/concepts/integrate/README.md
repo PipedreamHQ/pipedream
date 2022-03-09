@@ -15,11 +15,7 @@ defineComponent({
     }
   },
   async run({ steps, $ }) {
-<<<<<<< HEAD:docs/docs/concepts/integrate/README.md
-    const web = new WebClient(this.slack.$auths.oauth_access_token)
-=======
     const web = new WebClient(this.slack.$auth.oauth_access_token)
->>>>>>> master:docs/docs/connected-accounts/README.md
     return await web.chat.postMessage({
       text: "Hello, world!",
       channel: "#general",

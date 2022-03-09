@@ -26,7 +26,32 @@ const conceptsNav = [
     collapsable: false,
     initialOpenGroupIndex: -1,
     children: [
-      { title: "Code", children: ["/code/"] },
+      { title: "Code", children: [
+        "/code/",
+          {
+            title: "Node.js",
+            type: "group",
+            children: [
+              "/code/nodejs/",
+              "/code/nodejs/auth/",
+              "/code/nodejs/http-requests/",
+              "/code/nodejs/working-with-files/",
+              "/code/nodejs/managing-state/",
+              "/code/nodejs/async/",
+            ],
+          },
+          "/code/python/",
+          "/code/go/",
+          {
+            title: 'Bash',
+            type: 'group',
+            children: [
+              '/code/bash/',
+              '/code/bash/http-requests/'
+            ]
+          },
+          "/destinations/", 
+      ] },
       { title: "Components", children: ["/components/"] },
     ],
   },

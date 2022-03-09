@@ -10,10 +10,12 @@ Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https:/
 
 Choose a language to get started:
 
-* [Node.js (Javascript)](/code/nodejs/)
-* [Python](/code/python/)
-* [Go](/code/go/)
-* [Bash](/code/bash/)
+<div class="grid grid-cols-2">
+<LanguageLink name="Node.js" link="/code/nodejs/" icon="https://res.cloudinary.com/pipedreamin/image/upload/v1646761316/docs/icons/icons8-nodejs_aax6wn.svg"/>
+<LanguageLink name="Python" link="/code/python/" icon="https://res.cloudinary.com/pipedreamin/image/upload/v1646763734/docs/icons/icons8-python_ypgmya.svg"/>
+<LanguageLink name="Go" link="/code/go/" icon="https://res.cloudinary.com/pipedreamin/image/upload/v1646763751/docs/icons/Go-Logo_Blue_zhkchv.svg"/>
+<LanguageLink name="Bash" link="/code/bash/" icon="https://res.cloudinary.com/pipedreamin/image/upload/v1646763756/docs/icons/full_colored_dark_nllzkl.svg"/>
+</div>
 
 If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).
 
