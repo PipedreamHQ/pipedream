@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-cloudwatch-logs-put-log-event",
-  name: "AWS - CloudWatch Logs - Put Log Event",
+  name: "CloudWatch Logs - Put Log Event",
   description: toSingleLineString(`
     Uploads a log event to the specified log stream.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-cloudwatch-logs/classes/putlogeventscommand.html)

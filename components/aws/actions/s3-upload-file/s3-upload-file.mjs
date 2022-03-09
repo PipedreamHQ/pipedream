@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-s3-upload-file",
-  name: "AWS - S3 - Upload File",
+  name: "S3 - Upload File",
   description: toSingleLineString(`
     Accepts a base64-encoded string and a filename, then uploads as a file to S3.
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)

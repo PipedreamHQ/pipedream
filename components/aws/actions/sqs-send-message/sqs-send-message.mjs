@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-sqs-send-message",
-  name: "AWS - SQS - Send Message",
+  name: "SQS - Send Message",
   description: toSingleLineString(`
     Sends a message to an SQS queue.
     [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sqs/classes/sendmessagecommand.html)

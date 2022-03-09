@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-get-item",
-  name: "AWS - DynamoDB - Get Item",
+  name: "DynamoDB - Get Item",
   description: toSingleLineString(`
     The Get Item operation returns a set of attributes for the item with the given primary key.
     If there is no matching item, Get Item does not return any data and there will be no Item element in the response.

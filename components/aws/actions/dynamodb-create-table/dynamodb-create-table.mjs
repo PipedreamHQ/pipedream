@@ -4,7 +4,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-create-table",
-  name: "AWS - DynamoDB - Create Table",
+  name: "DynamoDB - Create Table",
   description: toSingleLineString(`
     Creates a new table to your account.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/createtablecommand.html)

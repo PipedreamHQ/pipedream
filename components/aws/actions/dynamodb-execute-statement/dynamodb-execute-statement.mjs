@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-execute-statement",
-  name: "AWS - DynamoDB - Execute Statement",
+  name: "DynamoDB - Execute Statement",
   description: toSingleLineString(`
     This operation allows you to perform transactional reads or writes on data stored in DynamoDB, using PartiQL.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/executestatementcommand.html)

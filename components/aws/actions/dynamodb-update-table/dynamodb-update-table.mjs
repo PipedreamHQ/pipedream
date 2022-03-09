@@ -4,7 +4,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-update-table",
-  name: "AWS - DynamoDB - Update Table",
+  name: "DynamoDB - Update Table",
   description: toSingleLineString(`
     Modifies the settings for a given table. Only one type of modification is permitted per request.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/updatetablecommand.html)

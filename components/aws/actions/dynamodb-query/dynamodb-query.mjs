@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-query",
-  name: "AWS - DynamoDB - Query",
+  name: "DynamoDB - Query",
   description: toSingleLineString(`
     The query operation finds items based on primary key values.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/querycommand.html)

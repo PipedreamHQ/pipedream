@@ -4,7 +4,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-put-item",
-  name: "AWS - DynamoDB - Put Item",
+  name: "DynamoDB - Put Item",
   description: toSingleLineString(`
     Creates a new item, or replaces an old item with a new item.
     If an item that has the same primary key as the new item already exists in the specified table,

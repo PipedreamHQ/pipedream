@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-sns-send-message",
-  name: "AWS - SNS - Send Message",
+  name: "SNS - Send Message",
   description: toSingleLineString(`
     Sends a message to a SNS Topic.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sns/classes/publishcommand.html)

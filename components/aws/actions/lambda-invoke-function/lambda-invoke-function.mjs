@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-lambda-invoke-function",
-  name: "AWS - Lambda - Invoke Function",
+  name: "Lambda - Invoke Function",
   description: toSingleLineString(`
     Invoke a Lambda function using the AWS API.
     [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-lambda/index.html)

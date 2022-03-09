@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-dynamodb-scan",
-  name: "AWS - DynamoDB - Scan",
+  name: "DynamoDB - Scan",
   description: toSingleLineString(`
     The Scan operation returns one or more items and item attributes by accessing every item in a table.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/scancommand.html)

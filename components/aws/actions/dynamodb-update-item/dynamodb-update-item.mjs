@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 
 export default {
   key: "aws-dynamodb-update-item",
-  name: "AWS - DynamoDB - Update Item",
+  name: "DynamoDB - Update Item",
   description: toSingleLineString(`
     Updates an existing item's attributes, or adds a new item to the table if it does not already exist.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/updateitemcommand.html)

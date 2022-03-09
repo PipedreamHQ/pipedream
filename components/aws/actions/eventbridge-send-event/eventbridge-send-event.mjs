@@ -3,7 +3,7 @@ import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   key: "aws-eventbridge-send-event",
-  name: "AWS - EventBridge - Send event to Event Bus",
+  name: "EventBridge - Send event to Event Bus",
   description: toSingleLineString(`
     Sends an event to an EventBridge event bus.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-eventbridge/classes/puteventscommand.html)
