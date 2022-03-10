@@ -1,5 +1,6 @@
 import datadog from "../../datadog.app.mjs";
-import lodash from "lodash";
+import pick from "lodash.pick";
+import pickBy from "lodash.pickby";
 import constants from "../common/constants.mjs";
 const { MetricType } = constants;
 
@@ -69,7 +70,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = lodash.pickBy(lodash.pick(this, [
+    const params = pickBy(pick(this, [
       "metric",
       "host",
       "tags",
