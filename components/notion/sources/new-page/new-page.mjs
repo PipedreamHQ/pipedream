@@ -1,5 +1,6 @@
 import notion from "../../notion.app.mjs";
 import base from "../common/base.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...base,
@@ -19,27 +20,34 @@ export default {
     },
   },
   async run() {
-    const params = {
-      start_cursor: this.getLastCursor(),
-    };
+    const pages = [];
+    const params = this.lastCreatedSortParam();
+    const lastCreatedTimestamp = this.getLastCreatedTimestamp();
 
-    do {
-      const response = await this.notion.queryDatabase(this.databaseId, params);
+    // Get pages in updated order descending until the first page edited after
+    // lastEditedTime, then reverse list of pages and emit
+    const pagesStream = this.notion.getPages(this.databaseId, params);
 
-      response.results.forEach((page) => {
-        const title = this.notion.extractPageTitle(page);
-
-        this.$emit(page, {
-          id: page.id,
-          summary: `Page added: ${title} - ${page.id}`,
-          ts: Date.parse(page.created_time),
-        });
-      });
-
-      params.start_cursor = response.next_cursor;
-      if (params.start_cursor) {
-        this.setLastCursor(params.start_cursor);
+    for await (const page of pagesStream) {
+      if (!this.isResultNew(page.created_time, lastCreatedTimestamp)) {
+        break;
       }
-    } while (params.start_cursor);
+      pages.push(page);
+    }
+
+    pages.reverse().forEach((page) => {
+      const meta = this.generateMeta(
+        page,
+        constants.types.PAGE,
+        constants.timestamps.CREATED_TIME,
+        constants.summaries.PAGE_ADDED,
+      );
+      this.$emit(page, meta);
+    });
+
+    const lastCreatedTime = pages[pages.length - 1]?.created_time;
+    if (lastCreatedTime) {
+      this.setLastCreatedTimestamp(Date.parse(lastCreatedTime));
+    }
   },
 };

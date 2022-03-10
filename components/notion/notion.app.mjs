@@ -150,6 +150,36 @@ export default {
         ...params,
       });
     },
+    /**
+     * This generator function scans the pages in a database yields each page
+     * separately.
+     *
+     * @param {string} databaseId - The database containing the pages to scan
+     * @param {object} [opts] - Options to customize the operation
+     * @yield {object} The next page
+     */
+    async *getPages(databaseId, opts = {}) {
+      let cursor;
+
+      do {
+        const params = {
+          ...opts,
+          start_cursor: cursor,
+        };
+        const response = await this.queryDatabase(databaseId, params);
+        const {
+          results: pages,
+          next_cursor: nextCursor,
+        } = response;
+
+        for (const page of pages) {
+          yield page;
+        }
+
+        cursor = nextCursor;
+
+      } while (cursor);
+    },
     async appendBlock(parentId, block) {
       return this._getNotionClient().blocks.children.append({
         block_id: parentId,
