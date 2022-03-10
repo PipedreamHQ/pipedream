@@ -1,4 +1,6 @@
 import datadog from "../../datadog.app.mjs";
+import constants from "../common/constants.mjs";
+const { MetricType } = constants;
 
 export default {
   key: "datadog-post-metric-data",
@@ -48,7 +50,7 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (this.metricType === "rate" || this.metricType === "count") {
+    if (this.metricType === MetricType.RATE || this.metricType === MetricType.COUNT) {
       props.interval = {
         type: "integer",
         label: "Interval",

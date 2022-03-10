@@ -195,8 +195,8 @@ export default {
         await this._editMonitor(monitorId, monitorChanges);
       }
     },
-    async listHosts() {
-      return this._hostsApi().listHosts();
+    async listHosts(params) {
+      return this._hostsApi().listHosts(params);
     },
     async listTags(params) {
       return this._tagsApi().getHostTags(params);

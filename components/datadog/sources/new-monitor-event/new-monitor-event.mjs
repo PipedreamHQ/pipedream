@@ -1,5 +1,5 @@
 import datadog from "../../datadog.app.mjs";
-import { payloadFormat } from "../common/common.mjs";
+import { payloadFormat } from "../common/payloadFormat.mjs";
 
 export default {
   key: "datadog-new-monitor-event",
