@@ -21,7 +21,7 @@ export default {
         // pagination.
         const url = this._sitesEndpoint();
         const params = {
-          per_page: 10,
+          perPage: 10,
         };
         const {
           data,
@@ -51,7 +51,7 @@ export default {
         const { siteId } = context;
         const url = this._deploysEndpoint(siteId);
         const params = {
-          per_page: 10,
+          perPage: 10,
         };
         const {
           data,
@@ -156,11 +156,11 @@ export default {
         event,
         data: {
           url,
-          signature_secret: token,
+          signatureSecret: token,
         },
       };
       const requestParams = {
-        site_id: siteId,
+        siteId,
         body: hookOpts,
       };
 
@@ -182,7 +182,7 @@ export default {
         siteId,
       } = opts;
       const requestParams = {
-        hook_id: hookId,
+        hookId,
       };
 
       const netlifyClient = this.createClient();
@@ -205,23 +205,23 @@ export default {
     },
     async getSite(siteId) {
       return this.createClient().getSite({
-        site_id: siteId,
+        siteId,
       });
     },
     async listSiteDeploys(siteId) {
       return this.createClient().listSiteDeploys({
-        site_id: siteId,
+        siteId,
       });
     },
     async listFiles(siteId) {
       return this.createClient().listSiteFiles({
-        site_id: siteId,
+        siteId,
       });
     },
     async rollbackDeploy(siteId, deployId) {
       return this.createClient().restoreSiteDeploy({
-        site_id: siteId,
-        deploy_id: deployId,
+        siteId,
+        deployId,
       });
     },
   },
