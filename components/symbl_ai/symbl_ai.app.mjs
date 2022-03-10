@@ -56,7 +56,8 @@ export default {
     }) {
       return this.makeRequest({
         $,
-        path: `/conversations/${conversationId}/messages?${params}`,
+        path: `/conversations/${conversationId}/messages`,
+        params,
       });
     },
     async getActionItems({
@@ -84,7 +85,8 @@ export default {
     }) {
       return this.makeRequest({
         $,
-        path: `/conversations/${conversationId}/topics?${params}`,
+        path: `/conversations/${conversationId}/topics`,
+        params,
       });
     },
     async getQuestions({

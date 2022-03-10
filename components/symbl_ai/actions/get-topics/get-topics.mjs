@@ -33,7 +33,10 @@ export default {
       const response = await this.symblAIApp.getTopics({
         $,
         conversationId: this.conversationId,
-        params: `sentiment=${this.sentiment}&parentRefs=${this.parentRefs}`,
+        params: {
+          sentiment: this.sentiment,
+          parentRefs: this.parentRefs,
+        },
       });
       $.export("$summary", "Topics successfully retrieved from the conversation");
       return response;

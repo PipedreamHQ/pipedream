@@ -33,7 +33,10 @@ export default {
       const response = await this.symblAIApp.getSpeechToText({
         $,
         conversationId: this.conversationId,
-        params: `verbose=${this.verbose}&sentiment=${this.sentiment}`,
+        params: {
+          verbose: this.verbose,
+          sentiment: this.sentiment,
+        },
       });
       $.export("$summary", "Speech to Text messages successfully retrieved from the conversation");
       return response;
