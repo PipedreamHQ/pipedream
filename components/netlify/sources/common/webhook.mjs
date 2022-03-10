@@ -54,28 +54,28 @@ export default {
         ts,
       };
     },
-    async run(event) {
-      const {
-        headers,
-        body,
-        bodyRaw,
-      } = event;
+  },
+  async run(event) {
+    const {
+      headers,
+      body,
+      bodyRaw,
+    } = event;
 
-      // Reject any calls not made by the proper Netlify webhook.
-      if (!this.netlify.isValidSource(headers, bodyRaw, this.db)) {
-        this.http.respond({
-          status: 404,
-        });
-        return;
-      }
-
-      // Acknowledge the event back to Netlify.
+    // Reject any calls not made by the proper Netlify webhook.
+    if (!this.netlify.isValidSource(headers, bodyRaw, this.db)) {
       this.http.respond({
-        status: 200,
+        status: 404,
       });
+      return;
+    }
 
-      const meta = this.generateMeta(body);
-      this.$emit(body, meta);
-    },
+    // Acknowledge the event back to Netlify.
+    this.http.respond({
+      status: 200,
+    });
+
+    const meta = this.generateMeta(body);
+    this.$emit(body, meta);
   },
 };

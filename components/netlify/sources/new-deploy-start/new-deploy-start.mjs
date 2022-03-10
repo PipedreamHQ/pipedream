@@ -1,8 +1,8 @@
-import common from "../common/common.mjs";
+import webhook from "../common/webhook.mjs";
 import { deployHooks } from "../common/constants.mjs";
 
 export default {
-  ...common,
+  ...webhook,
   key: "netlify-new-deploy-start",
   name: "New Deploy Start (Instant)",
   description: "Emit new event when a new deployment is started",
@@ -10,7 +10,7 @@ export default {
   version: "0.0.2",
   dedupe: "unique",
   methods: {
-    ...common.methods,
+    ...webhook.methods,
     getHookEvent() {
       return deployHooks.DEPLOY_BUILDING;
     },
@@ -19,5 +19,4 @@ export default {
       return `Deploy started for commit ${commitRef}`;
     },
   },
-  run: common.methods.run,
 };

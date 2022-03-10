@@ -1,8 +1,8 @@
-import common from "../common/common.mjs";
+import webhook from "../common/webhook.mjs";
 import { deployHooks } from "../common/constants.mjs";
 
 export default {
-  ...common,
+  ...webhook,
   key: "netlify-new-form-submission",
   name: "New Form Submission (Instant)",
   description: "Emit new event when a user submits a form",
@@ -10,7 +10,7 @@ export default {
   version: "0.0.2",
   dedupe: "unique",
   methods: {
-    ...common.methods,
+    ...webhook.methods,
     getHookEvent() {
       return deployHooks.SUBMISSION_CREATED;
     },
@@ -19,5 +19,4 @@ export default {
       return `New form submission for ${formName}`;
     },
   },
-  run: common.methods.run,
 };
