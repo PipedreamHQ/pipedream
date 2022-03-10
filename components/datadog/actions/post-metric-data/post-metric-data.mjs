@@ -1,4 +1,5 @@
 import datadog from "../../datadog.app.mjs";
+import lodash from "lodash";
 import constants from "../common/constants.mjs";
 const { MetricType } = constants;
 
@@ -68,14 +69,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      metric: this.metric,
-      points: this.convertMetricPoints(this.points),
-    };
-    if (this.host) params.host = this.host;
-    if (this.tags) params.tags = this.tags;
-    if (this.metricType) params.metricType = this.metricType;
-    if (this.interval) params.interval = this.interval;
+    const params = lodash.pickBy(lodash.pick(this, [
+      "metric",
+      "host",
+      "tags",
+      "metricType",
+      "interval",
+    ]));
+    params.points = this.convertMetricPoints(this.points);
 
     const response = await this.datadog.postMetricData({
       series: [
