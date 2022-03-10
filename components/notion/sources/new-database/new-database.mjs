@@ -1,7 +1,7 @@
-import common from "../common/common.mjs";
+import base from "../common/base.mjs";
 
 export default {
-  ...common,
+  ...base,
   key: "notion-new-database",
   name: "New Database",
   description: "Emit new event when a database is created",

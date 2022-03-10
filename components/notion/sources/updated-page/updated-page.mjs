@@ -1,8 +1,8 @@
 import notion from "../../notion.app.mjs";
-import common from "../common/common.mjs";
+import base from "../common/base.mjs";
 
 export default {
-  ...common,
+  ...base,
   key: "notion-udpated-page",
   name: "Updated Page", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page is updated",
@@ -10,7 +10,7 @@ export default {
   type: "source",
   dedupe: "last",
   props: {
-    ...common.props,
+    ...base.props,
     databaseId: {
       propDefinition: [
         notion,

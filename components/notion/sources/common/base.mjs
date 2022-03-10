@@ -1,5 +1,5 @@
 import notion from "../../notion.app.mjs";
-import constants from "../common/constants.mjs";
+import constants from "./constants.mjs";
 
 export default {
   props: {
