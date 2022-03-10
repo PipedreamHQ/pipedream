@@ -1,5 +1,6 @@
 const base = require("./base");
 /*
+http based sources:
 new-or-updated-subscriber
 new-list-event
 new-subscriber
@@ -55,10 +56,10 @@ module.exports = {
         this.listId,
         config,
       );
-      this._setWebhookId(webhook.id)
+      this.mailchimp.setDbServiceVariable("webhookId", webhook.id)
     },
     async deactivate() {
-      const webhookId = this._getWebhookId();
+      const webhookId = this.mailchimp.getDbServiceVariable("webhookId");
       await this.mailchimp.deleteWebhook(
         this.listId,
         webhookId,
@@ -66,13 +67,7 @@ module.exports = {
     },
   },
   methods: {
-    ...base.methods,
-    _getWebhookId() {
-      return this.db.get("webhookId");
-    },
-    _setWebhookId(webhookId) {
-      this.db.set("webhookId", webhookId);
-    },    
+    ...base.methods,   
     getEventTypes() {
       throw new Error("getEventType is not implemented");
     },

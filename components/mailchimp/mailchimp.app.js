@@ -170,6 +170,13 @@ module.exports = {
       return await this._withRetries(() =>
         mailchimp.lists.deleteListWebhook(listId, webhookId));
     },
+    //TODO: document this method
+    getDbServiceVariable(variable) {
+      return this.db.get(`${variable}`);
+    },
+    setDbServiceVariable(variable, value) {
+      this.db.set(`${variable}`, value);
+    }, 
     /**
      * Gets a campaign's send or create time.
      * @param {String} campaign - The campaign object to get its timestamp.

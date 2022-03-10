@@ -54,7 +54,7 @@ module.exports = {
         return;
       }
       const sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);
-      this.db.set("lastSinceDate", sinceDate);
+      this.mailchimp.setDbServiceVariable("lastSinceDate", sinceDate);
       mailchimpCampaigns.reverse().forEach(this.processEvent);
     },
   },
@@ -76,7 +76,7 @@ module.exports = {
   },
   async run() {
     const beforeDate = moment().toISOString();
-    let sinceDate = this.db.get("lastSinceDate");
+    let sinceDate = this.mailchimp.getDbServiceVariable("lastSinceDate");
     let campaigns;
     let offset = 0;
     const config = {
@@ -99,7 +99,7 @@ module.exports = {
       }
       sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);      
       campaigns.reverse().forEach(this.processEvent);
-      this.db.set("lastSinceDate", sinceDate);
+      this.mailchimp.setDbServiceVariable("lastSinceDate", sinceDate);
       offset = offset + campaigns.length;
     } while (campaigns.length  === pageSize);
   },
