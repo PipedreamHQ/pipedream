@@ -30,7 +30,7 @@ export default {
   },
   async run({ $ }) {
     try {
-      const response = await this.symblAIApp.getSpeechToText({
+      const { messages } = await this.symblAIApp.getSpeechToText({
         $,
         conversationId: this.conversationId,
         params: {
@@ -38,8 +38,10 @@ export default {
           sentiment: this.sentiment,
         },
       });
-      $.export("$summary", "Speech to Text messages successfully retrieved from the conversation");
-      return response;
+      $.export("$summary", `Successfully retrieved ${messages.length} Speech to Text message${messages.length === 1
+        ? ""
+        : "s"} from the conversation`);
+      return messages;
     } catch (error) {
       console.log("Error: ", error);
       $.export("$summary", "Failed to retrieve Speech to Text messages from the conversation");

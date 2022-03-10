@@ -16,12 +16,14 @@ export default {
   },
   async run({ $ }) {
     try {
-      const response = await this.symblAIApp.getQuestions({
+      const { questions } = await this.symblAIApp.getQuestions({
         $,
         conversationId: this.conversationId,
       });
-      $.export("$summary", "Questions successfully retrieved from the conversation");
-      return response;
+      $.export("$summary", `Successfully retrieved ${questions.length} Question${questions.length === 1
+        ? ""
+        : "s"} from the conversation`);
+      return questions;
     } catch (error) {
       console.log("Error: ", error);
       $.export("$summary", "Failed to retrieve Questions from the conversation");

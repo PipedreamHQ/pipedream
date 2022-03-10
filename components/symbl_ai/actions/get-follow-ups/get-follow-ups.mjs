@@ -16,12 +16,14 @@ export default {
   },
   async run({ $ }) {
     try {
-      const response = await this.symblAIApp.getFollowUps({
+      const { followUps } = await this.symblAIApp.getFollowUps({
         $,
         conversationId: this.conversationId,
       });
-      $.export("$summary", "Follow-ups successfully retrieved from the conversation");
-      return response;
+      $.export("$summary", `Successfully retrieved ${followUps.length} Follow-up${followUps.length === 1
+        ? ""
+        : "s"} from the conversation`);
+      return followUps;
     } catch (error) {
       console.log("Error: ", error);
       $.export("$summary", "Failed to retrieve Follow-ups from the conversation");

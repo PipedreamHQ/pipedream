@@ -30,7 +30,7 @@ export default {
   },
   async run({ $ }) {
     try {
-      const response = await this.symblAIApp.getTopics({
+      const { topics } = await this.symblAIApp.getTopics({
         $,
         conversationId: this.conversationId,
         params: {
@@ -38,8 +38,10 @@ export default {
           parentRefs: this.parentRefs,
         },
       });
-      $.export("$summary", "Topics successfully retrieved from the conversation");
-      return response;
+      $.export("$summary", `Successfully retrieved ${topics.length} Topic${topics.length === 1
+        ? ""
+        : "s"} from the conversation`);
+      return topics;
     } catch (error) {
       console.log("Error: ", error);
       $.export("$summary", "Failed to retrieve Topics from the conversation");
