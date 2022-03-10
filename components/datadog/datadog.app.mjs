@@ -11,16 +11,17 @@ export default {
       label: "Host",
       description: "The name of the host that produced the metric",
       async options({ prevContext }) {
+        const start = prevContext.totalReturned ?? 0;
         const {
           hostList,
           totalReturned,
         } = await this.listHosts({
-          start: prevContext.totalReturned ?? 0,
+          start,
         });
         return {
           options: hostList.map((host) => host.name),
           context: {
-            totalReturned,
+            totalReturned: start + totalReturned,
           },
         };
       },
