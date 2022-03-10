@@ -14,10 +14,34 @@ export default {
         "siteId",
       ],
     },
+    max: {
+      propDefinition: [
+        netlify,
+        "max",
+      ],
+      description: "Max number of sites to return",
+    },
   },
   async run({ $ }) {
-    const response = this.netlify.listSiteDeploys(this.siteId);
+    const results = [];
+    let r = [];
+    let page = 1;
+
+    do {
+      r = await this.netlify.listSiteDeploys(this.siteId, {
+        page,
+        perPage: 100,
+      });
+      results.push(...r);
+      page++;
+
+      if (this.max && results.length >= this.max) {
+        results.length = this.max;
+        break;
+      }
+    } while (r.length > 0);
+
     $.export("$summary", "Got deploys for site");
-    return response;
+    return results;
   },
 };

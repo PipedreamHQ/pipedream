@@ -72,6 +72,12 @@ export default {
         };
       },
     },
+    max: {
+      type: "integer",
+      label: "Max Results",
+      description: "Max results to return",
+      optional: true,
+    },
   },
   methods: {
     _apiUrl() {
@@ -208,9 +214,10 @@ export default {
         siteId,
       });
     },
-    async listSiteDeploys(siteId) {
+    async listSiteDeploys(siteId, params = {}) {
       return this.createClient().listSiteDeploys({
         siteId,
+        ...params,
       });
     },
     async listFiles(siteId) {
