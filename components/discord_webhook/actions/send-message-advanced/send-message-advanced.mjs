@@ -37,6 +37,15 @@ export default {
       throw new Error("This action requires at least 1 message OR embeds object. Please enter one or the other above.");
     }
 
+    const params = {
+      avatarURL,
+      embeds,
+      message,
+      threadID,
+      username,
+      includeSentViaPipedream,
+    };
+
     let content = message ?? "";
 
     if (includeSentViaPipedream) {
@@ -46,21 +55,16 @@ export default {
       content += `\n\n${this.getSentViaPipedreamText()}`;
     }
 
-    const params = {
-      avatarURL,
-      embeds,
-      content,
-      threadID,
-      username,
-    };
-
     try {
       // No interesting data is returned from Discord
-      await this.discordWebhook.sendMessage(params);
+      await this.discordWebhook.sendMessage({
+        ...params,
+        content,
+      });
       $.export("$summary", "Message sent successfully");
     } catch (err) {
-      $.export("$summary", `${err}`);
       $.export("unsent", params);
+      throw err;
     }
   },
 };

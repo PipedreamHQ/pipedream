@@ -48,7 +48,15 @@ export default {
       throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
     }
 
-    let content = message ?? "";
+    const params = {
+      message,
+      avatarURL,
+      threadID,
+      username,
+      fileUrl,
+      filePath,
+      includeSentViaPipedream,
+    };
 
     const file = fileUrl
       ? (await axios({
@@ -58,6 +66,8 @@ export default {
       })).data
       : fs.createReadStream(filePath);
 
+    let content = message ?? "";
+
     if (includeSentViaPipedream) {
       if (typeof content !== "string") {
         content = JSON.stringify(content);
@@ -65,21 +75,17 @@ export default {
       content += `\n\n${this.getSentViaPipedreamText()}`;
     }
 
-    const params = {
-      content,
-      avatarURL,
-      threadID,
-      username,
-      file,
-    };
-
     try {
       // No interesting data is returned from Discord
-      await this.discordWebhook.sendMessageWithFile(params);
+      await this.discordWebhook.sendMessageWithFile({
+        ...params,
+        content,
+        file,
+      });
       $.export("$summary", "Message sent successfully");
     } catch (err) {
-      $.export("$summary", `${err}`);
       $.export("unsent", params);
+      throw err;
     }
   },
 };
