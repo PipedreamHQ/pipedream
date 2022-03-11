@@ -5,16 +5,10 @@ export default {
   key: "pipedrive-search-persons",
   name: "Search persons",
   description: "Searches all Persons by name, email, phone, notes and/or custom fields. This endpoint is a wrapper of /v1/itemSearch with a narrower OAuth scope. Found Persons can be filtered by Organization ID. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/#!/Persons/get_persons_search)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     pipedriveApp,
-    companyDomain: {
-      propertyDefinition: [
-        pipedriveApp,
-        "companyDomain",
-      ],
-    },
     term: {
       type: "string",
       label: "Search term",
@@ -34,7 +28,7 @@ export default {
       optional: true,
     },
     organizationId: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "organizationId",
       ],
@@ -48,13 +42,13 @@ export default {
       options: constants.INCLUDE_FIELDS_OPTIONS,
     },
     start: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "start",
       ],
     },
     limit: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "limit",
       ],
@@ -62,7 +56,6 @@ export default {
   },
   async run({ $ }) {
     const {
-      companyDomain,
       term,
       fields,
       exactMatch,
@@ -74,19 +67,16 @@ export default {
 
     const resp =
       await this.pipedriveApp.searchPersons({
-        companyDomain,
-        data: {
-          term,
-          fields,
-          exact_match: exactMatch,
-          org_id: organizationId,
-          include_fields: includeFields,
-          start,
-          limit,
-        },
+        term,
+        fields,
+        exact_match: exactMatch,
+        org_id: organizationId,
+        include_fields: includeFields,
+        start,
+        limit,
       });
 
-    $.export("$summary", "Successfully searched persons");
+    $.export("$summary", `Successfully found ${resp.data?.items.length || 0} persons`);
 
     return resp;
   },

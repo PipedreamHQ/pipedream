@@ -1,19 +1,14 @@
 import pipedriveApp from "../../pipedrive.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "pipedrive-add-activity",
   name: "Add Activity",
   description: "Adds a new activity. Includes more_activities_scheduled_in_context property in response's additional_data which indicates whether there are more undone activities scheduled with the same deal, person or organization (depending on the supplied data). See the Pipedrive API docs for Activities [here](https://developers.pipedrive.com/docs/api/v1/#!/Activities). For info on [adding an activity in Pipedrive](https://pipedrive.readme.io/docs/adding-an-activity)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     pipedriveApp,
-    companyDomain: {
-      propertyDefinition: [
-        pipedriveApp,
-        "companyDomain",
-      ],
-    },
     subject: {
       type: "string",
       label: "Subject",
@@ -49,7 +44,7 @@ export default {
       optional: true,
     },
     userId: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "userId",
       ],
@@ -62,7 +57,7 @@ export default {
       optional: true,
     },
     personId: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "personId",
       ],
@@ -75,7 +70,7 @@ export default {
       optional: true,
     },
     organizationId: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "organizationId",
       ],
@@ -114,7 +109,6 @@ export default {
   },
   async run({ $ }) {
     const {
-      companyDomain,
       subject,
       done,
       type,
@@ -134,30 +128,23 @@ export default {
     } = this;
 
     const resp =
-      await this.pipedriveApp.createActivity({
-        companyDomain,
-        data: {
-          subject,
-          done,
-          type,
-          due_date: dueDate,
-          due_time: dueTime,
-          duration,
-          user_id: userId,
-          deal_id: dealId,
-          person_id: personId,
-          participants: typeof participants == "undefined"
-            ? participants
-            : JSON.parse(participants),
-          org_id: organizationId,
-          note,
-          location,
-          public_description: publicDescription,
-          busy_flag: busyFlag,
-          attendees: typeof attendees == "undefined"
-            ? attendees
-            : JSON.parse(attendees),
-        },
+      await this.pipedriveApp.addActivity({
+        subject,
+        done,
+        type,
+        due_date: dueDate,
+        due_time: dueTime,
+        duration,
+        user_id: userId,
+        deal_id: dealId,
+        person_id: personId,
+        participants: utils.parseOrUndefined(participants),
+        org_id: organizationId,
+        note,
+        location,
+        public_description: publicDescription,
+        busy_flag: busyFlag,
+        attendees: utils.parseOrUndefined(attendees),
       });
 
     $.export("$summary", "Successfully added activity");

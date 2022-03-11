@@ -4,36 +4,30 @@ export default {
   key: "pipedrive-add-organization",
   name: "Add Organization",
   description: "Adds a new organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/#!/Organizations)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     pipedriveApp,
-    companyDomain: {
-      propertyDefinition: [
-        pipedriveApp,
-        "companyDomain",
-      ],
-    },
     name: {
       type: "string",
       label: "Name",
       description: "Organization name",
     },
     ownerId: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "ownerId",
       ],
     },
     visibleTo: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "visibleTo",
       ],
       description: "Visibility of the organization. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.\n1 - Owner & followers (private)\n3 - Entire company (shared)",
     },
     addTime: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "addTime",
       ],
@@ -42,7 +36,6 @@ export default {
   },
   async run({ $ }) {
     const {
-      companyDomain,
       name,
       ownerId,
       visibleTo,
@@ -50,14 +43,11 @@ export default {
     } = this;
 
     const resp =
-      await this.pipedriveApp.createOrganization({
-        companyDomain,
-        data: {
-          name,
-          owner_id: ownerId,
-          visible_to: visibleTo,
-          add_time: addTime,
-        },
+      await this.pipedriveApp.addOrganization({
+        name,
+        owner_id: ownerId,
+        visible_to: visibleTo,
+        add_time: addTime,
       });
 
     $.export("$summary", "Successfully added organization");

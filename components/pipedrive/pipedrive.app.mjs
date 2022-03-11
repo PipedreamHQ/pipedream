@@ -1,15 +1,10 @@
-import { axios } from "@pipedream/platform";
+import pipedrive from "pipedrive";
 import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "pipedrive",
   propDefinitions: {
-    companyDomain: {
-      type: "string",
-      label: "Company Domain",
-      description: "Your company name as registered in Pipedrive, which becomes part of Pipedrive API base url.",
-    },
     userId: {
       type: "integer",
       label: "User ID",
@@ -103,102 +98,128 @@ export default {
     },
   },
   methods: {
-    getHeaders() {
-      return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-      };
+    setupToken() {
+      const api = pipedrive.ApiClient.instance;
+      api.authentications.oauth2.accessToken = this.$auth.oauth_access_token;
     },
-    buildUrl({
-      companyDomain, path,
-    }) {
-      const baseUrl =
-        constants.BASE_URL.replace(constants.COMPANY_DOMAIN_PLACEHOLDER, companyDomain);
-      return `${baseUrl}${path}`;
+    api(className) {
+      this.setupToken();
+      return new pipedrive[className]();
     },
-    async makeRequest(customConfig) {
+    buildOpts(property, opts) {
+      return pipedrive[property].constructFromObject(opts);
+    },
+    async addActivity(opts = {}) {
+      const [
+        className,
+        addProperty,
+      ] = constants.API.ACTIVITIES;
+      return this.api(className).addActivity(this.buildOpts(addProperty, opts));
+    },
+    async addDeal(opts = {}) {
+      const [
+        className,
+        addProperty,
+      ] = constants.API.DEALS;
+      return this.api(className).addDeal(this.buildOpts(addProperty, opts));
+    },
+    async updateDeal(opts = {}) {
       const {
-        $,
-        companyDomain,
-        path,
-        url,
-        ...otherConfig
-      } = customConfig;
+        dealId,
+        ...otherOpts
+      } = opts;
+      const [
+        className,,
+        updateProperty,
+      ] = constants.API.DEALS;
+      return this.api(className).updateDeal(dealId, this.buildOpts(updateProperty, otherOpts));
+    },
+    async addOrganization(opts = {}) {
+      const [
+        className,
+        addProperty,
+      ] = constants.API.ORGANIZATIONS;
+      return this.api(className).addOrganization(this.buildOpts(addProperty, opts));
+    },
+    async addPerson(opts = {}) {
+      const [
+        className,
+        addProperty,
+      ] = constants.API.PERSONS;
+      return this.api(className).addPerson(this.buildOpts(addProperty, opts));
+    },
+    async searchPersons(opts = {}) {
+      const {
+        term,
+        ...otherOpts
+      } = opts;
+      const [
+        className,
+      ] = constants.API.PERSONS;
+      return this.api(className).searchPersons(term, otherOpts);
+    },
+    async getDeals(opts = {}) {
+      const [
+        className,
+      ] = constants.API.DEALS;
+      return this.api(className).getDeals(opts);
+    },
+    async getPersons(opts = {}) {
+      const [
+        className,
+      ] = constants.API.PERSONS;
+      return this.api(className).getPersons(opts);
+    },
+    async *getResourcesStream({
+      resourceFn,
+      resourceFnArgs,
+      limit = constants.DEFAULT_PAGE_LIMIT,
+      max,
+      lastResourceProperty,
+      done,
+    }) {
+      let page = 0;
+      let resourcesCount = 0;
 
-      const config = {
-        url: url ?? this.buildUrl({
-          companyDomain,
-          path,
-        }),
-        headers: this.getHeaders(),
-        ...otherConfig,
-      };
+      while (true) {
+        const nextResponse =
+          await resourceFn({
+            ...resourceFnArgs,
+            limit,
+            start: page * limit,
+          });
 
-      return axios($, config);
-    },
-    async createActivity({
-      $, companyDomain, data,
-    }) {
-      return this.makeRequest({
-        $,
-        method: "post",
-        path: "/activities",
-        companyDomain,
-        data,
-      });
-    },
-    async createDeal({
-      $, companyDomain, data,
-    }) {
-      return this.makeRequest({
-        $,
-        method: "post",
-        path: "/deals",
-        companyDomain,
-        data,
-      });
-    },
-    async updateDeal({
-      $, companyDomain, dealId, data,
-    }) {
-      return this.makeRequest({
-        $,
-        method: "put",
-        path: `/deals/${dealId}`,
-        companyDomain,
-        data,
-      });
-    },
-    async createOrganization({
-      $, companyDomain, data,
-    }) {
-      return this.makeRequest({
-        $,
-        method: "post",
-        path: "/organizations",
-        companyDomain,
-        data,
-      });
-    },
-    async createPerson({
-      $, companyDomain, data,
-    }) {
-      return this.makeRequest({
-        $,
-        method: "post",
-        path: "/persons",
-        companyDomain,
-        data,
-      });
-    },
-    async searchPersons({
-      $, companyDomain, params,
-    }) {
-      return this.makeRequest({
-        $,
-        path: "/persons/search",
-        companyDomain,
-        params,
-      });
+        if (!nextResponse) {
+          throw new Error("No response from the Pipedrive API.");
+        }
+
+        const {
+          data: nextResources,
+          additional_data: additionalData,
+        } = nextResponse;
+
+        const { more_items_in_collection: moreItemsInCollection } = additionalData.pagination;
+
+        for (const resource of nextResources || []) {
+          const isDone = done && done({
+            lastResourceProperty,
+            resource,
+          });
+
+          if (isDone) {
+            return;
+          }
+
+          resourcesCount += 1;
+          yield resource;
+        }
+
+        if (!moreItemsInCollection || (max && resourcesCount >= max)) {
+          return;
+        }
+
+        page += 1;
+      }
     },
   },
 };

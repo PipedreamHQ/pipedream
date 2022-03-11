@@ -4,84 +4,78 @@ export default {
   key: "pipedrive-add-deal",
   name: "Add Deal",
   description: "Adds a new deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/#!/Deals)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     pipedriveApp,
-    companyDomain: {
-      propertyDefinition: [
-        pipedriveApp,
-        "companyDomain",
-      ],
-    },
     title: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "dealTitle",
       ],
     },
     value: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "dealValue",
       ],
     },
     currency: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "dealCurrency",
       ],
     },
     userId: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "userId",
       ],
     },
     personId: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "personId",
       ],
     },
     organizationId: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "organizationId",
       ],
     },
     stageId: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "stageId",
       ],
     },
     status: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "status",
       ],
     },
     probability: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "probability",
       ],
     },
     lostReason: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "lostReason",
       ],
     },
     visibleTo: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "visibleTo",
       ],
     },
     addTime: {
-      propertyDefinition: [
+      propDefinition: [
         pipedriveApp,
         "addTime",
       ],
@@ -89,7 +83,6 @@ export default {
   },
   async run({ $ }) {
     const {
-      companyDomain,
       title,
       value,
       currency,
@@ -105,22 +98,19 @@ export default {
     } = this;
 
     const resp =
-      await this.pipedriveApp.createDeal({
-        companyDomain,
-        data: {
-          title,
-          value,
-          currency,
-          user_id: userId,
-          person_id: personId,
-          org_id: organizationId,
-          stage_id: stageId,
-          status,
-          probability,
-          lost_reason: lostReason,
-          visible_to: visibleTo,
-          add_time: addTime,
-        },
+      await this.pipedriveApp.addDeal({
+        title,
+        value,
+        currency,
+        user_id: userId,
+        person_id: personId,
+        org_id: organizationId,
+        stage_id: stageId,
+        status,
+        probability,
+        lost_reason: lostReason,
+        visible_to: visibleTo,
+        add_time: addTime,
       });
 
     $.export("$summary", "Successfully added deal");
