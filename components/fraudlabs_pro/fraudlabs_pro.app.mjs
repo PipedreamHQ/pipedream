@@ -1,4 +1,5 @@
 import fraudlabspro from "fraudlabspro-nodejs";
+import { promisify } from "util";
 
 export default {
   type: "app",
@@ -16,24 +17,14 @@ export default {
       return new fraudlabspro.SMSVerification(this.$auth.api_key);
     },
     async sendSmsVerification(params) {
-      return new Promise((resolve, reject) => {
-        this.smsVerification().sendSMS(params, (err, data) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(data);
-        });
-      });
+      const smsVerification = this.smsVerification();
+      const sendSMS = promisify(smsVerification.sendSMS).bind(smsVerification);
+      return sendSMS(params);
     },
     async verifyOtp(params) {
-      return new Promise((resolve, reject) => {
-        this.smsVerification().verifyOTP(params, (err, data) => {
-          if (err) {
-            reject(data);
-          }
-          resolve(data);
-        });
-      });
+      const smsVerification = this.smsVerification();
+      const verifyOTP = promisify(smsVerification.verifyOTP).bind(smsVerification);
+      return verifyOTP(params);
     },
   },
 };
