@@ -101,14 +101,15 @@ export default {
       };
     },
     _getRequestParams(opts) {
+      const {
+        path,
+        ...extraOpts
+      } = opts;
+      const baseRequestConfig = this._makeRequestConfig();
       return {
-        ...opts,
-        url: `${this._apiUrl()}${opts.path}`,
-        headers: {
-          "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
-          "User-Agent": "@PipedreamHQ/pipedream v0.1",
-        },
-        path: undefined,
+        ...baseRequestConfig,
+        url: `${this._apiUrl()}${path}`,
+        ...extraOpts,
       };
     },
     async genericApiGetCall(url, params = {}) {
@@ -339,7 +340,7 @@ export default {
       return Object.entries(obj).reduce((a, [
         k,
         v,
-      ]) => (v
+      ]) => (v !== ""
         ? (a[k] = v, a)
         : a), {});
     },
