@@ -1,4 +1,4 @@
-import zohoCrmApp from "../../zoho_crm.app.mjs";
+import zohoCrm from "../../zoho_crm.app.mjs";
 
 export default {
   key: "zoho_crm-create-object",
@@ -7,10 +7,10 @@ export default {
   version: "0.2.2",
   type: "action",
   props: {
-    zohoCrmApp,
+    zohoCrm,
     module: {
       propDefinition: [
-        zohoCrmApp,
+        zohoCrm,
         "module",
       ],
     },
@@ -136,7 +136,7 @@ export default {
     return props;
   },
   async run({ $ }) {
-    let props = {
+    const props = this.zohoCrm.omitEmptyStringValues({
       First_Name: this.firstName,
       Last_Name: this.lastName,
       Email: this.email,
@@ -148,14 +148,7 @@ export default {
       Call_Start_Time: this.callStartTime,
       Call_Duration: this.callDuration,
       ...this.additionalData,
-    };
-    // delete undefined props
-    props = Object.entries(props).reduce((a, [
-      k,
-      v,
-    ]) => (v
-      ? (a[k] = v, a)
-      : a), {});
+    });
     const data = {
       data: [
         {
@@ -163,7 +156,7 @@ export default {
         },
       ],
     };
-    const res = await this.zohoCrmApp.createObject(this.module, data, $);
+    const res = await this.zohoCrm.createObject(this.module, data, $);
     $.export("$summary", `Successfully created new ${this.module.substring(0, this.module.length - 1)}`);
     return res;
   },

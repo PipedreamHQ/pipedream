@@ -43,7 +43,7 @@ export default {
     user: {
       type: "string",
       label: "User",
-      description: "Use this key to associate a contact with the lead being converted. Pass the unique and valid contact ID.",
+      description: "Use this key to assign record owner for the new contact and account. Pass the unique and valid user ID.",
       async options({ page }) {
         const { users } = await this.listRecords("users?type=ActiveUsers", page);
         return users.map((user) => ({
@@ -69,6 +69,9 @@ export default {
     },
   },
   methods: {
+    _authToken() {
+      return this.$auth.oauth_access_token;
+    },
     _apiUrl() {
       return "https://www.zohoapis.com/crm/v2";
     },
@@ -97,19 +100,10 @@ export default {
         headers,
       };
     },
-    _getAxiosParams(opts) {
-      console.log({
-        ...opts,
-        url: `${this.$auth.api_domain}/crm/v2${opts.path}`,
-        headers: {
-          "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
-          "User-Agent": "@PipedreamHQ/pipedream v0.1",
-        },
-        path: undefined,
-      });
+    _getRequestParams(opts) {
       return {
         ...opts,
-        url: `https://www.zohoapis.com/crm/v2.1${opts.path}`,
+        url: `${this._apiUrl()}${opts.path}`,
         headers: {
           "Authorization": `Zoho-oauthtoken ${this.$auth.oauth_access_token}`,
           "User-Agent": "@PipedreamHQ/pipedream v0.1",
@@ -121,10 +115,10 @@ export default {
       const baseRequestConfig = this._makeRequestConfig();
       const requestConfig = {
         ...baseRequestConfig,
+        url,
         params,
       };
-      const { data } = await axios(this, url, requestConfig);
-      return data;
+      return axios(this, requestConfig);
     },
     usersPageSize() {
       return 200;
@@ -252,7 +246,7 @@ export default {
         url,
         data: requestData,
         ...requestConfig,
-      }
+      };
       const { data } = await axios(this, config);
       return data;
     },
@@ -273,7 +267,7 @@ export default {
         method: "DELETE",
         url,
         ...requestConfig,
-      }
+      };
       await axios(this, config);
     },
     async renewHookSubscription(opts) {
@@ -309,7 +303,7 @@ export default {
         url,
         data: requestData,
         ...requestConfig,
-      }
+      };
       const { data } = await axios(this, config);
       const watch = data.watch[0];
       console.log(watch);
@@ -320,7 +314,7 @@ export default {
       return data;
     },
     async listRecords(moduleType, page = 0, $) {
-      return axios($ ?? this, this._getAxiosParams({
+      return axios($ ?? this, this._getRequestParams({
         path: `/${moduleType}`,
         data: {
           page: page + 1,
@@ -328,18 +322,26 @@ export default {
       }));
     },
     async convertLead(lead, data, $) {
-      return axios($ ?? this, this._getAxiosParams({
+      return axios($ ?? this, this._getRequestParams({
         method: "POST",
         path: `/Leads/${lead}/actions/convert`,
         data,
       }));
     },
     async createObject(moduleType, data, $) {
-      return axios($ ?? this, this._getAxiosParams({
+      return axios($ ?? this, this._getRequestParams({
         method: "POST",
         path: `/${moduleType}`,
         data,
       }));
+    },
+    omitEmptyStringValues(obj) {
+      return Object.entries(obj).reduce((a, [
+        k,
+        v,
+      ]) => (v
+        ? (a[k] = v, a)
+        : a), {});
     },
   },
 };

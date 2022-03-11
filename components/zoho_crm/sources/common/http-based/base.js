@@ -2,7 +2,7 @@ const {
   randomBytes,
   randomInt,
 } = require("crypto");
-const zohoCrm = require("../../../zoho_crm.app.js");
+const zohoCrm = require("../../../zoho_crm.app.mjs");
 
 // Zoho CRM webhooks subscriptions have an expiration date of up to 1 day. This
 // event source renews the subscription every 12 hours by default. More info can

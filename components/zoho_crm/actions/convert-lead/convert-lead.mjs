@@ -1,36 +1,37 @@
-import zohoCrmApp from "../../zoho_crm.app.mjs";
+import zohoCrm from "../../zoho_crm.app.mjs";
 
 export default {
   key: "zoho_crm-convert-lead",
   name: "Convert Lead",
   description: "Converts a Lead into a Contact or an Account. [See the docs here](https://www.zoho.com/crm/developer/docs/api/v2/convert-lead.html)",
-  version: "0.0.1",
+  //version: "0.0.1",
+  version: "0.0.18",
   type: "action",
   props: {
-    zohoCrmApp,
+    zohoCrm,
     lead: {
       propDefinition: [
-        zohoCrmApp,
+        zohoCrm,
         "lead",
       ],
     },
     account: {
       propDefinition: [
-        zohoCrmApp,
+        zohoCrm,
         "account",
       ],
       optional: true,
     },
     contact: {
       propDefinition: [
-        zohoCrmApp,
+        zohoCrm,
         "contact",
       ],
       optional: true,
     },
     user: {
       propDefinition: [
-        zohoCrmApp,
+        zohoCrm,
         "user",
       ],
       optional: true,
@@ -45,14 +46,14 @@ export default {
     } = this;
     const data = {
       data: [
-        {
-          Accounts: account || undefined,
-          Contacts: contact || undefined,
-          assign_to: user || undefined,
-        },
+        this.zohoCrm.omitEmptyStringValues({
+          Accounts: account,
+          Contacts: contact,
+          assign_to: user,
+        }),
       ],
     };
-    const res = await this.zohoCrmApp.convertLead(lead, data, $);
+    const res = await this.zohoCrm.convertLead(lead, data, $);
     $.export("$summary", "Successfully converted lead");
     return res;
   },
