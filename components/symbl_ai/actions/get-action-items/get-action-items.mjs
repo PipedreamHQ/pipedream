@@ -9,9 +9,10 @@ export default {
   props: {
     symblAIApp,
     conversationId: {
-      type: "string",
-      label: "Conversation Id",
-      description: "The Id of the Conversation",
+      propDefinition: [
+        symblAIApp,
+        "conversationId",
+      ],
     },
   },
   async run({ $ }) {
