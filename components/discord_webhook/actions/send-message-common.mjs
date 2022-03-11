@@ -39,6 +39,14 @@ export default {
     },
   },
   methods: {
+    appendPipedreamText(message) {
+      let content = message;
+      if (typeof content !== "string") {
+        content = JSON.stringify(content);
+      }
+      content += `\n\n${this.getSentViaPipedreamText()}`;
+      return content;
+    },
     getSentViaPipedreamText() {
       const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
       // The link text is a URL without a protocol for consistency with the "Send via link" text in

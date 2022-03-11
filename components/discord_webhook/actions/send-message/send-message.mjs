@@ -27,20 +27,13 @@ export default {
       includeSentViaPipedream,
     };
 
-    let content = message;
-
-    if (includeSentViaPipedream) {
-      if (typeof content !== "string") {
-        content = JSON.stringify(content);
-      }
-      content += `\n\n${this.getSentViaPipedreamText()}`;
-    }
-
     try {
       // No interesting data is returned from Discord
       await this.discordWebhook.sendMessage({
         ...params,
-        content,
+        content: includeSentViaPipedream
+          ? this.appendPipedreamText(message)
+          : message,
       });
       $.export("$summary", "Message sent successfully");
     } catch (err) {
