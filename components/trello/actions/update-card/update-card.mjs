@@ -156,13 +156,8 @@ export default {
       "subscribed",
       "address",
       "locationName",
+      "coordinates",
     ]));
-    if (this.latitude && this.longitude) {
-      opts.coordinates = [
-        this.latitude,
-        this.longitude,
-      ].join(",");
-    }
     const res = await this.trello.updateCard(this.idCard, opts, $);
     $.export("$summary", `Successfully updated card ${res.name}`);
     return res;

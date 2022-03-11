@@ -184,7 +184,7 @@ export default {
       fileSource,
       mimeType,
       idCardSource,
-      keepFromSource: keepFromSource ? keepFromSource.join(",") : undefined,
+      keepFromSource: keepFromSource?.join(","),
       address,
       locationName,
       coordinates,

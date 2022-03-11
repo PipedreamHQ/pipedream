@@ -22,7 +22,7 @@ export default {
       ],
       type: "string[]",
       label: "Boards",
-      description: "Board IDs where cards will be searched in",
+      description: "The IDs of boards to search for cards in",
     },
     partial: {
       propDefinition: [
@@ -50,11 +50,6 @@ export default {
       modelTypes: "cards",
       card_fields: this.cardFields,
       cards_limit: this.cardsLimit,
-      card_board: false,
-      card_list: false,
-      card_members: false,
-      card_stickers: false,
-      card_attachments: false,
       partial: this.partial,
     };
     const { cards } = await this.trello.searchCards(opts, $);

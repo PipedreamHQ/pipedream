@@ -40,10 +40,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const res = await this.trello.removeLabelFromCard(this.idCard,
-      this.idLabel,
-      $);
-    $.export("$summary", `Successfully removed label ${this.idLabel} from list ${this.idCard}`);
+    const res = await this.trello.removeLabelFromCard(this.idCard, this.idLabel, $);
+    $.export("$summary", `Successfully removed label ${this.idLabel} from card ${this.idCard}`);
     return res;
   },
 };

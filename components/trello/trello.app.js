@@ -38,7 +38,7 @@ module.exports = {
     boardFields: {
       type: "string[]",
       label: "Boards Fields",
-      description: "`all` or a comma-separated list of board [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#board-object)",
+      description: "`all` or a list of board [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#board-object)",
       options: fields.board,
       default: [
         "name",
@@ -79,16 +79,17 @@ module.exports = {
       label: "Query",
       description: "The search query with a length of 1 to 16384 characters",
     },
-    idBoards: {
-      type: "string",
-      label: "Id Boards",
-      description: "The special value `mine` or a comma-separated list of Board IDs where cards will be searched in",
-      optional: true,
-    },
     idOrganizations: {
       type: "string[]",
-      label: "Id Organizations",
-      description: "An string array of Organizations IDs where cards will be searched in",
+      label: "Organization IDs",
+      description: "Specify the organizations to search for boards in",
+      async options() {
+        const orgs = await this.listOrganizations(this.$auth.oauth_uid);
+        return orgs.map((org) => ({
+          label: org.name || org.id,
+          value: org.id,
+        }));
+      },
       optional: true,
     },
     modelTypes: {
@@ -214,10 +215,14 @@ module.exports = {
     cardFilter: {
       type: "string",
       label: "Card Filter",
-      description: "Filter to apply to Cards. Valid values: `all`, `closed`, `none`, `open`.",
-      options() {
-        return this.getFilterOptions();
-      },
+      description: "Filter to apply to Cards. Valid values: `all`, `closed`, `none`, `open`, `visible`",
+      options: [
+        "all",
+        "closed",
+        "none",
+        "open",
+        "visible",
+      ],
       default: "all",
     },
     listFilter: {
@@ -280,7 +285,7 @@ module.exports = {
      */
     async archiveCard(idCard, $) {
       const config = {
-        url: `${this._getBaseUrl()}/cards/${idCard}`,
+        url: `${this._getBaseUrl()}cards/${idCard}`,
         method: "PUT",
         data: {
           closed: true,
@@ -289,13 +294,13 @@ module.exports = {
       return this._makeRequest(config, $);
     },
     /**
-     * Adds an existing label to the specified card.
+     * Create an Attachment to a Card
      *
      * @param {string} idCard - the ID of the Card to move.
      * @param {Object} params - an object containing parameters for the API request
-     * @returns {array} an string array with the ID of all the Card's Labels.
+     * @returns {array} an string array with the ID of all the Card's Attachments.
      * See more at the API docs:
-     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-attachments-post
      */
     async addAttachmentToCardViaUrl(idCard, params, $) {
       const config = {
@@ -316,24 +321,24 @@ module.exports = {
      */
     async addExistingLabelToCard(idCard, params, $) {
       const config = {
-        url: `${this._getBaseUrl()}/cards/${idCard}/idLabels`,
+        url: `${this._getBaseUrl()}cards/${idCard}/idLabels`,
         method: "POST",
         params,
       };
       return this._makeRequest(config, $);
     },
     /**
-     * Adds an existing label to the specified card.
+     * Add a member to a card
      *
      * @param {string} idCard - the ID of the Card to move.
      * @param {Object} params - an object containing parameters for the API request
-     * @returns {array} an string array with the ID of all the Card's Labels.
+     * @returns {array} an string array with the ID of all the Card's Members.
      * See more at the API docs:
-     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post
+     * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idmembers-post
      */
     async addMemberToCard(idCard, params, $) {
       const config = {
-        url: `${this._getBaseUrl()}/cards/${idCard}/idMembers`,
+        url: `${this._getBaseUrl()}cards/${idCard}/idMembers`,
         method: "POST",
         params,
       };
@@ -385,7 +390,7 @@ module.exports = {
      */
     async closeBoard(boardId, $) {
       const config = {
-        url: `${this._getBaseUrl()}/boards/${boardId}`,
+        url: `${this._getBaseUrl()}boards/${boardId}`,
         method: "PUT",
         data: {
           closed: true,
@@ -402,7 +407,7 @@ module.exports = {
      */
     async createCard(opts, $) {
       const config = {
-        url: `${this._getBaseUrl()}/cards`,
+        url: `${this._getBaseUrl()}cards`,
         method: "post",
         data: opts,
       };
@@ -430,7 +435,7 @@ module.exports = {
      */
     async findLabel(boardId, params, $) {
       const config = {
-        url: `${this._getBaseUrl()}/boards/${boardId}/labels`,
+        url: `${this._getBaseUrl()}boards/${boardId}/labels`,
         params,
       };
       return this._makeRequest(config, $);
@@ -444,7 +449,7 @@ module.exports = {
      */
     async findList(boardId, params, $) {
       const config = {
-        url: `${this._getBaseUrl()}/boards/${boardId}/lists`,
+        url: `${this._getBaseUrl()}boards/${boardId}/lists`,
         params,
       };
       return this._makeRequest(config, $);
@@ -460,15 +465,14 @@ module.exports = {
      * Moves a card to the specified board/list pair.
      *
      * @param {string} idCard the ID of the Card to move.
-     * @param {Object} params - an object containing parameters for the API request
+     * @param {Object} data - an object containing data for the API request
      * @returns an updated card object set to the specified board and list ids.
      * See more at the API docs:
      * https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
      */
-    async moveCardToList(idCard,
-      data, $) {
+    async moveCardToList(idCard, data, $) {
       const config = {
-        url: `${this._getBaseUrl()}/cards/${idCard}`,
+        url: `${this._getBaseUrl()}cards/${idCard}`,
         method: "PUT",
         data,
       };
@@ -563,7 +567,7 @@ module.exports = {
      */
     async removeLabelFromCard(idCard, idLabel, $) {
       const config = {
-        url: `${this._getBaseUrl()}/cards/${idCard}/idLabels/${idLabel}`,
+        url: `${this._getBaseUrl()}cards/${idCard}/idLabels/${idLabel}`,
         method: "DELETE",
       };
       return this._makeRequest(config, $);
@@ -580,7 +584,7 @@ module.exports = {
      */
     async renameList(listId, data, $) {
       const config = {
-        url: `${this._getBaseUrl()}/lists/${listId}`,
+        url: `${this._getBaseUrl()}lists/${listId}`,
         method: "PUT",
         data,
       };
@@ -614,9 +618,7 @@ module.exports = {
     async searchBoards(opts, $) {
       const params = {
         ...opts,
-        idOrganizations: opts.idOrganizations ?
-          opts.idOrganizations.join(",") :
-          undefined,
+        idOrganizations: opts.idOrganizations?.join(","),
       };
       return this.search(params, $);
     },
@@ -632,12 +634,8 @@ module.exports = {
     async searchCards(opts, $) {
       const params = {
         ...opts,
-        idOrganizations: opts.idOrganizations ?
-          opts.idOrganizations.join(",") :
-          undefined,
-        idCards: opts.idCards ?
-          opts.idCards.join(",") :
-          undefined,
+        idOrganizations: opts.idOrganizations?.join(","),
+        idCards: opts.idCards?.join(","),
       };
       return this.search(params, $);
     },
@@ -678,6 +676,9 @@ module.exports = {
         method: "GET",
       };
       return this._makeRequest(config);
+    },
+    async listOrganizations(id) {
+      return this.getResource(`members/${id}/organizations?fields="id,name"`);
     },
   },
 };
