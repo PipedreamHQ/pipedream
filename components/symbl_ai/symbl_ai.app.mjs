@@ -8,7 +8,7 @@ export default {
       type: "string",
       label: "Conversation Id",
       description: "The Id of the Conversation",
-      async options({ page }){
+      async options({ page }) {
         const limit = 100;
         const params = {
           limit,
