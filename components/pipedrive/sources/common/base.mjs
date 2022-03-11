@@ -16,19 +16,14 @@ export default {
   },
   hooks: {
     async deploy() {
-      try {
-        const stream =
-          await this.pipedriveApp.getResourcesStream({
-            resourceFn: this.getResourceFn(),
-            resourceFnArgs: this.getResourceFnArgs(),
-            max: constants.DEFAULT_MAX_ITEMS,
-          });
+      const stream =
+        await this.pipedriveApp.getResourcesStream({
+          resourceFn: this.getResourceFn(),
+          resourceFnArgs: this.getResourceFnArgs(),
+          max: constants.DEFAULT_MAX_ITEMS,
+        });
 
-        await this.processStreamEvents(stream);
-
-      } catch (error) {
-        console.log("Error:", error);
-      }
+      await this.processStreamEvents(stream);
     },
   },
   methods: {
