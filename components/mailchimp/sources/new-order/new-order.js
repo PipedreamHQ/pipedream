@@ -121,9 +121,10 @@ module.exports = {
     },
   },
   async run() {
+    const pageSize = 1000;
     let mailchimpOrdersInfo;
     let mailchimpOrders;
-    let offset = 0;
+    let offset = 0;    
     do {
       const config = {
         count: 1000,
@@ -141,6 +142,6 @@ module.exports = {
       }
       mailchimpOrders.forEach(this.processEvent);
       offset = offset + mailchimpOrders.length;
-    } while (mailchimpOrders.length > 0);
+    } while (mailchimpOrders.length === pageSize);
   },
 };

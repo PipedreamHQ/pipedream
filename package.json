@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "eslint": "^7.26.0",
-    "eslint-plugin-jsonc": "^1.6.0",
+    "eslint-plugin-jsonc": "^2.2.1",
     "eslint-plugin-pipedream": "0.2.4",
     "eslint-plugin-putout": "^6.13.1",
     "husky": "^7.0.4",

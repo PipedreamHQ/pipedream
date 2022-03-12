@@ -44,8 +44,8 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      this.mailchimp.setDbServiceVariable("lastCreatedAt", mailchimpFiles[0].created_at);
       mailchimpFiles.forEach(this.processEvent);
+      this.mailchimp.setDbServiceVariable("lastCreatedAt", mailchimpFiles[0].created_at);
     },
   },
   methods: {
@@ -66,6 +66,7 @@ module.exports = {
   async run() {
     const beforeCreatedAt = moment().toISOString();
     const sinceCreatedAt = this.mailchimp.getDbServiceVariable("lastCreatedAt");
+    const pageSize = 1000;
     const fileType = this.fileType === "all" ?
       null :
       this.fileType;
@@ -73,7 +74,7 @@ module.exports = {
     let mailchimpFiles;
     let offset = 0;
     const config = {
-      count: 1000,
+      count: pageSize,
       type: fileType,
       beforeCreatedAt,
       sinceCreatedAt,
@@ -89,6 +90,6 @@ module.exports = {
       mailchimpFiles.forEach(this.processEvent);
       this.mailchimp.setDbServiceVariable("lastCreatedAt", mailchimpFiles[0].created_at);
       offset = offset + mailchimpFiles.length;
-    } while (mailchimpFiles.length > 0);
+    } while (mailchimpFiles.length === pageSize);
   },
 };

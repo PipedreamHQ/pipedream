@@ -75,6 +75,7 @@ module.exports = {
     },
   },
   async run() {
+    const pageSize = 1000;
     let mailchimpSegmentMembersInfo;
     let mailchimpSegmentMembers;
     let offset = 0;
@@ -97,6 +98,6 @@ module.exports = {
       }
       mailchimpSegmentMembers.forEach(this.processEvent);
       offset = offset + mailchimpSegmentMembers.length;
-    } while (mailchimpSegmentMembers.length > 0);
+    } while (mailchimpSegmentMembers.length === pageSize);
   },
 };

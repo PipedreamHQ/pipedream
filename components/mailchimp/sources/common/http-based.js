@@ -1,11 +1,4 @@
 const base = require("./base");
-/*
-http based sources:
-new-or-updated-subscriber
-new-list-event
-new-subscriber
-new-unsubscriber
-*/
 module.exports = {
   ...base,
   props: {
@@ -108,7 +101,7 @@ module.exports = {
       if (!this.isEventRelevant(event)) {
         console.log(`Skipping irrelevant event of type ${event.type}`);
         return;
-      }  
+      }
       await this.processEvent(body);
     }
     if (body || isMailChimpWebhookValidator) {

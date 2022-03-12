@@ -245,7 +245,7 @@ module.exports = {
         count,
         offset,
         sortField: "create_time",
-        sortDir: "DESC",
+        sortDir: "ASC",
       };
       return this.getCampaigns(config);
     },
@@ -261,7 +261,7 @@ module.exports = {
         count,
         offset,
         sortField: "send_time",
-        sortDir: "DESC",
+        sortDir: "ASC",
       };
       return this.getCampaigns(config);
     },

@@ -30,8 +30,8 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      this.mailchimp.setDbServiceVariable("recipientClicks", campaign.report_summary.clicks);
       this.processEvent(campaign);
+      this.mailchimp.setDbServiceVariable("recipientClicks", campaign.report_summary.clicks);
     },
   },
   methods: {
@@ -62,8 +62,8 @@ module.exports = {
       campaign.report_summary.clicks,
     );
     if (currentRecipientClicks > savedRecipientClicks) {
-      this.mailchimp.setDbServiceVariable("recipientClicks", currentRecipientClicks);
       this.processEvent(campaign);
+      this.mailchimp.setDbServiceVariable("recipientClicks", currentRecipientClicks);
     }
   },
 };

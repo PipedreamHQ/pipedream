@@ -44,7 +44,7 @@ module.exports = {
         offset: 0,
       };
       let campaigns;
-      if(statusIsSent(this.status)) {
+      if(this.mailchimp.statusIsSent(this.status)) {
         campaigns = await this.mailchimp.getCampaignsBySentDate(config); //TODO Confirm new method usage.
       } else {
         campaigns = await this.mailchimp.getCampaignsByCreationDate(config); //TODO Confirm new method usage.
@@ -54,8 +54,8 @@ module.exports = {
         return;
       }
       const sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);
+      campaigns.forEach(this.processEvent);
       this.mailchimp.setDbServiceVariable("lastSinceDate", sinceDate);
-      mailchimpCampaigns.reverse().forEach(this.processEvent);
     },
   },
   methods: {
@@ -76,11 +76,12 @@ module.exports = {
   },
   async run() {
     const beforeDate = moment().toISOString();
+    const pageSize = 1000;
     let sinceDate = this.mailchimp.getDbServiceVariable("lastSinceDate");
-    let campaigns;
+    let campaigns;    
     let offset = 0;
     const config = {
-      count: 1000,
+      count: pageSize,
       offset,
       status: this.status,
       beforeDate,
@@ -88,7 +89,7 @@ module.exports = {
     do {
       config.sinceDate = sinceDate;
       config.offset = offset;
-      if(statusIsSent(this.status)) {
+      if(this.mailchimp.statusIsSent(this.status)) {
         campaigns = await this.mailchimp.getCampaignsBySentDate(config); //TODO Confirm new method usage.
       } else {
         campaigns = await this.mailchimp.getCampaignsByCreationDate(config); //TODO Confirm new method usage.
@@ -98,7 +99,7 @@ module.exports = {
         return;
       }
       sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);      
-      campaigns.reverse().forEach(this.processEvent);
+      campaigns.forEach(this.processEvent);
       this.mailchimp.setDbServiceVariable("lastSinceDate", sinceDate);
       offset = offset + campaigns.length;
     } while (campaigns.length  === pageSize);

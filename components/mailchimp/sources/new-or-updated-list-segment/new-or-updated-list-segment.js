@@ -57,8 +57,8 @@ module.exports = {
       ].includes(this.watchFor)
         ? mailchimpAudienceSegments[0].created_at
         : mailchimpAudienceSegments[0].updated_at;
-      this.mailchimp.setDbServiceVariable("lastRelevantDate", relevantDate);
       mailchimpAudienceSegments.forEach(this.processEvent);
+      this.mailchimp.setDbServiceVariable("lastRelevantDate", relevantDate);
     },
   },
   methods: {
@@ -103,8 +103,9 @@ module.exports = {
     let mailchimpAudienceSegmentsInfo;
     let mailchimpAudienceSegments;
     let offset = 0;
+    const pageSize = 1000;
     const config = {
-      count: 1000,
+      count: pageSize,
       sinceCreatedAt,
       beforeCreatedAt,
       sinceUpdatedAt,
@@ -124,8 +125,8 @@ module.exports = {
       ].includes(this.watchFor)
         ? mailchimpAudienceSegments[0].created_at
         : mailchimpAudienceSegments[0].updated_at;
-      this.mailchimp.setDbServiceVariable("lastRelevantDate", relevantDate);
       offset = offset + mailchimpAudienceSegments.length;
-    } while (mailchimpAudienceSegments.length > 0);
+      this.mailchimp.setDbServiceVariable("lastRelevantDate", relevantDate);
+    } while (mailchimpAudienceSegments.length === pageSize);
   },
 };
