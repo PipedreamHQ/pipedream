@@ -3,8 +3,8 @@ const common = require("../common");
 
 module.exports = {
   ...common,
-  key: "sendgrid-list-global-supressions",
-  name: "List Global Supressions",
+  key: "sendgrid-list-global-suppressions",
+  name: "List Global Suppressions",
   description:
     "Allows you to get a list of all email address that are globally suppressed.",
   version: "0.0.1",
