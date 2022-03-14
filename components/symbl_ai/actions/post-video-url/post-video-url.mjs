@@ -1,4 +1,5 @@
 import symblAIApp from "../../symbl_ai.app.mjs";
+import languages from "../languages.mjs";
 
 export default {
   key: "symbl_ai-post-video-url",
@@ -33,7 +34,7 @@ export default {
       optional: true,
     },
     detectPhrases: {
-      type: "string",
+      type: "boolean",
       label: "Detect Phrases",
       description: "It shows Actionable Phrases in each sentence of conversation. These sentences can be found using the Conversation's Messages API. Accepts `true` or `false` values.",
       optional: true,
@@ -45,7 +46,7 @@ export default {
       optional: true,
     },
     detectEntities: {
-      type: "string",
+      type: "boolean",
       label: "Detect Entities",
       description: "It returns any entities detected in the conversation. See [Entities API](https://docs.symbl.ai/docs/conversation-api/entities) for reference. Default value is false.",
       optional: true,
@@ -54,16 +55,21 @@ export default {
       type: "string",
       label: "Language Code",
       description: "Language used in the conversation. See [supported languages](https://docs.symbl.ai/docs/async-api/overview/async-api-supported-languages) for reference. Default language is English (en-US).",
+      options: languages,
       optional: true,
     },
     mode: {
       type: "string",
       label: "Mode",
       description: "Set this parameter to `phone` when the audio is generated from a phone call (8khz sampling rate). The `default` mode works for audio generated from a video or audio meeting (16khz or higher sampling rate).",
+      options: [
+        "default",
+        "phone",
+      ],
       optional: true,
     },
     enableSeparateRecognitionPerChannel: {
-      type: "string",
+      type: "boolean",
       label: "Enable Separate Recognition per Channel",
       description: "Enables Speaker Separated Channel video processing. Accepts `true` or `false` values.",
       optional: true,
@@ -75,7 +81,7 @@ export default {
       optional: true,
     },
     enableSpeakerDiarization: {
-      type: "string",
+      type: "boolean",
       label: "Enable Speaker Diarization",
       description: "Set this parameter to `true` to enable Speaker Separation. Default value is `false`.  See [Speaker Separation](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url/#speaker-separation) for reference.",
       optional: true,
