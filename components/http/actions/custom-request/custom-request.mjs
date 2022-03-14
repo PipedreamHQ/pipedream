@@ -39,10 +39,16 @@ export default {
         "headers",
       ],
     },
-    auth: {
+    basicAuthUsername: {
       propDefinition: [
         http,
-        "auth",
+        "basicAuthUsername",
+      ],
+    },
+    basicAuthPassword: {
+      propDefinition: [
+        http,
+        "basicAuthPassword",
       ],
     },
   },
@@ -61,8 +67,11 @@ export default {
       params,
       headers,
     };
-    if (this.auth) config.auth = this.http.parseAuth(this.auth);
+    if (this.basicAuthUsername || this.basicAuthPassword) {
+      config.auth = {};
+      config.auth.username = this.basicAuthUsername;
+      config.auth.password = this.basicAuthPassword;
+    }
     return await axios($, config);
   },
-}
-;
+};
