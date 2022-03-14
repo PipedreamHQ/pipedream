@@ -5,7 +5,7 @@ module.exports = {
   key: "sendgrid-events",
   name: "New Events (Instant)",
   description: "Emit new event when any of the specified SendGrid events is received",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
