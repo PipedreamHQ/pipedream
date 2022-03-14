@@ -79,4 +79,4 @@ export default [
     label: "Persian (Iran)",
     value: "fa-IR",
   },
-] 
+];
