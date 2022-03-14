@@ -79,14 +79,14 @@ export default {
   methods: {
     buildBlockArgs(blockType) {
       switch (blockType) {
-      case constants.BLOCK_TYPES.paragraph.key:
+      case constants.BLOCK_TYPES.paragraph.name:
         return [
           {
             label: "text",
             value: this.paragraphText,
           },
         ];
-      case constants.BLOCK_TYPES.to_do.key:
+      case constants.BLOCK_TYPES.to_do.name:
         return [
           {
             label: "text",
@@ -133,15 +133,15 @@ export default {
 
     if (this.paragraph) {
       page.children.push(utils.buildBlock(
-        constants.BLOCK_TYPES.paragraph.key,
-        this.buildBlockArgs(constants.BLOCK_TYPES.paragraph.key),
+        constants.BLOCK_TYPES.paragraph.name,
+        this.buildBlockArgs(constants.BLOCK_TYPES.paragraph.name),
       ));
     }
 
     if (this.todo) {
       page.children.push(utils.buildBlock(
-        constants.BLOCK_TYPES.to_do.key,
-        this.buildBlockArgs(constants.BLOCK_TYPES.to_do.key),
+        constants.BLOCK_TYPES.to_do.name,
+        this.buildBlockArgs(constants.BLOCK_TYPES.to_do.name),
       ));
     }
 

@@ -10,13 +10,13 @@ const COVER_TYPES = [
 
 /**
  * Notion block types, containing:
- *   - Notion key string
+ *   - Notion name string
  *   - props
  *   - additionalProps
  */
 const BLOCK_TYPES = {
   paragraph: {
-    key: "paragraph",
+    name: "paragraph",
     prop: {
       type: "boolean",
       label: "Paragraph",
@@ -31,7 +31,7 @@ const BLOCK_TYPES = {
     },
   },
   to_do: {
-    key: "to_do",
+    name: "to_do",
     prop: {
       type: "boolean",
       label: "To Do",
@@ -55,7 +55,7 @@ const BLOCK_TYPES = {
    * These block types are not yet supported
    *
   heading_1: {
-    key: "heading_1",
+    name: "heading_1",
     prop: {
       type: "boolean",
       label: "Heading 1",
@@ -70,7 +70,7 @@ const BLOCK_TYPES = {
     },
   },
   heading_2: {
-    key: "heading_2",
+    name: "heading_2",
     prop: {
       type: "boolean",
       label: "Heading 2",
@@ -85,7 +85,7 @@ const BLOCK_TYPES = {
     },
   },
   heading_3: {
-    key: "heading_3",
+    name: "heading_3",
     prop: {
       type: "boolean",
       label: "Heading 3",
@@ -100,76 +100,76 @@ const BLOCK_TYPES = {
     },
   },
   bulleted_list_item: {
-    key: "bulleted_list_item",
+    name: "bulleted_list_item",
   },
   numbered_list_item: {
-    key: "numbered_list_item",
+    name: "numbered_list_item",
   },
   toggle: {
-    key: "toggle",
+    name: "toggle",
   },
   child_page: {
-    key: "child_page",
+    name: "child_page",
   },
   child_database: {
-    key: "child_database",
+    name: "child_database",
   },
   embed: {
-    key: "embed",
+    name: "embed",
   },
   image: {
-    key: "image",
+    name: "image",
   },
   video: {
-    key: "video",
+    name: "video",
   },
   file: {
-    key: "file",
+    name: "file",
   },
   pdf: {
-    key: "pdf",
+    name: "pdf",
   },
   bookmark: {
-    key: "bookmark",
+    name: "bookmark",
   },
   callout: {
-    key: "callout",
+    name: "callout",
   },
   quote: {
-    key: "quote",
+    name: "quote",
   },
   equation: {
-    key: "equation",
+    name: "equation",
   },
   divider: {
-    key: "divider",
+    name: "divider",
   },
   table_of_contents: {
-    key: "table_of_contents",
+    name: "table_of_contents",
   },
   column: {
-    key: "column",
+    name: "column",
   },
   column_list: {
-    key: "column_list",
+    name: "column_list",
   },
   link_preview: {
-    key: "link_preview",
+    name: "link_preview",
   },
   synced_block: {
-    key: "synced_block",
+    name: "synced_block",
   },
   template: {
-    key: "template",
+    name: "template",
   },
   link_to_page: {
-    key: "link_to_page",
+    name: "link_to_page",
   },
   table: {
-    key: "table",
+    name: "table",
   },
   table_row: {
-    key: "table_row",
+    name: "table_row",
   },
   */
 };

@@ -31,14 +31,14 @@ export default {
   methods: {
     buildBlockArgs(blockType) {
       switch (blockType) {
-      case constants.BLOCK_TYPES.paragraph.key:
+      case constants.BLOCK_TYPES.paragraph.name:
         return [
           {
             label: "text",
             value: this.paragraphText,
           },
         ];
-      case constants.BLOCK_TYPES.to_do.key:
+      case constants.BLOCK_TYPES.to_do.name:
         return [
           {
             label: "text",
