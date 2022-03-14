@@ -8,7 +8,6 @@ module.exports = {
   ...base,
   props: {
     ...base.props,
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     http: {
       type: "$.interface.http",
       customResponse: true,
