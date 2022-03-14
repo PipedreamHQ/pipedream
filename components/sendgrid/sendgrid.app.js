@@ -384,7 +384,7 @@ module.exports = {
         }
         const links = data[0].headers.link.split(",");
         url = "";
-        links.forEach( (link) => {
+        links.forEach((link) => {
           let next = "";
           let last = "";
           if (link.indexOf("next") > -1) {
