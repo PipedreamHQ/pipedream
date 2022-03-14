@@ -73,7 +73,7 @@ module.exports = {
       if (value === "" || value === null) {
         return undefined;
       }
-      return value ?? undefined;
+      return value;
     },
     /**
      * Checks if an object is an array, if not it will attempt to JSON parse.
