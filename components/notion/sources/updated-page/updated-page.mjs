@@ -41,6 +41,7 @@ export default {
         constants.types.PAGE,
         constants.timestamps.LAST_EDITED_TIME,
         constants.summaries.PAGE_UPDATED,
+        true,
       );
       this.$emit(page, meta);
     });

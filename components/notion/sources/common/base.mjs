@@ -25,21 +25,27 @@ export default {
     },
   },
   methods: {
-    generateMeta(obj, type, timestamp, summary) {
-      const {
+    generateMeta(obj, type, timestamp, summary, isUpdate = false) {
+      const ts = Date.parse(lastTime);
+      let title;
+      let {
         id,
         [timestamp]: lastTime,
       } = obj;
-      const title = type === constants.types.DATABASE
-        ? this.notion.extractDatabaseTitle(obj)
-        : this.notion.extractPageTitle(obj);
 
-      const ts = Date.parse(lastTime);
-      const compositeId = `${id}-${ts}`;
-      return {
+      if (type === constants.types.DATABASE) {
+        title = this.notion.extractDatabaseTitle(obj);
+      } else {
+        title = this.notion.extractPageTitle(obj);
         // Create composite ID so update events for the same page have unique keys
         // See https://pipedream.com/docs/components/api/#emit
-        id: compositeId,
+        if (isUpdate) {
+          id = `${id}-${ts}`;
+        }
+      }
+
+      return {
+        id,
         summary: `${summary}: ${title} - ${id}`,
         ts,
       };
