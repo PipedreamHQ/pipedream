@@ -19,25 +19,20 @@ export default {
       includeSentViaPipedream,
     } = this;
 
-    const params = {
-      avatarURL,
-      message,
-      threadID,
-      username,
-      includeSentViaPipedream,
-    };
-
     try {
       // No interesting data is returned from Discord
       await this.discordWebhook.sendMessage({
-        ...params,
+        avatarURL,
+        threadID,
+        username,
         content: includeSentViaPipedream
           ? this.appendPipedreamText(message)
           : message,
       });
       $.export("$summary", "Message sent successfully");
     } catch (err) {
-      $.export("unsent", params);
+      const unsentMessage = this.getUserInputProps();
+      $.export("unsent", unsentMessage);
       throw err;
     }
   },

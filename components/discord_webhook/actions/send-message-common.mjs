@@ -39,6 +39,16 @@ export default {
     },
   },
   methods: {
+    getUserInputProps(omit = [
+      "discordWebhook",
+    ]) {
+      return Object.keys(this)
+        .filter((k) => typeof this[k] !== "function" && !omit.includes(k))
+        .reduce((props, key) => {
+          props[key] = this[key];
+          return props;
+        }, {});
+    },
     appendPipedreamText(message) {
       let content = message;
       if (typeof content !== "string") {
