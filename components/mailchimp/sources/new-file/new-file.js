@@ -64,32 +64,11 @@ module.exports = {
     },
   },
   async run() {
-    const beforeCreatedAt = moment().toISOString();
-    const sinceCreatedAt = this.mailchimp.getDbServiceVariable("lastCreatedAt");
-    const pageSize = 1000;
-    const fileType = this.fileType === "all" ?
-      null :
-      this.fileType;
-    let mailchimpFilesInfo;
-    let mailchimpFiles;
-    let offset = 0;
-    const config = {
-      count: pageSize,
-      type: fileType,
-      beforeCreatedAt,
-      sinceCreatedAt,
-    };
-    do {
-      config.offset = offset;
-      mailchimpFilesInfo = await this.mailchimp.getAllFiles(config);
-      mailchimpFiles = mailchimpFilesInfo.files;
-      if (!mailchimpFiles.length) {
-        console.log("No data available, skipping iteration");
-        return;
-      }
-      mailchimpFiles.forEach(this.processEvent);
-      this.mailchimp.setDbServiceVariable("lastCreatedAt", mailchimpFiles[0].created_at);
-      offset = offset + mailchimpFiles.length;
-    } while (mailchimpFiles.length === pageSize);
+    const sinceCreatedAt = this.db.get("lastCreatedAt");    
+    const fileStream = this.mailchimp.getFileStream(sinceCreatedAt, this.fileType);
+    for await (const file of fileStream) {
+      this.emitEvent(file);
+      this.mailchimp.setDbServiceVariable("lastCreatedAt", sinceCreatedAt);
+    }
   },
 };

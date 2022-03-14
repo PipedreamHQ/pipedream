@@ -54,23 +54,17 @@ module.exports = {
     },
   },
   async run() {
-    let mailchimpStoreCustomersInfo;
-    let mailchimpStoreCustomers;
+    const processedIds = new Set(this._getProcessedIds());
     const pageSize = 1000;
-    let offset = 0;
-    const config = {
-      count: 10,
-    };
-    do {
-      config.offset = offset;
-      mailchimpStoreCustomersInfo = await this.mailchimp.getAllStoreCustomers(this.storeId, config);
-      mailchimpStoreCustomers = mailchimpStoreCustomersInfo.customers;
-      if (!mailchimpStoreCustomers.length) {
-        console.log("No data available, skipping iteration");
-        return;
+    const customerStream = this.mailchimp.getAllStoreCustomers(this.storeId, pageSize);    
+    for await (const customer of customerStream) {
+      if (processedIds.has(customer.id)) {
+        continue;
       }
-      mailchimpStoreCustomers.forEach(this.processEvent);
-      offset = offset + mailchimpStoreCustomers.length;
-    } while (mailchimpStoreCustomers.length === pageSize);
+        this.emitEvent(customer);
+      // Mark customer as successfully processed
+      processedIds.add(customer.id); //TODO: implement _markCustomerAsProcessed and use processedIds
+      this._markCustomerAsProcessed(customer);
+    }
   },
 };

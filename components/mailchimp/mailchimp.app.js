@@ -54,7 +54,6 @@ module.exports = {
       description:
         "If set to `true`, it will include subscribers from Mailchimp Marketing and Mailchimp Transactional, formerly Mandrill.  When set to `false`, it will include subscribers from Mailchimp Marketing only.",
       default: false,
-      optional: true,
     },
     // eslint-disable-next-line pipedream/props-description
     storeId: {
@@ -154,8 +153,9 @@ module.exports = {
      */
     async createWebhook(listId, config) {
       const mailchimp = this.api();
-      return await this._withRetries(() =>
+      const { id } =  await this._withRetries(() =>
         mailchimp.lists.createListWebhook(listId, config));
+      return id;
     },
     /**
      * Deletes a webhook on the specified Audience List.
@@ -360,29 +360,66 @@ module.exports = {
      * all File Manager files in bytes, `total_items` with the total count of the files
      * collection, and `_links` array of links for file manipulation through the Mailchimp API.
      */
-    async getAllFiles(config) {
+    /*async getAllFiles(config) {
       const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.fileManager.files(config));
+    },*/
+    async *getFileStream(sinceCreatedAt, fileType = "all") {
+      const mailchimp = this._getMailchimpClient();
+      let offset = 0;
+      const type = fileType === "all"
+        ? null
+        : fileType;
+        do {
+          const opts = {
+            count: 100,
+            offset,
+            type,
+            sinceCreatedAt,
+          };
+          const { files = [] } = await this._withRetries(
+            () => mailchimp.fileManager.files(opts),
+          );
+          if (files.length === 0) {
+            return;
+          }
+          for (const file of files) {
+            yield file;
+          }
+        offset += files.length;
+      } while (true);
     },
     /**
-     * Gets customers in an specified Ecommerce Store under the connected Mailchimp acccount.
-     * @param {String} config.storeId - The unique ID of the Ecommerce Store you'd like to get
-     * customers from.
-     * @param {Integer} config.count - For pagination, the number of records to return on each page.
-     * Default value is 10. Maximum value is 1000.
-     * @param {Integer} config.offset - For pagination, this the number of records from a collection
-     * to skip. Default value is 0.
-     * @returns {store_id: string, customers: array, total_items: integer, _links: object }
-     * `store_id` with the unique ID of the Ecommerce Store being queried, an array with the
-     * information of the `customers` returned, `total_items` with the total count of the customers
-     * collection, and `_links` array of links for customer manipulation through the Mailchimp API.
+     * Returns a stream of customers belonging to a specific store ID
+     *
+     * @param {string} storeId the e-commerce store ID
+     * @param {number} [pageSize=100] an optional parameter that specifies how
+     * many customers are retrieved per API call to Mailchimp. Useful when
+     * dealing with a frequently changing customer base, or to minimize API
+     * calls and limits.
+     * @yields a customer object, as specified by the [Mailchimp
+     * API](https://mailchimp.com/developer/marketing/docs/e-commerce/#customers)
      */
-    async getAllStoreCustomers(storeId, config) {
-      const mailchimp = this.api();
-      return await this._withRetries(() =>
-        mailchimp.ecommerce.getAllStoreCustomers(storeId, config));
-    },
+    async *getAllStoreCustomers(storeId, pageSize = 100) {
+      const mailchimp = this._getMailchimpClient();
+      let offset = 0;
+      do {
+        const { customers = [] } = await this._withRetries(
+          () => mailchimp.ecommerce.getAllStoreCustomers(storeId, {
+            count: pageSize,
+            offset,
+          }),
+        );
+        if (customers.length === 0) {
+          return;
+        }
+        for (const customer of customers) {
+          yield customer;
+        }
+        offset += customers.length;
+      } while (true);
+    },    
     /**
      * Get information about all stores in the Mailchimp account.
     * @param {Integer} config.count - For pagination, the number of records to return on each page.
@@ -447,6 +484,27 @@ module.exports = {
       }
       return await this._withRetries(() => mailchimp.ecommerce.orders(config));
     },
+    async *getAllStoreCustomers(storeId, pageSize = 100) {
+      const mailchimp = this._getMailchimpClient();
+      let offset = 0;
+      do {
+        const { customers = [] } = await this._withRetries(
+          () => mailchimp.ecommerce.getAllStoreCustomers(storeId, {
+            count: pageSize,
+            offset,
+          }),
+        );
+        if (customers.length === 0) {
+          return;
+        }
+        for (const customer of customers) {
+          yield customer;
+        }
+        offset += customers.length;
+      } while (true);
+    },
+  },
+};
     /**
      * Gets details of a given campaign under the connected Mailchimp acccount.
      * @param {String} campaignId - The unique ID of the campaign you'd like to get details of.

@@ -19,21 +19,21 @@ module.exports = {
       label: "Trigger on subscriber actions?",
       description:
           "If set to true, events will be emitted on subscriber-initiated actions.",
-      default: false,
+      default: true,
     },
     triggeredByAdmin: {
       type: "boolean",
       label: "Trigger on actions by Mailchimp admin?",
       description:
           "If set to true, events will be emitted on admin-initiated actions in the web interface.",
-      default: false,
+      default: true,
     },
     triggeredByApi: {
       type: "boolean",
       label: "Trigger via actions on the API?",
       description:
           "If set to true, events will be emitted on actions initiated via the API.",
-      default: false,
+      default: true,
     },
   },
   hooks: {
@@ -45,11 +45,11 @@ module.exports = {
         events: eventsCfg.subscribedEvents,
         sources: eventsCfg.eventSources,
       };
-      const webhook = await this.mailchimp.createWebhook(
+      const webhookId = await this.mailchimp.createWebhook(
         this.listId,
         config,
       );
-      this.mailchimp.setDbServiceVariable("webhookId", webhook.id)
+      this.mailchimp.setDbServiceVariable("webhookId", webhookId)
     },
     async deactivate() {
       const webhookId = this.mailchimp.getDbServiceVariable("webhookId");

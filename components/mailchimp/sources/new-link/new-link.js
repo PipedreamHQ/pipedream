@@ -50,17 +50,14 @@ module.exports = {
     },
   },
   async run() {
-    const savedRecipientClicks = parseInt(this.mailchimp.getDbServiceVariable("recipientClicks"));
+    const savedRecipientClicks = this.mailchimp.getDbServiceVariable("recipientClicks");
     const campaign = await this.mailchimp.getCampaignInfo(
       this.campaignId,
     );
     if (!campaign) {
-      console.log("No data available, skipping iteration");
-      return;
+      throw new Error("Campaign not found");
     }
-    const currentRecipientClicks = parseInt(
-      campaign.report_summary.clicks,
-    );
+    const currentRecipientClicks = campaign.report_summary.clicks;
     if (currentRecipientClicks > savedRecipientClicks) {
       this.processEvent(campaign);
       this.mailchimp.setDbServiceVariable("recipientClicks", currentRecipientClicks);

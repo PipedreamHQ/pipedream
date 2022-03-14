@@ -26,10 +26,8 @@ module.exports = {
       const campaign = await this.mailchimp.getCampaignInfo(
         this.campaignId,
       );
-
       if (!campaign) {
-        console.log("No data available, skipping iteration");
-        return;
+        throw new Error("Campaign not found");
       }
       this.processEvent(campaign);
       this.mailchimp.setDbServiceVariable("recipientOpens", campaign.report_summary.opens);
@@ -51,7 +49,7 @@ module.exports = {
     },
   },
   async run() {
-    const savedRecipientOpens = parseInt(this.mailchimp.getDbServiceVariable("recipientOpens"));
+    const savedRecipientOpens = this.mailchimp.getDbServiceVariable("recipientOpens");
     const campaign = await this.mailchimp.getCampaignInfo(
       this.campaignId,
     );
@@ -59,9 +57,7 @@ module.exports = {
       console.log("No data available, skipping iteration");
       return;
     }
-    const currentRecipientOpens = parseInt(
-      campaign.report_summary.opens,
-    );
+    const currentRecipientOpens = campaign.report_summary.opens;
     if (currentRecipientOpens > savedRecipientOpens) {
       this.processEvent(campaign);
       this.mailchimp.setDbServiceVariable("recipientOpens", currentRecipientOpens);
