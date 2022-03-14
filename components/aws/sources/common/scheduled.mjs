@@ -3,6 +3,13 @@ import {
   generateRandomUniqueName,
   toSingleLineString,
 } from "../../common/utils.mjs";
+import { clients } from "../../common/clients.mjs";
+import {
+  CreateStateMachineCommand,
+  DeleteStateMachineCommand,
+  StartExecutionCommand,
+  StopExecutionCommand,
+} from "@aws-sdk/client-sfn";
 
 export default {
   ...base,
@@ -68,9 +75,7 @@ export default {
       this.db.set("stateMachineArn", stateMachineArn);
     },
     _getSfnClient() {
-      const region = this.getRegion();
-      const AWS = this.aws.sdk(region);
-      return new AWS.StepFunctions();
+      return this.aws.getAWSClient(clients.sfn, this.getRegion());
     },
     _createStateMachineRole() {
       const { PD_COMPONENT: componentId } = process.env;
@@ -100,28 +105,22 @@ export default {
         name: generateRandomUniqueName(),
         roleArn,
       };
-      return this
-        ._getSfnClient()
-        .createStateMachine(params)
-        .promise();
+      const client = this._getSfnClient();
+      return client.send(new CreateStateMachineCommand(params));
     },
     _deleteStateMachine(stateMachineArn) {
       const params = {
         stateMachineArn,
       };
-      return this
-        ._getSfnClient()
-        .deleteStateMachine(params)
-        .promise();
+      const client = this._getSfnClient();
+      return client.send(new DeleteStateMachineCommand(params));
     },
     _cancelExecution(executionArn) {
       const params = {
         executionArn,
       };
-      return this
-        ._getSfnClient()
-        .stopExecution(params)
-        .promise();
+      const client = this._getSfnClient();
+      return client.send(new StopExecutionCommand(params));
     },
     _scheduleExecution(event) {
       const stateMachineArn = this._getStateMachineArn();
@@ -130,10 +129,8 @@ export default {
         stateMachineArn,
         input,
       };
-      return this
-        ._getSfnClient()
-        .startExecution(params)
-        .promise();
+      const client = this._getSfnClient();
+      return client.send(new StartExecutionCommand(params));
     },
     _sendHttpResponse(status = 200, body = {}) {
       this.http.respond({

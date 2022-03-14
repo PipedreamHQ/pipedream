@@ -8,6 +8,7 @@ import { EventBridgeClient } from "@aws-sdk/client-eventbridge";
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { SNSClient } from "@aws-sdk/client-sns";
 import { SESClient } from "@aws-sdk/client-ses";
+import { SFNClient } from "@aws-sdk/client-sfn";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 const clients = {
@@ -21,6 +22,7 @@ const clients = {
   sqs: SQSClient,
   sns: SNSClient,
   ses: SESClient,
+  sfn: SFNClient,
   dynamodb: DynamoDBClient,
 };
 
