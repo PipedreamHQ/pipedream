@@ -27,8 +27,8 @@ module.exports = {
     },
     numberOfSupressions: {
       type: "integer",
-      label: "Max # of Global Supressions to Return",
-      description: "Indicates the max number of global supressions to return.",
+      label: "Max # of Global Suppressions to Return",
+      description: "Indicates the max number of global suppressions to return.",
     },
   },
   methods: {
