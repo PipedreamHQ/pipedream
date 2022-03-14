@@ -9,7 +9,6 @@ export default {
   description: "Emit new event when a page is updated",
   version: "0.0.1",
   type: "source",
-  dedupe: "last",
   props: {
     ...base.props,
     databaseId: {

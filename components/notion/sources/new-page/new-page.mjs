@@ -9,7 +9,6 @@ export default {
   description: "Emit new event when a page is created",
   version: "0.0.1",
   type: "source",
-  dedupe: "last",
   props: {
     ...base.props,
     databaseId: {
@@ -24,8 +23,8 @@ export default {
     const params = this.lastCreatedSortParam();
     const lastCreatedTimestamp = this.getLastCreatedTimestamp();
 
-    // Get pages in updated order descending until the first page edited after
-    // lastEditedTime, then reverse list of pages and emit
+    // Get pages in created order descending until the first page edited after
+    // lastCreatedTimestamp, then reverse list of pages and emit
     const pagesStream = this.notion.getPages(this.databaseId, params);
 
     for await (const page of pagesStream) {

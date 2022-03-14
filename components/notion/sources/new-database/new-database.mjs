@@ -8,7 +8,6 @@ export default {
   description: "Emit new event when a database is created",
   version: "0.0.1",
   type: "source",
-  dedupe: "last",
   async run() {
     const databases = [];
     const params = this.lastCreatedSortParam();

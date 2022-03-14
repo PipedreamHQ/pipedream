@@ -26,12 +26,12 @@ export default {
   },
   methods: {
     generateMeta(obj, type, timestamp, summary, isUpdate = false) {
-      const ts = Date.parse(lastTime);
       let title;
       let {
         id,
         [timestamp]: lastTime,
       } = obj;
+      const ts = Date.parse(lastTime);
 
       if (type === constants.types.DATABASE) {
         title = this.notion.extractDatabaseTitle(obj);
