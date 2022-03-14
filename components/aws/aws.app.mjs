@@ -420,7 +420,7 @@ export default {
       return response.Table.AttributeDefinitions;
     },
     decodeResponsePayload(payload) {
-      return JSON.parse(new TextDecoder("utf-8").decode(payload) || {});
+      return JSON.parse(new TextDecoder("utf-8").decode(payload));
     },
     createZipArchive(data) {
       const zip = new AdmZip();
