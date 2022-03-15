@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center">
+  <div class="flex justify-center items-center">
     <a :href="link">
       <img :alt="name" :src="icon" width="100" />
     </a>
