@@ -26,6 +26,12 @@ const conceptsNav = [
         ] 
       },
       {
+        title: "Organizations",
+        children: [
+          "/orgs/"
+        ]
+      },
+      {
         title: "Troubleshooting",
         children: [
           "/troubleshooting/"
@@ -61,6 +67,11 @@ const conceptsNav = [
               '/code/bash/',
               '/code/bash/http-requests/'
             ]
+          },
+          {
+            title: "API",
+            type: "group",
+            children: ['/docs/api/']
           },
           "/destinations/", 
       ] },
