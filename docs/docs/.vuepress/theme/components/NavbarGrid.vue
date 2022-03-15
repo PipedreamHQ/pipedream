@@ -158,13 +158,13 @@ const isLastItemOfArray = (boolean) => arr[arr.length - 1] === item;
             :href="child.link"
           >
             <div class="bg-green-500 text-white rounded-lg p-3">
-              <component :is="child.icon"></component>
+              <component :is="child.icon" class="inline-block"></component>
             </div>
             <div class="ml-3">
-              <p class="font-semibold">{{ child.title }}</p>
-              <p class="text-sm font-light text-gray-600">
+              <span class="block font-semibold">{{ child.title }}</span>
+              <span class="block text-sm font-light text-gray-600">
                 {{ child.subtitle }}
-              </p>
+              </span>
             </div>
           </a>
         </div>
