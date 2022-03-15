@@ -6,7 +6,7 @@ export default {
   methods: {
     ...common.methods,
     _getLastMessageIDs() {
-      this.db.get(constants.LAST_MESSAGE_IDS);
+      return this.db.get(constants.LAST_MESSAGE_IDS) ?? {};
     },
     _setLastMessageIDs(lastMessageIDs) {
       this.db.set(constants.LAST_MESSAGE_IDS, lastMessageIDs);
