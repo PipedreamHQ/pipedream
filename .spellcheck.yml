@@ -16,11 +16,11 @@ matrix:
       - pre
   - pyspelling.filters.context:
       delimiters:
-      # Ignore multiline content in frontmatter (frontmatter has have 3 dashes)
+      # Ignore multiline content in frontmatter (frontmatter has 3 dashes)
       # ---
       # content
       # ---
-      - open: '(?s)^(?P<open> *\-{3,})$'
+      - open: '(?s)^(?P<open> *\-{3})$'
         close: '^(?P=open)$'
   sources:
   - '**/*.md'
