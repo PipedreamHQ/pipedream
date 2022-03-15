@@ -1,14 +1,14 @@
 import googleDrive from "../../google_drive.app.mjs";
 import Mustaches from "google-docs-mustaches";
 
-const MODE_GOOGLE_DOC = 0;
-const MODE_PDF = 1;
-const MODE_GOOGLE_DOC_PDF = 2;
+const MODE_GOOGLE_DOC = "Google Doc";
+const MODE_PDF = "Pdf";
+const MODE_GOOGLE_DOC_PDF = "Google Doc & Pdf";
 
 export default {
   key: "google_drive-create-file-from-template",
   name: "Create New File From Template",
-  description: "Create a new google doc file from template",
+  description: "Create a new google doc file from template. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -43,18 +43,9 @@ export default {
       description: "Select if you want to create the google doc, the pdf or both files.",
       async options() {
         return [
-          {
-            label: "Google doc",
-            value: 0,
-          },
-          {
-            label: "Pdf",
-            value: 1,
-          },
-          {
-            label: "Google doc & Pdf",
-            value: 2,
-          },
+          MODE_GOOGLE_DOC,
+          MODE_PDF,
+          MODE_GOOGLE_DOC_PDF,
         ];
       },
     },
@@ -65,11 +56,11 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const result = {
       folderId: this.folderId,
       name: this.name,
-	  mode: this.mode,
+      mode: this.mode,
     };
 
     const client = new Mustaches.default({
@@ -78,7 +69,7 @@ export default {
 
     /* CREATE THE GOOGLE DOC */
 
-    var googleDocId = await client.interpolate({
+    const googleDocId = await client.interpolate({
       source: this.templateId,
       destination: this.folderId,
       name: this.name,
@@ -88,8 +79,8 @@ export default {
 
     /* CREATE THE PDF */
 
-    if(this.mode != MODE_GOOGLE_DOC) {
-      var pdfId = await client.export({
+    if (this.mode != MODE_GOOGLE_DOC) {
+      const pdfId = await client.export({
         file: googleDocId,
         mimeType: 'application/pdf',
         name: this.name,
@@ -100,10 +91,11 @@ export default {
 
     /* REMOVE THE GOOGLE DOC */
 
-    if(this.mode == MODE_PDF) {
+    if (this.mode == MODE_PDF) {
       await this.googleDrive.deleteFile(googleDocId);
     }
 
+    $.export("$summary", "New file successfully created");
     return result;
   },
 };
