@@ -302,24 +302,24 @@ module.exports = {
       }
     }
     //Prepares and sends the request configuration
-    const config = {
+    const config = this.omitEmptyStringValues({
       personalizations,
       from,
       reply_to: replyTo,
       subject: this.subject,
       content: this.getArrayObject(this.content),
       attachments,
-      template_id: this.convertEmptyStringToUndefined(this.templateId),
-      headers: this.convertEmptyStringToUndefined(this.headers),
-      categories: this.convertEmptyStringToUndefined(this.categories),
-      custom_args: this.convertEmptyStringToUndefined(this.customArgs),
+      template_id: this.templateId,
+      headers: this.headers,
+      categories: this.categories,
+      custom_args: this.customArgs,
       send_at: this.sendAt,
       batch_id: this.batchId,
-      asm: this.convertEmptyStringToUndefined(this.asm),
-      ip_pool_name: this.convertEmptyStringToUndefined(this.ipPoolName),
-      mail_settings: this.convertEmptyStringToUndefined(this.mailSettings),
-      tracking_settings: this.convertEmptyStringToUndefined(this.trackingSettings),
-    };
+      asm: this.asm,
+      ip_pool_name: this.ipPoolName,
+      mail_settings: this.mailSettings,
+      tracking_settings: this.trackingSettings,
+    });
     return this.sendgrid.sendEmail(config);
   },
 };

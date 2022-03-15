@@ -86,5 +86,21 @@ module.exports = {
         object :
         JSON.parse(object);
     },
+    /**
+     * Iterates on an object's properties and sets each property value to
+     * `undefined` when property value is an empty string or `null`.
+     *
+     * @param {object} object the input object to check for setting its properties
+     * values to `undefined`.
+     * @returns The same object, with its properties values set to `undefined`
+     * accordingly.
+     */
+    omitEmptyStringValues (object) {
+      Object.keys(object).map((prop) => {
+        const propvalue = object[prop];
+        object[prop] = this.convertEmptyStringToUndefined(propvalue);
+      });
+      return object;
+    },
   },
 };

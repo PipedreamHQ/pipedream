@@ -352,6 +352,23 @@ module.exports = {
       return contactLists.slice(0, maxItems);
     },
     /**
+     * Lists all email addresses that are currently the associated account blocks list.
+     *
+     * @param {integer}  startTime start of the time range in unix timestamp when a block was
+     * created (inclusive).
+     * @param {integer}  endTime end of the time range in unix timestamp when a block was
+     * created (inclusive).
+     * @param {integer}  numberOfBlocks the number of blocks to return.
+     * @returns {{created: number, email: string, reason: string, status: string}: array} an array
+     * with details of each block returned: `created` for unix timestamp for when the block record
+     * was created at SendGrid, `email` for the email address that was added to the block list,
+     * `reason` with the reason for the block, and the `status` of the block.
+     */
+    async listBlocks(startTime, endTime, maxItems) {
+      const listItemsEndpoint = "/v3/suppression/blocks";
+      return this.listItems(listItemsEndpoint, startTime, endTime, maxItems);
+    },
+    /**
      * Lists all items of the requested account entity, blocks or global supressions.
      *
      * @param {integer}  startTime start of the time range in unix timestamp when an item was
@@ -363,7 +380,7 @@ module.exports = {
      * @returns {{created: number, email: string, reason: string, status: string}: array} an array
      * with details of each item returned: `created` for unix timestamp for when the item record
      * was created at SendGrid, `email` for the email address that was added to the item list,
-     * `reason` with the reason for the item, and the `status` of the block.
+     * `reason` with the reason for the item, and the `status` of the item.
      */
     async listItems(listItemsEndpoint, startTime, endTime, maxItems) {
       const pageSize = Math.min(maxItems, 100);
@@ -403,6 +420,23 @@ module.exports = {
         config.url = url;
       } while (items.length < maxItems);
       return items.slice(0, maxItems);
+    },
+    /**
+     * Lists all email addresses that are globally suppressed.
+     *
+     * @param {integer}  startTime start of the time range in unix timestamp when a global
+     * supression was created (inclusive).
+     * @param {integer}  endTime end of the time range in unix timestamp when  a global
+     * supression was created (inclusive).
+     * @param {integer}  numberOfSupressions the number of global supressions to return.
+     * @returns {{created: number, email: string}: array} an array
+     * with details of each global supression returned: `created` for unix timestamp for when
+     * the recipient was added to the global suppression list, `email` for the email address of
+     * the recipient who is globally suppressed.
+     */
+    async listGlobalSupressions(startTime, endTime, maxItems) {
+      const listItemsEndpoint = "/v3/suppression/unsubscribes";
+      return this.listItems(listItemsEndpoint, startTime, endTime, maxItems);
     },
     /**
      * Removes one or more contact from the specified list.

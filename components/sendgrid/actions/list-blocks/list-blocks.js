@@ -66,9 +66,7 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    const listBlocksEndpoint = "/v3/suppression/blocks";
-    return this.sendgrid.listItems(
-      listBlocksEndpoint,
+    return this.sendgrid.listBlocks(
       this.startTime,
       this.endTime,
       this.numberOfBlocks,

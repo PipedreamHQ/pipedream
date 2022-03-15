@@ -129,10 +129,10 @@ module.exports = {
         custom_fields: this.customFields,
       },
     ];
-    const config = {
-      list_ids: this.convertEmptyStringToUndefined(this.listIds),
+    const config = this.omitEmptyStringValues({
+      list_ids: this.listIds,
       contacts,
-    };
+    });
     return this.sendgrid.addOrUpdateContacts(config);
   },
 };

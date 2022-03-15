@@ -66,12 +66,10 @@ module.exports = {
       constraints,
     );
     this.checkValidationResults(validationResult);
-    const listSupressionsEndpoint = "/v3/suppression/unsubscribes";
-    return this.sendgrid.listItems(
-      listSupressionsEndpoint,
+    return this.sendgrid.listGlobalSupressions(
       this.startTime,
       this.endTime,
-      this.numberOfSupressions,
+      this.numberOfSuppressions,
     );
   },
 };
