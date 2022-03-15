@@ -3,7 +3,6 @@ import Mustaches from "google-docs-mustaches";
 
 const MODE_GOOGLE_DOC = "Google Doc";
 const MODE_PDF = "Pdf";
-const MODE_GOOGLE_DOC_PDF = "Google Doc & Pdf";
 
 export default {
   key: "google_drive-create-file-from-template",
@@ -36,18 +35,16 @@ export default {
       ],
       description:
         "Name of the file you want to create (eg. `myFile` will create a google doc called `myFile` and a pdf called `myFile.pdf`)",
-    },
+      optional: false,
+	},
     mode: {
-      type: "string",
+      type: "string[]",
       label: "Mode",
       description: "Select if you want to create the google doc, the pdf or both files.",
-      async options() {
-        return [
-          MODE_GOOGLE_DOC,
-          MODE_PDF,
-          MODE_GOOGLE_DOC_PDF,
-        ];
-      },
+      options: [
+        MODE_GOOGLE_DOC,
+        MODE_PDF,
+      ],
     },
     replaceValues: {
       type: "object",
@@ -79,7 +76,7 @@ export default {
 
     /* CREATE THE PDF */
 
-    if (this.mode != MODE_GOOGLE_DOC) {
+    if (this.mode.includes(MODE_PDF)) {
       const pdfId = await client.export({
         file: googleDocId,
         mimeType: 'application/pdf',
@@ -91,7 +88,7 @@ export default {
 
     /* REMOVE THE GOOGLE DOC */
 
-    if (this.mode == MODE_PDF) {
+    if (!this.mode.includes(MODE_GOOGLE_DOC)) {
       await this.googleDrive.deleteFile(googleDocId);
     }
 
