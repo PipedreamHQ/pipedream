@@ -37,6 +37,12 @@ module.exports = [
         link: "/concepts/integrate/",
         icon: "integration-icon",
       },
+      {
+        title: "Components",
+        subtitle: "Build reusable sources and actions",
+        link: "/components/",
+        icon: "step-icon"
+      }
     ],
   },
   {

@@ -11,9 +11,11 @@
       <span class="prefix">{{ lastUpdatedText }}:</span>
       <span class="time">{{ lastUpdated }}</span>
     </div>
-    <a href="/privacy-and-security/">Security & Privacy</a>
-    <a href="/status/">Status</a>
-    <a href="/pricing/">Pricing</a>
+    <a href="/privacy-and-security/" class="text-gray-400"
+      >Security & Privacy</a
+    >
+    <a href="/status/" class="text-gray-400">Status</a>
+    <a href="/pricing/" class="text-gray-400">Pricing</a>
   </footer>
 </template>
 
