@@ -8,9 +8,10 @@ export default {
   name: "Rename Channel",
   description: "Rename a channel to a specified name you choose",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...common.props,
+    /* eslint pipedream/props-label: 0 */
     channelId: {
       ...common.props.channelId,
       description: "Please select the channel you'd like to change its name",
