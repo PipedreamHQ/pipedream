@@ -3,8 +3,8 @@ import symblAIApp from "../../symbl_ai.app.mjs";
 export default {
   key: "symbl_ai-post-video-url",
   name: "Submit Video URL",
-  description: "Submit a Video by providing the URL for processing",
-  version: "0.0.1",
+  description: "Submit a Video by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url)",
+  version: "0.0.2",
   type: "action",
   props: {
     symblAIApp,
@@ -35,7 +35,7 @@ export default {
       return response;
     } catch (error) {
       console.log("Error: ", error);
-      $.export("summary", `Failed to post video URL`);
+      $.export("summary", "Failed to post video URL");
     }
   },
 };
