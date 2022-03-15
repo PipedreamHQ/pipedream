@@ -2,19 +2,19 @@
 <script>
 // import AutoLink from "@theme/AutoLink.vue";
 // import DropdownTransition from "@theme/DropdownTransition.vue";
-import workflowIcon from './svgs/workflow-icon.vue';
-import stepIcon from './svgs/step-icon.vue';
-import triggerIcon from './svgs/trigger-icon.vue';
-import codeIcon from './svgs/code-icon.vue';
-import integrationIcon from './svgs/integration-icon.vue'
+import workflowIcon from "./svgs/workflow-icon.vue";
+import stepIcon from "./svgs/step-icon.vue";
+import triggerIcon from "./svgs/trigger-icon.vue";
+import codeIcon from "./svgs/code-icon.vue";
+import integrationIcon from "./svgs/integration-icon.vue";
 
 // import trigger from '../components/svgs/trigger.vue'
 // import { computed, ref, toRefs, watch } from "vue";
 // import type { PropType } from "vue";
 // import { useRoute } from "vue-router";
 // import type {
-  // NavbarItem,
-  // ResolvedNavbarItem,
+// NavbarItem,
+// ResolvedNavbarItem,
 // } from "@vuepress/theme-default/lib/shared";
 
 // const props = defineProps({
@@ -24,33 +24,32 @@ import integrationIcon from './svgs/integration-icon.vue'
 //   },
 // });
 export default {
-
   props: {
     item: {
-      required: true
-    }
+      required: true,
+    },
   },
 
   components: {
-    'workflow-icon': workflowIcon,
-    'step-icon': stepIcon,
-    'trigger-icon': triggerIcon,
-    'code-icon': codeIcon,
-    'integration-icon': integrationIcon,
+    "workflow-icon": workflowIcon,
+    "step-icon": stepIcon,
+    "trigger-icon": triggerIcon,
+    "code-icon": codeIcon,
+    "integration-icon": integrationIcon,
   },
 
-  data () {
+  data() {
     return {
-      open: false
-    }
+      open: false,
+    };
   },
 
   computed: {
-    dropdownAriaLabel()  {
-      return this.item?.ariaLabel || this.item?.text
-    }
-  }
-}
+    dropdownAriaLabel() {
+      return this.item?.ariaLabel || this.item?.text;
+    },
+  },
+};
 
 // const { item } = toRefs(props);
 // console.log(item.grid);
@@ -85,8 +84,7 @@ const handleDropdown = (e) => {
   }
 };
 
-const isLastItemOfArray = boolean =>
-  arr[arr.length - 1] === item;
+const isLastItemOfArray = (boolean) => arr[arr.length - 1] === item;
 </script>
 
 <template>
@@ -143,7 +141,7 @@ const isLastItemOfArray = boolean =>
             class="
               flex
               row
-              items-start
+              items-center
               rounded-lg
               bg-transparent
               p-2
