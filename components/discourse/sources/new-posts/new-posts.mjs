@@ -4,10 +4,10 @@ import discourse from "../../discourse.app.mjs";
 export default {
   name: "New Posts",
   key: "discourse-new-posts",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   description:
-    "Emits an event every time a new post is added to a topic in one of your chosen categories",
+    "Emit new posts added to a topic in one of your chosen categories",
   ...common,
   props: {
     ...common.props,

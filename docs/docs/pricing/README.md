@@ -75,6 +75,7 @@ The Enterprise Plan includes all of the features of the Team plan, as well as:
 - Support for multiple orgs. For example, you might want to separate workflows owned by different teams.
 - Premium support: onboarding, ongoing training, and anything your team needs to be successful
 - Custom, prioritized [component](https://pipedream.com/docs/components/) development. If you need new sources or actions, The Pipedream team will develop them for you and prioritize that work on our [component backlog](https://github.com/PipedreamHQ/pipedream/projects/1).
+- Custom invoices
 
 To discuss an Enterprise plan, please contact the Pipedream Sales Team [using the **Contact Sales** form on our Pricing page](https://pipedream.com/pricing).
 
@@ -141,6 +142,10 @@ Pipedream charges invocations proportional to the memory configuration. If you r
 When you upgrade to the Professional tier, Stripe will immediately charge your payment method on file for the platform fee tied to your plan (see [https://pipedream.com/pricing](https://pipedream.com/pricing))
 
 If you accrue any [additional billable invocations](#additional-billable-invocations), that usage is reported to Stripe throughout the [billing period](/pricing/#billing-period). That overage, as well as the next platform fee, is charged at the start of the _next_ billing period.
+
+### Do any plans support payment by invoice, instead of credit / debit card?
+
+Yes, Pipedream can issue invoices on the Enterprise Plan. Invoices are paid annually.
 
 ### How does Pipedream secure my credit card data?
 

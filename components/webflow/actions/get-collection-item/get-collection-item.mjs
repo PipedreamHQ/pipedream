@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "webflow-get-collection-item",
   name: "Get a collection item",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     webflow: {
@@ -19,7 +19,7 @@ export default {
     },
   },
   async run({ $ }) {
-    $.export("request", {
+    const request = {
       method: "get",
       url: `https://api.webflow.com/collections/${this.collection_id}/items/${this.item_id}`,
 
@@ -28,11 +28,10 @@ export default {
         "Content-Type": "application/json",
         "accept-version": "1.0.0",
       },
-    });
-    $.export(
-      "response",
-      await axios($, this.request),
-    );
-    $.export("item", this.response.items[0]);
+    };
+    $.export("request", request);
+    const response = await axios($, request);
+    $.export("response", response);
+    $.export("item", response.items[0]);
   },
 };
