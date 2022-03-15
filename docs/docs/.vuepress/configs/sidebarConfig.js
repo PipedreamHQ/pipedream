@@ -19,6 +19,18 @@ const conceptsNav = [
       { title: "Steps", children: ["/steps/"] },
       { title: "Integrate", children: ["/integrate/"] },
       { title: "Triggers", children: ["/triggers/"] },
+      {
+        title: "Account",
+        children: [
+          "/user-settings/"
+        ] 
+      },
+      {
+        title: "Troubleshooting",
+        children: [
+          "/troubleshooting/"
+        ]
+      }
     ],
   },
   {
