@@ -58,7 +58,7 @@ const conceptsNav = [
 ];
 
 module.exports = {
-  "/quickstart/": ["/quickstart/", "/quickstart/create-new-workflow.md"],
+  "/quickstart/": ["/quickstart/"],
   "/concepts/": conceptsNav,
   "/": conceptsNav,
 };
