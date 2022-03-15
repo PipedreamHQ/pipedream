@@ -41,7 +41,7 @@ module.exports = [
         title: "Components",
         subtitle: "Build reusable sources and actions",
         link: "/components/",
-        icon: "step-icon"
+        icon: "component-icon"
       }
     ],
   },

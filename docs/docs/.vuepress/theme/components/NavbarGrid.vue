@@ -7,6 +7,7 @@ import stepIcon from "./svgs/step-icon.vue";
 import triggerIcon from "./svgs/trigger-icon.vue";
 import codeIcon from "./svgs/code-icon.vue";
 import integrationIcon from "./svgs/integration-icon.vue";
+import componentIcon from "./svgs/component-icon.vue";
 
 // import trigger from '../components/svgs/trigger.vue'
 // import { computed, ref, toRefs, watch } from "vue";
@@ -36,6 +37,7 @@ export default {
     "trigger-icon": triggerIcon,
     "code-icon": codeIcon,
     "integration-icon": integrationIcon,
+    "component-icon": componentIcon,
   },
 
   data() {
