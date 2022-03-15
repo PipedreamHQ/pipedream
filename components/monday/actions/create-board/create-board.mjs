@@ -33,6 +33,12 @@ export default {
         "workspaceId",
       ],
     },
+    templateId: {
+      propDefinition: [
+        monday,
+        "templateId",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -40,6 +46,7 @@ export default {
       boardKind,
       folderId,
       workspaceId,
+      templateId,
     } = this;
 
     const {
@@ -53,6 +60,7 @@ export default {
         boardKind,
         folderId: utils.emptyStrToUndefined(folderId),
         workspaceId: utils.emptyStrToUndefined(workspaceId),
+        templateId: utils.emptyStrToUndefined(templateId),
       });
 
     if (errors) {

@@ -46,6 +46,12 @@ export default {
         return this.listWorkspacesOptions();
       },
     },
+    templateId: {
+      type: "integer",
+      label: "Board Template ID",
+      description: "Board ID saved as a custom template. The ID can be obteined from the url in browser selecting the corresponding board (e.g. `https://{subdomain}.monday.com/boards/2419687965`) where `2419687965` is the ID of the template",
+      optional: true,
+    },
     groupName: {
       type: "string",
       label: "Group Name",
