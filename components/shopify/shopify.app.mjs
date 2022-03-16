@@ -700,6 +700,9 @@ export default {
     async createProductVariant(productId, params) {
       return await this.resourceAction("productVariant", "create", params, productId);
     },
+    async createSmartCollection(params) {
+      return await this.resourceAction("smartCollection", "create", params);
+    },
     async getLocationIds() {
       return await this.resourceAction("location", "list");
     },
