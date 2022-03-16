@@ -4,15 +4,15 @@ export default {
   key: "symbl_ai-post-video-summary-ui",
   name: "Submit Video Summary User Interface",
   description: "The Video Summary UI provides users the ability to interact with the Symbl elements (transcripts, Questions, Follow-Ups, Action Items, etc.) from a video conversation. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url)",
-  version: "0.0.6",
+  version: "0.0.1",
   type: "action",
   props: {
     symblAIApp,
     conversationId: {
-        type: "string",
-        label: "Conversation Id",
-        description: "",
-        default: "5746537658318848",
+      propDefinition: [
+        symblAIApp,
+        "conversationId",
+      ],
     },
     videoUrl: {
       type: "string",

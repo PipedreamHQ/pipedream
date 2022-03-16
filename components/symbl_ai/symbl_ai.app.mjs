@@ -141,5 +141,17 @@ export default {
         params,
       });
     },
+    async getSummary({
+      $,
+      conversationId,
+      params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/summary`,
+        params,
+      });
+    },
+
   },
 };
