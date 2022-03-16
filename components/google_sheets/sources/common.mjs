@@ -1,3 +1,22 @@
+// This source has two interfaces:
+//
+// 1) The HTTP requests tied to changes in the user's Google Drive
+// 2) A timer that runs on regular intervals, renewing the notification channel
+//    as needed
+//
+// This source watches for changes to specific files if the watchedDrive prop is
+// the user's personal drive ("My Drive"). Otherwise, when the watchedDrive is a
+// shared drive, this source watches for all changes to the drive, filtering out
+// irrelevant changes.
+//
+// This source creates webhooks using one of two Google Drive API endpoints:
+//
+// 1) My Drive (`this.isMyDrive()`): [files:
+//    watch](https://developers.google.com/drive/api/v3/reference/files/watch)
+// 2) Shared Drive: [changes:
+//    watch](https://developers.google.com/drive/api/v3/reference/changes/watch)
+//    (inherited from `common-webhook.mjs`)
+
 import { v4 as uuid } from "uuid";
 
 import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../google_drive/constants.mjs";
@@ -33,6 +52,7 @@ export default {
         "watchedDrive",
       ],
       description: "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      optional: false,
     },
   },
   hooks: {
@@ -49,14 +69,22 @@ export default {
      */
     async activate() {
       const channelID = this._getChannelID() || uuid();
+
       const {
+        startPageToken,
         expiration,
         resourceId,
-      } = await this.googleSheets.watchFile(
-        channelID,
-        this.http.endpoint,
-        this.sheetID,
-      );
+      } = this.isMyDrive()
+        ? await this.googleSheets.activateFileHook(
+          channelID,
+          this.http.endpoint,
+          this.getSheetId(),
+        )
+        : await this.googleSheets.activateHook(
+          channelID,
+          this.http.endpoint,
+          this.getDriveId(),
+        );
 
       // Save metadata on the subscription so we can stop / renew later
       // Subscriptions are tied to Google's resourceID, "an opaque value that
@@ -66,35 +94,21 @@ export default {
         expiration,
       });
       this._setChannelID(channelID);
+      if (startPageToken) {
+        this._setPageToken(startPageToken);
+      }
 
       await this.takeSheetSnapshot();
     },
     async deactivate() {
-      const channelID = this.db.get("channelID");
-      const subscription = this.db.get("subscription");
+      const channelID = this._getChannelID();
+      const subscription = this._getSubscription();
 
       // Reset DB state before anything else
       this._setSubscription(null);
       this._setChannelID(null);
 
-      if (!channelID) {
-        console.log(
-          "Channel not found, cannot stop notifications for non-existent channel",
-        );
-        return;
-      }
-
-      if (!subscription || !subscription.resourceId) {
-        console.log(
-          "No resource ID found, cannot stop notifications for non-existent resource",
-        );
-        return;
-      }
-
-      await this.googleSheets.stopNotifications(
-        channelID,
-        subscription.resourceId,
-      );
+      await this.googleSheets.deactivateHook(channelID, subscription?.resourceId);
     },
   },
   methods: {
@@ -128,7 +142,7 @@ export default {
       for await (const changedFilesPage of changedFilesStream) {
         const {
           changedFiles,
-          newStartPageToken = pageToken,
+          nextPageToken: newStartPageToken = pageToken,
         } = changedFilesPage;
         this._setPageToken(newStartPageToken);
 
@@ -169,6 +183,9 @@ export default {
 
       return this.googleSheets.getSpreadsheet(sheetId);
     },
+    isMyDrive(drive = this.watchedDrive) {
+      return googleSheets.methods.isMyDrive(drive);
+    },
     getDriveId(drive = this.watchedDrive) {
       return googleSheets.methods.getDriveId(drive || MY_DRIVE_VALUE);
     },
@@ -198,42 +215,31 @@ export default {
       const {
         expiration,
         resourceId,
-      } = await this.checkResubscription(
-        subscription,
-        channelID,
-        this.http.endpoint,
-      );
+        newChannelID,
+        newPageToken,
+      } = this.isMyDrive() ?
+        await this.googleSheets.renewFileSubscription(
+          subscription,
+          this.http.endpoint,
+          channelID,
+          this.getSheetId(),
+        )
+        : await this.googleSheets.renewSubscription(
+          this.watchedDrive,
+          subscription,
+          this.http.endpoint,
+          channelID,
+          this._getPageToken(),
+        );
 
       this._setSubscription({
         expiration,
         resourceId,
       });
-      this._setChannelID(channelID);
-    },
-    async checkResubscription(
-      subscription,
-      channelID,
-      endpoint,
-    ) {
-      if (subscription && subscription.resourceId) {
-        console.log(
-          `Notifications for resource ${subscription.resourceId} are expiring at ${subscription.expiration}. Stopping existing sub`,
-        );
-        await this.googleSheets.stopNotifications(channelID, subscription.resourceId);
+      this._setChannelID(newChannelID);
+      if (newPageToken) {
+        this._setPageToken(newPageToken);
       }
-
-      const {
-        expiration,
-        resourceId,
-      } = await this.googleSheets.watchFile(
-        channelID,
-        endpoint,
-        this.sheetID,
-      );
-      return {
-        expiration,
-        resourceId,
-      };
     },
     /**
      * This method scans the worksheets indicated by the user to retrieve the
@@ -257,7 +263,15 @@ export default {
       return;
     }
 
-    const spreadsheet = await this.googleSheets.getSpreadsheet(this.sheetID);
+    const spreadsheet = this.isMyDrive()
+      ? await this.googleSheets.getSpreadsheet(this.sheetID)
+      : await this.getSpreadsheetToProcess(event);
+
+    if (!spreadsheet) {
+      const sheetId = this.getSheetId();
+      console.log(`Spreadsheet "${sheetId}" was not modified. Skipping event`);
+      return;
+    }
 
     return this.processSpreadsheet(spreadsheet);
   },

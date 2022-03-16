@@ -5,7 +5,21 @@
 // This source has two interfaces:
 //
 // 1) The HTTP requests tied to changes in the user's Google Drive
-// 2) A timer that runs on regular intervals, renewing the notification channel as needed
+// 2) A timer that runs on regular intervals, renewing the notification channel
+//    as needed
+//
+// This source watches for changes to specific files if the drive prop is the
+// user's personal drive ("My Drive"). Otherwise, when the drive is a shared
+// drive, this source watches for all changes to the drive, filtering out
+// irrelevant changes.
+//
+// This source creates webhooks using one of two Google Drive API endpoints:
+//
+// 1) My Drive (`this.isMyDrive()`): [files:
+//    watch](https://developers.google.com/drive/api/v3/reference/files/watch)
+// 2) Shared Drive: [changes:
+//    watch](https://developers.google.com/drive/api/v3/reference/changes/watch)
+//    (inherited from `common-webhook.mjs`)
 
 import cronParser from "cron-parser";
 import includes from "lodash/includes.js";
@@ -20,7 +34,7 @@ export default {
   name: "Changes to Specific Files",
   description:
     "Watches for changes to specific files, emitting an event any time a change is made to one of those files",
-  version: "0.0.17",
+  version: "0.0.18",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -58,6 +72,9 @@ export default {
   hooks: {
     ...common.hooks,
     async activate() {
+      if (!this.isMyDrive()) {
+        return common.hooks.activate.call(this);
+      }
       // Called when a component is created or updated. Handles all the logic
       // for starting and stopping watch notifications tied to the desired
       // files.
@@ -65,14 +82,15 @@ export default {
       // You can pass the same channel ID in watch requests for multiple files, so
       // our channel ID is fixed for this component to simplify the state we have to
       // keep track of.
-      const channelID = this.db.get("channelID") || uuid();
+      const channelID = this._getChannelID() || uuid();
 
       // Subscriptions are keyed on Google's resourceID, "an opaque value that
       // identifies the watched resource". This value is included in request
       // headers, allowing us to look up the watched resource.
-      let subscriptions = this.db.get("subscriptions") || {};
+      let subscriptions = this._getSubscriptions() || {};
 
-      for (const fileID of this.files) {
+      const files = this.files;
+      for (const fileID of files) {
         const {
           expiration,
           resourceId,
@@ -90,11 +108,15 @@ export default {
       }
 
       // Save metadata on the subscription so we can stop / renew later
-      this.db.set("subscriptions", subscriptions);
-      this.db.set("channelID", channelID);
+      this._setSubscriptions(subscriptions);
+      this._setChannelID(channelID);
     },
     async deactivate() {
-      const channelID = this.db.get("channelID");
+      if (!this.isMyDrive()) {
+        return common.hooks.deactivate.call(this);
+      }
+
+      const channelID = this._getChannelID();
       if (!channelID) {
         console.log(
           "Channel not found, cannot stop notifications for non-existent channel",
@@ -102,18 +124,24 @@ export default {
         return;
       }
 
-      const subscriptions = this.db.get("subscriptions") || {};
+      const subscriptions = this._getSubscriptions() || {};
       for (const resourceId of Object.keys(subscriptions)) {
         await this.googleDrive.stopNotifications(channelID, resourceId);
       }
 
       // Reset DB state
-      this.db.set("subscriptions", {});
-      this.db.set("channelID", null);
+      this._setSubscriptions({});
+      this._setChannelID(null);
     },
   },
   methods: {
     ...common.methods,
+    _getSubscriptions() {
+      return this.db.get("subscriptions") || {};
+    },
+    _setSubscriptions(subscriptions) {
+      this.db.set("subscriptions", subscriptions);
+    },
     _getNextTimerEventTimestamp(event) {
       if (event.cron) {
         return cronParser
@@ -125,52 +153,88 @@ export default {
         return Date.now() + event.interval_seconds * 1000;
       }
     },
+    async renewFileSubscriptions(event) {
+      // Assume subscription & channelID may all be undefined at
+      // this point Handle their absence appropriately.
+      const subscriptions = this._getSubscriptions() || {};
+      const channelID = this._getChannelID() || uuid();
+
+      const nextRunTimestamp = this._getNextTimerEventTimestamp(event);
+
+      const {
+        subscriptions: newSubscriptions,
+        channelID: newChannelID,
+      } = this.googleDrive.renewFileSubscriptions(
+        subscriptions,
+        this.http.endpoint,
+        channelID,
+        nextRunTimestamp,
+      );
+
+      this._setSubscriptions(newSubscriptions);
+      this._setChannelID(newChannelID);
+    },
     getUpdateTypes() {
       return this.updateTypes;
     },
+    generateMeta(data, headers) {
+      const {
+        id: fileId,
+        name: fileName,
+        modifiedTime: tsString,
+      } = data;
+      const {
+        "x-goog-message-number": eventId,
+        "x-goog-resource-state": resourceState,
+      } = headers;
+
+      return {
+        id: `${fileId}-${eventId}`,
+        summary: `${resourceState.toUpperCase()} - ${
+          fileName || "Untitled"
+        }`,
+        ts: Date.parse(tsString),
+      };
+    },
+    isFileRelevant(file) {
+      return this.files.includes(file.id);
+    },
+    async processChange(file, headers) {
+      const eventToEmit = {
+        file,
+        change: {
+          state: headers["x-goog-resource-state"],
+          resourceURI: headers["x-goog-resource-uri"],
+          changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
+        },
+      };
+      const meta = this.generateMeta(file, headers);
+      this.$emit(eventToEmit, meta);
+    },
+    async processChanges(changedFiles, headers) {
+      for (const file of changedFiles) {
+        if (!this.isFileRelevant(file)) {
+          console.log(`Skipping event for irrelevant file ${file.id}`);
+          continue;
+        }
+        this.processChange(file, headers);
+      }
+    },
   },
   async run(event) {
+    if (!this.isMyDrive()) {
+      return common.run.call(this, event);
+    }
     // This function is polymorphic: it can be triggered as a cron job, to make sure we renew
     // watch requests for specific files, or via HTTP request (the change payloads from Google)
 
-    let subscriptions = this.db.get("subscriptions") || {};
-    const channelID = this.db.get("channelID");
-
     // Component was invoked by timer
     if (event.timestamp) {
-      for (const [
-        currentResourceId,
-        metadata,
-      ] of Object.entries(subscriptions)) {
-        const { fileID } = metadata;
-        // If the subscription for this resource will expire before the next run,
-        // stop the existing subscription and renew
-        if (metadata.expiration < this._getNextTimerEventTimestamp(event)) {
-          console.log(
-            `Notifications for resource ${currentResourceId} are expiring at ${metadata.expiration}. Renewing`,
-          );
-          await this.googleDrive.stopNotifications(
-            channelID,
-            currentResourceId,
-          );
-          const {
-            expiration,
-            resourceId,
-          } = await this.googleDrive.watchFile(
-            channelID,
-            this.http.endpoint,
-            fileID,
-          );
-          subscriptions[resourceId] = {
-            expiration,
-            fileID,
-          };
-        }
-      }
-
-      this.db.set("subscriptions", subscriptions);
-      return;
+      return this.renewFileSubscriptions(event);
     }
+
+    const channelID = this._getChannelID();
+    let subscriptions = this._getSubscriptions() || {};
 
     const { headers } = event;
 
@@ -230,20 +294,6 @@ export default {
       return;
     }
 
-    const eventToEmit = {
-      file,
-      change: {
-        state: headers["x-goog-resource-state"],
-        resourceURI: headers["x-goog-resource-uri"],
-        changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
-      },
-    };
-
-    this.$emit(eventToEmit, {
-      summary: `${headers["x-goog-resource-state"].toUpperCase()} - ${
-        file.name || "Untitled"
-      }`,
-      id: headers["x-goog-message-number"],
-    });
+    this.processChange(file, headers);
   },
 };
