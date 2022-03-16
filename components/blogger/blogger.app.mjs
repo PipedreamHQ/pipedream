@@ -64,7 +64,7 @@ export default {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _getAxiosParams(opts = {}) {
+    _getRequestParams(opts = {}) {
       return {
         ...opts,
         url: this._getBaseUrl() + opts.path,
@@ -72,19 +72,19 @@ export default {
       };
     },
     async getUserBlogs(ctx = this) {
-      return axios(ctx, this._getAxiosParams({
+      return axios(ctx, this._getRequestParams({
         method: "GET",
         path: `/users/${this.$auth.oauth_uid}/blogs`,
       }));
     },
     async getBlogPost(ctx = this, blogId, postId) {
-      return axios(ctx, this._getAxiosParams({
+      return axios(ctx, this._getRequestParams({
         method: "GET",
         path: `/blogs/${blogId}/posts/${postId}`,
       }));
     },
     async getBlogPosts(ctx = this, blogId, status, pageToken) {
-      return axios(ctx, this._getAxiosParams({
+      return axios(ctx, this._getRequestParams({
         method: "GET",
         path: `/blogs/${blogId}/posts`,
         params: {
@@ -96,7 +96,7 @@ export default {
       }));
     },
     async newPost(ctx = this, blogId, data, params) {
-      return axios(ctx, this._getAxiosParams({
+      return axios(ctx, this._getRequestParams({
         method: "POST",
         path: `/blogs/${blogId}/posts`,
         data,
@@ -104,14 +104,14 @@ export default {
       }));
     },
     async updatePost(ctx = this, blogId, postId, data) {
-      return axios(ctx, this._getAxiosParams({
+      return axios(ctx, this._getRequestParams({
         method: "PUT",
         path: `/blogs/${blogId}/posts/${postId}`,
         data,
       }));
     },
     async publishPost(ctx = this, blogId, postId, publishDate) {
-      return axios(ctx, this._getAxiosParams({
+      return axios(ctx, this._getRequestParams({
         method: "POST",
         path: `/blogs/${blogId}/posts/${postId}/publish`,
         params: {
@@ -120,13 +120,13 @@ export default {
       }));
     },
     async deletePost(ctx = this, blogId, postId) {
-      return axios(ctx, this._getAxiosParams({
+      return axios(ctx, this._getRequestParams({
         method: "DELETE",
         path: `/blogs/${blogId}/posts/${postId}`,
       }));
     },
     async revertPost(ctx = this, blogId, postId) {
-      return axios(ctx, this._getAxiosParams({
+      return axios(ctx, this._getRequestParams({
         method: "POST",
         path: `/blogs/${blogId}/posts/${postId}/revert`,
       }));

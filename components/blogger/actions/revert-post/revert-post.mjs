@@ -2,7 +2,7 @@ import bloggerApp from "../../blogger.app.mjs";
 
 export default {
   name: "Revert a Post",
-  description: "Revert a post.[See the docs here](https://developers.google.com/blogger/docs/3.0/reference/posts/revert).",
+  description: "Revert a published or scheduled post to draft state.[See the docs here](https://developers.google.com/blogger/docs/3.0/reference/posts/revert).",
   key: "blogger-revert-post",
   version: "0.0.1",
   type: "action",

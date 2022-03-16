@@ -27,7 +27,7 @@ export default {
     publishDate: {
       type: "string",
       label: "Publish Date",
-      description: "The date and time to schedule the publishing of the Post. Date bust follow [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. Ex: `2019-10-12T07:20:50.52Z`",
+      description: "The date and time to schedule the publishing of the Post. Date must follow [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. Ex: `2019-10-12T07:20:50.52Z`",
       optional: true,
     },
   },
