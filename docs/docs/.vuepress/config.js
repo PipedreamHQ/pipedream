@@ -19,7 +19,7 @@ module.exports = {
       },
     ],
   ],
-  themeConfig: themeConfig,
+  themeConfig,
   postcss: {
     plugins: [require("autoprefixer"), require("tailwindcss")],
   }
