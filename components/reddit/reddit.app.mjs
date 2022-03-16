@@ -371,7 +371,7 @@ export default {
           params,
         }));
     },
-    async getUserNewSavedPosts(
+    async getNewSavedPosts(
       before,
       username,
       timeFilter,
@@ -383,7 +383,6 @@ export default {
         show: "given",
         sort: "new",
         t: timeFilter,
-        type: "links",
         sr_detail: includeSubredditDetails,
         limit,
       };

@@ -6,9 +6,8 @@ export default {
   type: "source",
   key: "reddit-new-saved-post-by-user",
   name: "New saved post by user",
-  description: "Emit new event each time an user saves a post.",
+  description: "Emit new event each time a user saves a post.",
   version: "0.0.1",
-  dedupe: "unique",
   props: {
     ...common.props,
     username: {
@@ -32,8 +31,20 @@ export default {
   },
   methods: {
     ...common.methods,
+    _getBefore() {
+      return this.db.get("before");
+    },
+    _setBefore(before) {
+      this.db.set("before", before);
+    },
+    _setCache(cache) {
+      this.db.set("cache", cache);
+    },
+    _getCache() {
+      return this.db.get("cache") || {};
+    },
     async fetchData(before) {
-      var res = await this.reddit.getUserNewSavedPosts(
+      var res = await this.reddit.getNewSavedPosts(
         before,
         this.username,
         this.timeFilter,
@@ -43,8 +54,8 @@ export default {
       if (posts.length === 0) {
         return [];
       }
-      const { name: newBefore = this.db.get("before") } = posts[0].data;
-      this.db.set("before", newBefore);
+      const { name: newBefore = this._getBefore() } = posts[0].data;
+      this._setBefore(newBefore);
       return posts;
     },
     generateEventMetadata(redditEvent) {
@@ -56,15 +67,25 @@ export default {
     },
   },
   async run() {
-    let redditComments;
+    let redditPosts;
+    const previousEmittedEvents = this._getCache();
+    const emittedEvents = {};
     do {
-      redditComments = await this.fetchData(this.db.get("before"));
-      if (redditComments.length == 0) {
+      redditPosts = await this.fetchData(this._getBefore());
+      if (redditPosts.length == 0) {
         console.log("All data fetched");
         break;
       }
 
-      redditComments.reverse().forEach(this.emitRedditEvent);
-    } while (redditComments);
+      redditPosts.reverse().forEach((event) => {
+        if (!previousEmittedEvents[event.data.name]) {
+          this.emitRedditEvent(event);
+          emittedEvents[event.data.name] = true;
+        }
+      });
+
+    } while (redditPosts);
+
+    this._setCache(emittedEvents);
   },
 };
