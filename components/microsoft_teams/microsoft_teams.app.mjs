@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import { Client } from "@microsoft/microsoft-graph-client";
 import "isomorphic-fetch";
 import constants from "./common/constants.mjs";
@@ -11,31 +10,8 @@ export default {
       type: "string",
       label: "Team ID",
       description: "The ID of the team",
-      async options({ page  }) {
-        const top = constants.DEFAULT_PAGE_LIMIT;
-
-        const resp =
-          await this.listJoinedTeams({
-            params: {
-              count: true,
-              skip: page * top,
-              top,
-            },
-          });
-
-        // const resp =
-        //   await this.listTeams({
-        //     params: {
-        //       count: true,
-        //       skip: page * top,
-        //       top,
-        //       version: "beta",
-        //     },
-        //   });
-
-        console.log("resp", resp);
-
-        const { value: teams } = resp;
+      async options() {
+        const { value: teams } = await this.listJoinedTeams();
 
         return teams.map(({
           id, displayName,
@@ -43,8 +19,6 @@ export default {
           value: id,
           label: displayName,
         }));
-
-        // return this.getTeamsOptions();
       },
     },
     channelId: {
@@ -164,32 +138,6 @@ export default {
             : reduction;
         }, api);
     },
-    getRequestHeaders(config) {
-      const authorization = `Bearer ${this.$auth.oauth_access_token}`;
-      return {
-        ...config?.headers,
-        authorization,
-      };
-    },
-    async makeRequestV2(customConfig) {
-      const {
-        $,
-        path,
-        ...otherConfig
-      } = customConfig;
-
-      const headers = this.getRequestHeaders(otherConfig);
-      const url = `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
-
-      const config = {
-        ...otherConfig,
-        headers,
-        url,
-        timeout: 10000,
-      };
-
-      return axios($ ?? this, config);
-    },
     async listUsers({ params }) {
       return this.makeRequest({
         path: "/users",
@@ -250,58 +198,11 @@ export default {
         params,
       });
     },
-    async listTeams({ params }) {
+    async listJoinedTeams({ params = {} } = {}) {
       return this.makeRequest({
-        path: "/teams",
-        params,
-      });
-    },
-    async listJoinedTeams({ params }) {
-      return this.makeRequestV2({
         path: "/me/joinedTeams",
         params,
       });
-    },
-    async getTeamGroupIds() {
-      const { value: groups } =
-        await this.listGroups({
-          params: {
-            select: "id,resourceProvisioningOptions",
-          },
-        });
-      console.log("groups", groups);
-      return groups
-        .filter(({ resourceProvisioningOptions: options }) => {
-          const [
-            option,
-          ] = options;
-          return option === constants.TEAM_PROVISIONING_OPTION;
-        })
-        .map(({ id }) => id);
-    },
-    async getTeams() {
-      // Get a list of groups
-      // https://docs.microsoft.com/en-us/graph/teams-list-all-teams?view=graph-rest-1.0#get-a-list-of-groups
-      const groupIds = await this.getTeamGroupIds();
-
-      // Get team information for a group
-      // https://docs.microsoft.com/en-us/graph/teams-list-all-teams?view=graph-rest-1.0#get-team-information-for-a-group
-      const promises =
-        groupIds.map((groupId) =>
-          this.getTeam({
-            groupId,
-            version: "beta",
-          }));
-
-      return Promise.all(promises);
-    },
-    async getTeamsOptions() {
-      const teams = this.getTeams();
-      console.log("teams", teams);
-      return teams.map(({ id }) => ({
-        value: id,
-        label: id,
-      }));
     },
     /**
      * getResourcesStream always gets the latest resources from the API.
