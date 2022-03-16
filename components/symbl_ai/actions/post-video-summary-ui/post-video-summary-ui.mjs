@@ -3,7 +3,7 @@ import symblAIApp from "../../symbl_ai.app.mjs";
 export default {
   key: "symbl_ai-post-video-summary-ui",
   name: "Submit Video Summary User Interface",
-  description: "The Video Summary UI provides users the ability to interact with the Symbl elements (transcripts, Questions, Follow-Ups, Action Items, etc.) from a video conversation. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url)",
+  description: "The Video Summary UI provides users the ability to interact with the Symbl elements (Transcripts, Questions, Follow-Ups, Action Items, etc.) from a video conversation. See the doc [here](https://docs.symbl.ai/docs/api-reference/experience-api/post-video-summary-ui)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -18,12 +18,6 @@ export default {
       type: "string",
       label: "Video URL",
       description: "URL of the video file for which you want to generate the video summary UI.",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Use `video-summary` for the Video Summary UI.",
-      default: "video-summary",
     },
     logo: {
       type: "string",
@@ -88,7 +82,7 @@ export default {
           conversationId: this.conversationId,
           data: {
             videoUrl: this.videoUrl,
-            name: this.name,
+            name: "video-summary",
             logo: this.logo,
             favicon: this.favicon,
             color: {
