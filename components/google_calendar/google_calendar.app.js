@@ -1,4 +1,4 @@
-const { google } = require("googleapis");
+const googleCalendar = require("@googleapis/calendar");
 
 module.exports = {
   type: "app",
@@ -127,9 +127,9 @@ module.exports = {
       };
     },
     calendar() {
-      const auth = new google.auth.OAuth2();
+      const auth = new googleCalendar.auth.OAuth2();
       auth.setCredentials(this._tokens());
-      const calendar = google.calendar({
+      const calendar = googleCalendar.calendar({
         version: "v3",
         auth,
       });

@@ -1,4 +1,4 @@
-import { google } from "googleapis";
+import youtube from "@googleapis/youtube";
 import { toArray } from "./utils.mjs";
 import { promisify } from "util";
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
@@ -74,11 +74,11 @@ export default {
      * @returns The instance of the YouTube Data API
      */
     youtube() {
-      const auth = new google.auth.OAuth2();
+      const auth = new youtube.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      return google.youtube({
+      return youtube.youtube({
         version: "v3",
         auth,
       });
