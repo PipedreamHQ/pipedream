@@ -1,6 +1,6 @@
 # Github API Integration Platform
 
-### Pipedream is a low code, integration platform built for Node.js developers
+### Pipedream is a low code, integration platform built for developers
 
 ---
 
