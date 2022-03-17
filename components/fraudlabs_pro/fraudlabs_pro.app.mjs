@@ -17,12 +17,14 @@ export default {
       return new fraudlabspro.SMSVerification(this.$auth.api_key);
     },
     async sendSmsVerification(params) {
-      const promise = promisify(this.smsVerification().sendSMS);
-      return promise(params);
+      const smsVerification = this.smsVerification();
+      const sendSMS = promisify(smsVerification.sendSMS).bind(smsVerification);
+      return sendSMS(params);
     },
     async verifyOtp(params) {
-      const promise = promisify(this.smsVerification().verifyOTP);
-      return promise(params);
+      const smsVerification = this.smsVerification();
+      const verifyOTP = promisify(smsVerification.verifyOTP).bind(smsVerification);
+      return verifyOTP(params);
     },
   },
 };

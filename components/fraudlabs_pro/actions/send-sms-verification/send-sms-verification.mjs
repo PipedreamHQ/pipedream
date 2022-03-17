@@ -4,7 +4,7 @@ export default {
   name: "Send SMS Verification",
   description: "Send an SMS with verification code and a custom message for authentication purpose. Please refer to the [documentation](https://www.fraudlabspro.com/developer/api/send-verification) for the explanation of the result returned. NOTE: You need to register for an API key before using this REST API. Please visit [Micro Plan](https://www.fraudlabspro.com/sign-up) to sign up for an API key if you do not have one. In addition, you will also have to make sure you have enough SMS credits to send any verification SMS.",
   key: "fraudlabs_pro-send-sms-verification",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     fraudlabsProApp,
@@ -36,17 +36,18 @@ export default {
       description: "*(optional)* Timeout feature for OTP value in seconds. Default is `3600` seconds(1 hour). Min timeout is 15 seconds whereas max timeout is `86400` seconds(24 hours).",
       optional: true,
     },
-},
-async run({ $ }) {
+  },
+  async run({ $ }) {
 
-  const {
-    tel,
-    mesg,
-    countryCode,
-    format,
-    otpTimeout,
-  } = this;
-  const response =
+    const {
+      tel,
+      mesg,
+      countryCode,
+      format,
+      otpTimeout,
+    } = this;
+
+    const response =
     await this.fraudlabsProApp.sendSmsVerification({
       tel,
       format,
@@ -54,7 +55,7 @@ async run({ $ }) {
       country_code: countryCode ?? "",
       otp_timeout: otpTimeout ?? "",
     });
-  $.export("$summary", "Successfully sent SMS verification");
-  return response;
-},
+    $.export("$summary", "Successfully sent SMS verification");
+    return response;
+  },
 };
