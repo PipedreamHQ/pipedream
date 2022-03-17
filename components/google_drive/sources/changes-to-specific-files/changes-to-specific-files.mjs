@@ -1,80 +1,45 @@
-// This source processes changes to specific files in a user's Google Drive,
-// implementing strategy enumerated in the Push Notifications API docs:
-// https://developers.google.com/drive/api/v3/push .
-//
-// This source has two interfaces:
-//
-// 1) The HTTP requests tied to changes in the user's Google Drive
-// 2) A timer that runs on regular intervals, renewing the notification channel
-//    as needed
-//
-// This source watches for changes to specific files if the drive prop is the
-// user's personal drive ("My Drive"). Otherwise, when the drive is a shared
-// drive, this source watches for all changes to the drive, filtering out
-// irrelevant changes.
-//
-// This source creates webhooks using one of two Google Drive API endpoints:
-//
-// 1) My Drive (`this.isMyDrive()`): [files:
-//    watch](https://developers.google.com/drive/api/v3/reference/files/watch)
-// 2) Shared Drive: [changes:
-//    watch](https://developers.google.com/drive/api/v3/reference/changes/watch)
-//    (inherited from `common-webhook.mjs`)
-
 import cronParser from "cron-parser";
 import includes from "lodash/includes.js";
 import { v4 as uuid } from "uuid";
 
-import googleDrive from "../../google_drive.app.mjs";
-import common from "../common-webhook.mjs";
+import { MY_DRIVE_VALUE } from "../../constants.mjs";
 
+import changesToSpecificFiles from "../changes-to-specific-files-shared-drive/changes-to-specific-files-shared-drive.mjs";
+
+/**
+ * This source uses the Google Drive API's
+ * {@link https://developers.google.com/drive/api/v3/reference/files/watch files: watch}
+ * endpoint to subscribe to changes to specific files in the user's drive.
+ */
 export default {
-  ...common,
+  ...changesToSpecificFiles,
   key: "google_drive-changes-to-specific-files",
   name: "Changes to Specific Files",
-  description:
-    "Watches for changes to specific files, emitting an event any time a change is made to one of those files",
+  description: "Watches for changes to specific files, emitting an event any time a change is made to one of those files. To watch for changes to [shared drive](https://support.google.com/a/users/answer/9310351) files, use the **Changes to Specific Files (Shared Drive)** source instead.",
   version: "0.0.18",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
   props: {
-    ...common.props,
-    files: {
-      type: "string[]",
-      label: "Files",
-      description: "The files you want to watch for changes.",
+    ...changesToSpecificFiles.props,
+    drive: {
+      type: "string",
+      label: "Drive",
+      description: "Defaults to `My Drive`. To use a [Shared Drive](https://support.google.com/a/users/answer/9310351), use the **Changes to Specific Files (Shared Drive)** source instead.",
       optional: true,
-      default: [],
-      options({ prevContext }) {
-        const { nextPageToken } = prevContext;
-        const baseOpts = {};
-        const opts = this.isMyDrive()
-          ? baseOpts
-          : {
-            ...baseOpts,
-            corpora: "drive",
-            driveId: this.getDriveId(),
-            includeItemsFromAllDrives: true,
-            supportsAllDrives: true,
-          };
-        return this.googleDrive.listFilesOptions(nextPageToken, opts);
-      },
+      default: MY_DRIVE_VALUE,
     },
     updateTypes: {
       propDefinition: [
-        googleDrive,
+        changesToSpecificFiles.props.googleDrive,
         "updateTypes",
       ],
     },
   },
   hooks: {
-    ...common.hooks,
+    ...changesToSpecificFiles.hooks,
     async activate() {
-      if (!this.isMyDrive()) {
-        return common.hooks.activate.call(this);
-      }
       // Called when a component is created or updated. Handles all the logic
       // for starting and stopping watch notifications tied to the desired
       // files.
@@ -112,10 +77,6 @@ export default {
       this._setChannelID(channelID);
     },
     async deactivate() {
-      if (!this.isMyDrive()) {
-        return common.hooks.deactivate.call(this);
-      }
-
       const channelID = this._getChannelID();
       if (!channelID) {
         console.log(
@@ -135,7 +96,7 @@ export default {
     },
   },
   methods: {
-    ...common.methods,
+    ...changesToSpecificFiles.methods,
     _getSubscriptions() {
       return this.db.get("subscriptions") || {};
     },
@@ -161,70 +122,36 @@ export default {
 
       const nextRunTimestamp = this._getNextTimerEventTimestamp(event);
 
-      const {
-        subscriptions: newSubscriptions,
-        channelID: newChannelID,
-      } = this.googleDrive.renewFileSubscriptions(
-        subscriptions,
-        this.http.endpoint,
-        channelID,
-        nextRunTimestamp,
-      );
+      for (const [
+        currentResourceId,
+        metadata,
+      ] of Object.entries(subscriptions)) {
+        const { fileID } = metadata;
 
-      this._setSubscriptions(newSubscriptions);
-      this._setChannelID(newChannelID);
-    },
-    getUpdateTypes() {
-      return this.updateTypes;
-    },
-    generateMeta(data, headers) {
-      const {
-        id: fileId,
-        name: fileName,
-        modifiedTime: tsString,
-      } = data;
-      const {
-        "x-goog-message-number": eventId,
-        "x-goog-resource-state": resourceState,
-      } = headers;
-
-      return {
-        id: `${fileId}-${eventId}`,
-        summary: `${resourceState.toUpperCase()} - ${
-          fileName || "Untitled"
-        }`,
-        ts: Date.parse(tsString),
-      };
-    },
-    isFileRelevant(file) {
-      return this.files.includes(file.id);
-    },
-    async processChange(file, headers) {
-      const eventToEmit = {
-        file,
-        change: {
-          state: headers["x-goog-resource-state"],
-          resourceURI: headers["x-goog-resource-uri"],
-          changed: headers["x-goog-changed"], // "Additional details about the changes. Possible values: content, parents, children, permissions"
-        },
-      };
-      const meta = this.generateMeta(file, headers);
-      this.$emit(eventToEmit, meta);
-    },
-    async processChanges(changedFiles, headers) {
-      for (const file of changedFiles) {
-        if (!this.isFileRelevant(file)) {
-          console.log(`Skipping event for irrelevant file ${file.id}`);
-          continue;
-        }
-        this.processChange(file, headers);
+        const subscription = {
+          ...metadata,
+          resourceId: currentResourceId,
+        };
+        const {
+          expiration,
+          resourceId,
+        } = await this.googleDrive.renewFileSubscription(
+          subscription,
+          this.http.endpoint,
+          channelID,
+          fileID,
+          nextRunTimestamp,
+        );
+        subscriptions[resourceId] = {
+          expiration,
+          fileID,
+        };
       }
+      this._setSubscriptions(subscriptions);
+      this._setChannelID(channelID);
     },
   },
   async run(event) {
-    if (!this.isMyDrive()) {
-      return common.run.call(this, event);
-    }
     // This function is polymorphic: it can be triggered as a cron job, to make sure we renew
     // watch requests for specific files, or via HTTP request (the change payloads from Google)
 
