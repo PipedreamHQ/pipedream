@@ -1,8 +1,8 @@
-const axios = require("axios");
-const parseLinkHeader = require('parse-link-header');
-const uuid = require("uuid");
+import axios from "axios";
+import parseLinkHeader from "parse-link-header";
+import { v4 } from "uuid";
 
-module.exports = {
+export default {
   type: "app",
   app: "gitlab",
   propDefinitions: {
@@ -17,9 +17,14 @@ module.exports = {
           sort: "asc",
         };
 
-        const { data, next } = await this._propDefinitionsOptions(url, params, context);
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url,
+          params,
+          context);
 
-        const options = data.map(project => ({
+        const options = data.map((project) => ({
           label: project.path_with_namespace,
           value: project.id,
         }));
@@ -42,9 +47,14 @@ module.exports = {
           order_by: "name",
         };
 
-        const { data, next } = await this._propDefinitionsOptions(url, params, context);
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url,
+          params,
+          context);
 
-        const options = data.map(branch => branch.name);
+        const options = data.map((branch) => branch.name);
         return {
           options,
           context: {
@@ -80,7 +90,7 @@ module.exports = {
       return `${baseUrl}/projects/${projectId}/hooks`;
     },
     _gitlabAuthToken() {
-      return this.$auth.oauth_access_token
+      return this.$auth.oauth_access_token;
     },
     _gitlabUserId() {
       return this.$auth.oauth_uid;
@@ -95,9 +105,11 @@ module.exports = {
         headers,
       };
     },
-    _generateToken: uuid.v4,
-    async _propDefinitionsOptions(url, params, { page, prevContext }) {
-      let requestConfig = this._makeRequestConfig();  // Basic axios request config
+    _generateToken: v4,
+    async _propDefinitionsOptions(url, params, {
+      page, prevContext,
+    }) {
+      let requestConfig = this._makeRequestConfig(); // Basic axios request config
       if (page === 0) {
         // First time the options are being retrieved.
         // Include the parameters provided, which will be persisted
@@ -111,10 +123,16 @@ module.exports = {
         url = prevContext.nextPage.url;
       } else {
         // No more options available.
-        return { data: [] };
+        return {
+          data: [],
+        };
       }
 
-      const { data, headers } = await axios.get(url, requestConfig);
+      const {
+        data,
+        headers,
+      } = await axios.get(url,
+        requestConfig);
       // https://docs.gitlab.com/ee/api/README.html#pagination-link-header
       const { next } = parseLinkHeader(headers.link);
 
@@ -129,7 +147,10 @@ module.exports = {
       return token === expectedToken;
     },
     async *getCommits(opts) {
-      const { projectId, branchName } = opts;
+      const {
+        projectId,
+        branchName,
+      } = opts;
 
       // Nothing to do here if the amount of commits we wish
       // to retrieve is not greater than 0.
@@ -155,7 +176,11 @@ module.exports = {
         // we exhaust the response from the Gitlab API, or we reach
         // the total amount of commits that are relevant for this case,
         // whichever comes first.
-        const { data, headers } = await axios.get(url, requestConfig);
+        const {
+          data,
+          headers,
+        } = await axios.get(url,
+          requestConfig);
         for (const commit of data) {
           yield commit;
           --totalCommitsCount;
@@ -164,7 +189,9 @@ module.exports = {
 
         // Extract the URL of the next page, if any.
         const { next } = parseLinkHeader(headers.link);
-        url = next ? next.url : null;
+        url = next
+          ? next.url
+          : null;
       } while (url);
     },
     async *getMilestones(opts) {
@@ -191,7 +218,11 @@ module.exports = {
         // we exhaust the response from the Gitlab API, or we reach
         // the last processed milestone from the previous run,
         // whichever comes first.
-        const { data, headers } = await axios.get(url, requestConfig);
+        const {
+          data,
+          headers,
+        } = await axios.get(url,
+          requestConfig);
         for (const milestone of data) {
           if (milestone.id === lastProcessedMilestoneId) return;
           yield milestone;
@@ -199,7 +230,9 @@ module.exports = {
 
         // Extract the URL of the next page, if any.
         const { next } = parseLinkHeader(headers.link);
-        url = next ? next.url : null;
+        url = next
+          ? next.url
+          : null;
       } while (url);
     },
     async *getProjects(opts) {
@@ -226,7 +259,11 @@ module.exports = {
         // we exhaust the response from the Gitlab API, or we reach
         // the last processed project from the previous run,
         // whichever comes first.
-        const { data, headers } = await axios.get(url, requestConfig);
+        const {
+          data,
+          headers,
+        } = await axios.get(url,
+          requestConfig);
         for (const project of data) {
           if (project.id === lastProcessedProjectId) return;
           yield project;
@@ -234,11 +271,16 @@ module.exports = {
 
         // Extract the URL of the next page, if any.
         const { next } = parseLinkHeader(headers.link);
-        url = next ? next.url : null;
+        url = next
+          ? next.url
+          : null;
       } while (url);
     },
     async createHook(opts) {
-      const { projectId, hookParams } = opts;
+      const {
+        projectId,
+        hookParams,
+      } = opts;
       const url = this._hooksEndpointUrl(projectId);
 
       const token = this._generateToken();
@@ -256,7 +298,10 @@ module.exports = {
       };
     },
     deleteHook(opts) {
-      const { hookId, projectId } = opts;
+      const {
+        hookId,
+        projectId,
+      } = opts;
       const baseUrl = this._hooksEndpointUrl(projectId);
       const url = `${baseUrl}/${hookId}`;
       const requestConfig = this._makeRequestConfig();
