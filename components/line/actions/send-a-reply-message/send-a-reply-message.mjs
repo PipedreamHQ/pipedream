@@ -38,7 +38,7 @@ export default {
     const response = client.replyMessage(this.replyToken, {
       type: "text",
       text: this.message,
-      notificationDisabled: this.notificationDisabled || false,
+      notificationDisabled: this.notificationDisabled ?? false,
     });
 
     if (response["x-line-request-id"]) $.export("$summary", "Successfully sent reply message");

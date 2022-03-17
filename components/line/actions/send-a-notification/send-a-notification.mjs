@@ -1,5 +1,5 @@
 import line from "../../line.app.mjs";
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   name: "Send a Notification Message",
@@ -53,10 +53,21 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
+    const {
+      message,
+      imageThumbnail,
+      imageFullsize,
+      stickerPackageId,
+      stickerId,
+    } = this;
+
     const body = {
-      message: this.message,
-      notificationDisabled: this.notificationDisabled,
+      message,
+      imageThumbnail,
+      imageFullsize,
+      stickerPackageId,
+      stickerId,
     };
 
     if (this.imageThumbnail) body.imageThumbnail = this.imageThumbnail;
@@ -64,17 +75,14 @@ export default {
     if (this.stickerPackageId) body.stickerPackageId = this.stickerPackageId;
     if (this.stickerId) body.stickerId = this.stickerId;
 
-    const { data } = await axios.post(
-      "https://notify-api.line.me/api/notify",
-      this.line.generateFormUrlEncodec(body),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": `Bearer ${this.accessToken || this.line.$auth.oauth_access_token}`,
-        },
+    return await axios($, {
+      url: "https://notify-api.line.me/api/notify",
+      method: "post",
+      data: this.line.generateFormUrlEncodec(body),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Bearer ${this.accessToken ?? this.line.$auth.oauth_access_token}`,
       },
-    );
-
-    return data;
+    });
   },
 };

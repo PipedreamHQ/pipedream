@@ -33,7 +33,7 @@ export default {
     const response = client.broadcast({
       type: "text",
       text: this.message,
-      notificationDisabled: this.notificationDisabled || false,
+      notificationDisabled: this.notificationDisabled ?? false,
     });
 
     if (response["x-line-request-id"]) $.export("$summary", "Successfully sent broadcast message");
