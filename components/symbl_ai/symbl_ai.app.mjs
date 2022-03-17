@@ -70,6 +70,18 @@ export default {
         path: `/job/${jobId}`,
       });
     },
+    async postVideoSummaryUI({
+      $,
+      conversationId,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: `/conversations/${conversationId}/experiences`,
+        data,
+      });
+    },
     async getSpeechToText({
       $,
       conversationId,
@@ -129,5 +141,17 @@ export default {
         params,
       });
     },
+    async getSummary({
+      $,
+      conversationId,
+      params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/summary`,
+        params,
+      });
+    },
+
   },
 };
