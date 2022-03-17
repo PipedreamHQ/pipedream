@@ -14,7 +14,7 @@ export default {
     These events can trigger a Pipedream workflow and can be consumed via SSE or REST API.
   `),
   type: "source",
-  version: "0.4.1",
+  version: "1.0.0",
   props: {
     ...base.props,
     domain: {
