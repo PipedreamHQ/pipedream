@@ -32,7 +32,7 @@ export default {
 
     const response = client.broadcast({
       type: "text",
-      text: this.text,
+      text: this.message,
       notificationDisabled: this.notificationDisabled || false,
     });
 

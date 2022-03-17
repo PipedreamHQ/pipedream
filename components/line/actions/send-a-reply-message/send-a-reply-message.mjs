@@ -37,7 +37,7 @@ export default {
 
     const response = client.replyMessage(this.replyToken, {
       type: "text",
-      text: this.text,
+      text: this.message,
       notificationDisabled: this.notificationDisabled || false,
     });
 

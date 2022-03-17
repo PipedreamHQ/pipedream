@@ -37,7 +37,7 @@ export default {
 
     const response = client.pushMessage(this.to, {
       type: "text",
-      text: this.text,
+      text: this.message,
       notificationDisabled: this.notificationDisabled || false,
     });
 
