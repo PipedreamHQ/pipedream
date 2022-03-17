@@ -1,3 +1,5 @@
+import { Gitlab } from "@gitbeaker/node";
+import constants from "./common/constants.mjs";
 import axios from "axios";
 import parseLinkHeader from "parse-link-header";
 import { v4 } from "uuid";
@@ -10,61 +12,160 @@ export default {
       type: "integer",
       label: "Project ID",
       description: "The project ID, as displayed in the main project page",
-      async options(context) {
-        const url = this._userProjectsEndpoint();
-        const params = {
-          order_by: "path",
-          sort: "asc",
-        };
-
-        const {
-          data,
-          next,
-        } = await this._propDefinitionsOptions(url,
-          params,
-          context);
-
-        const options = data.map((project) => ({
-          label: project.path_with_namespace,
-          value: project.id,
-        }));
+      async options({ prevContext }) {
+        const response = await this.listProjects({
+          owned: true,
+          page: prevContext.nextPage,
+        });
         return {
-          options,
+          options: response.data.map((project) => ({
+            label: project.pathWithNamespace,
+            value: project.id,
+          })),
           context: {
-            nextPage: next,
+            nextPage: response.paginationInfo.next,
           },
         };
       },
     },
-    branchName: {
+    branch: {
       type: "string",
       label: "Branch Name",
       description: "The name of the branch",
-      async options(context) {
-        const { projectId } = context;
-        const url = this._projectBranchesEndpoint(projectId);
-        const params = {
-          order_by: "name",
-        };
-
-        const {
-          data,
-          next,
-        } = await this._propDefinitionsOptions(url,
-          params,
-          context);
-
-        const options = data.map((branch) => branch.name);
+      async options({
+        prevContext, projectId,
+      }) {
+        const response = await this.listBranches(projectId, {
+          page: prevContext.nextPage,
+        });
         return {
-          options,
+          options: response.data.map((branch) => branch.name),
           context: {
-            nextPage: next,
+            nextPage: response.paginationInfo.next,
           },
         };
       },
     },
+    issueIid: {
+      type: "string",
+      label: "Issue Internal ID",
+      description: "The internal ID of a project's issue ",
+      async options({
+        prevContext, projectId,
+      }) {
+        const response = await this.listIssues({
+          projectId,
+          scope: constants.issues.scopes.ALL,
+          page: prevContext.nextPage,
+        });
+        return {
+          options: response.data.map((issue) => ({
+            label: issue.title,
+            value: issue.iid,
+          })),
+          context: {
+            nextPage: response.paginationInfo.next,
+          },
+        };
+      },
+    },
+    labels: {
+      type: "string[]",
+      label: "Labels",
+      description: "Comma-separated label names for the issue",
+      optional: true,
+      async options({
+        prevContext, projectId,
+      }) {
+        const response = await this.listLabels(projectId, {
+          page: prevContext.nextPage,
+        });
+        return {
+          options: response.data.map((label) => label.name),
+          context: {
+            nextPage: response.paginationInfo.next,
+          },
+        };
+      },
+    },
+    assignee: {
+      type: "string",
+      label: "Assignee Username",
+      description: "Return issues assigned to the given username",
+      optional: true,
+      async options({
+        prevContext, projectId,
+      }) {
+        const response = await this.listProjectMembers(projectId, {
+          page: prevContext.nextPage,
+        });
+        return {
+          options: response.data.map((member) => ({
+            label: member.username,
+            value: member.id,
+          })),
+          context: {
+            nextPage: response.paginationInfo.next,
+          },
+        };
+      },
+    },
+    issueState: {
+      type: "string",
+      label: "Issue State",
+      description: "Return `all` issues or just those that are `opened` or `closed`",
+      optional: true,
+      options: Object.values(constants.issues.states),
+      default: constants.issues.states.ALL,
+    },
+    stateEvent: {
+      type: "string",
+      label: "State Event",
+      description: "The state event of an issue. Set close to close the issue and reopen to reopen it",
+      optional: true,
+      options: Object.values(constants.issues.stateEvents),
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title",
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "The description",
+      optional: true,
+    },
+    query: {
+      type: "string",
+      label: "Search Query",
+      description: "Search Query",
+      default: "",
+    },
+    max: {
+      type: "integer",
+      label: "Max Results",
+      description: "Max number of results to return. Default value is `100`",
+      optional: true,
+      default: 100,
+    },
   },
   methods: {
+    _gitlabClient(opts = {}) {
+      const { oauth_access_token: oauthToken } = this.$auth;
+      return new Gitlab({
+        oauthToken,
+        camelize: true,
+        ...opts,
+      });
+    },
+    _commonOpts() {
+      return {
+        maxPages: 1,
+        perPage: 100,
+        showExpanded: true,
+      };
+    },
     _apiUrl() {
       return "https://gitlab.com/api/v4";
     },
@@ -72,10 +173,6 @@ export default {
       const baseUrl = this._apiUrl();
       const userId = this._gitlabUserId();
       return `${baseUrl}/users/${userId}/projects`;
-    },
-    _projectBranchesEndpoint(projectId) {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/projects/${projectId}/repository/branches`;
     },
     _projectCommitsEndpoint(projectId) {
       const baseUrl = this._apiUrl();
@@ -106,41 +203,6 @@ export default {
       };
     },
     _generateToken: v4,
-    async _propDefinitionsOptions(url, params, {
-      page, prevContext,
-    }) {
-      let requestConfig = this._makeRequestConfig(); // Basic axios request config
-      if (page === 0) {
-        // First time the options are being retrieved.
-        // Include the parameters provided, which will be persisted
-        // across the different pages.
-        requestConfig = {
-          ...requestConfig,
-          params,
-        };
-      } else if (prevContext.nextPage) {
-        // Retrieve next page of options.
-        url = prevContext.nextPage.url;
-      } else {
-        // No more options available.
-        return {
-          data: [],
-        };
-      }
-
-      const {
-        data,
-        headers,
-      } = await axios.get(url,
-        requestConfig);
-      // https://docs.gitlab.com/ee/api/README.html#pagination-link-header
-      const { next } = parseLinkHeader(headers.link);
-
-      return {
-        data,
-        next,
-      };
-    },
     isValidSource(headers, db) {
       const token = headers["x-gitlab-token"];
       const expectedToken = db.get("token");
@@ -306,6 +368,91 @@ export default {
       const url = `${baseUrl}/${hookId}`;
       const requestConfig = this._makeRequestConfig();
       return axios.delete(url, requestConfig);
+    },
+    async listProjects(opts = {}) {
+      return this.listAll(this._gitlabClient().Projects, null, opts);
+    },
+    async listProjectMembers(projectId, opts = {}) {
+      return this.listAll(this._gitlabClient().ProjectMembers, projectId, opts);
+    },
+    async getBranch(projectId, branchName) {
+      return this._gitlabClient().Branches.show(projectId, branchName);
+    },
+    async createBranch(projectId, branchName, ref) {
+      return this._gitlabClient().Branches.create(projectId, branchName, ref);
+    },
+    async listBranches(projectId, opts = {}) {
+      return this.listAll(this._gitlabClient().Branches, projectId, opts);
+    },
+    async listLabels(projectId, opts = {}) {
+      return this.listAll(this._gitlabClient().Labels, projectId, opts);
+    },
+    async getIssue(projectId, issueIid) {
+      return this._gitlabClient().Issues.show(projectId, issueIid);
+    },
+    async createIssue(projectId, opts) {
+      return this._gitlabClient().Issues.create(projectId, opts);
+    },
+    async editIssue(projectId, issueIid, opts) {
+      return this._gitlabClient().Issues.edit(projectId, issueIid, opts);
+    },
+    async listIssues(opts = {}) {
+      return this.listAll(this._gitlabClient().Issues, null, opts);
+    },
+    async searchIssues(opts = {}) {
+      return this.search(this._gitlabClient().Issues, opts);
+    },
+    async listCommits(opts = {}) {
+      return this.search(this._gitlabClient().Commits, opts);
+    },
+    async search(client, opts = {}) {
+      const { projectId } = opts;
+      const data = this.pagination(
+        client,
+        projectId,
+        opts,
+      );
+      const { max } = opts;
+      const results = [];
+      for await (const d of data) {
+        results.push(d);
+        if (max && results.length >= max) {
+          results.length = max;
+          break;
+        }
+      }
+      return results;
+    },
+    async *pagination(api, projectId, opts) {
+      while (true) {
+        const response = await this.listAll(api, projectId, opts);
+
+        for (const data of response.data) {
+          yield data;
+        }
+
+        const {
+          current,
+          next,
+          totalPages,
+        } = response.paginationInfo;
+
+        if (current === totalPages || !next) {
+          break;
+        }
+
+        opts.page = next;
+      }
+    },
+    async listAll(api, projectId = null, opts = {}) {
+      const params = {
+        ...this._commonOpts(),
+        ...opts,
+      };
+      if (projectId) {
+        return api.all(projectId, params);
+      }
+      return api.all(params);
     },
   },
 };
