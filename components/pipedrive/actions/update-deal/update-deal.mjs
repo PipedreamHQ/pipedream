@@ -3,15 +3,18 @@ import pipedriveApp from "../../pipedrive.app.mjs";
 export default {
   key: "pipedrive-update-deal",
   name: "Update Deal",
-  description: "Updates the properties of a deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/#!/Deals)",
+  description: "Updates the properties of a deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#updateDeal)",
   version: "0.1.2",
   type: "action",
   props: {
     pipedriveApp,
     dealId: {
-      type: "string",
-      label: "Deal ID",
       description: "ID of the deal",
+      optional: false,
+      propDefinition: [
+        pipedriveApp,
+        "dealId",
+      ],
     },
     title: {
       propDefinition: [

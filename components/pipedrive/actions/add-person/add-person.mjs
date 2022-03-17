@@ -3,7 +3,7 @@ import pipedriveApp from "../../pipedrive.app.mjs";
 export default {
   key: "pipedrive-add-person",
   name: "Add Person",
-  description: "Adds a new person. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/#!/Persons)",
+  description: "Adds a new person. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
   version: "0.1.2",
   type: "action",
   props: {
@@ -14,11 +14,12 @@ export default {
       description: "Person name",
     },
     ownerId: {
+      label: "Owner ID",
+      description: "ID of the user who will be marked as the owner of this person. When omitted, the authorized user ID will be used.",
       propDefinition: [
         pipedriveApp,
-        "ownerId",
+        "userId",
       ],
-      description: "ID of the user who will be marked as the owner of this person. When omitted, the authorized user ID will be used.",
     },
     organizationId: {
       propDefinition: [
@@ -51,7 +52,7 @@ export default {
         pipedriveApp,
         "addTime",
       ],
-      description: "Optional creation date & time of the person in UTC. Requires admin user API token. Format: YYYY-MM-DD HH:MM:SS",
+      description: "Optional creation date & time of the person in UTC. Requires admin user API token. Format: `YYYY-MM-DD HH:MM:SS`",
     },
   },
   async run({ $ }) {

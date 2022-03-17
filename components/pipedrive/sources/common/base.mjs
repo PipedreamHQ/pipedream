@@ -34,25 +34,38 @@ export default {
       this.db.set(constants.LAST_RESOURCE_PROPERTY, value);
     },
     getResourceProperty() {
-      throw new Error("getResourceProperty Not implemented");
+      throw new Error("getResourceProperty not implemented");
     },
     getEventObject() {
-      throw new Error("getEventObject Not implemented");
+      throw new Error("getEventObject not implemented");
     },
     getEventAction() {
-      throw new Error("getEventAction Not implemented");
+      throw new Error("getEventAction not implemented");
     },
     getResourceFn() {
-      throw new Error("getResourceFn Not implemented");
+      throw new Error("getResourceFn not implemented");
     },
     getResourceFnArgs() {
-      throw new Error("getResourceFnArgs Not implemented");
+      throw new Error("getResourceFnArgs not implemented");
     },
-    generateMeta() {
-      throw new Error("generateMeta Not implemented");
+    getTimestamp() {
+      throw new Error("getTimestamp not implemented");
     },
-    done() {
-      throw new Error("done Not implemented");
+    getMetaId(resource) {
+      return resource.id;
+    },
+    generateMeta(resource) {
+      return {
+        id: this.getMetaId(resource),
+        summary: `${this.getEventObject()} ${resource.id} was ${this.getEventAction()}`,
+        ts: this.getTimestamp(resource),
+      };
+    },
+    done({
+      resource, lastResourceProperty,
+    }) {
+      const property = this.getResourceProperty();
+      return lastResourceProperty === String(resource[property]);
     },
     processEvent(resource) {
       const meta = this.generateMeta(resource);

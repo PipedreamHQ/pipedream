@@ -1,11 +1,12 @@
 import pipedriveApp from "../../pipedrive.app.mjs";
 import utils from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "pipedrive-add-activity",
   name: "Add Activity",
-  description: "Adds a new activity. Includes more_activities_scheduled_in_context property in response's additional_data which indicates whether there are more undone activities scheduled with the same deal, person or organization (depending on the supplied data). See the Pipedrive API docs for Activities [here](https://developers.pipedrive.com/docs/api/v1/#!/Activities). For info on [adding an activity in Pipedrive](https://pipedrive.readme.io/docs/adding-an-activity)",
-  version: "0.1.3",
+  description: "Adds a new activity. Includes more_activities_scheduled_in_context property in response's additional_data which indicates whether there are more undone activities scheduled with the same deal, person or organization (depending on the supplied data). See the Pipedrive API docs for Activities [here](https://developers.pipedrive.com/docs/api/v1/#!/Activities). For info on [adding an activity in Pipedrive](https://developers.pipedrive.com/docs/api/v1/Activities#addActivity)",
+  version: "0.1.4",
   type: "action",
   props: {
     pipedriveApp,
@@ -19,28 +20,47 @@ export default {
       label: "Done",
       description: "Whether the activity is done or not. 0 = Not done, 1 = Done",
       optional: true,
+      options: [
+        {
+          label: "Not done",
+          value: 0,
+        },
+        {
+          label: "Done",
+          value: 1,
+        },
+      ],
     },
     type: {
       type: "string",
       label: "Type",
       description: "Type of the activity. This is in correlation with the key_string parameter of ActivityTypes.",
+      async options() {
+        const { data: activityTypes } = await this.pipedriveApp.getActivityTypes();
+        return activityTypes.map(({
+          keyString, name,
+        }) => ({
+          label: name,
+          value: keyString,
+        }));
+      },
     },
     dueDate: {
       type: "string",
       label: "Due Date",
-      description: "Due date of the activity. Format: YYYY-MM-DD",
+      description: "Due date of the activity. Format: `YYYY-MM-DD`",
       optional: true,
     },
     dueTime: {
       type: "string",
       label: "Due Time",
-      description: "Due time of the activity in UTC. Format: HH:MM",
+      description: "Due time of the activity in UTC. Format: `HH:MM`",
       optional: true,
     },
     duration: {
       type: "string",
       label: "Duration",
-      description: "Duration of the activity. Format: HH:MM",
+      description: "Duration of the activity. Format: `HH:MM`",
       optional: true,
     },
     userId: {
@@ -51,10 +71,10 @@ export default {
       description: "ID of the user whom the activity will be assigned to. If omitted, the activity will be assigned to the authorized user.",
     },
     dealId: {
-      type: "string",
-      label: "Deal ID",
-      description: "ID of the deal this activity will be associated with",
-      optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "dealId",
+      ],
     },
     personId: {
       propDefinition: [
@@ -64,10 +84,14 @@ export default {
       description: "ID of the person this activity will be associated with",
     },
     participants: {
-      type: "any",
+      type: "string[]",
       label: "Participants",
       description: "List of multiple persons (participants) this activity will be associated with. If omitted, single participant from person_id field is used. It requires a structure as follows: [{\"person_id\":1,\"primary_flag\":true}]",
       optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "personId",
+      ],
     },
     organizationId: {
       propDefinition: [
@@ -101,10 +125,43 @@ export default {
       optional: true,
     },
     attendees: {
-      type: "any",
+      type: "string[]",
       label: "Attendees",
       description: "Attendees of the activity. This can be either your existing Pipedrive contacts or an external email address. It requires a structure as follows: [{\"email_address\":\"mail@example.org\"}] or [{\"person_id\":1, \"email_address\":\"mail@example.org\"}",
       optional: true,
+      async options({ prevContext }) {
+        const {
+          moreItemsInCollection,
+          start,
+        } = prevContext;
+
+        if (moreItemsInCollection === false) {
+          return [];
+        }
+
+        const {
+          data: persons,
+          additional_data: additionalData,
+        } = await this.pipedriveApp.getPersons({
+          start,
+          limit: constants.DEFAULT_PAGE_LIMIT,
+        });
+
+        const options = persons.map(({
+          email, name,
+        }) => ({
+          label: name,
+          value: email,
+        }));
+
+        return {
+          options,
+          context: {
+            moreItemsInCollection: additionalData.pagination.more_items_in_collection,
+            start: additionalData.pagination.next_start,
+          },
+        };
+      },
     },
   },
   async run({ $ }) {

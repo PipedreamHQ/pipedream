@@ -28,18 +28,8 @@ export default {
     getEventAction() {
       return constants.EVENT_ACTION.ADDED;
     },
-    generateMeta(resource) {
-      return {
-        id: resource.id,
-        summary: `${this.getEventObject()} ${resource.id} was ${this.getEventAction()}`,
-        ts: Date.parse(resource.add_time),
-      };
-    },
-    done({
-      resource, lastResourceProperty,
-    }) {
-      const property = this.getResourceProperty();
-      return lastResourceProperty === String(resource[property]);
+    getTimestamp(resource) {
+      return Date.parse(resource.add_time);
     },
   },
 };

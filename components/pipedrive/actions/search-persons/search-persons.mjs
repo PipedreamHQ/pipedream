@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "pipedrive-search-persons",
   name: "Search persons",
-  description: "Searches all Persons by name, email, phone, notes and/or custom fields. This endpoint is a wrapper of /v1/itemSearch with a narrower OAuth scope. Found Persons can be filtered by Organization ID. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/#!/Persons/get_persons_search)",
+  description: "Searches all Persons by name, email, phone, notes and/or custom fields. This endpoint is a wrapper of /v1/itemSearch with a narrower OAuth scope. Found Persons can be filtered by Organization ID. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Persons#searchPersons)",
   version: "0.1.2",
   type: "action",
   props: {

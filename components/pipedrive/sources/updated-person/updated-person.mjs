@@ -28,19 +28,11 @@ export default {
     getEventAction() {
       return constants.EVENT_ACTION.UPDATED;
     },
-    generateMeta(resource) {
-      const ts = Date.parse(resource.update_time);
-      return {
-        id: ts,
-        summary: `${this.getEventObject()} ${resource.id} was ${this.getEventAction()}`,
-        ts,
-      };
+    getMetaId(resource) {
+      return this.getTimestamp(resource);
     },
-    done({
-      resource, lastResourceProperty,
-    }) {
-      const property = this.getResourceProperty();
-      return lastResourceProperty === String(resource[property]);
+    getTimestamp(resource) {
+      return Date.parse(resource.update_time);
     },
   },
 };
