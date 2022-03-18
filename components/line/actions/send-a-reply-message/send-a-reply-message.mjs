@@ -33,7 +33,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const client = this.createLineClient(this.channelAccessToken);
+    const client = this.line.createLineClient(this.channelAccessToken);
 
     const response = client.replyMessage(this.replyToken, {
       type: "text",

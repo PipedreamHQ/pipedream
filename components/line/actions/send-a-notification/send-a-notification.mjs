@@ -78,7 +78,7 @@ export default {
     return await axios($, {
       url: "https://notify-api.line.me/api/notify",
       method: "post",
-      data: this.line.generateFormUrlEncodec(body),
+      data: this.line.convertJSONToUrlEncodec(body),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization": `Bearer ${this.accessToken ?? this.line.$auth.oauth_access_token}`,

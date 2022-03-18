@@ -25,12 +25,28 @@ export default {
     },
   },
   methods: {
+    /**
+     * Instantiate a Line's Client.
+     *
+     * @param {string} channelAccessToken - The access token of the channel
+     * to instantiate the client.
+     *
+     * @returns {Client} The Line's client instance.
+     */
     createLineClient(channelAccessToken) {
       return new Client({
         channelAccessToken: channelAccessToken,
       });
     },
-    generateFormUrlEncodec(params) {
+
+    /**
+     * Will convert a JSON object to a x-www-form-urlencoded string.
+     *
+     * @param {string} params - The JSON object params that will be converted.
+     *
+     * @returns {string} The x-www-form-urlencoded string.
+     */
+    convertJSONToUrlEncodec(params) {
       return qs.stringify(params);
     },
   },
