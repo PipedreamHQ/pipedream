@@ -164,4 +164,13 @@ In addition, data sources can hold up to {{ $site.themeConfig.SERVICE_DB_SIZE_LI
 
 ### Supported data types
 
-Data stores can hold any JSON serializable data within the storage limits.
+Data stores can hold any JSON serializable data within the storage limits. This includes data types like:
+
+* Strings
+* Objects
+* Arrays
+* Dates
+* Integers
+* Floats
+
+But it will not work well with Functions or Classes.
