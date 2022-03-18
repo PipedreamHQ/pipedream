@@ -4,7 +4,7 @@ export default {
   key: "slack-add-star",
   name: "Add Star",
   description: "Add a star to an item on behalf of the authenticated user",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,

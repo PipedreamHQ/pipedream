@@ -4,7 +4,7 @@ export default {
   key: "slack-create-reminder",
   name: "Create Reminder",
   description: "Create a reminder",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,

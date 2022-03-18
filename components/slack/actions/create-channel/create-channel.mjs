@@ -4,7 +4,7 @@ export default {
   key: "slack-create-channel",
   name: "Create a Channel",
   description: "Create a new channel",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     slack,

@@ -4,7 +4,7 @@ export default {
   key: "slack-delete-message",
   name: "Delete Message",
   description: "Delete a message",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,

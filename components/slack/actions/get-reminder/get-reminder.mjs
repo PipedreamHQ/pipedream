@@ -4,7 +4,7 @@ export default {
   key: "slack-get-reminder",
   name: "Get Reminder",
   description: "Return information about a reminder",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     slack,

@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-new-message-in-channels",
   name: "New Message In Channels",
-  version: "0.0.3",
+  version: "0.0.4",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
