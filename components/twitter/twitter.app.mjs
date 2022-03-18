@@ -566,6 +566,7 @@ export default {
         sinceId = "1",
         includeEntities = false,
         includeRetweets = false,
+        tweetMode = "extended",
       } = opts;
       const url = "https://api.twitter.com/1.1/lists/statuses.json";
       const params = {
@@ -574,6 +575,7 @@ export default {
         count,
         include_entities: includeEntities,
         include_rts: includeRetweets,
+        tweet_mode: tweetMode,
       };
       const config = {
         url,
