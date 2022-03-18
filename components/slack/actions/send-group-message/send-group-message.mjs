@@ -12,7 +12,7 @@ export default {
     conversation: {
       propDefinition: [
         common.props.slack,
-        "user",
+        "group",
       ],
     },
     text: {
