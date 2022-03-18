@@ -5,22 +5,27 @@ module.exports = {
   name: "Activity Deleted",
   description: "Emits an event when an activity is deleted",
   version: "0.0.1",
+  type: "source",
   props: {
     strava,
     stravaApphook: {
       type: "$.interface.apphook",
       appProp: "strava",
-      eventNames: ["activity.delete"],
+      eventNames: [
+        "activity.delete",
+      ],
     },
   },
   async run(event) {
     console.log(event);
     this.$emit(
-      { event },
+      {
+        event,
+      },
       {
         summary: `Activity deleted: ${event.object_id}`,
         ts: event.event_time * 1000,
-      }
+      },
     );
   },
 };

@@ -5,12 +5,15 @@ module.exports = {
   name: "Activity Updated",
   description: "Emits an event when an activity is updated",
   version: "0.0.1",
+  type: "source",
   props: {
     strava,
     stravaApphook: {
       type: "$.interface.apphook",
       appProp: "strava",
-      eventNames: ["activity.update"],
+      eventNames: [
+        "activity.update",
+      ],
     },
   },
   async run(event) {
@@ -26,11 +29,14 @@ module.exports = {
       summary += `: ${details.name}`;
     }
     this.$emit(
-      { event, details },
+      {
+        event,
+        details,
+      },
       {
         summary,
         ts: event.event_time * 1000,
-      }
+      },
     );
   },
 };
