@@ -381,6 +381,7 @@ export default {
       const params = {
         types,
         cursor,
+        limit: 200,
         exclude_archived: true,
         user: this.$auth.oauth_uid,
       };
