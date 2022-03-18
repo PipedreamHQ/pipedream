@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "pipedrive-search-persons",
   name: "Search persons",
-  description: "Searches all Persons by name, email, phone, notes and/or custom fields. This endpoint is a wrapper of /v1/itemSearch with a narrower OAuth scope. Found Persons can be filtered by Organization ID. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Persons#searchPersons)",
+  description: "Searches all Persons by `name`, `email`, `phone`, `notes` and/or custom fields. This endpoint is a wrapper of `/v1/itemSearch` with a narrower OAuth scope. Found Persons can be filtered by Organization ID. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Persons#searchPersons)",
   version: "0.1.2",
   type: "action",
   props: {
@@ -65,19 +65,25 @@ export default {
       limit,
     } = this;
 
-    const resp =
-      await this.pipedriveApp.searchPersons({
-        term,
-        fields,
-        exact_match: exactMatch,
-        org_id: organizationId,
-        include_fields: includeFields,
-        start,
-        limit,
-      });
+    try {
+      const resp =
+        await this.pipedriveApp.searchPersons({
+          term,
+          fields,
+          exact_match: exactMatch,
+          org_id: organizationId,
+          include_fields: includeFields,
+          start,
+          limit,
+        });
 
-    $.export("$summary", `Successfully found ${resp.data?.items.length || 0} persons`);
+      $.export("$summary", `Successfully found ${resp.data?.items.length || 0} persons`);
 
-    return resp;
+      return resp;
+
+    } catch (error) {
+      console.error(error.context?.body || error);
+      throw error.context?.body?.error || "Failed to search persons";
+    }
   },
 };

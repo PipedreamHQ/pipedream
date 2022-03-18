@@ -18,8 +18,14 @@ const FIELD_OPTIONS = [
 ];
 
 const VISIBLE_TO_OPTIONS = [
-  "1",
-  "3",
+  {
+    label: "Owner & followers (private)",
+    value: "1",
+  },
+  {
+    label: "Entire company (shared)",
+    value: "3",
+  },
 ];
 
 const INCLUDE_FIELDS_OPTIONS = [

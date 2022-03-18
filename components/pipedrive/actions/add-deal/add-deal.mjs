@@ -97,24 +97,29 @@ export default {
       addTime,
     } = this;
 
-    const resp =
-      await this.pipedriveApp.addDeal({
-        title,
-        value,
-        currency,
-        user_id: userId,
-        person_id: personId,
-        org_id: organizationId,
-        stage_id: stageId,
-        status,
-        probability,
-        lost_reason: lostReason,
-        visible_to: visibleTo,
-        add_time: addTime,
-      });
+    try {
+      const resp =
+        await this.pipedriveApp.addDeal({
+          title,
+          value,
+          currency,
+          user_id: userId,
+          person_id: personId,
+          org_id: organizationId,
+          stage_id: stageId,
+          status,
+          probability,
+          lost_reason: lostReason,
+          visible_to: visibleTo,
+          add_time: addTime,
+        });
 
-    $.export("$summary", "Successfully added deal");
+      $.export("$summary", "Successfully added deal");
 
-    return resp;
+      return resp;
+    } catch (error) {
+      console.error(error.context?.body || error);
+      throw error.context?.body?.error || "Failed to add deal";
+    }
   },
 };

@@ -4,7 +4,7 @@ export default {
       return undefined;
     }
     return typeof(value) === "object"
-      ? JSON.parse(value)
-      : value;
+      ? value
+      : JSON.parse(value);
   },
 };

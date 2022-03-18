@@ -101,7 +101,7 @@ export default {
     probability: {
       type: "integer",
       label: "Probability",
-      description: "Deal success probability percentage. Used/shown only when deal_probability for the pipeline of the deal is enabled.",
+      description: "Deal success probability percentage. Used/shown only when `deal_probability` for the pipeline of the deal is enabled.",
       optional: true,
     },
     lostReason: {
@@ -113,7 +113,7 @@ export default {
     visibleTo: {
       type: "string",
       label: "Visible To",
-      description: "Visibility of the deal. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.\n1 - Owner & followers (private)\n3 - Entire company (shared)",
+      description: "Visibility of the deal. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.",
       optional: true,
       options: constants.VISIBLE_TO_OPTIONS,
     },
@@ -143,7 +143,7 @@ export default {
     stageId: {
       type: "integer",
       label: "Stage ID",
-      description: "ID of the stage this deal will be placed in a pipeline (note that you can't supply the ID of the pipeline as this will be assigned automatically based on stage_id). If omitted, the deal will be placed in the first stage of the default pipeline. Get the `stage_id` from [here](https://developers.pipedrive.com/docs/api/v1/#!/Stages/get_stages). Getting all stages requires a pipeline_id, pipelines can be obtained from [here](https://developers.pipedrive.com/docs/api/v1/#!/Pipelines/get_pipelines)",
+      description: "ID of the stage this deal will be placed in a pipeline (note that you can't supply the ID of the pipeline as this will be assigned automatically based on `stage_id`). If omitted, the deal will be placed in the first stage of the default pipeline. Get the `stage_id` from [here](https://developers.pipedrive.com/docs/api/v1/#!/Stages/get_stages).",
       optional: true,
       async options() {
         const { data: stages } = await this.getStages();
@@ -165,7 +165,7 @@ export default {
     start: {
       type: "integer",
       label: "Pagination start",
-      description: "Pagination start. Note that the pagination is based on main results and does not include related items when using search_for_related_items parameter.",
+      description: "Pagination start. Note that the pagination is based on main results and does not include related items when using `search_for_related_items` parameter.",
       optional: true,
     },
     limit: {
@@ -198,10 +198,10 @@ export default {
         });
 
         const options = deals.map(({
-          email, name,
+          id, title,
         }) => ({
-          label: name,
-          value: email,
+          label: title,
+          value: id,
         }));
 
         return {
@@ -231,7 +231,13 @@ export default {
         className,
         addProperty,
       ] = constants.API.ACTIVITIES;
-      return this.api(className).addActivity(this.buildOpts(addProperty, opts));
+      try {
+        const activityOpts = this.buildOpts(addProperty, opts);
+        return this.api(className).addActivity(activityOpts);
+      } catch (error) {
+        console.error(error);
+        throw new Error(error);
+      }
     },
     async addDeal(opts = {}) {
       const [
@@ -261,9 +267,8 @@ export default {
     async addPerson(opts = {}) {
       const [
         className,
-        addProperty,
       ] = constants.API.PERSONS;
-      return this.api(className).addPerson(this.buildOpts(addProperty, opts));
+      return this.api(className).addPerson(opts);
     },
     async searchPersons(opts = {}) {
       const {

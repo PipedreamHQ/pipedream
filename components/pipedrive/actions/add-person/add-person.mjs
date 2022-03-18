@@ -45,7 +45,7 @@ export default {
         pipedriveApp,
         "visibleTo",
       ],
-      description: "Visibility of the person. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.\n1 - Owner & followers (private)\n3 - Entire company (shared)",
+      description: "Visibility of the person. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.",
     },
     addTime: {
       propDefinition: [
@@ -66,19 +66,25 @@ export default {
       addTime,
     } = this;
 
-    const resp =
-      await this.pipedriveApp.addPerson({
-        name,
-        owner_id: ownerId,
-        org_id: organizationId,
-        email,
-        phone,
-        visible_to: visibleTo,
-        add_time: addTime,
-      });
+    try {
+      const resp =
+        await this.pipedriveApp.addPerson({
+          name,
+          owner_id: ownerId,
+          org_id: organizationId,
+          email,
+          phone,
+          visible_to: visibleTo,
+          add_time: addTime,
+        });
 
-    $.export("$summary", "Successfully added person");
+      $.export("$summary", "Successfully added person");
 
-    return resp;
+      return resp;
+
+    } catch (error) {
+      console.error(error.context?.body || error);
+      throw error.context?.body?.error || "Failed to add person";
+    }
   },
 };
