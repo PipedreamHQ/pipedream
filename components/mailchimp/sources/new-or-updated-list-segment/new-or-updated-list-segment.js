@@ -1,5 +1,4 @@
 const common = require("../common/timer-based");
-const moment = require("moment");
 
 module.exports = {
   ...common,
@@ -95,10 +94,10 @@ module.exports = {
       "Created",
     ].includes(this.watchFor)) {
       sinceCreatedAt = this.mailchimp.getDbServiceVariable("lastRelevantDate");
-      beforeCreatedAt = moment().toISOString();
+      beforeCreatedAt = (new Date).toISOString();
     } else {
       sinceUpdatedAt = this.mailchimp.getDbServiceVariable("lastRelevantDate");
-      beforeUpdatedAt = moment().toISOString();
+      beforeUpdatedAt = (new Date).toISOString();
     }
     let mailchimpAudienceSegmentsInfo;
     let mailchimpAudienceSegments;

@@ -1,5 +1,4 @@
 const common = require("../common/timer-based");
-const moment = require("moment");
 
 module.exports = {
   ...common,
@@ -75,7 +74,7 @@ module.exports = {
     },
   },
   async run() {
-    const beforeDate = moment().toISOString();
+    const beforeDate = (new Date).toISOString();
     const pageSize = 1000;
     let sinceDate = this.mailchimp.getDbServiceVariable("lastSinceDate");
     let campaigns;    

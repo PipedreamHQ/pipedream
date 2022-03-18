@@ -365,7 +365,7 @@ module.exports = {
       return await this._withRetries(() =>
         mailchimp.fileManager.files(config));
     },*/
-    async *getFileStream(sinceCreatedAt, fileType = "all") {
+    async *getFileStream(fileType = "all", config) {
       const mailchimp = this._getMailchimpClient();
       let offset = 0;
       const type = fileType === "all"
@@ -373,10 +373,9 @@ module.exports = {
         : fileType;
         do {
           const opts = {
-            count: 100,
             offset,
             type,
-            sinceCreatedAt,
+            ...config
           };
           const { files = [] } = await this._withRetries(
             () => mailchimp.fileManager.files(opts),

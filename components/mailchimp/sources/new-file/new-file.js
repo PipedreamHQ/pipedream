@@ -1,5 +1,4 @@
 const common = require("../common/timer-based");
-const moment = require("moment");
 
 module.exports = {
   ...common,
@@ -28,24 +27,14 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      const fileType = this.fileType === "all" ?
-        null :
-        this.fileType;
       const config = {
         count: 10,
-        offset: 0,
-        type: fileType,
-        beforeCreatedAt: null,
-        sinceCreatedAt: null,
       };
-      const mailchimpFilesInfo = await this.mailchimp.getAllFiles(config);
-      const { files: mailchimpFiles = [] } = mailchimpFilesInfo;
-      if (!mailchimpFiles.length) {
-        console.log("No data available, skipping iteration");
-        return;
+      const fileStream = this.mailchimp.getFileStream(this.fileType, config);
+      for await (const file of fileStream) {
+        this.emitEvent(file);
+        this.mailchimp.setDbServiceVariable("lastCreatedAt", file.created_at);
       }
-      mailchimpFiles.forEach(this.processEvent);
-      this.mailchimp.setDbServiceVariable("lastCreatedAt", mailchimpFiles[0].created_at);
     },
   },
   methods: {
@@ -64,8 +53,12 @@ module.exports = {
     },
   },
   async run() {
-    const sinceCreatedAt = this.db.get("lastCreatedAt");    
-    const fileStream = this.mailchimp.getFileStream(sinceCreatedAt, this.fileType);
+    const sinceCreatedAt = this.mailchimp.getDbServiceVariable("lastCreatedAt");  
+    const config = {
+      count: 1000,
+      sinceCreatedAt
+    };
+    const fileStream = this.mailchimp.getFileStream(this.fileType, config);
     for await (const file of fileStream) {
       this.emitEvent(file);
       this.mailchimp.setDbServiceVariable("lastCreatedAt", sinceCreatedAt);

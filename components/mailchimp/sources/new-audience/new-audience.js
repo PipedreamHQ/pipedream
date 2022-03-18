@@ -1,5 +1,4 @@
 const common = require("../common/timer-based");
-const moment = require("moment");
 
 module.exports = {
   ...common,
@@ -33,7 +32,7 @@ module.exports = {
       const ts = +new Date(eventPayload.created_at);
       return {
         id: eventPayload.id,
-        summary: `A new audience list "${eventPayload.name}" was created.`,
+        summary: `New audience list: ${eventPayload.name}`,
         ts,
       };
     },
@@ -44,7 +43,7 @@ module.exports = {
   },
   async run() {
     const sinceDateCreated = this.mailchimp.getDbServiceVariable("lastDateCreated");
-    const beforeDateCreated = moment().toISOString();
+    const beforeDateCreated = (new Date).toISOString();
     const pageSize = 1000;
     let mailchimpAudienceListsInfo;
     let mailchimpAudienceLists;
