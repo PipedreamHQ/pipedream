@@ -5,7 +5,7 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/
 
 # Managing state
 
-In Node.js (Javascript) code steps, you can also store and retrieve data within in code steps without connecting a 3rd party database service.
+In Node.js (Javascript) code steps, you can also store and retrieve data within code steps without connecting a 3rd party database service.
 
 This is very useful for tracking data between runs of a particular workflow, making sure workflows only run once per unique record or sharing data between workflows.
 
@@ -19,7 +19,7 @@ For more information on what functionality is available for those languages, ple
 
 ### Adding a data store to a Node.js Step
 
-By default, Node.js steps don't access to data stores. A data store can be added to your step by adding it as a `prop`.
+By default, Node.js steps don't have access to data stores. A data store can be added to your step by adding it as a `prop`.
 
 ```javascript
 export default defineComponent({
@@ -41,15 +41,15 @@ In the above example we essentially instructed that this step needs the database
 
 ## Using the database
 
-Once you have definied the data store as a prop for your component, you'll be able to create a new data store or use an exisiting one from your account.
+Once you have defined the data store as a prop for your component, you'll be able to create a new data store or use an existing one from your account.
 
 ![Create a new store or choose another one from your account for your component](https://res.cloudinary.com/pipedreamin/image/upload/v1647626951/docs/components/CleanShot_2022-03-18_at_14.08.01_2x_fyr3p4.png)
 
-If you create a new store, you'll be able to view it's contents from within your account dashboard.
+If you create a new store, you'll be able to view its contents from within your account dashboard.
 
 ## Saving data
 
-Data stores are a key & value store, you can can save data within a store the `store.set` method. The first argument is the _key_ where the data should be held, and the 2nd argument is the _value_ assigned to that key.
+Data stores are a key-value store, you can save data within a store using the `store.set` method. The first argument is the _key_ where the data should be held, and the 2nd argument is the _value_ assigned to that key.
 
 ```javascript
 export default defineComponent({
@@ -110,7 +110,7 @@ export default defineComponent({
 
 ## Workflow counter example
 
-For example, if you'd like to set up a counter to count the number of times the workflow executes.
+For example, if you'd like to set up a counter to count the number of times the workflow executes:
 
 ```javascript
 export default defineComponent({
