@@ -5,9 +5,9 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/
 
 # Managing state
 
-In Node.js (Javascript) code steps, you can also store and retrieve data in code steps.
+In Node.js (Javascript) code steps, you can also store and retrieve data within in code steps without connecting a 3rd party database service.
 
-This is very useful for tracking data between runs of a particular workflow or sharing data between workflows.
+This is very useful for tracking data between runs of a particular workflow, making sure workflows only run once per unique record or sharing data between workflows.
 
 :::warning
 This functionality is limited to only Node.js code steps at this time.
@@ -49,7 +49,7 @@ If you create a new store, you'll be able to view it's contents from within your
 
 ## Saving data
 
-You can save data within a store the `store.set` method.
+Data stores are a key & value store, you can can save data within a store the `store.set` method. The first argument is the _key_ where the data should be held, and the 2nd argument is the _value_ assigned to that key.
 
 ```javascript
 export default defineComponent({
@@ -65,7 +65,7 @@ export default defineComponent({
 
 ## Retrieving data
 
-You can retrieve data with the in-step database using the `get` method.
+You can retrieve data with the in-step database using the `get` method. Pass the _key_ to the `get` method to retrieve the content that was stored there with `set`.
 
 ```javascript
 export default defineComponent({
@@ -87,7 +87,7 @@ From here you can also manually edit your store's data, rename stores, delete st
 
 ## Using multiple stores in a single code step
 
-It is possible to use multiple stores in a single code step, just make a unique name per store in the `props` definition. Let's define 2 separate `customers` and `orders` sources and leverage them in a code step:
+It is possible to use multiple stores in a single code step, just make a unique name per store in the `props` definition. Let's define 2 separate `customers` and `orders` sources and leverage them in a single code step:
 
 ```javascript
 export default defineComponent({
@@ -143,7 +143,7 @@ export default defineComponent({
   async run({ steps, $ }) {
     const email = steps.trigger.body.new_customer_email;
     // Retrieve the past recorded emails from other runs
-    const emails = this.db.get('emails') ?? [];
+    const emails = this.store.get('emails') ?? [];
 
     // If the current email being passed from our webhook is already in our list, exit early
     if(emails.includes(email)) {
@@ -156,9 +156,12 @@ export default defineComponent({
 })
 ```
 
-## `$.service.db` limitations
+## Data store limitations
 
-The `$.service.db` is only currently available in Node.js code steps. It is not yet available in other languages like Go, bash or Python.
+The data sources is only currently available in Node.js code steps. It is not yet available in other languages like Go, bash or Python.
 
-In addition, `$.service.db` can hold up to {{ $site.themeConfig.SERVICE_DB_SIZE_LIMIT }} per step.
+In addition, data sources can hold up to {{ $site.themeConfig.SERVICE_DB_SIZE_LIMIT }} per step.
 
+### Supported data types
+
+Data stores can hold any JSON serializable data within the storage limits.
