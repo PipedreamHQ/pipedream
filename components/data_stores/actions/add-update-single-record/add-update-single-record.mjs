@@ -2,9 +2,9 @@
 import data_stores from "../../data_stores.app.mjs";
 
 export default {
-  key: "set-value",
-  name: "Set a Value",
-  description: "Store data in your Pipedream Data Store.",
+  key: "data_stores-add-update-single-record",
+  name: "Add or update a single record",
+  description: "Add or update a single record in your Pipedream Data Store.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -17,17 +17,17 @@ export default {
     key: {
       label: "Key",
       type: "string",
-      description: "Set a key for the data you'd like to store.",
+      description: "Key for the data you'd like to add or update.",
     },
     value: {
       label: "Value",
       type: "string",
-      description: "Set the value you'd like to store.",
+      description: "Value you'd like to add or update.",
     },
   },
   async run({ $ }) {
-    const resp = this.store.set(this.key, this.value);
-    $.export("$summary", "Successfully added or updated the key, `" + this.key + "`.");
-    return resp;
+    this.store.set(this.key, this.value);
+    $.export("$summary", `Successfully added or updated a new record, \`${this.key}\`.`);
   },
 };
+
