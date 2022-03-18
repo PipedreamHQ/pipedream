@@ -81,7 +81,7 @@ export default {
       data: this.line.convertJSONToUrlEncodec(body),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Bearer ${this.accessToken ?? this.line.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.accessToken ?? this.line._accessToken()}`,
       },
     });
   },

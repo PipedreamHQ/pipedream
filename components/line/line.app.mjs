@@ -26,6 +26,15 @@ export default {
   },
   methods: {
     /**
+     * Get the access token;
+     *
+     * @returns {string} The access token.
+     */
+    _accessToken() {
+      return this.$auth.oauth_access_token;
+    },
+
+    /**
      * Instantiate a Line's Client.
      *
      * @param {string} channelAccessToken - The access token of the channel
