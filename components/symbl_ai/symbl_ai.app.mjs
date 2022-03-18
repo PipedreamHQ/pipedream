@@ -129,5 +129,23 @@ export default {
         params,
       });
     },
+    async getEntities({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/entities`,
+      });
+    },
+    async getAnalytics({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/analytics`,
+      });
+    },
   },
 };
