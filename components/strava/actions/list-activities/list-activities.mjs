@@ -4,7 +4,7 @@ export default {
   name: "Get Activity List",
   description: "Returns the activities of an athlete for a specific identifier. Requires activity:read. Only Me activities will be filtered out unless requested by a token with activity:read_all. See `https://developers.strava.com/docs/reference/`",
   key: "strava_get-activity-list",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     strava,

@@ -4,7 +4,7 @@ export default {
   name: "Create Activity",
   description: "Creates a manual activity for an athlete, requires activity:write scope. See `https://developers.strava.com/docs/reference/`",
   key: "strava_create-activity",
-  version: "0.0.12",
+  version: "0.0.1",
   type: "action",
   props: {
     strava,

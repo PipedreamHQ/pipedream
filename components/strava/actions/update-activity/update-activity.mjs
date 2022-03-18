@@ -4,7 +4,7 @@ export default {
   name: "Update Activity",
   description: "Updates the given activity that is owned by the authenticated athlete. Requires activity:write. Also requires activity:read_all in order to update Only Me activities. See `https://developers.strava.com/docs/reference/`",
   key: "strava_update-activity",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     strava,
