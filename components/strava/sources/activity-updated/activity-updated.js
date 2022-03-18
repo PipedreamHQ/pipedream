@@ -4,7 +4,7 @@ module.exports = {
   key: "strava-activity-updated",
   name: "Activity Updated",
   description: "Emits an event when an activity is updated",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     strava,

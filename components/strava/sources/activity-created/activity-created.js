@@ -4,7 +4,7 @@ module.exports = {
   key: "strava-activity-created",
   name: "Activity Created",
   description: "Emits an event when a new activity is created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     strava,

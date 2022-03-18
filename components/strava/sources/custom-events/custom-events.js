@@ -5,7 +5,7 @@ module.exports = {
   name: "Custom Events",
   description:
     "Emits an event when an activity is created, updated, or deleted",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     strava,
