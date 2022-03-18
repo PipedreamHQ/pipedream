@@ -25,10 +25,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const hasRegister = this.store.get(this.key);
+    const record = this.store.get(this.key);
     this.store.set(this.key, this.value);
 
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully ${hasRegister ? "edited" : "added"} "${this.key}" key in the store`);
+    $.export("$summary", `Successfully ${record ? "edited" : "added"} "${this.key}" key in the store`);
   },
 };
