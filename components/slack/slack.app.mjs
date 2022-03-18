@@ -343,9 +343,19 @@ export default {
     mySlackId() {
       return this.$auth.oauth_uid;
     },
+    /**
+     * Returns a Slack Web Client object authenticated with the user's access
+     * token
+     */
     sdk() {
       return new WebClient(this.$auth.oauth_access_token);
     },
+    /**
+     * This method returns the list of OAuth scopes the current authenticated
+     * user has
+     *
+     * @returns the list of scopes
+     */
     async scopes() {
       const resp = await this.sdk().auth.test();
       if (resp.ok) {
@@ -355,6 +365,18 @@ export default {
         throw (resp.error);
       }
     },
+    /**
+     * Returns a list of channel-like conversations in a workspace. The
+     * "channels" returned depend on what the calling token has access to and
+     * the directives placed in the types parameter.
+     *
+     * @param {string} [types] - a comma-separated list of channel types to get.
+     * Any combination of: `public_channel`, `private_channel`, `mpim`, `im`
+     * @param {string} [cursor] - a cursor returned by the previous API call,
+     * used to paginate through collections of data
+     * @returns an object containing a list of conversations and the cursor for the next
+     * page of conversations
+     */
     async availableConversations(types, cursor) {
       const params = {
         types,
@@ -373,6 +395,11 @@ export default {
         throw (resp.error);
       }
     },
+    /**
+     * This method lists reminders created by or for a given user
+     *
+     * @returns an object containing a list of reminders
+     */
     async getRemindersForTeam() {
       const resp = await this.sdk().reminders.list();
       if (resp.ok) {
@@ -383,6 +410,15 @@ export default {
         throw (resp.error);
       }
     },
+    /**
+     * Returns a list of all users in the workspace. This includes
+     * deleted/deactivated users.
+     *
+     * @param {string} [cursor] - a cursor returned by the previous API call,
+     * used to paginate through collections of data
+     * @returns an object containing a list of users and the cursor for the next
+     * page of users
+     */
     async users(cursor) {
       const resp = await this.sdk().users.list({
         cursor,
@@ -397,6 +433,11 @@ export default {
         throw (resp.error);
       }
     },
+    /**
+     * Returns a mapping from user ID to user name for all users in the workspace
+     *
+     * @returns the mapping from user ID to user name
+     */
     async userNames() {
       let cursor;
       const userNames = {};
