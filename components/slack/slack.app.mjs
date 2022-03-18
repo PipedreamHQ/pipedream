@@ -7,45 +7,20 @@ export default {
     publicChannel: {
       type: "string",
       label: "Channel",
+      description: "Select a public channel",
       async options({ prevContext }) {
-        let {
-          types,
-          cursor,
-          userNames,
-        } = prevContext;
-        if (types == null) {
-          types = [
-            "public_channel",
-          ];
-          userNames = {};
-          for (const user of (await this.users()).users) {
-            userNames[user.id] = user.name;
-          }
-        }
+        const { cursor } = prevContext;
+        const types = [
+          "public_channel",
+        ];
         const resp = await this.availableConversations(types.join(), cursor);
         return {
-          options: resp.conversations.map((c) => {
-            if (c.is_im) {
-              return {
-                label: `Direct messaging with: @${userNames[c.user]}`,
-                value: c.id,
-              };
-            } else if (c.is_mpim) {
-              return {
-                label: c.purpose.value,
-                value: c.id,
-              };
-            } else {
-              return {
-                label: `${c.name}`,
-                value: c.id,
-              };
-            }
-          }),
+          options: resp.conversations.map((c) => ({
+            label: `${c.name}`,
+            value: c.id,
+          })),
           context: {
-            types,
             cursor: resp.cursor,
-            userNames,
           },
         };
       },
@@ -53,33 +28,20 @@ export default {
     privateChannel: {
       type: "string",
       label: "Channel",
+      description: "Select a private channel",
       async options({ prevContext }) {
-        let {
-          types,
-          cursor,
-          userNames,
-        } = prevContext;
-        if (types == null) {
-          types = [
-            "private_channel",
-          ];
-          userNames = {};
-          for (const user of (await this.users()).users) {
-            userNames[user.id] = user.name;
-          }
-        }
+        const { cursor } = prevContext;
+        const types = [
+          "private_channel",
+        ];
         const resp = await this.availableConversations(types.join(), cursor);
         return {
-          options: resp.conversations.map((c) => {
-            return {
-              label: `${c.name}`,
-              value: c.id,
-            };
-          }),
+          options: resp.conversations.map((c) => ({
+            label: `${c.name}`,
+            value: c.id,
+          })),
           context: {
-            types,
             cursor: resp.cursor,
-            userNames,
           },
         };
       },
@@ -87,33 +49,26 @@ export default {
     user: {
       type: "string",
       label: "User",
+      description: "Select a user",
       async options({ prevContext }) {
-        let {
-          types,
-          cursor,
+        const types = [
+          "im",
+        ];
+        const [
           userNames,
-        } = prevContext;
-        if (types == null) {
-          types = [
-            "im",
-          ];
-          userNames = {};
-          for (const user of (await this.users()).users) {
-            userNames[user.id] = user.name;
-          }
-        }
-        const resp = await this.availableConversations(types.join(), cursor);
+          conversationsResp,
+        ] = await Promise.all([
+          prevContext.userNames ?? this.userNames(),
+          this.availableConversations(types.join(), prevContext.cursor),
+        ]);
         return {
-          options: resp.conversations.map((c) => {
-            return {
-              label: `@${userNames[c.user]}`,
-              value: c.id,
-            };
-          }),
+          options: conversationsResp.conversations.map((c) => ({
+            label: `@${userNames[c.user]}`,
+            value: c.id,
+          })),
           context: {
-            types,
-            cursor: resp.cursor,
             userNames,
+            cursor: conversationsResp.cursor,
           },
         };
       },
@@ -121,21 +76,12 @@ export default {
     group: {
       type: "string",
       label: "Group",
+      description: "Select a group",
       async options({ prevContext }) {
-        let {
-          types,
-          cursor,
-          userNames,
-        } = prevContext;
-        if (types == null) {
-          types = [
-            "mpim",
-          ];
-          userNames = {};
-          for (const user of (await this.users()).users) {
-            userNames[user.id] = user.name;
-          }
-        }
+        let { cursor } = prevContext;
+        const types = [
+          "mpim",
+        ];
         const resp = await this.availableConversations(types.join(), cursor);
         return {
           options: resp.conversations.map((c) => {
@@ -145,9 +91,7 @@ export default {
             };
           }),
           context: {
-            types,
             cursor: resp.cursor,
-            userNames,
           },
         };
       },
@@ -155,7 +99,7 @@ export default {
     reminder: {
       type: "string",
       label: "Reminder",
-      description: "Select a reminder.",
+      description: "Select a reminder",
       async options({ prevContext }) {
         let { cursor } = prevContext;
         let resp = await this.getRemindersForTeam();
@@ -175,12 +119,12 @@ export default {
     conversation: {
       type: "string",
       label: "Channel",
-      description: "Select a public or private channel, or a user or group.",
+      description: "Select a public or private channel, or a user or group",
       async options({ prevContext }) {
         let {
           types,
           cursor,
-          userNames,
+          userNames: userNamesOrPromise,
         } = prevContext;
         if (types == null) {
           const scopes = await this.scopes();
@@ -195,15 +139,18 @@ export default {
           }
           if (scopes.includes("im:read")) {
             types.push("im");
-            userNames = {};
-            for (const user of (await this.users()).users) {
-              userNames[user.id] = user.name;
-            }
+            userNamesOrPromise = this.userNames();
           }
         }
-        const resp = await this.availableConversations(types.join(), cursor);
+        const [
+          userNames,
+          conversationsResp,
+        ] = await Promise.all([
+          userNamesOrPromise,
+          this.availableConversations(types.join(), cursor),
+        ]);
         return {
-          options: resp.conversations.map((c) => {
+          options: conversationsResp.conversations.map((c) => {
             if (c.is_im) {
               return {
                 label: `Direct messaging with: @${userNames[c.user]}`,
@@ -225,7 +172,7 @@ export default {
           }),
           context: {
             types,
-            cursor: resp.cursor,
+            cursor: conversationsResp.cursor,
             userNames,
           },
         };
@@ -279,21 +226,25 @@ export default {
     },
     attachments: {
       type: "string",
+      label: "Attachments",
       description: "A JSON-based array of structured attachments, presented as a URL-encoded string (e.g., `[{\"pretext\": \"pre-hello\", \"text\": \"text-world\"}]`).",
       optional: true,
     },
     unfurl_links: {
       type: "boolean",
+      label: "Unfurl Links",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of links.",
       optional: true,
     },
     unfurl_media: {
       type: "boolean",
+      label: "Unful Media",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of media content.",
       optional: true,
     },
     parse: {
       type: "string",
+      label: "Parse",
       description: "Change how messages are treated. Defaults to none. See below.",
       optional: true,
     },
@@ -306,6 +257,7 @@ export default {
     },
     mrkdwn: {
       type: "boolean",
+      label: "Mrkdwn",
       description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing.",
       default: true,
       optional: true,
@@ -318,6 +270,7 @@ export default {
     },
     blocks: {
       type: "string",
+      label: "Blocks",
       description: "Enter an array of [structured blocks](https://app.slack.com/block-kit-builder) as a URL-encoded string. E.g., `[{ \"type\": \"section\", \"text\": { \"type\": \"mrkdwn\", \"text\": \"This is a mrkdwn section block :ghost: *this is bold*, and ~this is crossed out~, and <https://pipedream.com|this is a link>\" }}]`\n\n**Tip:** Construct your blocks in a code step, return them as an array, and then pass the return value to this step.",
       optional: true,
     },
@@ -334,11 +287,13 @@ export default {
     },
     link_names: {
       type: "string",
+      label: "Link Names",
       description: "Find and link channel names and usernames.",
       optional: true,
     },
     reply_broadcast: {
       type: "string",
+      label: "Reply Broadcasts",
       description: "Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.",
       optional: true,
     },
@@ -404,7 +359,6 @@ export default {
       const params = {
         types,
         cursor,
-        limit: 200,
         exclude_archived: true,
         user: this.$auth.oauth_uid,
       };
@@ -442,6 +396,21 @@ export default {
         console.log("Error getting users", resp.error);
         throw (resp.error);
       }
+    },
+    async userNames() {
+      let cursor;
+      const userNames = {};
+      do {
+        const {
+          users,
+          cursor: nextCursor,
+        } = await this.users(cursor);
+        for (const user of users) {
+          userNames[user.id] = user.name;
+        }
+        cursor = nextCursor;
+      } while (cursor);
+      return userNames;
     },
   },
 };
