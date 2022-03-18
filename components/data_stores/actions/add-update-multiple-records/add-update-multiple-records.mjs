@@ -16,7 +16,7 @@ export default {
     data: {
       label: "Data",
       type: "object",
-      description: "Enter data you'd like to add in the form of key-value pairs, or reference existing keys and update the values for existing records.",
+      description: "Enter data you'd like to add in the form of key-value pairs, or reference existing keys and update the values for existing records. Refer to your existing keys [here](https://pipedream.com/stores).",
     },
   },
   async run({ $ }) {
@@ -28,7 +28,11 @@ export default {
     }
 
     let count = Object.keys(this.data).length;
-    // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully added or updated ${count} ${count == 1 ? "record" : "records"}`);
+
+    if (count == 1) {
+      $.export("$summary", "Successfully added or updated 1 record.");
+    } else {
+      $.export("$summary", "Successfully added or updated " + count + " records.");
+    }
   },
 };

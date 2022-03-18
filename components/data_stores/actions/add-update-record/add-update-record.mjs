@@ -16,7 +16,7 @@ export default {
     key: {
       label: "Key",
       type: "string",
-      description: "Key for the data you'd like to add or update.",
+      description: "Key for the data you'd like to add or update. Refer to your existing keys [here](https://pipedream.com/stores).",
     },
     value: {
       label: "Value",
@@ -28,7 +28,10 @@ export default {
     const record = this.store.get(this.key);
     this.store.set(this.key, this.value);
 
-    // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully ${record ? "edited" : "added"} "${this.key}" key in the store`);
+    if (record) {
+      $.export("$summary", "Successfully updated the record for key, `" + this.key + "`.");
+    } else {
+      $.export("$summary", "Successfully added a new record with the key, `" + this.key + "`.");
+    }
   },
 };

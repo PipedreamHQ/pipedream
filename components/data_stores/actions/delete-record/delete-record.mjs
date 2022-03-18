@@ -16,7 +16,7 @@ export default {
     key: {
       label: "Key",
       type: "string",
-      description: "Key for the data you'd like to delete.",
+      description: "Key for the data you'd like to delete. Refer to your existing keys [here](https://pipedream.com/stores).",
     },
   },
   async run({ $ }) {
@@ -24,9 +24,9 @@ export default {
 
     if (record) {
       this.store.set(this.key, undefined);
-      $.export("$summary", `Successfully deleted "${this.key}" key in the store. (Previous value: "${record}")`);
+      $.export("$summary", "Successfully deleted the record for key, `" + this.key + "`.");
     } else {
-      $.export("$summary", `No value for key "${this.key}" was previously stored. No data was deleted`);
+      $.export("$summary", "No record found for key, `" + this.key + "`. No data was deleted.");
     }
   },
 };
