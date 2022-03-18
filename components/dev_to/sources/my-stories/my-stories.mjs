@@ -1,12 +1,13 @@
-const dev_to = require("../../dev_to.app.js");
-const moment = require("moment");
-const axios = require("axios");
+import dev_to from "../../dev_to.app.mjs";
+import moment from "moment";
+import axios from "axios";
 
-module.exports = {
+export default {
   name: "My articles",
   key: "dev_to-my-articles",
   description: "Emit an event for each new article published on your Dev.to account",
-  version: "0.0.1",
+  type: "source",
+  version: "0.0.2",
   props: {
     db: "$.service.db",
     timer: {
@@ -18,7 +19,7 @@ module.exports = {
     dev_to,
   },
   dedupe: "greatest",
-  async run(event) {
+  async run(_event) {
     const url = "https://dev.to/api/articles/me/published?per_page=1000&top=1";
     const data = (await axios({
       method: "get",
