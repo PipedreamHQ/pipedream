@@ -1,5 +1,5 @@
 ---
-short_description: Store and read data with the built in database.
+short_description: Store and read data with stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
 ---
 
@@ -7,29 +7,28 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/
 
 In Node.js (Javascript) code steps, you can also store and retrieve data in code steps.
 
-This is very useful for tracking data between runs of a particular workflow.
+This is very useful for tracking data between runs of a particular workflow or sharing data between workflows.
 
 :::warning
-This functionality (`$.service.db`) is limited to only Node.js code steps at this time.
+This functionality is limited to only Node.js code steps at this time.
 
 Other step languages like [Python](/code/python/), [Bash](/code/bash/) and [Go](/code/go/) do not have this feature available yet.
 
 For more information on what functionality is available for those languages, please refer to their documentation.
 :::
 
-### Injecting the database
+### Adding a data store to a Node.js Step
 
-By default, Node.js steps don't have access to the database service. It needs to be injected by defining it as a `prop`. 
+By default, Node.js steps don't access to data stores. A data store can be added to your step by adding it as a `prop`.
 
 ```javascript
 export default defineComponent({
   props: {
     // Define that the "db" variable in our component is a database
-    db: "$.service.db",
+    store: { type: "store" }
   },
   async run({ steps, $ }) {
-    // Now we can access the database at "this.db"
-    this.db.set("name", "Dylan")
+    // Now we can access the database at "this.store"
   }
 });
 ```
@@ -37,25 +36,29 @@ export default defineComponent({
 :::tip
 `props` injects variables under `this` scope in components.
 
-In the above example we essentially instructed that this step needs the database injected into the `this.db` prop. 
+In the above example we essentially instructed that this step needs the database injected into the `this.store` prop. 
 :::
 
 ## Using the database
 
-Once you inject the database into the component, you can use it to both store (`set`) and retrieve (`get`) data.
+Once you have definied the data store as a prop for your component, you'll be able to create a new data store or use an exisiting one from your account.
+
+![Create a new store or choose another one from your account for your component](https://res.cloudinary.com/pipedreamin/image/upload/v1647626951/docs/components/CleanShot_2022-03-18_at_14.08.01_2x_fyr3p4.png)
+
+If you create a new store, you'll be able to view it's contents from within your account dashboard.
 
 ## Saving data
 
-You can save data with the in-step database using the `set` method.
+You can save data within a store the `store.set` method.
 
 ```javascript
 export default defineComponent({
   props: {
-    "db": "$.service.db",
+    store: { type: "store" },
   },
   async run({ steps, $ }) {
     // Store a timestamp each time this step is executed in the workflow
-    this.db.set('lastRanAt', new Date());
+    this.store.set('lastRanAt', new Date());
   },
 })
 ```
@@ -67,11 +70,40 @@ You can retrieve data with the in-step database using the `get` method.
 ```javascript
 export default defineComponent({
   props: {
-    "db": "$.service.db",
+    store: { type: "store" },
   },
   async run({ steps, $ }) {
     // Retrieve the timestamp representing last time this step executed
-    const lastRanAt = this.db.get('lastRanAt'); 
+    const lastRanAt = this.store.get('lastRanAt'); 
+  },
+})
+```
+
+## Viewing store data
+
+You can view the real time store data in your [Pipedream dashboard](https://pipedream.com/stores).
+
+From here you can also manually edit your store's data, rename stores, delete stores or create new stores.
+
+## Using multiple stores in a single code step
+
+It is possible to use multiple stores in a single code step, just make a unique name per store in the `props` definition. Let's define 2 separate `customers` and `orders` sources and leverage them in a code step:
+
+```javascript
+export default defineComponent({
+  props: {
+    customers: {
+      type: "store",
+    },
+    orders: {
+      type: "store"
+    }
+  },
+  async run({ steps, $ }) {
+    // Retrieve the customer from our customer store 
+    const customer = this.customer.get(steps.trigger.event.customer_id);
+    // Retrieve the order from our order data store
+    const order = this.orders.get(steps.trigger.event.order_id);
   },
 })
 ```
@@ -83,16 +115,16 @@ For example, if you'd like to set up a counter to count the number of times the 
 ```javascript
 export default defineComponent({
   props: {
-    "db": "$.service.db",
+    store: { type: "store" },
   },
   async run({ steps, $ }) {
     // By default, all database entries are undefined.
     // It's wise to set a default value so our code as an initial value to work with
-    const counter = this.db.get('counter') ?? 0;
+    const counter = this.store.get('counter') ?? 0;
     
     // On the first run "counter" will be 0 and we'll increment it to 1
     // The next run will increment the counter to 2, and so forth
-    this.db.set('counter', counter + 1);
+    this.store.set('counter', counter + 1);
   },
 })
 ```
@@ -106,7 +138,7 @@ For example, this workflow's trigger contains an email address from a potential 
 ```javascript
 export default defineComponent({
   props: {
-    "db": "$.service.db",
+    store: { type: "store" },
   },
   async run({ steps, $ }) {
     const email = steps.trigger.body.new_customer_email;
@@ -119,7 +151,7 @@ export default defineComponent({
     }
 
     // Add the current email to the list of past emails so we can detect it in the future runs
-    this.db.set('emails', [...emails, email]);
+    this.store.set('emails', [...emails, email]);
   },
 })
 ```
