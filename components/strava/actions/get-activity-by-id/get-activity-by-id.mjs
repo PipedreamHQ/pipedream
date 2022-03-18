@@ -3,7 +3,7 @@ import strava from "../../strava.app.js";
 export default {
   name: "Get Activity By ID",
   description: "Returns the given activity that is owned by the authenticated athlete. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities. See `https://developers.strava.com/docs/reference/`",
-  key: "strava_get-activity-by-id",
+  key: "strava-get-activity-by-id",
   version: "0.0.1",
   type: "action",
   props: {

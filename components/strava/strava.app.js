@@ -88,12 +88,12 @@ module.exports = {
         })
       );
     },
-    async getStats($, data) {
-      const { id } = data;
+    async getStats($) {
+      const athlete = await this.getAuthenticatedAthlete();
       return (
         await this._makeAPIRequestWithPlatform($, {
           method: "GET",
-          path: `/athletes/${id}/stats`,
+          path: `/athletes/${athlete.id}/stats`,
         })
       );
     },
