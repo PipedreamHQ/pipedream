@@ -1,10 +1,10 @@
 import dataStores from "../../data_stores.app.mjs";
 
 export default {
-  key: "data_stores-add-update-single-record",
+  key: "data_stores-add-update-record",
   name: "Add or update a single record",
   description: "Add or update a single record in your Pipedream Data Store.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     dataStores,
