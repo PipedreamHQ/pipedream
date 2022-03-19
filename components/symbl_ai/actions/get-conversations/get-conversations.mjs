@@ -26,7 +26,10 @@ export default {
       type: "string",
       label: "Order",
       description: "Specifies the order in which the results should be sorted based on the start time.",
-      options: ["asc","desc"],
+      options: [
+        "asc",
+        "desc",
+      ],
       optional: true,
     },
     startTime: {
@@ -52,7 +55,7 @@ export default {
       label: "Filter",
       description: "Specifies a filter string in RSQL format to filter the results. Default value is `conversation.startDate <= {currentTimestamp - 7 days}`.",
       optional: true,
-    },  
+    },
   },
   async run({ $ }) {
     try {
