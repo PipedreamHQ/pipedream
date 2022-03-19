@@ -1,22 +1,9 @@
-import base from "./http-based/base.mjs";
-
 /**
  * This module implements logic common to the "New Worksheet" sources. To create
  * a source with this module, extend  {@linkcode ./http-based/base.mjs base.mjs}
  * or one of its "child" modules (`drive.mjs` or `sheet.mjs`).
  */
 export default {
-  props: {
-    sheetID: {
-      propDefinition: [
-        base.props.googleSheets,
-        "sheetID",
-        (c) => ({
-          driveId: base.methods.getDriveId(c.watchedDrive),
-        }),
-      ],
-    },
-  },
   hooks: {
     async deploy() {
       await this.processSpreadsheet({

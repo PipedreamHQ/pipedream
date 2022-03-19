@@ -8,15 +8,6 @@ import base from "./http-based/base.mjs";
  */
 export default {
   props: {
-    sheetID: {
-      propDefinition: [
-        base.props.googleSheets,
-        "sheetID",
-        (c) => ({
-          driveId: base.methods.getDriveId(c.watchedDrive),
-        }),
-      ],
-    },
     worksheetIDs: {
       propDefinition: [
         base.props.googleSheets,
