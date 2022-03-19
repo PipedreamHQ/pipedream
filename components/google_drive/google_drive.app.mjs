@@ -1,5 +1,5 @@
 import axios from "axios";
-import { google } from "googleapis";
+import drive from "@googleapis/drive";
 import { v4 as uuid } from "uuid";
 import isoLanguages from "./actions/language-codes.mjs";
 import mimeDb from "mime-db";
@@ -266,11 +266,11 @@ export default {
 
     // Returns a drive object authenticated with the user's access token
     drive() {
-      const auth = new google.auth.OAuth2();
+      const auth = new drive.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      return google.drive({
+      return drive.drive({
         version: "v3",
         auth,
       });
