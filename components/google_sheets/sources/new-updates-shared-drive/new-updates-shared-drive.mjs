@@ -10,10 +10,6 @@ export default {
   description: "Emit new event each time a row or cell is updated in a spreadsheet in a shared drive",
   version: "0.0.1",
   dedupe: "unique",
-  hooks: {
-    ...httpBase.hooks,
-    ...newUpdates.hooks,
-  },
   props: {
     ...httpBase.props,
     ...newUpdates.props,

@@ -59,7 +59,7 @@ export default {
         const {
           expiration,
           resourceId,
-        } = await this.googleDrive.watchFile(
+        } = await this.googleDrive.activateFileHook(
           channelID,
           this.http.endpoint,
           fileID,

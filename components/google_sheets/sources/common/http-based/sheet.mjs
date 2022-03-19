@@ -11,42 +11,15 @@ import base from "./base.mjs";
  */
 export default {
   ...base,
-  hooks: {
-    ...base.hooks,
-    /**
-     * Called when a component is created or updated. Handles all the logic
-     * for starting and stopping watch notifications tied to the desired file.
-     */
-    async activate() {
-      const channelID = this._getChannelID() || uuid();
-
-      const {
-        startPageToken,
-        expiration,
-        resourceId,
-      } = await this.googleSheets.activateFileHook(
+  methods: {
+    ...base.methods,
+    async activateHook(channelID) {
+      return this.googleSheets.activateFileHook(
         channelID,
         this.http.endpoint,
         this.getSheetId(),
       );
-
-      // Save metadata on the subscription so we can stop / renew later
-      // Subscriptions are tied to Google's resourceID, "an opaque value that
-      // identifies the watched resource". This value is included in request headers
-      this._setSubscription({
-        resourceId,
-        expiration,
-      });
-      this._setChannelID(channelID);
-      if (startPageToken) {
-        this._setPageToken(startPageToken);
-      }
-
-      await this.takeSheetSnapshot();
     },
-  },
-  methods: {
-    ...base.methods,
     async getAllWorksheetIds(sheetID) {
       const { sheets } = await this.googleSheets.getSpreadsheet(sheetID);
       return sheets

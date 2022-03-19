@@ -13,7 +13,10 @@ import base from "./base.mjs";
 export default {
   ...base,
   props: {
-    ...base.props,
+    // Adding googleSheets prop before watchedDrive prop because app prop must
+    // be put before dependent propDefinition
+    googleSheets: base.props.googleSheets,
+    // Putting watchedDrive prop before ...base.props so watchedDrive appears before sheetID
     watchedDrive: {
       propDefinition: [
         base.props.googleSheets,
@@ -22,16 +25,17 @@ export default {
       description: "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
       optional: false,
     },
+    ...base.props,
   },
-  hooks: {
-    ...base.hooks,
-    /**
-     * Called when a component is created or updated. Handles all the logic
-     * for starting and stopping watch notifications tied to the desired file.
-     */
-    async activate() {
-      const channelID = this._getChannelID() || uuid();
-
+  methods: {
+    ...base.methods,
+    _getPageToken() {
+      return this.db.get("pageToken");
+    },
+    _setPageToken(pageToken) {
+      this.db.set("pageToken", pageToken);
+    },
+    async activateHook(channelID) {
       const {
         startPageToken,
         expiration,
@@ -41,27 +45,11 @@ export default {
         this.http.endpoint,
         this.getDriveId(),
       );
-
-      // Save metadata on the subscription so we can stop / renew later
-      // Subscriptions are tied to Google's resourceID, "an opaque value that
-      // identifies the watched resource". This value is included in request headers
-      this._setSubscription({
-        resourceId,
-        expiration,
-      });
-      this._setChannelID(channelID);
       this._setPageToken(startPageToken);
-
-      await this.takeSheetSnapshot();
-    },
-  },
-  methods: {
-    ...base.methods,
-    _getPageToken() {
-      return this.db.get("pageToken");
-    },
-    _setPageToken(pageToken) {
-      this.db.set("pageToken", pageToken);
+      return {
+        expiration,
+        resourceId,
+      };
     },
     async getModifiedSheet(pageToken, driveId, sheetID) {
       const changedFilesStream = this.googleSheets.listChanges(pageToken, driveId);

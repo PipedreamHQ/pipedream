@@ -10,10 +10,6 @@ export default {
   version: "0.0.25",
   dedupe: "unique",
   type: "source",
-  hooks: {
-    ...httpBase.hooks,
-    ...newRowAdded.hooks,
-  },
   props: {
     ...httpBase.props,
     ...newRowAdded.props,

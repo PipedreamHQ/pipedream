@@ -8,6 +8,8 @@
 // should override the unimplemented methods, to create a webhook and process
 // incoming events.
 
+import { v4 as uuid } from "uuid";
+
 import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../../../google_drive/constants.mjs";
 import googleSheets from "../../../google_sheets.app.mjs";
 import { MY_DRIVE_VALUE } from "../../../../google_drive/constants.mjs";
@@ -38,6 +40,15 @@ export default {
         intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },
     },
+    sheetID: {
+      propDefinition: [
+        googleSheets,
+        "sheetID",
+        (c) => ({
+          driveId: googleSheets.methods.getDriveId(c.watchedDrive),
+        }),
+      ],
+    },
   },
   hooks: {
     async deploy() {
@@ -47,8 +58,32 @@ export default {
       const spreadsheet = await this.googleSheets.getSpreadsheet(sheetId);
       await this.processSpreadsheet(spreadsheet);
     },
+    /**
+     * Called when a component is created or updated. Handles all the logic
+     * for starting and stopping watch notifications tied to the desired file.
+     */
     async activate() {
-      throw new Error("activate is not implemented");
+      const channelID = this._getChannelID() || uuid();
+
+      const {
+        startPageToken,
+        expiration,
+        resourceId,
+      } = await this.activateHook(channelID);
+
+      // Save metadata on the subscription so we can stop / renew later
+      // Subscriptions are tied to Google's resourceID, "an opaque value that
+      // identifies the watched resource". This value is included in request headers
+      this._setSubscription({
+        resourceId,
+        expiration,
+      });
+      this._setChannelID(channelID);
+      if (startPageToken) {
+        this._setPageToken(startPageToken);
+      }
+
+      await this.takeSheetSnapshot();
     },
     async deactivate() {
       const channelID = this._getChannelID();
@@ -98,6 +133,9 @@ export default {
       const worksheetIds = this.getWorksheetIds();
       return worksheetIds.includes(worksheetId.toString());
     },
+    activateHook() {
+      throw new Error("activateHook is not implemented");
+    },
     processSpreadsheet() {
       throw new Error("processEvent is not implemented");
     },
@@ -114,28 +152,5 @@ export default {
     takeSheetSnapshot() {
       throw new Error("takeSheetSnapshot is not implemented");
     },
-  },
-  async run(event) {
-    if (event.timestamp) {
-      // Component was invoked by timer
-      return this.renewSubscription();
-    }
-
-    if (!this.isEventRelevant(event)) {
-      console.log("Sync notification, exiting early");
-      return;
-    }
-
-    const spreadsheet = this.isMyDrive()
-      ? await this.googleSheets.getSpreadsheet(this.sheetID)
-      : await this.getSpreadsheetToProcess(event);
-
-    if (!spreadsheet) {
-      const sheetId = this.getSheetId();
-      console.log(`Spreadsheet "${sheetId}" was not modified. Skipping event`);
-      return;
-    }
-
-    return this.processSpreadsheet(spreadsheet);
   },
 };
