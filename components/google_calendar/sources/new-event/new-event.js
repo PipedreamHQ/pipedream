@@ -5,7 +5,8 @@ module.exports = {
   key: "google_calendar-new-event",
   name: "New Event",
   description: "Emits when an event is created",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
     googleCalendar,
@@ -16,7 +17,10 @@ module.exports = {
         const calendars = _.get(calListResp, "data.items");
         if (calendars) {
           const calendarIds = calendars.map((item) => {
-            return { value: item.id, label: item.summary };
+            return {
+              value: item.id,
+              label: item.summary,
+            };
           });
           return calendarIds;
         }
@@ -50,7 +54,10 @@ module.exports = {
       for (const event of events) {
         const created = new Date(event.created);
         if (created > past && event.status !== "cancelled") {
-          const { summary, id } = event;
+          const {
+            summary,
+            id,
+          } = event;
           this.$emit(event, {
             summary,
             id,
