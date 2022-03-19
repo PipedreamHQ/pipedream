@@ -147,5 +147,14 @@ export default {
         path: `/conversations/${conversationId}/analytics`,
       });
     },
+    async getConversation({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}`,
+      });
+    },
   },
 };

@@ -24,7 +24,6 @@ export default {
         $,
         conversationId: this.conversationId,
       });
-      console.log(`Metrics: ${metrics} and Members: ${members}`);
       $.export("$summary", `Successfully retrieved ${metrics.length} metrics and ${members.length} member${members.length === 1
         ? ""
         : "s'"} Analytics from the conversation`);
