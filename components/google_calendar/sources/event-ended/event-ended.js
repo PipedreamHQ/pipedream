@@ -5,7 +5,8 @@ module.exports = {
   key: "google_calendar-event-ended",
   name: "Event Ended",
   description: "Emits when an event ends",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
     googleCalendar,
@@ -16,7 +17,10 @@ module.exports = {
         const calendars = _.get(calListResp, "data.items");
         if (calendars) {
           const calendarIds = calendars.map((item) => {
-            return { value: item.id, label: item.summary };
+            return {
+              value: item.id,
+              label: item.summary,
+            };
           });
           return calendarIds;
         }
@@ -53,7 +57,10 @@ module.exports = {
         const end = new Date(eventEnd);
         const msFromEnd = now.getTime() - end.getTime();
         if (eventEnd && msFromEnd > 0 && msFromEnd < intervalMs) {
-          const { summary, id } = event;
+          const {
+            summary,
+            id,
+          } = event;
           this.$emit(event, {
             summary,
             id,
