@@ -43,34 +43,32 @@ module.exports = {
         count: 10,
         offset: 0,
       };
-      const mailchimpAudienceSegmentsInfo =
-        await this.mailchimp.getAudienceSegments(this.listId, config);
-      const { segments: mailchimpAudienceSegments = [] } =
-        mailchimpAudienceSegmentsInfo;
-      if (!mailchimpAudienceSegments.length) {
+     let segments;
+     if(this.watchFor === "Created" ) {
+      segments = await this.mailchimp.getAudienceSegmentsByCreatedDate(config);
+     } else {
+      segments = await this.mailchimp.getAudienceSegmentsByUpdatedDate(config);
+     }
+      if (!segments.length) {
         console.log("No data available, skipping iteration");
         return;
       }
-      const relevantDate = [
-        "Created",
-      ].includes(this.watchFor)
-        ? mailchimpAudienceSegments[0].created_at
-        : mailchimpAudienceSegments[0].updated_at;
-      mailchimpAudienceSegments.forEach(this.processEvent);
-      this.mailchimp.setDbServiceVariable("lastRelevantDate", relevantDate);
+      const relevantDate = this.watchFor === "Created" ?
+        segments[0].created_at
+        : segments[0].updated_at;
+      segments.forEach(this.emitEvent);
+      this.setDbServiceVariable("lastRelevantDate", relevantDate);
     },
   },
   methods: {
     ...common.methods,
     generateMeta(eventPayload) {
-      if ([
-        "Created",
-      ].includes(this.watchFor)) {
+      if (this.watchFor === "Created") {
         return {
           id: eventPayload.id,
           summary: `A new segment "${eventPayload.name}" was created.`,
           ts: +new Date(eventPayload.created_at),
-        };
+        }
       } else {
         const ts = +new Date(eventPayload.updated_at);
         return {
@@ -80,52 +78,31 @@ module.exports = {
         };
       }
     },
-    processEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
-    },
   },
   async run() {
-    let sinceCreatedAt;
-    let beforeCreatedAt;
-    let sinceUpdatedAt;
-    let beforeUpdatedAt;
-    if ([
-      "Created",
-    ].includes(this.watchFor)) {
-      sinceCreatedAt = this.mailchimp.getDbServiceVariable("lastRelevantDate");
-      beforeCreatedAt = (new Date).toISOString();
-    } else {
-      sinceUpdatedAt = this.mailchimp.getDbServiceVariable("lastRelevantDate");
-      beforeUpdatedAt = (new Date).toISOString();
-    }
-    let mailchimpAudienceSegmentsInfo;
-    let mailchimpAudienceSegments;
+    let startDateTime = this.getDbServiceVariable("lastRelevantDate");
+    const endDateTime = (new Date).toISOString();
+    let segments;
     let offset = 0;
     const pageSize = 1000;
     const config = {
       count: pageSize,
-      sinceCreatedAt,
-      beforeCreatedAt,
-      sinceUpdatedAt,
-      beforeUpdatedAt,
+      endDateTime,
     };
     do {
       config.offset = offset;
-      mailchimpAudienceSegmentsInfo = await this.mailchimp.getAudienceSegments(this.listId, config);
-      mailchimpAudienceSegments = mailchimpAudienceSegmentsInfo.segments;
-      if (!mailchimpAudienceSegments.length) {
+      config.startDateTime = startDateTime;
+      segments = await this.mailchimp.getAudienceSegments(this.listId, config);
+      if (!segments.length) {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpAudienceSegments.forEach(this.processEvent);
-      const relevantDate = [
-        "Created",
-      ].includes(this.watchFor)
-        ? mailchimpAudienceSegments[0].created_at
-        : mailchimpAudienceSegments[0].updated_at;
-      offset = offset + mailchimpAudienceSegments.length;
-      this.mailchimp.setDbServiceVariable("lastRelevantDate", relevantDate);
-    } while (mailchimpAudienceSegments.length === pageSize);
+      segments.forEach(this.emitEvent);
+      startDateTime = this.watchFor === "Created" ?
+        segments[0].created_at
+        : segments[0].updated_at;
+      this.setDbServiceVariable("lastRelevantDate", startDateTime);
+      offset = offset + segments.length;
+    } while (segments.length === pageSize);
   },
 };

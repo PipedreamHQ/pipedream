@@ -49,10 +49,10 @@ module.exports = {
         this.listId,
         config,
       );
-      this.mailchimp.setDbServiceVariable("webhookId", webhookId)
+      this.setDbServiceVariable("webhookId", webhookId)
     },
     async deactivate() {
-      const webhookId = this.mailchimp.getDbServiceVariable("webhookId");
+      const webhookId = this.getDbServiceVariable("webhookId");
       await this.mailchimp.deleteWebhook(
         this.listId,
         webhookId,
@@ -60,7 +60,7 @@ module.exports = {
     },
   },
   methods: {
-    ...base.methods,   
+    ...base.methods,
     getEventTypes() {
       throw new Error("getEventType is not implemented");
     },
@@ -68,30 +68,25 @@ module.exports = {
       throw new Error("generateMeta is not implemented");
     },
     isEventRelevant(event) {
-      return this
+      return true;/*this
         .getEventTypes()
-        .has(event.type);
-    },    
-    processEvent(event) {
-      const meta = this.generateMeta(event);
-      this.$emit(event, meta);
+        .has(event.type);*/
     },
     getEventsConfig() {
-      const eventTypes = this.getEventTypes();
-      let eventsCfg = {};
-      eventsCfg.subscribedEvents = {};
-      eventsCfg.eventSources = {};
-      eventsCfg.subscribedEvents.subscribe = eventTypes.includes("subscribe");
-      eventsCfg.subscribedEvents.unsubscribe =
-          eventTypes.includes("unsubscribe");
-      eventsCfg.subscribedEvents.profile = eventTypes.includes("profile");
-      eventsCfg.subscribedEvents.cleaned = eventTypes.includes("cleaned");
-      eventsCfg.subscribedEvents.upemail = eventTypes.includes("upemail");
-      eventsCfg.subscribedEvents.campaign = eventTypes.includes("campaign");
-      eventsCfg.eventSources.user = this.triggeredByUser;
-      eventsCfg.eventSources.admin = this.triggeredByAdmin;
-      eventsCfg.eventSources.api = this.triggeredByApi;
-      return eventsCfg;
+      const eventTypes = new Set(this.getEventTypes());
+      const allEventTypes = require('../list-event-types.js').map(({ value }) => value);
+      const subscribedEvents = allEventTypes.reduce((accum, eventType) => ({
+        ...accum,
+        [eventType]: eventTypes.has(eventType),
+      }), {});
+      return {
+        subscribedEvents,
+        eventSources: {
+          admin: this.triggeredByAdmin,
+          api: this.triggeredByApi,
+          user: this.triggeredByUser,
+        },
+      };
     },
   },
   async run(event) {
@@ -102,7 +97,7 @@ module.exports = {
         console.log(`Skipping irrelevant event of type ${event.type}`);
         return;
       }
-      await this.processEvent(body);
+      await this.emitEvent(body);
     }
     if (body || isMailChimpWebhookValidator) {
       this.http.respond({
@@ -110,6 +105,7 @@ module.exports = {
       });
       return;
     }
+    console.log("No body nor header \"MailChimp.com WebHook Validator header\" present in event");
     this.http.respond({
       status: 400,
     });

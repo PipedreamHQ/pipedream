@@ -33,7 +33,7 @@ module.exports = {
       const fileStream = this.mailchimp.getFileStream(this.fileType, config);
       for await (const file of fileStream) {
         this.emitEvent(file);
-        this.mailchimp.setDbServiceVariable("lastCreatedAt", file.created_at);
+        this.setDbServiceVariable("lastCreatedAt", file.created_at);
       }
     },
   },
@@ -47,13 +47,9 @@ module.exports = {
         ts,
       };
     },
-    processEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
-    },
   },
   async run() {
-    const sinceCreatedAt = this.mailchimp.getDbServiceVariable("lastCreatedAt");  
+    const sinceCreatedAt = this.getDbServiceVariable("lastCreatedAt");
     const config = {
       count: 1000,
       sinceCreatedAt
@@ -61,7 +57,7 @@ module.exports = {
     const fileStream = this.mailchimp.getFileStream(this.fileType, config);
     for await (const file of fileStream) {
       this.emitEvent(file);
-      this.mailchimp.setDbServiceVariable("lastCreatedAt", sinceCreatedAt);
+      this.setDbServiceVariable("lastCreatedAt", sinceCreatedAt);
     }
   },
 };

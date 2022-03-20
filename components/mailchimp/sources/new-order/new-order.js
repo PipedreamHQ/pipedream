@@ -87,23 +87,16 @@ module.exports = {
       // Emits sample events on the first run during deploy.
       const config = {
         count: 10,
-        offset: 0,
         campaignId: this.campaignId,
         outreachId: this.outreachId,
         customerId: this.customerId,
         hasOutreach: this.hasOutreach,
       };
-      const mailchimpOrdersInfo = await this.mailchimp.getAllOrders(
-        this.storeId,
-        config,
-      );
-      const { orders: mailchimpOrders = [] } = mailchimpOrdersInfo;
-      if (!mailchimpOrders.length) {
-        console.log("No data available, skipping iteration");
-        return;
-      }
-      mailchimpOrders.forEach(this.processEvent);
-    },
+      const orderStream = this.mailchimp.getOrderStream(this.storeId, config);
+      for await (const order of orderStream) {
+        this.emitEvent(order);
+        this.setDbServiceVariable("offset", orderStream.length);
+      };
   },
   methods: {
     ...common.methods,
@@ -115,33 +108,18 @@ module.exports = {
         ts,
       };
     },
-    processEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
-    },
   },
   async run() {
-    const pageSize = 1000;
-    let mailchimpOrdersInfo;
-    let mailchimpOrders;
-    let offset = 0;    
-    do {
+      let offset = this.getDbServiceVariable("offset");
       const config = {
         count: 1000,
-        offset,
-        campaignId: this.campaignId,
-        outreachId: this.outreachId,
-        customerId: this.customerId,
-        hasOutreach: this.hasOutreach,
+        offset
       };
-      mailchimpOrdersInfo = await this.mailchimp.getAllOrders(this.storeId, config);
-      mailchimpOrders = mailchimpOrdersInfo.orders;
-      if (!mailchimpOrders.length) {
-        console.log("No data available, skipping iteration");
-        return;
+      const orderStream = this.mailchimp.getOrderStream(this.storeId, config);
+      for await (const order of orderStream) {
+        this.emitEvent(order);
+        this.setDbServiceVariable("offset", orderStream);
       }
-      mailchimpOrders.forEach(this.processEvent);
-      offset = offset + mailchimpOrders.length;
-    } while (mailchimpOrders.length === pageSize);
-  },
-};
+    }
+  }
+}

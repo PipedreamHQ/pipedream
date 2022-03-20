@@ -56,7 +56,7 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpSegmentMembers.forEach(this.processEvent);
+      mailchimpSegmentMembers.forEach(this.emitEvent);
     },
   },
   methods: {
@@ -68,10 +68,6 @@ module.exports = {
         summary: `A new subscriber "${eventPayload.merge_fields.FNAME}" was added to a segment or tag. `,
         ts,
       };
-    },
-    processEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
     },
   },
   async run() {
@@ -96,7 +92,7 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpSegmentMembers.forEach(this.processEvent);
+      mailchimpSegmentMembers.forEach(this.emitEvent);
       offset = offset + mailchimpSegmentMembers.length;
     } while (mailchimpSegmentMembers.length === pageSize);
   },

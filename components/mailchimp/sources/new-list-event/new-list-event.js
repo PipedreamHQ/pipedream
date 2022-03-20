@@ -12,52 +12,29 @@ module.exports = {
   props: {
     ...common.props,
     events: {
-      type: "string",
+      type: "string[]",
       label: "Events",
       description:
         "The events to be emitted, which will trigger the source being created.",
-      default: "subscribe",
-      options: [
-        {
-          label: "Subscribes",
-          value: "subscribe",
-        },
-        {
-          label: "Unsubscribes",
-          value: "unsubscribe",
-        },
-        {
-          label: "Profile Updates",
-          value: "profile",
-        },
-        {
-          label: "Cleaned Email",
-          value: "cleaned",
-        },
-        {
-          label: "Email Address Changes",
-          value: "upemail",
-        },
-        {
-          label: "Campaign sending status",
-          value: "campaign",
-        },
-      ],
+      default: ["subscribe"],
+      options: require('../list-event-types.js'),
     },
   },
   methods: {
     ...common.methods,
     getEventTypes() {
-      return [
-        this.events,
-      ];
+      return this.events;
     },
     generateMeta(eventPayload) {
-      const ts = +new Date(eventPayload.fired_at);
+      const {
+        "data[id]": id,
+        "fired_at": timestampStr,
+        "type": eventType,
+      } = eventPayload;
       return {
-        id: eventPayload["data[id]"],
-        summary: `New event "${eventPayload.type}" occurred`,
-        ts,
+        id,
+        summary: `New event: '${eventType}' (${id})`,
+        ts: Date.parse(timestampStr),
       };
     },
   },

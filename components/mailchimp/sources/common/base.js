@@ -19,13 +19,19 @@ module.exports = {
         ts: Date.now(),
       };
     },
-    processEvent(event) {
+    getDbServiceVariable(variable) {
+      return this.db.get(`${variable}`);
+    },
+    emitEvent(event) {
       const meta = this.generateMeta(event);
       this.$emit(event, meta);
+    },
+    setDbServiceVariable(variable, value) {
+      this.db.set(`${variable}`, value);
     },
   },
   async run(event) {
     console.log("check about interval times on timer based sources of 60*15 seconds (15 minutes)");
-    await this.processEvent(event);
+    await this.emitEvent(event);
   },
 };

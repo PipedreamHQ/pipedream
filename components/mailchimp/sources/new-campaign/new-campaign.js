@@ -47,14 +47,14 @@ module.exports = {
         campaigns = await this.mailchimp.getCampaignsBySentDate(config); //TODO Confirm new method usage.
       } else {
         campaigns = await this.mailchimp.getCampaignsByCreationDate(config); //TODO Confirm new method usage.
-      }      
+      }
       if (!campaigns.length) {
         console.log("No data available, skipping iteration");
         return;
       }
       const sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);
-      campaigns.forEach(this.processEvent);
-      this.mailchimp.setDbServiceVariable("lastSinceDate", sinceDate);
+      campaigns.forEach(this.emitEvent);
+      this.setDbServiceVariable("lastSinceDate", sinceDate);
     },
   },
   methods: {
@@ -66,18 +66,14 @@ module.exports = {
         id: eventPayload.id,
         summary: `Campaign "${eventPayload.settings.title}" was ${eventPayload.status}.`,
         ts,
-      };      
-    },
-    processEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
+      };
     },
   },
   async run() {
     const beforeDate = (new Date).toISOString();
     const pageSize = 1000;
-    let sinceDate = this.mailchimp.getDbServiceVariable("lastSinceDate");
-    let campaigns;    
+    let sinceDate = this.getDbServiceVariable("lastSinceDate");
+    let campaigns;
     let offset = 0;
     const config = {
       count: pageSize,
@@ -89,17 +85,17 @@ module.exports = {
       config.sinceDate = sinceDate;
       config.offset = offset;
       if(this.mailchimp.statusIsSent(this.status)) {
-        campaigns = await this.mailchimp.getCampaignsBySentDate(config); //TODO Confirm new method usage.
+        campaigns = await this.mailchimp.getCampaignsBySentDate(config);
       } else {
-        campaigns = await this.mailchimp.getCampaignsByCreationDate(config); //TODO Confirm new method usage.
-      }     
+        campaigns = await this.mailchimp.getCampaignsByCreationDate(config);
+      }
       if (!campaigns.length) {
         console.log("No data available, skipping iteration");
         return;
       }
-      sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);      
-      campaigns.forEach(this.processEvent);
-      this.mailchimp.setDbServiceVariable("lastSinceDate", sinceDate);
+      sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);
+      campaigns.forEach(this.emitEvent);
+      this.setDbServiceVariable("lastSinceDate", sinceDate);
       offset = offset + campaigns.length;
     } while (campaigns.length  === pageSize);
   },

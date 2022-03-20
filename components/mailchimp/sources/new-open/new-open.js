@@ -29,8 +29,8 @@ module.exports = {
       if (!campaign) {
         throw new Error("Campaign not found");
       }
-      this.processEvent(campaign);
-      this.mailchimp.setDbServiceVariable("recipientOpens", campaign.report_summary.opens);
+      this.emitEvent(campaign);
+      this.setDbServiceVariable("recipientOpens", campaign.report_summary.opens);
     },
   },
   methods: {
@@ -43,13 +43,9 @@ module.exports = {
         ts,
       };
     },
-    processEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
-    },
   },
   async run() {
-    const savedRecipientOpens = this.mailchimp.getDbServiceVariable("recipientOpens");
+    const savedRecipientOpens = this.getDbServiceVariable("recipientOpens");
     const campaign = await this.mailchimp.getCampaignInfo(
       this.campaignId,
     );
@@ -59,8 +55,8 @@ module.exports = {
     }
     const currentRecipientOpens = campaign.report_summary.opens;
     if (currentRecipientOpens > savedRecipientOpens) {
-      this.processEvent(campaign);
-      this.mailchimp.setDbServiceVariable("recipientOpens", currentRecipientOpens);
+      this.emitEvent(campaign);
+      this.setDbServiceVariable("recipientOpens", currentRecipientOpens);
     }
   },
 };

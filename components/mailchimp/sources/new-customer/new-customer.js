@@ -35,7 +35,7 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpStoreCustomers.forEach(this.processEvent);
+      mailchimpStoreCustomers.forEach(this.emitEvent);
     },
   },
   methods: {
@@ -48,15 +48,11 @@ module.exports = {
         ts,
       };
     },
-    processEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
-    },
   },
   async run() {
     const processedIds = new Set(this._getProcessedIds());
     const pageSize = 1000;
-    const customerStream = this.mailchimp.getAllStoreCustomers(this.storeId, pageSize);    
+    const customerStream = this.mailchimp.getAllStoreCustomers(this.storeId, pageSize);
     for await (const customer of customerStream) {
       if (processedIds.has(customer.id)) {
         continue;

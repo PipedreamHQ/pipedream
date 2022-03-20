@@ -19,23 +19,15 @@ module.exports = {
         "subscribe",
         "profile",
         "upemail",
+        "unsubscribe",
+        "cleaned",
       ];
     },
     generateMeta(eventPayload) {
       const ts = +new Date(eventPayload.fired_at);
       let summary;
-      if ([
-        "subscribe",
-      ].includes(eventPayload.type)) {
-        summary = `${eventPayload["data[email]"]} subscribed to list ${eventPayload["data[list_id]"]}`;
-      } else if ([
-        "profile",
-      ].includes(eventPayload.type)) {
-        summary = `${eventPayload["data[email]"]}'s profile was updated`;
-      } else if ([
-        "upemail",
-      ].includes(eventPayload.type)) {
-        summary = `${eventPayload["data[old_email]"]}'s email address changed to ${eventPayload["data[new_email]"]}`;
+      if (this.getEventTypes().includes(eventPayload.type)) {
+        summary =`New event "${eventPayload.type}" occurred`;
       } else {
         console.log("Unexpected trigger found, skipping emit");
         return;

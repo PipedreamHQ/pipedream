@@ -22,8 +22,8 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpAudienceLists.forEach(this.processEvent);
-      this.mailchimp.setDbServiceVariable("lastDateCreated", mailchimpAudienceLists[0].date_created);
+      mailchimpAudienceLists.forEach(this.emitEvent);
+      this.setDbServiceVariable("lastDateCreated", mailchimpAudienceLists[0].date_created);
     },
   },
   methods: {
@@ -36,13 +36,9 @@ module.exports = {
         ts,
       };
     },
-    processEvent(eventPayload) {
-      const meta = this.generateMeta(eventPayload);
-      this.$emit(eventPayload, meta);
-    },
   },
   async run() {
-    const sinceDateCreated = this.mailchimp.getDbServiceVariable("lastDateCreated");
+    const sinceDateCreated = this.getDbServiceVariable("lastDateCreated");
     const beforeDateCreated = (new Date).toISOString();
     const pageSize = 1000;
     let mailchimpAudienceListsInfo;
@@ -61,8 +57,8 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpAudienceLists.forEach(this.processEvent);
-      this.mailchimp.setDbServiceVariable("lastDateCreated", mailchimpAudienceLists[0].date_created);
+      mailchimpAudienceLists.forEach(this.emitEvent);
+      this.setDbServiceVariable("lastDateCreated", mailchimpAudienceLists[0].date_created);
       offset += mailchimpAudienceLists.length;
     } while (mailchimpAudienceLists.length === pageSize);
   },
