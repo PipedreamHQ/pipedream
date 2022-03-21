@@ -16,7 +16,7 @@ module.exports = [
       {
         title: "Steps",
         subtitle: "Perform pre-coded actions",
-        link: "/steps/",
+        link: "/workflows/steps/",
         icon: "step-icon",
       },
       {

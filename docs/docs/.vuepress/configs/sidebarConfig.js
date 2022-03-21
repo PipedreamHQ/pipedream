@@ -16,7 +16,7 @@ const conceptsNav = [
           "/workflows/networking/",
         ],
       },
-      { title: "Steps", children: ["/steps/"] },
+      { title: "Steps", children: ["/workflows/steps/"] },
       { title: "Integrate", children: ["/integrate/"] },
       { title: "Triggers", children: ["/triggers/"] },
       {
@@ -87,7 +87,7 @@ const conceptsNav = [
           "/environment-variables/",
           "/workflows/settings/",
           "/workflows/networking/",
-          "/scheduling-future-tasks",
+          "/scheduling-future-tasks/",
           "/migrate-from-v1/",
       ] },
       {
