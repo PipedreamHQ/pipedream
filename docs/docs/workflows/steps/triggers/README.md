@@ -107,8 +107,6 @@ JSON is the defacto stand data exchange format on the web today. Pipedream optim
 
 When you send JSON in the HTTP payload, or when JSON data is sent in the payload from a webhook provider, **Pipedream converts that JSON to its equivalent JavaScript object**. The trigger data can be referenced using either `event` or the `steps` object.
 
-You can confirm this JSON to JavaScript object conversion occurred by examining the `event.inferred_body_type` property. If this is JSON, we correctly recognized the payload as such, and converted `event.body` to an object accordingly.
-
 In the [Inspector](/workflows/events/inspect/), we present `event.body` cleanly, indenting nested properties, to make the payload easy to read. Since `event.body` is a JavaScript object, it's easy to reference and manipulate properties of the payload using dot-notation.
 
 ### How Pipedream handles `multipart/form-data`
@@ -127,8 +125,6 @@ Pipedream will convert that to a JavaScript object, `event.body`, with the follo
   title: "General",
 }
 ```
-
-In this case, the `inferred_body_type` property of the `event` object will be set to `MULTIPART_FORM` to signal that we inferred form data and applied the conversion.
 
 #### Limits
 
