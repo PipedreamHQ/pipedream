@@ -589,12 +589,6 @@ Choose the RSS trigger to watch an RSS feed for new items:
 
 This will create an RSS [event source](/event-sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 
-## SDK
-
-You can trigger workflows using the Pipedream JavaScript and Ruby SDKs, as well.
-
-Select the **SDK** trigger to generate workflow-specific code samples for sending events to your workflow using each of the SDKs.
-
 ## Don't see a trigger you need?
 
 If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/community/).
