@@ -2,7 +2,7 @@ import strava from "../../strava.app.js";
 
 export default {
   name: "Create Activity",
-  description: "Creates a manual activity for an athlete, requires activity:write scope. See `https://developers.strava.com/docs/reference/`",
+  description: "Creates a manual activity for an athlete. See `https://developers.strava.com/docs/reference/`",
   key: "strava-create-activity",
   version: "0.0.1",
   type: "action",
@@ -21,7 +21,7 @@ export default {
     start_date_local: {
       type: "string",
       label: "Start date of activity",
-      description: "ISO 8601 formatted date time without miliseconds e.g. `2013-10-20T19:20:30+01:00`",
+      description: "ISO 8601 formatted date time without milliseconds e.g. `2013-10-20T19:20:30+01:00`",
     },
     elapsed_time: {
       type: "integer",
@@ -37,7 +37,7 @@ export default {
     distance: {
       type: "string",
       label: "Distance",
-      description: "Must be a float",
+      description: "Must be a float `e.g. 4.3`",
       optional: true,
     },
     trainer: {
@@ -66,17 +66,12 @@ export default {
       type: this.type,
       start_date_local: this.start_date_local,
       elapsed_time: this.elapsed_time,
+      description: this.description,
+      distance: this.distance,
+      trainer: this.trainer,
+      commute: this.commute,
+      hide_from_home: this.hide_from_home,
     };
-    if (this.description)
-      data.description = this.description;
-    if (this.distance)
-      data.distance = this.distance;
-    if (this.trainer)
-      data.trainer = this.trainer;
-    if (this.commute)
-      data.commute = this.commute;
-    if (this.hide_from_home)
-      data.hide_from_home = this.hide_from_home;
     if (this.distance && isNaN(parseFloat(this.distance)))
       throw new Error("Please provide a float for `Distance`");
     if (!isoDateRegexp.test(this.start_date_local))
