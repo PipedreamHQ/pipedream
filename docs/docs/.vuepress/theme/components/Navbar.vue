@@ -14,19 +14,27 @@
         ref="siteName"
         class="site-name"
         :class="{ 'can-hide': $site.themeConfig.logo }"
-      >{{ $siteTitle }}</span>
+        >{{ $siteTitle }}</span
+      >
     </RouterLink>
 
     <div
       class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}"
+      :style="
+        linksWrapMaxWidth
+          ? {
+              'max-width': linksWrapMaxWidth + 'px',
+            }
+          : {}
+      "
     >
       <NavLinks class="can-hide" />
       <AlgoliaSearchBox v-if="isAlgoliaSearch" :options="algolia" />
       <SearchBox
-        v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"
+        v-else-if="
+          $site.themeConfig.search !== false &&
+          $page.frontmatter.search !== false
+        "
       />
     </div>
   </header>
@@ -102,10 +110,9 @@ $navbar-horizontal-padding = 1.5rem;
   padding: $navbar-vertical-padding $navbar-horizontal-padding;
   line-height: $navbarHeight - 1.4rem;
 
-  a, span, img {
-    display: inline-block;
-  }
-
+  // span, img {
+  // display: inline-block;
+  // }
   .logo {
     height: $navbarHeight - 1.4rem;
     min-width: $navbarHeight - 1.4rem;

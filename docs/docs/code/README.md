@@ -10,10 +10,12 @@ Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https:/
 
 Choose a language to get started:
 
-* [Node.js (Javascript)](/code/nodejs/)
-* [Python](/code/python/)
-* [Go](/code/go/)
-* [Bash](/code/bash/)
+<div class="grid grid-cols-2">
+<LanguageLink name="Node.js" link="/code/nodejs/" :icon="this.$site.themeConfig.icons.nodejs.with_title"/>
+<LanguageLink name="Python" link="/code/python/" :icon="this.$site.themeConfig.icons.python.with_title"/>
+<LanguageLink name="Go" link="/code/go/" :icon="this.$site.themeConfig.icons.go.with_title"/>
+<LanguageLink name="Bash" link="/code/bash/" :icon="this.$site.themeConfig.icons.bash.with_title"/>
+</div>
 
 If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).
 
