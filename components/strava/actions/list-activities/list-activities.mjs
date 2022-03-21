@@ -34,15 +34,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {};
-    if (this.before)
-      data.before = this.before;
-    if (this.after)
-      data.after = this.after;
-    if (this.page)
-      data.page = this.page;
-    if (this.per_page)
-      data.per_page = this.per_page;
+    const data = {
+      before: this.before,
+      after: this.after,
+      page: this.page,
+      per_page: this.per_page,
+    };
     const resp = await this.strava.listActivities($, data);
     $.export("$summary", "The activity list has been retrieved");
     return resp;
