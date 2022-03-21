@@ -84,7 +84,7 @@ module.exports = {
       } = entity;
       const relevantEntities = this.getEntities();
       const relevantOperations = this.getOperations();
-      
+
       // only emit events that match the entity names and operations indicated by the user
       // but if the props are left empty, emit all events rather than filtering them all out
       // (it would a hassle for the user to select every option if they wanted to emit everything)
@@ -160,6 +160,10 @@ module.exports = {
       console.log("Skipping event from unrecognized source.");
       return;
     }
+
+    this.http.respond({
+      status: 200,
+    });
 
     return this.processEvent(event);
   },
