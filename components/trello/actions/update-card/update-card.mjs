@@ -11,7 +11,7 @@ export default {
   type: "action",
   props: {
     ...common.props,
-    board: {
+    idBoard: {
       propDefinition: [
         common.props.trello,
         "board",
@@ -22,7 +22,7 @@ export default {
         common.props.trello,
         "cards",
         (c) => ({
-          board: c.board,
+          board: c.idBoard,
         }),
       ],
       type: "string",
@@ -55,7 +55,7 @@ export default {
         common.props.trello,
         "member",
         (c) => ({
-          board: c.board,
+          board: c.idBoard,
         }),
       ],
       type: "string[]",
@@ -75,7 +75,7 @@ export default {
         common.props.trello,
         "lists",
         (c) => ({
-          board: c.board,
+          board: c.idBoard,
         }),
       ],
       type: "string",
@@ -87,7 +87,7 @@ export default {
         common.props.trello,
         "label",
         (c) => ({
-          board: c.board,
+          board: c.idBoard,
         }),
       ],
       type: "string[]",
