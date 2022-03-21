@@ -77,15 +77,11 @@ The shape of the event is specific to the source. For example, RSS sources produ
 
 When you select the **HTTP API** trigger:
 
-<div>
-<img alt="HTTP API trigger" width="400px" src="./images/http-api-trigger.png">
-</div>
+![HTTP API Trigger](https://res.cloudinary.com/pipedreamin/image/upload/v1647894504/docs/components/CleanShot_2022-03-21_at_16.27.45_2x_klxmpz.png)
 
 Pipedream creates a URL endpoint specific to your workflow:
 
-<div>
-<img alt="HTTP API trigger endpoint" width="400px" src="./images/http-endpoint.png">
-</div>
+![HTTP API trigger URL](https://res.cloudinary.com/pipedreamin/image/upload/v1647894654/docs/components/CleanShot_2022-03-21_at_16.30.48_2x_nh7shg.png)
 
 You can send any HTTP requests to this endpoint, from anywhere on the web. You can configure the endpoint as the destination URL for a webhook or send HTTP traffic from your application - we'll accept any [valid HTTP request](#valid-requests).
 
@@ -107,7 +103,7 @@ The primary limit we impose is on the size of the request body: we'll issue a `4
 
 ### How Pipedream handles JSON payloads
 
-JSON is the main data exchange format on the web today. Pipedream optimizes for the case where you've sent JSON as the source event to a workflow.
+JSON is the defacto stand data exchange format on the web today. Pipedream optimizes for the case where you've sent JSON as the source event to a workflow.
 
 When you send JSON in the HTTP payload, or when JSON data is sent in the payload from a webhook provider, **Pipedream converts that JSON to its equivalent JavaScript object**. The trigger data can be referenced using either `event` or the `steps` object.
 
@@ -155,9 +151,7 @@ curl -d '{ "name": "Yoda" }' \
 
 In workflows, Pipedream saves the raw payload data in a file whose URL you can reference in the variable `steps.trigger.event.body.raw_body_url`.
 
-<div>
-<img alt="Raw body URL in event data" width="600px" src="./images/raw_body_url.png">
-</div>
+![Raw body URL in the event data under steps.trigger.event.body.raw_body_url](https://res.cloudinary.com/pipedreamin/image/upload/v1647895357/docs/components/CleanShot_2022-03-21_at_16.42.01_2x_w6dmqk.png)
 
 Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
 
