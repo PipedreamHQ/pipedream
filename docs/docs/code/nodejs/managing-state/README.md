@@ -3,11 +3,9 @@ short_description: Store and read data with stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
 ---
 
-# Managing state
+# Data stores
 
-In Node.js (Javascript) code steps, you can also store and retrieve data within code steps without connecting a 3rd party database service.
-
-This is very useful for tracking data between runs of a particular workflow, making sure workflows only run once per unique record or sharing data between workflows.
+In Node.js (Javascript) code steps, you can also store and retrieve data within code steps without connecting a 3rd party database. **Date Stores** are very useful for tracking data between runs of a particular workflow, making sure workflows only run once per unique record or sharing data between workflows.
 
 :::warning
 This functionality is limited to only Node.js code steps at this time.
@@ -24,11 +22,12 @@ By default, Node.js steps don't have access to data stores. A data store can be 
 ```javascript
 export default defineComponent({
   props: {
-    // Define that the "db" variable in our component is a database
-    store: { type: "store" }
+    // Define that the "db" variable in our component is a data store
+    data: { type: "store" }
   },
   async run({ steps, $ }) {
-    // Now we can access the database at "this.store"
+    // Now we can access the data store at "this.store"
+    this.data.get("email");
   }
 });
 ```
@@ -36,16 +35,14 @@ export default defineComponent({
 :::tip
 `props` injects variables under `this` scope in components.
 
-In the above example we essentially instructed that this step needs the database injected into the `this.store` prop. 
+In the above example we essentially instructed that this step needs the data store injected into the `this.store` prop. 
 :::
 
-## Using the database
+## Using the data store
 
-Once you have defined the data store as a prop for your component, you'll be able to create a new data store or use an existing one from your account.
+Once you have defined a data store prop for your component, then you'll be able to create a new data store or use an existing one from your account.
 
-![Create a new store or choose another one from your account for your component](https://res.cloudinary.com/pipedreamin/image/upload/v1647626951/docs/components/CleanShot_2022-03-18_at_14.08.01_2x_fyr3p4.png)
-
-If you create a new store, you'll be able to view its contents from within your account dashboard.
+![Create a new data store or choose another one from your account for your component](https://res.cloudinary.com/pipedreamin/image/upload/v1647626951/docs/components/CleanShot_2022-03-18_at_14.08.01_2x_fyr3p4.png)
 
 ## Saving data
 
@@ -54,11 +51,11 @@ Data stores are a key-value store, you can save data within a store using the `s
 ```javascript
 export default defineComponent({
   props: {
-    store: { type: "store" },
+    data: { type: "data_store" },
   },
   async run({ steps, $ }) {
     // Store a timestamp each time this step is executed in the workflow
-    this.store.set('lastRanAt', new Date());
+    this.data.set('lastRanAt', new Date());
   },
 })
 ```
@@ -70,34 +67,30 @@ You can retrieve data with the in-step database using the `get` method. Pass the
 ```javascript
 export default defineComponent({
   props: {
-    store: { type: "store" },
+    data: { type: "store" },
   },
   async run({ steps, $ }) {
     // Retrieve the timestamp representing last time this step executed
-    const lastRanAt = this.store.get('lastRanAt'); 
+    const lastRanAt = this.data.get('lastRanAt'); 
   },
 })
 ```
 
 ## Viewing store data
 
-You can view the real time store data in your [Pipedream dashboard](https://pipedream.com/stores).
+You can view the contents of your data stores in your [Pipedream dashboard](https://pipedream.com/stores).
 
-From here you can also manually edit your store's data, rename stores, delete stores or create new stores.
+From here you can also manually edit your data store's data, rename stores, delete stores or create new stores.
 
-## Using multiple stores in a single code step
+## Using multiple data stores in a single code step
 
-It is possible to use multiple stores in a single code step, just make a unique name per store in the `props` definition. Let's define 2 separate `customers` and `orders` sources and leverage them in a single code step:
+It is possible to use multiple data stores in a single code step, just make a unique name per store in the `props` definition. Let's define 2 separate `customers` and `orders` data sources and leverage them in a single code step:
 
 ```javascript
 export default defineComponent({
   props: {
-    customers: {
-      type: "store",
-    },
-    orders: {
-      type: "store"
-    }
+    customers: { type: "data_store" },
+    orders: { type: "data_store" }
   },
   async run({ steps, $ }) {
     // Retrieve the customer from our customer store 
@@ -115,35 +108,35 @@ For example, if you'd like to set up a counter to count the number of times the 
 ```javascript
 export default defineComponent({
   props: {
-    store: { type: "store" },
+    data: { type: "data_store" },
   },
   async run({ steps, $ }) {
     // By default, all database entries are undefined.
     // It's wise to set a default value so our code as an initial value to work with
-    const counter = this.store.get('counter') ?? 0;
+    const counter = this.data.get('counter') ?? 0;
     
     // On the first run "counter" will be 0 and we'll increment it to 1
     // The next run will increment the counter to 2, and so forth
-    this.store.set('counter', counter + 1);
+    this.data.set('counter', counter + 1);
   },
 })
 ```
 
 ## Dedupe data example
 
-This database is also useful for storing data from prior runs to prevent acting on duplicate data, or data that's been seen before.
+This data store is also useful for storing data from prior runs to prevent acting on duplicate data, or data that's been seen before.
 
 For example, this workflow's trigger contains an email address from a potential new customer. But we want to track all emails collected so we don't send a welcome email twice:
 
 ```javascript
 export default defineComponent({
   props: {
-    store: { type: "store" },
+    data: { type: "data_store" },
   },
   async run({ steps, $ }) {
-    const email = steps.trigger.body.new_customer_email;
+    const email = steps.trigger.event.body.new_customer_email;
     // Retrieve the past recorded emails from other runs
-    const emails = this.store.get('emails') ?? [];
+    const emails = this.data.get('emails') ?? [];
 
     // If the current email being passed from our webhook is already in our list, exit early
     if(emails.includes(email)) {
@@ -151,14 +144,14 @@ export default defineComponent({
     }
 
     // Add the current email to the list of past emails so we can detect it in the future runs
-    this.store.set('emails', [...emails, email]);
+    this.data.set('emails', [...emails, email]);
   },
 })
 ```
 
 ## Data store limitations
 
-The data sources is only currently available in Node.js code steps. It is not yet available in other languages like Go, bash or Python.
+The data stores is only currently available in Node.js code steps. It is not yet available in other languages like Go, bash or Python.
 
 In addition, data sources can hold up to {{ $site.themeConfig.SERVICE_DB_SIZE_LIMIT }} per step.
 
