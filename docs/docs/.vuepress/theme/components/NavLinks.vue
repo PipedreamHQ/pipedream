@@ -12,12 +12,6 @@
       <NavLink v-else :item="item" />
     </div>
 
-    <!-- <a href="https://pipedream.com" class="inline-block">
-      <img
-        class="navbar-icons"
-        src="https://res.cloudinary.com/pipedreamin/image/upload/v1597038956/docs/HzP2Yhq8_400x400_1_sqhs70.jpg"
-      />
-    </a> -->
     <!-- repo link -->
     <a
       v-if="repoLink"
@@ -31,7 +25,6 @@
         src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
         width="25px"
       />
-      <!-- <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/PipedreamHQ/pipedream?label=View%20code%20on%20GitHub&style=social"> -->
     </a>
   </nav>
 </template>

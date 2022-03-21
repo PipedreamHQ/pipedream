@@ -11,10 +11,10 @@ Code steps let you execute [Node.js v{{$site.themeConfig.NODE_VERSION}}](https:/
 Choose a language to get started:
 
 <div class="grid grid-cols-2">
-<LanguageLink name="Node.js" link="/code/nodejs/" icon="https://res.cloudinary.com/pipedreamin/image/upload/v1646761316/docs/icons/icons8-nodejs_aax6wn.svg"/>
-<LanguageLink name="Python" link="/code/python/" icon="https://res.cloudinary.com/pipedreamin/image/upload/v1647356607/docs/icons/python-logo-generic_k3o5w2.svg"/>
-<LanguageLink name="Go" link="/code/go/" icon="https://res.cloudinary.com/pipedreamin/image/upload/v1646763751/docs/icons/Go-Logo_Blue_zhkchv.svg"/>
-<LanguageLink name="Bash" link="/code/bash/" icon="https://res.cloudinary.com/pipedreamin/image/upload/v1647356698/docs/icons/full_colored_dark_1_-svg_vyfnv7.svg"/>
+<LanguageLink name="Node.js" link="/code/nodejs/" :icon="this.$site.themeConfig.icons.nodejs.with_title"/>
+<LanguageLink name="Python" link="/code/python/" :icon="this.$site.themeConfig.icons.python.with_title"/>
+<LanguageLink name="Go" link="/code/go/" :icon="this.$site.themeConfig.icons.go.with_title"/>
+<LanguageLink name="Bash" link="/code/bash/" :icon="this.$site.themeConfig.icons.bash.with_title"/>
 </div>
 
 If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).

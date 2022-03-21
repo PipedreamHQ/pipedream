@@ -83,16 +83,7 @@ export default {
     return { guides: [] };
   },
   mounted() {
-    const langIconMapping = {
-      nodejs:
-        "https://res.cloudinary.com/pipedreamin/image/upload/v1646761316/docs/icons/icons8-nodejs_aax6wn.svg",
-      python:
-        "https://res.cloudinary.com/pipedreamin/image/upload/v1646763734/docs/icons/icons8-python_ypgmya.svg",
-      go: "https://res.cloudinary.com/pipedreamin/image/upload/v1646763751/docs/icons/Go-Logo_Blue_zhkchv.svg",
-      bash: "https://res.cloudinary.com/pipedreamin/image/upload/v1646763756/docs/icons/full_colored_dark_nllzkl.svg",
-    };
-
-    const invalidPages = [
+    const notApplicablePages = [
       "/code/",
       "/code/nodejs/",
       "/code/python/",
@@ -104,16 +95,16 @@ export default {
       .filter((page) => {
         return (
           page.regularPath.startsWith("/code/") &&
-          !invalidPages.includes(page.regularPath)
+          !notApplicablePages.includes(page.regularPath)
         );
       })
       .map((guide) => {
         guide.language = guide.path.match(/\/code\/(\w+)\/.*/)?.[1];
-        guide.language_thumbnail = langIconMapping[guide.language];
+        guide.language_thumbnail =
+          this.$site.themeConfig.icons[guide.language].only_icon;
         return guide;
       });
 
-    console.log(guides);
     this.guides = orderBy(guides, ["language"], "desc");
   },
 };

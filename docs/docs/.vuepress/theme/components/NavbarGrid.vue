@@ -1,7 +1,5 @@
 
 <script>
-// import AutoLink from "@theme/AutoLink.vue";
-// import DropdownTransition from "@theme/DropdownTransition.vue";
 import workflowIcon from "./svgs/workflow-icon.vue";
 import stepIcon from "./svgs/step-icon.vue";
 import triggerIcon from "./svgs/trigger-icon.vue";
@@ -9,21 +7,6 @@ import codeIcon from "./svgs/code-icon.vue";
 import integrationIcon from "./svgs/integration-icon.vue";
 import componentIcon from "./svgs/component-icon.vue";
 
-// import trigger from '../components/svgs/trigger.vue'
-// import { computed, ref, toRefs, watch } from "vue";
-// import type { PropType } from "vue";
-// import { useRoute } from "vue-router";
-// import type {
-// NavbarItem,
-// ResolvedNavbarItem,
-// } from "@vuepress/theme-default/lib/shared";
-
-// const props = defineProps({
-//   item: {
-//     type: Object,
-//     required: true,
-//   },
-// });
 export default {
   props: {
     item: {
@@ -52,41 +35,6 @@ export default {
     },
   },
 };
-
-// const { item } = toRefs(props);
-// console.log(item.grid);
-
-// const dropdownAriaLabel = computed(
-//   () => item.value.ariaLabel || item.value.text
-// );
-
-// const open = ref(false);
-// const route = useRoute();
-// watch(
-//   () => route.path,
-//   () => {
-//     open.value = false;
-//   }
-// );
-
-/**
- * Open the dropdown when user tab and click from keyboard.
- *
- * Use event.detail to detect tab and click from keyboard.
- * The Tab + Click is UIEvent > KeyboardEvent, so the detail is 0.
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/detail
- */
-const handleDropdown = (e) => {
-  const isTriggerByTab = e.detail === 0;
-  if (isTriggerByTab) {
-    open.value = !open.value;
-  } else {
-    open.value = false;
-  }
-};
-
-const isLastItemOfArray = (boolean) => arr[arr.length - 1] === item;
 </script>
 
 <template>
@@ -101,17 +49,6 @@ const isLastItemOfArray = (boolean) => arr[arr.length - 1] === item;
       <span class="arrow" :class="open ? 'down' : 'right'" />
     </button>
 
-    <!-- <button
-      class="navbar-dropdown-title-mobile"
-      type="button"
-      :aria-label="dropdownAriaLabel"
-      @click="open = !open"
-    >
-      <span class="title">{{ item.text }}</span>
-      <span class="arrow" :class="open ? 'down' : 'right'" />
-    </button> -->
-
-    <!-- <DropdownTransition> -->
     <div
       v-show="open"
       class="
@@ -172,18 +109,5 @@ const isLastItemOfArray = (boolean) => arr[arr.length - 1] === item;
         </div>
       </div>
     </div>
-
-    <!-- <li
-          v-for="child in item.grid"
-          :key="child.text"
-          class="navbar-dropdown-item"
-        >
-          <AutoLink
-            :item="child"
-            @focusout="isLastItemOfArray(child, item.grid) && (open = false)"
-          />
-        </li>
-      </ul> -->
-    <!-- </DropdownTransition> -->
   </div>
 </template>

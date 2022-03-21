@@ -28,7 +28,8 @@ const conceptsNav = [
       {
         title: "Organizations",
         children: [
-          "/orgs/"
+          "/orgs/",
+          "/orgs/sso/okta/",
         ]
       },
       {
@@ -72,141 +73,59 @@ const conceptsNav = [
             title: "API",
             type: "group",
             children: [
-              "/api/overview/",
-              "/api/auth/",
-              "/api/rest/",
-              "/api/rest/webhooks/",
-              "/api/rest/rss/",
-              "/api/rest/workflow-errors/",
-              "/api/sse/",
+            "/api/overview/",
+            "/api/auth/",
+            "/api/rest/",
+            "/api/rest/webhooks/",
+            "/api/rest/rss/",
+            "/api/rest/workflow-errors/",
+            "/api/sse/",
             ]
           },
           "/destinations/", 
+          "/workflows/concurrency-and-throttling/",
+          "/environment-variables/",
+          "/workflows/settings/",
+          "/workflows/networking/",
+          "/scheduling-future-tasks",
+          "/migrate-from-v1/",
       ] },
-      { title: "Components", children: ["/components/"] },
+      {
+        title: "Components", 
+        children: [
+          "/components/",
+          "/components/quickstart/nodejs/actions/",
+          "/components/quickstart/nodejs/sources/",
+          "/components/api/",
+          "/components/guidelines/",
+          "/pipedream-axios/",
+        ]
+      },
     ],
   },
 ];
 
+const securityNav = [
+  "/privacy-and-security/",
+  "/privacy-and-security/best-practices/",
+  "/abuse/",
+  "/privacy-and-security/pgp-key/",
+  "/subprocessors/"
+];
+
+const pricingNav = [
+  "/pricing/",
+  "/limits/",
+  "/workflows/events/cold-starts/", 
+]
+
 module.exports = {
   "/quickstart/": ["/quickstart/"],
-  "/concepts/": conceptsNav,
+  "/privacy-and-security/": securityNav,
+  "/subprocessors/": securityNav,
+  "/abuse/": securityNav,
+  "/pricing/": pricingNav,
+  "/limits/": pricingNav,
+  "/workflows/events/cold-starts/": pricingNav,
   "/": conceptsNav,
 };
-
-// OLD NAV
-// module.exports = [
-//   "/",
-//   "/quickstart/",
-//   {
-//     title: "Workflows",
-//     children: [
-//       "/workflows/",
-//       "/workflows/steps/",
-//       "/workflows/steps/triggers/",
-//       "/workflows/events/",
-//       "/components/actions/",
-//       "/workflows/concurrency-and-throttling/",
-//       "/environment-variables/",
-//       "/workflows/settings/",
-//       "/workflows/networking/",
-//     ],
-//   },
-//   "/sources/",
-//   "/connected-accounts/",
-//   "/user-settings/",
-//   {
-//     title: "Organizations",
-//     children: ["/orgs/", "/orgs/sso/okta/"],
-//   },
-//   {
-//     title: "Reference: Code, APIs + CLI",
-//     children: [
-//       {
-//         title: "Writing Code in Workflows",
-//         type: "group",
-//         initialOpenGroupIndex: 1,
-//         children: [
-//           "/code/",
-//           {
-//             title: "Node.js",
-//             type: "group",
-//             children: [
-//               "/code/nodejs/",
-//               "/code/nodejs/auth/",
-//               "/code/nodejs/http-requests/",
-//               "/code/nodejs/working-with-files/",
-//               "/code/nodejs/async/",
-//             ],
-//           },
-//           "/code/python/",
-//           "/code/go/",
-//           "/code/bash/",
-//           "/destinations/",
-//         ],
-//       },
-//       {
-//         title: "Authoring Components",
-//         type: "group",
-//         children: [
-//           "/components/",
-//           "/components/quickstart/nodejs/actions/",
-//           "/components/quickstart/nodejs/sources/",
-//           "/components/api/",
-//           "/components/guidelines/",
-//           "/pipedream-axios/",
-//         ],
-//       },
-//       {
-//         title: "CLI",
-//         type: "group",
-//         children: ["/cli/install/", "/cli/login/", "/cli/reference/"],
-//       },
-//       {
-//         title: "APIs",
-//         type: "group",
-//         children: [
-//           "/api/overview/",
-//           "/api/auth/",
-//           "/api/rest/",
-//           "/api/rest/webhooks/",
-//           "/api/rest/rss/",
-//           "/api/rest/workflow-errors/",
-//           "/api/sse/",
-//         ],
-//       },
-//       {
-//         title: "Integrations",
-//         type: "group",
-//         children: [
-//           "/apps/all-apps/",
-//           "/apps/discord/",
-//           "/apps/hubspot/",
-//           "/apps/servicenow/",
-//           "/apps/slack/",
-//           "/apps/strava/",
-//           "/apps/twitter/",
-//           "/apps/zoom/",
-//         ],
-//       },
-//     ],
-//   },
-//   "/troubleshooting/",
-//   {
-//     title: "Privacy & Security",
-//     children: [
-//       "/privacy-and-security/",
-//       "/privacy-and-security/best-practices/",
-//       "/abuse/",
-//       "/privacy-and-security/pgp-key/",
-//       "/subprocessors/",
-//     ],
-//   },
-//   {
-//     title: "Pricing & Limits",
-//     collapsable: true,
-//     children: ["/limits/", "/pricing/", "/workflows/events/cold-starts/"],
-//   },
-//   "/status/",
-//   ["https://pipedream.com/support", "Need more help?"],
-// ];

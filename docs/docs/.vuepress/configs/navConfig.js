@@ -10,31 +10,31 @@ module.exports = [
       {
         title: "Workflows",
         subtitle: "Automate series of actions",
-        link: "/concepts/workflows/",
+        link: "/workflows/",
         icon: "workflow-icon",
       },
       {
         title: "Steps",
         subtitle: "Perform pre-coded actions",
-        link: "/concepts/steps/",
+        link: "/steps/",
         icon: "step-icon",
       },
       {
         title: "Triggers",
         subtitle: "Control when workflows run",
-        link: "/concepts/triggers/",
+        link: "/triggers/",
         icon: "trigger-icon",
       },
       {
         title: "Code",
         subtitle: "Run code in workflow steps",
-        link: "/concepts/code/",
+        link: "/code/",
         icon: "code-icon",
       },
       {
         title: "Integrate",
         subtitle: "Connect apps together",
-        link: "/concepts/integrate/",
+        link: "/integrate/",
         icon: "integration-icon",
       },
       {
@@ -52,6 +52,14 @@ module.exports = [
   {
     text: "Support",
     link: "/support/",
+  },
+  {
+    text: "Pricing",
+    link: "/pricing/"
+  },
+  {
+    text: "Security & Privacy",
+    link: "/privacy-and-security/"
   },
   {
     text: "v2",
