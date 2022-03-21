@@ -84,12 +84,15 @@ module.exports = {
       } = entity;
       const relevantEntities = this.getEntities();
       const relevantOperations = this.getOperations();
-
-      if (!relevantEntities.includes(name)) {
+      
+      // only emit events that match the entity names and operations indicated by the user
+      // but if the props are left empty, emit all events rather than filtering them all out
+      // (it would a hassle for the user to select every option if they wanted to emit everything)
+      if (relevantEntities?.length > 0 && !relevantEntities.includes(name)) {
         console.log(`Skipping '${operation} ${name}' event. (Accepted entities: ${relevantEntities.join(", ")})`);
         return false;
       }
-      if (!relevantOperations.includes(operation)) {
+      if (!relevantOperations?.length > 0 && !relevantOperations.includes(operation)) {
         console.log(`Skipping '${operation} ${name}' event. (Accepted operations: ${relevantOperations.join(", ")})`);
         return false;
       }
