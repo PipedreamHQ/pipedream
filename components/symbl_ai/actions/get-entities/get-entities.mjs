@@ -16,18 +16,13 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const { entities } = await this.symblAIApp.getEntities({
-        $,
-        conversationId: this.conversationId,
-      });
-      $.export("$summary", `Successfully retrieved ${entities.length} Entit${entities.length === 1
-        ? "y"
-        : "ies"} from the conversation`);
-      return entities;
-    } catch (error) {
-      console.log("Error: ", error);
-      $.export("$summary", "Failed to retrieve Entities from the conversation");
-    }
+    const { entities } = await this.symblAIApp.getEntities({
+      $,
+      conversationId: this.conversationId,
+    });
+    $.export("$summary", `Successfully retrieved ${entities.length} Entit${entities.length === 1
+      ? "y"
+      : "ies"} from the conversation`);
+    return entities;
   },
 };

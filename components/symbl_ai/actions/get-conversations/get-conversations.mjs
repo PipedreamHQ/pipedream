@@ -1,4 +1,5 @@
 import symblAIApp from "../../symbl_ai.app.mjs";
+import constants from "../constants.mjs";
 
 export default {
   key: "symbl_ai-get-conversations",
@@ -26,22 +27,19 @@ export default {
       type: "string",
       label: "Order",
       description: "Specifies the order in which the results should be sorted based on the start time.",
-      options: [
-        "asc",
-        "desc",
-      ],
+      options: Object.values(constants.resultsOrder),
       optional: true,
     },
     startTime: {
       type: "string",
       label: "Start Time",
-      description: "Specifies the start of the date and time range for the results to be returned.",
+      description: "Specifies the start of the date and time range for the results to be returned. Values accepted are [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted stringsValues accepted are [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted strings.",
       optional: true,
     },
     endTime: {
       type: "string",
       label: "End Time",
-      description: "Specifies the end of the date and time range for the results to be returned.",
+      description: "Specifies the end of the date and time range for the results to be returned. Values accepted are [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted stringsValues accepted are [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted strings.",
       optional: true,
     },
     sort: {
@@ -58,24 +56,19 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const { conversations } = await this.symblAIApp.getConversations({
-        $,
-        params: {
-          limit: this.limit,
-          offset: this.offset,
-          order: this.order,
-          startTime: this.startTime,
-          endTime: this.endTime,
-          sort: this.sort,
-          filter: this.filter,
-        },
-      });
+    const { conversations } = await this.symblAIApp.getConversations({
+      $,
+      params: {
+        limit: this.limit,
+        offset: this.offset,
+        order: this.order,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        sort: this.sort,
+        filter: this.filter,
+      },
+    });
       $.export("$summary", `Successfully retrieved ${conversations.length} conversations`);
       return conversations;
-    } catch (error) {
-      console.log("Error: ", error);
-      $.export("$summary", "Failed to retrieve Conversations");
-    }
   },
 };
