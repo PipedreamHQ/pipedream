@@ -18,9 +18,7 @@ Adding existing actions to your workflow is easy:
 
 For example, here's how to add the HTTP `GET` Request action:
 
-<div>
-<img alt="Adding HTTP GET request action" src="./images/adding-http-get-request-action.gif">
-</div>
+![Adding HTTP GET request action](https://res.cloudinary.com/pipedreamin/image/upload/v1647959419/docs/components/CleanShot_2022-03-22_at_10.29.34_s60bdr.gif)
 
 ## Updating actions to the latest version
 

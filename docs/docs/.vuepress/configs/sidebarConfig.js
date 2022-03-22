@@ -17,7 +17,10 @@ const conceptsNav = [
         ],
       },
       { title: "Triggers", children: ["/triggers/"] },
-      { title: "Steps", children: ["/workflows/steps/"] },
+      { title: "Steps", children: [
+        "/workflows/steps/",
+        "/components/actions/"
+      ] },
       { title: "Integrate", children: ["/integrate/"] },
       {
         title: "Account",

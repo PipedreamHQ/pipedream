@@ -30,19 +30,19 @@ Once you save a workflow, we deploy it to our servers. Each event triggers the w
 
 Steps have names, which appear at the top of the step:
 
-<div>
-<img width="250" alt="Default step names" src="./images/step-name.png">
-</div>
+![The name of the step is on the top of the step](https://res.cloudinary.com/pipedreamin/image/upload/v1647958883/docs/components/CleanShot_2022-03-22_at_10.20.52_2x_ngo5r5.png)
 
-When you [share data between steps](#step-exports), you'll use this name to reference that shared data. For example, `steps.trigger.event` contains the event that triggered your workflow. If you exported a property called `myData` from this code step, you'd reference that in other steps using `steps.nodejs.myData`. See the docs on [step exports](#step-exports) to learn more.
+When you [share data between steps](#step-exports), you'll use this name to reference that shared data. For example, `steps.trigger.event` contains the event that triggered your workflow. If you exported a property called `myData` from this code step, you'd reference that in other steps using `steps.code.myData`. See the docs on [step exports](#step-exports) to learn more.
 
 You can rename a step by clicking on its name and typing a new one in its place:
 
-<div>
-<img width="330" alt="New step name" src="./images/new-step-name.png">
-</div>
+![Renaming a code step to "get_data"](https://res.cloudinary.com/pipedreamin/image/upload/v1647959120/docs/components/CleanShot_2022-03-22_at_10.24.32_zfxrwd.gif)
 
-After changing a step name, you'll need to update any references to the old step. In this example, you'd now reference this step as `steps.my_awesome_code_step`.
+After changing a step name, you'll need to update any references to the old step. In this example, you'd now reference this step as `steps.get_data`.
+
+::: tip
+Step names cannot contain spaces or dashes. Please use underscores or camel casing for your step names, like `getData` or `get_data`.
+:::
 
 ## Passing data to steps from the workflow builder
 
