@@ -13,29 +13,19 @@ function reduceProperties({
   initialProps = {}, additionalProps = {},
 }) {
   return Object.keys(additionalProps)
-    .reduce((reducer, key) => {
+    .reduce((src, key) => {
       const context = additionalProps[key];
-
-      if (!Array.isArray(context)) {
-        return addProperty({
-          src: reducer,
-          validation: context,
-          addition: {
-            [key]: context,
-          },
-        });
-      }
-
-      const [
-        value,
-        validation,
-      ] = context;
+      const isArrayContext = Array.isArray(context);
 
       return addProperty({
-        src: reducer,
-        validation: validation,
+        src,
+        validation: isArrayContext
+          ? context[1]
+          : context,
         addition: {
-          [key]: value,
+          [key]: isArrayContext
+            ? context[0]
+            : context,
         },
       });
     }, initialProps);

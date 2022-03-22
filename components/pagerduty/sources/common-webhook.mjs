@@ -62,6 +62,11 @@ export default {
     getExtensionName() {
       throw new Error("getExtensionName Not implemented");
     },
+    /**
+     * https://support.pagerduty.com/docs/webhooks
+     * In this function we setup the data that will be used to create
+     * the webhook version v3.
+     */
     setupWebhookData({
       endpoint, serviceId,
     }) {
@@ -80,6 +85,10 @@ export default {
         },
       };
     },
+    /**
+     * In this function we setup the extension data that will be used to create the extension
+     * for the webhook version v2.
+     */
     setupExtensionData({
       endpoint, outboundIntegrationId, serviceId,
     }) {

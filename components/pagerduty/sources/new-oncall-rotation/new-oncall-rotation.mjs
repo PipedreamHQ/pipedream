@@ -7,7 +7,7 @@ export default {
   key: "pagerduty-new-on-call-rotation",
   name: "New On-Call Rotation",
   version: "0.0.1",
-  description: "Emits an event each time a new user rotates onto an on-call rotation",
+  description: "Emit new event each time a new user rotates onto an on-call rotation",
   props: {
     ...common.props,
     pagerduty,

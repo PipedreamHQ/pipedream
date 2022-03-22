@@ -6,13 +6,13 @@ export default {
   key: "pagerduty-new-or-updated-incident",
   name: "New or Updated Incident",
   version: "0.0.1",
-  description: "Emits an event each time a new or updated incident is created",
+  description: "Emit new event each time an incident is created or updated",
   methods: {
     ...commonWebhook.methods,
     getMetadata(payload) {
       return {
         id: payload.id,
-        summary: JSON.stringify(payload),
+        summary: `Incident ${payload.id} has been created or updated`,
         ts: Date.parse(payload.occurred_at),
       };
     },

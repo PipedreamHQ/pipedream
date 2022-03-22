@@ -23,7 +23,7 @@ export default {
       options: constants.INCIDENT_URGENCIES,
       optional: true,
     },
-    incidenKey: {
+    incidentKey: {
       type: "string",
       label: "Incident Key",
       description: "A string which identifies the incident. Sending subsequent requests referencing the same service and with the same **Incident Key** will result in those requests being rejected if an open incident matches that **Incident Key**.",
@@ -175,8 +175,7 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "The ID of the User. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODIzMw-list-users)",
-      optional: true,
+      description: "The ID of the User.",
       async options({ prevContext }) {
         const {
           offset: prevOffset,

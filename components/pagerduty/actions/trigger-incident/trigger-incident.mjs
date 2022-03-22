@@ -40,10 +40,10 @@ export default {
         "incidentBodyDetails",
       ],
     },
-    incidenKey: {
+    incidentKey: {
       propDefinition: [
         pagerduty,
-        "incidenKey",
+        "incidentKey",
       ],
     },
     escalationPolicyId: {
@@ -85,7 +85,7 @@ export default {
     const escalationPolicyId = emptyStrToUndefined(this.escalationPolicyId);
     const bodyDetails = emptyStrToUndefined(this.bodyDetails);
     const urgency = emptyStrToUndefined(this.urgency);
-    const incidenKey = emptyStrToUndefined(this.incidenKey);
+    const incidentKey = emptyStrToUndefined(this.incidentKey);
     const assigneeIds = commaSeparatedListToArray(this.assigneeIds);
 
     const initialProps = {
@@ -99,7 +99,7 @@ export default {
 
     const additionalProps = {
       urgency,
-      inciden_key: incidenKey,
+      incident_key: incidentKey,
       body: [
         {
           type: constants.INCIDENT_BODY_TYPE,

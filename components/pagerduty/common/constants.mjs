@@ -1,5 +1,5 @@
 const SUBDOMAIN_PLACEHOLDER = "{subdomain}";
-const BASE_URL_V1 = "https://{subdomain}.pagerduty.com";
+const BASE_URL_V1 = `https://${SUBDOMAIN_PLACEHOLDER}.pagerduty.com`;
 const VERSION_PATH_V1 = "/api/v1";
 
 const BASE_URL = "https://api.pagerduty.com";
@@ -14,7 +14,7 @@ const API_HEADERS = {
 };
 
 /**
- * https://developer.pagerduty.com/docs/ZG9jOjExMDI5NTkw-v3-overview#event-types
+ * https://developer.pagerduty.com/docs/ZG9jOjQ1MTg4ODQ0-v3-overview#event-types
  * https://support.pagerduty.com/docs/webhooks#supported-resources-and-event-types
  */
 const INCIDENT_EVENT_TYPES = [
