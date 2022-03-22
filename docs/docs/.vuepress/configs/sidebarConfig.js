@@ -16,9 +16,9 @@ const conceptsNav = [
           "/workflows/networking/",
         ],
       },
+      { title: "Triggers", children: ["/triggers/"] },
       { title: "Steps", children: ["/workflows/steps/"] },
       { title: "Integrate", children: ["/integrate/"] },
-      { title: "Triggers", children: ["/triggers/"] },
       {
         title: "Account",
         children: [
