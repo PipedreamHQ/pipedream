@@ -8,7 +8,7 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "BigQuery - New Row",
   description: "Emit new events when a new row is added to a table",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   type: "source",
   props: {

@@ -418,6 +418,8 @@ be maintained in the app file.
 
 ### Props
 
+As a general rule of thumb, we should strive to only incorporate the 3-4 most relevant options from a given API as props. This is not a hard limit, but the goal is to optimize for usability. We should aim to solve specific use cases as simply as possible.
+
 #### Labels
 
 Use [prop](../api/#user-input-props) labels to customize the name of a prop or
@@ -497,7 +499,7 @@ In the interest of consistency, use the following naming patterns when defining
 
 ### Source Guidelines
 
-These guidelines are specific to [source](/event-sources) development.
+These guidelines are specific to [source](/event-sources/) development.
 
 #### Webhook vs Polling Sources
 
@@ -615,7 +617,7 @@ end user. Generate and use a GUID for the shared secret value, save it to a
 
 By default, the standard `axios` package doesn't return useful debugging data to the user when it `throw`s errors on HTTP 4XX and 5XX status codes. This makes it hard for the user to troubleshoot the issue.
 
-Instead, [use `@pipedream/platform` axios](/pipedream-axios).
+Instead, [use `@pipedream/platform` axios](/pipedream-axios/).
 
 #### Return JavaScript objects
 

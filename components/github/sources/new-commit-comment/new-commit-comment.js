@@ -5,7 +5,7 @@ module.exports = {
   key: "github-new-commit-comment",
   name: "New Commit Comment (Instant)",
   description: "Emit new events on new commit comments",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {
