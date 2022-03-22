@@ -39,7 +39,7 @@ export default {
     endTime: {
       type: "string",
       label: "End Time",
-      description: "Specifies the end of the date and time range for the results to be returned. Values accepted are [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted stringsValues accepted are [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted strings.",
+      description: "Specifies the end of the date and time range for the results to be returned. Values accepted are [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted strings.",
       optional: true,
     },
     sort: {
