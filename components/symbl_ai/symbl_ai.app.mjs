@@ -47,8 +47,15 @@ export default {
         headers: this.getHeaders(),
         ...otherConfig,
       };
-
-      return axios($ || this, config);
+      try {
+        return await axios($ || this, config);
+      } catch (error) {
+        this.throwFormattedError(error);
+      }
+    },
+    throwFormattedError(error) {
+      error = error.response;
+      throw new Error(`${error.status} - ${error.statusText} - ${error.data.message}`);
     },
     async postVideoUrl({
       $,

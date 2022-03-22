@@ -16,24 +16,19 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const {
-        metrics,
-        members,
-      } = await this.symblAIApp.getAnalytics({
-        $,
-        conversationId: this.conversationId,
-      });
-      $.export("$summary", `Successfully retrieved ${metrics.length} metrics and ${members.length} member${members.length === 1
-        ? ""
-        : "s'"} Analytics from the conversation`);
-      return {
-        metrics,
-        members,
-      };
-    } catch (error) {
-      console.log("Error: ", error);
-      $.export("$summary", "Failed to retrieve Analytics from the conversation");
-    }
+    const {
+      metrics,
+      members,
+    } = await this.symblAIApp.getAnalytics({
+      $,
+      conversationId: this.conversationId,
+    });
+    $.export("$summary", `Successfully retrieved ${metrics.length} metrics and ${members.length} member${members.length === 1
+      ? ""
+      : "s'"} Analytics from the conversation`);
+    return {
+      metrics,
+      members,
+    };
   },
 };
