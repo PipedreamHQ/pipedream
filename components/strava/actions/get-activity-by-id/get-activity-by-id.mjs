@@ -2,13 +2,13 @@ import strava from "../../strava.app.js";
 
 export default {
   name: "Get Activity By ID",
-  description: "Returns the given activity that is owned by the authenticated athlete. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities. See `https://developers.strava.com/docs/reference/`",
+  description: "Returns the given activity that is owned by the authenticated athlete. See `https://developers.strava.com/docs/reference/`",
   key: "strava-get-activity-by-id",
   version: "0.0.1",
   type: "action",
   props: {
     strava,
-    id: {
+    activityId: {
       type: "integer",
       label: "ID of the activity",
       description: "ID of the activity",
@@ -22,10 +22,9 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      id: this.id,
+      activityId: this.activityId,
+      include_all_efforts: this.include_all_efforts,
     };
-    if (this.include_all_efforts)
-      data.include_all_efforts = this.include_all_efforts;
     const resp = await this.strava.getActivityById($, data);
     $.export("$summary", "The activity has been retrieved");
     return resp;

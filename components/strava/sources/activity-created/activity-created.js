@@ -2,13 +2,15 @@ const strava = require("../../strava.app.js");
 
 module.exports = {
   key: "strava-activity-created",
-  name: "Activity Created",
-  description: "Emits an event when a new activity is created",
+  name: "New Activity Created Event",
+  description: "Emit new event when a new activity is created",
   version: "0.0.2",
   type: "source",
   props: {
     strava,
     stravaApphook: {
+      label: "App hook",
+      description: "Strava App webhook",
       type: "$.interface.apphook",
       appProp: "strava",
       eventNames: [

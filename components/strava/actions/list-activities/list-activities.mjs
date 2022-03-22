@@ -2,7 +2,7 @@ import strava from "../../strava.app.js";
 
 export default {
   name: "Get Activity List",
-  description: "Returns the activities of an athlete for a specific identifier. Requires activity:read. Only Me activities will be filtered out unless requested by a token with activity:read_all. See `https://developers.strava.com/docs/reference/`",
+  description: "Returns the activities of an athlete for a specific identifier. See `https://developers.strava.com/docs/reference/`",
   key: "strava-get-activity-list",
   version: "0.0.1",
   type: "action",

@@ -2,15 +2,15 @@ const strava = require("../../strava.app.js");
 
 module.exports = {
   key: "strava-custom-events",
-  name: "Custom Events",
-  description:
-    "Emits an event when an activity is created, updated, or deleted",
+  name: "New Custom Event",
+  description: "Emit new event when an activity is created, updated, or deleted",
   version: "0.0.2",
   type: "source",
   props: {
     strava,
     eventNameOptions: {
       label: "Strava Events",
+      description: "Custom Strava Event Names",
       type: "string[]",
       async options() {
         return [
@@ -21,6 +21,8 @@ module.exports = {
       },
     },
     stravaApphook: {
+      label: "App hook",
+      description: "Strava App webhook",
       type: "$.interface.apphook",
       appProp: "strava",
       async eventNames() {

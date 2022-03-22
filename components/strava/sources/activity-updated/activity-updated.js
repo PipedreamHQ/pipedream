@@ -2,13 +2,15 @@ const strava = require("../../strava.app.js");
 
 module.exports = {
   key: "strava-activity-updated",
-  name: "Activity Updated",
-  description: "Emits an event when an activity is updated",
+  name: "New Activity Updated Event",
+  description: "Emit new event when an activity is updated",
   version: "0.0.2",
   type: "source",
   props: {
     strava,
     stravaApphook: {
+      label: "App hook",
+      description: "Strava App webhook",
       type: "$.interface.apphook",
       appProp: "strava",
       eventNames: [

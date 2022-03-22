@@ -19,13 +19,6 @@ module.exports = {
       }${path}`;
       return opts;
     },
-    makeQueryString(params) {
-      return Object.keys(params).length ?
-        `?${Object.keys(params)
-          .map((k) => k + "=" + params[k])
-          .join("&")}` :
-        "";
-    },
     async _makeAPIRequest(opts) {
       return await axios(this.prepareOpts(opts));
     },
@@ -47,55 +40,47 @@ module.exports = {
       ).data;
     },
     async createNewActivity($, data) {
-      return (
-        await this._makeAPIRequestWithPlatform($, {
-          method: "POST",
-          path: "/activities",
-          data,
-        })
-      );
+      return await this._makeAPIRequestWithPlatform($, {
+        method: "POST",
+        path: "/activities",
+        data,
+      });
     },
     async getActivityById($, data) {
       const {
-        id,
+        activityId,
         ...dataRest
       } = data;
-      return (
-        await this._makeAPIRequestWithPlatform($, {
-          method: "GET",
-          path: `/activities/${id}${this.makeQueryString(dataRest)}`,
-        })
-      );
+      return await this._makeAPIRequestWithPlatform($, {
+        method: "GET",
+        path: `/activities/${activityId}`,
+        params: dataRest,
+      });
     },
     async listActivities($, data) {
-      return (
-        await this._makeAPIRequestWithPlatform($, {
-          method: "GET",
-          path: `/activities${this.makeQueryString(data)}`,
-        })
-      );
+      return await this._makeAPIRequestWithPlatform($, {
+        method: "GET",
+        path: "/activities",
+        params: data,
+      });
     },
     async updateActivity($, data) {
       const {
-        id,
+        activityId,
         ...dataRest
       } = data;
-      return (
-        await this._makeAPIRequestWithPlatform($, {
-          method: "PUT",
-          path: `/activities/${id}`,
-          data: dataRest,
-        })
-      );
+      return await this._makeAPIRequestWithPlatform($, {
+        method: "PUT",
+        path: `/activities/${activityId}`,
+        data: dataRest,
+      });
     },
     async getStats($) {
       const athlete = await this.getAuthenticatedAthlete();
-      return (
-        await this._makeAPIRequestWithPlatform($, {
-          method: "GET",
-          path: `/athletes/${athlete.id}/stats`,
-        })
-      );
+      return await this._makeAPIRequestWithPlatform($, {
+        method: "GET",
+        path: `/athletes/${athlete.id}/stats`,
+      });
     },
   },
 };

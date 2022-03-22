@@ -2,13 +2,13 @@ import strava from "../../strava.app.js";
 
 export default {
   name: "Update Activity",
-  description: "Updates the given activity that is owned by the authenticated athlete. Requires activity:write. Also requires activity:read_all in order to update Only Me activities. See `https://developers.strava.com/docs/reference/`",
+  description: "Updates the given activity that is owned by the authenticated athlete. See `https://developers.strava.com/docs/reference/`",
   key: "strava-update-activity",
   version: "0.0.1",
   type: "action",
   props: {
     strava,
-    id: {
+    activityId: {
       type: "integer",
       label: "ID of the activity",
       description: "ID of the activity",
@@ -22,7 +22,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      id: this.id,
+      activityId: this.activityId,
       ...this.body,
     };
     const resp = await this.strava.updateActivity($, data);
