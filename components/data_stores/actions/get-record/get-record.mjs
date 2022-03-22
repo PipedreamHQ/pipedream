@@ -1,22 +1,25 @@
-import dataStores from "../../data_stores.app.mjs";
+// eslint-disable-next-line camelcase
+import data_stores from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-get-record",
   name: "Get Record",
-  description: "Get a single record in your Pipedream Data Store.",
+  description: "Get a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
   version: "0.0.1",
   type: "action",
   props: {
-    dataStores,
-    store: {
-      label: "Data Store",
-      type: "data_store",
-      description: "Select an existing Data Store or create a new one.",
+    data_stores,
+    data_store: {
+      propDefinition: [
+        // eslint-disable-next-line camelcase
+        data_stores,
+        "data_store",
+      ],
     },
     key: {
       label: "Key",
       type: "string",
-      description: "Key for the data you'd like to fetch. Refer to your existing keys [here](https://pipedream.com/stores).",
+      description: "Key for the data you'd like to fetch. Refer to your existing keys [here](https://pipedream.com/data-stores/).",
     },
   },
   async run({ $ }) {

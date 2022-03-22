@@ -1,22 +1,25 @@
-import dataStore from "../../data_stores.app.mjs";
+// eslint-disable-next-line camelcase
+import data_stores from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-add-update-multiple-records",
   name: "Add or update multiple records",
-  description: "Add or update multiple records to your Pipedream Data Store.",
+  description: "Add or update multiple records to your [Pipedream Data Store](https://pipedream.com/data-stores/).",
   version: "0.0.1",
   type: "action",
   props: {
-    dataStore,
-    store: {
-      label: "Data Store",
-      type: "data_store",
-      description: "Select an existing Data Store or create a new one.",
+    data_stores,
+    data_store: {
+      propDefinition: [
+        // eslint-disable-next-line camelcase
+        data_stores,
+        "data_store",
+      ],
     },
     data: {
       label: "Data",
       type: "object",
-      description: "Enter data you'd like to add in the form of key-value pairs, or reference existing keys and update the values for existing records. Refer to your existing keys [here](https://pipedream.com/stores).",
+      description: "Enter data you'd like to add in the form of key-value pairs, or reference existing keys and update the values for existing records. Refer to your existing keys [here](https://pipedream.com/data-stores/).",
     },
   },
   async run({ $ }) {
