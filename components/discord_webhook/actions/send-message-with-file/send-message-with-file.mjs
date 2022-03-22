@@ -7,7 +7,7 @@ export default {
   key: "discord_webhook-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "0.1.1",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,
@@ -48,8 +48,6 @@ export default {
       throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
     }
 
-    let content = message ?? "";
-
     const file = fileUrl
       ? (await axios({
         method: "get",
@@ -58,24 +56,22 @@ export default {
       })).data
       : fs.createReadStream(filePath);
 
-    if (includeSentViaPipedream) {
-      if (typeof content !== "string") {
-        content = JSON.stringify(content);
-      }
-      content += `\n\n${this.getSentViaPipedreamText()}`;
+    try {
+      // No interesting data is returned from Discord
+      await this.discordWebhook.sendMessageWithFile({
+        avatarURL,
+        threadID,
+        username,
+        file,
+        content: includeSentViaPipedream
+          ? this.appendPipedreamText(message ?? "")
+          : message,
+      });
+      $.export("$summary", "Message sent successfully");
+    } catch (err) {
+      const unsentMessage = this.getUserInputProps();
+      $.export("unsent", unsentMessage);
+      throw err;
     }
-
-    // No interesting data is returned from Discord
-    const resp = await this.discordWebhook.sendMessageWithFile({
-      content,
-      avatarURL,
-      threadID,
-      username,
-      file,
-    });
-
-    $.export("$summary", "Message sent successfully");
-
-    return resp;
   },
 };

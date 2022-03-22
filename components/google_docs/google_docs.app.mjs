@@ -1,4 +1,4 @@
-import { google } from "googleapis";
+import docs from "@googleapis/docs";
 import googleDrive from "../google_drive/google_drive.app.mjs";
 
 export default {
@@ -21,11 +21,11 @@ export default {
   methods: {
     ...googleDrive.methods,
     docs() {
-      const auth = new google.auth.OAuth2();
+      const auth = new docs.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      return google.docs({
+      return docs.docs({
         version: "v1",
         auth,
       });
