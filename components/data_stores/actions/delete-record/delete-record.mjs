@@ -10,7 +10,7 @@ export default {
     dataStores,
     store: {
       label: "Data Store",
-      type: "store",
+      type: "data_store",
       description: "Select an existing Data Store or create a new one.",
     },
     key: {
@@ -20,10 +20,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const record = this.store.get(this.key);
+    const record = this.data_store.get(this.key);
 
     if (record) {
-      this.store.set(this.key, undefined);
+      this.data_store.set(this.key, undefined);
       $.export("$summary", "Successfully deleted the record for key, `" + this.key + "`.");
     } else {
       $.export("$summary", "No record found for key, `" + this.key + "`. No data was deleted.");

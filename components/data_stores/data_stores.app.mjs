@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "data_stores",
+  app: "data_store",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

@@ -10,7 +10,7 @@ export default {
     dataStores,
     store: {
       label: "Data Store",
-      type: "store",
+      type: "data_store",
       description: "Select an existing Data Store or create a new one.",
     },
     key: {
@@ -25,8 +25,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const record = this.store.get(this.key);
-    this.store.set(this.key, this.value);
+    const record = this.data_store.get(this.key);
+    this.data_store.set(this.key, this.value);
 
     if (record) {
       $.export("$summary", "Successfully updated the record for key, `" + this.key + "`.");

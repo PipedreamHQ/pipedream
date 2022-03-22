@@ -10,7 +10,7 @@ export default {
     dataStores,
     store: {
       label: "Data Store",
-      type: "store",
+      type: "data_store",
       description: "Select an existing Data Store or create a new one.",
     },
     key: {
@@ -20,7 +20,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const record = this.store.get(this.key);
+    const record = this.data_store.get(this.key);
 
     if (record) {
       $.export("$summary", "Successfully fetched data for key, `" + this.key + "`.");

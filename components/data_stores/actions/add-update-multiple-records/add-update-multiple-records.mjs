@@ -1,4 +1,4 @@
-import dataStores from "../../data_stores.app.mjs";
+import dataStore from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-add-update-multiple-records",
@@ -7,10 +7,10 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    dataStores,
+    dataStore,
     store: {
       label: "Data Store",
-      type: "store",
+      type: "data_store",
       description: "Select an existing Data Store or create a new one.",
     },
     data: {
@@ -24,7 +24,7 @@ export default {
       key,
       value,
     ] of Object.entries(this.data)) {
-      this.store.set(key, value);
+      this.data_store.set(key, value);
     }
 
     let count = Object.keys(this.data).length;
