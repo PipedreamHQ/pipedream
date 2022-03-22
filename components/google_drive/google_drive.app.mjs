@@ -1,5 +1,5 @@
 import axios from "axios";
-import { google } from "googleapis";
+import drive from "@googleapis/drive";
 import { v4 as uuid } from "uuid";
 import isoLanguages from "./actions/language-codes.mjs";
 import mimeDb from "mime-db";
@@ -33,7 +33,8 @@ export default {
     watchedDrive: {
       type: "string",
       label: "Drive",
-      description: "The drive to use. If you are connected with any [Google Shared Drives](https://support.google.com/a/users/answer/9310351), you can select it here by enabling \"Structured Mode\".",
+      description: "Defaults to `My Drive`. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      optional: true,
       default: MY_DRIVE_VALUE,
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
@@ -265,11 +266,11 @@ export default {
 
     // Returns a drive object authenticated with the user's access token
     drive() {
-      const auth = new google.auth.OAuth2();
+      const auth = new drive.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      return google.drive({
+      return drive.drive({
         version: "v3",
         auth,
       });

@@ -59,7 +59,7 @@ module.exports = {
     }
 
     if ("zen" in body) {
-      console.log("Zen event to confirm subscription, nothing to emit");
+      console.log("Zen event to confirm subscription, nothing to emit. Exiting");
       return;
     }
 

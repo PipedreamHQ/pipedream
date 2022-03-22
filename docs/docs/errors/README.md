@@ -4,7 +4,7 @@ prev: false
 
 # Common Errors
 
-Pipedream [sources](/event-sources/) and [workflows](/workflows) can throw errors for a variety of reasons. In some cases, you'll encounter an error sending data to a third-party API; in other cases, Pipedream will raise an error related to platform limits you've exceeded, or other internal errors.
+Pipedream [sources](/event-sources/) and [workflows](/workflows/) can throw errors for a variety of reasons. In some cases, you'll encounter an error sending data to a third-party API; in other cases, Pipedream will raise an error related to platform limits you've exceeded, or other internal errors.
 
 This doc reviews common errors you'll encounter, and how to troubleshoot them.
 

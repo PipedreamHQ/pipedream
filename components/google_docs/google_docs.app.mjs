@@ -1,4 +1,4 @@
-import { google } from "googleapis";
+import docs from "@googleapis/docs";
 import googleDrive from "../google_drive/google_drive.app.mjs";
 
 export default {
@@ -9,7 +9,7 @@ export default {
     docId: {
       type: "string",
       label: "Document",
-      description: "Select a document or disable structured mode to pass a value exported from a previous step (e.g., `{{steps.foo.$return_value.documentId}}`) or to manually enter a static ID (e.g., `1KuEN7k8jVP3Qi0_svM5OO8oEuiLkq0csihobF67eat8`).",
+      description: "Select a document or enter a custom expression to pass a value from a previous step (e.g., `{{steps.foo.$return_value.documentId}}`) or to manually enter a static ID (e.g., `1KuEN7k8jVP3Qi0_svM5OO8oEuiLkq0csihobF67eat8`).",
       async options({
         prevContext, driveId,
       }) {
@@ -21,11 +21,11 @@ export default {
   methods: {
     ...googleDrive.methods,
     docs() {
-      const auth = new google.auth.OAuth2();
+      const auth = new docs.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      return google.docs({
+      return docs.docs({
         version: "v1",
         auth,
       });

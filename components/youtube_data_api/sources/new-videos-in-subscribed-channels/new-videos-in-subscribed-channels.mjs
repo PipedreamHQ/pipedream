@@ -2,9 +2,9 @@ import common from "../common.mjs";
 import { toArray } from "../../utils.mjs";
 
 /**
- * @typedef {import('googleapis').youtube_v3.Schema$Subscription} Subscription
- * @typedef {import('googleapis').youtube_v3.Schema$PlaylistItem} PlaylistItem
- * @typedef {import('googleapis').youtube_v3.Schema$Channel} Channel
+ * @typedef {import('@googleapis/youtube').youtube_v3.Schema$Subscription} Subscription
+ * @typedef {import('@googleapis/youtube').youtube_v3.Schema$PlaylistItem} PlaylistItem
+ * @typedef {import('@googleapis/youtube').youtube_v3.Schema$Channel} Channel
  */
 
 /**
@@ -42,7 +42,7 @@ export default {
   key: "youtube_data_api-new-videos-in-subscribed-channels",
   name: "New Videos in Subscribed Channels",
   description: "Emit new event for each new YouTube video posted to a subscribed channel.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   hooks: {

@@ -5,7 +5,8 @@ module.exports = {
   key: "google_calendar-event-start",
   name: "Event Start",
   description: "Emits a specified time before an event starts",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
     googleCalendar,
@@ -16,7 +17,10 @@ module.exports = {
         const calendars = _.get(calListResp, "data.items");
         if (calendars) {
           const calendarIds = calendars.map((item) => {
-            return { value: item.id, label: item.summary };
+            return {
+              value: item.id,
+              label: item.summary,
+            };
           });
           return calendarIds;
         }
@@ -50,10 +54,13 @@ module.exports = {
     if (Array.isArray(events)) {
       for (const event of events) {
         const eventStart = _.get(event, "start.dateTime");
-        start = new Date(eventStart);
+        const start = new Date(eventStart);
         const msFromStart = start.getTime() - now.getTime();
         if (eventStart && msFromStart > 0 && msFromStart < intervalMs) {
-          const { summary, id } = event;
+          const {
+            summary,
+            id,
+          } = event;
           this.$emit(event, {
             summary,
             id,
