@@ -100,32 +100,27 @@ export default {
     }
   },
   async run({ $ }) {
-    try {
-      const response =
-        await this.symblAIApp.postVideoUrl({
-          $,
-          data: {
-            url: this.videoUrl,
-            name: this.meetingName,
-            customVocabulary: this.customVocabulary,
-            confidenceThreshold: this.confidenceThreshold,
-            detectPhrases: this.detectPhrases,
-            webhookUrl: this.webhookUrl,
-            detectEntities: this.detectEntities,
-            languageCode: this.languageCode,
-            mode: this.mode,
-            enableSeparateRecognitionPerChannel: this.enableSeparateRecognitionPerChannel,
-            enableAllTrackers: this.enableAllTrackers,
-            enableSpeakerDiarization: this.enableSpeakerDiarization,
-            diarizationSpeakerCount: this.diarizationSpeakerCount,
-            channelMetadata: JSON.parse(this.channelMetadata),
-          },
-        });
+    const response =
+      await this.symblAIApp.postVideoUrl({
+        $,
+        data: {
+          url: this.videoUrl,
+          name: this.meetingName,
+          customVocabulary: this.customVocabulary,
+          confidenceThreshold: this.confidenceThreshold,
+          detectPhrases: this.detectPhrases,
+          webhookUrl: this.webhookUrl,
+          detectEntities: this.detectEntities,
+          languageCode: this.languageCode,
+          mode: this.mode,
+          enableSeparateRecognitionPerChannel: this.enableSeparateRecognitionPerChannel,
+          enableAllTrackers: this.enableAllTrackers,
+          enableSpeakerDiarization: this.enableSpeakerDiarization,
+          diarizationSpeakerCount: this.diarizationSpeakerCount,
+          channelMetadata: JSON.parse(this.channelMetadata),
+        },
+      });
       $.export("$summary", `Successfully posted video URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
       return response;
-    } catch (error) {
-      console.log("Error: ", error);
-      $.export("summary", "Failed to post video URL...");
     }
-  },
 };
