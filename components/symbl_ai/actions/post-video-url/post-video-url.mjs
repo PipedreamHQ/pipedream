@@ -5,7 +5,7 @@ export default {
   key: "symbl_ai-post-video-url",
   name: "Submit Video URL",
   description: "Submit a Video by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url)",
-  version: "0.0.3",
+  version: "0.0.42",
   type: "action",
   props: {
     symblAIApp,
@@ -92,6 +92,12 @@ export default {
       description: "The number of unique speakers in this conversation. See [Speaker Separation](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url/#speaker-separation) for reference.",
       optional: true,
     },
+    channelMetadata: {
+      type: "string",
+      label: "Channel Metadata",
+      description: "Provide a JSON array of participants with their `channel` and `speaker` information. Each participant object is represented by the following structure:  `[{\"channel\": 1,\"speaker\": {\"name\": \"Joe Doe\",\"email\": \"joe@doe.com\"}},{\"channel\": 2,\"speaker\": {\"name\": \"Mary Jones\",\"email\": \"mary@email.com\"}}]`. See doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video#channel-metadata)",
+      optional: true,
+    }
   },
   async run({ $ }) {
     try {
@@ -112,13 +118,14 @@ export default {
             enableAllTrackers: this.enableAllTrackers,
             enableSpeakerDiarization: this.enableSpeakerDiarization,
             diarizationSpeakerCount: this.diarizationSpeakerCount,
+            channelMetadata: JSON.parse(this.channelMetadata),
           },
         });
       $.export("$summary", `Successfully posted video URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
       return response;
     } catch (error) {
       console.log("Error: ", error);
-      $.export("summary", "Failed to post video URL");
+      $.export("summary", "Failed to post video URL...");
     }
   },
 };
