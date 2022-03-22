@@ -81,7 +81,7 @@ This defines [a Node.js component](/components/api/). Components let you:
 
 - Pass input to steps using [props](/code/nodejs/#passing-props-to-code-steps)
 - [Connect an account to a step](/connected-accounts/#from-a-code-step)
-- [Issue HTTP responses](/workflows/steps/triggers/#customizing-the-http-response)
+- [Issue HTTP responses](/triggers/#customizing-the-http-response)
 - Perform workflow-level flow control, like [ending a workflow early](#ending-a-workflow-early)
 
 When the step runs, Pipedream executes the `run` method:
@@ -225,7 +225,7 @@ In general, if you just need to make an HTTP request but don't care about the re
 
 ## Returning HTTP responses
 
-You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the [`$.respond()` function](/workflows/steps/triggers/#customizing-the-http-response).
+You can return HTTP responses from [HTTP-triggered workflows](/triggers/#http) using the [`$.respond()` function](/triggers/#customizing-the-http-response).
 
 ## Ending a workflow early
 
