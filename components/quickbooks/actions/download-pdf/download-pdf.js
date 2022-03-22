@@ -28,7 +28,7 @@ module.exports = {
     id: {
       type: "string",
       label: "Record ID",
-      description: null,
+      description: "Use the 'Id' property of the record's JSON object or open the record for editing in Quickbooks Online to find its ID in the URL after 'txnId=', e.g. 'https://app.qbo.intuit.com/app/invoice?txnId=22743'",
     },
     fileName: {
       type: "string",
