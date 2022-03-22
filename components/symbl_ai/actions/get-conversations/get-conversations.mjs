@@ -68,7 +68,7 @@ export default {
         filter: this.filter,
       },
     });
-      $.export("$summary", `Successfully retrieved ${conversations.length} conversations`);
-      return conversations;
+    $.export("$summary", `Successfully retrieved ${conversations.length} conversations`);
+    return conversations;
   },
 };

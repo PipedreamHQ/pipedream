@@ -1,8 +1,8 @@
 const resultsOrder = {
-    ASC: "asc",
-    DESC: "desc",
-  };
-  
-  export default {
-    resultsOrder,
-  };
+  ASC: "asc",
+  DESC: "desc",
+};
+
+export default {
+  resultsOrder,
+};
