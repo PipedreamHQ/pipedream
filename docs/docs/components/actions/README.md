@@ -24,11 +24,9 @@ For example, here's how to add the HTTP `GET` Request action:
 
 When you use existing actions or create your own, you'll often want to update an action you added to a workflow to the newest version. For example, the community might publish a new feature or bug fix that you want to use.
 
-To update your action to the latest version, hover over the step in your workflow and click the icon with two arrows in a circle:
+In your code steps with out of date actions, you'll see a button appear that will update your action to the latest version. Click on this button to update your code step:
 
-<div>
-<img alt="Update action" src="./images/update-action.png">
-</div>
+![Updating an action to the latest version](https://res.cloudinary.com/pipedreamin/image/upload/v1647969837/docs/components/CleanShot_2022-03-22_at_13.23.41_2x_isis5z.png)
 
 ## Creating your own actions
 
