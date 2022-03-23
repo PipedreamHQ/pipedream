@@ -1,4 +1,4 @@
-import WooCommerceAPI from "woocommerce-api";
+import WooCommerceAPI from "@woocommerce/woocommerce-rest-api";
 import querystring from "querystring";
 import constants from "./constants.mjs";
 
