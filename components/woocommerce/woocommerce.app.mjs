@@ -1,5 +1,6 @@
 import WooCommerceAPI from "woocommerce-api";
 import querystring from "querystring";
+import constants from "./constants.mjs";
 
 export default {
   type: "app",
@@ -9,29 +10,15 @@ export default {
       type: "string",
       label: "Status",
       description: "Order Status",
-      options: [
-        "pending",
-        "processing",
-        "on-hold",
-        "completed",
-        "cancelled",
-        "refunded",
-        "failed",
-        "trash",
-      ],
+      options: constants.orderStatuses,
       optional: true,
       default: "pending",
     },
     productStatus: {
       type: "string",
       label: "Status",
-      description: "Product status. Options: draft, pending, private and publish. Default is publish",
-      options: [
-        "draft",
-        "pending",
-        "private",
-        "publish",
-      ],
+      description: "Product status. Default is publish",
+      options: constants.productStatuses,
       optional: true,
       default: "publish",
     },
@@ -39,16 +26,7 @@ export default {
       type: "string",
       label: "Role",
       description: "Limit result set to resources with a specific role",
-      options: [
-        "all",
-        "administrator",
-        "editor",
-        "author",
-        "contributor",
-        "subscriber",
-        "customer",
-        "shop_manager",
-      ],
+      options: constants.roles,
       optional: true,
       default: "customer",
     },
@@ -56,11 +34,7 @@ export default {
       type: "string[]",
       label: "Event topics",
       description: "Types of events to watch for",
-      options: [
-        "created",
-        "updated",
-        "deleted",
-      ],
+      options: constants.topics,
     },
     search: {
       type: "string",
@@ -89,13 +63,8 @@ export default {
     productType: {
       type: "string",
       label: "Type",
-      description: "Product type. Options: simple, grouped, external and variable. Default is simple",
-      options: [
-        "simple",
-        "grouped",
-        "external",
-        "variable",
-      ],
+      description: "Product type. Default is simple",
+      options: constants.productTypes,
       optional: true,
       default: "simple",
     },
@@ -161,7 +130,6 @@ export default {
         }));
       },
       withLabel: true,
-      reloadProps: true,
     },
     productCategories: {
       type: "string[]",
@@ -195,12 +163,15 @@ export default {
       const client = await this.getClient();
       return JSON.parse((await client.postAsync(endpoint, data)).body);
     },
+    async deleteResource(endpoint) {
+      const client = await this.getClient();
+      return JSON.parse((await client.deleteAsync(endpoint)).body);
+    },
     async createWebhook(data) {
       return this.postResource("webhooks", data);
     },
     async deleteWebhook(id) {
-      const client = await this.getClient();
-      return JSON.parse((await client.deleteAsync(`webhooks/${id}`)).body);
+      return this.deleteResource(`webhooks/${id}`);
     },
     async listCustomers(params) {
       const q = querystring.stringify(params);

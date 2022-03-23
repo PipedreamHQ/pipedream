@@ -31,6 +31,7 @@ export default {
         woocommerce,
         "products",
       ],
+      reloadProps: true,
     },
   },
   async additionalProps() {

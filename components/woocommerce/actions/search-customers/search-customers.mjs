@@ -1,4 +1,6 @@
 import woocommerce from "../../woocommerce.app.mjs";
+import pick from "lodash.pick";
+import pickBy from "lodash.pickby";
 
 export default {
   key: "woocommerce-search-customers",
@@ -34,35 +36,22 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      search,
-      email,
-      role,
-      maxResults,
-    } = this;
-    let params = {
-      search,
-      email,
-      role,
+    const { maxResults } = this;
+    const params = {
       page: 1,
       per_page: 10,
+      ...pickBy(pick(this, [
+        "search",
+        "email",
+        "role",
+      ])),
     };
-    // delete undefined props
-    params = Object.entries(params).reduce((a, [
-      k,
-      v,
-    ]) => (v
-      ? (a[k] = v, a)
-      : a), {});
 
-    let customers = [];
+    const customers = [];
     let results;
     do {
       results = await this.woocommerce.listCustomers(params);
-      customers = [
-        ...customers,
-        ...results,
-      ];
+      customers.push(...results);
       params.page += 1;
     } while (results.length === params.per_page && customers.length < maxResults);
     if (customers.length > maxResults) {

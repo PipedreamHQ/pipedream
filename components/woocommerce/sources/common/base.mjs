@@ -30,9 +30,8 @@ export default {
     },
     async deactivate() {
       const hookIds = this._getHookIds();
-      for (const id of hookIds) {
-        await this.woocommerce.deleteWebhook(id);
-      }
+      await Promise.all(hookIds.map(async (id) => await this.woocommerce.deleteWebhook(id)));
+      this._setHookIds(null);
     },
   },
   methods: {
@@ -46,9 +45,7 @@ export default {
       const signatureComputed = crypto.createHmac("SHA256", this.woocommerce.$auth.secret)
         .update(bodyRaw)
         .digest("base64");
-      return ( signatureComputed === signature )
-        ? true
-        : false;
+      return signatureComputed === signature;
     },
   },
   async run(event) {
