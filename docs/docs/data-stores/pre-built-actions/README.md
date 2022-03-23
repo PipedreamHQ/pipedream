@@ -18,11 +18,19 @@ After selecting this action, you'll be presented with the 3 key options to finis
 2. **Key** - this is the unique identifier to look up this data in the future
 3. **Value** - the data that should be stored under the **Key**
 
-For example, to store when the workflow was initially triggered, pass the timestamp path (`{{steps.trigger.context.ts}}`) to the **Value** field, and assign the name _Triggered"_ as the **Key**.
+For example, to store when the workflow was initially triggered, pass the timestamp path to the **Value** field, and assign the name _Triggered"_ as the **Key**:
+
+::: v-pre
+`{{ steps.trigger.context.ts }}`
+:::
 
 The **Key** should always evaluate to a string.
 
-However, you can use dynamic keys as well by passing a path to another step's exports. For instance, retrieving an `id` entry in the body of an HTTP Webhook trigger `{{ steps.trigger.event.body.id }}`.
+However, you can use dynamic keys as well by passing a path to another step's exports. For instance, retrieving an `id` entry in the body of an HTTP Webhook trigger:
+
+::: v-pre 
+`{{ steps.trigger.event.body.id }}`
+:::
 
 ![Workflow trigger example](https://res.cloudinary.com/pipedreamin/image/upload/v1648061400/docs/components/CleanShot_2022-03-23_at_14.49.43_2x_eaiv7p.png)
 
