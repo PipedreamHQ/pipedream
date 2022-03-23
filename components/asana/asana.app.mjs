@@ -41,6 +41,7 @@ export default {
       type: "string[]",
       async options(opts) {
         const tasks = await this.getTasks(opts.projectId);
+
         return tasks.map((task) => {
           return {
             label: task.name,
@@ -71,12 +72,7 @@ export default {
       async options() {
         const organizations = await this.getOrganizations();
 
-        return organizations.map((organization) => {
-          return {
-            label: organization.name,
-            value: organization.gid,
-          };
-        });
+        return this.generateObjectOptions(organizations);
       },
     },
     workspaces: {
@@ -86,12 +82,7 @@ export default {
       async options() {
         const workspaces = await this.getWorkspaces();
 
-        return workspaces.map((workspace) => {
-          return {
-            label: workspace.name,
-            value: workspace.gid,
-          };
-        });
+        return this.generateObjectOptions(workspaces);
       },
     },
     teams: {
@@ -101,12 +92,7 @@ export default {
       async options() {
         const teams = await this.getTeams();
 
-        return teams.map((team) => {
-          return {
-            label: team.name,
-            value: team.gid,
-          };
-        });
+        return this.generateObjectOptions(teams);
       },
     },
     projects: {
@@ -114,14 +100,9 @@ export default {
       description: "List of projects. This field use the project GID.",
       type: "string[]",
       async options() {
-        const tags = await this.getProjects();
+        const projects = await this.getProjects();
 
-        return tags.map((tag) => {
-          return {
-            label: tag.name,
-            value: tag.gid,
-          };
-        });
+        return this.generateObjectOptions(projects);
       },
     },
     tags: {
@@ -131,12 +112,7 @@ export default {
       async options() {
         const tags = await this.getTags();
 
-        return tags.map((tag) => {
-          return {
-            label: tag.name,
-            value: tag.gid,
-          };
-        });
+        return this.generateObjectOptions(tags);
       },
     },
     users: {
@@ -146,12 +122,7 @@ export default {
       async options() {
         const users = await this.getUsers();
 
-        return users.map((user) => {
-          return {
-            label: user.name,
-            value: user.gid,
-          };
-        });
+        return this.generateObjectOptions(users);
       },
     },
     tasks: {
@@ -279,6 +250,21 @@ export default {
       var doubleHash = base64Digest(content);
       var headerHash = request.headers["x-hook-secret"];
       return doubleHash === headerHash;
+    },
+    /**
+     * Generate a options object to show in a select list UI.
+     *
+     * @param {string} objects - The list of objects. E.g. { name: "The Name", gid: "123456789"}
+     *
+     * @returns {string} The list of objects formatted.
+     */
+    generateObjectOptions(objects) {
+      return objects.map((obj) => {
+        return {
+          label: obj.name,
+          value: obj.gid,
+        };
+      });
     },
     /**
      * Get an Asana Workspace.
