@@ -1,6 +1,6 @@
-const netlify = require("./netlify.app");
+import netlify from "../../netlify.app.mjs";
 
-module.exports = {
+export default {
   dedupe: "unique",
   props: {
     netlify,
@@ -9,7 +9,12 @@ module.exports = {
       type: "$.interface.http",
       customResponse: true,
     },
-    siteId: { propDefinition: [netlify, "siteId"] },
+    siteId: {
+      propDefinition: [
+        netlify,
+        "siteId",
+      ],
+    },
   },
   hooks: {
     async activate() {
@@ -19,7 +24,10 @@ module.exports = {
         url: this.http.endpoint,
         siteId: this.siteId,
       };
-      const { hookId, token } = await this.netlify.createHook(opts);
+      const {
+        hookId,
+        token,
+      } = await this.netlify.createHook(opts);
       this.db.set("hookId", hookId);
       this.db.set("token", token);
     },
@@ -34,8 +42,11 @@ module.exports = {
   },
   methods: {
     generateMeta(data) {
-      const { id, created_at } = data;
-      const ts = +new Date(created_at);
+      const {
+        id,
+        created_at: createdAt,
+      } = data;
+      const ts = +new Date(createdAt);
       const summary = this.getMetaSummary(data);
       return {
         id,
@@ -45,7 +56,11 @@ module.exports = {
     },
   },
   async run(event) {
-    const { headers, body, bodyRaw } = event;
+    const {
+      headers,
+      body,
+      bodyRaw,
+    } = event;
 
     // Reject any calls not made by the proper Netlify webhook.
     if (!this.netlify.isValidSource(headers, bodyRaw, this.db)) {

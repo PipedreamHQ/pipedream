@@ -1,10 +1,13 @@
-const axios = require("axios");
-const crypto = require("crypto");
-const jwt = require('jwt-simple');
-const NetlifyAPI = require("netlify");
-const parseLinkHeader = require('parse-link-header');
+import axios from "axios";
+import {
+  randomBytes,
+  createHash,
+} from "crypto";
+import jwt from "jwt-simple";
+import { NetlifyAPI } from "netlify";
+import parseLinkHeader from "parse-link-header";
 
-module.exports = {
+export default {
   type: "app",
   app: "netlify",
   propDefinitions: {
@@ -18,11 +21,16 @@ module.exports = {
         // pagination.
         const url = this._sitesEndpoint();
         const params = {
-          per_page: 10,
+          perPage: 10,
         };
-        const { data, next } = await this._propDefinitionsOptions(url, params, context);
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url,
+          params,
+          context);
 
-        const options = data.map(site => ({
+        const options = data.map((site) => ({
           label: site.name,
           value: site.id,
         }));
@@ -34,6 +42,42 @@ module.exports = {
         };
       },
     },
+    deployId: {
+      type: "string",
+      label: "Deploy ID",
+      description: "The deploy for a specified site",
+      async options(context) {
+        // Manual query. See above
+        const { siteId } = context;
+        const url = this._deploysEndpoint(siteId);
+        const params = {
+          perPage: 10,
+        };
+        const {
+          data,
+          next,
+        } = await this._propDefinitionsOptions(url,
+          params,
+          context);
+
+        const options = data.map((deploy) => ({
+          label: `${deploy.name}-${deploy.id}`,
+          value: deploy.id,
+        }));
+        return {
+          options,
+          context: {
+            nextPage: next,
+          },
+        };
+      },
+    },
+    max: {
+      type: "integer",
+      label: "Max Results",
+      description: "Max results to return",
+      optional: true,
+    },
   },
   methods: {
     _apiUrl() {
@@ -42,6 +86,10 @@ module.exports = {
     _sitesEndpoint() {
       const baseUrl = this._apiUrl();
       return `${baseUrl}/sites`;
+    },
+    _deploysEndpoint(siteId) {
+      const baseUrl = this._apiUrl();
+      return `${baseUrl}/sites/${siteId}/deploys`;
     },
     _authToken() {
       return this.$auth.oauth_access_token;
@@ -56,8 +104,10 @@ module.exports = {
         headers,
       };
     },
-    async _propDefinitionsOptions(url, params, { page, prevContext }) {
-      let requestConfig = this._makeRequestConfig();  // Basic axios request config
+    async _propDefinitionsOptions(url, params, {
+      page, prevContext,
+    }) {
+      let requestConfig = this._makeRequestConfig(); // Basic axios request config
       if (page === 0) {
         // First time the options are being retrieved.
         // Include the parameters provided, which will be persisted
@@ -71,10 +121,16 @@ module.exports = {
         url = prevContext.nextPage.url;
       } else {
         // No more options available.
-        return { data: [] };
+        return {
+          data: [],
+        };
       }
 
-      const { data, headers } = await axios.get(url, requestConfig);
+      const {
+        data,
+        headers,
+      } = await axios.get(url,
+        requestConfig);
       // https://docs.netlify.com/api/get-started/#link-header
       const { next } = parseLinkHeader(headers.link);
 
@@ -84,7 +140,7 @@ module.exports = {
       };
     },
     generateToken() {
-      return crypto.randomBytes(32).toString("hex");
+      return randomBytes(32).toString("hex");
     },
     createClient() {
       const opts = {
@@ -106,11 +162,11 @@ module.exports = {
         event,
         data: {
           url,
-          signature_secret: token,
+          signatureSecret: token,
         },
       };
       const requestParams = {
-        site_id: siteId,
+        siteId,
         body: hookOpts,
       };
 
@@ -118,7 +174,7 @@ module.exports = {
       const { id } = await netlifyClient.createHookBySiteId(requestParams);
       console.log(
         `Created "${event}" webhook for site ID ${siteId}.
-        (Hook ID: ${id}, endpoint: ${url})`
+        (Hook ID: ${id}, endpoint: ${url})`,
       );
 
       return {
@@ -127,16 +183,19 @@ module.exports = {
       };
     },
     async deleteHook(opts) {
-      const { hookId, siteId } = opts;
+      const {
+        hookId,
+        siteId,
+      } = opts;
       const requestParams = {
-        hook_id: hookId,
+        hookId,
       };
 
       const netlifyClient = this.createClient();
       await netlifyClient.deleteHook(requestParams);
       console.log(
         `Deleted webhook for site ID ${siteId}.
-        (Hook ID: ${hookId})`
+        (Hook ID: ${hookId})`,
       );
     },
     isValidSource(headers, bodyRaw, db) {
@@ -145,11 +204,32 @@ module.exports = {
       const signature = headers["x-webhook-signature"];
       const token = db.get("token");
       const { sha256 } = jwt.decode(signature, token);
-      const encoded = crypto
-        .createHash('sha256')
+      const encoded = createHash("sha256")
         .update(bodyRaw)
-        .digest('hex');
+        .digest("hex");
       return sha256 === encoded;
+    },
+    async getSite(siteId) {
+      return this.createClient().getSite({
+        siteId,
+      });
+    },
+    async listSiteDeploys(siteId, params = {}) {
+      return this.createClient().listSiteDeploys({
+        siteId,
+        ...params,
+      });
+    },
+    async listFiles(siteId) {
+      return this.createClient().listSiteFiles({
+        siteId,
+      });
+    },
+    async rollbackDeploy(siteId, deployId) {
+      return this.createClient().restoreSiteDeploy({
+        siteId,
+        deployId,
+      });
     },
   },
 };
