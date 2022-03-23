@@ -5,9 +5,8 @@ export default {
   key: "google_calendar-new-or-updated-event-instant",
   type: "source",
   name: "New or Updated Event (Instant)",
-  description:
-    "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
-  version: "0.1.0",
+  description: "Emit new calendar events when an event is created or updated (does not emit cancelled events)",
+  version: "0.1.1",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -39,8 +38,7 @@ export default {
     http: "$.interface.http",
     timer: {
       label: "Push notification renewal schedule",
-      description:
-        "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
+      description: "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       static: {
         intervalSeconds: 60 * 60 * 23,
@@ -159,7 +157,7 @@ export default {
       const now = new Date();
       const intervalMs = event.interval_seconds * 1000;
       // get expiration
-      const expiration = this.db.get("expiration");
+      const expiration = this.db.get(`${this.calendarIds[0]}.expiration`);
       const expireDate = new Date(parseInt(expiration));
 
       // if now + interval > expiration, refresh watch
@@ -236,7 +234,7 @@ export default {
             });
         }
 
-        this.db.set("nextSyncToken", nextSyncToken);
+        this.db.set(`${calendarId}.nextSyncToken`, nextSyncToken);
       }
     }
   },
