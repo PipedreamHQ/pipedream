@@ -8,7 +8,7 @@ export default {
   key: "google_drive-create-file-from-template",
   name: "Create New File From Template",
   description: "Create a new google doc file from template. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -36,7 +36,7 @@ export default {
       description:
         "Name of the file you want to create (eg. `myFile` will create a google doc called `myFile` and a pdf called `myFile.pdf`)",
       optional: false,
-	},
+    },
     mode: {
       type: "string[]",
       label: "Mode",
@@ -61,7 +61,7 @@ export default {
     };
 
     const client = new Mustaches.default({
-      token: () => this.googleDrive.$auth.oauth_access_token
+      token: () => this.googleDrive.$auth.oauth_access_token,
     });
 
     /* CREATE THE GOOGLE DOC */
@@ -79,7 +79,7 @@ export default {
     if (this.mode.includes(MODE_PDF)) {
       const pdfId = await client.export({
         file: googleDocId,
-        mimeType: 'application/pdf',
+        mimeType: "application/pdf",
         name: this.name,
         destination: this.folderId,
       });

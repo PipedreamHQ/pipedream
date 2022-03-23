@@ -1,4 +1,4 @@
-import { google } from "googleapis";
+import youtube from "@googleapis/youtube";
 import { toArray } from "./utils.mjs";
 import { promisify } from "util";
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
@@ -74,11 +74,11 @@ export default {
      * @returns The instance of the YouTube Data API
      */
     youtube() {
-      const auth = new google.auth.OAuth2();
+      const auth = new youtube.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
       });
-      return google.youtube({
+      return youtube.youtube({
         version: "v3",
         auth,
       });
@@ -231,25 +231,32 @@ export default {
     /**
      * Uploads a video to YouTube and optionally sets the video's metadata
      *
-     * @param {Sbject} opts - An object representing options used to upload a video to YouTube
-     * @param {String} opts.title - The video's title. The property value has a maximum length of
-     * 100 characters and may contain all valid UTF-8 characters except < and >.
+     * @param {Sbject} opts - An object representing options used to upload a
+     * video to YouTube
+     * @param {String} opts.title - The video's title. The property value has a
+     * maximum length of 100 characters and may contain all valid UTF-8
+     * characters except < and >.
      * @param {String} opts.content - The file stream of the video to upload
-     * @param {String} [opts.description] - The video's description. The property value has a
-     * maximum length of 5000 bytes and may contain all valid UTF-8 characters except < and >.
-     * @param {String} [opts.privacyStats] - The video's privacy status. Either `private`, `public`,
-     * or `unlisted`.
-     * @param {String} [opts.publishAt] - The date and time when the video is scheduled to publish.
-     * It can be set only if the privacy status of the video is private. The value is specified in
-     * ISO 8601 format.
-     * @param {String[]} [opts.tags] - A list of keyword tags associated with the video. Tags may
-     * contain spaces. The property value has a maximum length of 500 characters.
-     * @param {Boolean} [opts.notifySubscribers] - The `notifySubscribers` parameter indicates
-     * whether YouTube should send a notification about the new video to users who subscribe to the
-     * video's channel. The default value is true.
-     * @param {...*} [extraOpts = {}] - Extra/optional parameters to be fed to the YouTube API call,
-     * as defined in [the API docs](https://bit.ly/3l6xhug)
-     * @returns {Promise<import('googleapis').youtube_v3.Schema$Video>} The created video resource
+     * @param {String} [opts.description] - The video's description. The
+     * property value has a maximum length of 5000 bytes and may contain all
+     * valid UTF-8 characters except < and >.
+     * @param {String} [opts.privacyStats] - The video's privacy status. Either
+     * `private`, `public`, or `unlisted`.
+     * @param {String} [opts.publishAt] - The date and time when the video is
+     * scheduled to publish. It can be set only if the privacy status of the
+     * video is private. The value is specified in ISO 8601 format.
+     * @param {String[]} [opts.tags] - A list of keyword tags associated with
+     * the video. Tags may contain spaces. The property value has a maximum
+     * length of 500 characters.
+     * @param {Boolean} [opts.notifySubscribers] - The `notifySubscribers`
+     * parameter indicates whether YouTube should send a notification about the
+     * new video to users who subscribe to the video's channel. The default
+     * value is true.
+     * @param {...*} [extraOpts = {}] - Extra/optional parameters to be fed to
+     * the YouTube API call, as defined in [the API
+     * docs](https://bit.ly/3l6xhug)
+     * @returns {Promise<import('@googleapis/youtube').youtube_v3.Schema$Video>}
+     * The created video resource
      */
     async insertVideo(opts) {
       const {
