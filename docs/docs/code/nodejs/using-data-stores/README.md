@@ -3,7 +3,7 @@ short_description: Store and read data with data stores.
 thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/icons/icons8-database-96_iv1oup.png
 ---
 
-# Managing state
+# Using Data Stores 
 
 In Node.js (Javascript) code steps, you can also store and retrieve data within code steps without connecting a 3rd party database. **Date Stores** are very useful for tracking data between runs of a particular workflow, making sure workflows only run once per unique record or sharing data between workflows.
 

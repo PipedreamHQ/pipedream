@@ -17,30 +17,31 @@ const conceptsNav = [
         ],
       },
       { title: "Triggers", children: ["/triggers/"] },
-      { title: "Steps", children: [
-        "/workflows/steps/",
-        "/components/actions/"
-      ] },
+      {
+        title: "Steps",
+        children: ["/workflows/steps/", "/components/actions/"],
+      },
       { title: "Integrate", children: ["/integrate/"] },
       {
-        title: "Account",
+        title: "Data Stores",
         children: [
-          "/user-settings/"
-        ] 
+          "/data-stores/",
+          "/data-stores/pre-built-actions/",
+          "/data-stores/managing-data-stores/",
+        ],
+      },
+      {
+        title: "Account",
+        children: ["/user-settings/"],
       },
       {
         title: "Organizations",
-        children: [
-          "/orgs/",
-          "/orgs/sso/okta/",
-        ]
+        children: ["/orgs/", "/orgs/sso/okta/"],
       },
       {
         title: "Troubleshooting",
-        children: [
-          "/troubleshooting/"
-        ]
-      }
+        children: ["/troubleshooting/"],
+      },
     ],
   },
   {
@@ -48,8 +49,10 @@ const conceptsNav = [
     collapsable: false,
     initialOpenGroupIndex: -1,
     children: [
-      { title: "Code", children: [
-        "/code/",
+      {
+        title: "Code",
+        children: [
+          "/code/",
           {
             title: "Node.js",
             type: "group",
@@ -58,43 +61,41 @@ const conceptsNav = [
               "/code/nodejs/auth/",
               "/code/nodejs/http-requests/",
               "/code/nodejs/working-with-files/",
-              "/code/nodejs/managing-state/",
+              "/code/nodejs/using-data-stores/",
               "/code/nodejs/async/",
             ],
           },
           "/code/python/",
           "/code/go/",
           {
-            title: 'Bash',
-            type: 'group',
-            children: [
-              '/code/bash/',
-              '/code/bash/http-requests/'
-            ]
+            title: "Bash",
+            type: "group",
+            children: ["/code/bash/", "/code/bash/http-requests/"],
           },
           {
             title: "API",
             type: "group",
             children: [
-            "/api/overview/",
-            "/api/auth/",
-            "/api/rest/",
-            "/api/rest/webhooks/",
-            "/api/rest/rss/",
-            "/api/rest/workflow-errors/",
-            "/api/sse/",
-            ]
+              "/api/overview/",
+              "/api/auth/",
+              "/api/rest/",
+              "/api/rest/webhooks/",
+              "/api/rest/rss/",
+              "/api/rest/workflow-errors/",
+              "/api/sse/",
+            ],
           },
-          "/destinations/", 
+          "/destinations/",
           "/workflows/concurrency-and-throttling/",
           "/environment-variables/",
           "/workflows/settings/",
           "/workflows/networking/",
           "/scheduling-future-tasks/",
           "/migrate-from-v1/",
-      ] },
+        ],
+      },
       {
-        title: "Components", 
+        title: "Components",
         children: [
           "/components/",
           "/components/quickstart/nodejs/actions/",
@@ -102,7 +103,7 @@ const conceptsNav = [
           "/components/api/",
           "/components/guidelines/",
           "/pipedream-axios/",
-        ]
+        ],
       },
     ],
   },
@@ -113,14 +114,10 @@ const securityNav = [
   "/privacy-and-security/best-practices/",
   "/abuse/",
   "/privacy-and-security/pgp-key/",
-  "/subprocessors/"
+  "/subprocessors/",
 ];
 
-const pricingNav = [
-  "/pricing/",
-  "/limits/",
-  "/workflows/events/cold-starts/", 
-]
+const pricingNav = ["/pricing/", "/limits/", "/workflows/events/cold-starts/"];
 
 module.exports = {
   "/quickstart/": ["/quickstart/"],
