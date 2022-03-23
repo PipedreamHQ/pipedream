@@ -46,7 +46,9 @@ docs](https://docs.pipedream.com/event-sources/) for more information.
            "ses:CreateReceiptRule",
            "ses:DeleteReceiptRule",
            "ses:DescribeActiveReceiptRuleSet",
-           "ses:ListIdentities"
+           "ses:ListIdentities",
+           "ses:CreateReceiptRuleSet",
+           "ses:SetActiveReceiptRuleSet"
          ],
          "Resource": "*"
        },
@@ -65,17 +67,15 @@ docs](https://docs.pipedream.com/event-sources/) for more information.
            "sns:CreateTopic",
            "sns:DeleteTopic",
            "sns:Subscribe",
-           "sns:Unsubscribe"
           ],
          "Resource": "arn:aws:sns:*:*:*"
        },
        {
-         "Sid": "SNSCreateReceiptRuleSet",
+         "Sid": "SNSUnsubscribe",
          "Effect": "Allow",
          "Action": [
-           "ses:CreateReceiptRuleSet",
-           "ses:SetActiveReceiptRuleSet"
-          ],
+           "sns:Unsubscribe"
+         ],
          "Resource": "*"
        }
      ]
@@ -83,9 +83,7 @@ docs](https://docs.pipedream.com/event-sources/) for more information.
    ```
 
    Keep the AWS access key and secret key that AWS generates for this user for
-   the next step. **NOTE: the last statement in the listed policy (i.e.
-   `SNSCreateReceiptRuleSet`) is optional, and only necessary if you want the
-   event source to create and activate the rule set for you.**
+   the next step.
 
 4. Visit the [Pipedream Accounts](https://pipedream.com/accounts) page and click
    the button labeled **CONNECT AN APP**. Search for "AWS" in the modal that
@@ -104,14 +102,15 @@ docs](https://docs.pipedream.com/event-sources/) for more information.
 
 ## AWS Resources
 
-This source creates at least 3 AWS resources when activated:
+This source creates at least 4 AWS resources when activated:
 
 1. An SNS topic
-2. An SES receipt rule tied to your default receipt rule set, which routes all
+2. An S3 bucket where your incoming email will be stored
+3. An SES receipt rule tied to your default receipt rule set, which routes all
    inbound email to the SNS topic
-3. A subscription for your SNS topic, which directs messages to the source's
+4. A subscription for your SNS topic, which directs messages to the source's
    HTTP endpoint.
-4. If no active rule set is available in the AWS account, the event source will
+5. If no active rule set is available in the AWS account, the event source will
    create it first
 
 When you delete the source, it deletes these resources from your AWS account

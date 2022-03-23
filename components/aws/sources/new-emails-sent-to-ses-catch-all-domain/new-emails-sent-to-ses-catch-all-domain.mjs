@@ -28,15 +28,16 @@ export default {
   },
   methods: {
     ...base.methods,
-    getReceiptRule(topicArn) {
+    getReceiptRule(bucketName, topicArn) {
       const name = `pd-${this.domain}-catchall-${uuid()}`;
       const rule = {
         Name: name,
         Enabled: true,
         Actions: [
           {
-            SNSAction: {
+            S3Action: {
               TopicArn: topicArn,
+              BucketName: bucketName,
             },
           },
         ],
@@ -49,6 +50,27 @@ export default {
         name,
         rule,
       };
+    },
+    async processEvent(event) {
+      const { body } = event;
+      const { Message: rawMessage } = body;
+      if (!rawMessage) {
+        console.log("No message present, exiting");
+        return;
+      }
+
+      const meta = this.generateMeta(event);
+      const message = JSON.parse(rawMessage);
+      try {
+        this.$emit(message, meta);
+      } catch (err) {
+        console.log(
+          `Couldn't parse message as JSON. Emitting raw message. Error: ${err}`,
+        );
+        this.$emit({
+          rawMessage,
+        }, meta);
+      }
     },
   },
 };

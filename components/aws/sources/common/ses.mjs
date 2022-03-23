@@ -5,11 +5,19 @@ export default {
   ...base,
   hooks: {
     ...base.hooks,
-    async activate() {
+    async deploy() {
       await base.hooks.activate.bind(this)();
 
+      const region = this.getRegion();
+      const bucketName = `pd-${this.domain}-catchall-${uuid()}`;
+      console.log(await this.aws.createS3Bucket(region, bucketName));
+      const bucketPolicy = this._allowSESPutsBucketPolicy(
+        bucketName,
+        await this.aws.getAWSAccountId(),
+      );
+      console.log(await this.aws.putS3BucketPolicy(region, bucketName, bucketPolicy));
       const topicArn = this.getTopicArn();
-      await this._enableReceiptNotifications(topicArn);
+      await this._enableReceiptNotifications(bucketName, topicArn);
     },
     async deactivate() {
       await this._disableReceiptNotifications();
@@ -61,7 +69,28 @@ export default {
     _setRuleSetInfo(ruleSetInfo) {
       this.db.set("ses-rule", ruleSetInfo);
     },
-    async _enableReceiptNotifications(topicArn) {
+    _allowSESPutsBucketPolicy(bucketName, accountId) {
+      return `{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "AllowSESPuts",
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": "ses.amazonaws.com"
+                },
+                "Action": "s3:PutObject",
+                "Resource": "arn:aws:s3:::${bucketName}/*",
+                "Condition": {
+                    "StringEquals": {
+                        "aws:Referer": "${accountId}"
+                    }
+                }
+            }
+        ]
+      }`;
+    },
+    async _enableReceiptNotifications(bucketName, topicArn) {
       const {
         metadata,
         rules,
@@ -69,7 +98,7 @@ export default {
       const {
         name: ruleName,
         rule: newRule,
-      } = this.getReceiptRule(topicArn);
+      } = this.getReceiptRule(bucketName, topicArn);
 
       const { Name: ruleSetName } = metadata;
       const { Name: after } = rules.pop() || {};
