@@ -2,20 +2,27 @@ const strava = require("../../strava.app.js");
 
 module.exports = {
   key: "strava-custom-events",
-  name: "Custom Events",
-  description:
-    "Emits an event when an activity is created, updated, or deleted",
-  version: "0.0.1",
+  name: "New Custom Event",
+  description: "Emit new event when an activity is created, updated, or deleted",
+  version: "0.0.2",
+  type: "source",
   props: {
     strava,
     eventNameOptions: {
       label: "Strava Events",
+      description: "Custom Strava Event Names",
       type: "string[]",
       async options() {
-        return ["activity.create", "activity.update", "activity.delete"];
+        return [
+          "activity.create",
+          "activity.update",
+          "activity.delete",
+        ];
       },
     },
     stravaApphook: {
+      label: "App hook",
+      description: "Strava App webhook",
       type: "$.interface.apphook",
       appProp: "strava",
       async eventNames() {
@@ -25,23 +32,24 @@ module.exports = {
   },
   async run(event) {
     console.log(event);
-    const { object_type, object_id, event_time } = event;
-    const ts = event_time * 1000;
-
-    if (object_type === "activity") {
+    const ts = event.event_time * 1000;
+    if (event.object_type === "activity") {
       let details;
       // Optimistically fetch activity details. When an event is deleted, this will fail
       try {
-        details = await this.strava.getActivity(object_id);
+        details = await this.strava.getActivity(event.object_id);
       } catch (err) {
         console.log(`Error fetching activity details: ${err}`);
       }
       this.$emit(
-        { event, details },
+        {
+          event,
+          details,
+        },
         {
           summary: `Activity ${event.aspect_type}d`,
           ts,
-        }
+        },
       );
     }
   },
