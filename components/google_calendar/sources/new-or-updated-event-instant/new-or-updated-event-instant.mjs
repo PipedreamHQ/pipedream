@@ -149,6 +149,24 @@ export default {
         }
       }
     },
+    getSoonestExpirationDate() {
+      let min;
+      for (const calendarId of this.calendarIds) {
+        const expiration = parseInt(this.db.get(`${calendarId}.expiration`));
+        if (!min || expiration < min) {
+          min = expiration;
+        }
+      }
+      return new Date(min);
+    },
+    getChannelIds() {
+      const channelIds = [];
+      for (const calendarId of this.calendarIds) {
+        const channelId = this.db.get(`${calendarId}.channelId`);
+        channelIds.push(channelId);
+      }
+      return channelIds;
+    },
   },
   async run(event) {
     // refresh watch
@@ -157,8 +175,7 @@ export default {
       const now = new Date();
       const intervalMs = event.interval_seconds * 1000;
       // get expiration
-      const expiration = this.db.get(`${this.calendarIds[0]}.expiration`);
-      const expireDate = new Date(parseInt(expiration));
+      const expireDate = this.getSoonestExpirationDate();
 
       // if now + interval > expiration, refresh watch
       if (now.getTime() + intervalMs > expireDate.getTime()) {
@@ -167,11 +184,7 @@ export default {
       }
     } else {
       // Verify channel ID
-      const channelIds = [];
-      for (const calendarId of this.calendarIds) {
-        const channelId = this.db.get(`${calendarId}.channelId`);
-        channelIds.push(channelId);
-      }
+      const channelIds = this.getChannelIds();
       const incomingChannelId = event?.headers?.["x-goog-channel-id"];
       if (!channelIds.includes(incomingChannelId)) {
         console.log(
