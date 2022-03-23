@@ -20,16 +20,10 @@ export default {
       description: "An epoch timestamp to use for filtering activities that have taken place after a certain time",
       optional: true,
     },
-    page: {
+    maxItems: {
       type: "integer",
-      label: " Page number",
-      description: "Defaults to 1",
-      optional: true,
-    },
-    per_page: {
-      type: "integer",
-      label: "Number of items per page",
-      description: "Defaults to 30",
+      label: "Max number of activities",
+      description: "Maximum number of activities, if not given all activities are returned",
       optional: true,
     },
   },
@@ -37,8 +31,7 @@ export default {
     const data = {
       before: this.before,
       after: this.after,
-      page: this.page,
-      per_page: this.per_page,
+      maxItems: this.maxItems,
     };
     const resp = await this.strava.listActivities($, data);
     $.export("$summary", "The activity list has been retrieved");

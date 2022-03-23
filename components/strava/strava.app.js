@@ -57,12 +57,55 @@ module.exports = {
         params: dataRest,
       });
     },
-    async listActivities($, data) {
-      return await this._makeAPIRequestWithPlatform($, {
+    async _listActivitiesOfPage($, data, maxItems, pageSize, results, page) {
+      const tempResults = await this._makeAPIRequestWithPlatform($, {
         method: "GET",
         path: "/activities",
-        params: data,
+        params: {
+          ...data,
+          page,
+          per_page: pageSize,
+        },
       });
+      if (tempResults.length < pageSize) {
+        return [
+          ...results,
+          ...tempResults,
+        ].slice(0, maxItems);
+      } else if (tempResults.length + results.length >= maxItems) {
+        //integer > undefined always returns false, so it is not checked again if undefined
+        return [
+          ...results,
+          ...tempResults,
+        ].slice(0, maxItems);
+      } else {
+        return this._listActivitiesOfPage(
+          $,
+          data,
+          maxItems,
+          pageSize,
+          [
+            ...results,
+            ...tempResults,
+          ],
+          page + 1,
+        );
+      }
+    },
+    async listActivities($, data) {
+      const pageSize = 200;
+      const {
+        maxItems,
+        ...dataRest
+      } = data;
+      return this._listActivitiesOfPage(
+        $,
+        dataRest,
+        maxItems,
+        pageSize,
+        [],
+        1,
+      );
     },
     async updateActivity($, data) {
       const {
