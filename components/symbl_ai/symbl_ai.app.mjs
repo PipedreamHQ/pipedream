@@ -186,5 +186,15 @@ export default {
         params,
       });
     },
+    async deleteConversation({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "delete",
+        path: `/conversations/${conversationId}`,
+      });
+    },
   },
 };
