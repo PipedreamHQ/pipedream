@@ -172,7 +172,7 @@ export default {
   }
 
   .nav-links {
-    margin-left: 3rem;
+    margin-left: 0.1rem;
   }
 }
 

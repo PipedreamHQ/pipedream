@@ -54,8 +54,7 @@ export default {
       class="
         navbar-grid
         hover:block
-        absolute
-        right-0
+        md:absolute
         w-full
         md:max-w-screen-sm md:w-screen
         mt-2
@@ -69,7 +68,7 @@ export default {
           pb-4
           bg-white
           rounded-md
-          shadow-lg
+          md:shadow-lg
           dark-mode:bg-gray-700
         "
       >
@@ -101,7 +100,7 @@ export default {
             </div>
             <div class="ml-3">
               <span class="block font-semibold">{{ child.title }}</span>
-              <span class="block text-sm font-light text-gray-600">
+              <span class="block text-sm font-light text-gray-600 hidden md:block">
                 {{ child.subtitle }}
               </span>
             </div>
