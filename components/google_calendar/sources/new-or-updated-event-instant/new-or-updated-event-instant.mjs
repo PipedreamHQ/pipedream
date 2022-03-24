@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import googleCalendar from "../../google_calendar.app.js";
+import googleCalendar from "../../google_calendar.app.mjs";
 
 export default {
   key: "google_calendar-new-or-updated-event-instant",
@@ -12,21 +12,13 @@ export default {
     googleCalendar,
     db: "$.service.db",
     calendarIds: {
+      propDefinition: [
+        googleCalendar,
+        "calendarId",
+      ],
       type: "string[]",
       label: "Calendars",
       description: "Select one or more calendars to watch",
-      async options() {
-        const calListResp = await this.googleCalendar.calendarList();
-        const calendars = calListResp?.data?.items ?? [];
-        if (calendars && calendars.length) {
-          const calendarIds = calendars.map((item) => ({
-            value: item.id,
-            label: item.summary,
-          }));
-          return calendarIds;
-        }
-        return [];
-      },
     },
     newOnly: {
       label: "New events only?",

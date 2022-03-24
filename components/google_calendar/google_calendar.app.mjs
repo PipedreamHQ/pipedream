@@ -1,13 +1,27 @@
-const googleCalendar = require("@googleapis/calendar");
+import googleCalendar from "@googleapis/calendar";
 
-module.exports = {
+export default {
   type: "app",
   app: "google_calendar",
   propDefinitions: {
     calendarId: {
       label: "Calendar ID",
-      description: "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the \"primary\" keyword.",
+      description: "Calendar identifier. To access the primary calendar of the currently logged in user, use the \"primary\" keyword.",
       type: "string",
+      async options() {
+        const calListResp = await this.calendarList();
+        const calendars = calListResp?.data?.items ?? [];
+        if (calendars && calendars.length) {
+          const calendarIds = calendars.map((item) => {
+            return {
+              value: item.id,
+              label: item.summary,
+            };
+          });
+          return calendarIds;
+        }
+        return [];
+      },
     },
     iCalUID: {
       label: "iCal UID",
@@ -32,18 +46,16 @@ module.exports = {
       description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order.",
       optional: true,
       type: "string",
-      options() {
-        return [
-          {
-            label: "startTime",
-            value: "startTime",
-          },
-          {
-            label: "updated",
-            value: "updated",
-          },
-        ];
-      },
+      options: [
+        {
+          label: "startTime",
+          value: "startTime",
+        },
+        {
+          label: "updated",
+          value: "updated",
+        },
+      ],
       default: "startTime",
     },
     pageToken: {
@@ -137,27 +149,23 @@ module.exports = {
     },
     async calendarList() {
       const calendar = this.calendar();
-      const resp = await calendar.calendarList.list();
-      return resp;
+      return calendar.calendarList.list();
     },
     async list(config) {
       const calendar = this.calendar();
-      const resp = await calendar.events.list(config);
-      return resp;
+      return calendar.events.list(config);
     },
     // for config key value pairs - https://developers.google.com/calendar/v3/reference/events/list
     async getEvents(config) {
-      return await this.list(config);
+      return this.list(config);
     },
     async watch(config) {
       const calendar = this.calendar();
-      const resp = await calendar.events.watch(config);
-      return resp;
+      return calendar.events.watch(config);
     },
     async stop(config) {
       const calendar = this.calendar();
-      const resp = await calendar.channels.stop(config);
-      return resp;
+      return calendar.channels.stop(config);
     },
     async fullSync(calendarId) {
       let nextSyncToken = null;
