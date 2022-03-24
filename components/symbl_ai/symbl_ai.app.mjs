@@ -196,5 +196,14 @@ export default {
         path: `/conversations/${conversationId}`,
       });
     },
+    async getMembers({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/members`,
+      });
+    },
   },
 };
