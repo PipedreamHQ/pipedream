@@ -19,6 +19,8 @@ curl --silent https://wttr.in/Cleveland.png --output /tmp/weather.png
 ls /tmp
 ```
 
-:::warning
-The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/limits/#disk) for details.
-:::
+## `/tmp` limitations
+
+The `/tmp` directory can store up to {{$site.themeConfig.TMP_SIZE_LIMIT}} of storage. Also the storage may be wiped or may not exist between workflow executions.
+
+To avoid errors, assume that the `/tmp` directory is empty between workflow runs. Please refer to the [disk limits](/limits/#disk) for details.
