@@ -3,9 +3,9 @@ import data_stores from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-get-record",
-  name: "Get Record",
+  name: "Get record",
   description: "Get a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     data_stores,
