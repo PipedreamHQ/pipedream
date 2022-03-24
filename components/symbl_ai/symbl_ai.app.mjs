@@ -205,5 +205,14 @@ export default {
         path: `/conversations/${conversationId}/members`,
       });
     },
+    async getTrackers({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/trackers-detected`,
+      });
+    },
   },
 };

@@ -16,12 +16,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = 
+    const response =
       await this.symblAIApp.deleteConversation({
         $,
         conversationId: this.conversationId,
-    });
-    $.export("$summary", `Successfully deleted the conversation.`);
+      });
+    $.export("$summary", "Successfully deleted the conversation.");
     return response;
   },
 };
