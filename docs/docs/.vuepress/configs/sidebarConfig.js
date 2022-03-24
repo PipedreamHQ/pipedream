@@ -1,6 +1,7 @@
 // NEW NAV
 
 const conceptsNav = [
+  "/quickstart/",
   {
     title: "Essential",
     collapsable: false,
@@ -16,7 +17,12 @@ const conceptsNav = [
           "/workflows/networking/",
         ],
       },
-      { title: "Triggers", children: ["/triggers/"] },
+      "/triggers/",
+      // { title: "Triggers",
+      //   children: [
+      //     "/triggers/"
+      //   ]
+      // },
       {
         title: "Steps",
         children: ["/workflows/steps/", "/components/actions/"],
