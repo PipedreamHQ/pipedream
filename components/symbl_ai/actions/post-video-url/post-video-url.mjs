@@ -5,7 +5,7 @@ export default {
   key: "symbl_ai-post-video-url",
   name: "Submit Video URL",
   description: "Submit a Video file by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url).",
-  version: "0.0.44",
+  version: "0.0.4",
   type: "action",
   props: {
     symblAIApp,
