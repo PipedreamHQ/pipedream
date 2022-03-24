@@ -2,9 +2,10 @@
 
 For the last example in this quickstart, we'll use many of the patterns introduced in [earlier examples](/quickstart/) to solve a real-world use case and will cover how to:
 
-- [Trigger a workflow anytime @pipedream is mentioned on Twitter](#trigger-a-workflow-anytime-pipedream-https-twitter-com-pipedream-is-mentioned-on-twitter)
-- [Construct a message in Node.js using Slack Block Kit](#construct-a-message-in-node-js-using-slack-block-kit)
-- [Use an action to post the formatted message to a Slack channel](#use-an-action-to-post-the-formatted-message-to-a-slack-channel)
+- [Real-world Twitter -> Slack](#real-world-twitter---slack)
+    - [Trigger a workflow anytime `@pipedream` is mentioned on Twitter](#trigger-a-workflow-anytime-pipedream-is-mentioned-on-twitter)
+    - [Construct a message in Node.js using Slack Block Kit](#construct-a-message-in-nodejs-using-slack-block-kit)
+    - [Use an action to post the formatted message to a Slack channel](#use-an-action-to-post-the-formatted-message-to-a-slack-channel)
 - [Run a live test](#run-a-live-test)
 
 Following is an example of a Tweet that we'll richly format and post to Slack:
@@ -225,10 +226,7 @@ Next, post a Tweet mentioning `@pipedream` — **click Post Tweet below to use o
 <p style="text-align:center;">
 <a href="https://twitter.com/intent/tweet?text=I%27m%20testing%20my%20%40pipedream%20workflow!%20Try%20for%20free%20at%20https%3A%2F%2Fpipedream.com%2Fquickstart%2F%20and%20learn%20to%20connect%20APIs%20with%20code%20level%20control%20when%20you%20need%20it%2C%20and%20no%20code%20when%20you%20don%27t!%20pic.twitter.com%2F3kLOEdPMQ1" target="_blank"><img src="./images/post-tweet-content.png"> <img src="./images/post-tweet.png"></a>
 </p>
-<!--
- or [use our pre-written Tweet](https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20).
-<a href="https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%40pipedream%20quickstart!%20https%3A%2F%2Fpipedream.com%2Fquickstart%20" target="_blank"><img src="./images/image-20210524211931799.png"></a>
--->
+
 
 Your workflow will be triggered the next time the Twitter source runs (every 15 minutes by default). You can also trigger your source manually. Click on **Edit code and configuration** in your trigger step:
 

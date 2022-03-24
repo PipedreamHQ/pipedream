@@ -67,45 +67,4 @@ For examples of supported data types in your steps language, see the examples be
 * [Bash](/code/bash/#sharing-data-between-steps)
 * [Go](/code/go/#sharing-data-between-steps)
 
-<!--
-To share data between steps, you can use **step exports**.
-
-Your trigger step automatically exports the event that triggered your workflow in the variable `steps.trigger.event`. You can reference this variable in any step.
-
-```javascript
-async run({ steps, $ }) {
-  // In any step, you can reference the contents of the trigger event
-  console.log(steps.trigger.event);
-}
-```
-
-When you export your own data from steps, you'll access it at the variable `steps.[STEP NAME].[EXPORT NAME]`. For example, a code step might export data at `steps.nodejs.myData`.
-
-### Exporting data in code steps
-
-You can export data from code steps in one of two ways: using named exports or `return`.
-
-#### Using `return`
-
-When you use return, the exported data will appear at `steps.[STEP NAME].$return_value`. For example, if you run the code below in a step named `nodejs`, you'd reference the returned data using `steps.nodejs.$return_value`.
-
-```javascript
-async run({ steps, $ }) {
-  return "data"
-}
-```
-
-#### Using `$.export`
-
-You can also use `$.export` to return named exports from an action. `$export` takes the name of the export as the first argument, and the value to export as the second argument:
-
-```javascript
-async run({ steps, $ }) {
-  $.export("name", "value")
-}
-```
-
-When your workflow runs, you'll see the named exports appear below your step, with the data you exported. You can reference these exports in other steps using `steps.[STEP NAME].[EXPORT NAME]`.
--->
-
 <Footer />
