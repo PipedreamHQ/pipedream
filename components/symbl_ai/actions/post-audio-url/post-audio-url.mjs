@@ -2,17 +2,17 @@ import symblAIApp from "../../symbl_ai.app.mjs";
 import languages from "../languages.mjs";
 
 export default {
-  key: "symbl_ai-post-video-url",
-  name: "Submit Video URL",
-  description: "Submit a Video file by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url).",
-  version: "0.0.44",
+  key: "symbl_ai-post-audio-url",
+  name: "Submit Audio URL",
+  description: "Submit an Audio file by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/audio/post-audio-url).",
+  version: "0.0.3",
   type: "action",
   props: {
     symblAIApp,
-    videoUrl: {
+    audioUrl: {
       type: "string",
-      label: "Video URL",
-      description: "The URL of the video file to be processed.",
+      label: "Audio URL",
+      description: "The URL of the audio file to be processed.",
       optional: false,
     },
     meetingName: {
@@ -71,7 +71,7 @@ export default {
     enableSeparateRecognitionPerChannel: {
       type: "boolean",
       label: "Enable Separate Recognition per Channel",
-      description: "Enables Speaker Separated Channel video processing. Accepts `true` or `false` values.",
+      description: "Enables Speaker Separated Channel audio processing. Accepts `true` or `false` values.",
       optional: true,
     },
     enableAllTrackers: {
@@ -83,13 +83,13 @@ export default {
     enableSpeakerDiarization: {
       type: "boolean",
       label: "Enable Speaker Diarization",
-      description: "Set this parameter to `true` to enable Speaker Separation. Default value is `false`.  See [Speaker Separation](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url/#speaker-separation) for reference.",
+      description: "Set this parameter to `true` to enable Speaker Separation. Default value is `false`.  See [Speaker Separation](https://docs.symbl.ai/docs/async-api/overview/audio/post-audio-url/#speaker-separation) for reference.",
       optional: true,
     },
     diarizationSpeakerCount: {
       type: "string",
       label: "Number of Speakers",
-      description: "The number of unique speakers in this conversation. See [Speaker Separation](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url/#speaker-separation) for reference.",
+      description: "The number of unique speakers in this conversation. See [Speaker Separation](https://docs.symbl.ai/docs/async-api/overview/audio/post-audio-url/#speaker-separation) for reference.",
       optional: true,
     },
     trackers: {
@@ -101,26 +101,26 @@ export default {
   },
   async run({ $ }) {
     const response =
-      await this.symblAIApp.postVideoUrl({
-        $,
-        data: {
-          url: this.videoUrl,
-          name: this.meetingName,
-          customVocabulary: this.customVocabulary,
-          confidenceThreshold: this.confidenceThreshold,
-          detectPhrases: this.detectPhrases,
-          webhookUrl: this.webhookUrl,
-          detectEntities: this.detectEntities,
-          languageCode: this.languageCode,
-          mode: this.mode,
-          enableSeparateRecognitionPerChannel: this.enableSeparateRecognitionPerChannel,
-          enableAllTrackers: this.enableAllTrackers,
-          enableSpeakerDiarization: this.enableSpeakerDiarization,
-          diarizationSpeakerCount: this.diarizationSpeakerCount,
-          trackers: JSON.parse(this.trackers),
-        },
-      });
-    $.export("$summary", `Successfully posted video URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
+        await this.symblAIApp.postAudioUrl({
+          $,
+          data: {
+            url: this.audioUrl,
+            name: this.meetingName,
+            customVocabulary: this.customVocabulary,
+            confidenceThreshold: this.confidenceThreshold,
+            detectPhrases: this.detectPhrases,
+            webhookUrl: this.webhookUrl,
+            detectEntities: this.detectEntities,
+            languageCode: this.languageCode,
+            mode: this.mode,
+            enableSeparateRecognitionPerChannel: this.enableSeparateRecognitionPerChannel,
+            enableAllTrackers: this.enableAllTrackers,
+            enableSpeakerDiarization: this.enableSpeakerDiarization,
+            diarizationSpeakerCount: this.diarizationSpeakerCount,
+            trackers: JSON.parse(this.trackers),
+          },
+        });
+    $.export("$summary", `Successfully posted audio file URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
     return response;
   },
 };

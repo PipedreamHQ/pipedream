@@ -68,6 +68,17 @@ export default {
         data,
       });
     },
+    async postAudioUrl({
+      $,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: "/process/audio/url",
+        data,
+      });
+    },
     async getJobStatus({
       $,
       jobId,
