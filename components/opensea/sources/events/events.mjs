@@ -37,7 +37,7 @@ export default {
     const eventType = this.eventType === "sales"
       ? "successful"
       : "created";
-    const apiKey = this.$auth.opensea.api_key;
+    const apiKey = this.opensea.$auth.api_key;
     const url = `https://api.opensea.io/api/v1/events?only_opensea=false&asset_contract_address=${contract}&event_type=${eventType}`;
     const resp = await axios($, {
       url,
