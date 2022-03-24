@@ -2,7 +2,7 @@ module.exports = [
   {
     text: "Get Started",
     link: "/quickstart/",
-    variant: 'primary',
+    variant: "primary",
   },
   {
     text: "Concepts",
@@ -41,25 +41,25 @@ module.exports = [
         title: "Components",
         subtitle: "Build reusable sources and actions",
         link: "/components/",
-        icon: "component-icon"
-      }
+        icon: "component-icon",
+      },
     ],
   },
-  {
-    text: "Guides",
-    link: "/guides/",
-  },
+  // {
+  //   text: "Guides",
+  //   link: "/guides/",
+  // },
   {
     text: "Support",
     link: "/support/",
   },
   {
     text: "Pricing",
-    link: "/pricing/"
+    link: "/pricing/",
   },
   {
     text: "Security & Privacy",
-    link: "/privacy-and-security/"
+    link: "/privacy-and-security/",
   },
   {
     text: "v2",
