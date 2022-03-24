@@ -5,7 +5,8 @@ module.exports = {
   key: "google_calendar-new-calendar",
   name: "New Calendar",
   description: "Emit an event when a calendar is created.",
-  version: "0.0.1",
+  version: "0.0.2",
+  type: "source",
   props: {
     db: "$.service.db",
     googleCalendar,
@@ -28,7 +29,7 @@ module.exports = {
       this.db.set("calendarIds", []);
     },
   },
-  async run(event) {
+  async run() {
     const previousCalendarIds = this.db.get("calendarIds") || [];
 
     const calListResp = await this.googleCalendar.calendarList();
@@ -38,7 +39,10 @@ module.exports = {
     for (const calendar of calendars) {
       currentCalendarIds.push(calendar.id);
       if (!previousCalendarIds.includes(calendar.id)) {
-        const { summary, id } = calendar;
+        const {
+          summary,
+          id,
+        } = calendar;
         this.$emit(calendar, {
           summary,
           id,

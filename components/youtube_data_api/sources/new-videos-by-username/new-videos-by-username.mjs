@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api-new-videos-by-username",
   name: "New Videos by Username",
   description: "Emit new event for each new Youtube video tied to a username.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -47,8 +47,15 @@ export default {
         headers: this.getHeaders(),
         ...otherConfig,
       };
-
-      return axios($ || this, config);
+      try {
+        return await axios($ || this, config);
+      } catch (error) {
+        this.throwFormattedError(error);
+      }
+    },
+    throwFormattedError(error) {
+      error = error.response;
+      throw new Error(`${error.status} - ${error.statusText} - ${error.data.message}`);
     },
     async postVideoUrl({
       $,
@@ -68,6 +75,18 @@ export default {
       return this.makeRequest({
         $,
         path: `/job/${jobId}`,
+      });
+    },
+    async postVideoSummaryUI({
+      $,
+      conversationId,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: `/conversations/${conversationId}/experiences`,
+        data,
       });
     },
     async getSpeechToText({
@@ -126,6 +145,44 @@ export default {
       return this.makeRequest({
         $,
         path: "/conversations",
+        params,
+      });
+    },
+    async getEntities({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/entities`,
+      });
+    },
+    async getAnalytics({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/analytics`,
+      });
+    },
+    async getConversation({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}`,
+      });
+    },
+    async getSummary({
+      $,
+      conversationId,
+      params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/summary`,
         params,
       });
     },
