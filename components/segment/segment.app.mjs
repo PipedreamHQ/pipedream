@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -36,93 +37,135 @@ export default {
     },
   },
   methods: {
-    getBaseUrl() {
+    getConfigApiBaseUrl() {
+      // return "https://api.segmentapis.com";
+      return "https://platform.segmentapis.com/v1beta";
+    },
+    getTrackingApiBaseUrl() {
       return "https://api.segment.io/v1";
     },
-    getUrl(path) {
-      const baseUrl = this.getBaseUrl();
+    getConfigApiUrl(path) {
+      const baseUrl = this.getConfigApiBaseUrl();
       return `${baseUrl}${path}`;
     },
-    getHeaders() {
+    getTrackingApiUrl(path) {
+      const baseUrl = this.getTrackingApiBaseUrl();
+      return `${baseUrl}${path}`;
+    },
+    getConfigApiHeaders() {
+      return {
+        Authorization: `Bearer ${this.$auth.write_key}`,
+      };
+    },
+    getTrackingApiHeaders() {
       return {
         Authorization: `Basic ${this.$auth.write_key}`,
       };
     },
-    makeRequest(customConfig) {
+    async makeRequest(customConfig) {
       const {
         $,
+        api = constants.API.CONFIG,
         method,
         path,
-        data,
+        ...otherConfig
       } = customConfig;
+
+      const url = api === constants.API.CONFIG
+        ? this.getConfigApiUrl(path)
+        : this.getTrackingApiUrl(path);
+
+      const headers = api === constants.API.CONFIG
+        ? this.getConfigApiHeaders()
+        : this.getTrackingApiHeaders();
 
       const config = {
         method,
-        url: this.getUrl(path),
-        headers: this.getHeaders(),
-        data,
+        url,
+        headers,
+        ...otherConfig,
       };
 
       return axios($ || this, config);
     },
-    alias({
-      $, data,
-    }) {
+    async alias(args = {}) {
       return this.makeRequest({
-        $,
+        api: constants.API.TRACKING,
         method: "post",
         path: "/alias",
-        data,
+        ...args,
       });
     },
-    group({
-      $, data,
-    }) {
+    async group(args = {}) {
       return this.makeRequest({
-        $,
+        api: constants.API.TRACKING,
         method: "post",
         path: "/group",
-        data,
+        ...args,
       });
     },
-    identify({
-      $, data,
-    }) {
+    async identify(args = {}) {
       return this.makeRequest({
-        $,
+        api: constants.API.TRACKING,
         method: "post",
         path: "/identify",
-        data,
+        ...args,
       });
     },
-    page({
-      $, data,
-    }) {
+    async page(args = {}) {
       return this.makeRequest({
-        $,
+        api: constants.API.TRACKING,
         method: "post",
         path: "/page",
-        data,
+        ...args,
       });
     },
-    screen({
-      $, data,
-    }) {
+    async screen(args = {}) {
       return this.makeRequest({
-        $,
+        api: constants.API.TRACKING,
         method: "post",
         path: "/screen",
-        data,
+        ...args,
       });
     },
-    track({
-      $, data,
-    }) {
+    async track(args = {}) {
       return this.makeRequest({
-        $,
+        api: constants.API.TRACKING,
         method: "post",
         path: "/track",
-        data,
+        ...args,
+      });
+    },
+    async listWorkspaces(args = {}) {
+      return this.makeRequest({
+        path: "/workspaces",
+        ...args,
+      });
+    },
+    async createDestination({
+      source, ...args
+    }) {
+      return this.makeRequest({
+        method: "post",
+        path: `${source}/destinations`,
+        ...args,
+      });
+    },
+    async deleteDestination({
+      source, destination, ...args
+    }) {
+      return this.makeRequest({
+        method: "delete",
+        path: `${source}/destinations/${destination}`,
+        ...args,
+      });
+    },
+    async listSources({
+      workspace, ...args
+    }) {
+      return this.makeRequest({
+        path: `/workspaces/${workspace}/sources`,
+        ...args,
       });
     },
   },
