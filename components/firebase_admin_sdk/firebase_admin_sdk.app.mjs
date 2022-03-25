@@ -2,6 +2,7 @@ import admin from "firebase-admin";
 import { axios } from "@pipedream/platform";
 import googleAuth from "google-auth-library";
 import { Firestore } from "@google-cloud/firestore";
+const pageSize = 20; // used for pagination of documents
 
 export default {
   type: "app",
@@ -49,6 +50,13 @@ export default {
       type: "object",
       label: "Data",
       description: "An Object containing the data for the new document",
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "Maximum number of documents to return. Defaults to 20.",
+      optional: true,
+      default: 20,
     },
   },
   methods: {
@@ -167,11 +175,26 @@ export default {
     async listCollections() {
       return this.getFirestore().listCollections();
     },
-    async listDocuments(collection) {
-      return this.getCollection(collection).listDocuments()
-        .then((documentRefs) => {
-          return this.getFirestore().getAll(...documentRefs);
-        });
+    async listDocuments(collection, maxResults) {
+      const documentRefs = [];
+      let pageTotal, offset = 0;
+      do {
+        pageTotal = 0;
+        await this.getCollection(collection).limit(pageSize)
+          .offset(offset)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((documentSnapshot) => {
+              pageTotal++;
+              documentRefs.push(documentSnapshot.ref);
+            });
+          });
+        offset += pageSize;
+      } while (pageTotal == pageSize && documentRefs.length < maxResults);
+      if (documentRefs.length > maxResults) {
+        documentRefs.length = maxResults;
+      }
+      return this.getFirestore().getAll(...documentRefs);
     },
     async createDocument(collection, data) {
       const collectionRef = this.getCollection(collection);

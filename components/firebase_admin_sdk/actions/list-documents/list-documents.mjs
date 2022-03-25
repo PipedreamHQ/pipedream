@@ -15,11 +15,17 @@ export default {
         "collection",
       ],
     },
+    maxResults: {
+      propDefinition: [
+        common.props.firebase,
+        "maxResults",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     async getResponse() {
-      return this.firebase.listDocuments(this.collection);
+      return this.firebase.listDocuments(this.collection, this.maxResults);
     },
     emitSummary($, response) {
       $.export("$summary", `Successfully retrieved ${response.length} document(s)`);
