@@ -5,10 +5,15 @@ export default {
   key: "helper_functions-email-me",
   name: "Send Yourself an Email",
   description: "Customize and send an email to the email address you registered with Pipedream. The email will be sent by notifications@pipedream.com.",
-  version: "0.4.2",
+  version: "0.5.0",
   type: "action",
   props: {
     helper_functions,
+    reply_to: {
+      type: "string",
+      label: "Reply To",
+      optional: true,
+    },
     subject: {
       type: "string",
     },
@@ -29,6 +34,9 @@ export default {
       subject: this.subject,
       text: this.text,
     };
+    if (this.reply_to) {
+      options.reply_to = this.reply_to;
+    }
     if (this.html) {
       options.html = this.html;
     }

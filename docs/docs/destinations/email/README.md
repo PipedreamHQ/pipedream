@@ -10,7 +10,7 @@ You can use this to email yourself when you receive a specific event, for exampl
 
 ### Adding an Email Action
 
-First, [add a new Action](/workflows/steps/actions/#adding-a-new-action), then select the **Send Yourself an Email** Action. You can modify the **Subject** and the message (either **Plain Text** or **HTML**) however you want.
+First, [add a new Action](/workflows/steps/actions/#adding-a-new-action), then select the **Send Yourself an Email** Action. You can modify the **Reply To** address, the **Subject** and the message (either **Plain Text** or **HTML**) however you want.
 
 ### Using `$.send.email` in workflows
 
@@ -22,6 +22,7 @@ You can send data to an Email Destination in [Node.js code steps](/workflows/ste
 defineComponent({
   async run({ steps, $ }) {
     $.send.email({
+      reply_to: "your.email@example.com",
       subject: "Your subject",
       text: "Plain text email body",
       html: "HTML email body"
@@ -30,7 +31,9 @@ defineComponent({
 });
 ```
 
-The `html` property is optional. If you include both the `text` and `html` properties, email clients that support HTML will prefer that over the plaintext version.
+The `reply_to` address is optional. If you do not include a `reply_to` address, it defaults to `noreply@pipedream.com`.
+
+The `html` property is also optional. If you include both the `text` and `html` properties, email clients that support HTML will prefer that over the plaintext version.
 
 Like with any `$.send` function, you can use `$.send.email()` conditionally, within a loop, or anywhere you'd use a function normally in Node.js.
 
@@ -44,6 +47,7 @@ If you're authoring a [component action](/components/actions/), you can deliver 
 defineComponent({
   async run({ steps, $ }) {
     $.send.email({
+      reply_to: "your.email@example.com",
       subject: "Your subject",
       text: "Plain text email body",
       html: "HTML email body"
@@ -54,6 +58,6 @@ defineComponent({
 
 ## Delivery details
 
-All emails come from **notifications@pipedream.com**.
+All emails come from **notifications@pipedream.com**, but the Reply-To address can be customized to get replies to a different address. This can be useful to return emails to an inbound email address of the form `[unique-id]@upload.pipedream.net` created in the trigger step of one of your workflows.
 
 <Footer />
