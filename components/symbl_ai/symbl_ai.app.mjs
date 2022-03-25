@@ -77,19 +77,7 @@ export default {
         path: `/job/${jobId}`,
       });
     },
-    async postVideoSummaryUI({
-      $,
-      conversationId,
-      data,
-    }) {
-      return this.makeRequest({
-        $,
-        method: "post",
-        path: `/conversations/${conversationId}/experiences`,
-        data,
-      });
-    },
-    async postTrackersAnalyticsSummaryUI({
+    async postSummaryUI({
       $,
       conversationId,
       data,

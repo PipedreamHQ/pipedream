@@ -70,7 +70,7 @@ export default {
   },
   async run({ $ }) {
     const response =
-      await this.symblAIApp.postTrackersAnalyticsSummaryUI({
+      await this.symblAIApp.postSummaryUI({
         $,
         conversationId: this.conversationId,
         data: {
