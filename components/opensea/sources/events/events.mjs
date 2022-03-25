@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import opensea from "../../opensea.app.mjs";
 
 export default {
@@ -6,6 +5,8 @@ export default {
   version: "0.0.1",
   key: "opensea-new-collection-events",
   description: "Emit new filtered events. [See docs](https://docs.opensea.io/reference/retrieving-asset-events)",
+  dedupe: "greatest",
+  type: "source",
   props: {
     opensea,
     timer: {
@@ -29,24 +30,18 @@ export default {
       description: "OpenSea event type",
     },
   },
-  dedupe: "greatest",
-  type: "source",
   async run() {
-    const contract = this.contractAddress;
     const eventType = this.eventType === "sales"
       ? "successful"
       : "created";
-    const apiKey = this.opensea.$auth.api_key;
-    const url = `https://api.opensea.io/api/v1/events?only_opensea=false&asset_contract_address=${contract}&event_type=${eventType}`;
-    const resp = await axios($, {
-      url,
-      headers: {
-        "X-API-KEY": apiKey,
-      },
+    const resp = await this.opensea.retrieveEvents({
+      contract: this.contractAddress,
+      eventType,
     });
     resp.asset_events.forEach((event) => {
       this.$emit(event, {
         id: event.id,
+        summary: `${event.asset.name} ${this.eventType} event`,
         ts: +new Date(event.created_date),
       });
     });
