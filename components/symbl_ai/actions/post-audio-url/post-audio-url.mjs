@@ -101,25 +101,25 @@ export default {
   },
   async run({ $ }) {
     const response =
-        await this.symblAIApp.postAudioUrl({
-          $,
-          data: {
-            url: this.audioUrl,
-            name: this.meetingName,
-            customVocabulary: this.customVocabulary,
-            confidenceThreshold: this.confidenceThreshold,
-            detectPhrases: this.detectPhrases,
-            webhookUrl: this.webhookUrl,
-            detectEntities: this.detectEntities,
-            languageCode: this.languageCode,
-            mode: this.mode,
-            enableSeparateRecognitionPerChannel: this.enableSeparateRecognitionPerChannel,
-            enableAllTrackers: this.enableAllTrackers,
-            enableSpeakerDiarization: this.enableSpeakerDiarization,
-            diarizationSpeakerCount: this.diarizationSpeakerCount,
-            trackers: JSON.parse(this.trackers),
-          },
-        });
+      await this.symblAIApp.postAudioUrl({
+        $,
+        data: {
+          url: this.audioUrl,
+          name: this.meetingName,
+          customVocabulary: this.customVocabulary,
+          confidenceThreshold: this.confidenceThreshold,
+          detectPhrases: this.detectPhrases,
+          webhookUrl: this.webhookUrl,
+          detectEntities: this.detectEntities,
+          languageCode: this.languageCode,
+          mode: this.mode,
+          enableSeparateRecognitionPerChannel: this.enableSeparateRecognitionPerChannel,
+          enableAllTrackers: this.enableAllTrackers,
+          enableSpeakerDiarization: this.enableSpeakerDiarization,
+          diarizationSpeakerCount: this.diarizationSpeakerCount,
+          trackers: JSON.parse(this.trackers),
+        },
+      });
     $.export("$summary", `Successfully posted audio file URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
     return response;
   },
