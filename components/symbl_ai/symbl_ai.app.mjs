@@ -77,7 +77,7 @@ export default {
         path: `/job/${jobId}`,
       });
     },
-    async postVideoSummaryUI({
+    async postSummaryUI({
       $,
       conversationId,
       data,
