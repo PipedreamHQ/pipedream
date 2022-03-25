@@ -6,12 +6,18 @@ export default {
   propDefinitions: {},
   methods: {
     async retrieveEvents({
-      $, contract, eventType,
+      $, contract, eventType, occurredAfter, cursor,
     }) {
       const apiKey = this.$auth.api_key;
-      const url = `https://api.opensea.io/api/v1/events?only_opensea=false&asset_contract_address=${contract}&event_type=${eventType}`;
       return axios($ ?? this, {
-        url,
+        url: "https://api.opensea.io/api/v1/events",
+        params: {
+          only_opensea: false,
+          asset_contract_address: contract,
+          event_type: eventType,
+          occurred_after: occurredAfter,
+          cursor,
+        },
         headers: {
           "X-API-KEY": apiKey,
         },
