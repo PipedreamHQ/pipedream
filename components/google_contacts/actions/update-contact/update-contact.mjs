@@ -20,6 +20,7 @@ export default {
         common.props.googleContacts,
         "updatePersonFields",
       ],
+      reloadProps: true,
     },
   },
   async additionalProps() {

@@ -5,7 +5,7 @@ export default {
     googleContacts,
   },
   async run({ $ }) {
-    const client = await this.googleContacts.getClient();
+    const client = this.googleContacts.getClient();
     const results = await this.processResults(client);
     this.emitSummary($, results);
     return results;

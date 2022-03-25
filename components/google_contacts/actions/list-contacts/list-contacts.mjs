@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import constants from "../../constants.mjs";
 
 export default {
   ...common,
@@ -19,21 +20,17 @@ export default {
   methods: {
     async processResults(client) {
       const params = {
-        resourceName: "people/me",
+        resourceName: constants.RESOURCE_NAME,
         personFields: this.fields.join(),
       };
-      let contacts = [];
+      const contacts = [];
       do {
         const {
           connections,
           nextPageToken,
-        } = await this.googleContacts.listContacts(client,
-          params);
+        } = await this.googleContacts.listContacts(client, params);
         params.pageToken = nextPageToken;
-        contacts = [
-          ...contacts,
-          ...connections,
-        ];
+        contacts.push(...connections);
       } while (params.pageToken);
       return contacts;
     },

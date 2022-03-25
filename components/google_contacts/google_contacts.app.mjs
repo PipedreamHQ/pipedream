@@ -1,35 +1,5 @@
 import { google } from "googleapis";
-const fieldOptions = [
-  "addresses",
-  "ageRanges",
-  "biographies",
-  "birthdays",
-  "calendarUrls",
-  "clientData",
-  "coverPhotos",
-  "emailAddresses",
-  "events",
-  "externalIds",
-  "genders",
-  "imClients",
-  "interests",
-  "locales",
-  "locations",
-  "memberships",
-  "metadata",
-  "miscKeywords",
-  "names",
-  "nicknames",
-  "occupations",
-  "organizations",
-  "phoneNumbers",
-  "photos",
-  "relations",
-  "sipAddresses",
-  "skills",
-  "urls",
-  "userDefined",
-];
+import constants from "./constants.mjs";
 
 export default {
   type: "app",
@@ -39,9 +9,8 @@ export default {
       type: "string[]",
       label: "Fields",
       description: "The contact fields on each person to return",
-      options: fieldOptions,
-      optional: true,
-      default: fieldOptions,
+      options: constants.FIELD_OPTIONS,
+      default: constants.FIELD_OPTIONS,
     },
     resourceName: {
       type: "string",
@@ -50,7 +19,7 @@ export default {
       async options({ prevContext }) {
         const { nextPageToken: pageToken } = prevContext;
         const params = {
-          resourceName: "people/me",
+          resourceName: constants.RESOURCE_NAME,
           personFields: "names",
           pageToken,
         };
@@ -58,12 +27,9 @@ export default {
         const {
           connections,
           nextPageToken,
-        } = await this.listContacts(client,
-          params);
+        } = await this.listContacts(client, params);
         const options = connections.map((contact) => ({
-          label: contact.names
-            ? contact.names[0].displayName
-            : contact.resourceName,
+          label: contact?.names[0].displayName ?? contact.resourceName,
           value: contact.resourceName,
         }));
         return {
@@ -78,15 +44,8 @@ export default {
       type: "string[]",
       label: "Update Fields",
       description: "Contact sections to update",
-      options: [
-        "names",
-        "emailAddresses",
-        "phoneNumbers",
-        "addresses",
-      ],
-      reloadProps: true,
+      options: constants.UPDATE_PERSON_FIELD_OPTIONS,
     },
-
     streetAddress: {
       type: "string",
       label: "Street Address",
@@ -119,7 +78,7 @@ export default {
     },
   },
   methods: {
-    async getClient() {
+    getClient() {
       const auth = new google.auth.OAuth2();
       auth.setCredentials({
         access_token: this.$auth.oauth_access_token,
