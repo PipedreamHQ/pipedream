@@ -89,6 +89,18 @@ export default {
         data,
       });
     },
+    async postTrackersAnalyticsSummaryUI({
+      $,
+      conversationId,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: `/conversations/${conversationId}/experiences`,
+        data,
+      });
+    },
     async getSpeechToText({
       $,
       conversationId,

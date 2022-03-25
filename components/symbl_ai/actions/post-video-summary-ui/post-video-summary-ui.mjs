@@ -75,34 +75,29 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const response =
-        await this.symblAIApp.postVideoSummaryUI({
-          $,
-          conversationId: this.conversationId,
-          data: {
-            videoUrl: this.videoUrl,
-            name: "video-summary",
-            logo: this.logo,
-            favicon: this.favicon,
-            color: {
-              background: this.background,
-              topicsFilter: this.topicsFilter,
-              insightsFilter: this.insightsFilter,
-            },
-            font: {
-              family: this.font,
-            },
-            summaryURLExpiresIn: this.summaryURLExpiresIn,
-            readOnly: this.readOnly,
-            enableCustomDomain: this.enableCustomDomain,
+    const response =
+      await this.symblAIApp.postVideoSummaryUI({
+        $,
+        conversationId: this.conversationId,
+        data: {
+          videoUrl: this.videoUrl,
+          name: "video-summary",
+          logo: this.logo,
+          favicon: this.favicon,
+          color: {
+            background: this.background,
+            topicsFilter: this.topicsFilter,
+            insightsFilter: this.insightsFilter,
           },
-        });
-      $.export("$summary", `Successfully generated Video Summary UI at: ${response.url}`);
-      return response;
-    } catch (error) {
-      console.log("Error: ", error);
-      $.export("summary", "Failed to post Video Summary UI.");
-    }
+          font: {
+            family: this.font,
+          },
+          summaryURLExpiresIn: this.summaryURLExpiresIn,
+          readOnly: this.readOnly,
+          enableCustomDomain: this.enableCustomDomain,
+        },
+      });
+    $.export("$summary", `Successfully generated Video Summary UI at: ${response.url}`);
+    return response;
   },
 };
