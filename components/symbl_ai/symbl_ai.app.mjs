@@ -88,7 +88,7 @@ export default {
         path: `/job/${jobId}`,
       });
     },
-    async postVideoSummaryUI({
+    async postSummaryUI({
       $,
       conversationId,
       data,
@@ -195,6 +195,34 @@ export default {
         $,
         path: `/conversations/${conversationId}/summary`,
         params,
+      });
+    },
+    async deleteConversation({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "delete",
+        path: `/conversations/${conversationId}`,
+      });
+    },
+    async getMembers({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/members`,
+      });
+    },
+    async getTrackers({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/trackers-detected`,
       });
     },
   },
