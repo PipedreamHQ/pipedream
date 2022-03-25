@@ -1,9 +1,10 @@
-const asana = require("../../asana.app.js");
+import asana from "../../asana.app.mjs";
 
-module.exports = {
-  name: "Workspace Added",
+export default {
+  type: "source",
   key: "asana-new-workspace",
-  description: "Emits an event each time you add a new workspace/organization.",
+  name: "New Workspace Added",
+  description: "Emit new event each time you add a new workspace/organization.",
   version: "0.0.1",
   dedupe: "unique",
   props: {
@@ -17,10 +18,12 @@ module.exports = {
     },
   },
 
-  async run(event) {
-    let results = await this.asana.getWorkspaces();
-    for (const result of results) {
-      let workspace = await this.asana.getWorkspace(result.gid);
+  async run() {
+    const workspaces = await this.asana.getWorkspaces();
+
+    for (let workspace of workspaces) {
+      workspace = await this.asana.getWorkspace(workspace.gid);
+
       this.$emit(workspace, {
         id: workspace.gid,
         summary: workspace.name,
