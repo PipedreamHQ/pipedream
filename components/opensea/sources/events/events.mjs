@@ -2,10 +2,10 @@ import { axios } from "@pipedream/platform";
 import opensea from "../../opensea.app.mjs";
 
 export default {
-  name: "New OpenSea Collection Events",
+  name: "New Collection Events",
   version: "0.0.1",
-  key: "opensea-events",
-  description: "Emit new filtered OpenSea events",
+  key: "opensea-new-collection-events",
+  description: "Emit new filtered events. [See docs](https://docs.opensea.io/reference/retrieving-asset-events)",
   props: {
     opensea,
     timer: {
@@ -31,8 +31,7 @@ export default {
   },
   dedupe: "greatest",
   type: "source",
-  methods: {},
-  async run({ $ }) {
+  async run() {
     const contract = this.contractAddress;
     const eventType = this.eventType === "sales"
       ? "successful"
