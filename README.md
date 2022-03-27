@@ -112,28 +112,32 @@ You can find the code for all pre-built actions in [the `components` directory](
 
 Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run custom code in a workflow using:
 
-<div display="flex">
-  <div display="flex" align-items="center" justify-content="center" flex="50%">
-    <a href="https://pipedream.com/docs/code/nodejs/">
-      <img alt="Node.js" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646761316/docs/icons/icons8-nodejs_aax6wn.svg" width="100">
-    </a>
-  </div>
-  <div display="flex" align-items="center" justify-content="center" flex="50%">
-    <a href="https://pipedream.com/docs/code/python/">
-      <img alt="Python" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356607/docs/icons/python-logo-generic_k3o5w2.svg" width="100">
-    </a>
-  </div>
-  <div display="flex" align-items="center" justify-content="center" flex="50%">
-    <a href="https://pipedream.com/docs/code/go/">
-      <img alt="Go" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646763751/docs/icons/Go-Logo_Blue_zhkchv.svg" width="100">
-    </a>
-  </div>
-  <div display="flex" align-items="center" justify-content="center" flex="50%">
-    <a href="https://pipedream.com/docs/code/bash/">
-      <img alt="Bash" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356698/docs/icons/full_colored_dark_1_-svg_vyfnv7.svg" width="100">
-    </a>
-  </div>
-</div>
+<table align="center">
+  <tr>
+    <td>
+      <a href="https://pipedream.com/docs/code/nodejs/">
+        <img alt="Node.js" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646761316/docs/icons/icons8-nodejs_aax6wn.svg" width="100">
+      </a>
+    </td>
+    <td>
+      <a href="https://pipedream.com/docs/code/python/">
+        <img alt="Python" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356607/docs/icons/python-logo-generic_k3o5w2.svg" width="100">
+      </a>
+    </td>
+  </tr>
+  </tr>
+    <td>
+      <a href="https://pipedream.com/docs/code/go/">
+        <img alt="Go" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646763751/docs/icons/Go-Logo_Blue_zhkchv.svg" width="100">
+      </a>
+    </td>
+    <td>
+      <a href="https://pipedream.com/docs/code/bash/">
+        <img alt="Bash" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356698/docs/icons/full_colored_dark_1_-svg_vyfnv7.svg" width="100">
+      </a>
+    </td>
+  </tr>
+</table>
 
 You can import any package from the languages' package managers by declaring the imports directly in code. Pipedream will parse and download the necessary dependencies.
 
