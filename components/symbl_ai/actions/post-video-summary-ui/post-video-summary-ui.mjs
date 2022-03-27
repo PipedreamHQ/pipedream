@@ -80,7 +80,7 @@ export default {
     videoUrl: {
       type: "string",
       label: "Video URL",
-      description: "URL of the video file for which you want to generate the video summary UI.",
+      description: "URL of the video file for which you want to generate the Video Summary UI.",
     },
   },
   async run({ $ }) {
