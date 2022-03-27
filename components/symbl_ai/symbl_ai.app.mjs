@@ -73,6 +73,12 @@ export default {
       description: "Disable the editing capabilities of the Summary UI. Default value is `false`.",
       optional: true,
     },
+    enableCustomDomain: {
+      type: "boolean",
+      label: "Enable Custom Domain",
+      description: "Enable generation of personalized URLs for the Summary UI.",
+      optional: true,
+    },
   },
   methods: {
     getHeaders() {
