@@ -17,7 +17,7 @@ export default {
     logo: {
       propDefinition: [
         symblAIApp,
-        "logo",       
+        "logo",
       ],
       description: "URL of the custom logo to be used in the Video Summary UI.",
     },
@@ -76,7 +76,7 @@ export default {
         "enableCustomDomain",
       ],
       description: "Enable generation of personalized URLs for the Video Summary UI.",
-    },    
+    },
     videoUrl: {
       type: "string",
       label: "Video URL",
