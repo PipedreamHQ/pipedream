@@ -44,7 +44,7 @@ Click the image below to watch a brief demo on YouTube.
 - [Workflows](#workflows) - Workflows run automations. Workflows are sequence of steps - pre-built actions or custom [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code - triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more).
 - [Event Sources](#event-sources) - Sources trigger workflows. They emit events from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When you want to run a workflow when an event happens in any third-party app, you're using an event source.
 - [Actions](#actions) - Actions are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 500+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
-- [Custom code](#code) - Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run any [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code. You can import any package from the langauges' package managers, connect to any Pipedream connected app, and more.
+- [Custom code](#code) - Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run any [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code. You can import any package from the langauges' package managers, connect to any Pipedream connected app, and more. Pipedream is "low-code" in the best way: you can use pre-built components when you're performing common actions, but you can write custom code when you need to.
 - [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
@@ -77,11 +77,11 @@ export default {
 
 <a href="https://pipedream.com/sources/new?app=http"><img src="https://i.ibb.co/m0bBsSL/deploy-clean.png" height="35"></a>
 
+You can find the code for all pre-built sources in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process).
+
 ### Actions
 
 [Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 500+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
-
-Typically, integrating with these services requires a custom code to manage authentication, error handling, etc. Actions abstract that for you: you just pass the necessary params as input, and the action handles the rest. For example, the HTTP **GET Request** action accepts the data you want to send and the URL you want to send it to, returning the HTTP response for use in future steps.
 
 You can [create your own actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use.
 
@@ -106,14 +106,27 @@ export default {
 }
 ```
 
+You can find the code for all pre-built actions in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process).
+
 ### Custom code
 
 Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run custom code in a workflow using:
 
-- [Node.js](https://pipedream.com/docs/code/nodejs/)
-- [Python](https://pipedream.com/docs/code/python/)
-- [Golang](https://pipedream.com/docs/code/go/)
-- [Bash](https://pipedream.com/docs/code/bash/) 
+<p height="100px" line-height="100px" text-align="center" align="center">
+  <a href="https://pipedream.com/docs/code/nodejs/">
+    <img alt="Node.js" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646761316/docs/icons/icons8-nodejs_aax6wn.svg" width="100">
+  </a>
+  <a href="https://pipedream.com/docs/code/python/">
+    <img alt="Python" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356607/docs/icons/python-logo-generic_k3o5w2.svg" width="100">
+  </a>
+  <br >
+  <a href="https://pipedream.com/docs/code/go/">
+    <img alt="Go" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646763751/docs/icons/Go-Logo_Blue_zhkchv.svg" width="100">
+  </a>
+  <a href="https://pipedream.com/docs/code/bash/">
+    <img alt="Bash" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356698/docs/icons/full_colored_dark_1_-svg_vyfnv7.svg" width="100">
+  </a>
+</p>
 
 You can import any package from the languages' package managers by declaring the imports directly in code. Pipedream will parse and download the necessary dependencies.
 
@@ -125,8 +138,8 @@ import axios from 'axios'
 ```golang
 // Go
 import (
-	"fmt"
-	pd "github.com/PipedreamHQ/pipedream-go"
+    "fmt"
+    pd "github.com/PipedreamHQ/pipedream-go"
 )
 ```
 
