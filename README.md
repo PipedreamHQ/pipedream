@@ -146,6 +146,11 @@ You can import any package from the languages' package managers by declaring the
 import axios from 'axios'
 ```
 
+```python
+# Python
+import pandas as pd
+```
+
 ```golang
 // Go
 import (
