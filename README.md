@@ -22,7 +22,7 @@ This repo contains:
 - [The code for all pre-built integration components](https://github.com/PipedreamHQ/pipedream/tree/master/components)
 - [The product roadmap](https://github.com/PipedreamHQ/pipedream/issues)
 - [The Pipedream docs](https://github.com/PipedreamHQ/pipedream/tree/master/docs)
-- and other open-source code related to Pipedream. 
+- And other open-source code related to Pipedream. 
 
 This `README` explains the key features of the platform and how to get started.
 
@@ -41,12 +41,11 @@ Click the image below to watch a brief demo on YouTube.
 
 ## Key Features
 
-- [Workflows](#workflows) - Workflows run automations on Pipedream. Workflows are sequence of steps - pre-built actions or custom Node.js, Python, Golang, or Bash code - triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more).
+- [Workflows](#workflows) - Workflows run automations. Workflows are sequence of steps - pre-built actions or custom [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code - triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more).
 - [Event Sources](#event-sources) - Sources trigger workflows. They emit events from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When you want to run a workflow when an event happens in any third-party app, you're using an event source.
 - [Actions](#actions) - Actions are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 500+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
-- [Custom code](#code)
+- [Custom code](#code) - Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run any [Node.js](https://pipedream.com/docs/code/nodejs/), [Python](https://pipedream.com/docs/code/python/), [Golang](https://pipedream.com/docs/code/go/), or [Bash](https://pipedream.com/docs/code/bash/) code. You can import any package from the langauges' package managers, connect to any Pipedream connected app, and more.
 - [Destinations](#destinations) - Deliver events asynchronously to common destinations like Amazon S3, Snowflake, HTTP and email
-- Serverless - 
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
 ### Workflows
@@ -107,9 +106,57 @@ export default {
 }
 ```
 
+### Custom code
+
+Most integrations require custom logic. Code is often the best way to express that logic, so Pipedream allows you to run custom code in a workflow using:
+
+- [Node.js](https://pipedream.com/docs/code/nodejs/)
+- [Python](https://pipedream.com/docs/code/python/)
+- [Golang](https://pipedream.com/docs/code/go/)
+- [Bash](https://pipedream.com/docs/code/bash/) 
+
+You can import any package from the languages' package managers by declaring the imports directly in code. Pipedream will parse and download the necessary dependencies.
+
+```javascript
+// Node.js
+import axios from 'axios'
+```
+
+```golang
+// Go
+import (
+	"fmt"
+	pd "github.com/PipedreamHQ/pipedream-go"
+)
+```
+
+You can also [connect to any Pipedream connected app in custom code steps](https://pipedream.com/docs/code/nodejs/auth/). For example, you can connect your Slack account and send a message to a channel:
+
+```javascript
+import { WebClient } from '@slack/web-api'
+
+export default defineComponent({
+  props: {
+    // This creates a connection called "slack" that connects a Slack account.
+    slack: {
+      type: 'app',
+      app: 'slack'
+    }
+  },
+  async run({ steps, $ }) {
+    const web = new WebClient(this.slack.$auth.oauth_access_token)
+
+    return await web.chat.postMessage({
+      text: "Hello, world!",
+      channel: "#general",
+    })
+  }
+});
+```
+
 ### Destinations
 
-[Destinations](https://docs.pipedream.com/destinations/), like actions, abstract the connection, batching, and delivery logic required to send events to services like Amazon S3, or targets like HTTP and email.
+[Destinations](https://pipedream.com/docs/destinations/), like actions, abstract the connection, batching, and delivery logic required to send events to services like Amazon S3, or targets like HTTP and email.
 
 For example, sending data to an Amazon S3 bucket is as simple as calling `$send.s3()`:
 
@@ -139,15 +186,15 @@ Thank you to everyone who has contributed to the Pipedream codebase. We apprecia
 
 ## Pricing
 
-Pipedream has a [generous free tier](https://docs.pipedream.com/pricing/#developer-tier). You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](https://docs.pipedream.com/pricing/).
+Pipedream has a [generous free tier](https://pipedream.com/docs/pricing/#developer-tier). You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](https://pipedream.com/docs/pricing/).
 
 ## Limits
 
-The Pipedream platform imposes some runtime limits on sources and workflows. [Read more about those in our docs](https://docs.pipedream.com/limits/).
+The Pipedream platform imposes some runtime limits on sources and workflows. [Read more about those in our docs](https://pipedream.com/docs/limits/).
 
 ## Found a Bug? Have a Feature to suggest?
 
-Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/pipedream/issues) or [reach out to our team](https://docs.pipedream.com/support/) to see if a similar request already exists.
+Before adding an issue, please search the [existing issues](https://github.com/PipedreamHQ/pipedream/issues) or [reach out to our team](https://pipedream.com/support/) to see if a similar request already exists.
 
 If an issue exists, please [add a reaction](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-conversations-on-github) or add a comment detailing your specific use case.
 
