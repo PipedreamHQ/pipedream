@@ -70,7 +70,6 @@ const docsNav = [
       "/environment-variables/",
       "/workflows/settings/",
       "/workflows/networking/",
-      "/migrate-from-v1/",
     ],
   },
   {
