@@ -2,7 +2,7 @@ const common = require("../common/http-based");
 
 module.exports = {
   ...common,
-  key: "mailchimp-new-or-updated-subscriber",
+  key: "new-or-updated-subscriber",
   name: "New Or Updated Subscriber",
   description:
     "Emit new event when a subscriber is added or updated (on profile, or email address change) in an audience list.",
@@ -24,7 +24,7 @@ module.exports = {
       ];
     },
     generateMeta(eventPayload) {
-      const ts = +new Date(eventPayload.fired_at);
+      const ts = Date.parse(eventPayload.fired_at);
       let summary;
       if (this.getEventTypes().includes(eventPayload.type)) {
         summary =`New event "${eventPayload.type}" occurred`;

@@ -2,9 +2,9 @@ const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
-  key: "mailchimp-new-campaign",
+  key: "new-campaign",
   name: "New Campaign",
-  description: "Emit new event when a campaign is created or sent.",
+  description: "Whether to emit events when campaigns are created or when they are sent.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -44,27 +44,27 @@ module.exports = {
       };
       let campaigns;
       if(this.mailchimp.statusIsSent(this.status)) {
-        campaigns = await this.mailchimp.getCampaignsBySentDate(config); //TODO Confirm new method usage.
+        campaigns = await this.mailchimp.getCampaignsBySentDate(config);
       } else {
-        campaigns = await this.mailchimp.getCampaignsByCreationDate(config); //TODO Confirm new method usage.
+        campaigns = await this.mailchimp.getCampaignsByCreationDate(config);
       }
       if (!campaigns.length) {
-        console.log("No data available, skipping iteration");
-        return;
+        throw new Error("No campaign data available");
       }
       const sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);
-      campaigns.forEach(this.emitEvent);
+      campaigns.status = this.status;
+      campaigns.forEach(this.processEvent);
       this.setDbServiceVariable("lastSinceDate", sinceDate);
     },
   },
   methods: {
     ...common.methods,
     generateMeta(eventPayload) {
-      const eventDatedAt = this.mailchimp.getCampaignTimestamp(eventPayload, eventPayload.status);//TODO Confirm new method usage.
+      const eventDatedAt = this.mailchimp.getCampaignTimestamp(eventPayload, this.status);
       const ts = Date.parse(eventDatedAt);
       return {
         id: eventPayload.id,
-        summary: `Campaign "${eventPayload.settings.title}" was ${eventPayload.status}.`,
+        summary: `Campaign "${eventPayload.settings.title}" was ${this.status}.`,
         ts,
       };
     },
@@ -90,11 +90,10 @@ module.exports = {
         campaigns = await this.mailchimp.getCampaignsByCreationDate(config);
       }
       if (!campaigns.length) {
-        console.log("No data available, skipping iteration");
-        return;
+        throw new Error("No campaign data available");
       }
       sinceDate = this.mailchimp.getCampaignTimestamp(campaigns[0], this.status);
-      campaigns.forEach(this.emitEvent);
+      campaigns.forEach(this.processEvent);
       this.setDbServiceVariable("lastSinceDate", sinceDate);
       offset = offset + campaigns.length;
     } while (campaigns.length  === pageSize);

@@ -2,7 +2,7 @@ const common = require("../common/http-based");
 
 module.exports = {
   ...common,
-  key: "mailchimp-new-subscriber",
+  key: "new-subscriber",
   name: "New Subscriber",
   description: "Emit new event when a subscriber is added to an audience list.",
   version: "0.0.1",
@@ -19,9 +19,9 @@ module.exports = {
       ];
     },
     generateMeta(eventPayload) {
-      const ts = +new Date(eventPayload.fired_at);
+      const ts = Date.parse(eventPayload.fired_at);
       return {
-        id: `${eventPayload["data[id]"]}`,
+        id: eventPayload["data[id]"],
         summary: `${eventPayload["data[email]"]} subscribed to list ${eventPayload["data[list_id]"]}`,
         ts,
       };

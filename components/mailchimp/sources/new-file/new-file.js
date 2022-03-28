@@ -2,7 +2,7 @@ const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
-  key: "mailchimp-new-file",
+  key: "new-file",
   name: "New File",
   description:
     "Emit new event when a new file is added to the File Manager of the connected Mailchimp account.",
@@ -32,7 +32,7 @@ module.exports = {
       };
       const fileStream = this.mailchimp.getFileStream(this.fileType, config);
       for await (const file of fileStream) {
-        this.emitEvent(file);
+        this.processEvent(file);
         this.setDbServiceVariable("lastCreatedAt", file.created_at);
       }
     },
@@ -40,7 +40,7 @@ module.exports = {
   methods: {
     ...common.methods,
     generateMeta(eventPayload) {
-      const ts = +new Date(eventPayload.created_at);
+      const ts = Date.parse(eventPayload.created_at);
       return {
         id: eventPayload.id,
         summary: `A new file "${eventPayload.name}" was added.`,
@@ -56,7 +56,7 @@ module.exports = {
     };
     const fileStream = this.mailchimp.getFileStream(this.fileType, config);
     for await (const file of fileStream) {
-      this.emitEvent(file);
+      this.processEvent(file);
       this.setDbServiceVariable("lastCreatedAt", sinceCreatedAt);
     }
   },

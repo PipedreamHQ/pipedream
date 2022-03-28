@@ -2,7 +2,7 @@ const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
-  key: "mailchimp-new-segment-tag-subscriber",
+  key: "new-segment-tag-subscriber",
   name: "New Segment Tag Subscriber",
   description:
     "Emit new event when an subscriber is added to a segment or tags within an audience list.",
@@ -37,32 +37,30 @@ module.exports = {
   },
   hooks: {
     async deploy() {
-      // Emits sample events on the first run during deploy.
+        // Emits sample events on the first run during deploy.
       const config = {
         count: 10,
         offset: 0,
         includeTransactional: this.includeTransactional,
         includeUnsubscribed: false,
       };
-      const mailchimpSegmentMembersInfo =
+      const subscribers =
         await this.mailchimp.getSegmentMembersList(
           this.listId,
           this.segmentId,
           config,
         );
-      const { members: mailchimpSegmentMembers = [] } =
-        mailchimpSegmentMembersInfo;
-      if (!mailchimpSegmentMembers.length) {
+      if (!subscribers.length) {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpSegmentMembers.forEach(this.emitEvent);
+      subscribers.forEach(this.processEvent);
     },
   },
   methods: {
     ...common.methods,
     generateMeta(eventPayload) {
-      const ts = +new Date(eventPayload.timestamp_opt);
+      const ts = Date.parse(eventPayload.timestamp_opt);
       return {
         id: eventPayload.id,
         summary: `A new subscriber "${eventPayload.merge_fields.FNAME}" was added to a segment or tag. `,
@@ -92,7 +90,7 @@ module.exports = {
         console.log("No data available, skipping iteration");
         return;
       }
-      mailchimpSegmentMembers.forEach(this.emitEvent);
+      mailchimpSegmentMembers.forEach(this.processEvent);
       offset = offset + mailchimpSegmentMembers.length;
     } while (mailchimpSegmentMembers.length === pageSize);
   },

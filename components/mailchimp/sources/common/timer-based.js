@@ -8,8 +8,74 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60, // by default, run every 15 minutes.
+        intervalSeconds: 120//15 * 60, // by default, run every 15 minutes.
       },
+    },
+  },
+  methods: {
+    ...base.methods,
+    getEventTypes() {
+      throw new Error("getEventType is not implemented");
+    },
+    generateReportMeta({
+      eventPayload,
+      idField,
+      diff,
+      timestamp: ts,
+    }) {
+      const eventId = eventPayload[idField];
+      return {
+        id: `${eventId}-${ts}`,
+        summary: `${diff} new ${this.getEventTypes()[0]}`,
+        ts,
+      };
+    },
+    async deployReport(reportId, rptParamId, timestamp){
+      this.clearCampaignDetailsCache();
+      let report;
+      if(this.getEventTypes().includes("opens")){
+        report = await this.mailchimp.listCampaignOpenDetails(
+          reportId,
+        );
+      } else {
+        report = await this.mailchimp.getCampaignClickDetailsForLink(
+          reportId,
+          rptParamId,
+        );
+      }
+      if (!report) {
+        throw new Error("Report metrics not found.");
+      }
+      const diff = this.getEventTypes().includes("opens") ?
+        report.total_opens :
+        report.total_clicks;
+      this.processEvent({
+        eventPayload: report,
+        diff,
+        timestamp,
+      });
+      this.cacheCampaignDetails(report);
+    },
+    async getCampaignDetailsReport() {
+      const cachedDetails = this.getCachedCampaignDetails();
+      const detailsInfo = await this.getCampaignDetails();
+      console.log(JSON.stringify(detailsInfo));
+      console.log(JSON.stringify(cachedDetails));
+      const currentDetails = this.getCurrentCampaignDetails(detailsInfo);
+      if (!detailsInfo) {
+        throw new Error(this.getNodataErrorMessage());
+      }
+      const diff = this.getDetailsDiff(currentDetails, cachedDetails);
+      if (diff <= 0) {
+        console.log(`No new ${this.getEventTypes()[0]}. Skipping...`);
+        return;
+      }
+      this.processEvent({
+        eventPayload: detailsInfo,
+        diff,
+        timestamp: (new Date()).getTime(),
+      });
+      this.cacheCampaignDetails(currentDetails);
     },
   },
 };

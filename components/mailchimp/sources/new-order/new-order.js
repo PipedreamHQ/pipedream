@@ -2,7 +2,7 @@ const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
-  key: "mailchimp-new-order",
+  key: "new-order",
   name: "New Order",
   description:
     "Emit new event when an order is added to your store, or Mailchimp account.",
@@ -94,14 +94,14 @@ module.exports = {
       };
       const orderStream = this.mailchimp.getOrderStream(this.storeId, config);
       for await (const order of orderStream) {
-        this.emitEvent(order);
+        this.processEvent(order);
         this.setDbServiceVariable("offset", orderStream.length);
-      };
+      }
   },
   methods: {
     ...common.methods,
     generateMeta(eventPayload) {
-      const ts = +new Date(eventPayload.created_at);
+      const ts = Date.parse(eventPayload.created_at);
       return {
         id: eventPayload.id,
         summary: "A new order has been submitted.",
@@ -117,7 +117,7 @@ module.exports = {
       };
       const orderStream = this.mailchimp.getOrderStream(this.storeId, config);
       for await (const order of orderStream) {
-        this.emitEvent(order);
+        this.processEvent(order);
         this.setDbServiceVariable("offset", orderStream);
       }
     }

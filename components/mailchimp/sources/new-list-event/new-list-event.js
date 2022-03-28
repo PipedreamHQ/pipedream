@@ -1,8 +1,9 @@
 const common = require("../common/http-based");
+const listEventTypes = require('../list-event-types.js');
 
 module.exports = {
   ...common,
-  key: "mailchimp-new-list-event",
+  key: "new-list-event",
   name: "New List Event",
   description:
     "Emit new event when the following occurs on an audience list: a campaign is sent or cancelled, a subsciber is added, unsuscribed, has a profile update, or has the associated email address changed, or cleaned.",
@@ -17,13 +18,13 @@ module.exports = {
       description:
         "The events to be emitted, which will trigger the source being created.",
       default: ["subscribe"],
-      options: require('../list-event-types.js'),
+      options: listEventTypes,
     },
   },
   methods: {
     ...common.methods,
     getEventTypes() {
-      return this.events;
+      return [this.events];
     },
     generateMeta(eventPayload) {
       const {

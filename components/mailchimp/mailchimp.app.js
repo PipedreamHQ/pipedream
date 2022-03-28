@@ -13,11 +13,11 @@ module.exports = {
       async options({ page }) {
         const count = 1000;
         const offset = 1000 * page;
-        const audienceListResults =  await this.getAudienceLists({
+        const audienceLists =  await this.getAudienceLists({
           count,
           offset,
         });
-        return audienceListResults.lists.map((audienceList) => ({
+        return audienceLists.map((audienceList) => ({
           label: audienceList.name,
           value: audienceList.id,
         }));
@@ -31,11 +31,11 @@ module.exports = {
       async options({ page }) {
         const count = 1000;
         const offset = 1000 * page;
-        const campaignsResults =  await this.getCampaignsByCreationDate({
+        const campaigns =  await this.getCampaignsByCreationDate({
           count,
           offset,
         });
-        return campaignsResults.campaigns.map((campaign) => {
+        return campaigns.map((campaign) => {
           const lsdIdx = campaign.long_archive_url.lastIndexOf("/");
           const campaignName = lsdIdx > 0
             ? campaign.long_archive_url.substring(lsdIdx + 1)
@@ -72,6 +72,21 @@ module.exports = {
         }));
       },
     },
+    linkId: {
+      type: "string",
+      label: "Campaign Link",
+      description: "The campaign link to track for clicks",
+      async options(opts) {
+        const links = await this.getCampaignClickDetails(opts.campaignId);
+        if (!links.urls_clicked.length) {
+          throw new Error("No link data available for the selected campaignId");
+        }
+        return links.urls_clicked.map((link) => ({
+          label: link.id+"....."+link.url,
+          value: link.id,
+        }));
+      },
+    },
     segmentId: {
       type: "string",
       label: "Segment/Tag Id",
@@ -102,6 +117,13 @@ module.exports = {
     },
     _authToken() {
       return this.$auth.oauth_access_token;
+    },
+    _isRetriableStatusCode(statusCode) {
+      [
+        408,
+        429,
+        500,
+      ].includes(statusCode);
     },
     _server() {
       return this.$auth.dc;
@@ -135,7 +157,7 @@ module.exports = {
       }, retryOpts);
     },
     statusIsSent(status) {
-      return "status" === status;
+      return "sent" === status;
     },
     /**
      * Create a webhook on the specified Audience List.
@@ -165,8 +187,7 @@ module.exports = {
      * @returns {} - This method returns an empty object.
      */
     async deleteWebhook(listId, webhookId) {
-      const server = this._server();
-      const mailchimp = this.api(server);
+      const mailchimp = this.api();
       return await this._withRetries(() =>
         mailchimp.lists.deleteListWebhook(listId, webhookId));
     },
@@ -200,14 +221,15 @@ module.exports = {
      */
     async getAudienceLists(config) {
       const mailchimp = this.api();
-      return await this._withRetries(() =>
+      const { lists = [] } =  await this._withRetries(() =>
         mailchimp.lists.getAllLists({
           ...config,
           sortField: "date_created",
           sortDir: "ASC",
         }));
+      return lists;
     },
-    /**
+   /**
      * Gets the marketing campaigns under the connected Mailchimp acccount.
     * @param {string} fields A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation.
     * @param {string} excludeFields A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation.
@@ -235,13 +257,14 @@ module.exports = {
     },
     /**
      * Gets the marketing campaigns under the connected Mailchimp acccount, ordered by creation date.
-     * @param {Integer} count - For pagination, the number of records to return on each page.
+     * @param {Object} opts={} - Options to customize request against Get Campaigns Mailchimp API.
+     * @param {Integer} opts.count - For pagination, the number of records to return on each page.
      * Default value and maximum is 1000.
-     * @param {Integer} offset - For pagination, this the number of records from a collection to
+     * @param {Integer} opts.offset - For pagination, this the number of records from a collection to
      * skip. Default value is 0.
-     * @param {Date} startDateTime - Restrict response to marketing campaigns sent before
+     * @param {Date} opts.startDateTime - Restrict response to marketing campaigns sent before
      * the set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-     * @param {Date} endDateTime - Restrict response to marketing campaigns sent since the
+     * @param {Date} opts.endDateTime - Restrict response to marketing campaigns sent since the
      * set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
      * @returns An array of campaign objects, each with all the details of a campaign. For details of a campaing object,
      * expand [List Campaigns](https://mailchimp.com/developer/marketing/api/campaigns/list-campaigns/)
@@ -265,13 +288,14 @@ module.exports = {
     },
     /**
      * Gets the marketing campaigns under the connected Mailchimp acccount, ordered by sent date.
-     * @param {Integer} count - For pagination, the number of records to return on each page.
+     * @param {Object} opts={} - Options to customize request against Get Campaigns Mailchimp API.
+     * @param {Integer} opts.count - For pagination, the number of records to return on each page.
      * Default value and maximum is 1000.
-     * @param {Integer} offset - For pagination, this the number of records from a collection to
+     * @param {Integer} opts.offset - For pagination, this the number of records from a collection to
      * skip. Default value is 0.
-     * @param {Date} startDateTime - Restrict response to marketing campaigns sent before
+     * @param {Date} opts.startDateTime - Restrict response to marketing campaigns sent before
      * the set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-     * @param {Date} endDateTime - Restrict response to marketing campaigns sent since the
+     * @param {Date} opts.endDateTime - Restrict response to marketing campaigns sent since the
      * set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
      * @returns An array of campaign objects, each with all the details of a campaign. For details of a campaing object,
      * expand [List Campaigns](https://mailchimp.com/developer/marketing/api/campaigns/list-campaigns/)
@@ -296,10 +320,11 @@ module.exports = {
     /**
      * Gets the subscribers added to a given audience list segment or tag under the connected
      * Mailchimp acccount.
-     * @param {String} config.listId - The unique ID that identifies the Audience List associated to
+     * @param {String} listId - The unique ID that identifies the Audience List associated to
      * the segment or tag to look for subscribers.
-     * @param {String} config.segmentId - The unique ID that identifies the Audience List segment or
+     * @param {String} segmentId - The unique ID that identifies the Audience List segment or
      * tag to look for subscribers.
+     * @param {Object} config - An object representing the configuration options for this method.
      * @param {Integer} config.count - For pagination, the number of records to return on each page.
      * Default value is 10. Maximum value is 1000.
      * @param {Integer} config.offset - For pagination, this the number of records from a collection
@@ -312,11 +337,13 @@ module.exports = {
      */
     async getSegmentMembersList(listId, segmentId, config) {
       const mailchimp = this.api();
-      return await this._withRetries(() =>
+      const { members = [] } = await this._withRetries(() =>
         mailchimp.lists.getSegmentMembersList(listId, segmentId, config));
+      return members;
     },
     /**
      * Gets segments and tags of the specified Audience List under the connected Mailchimp acccount.
+     * @param {Object} config - An object representing the configuration options for this method.
      * @param {String} config.listId - The unique ID for the Audience list.
      * @param {Integer} config.count - For pagination, the number of records to return.
      * Default value is 10. Maximum value is 1000
@@ -347,6 +374,7 @@ module.exports = {
     },
     /**
      * Gets a list with information about Facebook ads (outreach).
+     * @param {Object} config - An object representing the configuration options for this method.
      * @param {String} config.fields - A comma-separated list of fields
      * to return. Reference parameters sub-objects with dot notation.
      * @param {String} config.exclude_fields - A comma-separated list of
@@ -372,6 +400,7 @@ module.exports = {
     },
     /**
      * Gets files in the File Manager under the connected Mailchimp acccount.
+     * @param {Object} config - An object representing the configuration options for this method.
     * @param {Integer} config.count - For pagination, the number of records to return on each page.
     * Default value is 10. Maximum value is 1000.
      * @param {Integer} config.offset - For pagination, this the number of records from a collection
@@ -388,11 +417,6 @@ module.exports = {
      * all File Manager files in bytes, `total_items` with the total count of the files
      * collection, and `_links` array of links for file manipulation through the Mailchimp API.
      */
-    /*async getAllFiles(config) {
-      const mailchimp = this.api();
-      return await this._withRetries(() =>
-        mailchimp.fileManager.files(config));
-    },*/
     async *getFileStream(fileType = "all", config) {
       const mailchimp = this._getMailchimpClient();
       let offset = 0;
@@ -419,6 +443,7 @@ module.exports = {
     },
     /**
      * Get information about all stores in the Mailchimp account.
+     * @param {Object} config - An object representing the configuration options for this method.
     * @param {Integer} config.count - For pagination, the number of records to return on each page.
     * Default value is 10. Maximum value is 1000.
      * @param {Integer} config.offset - For pagination, this the number of records from a collection
@@ -442,6 +467,7 @@ module.exports = {
      * acccount.
      * @param {String} storeId - The unique ID of the Ecommerce Store you'd like to get
      * orders from.
+     * @param {Object} config - An object representing the configuration options for this method.
      * @param {Integer} config.count - For pagination, the number of records to return on each page.
      * Default value is 10. Maximum value is 1000.
      * @param {Integer} config.offset - For pagination, this the number of records from a collection
@@ -461,26 +487,6 @@ module.exports = {
      * orders collection, and `_links` array of links for order manipulation through the Mailchimp
      * API.
      */
-    async getAllOrders(storeId = null, config) {
-      config.campaignId = config.campaignId === ""
-        ? null
-        : config.campaignId;
-      config.outreachId = config.outreachId === ""
-        ? null
-        : config.outreachId;
-      config.customerId = config.customerId === ""
-        ? null
-        : config.customerId;
-      config.hasOutreach = config.hasOutreach === "Both"
-        ? null
-        : config.hasOutreach;
-      const mailchimp = this.api();
-      if (storeId === "") {
-        return await this._withRetries(() =>
-          mailchimp.ecommerce.getStoreOrders(storeId, config));
-      }
-      return await this._withRetries(() => mailchimp.ecommerce.orders(config));
-    },
     async *getOrderStream(storeId = null, config) {
       const mailchimp = this._getMailchimpClient();
       let offset = config.offset;
@@ -553,15 +559,24 @@ module.exports = {
       } while (true);
     },
     /**
-     * Gets details of a given campaign under the connected Mailchimp acccount.
-     * @param {String} campaignId - The unique ID of the campaign related to the link you'd like to get click details of.
-     * @param {String} linkId - The unique ID of the link you'd like to get click details of.
-     * @returns An object with all the details of a report object with link's click details. For details of the report,
+     * Gets the Click Report for the given campaign under the connected Mailchimp acccount.
+     * @param {String} campaignId - The unique ID of the campaign you want the clicks report of.
+     * @returns An object with all the details of a report object with campaigns's click details. For details of the report,
+     * expand [Click Reports](https://mailchimp.com/developer/marketing/api/click-reports/list-campaign-details/)
+     * and see the sample response at the Mailchimp Marketing API documentation.
+     */
+     async getCampaignClickDetails(campaignId) {
+      return await this._withRetries(() => this.api().reports.getCampaignClickDetails(campaignId));
+    },
+    /**
+     * Gets the Click Report for the given campaign and link under the connected Mailchimp acccount.
+     * @param {String} campaignId - The unique ID of the campaign related to the link you'd like to get click details report of.
+     * @param {String} linkId - The unique ID of the link you'd like to get click details report of.
+     * @returns An object with all the details of a report object with campaign link's click details. For details of the report,
      * expand [Click Reports](https://mailchimp.com/developer/marketing/api/click-reports/get-campaign-link-details/)
      * and see the sample response at the Mailchimp Marketing API documentation.
      */
     async getCampaignClickDetailsForLink(campaignId, linkId) {
-      //getCampaignClickDetailsForLink
       const mailchimp = this.api();
       return await this._withRetries(() => mailchimp.reports.getCampaignClickDetailsForLink(campaignId, linkId));
     },
@@ -570,6 +585,7 @@ module.exports = {
      * the connected Mailchimp account.
      * @param {String} listId - The unique ID that identifies the Audience List you'd like to
      * watch for new or updated segments.
+     * @param {Object} config - An object representing the configuration options for this method.
      * @param {string} config.fields A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation.
      * @param {string} config.excludeFields A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation.
      * @param {integer} config.count The number of records to return. Default value is 10. Maximum value is 1000 (default to 10)
@@ -602,13 +618,14 @@ module.exports = {
      * the connected Mailchimp account.
      * @param {String} listId - The unique ID that identifies the Audience List you'd like to
      * watch for new created segments.
-     * @param {Integer} count - For pagination, the number of records to return on each page.
+     * @param {Object} config - An object representing the configuration options for this method.
+     * @param {Integer} config.count - For pagination, the number of records to return on each page.
      * Default value 0,  maximum value 1000.
-     * @param {Integer} offset - For pagination, this the number of records from a collection to
+     * @param {Integer} config.offset - For pagination, this the number of records from a collection to
      * skip. Default value is 0.
-     * @param {Date} startDateTime - Restrict response to marketing campaigns created before
+     * @param {Date} config.startDateTime - Restrict response to marketing campaigns created before
      * the set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-     * @param {Date} endDateTime - Restrict response to marketing campaigns created since the
+     * @param {Date} config.endDateTime - Restrict response to marketing campaigns created since the
      * set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
      * @returns {segments: array, list_id: integer, total_items: integer, _links: object } An
      * array with the information representing the list's `segments`, `list_id` for the id of the
@@ -638,13 +655,14 @@ module.exports = {
      * the connected Mailchimp account.
      * @param {String} listId - The unique ID that identifies the Audience List you'd like to
      * watch for updated segments.
-     * @param {Integer} count - For pagination, the number of records to return on each page.
+     * @param {Object} config - An object representing the configuration options for this method.
+     * @param {Integer} config.count - For pagination, the number of records to return on each page.
      * Default value 0,  maximum value 1000.
-     * @param {Integer} offset - For pagination, this the number of records from a collection to
+     * @param {Integer} config.offset - For pagination, this the number of records from a collection to
      * skip. Default value is 0.
-     * @param {Date} startDateTime - Restrict response to marketing campaigns updated before
+     * @param {Date} config.startDateTime - Restrict response to marketing campaigns updated before
      * the set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-     * @param {Date} endDateTime - Restrict response to marketing campaigns updated since the
+     * @param {Date} config.endDateTime - Restrict response to marketing campaigns updated since the
      * set date. Uses ISO 8601 time format: 2015-10-21T15:41:36+00:00.
      * @returns {segments: array, list_id: integer, total_items: integer, _links: object } An
      * array with the information representing the list's `segments`, `list_id` for the id of the
@@ -668,6 +686,9 @@ module.exports = {
       };
       const { segments = [] } = await this._withRetries(() => this.api().lists.listSegments(listId, config));
       return segments;
+    },
+    async listCampaignOpenDetails(campaignId){
+      return await this._withRetries(() => this.api().reports.getCampaignOpenDetails(campaignId));
     },
   },
 };

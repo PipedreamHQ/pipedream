@@ -2,7 +2,7 @@ const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
-  key: "mailchimp-link-clicked",
+  key: "link-clicked",
   name: "Link Clicked",
   description:
     "Emit new event when a recipient clicks a pre-specified link in an specific campaign.",
@@ -20,17 +20,13 @@ module.exports = {
         "The unique ID of the campaign you'd like to watch for new clicks on links.",
     },
     linkId: {
-      type: "string",
-      label: "Campaign Link",
-      description: "The campaign link to track for clicks",
-      async options() {
-        // A call to `mailchimp.reports.getCampaignClickDetails`
-        const links = await this.mailchimp.getCampaignLinks(this.campaignId);
-        return links.map((link) => ({
-          label: link.url,
-          value: link.id,
-        }));
-      },
+      propDefinition: [
+        common.props.mailchimp,
+        "linkId",
+        (c) => ({
+          campaignId: c.campaignId,
+        }),
+      ],
     },
     uniqueClicksOnly: {
       type: "boolean",
@@ -42,23 +38,19 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      const campaign = await this.mailchimp.getCampaignClickDetailsForLink(
-        this.campaignId,
-        this.linkId,
-      );
-      if (!campaign) {
-        console.log("No data available, skipping iteration");
-        return;
-      }
-      this.emitEvent(campaign);
-      this.setDbServiceVariable("recipientClicks", campaign.report_summary.clicks);
+      return await this.deployReport(this.campaignId, this.linkId, (new Date()).getTime());
     },
   },
   methods: {
     ...common.methods,
+    getEventTypes() {
+      return [
+        "clicks",
+      ];
+    },
     generateMeta({
       eventPayload,
-      clickDiff,
+      diff: clickDiff,
       timestamp: ts,
     }) {
       const { id: linkId } = eventPayload;
@@ -68,29 +60,42 @@ module.exports = {
         ts,
       };
     },
-  async run({ timestamp }) {
-      const savedRecipientClicks = this.getDbServiceVariable("recipientClicks");
-      const campaignLinkReport = await this.mailchimp.getCampaignLinkReport(
+    getCachedCampaignDetails(){
+      return this.getDbServiceVariable("recipientClicks");
+    },
+    async getCampaignDetails(){
+      return await this.mailchimp.getCampaignClickDetailsForLink(
         this.campaignId,
         this.linkId,
       );
-      const currentRecipientClicks = this.uniqueClicksOnly
-        ? campaignLinkReport.unique_clicks
-        : campaignLinkReport.total_clicks;
-      if (!campaignLinkReport) {
-        throw new Error("Campaign not found");
-      }
-      const clickDiff = currentRecipientClicks - savedRecipientClicks;
-      if (clickDiff <= 0) {
-        console.log("No new clicks. Skipping...");
-        return;
-      }
-      this.emitEvent({
-        eventPayload: campaignLinkReport,
-        clickDiff,
-        timestamp,
-      });
-      this.setDbServiceVariable("recipientClicks", currentRecipientClicks);
     },
-  }
+    getNodataErrorMessage(){
+      return "No data found for specified campaign and link.";
+    },
+    getCurrentCampaignDetails(report) {
+      return  this.uniqueClicksOnly
+      ? report.unique_clicks
+      : report.total_clicks;
+    },
+    getDetailsDiff(currentRecipientClicks, recipientClicks) {
+        return currentRecipientClicks - recipientClicks;
+    },
+    cacheCampaignDetails(currentRecipientClicks){
+      if(isNaN(currentRecipientClicks)) {
+        if(this.uniqueClicksOnly) {
+          this.setDbServiceVariable("recipientClicks", currentRecipientClicks.unique_clicks);
+        } else {
+          this.setDbServiceVariable("recipientClicks", currentRecipientClicks.total_clicks);
+        }
+      } else {
+        this.setDbServiceVariable("recipientClicks", currentRecipientClicks);
+      }
+    },
+    clearCampaignDetailsCache(){
+      this.setDbServiceVariable("recipientClicks", 0);
+    },
+  },
+  async run() {
+    return this.getCampaignDetailsReport();
+  },
 };

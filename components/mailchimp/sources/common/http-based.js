@@ -1,4 +1,6 @@
 const base = require("./base");
+const listEventTypes = require('../list-event-types.js');
+
 module.exports = {
   ...base,
   props: {
@@ -49,7 +51,7 @@ module.exports = {
         this.listId,
         config,
       );
-      this.setDbServiceVariable("webhookId", webhookId)
+      this.setDbServiceVariable("webhookId", webhookId);
     },
     async deactivate() {
       const webhookId = this.getDbServiceVariable("webhookId");
@@ -67,14 +69,13 @@ module.exports = {
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
-    isEventRelevant(event) {
-      return true;/*this
-        .getEventTypes()
-        .has(event.type);*/
+    isEventRelevant(eventType) {
+      const eventTypes = new Set(this.getEventTypes());
+      return eventTypes.has(eventType);
     },
     getEventsConfig() {
       const eventTypes = new Set(this.getEventTypes());
-      const allEventTypes = require('../list-event-types.js').map(({ value }) => value);
+      const allEventTypes = listEventTypes.map(({ value }) => value);
       const subscribedEvents = allEventTypes.reduce((accum, eventType) => ({
         ...accum,
         [eventType]: eventTypes.has(eventType),
@@ -93,11 +94,11 @@ module.exports = {
     const { body } = event;
     const isMailChimpWebhookValidator = "MailChimp.com WebHook Validator" === event.headers["user-agent"];
     if (body) {
-      if (!this.isEventRelevant(event)) {
-        console.log(`Skipping irrelevant event of type ${event.type}`);
+      if (!this.isEventRelevant(body.type)) {
+        console.log(`Skipping irrelevant event of type ${body.type}`);
         return;
       }
-      await this.emitEvent(body);
+      await this.processEvent(body);
     }
     if (body || isMailChimpWebhookValidator) {
       this.http.respond({

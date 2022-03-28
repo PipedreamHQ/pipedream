@@ -2,7 +2,7 @@ const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
-  key: "mailchimp-new-or-updated-list-segment",
+  key: "new-or-updated-list-segment",
   name: "New Or Updated List Segment",
   description: "Emit new event when segment is either created or updated.",
   version: "0.0.1",
@@ -45,18 +45,17 @@ module.exports = {
       };
      let segments;
      if(this.watchFor === "Created" ) {
-      segments = await this.mailchimp.getAudienceSegmentsByCreatedDate(config);
+      segments = await this.mailchimp.getAudienceSegmentsByCreatedDate(this.listId, config);
      } else {
-      segments = await this.mailchimp.getAudienceSegmentsByUpdatedDate(config);
+      segments = await this.mailchimp.getAudienceSegmentsByUpdatedDate(this.listId, config);
      }
       if (!segments.length) {
-        console.log("No data available, skipping iteration");
-        return;
+        throw new Error("No segment data available");
       }
       const relevantDate = this.watchFor === "Created" ?
         segments[0].created_at
         : segments[0].updated_at;
-      segments.forEach(this.emitEvent);
+      segments.forEach(this.processEvent);
       this.setDbServiceVariable("lastRelevantDate", relevantDate);
     },
   },
@@ -67,10 +66,10 @@ module.exports = {
         return {
           id: eventPayload.id,
           summary: `A new segment "${eventPayload.name}" was created.`,
-          ts: +new Date(eventPayload.created_at),
+          ts: Date.parse(eventPayload.created_at),
         }
       } else {
-        const ts = +new Date(eventPayload.updated_at);
+        const ts = Date.parse(eventPayload.updated_at);
         return {
           id: `${eventPayload.id}${ts}`,
           summary: `Segment "${eventPayload.name}" was updated.`,
@@ -92,12 +91,15 @@ module.exports = {
     do {
       config.offset = offset;
       config.startDateTime = startDateTime;
-      segments = await this.mailchimp.getAudienceSegments(this.listId, config);
-      if (!segments.length) {
-        console.log("No data available, skipping iteration");
-        return;
+      if(this.watchFor === "Created" ) {
+       segments = await this.mailchimp.getAudienceSegmentsByCreatedDate(this.listId, config);
+      } else {
+       segments = await this.mailchimp.getAudienceSegmentsByUpdatedDate(this.listId, config);
       }
-      segments.forEach(this.emitEvent);
+      if (!segments.length) {
+        throw new Error("No campaign data available");
+      }
+      segments.forEach(this.processEvent);
       startDateTime = this.watchFor === "Created" ?
         segments[0].created_at
         : segments[0].updated_at;

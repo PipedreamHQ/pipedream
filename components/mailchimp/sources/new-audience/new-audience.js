@@ -2,7 +2,7 @@ const common = require("../common/timer-based");
 
 module.exports = {
   ...common,
-  key: "mailchimp-new-audience",
+  key: "new-audience",
   name: "New Audience",
   description:
     "Emit new event when an audience is added to the connected Mailchimp account.",
@@ -12,24 +12,23 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      const mailchimpAudienceListsInfo =
+      const audiences =
         await this.mailchimp.getAudienceLists({
+          count: 1000,
           beforeDateCreated: null,
           sinceDateCreated: null,
         });
-      const { lists: mailchimpAudienceLists = [] } = mailchimpAudienceListsInfo;
-      if (!mailchimpAudienceLists.length) {
-        console.log("No data available, skipping iteration");
-        return;
+      if (!audiences.length) {
+        throw new Error("No campaign data available");
       }
-      mailchimpAudienceLists.forEach(this.emitEvent);
-      this.setDbServiceVariable("lastDateCreated", mailchimpAudienceLists[0].date_created);
+      audiences.forEach(this.processEvent);
+      this.setDbServiceVariable("lastDateCreated", audiences[0].date_created);
     },
   },
   methods: {
     ...common.methods,
     generateMeta(eventPayload) {
-      const ts = +new Date(eventPayload.created_at);
+      const ts = Date.parse(eventPayload.created_at);
       return {
         id: eventPayload.id,
         summary: `New audience list: ${eventPayload.name}`,
@@ -41,25 +40,22 @@ module.exports = {
     const sinceDateCreated = this.getDbServiceVariable("lastDateCreated");
     const beforeDateCreated = (new Date).toISOString();
     const pageSize = 1000;
-    let mailchimpAudienceListsInfo;
-    let mailchimpAudienceLists;
+    let audiences;
     let offset = 0;
     do {
-      mailchimpAudienceListsInfo =
+      audiences =
         await this.mailchimp.getAudienceLists({
-          count: 1000,
+          count: pageSize,
           offset,
           beforeDateCreated,
           sinceDateCreated,
         });
-      mailchimpAudienceLists = mailchimpAudienceListsInfo.lists;
-      if (!mailchimpAudienceLists.length) {
-        console.log("No data available, skipping iteration");
-        return;
+      if (!audiences.length) {
+        throw new Error("No audience data available");
       }
-      mailchimpAudienceLists.forEach(this.emitEvent);
-      this.setDbServiceVariable("lastDateCreated", mailchimpAudienceLists[0].date_created);
-      offset += mailchimpAudienceLists.length;
-    } while (mailchimpAudienceLists.length === pageSize);
+      audiences.forEach(this.processEvent);
+      this.setDbServiceVariable("lastDateCreated", audiences[0].date_created);
+      offset += audiences.length;
+    } while (audiences.length === pageSize);
   },
 };
