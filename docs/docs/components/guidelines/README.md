@@ -656,6 +656,14 @@ end user. Generate and use a GUID for the shared secret value, save it to a
 
 ### Action Guidelines
 
+#### Action Name
+
+Like [source name](#source-name), action name should be a singular, title-cased
+name, should not be slugified, and should not include the app name.
+
+As a general pattern, articles are not included in the action name. For example,
+instead of "Create a Post", use "Create Post".
+
 #### Use `@pipedream/platform` axios for all HTTP requests
 
 By default, the standard `axios` package doesn't return useful debugging data to the user when it `throw`s errors on HTTP 4XX and 5XX status codes. This makes it hard for the user to troubleshoot the issue.
