@@ -1,6 +1,6 @@
 # Data Stores
 
-**Data Stores** are first class databases available in your workflows. You leverage data stores to easily retrieve and store data at any time during your workflow runs.
+**Data stores** are key-value databases to easily set and get any JSON serializable data and maintain state across workflow executions.
 
 It's useful for counting values, or summing up data between run, or tracking unique data points like email addresses and much more.
 
