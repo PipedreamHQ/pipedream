@@ -166,177 +166,19 @@ export default {
         showExpanded: true,
       };
     },
-    _apiUrl() {
-      return "https://gitlab.com/api/v4";
-    },
-    _userProjectsEndpoint() {
-      const baseUrl = this._apiUrl();
-      const userId = this._gitlabUserId();
-      return `${baseUrl}/users/${userId}/projects`;
-    },
-    _projectCommitsEndpoint(projectId) {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/projects/${projectId}/repository/commits`;
-    },
-    _projectMilestonesEndpoint(projectId) {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/projects/${projectId}/milestones`;
-    },
-    _hooksEndpointUrl(projectId) {
-      const baseUrl = this._apiUrl();
-      return `${baseUrl}/projects/${projectId}/hooks`;
-    },
-    _gitlabAuthToken() {
-      return this.$auth.oauth_access_token;
-    },
-    _gitlabUserId() {
-      return this.$auth.oauth_uid;
-    },
-    _makeRequestConfig() {
-      const gitlabAuthToken = this._gitlabAuthToken();
-      const headers = {
-        "Authorization": `Bearer ${gitlabAuthToken}`,
-        "User-Agent": "@PipedreamHQ/pipedream v0.1",
-      };
+    async createProjectHook(projectId, url, opts = {}) {
+      const token = this._generateToken();
+      const { id: hookId } = await this._gitlabClient().ProjectHooks.add(projectId, url, {
+        token,
+        ...opts,
+      });
       return {
-        headers,
+        hookId,
+        token,
       };
     },
-    _generateToken: v4,
-    isValidSource(headers, db) {
-      const token = headers["x-gitlab-token"];
-      const expectedToken = db.get("token");
-      return token === expectedToken;
-    },
-    async *getCommits(opts) {
-      const {
-        projectId,
-        branchName,
-      } = opts;
-
-      // Nothing to do here if the amount of commits we wish
-      // to retrieve is not greater than 0.
-      let { totalCommitsCount } = opts;
-      if (totalCommitsCount <= 0) return;
-
-      let url = this._projectCommitsEndpoint(projectId);
-      const baseRequestConfig = this._makeRequestConfig();
-
-      do {
-        // Prepare the parameters for the Gitlab API call.
-        const resultsPerPage = Math.min(50, totalCommitsCount);
-        const params = {
-          ref_name: branchName,
-          per_page: resultsPerPage,
-        };
-        const requestConfig = {
-          ...baseRequestConfig,
-          params,
-        };
-
-        // Yield the retrieved commits in a serial manner, until
-        // we exhaust the response from the Gitlab API, or we reach
-        // the total amount of commits that are relevant for this case,
-        // whichever comes first.
-        const {
-          data,
-          headers,
-        } = await axios.get(url,
-          requestConfig);
-        for (const commit of data) {
-          yield commit;
-          --totalCommitsCount;
-          if (totalCommitsCount === 0) return;
-        }
-
-        // Extract the URL of the next page, if any.
-        const { next } = parseLinkHeader(headers.link);
-        url = next
-          ? next.url
-          : null;
-      } while (url);
-    },
-    async *getMilestones(opts) {
-      const {
-        projectId,
-        lastProcessedMilestoneId = -1,
-        pageSize = 10,
-      } = opts;
-
-      let url = this._projectMilestonesEndpoint(projectId);
-
-      // Prepare the parameters for the Gitlab API call.
-      const baseRequestConfig = this._makeRequestConfig();
-      const params = {
-        per_page: pageSize,
-      };
-      const requestConfig = {
-        ...baseRequestConfig,
-        params,
-      };
-
-      do {
-        // Yield the retrieved milestones in a serial manner, until
-        // we exhaust the response from the Gitlab API, or we reach
-        // the last processed milestone from the previous run,
-        // whichever comes first.
-        const {
-          data,
-          headers,
-        } = await axios.get(url,
-          requestConfig);
-        for (const milestone of data) {
-          if (milestone.id === lastProcessedMilestoneId) return;
-          yield milestone;
-        }
-
-        // Extract the URL of the next page, if any.
-        const { next } = parseLinkHeader(headers.link);
-        url = next
-          ? next.url
-          : null;
-      } while (url);
-    },
-    async *getProjects(opts) {
-      const {
-        lastProcessedProjectId = -1,
-        pageSize = 10,
-      } = opts;
-
-      let url = this._userProjectsEndpoint();
-
-      // Prepare the parameters for the Gitlab API call.
-      const baseRequestConfig = this._makeRequestConfig();
-      const params = {
-        per_page: pageSize,
-        owned: true,
-      };
-      const requestConfig = {
-        ...baseRequestConfig,
-        params,
-      };
-
-      do {
-        // Yield the retrieved projects in a serial manner, until
-        // we exhaust the response from the Gitlab API, or we reach
-        // the last processed project from the previous run,
-        // whichever comes first.
-        const {
-          data,
-          headers,
-        } = await axios.get(url,
-          requestConfig);
-        for (const project of data) {
-          if (project.id === lastProcessedProjectId) return;
-          yield project;
-        }
-
-        // Extract the URL of the next page, if any.
-        const { next } = parseLinkHeader(headers.link);
-        url = next
-          ? next.url
-          : null;
-      } while (url);
+    async deleteProjectHook(projectId, hookId) {
+      return this._gitlabClient().ProjectHooks.remove(projectId, hookId);
     },
     async createHook(opts) {
       const {
