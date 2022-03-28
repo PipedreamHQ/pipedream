@@ -11,21 +11,6 @@
       <NavbarGrid v-else-if="item.grid" :item="item" />
       <NavLink v-else :item="item" />
     </div>
-
-    <!-- repo link -->
-    <a
-      v-if="repoLink"
-      :href="repoLink"
-      class="repo-link inline-block"
-      target="_blank"
-      rel="noopener"
-    >
-      <img
-        alt="Pipedream on Github"
-        src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
-        width="25px"
-      />
-    </a>
   </nav>
 </template>
 
@@ -38,6 +23,8 @@ import NavLink from "@theme/components/NavLink.vue";
 export default {
   name: "NavLinks",
 
+  props: ["slice"],
+
   components: {
     NavLink,
     DropdownLink,
@@ -46,7 +33,10 @@ export default {
 
   computed: {
     userNav() {
-      return this.$themeLocaleConfig.nav || this.$site.themeConfig.nav || [];
+      return (
+        // this.$themeLocaleConfig.nav[this.slice] ||
+        this.$site.themeConfig.nav[this.slice] || []
+      );
     },
 
     nav() {

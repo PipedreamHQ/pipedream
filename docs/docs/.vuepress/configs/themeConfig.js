@@ -12,7 +12,7 @@ module.exports = {
     },
   },
   searchPlaceholder: "Search...",
-  logo: "https://res.cloudinary.com/pipedreamin/image/upload/v1648480402/docs/components/pipedream_dg1v3j.svg",
+  logo: "https://res.cloudinary.com/pipedreamin/image/upload/t_logo48x48/v1597038956/docs/HzP2Yhq8_400x400_1_sqhs70.jpg",
   repo: "PipedreamHQ/pipedream",
   nav: navConfig,
 

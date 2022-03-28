@@ -1,34 +1,41 @@
 <template>
   <header class="navbar">
-    <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
+    <div class="nav-left">
+      <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
+      <RouterLink :to="$localePath" class="home-link">
+        <img
+          v-if="$site.themeConfig.logo"
+          class="logo"
+          :src="$withBase($site.themeConfig.logo)"
+          :alt="$siteTitle"
+        />
+        <span
+          v-if="$siteTitle"
+          ref="siteName"
+          class="site-name"
+          :class="{ 'can-hide': $site.themeConfig.logo }"
+          >{{ $siteTitle }}</span
+        >
+      </RouterLink>
+      <NavLinks class="can-hide" slice="left" />
+    </div>
 
-    <RouterLink :to="$localePath" class="home-link">
-      <img
-        v-if="$site.themeConfig.logo"
-        class="logo"
-        :src="$withBase($site.themeConfig.logo)"
-        :alt="$siteTitle"
-      />
-      <span
-        v-if="$siteTitle"
-        ref="siteName"
-        class="site-name"
-        :class="{ 'can-hide': $site.themeConfig.logo }"
-        >{{ $siteTitle }}</span
+    <div class="nav-right">
+      <NavLinks class="can-hide" slice="right" />
+      <!-- repo link -->
+      <a
+        v-if="repoLink"
+        :href="repoLink"
+        class="repo-link inline-block"
+        target="_blank"
+        rel="noopener"
       >
-    </RouterLink>
-
-    <div
-      class="links"
-      :style="
-        linksWrapMaxWidth
-          ? {
-              'max-width': linksWrapMaxWidth + 'px',
-            }
-          : {}
-      "
-    >
-      <NavLinks class="can-hide" />
+        <img
+          alt="Pipedream on Github"
+          src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+          width="25px"
+        />
+      </a>
       <AlgoliaSearchBox v-if="isAlgoliaSearch" :options="algolia" />
       <SearchBox
         v-else-if="
@@ -142,6 +149,14 @@ $navbar-horizontal-padding = 1.5rem;
       flex: 0 0 auto;
       vertical-align: top;
     }
+  }
+
+  .nav-left {
+    display: inherit;
+  }
+
+  .nav-right {
+    display: inherit;
   }
 }
 

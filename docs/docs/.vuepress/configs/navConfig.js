@@ -1,5 +1,4 @@
-module.exports = [
-  {
+module.exports = {left: [  {
     text: "Quickstart",
     link: "/quickstart/",
     variant: "primary",
@@ -14,7 +13,8 @@ module.exports = [
       { text: "Building Components", link: "/components/" },
       { text: "REST API", link: "/api/" },
     ],
-  },
+  },], right: [
+
   {
     text: "Support",
     link: "/support/",
@@ -42,4 +42,4 @@ module.exports = [
       },
     ],
   },
-];
+]};
