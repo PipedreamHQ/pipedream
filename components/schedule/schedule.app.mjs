@@ -1,11 +1,11 @@
 export default {
   type: "app",
-  app: "data_stores",
+  app: "schedule",
   propDefinitions: {
-    data_store: {
-      label: "Data Store",
-      type: "data_store",
-      description: "Select an existing Data Store or create a new one.",
+    cron: {
+      label: "Cron Schedule",
+      type: "$.interface.timer",
+      description: "Enter a cron expression",
     },
   },
   methods: {
