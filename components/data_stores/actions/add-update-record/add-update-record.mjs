@@ -5,7 +5,7 @@ export default {
   key: "data_stores-add-update-record",
   name: "Add or update a single record",
   description: "Add or update a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     data_stores,
@@ -23,8 +23,8 @@ export default {
     },
     value: {
       label: "Value",
-      type: "string",
-      description: "Value you'd like to add or update.",
+      type: "any",
+      description: "Enter a string, object, or array.",
     },
   },
   async run({ $ }) {
