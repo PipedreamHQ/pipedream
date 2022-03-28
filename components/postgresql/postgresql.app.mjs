@@ -121,21 +121,6 @@ export default {
      * @param {string} table - Name of the table to get the primary key for
      * @returns Name of the primary key column
      */
-    /*async getPrimaryKey(table) {
-      const rows = await this.executeQuery({
-        text: format(`
-          SELECT a.attname FROM pg_index i
-            JOIN pg_attribute a ON a.attrelid = i.indrelid
-              AND a.attnum = ANY(i.indkey)
-            WHERE i.indrelid = $1::regclass
-              AND i.indisprimary
-        `),
-        values: [
-          table,
-        ],
-      });
-      return rows[0].attname;
-    },*/
     async getPrimaryKey(table) {
       const rows = await this.executeQuery({
         text: format(`
@@ -235,7 +220,7 @@ export default {
      * @returns The newly updated row
      */
     async updateRow(table, lookupColumn, lookupValue, rowValues) {
-      const primaryKey = await this.getPrimaryKey(table); console.log(primaryKey);
+      const primaryKey = await this.getPrimaryKey(table);
       const columnsPlaceholders = this.getColumnsPlaceholders({
         rowValues,
         fromIndex: 2,
