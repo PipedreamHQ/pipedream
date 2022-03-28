@@ -287,6 +287,8 @@ Registry components are organized by app in the `components` directory of the
   folder and the name of the `js` file equivalent to the slugified component
   name). For example, the path for the "Search Mentions" source for Twitter is
   `/components/twitter/sources/search-mentions/search-mentions.js`.
+- Aside from `app_slug`, words in folder and file names are separated by dashes
+  (-) (i.e., in kebab case)
 
 You can explore examples in the [components
 directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
@@ -296,6 +298,10 @@ directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
 If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
+
+#### Include dependencies in package.json
+
+Each app should have a `package.json` in its root folder to track changes in its dependencies. To create a `package.json` file, run `npm init` in the app's root folder and customize it using [this `package.json`](https://github.com/PipedreamHQ/pipedream/blob/55236b3aa993cbcb545e245803d8654c6358b0a2/components/stripe/package.json) as a template.
 
 #### Error-handling and input validation
 
@@ -307,7 +313,27 @@ In general, **imagine you are a user troubleshooting an issue. Is the error easy
 
 #### Pagination
 
-When making API requests, handle pagination to ensure all data / events are processed.
+When making API requests, handle pagination to ensure all data/events are
+processed. Moreover, if the underlying account experiences and/or generates too
+much data paginating through the entire collection of records, it might cause
+out-of-memory or timeout issues (or both!), so as a rule of thumb the pagination
+logic should:
+
+- Be encapsulated as a [generator](https://mzl.la/37z6Sh6) so that the component
+  can start processing records after the very first API call. As an example, you
+  can check the [Microsoft OneDrive
+  methods](https://github.com/PipedreamHQ/pipedream/tree/master/components/microsoft_onedrive/microsoft_onedrive.app.js)
+  to list files.
+- Accept a "next token/page/ID" whenever possible, so that API calls do not
+  retrieve the entire collection of records during every execution but rather
+  from a recent point in time. The `scanDeltaItems` generator method in the
+  example above follows this pattern.
+- Persist the last page number, token or record ID right after processing, so
+  that following executions of the component process new records to minimize the
+  amount of duplicate events, execution time and delayed events. Following the
+  same Microsoft OneDrive example, check the `processEvent` method [in this
+  component](https://github.com/PipedreamHQ/pipedream/tree/master/components/microsoft_onedrive/sources/new-file/new-file.js)
+  for an example.
 
 #### Capturing Sensitive Data
 
@@ -416,6 +442,13 @@ Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_dr
 example of this pattern. When using this approach, prop definitions should still
 be maintained in the app file.
 
+Please note that the name `common` is just a convention and depending on each
+case it might make sense to name any common module differently. For example, the
+[AWS
+sources](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws)
+contains a `common` directory instead of a `common.js` file, and the directory
+contains several modules that are shared between different event sources.
+
 ### Props
 
 As a general rule of thumb, we should strive to only incorporate the 3-4 most relevant options from a given API as props. This is not a hard limit, but the goal is to optimize for usability. We should aim to solve specific use cases as simply as possible.
@@ -436,6 +469,7 @@ user understand what they need to do. Use Markdown as appropriate
 to improve the clarity of the description or instructions. When using Markdown:
 
 - Enclose sample input values in backticks (`` ` ``)
+- Refer to other props using **bold** by surrounding with double asterisks (*)
 - Use Markdown links with descriptive text rather than displaying a full URL.
 - If the description isn't self-explanatory, link to the API docs of the relevant method to further clarify how the prop works. When the value of the prop is complex (for example, an object with many properties), link to the section of the API docs that include details on this format. Users may pass values from previous steps using [expressions](/workflows/steps/params/#entering-expressions), so they'll need to know how to structure that data.
 
@@ -483,7 +517,11 @@ when interacting with the source (e.g., “My Project”). The code referencing 
 selection receives the numeric ID (12345).
 
 Async options should also support [pagination](../api/#async-options-example)
-(so users can navigate across multiple pages of options for long lists).
+(so users can navigate across multiple pages of options for long lists). See
+[Hubspot](https://github.com/PipedreamHQ/pipedream/blob/a9b45d8be3b84504dc22bb2748d925f0d5c1541f/components/hubspot/hubspot.app.mjs#L136)
+for an example of offset-based pagination. See
+[Twitter](https://github.com/PipedreamHQ/pipedream/blob/d240752028e2a17f7cca1a512b40725566ea97bd/components/twitter/twitter.app.mjs#L200)
+for an example of cursor-based pagination.
 
 #### Interface & Service Props
 
@@ -496,6 +534,11 @@ In the interest of consistency, use the following naming patterns when defining
 | `$.interface.http`  | `http`                             |
 | `$.interface.timer` | `timer`                            |
 | `$.service.db`      | `db`                               |
+
+Use getters and setters when dealing with `$.service.db` to avoid potential
+typos and leverage encapsulation (e.g., see the [Search
+Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.mjs#L83-L88)
+event source for Twitter).
 
 ### Source Guidelines
 
@@ -624,6 +667,32 @@ Instead, [use `@pipedream/platform` axios](/pipedream-axios/).
 When you `return` data from an action, it's exposed as a [step export](/workflows/steps/#step-exports) for users to reference in future steps of their workflow. Return JavaScript objects in all cases, unless there's a specific reason not to.
 
 For example, some APIs return XML responses. If you return XML from the step, it's harder for users to parse and reference in future steps. Convert the XML to a JavaScript object, and return that, instead.
+
+#### "List" actions
+
+##### Return an array of objects
+
+To simplify using results from "list"/"search" actions in future steps of a
+workflow, return an array of the items being listed rather than an object with a
+nested array. [See this example for
+Airtable](https://github.com/PipedreamHQ/pipedream/blob/cb4b830d93e1495d8622b0c7dbd80cd3664e4eb3/components/airtable/actions/common-list.js#L48-L63).
+
+##### Handle pagination
+
+For actions that return a list of items, the common use case is to retrieve all
+items. Handle pagination within the action to remove the complexity of needing
+to paginate from users. We may revisit this in the future and expose the
+pagination / offset params directly to the user.
+
+In some cases, it may be appropriate to limit the number of API requests made or
+records returned in an action. For example, some Twitter actions optionally
+limit the number of API requests that are made per execution (using a
+[`maxRequests`
+prop](https://github.com/PipedreamHQ/pipedream/blob/cb4b830d93e1495d8622b0c7dbd80cd3664e4eb3/components/twitter/twitter.app.mjs#L52))
+to avoid exceeding Twitter's rate limits. [See the Airtable
+components](https://github.com/PipedreamHQ/pipedream/blob/e2bb7b7bea2fdf5869f18e84644f5dc61d9c22f0/components/airtable/airtable.app.js#L14)
+for an example of using a `maxRecords` prop to optionally limit the maximum
+number of records to return.
 
 #### Use `$.summary` to summarize what happened
 
