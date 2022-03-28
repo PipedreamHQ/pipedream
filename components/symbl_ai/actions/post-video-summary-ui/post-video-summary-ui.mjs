@@ -4,7 +4,7 @@ export default {
   key: "symbl_ai-post-video-summary-ui",
   name: "Submit Video Summary User Interface",
   description: "The Video Summary UI provides users the ability to interact with the Symbl elements (Transcripts, Questions, Follow-Ups, Action Items, etc.) from a video conversation. See the doc [here](https://docs.symbl.ai/docs/api-reference/experience-api/post-video-summary-ui)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     symblAIApp,
@@ -75,34 +75,29 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const response =
-        await this.symblAIApp.postVideoSummaryUI({
-          $,
-          conversationId: this.conversationId,
-          data: {
-            videoUrl: this.videoUrl,
-            name: "video-summary",
-            logo: this.logo,
-            favicon: this.favicon,
-            color: {
-              background: this.background,
-              topicsFilter: this.topicsFilter,
-              insightsFilter: this.insightsFilter,
-            },
-            font: {
-              family: this.font,
-            },
-            summaryURLExpiresIn: this.summaryURLExpiresIn,
-            readOnly: this.readOnly,
-            enableCustomDomain: this.enableCustomDomain,
+    const response =
+      await this.symblAIApp.postSummaryUI({
+        $,
+        conversationId: this.conversationId,
+        data: {
+          videoUrl: this.videoUrl,
+          name: "video-summary",
+          logo: this.logo,
+          favicon: this.favicon,
+          color: {
+            background: this.background,
+            topicsFilter: this.topicsFilter,
+            insightsFilter: this.insightsFilter,
           },
-        });
-      $.export("$summary", `Successfully generated Video Summary UI at: ${response.url}`);
-      return response;
-    } catch (error) {
-      console.log("Error: ", error);
-      $.export("summary", "Failed to post Video Summary UI.");
-    }
+          font: {
+            family: this.font,
+          },
+          summaryURLExpiresIn: this.summaryURLExpiresIn,
+          readOnly: this.readOnly,
+          enableCustomDomain: this.enableCustomDomain,
+        },
+      });
+    $.export("$summary", `Successfully generated Video Summary UI at: ${response.url}`);
+    return response;
   },
 };

@@ -38,8 +38,8 @@ export default {
     if (this.addRecordIfNotFound === "Yes") {
       props["value"] = {
         label: "Value",
-        type: "string",
-        description: "Value you'd like to add.",
+        type: "any",
+        description: "Enter a string, object, or array.",
       };
     }
     return props;
