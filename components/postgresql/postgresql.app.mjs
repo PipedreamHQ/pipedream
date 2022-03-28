@@ -121,7 +121,7 @@ export default {
      * @param {string} table - Name of the table to get the primary key for
      * @returns Name of the primary key column
      */
-    async getPrimaryKey(table) {
+    /*async getPrimaryKey(table) {
       const rows = await this.executeQuery({
         text: format(`
           SELECT a.attname FROM pg_index i
@@ -135,6 +135,18 @@ export default {
         ],
       });
       return rows[0].attname;
+    },*/
+    async getPrimaryKey(table) {
+      const rows = await this.executeQuery({
+        text: format(`
+          SELECT c.column_name, c.ordinal_position
+          FROM information_schema.key_column_usage AS c
+          LEFT JOIN information_schema.table_constraints AS t
+          ON t.constraint_name = c.constraint_name
+          WHERE t.table_name = '${table}' AND t.constraint_type = 'PRIMARY KEY';
+        `),
+      });
+      return rows[0].column_name;
     },
     /**
      * Gets rows in a table with values greater than lastResult
@@ -223,7 +235,7 @@ export default {
      * @returns The newly updated row
      */
     async updateRow(table, lookupColumn, lookupValue, rowValues) {
-      const primaryKey = await this.getPrimaryKey(table);
+      const primaryKey = await this.getPrimaryKey(table); console.log(primaryKey);
       const columnsPlaceholders = this.getColumnsPlaceholders({
         rowValues,
         fromIndex: 2,
@@ -269,7 +281,8 @@ export default {
           offset,
         ],
       });
-      return rows.map((row) => row[column]);
+      const values = rows.map((row) => row[column]?.toString());
+      return values.filter((row) => row);
     },
   },
 };
