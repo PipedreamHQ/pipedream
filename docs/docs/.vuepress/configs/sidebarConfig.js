@@ -29,14 +29,6 @@ const docsNav = [
     ],
   },
   {
-    title: "Settings",
-    children: ["/user-settings/"],
-  },
-  {
-    title: "Organizations",
-    children: ["/orgs/", "/orgs/sso/okta/"],
-  },
-  {
     title: "Code",
     children: [
       "/code/",
@@ -85,6 +77,14 @@ const docsNav = [
   {
     title: "Troubleshooting",
     children: ["/troubleshooting/"],
+  },
+  {
+    title: "Settings",
+    children: ["/user-settings/"],
+  },
+  {
+    title: "Organizations",
+    children: ["/orgs/", "/orgs/sso/okta/"],
   },
 ];
 
