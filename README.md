@@ -35,7 +35,7 @@ Click the image below to watch a brief demo on YouTube.
 <p align="center">
   <br />
   <a href="https://www.youtube.com/watch?v=BGKuPYMNKGg">
-    <img src="https://pipedream.com/_static/homepage-workflow-demo.62f9e1df.png" width="800px" alt="Pipedream demo static image" />
+    <img src="./images/demo.png" width="800px" alt="Pipedream demo static image" />
   </a>
 </p>
 
