@@ -64,7 +64,7 @@ const docsNav = [
         title: "API",
         type: "group",
         children: [
-          "/api/overview/",
+          "/api/",
           "/api/auth/",
           "/api/rest/",
           "/api/rest/webhooks/",
