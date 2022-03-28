@@ -19,7 +19,11 @@
     {
       "source": "/docs/assets/(.*)",
       "destination": "/assets/$1"
-    }
+    },
+    {
+      "source": "/docs/pipedream.svg",
+      "destination": "/pipedream.svg",
+    },
   ],
   "redirects": [
     {
