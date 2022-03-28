@@ -1,6 +1,6 @@
 module.exports = [
   {
-    text: "Get Started",
+    text: "Quickstart",
     link: "/quickstart/",
     variant: "primary",
   },
