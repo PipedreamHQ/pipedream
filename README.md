@@ -13,7 +13,7 @@ Pipedream provides a free, hosted platform for connecting apps and developing ev
 
 <p align="center">
   <br />
-  <img src="./images/sample-code.gif" width="800px" alt="Running Node.js code in a Pipedream step and observing results" >
+  <img src="./images/hero.png" width="800px" alt="HTTP trigger + step selection menu" >
   <br />
 </p>
 
