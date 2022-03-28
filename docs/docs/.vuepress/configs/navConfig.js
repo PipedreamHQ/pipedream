@@ -13,7 +13,6 @@ module.exports = [
     items: [
       { text: "Building Components", link: "/components/" },
       { text: "REST API", link: "/api/" },
-      { text: "Destinations", link: "/destinations/" },
     ],
   },
   {
