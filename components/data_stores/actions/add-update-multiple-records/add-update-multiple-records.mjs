@@ -23,6 +23,9 @@ export default {
     },
   },
   methods: {
+    _sanitizeJson(str) {
+      return str.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, "\"$2\": ");
+    },
     _parseDataRecursive(obj) {
       let result = {};
       if (Array.isArray(obj)) {
@@ -42,7 +45,7 @@ export default {
     },
     _parseData(obj) {
       if (typeof obj === "string") {
-        const sanitizedValue = obj.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, "\"$2\": ");
+        const sanitizedValue = this._sanitizeJson(obj);
         const json = JSON.parse(sanitizedValue);
         return this._parseDataRecursive(json);
       } else if (typeof obj === "object") {
@@ -52,14 +55,15 @@ export default {
           value,
         ] of Object.entries(obj)) {
           try {
-            const sanitizedValue = value.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, "\"$2\": ");
-            console.log(value, sanitizedValue);
+            const sanitizedValue = this._sanitizeJson(value);
             const json = JSON.parse(sanitizedValue);
-            console.log(json);
             newObj[key] = this._parseDataRecursive(json);
-            console.log(newObj[key]);
           } catch (err) {
-            throw new Error("Given input cannot be parsed as JSON!");
+            if (typeof obj === "object") {
+              newObj[key] = this._parseDataRecursive(obj);
+            } else {
+              throw new Error("Given input cannot be parsed as JSON!");
+            }
           }
         }
         return newObj;
@@ -68,8 +72,16 @@ export default {
     },
   },
   async run({ $ }) {
-    console.log(this.data, typeof this.data);
-    const data = this._parseData(this.data);
+    let data;
+    if (typeof this.data !== "object") {
+      try {
+        const sanitizedValue = this._sanitizeJson(this.data);
+        data = JSON.parse(sanitizedValue);
+      } catch (err) {
+        throw new Error("please provide an object or object array!");
+      }
+    }
+    data = this._parseData(this.data);
     for (const [
       key,
       value,
