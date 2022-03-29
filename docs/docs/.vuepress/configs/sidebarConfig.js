@@ -10,7 +10,6 @@ const docsNav = [
       "/workflows/steps/triggers/",
       "/workflows/events/",
       "/workflows/concurrency-and-throttling/",
-      "/environment-variables/",
       "/workflows/settings/",
       "/workflows/networking/",
       "/migrate-from-v1/",
@@ -23,7 +22,6 @@ const docsNav = [
     title: "Code",
     children: [
       "/code/",
-      "/migrate-from-v1/",
       {
         title: "Node.js",
         type: "group",
@@ -45,10 +43,7 @@ const docsNav = [
         children: ["/code/bash/", "/code/bash/http-requests/"],
       },
       "/destinations/",
-      "/workflows/concurrency-and-throttling/",
       "/environment-variables/",
-      "/workflows/settings/",
-      "/workflows/networking/",
     ],
   },
   ['/troubleshooting/', 'Troubleshooting'],
