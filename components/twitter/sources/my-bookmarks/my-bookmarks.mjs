@@ -1,10 +1,10 @@
 import twitter from "../../twitter.app.mjs";
 
 export default {
-  key: "twitter-my-liked-tweets",
-  name: "My Liked Tweets",
-  description: "Emit new Tweets you like on Twitter",
-  version: "0.0.6",
+  key: "twitter-my-bookmarks",
+  name: "My Bookmarked Tweets",
+  description: "Emit new Tweets you bookmarked on Twitter",
+  version: "0.0.2",
   type: "source",
   props: {
     twitter,
@@ -19,7 +19,8 @@ export default {
   },
   dedupe: "unique",
   async run() {
-    (await this.twitter.getLikedTweets()).reverse().forEach((tweet) => {
+    console.log(this.twitter.$auth);
+    (await this.twitter.getBookmarkedTweets()).reverse().forEach((tweet) => {
       this.$emit(this.twitter.enrichTweet(tweet), {
         id: tweet.id_str,
         summary: tweet.full_text,

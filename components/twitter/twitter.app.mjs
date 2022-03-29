@@ -606,6 +606,20 @@ export default {
         config,
       }));
     },
+    async getBookmarkedTweets(opts = {}) {
+      const {
+        $,
+        screenName,
+      } = opts;
+      const config = {
+        url: `https://api.twitter.com/2/users/${screenName}/bookmarks`,
+        params: {},
+      };
+      return (await this._makeRequest({
+        $,
+        config,
+      }));
+    },
     async lookupUsers(opts = {}) {
       const {
         $,
