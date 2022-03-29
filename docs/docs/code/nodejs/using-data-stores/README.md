@@ -5,19 +5,11 @@ thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763735/docs/
 
 # Using Data Stores 
 
-In Node.js (Javascript) code steps, you can also store and retrieve data within code steps without connecting a 3rd party database. **Date Stores** are very useful for tracking data between runs of a particular workflow, making sure workflows only run once per unique record or sharing data between workflows.
+In Node.js (Javascript) code steps, you can also store and retrieve data within code steps without connecting a 3rd party database.
 
-:::warning
-This functionality is limited to only Node.js code steps at this time.
+Add data stores to steps as props. By adding the store as a prop, it's available under `this`. 
 
-Other step languages like [Python](/code/python/), [Bash](/code/bash/) and [Go](/code/go/) do not have this feature available yet.
-
-For more information on what functionality is available for those languages, please refer to their documentation.
-:::
-
-### Adding a data store to a Node.js Step
-
-By default, Node.js steps don't have access to data stores. A data store can be added to your step by adding it as a `prop`.
+For example, you can define a data store as a data prop, and reference it at `this.data`:
 
 ```javascript
 export default defineComponent({
@@ -46,7 +38,7 @@ Once you have defined a data store prop for your component, then you'll be able 
 
 ## Saving data
 
-Data stores are a key-value store, you can save data within a store using the `store.set` method. The first argument is the _key_ where the data should be held, and the 2nd argument is the _value_ assigned to that key.
+Data Stores are a key-value stores. Save data within a Data Store using the `this.data.set` method. The first argument is the _key_ where the data should be held, and the second argument is the _value_ assigned to that key.
 
 ```javascript
 export default defineComponent({
@@ -62,7 +54,7 @@ export default defineComponent({
 
 ## Retrieving data
 
-You can retrieve data with the in-step database using the `get` method. Pass the _key_ to the `get` method to retrieve the content that was stored there with `set`.
+You can retrieve data with the Data Store using the `get` method. Pass the _key_ to the `get` method to retrieve the content that was stored there with `set`.
 
 ```javascript
 export default defineComponent({
@@ -103,7 +95,7 @@ export default defineComponent({
 
 ## Workflow counter example
 
-For example, if you'd like to set up a counter to count the number of times the workflow executes:
+You can use a data store as a counter. For example, this code counts the number of times the workflow runs:
 
 ```javascript
 export default defineComponent({
@@ -124,7 +116,7 @@ export default defineComponent({
 
 ## Dedupe data example
 
-This data store is also useful for storing data from prior runs to prevent acting on duplicate data, or data that's been seen before.
+Data Stores are also useful for storing data from prior runs to prevent acting on duplicate data, or data that's been seen before.
 
 For example, this workflow's trigger contains an email address from a potential new customer. But we want to track all emails collected so we don't send a welcome email twice:
 
@@ -151,13 +143,13 @@ export default defineComponent({
 
 ## Data store limitations
 
-The data stores is only currently available in Node.js code steps. It is not yet available in other languages like Go, bash or Python.
+The data stores is only currently available in Node.js code steps. It is not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/) .
 
 In addition, data sources can hold up to {{ $site.themeConfig.SERVICE_DB_SIZE_LIMIT }} per step.
 
 ### Supported data types
 
-Data stores can hold any JSON serializable data within the storage limits. This includes data types like:
+Data stores can hold any JSON-serializable data within the storage limits. This includes data types including:
 
 * Strings
 * Objects
@@ -166,4 +158,4 @@ Data stores can hold any JSON serializable data within the storage limits. This 
 * Integers
 * Floats
 
-But it will not work well with Functions or Classes.
+But you cannot serialize Functions, Classes, or other more complex objects.

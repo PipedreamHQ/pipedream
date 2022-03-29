@@ -1,6 +1,6 @@
 # Using pre-built Data Store actions
 
-Pipedream includes several native pre-built actions to interact with your Data Stores for the most common operations to speed up your workflow development.
+Pipedream includes several pre-built actions to interact with your Data Stores for the most common operations.
 
 ## Inserting data
 
@@ -18,7 +18,7 @@ After selecting this action, you'll be presented with the 3 key options to finis
 2. **Key** - this is the unique identifier to look up this data in the future
 3. **Value** - the data that should be stored under the **Key**
 
-For example, to store when the workflow was initially triggered, pass the timestamp path to the **Value** field, and assign the name _Triggered"_ as the **Key**:
+For example, to store when the workflow was initially triggered, pass the timestamp path to the **Value** field, and assign the name _Triggered_ as the **Key**:
 
 ::: v-pre
 `{{ steps.trigger.context.ts }}`
@@ -71,4 +71,4 @@ This is an example of deleting the `Triggered At` key that we've created in the 
 
 ![Delete a record example](https://res.cloudinary.com/pipedreamin/image/upload/v1648064157/docs/components/CleanShot_2022-03-23_at_15.35.48_2x_ay1bbw.png)
 
-Deleting a record is not deleting the whole Data Store. [To delete an entire Data Store, use the Pipedream Data Stores Dashboard](#deleting-data-stores-manually).
+Deleting a record does not delete the entire Data Store. [To delete an entire Data Store, use the Pipedream Data Stores Dashboard](#deleting-data-stores-manually).
