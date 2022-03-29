@@ -18,14 +18,7 @@ const docsNav = [
   },
   "/sources/",
   "/connected-accounts/",
-  {
-    title: "Data Stores",
-    children: [
-      "/data-stores/",
-      "/data-stores/pre-built-actions/",
-      "/data-stores/managing-data-stores/",
-    ],
-  },
+  ["/data-stores/", "Data Stores"],
   {
     title: "Code",
     children: [
@@ -50,19 +43,6 @@ const docsNav = [
         title: "Bash",
         type: "group",
         children: ["/code/bash/", "/code/bash/http-requests/"],
-      },
-      {
-        title: "API",
-        type: "group",
-        children: [
-          "/api/",
-          "/api/auth/",
-          "/api/rest/",
-          "/api/rest/webhooks/",
-          "/api/rest/rss/",
-          "/api/rest/workflow-errors/",
-          "/api/sse/",
-        ],
       },
       "/destinations/",
       "/workflows/concurrency-and-throttling/",
