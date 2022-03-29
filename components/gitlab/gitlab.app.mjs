@@ -1,7 +1,5 @@
 import { Gitlab } from "@gitbeaker/node";
 import constants from "./common/constants.mjs";
-import axios from "axios";
-import parseLinkHeader from "parse-link-header";
 import { v4 } from "uuid";
 
 export default {
@@ -151,6 +149,7 @@ export default {
     },
   },
   methods: {
+    _generateToken: v4,
     _gitlabClient(opts = {}) {
       const { oauth_access_token: oauthToken } = this.$auth;
       return new Gitlab({
@@ -180,42 +179,32 @@ export default {
     async deleteProjectHook(projectId, hookId) {
       return this._gitlabClient().ProjectHooks.remove(projectId, hookId);
     },
-    async createHook(opts) {
-      const {
-        projectId,
-        hookParams,
-      } = opts;
-      const url = this._hooksEndpointUrl(projectId);
-
-      const token = this._generateToken();
-      const data = {
-        ...hookParams,
-        token,
-      };
-
-      const requestConfig = this._makeRequestConfig();
-      const response = await axios.post(url, data, requestConfig);
-      const hookId = response.data.id;
-      return {
-        hookId,
-        token,
-      };
+    async getUnprocessedProjects(lastProcessedProjectId) {
+      const projects = this.pagination(this._gitlabClient().Projects, null, {
+        owned: true,
+      });
+      return this.getUnprocessedObjects(lastProcessedProjectId, projects);
     },
-    deleteHook(opts) {
-      const {
-        hookId,
-        projectId,
-      } = opts;
-      const baseUrl = this._hooksEndpointUrl(projectId);
-      const url = `${baseUrl}/${hookId}`;
-      const requestConfig = this._makeRequestConfig();
-      return axios.delete(url, requestConfig);
+    async getUnprocessedMilestones(projectId, lastProcessedMilestoneId) {
+      const milestones = this.pagination(this._gitlabClient().ProjectMilestones, projectId);
+      return this.getUnprocessedObjects(lastProcessedMilestoneId, milestones);
+    },
+    async getUnprocessedObjects(lastProcessedId, list) {
+      const unprocessed = [];
+      for await (const obj of list) {
+        if (obj.id === lastProcessedId) break;
+        unprocessed.push(obj);
+      }
+      return unprocessed;
     },
     async listProjects(opts = {}) {
       return this.listAll(this._gitlabClient().Projects, null, opts);
     },
     async listProjectMembers(projectId, opts = {}) {
       return this.listAll(this._gitlabClient().ProjectMembers, projectId, opts);
+    },
+    async listMilestones(projectId, opts = {}) {
+      return this.listAll(this._gitlabClient().ProjectMilestones, projectId, opts);
     },
     async getBranch(projectId, branchName) {
       return this._gitlabClient().Branches.show(projectId, branchName);
@@ -265,7 +254,7 @@ export default {
       }
       return results;
     },
-    async *pagination(api, projectId, opts) {
+    async *pagination(api, projectId, opts = {}) {
       while (true) {
         const response = await this.listAll(api, projectId, opts);
 
