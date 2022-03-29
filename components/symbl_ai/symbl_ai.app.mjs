@@ -237,5 +237,17 @@ export default {
         data,
       });
     },
+    async putSpeakerEvents({
+      $,
+      conversationId,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "put",
+        path: `/conversations/${conversationId}/speakers`,
+        data,
+      });
+    },
   },
 };
