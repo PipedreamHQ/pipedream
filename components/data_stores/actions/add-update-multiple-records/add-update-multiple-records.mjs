@@ -59,10 +59,10 @@ export default {
             const json = JSON.parse(sanitizedValue);
             newObj[key] = this._parseDataRecursive(json);
           } catch (err) {
-            if (typeof obj === "object") {
-              newObj[key] = this._parseDataRecursive(obj);
+            if (typeof value === "object") {
+              newObj[key] = this._parseDataRecursive(value);
             } else {
-              throw new Error("Given input cannot be parsed as JSON!");
+              newObj[key] = value;
             }
           }
         }
