@@ -299,7 +299,7 @@ If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
 
-#### Include dependencies in package.json
+#### Include dependencies in `package.json`
 
 Each app should have a `package.json` in its root folder to track changes in its dependencies. To create a `package.json` file, run `npm init` in the app's root folder and customize it using [this `package.json`](https://github.com/PipedreamHQ/pipedream/blob/55236b3aa993cbcb545e245803d8654c6358b0a2/components/stripe/package.json) as a template.
 
