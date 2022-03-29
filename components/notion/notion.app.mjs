@@ -70,9 +70,9 @@ export default {
         const title = database.title
           .map((title) => title.plain_text)
           .filter((title) => title.length > 0)
-          .reduce((prev, next) => prev + next);
+          .reduce((prev, next) => prev + next, "");
         return {
-          label: title ?? "Untitled",
+          label: title || "Untitled",
           value: database.id,
         };
       });
@@ -85,9 +85,9 @@ export default {
         const title = propertyFound?.title
           .map((title) => title.plain_text)
           .filter((title) => title.length > 0)
-          .reduce((prev, next) => prev + next);
+          .reduce((prev, next) => prev + next, "");
         return {
-          label: title ?? "Untitled",
+          label: title || "Untitled",
           value: page.id,
         };
       });
