@@ -1,14 +1,14 @@
 // legacy_hash_id: a_vgi84r
-import helper_functions from "../../helper_functions.app.mjs";
+import email from "../../email.app.mjs";
 
 export default {
-  key: "helper_functions-email-me",
+  key: "email-email-me",
   name: "Send Yourself an Email",
   description: "Customize and send an email to the email address you registered with Pipedream. The email will be sent by notifications@pipedream.com.",
-  version: "0.4.2",
+  version: "0.4.3",
   type: "action",
   props: {
-    helper_functions,
+    email,
     subject: {
       type: "string",
     },
@@ -17,6 +17,7 @@ export default {
     },
     html: {
       type: "string",
+      label: "HTML",
       optional: true,
     },
     // include_collaborators: {
