@@ -225,5 +225,17 @@ export default {
         path: `/conversations/${conversationId}/trackers-detected`,
       });
     },
+    async putConversation({
+      $,
+      conversationId,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "put",
+        path: `/conversations/${conversationId}`,
+        data,
+      });
+    },
   },
 };
