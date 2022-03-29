@@ -18,7 +18,6 @@ const docsNav = [
   },
   "/sources/",
   "/connected-accounts/",
-  "/user-settings/",
   {
     title: "Data Stores",
     children: [
@@ -72,14 +71,8 @@ const docsNav = [
       "/workflows/networking/",
     ],
   },
-  {
-    title: "Troubleshooting",
-    children: ["/troubleshooting/"],
-  },
-  {
-    title: "Settings",
-    children: ["/user-settings/"],
-  },
+  ['/troubleshooting/', 'Troubleshooting'],
+  ['/user-settings/', 'Settings'],
   {
     title: "Organizations",
     children: ["/orgs/", "/orgs/sso/okta/"],
