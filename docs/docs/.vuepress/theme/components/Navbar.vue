@@ -2,7 +2,7 @@
   <header class="navbar">
     <div class="nav-left">
       <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
-      <RouterLink :to="$localePath" class="home-link">
+      <RouterLink :to="$localePath" class="home-link mr-8">
         <img
           v-if="$site.themeConfig.logo"
           class="logo"

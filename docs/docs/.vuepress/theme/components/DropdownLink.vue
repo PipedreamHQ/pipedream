@@ -104,11 +104,9 @@ export default {
 
   .dropdown-title {
     display: block;
-    font-size: 0.9rem;
     font-family: inherit;
     cursor: inherit;
     padding: inherit;
-    line-height: 1.4rem;
     background: transparent;
     border: none;
     font-weight: 500;
