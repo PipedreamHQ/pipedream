@@ -1,0 +1,48 @@
+import symblAIApp from "../../symbl_ai.app.mjs";
+
+export default {
+  key: "symbl_ai-put-member",
+  name: "Update Member",
+  description: "Update an existing Conversation Member object. See the doc [here](https://docs.symbl.ai/docs/conversation-api/update-members/).",
+  version: "0.0.3",
+  type: "action",
+  props: {
+    symblAIApp,
+    conversationId: {
+      propDefinition: [
+        symblAIApp,
+        "conversationId",
+      ],
+    },
+    memberId: {
+      type: "string",
+      label: "Member Id",
+      description: "The unique identifier of the member in the Conversation.",
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the member in the Conversation.",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the member in the Conversation.",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const response =
+      await this.symblAIApp.putMember({
+        $,
+        conversationId: this.conversationId,
+        data: {
+          id: this.memberId,
+          name: this.name,
+          email: this.email,
+        },
+      });
+    $.export("$summary", `${response.message}`);
+    return response;
+  },
+};
