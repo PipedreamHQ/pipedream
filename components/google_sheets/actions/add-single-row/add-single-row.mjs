@@ -83,9 +83,7 @@ export default {
       ] = rows;
       cells = headers
         .map((_, i) => `col_${i.toString().padStart(4, "0")}`)
-        .map((column) => this[column] != null
-          ? this[column]
-          : "");
+        .map((column) => this[column] ?? "");
     } else {
       cells = this.googleSheets.sanitizedArray(this.myColumnData);
     }
