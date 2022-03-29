@@ -99,7 +99,6 @@ export default {
       throw new Error("Cell / Column data is a multi-dimensional array. A one-dimensional is expected. If you're trying to send multiple rows to Google Sheets, search for the action to add multiple rows to Sheets.");
     }
 
-    console.log(cells);
     const {
       arr,
       convertedIndexes,
