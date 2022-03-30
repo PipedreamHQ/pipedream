@@ -11,9 +11,8 @@ export default {
   version: "0.0.2",
   props: {
     ...common.props,
-    /* eslint pipedream/props-label: 0 */
     channelId: {
-      ...common.props.channelId,
+      propDefinition: common.props.channelId.propDefinition,
       description: "Please select the channel you'd like to change its name",
     },
     name: {
