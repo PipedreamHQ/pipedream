@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   ...base,
-  key: "notion-udpated-page",
+  key: "notion-updated-page",
   name: "Updated Page", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page is updated",
   version: "0.0.1",

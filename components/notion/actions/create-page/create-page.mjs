@@ -146,7 +146,7 @@ export default {
     }
 
     const response = await this.notion.createPage(page);
-    $.export("$summary", "Created page succesfully");
+    $.export("$summary", "Created page successfully");
     return response;
   },
 };
