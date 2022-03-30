@@ -24,7 +24,7 @@ Integrate Github + 1000s of apps, remarkably fast. Connect apps and develop, exe
 
 <p align="center">
   <br />
-  <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/hero2.png" width="800px" alt="HTTP trigger + step selection menu" >
+  <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/github6.png" width="800px" alt="HTTP trigger + step selection menu" >
   <br />
 </p>
 
