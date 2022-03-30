@@ -39,7 +39,7 @@ Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/
 
 [See our workflow quickstart](https://pipedream.com/docs/quickstart/) to get started.
 
-<p align="center">
+<p align="left">
   <br />
   <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/github6.png" width="800px" alt="HTTP trigger + step selection menu" >
   <br />
