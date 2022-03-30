@@ -13,7 +13,7 @@ Pipedream provides a free, hosted platform for connecting apps and developing ev
 
 <p align="center">
   <br />
-  <img src="./images/hero.png" width="800px" alt="HTTP trigger + step selection menu" >
+  <img src="https://files.slack.com/files-pri/TD5JFTFRQ-F039EBMU9DZ/idea.png" width="800px" alt="HTTP trigger + step selection menu" >
   <br />
 </p>
 
