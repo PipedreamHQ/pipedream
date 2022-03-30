@@ -29,11 +29,11 @@ Click the image below to watch a brief demo on YouTube.
 <p align="center">
   <br />
   <a href="https://www.youtube.com/watch?v=BGKuPYMNKGg">
-    <img src="./images/demo.png" width="800px" alt="Pipedream demo static image" />
+    <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/demo.png" width="800px" alt="Pipedream demo static image" />
   </a>
 </p>
 
-### Workflows
+## Workflows
 
 Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 500+ integrated apps.
 
