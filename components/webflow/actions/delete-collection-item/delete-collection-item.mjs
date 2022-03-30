@@ -1,9 +1,9 @@
 import webflow from "../../webflow.app.mjs";
 
 export default {
-  key: "webflow-get-collection-item",
-  name: "Get Collection Item",
-  description: "Get a Collection Item",
+  key: "webflow-delete-collection-item",
+  name: "Delete Collection Item",
+  description: "Delete Item of a Collection",
   version: "0.1.1648564084",
   type: "action",
   props: {
@@ -36,7 +36,8 @@ export default {
   },
   async run() {
     const webflow = this.webflow._createApiClient();
-    return await webflow.item({
+
+    return await webflow.removeItem({
       collectionId: this.collectionId,
       itemId: this.itemId,
     });
