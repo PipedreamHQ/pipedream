@@ -2,8 +2,8 @@ import line from "../../line.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-  name: "Send a Notification Message",
-  description: "Sends notifications to users or groups from LINE Notify",
+  name: "Send Notification Message",
+  description: "Sends notifications to users or groups from LINE Notify. [See docs](https://notify-bot.line.me/doc/en/)",
   key: "line-send-a-notification-message",
   version: "0.0.1",
   type: "action",
@@ -78,7 +78,7 @@ export default {
     return await axios($, {
       url: "https://notify-api.line.me/api/notify",
       method: "post",
-      data: this.line.convertJSONToUrlEncodec(body),
+      data: this.line.convertJSONToUrlEncoded(body),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization": `Bearer ${this.accessToken ?? this.line._accessToken()}`,

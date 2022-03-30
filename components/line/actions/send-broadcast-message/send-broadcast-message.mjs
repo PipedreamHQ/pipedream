@@ -1,9 +1,9 @@
 import line from "../../line.app.mjs";
 
 export default {
-  name: "Send a Reply Message",
-  description: "Sends a reply message in response to an event from a user, group, or room.",
-  key: "line-send-a-reply-message",
+  name: "Send Broadcast Message",
+  description: "Sends a broadcast message to multiple users at any time.",
+  key: "line-send-a-broadcast-message",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,11 +13,6 @@ export default {
         line,
         "channelAccessToken",
       ],
-    },
-    replyToken: {
-      label: "Message Reply Token",
-      type: "string",
-      description: "Reply token of received message.",
     },
     message: {
       propDefinition: [
@@ -35,13 +30,15 @@ export default {
   async run({ $ }) {
     const client = this.line.createLineClient(this.channelAccessToken);
 
-    const response = client.replyMessage(this.replyToken, {
+    const response = client.broadcast({
       type: "text",
       text: this.message,
       notificationDisabled: this.notificationDisabled ?? false,
     });
 
-    if (response["x-line-request-id"]) $.export("$summary", "Successfully sent reply message");
+    if (response["x-line-request-id"]) {
+      $.export("$summary", "Successfully sent broadcast message");
+    }
 
     return response;
   },

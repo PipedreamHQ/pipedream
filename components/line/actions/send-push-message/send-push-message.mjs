@@ -1,7 +1,7 @@
 import line from "../../line.app.mjs";
 
 export default {
-  name: "Send a Push Message",
+  name: "Send Push Message",
   description: "Sends a push message to a user, group, or room at any time.",
   key: "line-send-a-push-message",
   version: "0.0.1",
@@ -41,7 +41,9 @@ export default {
       notificationDisabled: this.notificationDisabled ?? false,
     });
 
-    if (response["x-line-request-id"]) $.export("$summary", "Successfully sent push message");
+    if (response["x-line-request-id"]) {
+      $.export("$summary", "Successfully sent push message");
+    }
 
     return response;
   },

@@ -17,7 +17,7 @@ export default {
       description: "The text of message to be send.",
     },
     notificationDisabled: {
-      label: "Notification Disabled",
+      label: "Disable Notification",
       type: "boolean",
       description: "The user will receive a push notification when the message is sent.",
       default: false,
@@ -55,7 +55,7 @@ export default {
      *
      * @returns {string} The x-www-form-urlencoded string.
      */
-    convertJSONToUrlEncodec(params) {
+    convertJSONToUrlEncoded(params) {
       return qs.stringify(params);
     },
   },
