@@ -225,5 +225,17 @@ export default {
         path: `/conversations/${conversationId}/trackers-detected`,
       });
     },
+    async postFormattedTranscript({
+      $,
+      conversationId,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: `/conversations/${conversationId}/transcript`,
+        data,
+      });
+    },
   },
 };
