@@ -5,9 +5,9 @@ export default {
   ...common,
   type: "source",
   key: "reddit-new-links-by-user",
-  name: "New links by user",
+  name: "New Links by User",
   description: "Emit new event each time a user posts a new link.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -20,8 +20,7 @@ export default {
     numberOfParents: {
       type: "integer",
       label: "Number of parents",
-      description:
-        "The emitted events will contain the new comment plus the parents of said comment up to the number indicated in this property.",
+      description: "The emitted events will contain the new comment plus the parents of said comment up to the number indicated in this property.",
       optional: true,
       min: 2,
       max: 10,
@@ -56,8 +55,10 @@ export default {
         console.log("No data available, skipping iteration");
         return;
       }
-      const { name: before = this.db.get("before") } = links[0].data;
-      this.db.set("before", before);
+      const { name: before = this._getBefore() } = links[0].data;
+      const names = (links.map((link) => link?.data?.name)).reverse();
+      this._setBefore(before);
+      this._setCache(names);
       links.reverse().forEach(this.emitRedditEvent);
     },
   },
@@ -70,12 +71,19 @@ export default {
         ts: redditEvent.data.created,
       };
     },
+    async isBeforeValid(before) {
+      // verify this link still exists as a link by this user
+      const { data } = await this.reddit.getSubredditByName(before);
+      return data?.children[0]?.data?.author === this.username;
+    },
   },
   async run() {
     let redditLinks;
+    const emittedEvents = [];
+    await this.validateBefore(this._getCache(), this._getBefore());
     do {
       redditLinks = await this.reddit.getNewUserLinks(
-        this.db.get("before"),
+        this._getBefore(),
         this.username,
         this.numberOfParents,
         this.timeFilter,
@@ -86,9 +94,15 @@ export default {
         console.log("No data available, skipping iteration");
         break;
       }
-      const { name: before = this.db.get("before") } = links[0].data;
-      this.db.set("before", before);
+      const { name: before = this._getBefore() } = links[0].data;
+      this._setBefore(before);
+      const names = (links.map((link) => link?.data?.name)).reverse();
+      emittedEvents.push(...names);
+
       links.reverse().forEach(this.emitRedditEvent);
     } while (redditLinks);
+    const cache = this._getCache();
+    cache.push(...emittedEvents);
+    this._setCache(cache);
   },
 };
