@@ -24,7 +24,7 @@ export default {
       throw new Error("activate() hook not implemented");
     },
     async deactivate() {
-      const hookId = this._getHookId();
+      const hookId = this.getHookId();
       await this.gitlab.deleteProjectHook(this.projectId, hookId);
       console.log(
         `Deleted webhook for project ID ${this.projectId}.

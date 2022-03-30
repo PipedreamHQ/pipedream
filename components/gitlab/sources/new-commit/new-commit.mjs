@@ -54,8 +54,7 @@ export default {
       const { total_commits_count: totalCommitsCount } = event;
       if (totalCommitsCount <= 0) return;
 
-      const commits = await this.gitlab.listCommits({
-        projectId: this.projectId,
+      const commits = await this.gitlab.listCommits(this.projectId, {
         refName: this.refName,
         max: Math.min(50, totalCommitsCount),
       });

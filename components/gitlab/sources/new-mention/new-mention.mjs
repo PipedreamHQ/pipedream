@@ -16,9 +16,13 @@ export default {
       propDefinition: [
         gitlab,
         "assignee",
+        (c) => ({
+          projectId: c.projectId,
+        }),
       ],
       label: "Username",
       description: "The GitLab Username whose mentions will emit events",
+      withLabel: true,
     },
   },
   hooks: {
@@ -33,7 +37,7 @@ export default {
   methods: {
     ...base.methods,
     isUserMentioned(mention) {
-      const pattern = new RegExp(`\\B@${this.username}\\b`);
+      const pattern = new RegExp(`\\B@${this.username.label}\\b`);
       const groomedAttributes = {
         ...mention,
         // We want to exclude some fields, since they do not map
@@ -41,8 +45,8 @@ export default {
         // positives (e.g. if a URL contains `@someuser` in its path).
         url: "",
       };
-      const changeSummary = JSON.stringify(groomedAttributes);
-      return pattern.test(changeSummary);
+      const changedSummary = JSON.stringify(groomedAttributes);
+      return pattern.test(changedSummary);
     },
     generateMeta({
       user, mention,
@@ -54,7 +58,7 @@ export default {
       const { username } = user;
       return {
         id,
-        summary: `New mention of ${this.username} by ${username}`,
+        summary: `New mention of ${this.username.label} by ${username}`,
         ts: +new Date(createdAt),
       };
     },

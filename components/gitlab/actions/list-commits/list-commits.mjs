@@ -34,11 +34,10 @@ export default {
   },
   async run({ $ }) {
     const opts = lodash.pickBy(lodash.pick(this, [
-      "projectId",
       "refName",
       "max",
     ]));
-    const commits = await this.gitlab.listCommits(opts);
+    const commits = await this.gitlab.listCommits(this.projectId, opts);
     const suffix = commits.length === 1
       ? ""
       : "s";

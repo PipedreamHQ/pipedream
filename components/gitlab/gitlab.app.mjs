@@ -231,13 +231,18 @@ export default {
       return this.listAll(this._gitlabClient().Issues, null, opts);
     },
     async searchIssues(opts = {}) {
-      return this.search(this._gitlabClient().Issues, opts);
+      /**
+       * client.Issues.all({ projectId, ...opts });
+       */
+      return this.search(this._gitlabClient().Issues, null, opts);
     },
-    async listCommits(opts = {}) {
-      return this.search(this._gitlabClient().Commits, opts);
+    async listCommits(projectId, opts = {}) {
+      /**
+       * client.Commits.all(projectId, { ...opts });
+       */
+      return this.search(this._gitlabClient().Commits, projectId, opts);
     },
-    async search(client, opts = {}) {
-      const { projectId } = opts;
+    async search(client, projectId = null, opts = {}) {
       const data = this.pagination(
         client,
         projectId,
@@ -254,7 +259,7 @@ export default {
       }
       return results;
     },
-    async *pagination(api, projectId, opts = {}) {
+    async *pagination(api, projectId = null, opts = {}) {
       while (true) {
         const response = await this.listAll(api, projectId, opts);
 
