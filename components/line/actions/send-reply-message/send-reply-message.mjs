@@ -32,19 +32,11 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
-    const client = this.line.createLineClient(this.channelAccessToken);
-
-    const response = client.replyMessage(this.replyToken, {
+  async run() {
+    return this.line.sendReplyMessage(this.channelAccessToken, this.replyToken, {
       type: "text",
       text: this.message,
       notificationDisabled: this.notificationDisabled ?? false,
     });
-
-    if (response["x-line-request-id"]) {
-      $.export("$summary", "Successfully sent reply message");
-    }
-
-    return response;
   },
 };

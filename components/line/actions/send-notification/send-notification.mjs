@@ -1,5 +1,4 @@
 import line from "../../line.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   name: "Send Notification Message",
@@ -62,27 +61,12 @@ export default {
       stickerId,
     } = this;
 
-    const body = {
+    return this.sendNotification($, {
       message,
       imageThumbnail,
       imageFullsize,
       stickerPackageId,
       stickerId,
-    };
-
-    if (this.imageThumbnail) body.imageThumbnail = this.imageThumbnail;
-    if (this.imageFullsize) body.imageFullsize = this.imageFullsize;
-    if (this.stickerPackageId) body.stickerPackageId = this.stickerPackageId;
-    if (this.stickerId) body.stickerId = this.stickerId;
-
-    return await axios($, {
-      url: "https://notify-api.line.me/api/notify",
-      method: "post",
-      data: this.line.convertJSONToUrlEncoded(body),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Bearer ${this.accessToken ?? this.line._accessToken()}`,
-      },
-    });
+    }, this.accessToken);
   },
 };

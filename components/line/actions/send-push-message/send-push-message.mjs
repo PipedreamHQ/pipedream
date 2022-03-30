@@ -2,7 +2,7 @@ import line from "../../line.app.mjs";
 
 export default {
   name: "Send Push Message",
-  description: "Sends a push message to a user, group, or room at any time.",
+  description: "Sends a push message to a user, group, or room at any time. [See docs](https://developers.line.biz/en/reference/messaging-api/#send-push-message)",
   key: "line-send-push-message",
   version: "0.0.1",
   type: "action",
@@ -32,19 +32,11 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
-    const client = this.line.createLineClient(this.channelAccessToken);
-
-    const response = client.pushMessage(this.to, {
+  async run() {
+    return this.line.sendPushMessage(this.channelAccessToken, this.to, {
       type: "text",
       text: this.message,
       notificationDisabled: this.notificationDisabled ?? false,
     });
-
-    if (response["x-line-request-id"]) {
-      $.export("$summary", "Successfully sent push message");
-    }
-
-    return response;
   },
 };

@@ -2,7 +2,7 @@ import line from "../../line.app.mjs";
 
 export default {
   name: "Send Broadcast Message",
-  description: "Sends a broadcast message to multiple users at any time.",
+  description: "Sends a broadcast message to multiple users at any time. [See docs](https://developers.line.biz/en/reference/messaging-api/#send-broadcast-message)",
   key: "line-send-broadcast-message",
   version: "0.0.1",
   type: "action",
@@ -27,19 +27,11 @@ export default {
       ],
     },
   },
-  async run({ $ }) {
-    const client = this.line.createLineClient(this.channelAccessToken);
-
-    const response = client.broadcast({
+  async run() {
+    return this.line.sendBroadcastMessage(this.channelAccessToken, {
       type: "text",
       text: this.message,
       notificationDisabled: this.notificationDisabled ?? false,
     });
-
-    if (response["x-line-request-id"]) {
-      $.export("$summary", "Successfully sent broadcast message");
-    }
-
-    return response;
   },
 };
