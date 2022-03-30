@@ -8,7 +8,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 300//15 * 60, // by default, run every 15 minutes.
+        intervalSeconds: 120//15 * 60, // by default, run every 15 minutes.
       },
     },
   },
@@ -17,20 +17,7 @@ module.exports = {
     getEventTypes() {
       throw new Error("getEventType is not implemented");
     },
-    generateReportMeta({
-      eventPayload,
-      idField,
-      diff,
-      timestamp: ts,
-    }) {
-      const eventId = eventPayload[idField];
-      return {
-        id: `${eventId}-${ts}`,
-        summary: `${diff} new ${this.getEventTypes()[0]}`,
-        ts,
-      };
-    },
-    async deployReport(reportId, rptParamId, timestamp){
+    async emitReportSampleEvents(reportId, rptParamId, timestamp){
       this.clearCampaignDetailsCache();
       let report;
       if(this.getEventTypes().includes("opens")){
@@ -56,7 +43,7 @@ module.exports = {
       });
       this.cacheCampaignDetails(report);
     },
-    async getCampaignDetailsReport() {
+    async emitReportEvents() {
       const cachedDetails = this.getCachedCampaignDetails();
       const detailsInfo = await this.getCampaignDetails();
       const currentDetails = this.getCurrentCampaignDetails(detailsInfo);

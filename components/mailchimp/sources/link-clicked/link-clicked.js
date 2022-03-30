@@ -38,7 +38,7 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
-      return await this.deployReport(this.campaignId, this.linkId, (new Date()).getTime());
+      return await this.emitReportSampleEvents(this.campaignId, this.linkId, (new Date()).getTime());
     },
   },
   methods: {
@@ -96,6 +96,6 @@ module.exports = {
     },
   },
   async run() {
-    return this.getCampaignDetailsReport();
+    return this.emitReportEvents();
   },
 };
