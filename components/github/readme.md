@@ -28,33 +28,25 @@ Click the image below to watch a brief demo on YouTube.
   </a>
 </p>
 
-## Github API Event Sources
-
-- [Custom Events](https://pipedream.com/sources/new?app=github) - Build your own event source using one or multiple events ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/custom-events.js))
-- [New Branch](https://pipedream.com/sources/new?app=github) - Triggered when a new branch is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-branch.js))
-- [New Commit](https://pipedream.com/sources/new?app=github) - Triggered when a new commit comment is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-commit.js))
-- [New Commit Comment](https://pipedream.com/sources/new?app=github) - Triggered when a new comment on a commit is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-commit-comment.js))
-- [New Issue](https://pipedream.com/sources/new?app=github) - Triggered when a new issue is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-issue.js))
-- [New Label](https://pipedream.com/sources/new?app=github) - Triggered when a new label is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-label.js))
-- [New Mention](https://pipedream.com/sources/new?app=github) - Triggers when your username is mentioned in a Commit, Comment, Issue or Pull Request. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-mention.js))
-- [New Milestone](https://pipedream.com/sources/new?app=github) - Triggered when a new milestone is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-milestone.js))
-- [New Project Card](https://pipedream.com/sources/new?app=github) - Triggered when a new project card is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-project-card.js))
-- [New Pull Request](https://pipedream.com/sources/new?app=github) - Triggered when a new pull request is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-pull-request.js))
-- [New Push](https://pipedream.com/sources/new?app=github) - Triggered when a new push is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/push-event.js))
-- [New Repository](https://pipedream.com/sources/new?app=github) - Triggered when a new repository is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-repository.js))
-- [New Review Request](https://pipedream.com/sources/new?app=github) - Triggered when a new review request is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-review-request.js))
-- [New Security Alert](https://pipedream.com/sources/new?app=github) - Triggered when a new security alert is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-security-alert.js))
-- [New Stars](https://pipedream.com/sources/new?app=github) - Triggered when a new star is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-star.js))
-
 ### Workflows
 
 Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 500+ integrated apps.
 
 [See our workflow quickstart](https://pipedream.com/docs/quickstart/) to get started.
 
-### Event Sources
+## Github API Event Sources [All](https://pipedream.com/apps/github)
 
 [Event Sources](https://pipedream.com/docs/sources/) watch for new data from services like GitHub, Slack, Airtable, RSS and [more](https://pipedream.com/apps). When a source finds a new event, it emits it, triggering any linked workflows.
+
+- [Custom Events](https://pipedream.com/new?h=eyJuIjoiQ3VzdG9tIFdlYmhvb2sgRXZlbnRzIHdpdGggdGhlIEdpdEh1YiBBUEkiLCJ2IjoyLCJ0IjpbInNjX3Y0aXh4Sm4iXSwicyI6W10sImMiOnt9fQ) - Build your own event source using one or multiple events ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/custom-events.js))
+- [New Branch](https://pipedream.com/new?h=eyJuIjoiTmV3IEJyYW5jaCAoSW5zdGFudCkgd2l0aCB0aGUgR2l0SHViIEFQSSIsInYiOjIsInQiOlsic2NfRWdpcnJxeSJdLCJzIjpbXSwiYyI6e319) - Triggered when a new branch is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-branch.js))
+- [New Commit](https://pipedream.com/new?h=eyJuIjoiTmV3IENvbW1pdCB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6WyJzY19BM2lwUkJZIl0sInMiOltdLCJjIjp7fX0) - Triggered when a new commit comment is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-commit.js))
+- [New Commit Comment](https://pipedream.com/new?h=eyJuIjoiTmV3IENvbW1pdCBDb21tZW50IChJbnN0YW50KSB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6WyJzY19RMmlCQnBZIl0sInMiOltdLCJjIjp7fX0) - Triggered when a new comment on a commit is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-commit-comment.js))
+- [New Issue](https://pipedream.com/new?h=eyJuIjoiTmV3IElzc3VlIChJbnN0YW50KSB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6WyJzY19uNWkwMFlrIl0sInMiOltdLCJjIjp7fX0) - Triggered when a new issue is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-issue.js))
+- [New Label](https://pipedream.com/new?h=eyJuIjoiTmV3IExhYmVsIChJbnN0YW50KSB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6WyJzY185OWl2djU0Il0sInMiOltdLCJjIjp7fX0) - Triggered when a new label is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-label.js))
+- [New Mention](https://pipedream.com/new?h=eyJuIjoiTmV3IE1lbnRpb24gd2l0aCB0aGUgR2l0SHViIEFQSSIsInYiOjIsInQiOlsic2NfTWVpYU5EIl0sInMiOltdLCJjIjp7fX0b) - Triggers when your username is mentioned in a Commit, Comment, Issue or Pull Request. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-mention.js))
+- [New Milestone](https://pipedream.com/new?h=eyJuIjoiTmV3IE1pbGVzdG9uZSAoSW5zdGFudCkgd2l0aCB0aGUgR2l0SHViIEFQSSIsInYiOjIsInQiOlsic2Nfb2dpOTlEbyJdLCJzIjpbXSwiYyI6e319) - Triggered when a new milestone is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-milestone.js))
+- [New Pull Request](https://pipedream.com/new?h=eyJuIjoiTmV3IG9yIFVwZGF0ZWQgUHVsbCBSZXF1ZXN0IChJbnN0YW50KSB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6WyJzY19WUmlnZzMzIl0sInMiOltdLCJjIjp7fX0) - Triggered when a new pull request is created. ([code](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/new-pull-request.js))
 
 You can also consume events emitted by sources using [Pipedream's REST API](https://pipedream.com/docs/api/rest/) or a private, real-time [SSE stream](https://pipedream.com/docs/api/sse/).
 
@@ -77,9 +69,13 @@ export default {
 
 You can find the code for all pre-built sources in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process).
 
-### Actions
+## Github API Actions [All](https://pipedream.com/apps/github)
 
 [Actions](https://pipedream.com/docs/components/actions/) are pre-built code steps that you can use in a workflow to perform common operations across Pipedream's 500+ API integrations. For example, you can use actions to send email, add a row to a Google Sheet, [and more](https://pipedream.com/apps).
+
+- [Create Issue](https://pipedream.com/new?h=eyJuIjoiQ3JlYXRlIElzc3VlIHdpdGggdGhlIEdpdEh1YiBBUEkiLCJ2IjoyLCJ0IjpbXSwicyI6W3sia2V5IjoiZ2l0aHViLWNyZWF0ZS1pc3N1ZSJ9XSwiYyI6e319) - Triggers when your username is mentioned in a Commit, Comment, Issue or Pull Request. ([code](https://github.com/PipedreamHQ/pipedream/tree/master/components/github/actions/create-issue))
+- [Get Repository](https://pipedream.com/new?h=eyJuIjoiR2V0IFJlcG8gd2l0aCB0aGUgR2l0SHViIEFQSSIsInYiOjIsInQiOltdLCJzIjpbeyJrZXkiOiJnaXRodWItZ2V0LXJlcG8ifV0sImMiOnt9fQ) - Triggered when a new milestone is created. ([code](https://github.com/PipedreamHQ/pipedream/tree/master/components/github/actions/get-repo))
+- [Search Issues](https://pipedream.com/new?h=eyJuIjoiU2VhcmNoIElzc3VlcyBhbmQgUHVsbCBSZXF1ZXN0cyB3aXRoIHRoZSBHaXRIdWIgQVBJIiwidiI6MiwidCI6W10sInMiOlt7ImtleSI6ImdpdGh1Yi1zZWFyY2gtaXNzdWVzLWFuZC1wdWxsLXJlcXVlc3RzIn1dLCJjIjp7fX0) - Triggered when a new pull request is created. ([code](https://github.com/PipedreamHQ/pipedream/tree/master/components/github/actions/search-issues-and-pull-requests))
 
 You can [create your own actions](https://pipedream.com/docs/components/quickstart/nodejs/actions/), which you can re-use across workflows. You can also [publish actions to the entire Pipedream community](https://pipedream.com/docs/components/guidelines/), making them available for anyone to use.
 
@@ -105,6 +101,16 @@ export default {
 ```
 
 You can find the code for all pre-built actions in [the `components` directory](https://github.com/PipedreamHQ/pipedream/tree/master/components). If you find a bug or want to contribute a feature, [see our contribution guide](https://pipedream.com/docs/components/guidelines/#process).
+
+## Other Popular API Integrations
+
+- [Airtable](https://github.com/PipedreamHQ/pipedream/tree/master/components/airtable) ([explore](https://pipedream.com/apps/airtable))
+- [AWS](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws) ([explore](https://pipedream.com/apps/aws))
+- [Dropbox](https://github.com/PipedreamHQ/pipedream/tree/master/components/dropbox) ([explore](https://pipedream.com/apps/dropbox))
+- [Google Sheets](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-sheets) ([explore](https://pipedream.com/apps/google-sheets))
+- [Google Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-drive) ([explore](https://pipedream.com/apps/google-drive))
+- [RSS](https://github.com/PipedreamHQ/pipedream/tree/master/components/rss) ([explore](https://pipedream.com/apps/rss))
+- [Twitter](https://github.com/PipedreamHQ/pipedream/tree/master/components/twitter) ([explore](https://pipedream.com/apps/twitter))
 
 ### Custom code
 
@@ -232,13 +238,3 @@ If an issue _doesn't_ yet exist and you need to create one, please [use the issu
 You can read about our platform security and privacy [here](https://pipedream.com/docs/privacy-and-security/).
 
 If you'd like to report a suspected vulnerability or security issue, or have any questions about the security of the product, please contact our security team at **security@pipedream.com**.
-
-## Other Popular API Integrations
-
-- [Airtable](https://github.com/PipedreamHQ/pipedream/tree/master/components/airtable) ([deploy](https://pipedream.com/sources/new?app=airtable))
-- [AWS](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws) ([deploy](https://pipedream.com/sources/new?app=aws))
-- [Dropbox](https://github.com/PipedreamHQ/pipedream/tree/master/components/dropbox) ([deploy](https://pipedream.com/sources/new?app=dropbox))
-- [Google Calendar](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-calendar) ([deploy](https://pipedream.com/sources/new?app=google-calendar))
-- [Google Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google-drive) ([deploy](https://pipedream.com/sources/new?app=google-drive))
-- [RSS](https://github.com/PipedreamHQ/pipedream/tree/master/components/rss) ([deploy](https://pipedream.com/sources/new?app=rss))
-- [Twitter](https://github.com/PipedreamHQ/pipedream/tree/master/components/twitter) ([deploy](https://pipedream.com/sources/new?app=twitter))
