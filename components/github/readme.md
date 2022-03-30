@@ -26,10 +26,10 @@ Pipedream is an integration platform for developers. Pipedream provides a free, 
 
 Click the image below to watch a brief demo on YouTube.
 
-<p align="center">
+<p align="left">
   <br />
   <a href="http://tod.ly/3uDenid">
-    <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/demo.png" width="400px" alt="Pipedream demo static image" />
+    <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/demo.png" width="500px" alt="Pipedream demo static image" />
   </a>
 </p>
 
