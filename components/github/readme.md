@@ -22,19 +22,13 @@ Pipedream is an integration platform for developers. Pipedream provides a free, 
 
 - [Free](#pricing) - No fees for individual developers (see [limits](https://docs.pipedream.com/limits/))
 
-<p align="center">
-  <br />
-  <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/github6.png" width="800px" alt="HTTP trigger + step selection menu" >
-  <br />
-</p>
-
 ## Demo
 
 Click the image below to watch a brief demo on YouTube.
 
-<p align="center">
+<p align="center" width="400">
   <br />
-  <a href="https://www.youtube.com/watch?v=BGKuPYMNKGg">
+  <a href="http://tod.ly/3uDenid">
     <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/demo.png" width="800px" alt="Pipedream demo static image" />
   </a>
 </p>
@@ -44,6 +38,12 @@ Click the image below to watch a brief demo on YouTube.
 Workflows are a sequence of linear [steps](https://pipedream.com/docs/workflows/steps) triggered by an event (like an HTTP request, or when a new row is added to a Google sheet). You can quickly develop complex automations using workflows and connect to any of our 500+ integrated apps.
 
 [See our workflow quickstart](https://pipedream.com/docs/quickstart/) to get started.
+
+<p align="center">
+  <br />
+  <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/github6.png" width="800px" alt="HTTP trigger + step selection menu" >
+  <br />
+</p>
 
 ## Github API Event Sources ([explore](https://pipedream.com/apps/github))
 
