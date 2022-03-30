@@ -19,7 +19,7 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     // Now we can access the data store at "this.store"
-    this.data.get("email");
+    await this.data.get("email");
   }
 });
 ```
@@ -47,7 +47,7 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     // Store a timestamp each time this step is executed in the workflow
-    this.data.set('lastRanAt', new Date());
+    await this.data.set('lastRanAt', new Date());
   },
 })
 ```
@@ -63,7 +63,7 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     // Retrieve the timestamp representing last time this step executed
-    const lastRanAt = this.data.get('lastRanAt'); 
+    const lastRanAt = await this.data.get('lastRanAt'); 
   },
 })
 ```
@@ -86,9 +86,9 @@ export default defineComponent({
   },
   async run({ steps, $ }) {
     // Retrieve the customer from our customer store 
-    const customer = this.customer.get(steps.trigger.event.customer_id);
+    const customer = await this.customer.get(steps.trigger.event.customer_id);
     // Retrieve the order from our order data store
-    const order = this.orders.get(steps.trigger.event.order_id);
+    const order = await this.orders.get(steps.trigger.event.order_id);
   },
 })
 ```
@@ -105,11 +105,11 @@ export default defineComponent({
   async run({ steps, $ }) {
     // By default, all database entries are undefined.
     // It's wise to set a default value so our code as an initial value to work with
-    const counter = this.data.get('counter') ?? 0;
+    const counter = await this.data.get('counter') ?? 0;
     
     // On the first run "counter" will be 0 and we'll increment it to 1
     // The next run will increment the counter to 2, and so forth
-    this.data.set('counter', counter + 1);
+    await this.data.set('counter', counter + 1);
   },
 })
 ```
@@ -128,7 +128,7 @@ export default defineComponent({
   async run({ steps, $ }) {
     const email = steps.trigger.event.body.new_customer_email;
     // Retrieve the past recorded emails from other runs
-    const emails = this.data.get('emails') ?? [];
+    const emails = await this.data.get('emails') ?? [];
 
     // If the current email being passed from our webhook is already in our list, exit early
     if(emails.includes(email)) {
@@ -136,7 +136,7 @@ export default defineComponent({
     }
 
     // Add the current email to the list of past emails so we can detect it in the future runs
-    this.data.set('emails', [...emails, email]);
+    await this.data.set('emails', [...emails, email]);
   },
 })
 ```
