@@ -4,7 +4,10 @@
 
 ---
 
-Integrate Github + 1000s of apps, remarkably fast. Connect apps and develop, execute and maintain event-driven workflows.
+Pipedream is an integration platform for developers. Connect Github + 1000s of apps, remarkably fast. 
+
+Pipedream provides a free, hosted platform for connecting apps and developing event-driven automations. You can use pre-built components to quickly connect to GitHub, Slack, Google Sheets, and more, and you can also run any Node.js, Python, Golang, or Bash code when you need custom logic.
+
 
 <a href="https://bit.ly/32eKudX"><img src="https://i.ibb.co/n38r3KV/github.png" alt="github" border="0" height="50" /></a>
 
