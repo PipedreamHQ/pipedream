@@ -1,17 +1,23 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emits an event for each new Hubspot email event.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   hooks: {},
   methods: {
     ...common.methods,
     generateMeta(emailEvent) {
-      const { id, recipient, type, created } = emailEvent;
+      const {
+        id,
+        recipient,
+        type,
+        created,
+      } = emailEvent;
       const ts = Date.parse(created);
       return {
         id,
@@ -20,7 +26,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const startTimestamp = this._getAfter();
     const params = {
       limit: 100,
@@ -30,7 +36,7 @@ module.exports = {
     await this.paginateUsingHasMore(
       params,
       this.hubspot.getEmailEvents.bind(this),
-      "events"
+      "events",
     );
   },
 };

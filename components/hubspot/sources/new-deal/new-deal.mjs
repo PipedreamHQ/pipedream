@@ -1,29 +1,34 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
-  key: "hubspot-new-company",
-  name: "New Companies",
-  description: "Emits an event for each new company added.",
-  version: "0.0.2",
+  key: "hubspot-new-deal",
+  name: "New Deals",
+  description: "Emits an event for each new deal created.",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   hooks: {},
   methods: {
     ...common.methods,
-    generateMeta(company) {
-      const { id, properties, createdAt } = company;
+    generateMeta(deal) {
+      const {
+        id,
+        properties,
+        createdAt,
+      } = deal;
       const ts = Date.parse(createdAt);
       return {
         id,
-        summary: properties.name,
+        summary: properties.dealname,
         ts,
       };
     },
-    isRelevant(company, createdAfter) {
-      return Date.parse(company.createdAt) > createdAfter;
+    isRelevant(deal, createdAfter) {
+      return Date.parse(deal.createdAt) > createdAfter;
     },
   },
-  async run(event) {
+  async run() {
     const createdAfter = this._getAfter();
     const data = {
       limit: 100,
@@ -33,14 +38,14 @@ module.exports = {
           direction: "DESCENDING",
         },
       ],
-      object: "companies",
+      object: "deals",
     };
 
     await this.paginate(
       data,
       this.hubspot.searchCRM.bind(this),
       "results",
-      createdAfter
+      createdAfter,
     );
 
     this._setAfter(Date.now());

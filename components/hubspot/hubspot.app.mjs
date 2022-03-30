@@ -1,6 +1,11 @@
-const axios = require("axios");
+import { axios } from "@pipedream/platform";
+import {
+  AssociationCategory,
+  HUBSPOT_OWNER, ObjectType,
+} from "./common/constants.mjs";
+import objectTypes from "./common/object-types.mjs";
 
-module.exports = {
+export default {
   type: "app",
   app: "hubspot",
   propDefinitions: {
@@ -69,36 +74,16 @@ module.exports = {
       type: "string",
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
-      async options() {
-        return [
-          {
-            label: "Companies",
-            value: "company",
-          },
-          {
-            label: "Contacts",
-            value: "contact",
-          },
-          {
-            label: "Deals",
-            value: "deal",
-          },
-          {
-            label: "Tickets",
-            value: "ticket",
-          },
-        ];
-      },
+      options: objectTypes,
     },
     objectIds: {
       type: "string[]",
       label: "Object",
       description: "Watch for new events concerning the objects selected.",
-      async options(opts) {
-        let objectType = null;
-        if (opts.objectType == "company") objectType = "companies";
-        else objectType = `${opts.objectType}s`;
-        return this.createOptions(objectType);
+      async options({
+        objectType, ...opts
+      }) {
+        return this.createOptions(objectType, opts);
       },
     },
     forms: {
@@ -181,6 +166,23 @@ module.exports = {
         }));
       },
     },
+    associationType: {
+      type: "string",
+      label: "Association Type",
+      description: "Type of the association",
+      async options({
+        fromObjectType, toObjectType,
+      }) {
+        const { results: associationTypes } = await this.getAssociationTypes(
+          fromObjectType,
+          toObjectType,
+        );
+        return associationTypes.map((associationType) => ({
+          label: associationType.label ?? `${fromObjectType}_to_${toObjectType}`,
+          value: associationType.typeId,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseURL() {
@@ -197,149 +199,188 @@ module.exports = {
       monthAgo.setMonth(monthAgo.getMonth() - 1);
       return monthAgo;
     },
-    async makeGetRequest(endpoint, params = null) {
-      const config = {
-        method: "GET",
-        url: `${this._getBaseURL()}${endpoint}`,
-        headers: this._getHeaders(),
+    async makeRequest(endpoint, opts = {}) {
+      const {
+        method = "GET",
         params,
-      };
-      return (await axios(config)).data;
-    },
-    async makePostRequest({
-      endpoint, params, data,
-    }) {
+        data,
+        $,
+      } = opts;
       const config = {
-        method: "POST",
+        method,
         url: `${this._getBaseURL()}${endpoint}`,
         headers: this._getHeaders(),
         params,
         data,
       };
-      console.log("🚀 ~ file: hubspot.app.js ~ line 219 ~ config", config);
-      return (await axios(config)).data;
+      return axios($ ?? this, config);
     },
-    getObjectName(objectType) {
-      if (!objectType.endsWith("s")) {
-        return objectType.toLowerCase();
+    async makeGetRequest(endpoint, params = null, $) {
+      return this.makeRequest(endpoint, {
+        params,
+        $,
+      });
+    },
+    async makePostRequest({
+      endpoint, data,
+    }, $) {
+      return this.makeRequest(endpoint, {
+        method: "POST",
+        data,
+        $,
+      });
+    },
+    /**
+     * Returns the object type name of a CRM object to be used in Hubspot API
+     * calls
+     *
+     * {@see {@link https://developers.hubspot.com/docs/cms/data/crm-objects CRM Object}
+     *
+     * @param {string} objectSlug - The object type's plural label or fully qualified
+     * name
+     * @returns The object type name
+     */
+    getObjectTypeName(objectSlug) {
+      if (!objectSlug.endsWith("s")) {
+        return objectSlug.toLowerCase();
       }
-      if (objectType === "companies") {
+      if (objectSlug === "companies") {
         return "company";
       }
-      return objectType.toLowerCase().slice(0, -1);
+      return objectSlug.toLowerCase().slice(0, -1);
     },
-    getObjectLabel(object, objectType) {
+    /**
+     * Returns a label for a CRM object, intended to be used as the label for
+     * prop options
+     *
+     * @param {object} object - The CRM object to get a label for
+     * @param {string} objectSlug - The object type's plural label or fully
+     * qualified name
+     * @returns A label for the object
+     */
+    getObjectLabel(object, objectSlug) {
       const {
         id,
         properties,
       } = object;
-      const objectName = this.getObjectName(objectType);
+      const objectName = this.getObjectTypeName(objectSlug);
       switch (objectName) {
-      case "company":
+      case ObjectType.COMPANY:
         return properties.name;
-      case "contact":
+      case ObjectType.CONTACT:
         return `${properties.firstname} ${properties.lastname}`;
-      case "deal":
+      case ObjectType.DEAL:
         return properties.dealname;
-      case "line_item":
+      case ObjectType.LINE_ITEM:
         return properties.name;
-      case "ticket":
+      case ObjectType.TICKET:
         return properties.subject;
-      case "quote":
-        return properties.hs_title;
-      case "owner":
-        return object.email;
-      case "call":
-        return object.hs_call_title;
+      case ObjectType.QUOTE:
+        return properties.hs_title ?? id;
+      case HUBSPOT_OWNER:
+        return properties.email;
+      case ObjectType.CALL:
+        return properties.hs_call_title ?? id;
+      case ObjectType.MEETING:
+        return properties.hs_meeting_title ?? id;
+      case ObjectType.EMAIL:
+        return properties.hs_email_subject ?? id;
+      case ObjectType.TASK:
+        return properties.hs_task_subject ?? id;
+      case ObjectType.NOTE:
+        return properties.hs_note_body;
       default:
         return id;
       }
     },
     async searchCRM({
       object, ...data
-    }) {
+    }, $) {
       const config = {
         method: "POST",
         url: `${this._getBaseURL()}/crm/v3/objects/${object}/search`,
         headers: this._getHeaders(),
         data,
       };
-      return (await axios(config)).data;
+      return axios($ ?? this, config);
     },
-    async getBlogPosts(params) {
-      return await this.makeGetRequest("/cms/v3/blogs/posts", params);
+    async getBlogPosts(params, $) {
+      return await this.makeGetRequest("/cms/v3/blogs/posts", params, $);
     },
-    async getCalendarTasks(endDate) {
+    async getCalendarTasks(endDate, $) {
       const params = {
         startDate: Date.now(),
         endDate,
       };
-      return await this.makeGetRequest("/calendar/v1/events/task", params);
+      return await this.makeGetRequest("/calendar/v1/events/task", params, $);
     },
-    async getContactProperties() {
-      return await this.makeGetRequest("/properties/v1/contacts/properties");
+    async getContactProperties($) {
+      return await this.makeGetRequest("/properties/v1/contacts/properties", $);
     },
-    async createPropertiesArray() {
-      const allProperties = await this.getContactProperties();
+    async createPropertiesArray($) {
+      const allProperties = await this.getContactProperties($);
       return allProperties.map((property) => property.name);
     },
-    async getDealProperties() {
-      return await this.makeGetRequest("/properties/v1/deals/properties");
+    async getDealProperties($) {
+      return await this.makeGetRequest("/properties/v1/deals/properties", $);
     },
-    async getDealStages() {
-      return await this.makeGetRequest("/crm-pipelines/v1/pipelines/deal");
+    async getDealStages($) {
+      return await this.makeGetRequest("/crm-pipelines/v1/pipelines/deal", $);
     },
-    async getEmailEvents(params) {
-      return await this.makeGetRequest("/email/public/v1/events", params);
+    async getEmailEvents(params, $) {
+      return await this.makeGetRequest("/email/public/v1/events", params, $);
     },
-    async getEngagements(params) {
+    async getEngagements(params, $) {
       return await this.makeGetRequest(
         "/engagements/v1/engagements/paged",
         params,
+        $,
       );
     },
-    async getEvents(params) {
-      return await this.makeGetRequest("/events/v3/events", params);
+    async getEvents(params, $) {
+      return await this.makeGetRequest("/events/v3/events", params, $);
     },
-    async getForms(params) {
-      return await this.makeGetRequest("/forms/v2/forms", params);
+    async getForms(params, $) {
+      return await this.makeGetRequest("/forms/v2/forms", params, $);
     },
-    async getFormSubmissions(params) {
+    async getFormSubmissions(params, $) {
       const { formId } = params;
       delete params.formId;
       return await this.makeGetRequest(
         `/form-integrations/v1/submissions/forms/${formId}`,
         params,
+        $,
       );
     },
-    async getLists(params) {
-      const { lists } = await this.makeGetRequest("/contacts/v1/lists", params);
+    async getLists(params, $) {
+      const { lists } = await this.makeGetRequest("/contacts/v1/lists", params, $);
       return lists;
     },
-    async getStaticLists(params) {
-      const { lists } = await this.makeGetRequest("/contacts/v1/lists/static", params);
+    async getStaticLists(params, $) {
+      const { lists } = await this.makeGetRequest("/contacts/v1/lists/static", params, $);
       return lists;
     },
-    async getDynamicLists(params) {
-      const { lists } = await this.makeGetRequest("/contacts/v1/lists/dynamic", params);
+    async getDynamicLists(params, $) {
+      const { lists } = await this.makeGetRequest("/contacts/v1/lists/dynamic", params, $);
       return lists;
     },
-    async getListContacts(params, listId) {
+    async getListContacts(params, listId, $) {
       return await this.makeGetRequest(
         `/contacts/v1/lists/${listId}/contacts/all`,
         params,
+        $,
       );
     },
-    async getOwners(params) {
-      return await this.makeGetRequest("/crm/v3/owners", params);
+    async getOwners(params, $) {
+      return await this.makeGetRequest("/crm/v3/owners", params, $);
     },
-    async listObjectsInPage(objectType, after, params) {
+    async listObjectsInPage(objectType, after, params, $) {
       return await this.makeGetRequest(`/crm/v3/objects/${objectType}`, {
         after,
         ...params,
-      });
+      }, $);
     },
-    async getObjects(objectType) {
+    async getObjects(objectType, $) {
       const params = {
         limit: 100,
       };
@@ -349,6 +390,7 @@ module.exports = {
         results = await this.makeGetRequest(
           `/crm/v3/objects/${objectType}`,
           params,
+          $,
         );
         if (results.paging) params.next = results.paging.next.after;
         else delete params.next;
@@ -358,43 +400,53 @@ module.exports = {
       }
       return objects;
     },
-    async getObject(objectType, objectId, properties) {
+    async getObject(objectType, objectId, properties, $) {
       const params = {
-        properties: properties.join(","),
+        properties: properties?.join(","),
       };
-      console.log("🚀 ~ file: hubspot.app.js ~ line 304 ~ getObject ~ params", params);
 
       return await this.makeGetRequest(
         `/crm/v3/objects/${objectType}/${objectId}`,
         params,
+        $,
       );
     },
-    async getContact(contactId, properties) {
+    async getContact(contactId, properties, $) {
       const params = {
         properties,
       };
       return await this.makeGetRequest(
         `/crm/v3/objects/contacts/${contactId}`,
         params,
+        $,
       );
     },
-    async createObject(objectType, properties) {
+    async createObject(objectType, properties, $) {
       return this.makePostRequest({
         endpoint: `/crm/v3/objects/${objectType}`,
         data: {
           properties,
         },
-      });
+      }, $);
     },
-    async getPropertyGroups(objectType) {
-      return await this.makeGetRequest(`/crm/v3/properties/${objectType}/groups`);
+    async getPropertyGroups(objectType, $) {
+      return await this.makeGetRequest(`/crm/v3/properties/${objectType}/groups`, null, $);
     },
-    async getProperties(objectType) {
-      return await this.makeGetRequest(`/crm/v3/properties/${objectType}`);
+    async getProperties(objectType, $) {
+      return await this.makeGetRequest(`/crm/v3/properties/${objectType}`, null, $);
     },
-    async getSchema(objectType) {
-      return await this.makeGetRequest(`/crm/v3/schemas/${objectType}`);
+    async getSchema(objectType, $) {
+      return await this.makeGetRequest(`/crm/v3/schemas/${objectType}`, null, $);
     },
+    /**
+     * Returns a list of prop options for a CRM object type
+     *
+     * @param {*} referencedObjectType The object type to
+     * @param {object} [opts = {}] - an object representing configuration
+     * options used to create prop options, intended to be passed from the first
+     * argument of the prop's async options
+     * @returns a list of prop options
+     */
     async createOptions(referencedObjectType, opts = {}) {
       const {
         prevContext,
@@ -407,11 +459,7 @@ module.exports = {
       const {
         paging,
         results,
-        // TODO: change to this.listObjectsInPage
-      } = await this.searchCRM({
-        object: referencedObjectType,
-        after: nextAfter,
-      });
+      } = await this.listObjectsInPage(referencedObjectType, nextAfter);
       return {
         options: results.map((object) => ({
           label: this.getObjectLabel(object, referencedObjectType),
@@ -423,22 +471,34 @@ module.exports = {
       };
     },
     async getCompaniesOptions(opts) {
-      return this.createOptions("COMPANY", opts);
+      return this.createOptions(ObjectType.COMPANY, opts);
     },
     async getContactsOptions(opts) {
-      return this.createOptions("CONTACT", opts);
+      return this.createOptions(ObjectType.CONTACT, opts);
     },
     async getLineItemsOptions(opts) {
-      return this.createOptions("LINE_ITEM", opts);
+      return this.createOptions(ObjectType.LINE_ITEM, opts);
     },
     async getTicketsOptions(opts) {
-      return this.createOptions("TICKET", opts);
+      return this.createOptions(ObjectType.TICKET, opts);
     },
     async getQuotesOptions(opts) {
-      return this.createOptions("QUOTE", opts);
+      return this.createOptions(ObjectType.QUOTE, opts);
     },
     async getCallsOptions(opts) {
-      return this.createOptions("CALL", opts);
+      return this.createOptions(ObjectType.CALL, opts);
+    },
+    async getTasksOptions(opts) {
+      return this.createOptions(ObjectType.TASK, opts);
+    },
+    async getNotesOptions(opts) {
+      return this.createOptions(ObjectType.NOTE, opts);
+    },
+    async getMeetingsOptions(opts) {
+      return this.createOptions(ObjectType.MEETING, opts);
+    },
+    async getEmailsOptions(opts) {
+      return this.createOptions(ObjectType.EMAIL, opts);
     },
     async getOwnersOptions(params) {
       const { results } = await this.getOwners(params);
@@ -447,42 +507,51 @@ module.exports = {
         value: object.id,
       }));
     },
-    async getOptionsMethod(objectType) {
-      const objectName = this.getObjectName(objectType);
-      switch (objectName) {
-      case "owner":
-        return (opts) => this.getOwnersOptions(opts);
-      case "company":
-        return (opts) => this.getCompaniesOptions(opts);
-      case "contact":
-        return (opts) => this.getContactsOptions(opts);
-      case "deal":
-        return (opts) => this.getDealsOptions(opts);
-      case "line_item":
-        return (opts) => this.getLineItemsOptions(opts);
-      case "ticket":
-        return (opts) => this.getTicketsOptions(opts);
-      case "quote":
-        return (opts) => this.getQuotesOptions(opts);
-      case "call":
-        return (opts) => this.getCallsOptions(opts);
-      default:
-        return undefined;
-      }
+    async searchFiles(params, $) {
+      return await this.makeGetRequest("/files/v3/files/search", params, $);
     },
-    async searchFiles(params) {
-      return await this.makeGetRequest("/files/v3/files/search", params);
+    async getSignedUrl(fileId, params, $) {
+      return await this.makeGetRequest(`/files/v3/files/${fileId}/signed-url`, params, $);
     },
-    async getSignedUrl(fileId, params) {
-      return await this.makeGetRequest(`/files/v3/files/${fileId}/signed-url`, params);
-    },
-    async addContactsToList(listId, emails) {
+    async addContactsToList(listId, emails, $) {
       return await this.makePostRequest({
         endpoint: `/contacts/v1/lists/${listId}/add`,
         data: {
           emails,
         },
-      });
+      }, $);
+    },
+    async getAssociationTypes(fromObjectType, toObjectType, $) {
+      return await this.makeGetRequest(`/crm/v4/associations/${fromObjectType}/${toObjectType}/labels`, null, $);
+    },
+    async createAssociation(fromObjectType, toObjectType, fromId, toId, $) {
+      return await this.makeRequest(
+        `/crm/v4/objects/${fromObjectType}/${fromId}/associations/${toObjectType}/${toId}`,
+        {
+          $,
+        },
+      );
+    },
+    async createAssociations(fromObjectType, toObjectType, fromId, toIds, associationTypeId, $) {
+      return await this.makePostRequest({
+        endpoint: `/crm/v4/associations/${fromObjectType}/${toObjectType}/batch/create`,
+        data: {
+          inputs: toIds.map((toId) => ({
+            from: {
+              id: fromId,
+            },
+            to: {
+              id: toId,
+            },
+            types: [
+              {
+                associationCategory: AssociationCategory.HUBSPOT_DEFINED,
+                associationTypeId: associationTypeId,
+              },
+            ],
+          })),
+        },
+      }, $);
     },
   },
 };

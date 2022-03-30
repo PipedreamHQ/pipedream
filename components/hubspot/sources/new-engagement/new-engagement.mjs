@@ -1,17 +1,22 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emits an event for each new engagement created.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   hooks: {},
   methods: {
     ...common.methods,
     generateMeta(engagement) {
-      const { id, type, createdAt } = engagement.engagement;
+      const {
+        id,
+        type,
+        createdAt,
+      } = engagement.engagement;
       const ts = Date.parse(createdAt);
       return {
         id,
@@ -23,7 +28,7 @@ module.exports = {
       return engagement.engagement.createdAt > createdAfter;
     },
   },
-  async run(event) {
+  async run() {
     const createdAfter = this._getAfter();
     const params = {
       limit: 250,
@@ -33,7 +38,7 @@ module.exports = {
       params,
       this.hubspot.getEngagements.bind(this),
       "results",
-      createdAfter
+      createdAfter,
     );
   },
 };

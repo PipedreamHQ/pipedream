@@ -1,4 +1,5 @@
-import common from "../common-get.mjs";
+import { ObjectType } from "../../common/constants.mjs";
+import common from "../common-get-object.mjs";
 
 export default {
   ...common,
@@ -18,7 +19,7 @@ export default {
   methods: {
     ...common.methods,
     getObjectType() {
-      return "companies";
+      return ObjectType.COMPANY;
     },
   },
 };

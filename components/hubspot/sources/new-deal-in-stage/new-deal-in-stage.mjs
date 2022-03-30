@@ -1,21 +1,31 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emits an event for each new deal in a stage.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   hooks: {},
   props: {
     ...common.props,
-    stages: { propDefinition: [common.props.hubspot, "stages"] },
+    stages: {
+      propDefinition: [
+        common.props.hubspot,
+        "stages",
+      ],
+    },
   },
   methods: {
     ...common.methods,
     generateMeta(deal, stage) {
-      const { id, properties, updatedAt } = deal;
+      const {
+        id,
+        properties,
+        updatedAt,
+      } = deal;
       const { label } = stage;
       const ts = Date.parse(updatedAt);
       return {
@@ -33,7 +43,7 @@ module.exports = {
       return Date.parse(deal.updatedAt) > updatedAfter;
     },
   },
-  async run(event) {
+  async run() {
     const updatedAfter = this._getAfter();
 
     for (let stage of this.stages) {
@@ -61,7 +71,7 @@ module.exports = {
         data,
         this.hubspot.searchCRM.bind(this),
         "results",
-        updatedAfter
+        updatedAfter,
       );
     }
 

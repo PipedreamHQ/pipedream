@@ -1,18 +1,23 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-blog-article",
   name: "New Blog Posts",
   description: "Emits an event for each new blog post.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   hooks: {},
   methods: {
     ...common.methods,
     generateMeta(blogpost) {
-      const { id, name: summary, created } = blogpost;
-      const ts = Date.parse(blogpost.created);
+      const {
+        id,
+        name: summary,
+        created,
+      } = blogpost;
+      const ts = Date.parse(created);
       return {
         id,
         summary,
@@ -20,7 +25,7 @@ module.exports = {
       };
     },
   },
-  async run(event) {
+  async run() {
     const createdAfter = this._getAfter();
     const params = {
       limit: 100,
@@ -30,7 +35,7 @@ module.exports = {
     await this.paginate(
       params,
       this.hubspot.getBlogPosts.bind(this),
-      "results"
+      "results",
     );
 
     this._setAfter(Date.now());

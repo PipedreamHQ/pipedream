@@ -1,4 +1,4 @@
-import hubspot from "../hubspot.app.js";
+import hubspot from "../hubspot.app.mjs";
 
 export default {
   props: {
@@ -15,6 +15,7 @@ export default {
       type: "string[]",
       label: "Additional properties to retrieve",
       description: "",
+      optional: true,
       async options({ page }) {
         if (page !== 0) {
           return [];
@@ -25,7 +26,6 @@ export default {
           value: property.name,
         }));
       },
-      default: [],
     },
   },
   methods: {
@@ -40,9 +40,10 @@ export default {
       objectType,
       this.objectId,
       this.additionalProperties,
+      $,
     );
 
-    const objectName = this.hubspot.getObjectName(objectType);
+    const objectName = this.hubspot.getObjectTypeName(objectType);
     $.export("$summary", `Successfully fetched ${objectName}`);
 
     return object;

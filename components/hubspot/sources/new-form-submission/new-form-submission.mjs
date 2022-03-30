@@ -1,21 +1,30 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emits an event for each new submission of a form.",
-  version: "0.0.2",
+  version: "0.0.3",
+  type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
-    forms: { propDefinition: [common.props.hubspot, "forms"] },
+    forms: {
+      propDefinition: [
+        common.props.hubspot,
+        "forms",
+      ],
+    },
   },
   hooks: {},
   methods: {
     ...common.methods,
     generateMeta(result) {
-      const { pageUrl, submittedAt: ts } = result;
+      const {
+        pageUrl,
+        submittedAt: ts,
+      } = result;
       const submitted = new Date(ts);
       return {
         id: `${pageUrl}${ts}`,
@@ -27,7 +36,7 @@ module.exports = {
       return result.submittedAt > submittedAfter;
     },
   },
-  async run(event) {
+  async run() {
     const submittedAfter = this._getAfter();
     const baseParams = {
       limit: 50,
@@ -45,9 +54,8 @@ module.exports = {
             params,
             this.hubspot.getFormSubmissions.bind(this),
             "results",
-            submittedAfter
-          )
-        )
+            submittedAfter,
+          )),
     );
 
     this._setAfter(Date.now());

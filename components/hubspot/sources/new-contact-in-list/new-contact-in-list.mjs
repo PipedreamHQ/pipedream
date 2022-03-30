@@ -1,13 +1,13 @@
-const common = require("../common.js");
+import common from "../common.mjs";
 
-module.exports = {
+export default {
   ...common,
   key: "hubspot-new-contact-in-list",
   name: "New Contact in List",
   description: "Emits an event for each new contact in a list.",
-  version: "0.0.2",
-  dedupe: "unique",
+  version: "0.0.3",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     lists: {

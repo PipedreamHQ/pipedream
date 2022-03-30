@@ -1,6 +1,6 @@
-const hubspot = require("../hubspot.app.js");
+import hubspot from "../hubspot.app.mjs";
 
-module.exports = {
+export default {
   props: {
     hubspot,
     db: "$.service.db",
@@ -48,7 +48,7 @@ module.exports = {
       params,
       resourceFn,
       resultType = null,
-      after = null
+      after = null,
     ) {
       let hasMore = true;
       let results, items;
@@ -67,7 +67,7 @@ module.exports = {
       const meta = this.generateMeta(result);
       this.$emit(result, meta);
     },
-    isRelevant(result, after) {
+    isRelevant(/* result, after */) {
       return true;
     },
   },

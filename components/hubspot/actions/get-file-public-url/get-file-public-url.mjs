@@ -1,4 +1,4 @@
-import hubspot from "../../hubspot.app.js";
+import hubspot from "../../hubspot.app.mjs";
 
 export default {
   key: "hubspot-get-file-public-url",
