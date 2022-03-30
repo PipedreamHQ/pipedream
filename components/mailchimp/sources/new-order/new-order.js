@@ -17,7 +17,7 @@ module.exports = {
         "storeId",
       ],
       description:
-        "The unique ID of the store you'd like to watch for new orders. Leave empty to watch for orders on your Mailchimp account.",
+        "The unique ID of the store you'd like to watch for new orders.",
     },
     campaignId: {
       propDefinition: [
@@ -42,10 +42,14 @@ module.exports = {
           offset,
         };
         const customersResults =  await this.mailchimp.getAllStoreCustomers(this.storeId, config);
-        return customersResults.customers.map((customer) => ({
-          label: `${customer.first_name} ${customer.last_name}`,
-          value: customer.id,
-        }));
+        if(customersResults.customers){
+          return customersResults.customers.map((customer) => ({
+            label: `${customer.first_name} ${customer.last_name}`,
+            value: customer.id,
+          }));
+        } else {
+          return []
+        }
       },
     },
     hasOutreach: {
@@ -84,19 +88,29 @@ module.exports = {
   },
   hooks: {
     async deploy() {
+      this._clearProcessedIds();
+      const processedIds = new Set(this._getProcessedIds());
       // Emits sample events on the first run during deploy.
+      const count = 10;
       const config = {
-        count: 10,
+        count,
+        offset: 0,
         campaignId: this.campaignId,
         outreachId: this.outreachId,
         customerId: this.customerId,
         hasOutreach: this.hasOutreach,
       };
       const orderStream = this.mailchimp.getOrderStream(this.storeId, config);
+      let i = 0;
       for await (const order of orderStream) {
-        this.processEvent(order);
-        this.setDbServiceVariable("offset", orderStream.length);
+        if(i<count){
+          this.processEvent(order);
+          processedIds.add(order.id);// Mark customer as successfully processed
+          this._setProcessedIds(processedIds);
+        }
+        i++;
       }
+    }
   },
   methods: {
     ...common.methods,
@@ -108,18 +122,30 @@ module.exports = {
         ts,
       };
     },
+    _clearProcessedIds(){
+      return this.db.set("processedIds",[]);
+    },
+    _getProcessedIds(){
+      return this.db.get("processedIds");
+    },
+    _setProcessedIds(processedIds){
+      this.db.set("processedIds", Array.from(processedIds));
+    },
   },
   async run() {
-      let offset = this.getDbServiceVariable("offset");
-      const config = {
-        count: 1000,
-        offset
-      };
-      const orderStream = this.mailchimp.getOrderStream(this.storeId, config);
-      for await (const order of orderStream) {
-        this.processEvent(order);
-        this.setDbServiceVariable("offset", orderStream);
+    const processedIds = new Set(this._getProcessedIds());
+    const config = {
+      count: 1000,
+      offset: 0,
+    };
+    const orderStream = this.mailchimp.getOrderStream(this.storeId, config);
+    for await (const order of orderStream) {
+      if (processedIds.has(order.id)) {
+        continue;
       }
+      this.processEvent(order);
+      processedIds.add(order.id);// Mark order as successfully processed
+      this._setProcessedIds(processedIds);
     }
   }
 }

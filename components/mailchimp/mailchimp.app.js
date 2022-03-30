@@ -418,19 +418,19 @@ module.exports = {
      * collection, and `_links` array of links for file manipulation through the Mailchimp API.
      */
     async *getFileStream(fileType = "all", config) {
-      const mailchimp = this._getMailchimpClient();
       let offset = 0;
       const type = fileType === "all"
         ? null
         : fileType;
+        const opts = {
+          offset,
+          type,
+          ...config
+        };
         do {
-          const opts = {
-            offset,
-            type,
-            ...config
-          };
+          opts.offset = offset;
           const { files = [] } = await this._withRetries(
-            () => mailchimp.fileManager.files(opts),
+            () => this.api().fileManager.files(opts),
           );
           if (files.length === 0) {
             return;
@@ -458,13 +458,11 @@ module.exports = {
      * documents.
      */
     async getAllStores(config) {
-      const mailchimp = this.api();
       return await this._withRetries(() =>
-        mailchimp.ecommerce.stores(config));
+      this.api().ecommerce.stores(config));
     },
     /**
-     * Gets orders in an specified Ecommerce Store, or orders under the connected Mailchimp
-     * acccount.
+     * Gets orders in the specified Mailchimp connected acccount's Ecommerce Store.
      * @param {String} storeId - The unique ID of the Ecommerce Store you'd like to get
      * orders from.
      * @param {Object} config - An object representing the configuration options for this method.
@@ -487,8 +485,7 @@ module.exports = {
      * orders collection, and `_links` array of links for order manipulation through the Mailchimp
      * API.
      */
-    async *getOrderStream(storeId = null, config) {
-      const mailchimp = this._getMailchimpClient();
+    async *getOrderStream(storeId, config) {
       let offset = config.offset;
       config.campaignId = config.campaignId === ""
         ? null
@@ -507,25 +504,16 @@ module.exports = {
             ...config,
             offset,
           };
-          let allOrders;
-          if (storeId) {
-            const { orders = [] } = await this._withRetries(
-              () => mailchimp.ecommerce.getStoreOrders(storeId, opts),
-            );
-            allOrders = orders;
-          } else {
-            const { orders = [] } = await this._withRetries(
-              () => mailchimp.ecommerce.getStoreOrders(opts),
-            );
-            allOrders = orders;
-          }
-          if (allOrders.length === 0) {
+          const { orders = [] } = await this._withRetries(
+            () => this.api().ecommerce.getStoreOrders(storeId, opts),
+          );
+          if (orders.length === 0) {
             return;
           }
-          for (const order of allOrders) {
+          for (const order of orders) {
             yield order;
           }
-        offset += allOrders.length;
+        offset += orders.length;
       } while (true);
     },
     /**
@@ -540,11 +528,10 @@ module.exports = {
      * API](https://mailchimp.com/developer/marketing/docs/e-commerce/#customers)
      */
     async *getAllStoreCustomers(storeId, pageSize = 100) {
-      const mailchimp = this._getMailchimpClient();
       let offset = 0;
       do {
         const { customers = [] } = await this._withRetries(
-          () => mailchimp.ecommerce.getAllStoreCustomers(storeId, {
+          () => this.api().ecommerce.getAllStoreCustomers(storeId, {
             count: pageSize,
             offset,
           }),

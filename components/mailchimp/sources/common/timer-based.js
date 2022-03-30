@@ -8,7 +8,7 @@ module.exports = {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 120//15 * 60, // by default, run every 15 minutes.
+        intervalSeconds: 300//15 * 60, // by default, run every 15 minutes.
       },
     },
   },
@@ -59,8 +59,6 @@ module.exports = {
     async getCampaignDetailsReport() {
       const cachedDetails = this.getCachedCampaignDetails();
       const detailsInfo = await this.getCampaignDetails();
-      console.log(JSON.stringify(detailsInfo));
-      console.log(JSON.stringify(cachedDetails));
       const currentDetails = this.getCurrentCampaignDetails(detailsInfo);
       if (!detailsInfo) {
         throw new Error(this.getNodataErrorMessage());

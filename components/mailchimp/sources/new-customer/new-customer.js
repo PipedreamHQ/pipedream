@@ -21,21 +21,20 @@ module.exports = {
     },
   },
   hooks: {
-    deactivate() {
-      this._clearProcessedIds();
-    },
     async deploy() {
       this._clearProcessedIds();
       const processedIds = new Set(this._getProcessedIds());
       // Emits sample events on the first run during deploy.
       const pageSize = 10;
-      const customerStream =
-        await this.mailchimp.getAllStoreCustomers(this.storeId, pageSize);
-        for await (const customer of customerStream) {
+      const customerStream = this.mailchimp.getAllStoreCustomers(this.storeId, pageSize);
+      let i = 0;
+      for await (const customer of customerStream) {
+        if(i<pageSize){
           this.processEvent(customer);
-        // Mark customer as successfully processed
-        processedIds.add(customer.id);
-        this._setProcessedIds(processedIds);
+          processedIds.add(customer.id);// Mark customer as successfully processed
+          this._setProcessedIds(processedIds);
+        }
+        i++;
       }
     },
   },
@@ -49,8 +48,11 @@ module.exports = {
         ts,
       };
     },
+    _clearProcessedIds(){
+      return this.db.set("processedIds",[]);
+    },
     _getProcessedIds(){
-      return this.db.set("processedIds");
+      return this.db.get("processedIds");
     },
     _setProcessedIds(processedIds){
       this.db.set("processedIds", Array.from(processedIds));
@@ -64,9 +66,8 @@ module.exports = {
       if (processedIds.has(customer.id)) {
         continue;
       }
-        this.processEvent(customer);
-      // Mark customer as successfully processed
-      processedIds.add(customer.id); //TODO: implement _markCustomerAsProcessed and use processedIds
+      this.processEvent(customer);
+      processedIds.add(customer.id);// Mark customer as successfully processed
       this._setProcessedIds(processedIds);
     }
   },

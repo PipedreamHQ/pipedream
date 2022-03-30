@@ -27,13 +27,18 @@ module.exports = {
   hooks: {
     async deploy() {
       // Emits sample events on the first run during deploy.
+      const count = 10;
       const config = {
-        count: 10,
+        count,
       };
       const fileStream = this.mailchimp.getFileStream(this.fileType, config);
+      let i = 0;
       for await (const file of fileStream) {
-        this.processEvent(file);
-        this.setDbServiceVariable("lastCreatedAt", file.created_at);
+        if(i<count){
+          this.processEvent(file);
+          this.setDbServiceVariable("lastCreatedAt", file.created_at);
+        }
+        i++;
       }
     },
   },
@@ -51,13 +56,13 @@ module.exports = {
   async run() {
     const sinceCreatedAt = this.getDbServiceVariable("lastCreatedAt");
     const config = {
-      count: 1000,
+      count: 3,
       sinceCreatedAt
     };
     const fileStream = this.mailchimp.getFileStream(this.fileType, config);
     for await (const file of fileStream) {
       this.processEvent(file);
-      this.setDbServiceVariable("lastCreatedAt", sinceCreatedAt);
+      this.setDbServiceVariable("lastCreatedAt", file.created_at);
     }
   },
 };
