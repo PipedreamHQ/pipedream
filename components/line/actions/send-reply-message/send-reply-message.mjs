@@ -3,7 +3,7 @@ import line from "../../line.app.mjs";
 export default {
   name: "Send Reply Message",
   description: "Sends a reply message in response to an event from a user, group, or room. [See docs](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)",
-  key: "line-send-a-reply-message",
+  key: "line-send-reply-message",
   version: "0.0.1",
   type: "action",
   props: {

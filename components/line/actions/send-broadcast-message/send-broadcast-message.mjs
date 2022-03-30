@@ -3,7 +3,7 @@ import line from "../../line.app.mjs";
 export default {
   name: "Send Broadcast Message",
   description: "Sends a broadcast message to multiple users at any time.",
-  key: "line-send-a-broadcast-message",
+  key: "line-send-broadcast-message",
   version: "0.0.1",
   type: "action",
   props: {

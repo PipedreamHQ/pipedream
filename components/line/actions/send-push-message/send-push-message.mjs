@@ -3,7 +3,7 @@ import line from "../../line.app.mjs";
 export default {
   name: "Send Push Message",
   description: "Sends a push message to a user, group, or room at any time.",
-  key: "line-send-a-push-message",
+  key: "line-send-push-message",
   version: "0.0.1",
   type: "action",
   props: {
