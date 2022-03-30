@@ -82,7 +82,7 @@ module.exports = {
           throw new Error("No link data available for the selected campaignId");
         }
         return links.urls_clicked.map((link) => ({
-          label: link.id+"....."+link.url,
+          label: link.url,
           value: link.id,
         }));
       },
