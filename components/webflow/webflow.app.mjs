@@ -1,4 +1,5 @@
 import Webflow from "webflow-api";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -58,10 +59,45 @@ export default {
         }));
       },
     },
+    orders: {
+      label: "Order",
+      description: "The list of orders of a site",
+      type: "string",
+      async options({
+        siteId, page,
+      }) {
+        const items = await this.getOrders({
+          page,
+          siteId,
+        });
+
+        return items.map((item) => item.orderId);
+      },
+    },
   },
   methods: {
     _authToken() {
       return this.$auth.oauth_access_token;
+    },
+    /**
+     * Get the base api url;
+     *
+     * @returns {string} The base api url.
+     */
+    _apiUrl() {
+      return "https://api.webflow.com/";
+    },
+    async _makeRequest(path, {
+      config = {}, $,
+    }) {
+      return await axios($ ?? this, {
+        url: `${this._apiUrl()}${path}`,
+        headers: {
+          "Authorization": `Bearer ${this._authToken()}`,
+          "accept-version": "1.0.0",
+        },
+        ...config,
+      });
     },
     _createApiClient() {
       return new Webflow({
@@ -89,6 +125,27 @@ export default {
         webhookId,
       };
       return apiClient.removeWebhook(params);
+    },
+    async getOrder({
+      siteId, orderId, $,
+    }) {
+      return await this._makeRequest(`/sites/${siteId}/order/${orderId}`, {
+        $,
+      });
+    },
+    async getOrders({
+      page, siteId, status, $,
+    }) {
+      return await this._makeRequest(`/sites/${siteId}/orders`, {
+        $,
+        config: {
+          params: {
+            status: status,
+            offset: page ?? 0,
+            limit: 100,
+          },
+        },
+      });
     },
     async getDomains(siteId) {
       const webflow = this._createApiClient();
