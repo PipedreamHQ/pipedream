@@ -82,7 +82,7 @@ export default {
       case constants.BLOCK_TYPES.paragraph.name:
         return [
           {
-            label: "text",
+            label: "rich_text",
             value: this.paragraphText,
           },
         ];
@@ -145,7 +145,6 @@ export default {
       ));
     }
 
-    console.log(page);
     const response = await this.notion.createPage(page);
     $.export("$summary", "Created page successfully");
     return response;

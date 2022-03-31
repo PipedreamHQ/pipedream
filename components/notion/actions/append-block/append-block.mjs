@@ -34,7 +34,7 @@ export default {
       case constants.BLOCK_TYPES.paragraph.name:
         return [
           {
-            label: "text",
+            label: "rich_text",
             value: this.paragraphText,
           },
         ];

@@ -33,7 +33,7 @@ function buildBlock(type, propList = []) {
   const blockProps =
     propList.reduce((props, prop) => ({
       ...props,
-      [prop.label]: prop.label === "text"
+      [prop.label]: prop.label === "text" || prop.label === "rich_text"
         ? buildTextProperty(prop.value)
         : prop.value,
     }), {});
