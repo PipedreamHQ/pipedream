@@ -121,7 +121,11 @@ export default {
       const convertedIndexes = [];
 
       const res = arr.map((val, i) => {
-        if (typeof val !== "string") {
+        if (![
+          "string",
+          "number",
+          "boolean",
+        ].includes(typeof val)) {
           convertedIndexes.push(i) ;
           return JSON.stringify(val);
         }
