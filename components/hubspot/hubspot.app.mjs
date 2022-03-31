@@ -118,10 +118,10 @@ export default {
         };
       },
     },
+    // eslint-disable-next-line pipedream/props-description
     propertyGroups: {
       type: "string[]",
       label: "Property Groups",
-      description: "",
       reloadProps: true,
       async options({ objectType }) {
         const { results: groups } = await this.getPropertyGroups(objectType);

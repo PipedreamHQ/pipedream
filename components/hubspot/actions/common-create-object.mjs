@@ -4,10 +4,11 @@ export default {
   ...common,
   props: {
     ...common.props,
+    // Re-defining propertyGroups so this.getObjectType() can be called from async options
+    // eslint-disable-next-line pipedream/props-description
     propertyGroups: {
       type: "string[]",
       label: "Property Groups",
-      description: "",
       reloadProps: true,
       async options() {
         const { results: groups } = await this.hubspot.getPropertyGroups(this.getObjectType());

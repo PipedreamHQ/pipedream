@@ -11,10 +11,10 @@ export default {
         return this.hubspot.createOptions(this.getObjectType(), opts);
       },
     },
+    // eslint-disable-next-line pipedream/props-description
     additionalProperties: {
       type: "string[]",
       label: "Additional properties to retrieve",
-      description: "",
       optional: true,
       async options({ page }) {
         if (page !== 0) {

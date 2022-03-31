@@ -37,7 +37,7 @@ function getOptionsMethod(objectTypeName) {
   case ObjectType.TASK:
     return (opts) => this.hubspot.getTasksOptions(opts);
   default:
-    return undefined;
+    return () => [];
   }
 }
 
@@ -94,22 +94,5 @@ export default {
         props[name] = definition;
         return props;
       }, {});
-  },
-  async run({ $ }) {
-    const {
-      hubspot,
-      /* eslint-disable no-unused-vars */
-      propertyGroups,
-      $db,
-      ...properties
-    } = this;
-    const objectType = this.getObjectType();
-
-    const response = await hubspot.createObject(objectType, properties, $);
-
-    const objectName = this.hubspot.getObjectTypeName(objectType);
-    $.export("$summary", `Successfully created ${objectName}`);
-
-    return response;
   },
 };
