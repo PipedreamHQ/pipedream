@@ -9,6 +9,10 @@ const docsNav = [
       "/workflows/steps/",
       "/workflows/steps/triggers/",
       "/workflows/events/",
+      "/workflows/events/inspect/",
+      "/workflows/events/replay/",
+      "/workflows/events/test/",
+      "/components/actions/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/networking/",
@@ -46,6 +50,20 @@ const docsNav = [
       "/environment-variables/",
     ],
   },
+  {
+    title: "Integrations",
+    type: "group",
+    children: [
+      "/apps/all-apps/",
+      "/apps/discord/",
+      "/apps/hubspot/",
+      "/apps/servicenow/",
+      "/apps/slack/",
+      "/apps/strava/",
+      "/apps/twitter/",
+      "/apps/zoom/",
+    ],
+  },
   ['/troubleshooting/', 'Troubleshooting'],
   ['/user-settings/', 'Settings'],
   {
@@ -75,6 +93,11 @@ const referenceNav = [
     ],
   },
   {
+    title: "CLI",
+    type: "group",
+    children: ["/cli/install/", "/cli/login/", "/cli/reference/"],
+  },
+  {
     title: "API",
     type: "group",
     children: [
@@ -88,9 +111,11 @@ const referenceNav = [
       "/scheduling-future-tasks/",
     ],
   },
+  "/limits/",
+  "/privacy-and-security/"
 ];
 
-const pricingNav = ["/pricing/", "/limits/", "/workflows/events/cold-starts/"];
+const pricingNav = ["/pricing/"];
 
 module.exports = {
   "/components/": referenceNav,
@@ -111,7 +136,10 @@ module.exports = {
   "/subprocessors/": securityNav,
   "/abuse/": securityNav,
   "/pricing/": pricingNav,
-  "/limits/": pricingNav,
-  "/workflows/events/cold-starts/": pricingNav,
+  "/limits/": referenceNav,
+  "/cli/install/": referenceNav,
+  "/cli/login/": referenceNav,
+  "/cli/reference/": referenceNav,
+  "/privacy-and-security/": referenceNav,
   "/": docsNav,
 };

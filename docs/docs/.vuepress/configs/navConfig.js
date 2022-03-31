@@ -14,6 +14,8 @@ module.exports = {
       items: [
         { text: "Building Components", link: "/components/" },
         { text: "REST API", link: "/api/" },
+        { text: "Limits", link: "/limits/" },
+        { text: "Security & Privacy", link: "/privacy-and-security/"}
       ],
     },
   ], 
