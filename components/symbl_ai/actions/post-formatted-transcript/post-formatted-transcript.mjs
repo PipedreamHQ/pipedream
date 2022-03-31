@@ -1,11 +1,10 @@
 import symblAIApp from "../../symbl_ai.app.mjs";
-import constants from "../constants.mjs";
 
 export default {
   key: "symbl_ai-post-formatted-transcript",
   name: "Create Formatted Transcript",
   description: "Create formatted transcript from the Conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/transcript/).",
-  version: "0.0.1",
+  version: "0.0.8",
   type: "action",
   props: {
     symblAIApp,
@@ -16,10 +15,10 @@ export default {
       ],
     },
     contentType: {
-      type: "string",
-      label: "Content Type",
-      description: "Type of the transcript content to be generated.",
-      options: Object.values(constants.contentType),
+      propDefinition: [
+        symblAIApp,
+        "contentType",
+      ],
       optional: false,
     },
     createParagraphs: {

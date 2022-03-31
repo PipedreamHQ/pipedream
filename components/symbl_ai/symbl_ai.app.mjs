@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./actions/constants.mjs";
 
 export default {
   type: "app",
@@ -23,6 +24,12 @@ export default {
           value: conversation.id,
         }));
       },
+    },
+    contentType: {
+      type: "string",
+      label: "Content Type",
+      description: "Type of the transcript content to be generated.",
+      options: Object.values(constants.contentType),
     },
   },
   methods: {
