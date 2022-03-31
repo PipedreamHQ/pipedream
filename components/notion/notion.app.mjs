@@ -38,7 +38,7 @@ export default {
     iconType: {
       type: "string",
       label: "Icon Type",
-      description: "Text or Emoji",
+      description: "External Link, File Upload or Emoji",
       optional: true,
       reloadProps: true,
       options: constants.ICON_TYPES,
@@ -46,7 +46,7 @@ export default {
     coverType: {
       type: "string",
       label: "Cover Type",
-      description: "External or File URL",
+      description: "External Link or File Upload",
       optional: true,
       reloadProps: true,
       options: constants.COVER_TYPES,

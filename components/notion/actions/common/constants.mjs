@@ -1,5 +1,6 @@
 const ICON_TYPES = [
-  "text",
+  "external",
+  "file",
   "emoji",
 ];
 
