@@ -47,8 +47,15 @@ export default {
         headers: this.getHeaders(),
         ...otherConfig,
       };
-
-      return axios($ || this, config);
+      try {
+        return await axios($ || this, config);
+      } catch (error) {
+        this.throwFormattedError(error);
+      }
+    },
+    throwFormattedError(error) {
+      error = error.response;
+      throw new Error(`${error.status} - ${error.statusText} - ${error.data.message}`);
     },
     async postVideoUrl({
       $,
@@ -61,6 +68,17 @@ export default {
         data,
       });
     },
+    async postAudioUrl({
+      $,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: "/process/audio/url",
+        data,
+      });
+    },
     async getJobStatus({
       $,
       jobId,
@@ -68,6 +86,18 @@ export default {
       return this.makeRequest({
         $,
         path: `/job/${jobId}`,
+      });
+    },
+    async postSummaryUI({
+      $,
+      conversationId,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: `/conversations/${conversationId}/experiences`,
+        data,
       });
     },
     async getSpeechToText({
@@ -127,6 +157,72 @@ export default {
         $,
         path: "/conversations",
         params,
+      });
+    },
+    async getEntities({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/entities`,
+      });
+    },
+    async getAnalytics({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/analytics`,
+      });
+    },
+    async getConversation({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}`,
+      });
+    },
+    async getSummary({
+      $,
+      conversationId,
+      params,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/summary`,
+        params,
+      });
+    },
+    async deleteConversation({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "delete",
+        path: `/conversations/${conversationId}`,
+      });
+    },
+    async getMembers({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/members`,
+      });
+    },
+    async getTrackers({
+      $,
+      conversationId,
+    }) {
+      return this.makeRequest({
+        $,
+        path: `/conversations/${conversationId}/trackers-detected`,
       });
     },
   },
