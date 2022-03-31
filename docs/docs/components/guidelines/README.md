@@ -129,19 +129,19 @@ run the following commands at the root of the project:
 
 ### Process
 
-To create and submit a new or updated component to the Pipedream registry:
+Anyone from the community can build [sources](/event-sources/) and [actions](/components/actions/) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)").
 
-1. Anyone from the community can build [sources](/event-sources/) and [actions](/components/actions/) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)"). If you don't see the app listed in [our marketplace](https://pipedream.com/apps), you can [request it here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D).
-2. Once the Pipedream team integrates the app, ask for the app's "name slug" (you'll need to reference this in your code).
-3. All development happens in this [GitHub repo](https://github.com/PipedreamHQ/pipedream). Fork the repo and refer to the [contribution docs](/components/guidelines/#prerequisites) to get your development environment setup.
-4. After the app is integrated with Pipedream, check if a directory already exists for the app's name slug in the `components` directory of the repo. These directories contain existing sources and actions for the app.
-5. If the directory _doesn't_ exist, create it.
-6. Within that directory, create an "[app file](/components/guidelines/#app-files)" for the integration using the format, `[app_name_slug].app.js` ([see this example for Airtable](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/airtable.app.js)). App files should contain props, methods, and other code you're using across different components.
-7. Refer to the quickstarts for [sources](/components/quickstart/nodejs/sources/) and [actions](/components/quickstart/nodejs/actions/) for guidance.
-8. When you're ready to develop your own components, you can reference the [component API docs](/components/api/) and our [contribution guidelines](/components/guidelines/#guidelines-patterns).
-9. Create a PR for the Pipedream team to review and post a message in our [community forum](https://pipedream.com/community/c/dev/11) or [public Slack](https://pipedream-users.slack.com/archives/C01E5KCTR16).
-10. Address any feedback provided by Pipedream.
-11. Once the review is complete and approved, Pipedream will merge the PR to the `master` branch! :tada:
+All development happens in [this GitHub repo](https://github.com/PipedreamHQ/pipedream). Fork the repo and refer to the [contribution docs](/components/guidelines/#prerequisites) to get your development environment setup.
+
+To submit new components:
+
+1. If you don't see the app listed in [our marketplace](https://pipedream.com/apps), you can [request it here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D).
+2. Once the Pipedream team integrates the app, we'll create a directory for the app in the `components` directory of the GitHub repo. That directory will contain an "[app file](/components/guidelines/#app-files)" that contains the basic code you'll need to get started developing components. App files should contain props, methods, and other code you're using across different components. [See this example for Airtable](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/airtable.app.js)).
+3. Refer to the quickstarts for [sources](/components/quickstart/nodejs/sources/) and [actions](/components/quickstart/nodejs/actions/) to learn how to create components.
+4. When you're ready to develop your own components, you can reference the [component API docs](/components/api/) and our [contribution guidelines](/components/guidelines/#guidelines-patterns).
+5. Create a PR for the Pipedream team to review and post a message in our [community forum](https://pipedream.com/community/c/dev/11) or [public Slack](https://pipedream-users.slack.com/archives/C01E5KCTR16).
+6. Address any feedback provided by Pipedream.
+7. Once the review is complete and approved, Pipedream will merge the PR to the `master` branch! :tada:
 
 Have questions? Reach out in the [#contribute channel](https://pipedream-users.slack.com/archives/C01E5KCTR16) in Slack or [on Discourse](https://pipedream.com/community/c/dev/11).
 
@@ -168,7 +168,7 @@ actions for Pipedream's registry.
 | Name | App |
 | ---- | --- |
 | [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable |
-| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.js) | Google Sheets |
+| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.mjs) | Google Sheets |
 | [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.js) | Discord |
 | [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.js) | Google Docs |
 | [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.js) | HTTP |
@@ -176,6 +176,40 @@ actions for Pipedream's registry.
 ## Guidelines & Patterns
 
 ### General
+
+#### Components should be ES modules
+
+The Node.js community has started publishing [ESM-only](https://flaviocopes.com/es-modules/) packages that do not work with [CommonJS modules](https://nodejs.org/docs/latest/api/modules.html#modules_modules_commonjs_modules). This means you must `import` the package. You can't use `require`.
+
+You also cannot mix ESM with CJS. This will **not** work:
+
+```javascript
+// ESM
+import axios from "axios";
+
+// CommonJS - this should be `export default`
+module.exports = {
+  ...
+}
+```
+
+Therefore, all components should be written as ES modules:
+
+```javascript
+import axios from "axios";
+
+export default {
+  ...
+}
+```
+
+**You'll need to use [the `.mjs` file extension](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#aside_%E2%80%94_.mjs_versus_.js) for any components written as ES modules**.
+
+You'll notice that many of the existing components are written as CommonJS modules. Please fix these and submit a pull request as you refactor related code. For example, if you're developing new Spotify actions, and you notice the existing event sources use CommonJS, change them to ESM:
+
+1. Rename the file extension from `.js` to `.mjs` using `git mv` (e.g. `git mv source.js source.mjs`).
+2. Change all `require` statements to `import`s.
+3. Change instances of `module.exports` to `export default`.
 
 #### Component Scope
 
@@ -198,7 +232,7 @@ Registry [components](../api/#component-structure) require a unique `key` and
 future).
 
 ```javascript
-module.exports = {
+export default {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
@@ -212,6 +246,20 @@ When publishing components to the Pipedream registry, the `key` must be unique
 across registry components and should follow the pattern:
 
 `app_name_slug`-`slugified-component-name`
+
+#### Versioning
+
+When you first publish a component to the registry, set its version to `0.0.1`.
+
+Pipedream registry components try to follow [semantic versioning](https://semver.org/). From their site:
+
+Given a version number `MAJOR.MINOR.PATCH`, increment the:
+
+1. `MAJOR` version when you make incompatible API changes,
+2. `MINOR` version when you add functionality in a backwards compatible manner, and
+3. `PATCH` version when you make backwards compatible bug fixes.
+
+When you're developing actions locally, and you've incremented the version in your account multiple times, make sure to set it to the version it should be at in the registry prior to submitting your PR. For example, when you add an action to the registry, the version should be `0.0.1`. If the action was at version `0.1.0` and you've fixed a bug, change it to `0.1.1` when committing your final code.
 
 #### Folder Structure
 
@@ -239,6 +287,8 @@ Registry components are organized by app in the `components` directory of the
   folder and the name of the `js` file equivalent to the slugified component
   name). For example, the path for the "Search Mentions" source for Twitter is
   `/components/twitter/sources/search-mentions/search-mentions.js`.
+- Aside from `app_slug`, words in folder and file names are separated by dashes
+  (-) (i.e., in kebab case)
 
 You can explore examples in the [components
 directory](https://github.com/pipedreamhq/pipedream/tree/master/components).
@@ -249,9 +299,41 @@ If the app has a well-supported [Node.js client
 library](../api/#using-npm-packages), that should be preferred to manually
 constructed API requests to reduce code and improve maintenance.
 
+#### Include dependencies in `package.json`
+
+Each app should have a `package.json` in its root folder to track changes in its dependencies. To create a `package.json` file, run `npm init` in the app's root folder and customize it using [this `package.json`](https://github.com/PipedreamHQ/pipedream/blob/55236b3aa993cbcb545e245803d8654c6358b0a2/components/stripe/package.json) as a template.
+
+#### Error-handling and input validation
+
+When you use the SDK of a popular API, the SDK might raise clear errors to the user. For example, if the user is asked to pass an email address, and that email address doesn't validate, the library might raise that in the error message.
+
+But other libraries will _not_ raise clear errors. In these cases, you may need to `throw` your own custom error that wraps the error from the API / lib. [See the Airtable components](https://github.com/PipedreamHQ/pipedream/blob/9e4e400cda62335dfabfae384d9224e04a585beb/components/airtable/airtable.app.js#L70) for an example of custom error-handling and input validation.
+
+In general, **imagine you are a user troubleshooting an issue. Is the error easy-to-understand? If not, `throw` a better error**.
+
 #### Pagination
 
-When making API requests, handle pagination to ensure all data / events are processed.
+When making API requests, handle pagination to ensure all data/events are
+processed. Moreover, if the underlying account experiences and/or generates too
+much data paginating through the entire collection of records, it might cause
+out-of-memory or timeout issues (or both!), so as a rule of thumb the pagination
+logic should:
+
+- Be encapsulated as a [generator](https://mzl.la/37z6Sh6) so that the component
+  can start processing records after the very first API call. As an example, you
+  can check the [Microsoft OneDrive
+  methods](https://github.com/PipedreamHQ/pipedream/tree/master/components/microsoft_onedrive/microsoft_onedrive.app.js)
+  to list files.
+- Accept a "next token/page/ID" whenever possible, so that API calls do not
+  retrieve the entire collection of records during every execution but rather
+  from a recent point in time. The `scanDeltaItems` generator method in the
+  example above follows this pattern.
+- Persist the last page number, token or record ID right after processing, so
+  that following executions of the component process new records to minimize the
+  amount of duplicate events, execution time and delayed events. Following the
+  same Microsoft OneDrive example, check the `processEvent` method [in this
+  component](https://github.com/PipedreamHQ/pipedream/tree/master/components/microsoft_onedrive/sources/new-file/new-file.js)
+  for an example.
 
 #### Capturing Sensitive Data
 
@@ -291,7 +373,7 @@ e.g., `[foo=bar]`). This data will both help with reusability and will be
 surfaced in documentation for apps in the Pipedream marketplace. For example:
 
 ```javascript
-module.exports = {
+export default {
   methods: {
     /**
      * Get the most recently liked Tweets for a user
@@ -360,7 +442,16 @@ Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_dr
 example of this pattern. When using this approach, prop definitions should still
 be maintained in the app file.
 
+Please note that the name `common` is just a convention and depending on each
+case it might make sense to name any common module differently. For example, the
+[AWS
+sources](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws)
+contains a `common` directory instead of a `common.js` file, and the directory
+contains several modules that are shared between different event sources.
+
 ### Props
+
+As a general rule of thumb, we should strive to only incorporate the 3-4 most relevant options from a given API as props. This is not a hard limit, but the goal is to optimize for usability. We should aim to solve specific use cases as simply as possible.
 
 #### Labels
 
@@ -373,12 +464,14 @@ set to “Search Term”.
 
 #### Descriptions
 
-Include a description for a [prop](../api/#user-input-props) if it helps the
-user understand what they need to do. Additionally, use markdown as appropriate
-to improve the clarity of the description or instructions. When using markdown:
+Include a description for [props](../api/#user-input-props) if it helps the
+user understand what they need to do. Use Markdown as appropriate
+to improve the clarity of the description or instructions. When using Markdown:
 
 - Enclose sample input values in backticks (`` ` ``)
-- Link descriptive text rather than displaying a full URL using markdown syntax.
+- Refer to other props using **bold** by surrounding with double asterisks (*)
+- Use Markdown links with descriptive text rather than displaying a full URL.
+- If the description isn't self-explanatory, link to the API docs of the relevant method to further clarify how the prop works. When the value of the prop is complex (for example, an object with many properties), link to the section of the API docs that include details on this format. Users may pass values from previous steps using [expressions](/workflows/steps/params/#entering-expressions), so they'll need to know how to structure that data.
 
 Examples:
 
@@ -424,7 +517,11 @@ when interacting with the source (e.g., “My Project”). The code referencing 
 selection receives the numeric ID (12345).
 
 Async options should also support [pagination](../api/#async-options-example)
-(so users can navigate across multiple pages of options for long lists).
+(so users can navigate across multiple pages of options for long lists). See
+[Hubspot](https://github.com/PipedreamHQ/pipedream/blob/a9b45d8be3b84504dc22bb2748d925f0d5c1541f/components/hubspot/hubspot.app.mjs#L136)
+for an example of offset-based pagination. See
+[Twitter](https://github.com/PipedreamHQ/pipedream/blob/d240752028e2a17f7cca1a512b40725566ea97bd/components/twitter/twitter.app.mjs#L200)
+for an example of cursor-based pagination.
 
 #### Interface & Service Props
 
@@ -438,9 +535,14 @@ In the interest of consistency, use the following naming patterns when defining
 | `$.interface.timer` | `timer`                            |
 | `$.service.db`      | `db`                               |
 
+Use getters and setters when dealing with `$.service.db` to avoid potential
+typos and leverage encapsulation (e.g., see the [Search
+Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.mjs#L83-L88)
+event source for Twitter).
+
 ### Source Guidelines
 
-These guidelines are specific to [source](/event-sources) development.
+These guidelines are specific to [source](/event-sources/) development.
 
 #### Webhook vs Polling Sources
 
@@ -554,4 +656,55 @@ end user. Generate and use a GUID for the shared secret value, save it to a
 
 ### Action Guidelines
 
-_(Coming soon)_
+#### Action Name
+
+Like [source name](#source-name), action name should be a singular, title-cased
+name, should not be slugified, and should not include the app name.
+
+As a general pattern, articles are not included in the action name. For example,
+instead of "Create a Post", use "Create Post".
+
+#### Use `@pipedream/platform` axios for all HTTP requests
+
+By default, the standard `axios` package doesn't return useful debugging data to the user when it `throw`s errors on HTTP 4XX and 5XX status codes. This makes it hard for the user to troubleshoot the issue.
+
+Instead, [use `@pipedream/platform` axios](/pipedream-axios/).
+
+#### Return JavaScript objects
+
+When you `return` data from an action, it's exposed as a [step export](/workflows/steps/#step-exports) for users to reference in future steps of their workflow. Return JavaScript objects in all cases, unless there's a specific reason not to.
+
+For example, some APIs return XML responses. If you return XML from the step, it's harder for users to parse and reference in future steps. Convert the XML to a JavaScript object, and return that, instead.
+
+#### "List" actions
+
+##### Return an array of objects
+
+To simplify using results from "list"/"search" actions in future steps of a
+workflow, return an array of the items being listed rather than an object with a
+nested array. [See this example for
+Airtable](https://github.com/PipedreamHQ/pipedream/blob/cb4b830d93e1495d8622b0c7dbd80cd3664e4eb3/components/airtable/actions/common-list.js#L48-L63).
+
+##### Handle pagination
+
+For actions that return a list of items, the common use case is to retrieve all
+items. Handle pagination within the action to remove the complexity of needing
+to paginate from users. We may revisit this in the future and expose the
+pagination / offset params directly to the user.
+
+In some cases, it may be appropriate to limit the number of API requests made or
+records returned in an action. For example, some Twitter actions optionally
+limit the number of API requests that are made per execution (using a
+[`maxRequests`
+prop](https://github.com/PipedreamHQ/pipedream/blob/cb4b830d93e1495d8622b0c7dbd80cd3664e4eb3/components/twitter/twitter.app.mjs#L52))
+to avoid exceeding Twitter's rate limits. [See the Airtable
+components](https://github.com/PipedreamHQ/pipedream/blob/e2bb7b7bea2fdf5869f18e84644f5dc61d9c22f0/components/airtable/airtable.app.js#L14)
+for an example of using a `maxRecords` prop to optionally limit the maximum
+number of records to return.
+
+#### Use `$.summary` to summarize what happened
+
+[Describe what happened](/components/api/#returning-data-from-steps) when an action succeeds by following these guidelines:
+- Use plain language and provide helpful and contextually relevant information (especially the count of items)
+- Whenever possible, use names and titles instead of IDs
+- Basic structure: _Successfully [action performed (like added, removed, updated)] “[relevant destination]”_

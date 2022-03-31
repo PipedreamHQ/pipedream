@@ -4,7 +4,7 @@ prev: false
 
 # Common Errors
 
-Pipedream [sources](/event-sources/) and [workflows](/workflows) can throw errors for a variety of reasons. In some cases, you'll encounter an error sending data to a third-party API; in other cases, Pipedream will raise an error related to platform limits you've exceeded, or other internal errors.
+Pipedream [sources](/event-sources/) and [workflows](/workflows/) can throw errors for a variety of reasons. In some cases, you'll encounter an error sending data to a third-party API; in other cases, Pipedream will raise an error related to platform limits you've exceeded, or other internal errors.
 
 This doc reviews common errors you'll encounter, and how to troubleshoot them.
 
@@ -71,6 +71,8 @@ Pipedream supports two different ways to bypass this limit. Both of these interf
 The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to workflows and sources cannot exceed a combined size of `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 Often, this occurs when you pass large data between steps using [step exports](/workflows/steps/#step-exports). You can avoid this error by [writing that data to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#writing-a-file-to-tmp) in one step, and [reading the data into another step](/workflows/steps/code/nodejs/working-with-files/#reading-a-file-from-tmp), which avoids the use of step exports and should keep you under the payload limit.
+
+Pipedream also compresses the function payload from your workflow, which can yield roughly a 2x-3x increase in payload size (somewhere between `12MB` and `18MB`), depending on the data.
 
 ### JSON Nested Property Limit Exceeded
 

@@ -1,58 +1,34 @@
-const { google } = require("googleapis");
-const get = require("lodash.get");
+const googleCalendar = require("@googleapis/calendar");
 
 module.exports = {
   type: "app",
   app: "google_calendar",
   propDefinitions: {
     calendarId: {
-      label: "Calender Name",
+      label: "Calendar ID",
       description: "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the \"primary\" keyword.",
       type: "string",
-      optional: true,
-      default: "primary",
-      async options({ prevContext }) {
-        const { nextPageToken } = prevContext;
-        const calendars = await this.listCalendarsInPage(nextPageToken);
-        const options = [];
-        for (const calendar of calendars.items) {
-          options.push({
-            label: calendar.summary,
-            value: calendar.id,
-          });
-        }
-        return {
-          options,
-          context: {
-            nextPageToken,
-          },
-        };
-      },
-    },
-    eventId: {
-      label: "Event Name",
-      description: "Event identifier. To retreive event Ids from a calender.",
-      type: "string",
-      async options({ calendarId }) {
-        return await this.listEventOptions(calendarId);
-      },
     },
     iCalUID: {
+      label: "iCal UID",
       description: "Specifies event ID in the iCalendar format to be included in the response. Optional.",
       optional: true,
       type: "string",
     },
     maxAttendees: {
+      label: "Max attendees",
       description: "The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned. Optional.",
       optional: true,
       type: "integer",
     },
     maxResults: {
+      label: "Max results",
       description: "Maximum number of events returned on one result page. The number of events in the resulting page may be less than this value, or none at all, even if there are more events matching the query. Incomplete pages can be detected by a non-empty nextPageToken field in the response. By default the value is 250 events. The page size can never be larger than 2500 events. Optional.",
       optional: true,
       type: "integer",
     },
     orderBy: {
+      label: "Order by",
       description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order.",
       optional: true,
       type: "string",
@@ -68,143 +44,92 @@ module.exports = {
           },
         ];
       },
-      //      async options: ["startTime", "updated"],
       default: "startTime",
     },
     pageToken: {
+      label: "Page token",
       description: "Token specifying which result page to return. Optional.",
       optional: true,
       type: "string",
     },
     privateExtendedProperty: {
+      label: "Private extended property",
       description: "Extended properties constraint specified as propertyName=value. Matches only private properties. This parameter might be repeated multiple times to return events that match all given constraints.",
       optional: true,
       type: "string",
     },
     q: {
+      label: "Query",
       description: "Free text search terms to find events that match these terms in any field, except for extended properties. Optional.",
       optional: true,
       type: "string",
     },
     sharedExtendedProperty: {
+      label: "Shared extended property",
       description: "Extended properties constraint specified as propertyName=value. Matches only shared properties. This parameter might be repeated multiple times to return events that match all given constraints.",
       optional: true,
       type: "string",
     },
     showDeleted: {
+      label: "Show deleted",
       description: "Whether to include deleted events (with status equals \"cancelled\") in the result. Cancelled instances of recurring events (but not the underlying recurring event) will still be included if showDeleted and singleEvents are both False. If showDeleted and singleEvents are both True, only single instances of deleted events (but not the underlying recurring events) are returned. Optional. The default is False.",
       optional: true,
       type: "boolean",
     },
     showHiddenInvitations: {
+      label: "Show hidden invitations",
       description: "Whether to include hidden invitations in the result. Optional. The default is False.",
       optional: true,
       type: "boolean",
     },
     singleEvents: {
+      label: "Single events",
       description: "Whether to expand recurring events into instances and only return single one-off events and instances of recurring events, but not the underlying recurring events themselves. Optional. The default is False.",
       optional: true,
       type: "boolean",
     },
     syncToken: {
+      label: "Sync token",
       description: "Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since then. All events deleted since the previous list request will always be in the result set and it is not allowed to set showDeleted to False.",
       optional: true,
       type: "string",
     },
     timeMax: {
+      label: "Max start time",
       description: "Upper bound (exclusive) for an event's start time to filter by. Optional. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMin is set, timeMax must be greater than timeMin.",
       optional: true,
       type: "string",
     },
     timeMin: {
+      label: "Minimum end time",
       description: "Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by end time. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If timeMax is set, timeMin must be smaller than timeMax.",
       optional: true,
       type: "string",
     },
     timeZone: {
+      label: "Time zone",
       description: "Time zone used in the response. Optional. The default is the time zone of the calendar.",
       optional: true,
       type: "string",
-      label: "TimeZone",
     },
     updatedMin: {
+      label: "Minimum updated time",
       description: "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted. Optional. The default is not to filter by last modification time.",
       optional: true,
       type: "string",
     },
-    ruleId: {
-      type: "string",
-      label: "ACL rule identifier",
-      description: "ACL rule identifier.",
-      async options({ calendarId }) {
-        return await this.listACLOptions(calendarId);
-      },
-    },
-    role: {
-      label: "Role",
-      type: "string",
-      description: "The role assigned to the scope.",
-      optional: true,
-      options() {
-        const roles = [
-          "none",
-          "freeBusyReader",
-          "reader",
-          "writer",
-          "owner",
-        ];
-        const options = roles.map((role) => {
-          return {
-            label: role,
-            value: role,
-          };
-        });
-        return options;
-      },
-    },
-    scopeType: {
-      label: "Type of the Scope",
-      type: "string",
-      description: "The extent to which calendar access is granted by this ACL rule.",
-      optional: true,
-      default: "default",
-      options() {
-        const types = [
-          "user",
-          "group",
-          "domain",
-        ];
-        const options = types.map((type) => {
-          return {
-            label: type,
-            value: type,
-          };
-        });
-        return options;
-      },
-    },
-    scopeValue: {
-      label: "Type of the Scope",
-      type: "string",
-      description: "The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type 'default'",
-      optional: true,
-      default: "",
-    },
   },
   methods: {
     _tokens() {
-      const access_token = get(this, "$auth.oauth_access_token");
-      const refresh_token = get(this, "$auth.oauth_refresh_token");
       return {
-        access_token,
-        refresh_token,
+        access_token: this?.$auth?.oauth_access_token,
+        refresh_token: this?.$auth?.oauth_refresh_token,
       };
     },
-    // returns a calendar object you can do whatever you want with
     calendar() {
-      const auth = new google.auth.OAuth2();
+      const auth = new googleCalendar.auth.OAuth2();
       auth.setCredentials(this._tokens());
-      const calendar = google.calendar({
+      const calendar = googleCalendar.calendar({
         version: "v3",
         auth,
       });
@@ -221,7 +146,6 @@ module.exports = {
       return resp;
     },
     // for config key value pairs - https://developers.google.com/calendar/v3/reference/events/list
-    // deprecated
     async getEvents(config) {
       return await this.list(config);
     },
@@ -244,63 +168,10 @@ module.exports = {
           pageToken: nextPageToken,
         };
         const syncResp = await this.list(listConfig);
-        nextPageToken = get(syncResp, "data.nextPageToken");
-        nextSyncToken = get(syncResp, "data.nextSyncToken");
+        nextPageToken = syncResp?.data?.nextPageToken;
+        nextSyncToken = syncResp?.data?.nextSyncToken;
       }
       return nextSyncToken;
-    },
-    /**
-     * @param {string} [pageToken] - the page token for the next page of shared
-     * calendars
-     * @returns
-     */
-    async listCalendarsInPage(pageToken) {
-      const calendar = this.calendar();
-      const { data } = await calendar.calendarList.list({
-        pageToken,
-        showHidden: true,
-      });
-      return data;
-    },
-
-    /**
-     * @param {string} [calendarId] - user calender id
-     * @returns
-     */
-    async listEventOptions(calendarId) {
-      const calendar = this.calendar();
-      const { data } = await calendar.events.list({
-        calendarId,
-      });
-
-      const options = data.items.map((event) => {
-        return {
-          label: event.summary,
-          value: event.id,
-        };
-      });
-
-      return options;
-    },
-
-    /**
-     * @param {string} [calendarId] - User Calendar Id
-     * @returns
-     */
-
-    async listACLOptions(calendarId) {
-      const calendar = this.calendar();
-      const { data } = await calendar.acl.list({
-        calendarId: calendarId,
-      });
-      const options = data.items.map((item) => {
-        return {
-          label: item.role,
-          value: item.id,
-        };
-      });
-
-      return options;
     },
   },
 };

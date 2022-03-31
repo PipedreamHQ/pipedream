@@ -7,7 +7,7 @@ If you didn't complete the previous examples, we recommend you start from the [b
 :::
 
 
-In the last example, two rows were added to Google Sheets when we loaded the endpoint URL in our browser. That's because modern web browsers automatically make a request for a [`favicon.ico`](https://en.wikipedia.org/wiki/Favicon) file. While this is an artifact of loading the workflow's endpoint in our browser, it provides a good opportunity to demonstrate `$end()`.
+In the last example, two rows may be added to Google Sheets when we load the endpoint URL in our browser. That's because most modern web browsers automatically make a request for a [`favicon.ico`](https://en.wikipedia.org/wiki/Favicon) file. While this is an artifact of loading the workflow's endpoint in our browser, it provides a good opportunity to demonstrate `$end()`.
 
 First, select an event that represents a `favicon.ico` request:
 

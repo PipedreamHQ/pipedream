@@ -20,7 +20,7 @@ module.exports = {
     record: {
       type: "object",
       label: "Record",
-      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also disable structured mode to pass a JSON object with key/value pairs representing columns and values.",
+      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also pass a JSON object as a custom expression with key/value pairs representing columns and values.",
     },
     recordId: {
       type: "string",
@@ -58,6 +58,7 @@ module.exports = {
     },
     typecast: {
       type: "boolean",
+      label: "Typecast",
       description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. Automatic conversion is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
     },
   },

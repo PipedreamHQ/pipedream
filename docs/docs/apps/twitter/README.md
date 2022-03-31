@@ -2,7 +2,7 @@
 
 Pipedream facilitates access to the Twitter API and Twitter events in two ways:
 
-- Within [Pipedream workflows](/workflows), you can use [prebuilt actions](/components/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom Node.js code](/workflows/steps/code/) that interacts with the Twitter API.
+- Within [Pipedream workflows](/workflows/), you can use [prebuilt actions](/components/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom Node.js code](/workflows/steps/code/) that interacts with the Twitter API.
 - You can also _trigger_ Pipedream workflows on new tweets, new followers, and other Twitter events. This allows you to run custom code in response to these events. 
 
 [[toc]]
@@ -58,7 +58,7 @@ To use this app, [add a new step](/workflows/steps/) to your workflow, search fo
 Once connected, you can run any custom code that uses these credentials to interact with the Twitter API. The **Post Tweet** action associated with this app, for example, uses the [`twit` Twitter API client](https://github.com/ttezel/twit) to send tweets:
 
 ```javascript
-const Twit = require("twit");
+import Twit from "twit";
 
 const {
   api_key,
@@ -84,7 +84,7 @@ return await T.post("statuses/update", {
 
 ## Run code on new tweets, followers, and more
 
-Pipedream [event sources](/event-sources) emit Twitter events — tweets, follows, likes, and more — in real time. Sources can trigger [Pipedream workflows](/workflows), and can be accessed via [SSE](/api/sse/) and [REST APIs](/api/rest/).
+Pipedream [event sources](/event-sources/) emit Twitter events — tweets, follows, likes, and more — in real time. Sources can trigger [Pipedream workflows](/workflows/), and can be accessed via [SSE](/api/sse/) and [REST APIs](/api/rest/).
 
 Create a new Twitter event source at [https://pipedream.com/sources](https://pipedream.com/sources), or by clicking on any of the links below:
 

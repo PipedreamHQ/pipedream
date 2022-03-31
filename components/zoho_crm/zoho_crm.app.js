@@ -17,7 +17,9 @@ module.exports = {
     _usersUrl(id) {
       const baseUrl = this._apiUrl();
       const basePath = `${baseUrl}/users`;
-      return id ? `${basePath}/${id}` : basePath;
+      return id
+        ? `${basePath}/${id}`
+        : basePath;
     },
     _watchActionsUrl() {
       const baseUrl = this._apiUrl();
@@ -207,6 +209,12 @@ module.exports = {
       };
 
       const { data } = await axios.patch(url, requestData, requestConfig);
+      const watch = data.watch[0];
+      console.log(watch);
+      console.log(watch.details);
+      if (watch.status !== "success") {
+        throw new Error(`${watch.message} ${JSON.stringify(watch.details)}`);
+      }
       return data;
     },
   },

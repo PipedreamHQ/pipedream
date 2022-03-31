@@ -28,7 +28,7 @@ Click the **+** button to add a new step after `steps.get_iss_position` and sele
 Then add the following code to convert the timestamp to a Google Sheets compatible date/time and export it from the code step:
 
 ```javascript
-const { DateTime } = require('luxon')
+import { DateTime } from 'luxon';
 
 return DateTime.fromSeconds(steps.get_iss_position.$return_value.timestamp).toFormat('yyyy-MM-dd HH:mm:ss');
 ```
@@ -61,7 +61,7 @@ When you click on **Connect Google Sheets** Pipedream will open a popup window w
 
 <img src="./images/image-20210517181653424.png" alt="image-20210517181653424" style="zoom:25%;" />
 
-After you connect your account, Pipdream will securely store an authorization token that you can use in actions and code steps to authenticate API requests for Google Sheets (we'll cover how to use this token in code steps later in this guide).
+After you connect your account, Pipedream will securely store an authorization token that you can use in actions and code steps to authenticate API requests for Google Sheets (we'll cover how to use this token in code steps later in this guide).
 
 Then select your **Drive**, **Spreadsheet** and **Sheet Name** from the drop down menus.
 

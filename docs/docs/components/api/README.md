@@ -1,8 +1,8 @@
 # Component API Reference
 
-This document was created to help developers author and use [Pipedream components](/components/). You can develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API. You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
+This document was created to help developers author and use [Pipedream components](/components/). Not only can you develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API, but you can also develop [Node.js steps](/code/nodejs/) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
 
-While sources and actions share the core component API, they differ in both how they're used and written, so certain parts of the component API apply only to one or the other. [This section of the docs](#differences-between-sources-and-actions) explains the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
+While sources and actions share the same core component API, they differ in both how they're used and written, so certain parts of the component API apply only to one or the other. [This section of the docs](#differences-between-sources-and-actions) explains the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
 If you have any questions about component development, please reach out [in our community](https://pipedream.com/community/c/dev/11).
 
@@ -60,7 +60,7 @@ You can find hundreds of example components in the `components/` directory of th
 Pipedream components export an object with the following properties:
 
 ```javascript
-module.exports = {
+export default {
   name: "",
   key: "",
   type: "",
@@ -80,18 +80,18 @@ module.exports = {
 };
 ```
 
-| Property      | Type     | Required?   | Description                                                  |
-| ------------- | -------- | ----------- | ------------------------------------------------------------ |
-| `name`        | `string` | required    | The name of the component, a string which identifies components deployed to users' accounts. This name will show up in the Pipedream UI, in CLI output (for example, from `pd list` commands), etc. It will also be converted to a unique slug on deploy to reference a specific component instance (it will be auto-incremented if not unique within a user account). |
-| `key`         | `string` | recommended | The `key` uniquely identifies a component within a namespace. The default namespace for components is your account.<br /><br />When publishing components to the Pipedream registry, the `key` must be unique across registry components and should follow the pattern:<br /><br />`app_name_slug`-`slugified-component-name` |
-| `type`        | `string` | required  | When publishing an action, `type: "action"` is required. When publishing a source, use `type: "source"`.  |
-| `version`     | `string` | required    | The component version. There are no constraints on the version, but [semantic versioning](https://semver.org/) is required for any components published to the [Pipedream registry](/components/guidelines/). |
-| `description` | `string` | recommended | The description will appear in the Pipedream UI to aid in discovery and to contextualize instantiated components |
-| `props`       | `object` | optional    | [Props](#props) are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`). |
-| `methods`     | `object` | optional    | Define component methods for the component instance. They can be referenced via `this` (e.g., `this.methodName()`). |
-| `hooks`       | `object` | optional (sources only)   | [Hooks](#hooks) are functions that are executed when specific component lifecycle events occur. |
-| `dedupe`      | `string` | optional (sources only)   | You may specify a [dedupe strategy](#dedupe-strategies) to be applied to emitted events |
-| `run`         | `method` | required    | Each time a component is invoked (for example, via HTTP request), [its `run` method](#run) is called. The event that triggered the component is passed to `run`, so that you can access it within the method. Events are emitted using `this.$emit()`. |
+| Property      | Type     | Required?               | Description                                                                                                                                                                                                                                                                                                                                                            |
+| ------------- | -------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | `string` | required                | The name of the component, a string which identifies components deployed to users' accounts. This name will show up in the Pipedream UI, in CLI output (for example, from `pd list` commands), etc. It will also be converted to a unique slug on deploy to reference a specific component instance (it will be auto-incremented if not unique within a user account). |
+| `key`         | `string` | recommended             | The `key` uniquely identifies a component within a namespace. The default namespace for components is your account.<br /><br />When publishing components to the Pipedream registry, the `key` must be unique across registry components and should follow the pattern:<br /><br />`app_name_slug`-`slugified-component-name`                                          |
+| `type`        | `string` | required                | When publishing an action, `type: "action"` is required. When publishing a source, use `type: "source"`.                                                                                                                                                                                                                                                               |
+| `version`     | `string` | required                | The component version. There are no constraints on the version, but [semantic versioning](https://semver.org/) is required for any components published to the [Pipedream registry](/components/guidelines/).                                                                                                                                                          |
+| `description` | `string` | recommended             | The description will appear in the Pipedream UI to aid in discovery and to contextualize instantiated components                                                                                                                                                                                                                                                       |
+| `props`       | `object` | optional                | [Props](#props) are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`).                                                                                                        |
+| `methods`     | `object` | optional                | Define component methods for the component instance. They can be referenced via `this` (e.g., `this.methodName()`).                                                                                                                                                                                                                                                    |
+| `hooks`       | `object` | optional (sources only) | [Hooks](#hooks) are functions that are executed when specific component lifecycle events occur.                                                                                                                                                                                                                                                                        |
+| `dedupe`      | `string` | optional (sources only) | You may specify a [dedupe strategy](#dedupe-strategies) to be applied to emitted events                                                                                                                                                                                                                                                                                |
+| `run`         | `method` | required                | Each time a component is invoked (for example, via HTTP request), [its `run` method](#run) is called. The event that triggered the component is passed to `run`, so that you can access it within the method. Events are emitted using `this.$emit()`.                                                                                                                 |
 
 ### Props
 
@@ -129,31 +129,32 @@ props: {
 },
 ```
 
-| Property         | Type                                 | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ---------------- | ------------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`           | `string`                             | required  | Value must be set to a valid `PropType` (see below). Suffix with `[]` (e.g. `string[]`) to denote array of that type (if supported).                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| `label`          | `string`                             | optional  | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed to the user.                                                                                                                                                                                                                                                                                                                                                                                             |
-| `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                                                    |
+| Property         | Type                                 | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ---------------- | ------------------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `type`           | `string`                             | required  | Value must be set to a valid `PropType` (see below). Suffix with `[]` (e.g. `string[]`) to denote array of that type (if supported).                                                                                                                                                                                                                                                                                                                                           |
+| `label`          | `string`                             | optional  | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed to the user.                                                                                                                                                                                                                                                                                                                                                           |
+| `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                  |
 | `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
-| `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                                                         |
-| `default`        | `string`                             | optional  | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input).                                                                                                                                                                                                                                                                                                                                                                     |
-| `secret`        | `boolean`                             | optional  | If set to `true`, this field will hide your input in the browser like a password field, and its value will be encrypted in Pipedream's database. The value will be decrypted when the component is run in [the execution environment](/privacy-and-security/#execution-environment). Defaults to `false`.     Only allowed for `string` props.                                                                                                                                                                                                                                                                                                                                                                 |
-| `min`        | `integer`                             | optional  | Minimum allowed integer value. Only allowed for `integer` props..                                                                                                                                                                                                                                                                                                                                                                     |
-| `max`        | `integer`                             | optional  | Maximum allowed integer value . Only allowed for `integer` props.                                                                                                                                                                                                                                                                                                                                                                   |
+| `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                       |
+| `default`        | `string`                             | optional  | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input).                                                                                                                                                                                                                                                                                                                                   |
+| `secret`         | `boolean`                            | optional  | If set to `true`, this field will hide your input in the browser like a password field, and its value will be encrypted in Pipedream's database. The value will be decrypted when the component is run in [the execution environment](/privacy-and-security/#execution-environment). Defaults to `false`.     Only allowed for `string` props.                                                                                                                                 |
+| `min`            | `integer`                            | optional  | Minimum allowed integer value. Only allowed for `integer` props..                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `max`            | `integer`                            | optional  | Maximum allowed integer value . Only allowed for `integer` props.                                                                                                                                                                                                                                                                                                                                                                                                              |
 
 **`PropType`s**
 
-| `PropType` | Array Supported | Supported in Sources? | Supported in Actions? | Custom properties
-| -- | -- | -- | -- | :--
-| `app` | | ✓ | ✓ | See [App Props](#app-props) below
-| `boolean` | ✓ | ✓ | ✓ |
-| `integer` | ✓ | ✓ | ✓ | - `min` (`integer`): Minimum allowed integer value.<br/>- `max` (`integer`): Maximum allowed integer value.
-| `string` | ✓ | ✓ | ✓ | - `secret` (`boolean`): Whether to treat the value as a secret.
-| `object` |  | ✓ | ✓ |
-| `$.interface.http` | | ✓ | | 
-| `$.interface.timer` | | ✓ | | 
-| `$.service.db` | | ✓ | ✓ |
+| `PropType`          | Array Supported | Supported in Sources? | Supported in Actions? | Custom properties                                                                                           |
+| ------------------- | --------------- | --------------------- | --------------------- | :---------------------------------------------------------------------------------------------------------- |
+| `app`               |                 | ✓                     | ✓                     | See [App Props](#app-props) below                                                                           |
+| `boolean`           | ✓               | ✓                     | ✓                     |
+| `integer`           | ✓               | ✓                     | ✓                     | - `min` (`integer`): Minimum allowed integer value.<br/>- `max` (`integer`): Maximum allowed integer value. |
+| `string`            | ✓               | ✓                     | ✓                     | - `secret` (`boolean`): Whether to treat the value as a secret.                                             |
+| `object`            |                 | ✓                     | ✓                     |
+| `any`               |                 |                       | ✓                     |
+| `$.interface.http`  |                 | ✓                     |                       |
+| `$.interface.timer` |                 | ✓                     |                       |
+| `$.service.db`      |                 | ✓                     | ✓                     |
 
 **Usage**
 
@@ -166,7 +167,7 @@ props: {
 Following is an example source that demonstrates how to capture user input via a prop and emit it on each event:
 
 ```javascript
-module.exports = {
+export default {
   name: "User Input Prop Example",
   version: "0.1",
   props: {
@@ -206,7 +207,7 @@ async options({
 Following is an example source demonstrating the usage of async options:
 
 ```javascript
-module.exports = {
+export default {
   name: "Async Options Example",
   version: "0.1",
   props: {
@@ -226,7 +227,7 @@ module.exports = {
 };
 ```
 
-###### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
+##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 
@@ -243,12 +244,12 @@ props: {
 
 ```
 
-| Property             | Type     | Required? | Description                                                                                                                                                                |
-| -------------------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `propDefinition`     | `array`  | optional  | An array of options that define a reference to a `propDefinitions` within the `propDefinitions` for an `app`                                                               |
-| `app`                | `object` | required  | An app object                                                                                                                                                              |
-| `propDefinitionName` | `string` | required  | The name of a specific `propDefinition` defined in the corresponding `app` object                                                                                          |
-| `inputValues`        | `object` | optional  | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br>&nbsp;<br>`c => ({ variableName: c.previousPropName })` |
+| Property             | Type     | Required? | Description                                                                                                                                                                                                                                                           |
+| -------------------- | -------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `propDefinition`     | `array`  | optional  | An array of options that define a reference to a `propDefinitions` within the `propDefinitions` for an `app`                                                                                                                                                          |
+| `app`                | `object` | required  | An app object                                                                                                                                                                                                                                                         |
+| `propDefinitionName` | `string` | required  | The name of a specific `propDefinition` defined in the corresponding `app` object                                                                                                                                                                                     |
+| `inputValues`        | `object` | optional  | Values to pass into the prop definition. To reference values from previous props, use an arrow function. E.g.,:<br>&nbsp;<br>`c => ({ variableName: c.previousPropName })`<br /><br />[See these docs](#referencing-values-from-previous-props) for more information. |
 
 Following is an example source that demonstrates how to use `propDefinitions`.
 
@@ -265,7 +266,7 @@ const rss = {
   },
 };
 
-module.exports = {
+export default {
   name: "Prop Definition Example",
   description: `This component captures an RSS URL and logs it`,
   version: "0.1",
@@ -279,14 +280,72 @@ module.exports = {
 };
 ```
 
+##### Referencing values from previous props
+
+When you define a prop in an app file, and that prop depends on the value of another prop, you'll need to pass the value of the previous props in a special way. Let's review an example from [Trello](https://trello.com), a task manager.
+
+You create Trello _boards_ for new projects. Boards contain _lists_. For example, this **Active** board contains two lists:
+
+<div>
+<img alt="Trello board example" src="./images/trello-board-example.png">
+</div>
+
+In Pipedream, users can choose from lists on a specific board:
+
+<div>
+<img alt="Trello board and lists props" src="./images/trello-props.png">
+</div>
+
+Both **Board** and **Lists** are defined in the Trello app file:
+
+```javascript
+board: {
+  type: "string",
+  label: "Board",
+  async options(opts) {
+    const boards = await this.getBoards(this.$auth.oauth_uid);
+    const activeBoards = boards.filter((board) => board.closed === false);
+    return activeBoards.map((board) => {
+      return { label: board.name, value: board.id };
+    });
+  },
+},
+lists: {
+  type: "string[]",
+  label: "Lists",
+  optional: true,
+  async options(opts) {
+    const lists = await this.getLists(opts.board);
+    return lists.map((list) => {
+      return { label: list.name, value: list.id };
+    });
+  },
+}
+```
+
+In the `lists` prop, notice how `opts.board` references the board. You can pass `opts` to the prop's `options` method when you reference `propDefinitions` in specific components:
+
+```javascript
+board: { propDefinition: [trello, "board"] },
+lists: {
+  propDefinition: [
+    trello,
+    "lists",
+    (configuredProps) => ({ board: configuredProps.board }),
+  ],
+},
+```
+
+`configuredProps` contains the props the user previously configured (the board). This allows the `lists` prop to use it in the `options` method.
+
 #### Interface Props
 
 Interface props are infrastructure abstractions provided by the Pipedream platform. They declare how a source is invoked — via HTTP request, run on a schedule, etc. — and therefore define the shape of the events it processes.
 
-| Interface Type  | Description                                                                                 |
-| --------------- | ------------------------------------------------------------------------------------------- |
+| Interface Type  | Description                                                     |
+| --------------- | --------------------------------------------------------------- |
 | [Timer](#timer) | Invoke your source on an interval or based on a cron expression |
-| [HTTP](#http)   | Invoke your source on HTTP requests                                                           |
+| [HTTP](#http)   | Invoke your source on HTTP requests                             |
 
 #### Timer
 
@@ -313,14 +372,14 @@ props: {
 | Code              | Description                                                                                                                                 | Read Scope                | Write Scope                                                                                 |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------- |
 | `this.myPropName` | Returns the type of interface configured (e.g., `{ type: '$.interface.timer' }`)                                                            | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
-| `event`           | Returns an object with the invocation timestamp and interface configuration (e.g., `{ "timestamp": 1593937896, "interval_seconds": 3600 }`) | `run(event)`              | n/a (interface props may only be modified on source deploy or update via UI, CLI or API) |
+| `event`           | Returns an object with the invocation timestamp and interface configuration (e.g., `{ "timestamp": 1593937896, "interval_seconds": 3600 }`) | `run(event)`              | n/a (interface props may only be modified on source deploy or update via UI, CLI or API)    |
 
 **Example**
 
 Following is a basic example of a source that is triggered by a `$.interface.timer` and has default defined as a cron expression.
 
 ```javascript
-module.exports = {
+export default {
   name: "Cron Example",
   version: "0.1",
   props: {
@@ -340,7 +399,7 @@ module.exports = {
 Following is an example source that's triggered by a `$.interface.timer` and has a `default` interval defined.
 
 ```javascript
-module.exports = {
+export default {
   name: "Interval Example",
   version: "0.1",
   props: {
@@ -381,7 +440,7 @@ props: {
 
 | Code                        | Description                                                                                                                             | Read Scope                | Write Scope                                                                                                                   |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `this.myPropName`           | Returns an object with the unique endpoint URL generated by Pipedream (e.g., `{ endpoint: 'https://abcde.m.pipedream.net' }`)           | `run()` `hooks` `methods` | n/a (interface props may only be modified on source deploy or update via UI, CLI or API)                                   |
+| `this.myPropName`           | Returns an object with the unique endpoint URL generated by Pipedream (e.g., `{ endpoint: 'https://abcde.m.pipedream.net' }`)           | `run()` `hooks` `methods` | n/a (interface props may only be modified on source deploy or update via UI, CLI or API)                                      |
 | `event`                     | Returns an object representing the HTTP request (e.g., `{ method: 'POST', path: '/', query: {}, headers: {}, bodyRaw: '', body: {}, }`) | `run(event)`              | The shape of `event` corresponds with the the HTTP request you make to the endpoint generated by Pipedream for this interface |
 | `this.myPropName.respond()` | Returns an HTTP response to the client (e.g., `this.http.respond({status: 200})`).                                                      | n/a                       | `run()`                                                                                                                       |
 
@@ -415,7 +474,7 @@ Following is the shape of the event passed to the `run()` method of your source:
 Following is an example source that's triggered by `$.interface.http` and returns `{ 'msg': 'hello world!' }` in the HTTP response. On deploy, Pipedream will generate a unique URL for this source:
 
 ```javascript
-module.exports = {
+export default {
   name: "HTTP Example",
   version: "0.0.1",
   props: {
@@ -464,6 +523,8 @@ props: {
 
 #### App Props
 
+App props are normally defined in an [app file](/components/guidelines/#app-files), separate from individual components. See [the `components/` directory of the pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components) for example app files.
+
 **Definition**
 
 ```javascript
@@ -477,12 +538,12 @@ props: {
 },
 ```
 
-| Property          | Type     | Required? | Description                                                                                                                                                                                                                      |
-| ----------------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`            | `string` | required  | Value must be `app`                                                                                                                                                                                                              |
-| `app`             | `string` | required  | Value must be set to the name slug for an app registered on Pipedream. If you don't see an app listed, please [open an issue here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D). This data will be discoverable in a self-service way in the near future.            |
-| `propDefinitions` | `object` | optional  | An object that contains objects with predefined user input props. See the section on User Input Props above to learn about the shapes that can be defined and how to reference in components using the `propDefinition` property |
-| `methods`         | `object` | optional  | Define app-specific methods. Methods can be referenced within the app object context via `this` (e.g., `this.methodName()`) and within a component via `this.myAppPropName` (e.g., `this.myAppPropName.methodName()`).           |
+| Property          | Type     | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ----------------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`            | `string` | required  | Value must be `app`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `app`             | `string` | required  | Value must be set to the name slug for an app registered on Pipedream. [App files](/components/guidelines/#app-files) are programmatically generated for all integrated apps on Pipedream. To find your app's slug, visit the `components` directory of [the Pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components), find the app file (the file that ends with `.app.mjs`), and find the `app` property at the root of that module. If you don't see an app listed, please [open an issue here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D). |
+| `propDefinitions` | `object` | optional  | An object that contains objects with predefined user input props. See the section on User Input Props above to learn about the shapes that can be defined and how to reference in components using the `propDefinition` property                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `methods`         | `object` | optional  | Define app-specific methods. Methods can be referenced within the app object context via `this` (e.g., `this.methodName()`) and within a component via `this.myAppPropName` (e.g., `this.myAppPropName.methodName()`).                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
 **Usage**
 
@@ -494,6 +555,12 @@ props: {
 | `this.myAppPropName.methodName()` | Execute a common method defined for an app from a component that includes the app as a prop      | **Parent Component:** `run()` `hooks` `methods` | n/a         |
 
 > **Note:** The specific `$auth` keys supported for each app will be published in the near future.
+
+#### Limits on props
+
+When a user configures a prop with a value, it can hold at most `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` data. Consider this when accepting large input in these fields (such as a base64 string).
+
+The `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example <code v-pre>{{steps.nodejs.$return_value}}</code>, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits/).
 
 ### Methods
 
@@ -570,18 +637,18 @@ this.$emit(event, {
 });
 ```
 
-| Property  | Type                   | Required?                                | Description                                                                                                                                                                                                                                            |
-| --------- | ---------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `event`   | JSON serializable data | optional                                 | The data to emit as the event                                                                                                                                                                                                                          |
-| `id`      | `string` or `number`   | Required if a dedupe strategy is applied | A value to uniquely identify this event. Common `id` values may be a 3rd party ID, a timestamp, or a data hash                                                                                                                                         |
-| `name`      | `string`   | optional | The name of the "channel" you'd like to emit the event to. By default, events are emitted to the `default` channel. If you set a different channel here, listening sources or workflows can subscribe to events on this channel, running the source or workflow only on events emitted to that channel.                                                                                                                                        |
-| `summary` | `string`               | optional                                 | Define a summary to customize the data displayed in the events list to help differentiate events at a glance                                                                                                                                           |
-| `ts`      | `integer`              | optional                                 | Accepts an epoch timestamp in **milliseconds**. If you submit a timestamp, events will automatically be ordered and emitted from oldest to newest. If using the `last` dedupe strategy, the value cached as the `last` event for an invocation will correspond to the event with the newest timestamp. |
+| Property  | Type                   | Required?                                | Description                                                                                                                                                                                                                                                                                             |
+| --------- | ---------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `event`   | JSON serializable data | optional                                 | The data to emit as the event                                                                                                                                                                                                                                                                           |
+| `id`      | `string` or `number`   | Required if a dedupe strategy is applied | A value to uniquely identify this event. Common `id` values may be a 3rd party ID, a timestamp, or a data hash                                                                                                                                                                                          |
+| `name`    | `string`               | optional                                 | The name of the "channel" you'd like to emit the event to. By default, events are emitted to the `default` channel. If you set a different channel here, listening sources or workflows can subscribe to events on this channel, running the source or workflow only on events emitted to that channel. |
+| `summary` | `string`               | optional                                 | Define a summary to customize the data displayed in the events list to help differentiate events at a glance                                                                                                                                                                                            |
+| `ts`      | `integer`              | optional                                 | Accepts an epoch timestamp in **milliseconds**. If you submit a timestamp, events will automatically be ordered and emitted from oldest to newest. If using the `last` dedupe strategy, the value cached as the `last` event for an invocation will correspond to the event with the newest timestamp.  |
 
 Following is a basic example that emits an event on each component execution.
 
 ```javascript
-module.exports = {
+export default {
   name: "this.$emit() example",
   description: "Deploy and run this component manually via the Pipedream UI",
   async run() {
@@ -634,7 +701,7 @@ When you use return, the exported data will appear at `steps.[STEP NAME].$return
 
 **`$.export`**
 
-You can also use `$.export` to return named exports from an action. `$export` takes the name of the export as the first argument, and the value to export as the second argument:
+You can also use `$.export` to return named exports from an action. `$.export` takes the name of the export as the first argument, and the value to export as the second argument:
 
 ```javascript
 async run({ $ }) {
@@ -668,6 +735,20 @@ async run({ $ }) {
 ```
 
 It functions the same way as [`$end` in workflow code steps](/workflows/steps/code/#end).
+
+**`$.summary`**
+
+`$.summary` is used to surface brief, user-friendly summaries about what happened when an action step succeeds. For example, when [adding items to a Spotify playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/actions/add-items-to-playlist/add-items-to-playlist.mjs#L51):
+<div>
+<img alt="Spotify example with $summary" src="./images/spotify-$summary-example.png">
+</div>
+
+Example implementation:
+```javascript
+const data = [1, 2]
+const playlistName = "Cool jams"
+$.export("$summary", `Successfully added ${data.length} ${data.length == 1 ? "item" : "items"} to "${playlistName}"`);
+```
 
 **`$.send`**
 
@@ -706,7 +787,7 @@ For actions, you can pass environment variables as the values of props using the
 To use an npm package in a component, just require it. There is no `package.json` or `npm install` required.
 
 ```javascript
-const axios = require("axios");
+import axios from "axios"
 ```
 
 When you deploy a component, Pipedream downloads the latest versions of these packages and bundles them with your deployment.

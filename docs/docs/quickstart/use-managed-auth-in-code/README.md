@@ -18,12 +18,12 @@ Select the **Google Sheet** app and select the **Run Node.js with Google Sheets*
 
 ![image-20210525184659283](./images/image-20210525184659283.png)
 
-This will add a code step **scaffolded using Google Sheets' standard API together with Pipedream managed authentication** (so you can easily authenticate the API request using your connected account). 
+This will add a code step **scaffolded using Google Sheets' standard API together with Pipedream managed authentication** (so you can easily authenticate the API request using your connected account).
 
 ![image-20210525184735774](./images/image-20210525184735774.png)
 
 ### Use a connected account in a code step
-Next, let's test the scaffolded code. First, select the same account you used in the previous step (to save data to Google Sheets). It needs to be the same account because we're going to retrieve data from that sheet in just a moment. 
+Next, let's test the scaffolded code. First, select the same account you used in the previous step (to save data to Google Sheets). It needs to be the same account because we're going to retrieve data from that sheet in just a moment.
 
 ![select-account](./images/select-account.gif)
 
@@ -33,15 +33,15 @@ Then **Deploy** and test your workflow (either load the endpoint or click **Send
 
 ### Use standard API docs to customize scaffolded code
 
-Next, let's customize the API request to retrieve all the ISS positions we added to Google Sheets in our previous tests so we can return them in our workflow response. Based on a quick Google search, we can find the details we need in [Google's developer documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get). According to Google's docs, we need to make a `GET` request to `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}`. 
+Next, let's customize the API request to retrieve all the ISS positions we added to Google Sheets in our previous tests so we can return them in our workflow response. Based on a quick Google search, we can find the details we need in [Google's developer documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get). According to Google's docs, we need to make a `GET` request to `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}`.
 
 ![image-20210522195448627](./images/image-20210522195448627.png)
 
-We need to replace the `url` in the scaffolded code, and we also need to modify the URL we found in Google's docs to pass real values for  `{spreadsheetId}` and `{range}`. Since we added a row to Google Sheets, we can get these values by referencing the exports for `steps.add_single_row`. 
+We need to replace the `url` in the scaffolded code, and we also need to modify the URL we found in Google's docs to pass real values for  `{spreadsheetId}` and `{range}`. Since we added a row to Google Sheets, we can get these values by referencing the exports for `steps.add_single_row`.
 
 ![image-20210525185600151](./images/image-20210525185600151.png)
 
-Here's the final code for the step that shows the udpated value for the `url` parameter (more details below):
+Here's the final code for the step that shows the updated value for the `url` parameter (more details below):
 
 ```javascript
 return await require("@pipedreamhq/platform").axios(this, {
@@ -54,10 +54,10 @@ return await require("@pipedreamhq/platform").axios(this, {
 
 ![image-20210525185700814](./images/image-20210525185700814.png)
 
-Here are more details about the changes we made in the code above (you can also skip this and move on to deploying and testing the update): 
+Here are more details about the changes we made in the code above (you can also skip this and move on to deploying and testing the update):
 
-1. Add a `$` before both `{spreadsheetId}` and `{range}` to convert the references to [template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) (since the URL in enclosed in backticks, we can write code between `${...}`).  
-2. Replace `spreadsheetId` with `steps.add_single_row.$return_value.spreadsheetId`. 
+1. Add a `$` before both `{spreadsheetId}` and `{range}` to convert the references to [template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) (since the URL in enclosed in backticks, we can write code between `${...}`).
+2. Replace `spreadsheetId` with `steps.add_single_row.$return_value.spreadsheetId`.
 3. Since we want to get all the values in the sheet, we can use Javascript's `split()` function to replace `range` with the value to the left of the exclamation mark in `steps.add_single_row.$return_value.updatedRange` (i.e., we only want to pass the value `Sheet1`). To do that, we can reference `steps.add_single_row.$return_value.updatedRange.split("!")[0]`.
 
 When you're ready, **Deploy** and test your workflow again. If you select the event and expand the return value for `steps.google_sheets` you'll see the headers and data from the Google Sheet.
@@ -76,7 +76,7 @@ Add a **Run Node.js code** step between `steps.google_sheets` and `steps.respond
 const data = steps.google_sheets.$return_value.values
 const headers = data.shift()
 const rows = data
-return rowsToObjects(headers, rows) 
+return rowsToObjects(headers, rows)
 
 function rowsToObjects(headers, rows){
   return rows.reduce((acc, e, idx) =>  {

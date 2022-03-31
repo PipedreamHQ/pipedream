@@ -19,9 +19,9 @@ Then select the **New item in feed** trigger:
 
 ![image-20210525193554431](./images/image-20210525193554431.png)
 
-For this example, let's use the feed of BBC's top stories. Add `http://feeds.bbci.co.uk/news/rss.xml` as the **Feed URL**. You can optionally customize the **Timer** (it controls how often to check for new items in the feed) and the **Name**. 
+For this example, let's use the feed of BBC's top stories. Add `http://feeds.bbci.co.uk/news/rss.xml` as the **Feed URL**. You can optionally customize the **Timer** (it controls how often to check for new items in the feed) and the **Name**.
 
-![image-20210525193800859](./images/image-20210525193800859.png) 
+![image-20210525193800859](./images/image-20210525193800859.png)
 
 Next, click **Create Source**. Pipedream will instantiate the source and retrieve recent items from the RSS feed. You can use these events to help you build your workflow (you can expand the drop down menu to select a different event).
 
@@ -48,7 +48,7 @@ Finally, click **Deploy** and click **Send Test Event** in the trigger again to 
 
 ![image-20210525194340766](./images/image-20210525194340766.png)
 
-Pipedream will send an email to the address asociatd with your Pipedream account:
+Pipedream will send an email to the address associated with your Pipedream account:
 
 ![image-20210525194431592](./images/image-20210525194431592.png)
 

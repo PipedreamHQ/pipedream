@@ -1,3 +1,6 @@
+/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
+  pipedream/required-properties-version, pipedream/required-properties-description,
+  pipedream/required-properties-type */
 const trello = require("../trello.app.js");
 
 module.exports = {
@@ -12,7 +15,9 @@ module.exports = {
      * @param {string} id - The id of the item being emitted.
      * @param {string} name - The name of the item of the book.
      */
-    generateMeta({ id, name: summary }) {
+    generateMeta({
+      id, name: summary,
+    }) {
       return {
         id,
         summary,

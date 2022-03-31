@@ -30,7 +30,7 @@ Events sent to the global error workflow have the following properties:
 
 - `error` : contains information about the error, for example the `code` (its type), the `msg`, and the `stack`, which contains its stack trace.
 - `original_event` : contains the original event (see the [event format](/workflows/events/#event-format) docs for an explanation of the event properties).
-- `original_context` : contains the original workflow [context object](/docs/workflows/events/#steps-trigger-context), which includes the workflow's name, ID, and more.
+- `original_context` : contains the original workflow [context object](/workflows/events/#steps-trigger-context), which includes the workflow's name, ID, and more.
 
 For example, an error event might look something like this:
 

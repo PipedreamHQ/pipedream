@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
       - name: Install pd cli
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
@@ -23,7 +23,7 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'csv'
-      - name: Publish and add to registry components/*.js (that aren't .app.js files)
+      - name: Publish and add to registry components/*.*js (that aren't .app.js files) 
         id: publish
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
@@ -34,10 +34,12 @@ jobs:
           PUBLISHED=""
           ERRORS=""
           SKIPPED=""
-          mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
-          for added_modified_file in "${added_modified_files[@]}"; do
-            # starts with components, ends with .js and not app.js
-            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.js ]] && [[ $added_modified_file != *.app.js ]]
+          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
+          for added_modified_file in "${added_modified_renamed_files[@]}"; do
+          # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
+          # doesn't end with /common*.*js, and doesn't follow */common/
+          if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
+              && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]]
             then
               echo "attempting to publish ${added_modified_file}"
               PD_OUTPUT=`./pd publish ${added_modified_file} --json`
@@ -46,7 +48,7 @@ jobs:
                 KEY=`echo $PD_OUTPUT | jq -r ".key"`
                 echo "published ${KEY}"
                 echo "${KEY} will be added to the registry"
-                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String\u0021, $registry: Boolean\u0021){\\n  setComponentRegistry(key: $key, registry: $registry){\\n    savedComponent{\\n      id\\n      key\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true'}}'
+                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation($key: String!, $registry: Boolean!, $gitPath: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'"}}'
                 PUBLISHED+="*${added_modified_file}"
               else
                 ERROR=`echo $PD_OUTPUT | jq -r ".error"`

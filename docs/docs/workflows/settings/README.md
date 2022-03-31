@@ -1,4 +1,4 @@
-# Workflow Settings
+# Settings
 
 You can control workflow-specific settings in the **Settings** header, just above your workflow's code.
 
@@ -32,10 +32,6 @@ By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. I
 
 [Manage the concurrency and rate](/workflows/events/concurrency-and-throttling/) at which events from a source trigger your workflow code.
 
-## Current checkpoint values
-
-If you're using [`$checkpoint`](/workflows/steps/code/#workflow-level-state-checkpoint) or [`this.$checkpoint`](/workflows/steps/code/#step-level-state-this-checkpoint) to manage state in your workflow, you can view their values here. You can also modify the values or clear the whole contents of a given checkpoint.
-
 ## Attachments
 
 Sometimes, you'll need to reference static files in your workflow, like a CSV. Files uploaded in the **Attachments** section can be referenced in your workflow using the `$attachments` object.
@@ -43,7 +39,7 @@ Sometimes, you'll need to reference static files in your workflow, like a CSV. F
 For example, if you upload a file named `test.csv`, Pipedream will expose the _file path_ of the uploaded file at `$attachments["test.csv"]`. You can read the contents of the file using `fs.readFileSync`:
 
 ```javascript
-const fs = require("fs");
+import fs from "fs";
 
 const fileData = fs.readFileSync($attachments["test.csv"]).toString();
 console.log(fileData);

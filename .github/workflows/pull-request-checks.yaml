@@ -11,14 +11,75 @@ on:
       - master
 
 jobs:
-  build:
-    name: Spellcheck
+  check_version:
+    name: Ensure component commits modify component versions
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2.4.0
+      name: Checkout repo
+      with:
+        # See https://github.com/actions/checkout#checkout-v2
+        # This will be slow. The intent is to fetch all commits
+        # since the merge-base (the commit where we branched off)
+        # so we can check the git diff against all changed files.
+        # By default, the checkout action only returns the last commit,
+        # There's no native way to do this in the checkout action, so 
+        # we have to fetch the entire history. See
+        # https://github.com/actions/checkout/issues/266#issuecomment-638346893
+        fetch-depth: 0
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
+      name: Get changed files
+    # Diff the changes in the HEAD ref (new branch) against the BASE ref (target branch, e.g. master)
+    # If the changes don't contain modifications to the version, we want to log that fact but not exit early
+    # Once we've checked all files, exit the script if any files failed to modify version
+    - id: git_diff_on_components
+      name: Check git diff for version changes
+      env:
+        head_commit: ${{ github.event.pull_request.head.sha }}
+        base_commit: ${{ github.event.pull_request.base.sha }}
+      run: |-
+        commit_contained_components_that_did_not_modify_version=0
+        for f in ${{ steps.changed_files.outputs.all }}
+        do
+          ext="${f##*.}"
+          # Only run this check on modified sources or actions, excluding common files
+          if ([[ "$ext" == "js" ]] || [[ "$ext" == "mjs" ]]) && \
+             ([[ "${f}" == *components/**/sources/* ]] || [[ "${f}" == *components/**/actions/* ]]) && \
+             [[ "${f}" != *common*.*js ]] && [[ "${f}" != **/actions/common/* ]] && [[ "${f}" != **/sources/common/* ]] && \
+             [[ "$(<${f})" == *"version:"* ]]
+          then
+            BASE_COMMIT=${{env.base_commit}}
+            HEAD_COMMIT=${{env.head_commit}}
+            DIFF=`git diff --unified=0 $BASE_COMMIT...$HEAD_COMMIT ${f}`
+            if [[ ${DIFF} != *"version:"* ]]
+            then
+              echo "You didn't modify the version of ${f}"
+              commit_contained_components_that_did_not_modify_version=1
+            fi
+          fi
+        done
+
+        if [[ $commit_contained_components_that_did_not_modify_version -eq 1 ]]
+        then
+          echo "You need to increment the version on some components. Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information"
+          exit 1
+        fi
+        
+
+  spellcheck:
+    name: Spellcheck
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2.4.0
+      name: Checkout
+    - uses: jitterbit/get-changed-files@v1
+      id: changed_files
+      name: Get changed files
     - id: md_changed_files
+      name: Spellcheck Markdown files
       run: |-
         files=''
         for f in ${{ steps.changed_files.outputs.all }}
@@ -31,26 +92,28 @@ jobs:
         done
 
         echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.14.0
+    - uses: rojopolis/spellcheck-github-actions@0.21.1
       name: Spellcheck
       if: ${{ env.files }}
       with:
         source_files: ${{ env.files }}
         task_name: Markdown
+
+
   lint:
     name: Lint Code Base
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
 
       - name: Setup Node Env
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: '12'
 
@@ -58,7 +121,7 @@ jobs:
         run: npm ci
 
       - name: Lint Code Base
-        uses: github/super-linter@v3
+        uses: github/super-linter@v4
         env:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -67,3 +130,8 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_JSON: true
+
+      - name: Check component keys
+        run: node scripts/findBadKeys.js
+
+
