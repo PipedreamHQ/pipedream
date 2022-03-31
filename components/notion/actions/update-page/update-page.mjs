@@ -55,7 +55,7 @@ export default {
     if (this.coverType) {
       props = {
         ...props,
-        iconValue: {
+        coverValue: {
           type: "string",
           label: "Cover Value",
           description: "Cover value string",
