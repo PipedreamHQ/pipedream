@@ -5,7 +5,7 @@ export default {
   key: "data_stores-add-update-multiple-records",
   name: "Add or update multiple records",
   description: "Add or update multiple records to your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.3",
+  version: "0.0.29",
   type: "action",
   props: {
     data_stores,
@@ -70,10 +70,29 @@ export default {
       }
       throw new Error("Unsupported expression");
     },
+    arrayToMap(arr, map = {}) => {
+        if (!Array.isArray(arr)) {
+            return typeof(arr) === "object"
+                ? arr
+                : {}
+        }
+        for (let i = 0; i < arr.length; i++) {
+            if (Array.isArray(arr[i])) {
+                arrayToMap(arr[i], map)
+            } else if (typeof arr[i] === "object") {
+                const keys = Object.keys(arr[i])
+                for (let j = 0; j < keys.length; j++) {
+                    map[keys[j]] = arr[i][keys[j]]
+                }
+            }  
+        }
+        
+        return map
+    }
   },
   async run({ $ }) {
     let data;
-    if (typeof this.data !== "object") {
+    /*if (typeof this.data !== "object") {
       try {
         const sanitizedValue = this._sanitizeJson(this.data);
         data = JSON.parse(sanitizedValue);
@@ -81,7 +100,8 @@ export default {
         throw new Error("please provide an object or object array!");
       }
     }
-    data = this._parseData(this.data);
+    data = this._parseData(this.data);*/
+    data = this.arrayToMap(this.data)
     for (const [
       key,
       value,
