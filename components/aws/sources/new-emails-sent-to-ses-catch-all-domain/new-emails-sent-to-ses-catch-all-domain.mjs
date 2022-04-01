@@ -1,11 +1,12 @@
 import { v4 as uuid } from "uuid";
 import base from "../common/ses.mjs";
 import { toSingleLineString } from "../common/utils.mjs";
+import { MailParser } from "mailparser-mit";
 
 export default {
   ...base,
   key: "aws-new-emails-sent-to-ses-catch-all-domain",
-  name: "New Emails sent to SES Catch-all Domain",
+  name: "New Inbound SES Emails",
   description: toSingleLineString(`
     The source subscribes to all emails delivered to a
     specific domain configured in AWS SES.
@@ -59,17 +60,67 @@ export default {
         return;
       }
 
-      const meta = this.generateMeta(event);
-      const message = JSON.parse(rawMessage);
+      const { "x-amz-sns-message-id": id } = event.headers;
+      const { Timestamp: ts } = event.body;
+      const meta = {
+        id,
+        ts,
+      };
+
       try {
-        this.$emit(message, meta);
+        const message = JSON.parse(rawMessage);
+        const {
+          bucketName: Bucket,
+          objectKey: Key,
+        } = message?.receipt?.action;
+        const { Body } = await this.aws._getS3Client(this.getRegion()).getObject({
+          Bucket,
+          Key,
+        })
+          .promise();
+        const parsed = await new Promise((resolve) => {
+          const mailparser = new MailParser();
+          mailparser.on("end", resolve);
+          mailparser.write(Body);
+          mailparser.end();
+        });
+        for (const attachment of parsed.attachments || []) {
+          if (!attachment.content) continue;
+          attachment.content_b64 = attachment.content.toString("base64");
+          delete attachment.content;
+        }
+
+        // Emit to the default channel
+        this.$emit({
+          parsed,
+        }, {
+          id,
+          summary: parsed.subject,
+          ts,
+        });
+
+        // and a channel specific to the email address
+        const address = parsed.to?.[0]?.address;
+        if (address) {
+          this.$emit({
+            parsed,
+          }, {
+            id,
+            name: address,
+            summary: parsed.subject,
+            ts,
+          });
+        }
       } catch (err) {
         console.log(
-          `Couldn't parse message as JSON. Emitting raw message. Error: ${err}`,
+          `Couldn't parse message. Emitting raw message. Error: ${err}`,
         );
         this.$emit({
           rawMessage,
-        }, meta);
+        }, {
+          ...meta,
+          summary: "Couldn't parse message",
+        });
       }
     },
   },
