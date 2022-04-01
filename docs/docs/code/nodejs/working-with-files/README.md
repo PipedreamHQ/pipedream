@@ -1,3 +1,8 @@
+---
+short_description: Store and read files with Node.js in workflows.
+thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763737/docs/icons/icons8-opened-folder_y60u9l.svg
+---
+
 # Working with the filesystem in Node.js
 
 You'll commonly need to work with files in a workflow, for example: downloading content from some service to upload to another. This doc explains how to work with files in Pipedream workflows and provides some sample code for common operations.

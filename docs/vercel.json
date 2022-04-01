@@ -13,8 +13,12 @@
       "destination": "/"
     },
     {
-      "source": "/docs/(.*)",
+      "source": "/docs-v2/(.*)",
       "destination": "/$1"
+    },
+    {
+      "source": "/docs/assets/(.*)",
+      "destination": "/assets/$1"
     }
   ],
   "redirects": [

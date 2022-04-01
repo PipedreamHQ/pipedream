@@ -28,7 +28,7 @@ defineComponent({
 
 ## Supported Apps
 
-Pipedream supports [400+ apps](https://pipedream.com/apps), with more added every day.
+Pipedream supports [500+ apps](https://pipedream.com/apps), with more added every day.
 
 If we don't support a service you need, please [request an app here](#requesting-a-new-app-or-service).
 
@@ -47,12 +47,7 @@ If you've already connected an account for this app, you'll also see a list of e
 
 ### From a code step
 
-You can connect accounts to code steps, too:
-
-1. Click the **+** button to the left of any step.
-2. Search for your app from the list.
-
-Selecting an app will present the same **Connect Account** button you'll see for actions.
+You can connect accounts to code steps by using an `app` prop. Refer to the [connecting apps in Node.js documentation](/code/nodejs/auth/).
 
 ## Managing Connected Accounts from Apps
 
