@@ -5,7 +5,7 @@ export default {
   key: "data_stores-add-update-multiple-records",
   name: "Add or update multiple records",
   description: "Add or update multiple records to your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.3",
+  version: "0.0.52",
   type: "action",
   props: {
     data_stores,
@@ -19,7 +19,7 @@ export default {
     data: {
       label: "Data",
       type: "object",
-      description: "Enter data you'd like to add as key-value pairs, or reference an object from a previous step using a custom expression (e.g., {{steps.data.$return_value}}). Note that any keys that are duplicated will get overwritten with the last value entered (so [{jerry: \"constanza\", jerry: \"seinfeld\"}] will get stored as [{jerry: \"seinfeld\"}]).",
+      description: "Enter data you'd like to add as key-value pairs, or reference an object from a previous step using a custom expression (e.g., `{{steps.data.$return_value}}`). Note that any keys that are duplicated will get overwritten with the last value entered (so `[{jerry: \"constanza\", jerry: \"seinfeld\"}]` will get stored as `[{jerry: \"seinfeld\"}]`).",
     },
   },
   methods: {
