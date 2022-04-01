@@ -1,4 +1,5 @@
 import notion from "../../notion.app.mjs";
+import utils from "../common/utils.mjs";
 
 export default {
   key: "notion-update-page",
@@ -12,6 +13,12 @@ export default {
       propDefinition: [
         notion,
         "pageId",
+      ],
+    },
+    title: {
+      propDefinition: [
+        notion,
+        "title",
       ],
     },
     iconType: {
@@ -31,13 +38,6 @@ export default {
       label: "Archive page",
       description: "Set to true to archive (delete) a page. Set to false to un-archive (restore) a page.",
       optional: true,
-    },
-    properties: {
-      type: "object",
-      label: "Properties",
-      description: "Property values to update for this page. The keys are the names or IDs of the property and the values are property values",
-      optional: true,
-      default: {},
     },
   },
   async additionalProps() {
@@ -66,11 +66,15 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      properties: {
-        ...this.properties,
-      },
+      properties: {},
       archived: this.archive || undefined,
     };
+
+    if (this.title) {
+      params.properties.title = {
+        title: utils.buildTextProperty(this.title),
+      };
+    }
 
     if (this.iconType) {
       params.icon = {
