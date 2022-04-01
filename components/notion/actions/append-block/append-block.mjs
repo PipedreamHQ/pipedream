@@ -18,15 +18,18 @@ export default {
       label: "Parent Block ID",
       description: "The identifier for the parent block",
     },
-    blockType: {
+    blockTypes: {
       propDefinition: [
         notion,
-        "blockType",
+        "blockTypes",
       ],
     },
   },
   async additionalProps() {
-    return constants.BLOCK_TYPES[this.blockType].additionalProps;
+    return this.blockTypes.reduce((props, blockType) => ({
+      ...props,
+      ...constants.BLOCK_TYPES[blockType].additionalProps,
+    }), {});
   },
   methods: {
     buildBlockArgs(blockType) {

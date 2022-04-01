@@ -51,9 +51,9 @@ export default {
       reloadProps: true,
       options: constants.COVER_TYPES,
     },
-    blockType: {
-      type: "string",
-      label: "Block Type",
+    blockTypes: {
+      type: "string[]",
+      label: "Block Types",
       description: "The block object represents content within Notion. Blocks can be text, lists, media, and more. A page is also a type of block.",
       options: Object.keys(constants.BLOCK_TYPES),
       reloadProps: true,
