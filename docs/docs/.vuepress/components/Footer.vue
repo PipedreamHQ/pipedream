@@ -1,5 +1,5 @@
 <template>
-  <footer class="mt-6">
+  <footer class="mt-10">
     <h2 id="still-have-questions">
       <a href="#still-have-questions" aria-hidden="true" class="header-anchor"
         >#</a
