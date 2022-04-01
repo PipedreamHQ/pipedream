@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     _getCache() {
-      return this.db.get("cache") || [];
+      return this.db.get("cache") || {};
     },
     _setCache(cache) {
       this.db.set("cache", cache);
@@ -26,25 +26,40 @@ export default {
     _setBefore(before) {
       this.db.set("before", before);
     },
+    _getKeys() {
+      return this.db.get("keys") || [];
+    },
+    _setKeys(keys) {
+      this.db.set("keys", keys);
+    },
     isBeforeValid() {
       throw new Error("isBeforeValid is not implemented");
     },
-    async validateBefore(cache, before) {
+    async validateBefore(cache, before, keys) {
       if (!before) {
-        return;
+        return {
+          cache,
+          keys,
+        };
       }
       let valid;
       do {
-        valid = await this.isBeforeValid(before);
+        valid = await this.isBeforeValid(before, cache);
         if (!valid) {
-          before = cache.length > 1
-            ? cache[cache.length - 2]
+          delete cache[before];
+          before = keys.length > 1
+            ? keys[keys.length - 2]
             : null;
-          cache.pop();
+          keys.pop();
         }
       } while (!valid);
       this._setBefore(before);
       this._setCache(cache);
+      this._setKeys(keys);
+      return {
+        cache,
+        keys,
+      };
     },
     emitRedditEvent(redditEvent) {
       const metadata = this.generateEventMetadata(redditEvent);

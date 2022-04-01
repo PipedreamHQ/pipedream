@@ -62,9 +62,12 @@ export default {
   },
   async run() {
     let redditPosts;
-    const emittedEvents = [];
-    await this.validateBefore(this._getCache(), this._getBefore());
-    const previousEmittedEvents = this._getCache();
+    const {
+      cache: previousEmittedEvents,
+      keys,
+    } = await this.validateBefore(this._getCache(),
+      this._getBefore(),
+      this._getKeys());
     do {
       redditPosts = await this.fetchData(this._getBefore());
       if (redditPosts.length == 0) {
@@ -73,14 +76,15 @@ export default {
       }
 
       redditPosts.reverse().forEach((event) => {
-        if (!previousEmittedEvents.includes(event.data.name)) {
+        if (!previousEmittedEvents[event.data.name]) {
           this.emitRedditEvent(event);
-          emittedEvents.push(event.data.name);
+          previousEmittedEvents[event.data.name] = true;
+          keys.push(event.data.name);
         }
       });
 
     } while (redditPosts);
-    previousEmittedEvents.push(...emittedEvents);
     this._setCache(previousEmittedEvents);
+    this._setKeys(keys);
   },
 };

@@ -56,10 +56,16 @@ export default {
         return;
       }
       const { name: before = this._getBefore() } = links[0].data;
-      const names = (links.map((link) => link?.data?.name)).reverse();
       this._setBefore(before);
-      this._setCache(names);
-      links.reverse().forEach(this.emitRedditEvent);
+      const previousEmittedEvents = {};
+      const keys = [];
+      links.reverse().forEach((event) => {
+        this.emitRedditEvent(event);
+        previousEmittedEvents[event.data.name] = true;
+        keys.push(event.data.name);
+      });
+      this._setCache(previousEmittedEvents);
+      this._setKeys(keys);
     },
   },
   methods: {
@@ -79,8 +85,12 @@ export default {
   },
   async run() {
     let redditLinks;
-    const emittedEvents = [];
-    await this.validateBefore(this._getCache(), this._getBefore());
+    const {
+      cache: previousEmittedEvents,
+      keys,
+    } = await this.validateBefore(this._getCache(),
+      this._getBefore(),
+      this._getKeys());
     do {
       redditLinks = await this.reddit.getNewUserLinks(
         this._getBefore(),
@@ -96,13 +106,16 @@ export default {
       }
       const { name: before = this._getBefore() } = links[0].data;
       this._setBefore(before);
-      const names = (links.map((link) => link?.data?.name)).reverse();
-      emittedEvents.push(...names);
 
-      links.reverse().forEach(this.emitRedditEvent);
+      links.reverse().forEach((event) => {
+        if (!previousEmittedEvents[event.data.name]) {
+          this.emitRedditEvent(event);
+          previousEmittedEvents[event.data.name] = true;
+          keys.push(event.data.name);
+        }
+      });
     } while (redditLinks);
-    const cache = this._getCache();
-    cache.push(...emittedEvents);
-    this._setCache(cache);
+    this._setCache(previousEmittedEvents);
+    this._setKeys(keys);
   },
 };
