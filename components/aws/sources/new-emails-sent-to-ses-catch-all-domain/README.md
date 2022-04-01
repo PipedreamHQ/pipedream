@@ -40,43 +40,44 @@ docs](https://docs.pipedream.com/event-sources/) for more information.
      "Version": "2012-10-17",
      "Statement": [
        {
-         "Sid": "SESManageReceiptRules",
+         "Sid": "SNS",
+         "Effect": "Allow",
+         "Action": [
+           "sns:DeleteTopic",
+           "sns:CreateTopic",
+           "sns:Subscribe"
+         ],
+         "Resource": [
+           "arn:aws:sns:*:*:*"
+         ]
+       },
+       {
+         "Sid": "S3",
+         "Effect": "Allow",
+         "Action": ["s3:GetObject", "s3:PutBucketPolicy", "s3:CreateBucket"],
+         "Resource": "arn:aws:s3:::pd-*"
+       },
+       {
+         "Sid": "SES",
          "Effect": "Allow",
          "Action": [
            "ses:CreateReceiptRule",
-           "ses:DeleteReceiptRule",
            "ses:DescribeActiveReceiptRuleSet",
-           "ses:ListIdentities",
            "ses:CreateReceiptRuleSet",
+           "ec2:DescribeRegions",
+           "ses:DeleteReceiptRule",
+           "sns:Unsubscribe",
+           "sts:GetCallerIdentity",
+           "ses:ListIdentities",
            "ses:SetActiveReceiptRuleSet"
          ],
          "Resource": "*"
        },
        {
-         "Sid": "EC2ListRegionsForUser",
-         "Effect": "Allow",
-         "Action": [
-           "ec2:DescribeRegions"
-         ],
-         "Resource": "*"
-       },
-       {
-         "Sid": "SNSCreateTopicAndSubscribe",
-         "Effect": "Allow",
-         "Action": [
-           "sns:CreateTopic",
-           "sns:DeleteTopic",
-           "sns:Subscribe",
-          ],
-         "Resource": "arn:aws:sns:*:*:*"
-       },
-       {
          "Sid": "SNSUnsubscribe",
          "Effect": "Allow",
-         "Action": [
-           "sns:Unsubscribe"
-         ],
-         "Resource": "*"
+         "Action": "sns:Unsubscribe",
+         "Resource": "arn:aws:sns:*:*:*"
        }
      ]
    }
@@ -92,11 +93,8 @@ docs](https://docs.pipedream.com/event-sources/) for more information.
 
 ## Usage
 
-1. Visit [https://pipedream.com/sources](https://pipedream.com/sources) and
-   click **New +**.
-2. Select the **AWS** app and choose the **New Emails sent to SES Catch-all
-   Domain** source.
-3. You'll be prompted to enter the AWS Region string where you configured your
+1. [Create the SES Source here](https://pipedream.com/sources/new?key=aws-new-emails-sent-to-ses-catch-all-domain).
+2. You'll be prompted to enter the AWS Region where you configured your
    SES domain. Then, select the SES domain you'd like to configure for inbound
    catch-all handling in the **SES Domain** prop.
 
@@ -114,5 +112,5 @@ This source creates at least 4 AWS resources when activated:
    create it first
 
 When you delete the source, it deletes these resources from your AWS account
-**with the exception of the 4th item** (deleting an existing rule set might
+**with the exception of the 5th item** (deleting an existing rule set might
 break other applications relying on rules within it).
