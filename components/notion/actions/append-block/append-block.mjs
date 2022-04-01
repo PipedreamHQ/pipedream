@@ -58,11 +58,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const block = utils.buildBlock(
-      this.blockType,
-      this.buildBlockArgs(this.blockType),
-    );
-    const response = await this.notion.appendBlock(this.parentId, block);
+    const blocks = this.blockTypes
+      .map((block) => utils.buildBlock(block, this.buildBlockArgs(block)));
+    const response = await this.notion.appendBlock(this.parentId, blocks);
     $.export("$summary", "Appended block(s) successfully");
     return response;
   },

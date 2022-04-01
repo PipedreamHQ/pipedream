@@ -180,12 +180,10 @@ export default {
 
       } while (cursor);
     },
-    async appendBlock(parentId, block) {
+    async appendBlock(parentId, blocks) {
       return this._getNotionClient().blocks.children.append({
         block_id: parentId,
-        children: [
-          block,
-        ],
+        children: blocks,
       });
     },
     async retrieveBlock(blockId) {
