@@ -11,7 +11,7 @@ export default {
       async options() {
         const calListResp = await this.calendarList();
         const calendars = calListResp?.data?.items ?? [];
-        if (calendars && calendars.length) {
+        if (calendars?.length) {
           const calendarIds = calendars.map((item) => {
             return {
               value: item.id,
