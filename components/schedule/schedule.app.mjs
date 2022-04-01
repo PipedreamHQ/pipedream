@@ -1,7 +1,13 @@
 export default {
   type: "app",
   app: "schedule",
-  propDefinitions: {},
+  propDefinitions: {
+    cron: {
+      label: "Cron Schedule",
+      type: "$.interface.timer",
+      description: "Enter a cron expression",
+    },
+  },
   methods: {
     // this.$auth contains connected account data
     authKeys() {
