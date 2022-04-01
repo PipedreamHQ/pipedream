@@ -8,9 +8,9 @@ Data stores are:
 
 * Persisted between workflow runs
 * Shareable between workflows
-* Don't require any setup or external connections
+* Quick to get started, since they don't require any setup or external connections
 
-You can also use native pre-built actions to store, update, clear data without code.
+You can also use native pre-built actions to store, update, and clear data without code.
 
 ## Using pre-built Data Store actions
 
@@ -18,7 +18,7 @@ Pipedream includes several pre-built actions to interact with your Data Stores f
 
 ### Inserting data
 
-To insert data into a data store, first search for the **Data Stores** app in a new action on your workflow.
+To insert data into a data store, first search for the **Data Stores** app in a new action within your workflow.
 
 Then you can select the **Add or update a single record** pre-built action.
 
@@ -62,13 +62,14 @@ Search for the **Data Stores** app in a new code step, and then select the **Get
 
 ![Create a get record action](https://res.cloudinary.com/pipedreamin/image/upload/v1648062096/docs/components/CleanShot_2022-03-23_at_14.53.54_2x_aqpwx2.png)
 
-This action has 2 properties:
+This action has 3 properties:
 
 1. **Select a Data Store** - select the Data Store to retrieve data from
 2. **Key** - where to query the data from
+3. **Create new record if key is not found** - if the specified key isn't found, you can create a new record
 
 
-![Retrieve workflow triggered example](https://res.cloudinary.com/pipedreamin/image/upload/v1648063057/docs/components/CleanShot_2022-03-23_at_15.17.30_2x_snunyz.png)
+![Get record action](https://res.cloudinary.com/pipedreamin/image/upload/v1648853992/docs/components/data_stores_get_record_yqazfk.png)
 
 ### Deleting Data
 
@@ -120,4 +121,4 @@ In order to free up this Data Store to be deleted manually, you'll need to remov
 
 ### Using with Data Stores in Code Steps
 
-[Refer to our Node.js Data Store documentation](/code/nodejs/using-data-stores) to learn how to use props to define Data Stores in custom code steps in your workflows.
+[Refer to our Node.js Data Store documentation](/docs/code/nodejs/using-data-stores) to learn how to use props to define Data Stores in custom code steps in your workflows.
