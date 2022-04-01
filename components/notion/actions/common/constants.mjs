@@ -4,7 +4,6 @@ const ICON_TYPES = [
 
 const COVER_TYPES = [
   "external",
-  "file",
 ];
 
 /**

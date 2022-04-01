@@ -48,7 +48,7 @@ export default {
         iconValue: {
           type: "string",
           label: "Icon Value",
-          description: "Icon value as an [emoji](https://developers.notion.com/reference/emoji-object) or [file](https://developers.notion.com/reference/file-object) object",
+          description: "Icon value as an [emoji](https://developers.notion.com/reference/emoji-object)",
         },
       };
     }
@@ -58,7 +58,7 @@ export default {
         coverValue: {
           type: "string",
           label: "Cover Value",
-          description: "Cover value as a [file](https://developers.notion.com/reference/file-object) object",
+          description: "Cover value as an [External URL](https://developers.notion.com/reference/file-object#external-file-objects)",
         },
       };
     }
