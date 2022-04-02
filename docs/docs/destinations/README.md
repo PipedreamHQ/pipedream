@@ -23,7 +23,7 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 
 ### Using destinations in workflows
 
-You can send data to Destinations in [Node.js code steps](/workflows/steps/code/), too, using `$.send` functions.
+You can send data to Destinations in [Node.js code steps](/code/nodejs/), too, using `$.send` functions.
 
 `$.send` is an object provided by Pipedream that exposes destination-specific functions like `$.send.http()`, `$.send.s3()`, and more. **This allows you to send data to destinations programmatically, if you need more control than the default actions provide**.
 

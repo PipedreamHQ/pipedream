@@ -282,7 +282,7 @@ export default defineComponent({
 
 ## Download a file to the `/tmp` directory
 
-This example shows you how to download a file to a file in [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
+This example shows you how to download a file to a file in [the `/tmp` directory](/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
 
 ```javascript
 import stream from "stream";

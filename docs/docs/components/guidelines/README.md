@@ -129,7 +129,7 @@ run the following commands at the root of the project:
 
 ### Process
 
-Anyone from the community can build [sources](/event-sources/) and [actions](/components/actions/) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)").
+Anyone from the community can build [sources](/sources/) and [actions](/components/actions/) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)").
 
 All development happens in [this GitHub repo](https://github.com/PipedreamHQ/pipedream). Fork the repo and refer to the [contribution docs](/components/guidelines/#prerequisites) to get your development environment setup.
 

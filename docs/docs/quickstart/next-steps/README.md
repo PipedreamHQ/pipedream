@@ -7,7 +7,7 @@ Now that you understand the basics, start building workflows to connect APIs and
 - [Manage the execution rate and concurrency](/workflows/events/concurrency-and-throttling/) of workflow executions
 - Trigger workflows with [large data files up to 5TB](/workflows/steps/triggers/#sending-large-payloads)
 - Use a proxy host to [connect to resources behind a firewall](/workflows/steps/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host)
-- [Work with the file system in Node.js](/workflows/steps/code/nodejs/working-with-files/#working-with-the-filesystem-in-node-js)
+- [Work with the file system in Node.js](/code/nodejs/working-with-files/#working-with-the-filesystem-in-node-js)
 - Develop [custom sources and actions](/components/)
 - [Contribute](/components/guidelines/) to the [Pipedream registry](https://github.com/pipedreamhq/pipedream/components/)
 

@@ -6,7 +6,7 @@ Like [event sources](/event-sources/), workflows can emit events. These events c
 
 ## Using `$.send.emit()` in workflows
 
-You can emit arbitrary events from any [Node.js code steps](/workflows/steps/code/) using `$.send.emit()`.
+You can emit arbitrary events from any [Node.js code steps](/code/nodejs/) using `$.send.emit()`.
 
 ```javascript
 defineComponent({

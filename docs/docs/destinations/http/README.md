@@ -6,7 +6,7 @@ HTTP Destinations allow you to send data to another HTTP endpoint URL outside of
 
 ## Using `$.send.http` in workflows
 
-You can send HTTP requests in [Node.js code steps](/workflows/steps/code/) using `$.send.http()`.
+You can send HTTP requests in [Node.js code steps](/code/nodejs/) using `$.send.http()`.
 
 ```javascript
 defineComponent({

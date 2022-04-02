@@ -54,7 +54,7 @@ Pipedream displays warnings below steps in certain conditions. These warnings do
 
 ### This step was still trying to run code when the step ended. Make sure you await all Promises, or promisify callback functions.
 
-See the reference on [running asynchronous code on Pipedream](/workflows/steps/code/async/).
+See the reference on [running asynchronous code on Pipedream](/code/nodejs/async/).
 
 ## Pipedream Internal Errors
 
@@ -64,13 +64,13 @@ Pipedream sets [limits](/limits/) on runtime, memory, and other execution-relate
 
 On the [Developer (free) tier](/pricing/#developer-tier), Pipedream imposes a limit on the [daily invocations](/limits/#daily-invocations) across all workflows and sources. If you hit this limit, you'll see an **Invocations Quota Exceeded** error.
 
-Paid plans, like the [Professional Tier](#professional-tier), have no invocations limit. [Upgrade here](https://pipedream.com/pricing). 
+Paid plans, like the [Professional Tier](/pricing/#professional-tier), have no invocations limit. [Upgrade here](https://pipedream.com/pricing). 
 
 ### Runtime Quota Exceeded
 
 On the [Developer (free) tier](/pricing/#developer-tier), Pipedream imposes a limit on the [daily compute time](/limits/#compute-time-per-day) across all workflows and sources. If you hit this limit, you'll see a **Runtime Quota Exceeded** error.
 
-Paid plans, like the [Professional Tier](#professional-tier), have no compute time limit. [Upgrade here](https://pipedream.com/pricing).
+Paid plans, like the [Professional Tier](/pricing/#professional-tier), have no compute time limit. [Upgrade here](https://pipedream.com/pricing).
 
 ### Timeout
 
@@ -85,7 +85,7 @@ To address timeouts, you'll either need to:
 
 Pipedream [limits the default memory](/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error.
 
-This can happen for a variety of reasons. Normally, it can occur when you try to load a large file or object into a variable / memory. Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](/workflows/steps/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).
+This can happen for a variety of reasons. Normally, it can occur when you try to load a large file or object into a variable / memory. Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).
 
 **You can raise the memory of your workflow [in your workflow's Settings](/workflows/settings/#memory)**.
 
@@ -108,7 +108,7 @@ Pipedream supports two different ways to bypass this limit. Both of these interf
 
 The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to workflows and sources cannot exceed a combined size of `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
-Often, this occurs when you pass large data between steps using [step exports](/workflows/steps/#step-exports). You can avoid this error by [writing that data to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#writing-a-file-to-tmp) in one step, and [reading the data into another step](/workflows/steps/code/nodejs/working-with-files/#reading-a-file-from-tmp), which avoids the use of step exports and should keep you under the payload limit.
+Often, this occurs when you pass large data between steps using [step exports](/workflows/steps/#step-exports). You can avoid this error by [writing that data to the `/tmp` directory](/code/nodejs/working-with-files/#writing-a-file-to-tmp) in one step, and [reading the data into another step](/code/nodejs/working-with-files/#reading-a-file-from-tmp), which avoids the use of step exports and should keep you under the payload limit.
 
 Pipedream also compresses the function payload from your workflow, which can yield roughly a 2x-3x increase in payload size (somewhere between `12MB` and `18MB`), depending on the data.
 

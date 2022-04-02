@@ -35,7 +35,7 @@ Typically, your **Payload** will be something like `event`, `event.body` or a [s
 
 ### Using `$.send.sql()`
 
-You can send data to a SQL Destination in [Node.js code steps](/workflows/steps/code/), too, using the `$.send.sql()` function. **This allows you to send data to the SQL Destination programmatically, if you need more control than Actions afford**.
+You can send data to a SQL Destination in [Node.js code steps](/code/nodejs/), too, using the `$.send.sql()` function. **This allows you to send data to the SQL Destination programmatically, if you need more control than Actions afford**.
 
 `$.send.sql()` takes the same parameters as the corresponding Action:
 

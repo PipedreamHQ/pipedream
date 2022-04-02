@@ -140,7 +140,7 @@ In workflows, Pipedream saves the raw payload data in a file whose URL you can r
 
 ![Raw body URL in the event data under steps.trigger.event.body.raw_body_url](https://res.cloudinary.com/pipedreamin/image/upload/v1647895357/docs/components/CleanShot_2022-03-21_at_16.42.01_2x_w6dmqk.png)
 
-Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
+Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/code/nodejs/working-with-files/).
 
 #### Example: Download the HTTP payload using the Send HTTP Request action
 
@@ -156,7 +156,7 @@ This will return the data in the variable `steps.send_http_request.$return_value
 
 #### Example: Download the HTTP payload to the `/tmp` directory
 
-[This workflow](https://pipedream.com/@dylburger/example-download-raw-body-to-tmp-p_YyCoqPb/edit) downloads the HTTP payload, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
+[This workflow](https://pipedream.com/@dylburger/example-download-raw-body-to-tmp-p_YyCoqPb/edit) downloads the HTTP payload, saving it as a file to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
 import stream from "stream";
@@ -171,7 +171,7 @@ await pipeline(
 );
 ```
 
-You can [read this file](/workflows/steps/code/nodejs/working-with-files/#reading-a-file-from-tmp) in subsequent steps of your workflow.
+You can [read this file](/code/nodejs/working-with-files/#reading-a-file-from-tmp) in subsequent steps of your workflow.
 
 #### How the payload data is saved
 
@@ -193,7 +193,7 @@ In workflows, these file URLs are provided in the `steps.trigger.event.body` var
 <img alt="Raw file URL in event data" width="600px" src="./images/file-upload-urls.png">
 </div>
 
-Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
+Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/code/nodejs/working-with-files/).
 
 #### Example: upload a file using `cURL`
 
@@ -217,7 +217,7 @@ Within the `image` property of `event.body`, you'll see the value of this URL in
 
 #### Example: Download this file to the `/tmp` directory
 
-[This workflow](https://pipedream.com/@dylburger/example-download-an-image-to-tmp-p_KwC2Ad/edit) downloads an image passed in the `image` field in the form request, saving it to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).
+[This workflow](https://pipedream.com/@dylburger/example-download-an-image-to-tmp-p_KwC2Ad/edit) downloads an image passed in the `image` field in the form request, saving it to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
 import stream from "stream";
@@ -518,7 +518,7 @@ this.parsed = await simpleParser(steps.send_http_request.$return_value);
 
 #### Example: Download the email to the `/tmp` directory, read it and parse it
 
-[This workflow](https://pipedream.com/@dylburger/example-download-large-email-content-to-tmp-p_KwC1YOn/edit) downloads the email, saving it as a file to the [`/tmp` directory](/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory). Then it reads the same file (as an example), and parses it using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
+[This workflow](https://pipedream.com/@dylburger/example-download-large-email-content-to-tmp-p_KwC1YOn/edit) downloads the email, saving it as a file to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory). Then it reads the same file (as an example), and parses it using the [`mailparser` library](https://nodemailer.com/extras/mailparser/):
 
 ```javascript
 import stream from "stream";
