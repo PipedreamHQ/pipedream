@@ -1,3 +1,8 @@
+---
+short_description: Connect to apps with Node.js code with ease.
+thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646763806/docs/icons/icons8-connected-96_fcbhxc.png
+---
+
 # Connecting apps in Node.js 
 
 When you use [prebuilt actions](/components/actions/) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.

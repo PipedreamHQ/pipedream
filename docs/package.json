@@ -7,9 +7,15 @@
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "tailwind": "tailwindcss -i node_modules/tailwindcss/tailwind.css -o ./docs/.vuepress/public/dist/tailwind.css",
+    "tailwind:watch": "tailwindcss -o docs/.vuepress/styles/tailwind.css --watch",
+    "build:css": "NODE_ENV=production tailwindcss -o src/tailwind.css -m"
   },
   "dependencies": {
+    "autoprefixer": "^9",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue-gtm": "^2.0.0",
     "vuepress-plugin-canonical": "^1.0.0"
   }

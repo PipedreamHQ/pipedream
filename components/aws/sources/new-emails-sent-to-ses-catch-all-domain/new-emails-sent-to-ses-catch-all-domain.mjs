@@ -15,7 +15,7 @@ export default {
     These events can trigger a Pipedream workflow and can be consumed via SSE or REST API.
   `),
   type: "source",
-  version: "1.0.0",
+  version: "1.0.2",
   props: {
     ...base.props,
     domain: {
@@ -91,9 +91,7 @@ export default {
         }
 
         // Emit to the default channel
-        this.$emit({
-          parsed,
-        }, {
+        this.$emit(parsed, {
           id,
           summary: parsed.subject,
           ts,
@@ -102,9 +100,7 @@ export default {
         // and a channel specific to the email address
         const address = parsed.to?.[0]?.address;
         if (address) {
-          this.$emit({
-            parsed,
-          }, {
+          this.$emit(parsed, {
             id,
             name: address,
             summary: parsed.subject,

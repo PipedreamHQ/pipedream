@@ -96,7 +96,7 @@ export default {
       if (!bucketUUID) {
         bucketUUID = this._setBucketUUID();
       }
-      return `pd-${this.domain}-catchall-${bucketUUID}`;
+      return `pd-catchall-${bucketUUID}`;
     },
     _setRuleSetInfo(ruleSetInfo) {
       this.db.set("ses-rule", ruleSetInfo);
