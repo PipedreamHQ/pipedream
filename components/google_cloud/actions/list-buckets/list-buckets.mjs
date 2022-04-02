@@ -5,7 +5,7 @@ export default {
   version: "0.0.1",
   key: "google_cloud-list-buckets",
   type: "action",
-  description: "List GCS buckets",
+  description: "List Google Cloud Storage buckets, [See the docs](https://googleapis.dev/nodejs/storage/latest/Storage.html#getBuckets)",
   props: {
     googleCloud,
   },
@@ -13,7 +13,7 @@ export default {
     const [
       resp,
     ] = await this.googleCloud.storageClient().getBuckets();
-    $.export("$summary", "Retrieved bucket list");
+    $.export("$summary", "Bucket list successfully fetched");
     return resp;
   },
 };

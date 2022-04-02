@@ -5,7 +5,7 @@ export default {
   name: "Logging - Write Log",
   version: "0.0.2",
   key: "google_cloud-logging-write-log",
-  description: "Writes log data to the Logging service",
+  description: "Writes log data to the Logging service, [See the docs](https://cloud.google.com/nodejs/docs/reference/logging/latest/logging/log#_google_cloud_logging_Log_write_member_1_)",
   props: {
     googleCloud,
     logName: {
@@ -20,7 +20,7 @@ export default {
     },
     severity: {
       label: "Severity",
-      description: "The data you'd like to write to the log",
+      description: "The data you'd like to write to the log, [See the docs](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#logseverity)",
       type: "string",
       optional: true,
       default: "DEFAULT",

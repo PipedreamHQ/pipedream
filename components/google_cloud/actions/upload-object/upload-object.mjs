@@ -5,7 +5,7 @@ export default {
   version: "0.0.1",
   key: "google_cloud-upload-object",
   type: "action",
-  description: "Upload an object to a GCS bucket",
+  description: "Upload an object to a Google Cloud Storage bucket, [See the docs](https://googleapis.dev/nodejs/storage/latest/Bucket.html#upload)",
   props: {
     googleCloud,
     bucketName: {
@@ -15,13 +15,13 @@ export default {
       ],
     },
     source: {
-      label: "Destination",
+      label: "Source",
       description: "Source file path on '/tmp', [See how to work with files](https://pipedream.com/docs/v1/workflows/steps/code/nodejs/working-with-files/)",
       type: "string",
     },
     destination: {
       label: "Destination",
-      description: "aaa",
+      description: "Destination file path on Google Cloud Storage bucket",
       type: "string",
     },
   },

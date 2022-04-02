@@ -2,11 +2,11 @@ import googleCloud from "../../google_cloud.app.mjs";
 import storageClasses from "../../utils/storageClasses.mjs";
 
 export default {
-  name: "Create A Bucket",
+  name: "Create Bucket",
   version: "0.0.1",
   key: "google_cloud-create-bucket",
   type: "action",
-  description: "Creates a bucket on GCS",
+  description: "Creates a bucket on Google Cloud Storage [See the cocs](https://googleapis.dev/nodejs/storage/latest/Bucket.html#create)",
   props: {
     googleCloud,
     bucketName: {
@@ -40,6 +40,6 @@ export default {
       storageClass,
     };
     await this.googleCloud.storageClient().createBucket(bucketName, options);
-    $.export("$summary", `Created bucket : ${bucketName}`);
+    $.export("$summary", `${bucketName} successfully created.`);
   },
 };

@@ -7,7 +7,7 @@ export default {
   app: "google_cloud",
   propDefinitions: {
     bucketName: {
-      label: "bucketName",
+      label: "Bucket Name",
       description: "The unique bucket name",
       type: "string",
       async options() {

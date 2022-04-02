@@ -1,11 +1,11 @@
 import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
-  name: "Get Bucket Metadata",
+  name: "Get Bucket Metadata [See the docs](https://googleapis.dev/nodejs/storage/latest/Bucket.html#getMetadata)",
   version: "0.0.1",
   key: "google_cloud-get-bucket",
   type: "action",
-  description: "Gets GCS bucket metadata",
+  description: "Gets Google Cloud Storage bucket metadata",
   props: {
     googleCloud,
     bucketName: {
@@ -22,7 +22,7 @@ export default {
     ] = await this.googleCloud.storageClient()
       .bucket(bucketName)
       .getMetadata();
-    $.export("$summary", `Retrieved bucket metadata : ${bucketName}`);
+    $.export("$summary", `"${bucketName}" metadata successfully retrieved`);
     return resp;
   },
 };
