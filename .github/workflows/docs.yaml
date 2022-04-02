@@ -30,10 +30,8 @@ jobs:
         # we have to fetch the entire history. See
         # https://github.com/actions/checkout/issues/266#issuecomment-638346893
         fetch-depth: 0
-    - name: Install docs deps
+    - name: Install docs deps and check broken links
       run: |-
         cd docs
         yarn install
-    - name: Check broken links
-      run: |-
-        npx vuepress check-md docs
+        npx vuepress check-md docs/
