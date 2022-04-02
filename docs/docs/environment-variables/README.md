@@ -9,7 +9,7 @@ next: false
 
 You should not include API keys or other sensitive data directly in your workflow's code. This is especially important if you [make your workflow public](/public-workflows/), since anyone would be able to see your API key in plain sight. By referencing the value of an environment variable, instead, your workflow includes a reference to that variable — `process.env.API_KEY` — instead of the API key itself.
 
-Environment variables are defined at the account-level, and can be referenced in [workflow code](/workflows/steps/code/) or [step params](/workflows/steps/params/).
+Environment variables are defined at the account-level, and can be referenced in [workflow code](/code/) or in the object explorer when passing data to steps.
 
 [[toc]]
 
@@ -43,7 +43,7 @@ Logging the value of any environment variables — for example, using `console.l
 
 ## Referencing environment variables in actions
 
-[Actions](/components/actions/) are prebuilt code steps that provide a form for passing [params](/workflows/steps/params/) as input.
+[Actions](/components/actions/) are pre-built code steps that let you provide input in a form, selecting the correct params to send to the action.
 
 You can reference the value of environment variables using <code v-pre>{{process.env.YOUR_ENV_VAR}}</code>. You'll see a list of your environment variables in the [object explorer](/workflows/steps/params/#use-the-object-explorer):
 
