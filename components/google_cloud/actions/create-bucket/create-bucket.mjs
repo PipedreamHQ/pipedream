@@ -6,7 +6,7 @@ export default {
   version: "0.0.1",
   key: "google_cloud-create-bucket",
   type: "action",
-  description: "Creates a bucket on Google Cloud Storage [See the cocs](https://googleapis.dev/nodejs/storage/latest/Bucket.html#create)",
+  description: "Creates a bucket on Google Cloud Storage [See the docs](https://googleapis.dev/nodejs/storage/latest/Bucket.html#create)",
   props: {
     googleCloud,
     bucketName: {
