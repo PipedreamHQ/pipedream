@@ -4,13 +4,13 @@ export default {
   key: "twitter-my-liked-tweets",
   name: "My Liked Tweets",
   description: "Emit new Tweets you like on Twitter",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     twitter,
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the YouTube API on this schedule",
+      description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
