@@ -1,3 +1,8 @@
+---
+short_description: Make HTTP requests with Node.js in code steps.
+thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646761145/docs/icons/shrine20210108-1-qsuy1b_bhftb2.svg
+---
+
 # Make HTTP Requests with Node.js
 
 HTTP requests are fundamental to working with APIs or other web services. You can make HTTP requests to retrieve data from APIs, fetch HTML from websites, or do pretty much anything your web browser can do.
