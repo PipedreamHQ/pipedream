@@ -15,10 +15,7 @@ The Pipedream platform includes:
 
 Watch a demo or review our [quickstart guide](/quickstart/):
 
-<video controls poster="./images/demo-poster.png" width="100%">
-  <source src="https://res.cloudinary.com/pipedreamin/video/upload/v1644985143/homepage/pipedream-demo_qyvlni.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pRHsQyyfYl0" title="Introduction to Pipedream" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Getting Started
 
