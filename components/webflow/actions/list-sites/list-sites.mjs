@@ -4,7 +4,7 @@ export default {
   key: "webflow-list-sites",
   name: "List Sites",
   description: "List sites",
-  version: "0.1.1648564084",
+  version: "0.0.1",
   type: "action",
   props: {
     webflow,

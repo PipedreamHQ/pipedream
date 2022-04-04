@@ -4,7 +4,7 @@ export default {
   key: "webflow-publish-site",
   name: "Publish Site",
   description: "Get a site in a specific domain",
-  version: "0.1.1648564084",
+  version: "0.0.1",
   type: "action",
   props: {
     webflow,

@@ -4,7 +4,7 @@ export default {
   key: "webflow-get-item-inventory",
   name: "Get Item Inventory",
   description: "Get the inventory of a specify item",
-  version: "0.1.1648564084",
+  version: "0.0.1",
   type: "action",
   props: {
     webflow,
