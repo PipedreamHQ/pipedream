@@ -1,11 +1,11 @@
-const googleCalendar = require("../../google_calendar.app");
-const timezones = require("moment-timezone");
+import googleCalendar from "../../google_calendar.app.mjs";
+import timezones from "moment-timezone";
 
-module.exports = {
-  key: "google_calendar_create_event",
+export default {
+  key: "google_calendar-create-event",
   name: "Create Event",
-  description: "Create an event to the Google Calendar.",
-  version: "0.0.6",
+  description: "Create an event to the Google Calendar. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#insert)",
+  version: "0.1.0",
   type: "action",
   props: {
     googleCalendar,
@@ -63,8 +63,19 @@ module.exports = {
     },
     // TODO: Should I add reminders
   },
-  async run() {
-    const calendar = this.googleCalendar.calendar();
+  async run({ $ }) {
+    if (!Array.isArray(this.attendees)) {
+      throw new Error("Attendees should be an array");
+    }
+
+    /**
+     * Based on the IINA Time Zone DB
+     * http://www.iana.org/time-zones
+     */
+    const { value: timeZone } = this.timeZone ?? await this.googleCalendar.getSettings({
+      setting: "timezone",
+    });
+
     /**
      * Format for the attendees
      *
@@ -73,43 +84,30 @@ module.exports = {
      *   { "email": "sbrin@example.com",},
      * ]
      */
-    const attendees = [];
+    const attendees = this.attendees.map((email) => ({
+      email,
+    }));
 
-    /**
-     * Based on the IINA Time Zone DB
-     * http://www.iana.org/time-zones
-     */
-    let timeZone = this.timeZone
-      ? this.timeZone
-      : await calendar.settings.get({
-        setting: "timezone",
-      }).value;
-
-    if (Array.isArray(this.attendees)) {
-      for (let attendee of this.attendees) {
-        attendees.push({
-          email: attendee,
-        });
-      }
-    }
-
-    const resource = {
-      summary: this.summary,
-      location: this.location,
-      description: this.description,
-      start: {
-        date: this.eventStartDate,
-        timeZone: timeZone,
-      },
-      end: {
-        date: this.eventEndDate,
-        timeZone: timeZone,
-      },
-      attendees,
-    };
-    return (await calendar.events.insert({
+    const response = await this.googleCalendar.createEvent({
       calendarId: this.calendarId,
-      resource,
-    })).data;
+      resource: {
+        summary: this.summary,
+        location: this.location,
+        description: this.description,
+        start: {
+          date: this.eventStartDate,
+          timeZone,
+        },
+        end: {
+          date: this.eventEndDate,
+          timeZone,
+        },
+        attendees,
+      },
+    });
+
+    $.export("$summary", `Successfully created event ${response.id}`);
+
+    return response;
   },
 };

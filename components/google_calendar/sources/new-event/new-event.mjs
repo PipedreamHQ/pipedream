@@ -1,26 +1,20 @@
-const _ = require("lodash");
-const googleCalendar = require("../../google_calendar.app.js");
+import _ from "lodash";
+import googleCalendar from "../../google_calendar.app.mjs";
 
-module.exports = {
-  key: "google_calendar-new-event-search",
-  name: "Event Search",
-  description: "Emit when an event is created that matches a search",
-  version: "0.0.2",
+export default {
+  key: "google_calendar-new-event",
+  name: "New Event",
+  description: "Emits when an event is created",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique", // Dedupe events based on the Google Calendar event ID
   props: {
     googleCalendar,
-    q: {
-      propDefinition: [
-        googleCalendar,
-        "q",
-      ],
-    },
     calendarId: {
       type: "string",
       async options() {
-        const calListResp = await this.googleCalendar.calendarList();
-        const calendars = _.get(calListResp, "data.items");
+        const calListResp = await this.googleCalendar.listCalendars();
+        const calendars = _.get(calListResp, "items");
         if (calendars) {
           const calendarIds = calendars.map((item) => {
             return {
@@ -50,17 +44,15 @@ module.exports = {
     const config = {
       calendarId: this.calendarId,
       updatedMin,
-      q: this.q,
       singleEvents: true,
       orderBy: "startTime",
     };
-    const resp = await this.googleCalendar.getEvents(config);
+    const resp = await this.googleCalendar.listEvents(config);
 
-    const events = _.get(resp.data, "items");
+    const events = _.get(resp, "items");
     if (Array.isArray(events)) {
       for (const event of events) {
         const created = new Date(event.created);
-        // created in last 5 mins and not cancelled
         if (created > past && event.status !== "cancelled") {
           const {
             summary,

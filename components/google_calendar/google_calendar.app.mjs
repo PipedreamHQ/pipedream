@@ -1,6 +1,7 @@
-const googleCalendar = require("@googleapis/calendar");
+import googleCalendar from "@googleapis/calendar";
+import constants from "./common/constants.mjs";
 
-module.exports = {
+export default {
   type: "app",
   app: "google_calendar",
   propDefinitions: {
@@ -122,54 +123,180 @@ module.exports = {
   methods: {
     _tokens() {
       return {
-        access_token: this?.$auth?.oauth_access_token,
-        refresh_token: this?.$auth?.oauth_refresh_token,
+        access_token: this.$auth.oauth_access_token,
+        refresh_token: this.$auth.oauth_refresh_token,
       };
     },
-    calendar() {
+    client() {
       const auth = new googleCalendar.auth.OAuth2();
       auth.setCredentials(this._tokens());
-      const calendar = googleCalendar.calendar({
+      return new googleCalendar({
         version: "v3",
         auth,
       });
-      return calendar;
     },
-    async calendarList() {
-      const calendar = this.calendar();
-      const resp = await calendar.calendarList.list();
-      return resp;
+    async requestHandler({
+      api, method, args = {},
+    }) {
+      const {
+        returnOnlyData = true,
+        ...otherArgs
+      } = args;
+      try {
+        const calendar = this.client();
+        const response = await calendar[api][method](otherArgs);
+        console.log("response", `${api} ${method}`, otherArgs, response);
+        return returnOnlyData
+          ? response.data
+          : response;
+      } catch (error) {
+        console.error("Error!!!", error.response?.data || error);
+      }
     },
-    async list(config) {
-      const calendar = this.calendar();
-      const resp = await calendar.events.list(config);
-      return resp;
+    async createCalendar(args = {}) {
+      return this.requestHandler({
+        api: constants.API.CALENDARS.NAME,
+        method: constants.API.CALENDARS.METHOD.INSERT,
+        args,
+      });
     },
-    // for config key value pairs - https://developers.google.com/calendar/v3/reference/events/list
-    async getEvents(config) {
-      return await this.list(config);
+    async deleteCalendar(args = {}) {
+      return this.requestHandler({
+        api: constants.API.CALENDARS.NAME,
+        method: constants.API.CALENDARS.METHOD.DELETE,
+        args,
+      });
     },
-    async watch(config) {
-      const calendar = this.calendar();
-      const resp = await calendar.events.watch(config);
-      return resp;
+    async getCalendar(args = {}) {
+      return this.requestHandler({
+        api: constants.API.CALENDARS.NAME,
+        method: constants.API.CALENDARS.METHOD.GET,
+        args,
+      });
     },
-    async stop(config) {
-      const calendar = this.calendar();
-      const resp = await calendar.channels.stop(config);
-      return resp;
+    async listCalendars(args = {}) {
+      return this.requestHandler({
+        api: constants.API.CALENDAR_LIST.NAME,
+        method: constants.API.CALENDAR_LIST.METHOD.LIST,
+        args,
+      });
+    },
+    async clearCalendar(args = {}) {
+      return this.requestHandler({
+        api: constants.API.CALENDARS.NAME,
+        method: constants.API.CALENDARS.METHOD.CLEAR,
+        args,
+      });
+    },
+    async createAcl(args = {}) {
+      return this.requestHandler({
+        api: constants.API.ACL.NAME,
+        method: constants.API.ACL.METHOD.INSERT,
+        args,
+      });
+    },
+    async updateAcl(args = {}) {
+      return this.requestHandler({
+        api: constants.API.ACL.NAME,
+        method: constants.API.ACL.METHOD.UPDATE,
+        args,
+      });
+    },
+    async deleteAcl(args = {}) {
+      return this.requestHandler({
+        api: constants.API.ACL.NAME,
+        method: constants.API.ACL.METHOD.DELETE,
+        args,
+      });
+    },
+    async getAcl(args = {}) {
+      return this.requestHandler({
+        api: constants.API.ACL.NAME,
+        method: constants.API.ACL.METHOD.GET,
+        args,
+      });
+    },
+    async createEvent(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.INSERT,
+        args,
+      });
+    },
+    async updateEvent(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.UPDATE,
+        args,
+      });
+    },
+    async deleteEvent(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.DELETE,
+        args,
+      });
+    },
+    async getEvent(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.GET,
+        args,
+      });
+    },
+    async listEvents(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.LIST,
+        args,
+      });
+    },
+    async watchEvents(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.WATCH,
+        args,
+      });
+    },
+    async quickAddEvent(args = {}) {
+      return this.requestHandler({
+        api: constants.API.EVENTS.NAME,
+        method: constants.API.EVENTS.METHOD.QUICK_ADD,
+        args,
+      });
+    },
+    async stopChannel(args = {}) {
+      return this.requestHandler({
+        api: constants.API.CHANNELS.NAME,
+        method: constants.API.CHANNELS.METHOD.STOP,
+        args,
+      });
+    },
+    async queryFreebusy(args = {}) {
+      return this.requestHandler({
+        api: constants.API.FREEBUSY.NAME,
+        method: constants.API.FREEBUSY.METHOD.QUERY,
+        args,
+      });
+    },
+    async getSettings(args = {}) {
+      return this.requestHandler({
+        api: constants.API.SETTINGS.NAME,
+        method: constants.API.SETTINGS.METHOD.GET,
+        args,
+      });
     },
     async fullSync(calendarId) {
       let nextSyncToken = null;
       let nextPageToken = null;
       while (!nextSyncToken) {
-        const listConfig = {
-          calendarId,
-          pageToken: nextPageToken,
-        };
-        const syncResp = await this.list(listConfig);
-        nextPageToken = syncResp?.data?.nextPageToken;
-        nextSyncToken = syncResp?.data?.nextSyncToken;
+        const syncResp =
+          await this.listEvents({
+            calendarId,
+            pageToken: nextPageToken,
+          });
+        nextPageToken = syncResp?.nextPageToken;
+        nextSyncToken = syncResp?.nextSyncToken;
       }
       return nextSyncToken;
     },

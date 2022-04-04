@@ -1,10 +1,10 @@
-const googleCalendar = require("../../google_calendar.app");
+import googleCalendar from "../../google_calendar.app.mjs";
 
-module.exports = {
-  key: "google_calendar_update_acl",
-  name: "Update Access Control Rule",
-  description: "Update Access Control Rule Metadata of a google calendar.",
-  version: "0.0.1",
+export default {
+  key: "google_calendar-create-acl",
+  name: "Create an Access Control Rule for a calendar",
+  description: "Create an Access Control Rule for a calendar. [See the docs here](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Acl.html#insert)",
+  version: "0.1.0",
   type: "action",
   props: {
     googleCalendar,
@@ -12,15 +12,6 @@ module.exports = {
       propDefinition: [
         googleCalendar,
         "calendarId",
-      ],
-    },
-    ruleId: {
-      propDefinition: [
-        googleCalendar,
-        "ruleId",
-        (c) => ({
-          calendarId: c.calendarId,
-        }),
       ],
     },
     role: {
@@ -42,24 +33,25 @@ module.exports = {
       ],
     },
   },
-  async run() {
-    const calendar = this.googleCalendar.calendar();
-
-    let scope = {
+  async run({ $ }) {
+    const scope = {
       type: this.scopeType,
     };
 
     if (this.scopeType !== "default" && this.scopeValue.trim().length) {
-      scope["value"] = this.scopeValue;
+      scope.value = this.scopeValue;
     }
 
-    return (await calendar.acl.update({
+    const response = await this.googleCalendar.createAcl({
       calendarId: this.calendarId,
-      ruleId: this.ruleId,
       requestBody: {
-        scope,
         role: this.role,
+        scope,
       },
-    })).data;
+    });
+
+    $.export("$summary", `Successfully created ACL ${response.id}`);
+
+    return response;
   },
 };
