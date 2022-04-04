@@ -1,47 +1,32 @@
-const { v4: uuidv4 } = require("uuid");
-const webflow = require("../webflow.app");
+import webflow from "../webflow.app.mjs";
+import { v4 as uuid } from "uuid";
 
-module.exports = {
+export default {
+  dedupe: "unique",
   props: {
-    db: "$.service.db",
-    http: "$.interface.http",
     webflow,
     siteId: {
-      type: "string",
-      label: "Site",
-      description: "The site from which to listen events",
-      async options(context) {
-        const { page } = context;
-        if (page !== 0) {
-          return {
-            options: []
-          };
-        }
-
-        const sites = await this.webflow.listSites();
-        const options = sites.map(site => ({
-          label: site.name,
-          value: site._id,
-        }));
-        return {
-          options,
-        };
-      },
+      propDefinition: [
+        webflow,
+        "sites",
+      ],
     },
+    db: "$.service.db",
+    http: "$.interface.http",
   },
   methods: {
     getWebhookTriggerType() {
-      throw new Error('getWebhookTriggerType is not implemented');
+      throw new Error("getWebhookTriggerType is not implemented");
     },
     getWebhookFilter() {
       return {};
     },
     isEventRelevant(event) {
-      return true;
+      if (event) return true;
     },
     generateMeta(data) {
       return {
-        id: uuidv4(),
+        id: data.id || uuid(),
         summary: "New event",
         ts: Date.now(),
       };
@@ -62,9 +47,10 @@ module.exports = {
       const triggerType = this.getWebhookTriggerType();
       const filter = this.getWebhookFilter();
       const webhook = await this.webflow.createWebhook(
-        this.siteId, endpoint, triggerType, filter);
-      const { _id: webhookId } = webhook;
-      this.db.set("webhookId", webhookId);
+        this.siteId, endpoint, triggerType, filter,
+      );
+
+      this.db.set("webhookId", webhook._id);
     },
     async deactivate() {
       const webhookId = this.db.get("webhookId");
