@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import get from "lodash/get.js";
 
 export default {
   type: "app",
@@ -22,6 +23,31 @@ export default {
           label: conversation.name,
           value: conversation.id,
         }));
+      },
+    },
+    memberId: {
+      type: "string",
+      label: "Member Id",
+      description: "The unique identifier of the member in the Conversation.",
+      async options({
+        page, conversationId,
+      }) {
+        const limit = 50;
+        const params = {
+          limit,
+          offset: limit * page,
+          order: "desc",
+        };
+        const { members } = await this.getMembers({
+          params,
+          conversationId: get(conversationId, "value", conversationId),
+        });
+        return {
+          options: members.map((member) => ({
+            label: member.name,
+            value: member.id,
+          })),
+        };
       },
     },
   },

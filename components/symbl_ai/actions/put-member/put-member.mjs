@@ -15,9 +15,13 @@ export default {
       ],
     },
     memberId: {
-      type: "string",
-      label: "Member Id",
-      description: "The unique identifier of the member in the Conversation.",
+      propDefinition: [
+        symblAIApp,
+        "memberId",
+        (c) => ({
+          conversationId: c.conversationId,
+        }),
+      ],
     },
     name: {
       type: "string",
