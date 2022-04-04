@@ -5,7 +5,7 @@ export default {
   key: "twitter-search-mentions",
   name: "Search Mentions",
   description: "Emit new Tweets that match your search criteria",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     db: "$.service.db",
