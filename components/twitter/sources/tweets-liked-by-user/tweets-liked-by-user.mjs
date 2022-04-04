@@ -4,7 +4,7 @@ export default {
   key: "twitter-tweet-liked-by-user",
   name: "Tweet Liked by User",
   description: "Emit new Tweets liked by a specific user on Twitter",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     twitter,
@@ -16,7 +16,7 @@ export default {
     },
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the YouTube API on this schedule",
+      description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,
