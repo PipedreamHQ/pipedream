@@ -93,6 +93,31 @@ export default {
       }
       return lastPublished;
     },
+    async paginatePlaylistItems(params, publishedAfter = null) {
+      let totalResults = 1;
+      let count = 0;
+      let countEmitted = 0;
+      let lastPublished;
+
+      while (count < totalResults && countEmitted < params.maxResults) {
+        const results = (await this.youtubeDataApi.getPlaylistItems(params)).data;
+        totalResults = results.pageInfo.totalResults;
+        for (const video of results.items) {
+          if (this.isRelevant(video, publishedAfter)) {
+            if (
+              !lastPublished ||
+              Date.parse(video.snippet.publishedAt) > Date.parse(lastPublished)
+            )
+              lastPublished = video.snippet.publishedAt;
+            this.emitEvent(video);
+            countEmitted++;
+          }
+          count++;
+        }
+        params.pageToken = results.nextPageToken;
+      }
+      return lastPublished;
+    },
   },
   async run() {
     let publishedAfter = this._getPublishedAfter();
