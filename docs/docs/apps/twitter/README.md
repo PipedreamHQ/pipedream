@@ -2,7 +2,7 @@
 
 Pipedream facilitates access to the Twitter API and Twitter events in two ways:
 
-- Within [Pipedream workflows](/workflows/), you can use [prebuilt actions](/components/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom Node.js code](/workflows/steps/code/) that interacts with the Twitter API.
+- Within [Pipedream workflows](/workflows/), you can use [prebuilt actions](/components/actions/) to post tweets, search tweets by keyword, and more. You can also run [any custom code](/code/) that interacts with the Twitter API.
 - You can also _trigger_ Pipedream workflows on new tweets, new followers, and other Twitter events. This allows you to run custom code in response to these events. 
 
 [[toc]]

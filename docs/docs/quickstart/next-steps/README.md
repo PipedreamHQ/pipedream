@@ -3,10 +3,10 @@
 Now that you understand the basics, start building workflows to connect APIs and and check out the rest of the docs to learn about Pipedream's advanced capabilities:
 
 
-- [Maintain state](/workflows/steps/code/state/) between workflow executions 
+- [Maintain state](/code/nodejs/using-data-stores/) between workflow executions 
 - [Manage the execution rate and concurrency](/workflows/events/concurrency-and-throttling/) of workflow executions
 - Trigger workflows with [large data files up to 5TB](/workflows/steps/triggers/#sending-large-payloads)
-- Use a proxy host to [connect to resources behind a firewall](/workflows/steps/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host)
+- [Connect to resources behind a firewall](/workflows/networking/)
 - [Work with the file system in Node.js](/code/nodejs/working-with-files/#working-with-the-filesystem-in-node-js)
 - Develop [custom sources and actions](/components/)
 - [Contribute](/components/guidelines/) to the [Pipedream registry](https://github.com/pipedreamhq/pipedream/components/)

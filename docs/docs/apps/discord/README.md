@@ -20,7 +20,7 @@ The **Discord Webhook** integration is the easiest way to send messages to a cha
 
 You can use Pipedream to automate any workflow where you need to receive a message in Discord. For example, you can:
 
-- Receive data [via webhooks](/workflows/steps/triggers/#http), [modify it with code](/workflows/steps/code/), and format a specific Discord message.
+- Receive data [via webhooks](/workflows/steps/triggers/#http), [modify it with code](/code/), and format a specific Discord message.
 - [Run code on a schedule](/workflows/steps/triggers/#schedule) to hit an API and send the data on to a Discord channel.
 - Use the [email trigger](/workflows/steps/triggers/#email) to accept emails and forward them to Discord.
 
@@ -63,7 +63,7 @@ this.msg = [
 ];
 ```
 
-In the next step, we use the Discord Webhook **Send Message to Channel** action. This action expects _either_ a **Message** _or_ an **Embeds** parameter, which is delivered to your target channel. In this example workflow, we've selected the **Embeds** param, turned structured mode **off** (this allows us to [enter an expression](/workflows/steps/params/#params-types) for the Embeds array), and entered the value <code v-pre>{{steps.format_embed_message.msg}}</code>, which evaluates to the array of objects we formatted in the step above:
+In the next step, we use the Discord Webhook **Send Message to Channel** action. This action expects _either_ a **Message** _or_ an **Embeds** parameter, which is delivered to your target channel. In this example workflow, we've selected the **Embeds** param, and entered the value <code v-pre>{{steps.format_embed_message.msg}}</code>, which evaluates to the array of objects we formatted in the step above:
 
 <div>
 <img alt="Discord embed parameter" src="./images/discord-embed.png" width="400">

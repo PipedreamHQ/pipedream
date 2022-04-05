@@ -401,7 +401,7 @@ If you control the application sending requests, you should implement [a backoff
 
 ### Validating requests
 
-Since you have access to the entire request object, and can issue any HTTP response from a workflow, you can implement custom logic to validate requests using any [Node code](/workflows/steps/code/).
+Since you have access to the entire request object, and can issue any HTTP response from a workflow, you can implement custom logic to validate requests using any [Node.js code](/code/nodejs/).
 
 For example, you can [require requests pass a specific secret in a header](https://pipedream.com/@dylburger/end-a-workflow-early-on-invalid-secret-p_YyCmmK/edit). Just copy the workflow and add your secret as the value of the the **Secret** param. Add the rest of your code in steps below this initial one. Requests must contain the secret:
 
@@ -409,9 +409,9 @@ For example, you can [require requests pass a specific secret in a header](https
 curl -H 'X-Pipedream-Secret: abc123' https://myendpoint.m.pipedream.net
 ```
 
-Otherwise, the workflow will [end early](/workflows/steps/code/#end).
+Otherwise, the workflow will [end early](/code/nodejs/#ending-a-workflow-early).
 
-Since you can [run any Node code](/workflows/steps/code/) in a workflow, you can implement more complex validation. For example, you could require JWT tokens and validate those tokens using the [`jsonwebtoken` package](https://www.npmjs.com/package/jsonwebtoken) at the start of your workflow.
+Since you can [run any code](/code/) in a workflow, you can implement more complex validation. For example, you could require JWT tokens and validate those tokens using the [`jsonwebtoken` package](https://www.npmjs.com/package/jsonwebtoken) at the start of your workflow.
 
 ## Schedule
 
@@ -461,7 +461,7 @@ You can send yourself a notification — for example, an email or a Slack messag
 
 If you'd like to email yourself when a job finishes successfully, you can use the [Email Destination](/destinations/email/). You can send yourself a Slack message using the Slack Action, or trigger an [HTTP request](/destinations/http/) to an external service.
 
-You can also [write code](/workflows/steps/code/) to trigger any complex notification logic you'd like.
+You can also [write code](/code/) to trigger any complex notification logic you'd like.
 
 ### Rate Limit
 
@@ -473,7 +473,7 @@ When you run a cron job, you may need to troubleshoot errors or other execution 
 
 Any time a cron job runs, you'll see a new execution appear in the [Inspector](/workflows/events/inspect/). This shows you when the cron job ran, how long it took to run, and any errors that might have occurred. **Click on any of these lines in the Inspector to view the details for a given run**.
 
-Code steps show [Logs](/workflows/steps/code/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
+Code steps show [logs](/code/nodejs/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 
 [Actions](/components/actions/) and [Destinations](/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
 

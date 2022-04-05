@@ -40,7 +40,7 @@ return response.data
 Following is an explanation of what's happening in the code:
 
 1. First, we `import` the `axios` npm package to use it. There's no `npm install` or `package.json` required. Pipedream automatically installs any npm package you `import`.
-2. We use `axios` to make a `GET` request to the open-notify.org API to get the latest position of the ISS ([always remember to `await` promises](https://pipedream.com/docs/workflows/steps/code/async/)).
+2. We use `axios` to make a `GET` request to the open-notify.org API to get the latest position of the ISS ([always remember to `await` promises](/code/nodejs/async/)).
 3. Finally, we `return` the API response to export it from the step. Data must be exported to inspect it and reference it in later workflow steps. We return `response.data` since the data we want to export is in the `data` key of the the `axios` response.
 
 Next, **Deploy** your changes and reload the endpoint URL in your browser. You should continue to see the latest ISS position returned. 

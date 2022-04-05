@@ -16,7 +16,6 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 - [HTTP](/destinations/http/)
 - [Email](/destinations/email/)
 - [S3](/destinations/s3/)
-- [Pipedream Data Warehouse](/destinations/sql/)
 - [SSE](/destinations/sse/)
 
 ## Using destinations

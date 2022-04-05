@@ -734,8 +734,6 @@ async run({ $ }) {
 }
 ```
 
-It functions the same way as [`$end` in workflow code steps](/workflows/steps/code/#end).
-
 **`$.summary`**
 
 `$.summary` is used to surface brief, user-friendly summaries about what happened when an action step succeeds. For example, when [adding items to a Spotify playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/actions/add-items-to-playlist/add-items-to-playlist.mjs#L51):

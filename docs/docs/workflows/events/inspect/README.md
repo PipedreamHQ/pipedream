@@ -30,7 +30,7 @@ The blue button with the arrow **replays** the event against the newest version 
 
 ## Messages
 
-Any `console.log()` statements or other output of code steps is attached to the associated code cells. But [`$.flow.exit()`](/code/nodejs/#ending-a-workflow-early) or [exceptions](/workflows/steps/code/#exceptions) end a workflow's execution, so their details appear in the inspector:
+Any `console.log()` statements or other output of code steps is attached to the associated code cells. But [`$.flow.exit()`](/code/nodejs/#ending-a-workflow-early) or [errors](/code/nodejs/#errors) end a workflow's execution, so their details appear in the inspector:
 
 <div>
 <img width="400px" alt="$.flow.exit message" src="./images/dollar-end.png">

@@ -130,23 +130,11 @@ The [Inspector](/workflows/events/inspect/#the-inspector) shows the execution hi
 - You can view the last {{$site.themeConfig.INSPECTOR_EVENT_LIMIT}} events sent to your workflow. Sending events over this limit removes the oldest event in the history from Pipedream's system.
 - The execution details for a specific run also expires after {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} days. So if a workflow was triggered once a day, you’d only see a rolling history of {{$site.themeConfig.INSPECTOR_EVENT_EXPIRY_DAYS}} executions.
 
-If you'd like to store execution or error history for a longer period, consider sending execution data to a table in the [SQL Service](/destinations/sql/), an [Amazon S3 bucket](/destinations/s3/), or another external data store.
-
 ### Logs, Step Exports, and other observability
 
 The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}`. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 This limit cannot be raised.
-
-## SQL Service
-
-You can create any number of tables in the SQL service, and store any number of records. However, there are a few limits you should be aware of
-
-- Events sent to a SQL Destination are stored for 30 days. After 30 days, the record is completely deleted. Records newer than 30 days (for example, data sent a day ago) will be retained, until that record is 30 days old, at which point it will be deleted. [Read more here](/destinations/sql/#data-retention).
-- Queries are limited to a runtime of 60 seconds.
-- You cannot issue a query that returns over `1GB` of data.
-
-[Read more about the SQL Service here](/destinations/sql/).
 
 ## Acceptable Use
 
