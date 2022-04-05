@@ -28,7 +28,7 @@ By default, workflows run with `{{$site.themeConfig.MEMORY_LIMIT}}` of memory. I
 
 ### Concurrency and Throttling
 
-[Manage the concurrency and rate](/workflows/events/concurrency-and-throttling/) at which events from a source trigger your workflow code.
+[Manage the concurrency and rate](/workflows/concurrency-and-throttling/) at which events from a source trigger your workflow code.
 
 ## Attachments
 

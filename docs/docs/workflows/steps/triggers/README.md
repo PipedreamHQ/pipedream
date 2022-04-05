@@ -144,7 +144,7 @@ Within your workflow, you can download the contents of this data using the **Sen
 
 #### Example: Download the HTTP payload using the Send HTTP Request action
 
-_Note: you can only download payloads at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/errors/#function-payload-limit-exceeded) error._
+_Note: you can only download payloads at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
 You can download the HTTP payload using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-http-payload-p_6lC1ynx/edit).
 
@@ -389,7 +389,7 @@ In this case, the request will still appear in the inspector, with information o
 
 Your API key is the host part of the endpoint, e.g. the `eniqtww30717` in `eniqtww30717.m.pipedream.net`. If you attempt to send a request to an endpoint that does not exist, we'll return a `404 Not Found` error.
 
-We'll also issue a 404 response on workflows with an HTTP trigger that have been [deactivated](/workflows/managing/#deactivating-workflows).
+We'll also issue a 404 response on workflows with an HTTP trigger that have been disabled.
 
 #### Too Many Requests
 
@@ -505,7 +505,7 @@ Emails delivered to this address are uploaded to a private URL you have access t
 
 #### Example: Download the email using the Send HTTP Request action
 
-_Note: you can only download emails at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/errors/#function-payload-limit-exceeded) error._
+_Note: you can only download emails at most `{{$site.themeConfig.FUNCTION_PAYLOAD_LIMIT}}` in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
 You can download the email using the **Send HTTP Request** action. [**Copy this workflow to see how this works**](https://pipedream.com/@dylburger/example-download-large-email-content-p_A2CQedw/edit).
 
