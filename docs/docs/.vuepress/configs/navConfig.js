@@ -16,7 +16,6 @@ module.exports = {
         // { text: "CLI", link: "/cli/" },
         { text: "REST API", link: "/api/" },
         { text: "Limits", link: "/limits/" },
-        { text: "Security & Privacy", link: "/privacy-and-security/"}
       ],
     },
   ], 
@@ -24,6 +23,10 @@ module.exports = {
     {
       text: "Support",
       link: "/support/",
+    },
+    {
+      text: "Security & Privacy",
+      link: "/security-and-privacy/"
     },
     {
       text: "Pricing",

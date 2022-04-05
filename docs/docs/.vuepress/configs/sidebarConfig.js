@@ -95,7 +95,6 @@ const referenceNav = [
     title: "CLI",
     type: "group",
     children: [
-      // "/cli/",
       "/cli/install/", 
       "/cli/login/", 
       "/cli/reference/"
@@ -122,6 +121,7 @@ const referenceNav = [
 const pricingNav = ["/pricing/"];
 
 module.exports = {
+  // reference nav
   "/components/": referenceNav,
   "/components/quickstart/nodejs/actions/": referenceNav,
   "/components/quickstart/nodejs/sources/": referenceNav,
@@ -136,14 +136,18 @@ module.exports = {
   "/api/rest/workflow-errors/": referenceNav,
   "/api/sse/": referenceNav,
   "/scheduling-future-tasks/": referenceNav,
-  "/privacy-and-security/": securityNav,
-  "/subprocessors/": securityNav,
-  "/abuse/": securityNav,
-  "/pricing/": pricingNav,
-  "/limits/": referenceNav,
   "/cli/install/": referenceNav,
   "/cli/login/": referenceNav,
   "/cli/reference/": referenceNav,
-  "/privacy-and-security/": referenceNav,
+  "/limits/": referenceNav,
+  // security nav
+  "/privacy-and-security/": securityNav,
+  "/privacy-and-security/pgp-key/": securityNav,
+  "/privacy-and-security/best-practices/": securityNav,
+  "/subprocessors/": securityNav,
+  "/abuse/": securityNav,
+  // pricing nav
+  "/pricing/": pricingNav,
+  // main nav
   "/": docsNav,
 };
