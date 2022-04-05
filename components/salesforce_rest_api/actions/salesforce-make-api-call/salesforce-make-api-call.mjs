@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-make-api-call",
   name: "Make API Call",
   description: "Makes an aribitrary call to Salesforce API",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

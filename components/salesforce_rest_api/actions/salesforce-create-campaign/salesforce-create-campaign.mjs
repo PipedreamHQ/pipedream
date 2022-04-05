@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-campaign",
   name: "Create Campaign",
   description: "Creates a marketing campaign, such as a direct mail promotion, webinar, or trade show.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

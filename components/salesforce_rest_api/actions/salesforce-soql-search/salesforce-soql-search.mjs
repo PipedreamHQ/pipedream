@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-soql-search",
   name: "SOQL Search",
   description: "Executes a SOQL query that returns all the results in a single response, or if needed, returns part of the results and an identifier used to retrieve the remaining results.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

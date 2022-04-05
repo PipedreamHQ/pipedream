@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-event",
   name: "Create Event",
   description: "Creates an event, which represents an event in the calendar.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-sosl-search",
   name: "SOSL Search",
   description: "Executes the specified SOSL search.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

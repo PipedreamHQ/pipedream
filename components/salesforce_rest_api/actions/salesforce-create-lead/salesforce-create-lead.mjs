@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-lead",
   name: "Create Lead",
   description: "Creates a lead, which represents a prospect or lead.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-attachment",
   name: "Create Attachment",
   description: "Creates an attachment, which represents a file that a User has uploaded and attached to a parent object.",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
   props: {
     salesforce,

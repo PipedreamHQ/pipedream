@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-update-record",
   name: "Update Record",
   description: "Updates a record of a given resource, its id and fields values. Use resource field values in the request data.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

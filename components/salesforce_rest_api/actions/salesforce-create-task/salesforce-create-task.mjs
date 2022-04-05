@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-task",
   name: "Create Task",
   description: "Creates a task, which represents a business activity such as making a phone call or other to-do items.",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
   props: {
     salesforce,

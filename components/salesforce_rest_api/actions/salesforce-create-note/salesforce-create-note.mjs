@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-note",
   name: "Create Note",
   description: "Creates a note, which is text associated with a custom object or a standard object, such as a Contact, Contract, or Opportunity.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

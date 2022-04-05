@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-get-sobject-fields-values",
   name: "Get Field Values from a Standard Object Record",
   description: "Retrieve field values from a record. You can specify the fields you want to retrieve.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,
