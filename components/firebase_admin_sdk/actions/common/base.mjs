@@ -4,11 +4,6 @@ export default {
   props: {
     firebase,
   },
-  methods: {
-    async deleteApp() {
-      this.firebase.deleteApp();
-    },
-  },
   async run({ $ }) {
     try {
       await this.firebase.initializeApp();
@@ -16,7 +11,7 @@ export default {
       this.emitSummary($, response);
       return response;
     } finally {
-      await this.deleteApp();
+      await this.firebase.deleteApp();
     }
   },
 };
