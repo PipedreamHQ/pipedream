@@ -12,7 +12,7 @@ Pipedream is fully programmable - you can write [any Node.js code](/workflows/st
 
 <img src="./images/workflow.png" width="500px" alt="How Pipedream works" style="margin-left: auto; margin-right: auto; display: block;"/>
 
-**Pipedream [**event sources**](/event-sources/) expose real-time event streams for any [Zoom event](https://marketplace.zoom.us/docs/api-reference/webhook-reference)** - just connect your Zoom account, and get an event stream. Event sources can trigger workflows, running custom code each time an event occurs in Zoom. For example, to run a workflow each time a meeting ends, you can create a **Meeting Ended** source. This source emits an event as soon as a meeting ends in your account, which can trigger a workflow that pulls participant stats, emails those participants a survey, or anything else you'd like.
+**Pipedream [**event sources**](/sources/) expose real-time event streams for any [Zoom event](https://marketplace.zoom.us/docs/api-reference/webhook-reference)** - just connect your Zoom account, and get an event stream. Event sources can trigger workflows, running custom code each time an event occurs in Zoom. For example, to run a workflow each time a meeting ends, you can create a **Meeting Ended** source. This source emits an event as soon as a meeting ends in your account, which can trigger a workflow that pulls participant stats, emails those participants a survey, or anything else you'd like.
 
 <img src="./images/event-sources.png" alt="How Zoom Event sources work" width="500px" style="margin-left: auto; margin-right: auto; display: block;"/>
 
@@ -52,7 +52,7 @@ This will open up a new window prompting you to authorize Pipedream's access to 
 
 ## Zoom Event Sources
 
-**Pipedream [**event sources**](/event-sources/) expose real-time event streams for any [Zoom event](https://marketplace.zoom.us/docs/api-reference/webhook-reference)** - just connect your Zoom account, and get an event stream.
+**Pipedream [**event sources**](/sources/) expose real-time event streams for any [Zoom event](https://marketplace.zoom.us/docs/api-reference/webhook-reference)** - just connect your Zoom account, and get an event stream.
 
 Event sources can trigger workflows, running custom code each time an event occurs in Zoom. For example, to run a workflow each time a meeting ends, you can create a **Meeting Ended** source. This source emits an event as soon as a meeting ends in your account, which can trigger a workflow that pulls participant stats, emails those participants a survey, or anything else you'd like.
 

@@ -542,7 +542,7 @@ event source for Twitter).
 
 ### Source Guidelines
 
-These guidelines are specific to [source](/event-sources/) development.
+These guidelines are specific to [source](/sources/) development.
 
 #### Webhook vs Polling Sources
 

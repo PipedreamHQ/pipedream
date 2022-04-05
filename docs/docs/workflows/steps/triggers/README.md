@@ -14,7 +14,7 @@ If there's a specific trigger you'd like supported, please [let us know](https:/
 
 ## App-based Triggers
 
-You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
+You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/sources/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
 
 When you create a workflow, you'll see your available triggers:
 
@@ -41,7 +41,7 @@ Then you can select a specific test event and manually trigger your workflow wit
 
 You'll notice the docs use the terms **event source** and **trigger** interchangeably above. It's useful to clarify the distinction in the context of workflows.
 
-[**Event sources**](/event-sources/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
+[**Event sources**](/sources/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
 
 For example, you might create a single source to listen for new Twitter mentions for a keyword, then trigger multiple workflows each time a new tweet is found: one to [send new tweets to Slack](https://pipedream.com/@pravin/twitter-mentions-slack-p_dDCA5e/edit), another to [save those tweets to an Amazon S3 bucket](https://pipedream.com/@dylan/twitter-to-s3-p_KwCZGA/readme), etc.
 
@@ -125,7 +125,7 @@ You can send any content, up to the [HTTP payload size limit](/limits/#http-requ
 
 _If you're uploading files, like images or videos, you should use the [large file upload interface](#large-file-support), instead_.
 
-By default, the body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/event-sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
+By default, the body of HTTP requests sent to a source or workflow is limited to `{{$site.themeConfig.PAYLOAD_SIZE_LIMIT}}`. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
 
 ```bash
 curl -d '{ "name": "Yoda" }' \
@@ -185,7 +185,7 @@ Your raw payload is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.am
 
 _This interface is best used for uploading large files, like images or videos. If you're sending JSON or other data directly in the HTTP payload, and encountering a **Request Entity Too Large** error, review the section above for [sending large payloads](#sending-large-payloads)_.
 
-You can upload any file to a [workflow](/workflows/) or an [event source](/event-sources/) by making a `multipart/form-data` HTTP request with the file as one of the form parts. **Pipedream saves that file to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/), generating a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes**. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
+You can upload any file to a [workflow](/workflows/) or an [event source](/sources/) by making a `multipart/form-data` HTTP request with the file as one of the form parts. **Pipedream saves that file to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/), generating a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes**. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
 
 In workflows, these file URLs are provided in the `steps.trigger.event.body` variable, so you can download the file using the URL within your workflow, or pass the URL on to another third-party system for it to process.
 
@@ -568,7 +568,7 @@ Choose the RSS trigger to watch an RSS feed for new items:
 <img alt="RSS source" width="400px" src="./images/rss.png">
 </div>
 
-This will create an RSS [event source](/event-sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
+This will create an RSS [event source](/sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 
 ## Don't see a trigger you need?
 

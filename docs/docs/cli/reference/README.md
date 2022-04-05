@@ -146,7 +146,7 @@ pd init action add-new-event
 
 #### `pd init source`
 
-Creates a new directory and [an event source](/event-sources/) from a template.
+Creates a new directory and [an event source](/sources/) from a template.
 
 ```
 # Creates cancelled-event/ directory and cancelled_event.mjs file
@@ -221,7 +221,7 @@ pd logout -p <profile>
 
 Event sources produce logs that can be useful for troubleshooting issues with that source. `pd logs` displays logs for a source.
 
-Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to your source](/event-sources/logs/), displaying new logs as the source produces them.
+Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to your source](/sources/logs/), displaying new logs as the source produces them.
 
 Any errors thrown by the source will also appear here.
 

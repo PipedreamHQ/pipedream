@@ -1,6 +1,6 @@
 # Security Best Practices
 
-Pipedream implements a range of [privacy and security measures](/privacy-and-security/) meant to protect your data from unauthorized access. Since Pipedream [workflows](/workflows/), [event sources](/event-sources/), and other resources can run any Node.js code and process any event data, you also have a responsibility to ensure you handle that code and data securely. We've outlined a handful of best practices for that below.
+Pipedream implements a range of [privacy and security measures](/privacy-and-security/) meant to protect your data from unauthorized access. Since Pipedream [workflows](/workflows/), [event sources](/sources/), and other resources can run any Node.js code and process any event data, you also have a responsibility to ensure you handle that code and data securely. We've outlined a handful of best practices for that below.
 
 [[toc]]
 
@@ -47,7 +47,7 @@ Many apps pass a **signature** with event data delivered via webhooks (or other 
 
 Signatures are specific to the app sending the data, and the app should provide instructions for signature validation. **Not all apps compute signatures, but when they do, you should always verify them**.
 
-When you use a Pipedream [event source](/event-sources/) as your workflow trigger, Pipedream should verify the signature for you. You can always [audit the code behind the event source](#audit-any-code-or-packages-you-use-within-a-workflow) to confirm this, and suggest further security improvements that you find.
+When you use a Pipedream [event source](/sources/) as your workflow trigger, Pipedream should verify the signature for you. You can always [audit the code behind the event source](#audit-any-code-or-packages-you-use-within-a-workflow) to confirm this, and suggest further security improvements that you find.
 
 See [Stripe's signature docs](https://stripe.com/docs/webhooks/signatures) for a real-world example. Pipedream's Stripe event source [verifies this signature for you](https://github.com/PipedreamHQ/pipedream/blob/bb1ebedf8cbcc6f1f755a8878c759522b8cc145b/components/stripe/sources/custom-webhook-events/custom-webhook-events.js#L49).
 

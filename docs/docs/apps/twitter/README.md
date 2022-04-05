@@ -84,7 +84,7 @@ return await T.post("statuses/update", {
 
 ## Run code on new tweets, followers, and more
 
-Pipedream [event sources](/event-sources/) emit Twitter events — tweets, follows, likes, and more — in real time. Sources can trigger [Pipedream workflows](/workflows/), and can be accessed via [SSE](/api/sse/) and [REST APIs](/api/rest/).
+Pipedream [event sources](/sources/) emit Twitter events — tweets, follows, likes, and more — in real time. Sources can trigger [Pipedream workflows](/workflows/), and can be accessed via [SSE](/api/sse/) and [REST APIs](/api/rest/).
 
 Create a new Twitter event source at [https://pipedream.com/sources](https://pipedream.com/sources), or by clicking on any of the links below:
 

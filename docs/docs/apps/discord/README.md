@@ -137,4 +137,4 @@ You'll be prompted to sign in to your Discord account if you haven't already con
 
 ### Discord Event Source
 
-[Event sources](/event-sources/) in Pipedream let you trigger workflows on new events from the partner API. In the case of Discord for example, you can create [a source that listens for new messages in a Discord channel](https://pipedream.com/apps/discord/triggers/new-message), and trigger a workflow to run on each new message.
+[Event sources](/sources/) in Pipedream let you trigger workflows on new events from the partner API. In the case of Discord for example, you can create [a source that listens for new messages in a Discord channel](https://pipedream.com/apps/discord/triggers/new-message), and trigger a workflow to run on each new message.
