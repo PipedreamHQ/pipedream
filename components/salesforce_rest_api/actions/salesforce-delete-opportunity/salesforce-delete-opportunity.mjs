@@ -1,4 +1,4 @@
-// legacy_hash_id: a_xqiqkn
+import salesforce from "../../salesforce_rest_api.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -8,18 +8,16 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    salesforce_rest_api: {
-      type: "app",
-      app: "salesforce_rest_api",
-    },
+    salesforce,
     OpportunityId: {
       type: "string",
+      label: "OpportunityId",
       description: "ID of the Opportunity to delete.",
     },
   },
   async run({ $ }) {
-  // See the API docs here: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_delete_record.htm
-  // Opportunity object: https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_opportunity.htm
+    // See the API docs here: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_delete_record.htm
+    // Opportunity object: https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_opportunity.htm
 
     if (!this.OpportunityId) {
       throw new Error("Must provide OpportunityId parameter.");
@@ -27,10 +25,10 @@ export default {
 
     return await axios($, {
       "method": "delete",
-      "url": `${this.salesforce_rest_api.$auth.instance_url}/services/data/v20.0/sobjects/Opportunity/${this.OpportunityId}`,
+      "url": `${this.salesforce.$auth.instance_url}/services/data/v20.0/sobjects/Opportunity/${this.OpportunityId}`,
       "Content-Type": "application/json",
       "headers": {
-        Authorization: `Bearer ${this.salesforce_rest_api.$auth.oauth_access_token}`,
+        Authorization: `Bearer ${this.salesforce.$auth.oauth_access_token}`,
       },
     });
   },

@@ -1,4 +1,4 @@
-// legacy_hash_id: a_vgi4Mb
+import salesforce from "../../salesforce_rest_api.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -8,17 +8,16 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    salesforce_rest_api: {
-      type: "app",
-      app: "salesforce_rest_api",
-    },
+    salesforce,
     query_string: {
       type: "string",
+      label: "query_string",
       description: "Query string of the request.",
       optional: true,
     },
     request_method: {
       type: "string",
+      label: "request_method",
       description: "Http method to use in the request.",
       options: [
         "get",
@@ -30,14 +29,17 @@ export default {
     },
     relative_url: {
       type: "string",
+      label: "relative_url",
       description: "A path relative to the Salesforce instance to send the request against.",
     },
     headers: {
       type: "object",
+      label: "headers",
       description: "Headers to send in the request.",
     },
     request_body: {
       type: "object",
+      label: "request_body",
       description: "Body of the request.",
       optional: true,
     },
@@ -48,7 +50,7 @@ export default {
 
     return await axios($, {
       method: this.request_method,
-      url: `${this.salesforce_rest_api.$auth.instance_url}/services/data/${this.relative_url}${this.query_string}`,
+      url: `${this.salesforce.$auth.instance_url}/services/data/${this.relative_url}${this.query_string}`,
       headers: this.headers,
       data: this.request_body,
     });

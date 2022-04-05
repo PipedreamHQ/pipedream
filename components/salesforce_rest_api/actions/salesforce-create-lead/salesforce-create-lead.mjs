@@ -1,4 +1,4 @@
-// legacy_hash_id: a_jQiWR4
+import salesforce from "../../salesforce_rest_api.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -8,207 +8,243 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
-    salesforce_rest_api: {
-      type: "app",
-      app: "salesforce_rest_api",
-    },
+    salesforce,
     Company: {
       type: "string",
+      label: "Company",
       description: "Required. The lead's company. Note If person account record types have been enabled, and if the value of Company is null, the lead converts to a person account.",
     },
     LastName: {
       type: "string",
+      label: "LastName",
       description: "Required. Last name of the lead up to 80 characters.",
     },
     AnnualRevenue: {
       type: "string",
+      label: "AnnualRevenue",
       description: "Annual revenue for the lead's company.",
       optional: true,
     },
     City: {
       type: "string",
+      label: "City",
       description: "City for the lead's address.",
       optional: true,
     },
     CleanStatus: {
       type: "string",
+      label: "CleanStatus",
       description: "Indicates the record's clean status compared with Data.com. Values include: Matched, Different, Acknowledged, NotFound, Inactive, Pending, SelectMatch, or Skipped.Several values for CleanStatus appear with different labels on the lead record. Matched appears as In Sync Acknowledged appears as Reviewed Pending appears as Not Compared",
       optional: true,
     },
     CompanyDunsNumber: {
       type: "string",
+      label: "CompanyDunsNumber",
       description: "The Data Universal Numbering System (D-U-N-S) number, which is a unique, nine-digit number assigned to every business location in the Dun &amp; Bradstreet database that has a unique, separate, and distinct operation. Industries and companies use D-U-N-S numbers as a global standard for business identification and tracking. Maximum size is 9 characters. Note This field is only available to organizations that use Data.com Prospector or Data.com Clean.",
       optional: true,
     },
     Country: {
       type: "string",
+      label: "Country",
       description: "The lead's country.",
       optional: true,
     },
     CountryCode: {
       type: "string",
+      label: "CountryCode",
       description: "The ISO country code for the lead's address.",
       optional: true,
     },
     CurrencyIsoCode: {
       type: "string",
+      label: "CurrencyIsoCode",
       description: "Available only for organizations with the multicurrency feature enabled. Contains the ISO code for any currency allowed by the organization.",
       optional: true,
     },
     Description: {
       type: "string",
+      label: "Description",
       description: "The lead's description.",
       optional: true,
     },
     Email: {
       type: "string",
+      label: "Email",
       description: "The lead's email address.",
       optional: true,
     },
     Fax: {
       type: "string",
+      label: "Fax",
       description: "The lead's fax number.",
       optional: true,
     },
     FirstName: {
       type: "string",
+      label: "FirstName",
       description: "The lead's first name up to 40 characters.",
       optional: true,
     },
     HasOptedOutOfEmail: {
       type: "boolean",
+      label: "HasOptedOutOfEmail",
       description: "Indicates whether the lead doesn't want to receive email from Salesforce (true) or does (false). Label is Email Opt Out.",
       optional: true,
     },
     GeocodeAccuracy: {
       type: "string",
+      label: "GeocodeAccuracy",
       description: "Accuracy level of the geocode for the address. For details on geolocation compound fields, see [Compound Field Considerations and Limitations](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/compound_fields_limitations.htm#compound_fields_limitations).",
       optional: true,
     },
     IndividualId: {
       type: "string",
+      label: "IndividualId",
       description: "ID of the data privacy record associated with this lead. This field is available if you enabled Data Protection and Privacy in Setup.",
       optional: true,
     },
     Industry: {
       type: "string",
+      label: "Industry",
       description: "Industry in which the lead works.",
       optional: true,
     },
     IsConverted: {
       type: "boolean",
+      label: "IsConverted",
       description: "Indicates whether the lead has been converted (true) or not (false). Label is Converted.",
       optional: true,
     },
     IsUnreadByOwner: {
       type: "boolean",
+      label: "IsUnreadByOwner",
       description: "If true, lead has been assigned, but not yet viewed. See Unread Leads for more information. Label is Unread By Owner.",
       optional: true,
     },
     Jigsaw: {
       type: "string",
+      label: "Jigsaw",
       description: "References the ID of a contact in Data.com. If a lead has a value in this field, it means that a contact was imported as a lead from Data.com. If the contact (converted to a lead) was not imported from Data.com, the field value is null. Maximum size is 20 characters.",
       optional: true,
     },
     Latitude: {
       type: "integer",
+      label: "Latitude",
       description: "Used with Longitude to specify the precise geolocation of an address. Acceptable values are numbers between 90 and 90 up to 15 decimal places. For details on geolocation compound fields, see [Compound Field Considerations and Limitations](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/compound_fields_limitations.htm#compound_fields_limitations).",
       optional: true,
     },
     Longitude: {
       type: "integer",
+      label: "Longitude",
       description: "Used with Latitude to specify the precise geolocation of an address. Acceptable values are numbers between 180 and 180 up to 15 decimal places. For details on geolocation compound fields, see [Compound Field Considerations and Limitations](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/compound_fields_limitations.htm#compound_fields_limitations).",
       optional: true,
     },
     LeadSource: {
       type: "string",
+      label: "LeadSource",
       description: "The lead's source.",
       optional: true,
     },
     MiddleName: {
       type: "string",
+      label: "MiddleName",
       description: "The lead's middle name up to 40 characters. To enable this field, ask Salesforce Customer Support for help.",
       optional: true,
     },
     MobilePhone: {
       type: "string",
+      label: "MobilePhone",
       description: "The lead's mobile phone number.",
       optional: true,
     },
     NumberOfEmployees: {
       type: "integer",
+      label: "NumberOfEmployees",
       description: "Number of employees at the lead's company. Label is Employees.",
       optional: true,
     },
     OwnerId: {
       type: "string",
+      label: "OwnerId",
       description: "ID of the lead's owner.",
       optional: true,
     },
     Phone: {
       type: "string",
+      label: "Phone",
       description: "The lead's phone number.",
       optional: true,
     },
     PostalCode: {
       type: "string",
+      label: "PostalCode",
       description: "Postal code for the address of the lead.",
       optional: true,
     },
     Rating: {
       type: "string",
+      label: "Rating",
       description: "Rating of the lead.",
       optional: true,
     },
     RecordTypeId: {
       type: "string",
+      label: "RecordTypeId",
       description: "ID of the record type assigned to this object.",
       optional: true,
     },
     Salutation: {
       type: "string",
+      label: "Salutation",
       description: "Salutation for the lead.",
       optional: true,
     },
     State: {
       type: "string",
+      label: "State",
       description: "State for the address of the lead.",
       optional: true,
     },
     StateCode: {
       type: "string",
+      label: "StateCode",
       description: "The ISO state code for the lead's address.",
       optional: true,
     },
     Status: {
       type: "string",
+      label: "Status",
       description: "Status code for this converted lead. Status codes are defined in Status and represented in the API by the LeadStatus object.",
       optional: true,
     },
     Street: {
       type: "string",
+      label: "Street",
       description: "Street number and name for the address of the lead.",
       optional: true,
     },
     Suffix: {
       type: "string",
+      label: "Suffix",
       description: "The lead's name suffix up to 40 characters. To enable this field, ask Salesforce Customer Support for help.",
       optional: true,
     },
     Title: {
       type: "string",
+      label: "Title",
       description: "Title for the lead, such as CFO or CEO.",
       optional: true,
     },
     Website: {
       type: "string",
+      label: "Website",
       description: "Website for the lead.",
       optional: true,
     },
   },
   async run({ $ }) {
-  // See the API docs here: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm
-  // Lead object: https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_lead.htm
+    // See the API docs here: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm
+    // Lead object: https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_lead.htm
 
     if (!this.Company || !this.LastName) {
       throw new Error("Must provide Company and LastName parameters.");
@@ -216,10 +252,10 @@ export default {
 
     return await axios($, {
       "method": "post",
-      "url": `${this.salesforce_rest_api.$auth.instance_url}/services/data/v20.0/sobjects/Lead/`,
+      "url": `${this.salesforce.$auth.instance_url}/services/data/v20.0/sobjects/Lead/`,
       "Content-Type": "application/json",
       "headers": {
-        Authorization: `Bearer ${this.salesforce_rest_api.$auth.oauth_access_token}`,
+        Authorization: `Bearer ${this.salesforce.$auth.oauth_access_token}`,
       },
       "data": {
         AnnualRevenue: this.AnnualRevenue,
