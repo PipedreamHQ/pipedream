@@ -25,7 +25,7 @@ export default {
       });
       if (projects.length > 0) {
         const lastProcessedProjectId = projects[0].id;
-        this.db.set("lastProcessedProjectId", lastProcessedProjectId);
+        this._setLastProcessedProjectId(lastProcessedProjectId);
         console.log(`Polling GitLab projects created after ID ${lastProcessedProjectId}`);
       }
     },
