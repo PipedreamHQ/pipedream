@@ -17,7 +17,7 @@ export default {
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Provide a JSON object with the Conversation metadata information to be updated using the following structure: `{\"key\": \"value\",\"key\": \"value\", ...}`.",
+      description: "Provide key/value pairs of the Conversation metadata information to be updated.",
     },
   },
   async run({ $ }) {
