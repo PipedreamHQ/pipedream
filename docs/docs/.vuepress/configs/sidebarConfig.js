@@ -45,7 +45,16 @@ const docsNav = [
         type: "group",
         children: ["/code/bash/", "/code/bash/http-requests/"],
       },
-      "/destinations/",
+      {
+        title: "Destinations",
+        children: [
+          "/destinations/",
+          "/destinations/http/",
+          "/destinations/email/",
+          "/destinations/s3/",
+          "/destinations/sse/",
+        ],
+      },
       "/environment-variables/",
     ],
   },
