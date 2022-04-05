@@ -10,7 +10,7 @@ You'll find your Pipedream username, email, and other basic account details in y
 
 ### Username
 
-Your Pipedream username functions as your user or org identity. If you've made any resources [public](/public-workflows/), these resources will appear on your public profile at:
+Your Pipedream username functions as your user or org identity. If you've made any resources public, these resources will appear on your public profile at:
 
 ```text
 https://pipedream.com/@username
@@ -34,7 +34,7 @@ Pipedream marketing emails may still be sent to the original email address you u
 
 ### Pipedream API Key
 
-Pipedream provides a [REST API](/api/overview/) for interacting with Pipedream programmatically. You'll find your API key here, which you use to [authorize requests to the API](/api/auth/).
+Pipedream provides a [REST API](/api/) for interacting with Pipedream programmatically. You'll find your API key here, which you use to [authorize requests to the API](/api/auth/).
 
 You can revoke and regenerate your API key from here at any time.
 

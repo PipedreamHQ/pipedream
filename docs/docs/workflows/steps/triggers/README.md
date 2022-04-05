@@ -78,7 +78,7 @@ You can send any HTTP requests to this endpoint, from anywhere on the web. You c
 
 ### Accessing HTTP request data
 
-You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/events/#event-format), accessible in any [code](/workflows/steps/code/) or [action](/components/actions/) step.
+You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/events/#event-format), accessible in any [code](/code/) or [action](/components/actions/) step.
 
 ### Valid Requests
 

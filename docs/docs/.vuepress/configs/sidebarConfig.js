@@ -112,7 +112,8 @@ const referenceNav = [
     ],
   },
   "/limits/",
-  "/privacy-and-security/"
+  "/privacy-and-security/",
+  "/privacy-and-security/pgp-key/"
 ];
 
 const pricingNav = ["/pricing/"];

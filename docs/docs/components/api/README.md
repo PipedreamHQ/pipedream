@@ -778,9 +778,9 @@ $.export("$summary", `Successfully added ${data.length} ${data.length == 1 ? "it
 
 [Environment variables](/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
 
-For sources, you can use [`secret` props](#props) to reference sensitive data.
+In sources, you can use [`secret` props](#props) to reference sensitive data.
 
-For actions, you can pass environment variables as the values of props using the [object explorer](/workflows/steps/params/#use-the-object-explorer) within your workflow.
+In actions, you'll see a list of your environment variables in the object explorer when selecting a variable to pass to a step:
 
 ### Using npm packages
 

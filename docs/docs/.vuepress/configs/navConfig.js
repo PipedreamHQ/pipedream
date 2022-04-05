@@ -15,7 +15,8 @@ module.exports = {
         { text: "Building Components", link: "/components/" },
         { text: "REST API", link: "/api/" },
         { text: "Limits", link: "/limits/" },
-        { text: "Security & Privacy", link: "/privacy-and-security/"}
+        { text: "Security & Privacy", link: "/privacy-and-security/"},
+        { text: "PGP Key", link: "/privacy-and-security/pgp-key/" }
       ],
     },
   ], 
