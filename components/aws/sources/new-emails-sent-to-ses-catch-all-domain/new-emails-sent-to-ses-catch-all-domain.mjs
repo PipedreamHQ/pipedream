@@ -15,7 +15,7 @@ export default {
     These events can trigger a Pipedream workflow and can be consumed via SSE or REST API.
   `),
   type: "source",
-  version: "1.0.2",
+  version: "1.0.3",
   props: {
     ...base.props,
     domain: {
@@ -30,7 +30,7 @@ export default {
   methods: {
     ...base.methods,
     getReceiptRule(bucketName, topicArn) {
-      const name = `pd-${this.domain}-catchall-${uuid()}`;
+      const name = `pd-catchall-${uuid()}`;
       const rule = {
         Name: name,
         Enabled: true,
