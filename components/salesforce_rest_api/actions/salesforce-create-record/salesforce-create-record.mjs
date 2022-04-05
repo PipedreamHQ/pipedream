@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-record",
   name: "Create Record",
   description: "Create new records of a given resource. Resource field values in the request data, and then use the POST method of the resource. The response body will contain the ID of the created record if the call is successful. Make user to include required fields of the resource you are creating.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

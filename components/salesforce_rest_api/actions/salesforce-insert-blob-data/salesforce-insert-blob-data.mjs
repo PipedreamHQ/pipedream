@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-insert-blob-data",
   name: "Insert Blob Data",
   description: "Inserts blob data in Salesforce standard objects.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

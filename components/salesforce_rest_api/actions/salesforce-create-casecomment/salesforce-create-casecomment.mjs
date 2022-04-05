@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-casecomment",
   name: "Create CaseComment",
   description: "Creates a CaseComment that provides additional information about the associated Case.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

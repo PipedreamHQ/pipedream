@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-contact",
   name: "Create Contact",
   description: "Creates a Contact, which is a person associated with an account.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

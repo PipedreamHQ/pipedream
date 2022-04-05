@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-update-account",
   name: "Update Account",
   description: "Updates a Salesforce account, representing an individual account, which is an organization or person involved with your business (such as customers, competitors, and partners).",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

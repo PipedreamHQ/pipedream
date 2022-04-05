@@ -5,7 +5,7 @@ export default {
   key: "salesforce_rest_api-salesforce-create-opportunity",
   name: "Create Opportunity",
   description: "Creates an opportunity, which represents an opportunity, which is a sale or pending deal.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,
