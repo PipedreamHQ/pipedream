@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./actions/constants.mjs";
 
 export default {
   type: "app",
@@ -78,6 +79,12 @@ export default {
       label: "Enable Custom Domain",
       description: "Enable generation of personalized URLs for the Summary UI.",
       optional: true,
+    },
+    contentType: {
+      type: "string",
+      label: "Content Type",
+      description: "Type of the transcript content to be generated.",
+      options: Object.values(constants.contentType),
     },
   },
   methods: {
@@ -278,6 +285,18 @@ export default {
       return this.makeRequest({
         $,
         path: `/conversations/${conversationId}/trackers-detected`,
+      });
+    },
+    async postFormattedTranscript({
+      $,
+      conversationId,
+      data,
+    }) {
+      return this.makeRequest({
+        $,
+        method: "post",
+        path: `/conversations/${conversationId}/transcript`,
+        data,
       });
     },
   },
