@@ -35,4 +35,14 @@ export default {
       await new Promise((resolve) => setTimeout(resolve, 5000));
     },
   },
+  async run({ $ }) {
+    try {
+      await this.firebase.initializeApp();
+      const response = await this.getResponse();
+      this.emitSummary($);
+      return response;
+    } finally {
+      await this.deleteApp();
+    }
+  },
 };
