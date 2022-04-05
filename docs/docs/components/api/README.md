@@ -612,7 +612,7 @@ hooks: {
 
 Each time a component is invoked, its `run` method is called. Sources are invoked by their [interface](#interface-props) (for example, via HTTP request). Actions are run when their parent workflow is triggered.
 
-You can reference [`this`](#referencing-this) within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and more.
+You can reference `this` within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and more.
 
 #### Sources
 
@@ -914,7 +914,7 @@ You can delete a component via the UI at [https://pipedream.com/sources](https:/
 
 #### API
 
-See the [REST API docs](/api/rest/#operations).
+See the [REST API docs](/api/rest/)).
 
 ### Managing Actions
 
@@ -970,7 +970,7 @@ On delete, Pipedream invokes the `deactivate()` hook and then deletes the deploy
 
 On deploy, Pipedream creates an instance of a saved component and invokes the optional `deploy()` and `activate()` hooks. A unique deployed component ID is generated for the component.
 
-You can deploy a component via the [CLI, UI or API](#management).
+You can deploy a component via the CLI, UI or API.
 
 #### Update
 

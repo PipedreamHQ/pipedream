@@ -10,7 +10,8 @@ You can use this to email yourself when you receive a specific event, for exampl
 
 ### Adding an Email Action
 
-First, [add a new Action](/workflows/steps/actions/#adding-a-new-action), then select the **Send Yourself an Email** Action. You can modify the **Subject** and the message (either **Plain Text** or **HTML**) however you want.
+1. Add a new step to your workflow
+2. Select the **Send Yourself an Email** Action. You can modify the **Subject** and the message (either **Plain Text** or **HTML**) however you want.
 
 ### Using `$.send.email` in workflows
 

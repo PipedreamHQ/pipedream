@@ -44,7 +44,7 @@ actions.
 #### Sources
 
 - Emit events that can trigger Pipedream [workflows](/workflows/) (events may
-  also be consumed outside of Pipedream via [API](/api/overview/))
+  also be consumed outside of Pipedream via [API](/api/))
 - Emitted event data can be inspected and referenced by
   [steps](/workflows/steps/) in the target workflow
 - Can use any of Pipedream's built-in [deduping
@@ -471,7 +471,7 @@ to improve the clarity of the description or instructions. When using Markdown:
 - Enclose sample input values in backticks (`` ` ``)
 - Refer to other props using **bold** by surrounding with double asterisks (*)
 - Use Markdown links with descriptive text rather than displaying a full URL.
-- If the description isn't self-explanatory, link to the API docs of the relevant method to further clarify how the prop works. When the value of the prop is complex (for example, an object with many properties), link to the section of the API docs that include details on this format. Users may pass values from previous steps using [expressions](/workflows/steps/params/#entering-expressions), so they'll need to know how to structure that data.
+- If the description isn't self-explanatory, link to the API docs of the relevant method to further clarify how the prop works. When the value of the prop is complex (for example, an object with many properties), link to the section of the API docs that include details on this format. Users may pass values from previous steps using expressions, so they'll need to know how to structure the input data.
 
 Examples:
 
@@ -527,7 +527,7 @@ for an example of cursor-based pagination.
 
 In the interest of consistency, use the following naming patterns when defining
 [interface](../api/#interface-props) and
-[service](COMPONENT-API.md#service-props) props in source components:
+[service](/components/api/#service-props) props in source components:
 
 | Prop                | **Recommended Prop Variable Name** |
 | ------------------- | ---------------------------------- |
@@ -621,7 +621,7 @@ of just letting the error bubble up).
 ##### Hooks
 
 [Hooks](../api/#hooks) are methods that are automatically invoked by Pipedream
-at different stages of the [component lifecycle](../api/#component-lifecycle).
+at different stages of the [component lifecycle](../api/#source-lifecycle).
 Webhook subscriptions are typically created when components are instantiated or
 activated via the `activate()` hook, and deleted when components are deactivated
 or deleted via the `deactivate()` hook.
