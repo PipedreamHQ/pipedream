@@ -34,8 +34,9 @@ const docsNav = [
           "/code/nodejs/http-requests/",
           "/code/nodejs/working-with-files/",
           "/code/nodejs/using-data-stores/",
-          "/code/nodejs/async/",
           "/environment-variables/",
+          "/code/nodejs/async/",
+          "/code/nodejs/sharing-code/"
         ],
       },
       "/code/python/",
