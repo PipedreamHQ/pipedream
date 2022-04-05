@@ -2,19 +2,7 @@
 
 Params are form inputs that can be added to code steps in a workflow to abstract data from the code and improve reusability. Most actions use params to capture user input (e.g., to allow users to customize the URL, method and payload for the Send HTTP Request action). Params support the entry of simple values (e.g., `hello world` or `123`) or expressions in <code v-pre>{{...}}</code> that can reference objects in scope (e.g., <code v-pre>{{event.foo}}</code>) or run basic Node code (e.g., <code v-pre>{{JSON.stringify(event.foo)}}</code>). 
 
-<iframe width="560" height="350" src="https://www.youtube.com/embed/6eq813uEExc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-  * [Entering Expressions](#entering-expressions)
-    + [Use the object explorer](#use-the-object-explorer)
-    + [Manually enter or edit an expression](#manually-enter-or-edit-an-expression)
-    + [Paste a reference from a step export](#paste-a-reference-from-a-step-export)
-  * [Params Types](#params-types)
-    + [Basic Params](#basic-params)
-    + [Structured Params](#structured-params)
-  * [Sharing Params Values in Workflow Templates](#sharing-params-values-in-workflow-templates)
-  * [Configuring Custom Params](#configuring-custom-params)
-    + [Adding params to a code step](#adding-params-to-a-code-step)
-    + [Configuring the params form](#configuring-the-params-form)
+[[toc]]
 
 
 ## Entering Expressions
@@ -34,7 +22,7 @@ When you click into a params input, an object explorer expands below the input. 
 
 To manually enter or edit an expression, just enter or edit a value between double curly braces <code v-pre>{{...}}</code>. Pipedream provides auto-complete support as soon as you type <code v-pre>{{</code>.
 
-![Manually entering an expression as a param]([./images/params-autocomplete-7031289.gif)](https://res.cloudinary.com/pipedreamin/image/upload/v1649169533/docs/components/CleanShot_2022-04-05_at_10.38.16_qokasr.gif)
+![Manually entering an expression as a param](https://res.cloudinary.com/pipedreamin/image/upload/v1649169533/docs/components/CleanShot_2022-04-05_at_10.38.16_qokasr.gif)
 
 You can also run Node.js code in <code v-pre>{{...}}</code>. For example, if `event.foo` is a JSON object and you want to pass it to a param as a string, you can run <code v-pre>{{JSON.stringify(event.foo)}}</code>.
 

@@ -68,7 +68,6 @@ This action has 3 properties:
 2. **Key** - where to query the data from
 3. **Create new record if key is not found** - if the specified key isn't found, you can create a new record
 
-
 ![Get record action](https://res.cloudinary.com/pipedreamin/image/upload/v1648853992/docs/components/data_stores_get_record_yqazfk.png)
 
 ### Deleting Data
@@ -103,7 +102,6 @@ You can also edit Data Store values manually from this view. To edit a particula
 This will open a text box that will allow you to edit the contents of the value. When you're finished with your edits, save by clicking the checkmark icon.
 
 ![Editing a data store's value manually](https://res.cloudinary.com/pipedreamin/image/upload/v1648063518/docs/components/CleanShot_2022-03-23_at_15.24.49_err0nt.gif)
-
 
 ### Deleting Data Stores manually
 
