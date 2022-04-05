@@ -49,36 +49,36 @@ export default ({
 
   // Adapted from https://github.com/vuepress/vuepress-community/blob/7feb5c514090b6901cd7d9998f4dd858e0055b7a/packages/vuepress-plugin-smooth-scroll/src/enhanceApp.ts#L21
   // With a bug fix for handling long pages
-  router.options.scrollBehavior = (to, from, savedPosition) => {
-    if (typeof window === "undefined") { 
-      return; 
-    }
+  // router.options.scrollBehavior = (to, from, savedPosition) => {
+  //   if (typeof window === "undefined") { 
+  //     return; 
+  //   }
 
-    if (savedPosition) {
-      return window.scrollTo({
-        top: savedPosition.y,
-        behavior: 'smooth',
-      })
-    } else if (to.hash) {
-      if (Vue.$vuepress.$get('disableScrollBehavior')) {
-        return false
-      }
-      const scrollResult = scrollToAnchor(to)
+  //   if (savedPosition) {
+  //     return window.scrollTo({
+  //       top: savedPosition.y,
+  //       behavior: 'smooth',
+  //     })
+  //   } else if (to.hash) {
+  //     if (Vue.$vuepress.$get('disableScrollBehavior')) {
+  //       return false
+  //     }
+  //     const scrollResult = scrollToAnchor(to)
 
-      if (scrollResult) {
-        return scrollResult
-      } else {
-        window.onload = () => {
-          scrollToAnchor(to)
-        }
-      }
-    } else {
-      return window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      })
-    }
-  }
+  //     if (scrollResult) {
+  //       return scrollResult
+  //     } else {
+  //       window.onload = () => {
+  //         scrollToAnchor(to)
+  //       }
+  //     }
+  //   } else {
+  //     return window.scrollTo({
+  //       top: 0,
+  //       behavior: 'smooth',
+  //     })
+  //   }
+  // }
 
   router.addRoutes([
     { path: "/cron", redirect: "/workflows/steps/triggers" },
