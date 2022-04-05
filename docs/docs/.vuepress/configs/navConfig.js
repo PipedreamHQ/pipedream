@@ -26,7 +26,7 @@ module.exports = {
     },
     {
       text: "Security & Privacy",
-      link: "/security-and-privacy/"
+      link: "/privacy-and-security/"
     },
     {
       text: "Pricing",

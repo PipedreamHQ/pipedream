@@ -115,7 +115,6 @@ const referenceNav = [
     ],
   },
   "/limits/",
-  "/privacy-and-security/"
 ];
 
 const pricingNav = ["/pricing/"];

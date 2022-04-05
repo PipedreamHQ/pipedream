@@ -45,7 +45,7 @@ Logging the value of any environment variables — for example, using `console.l
 
 [Actions](/components/actions/) are prebuilt code steps that provide a form for passing [params](/workflows/steps/params/) as input.
 
-You can reference the value of environment variables using <code v-pre>{{process.env.YOUR_ENV_VAR}}</code>. You'll see a list of your environment variables in the [object explorer](/workflows/steps/params/#use-the-object-explorer):
+You can reference the value of environment variables using <ClientOnly><code v-pre>{{process.env.YOUR_ENV_VAR}}</code></ClientOnly>. You'll see a list of your environment variables in the [object explorer](/workflows/steps/params/#use-the-object-explorer):
 
 <div>
 <img alt="Environment variables in the object explorer" width="300px" src="./images/env-vars-object-explorer.png">
