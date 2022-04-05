@@ -15,7 +15,7 @@ export default {
       ],
     },
     metadata: {
-      type: "string",
+      type: "object",
       label: "Metadata",
       description: "Provide a JSON object with the Conversation metadata information to be updated using the following structure: `{\"key\": \"value\",\"key\": \"value\", ...}`.",
     },
@@ -23,10 +23,9 @@ export default {
   async run({ $ }) {
     const response =
       await this.symblAIApp.putConversation({
-        $,
         conversationId: this.conversationId,
         data: {
-          metadata: JSON.parse(this.metadata),
+          metadata: this.metadata,
         },
       });
     $.export("$summary", `Successfully updated Conversation Id: ${response.id}`);

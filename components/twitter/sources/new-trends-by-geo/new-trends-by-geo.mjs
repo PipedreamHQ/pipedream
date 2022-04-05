@@ -4,7 +4,7 @@ export default {
   key: "twitter-new-trends-by-geo",
   name: "New Trends by Geo",
   description: "Emit new event when a new topic is trending on Twitter in a specific geographic location",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     twitter,
@@ -16,7 +16,7 @@ export default {
     },
     timer: {
       label: "Polling interval",
-      description: "Pipedream will poll the YouTube API on this schedule",
+      description: "Pipedream will poll the Twitter API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: 60 * 15,

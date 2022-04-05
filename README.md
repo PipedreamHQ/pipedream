@@ -13,7 +13,7 @@ Pipedream provides a free, hosted platform for connecting apps and developing ev
 
 <p align="center">
   <br />
-  <img src="./images/hero.png" width="800px" alt="HTTP trigger + step selection menu" >
+  <img src="./images/hero2.png" width="800px" alt="HTTP trigger + step selection menu" >
   <br />
 </p>
 
@@ -43,7 +43,7 @@ Click the image below to watch a brief demo on YouTube.
 
 <p align="center">
   <br />
-  <a href="https://www.youtube.com/watch?v=BGKuPYMNKGg">
+  <a href="http://tod.ly/38ue0z1">
     <img src="./images/demo.png" width="800px" alt="Pipedream demo static image" />
   </a>
 </p>

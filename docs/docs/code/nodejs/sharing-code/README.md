@@ -1,3 +1,8 @@
+---
+short_description: Reuse your code steps across workflows to speed up your solutions development.
+thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646841235/docs/icons/icons8-copy-96_dx48fh.png
+---
+
 # Sharing code across workflows
 
 Pipedream provides two ways to share code across workflows:

@@ -12,8 +12,6 @@ Today, we support the following triggers:
 
 If there's a specific trigger you'd like supported, please [let us know](https://pipedream.com/support/).
 
-[[toc]]
-
 ## App-based Triggers
 
 You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/event-sources/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
@@ -32,19 +30,12 @@ Search by **app name** to find triggers associated with your app. For Google Cal
 
 Once you select your trigger, you'll be asked to connect any necessary accounts (for example, Google Calendar sources require you authorize Pipedream access to your Google account), and enter the values for any configuration settings.
 
-Some sources are configured to retrieve an initial set of events when they're created. Others require you to generate events in the app to trigger your workflow. If your source generates an initial set of events, you'll see them appear in the **test** menu in the trigger step:
+Some sources are configured to retrieve an initial set of events when they're created. Others require you to generate events in the app to trigger your workflow. If your source generates an initial set of events, you'll see them appear in the **Select events** dropdown in the ***Select Event** step:
 
-<div>
-<img alt="Airtable test events" src="./images/airtable-test-events.png">
-</div>
+![Choose an event to test your workflow steps against](https://res.cloudinary.com/pipedreamin/image/upload/v1647957381/docs/components/CleanShot_2022-03-22_at_09.55.57_2x_upj35r.png)
 
-Then you can select a specific test event and manually trigger your workflow with that event data by clicking **Send Test Event**.
 
-Moreover, since event sources can produce a large stream of events, the workflow is configured to **pause** the stream of events from source to workflow when you first create your workflow. This way, you can author your workflow without it being triggered automatically by your source, sending test events manually during development, instead. **Once you're done, you can toggle the source on in the top-right of the trigger step**:
-
-<div>
-<img alt="Turn your trigger on" width="300px" src="./images/turn-trigger-on.gif">
-</div>
+Then you can select a specific test event and manually trigger your workflow with that event data by clicking **Send Test Event**. Now you're ready to build your workflow with the selected test event.
 
 ### What's the difference between an event source and a trigger?
 
@@ -77,15 +68,11 @@ The shape of the event is specific to the source. For example, RSS sources produ
 
 When you select the **HTTP API** trigger:
 
-<div>
-<img alt="HTTP API trigger" width="400px" src="./images/http-api-trigger.png">
-</div>
+![HTTP API Trigger](https://res.cloudinary.com/pipedreamin/image/upload/v1647894504/docs/components/CleanShot_2022-03-21_at_16.27.45_2x_klxmpz.png)
 
 Pipedream creates a URL endpoint specific to your workflow:
 
-<div>
-<img alt="HTTP API trigger endpoint" width="400px" src="./images/http-endpoint.png">
-</div>
+![HTTP API trigger URL](https://res.cloudinary.com/pipedreamin/image/upload/v1647894654/docs/components/CleanShot_2022-03-21_at_16.30.48_2x_nh7shg.png)
 
 You can send any HTTP requests to this endpoint, from anywhere on the web. You can configure the endpoint as the destination URL for a webhook or send HTTP traffic from your application - we'll accept any [valid HTTP request](#valid-requests).
 
@@ -107,11 +94,9 @@ The primary limit we impose is on the size of the request body: we'll issue a `4
 
 ### How Pipedream handles JSON payloads
 
-JSON is the main data exchange format on the web today. Pipedream optimizes for the case where you've sent JSON as the source event to a workflow.
+JSON is the defacto stand data exchange format on the web today. Pipedream optimizes for the case where you've sent JSON as the source event to a workflow.
 
 When you send JSON in the HTTP payload, or when JSON data is sent in the payload from a webhook provider, **Pipedream converts that JSON to its equivalent JavaScript object**. The trigger data can be referenced using either `event` or the `steps` object.
-
-You can confirm this JSON to JavaScript object conversion occurred by examining the `event.inferred_body_type` property. If this is JSON, we correctly recognized the payload as such, and converted `event.body` to an object accordingly.
 
 In the [Inspector](/workflows/events/inspect/), we present `event.body` cleanly, indenting nested properties, to make the payload easy to read. Since `event.body` is a JavaScript object, it's easy to reference and manipulate properties of the payload using dot-notation.
 
@@ -131,8 +116,6 @@ Pipedream will convert that to a JavaScript object, `event.body`, with the follo
   title: "General",
 }
 ```
-
-In this case, the `inferred_body_type` property of the `event` object will be set to `MULTIPART_FORM` to signal that we inferred form data and applied the conversion.
 
 #### Limits
 
@@ -155,9 +138,7 @@ curl -d '{ "name": "Yoda" }' \
 
 In workflows, Pipedream saves the raw payload data in a file whose URL you can reference in the variable `steps.trigger.event.body.raw_body_url`.
 
-<div>
-<img alt="Raw body URL in event data" width="600px" src="./images/raw_body_url.png">
-</div>
+![Raw body URL in the event data under steps.trigger.event.body.raw_body_url](https://res.cloudinary.com/pipedreamin/image/upload/v1647895357/docs/components/CleanShot_2022-03-21_at_16.42.01_2x_w6dmqk.png)
 
 Within your workflow, you can download the contents of this data using the **Send HTTP Request** action, or [by saving the data as a file to the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
 
@@ -588,12 +569,6 @@ Choose the RSS trigger to watch an RSS feed for new items:
 </div>
 
 This will create an RSS [event source](/event-sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
-
-## SDK
-
-You can trigger workflows using the Pipedream JavaScript and Ruby SDKs, as well.
-
-Select the **SDK** trigger to generate workflow-specific code samples for sending events to your workflow using each of the SDKs.
 
 ## Don't see a trigger you need?
 

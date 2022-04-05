@@ -131,6 +131,14 @@ export default {
       const AWS = this.sdk(region);
       return new AWS.IAM();
     },
+    _getS3Client(region) {
+      const AWS = this.sdk(region);
+      return new AWS.S3();
+    },
+    _getSTSClient(region) {
+      const AWS = this.sdk(region);
+      return new AWS.STS();
+    },
     _getAssumeRolePolicyForService(service) {
       return {
         Version: "2012-10-17",
@@ -144,6 +152,11 @@ export default {
           },
         ],
       };
+    },
+    async getAWSAccountId(region) {
+      const { Account } = await this._getSTSClient(region).getCallerIdentity()
+        .promise();
+      return Account;
     },
     /**
      * This method creates an IAM role for an AWS service. The role will be
@@ -183,6 +196,57 @@ export default {
         roleArn: Role.Arn,
         roleName: Role.RoleName,
       };
+    },
+    /**
+     * This method creates an S3 bucket in the specified region.
+     *
+     * @param {string} region - The AWS region to which the AWS SDK will
+     * connect. This string should be an acceptable value by the AWS SDK, which
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
+     * @param {string} bucketName - The name of the S3 bucket you'd like to create
+     * @returns {Promise<object>} An object containing the new bucket's Location
+     */
+    async createS3Bucket(region, bucketName) {
+      const params = {
+        Bucket: bucketName,
+      };
+      // S3 throws an error if you specify us-east-1 as the region in
+      // the create bucket LocationConstraint. See https://stackoverflow.com/a/51912090
+      if (region !== "us-east-1") {
+        params.CreateBucketConfiguration = {
+          LocationConstraint: region,
+        };
+      }
+      const { Location } = await this
+        ._getS3Client(region)
+        .createBucket(params)
+        .promise();
+      console.log(Location);
+      return {
+        Location,
+      };
+    },
+    /**
+     * This method sets an S3 bucket's policy
+     *
+     * @param {string} region - The AWS region to which the AWS SDK will
+     * connect. This string should be an acceptable value by the AWS SDK, which
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
+     * @param {string} bucketName - The name of the S3 bucket you'd like to create
+     * @param {string} policy - The bucket policy JSON
+     * @returns {Promise<object>} An object containing the put bucket policy response
+     */
+    async putS3BucketPolicy(region, bucketName, policy) {
+      const params = {
+        Bucket: bucketName,
+        Policy: policy,
+      };
+      const putBucketPolicyResp = await this
+        ._getS3Client(region)
+        .putBucketPolicy(params)
+        .promise();
+      console.log(putBucketPolicyResp);
+      return putBucketPolicyResp;
     },
     /**
      * This method adds permissions to an IAM role in the form of inline
