@@ -95,7 +95,7 @@ const referenceNav = [
     title: "CLI",
     type: "group",
     children: [
-      "/cli/",
+      // "/cli/",
       "/cli/install/", 
       "/cli/login/", 
       "/cli/reference/"
