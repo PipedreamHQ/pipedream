@@ -2,17 +2,17 @@
 
 Pipedream provides a serverless programming platform for building event-driven [workflows](/workflows/) that integrate apps. Pipedream comes with [prebuilt actions](/components/actions/) for interacting with the Zoom API, and allows you to listen for Zoom events in your account and trigger code when they happen.
 
-Pipedream is fully programmable - you can write [any Node.js code](/workflows/steps/code/) to control your workflows - but also fully-managed: Pipedream runs your code, so you don't have to manage any infrastructure and can focus on your workflow's logic.
+Pipedream is fully programmable - you can write [any code](/code/) to control your workflows - but also fully-managed: Pipedream runs your code, so you don't have to manage any infrastructure and can focus on your workflow's logic.
 
 [[toc]]
 
 ## Overview
 
-**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Zoom API**. Just [create a new workflow](https://pipedream.com/new), then add prebuilt Zoom [actions](/components/actions/) (create a meeting, send a chat message, etc.) or [write your own Node code](/workflows/steps/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc). 
+**Pipedream [workflows](/workflows/) allow you to run any Node.js code that connects to the Zoom API**. Just [create a new workflow](https://pipedream.com/new), then add prebuilt Zoom [actions](/components/actions/) (create a meeting, send a chat message, etc.) or [write your own code](/code/). These workflows can be triggered by HTTP requests, timers, email, or on any app-based event (new tweets, a Github PR, Zoom events, etc). 
 
 <img src="./images/workflow.png" width="500px" alt="How Pipedream works" style="margin-left: auto; margin-right: auto; display: block;"/>
 
-**Pipedream [**event sources**](/event-sources/) expose real-time event streams for any [Zoom event](https://marketplace.zoom.us/docs/api-reference/webhook-reference)** - just connect your Zoom account, and get an event stream. Event sources can trigger workflows, running custom code each time an event occurs in Zoom. For example, to run a workflow each time a meeting ends, you can create a **Meeting Ended** source. This source emits an event as soon as a meeting ends in your account, which can trigger a workflow that pulls participant stats, emails those participants a survey, or anything else you'd like.
+**Pipedream [**event sources**](/sources/) expose real-time event streams for any [Zoom event](https://marketplace.zoom.us/docs/api-reference/webhook-reference)** - just connect your Zoom account, and get an event stream. Event sources can trigger workflows, running custom code each time an event occurs in Zoom. For example, to run a workflow each time a meeting ends, you can create a **Meeting Ended** source. This source emits an event as soon as a meeting ends in your account, which can trigger a workflow that pulls participant stats, emails those participants a survey, or anything else you'd like.
 
 <img src="./images/event-sources.png" alt="How Zoom Event sources work" width="500px" style="margin-left: auto; margin-right: auto; display: block;"/>
 
@@ -52,7 +52,7 @@ This will open up a new window prompting you to authorize Pipedream's access to 
 
 ## Zoom Event Sources
 
-**Pipedream [**event sources**](/event-sources/) expose real-time event streams for any [Zoom event](https://marketplace.zoom.us/docs/api-reference/webhook-reference)** - just connect your Zoom account, and get an event stream.
+**Pipedream [**event sources**](/sources/) expose real-time event streams for any [Zoom event](https://marketplace.zoom.us/docs/api-reference/webhook-reference)** - just connect your Zoom account, and get an event stream.
 
 Event sources can trigger workflows, running custom code each time an event occurs in Zoom. For example, to run a workflow each time a meeting ends, you can create a **Meeting Ended** source. This source emits an event as soon as a meeting ends in your account, which can trigger a workflow that pulls participant stats, emails those participants a survey, or anything else you'd like.
 

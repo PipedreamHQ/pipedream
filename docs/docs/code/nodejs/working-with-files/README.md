@@ -77,11 +77,11 @@ defineComponent({
 
 ## Download a file to `/tmp`
 
-[See this example](/workflows/steps/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory) to learn how to download a file to `/tmp`.
+[See this example](/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory) to learn how to download a file to `/tmp`.
 
 ## Upload a file from `/tmp`
 
-[See this example](/workflows/steps/code/nodejs/http-requests/#upload-a-file-from-the-tmp-directory) to learn how to upload a file from `/tmp` in an HTTP request.
+[See this example](/code/nodejs/http-requests/#upload-a-file-from-the-tmp-directory) to learn how to upload a file from `/tmp` in an HTTP request.
 
 ## Download a file, uploading it in another `multipart/form-data` request
 

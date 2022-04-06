@@ -15,7 +15,7 @@ For example, you can define a data store as a data prop, and reference it at `th
 export default defineComponent({
   props: {
     // Define that the "db" variable in our component is a data store
-    data: { type: "store" }
+    data: { type: "data_store" }
   },
   async run({ steps, $ }) {
     // Now we can access the data store at "this.store"
@@ -59,7 +59,7 @@ You can retrieve data with the Data Store using the `get` method. Pass the _key_
 ```javascript
 export default defineComponent({
   props: {
-    data: { type: "store" },
+    data: { type: "data_store" },
   },
   async run({ steps, $ }) {
     // Retrieve the timestamp representing last time this step executed

@@ -6,7 +6,7 @@
 
 ## Using `$.send.s3` in workflows
 
-You can send data to an S3 Destination in [Node.js code steps](/workflows/steps/code/) using `$.send.s3()`.
+You can send data to an S3 Destination in [Node.js code steps](/code/nodejs/) using `$.send.s3()`.
 
 `$.send.s3()` takes the following parameters: 
 
@@ -74,7 +74,7 @@ This bucket policy provides the minimum set of permissions necessary for Pipedre
 
 S3 Destination delivery is handled asynchronously, separate from the execution of a workflow. **Moreover, events sent to an S3 bucket are batched and delivered once a minute**. For example, if you sent 30 events to an S3 Destination within a particular minute, we would collect all 30 events, delimit them with newlines, and write them to a single S3 object.
 
-In some cases, delivery will take longer than a minute. You can always review how many Destinations we've delivered a given event to by examining the [**Dest** column in the Inspector](/workflows/events/inspect/#dest-destinations).
+In some cases, delivery will take longer than a minute.
 
 ## S3 object format
 

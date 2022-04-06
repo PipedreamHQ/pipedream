@@ -34,9 +34,9 @@ const docsNav = [
           "/code/nodejs/http-requests/",
           "/code/nodejs/working-with-files/",
           "/code/nodejs/using-data-stores/",
-          "/code/nodejs/sharing-code/",
-          "/code/nodejs/async/",
           "/environment-variables/",
+          "/code/nodejs/async/",
+          "/code/nodejs/sharing-code/"
         ],
       },
       "/code/python/",
@@ -72,14 +72,6 @@ const docsNav = [
   },
 ];
 
-const securityNav = [
-  "/privacy-and-security/",
-  "/privacy-and-security/best-practices/",
-  "/abuse/",
-  "/privacy-and-security/pgp-key/",
-  "/subprocessors/",
-];
-
 const referenceNav = [
   {
     title: "Components",
@@ -112,7 +104,16 @@ const referenceNav = [
     ],
   },
   "/limits/",
-  "/privacy-and-security/"
+  {
+    title: "Security and Privacy",
+    children: [
+      "/privacy-and-security/",
+      "/privacy-and-security/best-practices/",
+      "/abuse/",
+      "/privacy-and-security/pgp-key/",
+      "/subprocessors/",
+    ]
+  }
 ];
 
 const pricingNav = ["/pricing/"];
@@ -132,9 +133,9 @@ module.exports = {
   "/api/rest/workflow-errors/": referenceNav,
   "/api/sse/": referenceNav,
   "/scheduling-future-tasks/": referenceNav,
-  "/privacy-and-security/": securityNav,
-  "/subprocessors/": securityNav,
-  "/abuse/": securityNav,
+  "/privacy-and-security/": referenceNav,
+  "/subprocessors/": referenceNav,
+  "/abuse/": referenceNav,
   "/pricing/": pricingNav,
   "/limits/": referenceNav,
   "/cli/install/": referenceNav,
