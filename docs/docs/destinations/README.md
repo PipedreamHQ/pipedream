@@ -1,6 +1,6 @@
 # Destinations
 
-**Destinations**, like [actions](/components/actions/), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
+**Destinations**, like [actions](/components#actions), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
 
 However, Destinations are different than actions in two ways:
 
@@ -26,7 +26,7 @@ You can send data to Destinations in [Node.js code steps](/code/nodejs/), too, u
 
 `$.send` is an object provided by Pipedream that exposes destination-specific functions like `$.send.http()`, `$.send.s3()`, and more. **This allows you to send data to destinations programmatically, if you need more control than the default actions provide**.
 
-Let's use `$.send.http()` to send an HTTP POST request like we did in the Action example above. [Add a new action](/components/actions/#using-existing-actions), then search for "**Run custom code**":
+Let's use `$.send.http()` to send an HTTP POST request like we did in the Action example above. [Add a new action](/components#actions#using-existing-actions), then search for "**Run custom code**":
 
 Create a new HTTP endpoint URL (try creating a new Pipedream workflow and adding an HTTP trigger), and add the code below to your code step, with the URL you created:
 
@@ -69,7 +69,7 @@ you won't have to `await` the execution of the HTTP requests in your workflow. W
 
 ### Using destinations in actions
 
-If you're authoring a [component action](/components/actions/), you can deliver data to destinations, too. `$.send` isn't directly available to actions like it is for workflow code steps. **Instead, you use `$.send` to access the destination-specific functions**:
+If you're authoring a [component action](/components#actions), you can deliver data to destinations, too. `$.send` isn't directly available to actions like it is for workflow code steps. **Instead, you use `$.send` to access the destination-specific functions**:
 
 ```javascript
 export default {

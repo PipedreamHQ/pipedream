@@ -66,7 +66,7 @@ you won't have to `await` the execution of the HTTP requests in your workflow. W
 
 ## Using `$.send.http` in component actions
 
-If you're authoring a [component action](/components/actions/), you can deliver data to an HTTP destination using `$.send.http`.
+If you're authoring a [component action](/components#actions), you can deliver data to an HTTP destination using `$.send.http`.
 
 `$.send.http` functions the same as [`$.send.http` in workflow code steps](#using-send-http-in-workflows):
 

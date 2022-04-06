@@ -8,6 +8,7 @@ const docsNav = [
       "/workflows/",
       "/workflows/steps/",
       "/workflows/steps/triggers/",
+      "/workflows/steps/actions/",
       "/workflows/steps/params/",
       "/workflows/events/",
       "/workflows/events/inspect/",
