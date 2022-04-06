@@ -9,8 +9,8 @@
       "destination": "/$1"
     },
     {
-      "source": "/docs",
-      "destination": "/"
+      "source": "/docs/(.*)",
+      "destination": "/$1"
     },
     {
       "source": "/docs-v2/(.*)",
