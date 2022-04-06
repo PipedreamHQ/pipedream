@@ -23,10 +23,5 @@ module.exports = {
   themeConfig,
   postcss: {
     plugins: [require("autoprefixer"), require("tailwindcss")],
-  },
-  configureWebpack: (config, isServer) => {
-    return {
-      devtool: 'source-map'
-    }
   }
 };
