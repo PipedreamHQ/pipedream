@@ -27,11 +27,17 @@ export default {
   type: "action",
   methods: {},
   async run({ $ }) {
-    const milliseconds = this.delay.convertToMilliseconds();
+    const milliseconds = this.delay.convertToMilliseconds(
+      this.delayDurationUnit,
+      this.delayDurationValue,
+    );
     console.log(`${this.delayDurationValue} ${this.delayDurationUnit} = ${milliseconds} ms`);
     // What are the nuances wrt test mode? Can we show a meaningful $summary?
-    // const resp = $.flow.delay(n);
-    // $.export("$summary", `Successfully configured this workflow to delay for ${this.delayDurationValue} ${this.delayDurationUnit}.`);
-    // return resp;
+    const resp = $.flow.delay(milliseconds);
+    $.export(
+      "$summary",
+      `Successfully configured this workflow to delay for ${this.delayDurationValue} ${this.delayDurationUnit}.`,
+    );
+    return resp;
   },
 };

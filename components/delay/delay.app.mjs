@@ -21,29 +21,20 @@ export default {
     },
   },
   methods: {
-    convertToMilliseconds() {
-      // The default unit is milliseconds
-      let n = 1;
-      switch (this.delayDurationUnit) {
-      case "Milliseconds": {
-        n = this.delayDurationValue;
-        break;
+    // $.flow.delay() API requires milliseconds
+    convertToMilliseconds(unit, value) {
+      switch (unit) {
+      case "Milliseconds":
+        return value;
+      case "Seconds":
+        return value * 1000;
+      case "Minutes":
+        return value * 1000 * 60;
+      case "Hours":
+        return value * 1000 * 60 * 60;
+      default:
+        throw new Error("something here");
       }
-      case "Seconds": {
-        n = this.delayDurationValue * 1000;
-        break;
-      }
-      case "Minutes": {
-        n = this.delayDurationValue * 1000 * 60;
-        break;
-      }
-      case "Hours": {
-        n = this.delayDurationValue * 1000 * 60 * 60;
-        break;
-      }
-      }
-      console.log("n = " + n);
-      return n;
     },
   },
 };
