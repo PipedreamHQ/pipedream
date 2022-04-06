@@ -24,7 +24,7 @@ Then you can select the **Add or update a single record** pre-built action.
 
 ![Insert a single row into a data store](https://res.cloudinary.com/pipedreamin/image/upload/v1648060286/docs/components/CleanShot_2022-03-23_at_14.31.05_2x_swrdrh.png)
 
-After selecting this action, you'll be presented with the 3 key options to finish setup:
+After selecting this action, you'll be presented with the 3 options to finish setup:
 
 ![Configure the action](https://res.cloudinary.com/pipedreamin/image/upload/v1648063057/docs/components/CleanShot_2022-03-23_at_15.17.30_2x_snunyz.png)
 
@@ -46,7 +46,7 @@ However, you can use dynamic keys as well by passing a path to another step's ex
 `{{ steps.trigger.event.body.id }}`
 :::
 
-![Workflow trigger example](https://res.cloudinary.com/pipedreamin/image/upload/v1648061400/docs/components/CleanShot_2022-03-23_at_14.49.43_2x_eaiv7p.png)
+![Workflow trigger example](https://res.cloudinary.com/pipedreamin/image/upload/v1649270704/docs/components/add_update_record_action_eh7dpz.png)
 
 :::tip
 
