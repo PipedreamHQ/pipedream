@@ -37,7 +37,7 @@ The maximum number of events Pipedream will queue per workflow depends on your a
 - Up to 100 events will be queued per workflow for the [Developer Tier](/pricing/#developer-tier)
 - Workflows owned by paid plans may have custom limits. If you need a larger queue size, [see here](#increasing-the-queue-size-for-a-workflow).
 
-**IMPORTANT:** If the number of events emitted to a workflow exceeds the queue size, events will be lost. If that happens, an error message will be displayed in the event list of your workflow and your [global error workflow](/workflows/error-handling/global-error-workflow/) will be triggered.
+**IMPORTANT:** If the number of events emitted to a workflow exceeds the queue size, events will be lost. If that happens, you'll see an error in your workflow, and you'll receive an error email.
 
 To learn more about how the feature works and technical details, check out our [engineering blog post](https://blog.pipedream.com/concurrency-controls-design/).
 
@@ -79,11 +79,11 @@ To stop the queue from invoking your workflow, throttle workflow execution and s
 
 ### Increasing the queue size for a workflow
 
-By default, your workflow can hold up to {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}} events in its queue at once. Any events that arrive once the queue is full will be dropped, and you'll see an [Event Queue Full](/errors/#event-queue-full) error.
+By default, your workflow can hold up to {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}} events in its queue at once. Any events that arrive once the queue is full will be dropped, and you'll see an [Event Queue Full](/troubleshooting/#event-queue-full) error.
 
 For example, if you serialize the execution of your workflow by setting a concurrency of `1`, but receive 200 events from your workflow's event source at once, the workflow's queue can only hold the first 100 events. The last 100 events will be dropped.
 
-Users on [paid tiers](https://pipedream.com/pricing) can [increase their queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}}](/workflows/events/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow, just below the **Concurrency** section of your **Execution Controls** settings:
+Users on [paid tiers](https://pipedream.com/pricing) can {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} for a given workflow, just below the **Concurrency** section of your **Execution Controls** settings:
 
 <div>
 <img alt="Queue size" width="400" src="./images/queue-size.png">

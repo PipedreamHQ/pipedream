@@ -612,7 +612,7 @@ hooks: {
 
 Each time a component is invoked, its `run` method is called. Sources are invoked by their [interface](#interface-props) (for example, via HTTP request). Actions are run when their parent workflow is triggered.
 
-You can reference [`this`](#referencing-this) within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and more.
+You can reference `this` within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and more.
 
 #### Sources
 
@@ -734,8 +734,6 @@ async run({ $ }) {
 }
 ```
 
-It functions the same way as [`$end` in workflow code steps](/workflows/steps/code/#end).
-
 **`$.summary`**
 
 `$.summary` is used to surface brief, user-friendly summaries about what happened when an action step succeeds. For example, when [adding items to a Spotify playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/actions/add-items-to-playlist/add-items-to-playlist.mjs#L51):
@@ -778,9 +776,9 @@ $.export("$summary", `Successfully added ${data.length} ${data.length == 1 ? "it
 
 [Environment variables](/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
 
-For sources, you can use [`secret` props](#props) to reference sensitive data.
+In sources, you can use [`secret` props](#props) to reference sensitive data.
 
-For actions, you can pass environment variables as the values of props using the [object explorer](/workflows/steps/params/#use-the-object-explorer) within your workflow.
+In actions, you'll see a list of your environment variables in the object explorer when selecting a variable to pass to a step:
 
 ### Using npm packages
 
@@ -916,7 +914,7 @@ You can delete a component via the UI at [https://pipedream.com/sources](https:/
 
 #### API
 
-See the [REST API docs](/api/rest/#operations).
+See the [REST API docs](/api/rest/)).
 
 ### Managing Actions
 
@@ -972,7 +970,7 @@ On delete, Pipedream invokes the `deactivate()` hook and then deletes the deploy
 
 On deploy, Pipedream creates an instance of a saved component and invokes the optional `deploy()` and `activate()` hooks. A unique deployed component ID is generated for the component.
 
-You can deploy a component via the [CLI, UI or API](#management).
+You can deploy a component via the CLI, UI or API.
 
 #### Update
 

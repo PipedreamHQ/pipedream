@@ -16,7 +16,7 @@ Steps are the building blocks you use to create workflows. You can easily combin
 
 ### Trigger
 
-Every workflow begins with a single [**trigger**](/triggers/) step. Trigger steps initiate the execution of a workflow; i.e., workflows execute on each trigger event. For example, you can create an [HTTP trigger](/triggers/#http) to accept HTTP requests. We give you a unique URL where you can send HTTP requests, and your workflow is executed on each request.
+Every workflow begins with a single [**trigger**](/workflows/steps/triggers/) step. Trigger steps initiate the execution of a workflow; i.e., workflows execute on each trigger event. For example, you can create an [HTTP trigger](/workflows/steps/triggers/#http) to accept HTTP requests. We give you a unique URL where you can send HTTP requests, and your workflow is executed on each request.
 
 ### Code, Actions
 
@@ -62,7 +62,7 @@ Step exports allow you to pass data between steps. Any data exported from a step
 
 For examples of supported data types in your steps language, see the examples below.
 
-* [Node.js (Javascript)](/code/nodejs/#sharing-data-between-steps)
+* [Node.js (Javascript)](/code/nodejs/#how-pipedream-node-js-components-work)
 * [Python](/code/python/#sharing-data-between-steps)
 * [Bash](/code/bash/#sharing-data-between-steps)
 * [Go](/code/go/#sharing-data-between-steps)

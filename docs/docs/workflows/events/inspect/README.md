@@ -2,7 +2,7 @@
 
 [The inspector](#the-inspector) lists the events you send to a [workflow](/workflows/). Once you choose a [trigger](/workflows/steps/triggers/) and send events to it, you'll see those events in the inspector, to the left of your workflow. 
 
-Clicking on an event from the list lets you [review the incoming event data and workflow execution logs](/workflows/events/#examining-incoming-event-data) for that event.
+Clicking on an event from the list lets you [review the incoming event data and workflow execution logs](/workflows/events/#examining-event-data) for that event.
 
 You can use the inspector to replay events, delete them, and more.
 
@@ -30,7 +30,7 @@ The blue button with the arrow **replays** the event against the newest version 
 
 ## Messages
 
-Any `console.log()` statements or other output of code steps is attached to the associated code cells. But [`$.flow.exit()`](/code/nodejs/#ending-a-workflow-early) or [exceptions](/workflows/steps/code/#exceptions) end a workflow's execution, so their details appear in the inspector:
+Any `console.log()` statements or other output of code steps is attached to the associated code cells. But [`$.flow.exit()`](/code/nodejs/#ending-a-workflow-early) or [errors](/code/nodejs/#errors) end a workflow's execution, so their details appear in the inspector:
 
 <div>
 <img width="400px" alt="$.flow.exit message" src="./images/dollar-end.png">

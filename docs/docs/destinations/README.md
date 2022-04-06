@@ -16,20 +16,19 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 - [HTTP](/destinations/http/)
 - [Email](/destinations/email/)
 - [S3](/destinations/s3/)
-- [Pipedream Data Warehouse](/destinations/sql/)
 - [SSE](/destinations/sse/)
 
 ## Using destinations
 
 ### Using destinations in workflows
 
-You can send data to Destinations in [Node.js code steps](/workflows/steps/code/), too, using `$.send` functions.
+You can send data to Destinations in [Node.js code steps](/code/nodejs/), too, using `$.send` functions.
 
 `$.send` is an object provided by Pipedream that exposes destination-specific functions like `$.send.http()`, `$.send.s3()`, and more. **This allows you to send data to destinations programmatically, if you need more control than the default actions provide**.
 
-Let's use `$.send.http()` to send an HTTP POST request like we did in the Action example above. [Add a new Action](/components/actions/#adding-a-new-action), then search for "**Run Node.js code**":
+Let's use `$.send.http()` to send an HTTP POST request like we did in the Action example above. [Add a new action](/components/actions/#using-existing-actions), then search for "**Run custom code**":
 
-[Create an endpoint URL](https://requestbin.com), adding the code below to your code step, with the URL you created:
+Create a new HTTP endpoint URL (try creating a new Pipedream workflow and adding an HTTP trigger), and add the code below to your code step, with the URL you created:
 
 ```javascript
 defineComponent({

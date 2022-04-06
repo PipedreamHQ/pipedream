@@ -5,7 +5,7 @@ next: false
 
 # Plans and Pricing
 
-We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/event-sources/), [workflows](/workflows/managing/#sharing-workflows), [actions](/components/actions/#creating-your-own-actions), and other integration components so that other Pipedream users benefit from your work.
+We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/sources/), [workflows](/workflows), [actions](/components/actions/#creating-your-own-actions), and other integration components so that other Pipedream users benefit from your work.
 
 To support these goals, **Pipedream offers a [generous free tier](#developer-tier)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#professional-tier).
 
@@ -30,8 +30,8 @@ The Professional Tier includes all the features of the Developer Tier. It also c
 - **You have no daily invocations or compute time cap. You can run any number of invocations, for any amount of time**.
 - You can increase the [max time per execution](/limits/#time-per-execution) to 750 seconds (up from 300 on the Developer Tier).
 - You can request [QPS increases](/limits/#qps-queries-per-second) for specific HTTP endpoints.
-- When using [concurrency and throttling controls](/workflows/events/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
-- You have access to a [Pipedream-provided HTTP proxy](/workflows/steps/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host).
+- When using [concurrency and throttling controls](/workflows/concurrency-and-throttling/), you can increase a workflow's queue size up to {{$site.themeConfig.MAX_WORKFLOW_QUEUE_SIZE}} (free users are capped at a queue size of {{$site.themeConfig.DEFAULT_WORKFLOW_QUEUE_SIZE}}).
+- You have access to a [Pipedream-provided HTTP proxy](/code/nodejs/http-requests/#use-an-http-proxy-to-proxy-requests-through-another-host).
 
 ### Upgrading to the Professional Tier
 
@@ -107,7 +107,7 @@ Many of the usage statistics for paid users are tied to a **billing period**. Yo
 
 For example, if you sign up on Jan 1st, your first billing period will last one month, ending around Feb 1st, at which point you'll start a new billing period.
 
-Your invoices are tied to your billing period. [Read more about invoicing / billing here](/#when-am-i-invoiced-billed).
+Your invoices are tied to your billing period. [Read more about invoicing / billing here](#when-am-i-invoiced-billed-for-paid-plans).
 
 ### Base Invocations Quota
 
@@ -115,7 +115,7 @@ When you sign up for a paid plan, you pay a platform fee at the start of each [b
 
 ### Additional Billable Invocations
 
-Any invocations you run over your [base invocations quota](#base-invocations-quota) are called **additional billable invocations**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed).
+Any invocations you run over your [base invocations quota](#base-invocations-quota) are called **additional billable invocations**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](#when-am-i-invoiced-billed-for-paid-plans).
 
 ## FAQ
 
@@ -149,7 +149,7 @@ Yes, Pipedream can issue invoices on the Enterprise Plan. Invoices are paid annu
 
 ### How does Pipedream secure my credit card data?
 
-Pipedream stores no information on your payment method and uses Stripe as our payment processor. [See our security docs](/security/#payment-processor) for more information.
+Pipedream stores no information on your payment method and uses Stripe as our payment processor. [See our security docs](/privacy-and-security/#payment-processor) for more information.
 
 ### Are unused invocations rolled over from one period to the next?
 

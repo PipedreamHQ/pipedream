@@ -34,8 +34,9 @@ const docsNav = [
           "/code/nodejs/http-requests/",
           "/code/nodejs/working-with-files/",
           "/code/nodejs/using-data-stores/",
-          "/code/nodejs/async/",
           "/environment-variables/",
+          "/code/nodejs/async/",
+          "/code/nodejs/sharing-code/"
         ],
       },
       "/code/python/",
@@ -69,14 +70,6 @@ const docsNav = [
     title: "Organizations",
     children: ["/orgs/", "/orgs/sso/okta/"],
   },
-];
-
-const securityNav = [
-  "/privacy-and-security/",
-  "/privacy-and-security/best-practices/",
-  "/abuse/",
-  "/privacy-and-security/pgp-key/",
-  "/subprocessors/",
 ];
 
 const referenceNav = [
@@ -115,6 +108,16 @@ const referenceNav = [
     ],
   },
   "/limits/",
+  {
+    title: "Security and Privacy",
+    children: [
+      "/privacy-and-security/",
+      "/privacy-and-security/best-practices/",
+      "/abuse/",
+      "/privacy-and-security/pgp-key/",
+      "/subprocessors/",
+    ]
+  }
 ];
 
 const pricingNav = ["/pricing/"];
@@ -140,11 +143,11 @@ module.exports = {
   "/cli/reference/": referenceNav,
   "/limits/": referenceNav,
   // security nav
-  "/privacy-and-security/": securityNav,
-  "/privacy-and-security/pgp-key/": securityNav,
-  "/privacy-and-security/best-practices/": securityNav,
-  "/subprocessors/": securityNav,
-  "/abuse/": securityNav,
+  "/privacy-and-security/": referenceNav,
+  "/privacy-and-reference/pgp-key/": referenceNav,
+  "/privacy-and-reference/best-practices/": referenceNav,
+  "/subprocessors/": referenceNav,
+  "/abuse/": referenceNav,
   // pricing nav
   "/pricing/": pricingNav,
   // main nav

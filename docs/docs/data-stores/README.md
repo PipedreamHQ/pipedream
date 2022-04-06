@@ -119,4 +119,4 @@ In order to free up this Data Store to be deleted manually, you'll need to remov
 
 ### Using with Data Stores in Code Steps
 
-[Refer to our Node.js Data Store documentation](/docs/code/nodejs/using-data-stores) to learn how to use props to define Data Stores in custom code steps in your workflows.
+[Refer to our Node.js Data Store documentation](/code/nodejs/using-data-stores/) to learn how to use props to define Data Stores in custom code steps in your workflows.
