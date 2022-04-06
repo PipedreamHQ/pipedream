@@ -18,11 +18,11 @@ Beyond web browsers, any program that's able to create an [`EventSource` interfa
 
 ## Sending data to an SSE Destination in workflows
 
-You can send data to an SSE Destination in [Node.js code steps](/workflows/steps/code/) using the `$.send.sse()` function.
+You can send data to an SSE Destination in [Node.js code steps](/code/nodejs/) using the `$.send.sse()` function.
 
-[Add a new step to your workflow](/workflows/steps/actions/#adding-a-new-action), then search for "**Code**":
-
-Then add this code to that step:
+1. Add a new step to your workflow
+2. Select the option to **Run custom code** and choose the Node.js runtime.
+3. Add this code to that step:
 
 ```javascript
 defineComponent({

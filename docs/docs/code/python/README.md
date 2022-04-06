@@ -152,14 +152,12 @@ export('pokemon', pokemon)
 Now this `pokemon` data is accessible to downstream steps within `steps["code"]["pokemon"]`
 
 ::: warning
-Not all data types can be stored in the `steps` data shared between workflow steps.
+You can only export JSON-serializable data from steps. Things like:
 
-For the best experience, we recommend only exporting these types of data from Python steps:
-
+* strings
+* numbers
 * lists 
 * dictionaries
-
-[Read more details on step limitations here.](/workflows/steps/#limitations-on-step-exports)
 :::
 
 ## Using environment variables

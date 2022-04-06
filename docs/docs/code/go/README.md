@@ -172,8 +172,6 @@ Now this `pokemon` data is accessible to downstream steps within `pd.Steps["code
 Not all data types can be stored in the `Steps` data shared between workflow steps.
 
 For the best experience, we recommend only [exporting structs that can be marshalled into JSON](https://go.dev/blog/json).
-
-[Read more details on step limitations here.](/workflows/steps/#limitations-on-step-exports)
 :::
 
 ## Using environment variables

@@ -93,9 +93,7 @@ echo $EXPORT >> $PIPEDREAM_EXPORTS
 ::: warning
 Not all data types can be stored in the `$PIPEDREAM_EXPORTS` data shared between workflow steps.
 
-For the best experience, we recommend only exporting strings from Bash steps that can be serialized to JSON. 
-
-[Read more details on step limitations here.](/workflows/steps/#limitations-on-step-exports)
+You can only export JSON-serializable data from Bash steps.
 :::
 
 ## Using environment variables

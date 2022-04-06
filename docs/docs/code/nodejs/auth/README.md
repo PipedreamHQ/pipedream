@@ -124,6 +124,6 @@ When you want to connect to a 3rd party service that isn't supported by Pipedrea
 
 ## Learn more about `props`
 
-Not only can `props` be used to connect apps to workflow steps, but they can also be used to [collect properties collected from user input](/code/nodejs/#passing-props-to-code-steps) and [save data between workflow runs](/code/nodejs/#managing-state).
+Not only can `props` be used to connect apps to workflow steps, but they can also be used to [collect properties collected from user input](/code/nodejs/#passing-props-to-code-steps) and [save data between workflow runs](/code/nodejs/using-data-stores/).
 
 <Footer />
