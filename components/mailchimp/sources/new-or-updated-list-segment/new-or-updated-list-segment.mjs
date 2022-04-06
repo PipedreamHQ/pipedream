@@ -3,7 +3,7 @@ import constants from "../constants.mjs";
 
 export default {
   ...common,
-  key: "new-or-updated-list-segment",
+  key: "mailchimp-new-or-updated-list-segment",
   name: "New or Updated List Segment",
   description: "Emit new event when segment is either created or updated.",
   version: "0.0.1",

@@ -3,7 +3,7 @@ import constants from "../constants.mjs";
 
 export default {
   ...common,
-  key: "new-segment-tag-subscriber",
+  key: "mailchimp-new-segment-tag-subscriber",
   name: "New Segment Tag Subscriber",
   description: "Emit new event when an subscriber is added to a segment or tags within an audience list.",
   version: "0.0.1",

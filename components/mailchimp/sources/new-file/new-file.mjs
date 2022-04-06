@@ -3,7 +3,7 @@ import constants from "../constants.mjs";
 
 export default {
   ...common,
-  key: "new-file",
+  key: "mailchimp-new-file",
   name: "New File",
   description: "Emit new event when a new file is added to the File Manager of the connected Mailchimp account.",
   version: "0.0.1",

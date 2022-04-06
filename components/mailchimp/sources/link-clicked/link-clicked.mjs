@@ -2,7 +2,7 @@ import common from "../common/timer-based.mjs";
 
 export default {
   ...common,
-  key: "link-clicked",
+  key: "mailchimp-link-clicked",
   name: "Link Clicked",
   description: "Emit new event when a recipient clicks a pre-specified link in an specific campaign.",
   version: "0.0.1",

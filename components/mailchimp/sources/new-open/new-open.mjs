@@ -2,7 +2,7 @@ import common from "../common/timer-based.mjs";
 
 export default {
   ...common,
-  key: "new-open",
+  key: "mailchimp-new-open",
   name: "New Open",
   description: "Emit new event when a recipient opens an email in a specific campaign.",
   version: "0.0.1",

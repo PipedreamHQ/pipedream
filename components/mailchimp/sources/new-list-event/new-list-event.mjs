@@ -3,7 +3,7 @@ import constants from "../constants.mjs";
 
 export default {
   ...common,
-  key: "new-list-event",
+  key: "mailchimp-new-list-event",
   name: "New List Event (Instant)",
   description: "Emit new event when the following occurs on an audience list: a campaign is sent or cancelled, a subsciber is added, unsuscribed, has a profile update, or has the associated email address changed, or cleaned.",
   version: "0.0.1",

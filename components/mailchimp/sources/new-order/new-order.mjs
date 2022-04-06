@@ -3,7 +3,7 @@ import constants from "../constants.mjs";
 
 export default {
   ...common,
-  key: "new-order",
+  key: "mailchimp-new-order",
   name: "New Order",
   description: "Emit new event when an order is added to your store, or Mailchimp account.",
   version: "0.0.1",

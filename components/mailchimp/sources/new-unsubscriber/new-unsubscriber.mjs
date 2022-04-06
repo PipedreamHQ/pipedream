@@ -2,7 +2,7 @@ import common from "../common/http-based.mjs";
 
 export default {
   ...common,
-  key: "new-unsubscriber",
+  key: "mailchimp-new-unsubscriber",
   name: "New Unsubscriber (Instant)",
   description: "Emit new event when a subscriber is removed from an audience list.",
   version: "0.0.1",

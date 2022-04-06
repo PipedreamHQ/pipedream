@@ -2,7 +2,7 @@ import common from "../common/http-based.mjs";
 
 export default {
   ...common,
-  key: "new-or-updated-subscriber",
+  key: "mailchimp-new-or-updated-subscriber",
   name: "New or Updated Subscriber (Instant)",
   description: "Emit new event when a subscriber is added or updated (on profile, or email address change) in an audience list.",
   version: "0.0.1",
