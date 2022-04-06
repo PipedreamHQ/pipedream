@@ -1,11 +1,49 @@
+/* eslint-disable pipedream/props-description */
+/* eslint-disable pipedream/props-label */
 export default {
   type: "app",
   app: "delay",
-  propDefinitions: {},
+  propDefinitions: {
+    delayDurationValue: {
+      type: "integer",
+    },
+    delayDurationUnit: {
+      type: "string",
+      options: [
+        "Milliseconds",
+        "Seconds",
+        "Minutes",
+        "Hours",
+      ],
+    },
+    hello: {
+      type: "string",
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    convertToMilliseconds() {
+      // The default unit is milliseconds
+      let n = 1;
+      switch (this.delayDurationUnit) {
+      case "Milliseconds": {
+        n = this.delayDurationValue;
+        break;
+      }
+      case "Seconds": {
+        n = this.delayDurationValue * 1000;
+        break;
+      }
+      case "Minutes": {
+        n = this.delayDurationValue * 1000 * 60;
+        break;
+      }
+      case "Hours": {
+        n = this.delayDurationValue * 1000 * 60 * 60;
+        break;
+      }
+      }
+      console.log("n = " + n);
+      return n;
     },
   },
 };
