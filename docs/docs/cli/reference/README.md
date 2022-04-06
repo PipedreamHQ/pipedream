@@ -137,7 +137,7 @@ pd init app google_calendar
 
 #### `pd init action`
 
-Creates a new directory and [a component action](/components/actions/) from a template.
+Creates a new directory and [a component action](/components#actions) from a template.
 
 ```
 # Creates add-new-event/ directory and add-new-event.mjs file
@@ -155,11 +155,11 @@ pd init source cancelled-event
 
 You can attach [database](/components/api/#db), [HTTP](/components/api/#http), or [Timer](/components/api/#timer) props to your template using the following flags:
 
-| Prop type        | Flag           |
-| ------------- |-------------|
-| Database      | `--db` |
-| HTTP      | `--http`      |
-| Timer | `--timer`      |
+| Prop type | Flag      |
+| --------- | --------- |
+| Database  | `--db`    |
+| HTTP      | `--http`  |
+| Timer     | `--timer` |
 
 For example, running:
 

@@ -129,7 +129,7 @@ run the following commands at the root of the project:
 
 ### Process
 
-Anyone from the community can build [sources](/sources/) and [actions](/components/actions/) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)").
+Anyone from the community can build [sources](/sources/) and [actions](/components#actions) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)").
 
 All development happens in [this GitHub repo](https://github.com/PipedreamHQ/pipedream). Fork the repo and refer to the [contribution docs](/components/guidelines/#prerequisites) to get your development environment setup.
 
@@ -155,8 +155,8 @@ actions for Pipedream's registry.
 
 ### Reference Sources
 
-| Name                                                                                                                                             | App          | Type                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- |
+| Name                                                                                                                                                         | App          | Type                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- |
 | [New Card](https://github.com/pipedreamhq/pipedream/blob/master/components/trello/sources/new-card/new-card.js)                                              | Trello       | Webhook                                      |
 | [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.js)                        | Twitter      | Polling                                      |
 | [New or Modified Files](https://github.com/pipedreamhq/pipedream/blob/master/components/google_drive/sources/new-or-modified-files/new-or-modified-files.js) | Google Drive | Webhook + Polling                            |
@@ -165,13 +165,13 @@ actions for Pipedream's registry.
 
 ### Reference Actions
 
-| Name | App |
-| ---- | --- |
-| [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable |
-| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.mjs) | Google Sheets |
-| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.js) | Discord |
-| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.js) | Google Docs |
-| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.js) | HTTP |
+| Name                                                                                                                                                  | App           |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable      |
+| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.mjs)    | Google Sheets |
+| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.js)                  | Discord       |
+| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.js)                         | Google Docs   |
+| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.js)                              | HTTP          |
 
 ## Guidelines & Patterns
 
