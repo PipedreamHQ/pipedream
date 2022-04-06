@@ -48,7 +48,7 @@ When you send an event to your workflow, Pipedream takes the trigger data — fo
 
 **This data is exposed in the `steps.trigger.event` variable. You can reference this variable in any step of your workflow**.
 
-You can reference your event data in any [code](/code/) or [action](/components/actions/) step. See those docs or the general [docs on passing data between steps](/workflows/steps/) for more information.
+You can reference your event data in any [code](/code/) or [action](/components#actions) step. See those docs or the general [docs on passing data between steps](/workflows/steps/) for more information.
 
 The specific shape of `steps.trigger.event` depends on the trigger type:
 

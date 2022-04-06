@@ -30,7 +30,7 @@ $.send.emit({
 
 ## Using `$.send.emit` in component actions
 
-If you're authoring a [component action](/components/actions/), you can emit data using `$.send.emit`.
+If you're authoring a [component action](/components#actions), you can emit data using `$.send.emit`.
 
 `$.send.emit` functions the same as [`$.send.emit` in workflow code steps](#using-send-emit-in-workflows):
 

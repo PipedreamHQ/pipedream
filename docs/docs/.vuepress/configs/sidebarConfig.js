@@ -8,10 +8,11 @@ const docsNav = [
       "/workflows/",
       "/workflows/steps/",
       "/workflows/steps/triggers/",
+      "/workflows/steps/actions/",
+      "/workflows/steps/params/",
       "/workflows/events/",
       "/workflows/events/inspect/",
       "/workflows/events/test/",
-      "/components/actions/",
       "/workflows/concurrency-and-throttling/",
       "/workflows/settings/",
       "/workflows/networking/",
@@ -87,7 +88,11 @@ const referenceNav = [
   {
     title: "CLI",
     type: "group",
-    children: ["/cli/install/", "/cli/login/", "/cli/reference/"],
+    children: [
+      "/cli/install/", 
+      "/cli/login/", 
+      "/cli/reference/"
+    ],
   },
   {
     title: "API",
@@ -119,6 +124,7 @@ const referenceNav = [
 const pricingNav = ["/pricing/"];
 
 module.exports = {
+  // reference nav
   "/components/": referenceNav,
   "/components/quickstart/nodejs/actions/": referenceNav,
   "/components/quickstart/nodejs/sources/": referenceNav,
@@ -133,14 +139,18 @@ module.exports = {
   "/api/rest/workflow-errors/": referenceNav,
   "/api/sse/": referenceNav,
   "/scheduling-future-tasks/": referenceNav,
-  "/privacy-and-security/": referenceNav,
-  "/subprocessors/": referenceNav,
-  "/abuse/": referenceNav,
-  "/pricing/": pricingNav,
-  "/limits/": referenceNav,
   "/cli/install/": referenceNav,
   "/cli/login/": referenceNav,
   "/cli/reference/": referenceNav,
+  "/limits/": referenceNav,
+  // security nav
   "/privacy-and-security/": referenceNav,
+  "/privacy-and-reference/pgp-key/": referenceNav,
+  "/privacy-and-reference/best-practices/": referenceNav,
+  "/subprocessors/": referenceNav,
+  "/abuse/": referenceNav,
+  // pricing nav
+  "/pricing/": pricingNav,
+  // main nav
   "/": docsNav,
 };

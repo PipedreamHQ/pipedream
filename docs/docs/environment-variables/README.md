@@ -43,7 +43,7 @@ Logging the value of any environment variables — for example, using `console.l
 
 ## Referencing environment variables in actions
 
-[Actions](/components/actions/) are pre-built code steps that let you provide input in a form, selecting the correct params to send to the action.
+[Actions](/components#actions) are pre-built code steps that let you provide input in a form, selecting the correct params to send to the action.
 
 You can reference the value of environment variables using <code v-pre>{{process.env.YOUR_ENV_VAR}}</code>. You'll see a list of your environment variables in the object explorer when selecting a variable to pass to a step:
 
