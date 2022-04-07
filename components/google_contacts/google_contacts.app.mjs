@@ -28,8 +28,13 @@ export default {
           connections,
           nextPageToken,
         } = await this.listContacts(client, params);
+        if (!connections) {
+          return [];
+        }
         const options = connections.map((contact) => ({
-          label: contact?.names[0].displayName ?? contact.resourceName,
+          label: contact?.names
+            ? contact?.names[0].displayName
+            : contact.resourceName,
           value: contact.resourceName,
         }));
         return {
