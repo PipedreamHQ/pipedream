@@ -2,9 +2,9 @@ import clickup from "../../clickup.app.mjs";
 import { PRIORITIES } from "../common.mjs";
 
 export default {
-  key: "clickup-create-task",
-  name: "Create Task",
-  description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks  / Create Task** section.",
+  key: "clickup-update-task",
+  name: "Update Task",
+  description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks  / Update Task** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -46,10 +46,20 @@ export default {
         }),
       ],
     },
+    taskId: {
+      propDefinition: [
+        clickup,
+        "tasks",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
+    },
     name: {
       label: "Name",
       type: "string",
       description: "The name of task",
+      optional: true,
     },
     description: {
       label: "Description",
@@ -70,16 +80,6 @@ export default {
         "assignees",
         (c) => ({
           workspaceId: c.workspaceId,
-        }),
-      ],
-      optional: true,
-    },
-    tags: {
-      propDefinition: [
-        clickup,
-        "tags",
-        (c) => ({
-          spaceId: c.spaceId,
         }),
       ],
       optional: true,
@@ -108,28 +108,29 @@ export default {
   },
   async run({ $ }) {
     const {
-      listId,
+      taskId,
       name,
       description,
       priority,
       assignees,
-      tags,
       status,
       parent,
     } = this;
 
-    return this.clickup.createTask({
+    const data = {
+      name,
+      description,
+      assignees,
+      status,
+      parent,
+    };
+
+    if (priority) data[priority] = PRIORITIES[priority];
+
+    return this.clickup.updateTask({
       $,
-      listId,
-      data: {
-        name,
-        description,
-        priority: PRIORITIES[priority] || PRIORITIES["Normal"],
-        assignees,
-        tags,
-        status,
-        parent,
-      },
+      taskId,
+      data,
     });
   },
 };

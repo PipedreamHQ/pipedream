@@ -2,9 +2,9 @@ import clickup from "../../clickup.app.mjs";
 import { PRIORITIES } from "../common.mjs";
 
 export default {
-  key: "clickup-create-list",
-  name: "Create List",
-  description: "Creates a new list. See the docs [here](https://clickup.com/api) in **Lists  / Create List** section.",
+  key: "clickup-update-list",
+  name: "Update List",
+  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists  / Update List** section.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -32,6 +32,16 @@ export default {
         "folders",
         (c) => ({
           spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        clickup,
+        "lists",
+        (c) => ({
+          folderId: c.folderId,
         }),
       ],
     },
@@ -63,46 +73,28 @@ export default {
       ],
       optional: true,
     },
-    folderless: {
-      label: "Folderless",
-      description: "This list will be folderless",
-      type: "boolean",
-      default: false,
-      optional: true,
-    },
   },
   async run({ $ }) {
     const {
-      spaceId,
-      folderId,
+      listId,
       name,
       content,
       priority,
       assignee,
     } = this;
 
-    if (this.folderless) {
-      return this.clickup.createFolderlessList({
-        $,
-        spaceId,
-        data: {
-          name,
-          content,
-          priority: PRIORITIES[priority] || PRIORITIES["Normal"],
-          assignee,
-        },
-      });
-    }
+    const data = {
+      name,
+      content,
+      assignee,
+    };
 
-    return this.clickup.createList({
+    if (priority) data[priority] = PRIORITIES[priority];
+
+    return this.clickup.updateList({
       $,
-      folderId,
-      data: {
-        name,
-        content,
-        priority: PRIORITIES[priority] || PRIORITIES["Normal"],
-        assignee,
-      },
+      listId,
+      data,
     });
   },
 };

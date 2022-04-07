@@ -1,134 +1,174 @@
 import { axios } from "@pipedream/platform";
+import { PRIORITIES } from "./actions/common.mjs";
 
 export default {
   type: "app",
   app: "clickup",
   propDefinitions: {
-    workspace: {
+    workspaces: {
       type: "string",
       label: "Workspace",
-      description: "Workspace",
+      description: "The name of a workspace",
       async options() {
         const { teams } = await this.getWorkspaces({});
+
         return teams.map((workspace) => ({
           label: workspace.name,
           value: workspace.id,
         }));
       },
     },
-    space: {
+    spaces: {
       type: "string",
       label: "Space",
-      description: "Space",
-      async options({ workspace }) {
+      description: "The name of a space",
+      async options({ workspaceId }) {
         const { spaces } = await this.getSpaces({
-          workspace,
+          workspaceId,
         });
+
         return spaces.map((space) => ({
           label: space.name,
           value: space.id,
         }));
       },
     },
-    folder: {
+    folders: {
       type: "string",
       label: "Folder",
-      description: "Folder",
-      async options({ space }) {
+      description: "The name of a folder",
+      async options({ spaceId }) {
         const { folders } = await this.getFolders({
-          space,
+          spaceId,
         });
         return folders.map((folder) => ({
           label: folder.name,
           value: folder.id,
         }));
       },
-      optional: true,
     },
-    list: {
+    lists: {
       type: "string",
       label: "List",
-      description: "List",
+      description: "The name of a list",
       async options({
-        folder, space,
+        folderId, spaceId,
       }) {
-        const { lists } = folder
+        const { lists } = folderId
           ? await this.getLists({
-            folder,
+            folderId,
           })
           : await this.getFolderlessLists({
-            space,
+            spaceId,
           });
+
         return lists.map((list) => ({
           label: list.name,
           value: list.id,
         }));
       },
     },
-    assignees: {
-      type: "string[]",
-      label: "Assignees",
-      description: "Select the assignees for the task",
-      async options({ workspace }) {
-        const members = await this.getWorkspaceMembers({
-          workspace,
-        });
-        return members.map((member) => ({
-          label: member.user.username,
-          value: member.user.id,
-        }));
-      },
-      optional: true,
-    },
-    tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "Select the tags for the task to filter when searching for the tasks",
-      async options({ space }) {
-        const { tags } = await this.getTags({
-          space,
-        });
-        return tags.map((tag) => tag.name);
-      },
-      optional: true,
-    },
-    status: {
-      type: "string",
-      label: "Status",
-      description: "Select the status of the task",
-      async options({ list }) {
-        const { statuses } = await this.getList({
-          list,
-        });
-        return statuses.map((status) => status.status);
-      },
-      optional: true,
-    },
-    task: {
+    tasks: {
       type: "string",
       label: "Task",
-      description: "Task",
+      description: "The of a task",
       async options({
-        list, page,
+        listId, page,
       }) {
         const { tasks } = await this.getTasks({
-          list,
-          page,
+          listId,
+          params: {
+            page,
+          },
         });
+
         return tasks.map((task) => ({
           label: task.name,
           value: task.id,
         }));
       },
     },
-    priority: {
-      type: "integer",
+    assignees: {
+      type: "string[]",
+      label: "Assignees",
+      description: "Select the assignees",
+      async options({ workspaceId }) {
+        const members = await this.getWorkspaceMembers({
+          workspaceId,
+        });
+
+        return members.map((member) => ({
+          label: member.user.username,
+          value: member.user.id,
+        }));
+      },
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Select the tags",
+      async options({ spaceId }) {
+        const { tags } = await this.getTags({
+          spaceId,
+        });
+
+        return tags.map((tag) => tag.name);
+      },
+    },
+    statuses: {
+      type: "string",
+      label: "Status",
+      description: "Select a status",
+      async options({ listId }) {
+        const { statuses } = await this.getList({
+          listId,
+        });
+
+        return statuses.map((status) => status.status);
+      },
+    },
+    taskTemplates: {
+      type: "string",
+      label: "Task Templates",
+      description: "Select a task template",
+      async options({
+        workspaceId, page,
+      }) {
+        const { templates } = await this.getTaskTemplates({
+          workspaceId,
+          params: {
+            page,
+          },
+        });
+
+        return templates.map((template) => ({
+          label: template.name,
+          value: template.id,
+        }));
+      },
+    },
+
+    customFields: {
+      type: "string",
+      label: "Custom Field",
+      description: "Select a custom field",
+      async options({ listId }) {
+        const { fields } = await this.getCustomFields({
+          listId,
+        });
+
+        return fields.map((field) => ({
+          label: field.name,
+          value: field.id,
+        }));
+      },
+    },
+    priorities: {
+      type: "string",
       label: "Priority",
-      description: `1 is Urgent
-        2 is High
-        3 is Normal
-        4 is Low`,
-      optional: true,
+      description: "The level of priority",
+      options: Object.keys(PRIORITIES),
+      default: "Normal",
     },
     name: {
       type: "string",
@@ -139,13 +179,11 @@ export default {
       type: "integer",
       label: "Due Date",
       description: "Due Date",
-      optional: true,
     },
     dueDateTime: {
       type: "boolean",
       label: "Due Date Time",
       description: "Due Date Time",
-      optional: true,
     },
     parent: {
       type: "string",
@@ -166,140 +204,303 @@ export default {
     },
   },
   methods: {
-    async _makeRequest({
-      method = "GET", endpoint, data, $,
-    }) {
-      const config = {
-        headers: {
-          "content-type": "application/json",
-          "Authorization": this.$auth.oauth_access_token,
-        },
-        method,
-        url: `https://api.clickup.com/api/v2/${endpoint}`,
-      };
-      if (data) {
-        data = Object.entries(data).reduce((a, [
-          k,
-          v,
-        ]) => (v
-          ? (a[k] = v, a)
-          : a), {});
-        config.data = data;
-      }
-      const response = await axios($ || this, config).catch((err) => {
-        if (err.response.status !== 200) {
-          throw new Error(`API call failed with status code: ${err.response.status}`);
-        }
-      });
-      return response;
+    /**
+     * Get the access token;
+     *
+     * @returns {string} The access token.
+     */
+    _accessToken() {
+      return this.$auth.oauth_access_token;
     },
+    /**
+     * Get the base url of Asana API;
+     *
+     * @returns {string} The Asana Api base url.
+     */
+    _apiUrl() {
+      return "https://api.clickup.com/api/v2";
+    },
+    _headers() {
+      return {
+        Accept: "application/json",
+        Authorization: this._accessToken(),
+      };
+    },
+    /**
+     * Make a requests with pre defined options.
+     *
+     * @param {string} path - The path to make the request.
+     * @param {object} options - A default Axios options object.
+     * @param {object} $ - A default Pipedream run object.
+     *
+     * @returns {string} The request result data.
+     */
+    async _makeRequest(path, options = {}, $) {
+      const config = {
+        url: `${this._apiUrl()}/${path}`,
+        headers: this._headers(),
+        ...options,
+      };
+
+      return await axios($ ?? this, config);
+    },
+
     async getWorkspaces({ $ }) {
-      return this._makeRequest({
-        endpoint: "team",
-        $,
-      });
+      return this._makeRequest("team", {}, $);
     },
-    async getSpaces({
-      workspace, $,
+
+    async getWorkspace({
+      workspaceId, $,
     }) {
-      return this._makeRequest({
-        endpoint: `team/${workspace}/space?archived=false`,
+      const { teams: workspaces } = await this.getWorkspaces({
         $,
       });
+
+      const workspace = workspaces.filter((workspace) => workspace.id === workspaceId);
+
+      return workspace[0] ?? null;
     },
-    async getFolders({
-      space, $,
-    }) {
-      return this._makeRequest({
-        endpoint: `space/${space}/folder?archived=false`,
-        $,
-      });
-    },
-    async getList({
-      list, $,
-    }) {
-      return this._makeRequest({
-        endpoint: `list/${list}`,
-        $,
-      });
-    },
-    async getLists({
-      folder, $,
-    }) {
-      return this._makeRequest({
-        endpoint: `folder/${folder}/list?archived=false`,
-        $,
-      });
-    },
-    async getFolderlessLists({
-      space, $,
-    }) {
-      return this._makeRequest({
-        endpoint: `space/${space}/list?archived=false`,
-        $,
-      });
-    },
+
     async getWorkspaceMembers({
-      workspace: workspaceId, $,
+      workspaceId, $,
     }) {
-      const { teams } = (await this.getWorkspaces({
-        $,
-      }));
-      const workspace = teams.filter(
-        (workspace) => workspace.id == workspaceId,
-      );
-      return workspace
-        ? workspace[0].members
-        : [];
-    },
-    async getTags({
-      space, $,
-    }) {
-      return this._makeRequest({
-        endpoint: `space/${space}/tag`,
+      const workspace = await this.getWorkspace({
+        workspaceId,
         $,
       });
+
+      return workspace.members;
     },
-    async getTasks({
-      list, page = 0, $,
+
+    async getSpaces({
+      workspaceId, params, $,
     }) {
-      return this._makeRequest({
-        endpoint: `list/${list}/task?archived=false&page=${page}`,
-        $,
-      });
+      if (!workspaceId) return [];
+
+      return await this._makeRequest(`team/${workspaceId}/space`, {
+        params,
+      }, $);
     },
-    async createTask({
-      list, data, $,
+
+    async getSpace({
+      spaceId, $,
     }) {
-      const config = {
+      return await this._makeRequest(`space/${spaceId}`, {}, $);
+    },
+
+    async createSpace({
+      workspaceId, data, $,
+    }) {
+      return await this._makeRequest(`team/${workspaceId}/space`, {
         method: "POST",
-        endpoint: `list/${list}/task`,
         data,
-        $,
-      };
-      return this._makeRequest(config);
+      }, $);
     },
+
+    async updateSpace({
+      spaceId, data, $,
+    }) {
+      return await this._makeRequest(`space/${spaceId}`, {
+        method: "PUT",
+        data,
+      }, $);
+    },
+
+    async deleteSpace({
+      spaceId, $,
+    }) {
+      return await this._makeRequest(`space/${spaceId}`, {
+        method: "DELETE",
+      }, $);
+    },
+
+    async getFolders({
+      spaceId, params, $,
+    }) {
+      if (!spaceId) return [];
+      return await this._makeRequest(`space/${spaceId}/folder`, {
+        params,
+      }, $);
+    },
+
+    async getFolder({
+      folderId, $,
+    }) {
+      return await this._makeRequest(`folder/${folderId}`, {}, $);
+    },
+
+    async createFolder({
+      spaceId, data, $,
+    }) {
+      return await this._makeRequest(`space/${spaceId}/folder`, {
+        method: "POST",
+        data,
+      }, $);
+    },
+
+    async updateFolder({
+      folderId, data, $,
+    }) {
+      return await this._makeRequest(`folder/${folderId}`, {
+        method: "PUT",
+        data,
+      }, $);
+    },
+
+    async deleteFolder({
+      folderId, $,
+    }) {
+      return await this._makeRequest(`folder/${folderId}`, {
+        method: "DELETE",
+      }, $);
+    },
+
+    async getLists({
+      folderId, params, $,
+    }) {
+      if (!folderId) return [];
+      return await this._makeRequest(`folder/${folderId}/list`, {
+        params,
+      }, $);
+    },
+
+    async getFolderlessLists({
+      spaceId, params, $,
+    }) {
+      if (!spaceId) return [];
+      return await this._makeRequest(`space/${spaceId}/list`, {
+        params,
+      }, $);
+    },
+
+    async getList({
+      listId, $,
+    }) {
+      return await this._makeRequest(`list/${listId}`, {}, $);
+    },
+
     async createList({
-      folder, data, $,
+      folderId, data, $,
     }) {
-      const config = {
+      return await this._makeRequest(`folder/${folderId}/list`, {
         method: "POST",
-        endpoint: `folder/${folder}/list`,
         data,
-        $,
-      };
-      return this._makeRequest(config);
+      }, $);
     },
+
     async createFolderlessList({
-      space, data, $,
+      spaceId, data, $,
     }) {
-      const config = {
+      return await this._makeRequest(`space/${spaceId}/list`, {
         method: "POST",
-        endpoint: `space/${space}/list`,
         data,
-        $,
-      };
-      return this._makeRequest(config);
+      }, $);
+    },
+
+    async updateList({
+      listId, data, $,
+    }) {
+      return await this._makeRequest(`list/${listId}`, {
+        method: "PUT",
+        data,
+      }, $);
+    },
+
+    async deleteList({
+      listId, $,
+    }) {
+      return await this._makeRequest(`list/${listId}`, {
+        method: "DELETE",
+      }, $);
+    },
+
+    async getCustomFields({
+      listId, $,
+    }) {
+      return this._makeRequest(`list/${listId}/field`, {}, $);
+    },
+
+    async getTaskTemplates({
+      workspaceId, params, $,
+    }) {
+      if (!workspaceId) return [];
+      return await this._makeRequest(`team/${workspaceId}/taskTemplate`, {
+        params,
+      }, $);
+    },
+
+    async getTasks({
+      listId, params, $,
+    }) {
+      if (!listId) return [];
+      return await this._makeRequest(`list/${listId}/task`, {
+        params,
+      }, $);
+    },
+
+    async getTask({
+      taskId, $,
+    }) {
+      return await this._makeRequest(`task/${taskId}`, {}, $);
+    },
+
+    async createTask({
+      listId, data, $,
+    }) {
+      return await this._makeRequest(`list/${listId}/task`, {
+        method: "POST",
+        data,
+      }, $);
+    },
+
+    async createTaskFromTemplate({
+      listId, taskTemplateId, data, $,
+    }) {
+      return await this._makeRequest(`list/${listId}/taskTemplate/${taskTemplateId}`, {
+        method: "POST",
+        data,
+      }, $);
+    },
+
+    async updateTask({
+      taskId, data, $,
+    }) {
+      return await this._makeRequest(`task/${taskId}`, {
+        method: "PUT",
+        data,
+      }, $);
+    },
+
+    async updateTaskCustomField({
+      taskId, customFieldId, data, $,
+    }) {
+      return await this._makeRequest(`task/${taskId}/field/${customFieldId}`, {
+        method: "POST",
+        data,
+      }, $);
+    },
+
+    async deleteTask({
+      taskId, $,
+    }) {
+      return await this._makeRequest(`task/${taskId}`, {
+        method: "DELETE",
+      }, $);
+    },
+
+    async removeTaskCustomField({
+      taskId, customFieldId, $,
+    }) {
+      return await this._makeRequest(`task/${taskId}/field/${customFieldId}`, {
+        method: "DELETE",
+      }, $);
+    },
+
+    async getTags({
+      spaceId, $,
+    }) {
+      if (!spaceId) return [];
+      return await this._makeRequest(`space/${spaceId}/tag`, {}, $);
     },
   },
 };
