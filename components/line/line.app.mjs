@@ -124,7 +124,7 @@ export default {
      */
     async sendNotification($, message, accessToken) {
       return axios($, {
-        url: `${this._apiUrl}/notify`,
+        url: `${this._apiUrl()}/notify`,
         method: "post",
         data: this.line.convertJSONToUrlEncoded(message),
         headers: {
