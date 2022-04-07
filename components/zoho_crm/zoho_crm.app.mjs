@@ -1,8 +1,73 @@
-const axios = require("axios");
+import { axios } from "@pipedream/platform";
 
-module.exports = {
+export default {
   type: "app",
   app: "zoho_crm",
+  propDefinitions: {
+    lead: {
+      type: "string",
+      label: "Lead",
+      description: "Unique identifier of the lead record to be converted",
+      async options({ page }) {
+        const { data: leads } = await this.listRecords("Leads", page);
+        return leads.map((lead) => ({
+          label: lead.Full_Name ?? lead.id,
+          value: lead.id,
+        }));
+      },
+    },
+    account: {
+      type: "string",
+      label: "Account",
+      description: "Use this key to associate an account with the lead being converted. Pass the unique and valid account ID.",
+      async options({ page }) {
+        const { data: accounts } = await this.listRecords("Accounts", page);
+        return accounts.map((account) => ({
+          label: account.Account_Name ?? account.id,
+          value: account.id,
+        }));
+      },
+    },
+    contact: {
+      type: "string",
+      label: "Contact",
+      description: "Use this key to associate a contact with the lead being converted. Pass the unique and valid contact ID.",
+      async options({ page }) {
+        const { data: contacts } = await this.listRecords("Contacts", page);
+        return contacts.map((contact) => ({
+          label: contact.Full_Name ?? contact.id,
+          value: contact.id,
+        }));
+      },
+    },
+    user: {
+      type: "string",
+      label: "User",
+      description: "Use this key to assign record owner for the new contact and account. Pass the unique and valid user ID.",
+      async options({ page }) {
+        const { users } = await this.listRecords("users?type=ActiveUsers", page);
+        return users.map((user) => ({
+          label: user.full_name ?? user.id,
+          value: user.id,
+        }));
+      },
+    },
+    module: {
+      type: "string",
+      label: "Module",
+      description: "Module where the record will be created",
+      options: [
+        "Leads",
+        "Accounts",
+        "Contacts",
+        "Deals",
+        "Campaigns",
+        "Tasks",
+        "Calls",
+      ],
+      reloadProps: true,
+    },
+  },
   methods: {
     _authToken() {
       return this.$auth.oauth_access_token;
@@ -35,14 +100,26 @@ module.exports = {
         headers,
       };
     },
+    _getRequestParams(opts) {
+      const {
+        path,
+        ...extraOpts
+      } = opts;
+      const baseRequestConfig = this._makeRequestConfig();
+      return {
+        ...baseRequestConfig,
+        url: `${this._apiUrl()}${path}`,
+        ...extraOpts,
+      };
+    },
     async genericApiGetCall(url, params = {}) {
       const baseRequestConfig = this._makeRequestConfig();
       const requestConfig = {
         ...baseRequestConfig,
+        url,
         params,
       };
-      const { data } = await axios.get(url, requestConfig);
-      return data;
+      return axios(this, requestConfig);
     },
     usersPageSize() {
       return 200;
@@ -132,7 +209,12 @@ module.exports = {
     async listModules() {
       const url = this._metadataUrl();
       const requestConfig = this._makeRequestConfig();
-      const { data } = await axios.get(url, requestConfig);
+      const config = {
+        method: "GET",
+        url,
+        ...requestConfig,
+      };
+      const { data } = await axios(this, config);
       return data;
     },
     async createHook(opts) {
@@ -160,8 +242,13 @@ module.exports = {
           },
         ],
       };
-
-      const { data } = await axios.post(url, requestData, requestConfig);
+      const config = {
+        method: "POST",
+        url,
+        data: requestData,
+        ...requestConfig,
+      };
+      const { data } = await axios(this, config);
       return data;
     },
     async deleteHook(channelId) {
@@ -177,7 +264,12 @@ module.exports = {
         ...this._makeRequestConfig(),
         params,
       };
-      await axios.delete(url, requestConfig);
+      const config = {
+        method: "DELETE",
+        url,
+        ...requestConfig,
+      };
+      await axios(this, config);
     },
     async renewHookSubscription(opts) {
       const {
@@ -207,8 +299,13 @@ module.exports = {
           },
         ],
       };
-
-      const { data } = await axios.patch(url, requestData, requestConfig);
+      const config = {
+        method: "PATCH",
+        url,
+        data: requestData,
+        ...requestConfig,
+      };
+      const { data } = await axios(this, config);
       const watch = data.watch[0];
       console.log(watch);
       console.log(watch.details);
@@ -216,6 +313,36 @@ module.exports = {
         throw new Error(`${watch.message} ${JSON.stringify(watch.details)}`);
       }
       return data;
+    },
+    async listRecords(moduleType, page = 0, $) {
+      return axios($ ?? this, this._getRequestParams({
+        path: `/${moduleType}`,
+        data: {
+          page: page + 1,
+        },
+      }));
+    },
+    async convertLead(lead, data, $) {
+      return axios($ ?? this, this._getRequestParams({
+        method: "POST",
+        path: `/Leads/${lead}/actions/convert`,
+        data,
+      }));
+    },
+    async createObject(moduleType, data, $) {
+      return axios($ ?? this, this._getRequestParams({
+        method: "POST",
+        path: `/${moduleType}`,
+        data,
+      }));
+    },
+    omitEmptyStringValues(obj) {
+      return Object.entries(obj).reduce((a, [
+        k,
+        v,
+      ]) => (v !== ""
+        ? (a[k] = v, a)
+        : a), {});
     },
   },
 };
