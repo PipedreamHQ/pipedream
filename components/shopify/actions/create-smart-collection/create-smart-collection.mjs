@@ -1,5 +1,5 @@
 import shopify from "../../shopify.app.mjs";
-import { rules } from "../common/rules.mjs";
+import rules from "../common/rules.mjs";
 import { toSingleLineString } from "../commons.mjs";
 
 export default {

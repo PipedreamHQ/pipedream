@@ -22,6 +22,4 @@ const rules = {
   ],
 };
 
-export {
-  rules,
-};
+export default rules;

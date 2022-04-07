@@ -162,6 +162,4 @@ const events = [
   },
 ];
 
-export {
-  events,
-};
+export default events;
