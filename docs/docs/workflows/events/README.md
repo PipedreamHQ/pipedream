@@ -15,9 +15,7 @@ Events trigger workflow executions. The event that triggers your workflow depend
 
 When you test any step in your workflow, Pipedream passes the test event you select in the trigger step:
 
-<div>
-<img width="600px" alt="Test event" src="./images/test-event.png">
-</div>
+![Selecting a test event in the trigger](https://res.cloudinary.com/pipedreamin/image/upload/v1648758487/docs/components/CleanShot_2022-03-31_at_16.24.34_pb9jzt.png)
 
 You can select any event you've previously sent to your trigger as your test event, or send a new one.
 
@@ -25,9 +23,7 @@ You can select any event you've previously sent to your trigger as your test eve
 
 When you select an event, you'll see [the incoming event data](#event-format) and the [event context](#steps-trigger-context) for that event:
 
-<div>
-<img width="400px" alt="Event and context" src="./images/event-and-context.png">
-</div>
+![The event and context in a trigger initiation](https://res.cloudinary.com/pipedreamin/image/upload/v1648759141/docs/components/CleanShot_2022-03-31_at_16.30.37_jwwwdy.png)
 
 Pipedream parses your incoming data and exposes it in the variable [`steps.trigger.event`](#event-format), which you can access in any [workflow step](/workflows/steps/).
 
@@ -37,17 +33,14 @@ When you're [examining event data](#examining-event-data), you'll commonly want 
 
 Hover over the property whose data you want to reference, and click the **Copy Path** button to its right:
 
-<div>
-<img width="600px" alt="Copy path GIF" src="./images/copy-path.gif">
-</div>
+
+![Copy an event path](https://res.cloudinary.com/pipedreamin/image/upload/v1648759215/docs/components/CleanShot_2022-03-31_at_16.39.56_lsus2o.gif)
 
 ## Copying the values of event data
 
 You can also copy the value of specific properties of your event data. Hover over the property whose data you want to copy, and click the **Copy Value** button to its right:
 
-<div>
-<img width="500px" alt="Copy value GIF" src="./images/copy-value.gif">
-</div>
+![Copy event attribute value](https://res.cloudinary.com/pipedreamin/image/upload/v1648759275/docs/components/CleanShot_2022-03-31_at_16.41.02_xgzcsa.gif)
 
 ## Event format
 
@@ -55,31 +48,31 @@ When you send an event to your workflow, Pipedream takes the trigger data — fo
 
 **This data is exposed in the `steps.trigger.event` variable. You can reference this variable in any step of your workflow**.
 
-You can reference your event data in any [code](/code/) or [action](/components/actions/) step. See those docs or the general [docs on passing data between steps](/workflows/steps/) for more information.
+You can reference your event data in any [code](/code/) or [action](/components#actions) step. See those docs or the general [docs on passing data between steps](/workflows/steps/) for more information.
 
 The specific shape of `steps.trigger.event` depends on the trigger type:
 
 ### HTTP
 
-| Property             |                      Description                      |
-| -------------------- | :---------------------------------------------------: |
-| `body`               | A string or object representation of the HTTP payload |
-| `client_ip`          |    IP address of the client that made the request     |
-| `headers`            |        HTTP headers, represented as an object         |
-| `method`             |                      HTTP method                      |
-| `path`             |                      HTTP request path                      |
-| `query`             |                      Query string                      |
-| `url`                |                  Request host + path                  |
+| Property    |                      Description                      |
+| ----------- | :---------------------------------------------------: |
+| `body`      | A string or object representation of the HTTP payload |
+| `client_ip` |    IP address of the client that made the request     |
+| `headers`   |        HTTP headers, represented as an object         |
+| `method`    |                      HTTP method                      |
+| `path`      |                   HTTP request path                   |
+| `query`     |                     Query string                      |
+| `url`       |                  Request host + path                  |
 
 ### Cron Scheduler
 
-| Property       |                Description                |
-| -------------- | :---------------------------------------: |
-| `interval_seconds` |   The number of seconds between scheduled invocations   |
-| `cron` |   When you've configured a custom cron schedule, the cron string |
-| `timestamp`    | The epoch timestamp when the workflow ran |
-| `timezone_configured`    | An object with formatted datetime data for the given invocation, tied to the schedule's timezone |
-| `timezone_utc`    | An object with formatted datetime data for the given invocation, tied to the UTC timezone |
+| Property              |                                           Description                                            |
+| --------------------- | :----------------------------------------------------------------------------------------------: |
+| `interval_seconds`    |                       The number of seconds between scheduled invocations                        |
+| `cron`                |                  When you've configured a custom cron schedule, the cron string                  |
+| `timestamp`           |                            The epoch timestamp when the workflow ran                             |
+| `timezone_configured` | An object with formatted datetime data for the given invocation, tied to the schedule's timezone |
+| `timezone_utc`        |    An object with formatted datetime data for the given invocation, tied to the UTC timezone     |
 
 ### Email
 

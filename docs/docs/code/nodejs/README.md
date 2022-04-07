@@ -81,12 +81,12 @@ This defines [a Node.js component](/components/api/). Components let you:
 
 - Pass input to steps using [props](/code/nodejs/#passing-props-to-code-steps)
 - [Connect an account to a step](/connected-accounts/#from-a-code-step)
-- [Issue HTTP responses](/workflows/steps/triggers/#customizing-the-http-response)
+- [Issue HTTP responses](/workflows/steps/triggers/#http-responses)
 - Perform workflow-level flow control, like [ending a workflow early](#ending-a-workflow-early)
 
 When the step runs, Pipedream executes the `run` method:
 
-- Any asynchronous code within a code step [**must** be run synchronously](/workflows/steps/code/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
+- Any asynchronous code within a code step [**must** be run synchronously](/code/nodejs/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
 - Pipedream passes the `steps` variable to the run method. `steps` is also an object, and contains the [data exported from previous steps](/workflows/steps/#step-exports) in your workflow.
 - You also have access to the `$` variable, which gives you access to methods like `$.respond`, `$.export`, [and more](/components/api/#actions).
 
@@ -101,7 +101,7 @@ export default defineComponent({
 });
 ```
 
-When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/workflows/steps/code/auth/#the-auths-object).
+When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/code/nodejs/auth/#accessing-connected-account-data-with-this-appname-auth).
 
 ## Logs
 
@@ -218,142 +218,14 @@ Within a step, the [normal rules of JavaScript variable scope](https://developer
 
 There are two ways to make HTTP requests in code steps:
 
-- Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/workflows/steps/code/nodejs/http-requests/).
+- Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/code/nodejs/http-requests/).
 - [Use `$send.http()`](/destinations/http/#using-send-http-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
 
-In general, if you just need to make an HTTP request but don't care about the response, [use `$send.http()`](/destinations/http/#using-send-http-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/workflows/steps/code/nodejs/http-requests/).
+In general, if you just need to make an HTTP request but don't care about the response, [use `$send.http()`](/destinations/http/#using-send-http-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/code/nodejs/http-requests/).
 
 ## Returning HTTP responses
 
-You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the [`$.respond()` function](/workflows/steps/triggers/#customizing-the-http-response).
-
-## Managing state
-
-In Node.js (Javascript) code steps, you can also store and retrieve data in code steps.
-
-This is very useful for tracking data between runs of a particular workflow.
-
-:::warning
-This functionality (`$.service.db`) is limited to only Node.js code steps at this time.
-
-Other step languages like [Python](/code/python/), [Bash](/code/bash/) and [Go](/code/go/) do not have this feature available yet.
-
-For more information on what functionality is available for those languages, please refer to their documentation.
-:::
-
-### Injecting the database
-
-By default, Node.js steps don't have access to the database service. It needs to be injected by defining it as a `prop`. 
-
-```javascript
-export default defineComponent({
-  props: {
-    // Define that the "db" variable in our component is a database
-    db: "$.service.db",
-  },
-  async run({ steps, $ }) {
-    // Now we can access the database at "this.db"
-    this.db.set("name", "Dylan")
-  }
-});
-```
-
-:::tip
-`props` injects variables under `this` scope in components.
-
-In the above example we essentially instructed that this step needs the database injected into the `this.db` prop. 
-:::
-
-### Using the database
-
-Once you inject the database into the component, you can use it to both store (`set`) and retrieve (`get`) data.
-
-### Saving data
-
-You can save data with the in-step database using the `set` method.
-
-```javascript
-export default defineComponent({
-  props: {
-    "db": "$.service.db",
-  },
-  async run({ steps, $ }) {
-    // Store a timestamp each time this step is executed in the workflow
-    this.db.set('lastRanAt', new Date());
-  },
-})
-```
-
-### Retrieving data
-
-You can retrieve data with the in-step database using the `get` method.
-
-```javascript
-export default defineComponent({
-  props: {
-    "db": "$.service.db",
-  },
-  async run({ steps, $ }) {
-    // Retrieve the timestamp representing last time this step executed
-    const lastRanAt = this.db.get('lastRanAt'); 
-  },
-})
-```
-
-### Workflow counter example
-
-For example, if you'd like to set up a counter to count the number of times the workflow executes.
-
-```javascript
-export default defineComponent({
-  props: {
-    "db": "$.service.db",
-  },
-  async run({ steps, $ }) {
-    // By default, all database entries are undefined.
-    // It's wise to set a default value so our code as an initial value to work with
-    const counter = this.db.get('counter') ?? 0;
-    
-    // On the first run "counter" will be 0 and we'll increment it to 1
-    // The next run will increment the counter to 2, and so forth
-    this.db.set('counter', counter + 1);
-  },
-})
-```
-
-### Dedupe data example
-
-This database is also useful for storing data from prior runs to prevent acting on duplicate data, or data that's been seen before.
-
-For example, this workflow's trigger contains an email address from a potential new customer. But we want to track all emails collected so we don't send a welcome email twice:
-
-```javascript
-export default defineComponent({
-  props: {
-    "db": "$.service.db",
-  },
-  async run({ steps, $ }) {
-    const email = steps.trigger.body.new_customer_email;
-    // Retrieve the past recorded emails from other runs
-    const emails = this.db.get('emails') ?? [];
-
-    // If the current email being passed from our webhook is already in our list, exit early
-    if(emails.includes(email)) {
-      return $.flow.exit('Already welcomed this user');
-    }
-
-    // Add the current email to the list of past emails so we can detect it in the future runs
-    this.db.set('emails', [...emails, email]);
-  },
-})
-```
-
-### `$.service.db` limitations
-
-The `$.service.db` is only currently available in Node.js code steps. It is not yet available in other languages like Go, bash or Python.
-
-In addition, `$.service.db` can hold up to {{ $site.themeConfig.SERVICE_DB_SIZE_LIMIT }} per step.
-
+You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the [`$.respond()` function](/workflows/steps/triggers/#http-responses).
 
 ## Ending a workflow early
 

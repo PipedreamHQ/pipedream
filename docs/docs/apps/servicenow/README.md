@@ -1,6 +1,6 @@
 # ServiceNow
 
-Pipedream lets you interact with the [ServiceNow REST API](https://docs.servicenow.com/bundle/orlando-application-development/page/build/applications/concept/api-rest.html) in workflows. You can use Pipedream's [prebuilt actions](/components/actions/) (or write your own) to perform common operations, or [run any Node code](/workflows/steps/code/) to talk to their API.
+Pipedream lets you interact with the [ServiceNow REST API](https://docs.servicenow.com/bundle/orlando-application-development/page/build/applications/concept/api-rest.html) in workflows. You can use Pipedream's [prebuilt actions](/components#actions) (or write your own) to perform common operations, or [run any code](/code/) to talk to their API.
 
 ## Setting up an app in your ServiceNow instance
 
