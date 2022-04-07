@@ -147,6 +147,7 @@ export default {
       Call_Type: this.callType,
       Call_Start_Time: this.callStartTime,
       Call_Duration: this.callDuration,
+      Campaign_Name: this.campaignName,
       ...this.additionalData,
     });
     const data = {
