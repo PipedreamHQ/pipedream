@@ -1,23 +1,30 @@
-const strava = require("../../strava.app.js");
+import strava from "../../strava.app.mjs";
 
-module.exports = {
+export default {
   key: "strava-activity-updated",
-  name: "Activity Updated",
-  description: "Emits an event when an activity is updated",
-  version: "0.0.1",
+  name: "New Activity Updated Event",
+  description: "Emit new event when an activity is updated",
+  version: "0.0.2",
+  type: "source",
   props: {
     strava,
     stravaApphook: {
+      //label not supported for prop stravaApphook
+      //description not supported for prop stravaApphook
       type: "$.interface.apphook",
       appProp: "strava",
-      eventNames: ["activity.update"],
+      eventNames: [
+        "activity.update",
+      ],
     },
   },
   async run(event) {
     console.log(event);
     let details;
     try {
-      details = await this.strava.getActivity(event.object_id);
+      details = await this.strava.getActivity({
+        activityId: event.object_id,
+      });
     } catch (err) {
       console.log(`Error fetching activity details: ${err}`);
     }
@@ -26,11 +33,14 @@ module.exports = {
       summary += `: ${details.name}`;
     }
     this.$emit(
-      { event, details },
+      {
+        event,
+        details,
+      },
       {
         summary,
         ts: event.event_time * 1000,
-      }
+      },
     );
   },
 };
