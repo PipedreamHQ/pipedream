@@ -14,13 +14,12 @@ export default {
   },
   dedupe: "greatest",
   async run() {
-    const data = (await this.devTo.callApi({
-      path: "/articles/me/published",
+    const data = await this.devTo.getMyArticles({
       params: {
         per_page: 1000,
         top: 1,
       },
-    })).data;
+    });
 
     data.forEach((event) => {
       this.$emit(event, {

@@ -21,8 +21,7 @@ export default {
   },
   dedupe: "greatest",
   async run() {
-    const { data } = await this.devTo.callApi({
-      path: "/api/articles",
+    const data = await this.devTo.getArticles({
       params: {
         per_page: 1000,
         top: 1,

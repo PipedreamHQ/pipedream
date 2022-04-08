@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -21,8 +21,20 @@ export default {
       };
       return res;
     },
-    async callApi(opts) {
+    async _makeRequest(opts) {
       return axios(this._getAxiosParams(opts));
+    },
+    getArticles({ params }) {
+      return this._makeRequest({
+        path: "/api/articles",
+        params,
+      });
+    },
+    getMyArticles({ params }) {
+      return this._makeRequest({
+        path: "/articles/me/published",
+        params,
+      });
     },
   },
 };
