@@ -122,8 +122,8 @@ export default {
           enableAllTrackers: this.enableAllTrackers,
           enableSpeakerDiarization: this.enableSpeakerDiarization,
           diarizationSpeakerCount: this.diarizationSpeakerCount,
-          trackers: JSON.parse(this.trackers ?? '[]'),
-          channelMetadata: JSON.parse(this.channelMetadata ?? '[]'),
+          trackers: JSON.parse(this.trackers ?? "[]"),
+          channelMetadata: JSON.parse(this.channelMetadata ?? "[]"),
         },
       });
     $.export("$summary", `Successfully posted video URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
