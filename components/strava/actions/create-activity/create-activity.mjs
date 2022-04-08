@@ -4,7 +4,7 @@ export default {
   name: "Create Activity",
   description: "Creates a manual activity for an athlete. [See the docs](https://developers.strava.com/docs/reference/)",
   key: "strava-create-activity",
-  version: "0.1.5",
+  version: "0.0.1",
   type: "action",
   props: {
     strava,
@@ -70,15 +70,17 @@ export default {
     }
     const resp = await this.strava.createNewActivity({
       $,
-      name: this.name,
-      type: this.type,
-      start_date_local: this.start_date_local,
-      elapsed_time: this.elapsed_time,
-      description: this.description,
-      distance: this.distance,
-      trainer: this.trainer,
-      commute: this.commute,
-      hide_from_home: this.hide_from_home,
+      data: {
+        name: this.name,
+        type: this.type,
+        start_date_local: this.start_date_local,
+        elapsed_time: this.elapsed_time,
+        description: this.description,
+        distance: this.distance,
+        trainer: this.trainer,
+        commute: this.commute,
+        hide_from_home: this.hide_from_home,
+      },
     });
     $.export("$summary", "Successfully added activity");
     return resp;

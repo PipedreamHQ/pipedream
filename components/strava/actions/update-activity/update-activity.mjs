@@ -24,7 +24,7 @@ export default {
     const resp = await this.strava.updateActivity({
       $,
       activityId: this.activityId,
-      ...this.body,
+      data: this.body,
     });
     $.export("$summary", "The activity has been updated");
     return resp;

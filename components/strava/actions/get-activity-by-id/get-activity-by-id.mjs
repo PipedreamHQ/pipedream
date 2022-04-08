@@ -24,7 +24,9 @@ export default {
     const resp = await this.strava.getActivity({
       $,
       activityId: this.activityId,
-      include_all_efforts: this.include_all_efforts,
+      params: {
+        include_all_efforts: this.include_all_efforts,
+      },
     });
     $.export("$summary", "The activity has been retrieved");
     return resp;

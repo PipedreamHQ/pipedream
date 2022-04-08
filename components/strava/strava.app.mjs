@@ -27,64 +27,50 @@ export default {
       };
       return axios($ ?? this, config);
     },
-    async getAuthenticatedAthlete({
-      $,
-      ...otherConfig
-    } = {}) {
+    async getAuthenticatedAthlete(args = {}) {
       return await this._makeRequest({
-        $,
         method: "GET",
         path: "/athlete",
-        params: otherConfig,
+        ...args,
       });
     },
     async getActivity({
-      $,
       activityId,
-      ...otherConfig
+      ...args
     } = {}) {
       return (
         await this._makeRequest({
-          $,
           method: "GET",
           path: `/activities/${activityId}`,
-          params: otherConfig,
+          ...args,
         })
       );
     },
     async getStats({
-      $,
       athlete,
-      ...otherConfig
+      ...args
     } = {}) {
       return await this._makeRequest({
-        $,
         method: "GET",
         path: `/athletes/${athlete.id}/stats`,
-        params: otherConfig,
+        ...args,
       });
     },
-    async createNewActivity({
-      $,
-      ...otherConfig
-    }) {
+    async createNewActivity(args = {}) {
       return await this._makeRequest({
-        $,
         method: "POST",
         path: "/activities",
-        data: otherConfig,
+        ...args,
       });
     },
     async updateActivity({
-      $,
       activityId,
-      ...otherConfig
+      ...args
     } = {}) {
       return await this._makeRequest({
-        $,
         method: "PUT",
         path: `/activities/${activityId}`,
-        data: otherConfig,
+        ...args,
       });
     },
     async listActivities(args = {}) {
