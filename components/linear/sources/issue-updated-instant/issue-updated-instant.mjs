@@ -1,40 +1,19 @@
-import common from "../common/webhook.mjs";
-import constants from "../../../linear_app/common/constants.mjs";
+import linearApp from "../../linear.app.mjs";
+import issueUpdatedInstant from "../../../linear_app/sources/issue-updated-instant/issue-updated-instant.mjs";
+
+const {
+  // eslint-disable-next-line no-unused-vars
+  linearApp: app,
+  ...otherProps
+} = issueUpdatedInstant.props;
 
 export default {
-  ...common,
+  ...issueUpdatedInstant,
   key: "linear-issue-updated-instant",
-  name: "Issue Updated (Instant)",
-  description: "Emit new event when an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
-  type: "source",
+  description: "Emit new event when an issue is updated (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   version: "0.0.1",
-  dedupe: "unique",
-  methods: {
-    ...common.methods,
-    getResourceTypes() {
-      return [
-        constants.RESOURCE_TYPE.ISSUE,
-      ];
-    },
-    getWebhookLabel() {
-      return "Issue created";
-    },
-    getActions() {
-      return [
-        constants.ACTION.UPDATE,
-      ];
-    },
-    getMetadata(resource) {
-      const {
-        delivery,
-        data,
-        updatedAt,
-      } = resource;
-      return {
-        id: delivery,
-        summary: `Issue Updated: ${data.title}`,
-        ts: Date.parse(updatedAt),
-      };
-    },
+  props: {
+    ...otherProps,
+    linearApp,
   },
 };

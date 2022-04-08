@@ -1,73 +1,23 @@
 import linearApp from "../../linear.app.mjs";
+import utils from "../../common/utils.mjs";
+import updateIssue from "../../../linear_app/actions/update-issue/update-issue.mjs";
+
+const {
+  // eslint-disable-next-line no-unused-vars
+  linearApp: app,
+  ...otherProps
+} = updateIssue.props;
 
 export default {
+  ...updateIssue,
   key: "linear-update-issue",
-  name: "Update Issue",
-  description: "Update an issue. See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
-  type: "action",
+  description: "Update an issue (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
   version: "0.0.1",
   props: {
     linearApp,
-    issueId: {
-      propDefinition: [
-        linearApp,
-        "issueId",
-      ],
-    },
-    title: {
-      optional: true,
-      propDefinition: [
-        linearApp,
-        "issueTitle",
-      ],
-    },
-    description: {
-      optional: true,
-      propDefinition: [
-        linearApp,
-        "issueDescription",
-      ],
-    },
-    teamId: {
-      optional: true,
-      propDefinition: [
-        linearApp,
-        "teamId",
-      ],
-    },
-    assigneeId: {
-      propDefinition: [
-        linearApp,
-        "assigneeId",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const {
-      issueId,
-      title,
-      description,
-      teamId,
-      assigneeId,
-    } = this;
-
-    const response =
-      await this.linearApp.updateIssue({
-        issueId,
-        input: {
-          teamId,
-          title,
-          description,
-          assigneeId,
-        },
-      });
-
-    if (response.success) {
-      $.export("summary", `Updated issue ${response._issue.id}`);
-    } else {
-      $.export("summary", "Failed to update issue");
-    }
-
-    return response;
+    ...utils.buildPropDefinitions({
+      app: linearApp,
+      props: otherProps,
+    }),
   },
 };

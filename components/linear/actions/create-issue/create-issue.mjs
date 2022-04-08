@@ -1,60 +1,23 @@
 import linearApp from "../../linear.app.mjs";
+import utils from "../../common/utils.mjs";
+import createIssue from "../../../linear_app/actions/create-issue/create-issue.mjs";
+
+const {
+  // eslint-disable-next-line no-unused-vars
+  linearApp: app,
+  ...otherProps
+} = createIssue.props;
 
 export default {
+  ...createIssue,
   key: "linear-create-issue",
-  name: "Create Issue",
-  description: "Create an issue. See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
-  type: "action",
+  description: "Create an issue (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
   version: "0.0.1",
   props: {
     linearApp,
-    teamId: {
-      propDefinition: [
-        linearApp,
-        "teamId",
-      ],
-    },
-    title: {
-      propDefinition: [
-        linearApp,
-        "issueTitle",
-      ],
-    },
-    description: {
-      propDefinition: [
-        linearApp,
-        "issueDescription",
-      ],
-    },
-    assigneeId: {
-      propDefinition: [
-        linearApp,
-        "assigneeId",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const {
-      title,
-      description,
-      teamId,
-      assigneeId,
-    } = this;
-
-    const response =
-      await this.linearApp.createIssue({
-        teamId,
-        title,
-        description,
-        assigneeId,
-      });
-
-    if (response.success) {
-      $.export("summary", `Created issue ${response._issue.id}`);
-    } else {
-      $.export("summary", "Failed to create issue");
-    }
-
-    return response;
+    ...utils.buildPropDefinitions({
+      app: linearApp,
+      props: otherProps,
+    }),
   },
 };
