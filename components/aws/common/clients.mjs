@@ -9,6 +9,7 @@ import { SQSClient } from "@aws-sdk/client-sqs";
 import { SNSClient } from "@aws-sdk/client-sns";
 import { SESClient } from "@aws-sdk/client-ses";
 import { SFNClient } from "@aws-sdk/client-sfn";
+import { STSClient } from "@aws-sdk/client-sts";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 const clients = {
@@ -23,6 +24,7 @@ const clients = {
   sns: SNSClient,
   ses: SESClient,
   sfn: SFNClient,
+  sts: STSClient,
   dynamodb: DynamoDBClient,
 };
 

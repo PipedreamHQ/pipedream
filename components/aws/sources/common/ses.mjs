@@ -19,22 +19,20 @@ export default {
 
       const region = this.getRegion();
       const bucketName = this._getBucketName();
-      console.log(await this.aws.createS3Bucket(region, bucketName));
+      console.log(await this.aws.s3CreateBucket(region, bucketName));
       const bucketPolicy = this._allowSESPutsBucketPolicy(
         bucketName,
         await this.aws.getAWSAccountId(),
       );
-      console.log(await this.aws.putS3BucketPolicy(region, bucketName, bucketPolicy));
+      console.log(await this.aws.s3PutBucketPolicy(region, bucketName, bucketPolicy));
     },
     // But since the SNS topic tied to the subcription is re-created on activate / deactivate,
     // receipt notification needs to run in these hooks, as well
     async activate() {
       try {
-        const topicName = this.getTopicName();
-        const topicArn = await this._createTopic(topicName);
-        this._setTopicArn(topicArn);
+        await base.hooks.activate.bind(this)();
 
-        await this._subscribeToTopic(topicArn);
+        const topicArn = this.getTopicArn();
         await this._enableReceiptNotifications(this._getBucketName(), topicArn);
       } catch (err) {
         console.log("Failed to enable receipt notifications", err);

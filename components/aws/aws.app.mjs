@@ -11,6 +11,7 @@ import {
   generateRandomUniqueName,
   toSingleLineString,
 } from "./common/utils.mjs";
+import { GetCallerIdentityCommand } from "@aws-sdk/client-sts";
 import { DescribeRegionsCommand } from "@aws-sdk/client-ec2";
 import {
   ListTablesCommand,
@@ -50,8 +51,10 @@ import {
   PutEventsCommand,
 } from "@aws-sdk/client-eventbridge";
 import {
+  CreateBucketCommand,
   ListBucketsCommand,
   PutObjectCommand,
+  PutBucketPolicyCommand,
 } from "@aws-sdk/client-s3";
 import {
   InvokeCommand,
@@ -400,6 +403,11 @@ export default {
         region,
       });
     },
+    async getAWSAccountId(region) {
+      const client = this.getAWSClient(clients.sts, region);
+      const { Account } = await client.send(new GetCallerIdentityCommand({}));
+      return Account;
+    },
     async pagination(fn, region, params, nextTokenAttr, lastTokenAttr = null) {
       let response;
       const results = [];
@@ -651,6 +659,53 @@ export default {
     async ec2ListRegions() {
       const client = this.getAWSClient(clients.ec2);
       return client.send(new DescribeRegionsCommand({}));
+    },
+    /**
+     * This method creates an S3 bucket in the specified region.
+     *
+     * @param {string} region - The AWS region to which the AWS SDK will
+     * connect. This string should be an acceptable value by the AWS SDK, which
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
+     * @param {string} bucketName - The name of the S3 bucket you'd like to create
+     * @returns {Promise<object>} An object containing the new bucket's Location
+     */
+    async s3CreateBucket(region, bucketName) {
+      const params = {
+        Bucket: bucketName,
+      };
+      // S3 throws an error if you specify us-east-1 as the region in
+      // the create bucket LocationConstraint. See https://stackoverflow.com/a/51912090
+      if (region !== "us-east-1") {
+        params.CreateBucketConfiguration = {
+          LocationConstraint: region,
+        };
+      }
+      const client = this.getAWSClient(clients.s3, region);
+      const { Location } = await client.send(new CreateBucketCommand(params));
+      console.log(Location);
+      return {
+        Location,
+      };
+    },
+    /**
+     * This method sets an S3 bucket's policy
+     *
+     * @param {string} region - The AWS region to which the AWS SDK will
+     * connect. This string should be an acceptable value by the AWS SDK, which
+     * you can find in the ${@linkcode ./regions.mjs regions.mjs} file.
+     * @param {string} bucketName - The name of the S3 bucket you'd like to create
+     * @param {string} policy - The bucket policy JSON
+     * @returns {Promise<object>} An object containing the put bucket policy response
+     */
+    async s3PutBucketPolicy(region, bucketName, policy) {
+      const params = {
+        Bucket: bucketName,
+        Policy: policy,
+      };
+      const client = this.getAWSClient(clients.s3, region);
+      const putBucketPolicyResp = await client.send(new PutBucketPolicyCommand(params));
+      console.log(putBucketPolicyResp);
+      return putBucketPolicyResp;
     },
     async s3ListBuckets() {
       const client = this.getAWSClient(clients.s3);
