@@ -2,7 +2,7 @@ import strava from "../../strava.app.mjs";
 
 export default {
   name: "Get Activity By ID",
-  description: "Returns the given activity that is owned by the authenticated athlete. [See the docs](https://developers.strava.com/docs/reference/)",
+  description: "Returns the given activity that is owned by the authenticated athlete. [See the docs](https://developers.strava.com/docs/reference/#api-Activities-getActivityById)",
   key: "strava-get-activity-by-id",
   version: "0.0.1",
   type: "action",

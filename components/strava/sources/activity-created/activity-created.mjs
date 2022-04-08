@@ -9,8 +9,6 @@ export default {
   props: {
     strava,
     stravaApphook: {
-      //label not supported for prop stravaApphook
-      //description not supported for prop stravaApphook
       type: "$.interface.apphook",
       appProp: "strava",
       eventNames: [

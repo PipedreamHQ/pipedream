@@ -2,7 +2,7 @@ import strava from "../../strava.app.mjs";
 
 export default {
   name: "Create Activity",
-  description: "Creates a manual activity for an athlete. [See the docs](https://developers.strava.com/docs/reference/)",
+  description: "Creates a manual activity for an athlete. [See the docs](https://developers.strava.com/docs/reference/#api-Activities-createActivity)",
   key: "strava-create-activity",
   version: "0.0.1",
   type: "action",

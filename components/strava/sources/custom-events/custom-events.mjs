@@ -9,8 +9,6 @@ export default {
   props: {
     strava,
     eventNameOptions: {
-      //label not supported for prop stravaApphook
-      //description not supported for prop stravaApphook
       type: "string[]",
       async options() {
         return [

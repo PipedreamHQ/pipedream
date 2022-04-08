@@ -47,12 +47,12 @@ export default {
       );
     },
     async getStats({
-      athlete,
+      athleteId,
       ...args
     } = {}) {
       return await this._makeRequest({
         method: "GET",
-        path: `/athletes/${athlete.id}/stats`,
+        path: `/athletes/${athleteId}/stats`,
         ...args,
       });
     },
@@ -76,7 +76,7 @@ export default {
     async listActivities(args = {}) {
       return this._makeRequest({
         method: "GET",
-        path: "/activities",
+        path: "/athlete/activities",
         ...args,
       });
     },
