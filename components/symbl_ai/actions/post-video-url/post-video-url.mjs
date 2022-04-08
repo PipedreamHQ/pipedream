@@ -1,11 +1,12 @@
 import symblAIApp from "../../symbl_ai.app.mjs";
 import languages from "../languages.mjs";
+import utils from "../utils.mjs";
 
 export default {
   key: "symbl_ai-post-video-url",
   name: "Submit Video URL",
   description: "Submit a Video file by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url).",
-  version: "0.0.6",
+  version: "0.0.63",
   type: "action",
   props: {
     symblAIApp,
@@ -105,6 +106,8 @@ export default {
     },
   },
   async run({ $ }) {
+    const trackers = utils.emptyStrToUndefined(this.trackers);
+    const channelMetadata = utils.emptyStrToUndefined(this.channelMetadata);
     const response =
       await this.symblAIApp.postVideoUrl({
         $,
@@ -122,8 +125,8 @@ export default {
           enableAllTrackers: this.enableAllTrackers,
           enableSpeakerDiarization: this.enableSpeakerDiarization,
           diarizationSpeakerCount: this.diarizationSpeakerCount,
-          trackers: JSON.parse(this.trackers || "[]"),
-          channelMetadata: JSON.parse(this.channelMetadata || "[]"),
+          trackers: JSON.parse(trackers || "[]"),
+          channelMetadata: JSON.parse(channelMetadata || "[]"),
         },
       });
     $.export("$summary", `Successfully posted video URL for processing with Conversation Id: ${response.conversationId} and Job Id: ${response.jobId}`);
