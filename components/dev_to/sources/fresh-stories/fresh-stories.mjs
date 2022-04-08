@@ -1,4 +1,4 @@
-import devTo from "../../dev_to.app.js";
+import devTo from "../../dev_to.app.mjs";
 import moment from "moment";
 import common from "../common.mjs";
 
