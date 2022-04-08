@@ -5,7 +5,7 @@ export default {
   key: "symbl_ai-post-video-url",
   name: "Submit Video URL",
   description: "Submit a Video file by providing the URL for processing. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/video/post-video-url).",
-  version: "0.0.5",
+  version: "0.0.46",
   type: "action",
   props: {
     symblAIApp,
@@ -13,7 +13,6 @@ export default {
       type: "string",
       label: "Video URL",
       description: "The URL of the video file to be processed.",
-      optional: false,
     },
     meetingName: {
       type: "string",
@@ -96,6 +95,7 @@ export default {
       type: "string",
       label: "Trackers",
       description: "Provide a JSON array of the information to be tracked containing the `name` and the `vocabulary` information. The tracker object is represented by the following structure: `[{\"name\": \"Promotion Mention\",\"vocabulary\": [\"We have a special promotion going on if you book this before\",\"I can offer you a discount of 10 or 20 percent you being a new customer for us\",\"We have a sale right now on\"]}]`. See doc [here](https://docs.symbl.ai/docs/management-api/trackers/create-tracker).",
+      optional: true,
     },
     channelMetadata: {
       type: "string",
