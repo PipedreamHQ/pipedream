@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-get-item-inventory",
   name: "Get Item Inventory",
-  description: "Get the inventory of a specify item",
+  description: "Get the inventory of a specify item. [See the docs here](https://developers.webflow.com/#item-inventory)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-publish-site",
   name: "Publish Site",
-  description: "Get a site in a specific domain",
+  description: "Get a site in a specific domain. [See the docs here](https://developers.webflow.com/#publish-site)",
   version: "0.0.1",
   type: "action",
   props: {

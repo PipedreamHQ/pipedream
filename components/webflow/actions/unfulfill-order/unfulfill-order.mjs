@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-unfulfill-order",
   name: "Unfulfill Order",
-  description: "Unfulfill a order",
+  description: "Unfulfill a order. [See the docs here](https://developers.webflow.com/#unfulfill-order)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-list-collections",
   name: "List Collections",
-  description: "List collections",
+  description: "List collections. [See the docs here](https://developers.webflow.com/#list-collections)",
   version: "0.0.1",
   type: "action",
   props: {

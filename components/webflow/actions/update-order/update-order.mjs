@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-update-order",
   name: "Update Order",
-  description: "Update a order",
+  description: "Update a order. [See the docs here](https://developers.webflow.com/#update-order)",
   version: "0.0.1",
   type: "action",
   props: {

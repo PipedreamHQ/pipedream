@@ -3,7 +3,7 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-update-item-inventory",
   name: "Update Item Inventory",
-  description: "Update the inventory of a specify item",
+  description: "Update the inventory of a specify item. [See the docs here](https://developers.webflow.com/#update-item-inventory)",
   version: "0.0.1",
   type: "action",
   props: {

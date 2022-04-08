@@ -3,8 +3,8 @@ import webflow from "../../webflow.app.mjs";
 export default {
   key: "webflow-get-collection-item",
   name: "Get Collection Item",
-  description: "Get a Collection Item",
-  version: "0.2.2",
+  description: "Get a Collection Item. [See the docs here](https://developers.webflow.com/#get-single-item)",
+  version: "0.1.3",
   type: "action",
   props: {
     webflow,
