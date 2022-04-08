@@ -1,4 +1,4 @@
-import devTo from "../../dev_to.app.js";
+import devTo from "../../dev_to.app.mjs";
 import moment from "moment";
 import common from "../common.mjs";
 
@@ -7,7 +7,7 @@ export default {
   type: "source",
   key: "dev_to-fresh-stories",
   description: "Emit new Dev.to story",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     devTo,
