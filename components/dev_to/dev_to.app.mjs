@@ -21,17 +21,17 @@ export default {
       };
       return res;
     },
-    async _makeRequest(opts) {
-      return axios(this._getAxiosParams(opts));
+    async _makeRequest(ctx = this, opts) {
+      return axios(ctx, this._getAxiosParams(opts));
     },
-    getArticles({ params }) {
-      return this._makeRequest({
+    getArticles(ctx = this, { params }) {
+      return this._makeRequest(ctx, {
         path: "/api/articles",
         params,
       });
     },
-    getMyArticles({ params }) {
-      return this._makeRequest({
+    getMyArticles(ctx = this, { params }) {
+      return this._makeRequest(ctx, {
         path: "/articles/me/published",
         params,
       });

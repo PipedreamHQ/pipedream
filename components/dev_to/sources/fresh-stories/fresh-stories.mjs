@@ -13,8 +13,8 @@ export default {
     devTo,
   },
   dedupe: "greatest",
-  async run() {
-    const data = await this.devTo.getArticles({
+  async run({ $ }) {
+    const data = await this.devTo.getArticles($, {
       params: {
         per_page: 1000,
         top: 1,
