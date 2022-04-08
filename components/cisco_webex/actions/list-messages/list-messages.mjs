@@ -33,13 +33,13 @@ export default {
     max: {
       type: "integer",
       label: "Max",
-      description: "The maximum number of messages to return per page. Default `50`.",
+      description: "The maximum number of messages to return per page. Defaults to `50`.",
       optional: true,
     },
     maxResources: {
       type: "integer",
       label: "Max Resources",
-      description: "The maximum number of resources to return in total. Default `100`.",
+      description: "The maximum number of resources to return in total. Defaults to `100`.",
       optional: true,
     },
   },
