@@ -1,9 +1,5 @@
 import { axios } from "@pipedream/platform";
-<<<<<<< HEAD
-import get from "lodash/get.js";
-=======
 import constants from "./actions/constants.mjs";
->>>>>>> master
 
 export default {
   type: "app",
@@ -29,7 +25,6 @@ export default {
         }));
       },
     },
-<<<<<<< HEAD
     memberId: {
       type: "string",
       label: "Member Id",
@@ -45,7 +40,7 @@ export default {
         };
         const { members } = await this.getMembers({
           params,
-          conversationId: get(conversationId, "value", conversationId),
+          conversationId,
         });
         return {
           options: members.map((member) => ({
@@ -54,7 +49,7 @@ export default {
           })),
         };
       },
-=======
+    },
     logo: {
       type: "string",
       label: "Logo",
@@ -115,7 +110,6 @@ export default {
       label: "Content Type",
       description: "Type of the transcript content to be generated.",
       options: Object.values(constants.contentType),
->>>>>>> master
     },
   },
   methods: {
@@ -319,27 +313,21 @@ export default {
       });
     },
     async putMember({
-      $,
-      conversationId,
-      data,
+      conversationId, memberId, ...args
     }) {
       return this.makeRequest({
-        $,
         method: "put",
-        path: `/conversations/${conversationId}/members/${data.id}`,
-        data,
+        path: `/conversations/${conversationId}/members/${memberId}`,
+        ...args,
       });
     },
     async putSpeakerEvents({
-      $,
-      conversationId,
-      data,
+      conversationId, ...args
     }) {
       return this.makeRequest({
-        $,
         method: "put",
         path: `/conversations/${conversationId}/speakers`,
-        data,
+        ...args,
       });
     },
     async postFormattedTranscript({
@@ -353,6 +341,6 @@ export default {
         path: `/conversations/${conversationId}/transcript`,
         data,
       });
-    },    
+    },
   },
 };

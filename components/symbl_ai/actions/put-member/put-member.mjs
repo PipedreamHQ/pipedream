@@ -38,8 +38,8 @@ export default {
   async run({ $ }) {
     const response =
       await this.symblAIApp.putMember({
-        $,
         conversationId: this.conversationId,
+        memberId: this.memberId,
         data: {
           id: this.memberId,
           name: this.name,
