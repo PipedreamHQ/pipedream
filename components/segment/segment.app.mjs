@@ -20,25 +20,96 @@ export default {
     timestamp: {
       type: "string",
       label: "Timestamp",
-      description: "Timestamp when the message itself took place, defaulted to the current time by the Segment Tracking API. It is an ISO-8601 date string.",
+      description: "Timestamp when the message itself took place, defaulted to the current time by the Segment Tracking API. It is an [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) date string. For example, `2022-04-08T17:32:11.318Z`",
       optional: true,
     },
     userId: {
       type: "string",
       label: "User ID",
-      description: "Unique identifier for the user in your database., A userId or an anonymousId is required.",
+      description: "Unique identifier for the user in your database., A **User ID** or an **Anonymous ID** is required.",
       optional: true,
     },
     anonymousId: {
       type: "string",
       label: "Anonymous ID",
-      description: "A pseudo-unique substitute for a User ID, for cases when you dont have an absolutely unique identifier. A userId or an anonymousId is required.",
+      description: "A pseudo-unique substitute for a User ID, for cases when you don't have an absolutely unique identifier. A **User ID** or an **Anonymous ID** is required.",
       optional: true,
+    },
+    workspace: {
+      type: "string",
+      label: "Workspace",
+      description: "Workspace to use for this destination",
+      async options({ prevContext }) {
+        const { pageToken } = prevContext;
+
+        if (pageToken === false) {
+          return [];
+        }
+
+        const {
+          workspaces,
+          next_page_token: nextPageToken,
+        } = await this.listWorkspaces({
+          page_token: pageToken,
+          page_size: 10,
+        });
+
+        const options = workspaces.map(({
+          display_name: label,
+          name,
+        }) => ({
+          label,
+          value: name.split("/").pop(),
+        }));
+
+        return {
+          options,
+          context: {
+            pageToken: nextPageToken || false,
+          },
+        };
+      },
+    },
+    source: {
+      type: "string",
+      label: "Source",
+      description: "The source to send events to",
+      async options({
+        workspace, prevContext,
+      }) {
+        const { pageToken } = prevContext;
+
+        if (pageToken === false) {
+          return [];
+        }
+
+        const {
+          sources,
+          next_page_token: nextPageToken,
+        } = await this.listSources({
+          workspace,
+          params: {
+            page_token: pageToken,
+            page_size: 10,
+          },
+        });
+
+        const options = sources.map(({ name }) => ({
+          value: name,
+          label: name.split("/sources/").pop(),
+        }));
+
+        return {
+          options,
+          context: {
+            pageToken: nextPageToken || false,
+          },
+        };
+      },
     },
   },
   methods: {
     getConfigApiBaseUrl() {
-      // return "https://api.segmentapis.com";
       return "https://platform.segmentapis.com/v1beta";
     },
     getTrackingApiBaseUrl() {

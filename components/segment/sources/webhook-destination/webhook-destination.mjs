@@ -17,74 +17,19 @@ export default {
       customResponse: true,
     },
     workspace: {
-      type: "string",
-      label: "Workspace",
-      description: "Workspace to use for this destination",
-      async options({ prevContext }) {
-        const { pageToken } = prevContext;
-
-        if (pageToken === false) {
-          return [];
-        }
-
-        const {
-          workspaces,
-          next_page_token: nextPageToken,
-        } = await this.segmentApp.listWorkspaces({
-          page_token: pageToken,
-          page_size: 10,
-        });
-
-        const options = workspaces.map(({
-          display_name: label,
-          name,
-        }) => ({
-          label,
-          value: name.split("/").pop(),
-        }));
-
-        return {
-          options,
-          context: {
-            pageToken: nextPageToken || false,
-          },
-        };
-      },
+      propDefinition: [
+        segmentApp,
+        "workspace",
+      ],
     },
     source: {
-      type: "string",
-      label: "Source",
-      description: "The source to send events to",
-      async options({ prevContext }) {
-        const { pageToken } = prevContext;
-
-        if (pageToken === false) {
-          return [];
-        }
-
-        const {
-          sources,
-          next_page_token: nextPageToken,
-        } = await this.segmentApp.listSources({
-          workspace: this.workspace,
-          params: {
-            page_token: pageToken,
-            page_size: 10,
-          },
-        });
-
-        const options = sources.map(({ name }) => ({
-          value: name,
-          label: name.split("/sources/").pop(),
-        }));
-
-        return {
-          options,
-          context: {
-            pageToken: nextPageToken || false,
-          },
-        };
-      },
+      propDefinition: [
+        segmentApp,
+        "source",
+        ({ workspace }) => ({
+          workspace,
+        }),
+      ],
     },
   },
   hooks: {
