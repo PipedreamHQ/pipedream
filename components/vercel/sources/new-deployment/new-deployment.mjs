@@ -41,6 +41,12 @@ export default {
     },
   },
   methods: {
+    _getFrom() {
+      return this.db.get("from");
+    },
+    _setFrom(from) {
+      this.db.set("from", from);
+    },
     generateMeta(deployment) {
       const {
         uid,
@@ -59,11 +65,19 @@ export default {
         projectId: this.project,
         state: this.state,
       };
+      let from = this._getFrom();
+      if (from) {
+        params.from = from;
+      }
       const deployments = await this.vercel.listDeployments(params, max);
       for (const deployment of deployments) {
+        if (!from || deployment.created > from) {
+          from = deployment.created;
+        }
         const meta = this.generateMeta(deployment);
         this.$emit(deployment, meta);
       }
+      this._setFrom(from);
     },
   },
   async run() {
