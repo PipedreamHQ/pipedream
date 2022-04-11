@@ -7,8 +7,8 @@ module.exports = {
       type: "$.airtable.baseId",
       appProp: "airtable",
     },
-    tableId: {
-      type: "$.airtable.tableId",
+    table: {
+      type: "$.airtable.table",
       baseIdProp: "baseId",
     },
   },

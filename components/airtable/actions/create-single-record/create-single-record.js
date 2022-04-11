@@ -1,4 +1,8 @@
 const airtable = require("../../airtable.app.js");
+const {
+  makeFieldProps,
+  makeRecord,
+} = require("../../common/utils.js");
 const common = require("../common.js");
 
 module.exports = {
@@ -9,11 +13,11 @@ module.exports = {
   type: "action",
   props: {
     ...common.props,
-    record: {
-      propDefinition: [
-        airtable,
-        "record",
-      ],
+    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
+    table: {
+      ...common.props.table,
+      isSchema: true,
+      reloadProps: true,
     },
     typecast: {
       propDefinition: [
@@ -22,14 +26,19 @@ module.exports = {
       ],
     },
   },
+  async additionalProps() {
+    return makeFieldProps(this.table);
+  },
   async run() {
     const table = this.airtable.base(this.baseId)(this.tableId);
 
-    this.airtable.validateRecord(this.record);
+    const record = makeRecord(this);
+
+    this.airtable.validateRecord(record);
 
     const data = [
       {
-        fields: this.record,
+        fields: record,
       },
     ];
 

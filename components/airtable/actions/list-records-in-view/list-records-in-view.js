@@ -12,7 +12,7 @@ module.exports = {
     ...common.props,
     viewId: {
       type: "$.airtable.viewId",
-      tableIdProp: "tableId",
+      tableIdProp: "table",
     },
     ...commonList.props,
   },

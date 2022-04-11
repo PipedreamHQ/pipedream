@@ -51,7 +51,7 @@ module.exports = {
     },
     sortFieldId: {
       type: "$.airtable.fieldId",
-      tableIdProp: "tableId",
+      tableIdProp: "table",
       label: "Sort: Field",
       description: "Optionally select a field to sort results. To sort by multiple fields, use the `Filter by Forumla` field.",
       optional: true,
