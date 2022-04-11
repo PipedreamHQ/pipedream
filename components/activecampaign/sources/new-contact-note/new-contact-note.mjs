@@ -26,8 +26,8 @@ export default {
     },
     isRelevant(body) {
       return (
-        this.contacts.length === 0 ||
-        this.contacts.includes(body["contact[id]"])
+        this.contacts?.length === 0 ||
+        this.contacts?.includes(body["contact[id]"])
       );
     },
     getMeta(body) {

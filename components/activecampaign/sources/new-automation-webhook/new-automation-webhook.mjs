@@ -27,8 +27,8 @@ export default {
   methods: {
     isWatchedAutomation(automation) {
       return (
-        this.automations.length === 0 ||
-        this.automations.includes(automation.id)
+        this.automations?.length === 0 ||
+        this.automations?.includes(automation.id)
       );
     },
     isAutomationRelevant(automation) {

@@ -25,7 +25,7 @@ export default {
       ];
     },
     isRelevant(body) {
-      return this.deals.length === 0 || this.deals.includes(body["deal[id]"]);
+      return this.deals?.length === 0 || this.deals?.includes(body["deal[id]"]);
     },
     getMeta(body) {
       const { date_time: dateTimeIso } = body;
