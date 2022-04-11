@@ -9,7 +9,7 @@ export default {
   key: "airtable-update-record",
   name: "Update record",
   description: "Update a single record in a table by Record ID.",
-  version: "0.1.0",
+  version: "1.0.0",
   type: "action",
   props: {
     ...common.props,

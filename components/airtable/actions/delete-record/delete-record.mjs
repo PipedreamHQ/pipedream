@@ -5,7 +5,7 @@ export default {
   key: "airtable-delete-record",
   name: "Delete Record",
   description: "Delete a record from a table by record ID.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     ...common.props,
