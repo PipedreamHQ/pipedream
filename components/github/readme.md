@@ -28,7 +28,7 @@ Click the image below to watch a brief demo on YouTube.
 
 <p align="left">
   <br />
-  <a href="http://tod.ly/3uDenid">
+  <a href="http://tod.ly/38ue0z1">
     <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/demo.png" width="500px" alt="Pipedream demo static image" />
   </a>
 </p>

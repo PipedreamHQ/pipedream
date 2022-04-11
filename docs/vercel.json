@@ -9,8 +9,8 @@
       "destination": "/$1"
     },
     {
-      "source": "/docs",
-      "destination": "/"
+      "source": "/docs/(.*)",
+      "destination": "/$1"
     },
     {
       "source": "/docs-v2/(.*)",
@@ -104,7 +104,7 @@
     },
     {
       "source": "/docs/notebook/sql/",
-      "destination": "/destinations/sql/"
+      "destination": "/destinations/"
     },
     {
       "source": "/docs/what-is-pipedream/",

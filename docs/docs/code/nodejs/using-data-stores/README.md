@@ -15,7 +15,7 @@ For example, you can define a data store as a data prop, and reference it at `th
 export default defineComponent({
   props: {
     // Define that the "db" variable in our component is a data store
-    data: { type: "store" }
+    data: { type: "data_store" }
   },
   async run({ steps, $ }) {
     // Now we can access the data store at "this.store"
@@ -34,7 +34,7 @@ In the above example we essentially instructed that this step needs the data sto
 
 Once you have defined a data store prop for your component, then you'll be able to create a new data store or use an existing one from your account.
 
-![Create a new data store or choose another one from your account for your component](https://res.cloudinary.com/pipedreamin/image/upload/v1647626951/docs/components/CleanShot_2022-03-18_at_14.08.01_2x_fyr3p4.png)
+![Create a new data store or choose another one from your account for your component](https://res.cloudinary.com/pipedreamin/image/upload/v1649270361/docs/components/data_store_scaffolding_bluivn.png)
 
 ## Saving data
 
@@ -59,7 +59,7 @@ You can retrieve data with the Data Store using the `get` method. Pass the _key_
 ```javascript
 export default defineComponent({
   props: {
-    data: { type: "store" },
+    data: { type: "data_store" },
   },
   async run({ steps, $ }) {
     // Retrieve the timestamp representing last time this step executed
@@ -143,9 +143,9 @@ export default defineComponent({
 
 ## Data store limitations
 
-The data stores is only currently available in Node.js code steps. It is not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/) .
+Pipedream Data Stores are currently in Alpha and are subject to change.
 
-In addition, data sources can hold up to {{ $site.themeConfig.SERVICE_DB_SIZE_LIMIT }} per step.
+Data Stores are only currently available in Node.js code steps. They are not yet available in other languages like [Python](/code/python/), [Bash](/code/bash/) or [Go](/code/go/).
 
 ### Supported data types
 
