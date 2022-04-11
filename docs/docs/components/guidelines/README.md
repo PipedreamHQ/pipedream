@@ -44,7 +44,7 @@ actions.
 #### Sources
 
 - Emit events that can trigger Pipedream [workflows](/workflows/) (events may
-  also be consumed outside of Pipedream via [API](/api/overview/))
+  also be consumed outside of Pipedream via [API](/api/))
 - Emitted event data can be inspected and referenced by
   [steps](/workflows/steps/) in the target workflow
 - Can use any of Pipedream's built-in [deduping
@@ -129,7 +129,7 @@ run the following commands at the root of the project:
 
 ### Process
 
-Anyone from the community can build [sources](/event-sources/) and [actions](/components/actions/) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)").
+Anyone from the community can build [sources](/sources/) and [actions](/components#actions) for integrated apps (we refer to these collectively as "[components](/components/#what-are-components)").
 
 All development happens in [this GitHub repo](https://github.com/PipedreamHQ/pipedream). Fork the repo and refer to the [contribution docs](/components/guidelines/#prerequisites) to get your development environment setup.
 
@@ -155,8 +155,8 @@ actions for Pipedream's registry.
 
 ### Reference Sources
 
-| Name                                                                                                                                             | App          | Type                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- |
+| Name                                                                                                                                                         | App          | Type                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------- |
 | [New Card](https://github.com/pipedreamhq/pipedream/blob/master/components/trello/sources/new-card/new-card.js)                                              | Trello       | Webhook                                      |
 | [Search Mentions](https://github.com/PipedreamHQ/pipedream/blob/master/components/twitter/sources/search-mentions/search-mentions.js)                        | Twitter      | Polling                                      |
 | [New or Modified Files](https://github.com/pipedreamhq/pipedream/blob/master/components/google_drive/sources/new-or-modified-files/new-or-modified-files.js) | Google Drive | Webhook + Polling                            |
@@ -165,13 +165,13 @@ actions for Pipedream's registry.
 
 ### Reference Actions
 
-| Name | App |
-| ---- | --- |
-| [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable |
-| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.mjs) | Google Sheets |
-| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.js) | Discord |
-| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.js) | Google Docs |
-| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.js) | HTTP |
+| Name                                                                                                                                                  | App           |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| [Create Single Record](https://github.com/PipedreamHQ/pipedream/blob/master/components/airtable/actions/create-single-record/create-single-record.js) | Airtable      |
+| [Add Multiple Rows](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-multiple-rows/add-multiple-rows.mjs)    | Google Sheets |
+| [Send Message](https://github.com/PipedreamHQ/pipedream/blob/master/components/discord_webhook/actions/send-message/send-message.js)                  | Discord       |
+| [Append Text](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_docs/actions/append-text/append-text.js)                         | Google Docs   |
+| [`GET` request](https://github.com/PipedreamHQ/pipedream/blob/master/components/http/actions/get-request/get-request.js)                              | HTTP          |
 
 ## Guidelines & Patterns
 
@@ -471,7 +471,7 @@ to improve the clarity of the description or instructions. When using Markdown:
 - Enclose sample input values in backticks (`` ` ``)
 - Refer to other props using **bold** by surrounding with double asterisks (*)
 - Use Markdown links with descriptive text rather than displaying a full URL.
-- If the description isn't self-explanatory, link to the API docs of the relevant method to further clarify how the prop works. When the value of the prop is complex (for example, an object with many properties), link to the section of the API docs that include details on this format. Users may pass values from previous steps using [expressions](/workflows/steps/params/#entering-expressions), so they'll need to know how to structure that data.
+- If the description isn't self-explanatory, link to the API docs of the relevant method to further clarify how the prop works. When the value of the prop is complex (for example, an object with many properties), link to the section of the API docs that include details on this format. Users may pass values from previous steps using expressions, so they'll need to know how to structure the input data.
 
 Examples:
 
@@ -527,7 +527,7 @@ for an example of cursor-based pagination.
 
 In the interest of consistency, use the following naming patterns when defining
 [interface](../api/#interface-props) and
-[service](COMPONENT-API.md#service-props) props in source components:
+[service](/components/api/#service-props) props in source components:
 
 | Prop                | **Recommended Prop Variable Name** |
 | ------------------- | ---------------------------------- |
@@ -542,7 +542,7 @@ event source for Twitter).
 
 ### Source Guidelines
 
-These guidelines are specific to [source](/event-sources/) development.
+These guidelines are specific to [source](/sources/) development.
 
 #### Webhook vs Polling Sources
 
@@ -621,7 +621,7 @@ of just letting the error bubble up).
 ##### Hooks
 
 [Hooks](../api/#hooks) are methods that are automatically invoked by Pipedream
-at different stages of the [component lifecycle](../api/#component-lifecycle).
+at different stages of the [component lifecycle](../api/#source-lifecycle).
 Webhook subscriptions are typically created when components are instantiated or
 activated via the `activate()` hook, and deleted when components are deactivated
 or deleted via the `deactivate()` hook.

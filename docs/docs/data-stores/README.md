@@ -24,7 +24,7 @@ Then you can select the **Add or update a single record** pre-built action.
 
 ![Insert a single row into a data store](https://res.cloudinary.com/pipedreamin/image/upload/v1648060286/docs/components/CleanShot_2022-03-23_at_14.31.05_2x_swrdrh.png)
 
-After selecting this action, you'll be presented with the 3 key options to finish setup:
+After selecting this action, you'll be presented with the 3 options to finish setup:
 
 ![Configure the action](https://res.cloudinary.com/pipedreamin/image/upload/v1648063057/docs/components/CleanShot_2022-03-23_at_15.17.30_2x_snunyz.png)
 
@@ -46,7 +46,7 @@ However, you can use dynamic keys as well by passing a path to another step's ex
 `{{ steps.trigger.event.body.id }}`
 :::
 
-![Workflow trigger example](https://res.cloudinary.com/pipedreamin/image/upload/v1648061400/docs/components/CleanShot_2022-03-23_at_14.49.43_2x_eaiv7p.png)
+![Workflow trigger example](https://res.cloudinary.com/pipedreamin/image/upload/v1649270704/docs/components/add_update_record_action_eh7dpz.png)
 
 :::tip
 
@@ -67,7 +67,6 @@ This action has 3 properties:
 1. **Select a Data Store** - select the Data Store to retrieve data from
 2. **Key** - where to query the data from
 3. **Create new record if key is not found** - if the specified key isn't found, you can create a new record
-
 
 ![Get record action](https://res.cloudinary.com/pipedreamin/image/upload/v1648853992/docs/components/data_stores_get_record_yqazfk.png)
 
@@ -104,7 +103,6 @@ This will open a text box that will allow you to edit the contents of the value.
 
 ![Editing a data store's value manually](https://res.cloudinary.com/pipedreamin/image/upload/v1648063518/docs/components/CleanShot_2022-03-23_at_15.24.49_err0nt.gif)
 
-
 ### Deleting Data Stores manually
 
 You can delete a specific Data Store from this dashboard as well. On the far right in the Data Store entry, click the trash can icon to prompt the deletion of the Data Store.
@@ -121,4 +119,4 @@ In order to free up this Data Store to be deleted manually, you'll need to remov
 
 ### Using with Data Stores in Code Steps
 
-[Refer to our Node.js Data Store documentation](/docs/code/nodejs/using-data-stores) to learn how to use props to define Data Stores in custom code steps in your workflows.
+[Refer to our Node.js Data Store documentation](/code/nodejs/using-data-stores/) to learn how to use props to define Data Stores in custom code steps in your workflows.
